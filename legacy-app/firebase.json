@@ -8,16 +8,6 @@
   },
   "hosting": [
     {
-      "public": "dist/tumi",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
       "target": "tumi",
       "public": "dist/tumi",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
