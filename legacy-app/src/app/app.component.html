@@ -1,10 +1,12 @@
 <div class="app-container" [class.app--is-mobile]="isMobile$ | async">
-    <mat-toolbar color="primary" fxLayoutAlign="start center">
+    <mat-toolbar color="primary" fxLayoutAlign="start center" fxLayout="row" fxLayoutGap="1rem">
         <button mat-icon-button (click)="nav.toggle()">
             <mat-icon svgIcon="menu"></mat-icon>
         </button>
-        <h2 style="margin: 0 .25rem 0 2rem;">TUMinternational</h2>
+        <h2>TUMinternational</h2>
         <mat-icon svgIcon="trip"></mat-icon>
+        <div fxFlex></div>
+        <button mat-stroked-button disabled>Login</button>
     </mat-toolbar>
     <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
         <mat-sidenav

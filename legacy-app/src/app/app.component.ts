@@ -25,12 +25,15 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.isMobile$ = new BehaviorSubject<boolean>(media.isActive('xs'));
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
+    // TODO: Get rid of the behaviour subject and subscription
     media
       .asObservable()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(checks => {
         if (checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')) {
           this.isMobile$.next(true);
+        } else {
+          this.isMobile$.next(false);
         }
       });
   }

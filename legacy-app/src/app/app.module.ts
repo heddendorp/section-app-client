@@ -16,9 +16,10 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NotFoundPageComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -29,11 +30,11 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
     AngularFireAuthModule,
     AngularFirePerformanceModule,
-    AppRoutingModule,
     SharedModule,
     EventsModule,
     PagesModule,
-    OfficeModule
+    OfficeModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
