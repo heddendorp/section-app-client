@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { TumiEvent } from '../../../shared/services/event.service';
 
 @Component({
   selector: 'app-event-list',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
+  @Input() events: TumiEvent[];
   constructor() {}
 
   ngOnInit() {}
