@@ -1,6 +1,40 @@
-<router-outlet></router-outlet>
-<mat-toolbar color="primary">
-    <button mat-icon-button routerLink="/events"><mat-icon svgIcon="calendar"></mat-icon></button>
-    <button mat-icon-button routerLink="/about"><mat-icon svgIcon="about"></mat-icon></button>
-    <button mat-icon-button routerLink="/office"><mat-icon svgIcon="office"></mat-icon></button>
-</mat-toolbar>
+<div class="app-container" [class.app--is-mobile]="isMobile$ | async">
+    <mat-toolbar color="primary" fxLayoutAlign="start center">
+        <button mat-icon-button (click)="nav.toggle()">
+            <mat-icon svgIcon="menu"></mat-icon>
+        </button>
+        <h2 style="margin: 0 .25rem 0 2rem;">TUMinternational</h2>
+        <mat-icon svgIcon="trip"></mat-icon>
+    </mat-toolbar>
+    <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
+        <mat-sidenav
+          #nav
+          [opened]="!(isMobile$ | async)"
+          [mode]="(isMobile$ | async) ? 'over' : 'side'"
+          [fixedInViewport]="isMobile$ | async"
+          fixedTopGap="56"
+        >
+           <aside>
+               <mat-nav-list>
+                   <a mat-list-item routerLink="/events">
+                       <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
+                       <h3 mat-line>Upcoming events</h3>
+                   </a>
+                   <a mat-list-item routerLink="/about">
+                       <mat-icon mat-list-icon svgIcon="about"></mat-icon>
+                       <h3 mat-line>About TUMi</h3>
+                   </a>
+                   <a mat-list-item routerLink="/office">
+                       <mat-icon mat-list-icon svgIcon="office"></mat-icon>
+                       <h3 mat-line>Office section</h3>
+                   </a>
+               </mat-nav-list>
+           </aside>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <main>
+                <router-outlet></router-outlet>
+            </main>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

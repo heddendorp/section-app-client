@@ -12,6 +12,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 const materialModules = [
   MatButtonModule,
@@ -23,7 +25,9 @@ const materialModules = [
   MatMomentDateModule,
   MatSortModule,
   MatSnackBarModule,
-  MatCardModule
+  MatCardModule,
+  MatSidenavModule,
+  MatListModule
 ];
 
 @NgModule({

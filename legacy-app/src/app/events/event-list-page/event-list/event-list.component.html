@@ -1,7 +1,7 @@
 <h2 class="mat-title">
   Upcoming TUMi events
 </h2>
-<div gdAuto gdColumns="repeat(1, 1fr)" gdGap="2rem">
+<div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-xs="repeat(2, 1fr)" gdGap="2rem">
   <mat-card *ngFor="let event of events">
     <mat-card-header>
       <mat-card-title>{{event.name}}</mat-card-title>

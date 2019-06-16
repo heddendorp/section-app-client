@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { Subject, timer } from 'rxjs';
+import { BehaviorSubject, Subject, timer } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
+  isMobile$: BehaviorSubject<boolean>;
+
   constructor(
-    private san: DomSanitizer,
-    private registry: MatIconRegistry,
+    san: DomSanitizer,
+    registry: MatIconRegistry,
     private snackBar: MatSnackBar,
-    private update: SwUpdate
+    private update: SwUpdate,
+    media: MediaObserver
   ) {
+    this.isMobile$ = new BehaviorSubject<boolean>(media.isActive('xs'));
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
+    media
+      .asObservable()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(checks => {
+        if (checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')) {
+          this.isMobile$.next(true);
+        }
+      });
   }
+
   ngOnInit(): void {
     timer(60000)
       .pipe(takeUntil(this.destroyed$))
