@@ -1,9 +1,12 @@
 <h1 class="mat-display-2">Events</h1>
 
-<div fxLayout="row">
+<div fxLayout="row" fxLayoutGap="2rem">
   <div fxFlex="60">
-    <h2 class="mat-title">Available events</h2>
-    <app-event-table></app-event-table>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <h2 class="mat-title">Available events</h2>
+      <button mat-stroked-button (click)="createNewEvent()">Create new Event</button>
+    </div>
+    <app-event-table [events$]="events$" (edit)="editEvent($event)"></app-event-table>
   </div>
   <div fxFlex>
     <router-outlet></router-outlet>

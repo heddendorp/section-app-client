@@ -1,3 +1,2 @@
-<p>
-  event-edit-page works!
-</p>
+<h2 class="mat-title">{{title$ | async}}</h2>
+<app-event-edit-form [event]="event$ | async" (save)="saveEvent($event)"></app-event-edit-form>

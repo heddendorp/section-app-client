@@ -9,6 +9,7 @@ import { EventEditPageComponent } from './event-page/event-edit-page/event-edit-
 import { PeoplePageComponent } from './people-page/people-page.component';
 import { PeopleTableComponent } from './people-page/people-table/people-table.component';
 import { OfficeComponent } from './office.component';
+import { EventEditFormComponent } from './event-page/event-edit-page/event-edit-form/event-edit-form.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,8 @@ const routes: Routes = [
     EventEditPageComponent,
     PeoplePageComponent,
     PeopleTableComponent,
-    OfficeComponent
+    OfficeComponent,
+    EventEditFormComponent
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
