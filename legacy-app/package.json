@@ -4,10 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:dev": "ng build",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "predeploy": "yarn run build:prod",
+    "deploy": "firebase deploy",
     "precommit": "lint-staged",
     "prettify": "prettier --write ./**/*.{json,css,scss,md,js,ts}"
   },
