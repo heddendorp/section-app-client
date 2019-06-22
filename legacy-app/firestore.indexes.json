@@ -1,4 +1,13 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionId": "users",
+      "fields": [
+        { "fieldPath": "disabled", "mode": "ASCENDING" },
+        { "fieldPath": "isTutor", "mode": "ASCENDING" },
+        { "fieldPath": "lastName", "mode": "ASCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

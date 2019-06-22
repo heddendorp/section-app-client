@@ -1,7 +1,25 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+    match /event/{event} {
+        allow read;
+        allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
+    match /user/{user} {
+        allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
+        allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    match /authRequests/{request} {
+            allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
+    }
+    match /transactions/{transaction} {
+                allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    match /admins/{admin} {
+                allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+     match /{document=**} {
+        allow read, write: if false;
+     }
   }
 }
