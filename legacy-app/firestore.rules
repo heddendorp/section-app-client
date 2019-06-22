@@ -12,8 +12,11 @@ service cloud.firestore {
     match /authRequests/{request} {
             allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
     }
-    match /transactions/{transaction} {
-                allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    match /stats/money {
+                allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+                match /transactions/{transaction} {
+                    allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+                }
     }
     match /admins/{admin} {
                 allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));

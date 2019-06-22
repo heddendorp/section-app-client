@@ -154,6 +154,7 @@ export const replaceList = functions.https.onCall(
     return `${update} successfully updated!`;
   }
 );
+
 export const newUser = functions.auth.user().onCreate(async user => {
   const userCandidates = await firestore
     .collection('users')
@@ -169,5 +170,18 @@ export const newUser = functions.auth.user().onCreate(async user => {
   } else {
     console.log('No entry found for new user');
     console.log(user);
+  }
+});
+
+export const balanceUpdate = functions.firestore.document('stats/money/transactions/{id}').onCreate(async snap => {
+  const value = snap.data();
+  if (value) {
+    await firestore.runTransaction(async transaction => {
+      const moneyRef = firestore.collection('stats').doc('money');
+      const currentBalance = await transaction.get(moneyRef);
+      if (currentBalance && currentBalance.data()) {
+        transaction.update(moneyRef, { balance: currentBalance.data()!.balance + value.value });
+      }
+    });
   }
 });

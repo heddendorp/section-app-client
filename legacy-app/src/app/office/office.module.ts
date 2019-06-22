@@ -13,6 +13,7 @@ import { TutorsPageComponent } from './tutors-page/tutors-page.component';
 import { FundsPageComponent } from './funds-page/funds-page.component';
 import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
+import { RequestsPageComponent } from './requests-page/requests-page.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'students', component: StudentsPageComponent },
       { path: 'tutors', component: TutorsPageComponent },
       { path: 'funds', component: FundsPageComponent },
+      { path: 'requests', component: RequestsPageComponent },
       {
         path: 'events',
         component: EventPageComponent,
@@ -48,7 +50,8 @@ const routes: Routes = [
     TutorsPageComponent,
     FundsPageComponent,
     CsvInputDialogComponent,
-    PeopleTableComponent
+    PeopleTableComponent,
+    RequestsPageComponent
   ],
   entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
