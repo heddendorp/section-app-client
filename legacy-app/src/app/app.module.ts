@@ -17,6 +17,7 @@ import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 
 @NgModule({
   declarations: [AppComponent, NotFoundPageComponent],
@@ -29,6 +30,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
     AngularFireAuthModule,
+    AngularFireFunctionsModule,
     AngularFirePerformanceModule,
     SharedModule,
     EventsModule,
@@ -36,7 +38,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     OfficeModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [{ provide: FUNCTIONS_ORIGIN, useValue: 'https:/esn-tumi.web.app' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

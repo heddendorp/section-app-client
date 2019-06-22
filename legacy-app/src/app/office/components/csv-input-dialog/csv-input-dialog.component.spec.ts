@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeoplePageComponent } from './people-page.component';
+import { CsvInputDialogComponent } from './csv-input-dialog.component';
 
-describe('PeoplePageComponent', () => {
-  let component: PeoplePageComponent;
-  let fixture: ComponentFixture<PeoplePageComponent>;
+describe('CsvInputDialogComponent', () => {
+  let component: CsvInputDialogComponent;
+  let fixture: ComponentFixture<CsvInputDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PeoplePageComponent]
+      declarations: [CsvInputDialogComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PeoplePageComponent);
+    fixture = TestBed.createComponent(CsvInputDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

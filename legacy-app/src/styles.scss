@@ -39,3 +39,17 @@ body {
 .no-margin {
   margin: 0;
 }
+
+// theme for the navigation list
+mat-nav-list {
+  padding: 8px;
+  [mat-list-item],
+  mat-list-item {
+    margin: 4px 0;
+    border-radius: 4px;
+    &.active:not(:hover) {
+      color: mat-color($tumi-primary, darker);
+      background: transparentize(mat-color($tumi-primary, darker), 0.88);
+    }
+  }
+}

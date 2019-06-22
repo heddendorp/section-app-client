@@ -1,0 +1,6 @@
+<div fxLayout="column" fxLayoutGap="2rem">
+  <h1 class="mat-display-2 no-margin">TUMi Tutors</h1>
+  <p>Manage and find active TUMi tutors here</p>
+  <button mat-raised-button color="primary" (click)="collectCsvData()">Update all with excel list</button>
+  <app-people-table [people]="tutors$ | async" [columns]="displayColumns"></app-people-table>
+</div>

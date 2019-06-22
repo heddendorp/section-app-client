@@ -39,10 +39,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    timer(60000)
+    timer(0, 60000)
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
+        console.info('Checking for update');
         this.update.available.pipe(first()).subscribe(() => {
+          console.info('Update found');
           this.snackBar
             .open('A new version of this app is available!', 'Activate now')
             .afterDismissed()

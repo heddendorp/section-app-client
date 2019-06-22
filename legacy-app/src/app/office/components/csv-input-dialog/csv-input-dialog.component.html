@@ -1,0 +1,80 @@
+<h2 mat-dialog-title fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+  <mat-icon svgIcon="excel-logo" style="width: 40px;height: 40px;"></mat-icon>
+  <span>Import Excel Data</span>
+</h2>
+<mat-dialog-content fxLayout="column" fxLayoutGap="2rem">
+  <ol>
+    <li>
+      <strong>Bring your data in the right format</strong>
+      <p>Please make sure that your table has the following structure before continuing</p>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>E-Mail</th>
+            <th>Faculty</th>
+            <th>Country</th>
+            <th>Programme</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>Andrea</td>
+              <td>Jung</td>
+              <td>max@mustermann.de</td>
+              <td>Fakultät für Informatik</td>
+              <td>Türkei</td>
+              <td>E</td>
+            </tr>
+        </tbody>
+        <tfoot>
+          <tr class="comment">
+            <td colspan="4">Required for all submissions</td>
+            <td colspan="2">Only required to update incoming students</td>
+          </tr>
+          <tr class="comment">
+            <td colspan="6">
+              Additional columns will be ignored. One row is reserved for the table headers.
+              <strong>Don't have any more rows than your data requires</strong>
+            </td>
+          </tr>
+          <tr class="comment">
+            <td colspan="6">
+              The names of your columns will be ignored, important is the order in which they are arranged in your table
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </li>
+    <li>
+      <strong>Save your list as a&nbsp;<code>.csv</code>-file</strong>
+      <p>
+        Use the <em>save as</em> dialog in excel and select the
+        <strong>CSV UTF-8 (Comma delimited) (*.csv)</strong> filetype and save your list
+      </p>
+    </li>
+    <li>
+      <strong>Open your list in an editor</strong>
+      <p>
+        Use a code editor or the windows editor to open your list that's saved as .csv now. Make sure to not open it in
+        excel but instead open it as text. On windows this works well by <em>right clicking</em> the file and selecting
+        <strong>Editor</strong> from the <em>Open with</em> menu
+      </p>
+    </li>
+    <li>
+      <strong>Paste the data into this app</strong>
+      <p>
+        Now copy all the data ( you could use <code>CTRL+A</code> and <code>CTRL+C</code> to do so) and paste it into
+        the text area below
+      </p>
+    </li>
+  </ol>
+  <mat-form-field>
+    <textarea [formControl]="dataInput" matInput placeholder="Your data"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button color="primary" [disabled]="dataInput.invalid" (click)="importData()">Import data</button>
+</mat-dialog-actions>

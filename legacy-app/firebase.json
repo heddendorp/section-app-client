@@ -13,6 +13,10 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
+          "source": "/esn-tumi/us-central1/replaceList",
+          "function": "replaceList"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

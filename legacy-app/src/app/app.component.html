@@ -18,18 +18,36 @@
         >
            <aside>
                <mat-nav-list>
-                   <a mat-list-item routerLink="/events">
+                   <a mat-list-item routerLinkActive="active" routerLink="/events">
                        <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
                        <h3 mat-line>Upcoming events</h3>
                    </a>
-                   <a mat-list-item routerLink="/about">
+                   <a mat-list-item routerLinkActive="active" routerLink="/about">
                        <mat-icon mat-list-icon svgIcon="about"></mat-icon>
                        <h3 mat-line>About TUMi</h3>
                    </a>
-                   <a mat-list-item routerLink="/office">
-                       <mat-icon mat-list-icon svgIcon="office"></mat-icon>
-                       <h3 mat-line>Office section</h3>
+                   <mat-divider></mat-divider>
+                   <h3 matSubheader>Office section</h3>
+                   <a mat-list-item routerLinkActive="active" routerLink="/office/events">
+                       <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
+                       <h3 mat-line>Manage Events</h3>
                    </a>
+                   <a mat-list-item routerLinkActive="active" routerLink="/office/students">
+                       <mat-icon mat-list-icon svgIcon="student"></mat-icon>
+                       <h3 mat-line>Manage Students</h3>
+                   </a>
+                   <a mat-list-item routerLinkActive="active" routerLink="/office/tutors">
+                       <mat-icon mat-list-icon svgIcon="management"></mat-icon>
+                       <h3 mat-line>Manage Tutors</h3>
+                   </a>
+                   <a mat-list-item routerLinkActive="active" routerLink="/office/funds">
+                       <mat-icon mat-list-icon svgIcon="money"></mat-icon>
+                       <h3 mat-line>Money & Transactions</h3>
+                   </a>
+                   <!--<a mat-list-item routerLinkActive="active" routerLink="/about">
+                       <mat-icon mat-list-icon svgIcon="about"></mat-icon>
+                       <h3 mat-line>Global Settings</h3>
+                   </a>-->
                </mat-nav-list>
            </aside>
         </mat-sidenav>

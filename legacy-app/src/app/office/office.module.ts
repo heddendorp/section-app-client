@@ -6,10 +6,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { SignupPageComponent } from './event-page/signup-page/signup-page.component';
 import { EventEditPageComponent } from './event-page/event-edit-page/event-edit-page.component';
-import { PeoplePageComponent } from './people-page/people-page.component';
-import { PeopleTableComponent } from './people-page/people-table/people-table.component';
 import { OfficeComponent } from './office.component';
 import { EventEditFormComponent } from './event-page/event-edit-page/event-edit-form/event-edit-form.component';
+import { StudentsPageComponent } from './students-page/students-page.component';
+import { TutorsPageComponent } from './tutors-page/tutors-page.component';
+import { FundsPageComponent } from './funds-page/funds-page.component';
+import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
+import { PeopleTableComponent } from './components/people-table/people-table.component';
 
 const routes: Routes = [
   {
@@ -17,7 +20,9 @@ const routes: Routes = [
     component: OfficeComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'events' },
-      { path: 'people', component: PeoplePageComponent },
+      { path: 'students', component: StudentsPageComponent },
+      { path: 'tutors', component: TutorsPageComponent },
+      { path: 'funds', component: FundsPageComponent },
       {
         path: 'events',
         component: EventPageComponent,
@@ -37,11 +42,15 @@ const routes: Routes = [
     EventTableComponent,
     SignupPageComponent,
     EventEditPageComponent,
-    PeoplePageComponent,
-    PeopleTableComponent,
     OfficeComponent,
-    EventEditFormComponent
+    EventEditFormComponent,
+    StudentsPageComponent,
+    TutorsPageComponent,
+    FundsPageComponent,
+    CsvInputDialogComponent,
+    PeopleTableComponent
   ],
+  entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
 export class OfficeModule {}
