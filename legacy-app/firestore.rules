@@ -5,7 +5,7 @@ service cloud.firestore {
         allow read;
         allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
-    match /user/{user} {
+    match /users/{user} {
         allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
         allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
