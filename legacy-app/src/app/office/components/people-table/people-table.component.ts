@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Student } from '../../../shared/services/student.service';
-import { Observable } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Student } from '../../../shared/services/user.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-people-table',

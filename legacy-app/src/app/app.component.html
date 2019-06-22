@@ -6,7 +6,12 @@
         <h2>TUMinternational</h2>
         <mat-icon svgIcon="trip"></mat-icon>
         <div fxFlex></div>
-        <button mat-stroked-button disabled>Login</button>
+        <ng-template #loginButton>
+            <button mat-stroked-button (click)="authService.login()">Login</button>
+        </ng-template>
+        <button mat-stroked-button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton">Log
+            out
+        </button>
     </mat-toolbar>
     <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
         <mat-sidenav
@@ -16,40 +21,53 @@
           [fixedInViewport]="isMobile$ | async"
           fixedTopGap="56"
         >
-           <aside>
-               <mat-nav-list>
-                   <a mat-list-item routerLinkActive="active" routerLink="/events">
-                       <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
-                       <h3 mat-line>Upcoming events</h3>
-                   </a>
-                   <a mat-list-item routerLinkActive="active" routerLink="/about">
-                       <mat-icon mat-list-icon svgIcon="about"></mat-icon>
-                       <h3 mat-line>About TUMi</h3>
-                   </a>
-                   <mat-divider></mat-divider>
-                   <h3 matSubheader>Office section</h3>
-                   <a mat-list-item routerLinkActive="active" routerLink="/office/events">
-                       <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
-                       <h3 mat-line>Manage Events</h3>
-                   </a>
-                   <a mat-list-item routerLinkActive="active" routerLink="/office/students">
-                       <mat-icon mat-list-icon svgIcon="student"></mat-icon>
-                       <h3 mat-line>Manage Students</h3>
-                   </a>
-                   <a mat-list-item routerLinkActive="active" routerLink="/office/tutors">
-                       <mat-icon mat-list-icon svgIcon="management"></mat-icon>
-                       <h3 mat-line>Manage Tutors</h3>
-                   </a>
-                   <a mat-list-item routerLinkActive="active" routerLink="/office/funds">
-                       <mat-icon mat-list-icon svgIcon="money"></mat-icon>
-                       <h3 mat-line>Money & Transactions</h3>
-                   </a>
-                   <!--<a mat-list-item routerLinkActive="active" routerLink="/about">
-                       <mat-icon mat-list-icon svgIcon="about"></mat-icon>
-                       <h3 mat-line>Global Settings</h3>
-                   </a>-->
-               </mat-nav-list>
-           </aside>
+            <aside>
+                <mat-nav-list>
+                    <a mat-list-item routerLinkActive="active" routerLink="/events">
+                        <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
+                        <h3 mat-line>Upcoming events</h3>
+                    </a>
+                    <a *ngIf="authenticated$ | async" mat-list-item routerLinkActive="active" routerLink="/about">
+                        <mat-icon mat-list-icon svgIcon="schedule"></mat-icon>
+                        <h3 mat-line>My Events</h3>
+                    </a>
+                    <a mat-list-item routerLinkActive="active" routerLink="/about">
+                        <mat-icon mat-list-icon svgIcon="about"></mat-icon>
+                        <h3 mat-line>About TUMi</h3>
+                    </a>
+                    <a *ngIf="!(signedUp$ | async)" mat-list-item routerLinkActive="active" routerLink="/signup">
+                        <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
+                        <h3 mat-line><strong>Get started</strong></h3>
+                    </a>
+                    <ng-container *ngIf="admin$ | async">
+                        <mat-divider></mat-divider>
+                        <h3 matSubheader>Office section</h3>
+                        <a mat-list-item routerLinkActive="active" routerLink="/office/events">
+                            <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
+                            <h3 mat-line>Manage Events</h3>
+                        </a>
+                        <a mat-list-item routerLinkActive="active" routerLink="/office/students">
+                            <mat-icon mat-list-icon svgIcon="student"></mat-icon>
+                            <h3 mat-line>Manage Students</h3>
+                        </a>
+                        <a mat-list-item routerLinkActive="active" routerLink="/office/tutors">
+                            <mat-icon mat-list-icon svgIcon="management"></mat-icon>
+                            <h3 mat-line>Manage Tutors</h3>
+                        </a>
+                        <a mat-list-item routerLinkActive="active" routerLink="/office/funds">
+                            <mat-icon mat-list-icon svgIcon="money"></mat-icon>
+                            <h3 mat-line>Money & Transactions</h3>
+                        </a>
+                        <a mat-list-item routerLinkActive="active" routerLink="/office/funds">
+                            <mat-icon mat-list-icon svgIcon="credentials"></mat-icon>
+                            <h3 mat-line>Authentication requests</h3>
+                        </a>
+                        <!--<a mat-list-item routerLinkActive="active" routerLink="/about">
+                            <mat-icon mat-list-icon svgIcon="about"></mat-icon>
+                            <h3 mat-line>Global Settings</h3>
+                        </a>-->                    </ng-container>
+                </mat-nav-list>
+            </aside>
         </mat-sidenav>
         <mat-sidenav-content>
             <main>

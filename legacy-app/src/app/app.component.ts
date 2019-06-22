@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { BehaviorSubject, Subject, timer } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,16 @@ import { MediaObserver } from '@angular/flex-layout';
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   isMobile$: BehaviorSubject<boolean>;
+  authenticated$: Observable<boolean>;
+  signedUp$: Observable<boolean>;
+  admin$: Observable<boolean>;
 
   constructor(
     san: DomSanitizer,
     registry: MatIconRegistry,
     private snackBar: MatSnackBar,
     private update: SwUpdate,
+    private authService: AuthService,
     media: MediaObserver
   ) {
     this.isMobile$ = new BehaviorSubject<boolean>(media.isActive('xs'));
@@ -39,12 +45,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authenticated$ = this.authService.authenticated;
+    this.signedUp$ = this.authService.signedUp;
+    this.admin$ = this.authService.isAdmin;
     timer(0, 60000)
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
-        console.info('Checking for update');
+        console.log('Checking for update');
         this.update.available.pipe(first()).subscribe(() => {
-          console.info('Update found');
+          console.log('Update found');
           this.snackBar
             .open('A new version of this app is available!', 'Activate now')
             .afterDismissed()

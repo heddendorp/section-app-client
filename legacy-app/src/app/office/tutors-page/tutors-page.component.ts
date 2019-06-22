@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Student, StudentService } from '../../shared/services/student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { CsvInputDialogComponent } from '../components/csv-input-dialog/csv-input-dialog.component';
-import { Tutor, TutorService } from '../../shared/services/tutor.service';
+import { Tutor, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-tutors-page',
@@ -15,10 +14,10 @@ export class TutorsPageComponent implements OnInit {
   tutors$: Observable<Tutor[]>;
   displayColumns = ['firstName', 'lastName', 'email'];
 
-  constructor(private dialog: MatDialog, private functions: AngularFireFunctions, private tutorService: TutorService) {}
+  constructor(private dialog: MatDialog, private functions: AngularFireFunctions, private userService: UserService) {}
 
   ngOnInit() {
-    this.tutors$ = this.tutorService.tutors;
+    this.tutors$ = this.userService.tutors;
   }
 
   collectCsvData() {

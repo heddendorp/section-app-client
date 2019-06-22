@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CsvInputDialogComponent } from '../components/csv-input-dialog/csv-input-dialog.component';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
-import { Student, StudentService } from '../../shared/services/student.service';
+import { Student, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-students-page',
@@ -14,14 +14,10 @@ export class StudentsPageComponent implements OnInit {
   students$: Observable<Student[]>;
   displayColumns = ['firstName', 'lastName', 'email', 'country', 'faculty'];
 
-  constructor(
-    private dialog: MatDialog,
-    private functions: AngularFireFunctions,
-    private studentService: StudentService
-  ) {}
+  constructor(private dialog: MatDialog, private functions: AngularFireFunctions, private userService: UserService) {}
 
   ngOnInit() {
-    this.students$ = this.studentService.students;
+    this.students$ = this.userService.students;
   }
 
   collectCsvData() {

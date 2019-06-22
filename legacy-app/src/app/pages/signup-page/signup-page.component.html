@@ -1,0 +1,55 @@
+<div fxLayout="column" fxLayoutGap="2rem">
+  <h1 class="mat-display-2 no-margin">Get started</h1>
+  <div fxLayout.gt-md="row" fxLayout="column-reverse" fxLayoutGap="2rem" fxLayoutAlign="start start">
+    <section fxFlex>
+      <h2 class="mat-subheading-2">Why do I have to sign up?</h2>
+      <p class="mat-body">
+        In order to register for events you have to sign up here once and get a verified login. To get it just login and we will try to match your email with our database. Should the email match fail we'll request some additional info and then take a manual look at your case.
+      </p>
+      <p class="mat-body">
+        Once your account is active you can sign up for events and see the events you have coming up in the app.
+      </p>
+      <h2 class="mat-subheading-2">How do I pay for an  event?</h2>
+      <p class="mat-body">
+        If the event requires payment the app will tell you to sign up in our office. There we will collect the money and confirm your participation after you payed. You will then see the event in your upcoming events.
+      </p>
+      <button mat-raised-button color="primary" (click)="login()" [disabled]="authenticated$ | async" style="width: 100%;"> Begin Signup</button>
+      <ng-container *ngIf="authenticated$ | async">
+        <h2 class="mat-subheading-2">Thank you for authenticating</h2>
+      </ng-container>
+      <ng-container *ngIf="!(signedUp$ | async) && (authRequest$ | async)">
+        <p class="mat-body">
+          You already have a pending authorization request, we will look into this soon and activate your account.
+        </p>
+      </ng-container>
+      <ng-container *ngIf="(authenticated$ | async) && !(signedUp$ | async) && !(authRequest$ | async)">
+        <p class="mat-body">
+          Your user is not activated yet so please help us by providing some more data
+        </p>
+        <form [formGroup]="requestForm" gdAuto gdColumns="repeat(2, 1fr)" gdGap="1rem">
+          <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="lastName">
+          </mat-form-field>
+          <mat-form-field gdColumn="span 2">
+            <input matInput placeholder="E-Mail" formControlName="email" type="email">
+            <mat-hint>Enter the email address you used to sign up with tum here please</mat-hint>
+          </mat-form-field>
+          <mat-form-field gdColumn="span 2">
+            <textarea matInput placeholder="Leave a comment" formControlName="comment"></textarea>
+            <mat-hint>If you want to leave us some more info with the request please do it here</mat-hint>
+          </mat-form-field>
+        </form>
+        <button mat-raised-button color="primary" (click)="submitRequest()" [disabled]="requestForm.invalid" style="width: 100%;">Submit request</button>
+      </ng-container>
+      <ng-container *ngIf="signedUp$ | async">
+        <p class="mat-body">
+          You are already signed up and activated so everything is good to go.
+        </p>
+      </ng-container>
+    </section>
+    <img src="/assets/illustrations/signup.svg" fxFlex="40">
+  </div>
+</div>
