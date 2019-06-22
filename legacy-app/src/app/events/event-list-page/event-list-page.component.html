@@ -1,7 +1,10 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-    <h1 class="mat-display-2 no-margin">Events</h1>
-    <p class="mat-body">TUMinternational (or TUMi for short) is the orientation and support program for new international students at TUM. Here you can find our future planned events.</p>
-    <button mat-stroked-button routerLink="/about">Learn more</button>
-    <mat-divider></mat-divider>
-    <app-event-list [events]="events$ | async"></app-event-list>
+  <h1 class="mat-display-2 no-margin">Events</h1>
+  <p class="mat-body">
+    TUMinternational (or TUMi for short) is the orientation and support program for new international students at TUM.
+    Here you can find our future planned events.
+  </p>
+  <button mat-stroked-button routerLink="/about">Learn more</button>
+  <mat-divider></mat-divider>
+  <app-event-list [events]="events$ | async"></app-event-list>
 </div>

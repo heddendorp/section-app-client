@@ -1,26 +1,26 @@
 <form [formGroup]="eventForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-xs="repeat(2, 1fr)" gdGap="1rem">
-    <mat-form-field gdColumn.gt-xs="span 2">
-        <input matInput formControlName="name" placeholder="Event Name"/>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Choose the starting date"/>
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput formControlName="end" [matDatepicker]="endPicker" placeholder="Choose the ending date"/>
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field gdColumn.gt-xs="span 2">
-        <textarea matInput formControlName="description" placeholder="Event description"></textarea>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput formControlName="participantSpots" type="number" placeholder="Number of spots"/>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput formControlName="tutorSpots" type="number" placeholder="Number of Tutors"/>
-    </mat-form-field>
-    <button mat-stroked-button color="primary" (click)="saveChanges()">Save changes</button>
-    <button mat-stroked-button color="warn" routerLink="../..">Discard changes</button>
+  <mat-form-field gdColumn.gt-xs="span 2">
+    <input matInput formControlName="name" placeholder="Event Name" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Choose the starting date" />
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput formControlName="end" [matDatepicker]="endPicker" placeholder="Choose the ending date" />
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field gdColumn.gt-xs="span 2">
+    <textarea matInput formControlName="description" placeholder="Event description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput formControlName="participantSpots" type="number" placeholder="Number of spots" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput formControlName="tutorSpots" type="number" placeholder="Number of Tutors" />
+  </mat-form-field>
+  <button mat-stroked-button color="primary" (click)="saveChanges()">Save changes</button>
+  <button mat-stroked-button color="warn" routerLink="../..">Discard changes</button>
 </form>
