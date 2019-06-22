@@ -58,7 +58,9 @@ export const replaceList = functions.https.onCall(
           email: entry[2].toLocaleLowerCase(),
           faculty: '',
           country: '',
-          status: ''
+          status: '',
+          isStudent: true,
+          disabled: false
         };
         if (entry.length >= 4) {
           student.faculty = entry[3];
@@ -84,7 +86,9 @@ export const replaceList = functions.https.onCall(
           firstName: entry[0],
           lastName: entry[1],
           email: entry[2].toLocaleLowerCase(),
-          faculty: ''
+          faculty: '',
+          isTutor: true,
+          disabled: false
         };
         if (entry.length >= 4) {
           student.faculty = entry[3];
@@ -92,7 +96,10 @@ export const replaceList = functions.https.onCall(
         return student;
       });
     }
-    const currentStudentsSnapshot = await firestore.collection(update).get();
+    const currentStudentsSnapshot = await firestore
+      .collection('users')
+      .where(update === 'tutors' ? 'isTutor' : 'isStudent', '==', true)
+      .get();
     const currentStudents = currentStudentsSnapshot.docs.map(doc => {
       return { ...doc.data(), id: doc.id } as { email: string; id: string };
     });
@@ -105,8 +112,9 @@ export const replaceList = functions.https.onCall(
       .filter(student => !data.find(date => date.email === student.email))
       .forEach(student =>
         actions.push({
-          action: 'delete',
-          id: student.id
+          action: 'update',
+          id: student.id,
+          data: { disabled: true }
         })
       );
     data.filter(student => !idLookup[student.email]).forEach(student => actions.push({ action: 'add', data: student }));
@@ -125,17 +133,17 @@ export const replaceList = functions.https.onCall(
       actions.slice(i * 400, i * 400 + 399).forEach(action => {
         switch (action.action) {
           case 'add': {
-            const ref = firestore.collection(update).doc();
+            const ref = firestore.collection('users').doc();
             batch.set(ref, action.data);
             break;
           }
           case 'update': {
-            const ref = firestore.collection(update).doc(action.id);
+            const ref = firestore.collection('users').doc(action.id);
             batch.update(ref, action.data);
             break;
           }
           case 'delete': {
-            const ref = firestore.collection(update).doc(action.id);
+            const ref = firestore.collection('users').doc(action.id);
             batch.delete(ref);
             break;
           }
@@ -146,3 +154,20 @@ export const replaceList = functions.https.onCall(
     return `${update} successfully updated!`;
   }
 );
+export const newUser = functions.auth.user().onCreate(async user => {
+  const userCandidates = await firestore
+    .collection('users')
+    .where('email', '==', user.email)
+    .get();
+  if (!userCandidates.empty) {
+    userCandidates.docs.forEach(doc =>
+      firestore
+        .collection('users')
+        .doc(doc.id)
+        .update({ userId: user.uid })
+    );
+  } else {
+    console.log('No entry found for new user');
+    console.log(user);
+  }
+});
