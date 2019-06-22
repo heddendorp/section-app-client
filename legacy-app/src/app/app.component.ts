@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { first, map, takeUntil } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './shared/services/auth.service';
+import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { AuthService } from './shared/services/auth.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
-  isMobile$: BehaviorSubject<boolean>;
+  isMobile$: Observable<boolean>;
   authenticated$: Observable<boolean>;
   signedUp$: Observable<boolean>;
   admin$: Observable<boolean>;
@@ -29,19 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     media: MediaObserver
   ) {
-    this.isMobile$ = new BehaviorSubject<boolean>(media.isActive('xs'));
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
-    // TODO: Get rid of the behaviour subject and subscription
-    media
+    this.isMobile$ = media
       .asObservable()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(checks => {
-        if (checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')) {
-          this.isMobile$.next(true);
-        } else {
-          this.isMobile$.next(false);
-        }
-      });
+      .pipe(map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')));
   }
 
   ngOnInit(): void {
@@ -51,17 +43,18 @@ export class AppComponent implements OnInit, OnDestroy {
     timer(0, 60000)
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
-        console.log('Checking for update');
         this.update.available.pipe(first()).subscribe(() => {
-          console.log('Update found');
           this.snackBar
-            .open('A new version of this app is available!', 'Activate now')
-            .afterDismissed()
-            .subscribe(dismiss => {
-              if (dismiss.dismissedByAction) {
-                this.update.activateUpdate().then(() => document.location.reload());
+            .openFromComponent(IconToastComponent, {
+              duration: 0,
+              data: {
+                message: 'A new version of this app is available!',
+                action: 'Activate now',
+                icon: 'update'
               }
-            });
+            })
+            .onAction()
+            .subscribe(() => this.update.activateUpdate().then(() => document.location.reload()));
         });
       });
   }

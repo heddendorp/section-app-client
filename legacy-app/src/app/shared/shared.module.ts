@@ -16,6 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 
 const materialModules = [
   MatButtonModule,
@@ -37,6 +38,8 @@ const materialModules = [
 @NgModule({
   imports: [CommonModule, materialModules, FlexLayoutModule, ReactiveFormsModule],
   providers: [{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }],
-  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule]
+  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule, IconToastComponent],
+  declarations: [IconToastComponent],
+  entryComponents: [IconToastComponent]
 })
 export class SharedModule {}

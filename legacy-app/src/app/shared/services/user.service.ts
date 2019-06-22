@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,15 @@ export class UserService {
           .where('isTutor', '==', true)
           .where('disabled', '==', false)
       )
-      .valueChanges({ idField: 'id' });
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        catchError(err => {
+          console.groupCollapsed('Firebase Error: get tutors()');
+          console.error(err);
+          console.groupEnd();
+          return of([]);
+        })
+      );
   }
 
   get students(): Observable<Student[]> {
@@ -27,7 +36,15 @@ export class UserService {
           .where('isStudent', '==', true)
           .where('disabled', '==', false)
       )
-      .valueChanges({ idField: 'id' });
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        catchError(err => {
+          console.groupCollapsed('Firebase Error: get students()');
+          console.error(err);
+          console.groupEnd();
+          return of([]);
+        })
+      );
   }
 }
 

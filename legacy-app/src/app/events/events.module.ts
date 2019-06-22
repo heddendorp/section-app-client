@@ -5,11 +5,15 @@ import { EventListPageComponent } from './event-list-page/event-list-page.compon
 import { NewEventPageComponent } from './new-event-page/new-event-page.component';
 import { EventListComponent } from './event-list-page/event-list/event-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { RegisteredListComponent } from './registered-list/registered-list.component';
 
-const routes: Routes = [{ path: 'events', component: EventListPageComponent }];
+const routes: Routes = [
+  { path: 'events', component: EventListPageComponent },
+  { path: 'my-events', component: RegisteredListComponent }
+];
 
 @NgModule({
-  declarations: [EventListPageComponent, NewEventPageComponent, EventListComponent],
+  declarations: [EventListPageComponent, NewEventPageComponent, EventListComponent, RegisteredListComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
 export class EventsModule {}
