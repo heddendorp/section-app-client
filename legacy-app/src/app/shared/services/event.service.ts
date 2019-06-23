@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar } from '@angular/material/snack-bar';
+import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { firestore as importStore } from 'firebase/app';
 
@@ -21,10 +21,19 @@ export class EventService {
     price: 0,
     notes: '',
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
-    public: false
+    public: false,
+    hasFee: false,
+    hasOnlineSignup: true
   };
 
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar) {}
+
+  public get events(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref => ref.orderBy('start'))
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
 
   public createEvent(): Promise<string> {
     return this.firestore
@@ -34,13 +43,6 @@ export class EventService {
         this.snackbar.open('Event created!');
         return doc.id;
       });
-  }
-
-  public get events(): Observable<TumiEvent[]> {
-    return this.firestore
-      .collection<SavedEvent>('events', ref => ref.orderBy('start'))
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
   }
 
   public getEvent(id: string): Observable<TumiEvent> {
@@ -97,6 +99,9 @@ interface BaseEvent {
   description: string;
   price: number;
   public: boolean;
+  icon?: string;
+  hasFee: boolean;
+  hasOnlineSignup: boolean;
 }
 
 interface SavedEvent extends BaseEvent {

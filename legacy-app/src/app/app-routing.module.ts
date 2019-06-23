@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 const routes: Routes = [
+  { path: 'office', loadChildren: () => import('./office/office.module').then(mod => mod.OfficeModule) },
   { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
   { path: 'error', component: NotFoundPageComponent }

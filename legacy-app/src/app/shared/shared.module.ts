@@ -17,6 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const materialModules = [
   MatButtonModule,
@@ -32,7 +33,8 @@ const materialModules = [
   MatCardModule,
   MatSidenavModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

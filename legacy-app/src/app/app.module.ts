@@ -10,7 +10,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { EventsModule } from './events/events.module';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
-import { OfficeModule } from './office/office.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
@@ -35,7 +34,6 @@ import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/func
     SharedModule,
     EventsModule,
     PagesModule,
-    OfficeModule,
     AppRoutingModule
   ],
   providers: [{ provide: FUNCTIONS_ORIGIN, useValue: 'https:/esn-tumi.web.app' }],

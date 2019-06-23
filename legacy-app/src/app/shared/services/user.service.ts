@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import * as moment from 'moment';
+import Base = moment.unitOfTime.Base;
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,20 @@ export class UserService {
           .where('isTutor', '==', true)
           .where('disabled', '==', false)
       )
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        catchError(err => {
+          console.groupCollapsed('Firebase Error: get tutors()');
+          console.error(err);
+          console.groupEnd();
+          return of([]);
+        })
+      );
+  }
+
+  get users(): Observable<BaseUser[]> {
+    return this.firestore
+      .collection<BaseUser>('users', ref => ref.orderBy('lastName').where('disabled', '==', false))
       .valueChanges({ idField: 'id' })
       .pipe(
         catchError(err => {

@@ -14,28 +14,20 @@ import { FundsPageComponent } from './funds-page/funds-page.component';
 import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
 import { RequestsPageComponent } from './requests-page/requests-page.component';
+import { EditRequestPageComponent } from './requests-page/edit-request-page/edit-request-page.component';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'events' },
+  { path: 'students', component: StudentsPageComponent },
+  { path: 'tutors', component: TutorsPageComponent },
+  { path: 'funds', component: FundsPageComponent },
   {
-    path: 'office',
-    component: OfficeComponent,
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'events' },
-      { path: 'students', component: StudentsPageComponent },
-      { path: 'tutors', component: TutorsPageComponent },
-      { path: 'funds', component: FundsPageComponent },
-      { path: 'requests', component: RequestsPageComponent },
-      {
-        path: 'events',
-        component: EventPageComponent,
-        children: [
-          { path: '', pathMatch: 'full', redirectTo: 'signup' },
-          { path: 'edit/:id', component: EventEditPageComponent },
-          { path: 'signup', component: SignupPageComponent }
-        ]
-      }
-    ]
-  }
+    path: 'requests',
+    component: RequestsPageComponent,
+    children: [{ path: 'edit/:requestId', component: EditRequestPageComponent }]
+  },
+  { path: 'events', component: EventPageComponent },
+  { path: 'events/edit/:id', component: EventEditPageComponent }
 ];
 
 @NgModule({
@@ -51,7 +43,8 @@ const routes: Routes = [
     FundsPageComponent,
     CsvInputDialogComponent,
     PeopleTableComponent,
-    RequestsPageComponent
+    RequestsPageComponent,
+    EditRequestPageComponent
   ],
   entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]

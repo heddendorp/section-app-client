@@ -27,3 +27,12 @@ mat-sidenav-container {
 main {
   padding: 1rem;
 }
+
+mat-sidenav {
+  button {
+    margin: 8px;
+    mat-icon {
+      margin-right: 1rem;
+    }
+  }
+}

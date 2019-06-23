@@ -1,3 +1,13 @@
-<p>
-  requests-page works!
-</p>
+<div fxLayout="column" fxLayoutGap="2rem">
+    <h1 class="mat-display-2 no-margin">Login Requests</h1>
+    <h2 class="mat-title no-margin">Open requests</h2>
+    <div fxLayoutGap="2rem" fxLayout="row">
+        <mat-nav-list>
+            <a mat-list-item *ngFor="let request of requests$ | async" routerLink="edit/{{request.id}}">
+                <h3 mat-line>{{request.firstName}} {{request.lastName}} ({{request.email}})</h3>
+                <p mat-line>{{request.comment}}</p>
+            </a>
+        </mat-nav-list>
+        <router-outlet></router-outlet>
+    </div>
+</div>

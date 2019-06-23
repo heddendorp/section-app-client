@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-requests-page',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./requests-page.component.scss']
 })
 export class RequestsPageComponent implements OnInit {
-  constructor() {}
+  requests$: Observable<any[]>;
 
-  ngOnInit() {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.requests$ = this.authService.openRequests;
+  }
 }

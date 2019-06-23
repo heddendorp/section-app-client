@@ -1,0 +1,36 @@
+<h2 class="mat-headline no-margin">Request: {{title$ | async}}</h2>
+<p class="mat-body">To approve the request please just select the corresponding user from the list</p>
+<mat-form-field>
+  <input type="text" matInput placeholder="Search people" [formControl]="filterInput">
+</mat-form-field>
+<table mat-table class="people-table" [dataSource]="dataSource">
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef>First Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef>Last Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="faculty">
+    <th mat-header-cell *matHeaderCellDef>Faculty</th>
+    <td mat-cell *matCellDef="let element">{{ element.faculty }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef>Country</th>
+    <td mat-cell *matCellDef="let element">{{ element.country }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns" class="people-row" (click)="approveRequest(row)"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
