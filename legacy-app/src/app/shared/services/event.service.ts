@@ -13,8 +13,8 @@ import { AuthService } from './auth.service';
 export class EventService {
   baseEvent: TumiEvent = {
     name: 'New TumiEvent',
-    start: moment(),
-    end: moment(),
+    start: moment().add(3, 'weeks'),
+    end: moment().add(3, 'weeks'),
     participants: [],
     participantSpots: 0,
     tutors: [],
