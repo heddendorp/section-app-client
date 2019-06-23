@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { auth, User } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { filter, first, map, startWith, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BaseUser } from './user.service';
 
@@ -22,27 +22,31 @@ export class AuthService {
 
   public get isAdmin(): Observable<boolean> {
     return this.user.pipe(
-      filter(user => !!user),
-      switchMap(user =>
-        this.firestore
+      switchMap(user => {
+        if (!user) {
+          return of(false);
+        }
+        return this.firestore
           .collection('admins')
           .doc(user.userId)
           .valueChanges()
-          .pipe(map(value => !!value))
-      ),
+          .pipe(map(value => !!value));
+      }),
       startWith(false)
     );
   }
 
   public get user(): Observable<BaseUser> {
-    return this.afAuth.user.pipe(
-      filter(user => !!user),
-      switchMap((user: User) =>
-        this.firestore
+    return this.afAuth.authState.pipe(
+      switchMap((user: User) => {
+        if (!user) {
+          return of(null);
+        }
+        return this.firestore
           .collection<BaseUser>('users', ref => ref.where('userId', '==', user.uid))
           .valueChanges({ idField: 'id' })
-          .pipe(map(results => results[0]))
-      )
+          .pipe(map(results => results[0]));
+      })
     );
   }
 

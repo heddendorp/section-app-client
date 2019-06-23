@@ -4,6 +4,8 @@ import { CsvInputDialogComponent } from '../components/csv-input-dialog/csv-inpu
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
 import { Student, UserService } from '../../shared/services/user.service';
+import { MediaObserver } from '@angular/flex-layout';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-students-page',
@@ -12,9 +14,21 @@ import { Student, UserService } from '../../shared/services/user.service';
 })
 export class StudentsPageComponent implements OnInit {
   students$: Observable<Student[]>;
-  displayColumns = ['firstName', 'lastName', 'email', 'country', 'faculty'];
+  displayedColumns: Observable<string[]>;
 
-  constructor(private dialog: MatDialog, private functions: AngularFireFunctions, private userService: UserService) {}
+  constructor(
+    private dialog: MatDialog,
+    private functions: AngularFireFunctions,
+    private userService: UserService,
+    media: MediaObserver
+  ) {
+    this.displayedColumns = media.asObservable().pipe(
+      map(checks => checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
+      map(desktop =>
+        desktop ? ['firstName', 'lastName', 'email', 'country', 'faculty'] : ['firstName', 'lastName', 'email']
+      )
+    );
+  }
 
   ngOnInit() {
     this.students$ = this.userService.students;

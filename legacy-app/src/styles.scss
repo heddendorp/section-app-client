@@ -53,3 +53,9 @@ mat-nav-list {
     }
   }
 }
+
+form.grid-form {
+  .mat-form-field-infix {
+    width: inherit;
+  }
+}

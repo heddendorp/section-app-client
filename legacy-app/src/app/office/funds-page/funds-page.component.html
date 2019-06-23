@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-display-2 no-margin">Funds</h1>
   <h2 class="mat-headline">Currently the register should hold {{ balance$ | async }}€</h2>
-  <div fxLayout="row" fxLayoutGap="2rem">
+  <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <mat-list fxFlex>
       <mat-list-item *ngFor="let transaction of transactions$ | async">
         <mat-icon

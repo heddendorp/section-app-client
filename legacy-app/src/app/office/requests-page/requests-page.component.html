@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-display-2 no-margin">Login Requests</h1>
   <h2 class="mat-title no-margin">Open requests</h2>
-  <div fxLayout="row" fxLayoutGap="2rem">
+  <div fxLayout="column-reverse" fxLayout.gt-lg="row" fxLayoutGap="2rem">
     <mat-nav-list>
       <a *ngFor="let request of requests$ | async" mat-list-item routerLink="edit/{{ request.id }}">
         <h3 mat-line>{{ request.firstName }} {{ request.lastName }} ({{ request.email }})</h3>

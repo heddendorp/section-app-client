@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-display-2 no-margin">Incoming Students</h1>
   <p>Manage and find incoming students here</p>
-  <button (click)="collectCsvData()" color="primary" mat-raised-button>Update all with excel list</button>
-  <app-people-table [columns]="displayColumns" [people]="students$ | async"></app-people-table>
+  <app-people-table [columns]="displayedColumns | async" [people]="students$ | async"></app-people-table>
+  <button (click)="collectCsvData()" mat-raised-button>Update all with excel list</button>
 </div>

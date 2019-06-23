@@ -5,7 +5,7 @@
     <input [formControl]="scanControl" matInput placeholder="Scanning target" type="text" />
     <mat-hint>{{ error$ | async }}</mat-hint>
   </mat-form-field>
-  <div fxLayout="row" fxLayoutGap="2rem">
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <div *ngIf="event$ | async">
       <h4 class="mat-subheading-2">Event: {{ (event$ | async).name }}</h4>
       <p>Start: {{ (event$ | async).start | date: 'short' }} End: {{ (event$ | async).end | date: 'short' }}</p>

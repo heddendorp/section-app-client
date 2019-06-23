@@ -22,6 +22,10 @@
         { "fieldPath": "participants", "mode": "ARRAY_CONTAINS" },
         { "fieldPath": "start", "mode": "ASCENDING" }
       ]
+    },
+    {
+      "collectionId": "events",
+      "fields": [{ "fieldPath": "public", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
     }
   ],
   "fieldOverrides": []

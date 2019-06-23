@@ -39,6 +39,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       tutorSpots: [0, Validators.required],
       hasOnlineSignup: [false, Validators.required],
       hasFee: [false, Validators.required],
+      public: [false, Validators.required],
       price: { value: 0, disabled: true },
       icon: ['']
     });
@@ -94,6 +95,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       tutorSpots: value.tutorSpots,
       hasOnlineSignup: value.hasOnlineSignup,
       hasFee: value.hasFee,
+      public: value.public,
       price: value.price || 0,
       icon: value.icon
     };

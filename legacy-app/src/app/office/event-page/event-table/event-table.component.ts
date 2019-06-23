@@ -9,27 +9,14 @@ import { map, takeUntil } from 'rxjs/operators';
   templateUrl: './event-table.component.html',
   styleUrls: ['./event-table.component.scss']
 })
-export class EventTableComponent implements OnInit, OnDestroy {
+export class EventTableComponent implements OnInit {
   @Input() events$: Observable<TumiEvent[]>;
   @Output() edit = new EventEmitter<TumiEvent>();
-  destroyed$ = new Subject();
-  simpleView$: BehaviorSubject<boolean>;
   displayedColumns: Observable<string[]>;
 
   constructor(media: MediaObserver) {
-    this.simpleView$ = new BehaviorSubject<boolean>(media.isActive(['xs', 'sm']));
-    // TODO: Convert to a pipe based structure instead of a subscription with subject
-    media
-      .asObservable()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(checks => {
-        if (checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')) {
-          this.simpleView$.next(false);
-        } else {
-          this.simpleView$.next(true);
-        }
-      });
-    this.displayedColumns = this.simpleView$.pipe(
+    this.displayedColumns = media.asObservable().pipe(
+      map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
       map(simple => (simple ? ['date', 'name', 'tutornum'] : ['date', 'name', 'time', 'tutors', 'tutornum']))
     );
   }
@@ -38,9 +25,5 @@ export class EventTableComponent implements OnInit, OnDestroy {
 
   editEvent(event: TumiEvent) {
     this.edit.emit(event);
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.complete();
   }
 }

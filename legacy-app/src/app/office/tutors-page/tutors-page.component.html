@@ -2,5 +2,5 @@
   <h1 class="mat-display-2 no-margin">TUMi Tutors</h1>
   <p>Manage and find active TUMi tutors here</p>
   <button (click)="collectCsvData()" color="primary" mat-raised-button>Update all with excel list</button>
-  <app-people-table [columns]="displayColumns" [people]="tutors$ | async"></app-people-table>
+  <app-people-table [columns]="displayedColumns | async" [people]="tutors$ | async"></app-people-table>
 </div>

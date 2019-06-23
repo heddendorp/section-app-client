@@ -15,7 +15,7 @@ export class EventListPageComponent implements OnInit {
   constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.events$ = this.eventService.events;
+    this.events$ = this.eventService.publicEvents;
   }
 
   openEventDialog(event: TumiEvent) {

@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">Registered Events</h1>
+  <h1 class="mat-display-2 no-margin">Upcoming Events</h1>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
-    <mat-card *ngFor="let event of events$ | async">
+    <mat-card *ngFor="let event of upcomingEvents$ | async">
       <mat-card-header>
         <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
         <mat-card-title>{{ event.name }}</mat-card-title>
@@ -12,6 +12,16 @@
           {{ event.description }}
         </p>
       </mat-card-content>
+    </mat-card>
+  </div>
+  <h2 class="mat-headline no-margin">Previous events</h2>
+  <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(3, 1fr)" gdGap="2rem">
+    <mat-card *ngFor="let event of passedEvents$ | async">
+      <mat-card-header>
+        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
+        <mat-card-title>{{ event.name }}</mat-card-title>
+        <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
+      </mat-card-header>
     </mat-card>
   </div>
 </div>

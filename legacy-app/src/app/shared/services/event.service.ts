@@ -36,6 +36,18 @@ export class EventService {
       .pipe(map(events => events.map(this.parseEvent)));
   }
 
+  public get publicEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('public', '==', true)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.authService.user.pipe(
       switchMap(user =>
