@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { firestore as importStore } from 'firebase/app';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +27,26 @@ export class EventService {
     hasOnlineSignup: true
   };
 
-  constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar) {}
+  constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private authService: AuthService) {}
 
   public get events(): Observable<TumiEvent[]> {
     return this.firestore
       .collection<SavedEvent>('events', ref => ref.orderBy('start'))
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  public get registeredEvents(): Observable<TumiEvent[]> {
+    return this.authService.user.pipe(
+      switchMap(user =>
+        this.firestore
+          .collection<SavedEvent>('events', ref =>
+            ref.where('participants', 'array-contains', user.id).orderBy('start')
+          )
+          .valueChanges({ idField: 'id' })
+          .pipe(map(events => events.map(this.parseEvent)))
+      )
+    );
   }
 
   public createEvent(): Promise<string> {
@@ -52,8 +66,13 @@ export class EventService {
       .valueChanges()
       .pipe(
         map(this.parseEvent),
-        map(event => Object.assign({}, event, { id }))
+        map(event => Object.assign({}, event, { id })),
+        catchError(err => of(undefined))
       );
+  }
+
+  public register(user, event): Promise<void> {
+    return this.updateEvent({ ...event, participants: [...event.participants, user.id] });
   }
 
   public updateEvent(event: TumiEvent): Promise<void> {
@@ -93,8 +112,8 @@ interface BaseEvent {
   name: string;
   participantSpots: number;
   tutorSpots: number;
-  participants: any[];
-  tutors: any[];
+  participants: string[];
+  tutors: string[];
   notes: string;
   description: string;
   price: number;

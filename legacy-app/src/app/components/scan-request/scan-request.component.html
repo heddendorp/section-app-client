@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Scan registration request</h2>
+<mat-dialog-content>
+  <h3 class="mat-subheading-2">Please scan the registration request into this field</h3>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Scanning target" [formControl]="scanControl" />
+    <mat-hint>{{ error$ | async }}</mat-hint>
+  </mat-form-field>
+  <div fxLayoutGap="2rem" fxLayout="row">
+    <div *ngIf="event$ | async">
+      <h4 class="mat-subheading-2">Event: {{ (event$ | async).name }}</h4>
+      <p>Start: {{ (event$ | async).start | date: 'short' }} End: {{ (event$ | async).end | date: 'short' }}</p>
+      <p *ngIf="(event$ | async).hasFee">Make sure to collect {{ (event$ | async).price }}€!</p>
+    </div>
+    <div *ngIf="user$ | async">
+      <h4 class="mat-subheading-2">User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</h4>
+      <p>{{ (user$ | async).email }}</p>
+    </div>
+  </div>
+  <p style="color: red" *ngIf="alreadyOnEvent$ | async">
+    This user is already signed up for the event. Double registrations are possible but be aware!
+  </p>
+  <button mat-raised-button color="accent" [disabled]="!(canRegister$ | async)" (click)="commitRegistration()">Commit registration</button>
+  <p *ngIf="registrationDone$ | async">Registration completed!</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

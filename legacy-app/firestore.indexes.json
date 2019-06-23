@@ -15,6 +15,13 @@
         { "fieldPath": "isStudent", "mode": "ASCENDING" },
         { "fieldPath": "lastName", "mode": "ASCENDING" }
       ]
+    },
+    {
+      "collectionId": "events",
+      "fields": [
+        { "fieldPath": "participants", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "start", "mode": "ASCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

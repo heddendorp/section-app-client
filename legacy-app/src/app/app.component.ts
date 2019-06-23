@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { Observable, Subject, timer } from 'rxjs';
 import { first, map, takeUntil } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './shared/services/auth.service';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     san: DomSanitizer,
     registry: MatIconRegistry,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private update: SwUpdate,
     private authService: AuthService,
     media: MediaObserver
@@ -57,6 +59,10 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe(() => this.update.activateUpdate().then(() => document.location.reload()));
         });
       });
+  }
+
+  scanRequest() {
+    this.dialog.open(ScanRequestComponent);
   }
 
   ngOnDestroy(): void {

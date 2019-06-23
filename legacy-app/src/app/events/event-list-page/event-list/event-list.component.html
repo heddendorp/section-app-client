@@ -5,7 +5,7 @@
   <mat-card *ngFor="let event of events">
     <mat-card-header>
       <img mat-card-avatar *ngIf="event.icon" src="https://png.icons8.com/color/{{event.icon}}/62">
-      <mat-card-title>{{ event.name }}</mat-card-title>
+      <mat-card-title>{{ event.name }} <span *ngIf="event.participants.length >= event.participantSpots">(full)</span></mat-card-title>
       <mat-card-subtitle>{{ event.start | date }}</mat-card-subtitle>
     </mat-card-header>
     <!--<mat-card-content>

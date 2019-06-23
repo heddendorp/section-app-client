@@ -12,7 +12,5 @@ export class EventListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    setTimeout(() => this.details.emit(this.events[1]), 1000);
-  }
+  ngOnInit() {}
 }

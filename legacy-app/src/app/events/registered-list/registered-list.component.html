@@ -1,3 +1,17 @@
-<p>
-  registered-list works!
-</p>
+<div fxLayout="column" fxLayoutGap="2rem">
+  <h1 class="mat-display-2 no-margin">Registered Events</h1>
+  <div gdAuto gdColumns="repeat(1, 1fr)" gdGap="2rem" gdColumns.gt-sm="repeat(2, 1fr)">
+    <mat-card *ngFor="let event of events$ | async">
+      <mat-card-header>
+        <img mat-card-avatar *ngIf="event.icon" src="https://png.icons8.com/color/{{event.icon}}/62">
+        <mat-card-title>{{ event.name }}</mat-card-title>
+        <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="description">
+          {{ event.description }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

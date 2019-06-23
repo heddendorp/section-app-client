@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
 
 @Component({
   selector: 'app-registered-list',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registered-list.component.scss']
 })
 export class RegisteredListComponent implements OnInit {
-  constructor() {}
+  events$: Observable<TumiEvent[]>;
 
-  ngOnInit() {}
+  constructor(private eventService: EventService) {}
+
+  ngOnInit() {
+    this.events$ = this.eventService.registeredEvents;
+  }
 }

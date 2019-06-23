@@ -19,7 +19,6 @@
                 <p>To sign up in our office please bring this QR-Code</p>
                 <div fxLayout="column" fxLayout.gt-md="row">
                     <qrcode [qrdata]="codeData$|async" [size]="256" [level]="'M'"></qrcode>
-                    <pre>{{codeData$ | async}}</pre>
                 </div>
             </ng-container>
         </section>

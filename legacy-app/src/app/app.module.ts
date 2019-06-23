@@ -17,9 +17,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
+import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundPageComponent],
+  declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent],
+  entryComponents: [ScanRequestComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

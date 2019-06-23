@@ -69,7 +69,7 @@
           </ng-container>
         </mat-nav-list>
         <div fxFlex></div>
-        <button mat-raised-button color="primary" *ngIf="admin$ | async">
+        <button mat-raised-button color="primary" *ngIf="admin$ | async" (click)="scanRequest()">
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>

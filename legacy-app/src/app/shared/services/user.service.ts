@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import * as moment from 'moment';
-import Base = moment.unitOfTime.Base;
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +58,17 @@ export class UserService {
           console.groupEnd();
           return of([]);
         })
+      );
+  }
+
+  public getOne(id): Observable<BaseUser> {
+    return this.firestore
+      .collection<BaseUser>('users')
+      .doc(id)
+      .valueChanges()
+      .pipe(
+        map((user: BaseUser) => Object.assign(user, { id })),
+        catchError(err => of(undefined))
       );
   }
 }
