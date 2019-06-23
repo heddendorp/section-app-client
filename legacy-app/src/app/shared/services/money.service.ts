@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as moment from 'moment';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { firestore } from 'firebase/app';
-import Base = moment.unitOfTime.Base;
 
 @Injectable({
   providedIn: 'root'

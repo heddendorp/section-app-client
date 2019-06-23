@@ -1,2 +1,4 @@
-<h2 class="mat-display-2">Edit: <em>{{ title$ | async }}</em></h2>
-<app-event-edit-form [event]="event$ | async" (save)="saveEvent($event)"></app-event-edit-form>
+<h2 class="mat-display-2">
+  Edit: <em>{{ title$ | async }}</em>
+</h2>
+<app-event-edit-form (save)="saveEvent($event)" [event]="event$ | async"></app-event-edit-form>

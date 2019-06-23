@@ -6,5 +6,5 @@
   </p>
   <button mat-stroked-button routerLink="/about">Learn more</button>
   <mat-divider></mat-divider>
-  <app-event-list [events]="events$ | async" (details)="openEventDialog($event)"></app-event-list>
+  <app-event-list (details)="openEventDialog($event)" [events]="events$ | async"></app-event-list>
 </div>

@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-between center">
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
   <mat-icon *ngIf="data.icon" [svgIcon]="data.icon"></mat-icon>
-  <span>{{data.message}}</span>
-  <button mat-button color="accent" *ngIf="data.action" (click)="dismiss()">{{data.action}}</button>
+  <span>{{ data.message }}</span>
+  <button (click)="dismiss()" *ngIf="data.action" color="accent" mat-button>{{ data.action }}</button>
 </div>

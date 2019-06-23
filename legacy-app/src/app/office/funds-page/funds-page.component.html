@@ -1,24 +1,30 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-    <h1 class="mat-display-2 no-margin">Funds</h1>
-    <h2 class="mat-headline">Currently the register should hold {{balance$ | async}}€</h2>
-    <div fxLayout="row" fxLayoutGap="2rem">
-      <mat-list fxFlex>
-        <mat-list-item *ngFor="let transaction of transactions$ | async">
-          <mat-icon [svgIcon]="transaction.value > 0 ? 'plus' : 'minus'" [style.color]="transaction.value > 0 ? 'green' : 'red'" mat-list-icon></mat-icon>
-          <h3 mat-line>{{transaction.absValue}}€ - {{transaction.comment}}</h3>
-          <p mat-line>{{transaction.timestamp | date: 'medium'}}</p>
-        </mat-list-item>
-      </mat-list>
-      <form [formGroup]="transactionForm" fxLayout="column" fxFlex="30">
-        <h3 class="mat-subheading-2">Add a new transaction</h3>
-        <mat-form-field>
-          <input matInput placeholder="Subject of the transaction" formControlName="comment">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Value of the transaction" formControlName="value" type="number">
-          <mat-hint>Enter a negative value if you hand out money</mat-hint>
-        </mat-form-field>
-        <button mat-stroked-button color="primary" [disabled]="transactionForm.invalid" (click)="addTransaction()">Save transaction</button>
-      </form>
-    </div>
+  <h1 class="mat-display-2 no-margin">Funds</h1>
+  <h2 class="mat-headline">Currently the register should hold {{ balance$ | async }}€</h2>
+  <div fxLayout="row" fxLayoutGap="2rem">
+    <mat-list fxFlex>
+      <mat-list-item *ngFor="let transaction of transactions$ | async">
+        <mat-icon
+          [style.color]="transaction.value > 0 ? 'green' : 'red'"
+          [svgIcon]="transaction.value > 0 ? 'plus' : 'minus'"
+          mat-list-icon
+        ></mat-icon>
+        <h3 mat-line>{{ transaction.absValue }}€ - {{ transaction.comment }}</h3>
+        <p mat-line>{{ transaction.timestamp | date: 'medium' }}</p>
+      </mat-list-item>
+    </mat-list>
+    <form [formGroup]="transactionForm" fxFlex="30" fxLayout="column">
+      <h3 class="mat-subheading-2">Add a new transaction</h3>
+      <mat-form-field>
+        <input formControlName="comment" matInput placeholder="Subject of the transaction" />
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="value" matInput placeholder="Value of the transaction" type="number" />
+        <mat-hint>Enter a negative value if you hand out money</mat-hint>
+      </mat-form-field>
+      <button (click)="addTransaction()" [disabled]="transactionForm.invalid" color="primary" mat-stroked-button>
+        Save transaction
+      </button>
+    </form>
+  </div>
 </div>

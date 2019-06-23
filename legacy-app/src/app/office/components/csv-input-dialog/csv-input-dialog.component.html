@@ -1,5 +1,5 @@
-<h2 mat-dialog-title fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-  <mat-icon svgIcon="excel-logo" style="width: 40px;height: 40px;"></mat-icon>
+<h2 fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem" mat-dialog-title>
+  <mat-icon style="width: 40px;height: 40px;" svgIcon="excel-logo"></mat-icon>
   <span>Import Excel Data</span>
 </h2>
 <mat-dialog-content fxLayout="column" fxLayoutGap="2rem">
@@ -75,6 +75,6 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close color="warn">Cancel</button>
-  <button mat-button color="primary" [disabled]="dataInput.invalid" (click)="importData()">Import data</button>
+  <button color="warn" mat-button mat-dialog-close>Cancel</button>
+  <button (click)="importData()" [disabled]="dataInput.invalid" color="primary" mat-button>Import data</button>
 </mat-dialog-actions>

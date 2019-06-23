@@ -2,12 +2,15 @@ table {
   border-collapse: collapse;
   margin-bottom: 2rem;
 }
+
 table,
 th,
 td {
   border: #9e9e9e solid 2px;
+
   .comment {
     color: #616161;
   }
+
   padding: 8px;
 }

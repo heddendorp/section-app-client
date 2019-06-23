@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { TumiEvent } from '../../../../shared/services/event.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 

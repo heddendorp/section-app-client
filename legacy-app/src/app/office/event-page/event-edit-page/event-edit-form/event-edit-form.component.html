@@ -1,49 +1,63 @@
 <form [formGroup]="eventForm" gdAuto gdColumns="repeat(2, 1fr)" gdColumns.gt-xs="repeat(4, 1fr)" gdGap="1rem">
   <mat-form-field gdColumn="span 2">
-    <input matInput formControlName="name" placeholder="Event Name" />
+    <input formControlName="name" matInput placeholder="Event Name" />
   </mat-form-field>
   <mat-form-field>
-    <input matInput formControlName="icon" placeholder="Icon for your event" />
+    <input formControlName="icon" matInput placeholder="Icon for your event" />
     <mat-hint>Try some <strong>single</strong> words and see if they match your event</mat-hint>
   </mat-form-field>
-  <img [src]="iconUrl$ | async" gdGridAlign="center center">
+  <img [src]="iconUrl$ | async" gdGridAlign="center center" />
   <mat-form-field>
-    <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Choose the starting date" [max]="eventForm.get('end').valueChanges | async"/>
-    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <input
+      [matDatepicker]="startPicker"
+      [max]="eventForm.get('end').valueChanges | async"
+      formControlName="start"
+      matInput
+      placeholder="Choose the starting date"
+    />
+    <mat-datepicker-toggle [for]="startPicker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #startPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input matInput formControlName="startTime" placeholder="Time your event starts" />
+    <input formControlName="startTime" matInput placeholder="Time your event starts" />
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
   <mat-form-field>
-    <input matInput formControlName="end" [matDatepicker]="endPicker" placeholder="Choose the ending date" [min]="eventForm.get('start').valueChanges | async" />
-    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <input
+      [matDatepicker]="endPicker"
+      [min]="eventForm.get('start').valueChanges | async"
+      formControlName="end"
+      matInput
+      placeholder="Choose the ending date"
+    />
+    <mat-datepicker-toggle [for]="endPicker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input matInput formControlName="endTime" placeholder="Time your event ends" />
+    <input formControlName="endTime" matInput placeholder="Time your event ends" />
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
-  <mat-form-field gdColumn="span 2" gdRow="span 2" gdGridAlign="stretch end">
-    <textarea matInput formControlName="description" placeholder="Event description" rows="4"></textarea>
+  <mat-form-field gdColumn="span 2" gdGridAlign="stretch end" gdRow="span 2">
+    <textarea formControlName="description" matInput placeholder="Event description" rows="4"></textarea>
   </mat-form-field>
-  <div gdColumn="span 2" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="space-between center" gdColumn="span 2">
     <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
     <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
     <mat-form-field>
-      <input matInput type="number" formControlName="price" placeholder="Participant cost for the event" />
+      <input formControlName="price" matInput placeholder="Participant cost for the event" type="number" />
       <mat-icon matSuffix svgIcon="euro"></mat-icon>
       <mat-hint>Only possible without online signup</mat-hint>
     </mat-form-field>
   </div>
   <mat-form-field>
-    <input matInput formControlName="participantSpots" type="number" placeholder="Number of spots" />
+    <input formControlName="participantSpots" matInput placeholder="Number of spots" type="number" />
   </mat-form-field>
   <mat-form-field>
-    <input matInput formControlName="tutorSpots" type="number" placeholder="Number of Tutors" />
+    <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number" />
   </mat-form-field>
-  <button mat-stroked-button color="primary" (click)="saveChanges()" [disabled]="eventForm.invalid">Save changes</button>
-  <button mat-stroked-button color="warn" routerLink="../..">Discard changes</button>
+  <button (click)="saveChanges()" [disabled]="eventForm.invalid" color="primary" mat-stroked-button>
+    Save changes
+  </button>
+  <button color="warn" mat-stroked-button routerLink="../..">Discard changes</button>
 </form>
-<pre>{{eventForm.getRawValue() | json}}</pre>
+<pre>{{ eventForm.getRawValue() | json }}</pre>

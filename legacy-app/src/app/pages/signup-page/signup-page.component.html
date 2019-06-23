@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-display-2 no-margin">Get started</h1>
-  <div fxLayout.gt-md="row" fxLayout="column-reverse" fxLayoutGap="2rem" fxLayoutAlign="start start">
+  <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
     <section fxFlex>
       <h2 class="mat-subheading-2">Why do I have to sign up?</h2>
       <p class="mat-body">
@@ -17,10 +17,10 @@
         and confirm your participation after you payed. You will then see the event in your upcoming events.
       </p>
       <button
-        mat-raised-button
-        color="primary"
         (click)="login()"
         [disabled]="authenticated$ | async"
+        color="primary"
+        mat-raised-button
         style="width: 100%;"
       >
         Begin Signup
@@ -39,25 +39,25 @@
         </p>
         <form [formGroup]="requestForm" gdAuto gdColumns="repeat(2, 1fr)" gdGap="1rem">
           <mat-form-field>
-            <input matInput placeholder="First Name" formControlName="firstName" />
+            <input formControlName="firstName" matInput placeholder="First Name" />
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Last Name" formControlName="lastName" />
+            <input formControlName="lastName" matInput placeholder="Last Name" />
           </mat-form-field>
           <mat-form-field gdColumn="span 2">
-            <input matInput placeholder="E-Mail" formControlName="email" type="email" />
+            <input formControlName="email" matInput placeholder="E-Mail" type="email" />
             <mat-hint>Enter the email address you used to sign up with tum here please</mat-hint>
           </mat-form-field>
           <mat-form-field gdColumn="span 2">
-            <textarea matInput placeholder="Leave a comment" formControlName="comment"></textarea>
+            <textarea formControlName="comment" matInput placeholder="Leave a comment"></textarea>
             <mat-hint>If you want to leave us some more info with the request please do it here</mat-hint>
           </mat-form-field>
         </form>
         <button
-          mat-raised-button
-          color="primary"
           (click)="submitRequest()"
           [disabled]="requestForm.invalid"
+          color="primary"
+          mat-raised-button
           style="width: 100%;"
         >
           Submit request
@@ -69,6 +69,6 @@
         </p>
       </ng-container>
     </section>
-    <img src="/assets/illustrations/signup.svg" fxFlex="40" />
+    <img fxFlex="40" src="/assets/illustrations/signup.svg" />
   </div>
 </div>
