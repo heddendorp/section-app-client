@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TumiEvent } from '../../../shared/services/event.service';
 
 @Component({
@@ -8,7 +8,11 @@ import { TumiEvent } from '../../../shared/services/event.service';
 })
 export class EventListComponent implements OnInit {
   @Input() events: TumiEvent[];
+  @Output() details = new EventEmitter<TumiEvent>();
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => this.details.emit(this.events[1]), 1000);
+  }
 }

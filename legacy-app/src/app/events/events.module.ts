@@ -6,6 +6,8 @@ import { NewEventPageComponent } from './new-event-page/new-event-page.component
 import { EventListComponent } from './event-list-page/event-list/event-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
+import { EventSignupDialogComponent } from './event-signup-dialog/event-signup-dialog.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 const routes: Routes = [
   { path: 'events', component: EventListPageComponent },
@@ -13,7 +15,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [EventListPageComponent, NewEventPageComponent, EventListComponent, RegisteredListComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
+  declarations: [
+    EventListPageComponent,
+    NewEventPageComponent,
+    EventListComponent,
+    RegisteredListComponent,
+    EventSignupDialogComponent
+  ],
+  entryComponents: [EventSignupDialogComponent],
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, QRCodeModule]
 })
 export class EventsModule {}

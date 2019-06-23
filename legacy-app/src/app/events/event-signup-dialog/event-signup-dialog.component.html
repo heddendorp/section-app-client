@@ -1,0 +1,31 @@
+<h2 mat-dialog-title class="mat-display-1" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"><img
+        src="https://png.icons8.com/color/{{event.icon}}/62" alt="{{event.icon}}"> <span>{{event.name}}</span></h2>
+<mat-dialog-content class="mat-typography">
+    <div fxLayout="row" fxLayoutAlign="start end">
+        <section fxFlex>
+            <h3 class="mat-subheading-2">From {{event.start | date: 'short'}} to {{event.end | date: 'short'}}</h3>
+            <p class="description">{{event.description}}</p>
+
+            <h3>Registration</h3>
+            <ng-template #signUp>
+              <p>To register for this event you have be signed up to this app. TO do that you can follow a simple guide</p>
+              <button mat-stroked-button color="accent" mat-dialog-close routerLink="/signup">Sign me up</button>
+            </ng-template>
+            <ng-container *ngIf="signedUp$| async; else signUp">
+                <ng-container *ngIf="event.hasOnlineSignup">
+                    <p>Since this event allows online signups you can just register for it right here</p>
+                    <button mat-raised-button color="accent">Sign up now!</button>
+                </ng-container>
+                <p>To sign up in our office please bring this QR-Code</p>
+                <div fxLayout="column" fxLayout.gt-md="row">
+                    <qrcode [qrdata]="codeData$|async" [size]="256" [level]="'M'"></qrcode>
+                    <pre>{{codeData$ | async}}</pre>
+                </div>
+            </ng-container>
+        </section>
+        <img fxFlex="40" fxHide.lt-lg src="/assets/illustrations/register.svg" fxShow.gt-lg>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
