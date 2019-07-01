@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">Upcoming Events</h1>
+  <h1 class="mat-h2 no-margin">Upcoming Events</h1>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of upcomingEvents$ | async">
       <mat-card-header>
@@ -14,7 +14,7 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <h2 class="mat-headline no-margin">Previous events</h2>
+  <h3 class="mat-h3 no-margin">Previous events</h3>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(3, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of passedEvents$ | async">
       <mat-card-header>

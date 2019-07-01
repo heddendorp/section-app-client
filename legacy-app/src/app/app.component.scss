@@ -26,6 +26,8 @@ mat-sidenav-container {
 
 main {
   padding: 1rem;
+  min-height: calc(100% - 2rem);
+  position: relative;
 }
 
 mat-sidenav {
@@ -34,6 +36,13 @@ mat-sidenav {
 
     mat-icon {
       margin-right: 1rem;
+    }
+  }
+  mat-nav-list{
+    h3{
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1rem;
     }
   }
 }

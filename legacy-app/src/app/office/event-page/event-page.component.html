@@ -1,8 +1,8 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">Events</h1>
+  <h1 class="mat-h2 no-margin">Events</h1>
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="mat-title">Available events</h2>
+    <h3 class="mat-h3">Available events</h3>
     <button (click)="createNewEvent()" mat-stroked-button>Create new Event</button>
   </div>
   <app-event-table (edit)="editEvent($event)" [events$]="events$"></app-event-table>

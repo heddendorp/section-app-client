@@ -1,22 +1,96 @@
-<div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">About TUMi</h1>
-  <p class="mat-body">
-    TUMinternational (or TUMi for short) is the orientation and support program for new international students at TUM.
-    TUMi provides support for new international students at the beginning of their studies in Munich and offers a
-    comprehensive program of cultural activities throughout the semester. The program is aimed at international exchange
-    and full-time students at TUM. Many activities are also open to German TUM students.
-  </p>
-  <!--TODO: Extend this page to look appealing on the desktop and be informative on mobile devices-->
-  <section>
-    <h2 class="mat-title">Students for students</h2>
-    <p class="mat-body">
-      All TUMi activities are conducted by collegiate tutors. Many of them are internationally experienced or have an
-      international background. This enables them to put themselves in the position of new students at TUM.
-    </p>
-  </section>
-  <section>
-    <h2 class="mat-title">About this app</h2>
-    <p class="mat-body">In this app we provide you all things TUMi for your time at TUM</p>
-  </section>
-  <small>Icons provided generously by <a href="https://icons8.com/" target="_blank">icons8</a></small>
+<div fxLayout="column" fxLayoutAlign="start" class="page">
+    <header fxFlex="250px" fxFlex.gt-md="400px" fxLayout="column" fxLayoutAlign="center center">
+        <h1 ngClass.lt-lg="mat-h4" ngClass.gt-md="mat-h2" style="color:white; padding: 2rem;">Exchange ideas for a better future</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon fill="#F5F5F5" points="0,100 100,0 100,100"></polygon>
+        </svg>
+    </header>
+    <div class="container grey-slant" style="background:#F5F5F5;">
+        <section fxLayout="column" fxLayoutGap="4rem" class="mat-typography infos">
+            <h3>TUMi?</h3>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                <img fxFlex="33" src="/assets/illustrations/welcome.svg">
+                <div fxFlex>
+                    <h4>We take care of exchange students</h4>
+                    <p>Every semester we organize the orientation weeks for incoming exchange students to get them
+                        started at TUM and in munich.
+                        <br> We also give out the student IDs and help out with problems coming up.</p>
+                </div>
+            </div>
+            <div fxLayout="column-reverse" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                <div fxFlex>
+                    <h4>We organize events throughout the semester</h4>
+                    <p>Every semester we organize more than 200 Events from 5-day roadtrips to Alpaca hikes. Every TUM
+                        student can find something that is interesting to them and is invited to become one of our 19k
+                        participants.</p>
+                    <button mat-stroked-button color="primary" routerLink="/events">Check out our upcoming events
+                    </button>
+                </div>
+                <img fxFlex="33" src="/assets/illustrations/form.svg">
+            </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                <img fxFlex="33" src="/assets/illustrations/rocket.svg">
+                <div fxFlex>
+                    <h4>We want you on board</h4>
+                    <p>All the things we do are only possible because of the 200+ voluntary tutors that help us. Every
+                        semester we are looking for new students to come and join the TUMi family, take part in awesome
+                        events and meet people from all over the world</p>
+                    <a mat-stroked-button color="primary" target="_blank"
+                       href="https://www.international.tum.de/en/coming-to-tum/tumi/engage/">Go here to apply</a>
+                </div>
+            </div>
+        </section>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon fill="#424242" points="0,100 0,0 100,100"></polygon>
+        </svg>
+    </div>
+    <div class="container" style="background: #424242">
+        <section fxLayout="column" fxLayoutGap="4rem" class="mat-typography infos" style="color:white">
+            <h3>We're not in this alone</h3>
+            <div fxLayout="column-reverse" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                <div fxFlex>
+                    <h4>We are part of TUM</h4>
+                    <p>We are a direct part of the TUM international office, THis allows us to offer you even more diverse and affordable events with a lot of support by the University. It enables us to have very consistent office hours and secure rooms for various activities</p>
+                </div>
+                <img fxFlex="33" src="/assets/illustrations/student.svg">
+            </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                <img fxFlex="33" src="/assets/illustrations/ufo.svg">
+                <div fxFlex>
+                    <h4>We are part of ESN</h4>
+                    <p>TUMi is an official ESN-section. ESN is the Erasmus Student Network, an european organization taking care of all things erasmus and supporting local section on their quest to provide an awesome experience exchange students</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--<div class="text-card shift-up">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>What we do</mat-card-title>
+            </mat-card-header>
+            <mat-card-content fxLayout="column" fxLayoutGap="2rem" class="mat-typography">
+                <div fxLayout="column" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                    <img fxFlex="33" src="/assets/illustrations/welcome.svg">
+                    <div fxFlex>
+                        <h3>Welcoming the incomings</h3>
+                        <p>We take care oare of getting exchange students staerted at TUM</p>
+                    </div>
+                </div>
+                <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                    <div fxFlex>
+                        <h3>Signing you up for fun</h3>
+                        <p>No matter if german student, doing your degree or visiting for exchange. Join our events to meet a ton diverse people during great activities</p>
+                    </div>
+                    <img fxFlex="33" src="/assets/illustrations/form.svg">
+                </div>
+                <div fxLayout="column" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                    <img fxFlex="33" src="/assets/illustrations/rocket.svg">
+                    <div fxFlex>
+                        <h3>Welcoming the incomings</h3>
+                        <p>We take care oare of getting exchange students staerted at TUM</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>-->
 </div>

@@ -1,20 +1,20 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">Funds</h1>
-  <h2 class="mat-headline">Currently the register should hold {{ balance$ | async }}€</h2>
+  <h1 class="mat-h2 no-margin">Funds</h1>
+  <h2 class="mat-h4">Currently the register should hold {{ balance$ | async }}€</h2>
   <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <mat-list fxFlex>
-      <mat-list-item *ngFor="let transaction of transactions$ | async">
+      <mat-list-item *ngFor="let transaction of transactions$ | async" >
         <mat-icon
           [style.color]="transaction.value > 0 ? 'green' : 'red'"
           [svgIcon]="transaction.value > 0 ? 'plus' : 'minus'"
           mat-list-icon
         ></mat-icon>
-        <h3 mat-line>{{ transaction.absValue }}€ - {{ transaction.comment }}</h3>
-        <p mat-line>{{ transaction.timestamp | date: 'medium' }}</p>
+        <p style="font-size: 1rem" mat-line>{{ transaction.absValue }}€ - {{ transaction.comment }}</p>
+        <p class="mat-caption" mat-line>{{ transaction.timestamp | date: 'medium' }}</p>
       </mat-list-item>
     </mat-list>
     <form [formGroup]="transactionForm" fxFlex="30" fxLayout="column">
-      <h3 class="mat-subheading-2">Add a new transaction</h3>
+      <h3 class="mat-h3">Add a new transaction</h3>
       <mat-form-field>
         <input formControlName="comment" matInput placeholder="Subject of the transaction" />
       </mat-form-field>

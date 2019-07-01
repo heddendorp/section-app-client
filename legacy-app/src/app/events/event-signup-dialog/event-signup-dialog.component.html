@@ -1,10 +1,10 @@
-<h2 class="mat-display-1" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" mat-dialog-title>
+<h2 class="mat-h3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" mat-dialog-title>
   <img alt="{{ event.icon }}" src="https://png.icons8.com/color/{{ event.icon }}/62" /> <span>{{ event.name }}</span>
 </h2>
 <mat-dialog-content class="mat-typography">
   <div fxLayout="row" fxLayoutAlign="start end">
     <section fxFlex>
-      <h3 class="mat-subheading-2">From {{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</h3>
+      <h4 class="mat-h4">From {{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</h4>
       <p class="description">{{ event.description }}</p>
 
       <h3>Registration</h3>

@@ -3,10 +3,40 @@
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
+$custom-typography: mat-typography-config(
+  $font-family:
+    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+  $display-4: mat-typography-level(112px, 112px, 300, 'Josefin Sans', $letter-spacing: -0.05em),
+  $display-3: mat-typography-level(56px, 56px, 400, 'Josefin Sans', $letter-spacing: -0.02em),
+  $display-2: mat-typography-level(45px, 48px, 400, 'Josefin Sans', $letter-spacing: -0.005em),
+  $display-1: mat-typography-level(34px, 40px, 400, 'Josefin Sans'),
+  $headline: mat-typography-level(6rem, 6rem, 300, 'Josefin Sans', -0.0468rem),
+  $title: mat-typography-level(3.75rem, 3.75rem, 400, 'Josefin Sans', -0.05416rem),
+  $subheading-2: mat-typography-level(3rem, 3rem, 400, 'Josefin Sans', 0),
+  $subheading-1: mat-typography-level(2.125rem, 2.125rem, 400, 'Josefin Sans', 0.0073rem),
+  $body-2: mat-typography-level(0.875rem, 0.875rem, 400, $letter-spacing: 0.0178rem),
+  $body-1: mat-typography-level(1rem, 1rem, 400, $letter-spacing: 0.0312rem),
+  $caption: mat-typography-level(0.75rem, 0.75rem, 400,  $letter-spacing: 0.03333rem),
+  $button: mat-typography-level(0.875rem, 0.875rem, 500,  $letter-spacing: 0.0892rem)
+  // Line-height must be unit-less fraction of the font-size. $input: mat-typography-level(inherit, 1.125, 400)
+);
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat-core($custom-typography);
+
+.mat-card-title {
+  font: {
+    size: 1.5rem !important;
+    weight: mat-font-weight($custom-typography, subheading-1) !important;
+  }
+}
+
+.mat-dialog-title {
+  @include mat-typography-level-to-styles($custom-typography, subheading-2);
+  size: 1.5rem !important;
+}
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -19,11 +49,16 @@ $tumi-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $tumi-theme: mat-light-theme($tumi-primary, $tumi-accent, $tumi-warn);
+$tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($tumi-theme);
+
+.dark-theme {
+  @include angular-material-theme($tumi-dark-theme);
+}
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -31,6 +66,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
@@ -43,10 +79,12 @@ body {
 // theme for the navigation list
 mat-nav-list {
   padding: 8px;
+
   [mat-list-item],
   mat-list-item {
     margin: 4px 0;
     border-radius: 4px;
+
     &.active:not(:hover) {
       color: mat-color($tumi-primary, darker);
       background: transparentize(mat-color($tumi-primary, darker), 0.88);

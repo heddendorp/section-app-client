@@ -1,24 +1,26 @@
 <div [class.app--is-mobile]="isMobile$ | async" class="app-container">
-  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-    <button (click)="nav.toggle()" mat-icon-button>
-      <mat-icon svgIcon="menu"></mat-icon>
-    </button>
-    <h2>TUMinternational</h2>
-    <mat-icon svgIcon="trip"></mat-icon>
-    <div fxFlex></div>
-    <ng-template #loginButton>
-      <button (click)="authService.login()" mat-stroked-button>Login</button>
-    </ng-template>
-    <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
-      Log out
-    </button>
-  </mat-toolbar>
+  <div [class]="class$ | async">
+    <mat-toolbar [color]="color$ | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+      <button (click)="nav.toggle()" mat-icon-button>
+        <mat-icon svgIcon="menu"></mat-icon>
+      </button>
+      <h4 style="font-size: 1.5rem; line-height: 1.5rem" ngStyle.gt-sm="font-size: 2rem; line-height: 2rem" ngStyle.xs="font-size: 1.25rem; line-height: 1.5rem">TUMinternational</h4>
+      <mat-icon svgIcon="trip" style="line-height: 2rem; font-size: 2rem" fxHide.xs></mat-icon>
+      <div fxFlex></div>
+      <ng-template #loginButton>
+        <button (click)="authService.login()" mat-stroked-button>Login</button>
+      </ng-template>
+      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
+        Log out
+      </button>
+    </mat-toolbar>
+  </div>
   <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
     <mat-sidenav
       #nav
       [fixedInViewport]="isMobile$ | async"
       [mode]="(isMobile$ | async) ? 'over' : 'side'"
-      [opened]="!(isMobile$ | async)"
+      [opened]="!(isMobile$ | async) && !!(color$ | async)"
       fixedTopGap="56"
     >
       <aside fxLayout="column" style="height: 100%;">
@@ -58,10 +60,10 @@
               <mat-icon mat-list-icon svgIcon="money"></mat-icon>
               <h3 mat-line>Money & Transactions</h3>
             </a>
-            <a mat-list-item routerLink="/office/requests" routerLinkActive="active">
+            <!--<a mat-list-item routerLink="/office/requests" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="credentials"></mat-icon>
               <h3 mat-line>Authentication requests</h3>
-            </a>
+            </a>-->
             <!--<a mat-list-item routerLinkActive="active" routerLink="/about">
                                         <mat-icon mat-list-icon svgIcon="about"></mat-icon>
                                         <h3 mat-line>Global Settings</h3>

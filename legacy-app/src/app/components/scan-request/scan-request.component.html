@@ -1,18 +1,18 @@
-<h2 mat-dialog-title>Scan registration request</h2>
+<h4 mat-dialog-title>Scan registration request</h4>
 <mat-dialog-content>
-  <h3 class="mat-subheading-2">Please scan the registration request into this field</h3>
+  <h4 class="mat-h4">Please scan the registration request into this field</h4>
   <mat-form-field>
     <input [formControl]="scanControl" matInput placeholder="Scanning target" type="text" />
     <mat-hint>{{ error$ | async }}</mat-hint>
   </mat-form-field>
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <div *ngIf="event$ | async">
-      <h4 class="mat-subheading-2">Event: {{ (event$ | async).name }}</h4>
+      <h4 class="mat-h4">Event: {{ (event$ | async).name }}</h4>
       <p>Start: {{ (event$ | async).start | date: 'short' }} End: {{ (event$ | async).end | date: 'short' }}</p>
       <p *ngIf="(event$ | async).hasFee">Make sure to collect {{ (event$ | async).price }}€!</p>
     </div>
     <div *ngIf="user$ | async">
-      <h4 class="mat-subheading-2">User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</h4>
+      <h4 class="mat-h4">User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</h4>
       <p>{{ (user$ | async).email }}</p>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Observable, Subject, timer } from 'rxjs';
@@ -10,6 +10,10 @@ import { AuthService } from './shared/services/auth.service';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
+import { RouterOutlet } from '@angular/router';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { ThemePalette } from '@angular/material/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +26,10 @@ export class AppComponent implements OnInit, OnDestroy {
   authenticated$: Observable<boolean>;
   signedUp$: Observable<boolean>;
   admin$: Observable<boolean>;
+  color$: Observable<ThemePalette>;
+  class$: Observable<string>;
+  @ViewChild(RouterOutlet, { static: true }) outlet: RouterOutlet;
+  @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
   constructor(
     san: DomSanitizer,
@@ -39,6 +47,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.color$ = this.outlet.activateEvents.pipe(
+      map<any, ThemePalette>(component => (component instanceof AboutPageComponent ? undefined : 'primary'))
+    );
+    this.class$ = this.color$.pipe(map(theme => theme ? '' : 'dark-theme'));
     this.authenticated$ = this.authService.authenticated;
     this.signedUp$ = this.authService.signedUp;
     this.admin$ = this.authService.isAdmin;
