@@ -47,6 +47,9 @@ mat-card-title{
   display:flex;
   flex-direction: row;
   justify-content: center;
+  section{
+    z-index: 2;
+  }
 }
 
 .infos{

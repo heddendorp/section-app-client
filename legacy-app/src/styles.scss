@@ -76,6 +76,18 @@ body {
   margin: 0;
 }
 
+a.styled{
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+  &:hover{
+    text-decoration: underline;
+  }
+  &:visited{
+    text-decoration: dashed;
+  }
+}
+
 // theme for the navigation list
 mat-nav-list {
   padding: 8px;
