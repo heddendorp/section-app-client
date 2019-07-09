@@ -16,9 +16,8 @@ $custom-typography: mat-typography-config(
   $subheading-1: mat-typography-level(2.125rem, 2.125rem, 400, 'Josefin Sans', 0.0073rem),
   $body-2: mat-typography-level(0.875rem, 0.875rem, 400, $letter-spacing: 0.0178rem),
   $body-1: mat-typography-level(1rem, 1rem, 400, $letter-spacing: 0.0312rem),
-  $caption: mat-typography-level(0.75rem, 0.75rem, 400,  $letter-spacing: 0.03333rem),
-  $button: mat-typography-level(0.875rem, 0.875rem, 500,  $letter-spacing: 0.0892rem)
-  // Line-height must be unit-less fraction of the font-size. $input: mat-typography-level(inherit, 1.125, 400)
+  $caption: mat-typography-level(0.75rem, 0.75rem, 400, $letter-spacing: 0.03333rem),
+  $button: mat-typography-level(0.875rem, 0.875rem, 500, $letter-spacing: 0.0892rem)
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -41,6 +40,73 @@ $custom-typography: mat-typography-config(
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
+
+$esn-cyan: (
+  50: #e0f4fd,
+  100: #b0e2f9,
+  200: #90caf9,
+  300: #43bdf1,
+  400: #00afef,
+  500: #00a1ec,
+  600: #0094de,
+  700: #0081ca,
+  800: #0070b6,
+  900: #005195,
+  A100: #82b1ff,
+  A200: #448aff,
+  A400: #2979ff,
+  A700: #2962ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);
+
+$esn-magenta: (
+  50: #fbe2f0,
+  100: #f4b6d9,
+  200: #f085bf,
+  300: #ed4ea4,
+  400: #ec008e,
+  500: #ed0076,
+  600: #db0072,
+  700: #c4006c,
+  800: #af0068,
+  900: #86005f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);
+
 $tumi-primary: mat-palette($mat-blue);
 $tumi-accent: mat-palette($mat-pink);
 
@@ -76,14 +142,14 @@ body {
   margin: 0;
 }
 
-a.styled{
+a.styled {
   font-weight: bold;
   text-decoration: none;
   color: inherit;
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
-  &:visited{
+  &:visited {
     text-decoration: dashed;
   }
 }
@@ -100,6 +166,71 @@ mat-nav-list {
     &.active:not(:hover) {
       color: mat-color($tumi-primary, darker);
       background: transparentize(mat-color($tumi-primary, darker), 0.88);
+    }
+  }
+}
+
+div.loader {
+  $transition-duration: 2s;
+  $path-length: 157px; // Retrieved using SVG's getTotalLength()
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    overflow: visible;
+    width: 100px;
+    height: 150px;
+
+    g {
+      animation: slide $transition-duration linear infinite;
+
+      &:nth-child(2) {
+        animation-delay: $transition-duration / 4;
+
+        path {
+          animation-delay: $transition-duration / 4;
+          stroke-dasharray: 0px $path-length + 1;
+          stroke-dashoffset: 1px;
+        }
+      }
+    }
+
+    path {
+      stroke: url(#gradient);
+      stroke-width: 20px;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 0 $path-length;
+      stroke-dashoffset: 0;
+      animation: escalade $transition-duration cubic-bezier(0.8, 0, 0.2, 1) infinite;
+    }
+  }
+
+  @keyframes slide {
+    0% {
+      transform: translateY(-50px);
+    }
+    100% {
+      transform: translateY(50px);
+    }
+  }
+
+  @keyframes escalade {
+    0% {
+      stroke-dasharray: 0 $path-length;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: $path-length - 1 $path-length;
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dasharray: $path-length - 1 $path-length;
+      stroke-dashoffset: -($path-length - 1);
     }
   }
 }
