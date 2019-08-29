@@ -14,6 +14,7 @@ import { RouterOutlet } from '@angular/router';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { ThemePalette } from '@angular/material/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { PaPageComponent } from './pages/pa-page/pa-page.component';
 
 @Component({
   selector: 'app-root',
@@ -48,9 +49,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.color$ = this.outlet.activateEvents.pipe(
-      map<any, ThemePalette>(component => (component instanceof AboutPageComponent ? undefined : 'primary'))
+      map<any, ThemePalette>(component => {
+        if (component instanceof AboutPageComponent || component instanceof PaPageComponent) {
+          return;
+        } else {
+          return 'primary';
+        }
+      })
     );
-    this.class$ = this.color$.pipe(map(theme => theme ? '' : 'dark-theme'));
+    this.class$ = this.color$.pipe(map(theme => (theme ? '' : 'dark-theme')));
     this.authenticated$ = this.authService.authenticated;
     this.signedUp$ = this.authService.signedUp;
     this.admin$ = this.authService.isAdmin;

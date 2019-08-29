@@ -3,7 +3,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { BaseUser, UserService } from '../../../shared/services/user.service';
+import { Student, UserService } from '../../../shared/services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormControl } from '@angular/forms';
@@ -17,8 +17,8 @@ export class EditRequestPageComponent implements OnInit, OnDestroy {
   request$: Observable<any>;
   title$: Observable<string>;
   destroyed$ = new Subject();
-  users: BaseUser[];
-  dataSource: MatTableDataSource<BaseUser>;
+  users: Student[];
+  dataSource: MatTableDataSource<Student>;
   filterInput = new FormControl();
   columns = ['firstName', 'lastName', 'email', 'country', 'faculty'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -31,8 +31,8 @@ export class EditRequestPageComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.users = await this.userService.users.pipe(first()).toPromise();
-    this.dataSource = new MatTableDataSource<BaseUser>(this.users);
+    this.users = await this.userService.students.pipe(first()).toPromise();
+    this.dataSource = new MatTableDataSource<Student>(this.users);
     this.filterInput.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(filterValue => (this.dataSource.filter = filterValue));

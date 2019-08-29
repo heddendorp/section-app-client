@@ -126,6 +126,10 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
   @include angular-material-theme($tumi-dark-theme);
 }
 
+.grey-slant {
+  @include mat-button-theme($tumi-theme);
+}
+
 //noinspection CssInvalidMediaFeature
 @media (prefers-color-scheme: dark) {
   @include angular-material-theme($tumi-dark-theme);

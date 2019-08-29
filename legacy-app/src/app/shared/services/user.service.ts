@@ -9,47 +9,9 @@ import { catchError, map } from 'rxjs/operators';
 export class UserService {
   constructor(private firestore: AngularFirestore) {}
 
-  get tutors(): Observable<Tutor[]> {
-    return this.firestore
-      .collection<Tutor>('users', ref =>
-        ref
-          .orderBy('lastName')
-          .where('isTutor', '==', true)
-          .where('disabled', '==', false)
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(
-        catchError(err => {
-          console.groupCollapsed('Firebase Error: get tutors()');
-          console.error(err);
-          console.groupEnd();
-          return of([]);
-        })
-      );
-  }
-
-  get users(): Observable<BaseUser[]> {
-    return this.firestore
-      .collection<BaseUser>('users', ref => ref.orderBy('lastName').where('disabled', '==', false))
-      .valueChanges({ idField: 'id' })
-      .pipe(
-        catchError(err => {
-          console.groupCollapsed('Firebase Error: get tutors()');
-          console.error(err);
-          console.groupEnd();
-          return of([]);
-        })
-      );
-  }
-
   get students(): Observable<Student[]> {
     return this.firestore
-      .collection<Student>('users', ref =>
-        ref
-          .orderBy('lastName')
-          .where('isStudent', '==', true)
-          .where('disabled', '==', false)
-      )
+      .collection<Student>('users', ref => ref.orderBy('lastName').where('disabled', '==', false))
       .valueChanges({ idField: 'id' })
       .pipe(
         catchError(err => {
@@ -61,36 +23,28 @@ export class UserService {
       );
   }
 
-  public getOne(id): Observable<BaseUser> {
+  public getOne(id): Observable<Student> {
     return this.firestore
-      .collection<BaseUser>('users')
+      .collection<Student>('users')
       .doc(id)
       .valueChanges()
       .pipe(
-        map((user: BaseUser) => Object.assign(user, { id })),
+        map((user: Student) => Object.assign(user, { id })),
         catchError(err => of(undefined))
       );
   }
 }
 
-export interface BaseUser {
+export interface Student {
   id: string;
   userId: string;
   firstName: string;
   lastName: string;
   email: string;
   faculty: string;
-  disabled: false;
-  isStudent: boolean;
-  isTutor: boolean;
-}
-
-export interface Tutor extends BaseUser {
-  isTutor: true;
-}
-
-export interface Student extends BaseUser {
   country: string;
   status: string;
-  isStudent: true;
+  disabled: false;
+  isTutor: boolean;
+  isAdmin: boolean;
 }

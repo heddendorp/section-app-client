@@ -15,9 +15,11 @@ import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input
 import { PeopleTableComponent } from './components/people-table/people-table.component';
 import { RequestsPageComponent } from './requests-page/requests-page.component';
 import { EditRequestPageComponent } from './requests-page/edit-request-page/edit-request-page.component';
+import { UsersPageComponent } from './users-page/users-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
+  { path: 'users', component: UsersPageComponent },
   { path: 'students', component: StudentsPageComponent },
   { path: 'tutors', component: TutorsPageComponent },
   { path: 'funds', component: FundsPageComponent },
@@ -44,7 +46,8 @@ const routes: Routes = [
     CsvInputDialogComponent,
     PeopleTableComponent,
     RequestsPageComponent,
-    EditRequestPageComponent
+    EditRequestPageComponent,
+    UsersPageComponent
   ],
   entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]

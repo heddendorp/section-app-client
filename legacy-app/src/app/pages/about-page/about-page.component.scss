@@ -9,11 +9,12 @@
   height: 100%;
 }
 
-header{
+header {
   background-color: #0065bd;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23003359' fill-opacity='0.26' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   position: relative;
   padding-bottom: 4vw;
+
   svg {
     position: absolute;
     bottom: 0;
@@ -23,9 +24,11 @@ header{
   }
 }
 
-.grey-slant{
+.grey-slant {
   position: relative;
   padding-bottom: 8vw;
+  color: black;
+
   svg {
     position: absolute;
     bottom: -1px;
@@ -33,29 +36,31 @@ header{
     height: 10vw;
     /* set height to pixels if you want angle to change with screen width */
   }
- }
+}
 
 h1.title {
   color: white;
 }
 
-mat-card-title{
+mat-card-title {
   font-size: 2rem;
 }
 
-.container{
-  display:flex;
+.container {
+  display: flex;
   flex-direction: row;
   justify-content: center;
-  section{
+
+  section {
     z-index: 2;
   }
 }
 
-.infos{
+.infos {
   max-width: 1000px;
   padding: 2rem;
-  img{
+
+  img {
     max-height: 10rem;
   }
 }

@@ -1,28 +1,91 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Student } from '../../../shared/services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-people-table',
   templateUrl: './people-table.component.html',
   styleUrls: ['./people-table.component.scss']
 })
-export class PeopleTableComponent implements OnInit, OnChanges {
+export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() people: Student[];
   @Input() columns: string[];
+  destroyed$ = new Subject();
+  filterForm: FormGroup;
+  filterIndeterminate = new BehaviorSubject(false);
 
   dataSource = new MatTableDataSource<Student>(this.people);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  constructor(fb: FormBuilder) {
+    this.filterForm = fb.group({
+      showAll: true,
+      showStudents: true,
+      showAdmins: true,
+      showTutors: true
+    });
+  }
+
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.filterForm.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(value => {
+      if (value.showStudents && value.showTutors && value.showAdmins) {
+        this.filterForm.get('showAll').setValue(true, { emitEvent: false });
+        this.filterIndeterminate.next(false);
+      } else if (!value.showStudents && !value.showTutors && !value.showAdmins) {
+        this.filterForm.get('showAll').setValue(false, { emitEvent: false });
+        this.filterIndeterminate.next(false);
+      } else {
+        this.filterIndeterminate.next(true);
+      }
+    });
+    this.filterForm
+      .get('showAll')
+      .valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe(value => {
+        if (value) {
+          this.filterForm.setValue(
+            {
+              showAll: true,
+              showStudents: true,
+              showAdmins: true,
+              showTutors: true
+            },
+            { emitEvent: false }
+          );
+        } else {
+          this.filterForm.setValue(
+            {
+              showAll: false,
+              showStudents: false,
+              showAdmins: false,
+              showTutors: false
+            },
+            { emitEvent: false }
+          );
+        }
+        this.filterIndeterminate.next(false);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.people.firstChange && changes.people) {
       this.dataSource.data = changes.people.currentValue;
+      this.filterForm.reset({
+        showAll: true,
+        showStudents: true,
+        showAdmins: true,
+        showTutors: true
+      });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.complete();
   }
 }

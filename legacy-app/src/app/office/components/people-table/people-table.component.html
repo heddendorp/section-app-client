@@ -1,3 +1,11 @@
+
+<p>Filter displayed users</p>
+<form [formGroup]="filterForm" fxLayout="row" fxLayoutGap="2rem" style="margin-bottom: 2rem;">
+  <mat-checkbox formControlName="showAll" [indeterminate]="filterIndeterminate | async">Show all users</mat-checkbox>
+  <mat-checkbox formControlName="showAdmins">Show Admins</mat-checkbox>
+  <mat-checkbox formControlName="showTutors">Show Tutors</mat-checkbox>
+  <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
+</form>
 <table [dataSource]="dataSource" class="people-table" mat-table>
   <ng-container matColumnDef="firstName">
     <th *matHeaderCellDef mat-header-cell>First Name</th>

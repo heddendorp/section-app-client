@@ -4,6 +4,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 
 const routes: Routes = [
   { path: 'office', loadChildren: () => import('./office/office.module').then(mod => mod.OfficeModule) },
+  { path: 'events', loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule) },
   { path: '', pathMatch: 'full', redirectTo: 'about' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
   { path: 'error', component: NotFoundPageComponent }

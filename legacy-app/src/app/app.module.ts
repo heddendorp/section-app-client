@@ -7,7 +7,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { EventsModule } from './events/events.module';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,7 +33,6 @@ import { ScanRequestComponent } from './components/scan-request/scan-request.com
     AngularFireFunctionsModule,
     AngularFirePerformanceModule,
     SharedModule,
-    EventsModule,
     PagesModule,
     AppRoutingModule
   ],

@@ -1,8 +1,8 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-display-2 no-margin">Get started</h1>
+  <h1 class="mat-h2 no-margin">Get started</h1>
   <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
     <section fxFlex>
-      <h2 class="mat-subheading-2">Why do I have to sign up?</h2>
+      <h2 class="mat-h4">Why do I have to sign up?</h2>
       <p class="mat-body">
         In order to register for events you have to sign up here once and get a verified login. To get it just login and
         we will try to match your email with our database. Should the email match fail we'll request some additional
@@ -11,12 +11,27 @@
       <p class="mat-body">
         Once your account is active you can sign up for events and see the events you have coming up in the app.
       </p>
-      <h2 class="mat-subheading-2">How do I pay for an event?</h2>
+      <h2 class="mat-h4">How do I pay for an event?</h2>
       <p class="mat-body">
         If the event requires payment the app will tell you to sign up in our office. There we will collect the money
         and confirm your participation after you payed. You will then see the event in your upcoming events.
       </p>
-      <button
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <button mat-stroked-button color="primary">
+          <mat-icon svgIcon="google"></mat-icon>
+          <span>Sign up with Google</span>
+        </button>
+        <button disabled mat-stroked-button color="primary">
+          <mat-icon svgIcon="facebook"></mat-icon>
+          <span>Sign up with facebook</span>
+        </button>
+        <button mat-stroked-button>
+          <mat-icon svgIcon="mail"></mat-icon>
+          <span>Sign up with your Email</span>
+        </button>
+      </div>
+      <p class="mat-caption">It's recommended to use a social account instead of making a new one with your email</p>
+      <!--<button
         (click)="login()"
         [disabled]="authenticated$ | async"
         color="primary"
@@ -24,7 +39,7 @@
         style="width: 100%;"
       >
         Begin Signup
-      </button>
+      </button>-->
       <ng-container *ngIf="authenticated$ | async">
         <h2 class="mat-subheading-2">Thank you for authenticating</h2>
       </ng-container>

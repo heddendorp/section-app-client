@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { filter, first, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BaseUser } from './user.service';
+import { Student } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,14 +36,14 @@ export class AuthService {
     );
   }
 
-  public get user(): Observable<BaseUser> {
+  public get user(): Observable<Student> {
     return this.afAuth.authState.pipe(
       switchMap((user: User) => {
         if (!user) {
           return of(null);
         }
         return this.firestore
-          .collection<BaseUser>('users', ref => ref.where('userId', '==', user.uid))
+          .collection<Student>('users', ref => ref.where('userId', '==', user.uid))
           .valueChanges({ idField: 'id' })
           .pipe(map(results => results[0]));
       })

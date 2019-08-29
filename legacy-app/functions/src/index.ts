@@ -8,7 +8,7 @@ const firestore = app.firestore();
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-export const updateTutors = functions.https.onCall(async ({ input }: { input: string }, context) => {
+/*export const updateTutors = functions.https.onCall(async ({ input }: { input: string }, context) => {
   if (!input || typeof input !== 'string' || !input.length) {
     throw new functions.https.HttpsError(
       'invalid-argument',
@@ -103,13 +103,13 @@ export const updateTutors = functions.https.onCall(async ({ input }: { input: st
     await batch.commit();
   }
   return `tutors successfully updated!`;
-});
+});*/
 
 export const newUser = functions.auth.user().onCreate(async user => {
-  const userCandidates = await firestore
+  /*const userCandidates = await firestore
     .collection('tutors')
     .where('email', '==', user.email)
-    .get();
+    .get();*/
   const userEntry = {
     email: user.email,
     verified: user.emailVerified,
@@ -119,12 +119,12 @@ export const newUser = functions.auth.user().onCreate(async user => {
     isTutor: false,
     isDisabled: false
   };
-  if (!userCandidates.empty) {
+  /*if (!userCandidates.empty) {
     userEntry.isTutor = true;
   } else {
     console.log('No tutor found for new user');
     console.log(user);
-  }
+  }*/
   firestore
     .collection('users')
     .doc(userEntry.id)

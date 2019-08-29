@@ -29,7 +29,7 @@
             <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
             <h3 mat-line>Upcoming events</h3>
           </a>
-          <a *ngIf="authenticated$ | async" mat-list-item routerLink="/my-events" routerLinkActive="active">
+          <a *ngIf="authenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="schedule"></mat-icon>
             <h3 mat-line>My Events</h3>
           </a>
@@ -47,6 +47,10 @@
             <a mat-list-item routerLink="/office/events" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
               <h3 mat-line>Manage Events</h3>
+            </a>
+            <a mat-list-item routerLink="/office/users" routerLinkActive="active">
+              <mat-icon mat-list-icon svgIcon="users"></mat-icon>
+              <h3 mat-line>Manage Users</h3>
             </a>
             <a mat-list-item routerLink="/office/students" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="student"></mat-icon>

@@ -26,6 +26,15 @@
         "maxSize": 20,
         "maxAge": "7d"
       }
+    },
+    {
+      "name": "countries",
+      "urls": ["https://restcountries.eu/rest/v2/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 20,
+        "maxAge": "14d"
+      }
     }
   ]
 }

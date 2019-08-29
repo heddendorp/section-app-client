@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { CsvInputDialogComponent } from '../components/csv-input-dialog/csv-input-dialog.component';
-import { Tutor, UserService } from '../../shared/services/user.service';
+import { Student, UserService } from '../../shared/services/user.service';
 import { MediaObserver } from '@angular/flex-layout';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./tutors-page.component.scss']
 })
 export class TutorsPageComponent implements OnInit {
-  tutors$: Observable<Tutor[]>;
+  tutors$: Observable<Student[]>;
   displayedColumns: Observable<string[]>;
 
   constructor(
@@ -31,7 +31,7 @@ export class TutorsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tutors$ = this.userService.tutors;
+    this.tutors$ = this.userService.students;
   }
 
   collectCsvData() {

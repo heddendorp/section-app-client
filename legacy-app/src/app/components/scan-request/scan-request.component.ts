@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
-import { BaseUser, UserService } from '../../shared/services/user.service';
+import { Student, UserService } from '../../shared/services/user.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { MoneyService } from '../../shared/services/money.service';
 
@@ -16,7 +16,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   error$ = new BehaviorSubject('');
   event$ = new BehaviorSubject<TumiEvent>(null);
-  user$ = new BehaviorSubject<BaseUser>(null);
+  user$ = new BehaviorSubject<Student>(null);
   alreadyOnEvent$ = new BehaviorSubject(false);
   canRegister$ = new BehaviorSubject(false);
   registrationDone$ = new BehaviorSubject(false);

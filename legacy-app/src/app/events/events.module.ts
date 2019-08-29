@@ -10,9 +10,10 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 
 const routes: Routes = [
-  { path: 'events', component: EventListPageComponent },
-  { path: 'events/:eventId', component: EventDetailsPageComponent },
-  { path: 'my-events', component: RegisteredListComponent }
+  { path: 'list', component: EventListPageComponent },
+  { path: 'show/:eventId', component: EventDetailsPageComponent },
+  { path: 'my', component: RegisteredListComponent },
+  { path: '', redirectTo: 'list', pathMatch: 'full' }
 ];
 
 @NgModule({

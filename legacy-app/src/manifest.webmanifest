@@ -5,7 +5,7 @@
   "background_color": "#2196f3",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/",
+  "start_url": "/events/",
   "icons": [
           {
               "src": "/assets/icons/android-chrome-192x192.png",
