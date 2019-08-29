@@ -6,7 +6,6 @@ import { EventListComponent } from './event-list-page/event-list/event-list.comp
 import { SharedModule } from '../shared/shared.module';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
 import { EventSignupDialogComponent } from './event-signup-dialog/event-signup-dialog.component';
-import { QRCodeModule } from 'angularx-qrcode';
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 
 const routes: Routes = [
@@ -25,6 +24,6 @@ const routes: Routes = [
     EventDetailsPageComponent
   ],
   entryComponents: [EventSignupDialogComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, QRCodeModule]
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
 export class EventsModule {}

@@ -13,8 +13,6 @@ import { TutorsPageComponent } from './tutors-page/tutors-page.component';
 import { FundsPageComponent } from './funds-page/funds-page.component';
 import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
-import { RequestsPageComponent } from './requests-page/requests-page.component';
-import { EditRequestPageComponent } from './requests-page/edit-request-page/edit-request-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
 
 const routes: Routes = [
@@ -23,11 +21,6 @@ const routes: Routes = [
   { path: 'students', component: StudentsPageComponent },
   { path: 'tutors', component: TutorsPageComponent },
   { path: 'funds', component: FundsPageComponent },
-  {
-    path: 'requests',
-    component: RequestsPageComponent,
-    children: [{ path: 'edit/:requestId', component: EditRequestPageComponent }]
-  },
   { path: 'events', component: EventPageComponent },
   { path: 'events/edit/:id', component: EventEditPageComponent }
 ];
@@ -45,8 +38,6 @@ const routes: Routes = [
     FundsPageComponent,
     CsvInputDialogComponent,
     PeopleTableComponent,
-    RequestsPageComponent,
-    EditRequestPageComponent,
     UsersPageComponent
   ],
   entryComponents: [CsvInputDialogComponent],

@@ -8,7 +8,7 @@ This app is meant to provide all tolls necessary to organize the **ESN TUMi muni
 
 ### MVP 1 _(planned by august 2019)_
 
-THe MVP describes the set of features that the app needs to provide any value over the current system of event registration and management.
+The MVP describes the set of features that the app needs to provide any value over the current system of event registration and management.
 
 - Event management
   - Option to see all available events and how many places are free on each of them
@@ -24,7 +24,15 @@ THe MVP describes the set of features that the app needs to provide any value ov
 
 ### MVP 2 _(planned by october 2019)_
 
-After internal testing of MVP 1 there will be an MVP 2 that describes the needed features for migrating to the new system and running events on it, the tasks will be defined while MVP 1 is used
+- Event management
+  - Implement all additional event types
+  - Move event signups to their own collection to save more metadata
+- User management
+  - Change the user signup to be open for everyone
+  - Implement Facebook and EMail signup
+  - Allow the office to change userdata
+- Allow searching through transactions and generate invoices for users\
+- The tool should send confirmation emails whenever money was exchanged
 
 ### V 1 _(until february 2020)_
 
@@ -35,6 +43,7 @@ In V 1 the first non essential but highly useful features will be shipped
 - Event related information sharing (such as links to shared photo albums and meeting points)
 - Reminders and information emails
 - Waitinglist option for very popular events
+- Implement tutor tools for late payments and event planning
 
 ### V 1.1
 
