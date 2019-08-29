@@ -37,6 +37,10 @@
             <mat-icon mat-list-icon svgIcon="about"></mat-icon>
             <h3 mat-line>About TUMi</h3>
           </a>
+          <a mat-list-item routerLink="/party-animals" routerLinkActive="active">
+            <mat-icon mat-list-icon svgIcon="party"></mat-icon>
+            <h3 mat-line>Party Animals</h3>
+          </a>
           <a *ngIf="!(signedUp$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>

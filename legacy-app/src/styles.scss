@@ -122,8 +122,17 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 // that you are using.
 @include angular-material-theme($tumi-theme);
 
-.dark-theme {
+@mixin dark-theme {
   @include angular-material-theme($tumi-dark-theme);
+  mat-nav-list {
+    [mat-list-item],
+    mat-list-item {
+      &.active:not(:hover) {
+        color: mat-color($tumi-primary, lighter) !important;
+        background: transparentize(mat-color($tumi-primary, lighter), 0.88) !important;
+      }
+    }
+  }
 }
 
 .grey-slant {
@@ -132,7 +141,10 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 
 //noinspection CssInvalidMediaFeature
 @media (prefers-color-scheme: dark) {
-  @include angular-material-theme($tumi-dark-theme);
+  @include dark-theme;
+}
+.dark-theme {
+  @include dark-theme;
 }
 
 /* You can add global styles to this file, and also import other style files */

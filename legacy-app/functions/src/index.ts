@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import * as csvParse from 'csv-parse/lib/sync';
+// import * as csvParse from 'csv-parse/lib/sync';
 
 const app = admin.initializeApp();
 const firestore = app.firestore();
@@ -125,7 +125,7 @@ export const newUser = functions.auth.user().onCreate(async user => {
     console.log('No tutor found for new user');
     console.log(user);
   }*/
-  firestore
+  await firestore
     .collection('users')
     .doc(userEntry.id)
     .set(userEntry);
