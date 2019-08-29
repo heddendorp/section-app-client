@@ -1,10 +1,24 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-h2 no-margin">Events</h1>
+  <mat-card>
+    <mat-card-header>
+      <img mat-card-avatar src="/assets/illustrations/party/confetti.svg">
+      <mat-card-title>Check out Party animals!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Can you handle your beer and do you want some new Friends? Then join our Party Animals programme!</p>
+      <p>160 Students in 8 awesome Teams with 5 tutors each having the best time in and around munich for
+        two weeks - 02/10/2019 to 13/10/2019</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button routerLink="/party-animals" color="primary">Check it out now!</button>
+    </mat-card-actions>
+  </mat-card>
   <p class="mat-body">
     TUMinternational (or TUMi for short) is the orientation and support program for new international students at TUM.
     Here you can find our future planned events.
   </p>
-  <button mat-stroked-button routerLink="/about">Learn more</button>
+  <button mat-stroked-button routerLink="/about">Learn more about TUMi</button>
   <mat-divider></mat-divider>
   <app-event-list (details)="openEventDialog($event)" [events]="events$ | async"></app-event-list>
 </div>

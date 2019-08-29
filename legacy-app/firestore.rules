@@ -4,24 +4,17 @@ service cloud.firestore {
     // TODO: Make sure only public events can be read like this
     match /events/{event} {
         allow read: if resource.data.public || request.auth.uid != null;
-        allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
     match /users/{user} {
-        allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
-        allow write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-    }
-    match /authRequests/{requestId} {
-        allow create: if request.auth.uid == request.resource.data.userId;
-        allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || request.auth.uid == resource.data.userId;
+        allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true || request.auth.uid == resource.data.id;
+        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
     match /stats/money {
-                allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-                match /transactions/{transaction} {
-                    allow read, write: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-                }
-    }
-    match /admins/{admin} {
-                allow read: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+        allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+        match /transactions/{transaction} {
+            allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+        }
     }
      match /{document=**} {
         allow read, write: if false;

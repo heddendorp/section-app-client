@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Observable, Subject, timer } from 'rxjs';
-import { first, map, takeUntil } from 'rxjs/operators';
+import { first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
@@ -61,22 +61,25 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authenticated$ = this.authService.authenticated;
     this.signedUp$ = this.authService.signedUp;
     this.admin$ = this.authService.isAdmin;
-    timer(0, 60000)
-      .pipe(takeUntil(this.destroyed$))
+    timer(1000, 60000)
+      .pipe(
+        tap(() => console.log('timer')),
+        takeUntil(this.destroyed$),
+        switchMap(() => this.update.available.pipe(first()))
+      )
       .subscribe(() => {
-        this.update.available.pipe(first()).subscribe(() => {
-          this.snackBar
-            .openFromComponent(IconToastComponent, {
-              duration: 0,
-              data: {
-                message: 'A new version of this app is available!',
-                action: 'Activate now',
-                icon: 'update'
-              }
-            })
-            .onAction()
-            .subscribe(() => this.update.activateUpdate().then(() => document.location.reload()));
-        });
+        console.log('Found an update');
+        this.snackBar
+          .openFromComponent(IconToastComponent, {
+            duration: 0,
+            data: {
+              message: 'A new version of this app is available!',
+              action: 'Activate now',
+              icon: 'update'
+            }
+          })
+          .onAction()
+          .subscribe(() => this.update.activateUpdate().then(() => document.location.reload()));
       });
   }
 

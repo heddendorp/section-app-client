@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SignupPageComponent implements OnInit {
   signedUp$: Observable<boolean>;
   authenticated$: Observable<boolean>;
-  authRequest$: Observable<any>;
   requestForm: FormGroup;
 
   constructor(private authService: AuthService, private fb: FormBuilder) {
@@ -26,14 +25,9 @@ export class SignupPageComponent implements OnInit {
   ngOnInit() {
     this.signedUp$ = this.authService.signedUp;
     this.authenticated$ = this.authService.authenticated;
-    this.authRequest$ = this.authService.authRequest;
   }
 
-  submitRequest() {
-    this.authService.submitRequest(this.requestForm.value);
-  }
-
-  login() {
-    this.authService.login();
+  login(provider: string) {
+    this.authService.login(provider);
   }
 }

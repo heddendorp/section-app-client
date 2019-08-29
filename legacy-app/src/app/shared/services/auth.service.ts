@@ -22,16 +22,14 @@ export class AuthService {
 
   public get isAdmin(): Observable<boolean> {
     return this.user.pipe(
-      switchMap(user => {
-        if (!user) {
-          return of(false);
-        }
-        return this.firestore
-          .collection('admins')
-          .doc(user.userId)
-          .valueChanges()
-          .pipe(map(value => !!value));
-      }),
+      map(student => student.isAdmin),
+      startWith(false)
+    );
+  }
+
+  public get isTutor(): Observable<boolean> {
+    return this.user.pipe(
+      map(student => student.isTutor),
       startWith(false)
     );
   }
@@ -43,64 +41,32 @@ export class AuthService {
           return of(null);
         }
         return this.firestore
-          .collection<Student>('users', ref => ref.where('userId', '==', user.uid))
-          .valueChanges({ idField: 'id' })
-          .pipe(map(results => results[0]));
+          .collection<Student>('users')
+          .doc(user.uid)
+          .valueChanges()
+          .pipe(map(student => Object.assign({}, student, { id: user.uid })));
       })
     );
   }
 
-  public get authRequest(): Observable<any | null> {
-    return this.afAuth.user.pipe(
-      filter(user => !!user),
-      switchMap((user: User) =>
-        this.firestore
-          .collection('authRequests', ref => ref.where('userId', '==', user.uid))
-          .valueChanges()
-          .pipe(map(results => results[0]))
-      )
-    );
-  }
-
-  public get openRequests() {
-    return this.firestore
-      .collection('authRequests', ref => ref.where('approved', '==', false))
-      .valueChanges({ idField: 'id' });
-  }
-
-  public getRequest(id) {
-    return this.firestore
-      .collection('authRequests')
-      .doc(id)
-      .valueChanges()
-      .pipe(map(request => Object.assign(request, { id })));
-  }
-
-  public login(): void {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  public login(provider = 'email'): void {
+    switch (provider) {
+      case 'google': {
+        this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+        break;
+      }
+      case 'facebook': {
+        this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+        break;
+      }
+      case 'email': {
+        this.afAuth.auth.signInWithPopup(new auth.EmailAuthProvider());
+        break;
+      }
+    }
   }
 
   public logout(): void {
     this.afAuth.auth.signOut();
-  }
-
-  public async submitRequest(request) {
-    const user = await this.afAuth.user.pipe(first()).toPromise();
-    if (user) {
-      this.firestore.collection('authRequests').add({ ...request, userId: user.uid, approved: false });
-    }
-  }
-
-  public approveRequest(request, user) {
-    return Promise.all([
-      this.firestore
-        .collection('authRequests')
-        .doc(request.id)
-        .update({ approved: true }),
-      this.firestore
-        .collection('users')
-        .doc(user.id)
-        .update({ userId: request.userId })
-    ]);
   }
 }
