@@ -22,7 +22,7 @@ export class AuthService {
 
   public get isAdmin(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student.isAdmin),
+      map(student => student && student.isAdmin),
       startWith(false)
     );
   }

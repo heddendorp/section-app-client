@@ -17,9 +17,10 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
+import { MailSigninComponent } from './components/mail-signin/mail-signin.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent],
+  declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent],
   entryComponents: [ScanRequestComponent],
   imports: [
     BrowserModule,
