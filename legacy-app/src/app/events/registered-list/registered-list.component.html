@@ -1,9 +1,15 @@
-<div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-h2 no-margin">Upcoming Events</h1>
+<div fxLayout="column" fxLayoutGap="2rem" class="mat-typography">
+  <h2 class="no-margin">My TUMi</h2>
+  <h4 class="mat-h3 no-margin">Personal Data</h4>
+  <app-user-profile [user]="user$ | async"></app-user-profile>
+  <p>If any of the above data is not correct please change your info to fix it</p>
+  <button mat-stroked-button (click)="changeData()">Change userdata</button>
+  <mat-divider></mat-divider>
+  <h4 class="mat-h3 no-margin">Upcoming Events</h4>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of upcomingEvents$ | async">
       <mat-card-header>
-        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
+        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
@@ -14,11 +20,11 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <h3 class="mat-h3 no-margin">Previous events</h3>
-  <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(3, 1fr)" gdGap="2rem">
+  <h4 class="no-margin">Previous events</h4>
+  <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(4, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of passedEvents$ | async">
       <mat-card-header>
-        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
+        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>

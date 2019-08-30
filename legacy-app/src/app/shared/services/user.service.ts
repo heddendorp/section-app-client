@@ -33,17 +33,25 @@ export class UserService {
         catchError(err => of(undefined))
       );
   }
+
+  public save(user: Student) {
+    return this.firestore
+      .collection<Student>('users')
+      .doc(user.id)
+      .update(user);
+  }
 }
 
 export interface Student {
   id: string;
   userId: string;
-  firstName: string;
-  lastName: string;
+  displayName: string;
   email: string;
+  academicMail: string;
   faculty: string;
   country: string;
-  status: string;
+  type: string;
+  degree: string;
   disabled: false;
   isTutor: boolean;
   isAdmin: boolean;

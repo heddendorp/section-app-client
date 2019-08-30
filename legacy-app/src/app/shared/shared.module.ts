@@ -14,11 +14,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
 
 const materialModules = [
   MatButtonModule,
@@ -36,14 +38,21 @@ const materialModules = [
   MatListModule,
   MatDialogModule,
   MatSlideToggleModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSelectModule
 ];
 
 @NgModule({
   imports: [CommonModule, materialModules, FlexLayoutModule, ReactiveFormsModule],
-  providers: [{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }],
-  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule, IconToastComponent],
-  declarations: [IconToastComponent],
-  entryComponents: [IconToastComponent]
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true }
+    }
+  ],
+  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule, IconToastComponent, UserDataChangeComponent],
+  declarations: [IconToastComponent, UserDataChangeComponent],
+  entryComponents: [IconToastComponent, UserDataChangeComponent]
 })
 export class SharedModule {}

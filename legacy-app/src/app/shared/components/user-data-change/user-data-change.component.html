@@ -1,0 +1,43 @@
+<h4 mat-dialog-title>Change your data</h4>
+<mat-dialog-content>
+  <form [formGroup]="userForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
+    <mat-form-field>
+      <input matInput placeholder="Full name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="University Email" type="email" formControlName="email">
+      <mat-hint>Please enter your academic mail here so we can find you in our lists</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Faculty</mat-label>
+      <mat-select formControlName="faculty">
+        <mat-option *ngFor="let faculty of faculties" [value]="faculty.key">
+          {{faculty.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Study Type</mat-label>
+      <mat-select formControlName="degree">
+        <mat-option *ngFor="let degree of targets" [value]="degree.key">
+          {{degree.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Country of Origin" formControlName="country">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of studentTypes" [value]="type.key">
+          {{type.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="userForm.invalid" (click)="submitData()">Save</button>
+</mat-dialog-actions>

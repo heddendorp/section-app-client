@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
 import { EventSignupDialogComponent } from './event-signup-dialog/event-signup-dialog.component';
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'list', component: EventListPageComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
     EventListComponent,
     RegisteredListComponent,
     EventSignupDialogComponent,
-    EventDetailsPageComponent
+    EventDetailsPageComponent,
+    UserProfileComponent
   ],
   entryComponents: [EventSignupDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]

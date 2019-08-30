@@ -8,7 +8,7 @@
       <mat-icon svgIcon="trip" style="line-height: 2rem; font-size: 2rem" fxHide.xs></mat-icon>
       <div fxFlex></div>
       <ng-template #loginButton>
-        <button (click)="authService.login()" mat-stroked-button>Login</button>
+        <button routerLink="/signup" mat-stroked-button>Login</button>
       </ng-template>
       <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
         Log out
@@ -31,7 +31,7 @@
           </a>
           <a *ngIf="authenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="schedule"></mat-icon>
-            <h3 mat-line>My Events</h3>
+            <h3 mat-line>My TUMi</h3>
           </a>
           <a mat-list-item routerLink="/about" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="about"></mat-icon>
