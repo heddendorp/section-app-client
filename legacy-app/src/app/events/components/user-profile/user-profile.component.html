@@ -1,3 +1,3 @@
-<p style="font-weight: bold">{{user?.displayName}} ({{user?.email}})</p>
+<p style="font-weight: bold">{{user?.displayName || 'Someone'}} ({{user?.email}})</p>
 <p>from {{user?.country || 'somewhere'}}, {{getType(user?.type) || 'a'}} Student
   <br> studying {{getFaculty(user?.faculty) || 'something'}} to get a {{getTarget(user?.degree) || 'pony?'}}</p>

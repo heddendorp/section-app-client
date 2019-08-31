@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { auth, User } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { filter, first, map, startWith, switchMap } from 'rxjs/operators';
+import { first, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Student } from './user.service';
@@ -44,12 +44,12 @@ export class AuthService {
           .collection<Student>('users')
           .doc(user.uid)
           .valueChanges()
-          .pipe(map(student => Object.assign({}, student, { id: user.uid })));
+          .pipe(map(student => Object.assign({}, student, { id: user.uid, verified: user.emailVerified })));
       })
     );
   }
 
-  public login(provider = 'email'): void {
+  public login(provider): void {
     switch (provider) {
       case 'google': {
         this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
@@ -59,11 +59,28 @@ export class AuthService {
         this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
         break;
       }
-      case 'email': {
-        this.afAuth.auth.signInWithPopup(new auth.EmailAuthProvider());
+      case 'microsoft': {
+        this.afAuth.auth.signInWithPopup(new auth.OAuthProvider('microsoft.com'));
         break;
       }
     }
+  }
+
+  public createUser(email, password) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  public emailLogin(email, password) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  public getLoginOptions(email) {
+    return this.afAuth.auth.fetchSignInMethodsForEmail(email);
+  }
+
+  public async senVerification() {
+    const user = await this.afAuth.user.pipe(first()).toPromise();
+    return user.sendEmailVerification();
   }
 
   public logout(): void {

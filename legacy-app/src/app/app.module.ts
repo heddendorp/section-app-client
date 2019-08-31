@@ -21,7 +21,7 @@ import { MailSigninComponent } from './components/mail-signin/mail-signin.compon
 
 @NgModule({
   declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent],
-  entryComponents: [ScanRequestComponent],
+  entryComponents: [ScanRequestComponent, MailSigninComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

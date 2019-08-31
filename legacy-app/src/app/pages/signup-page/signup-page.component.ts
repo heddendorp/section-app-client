@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MailSigninComponent } from '../../components/mail-signin/mail-signin.component';
 
 @Component({
   selector: 'app-signup-page',
@@ -11,16 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SignupPageComponent implements OnInit {
   signedUp$: Observable<boolean>;
   authenticated$: Observable<boolean>;
-  requestForm: FormGroup;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
-    this.requestForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      comment: ''
-    });
-  }
+  constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.signedUp$ = this.authService.signedUp;
@@ -28,6 +21,10 @@ export class SignupPageComponent implements OnInit {
   }
 
   login(provider: string) {
-    this.authService.login(provider);
+    if (provider === 'email') {
+      this.dialog.open(MailSigninComponent);
+    } else {
+      this.authService.login(provider);
+    }
   }
 }

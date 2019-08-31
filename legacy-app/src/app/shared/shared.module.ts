@@ -21,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 const materialModules = [
   MatButtonModule,
@@ -46,6 +47,7 @@ const materialModules = [
   imports: [CommonModule, materialModules, FlexLayoutModule, ReactiveFormsModule],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true }

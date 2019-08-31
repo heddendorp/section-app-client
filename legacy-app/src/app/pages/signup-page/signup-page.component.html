@@ -11,7 +11,7 @@
         If the event requires payment the app will tell you to sign up in our office. There we will collect the money
         and confirm your participation after you payed. You will then see the event in your upcoming events.
       </p>
-      <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxLayout="row" fxLayoutAlign="space-between" class="login-buttons">
         <button mat-stroked-button color="primary" (click)="login('google')">
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
@@ -24,12 +24,13 @@
           <mat-icon svgIcon="facebook"></mat-icon>
           <span>Sign up with facebook</span>
         </button>
-        <button disabled mat-stroked-button (click)="login('email')">
+        <button mat-stroked-button (click)="login('email')">
           <mat-icon svgIcon="mail"></mat-icon>
           <span>Sign up with your Email</span>
         </button>
       </div>
       <p class="mat-caption">It's recommended to use a social account instead of making a new one with your email</p>
+      <p class="mat-caption">If you have <strong>forgotten your password</strong>, please contact TUMi to get a reset.</p>
 
     </section>
     <img fxFlex="40" src="/assets/illustrations/signup.svg" />

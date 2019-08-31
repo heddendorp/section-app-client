@@ -55,4 +55,5 @@ export interface Student {
   disabled: false;
   isTutor: boolean;
   isAdmin: boolean;
+  verified: boolean;
 }
