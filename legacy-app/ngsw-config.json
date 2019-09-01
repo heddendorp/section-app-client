@@ -35,6 +35,15 @@
         "maxSize": 20,
         "maxAge": "14d"
       }
+    },
+    {
+      "name": "icons",
+      "urls": ["https://png.icons8.com/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 40,
+        "maxAge": "14d"
+      }
     }
   ]
 }

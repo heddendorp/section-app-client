@@ -3,6 +3,8 @@ import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EventSignupDialogComponent } from '../event-signup-dialog/event-signup-dialog.component';
+import { map } from 'rxjs/operators';
+import { getFreeSpots } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-event-list-page',
@@ -15,7 +17,9 @@ export class EventListPageComponent implements OnInit {
   constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.events$ = this.eventService.publicEvents;
+    this.events$ = this.eventService.publicEvents.pipe(
+      map(events => events.map(event => Object.assign(event, { freeSpots: getFreeSpots(event) })))
+    );
   }
 
   openEventDialog(event: TumiEvent) {

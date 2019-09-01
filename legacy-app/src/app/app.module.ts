@@ -37,7 +37,7 @@ import { MailSigninComponent } from './components/mail-signin/mail-signin.compon
     PagesModule,
     AppRoutingModule
   ],
-  providers: [{ provide: FUNCTIONS_ORIGIN, useValue: 'https:/esn-tumi.web.app' }],
+  providers: [{ provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

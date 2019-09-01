@@ -8,5 +8,6 @@ export const environment = {
     storageBucket: '',
     messagingSenderId: '756904945827',
     appId: '1:756904945827:web:c4b8570bf907f627'
-  }
+  },
+  functionsOrigin: 'https://esn-tumi.de'
 };

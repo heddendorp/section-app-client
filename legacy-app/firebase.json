@@ -17,6 +17,10 @@
           "function": "replaceList"
         },
         {
+          "source": "/esn-tumi/us-central1/registerForEvent",
+          "function": "registerForEvent"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

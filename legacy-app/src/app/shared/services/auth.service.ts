@@ -29,7 +29,7 @@ export class AuthService {
 
   public get isTutor(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student.isTutor),
+      map(student => student.isTutor || student.isAdmin),
       startWith(false)
     );
   }

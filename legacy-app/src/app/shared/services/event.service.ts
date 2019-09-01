@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { firestore as importStore } from 'firebase/app';
@@ -15,15 +15,18 @@ export class EventService {
     name: 'New TumiEvent',
     start: moment().add(3, 'weeks'),
     end: moment().add(3, 'weeks'),
-    participants: [],
+    payedSignups: [],
+    onlineSignups: [],
     participantSpots: 0,
     tutors: [],
     tutorSpots: 0,
     price: 0,
+    soldTickets: 0,
     notes: '',
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     public: false,
     hasFee: false,
+    trackTickets: false,
     hasOnlineSignup: true
   };
 
@@ -50,13 +53,34 @@ export class EventService {
 
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.authService.user.pipe(
-      switchMap(user =>
-        this.firestore
+      switchMap(user => {
+        const onlineSinged = this.firestore
           .collection<SavedEvent>('events', ref =>
-            ref.where('participants', 'array-contains', user.id).orderBy('start')
+            ref.where('onlineSignups', 'array-contains', user.id).orderBy('start')
           )
           .valueChanges({ idField: 'id' })
-          .pipe(map(events => events.map(this.parseEvent)))
+          .pipe(
+            map(events => events.map(this.parseEvent)),
+            map(events => events.map(event => Object.assign({}, event, { isOnline: true })))
+          );
+        const officeSigned = this.firestore
+          .collection<SavedEvent>('events', ref =>
+            ref.where('payedSignups', 'array-contains', user.id).orderBy('start')
+          )
+          .valueChanges({ idField: 'id' })
+          .pipe(map(events => events.map(this.parseEvent)));
+        const tutorSigned = this.firestore
+          .collection<SavedEvent>('events', ref => ref.where('tutors', 'array-contains', user.id).orderBy('start'))
+          .valueChanges({ idField: 'id' })
+          .pipe(
+            map(events => events.map(this.parseEvent)),
+            map(events => events.map(event => Object.assign({}, event, { isTutor: true })))
+          );
+        return combineLatest(onlineSinged, officeSigned, tutorSigned);
+      }),
+      tap(console.log),
+      map(([online, office, tutor]) =>
+        [...online, ...office, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1))
       )
     );
   }
@@ -114,28 +138,33 @@ export class EventService {
   }
 }
 
-export interface TumiEvent extends BaseEvent {
-  start: moment.Moment;
-  end: moment.Moment;
-}
-
 interface BaseEvent {
   id?: string;
   name: string;
   participantSpots: number;
   tutorSpots: number;
-  participants: string[];
+  payedSignups: string[];
+  onlineSignups: string[];
   tutors: string[];
   notes: string;
   description: string;
   price: number;
+  soldTickets: number;
   public: boolean;
   icon?: string;
   hasFee: boolean;
+  trackTickets: boolean;
   hasOnlineSignup: boolean;
+  freeSpots?: string;
+  isTutor?: boolean;
 }
 
-interface SavedEvent extends BaseEvent {
+export interface TumiEvent extends BaseEvent {
+  start: moment.Moment;
+  end: moment.Moment;
+}
+
+export interface SavedEvent extends BaseEvent {
   start: importStore.Timestamp;
   end: importStore.Timestamp;
 }

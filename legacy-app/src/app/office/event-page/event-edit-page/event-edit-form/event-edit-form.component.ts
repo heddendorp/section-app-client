@@ -40,7 +40,8 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       hasOnlineSignup: [false, Validators.required],
       hasFee: [false, Validators.required],
       public: [false, Validators.required],
-      price: { value: 0, disabled: true },
+      trackTickets: [false, Validators.required],
+      price: [0, Validators.required],
       icon: ['']
     });
     this.iconUrl$ = this.eventForm.get('icon').valueChanges.pipe(
@@ -49,15 +50,12 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     );
     this.eventForm.get('hasOnlineSignup').valueChanges.subscribe(value => {
       if (value) {
-        this.eventForm.get('hasFee').setValue(false);
+        this.eventForm.get('trackTickets').setValue(false);
       }
     });
-    this.eventForm.get('hasFee').valueChanges.subscribe(value => {
+    this.eventForm.get('trackTickets').valueChanges.subscribe(value => {
       if (value) {
         this.eventForm.get('hasOnlineSignup').setValue(false);
-        this.eventForm.get('price').enable();
-      } else {
-        this.eventForm.get('price').disable();
       }
     });
   }
@@ -95,6 +93,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       tutorSpots: value.tutorSpots,
       hasOnlineSignup: value.hasOnlineSignup,
       hasFee: value.hasFee,
+      trackTickets: value.trackTickets,
       public: value.public,
       price: value.price || 0,
       icon: value.icon

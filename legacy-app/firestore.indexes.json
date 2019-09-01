@@ -19,9 +19,20 @@
     {
       "collectionId": "events",
       "fields": [
-        { "fieldPath": "participants", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "onlineSignups", "mode": "ARRAY_CONTAINS" },
         { "fieldPath": "start", "mode": "ASCENDING" }
       ]
+    },
+    {
+      "collectionId": "events",
+      "fields": [
+        { "fieldPath": "payedSignups", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "start", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "events",
+      "fields": [{ "fieldPath": "tutors", "mode": "ARRAY_CONTAINS" }, { "fieldPath": "start", "mode": "ASCENDING" }]
     },
     {
       "collectionId": "events",

@@ -6,6 +6,7 @@ service cloud.firestore {
         allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
     match /users/{user} {
+        allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isTutor == true;
         allow read, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true || request.auth.uid == resource.data.id;
         allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }

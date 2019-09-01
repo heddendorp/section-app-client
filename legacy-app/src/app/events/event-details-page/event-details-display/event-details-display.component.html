@@ -1,0 +1,53 @@
+<div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center">
+  <button mat-icon-button routerLink="/events" style="height: 3rem; width: 3rem; transform: translate(-4px, -12px)">
+    <mat-icon svgIcon="chevron-left" style="height: 3rem; width: 3rem;"></mat-icon>
+  </button>
+  <h4>{{ event.name }}</h4>
+</div>
+<h5>{{ event.start | date: 'short' }} - {{ event.end | date: 'short' }}</h5>
+<p class="description">{{ event.description }}</p>
+<mat-divider></mat-divider>
+<p *ngIf="signed" style="color: red">You are already signed up for this event, contact tumi-koordination@zv.tum.de to remove the registration.</p>
+<div gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
+  <mat-card *ngIf="event.hasFee || !event.hasOnlineSignup">
+    <mat-card-title>Office Sign up</mat-card-title>
+    <img mat-card-image [src]="qrCode | async" alt="event QR code" fxHide.gt-sm/>
+    <mat-card-content>
+      <p fxHide.gt-sm>Please take this code into the TUMi office to Sign up for the event</p>
+      <p fxShow.gt-sm>Take your phone to the office please, it will show the needed QR-code</p>
+      <p *ngIf="event.hasFee">
+        The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected in the office, please bring cash
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="event.hasOnlineSignup">
+    <mat-card-title>Online sign up</mat-card-title>
+    <mat-card-content>
+      <p>This event allows online sign up, you can register right here.</p>
+      <p *ngIf="event.hasFee">
+        The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected at the event, please bring cash
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button (click)="studentSignup.emit(event.id)" [disabled]="signed">Register for this event now</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card *ngIf="isTutor$ | async">
+    <mat-card-title>Tutor sign up</mat-card-title>
+    <mat-card-content>
+      <p *ngIf="event.tutorSpots > event.tutors.length; else eventFull">
+        This event still has {{ event.tutorSpots - event.tutors.length }} spots left for tutors. <br/>You can sign up
+        right here to manage this event
+      </p>
+      <p *ngIf="signed">If you are a tutor for this event you can get more info in your <a routerLink="/events/my">registered events</a></p>
+      <ng-template #eventFull>
+        <p>There are no more Tutor spots left on this event</p>
+      </ng-template>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button [disabled]="event.tutorSpots <= event.tutors.length || signed" (click)="tutorSignup.emit(event.id)">
+        Sign up as a tutor
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

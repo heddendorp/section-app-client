@@ -8,10 +8,12 @@ import { RegisteredListComponent } from './registered-list/registered-list.compo
 import { EventSignupDialogComponent } from './event-signup-dialog/event-signup-dialog.component';
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { LoadEventResolver } from './resolvers/load-event.resolver';
+import { EventDetailsDisplayComponent } from './event-details-page/event-details-display/event-details-display.component';
 
 const routes: Routes = [
   { path: 'list', component: EventListPageComponent },
-  { path: 'show/:eventId', component: EventDetailsPageComponent },
+  { path: 'show/:eventId', component: EventDetailsPageComponent, resolve: { event: LoadEventResolver } },
   { path: 'my', component: RegisteredListComponent },
   { path: '', redirectTo: 'list', pathMatch: 'full' }
 ];
@@ -23,9 +25,11 @@ const routes: Routes = [
     RegisteredListComponent,
     EventSignupDialogComponent,
     EventDetailsPageComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    EventDetailsDisplayComponent
   ],
   entryComponents: [EventSignupDialogComponent],
+  providers: [LoadEventResolver],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
 export class EventsModule {}

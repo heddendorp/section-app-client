@@ -65,14 +65,14 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         this.error$.next(`The event or user in this request could not be found!`);
         return;
       }
-      if (event.participants.length >= event.participantSpots) {
+      if (event.onlineSignups.length + event.payedSignups.length >= event.participantSpots) {
         this.error$.next(`This event is already at capacity!`);
         return;
       }
       this.event$.next(event);
       this.user$.next(user);
       this.canRegister$.next(true);
-      this.alreadyOnEvent$.next(event.participants.includes(user.id));
+      this.alreadyOnEvent$.next(event.payedSignups.includes(user.id) || event.onlineSignups.includes(user.id));
     });
   }
 

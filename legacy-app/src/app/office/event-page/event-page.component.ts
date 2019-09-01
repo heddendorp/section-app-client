@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { getFreeSpots } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-event-page',

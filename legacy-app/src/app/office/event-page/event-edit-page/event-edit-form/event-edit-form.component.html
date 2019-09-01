@@ -1,14 +1,15 @@
-<form [formGroup]="eventForm" gdAuto gdColumns="repeat(2, 1fr)" gdColumns.gt-xs="repeat(4, 1fr)" gdGap="1rem" class="grid-form">
+<form [formGroup]="eventForm" gdAuto gdColumns="repeat(2, 1fr)" gdColumns.gt-xs="repeat(4, 1fr)" gdGap="1rem"
+      class="grid-form">
   <mat-form-field gdColumn="span 2">
-    <input formControlName="name" matInput placeholder="Event Name" />
+    <input formControlName="name" matInput placeholder="Event Name"/>
   </mat-form-field>
   <div fxLayout="row" gdColumn="span 2" fxLayoutGap="2rem">
     <mat-form-field fxFlex>
-      <input formControlName="icon" matInput placeholder="Icon for your event" />
+      <input formControlName="icon" matInput placeholder="Icon for your event"/>
       <mat-hint>Try some <strong>single</strong> words and see if they match your event</mat-hint>
     </mat-form-field>
     <div fxFlex.gt-sm>
-      <img [src]="iconUrl$ | async" />
+      <img [src]="iconUrl$ | async"/>
     </div>
   </div>
   <mat-form-field>
@@ -23,7 +24,7 @@
     <mat-datepicker #startPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="startTime" matInput placeholder="Time your event starts" />
+    <input formControlName="startTime" matInput placeholder="Time your event starts"/>
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
   <mat-form-field>
@@ -38,30 +39,28 @@
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="endTime" matInput placeholder="Time your event ends" />
+    <input formControlName="endTime" matInput placeholder="Time your event ends"/>
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
   <mat-form-field gdColumn="span 2" gdGridAlign="stretch end" gdRow="span 2">
     <textarea formControlName="description" matInput placeholder="Event description" rows="4"></textarea>
   </mat-form-field>
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="start" gdColumn="span 2">
-    <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
-    <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
-    <mat-form-field>
-      <input formControlName="price" matInput placeholder="Participant cost for the event" type="number" />
-      <mat-icon matSuffix svgIcon="euro"></mat-icon>
-      <mat-hint>Only possible without online signup</mat-hint>
-    </mat-form-field>
-  </div>
+  <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
+  <mat-slide-toggle formControlName="trackTickets">Only track ticket number</mat-slide-toggle>
+  <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
   <mat-form-field>
-    <input formControlName="participantSpots" matInput placeholder="Number of spots" type="number" />
+    <input formControlName="price" matInput placeholder="Participant cost for the event" type="number"/>
+    <mat-icon matSuffix svgIcon="euro"></mat-icon>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number" />
+    <input formControlName="participantSpots" matInput placeholder="Number of spots" type="number"/>
+  </mat-form-field>
+  <mat-form-field>
+    <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number"/>
   </mat-form-field>
   <mat-slide-toggle formControlName="public" gdColumn="span 2">Event is publicly visible</mat-slide-toggle>
   <button (click)="saveChanges()" [disabled]="eventForm.invalid" color="primary" mat-stroked-button>
     Save changes
   </button>
-  <button color="warn" mat-stroked-button routerLink="../..">Discard changes</button>
+  <button mat-stroked-button routerLink="../..">Discard changes</button>
 </form>

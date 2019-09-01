@@ -1,24 +1,36 @@
-<h3 class="mat-h3">
-  Upcoming TUMi events
-</h3>
-<div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-md="repeat(3, 1fr)" gdColumns.gt-xs="repeat(2, 1fr)" gdGap="2rem">
+<h4 class="mat-h4">
+  Upcoming events
+</h4>
+<div
+  *ngIf="events?.length; else emptyList"
+  gdAuto
+  gdColumns="repeat(auto-fit, minmax(300px, 1fr))"
+  gdGap="2rem"
+>
   <mat-card *ngFor="let event of events">
-    <mat-card-header>
-      <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
-      <mat-card-title
-        >{{ event.name }}
-        <span *ngIf="event.participants.length >= event.participantSpots">(full)</span></mat-card-title
-      >
-      <mat-card-subtitle>{{ event.start | date }}</mat-card-subtitle>
-    </mat-card-header>
+    <mat-card-title-group>
+      <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/80" />
+      <mat-card-title>{{ event.name }}
+        </mat-card-title>
+      <mat-card-subtitle>{{ event.start | date: 'short' }} - <em>{{ event.freeSpots }}</em></mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-content *ngIf="isTutor$ | async">
+      Tutors still needed: {{event.tutorSpots - event.tutors.length}}
+    </mat-card-content>
     <mat-card-actions>
-      <button routerLink="/events/show/{{event.id}}" mat-button>More Info</button>
+      <button routerLink="/events/show/{{ event.id }}" mat-button>More Info</button>
     </mat-card-actions>
   </mat-card>
 </div>
 <ng-template #emptyList>
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="min-height: 50vh" class="mat-typography">
-    <img src="/assets/illustrations/empty.svg" style="height: 20vh">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="2rem"
+    style="min-height: 50vh"
+    class="mat-typography"
+  >
+    <img src="/assets/illustrations/empty.svg" style="height: 20vh" />
     <h4>Sorry, this list is empty. We'll have new events for you soon</h4>
   </div>
 </ng-template>

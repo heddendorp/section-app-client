@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,16 @@ export class UserService {
         map((user: Student) => Object.assign(user, { id })),
         catchError(err => of(undefined))
       );
+  }
+
+  public async fetchUsers(ids: string[]) {
+    return await Promise.all(
+      ids.map(id =>
+        this.getOne(id)
+          .pipe(first())
+          .toPromise()
+      )
+    );
   }
 
   public save(user: Student) {

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TumiEvent } from '../../../shared/services/event.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-event-list',
@@ -9,8 +11,11 @@ import { TumiEvent } from '../../../shared/services/event.service';
 export class EventListComponent implements OnInit {
   @Input() events: TumiEvent[];
   @Output() details = new EventEmitter<TumiEvent>();
+  isTutor$: Observable<boolean>;
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.isTutor$ = this.authService.isTutor;
+  }
 }
