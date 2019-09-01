@@ -14,10 +14,6 @@
       <button mat-raised-button routerLink="/party-animals" color="primary">Check it out now!</button>
     </mat-card-actions>
   </mat-card>
-  <p class="mat-body">
-    TUMinternational (or TUMi for short) is the orientation and support program for new international students at TUM.
-    Here you can find our future planned events.
-  </p>
   <button mat-stroked-button routerLink="/about">Learn more about TUMi</button>
   <mat-divider></mat-divider>
   <app-event-list (details)="openEventDialog($event)" [events]="events$ | async"></app-event-list>
