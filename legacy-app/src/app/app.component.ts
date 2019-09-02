@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   authenticated$: Observable<boolean>;
   signedUp$: Observable<boolean>;
   admin$: Observable<boolean>;
+  tutor$: Observable<boolean>;
   color$: Observable<ThemePalette>;
   class$: Observable<string>;
   @ViewChild(RouterOutlet, { static: true }) outlet: RouterOutlet;
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authenticated$ = this.authService.authenticated;
     this.signedUp$ = this.authService.signedUp;
     this.admin$ = this.authService.isAdmin;
+    this.tutor$ = this.authService.isTutor;
     timer(1000, 60000)
       .pipe(
         tap(() => console.log('timer')),

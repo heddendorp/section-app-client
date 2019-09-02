@@ -18,6 +18,7 @@
   <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
     <mat-sidenav
       #nav
+      style="width: 260px;"
       [fixedInViewport]="isMobile$ | async"
       [mode]="(isMobile$ | async) ? 'over' : 'side'"
       [opened]="!(isMobile$ | async) && !!(color$ | async)"
@@ -47,6 +48,22 @@
           </a>
           <ng-container *ngIf="admin$ | async">
             <mat-divider></mat-divider>
+            <h3 matSubheader>For Tutors</h3>
+            <a mat-list-item routerLink="/tutors/events" routerLinkActive="active">
+              <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
+              <h3 mat-line>Events I'm running</h3>
+            </a>
+            <a mat-list-item routerLink="/tutors/list" routerLinkActive="active">
+              <mat-icon mat-list-icon svgIcon="users"></mat-icon>
+              <h3 mat-line>All Tutors</h3>
+            </a>
+            <!--<a mat-list-item routerLink="/office/funds" routerLinkActive="active">
+              <mat-icon mat-list-icon svgIcon="money"></mat-icon>
+              <h3 mat-line>Money & Transactions</h3>
+            </a>-->
+          </ng-container>
+          <ng-container *ngIf="admin$ | async">
+            <mat-divider></mat-divider>
             <h3 matSubheader>Office section</h3>
             <a mat-list-item routerLink="/office/events" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
@@ -56,26 +73,10 @@
               <mat-icon mat-list-icon svgIcon="users"></mat-icon>
               <h3 mat-line>Manage Users</h3>
             </a>
-            <!--<a mat-list-item routerLink="/office/students" routerLinkActive="active">
-              <mat-icon mat-list-icon svgIcon="student"></mat-icon>
-              <h3 mat-line>Manage Students</h3>
-            </a>
-            <a mat-list-item routerLink="/office/tutors" routerLinkActive="active">
-              <mat-icon mat-list-icon svgIcon="management"></mat-icon>
-              <h3 mat-line>Manage Tutors</h3>
-            </a>-->
             <a mat-list-item routerLink="/office/funds" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="money"></mat-icon>
               <h3 mat-line>Money & Transactions</h3>
             </a>
-            <!--<a mat-list-item routerLink="/office/requests" routerLinkActive="active">
-              <mat-icon mat-list-icon svgIcon="credentials"></mat-icon>
-              <h3 mat-line>Authentication requests</h3>
-            </a>-->
-            <!--<a mat-list-item routerLinkActive="active" routerLink="/about">
-                                        <mat-icon mat-list-icon svgIcon="about"></mat-icon>
-                                        <h3 mat-line>Global Settings</h3>
-                                    </a>-->
           </ng-container>
         </mat-nav-list>
         <div fxFlex></div>
@@ -86,7 +87,7 @@
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>
-      <main>
+      <main class="mat-typography">
         <router-outlet></router-outlet>
       </main>
       <!--<div class="dark-theme">

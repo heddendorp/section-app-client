@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Student, UserService } from '../../shared/services/user.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users-page',
@@ -6,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users-page.component.scss']
 })
 export class UsersPageComponent implements OnInit {
-  constructor() {}
+  users$: Observable<Student[]>;
+  columns$ = new BehaviorSubject(['email', 'faculty']);
 
-  ngOnInit() {}
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.users$ = this.userService.students.pipe(tap(console.log));
+  }
 }

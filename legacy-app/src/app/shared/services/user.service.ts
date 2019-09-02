@@ -11,7 +11,21 @@ export class UserService {
 
   get students(): Observable<Student[]> {
     return this.firestore
-      .collection<Student>('users', ref => ref.orderBy('lastName').where('disabled', '==', false))
+      .collection<Student>('users')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        catchError(err => {
+          console.groupCollapsed('Firebase Error: get students()');
+          console.error(err);
+          console.groupEnd();
+          return of([]);
+        })
+      );
+  }
+
+  get tutors(): Observable<Student[]> {
+    return this.firestore
+      .collection<Student>('users', ref => ref.orderBy('lastName').where('isTutor', '==', true))
       .valueChanges({ idField: 'id' })
       .pipe(
         catchError(err => {
@@ -55,15 +69,17 @@ export class UserService {
 export interface Student {
   id: string;
   userId: string;
-  displayName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   academicMail: string;
   faculty: string;
   country: string;
   type: string;
   degree: string;
-  disabled: false;
+  phone?: string;
   isTutor: boolean;
+  isEditor: boolean;
   isAdmin: boolean;
   verified: boolean;
 }

@@ -26,6 +26,8 @@
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <strong style="margin-bottom: 1rem;" *ngIf="event.isOnline && event.hasFee">Please remember to bring {{event.price}} Euro to this event!</strong>
+        <strong style="margin-bottom: 1rem;" *ngIf="event.isTutor">You have signed up to be a Tutor for this event!</strong>
         <p class="description">
           {{ event.description }}
         </p>

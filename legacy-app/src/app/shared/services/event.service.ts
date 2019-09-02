@@ -157,6 +157,7 @@ interface BaseEvent {
   hasOnlineSignup: boolean;
   freeSpots?: string;
   isTutor?: boolean;
+  isOnline?: boolean;
 }
 
 export interface TumiEvent extends BaseEvent {

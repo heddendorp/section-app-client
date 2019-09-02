@@ -2,19 +2,15 @@
   "indexes": [
     {
       "collectionId": "users",
-      "fields": [
-        { "fieldPath": "disabled", "mode": "ASCENDING" },
-        { "fieldPath": "isTutor", "mode": "ASCENDING" },
-        { "fieldPath": "lastName", "mode": "ASCENDING" }
-      ]
+      "fields": [{ "fieldPath": "isTutor", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
     },
     {
       "collectionId": "users",
-      "fields": [
-        { "fieldPath": "disabled", "mode": "ASCENDING" },
-        { "fieldPath": "isStudent", "mode": "ASCENDING" },
-        { "fieldPath": "lastName", "mode": "ASCENDING" }
-      ]
+      "fields": [{ "fieldPath": "isEditor", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
+    },
+    {
+      "collectionId": "users",
+      "fields": [{ "fieldPath": "isStudent", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
     },
     {
       "collectionId": "events",

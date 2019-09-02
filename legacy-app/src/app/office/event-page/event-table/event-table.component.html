@@ -23,7 +23,7 @@
 
   <ng-container matColumnDef="tutornum">
     <th *matHeaderCellDef mat-header-cell>Needed Tutors</th>
-    <td *matCellDef="let element" mat-cell>{{ element.tutorSpots }}</td>
+    <td *matCellDef="let element" mat-cell>{{element.tutorSpots - element.tutors.length}} / {{ element.tutorSpots }}</td>
   </ng-container>
 
   <tr *matHeaderRowDef="displayedColumns | async" mat-header-row></tr>

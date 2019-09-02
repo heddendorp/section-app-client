@@ -84,7 +84,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
     if (event.hasFee) {
       this.moneyService.addTransaction({
         value: event.price,
-        comment: `Event Signup (${event.name}) payed by ${user.displayName} (${user.email})`
+        comment: `Event Signup (${event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`
       });
     }
     await this.eventService.register(user, event);
