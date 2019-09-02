@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Student } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { allFaculties, allTargets, allTypes } from '../../uni-data';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-data-change',
@@ -15,30 +17,44 @@ export class UserDataChangeComponent {
   targets = allTargets;
   studentTypes = allTypes;
 
+  isAdmin$: Observable<boolean>;
+  isTutor$: Observable<boolean>;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { user: Student },
-    public dialog: MatDialogRef<UserDataChangeComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { user: Student },
+    private dialog: MatDialogRef<UserDataChangeComponent>,
+    private authService: AuthService,
     fb: FormBuilder
   ) {
     this.userForm = fb.group({
-      name: [data.user.displayName, Validators.required],
+      firstName: [data.user.firstName, Validators.required],
+      lastName: [data.user.lastName, Validators.required],
       email: [data.user.academicMail, Validators.required],
+      phone: [data.user.academicMail],
       faculty: [data.user.faculty, Validators.required],
       degree: [data.user.degree, Validators.required],
       country: [data.user.country, Validators.required],
-      type: [data.user.type, Validators.required]
+      type: [data.user.type, Validators.required],
+      isEditor: [data.user.isEditor, Validators.required],
+      isTutor: [data.user.isTutor, Validators.required]
     });
+    this.isTutor$ = authService.isTutor;
+    this.isAdmin$ = authService.isAdmin;
   }
 
   submitData() {
     const values = this.userForm.value;
     const patch: Partial<Student> = {
-      displayName: values.name,
+      firstName: values.firstName,
+      lastName: values.lastName,
       academicMail: values.email,
+      phone: values.phone,
       faculty: values.faculty,
       degree: values.degree,
       country: values.country,
-      type: values.type
+      type: values.type,
+      isEditor: values.isEditor,
+      isTutor: values.isTutor
     };
     this.dialog.close(Object.assign({}, this.data.user, patch));
   }
