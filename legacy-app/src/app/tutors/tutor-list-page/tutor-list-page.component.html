@@ -1,7 +1,7 @@
 <h3>All Tutors</h3>
 <mat-list>
   <mat-list-item *ngFor="let tutor of tutors$ | async; trackBy getId">
-    <h4 mat-line>{{tutor.firstName}} {{tutor.lastName}}</h4>
+    <p mat-line style="font-size: 1rem;"><strong>{{tutor.firstName}} {{tutor.lastName}}</strong></p>
     <p mat-line>E-Mail: <a class="styled" target="_blank" href="mailto:{{tutor.email}}">{{tutor.email}}</a></p>
     <p mat-line>Phone: <a class="styled" target="_blank" href="tel:{{tutor.phone}}">{{tutor.phone}}</a></p>
   </mat-list-item>

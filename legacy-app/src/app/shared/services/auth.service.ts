@@ -34,6 +34,13 @@ export class AuthService {
     );
   }
 
+  public get isEditor(): Observable<boolean> {
+    return this.user.pipe(
+      map(student => student.isEditor || student.isAdmin),
+      startWith(false)
+    );
+  }
+
   public get user(): Observable<Student> {
     return this.afAuth.authState.pipe(
       switchMap((user: User) => {

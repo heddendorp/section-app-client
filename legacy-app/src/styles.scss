@@ -30,6 +30,7 @@ $custom-typography: mat-typography-config(
     size: 1.5rem !important;
     weight: mat-font-weight($custom-typography, subheading-1) !important;
   }
+  line-height: 1.6rem !important;
 }
 
 .mat-dialog-title {
@@ -171,14 +172,13 @@ body {
 }
 
 a.styled {
-  font-weight: bold;
-  text-decoration: none;
+  text-decoration: underline dashed;
   color: inherit;
   &:hover {
     text-decoration: underline;
   }
   &:visited {
-    text-decoration: dashed;
+    text-decoration: underline double;
   }
 }
 

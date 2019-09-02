@@ -17,7 +17,7 @@ export class EventTableComponent implements OnInit {
   constructor(media: MediaObserver) {
     this.displayedColumns = media.asObservable().pipe(
       map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
-      map(simple => (simple ? ['date', 'name', 'tutornum'] : ['date', 'name', 'time', 'tutors', 'tutornum']))
+      map(simple => (simple ? ['date', 'name', 'tutornum'] : ['date', 'name', 'time', 'tutornum']))
     );
   }
 

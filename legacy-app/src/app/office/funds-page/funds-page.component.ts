@@ -34,5 +34,6 @@ export class FundsPageComponent implements OnInit {
 
   addTransaction() {
     this.moneyService.addTransaction(this.transactionForm.value);
+    this.transactionForm.reset();
   }
 }

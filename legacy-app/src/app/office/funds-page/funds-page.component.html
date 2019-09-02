@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h1 class="mat-h2 no-margin">Funds</h1>
-  <h2 class="mat-h4">Currently the register should hold {{ balance$ | async }}€</h2>
+  <h3 class="no-margin">Funds</h3>
+  <h4>Currently the register should hold {{ balance$ | async }}€</h4>
   <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <mat-list fxFlex>
       <mat-list-item *ngFor="let transaction of transactions$ | async" >
@@ -14,7 +14,7 @@
       </mat-list-item>
     </mat-list>
     <form [formGroup]="transactionForm" fxFlex="30" fxLayout="column">
-      <h3 class="mat-h3">Add a new transaction</h3>
+      <h4>Add a new transaction</h4>
       <mat-form-field>
         <input formControlName="comment" matInput placeholder="Subject of the transaction" />
       </mat-form-field>
