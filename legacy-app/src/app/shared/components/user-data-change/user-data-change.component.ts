@@ -56,6 +56,6 @@ export class UserDataChangeComponent {
       isEditor: values.isEditor,
       isTutor: values.isTutor
     };
-    this.dialog.close(Object.assign({}, this.data.user, patch));
+    this.dialog.close(Object.assign({}, { id: this.data.user.id, verified: this.data.user.verified }, patch));
   }
 }

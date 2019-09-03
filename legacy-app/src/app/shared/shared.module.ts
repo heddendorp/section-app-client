@@ -22,6 +22,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { FacultyPipe } from './services/faculty.pipe';
+import { TypePipe } from './services/type.pipe';
+import { DegreePipe } from './services/degree.pipe';
 
 const materialModules = [
   MatButtonModule,
@@ -53,8 +56,17 @@ const materialModules = [
       useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true }
     }
   ],
-  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule, IconToastComponent, UserDataChangeComponent],
-  declarations: [IconToastComponent, UserDataChangeComponent],
+  exports: [
+    materialModules,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    IconToastComponent,
+    UserDataChangeComponent,
+    FacultyPipe,
+    DegreePipe,
+    TypePipe
+  ],
+  declarations: [IconToastComponent, UserDataChangeComponent, FacultyPipe, TypePipe, DegreePipe],
   entryComponents: [IconToastComponent, UserDataChangeComponent]
 })
 export class SharedModule {}

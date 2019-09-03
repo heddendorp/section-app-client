@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { getFaculty } from '../../../shared/uni-data';
 
 @Component({
   selector: 'app-people-table',
@@ -87,5 +88,9 @@ export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
+  }
+
+  resolveFaculty(key: string) {
+    return getFaculty(key);
   }
 }

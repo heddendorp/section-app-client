@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
-import { catchError, first, map } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, first, map, switchMap } from 'rxjs/operators';
+import { EventService, TumiEvent } from './event.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore, private eventService: EventService) {}
 
   get students(): Observable<Student[]> {
     return this.firestore
@@ -48,6 +49,28 @@ export class UserService {
       );
   }
 
+  public getFullDetails(id): Observable<any> {
+    return this.firestore
+      .collection<Student>('users')
+      .doc(id)
+      .valueChanges()
+      .pipe(
+        map((user: Student) => Object.assign(user, { id })),
+        switchMap(user =>
+          combineLatest([
+            this.eventService.getOnlineEventsForUser(id),
+            this.eventService.getPayedEventsForUser(id),
+            this.eventService.getTutorEventsForUser(id)
+          ]).pipe(
+            map(([onlineEvents, payedEvents, tutorEvents]) =>
+              Object.assign({}, user, { onlineEvents, payedEvents, tutorEvents })
+            )
+          )
+        ),
+        catchError(err => of(undefined))
+      );
+  }
+
   public async fetchUsers(ids: string[]) {
     return await Promise.all(
       ids.map(id =>
@@ -68,7 +91,6 @@ export class UserService {
 
 export interface Student {
   id: string;
-  userId: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -82,4 +104,7 @@ export interface Student {
   isEditor: boolean;
   isAdmin: boolean;
   verified: boolean;
+  onlineEvents?: TumiEvent[];
+  payedEvents?: TumiEvent[];
+  tutorEvents?: TumiEvent[];
 }

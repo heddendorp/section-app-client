@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 })
 export class UsersPageComponent implements OnInit {
   users$: Observable<Student[]>;
-  columns$ = new BehaviorSubject(['email', 'faculty']);
+  columns$ = new BehaviorSubject(['lastName', 'firstName', 'email', 'faculty']);
 
   constructor(private userService: UserService) {}
 

@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /events/{event} {
         allow read: if resource.data.public || request.auth.uid != null;
-        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isEditor == true;
     }
     match /users/{user} {
         allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isTutor == true;

@@ -1,0 +1,15 @@
+<h4>Data this user entered</h4>
+<p>First Name: {{user.firstName}}</p>
+<p>Last Name: {{user.lastName}}</p>
+<p>Phone: {{user.phone}}</p>
+<p>EMail: {{user.email}} (is verified: {{user.verified}})</p>
+<p>Academic Mail: {{user.academicMail}}</p>
+<p>Country: {{user.country}}</p>
+<p>Faculty: {{user.faculty | faculty}}</p>
+<p>Type: {{user.type | type}}</p>
+<p>Degree: {{user.degree | degree}}</p>
+<br>
+<p>Is Tutor: {{user.isTutor}}</p>
+<p>Is Editor: {{user.isEditor}}</p>
+<p>Is Admin: {{user.isAdmin}}</p>
+<button mat-flat-button (click)="changeData()">Edit Data</button>

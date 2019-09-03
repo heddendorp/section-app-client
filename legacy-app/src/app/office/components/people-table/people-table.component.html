@@ -24,7 +24,7 @@
 
   <ng-container matColumnDef="faculty">
     <th *matHeaderCellDef mat-header-cell>Faculty</th>
-    <td *matCellDef="let element" mat-cell>{{ element.faculty }}</td>
+    <td *matCellDef="let element" mat-cell>{{ resolveFaculty(element.faculty) }}</td>
   </ng-container>
 
   <ng-container matColumnDef="country">
@@ -38,7 +38,7 @@
   </ng-container>
 
   <tr *matHeaderRowDef="columns" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row></tr>
+  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row routerLink="/office/users/{{row.id}}"></tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

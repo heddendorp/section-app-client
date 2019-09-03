@@ -1,0 +1,19 @@
+<h4>Events this user signed up for</h4>
+<p>Signed up online for</p>
+<mat-list dense>
+  <mat-list-item *ngFor="let event of user.onlineEvents; trackBy:trackByFunction">
+    {{event.name}}
+  </mat-list-item>
+</mat-list>
+<p>Signed with payment for</p>
+<mat-list dense>
+  <mat-list-item *ngFor="let event of user.payedEvents; trackBy:trackByFunction">
+    {{event.name}}
+  </mat-list-item>
+</mat-list>
+<p>Signed as tutor for</p>
+<mat-list dense>
+  <mat-list-item *ngFor="let event of user.tutorEvents; trackBy:trackByFunction">
+    {{event.name}}
+  </mat-list-item>
+</mat-list>

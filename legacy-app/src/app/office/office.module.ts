@@ -12,10 +12,15 @@ import { FundsPageComponent } from './funds-page/funds-page.component';
 import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
 import { UsersPageComponent } from './users-page/users-page.component';
+import { EditUserPageComponent } from './users-page/edit-user-page/edit-user-page.component';
+import { ShowUserdataComponent } from './users-page/edit-user-page/show-userdata/show-userdata.component';
+import { ShowUsereventsComponent } from './users-page/edit-user-page/show-userevents/show-userevents.component';
+import { LoadUserdataResolver } from './resolvers/load-userdata.resolver';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: 'users', component: UsersPageComponent },
+  { path: 'users/:userId', component: EditUserPageComponent, resolve: [LoadUserdataResolver] },
   { path: 'funds', component: FundsPageComponent },
   { path: 'events', component: EventPageComponent },
   { path: 'events/edit/:id', component: EventEditPageComponent }
@@ -32,8 +37,12 @@ const routes: Routes = [
     FundsPageComponent,
     CsvInputDialogComponent,
     PeopleTableComponent,
-    UsersPageComponent
+    UsersPageComponent,
+    EditUserPageComponent,
+    ShowUserdataComponent,
+    ShowUsereventsComponent
   ],
+  providers: [LoadUserdataResolver],
   entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })

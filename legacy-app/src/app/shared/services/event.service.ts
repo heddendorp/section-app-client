@@ -54,35 +54,42 @@ export class EventService {
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.authService.user.pipe(
       switchMap(user => {
-        const onlineSinged = this.firestore
-          .collection<SavedEvent>('events', ref =>
-            ref.where('onlineSignups', 'array-contains', user.id).orderBy('start')
-          )
-          .valueChanges({ idField: 'id' })
-          .pipe(
-            map(events => events.map(this.parseEvent)),
-            map(events => events.map(event => Object.assign({}, event, { isOnline: true })))
-          );
-        const officeSigned = this.firestore
-          .collection<SavedEvent>('events', ref =>
-            ref.where('payedSignups', 'array-contains', user.id).orderBy('start')
-          )
-          .valueChanges({ idField: 'id' })
-          .pipe(map(events => events.map(this.parseEvent)));
-        const tutorSigned = this.firestore
-          .collection<SavedEvent>('events', ref => ref.where('tutors', 'array-contains', user.id).orderBy('start'))
-          .valueChanges({ idField: 'id' })
-          .pipe(
-            map(events => events.map(this.parseEvent)),
-            map(events => events.map(event => Object.assign({}, event, { isTutor: true })))
-          );
+        const onlineSinged = this.getOnlineEventsForUser(user.id);
+        const officeSigned = this.getPayedEventsForUser(user.id);
+        const tutorSigned = this.getTutorEventsForUser(user.id);
         return combineLatest(onlineSinged, officeSigned, tutorSigned);
       }),
-      tap(console.log),
       map(([online, office, tutor]) =>
         [...online, ...office, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1))
       )
     );
+  }
+
+  public getOnlineEventsForUser(userId) {
+    return this.firestore
+      .collection<SavedEvent>('events', ref => ref.where('onlineSignups', 'array-contains', userId).orderBy('start'))
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(events => events.map(this.parseEvent)),
+        map(events => events.map(event => Object.assign({}, event, { isOnline: true })))
+      );
+  }
+
+  public getPayedEventsForUser(userId) {
+    return this.firestore
+      .collection<SavedEvent>('events', ref => ref.where('payedSignups', 'array-contains', userId).orderBy('start'))
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  public getTutorEventsForUser(userId) {
+    return this.firestore
+      .collection<SavedEvent>('events', ref => ref.where('tutors', 'array-contains', userId).orderBy('start'))
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(events => events.map(this.parseEvent)),
+        map(events => events.map(event => Object.assign({}, event, { isTutor: true })))
+      );
   }
 
   public createEvent(): Promise<string> {
