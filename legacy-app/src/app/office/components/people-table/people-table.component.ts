@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChil
 import { MatPaginator } from '@angular/material/paginator';
 import { Student } from '../../../shared/services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { getFaculty } from '../../../shared/uni-data';
@@ -17,6 +17,7 @@ export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() columns: string[];
   destroyed$ = new Subject();
   filterForm: FormGroup;
+  searchControl = new FormControl('');
   filterIndeterminate = new BehaviorSubject(false);
 
   dataSource = new MatTableDataSource<Student>(this.people);
@@ -34,6 +35,9 @@ export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.searchControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(value => (this.dataSource.filter = value));
     this.filterForm.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(value => {
       if (value.showStudents && value.showTutors && value.showAdmins) {
         this.filterForm.get('showAll').setValue(true, { emitEvent: false });

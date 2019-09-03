@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Student, UserService } from '../../shared/services/user.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-users-page',
@@ -10,9 +11,14 @@ import { tap } from 'rxjs/operators';
 })
 export class UsersPageComponent implements OnInit {
   users$: Observable<Student[]>;
-  columns$ = new BehaviorSubject(['lastName', 'firstName', 'email', 'faculty']);
+  columns$;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, media: MediaObserver) {
+    this.columns$ = media.asObservable().pipe(
+      map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
+      map(simple => (simple ? ['lastName', 'firstName', 'email'] : ['lastName', 'firstName', 'email', 'country']))
+    );
+  }
 
   ngOnInit() {
     this.users$ = this.userService.students.pipe(tap(console.log));
