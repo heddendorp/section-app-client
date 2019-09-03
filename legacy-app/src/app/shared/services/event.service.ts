@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { firestore as importStore } from 'firebase/app';
 import { AuthService } from './auth.service';
+import { Student } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,22 @@ export class EventService {
         [...online, ...office, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1))
       )
     );
+  }
+
+  public get futureEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('external', '==', false)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  public get tutoredEvents(): Observable<TumiEvent[]> {
+    return this.authService.user.pipe(switchMap(user => this.getTutorEventsForUser(user.id)));
   }
 
   public getOnlineEventsForUser(userId) {
@@ -171,6 +188,9 @@ interface BaseEvent {
   freeSpots?: string;
   isTutor?: boolean;
   isOnline?: boolean;
+  onlineUsers?: Student[];
+  payedUsers?: Student[];
+  tutorUsers?: Student[];
 }
 
 export interface TumiEvent extends BaseEvent {

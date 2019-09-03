@@ -79,7 +79,7 @@ export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.people.firstChange && changes.people) {
+    if (changes.people && !changes.people.firstChange) {
       this.dataSource.data = changes.people.currentValue;
       this.filterForm.reset({
         showAll: true,

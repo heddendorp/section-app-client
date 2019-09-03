@@ -1,1 +1,23 @@
-<p>run-events-page works!</p>
+<h4>My Events</h4>
+<div
+  gdAuto
+  gdColumns="repeat(auto-fit, minmax(300px, 1fr))"
+  gdGap="1rem"
+>
+  <mat-card *ngFor="let event of events$ | async" fxLayout="column">
+    <mat-card-title-group>
+      <img fxFlex="80px" *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
+      <mat-card-title>{{ event.name }}
+      </mat-card-title>
+      <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-content>
+      <p>Tutors still needed: {{event.tutorSpots - event.tutors.length}}</p>
+      <p>User signed up: {{event.onlineSignups.length + event.payedSignups.length}} / {{event.participantSpots}}</p>
+    </mat-card-content>
+    <div fxFlex></div>
+    <mat-card-actions fxLayout="row">
+      <button routerLink="./{{ event.id }}" mat-button fxFlex>More Info</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

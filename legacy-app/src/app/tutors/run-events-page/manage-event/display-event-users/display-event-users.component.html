@@ -1,0 +1,22 @@
+<h4>Signed up users</h4>
+
+<p><strong>Tutors</strong></p>
+<mat-list>
+  <mat-list-item *ngFor="let user of event.tutorUsers">
+    {{user.firstName}} {{ user.lastName}} ({{user.email}})
+  </mat-list-item>
+</mat-list>
+<p><strong>Online Registrations</strong></p>
+<mat-list dense>
+  <mat-list-item *ngFor="let user of event.onlineUsers">
+    {{user.firstName}} {{ user.lastName}} ({{user.email}})
+  </mat-list-item>
+</mat-list>
+<ng-container *ngIf="event.hasFee || event.payedSignups.length">
+  <p><strong>Payed Registrations</strong></p>
+  <mat-list dense>
+    <mat-list-item *ngFor="let user of event.payedUsers">
+      {{user.firstName}} {{ user.lastName}} ({{user.email}})
+    </mat-list-item>
+  </mat-list>
+</ng-container>
