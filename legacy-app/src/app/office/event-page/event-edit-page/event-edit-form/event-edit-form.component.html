@@ -45,6 +45,7 @@
   <mat-form-field gdColumn="span 2" gdGridAlign="stretch end" gdRow="span 2">
     <textarea formControlName="description" matInput placeholder="Event description" rows="4"></textarea>
   </mat-form-field>
+  <mat-slide-toggle formControlName="external">External Event</mat-slide-toggle>
   <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
   <mat-slide-toggle formControlName="trackTickets">Only track ticket number</mat-slide-toggle>
   <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
@@ -53,10 +54,19 @@
     <mat-icon matSuffix svgIcon="euro"></mat-icon>
   </mat-form-field>
   <mat-form-field>
+    <input formControlName="fullCost" matInput placeholder="Full cost of the Event" type="number"/>
+    <mat-icon matSuffix svgIcon="euro"></mat-icon>
+    <mat-hint>What will be given to the Tutor</mat-hint>
+  </mat-form-field>
+  <mat-form-field>
     <input formControlName="participantSpots" matInput placeholder="Number of spots" type="number"/>
   </mat-form-field>
   <mat-form-field>
     <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number"/>
+  </mat-form-field>
+  <mat-form-field gdColumn="span 2">
+    <input type="href" formControlName="signupLink" matInput placeholder="Singup Link"/>
+    <mat-hint>Link where users can sign up for external events</mat-hint>
   </mat-form-field>
   <mat-slide-toggle formControlName="public" gdColumn="span 2">Event is publicly visible</mat-slide-toggle>
   <button (click)="saveChanges()" [disabled]="eventForm.invalid" color="primary" mat-stroked-button>

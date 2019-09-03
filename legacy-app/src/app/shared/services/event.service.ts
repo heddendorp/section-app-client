@@ -21,10 +21,13 @@ export class EventService {
     tutors: [],
     tutorSpots: 0,
     price: 0,
+    fullCost: 0,
     soldTickets: 0,
     notes: '',
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     public: false,
+    external: false,
+    signupLink: '',
     hasFee: false,
     trackTickets: false,
     hasOnlineSignup: true
@@ -156,9 +159,12 @@ interface BaseEvent {
   notes: string;
   description: string;
   price: number;
+  fullCost: number;
   soldTickets: number;
   public: boolean;
   icon?: string;
+  external: boolean;
+  signupLink: string;
   hasFee: boolean;
   trackTickets: boolean;
   hasOnlineSignup: boolean;

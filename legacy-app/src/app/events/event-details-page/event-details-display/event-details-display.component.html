@@ -15,13 +15,31 @@
 <p *ngIf="signed" style="color: red">
   You are already signed up for this event, contact tumi-koordination@zv.tum.de to remove the registration.
 </p>
-<div gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
+<ng-template #external>
+  <mat-card>
+    <mat-card-title>External event</mat-card-title>
+    <mat-card-content>
+      <p>
+        This event is not offered by TUMi, however we feel like it would be interesting to you. <br/>
+        You can sing up by following the link we provided.
+      </p>
+      <p>Please keep in mind that you will not see this event in your personal overview and we can't guarantee
+        places.</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-stroked-button target="_blank" href="{{event.signupLink}}">Sign up now</a>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>
+<div *ngIf="!event.external; else external" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
   <ng-template #noLogin>
     <mat-card>
       <mat-card-title>Log in to sign up</mat-card-title>
       <mat-card-content>
-        <p>In order to sign up for TUMi events you have to create an account and log in, after that you can come back
-          here and register for the event</p>
+        <p>
+          In order to sign up for TUMi events you have to create an account and log in, after that you can come back
+          here and register for the event
+        </p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-stroked-button routerLink="/signup">Log in now!</button>
@@ -64,8 +82,8 @@
           right here to manage this event
         </p>
         <p *ngIf="signed">
-          If you are a tutor for this event you can get more info in your <a routerLink="/events/my">registered
-          events</a>
+          If you are a tutor for this event you can get more info in your
+          <a routerLink="/events/my">registered events</a>
         </p>
         <ng-template #eventFull>
           <p>There are no more Tutor spots left on this event</p>

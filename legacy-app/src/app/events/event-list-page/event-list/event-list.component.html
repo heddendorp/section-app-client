@@ -8,13 +8,16 @@
   gdGap="1rem"
 >
   <mat-card *ngFor="let event of events" fxLayout="column">
+    <div class="external" *ngIf="event.external">External Event</div>
     <mat-card-title-group>
-      <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+      <img fxFlex="80px" *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
       <mat-card-title>{{ event.name }}
-        </mat-card-title>
-      <mat-card-subtitle>{{ event.start | date: 'short' }} - <em>{{ event.freeSpots }}</em></mat-card-subtitle>
+      </mat-card-title>
+      <mat-card-subtitle>{{ event.start | date: 'short' }}
+        <ng-container *ngIf="!event.external"> - <em>{{ event.freeSpots }}</em></ng-container>
+      </mat-card-subtitle>
     </mat-card-title-group>
-    <mat-card-content *ngIf="isTutor$ | async">
+    <mat-card-content *ngIf="(isTutor$ | async) && !event.external">
       Tutors still needed: {{event.tutorSpots - event.tutors.length}}
     </mat-card-content>
     <div fxFlex></div>
@@ -31,7 +34,7 @@
     style="min-height: 50vh"
     class="mat-typography"
   >
-    <img src="/assets/illustrations/empty.svg" style="height: 20vh" />
+    <img src="/assets/illustrations/empty.svg" style="height: 20vh"/>
     <h4>Sorry, this list is empty. We'll have new events for you soon</h4>
   </div>
 </ng-template>
