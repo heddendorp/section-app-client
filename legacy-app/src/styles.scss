@@ -14,10 +14,10 @@ $custom-typography: mat-typography-config(
   $title: mat-typography-level(3.75rem, 3.75rem, 400, 'Josefin Sans', -0.05416rem),
   $subheading-2: mat-typography-level(3rem, 3rem, 400, 'Josefin Sans', 0),
   $subheading-1: mat-typography-level(2.125rem, 2.125rem, 400, 'Josefin Sans', 0.0073rem),
-  $body-2: mat-typography-level(0.875rem, 0.875rem, 400, $letter-spacing: 0.0178rem),
-  $body-1: mat-typography-level(1rem, 1rem, 400, $letter-spacing: 0.0312rem),
+  $body-2: mat-typography-level(0.875rem, 1rem, 400, $letter-spacing: 0.0178rem),
+  $body-1: mat-typography-level(1rem, 1.2rem, 400, $letter-spacing: 0.0312rem),
   $caption: mat-typography-level(0.75rem, 0.75rem, 400, $letter-spacing: 0.03333rem),
-  $button: mat-typography-level(0.875rem, 0.875rem, 500, $letter-spacing: 0.0892rem)
+  $button: mat-typography-level(0.875rem, 0.95rem, 500, $letter-spacing: 0.0892rem)
 );
 
 // Include the common styles for Angular Material. We include this here so that you only

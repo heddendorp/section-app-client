@@ -5,11 +5,11 @@
   *ngIf="events?.length; else emptyList"
   gdAuto
   gdColumns="repeat(auto-fit, minmax(300px, 1fr))"
-  gdGap="2rem"
+  gdGap="1rem"
 >
-  <mat-card *ngFor="let event of events">
+  <mat-card *ngFor="let event of events" fxLayout="column">
     <mat-card-title-group>
-      <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/80" />
+      <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
       <mat-card-title>{{ event.name }}
         </mat-card-title>
       <mat-card-subtitle>{{ event.start | date: 'short' }} - <em>{{ event.freeSpots }}</em></mat-card-subtitle>
@@ -17,8 +17,9 @@
     <mat-card-content *ngIf="isTutor$ | async">
       Tutors still needed: {{event.tutorSpots - event.tutors.length}}
     </mat-card-content>
-    <mat-card-actions>
-      <button routerLink="/events/show/{{ event.id }}" mat-button>More Info</button>
+    <div fxFlex></div>
+    <mat-card-actions fxLayout="row">
+      <button routerLink="/events/show/{{ event.id }}" mat-button fxFlex>More Info</button>
     </mat-card-actions>
   </mat-card>
 </div>

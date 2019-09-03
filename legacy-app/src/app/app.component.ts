@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Observable, Subject, timer } from 'rxjs';
-import { first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { first, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
@@ -44,9 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
     media: MediaObserver
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
-    this.isMobile$ = media
-      .asObservable()
-      .pipe(map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')));
+    this.isMobile$ = media.asObservable().pipe(
+      map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')),
+      startWith(false)
+    );
   }
 
   ngOnInit(): void {
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
         } else {
           return 'primary';
         }
-      })
+      }),
+      startWith('primary')
     );
     this.class$ = this.color$.pipe(map(theme => (theme ? '' : 'dark-theme')));
     this.authenticated$ = this.authService.authenticated;

@@ -17,11 +17,13 @@ export class EventDetailsDisplayComponent implements OnInit {
   @Output() studentSignup = new EventEmitter();
   qrCode = new BehaviorSubject(null);
   isTutor$;
+  isAuthenticated$;
 
   constructor(private qrService: QrService, private authService: AuthService) {}
 
   ngOnInit() {
     this.isTutor$ = this.authService.isTutor;
+    this.isAuthenticated$ = this.authService.authenticated;
     this.authService.user
       .pipe(
         tap(user =>

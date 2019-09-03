@@ -38,11 +38,21 @@ mat-sidenav {
       margin-right: 1rem;
     }
   }
-  mat-nav-list{
-    h3{
+
+  mat-nav-list {
+    h3 {
       font-size: 1rem;
       font-weight: 500;
       line-height: 1.5rem;
+    }
+  }
+
+  p {
+    margin: 1rem;
+    a {
+      font-size: 0.75rem;
+      color: inherit;
+      text-decoration: none;
     }
   }
 }
