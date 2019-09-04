@@ -1,12 +1,12 @@
-<form [formGroup]="eventForm" gdAuto gdColumns="repeat(2, 1fr)" gdColumns.gt-xs="repeat(4, 1fr)" gdGap="1rem"
+<form [formGroup]="eventForm" gdAuto gdColumns.xs="1fr" gdColumns.gt-xs="repeat(2, 1fr)" gdColumns.gt-md="repeat(4, 1fr)" gdGap="1rem"
       class="grid-form">
-  <mat-form-field gdColumn="span 2">
+  <mat-form-field gdColumn.gt-xs="span 2">
     <input formControlName="name" matInput placeholder="Event Name"/>
   </mat-form-field>
-  <div fxLayout="row" gdColumn="span 2" fxLayoutGap="2rem">
+  <div fxLayout="row" gdColumn.gt-xs="span 2" fxLayoutGap="2rem">
     <mat-form-field fxFlex>
       <input formControlName="icon" matInput placeholder="Icon for your event"/>
-      <mat-hint>Try some <strong>single</strong> words and see if they match your event</mat-hint>
+      <mat-hint>Try some words and see if they match your event</mat-hint>
     </mat-form-field>
     <div fxFlex.gt-sm>
       <img [src]="iconUrl$ | async"/>
@@ -42,13 +42,12 @@
     <input formControlName="endTime" matInput placeholder="Time your event ends"/>
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
-  <mat-form-field gdColumn="span 2" gdGridAlign="stretch end" gdRow="span 2">
-    <textarea formControlName="description" matInput placeholder="Event description" rows="4"></textarea>
+  <mat-form-field gdColumn.gt-xs="span 2" gdGridAlign="stretch end" gdRow="span 3">
+    <textarea formControlName="description" matInput placeholder="Event description" rows="6"></textarea>
   </mat-form-field>
-  <mat-slide-toggle formControlName="external">External Event</mat-slide-toggle>
-  <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
-  <mat-slide-toggle formControlName="trackTickets">Only track ticket number</mat-slide-toggle>
-  <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
+  <mat-form-field gdColumn.gt-xs="span 2" gdGridAlign="stretch end" gdRow="span 3">
+    <textarea formControlName="runningNotes" matInput placeholder="Notes for Tutors" rows="6"></textarea>
+  </mat-form-field>
   <mat-form-field>
     <input formControlName="price" matInput placeholder="Participant cost for the event" type="number"/>
     <mat-icon matSuffix svgIcon="euro"></mat-icon>
@@ -64,11 +63,18 @@
   <mat-form-field>
     <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number"/>
   </mat-form-field>
-  <mat-form-field gdColumn="span 2">
+  <mat-slide-toggle formControlName="external">External Event</mat-slide-toggle>
+  <mat-slide-toggle formControlName="internal">Internal Event</mat-slide-toggle>
+  <mat-form-field gdColumn.gt-xs="span 2">
     <input type="href" formControlName="signupLink" matInput placeholder="Singup Link"/>
     <mat-hint>Link where users can sign up for external events</mat-hint>
   </mat-form-field>
-  <mat-slide-toggle formControlName="public" gdColumn="span 2">Event is publicly visible</mat-slide-toggle>
+  <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
+  <mat-slide-toggle formControlName="trackTickets">Only track ticket number</mat-slide-toggle>
+  <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
+  <div></div>
+  <mat-slide-toggle formControlName="preview">Event is visible to tutors</mat-slide-toggle>
+  <mat-slide-toggle formControlName="public">Event is publicly visible</mat-slide-toggle>
   <button (click)="saveChanges()" [disabled]="eventForm.invalid" color="primary" mat-stroked-button>
     Save changes
   </button>

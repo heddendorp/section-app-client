@@ -5,7 +5,6 @@ import { EventListPageComponent } from './event-list-page/event-list-page.compon
 import { EventListComponent } from './event-list-page/event-list/event-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
-import { EventSignupDialogComponent } from './event-signup-dialog/event-signup-dialog.component';
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LoadEventResolver } from './resolvers/load-event.resolver';
@@ -23,12 +22,10 @@ const routes: Routes = [
     EventListPageComponent,
     EventListComponent,
     RegisteredListComponent,
-    EventSignupDialogComponent,
     EventDetailsPageComponent,
     UserProfileComponent,
     EventDetailsDisplayComponent
   ],
-  entryComponents: [EventSignupDialogComponent],
   providers: [LoadEventResolver],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })

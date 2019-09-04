@@ -52,7 +52,7 @@ export const registerForEvent = functions.https.onCall(
         .doc(eventId)
         .update({ tutors: [...event.tutors, context.auth.uid] });
     } else if (type === 'student') {
-      if (event.participantSpots <= event.payedSignups.length + event.onlineSignups.length) {
+      if (!event.internal && event.participantSpots <= event.payedSignups.length + event.onlineSignups.length) {
         throw new functions.https.HttpsError(
           'failed-precondition',
           `There are no free student spots on ${event.name}!`

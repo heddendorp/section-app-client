@@ -26,15 +26,10 @@ export class EventDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.event$ = this.route.data.pipe(
-      tap(console.log),
-      map(data => data.event)
-    );
+    this.event$ = this.route.data.pipe(map(data => data.event));
     this.signed$ = this.event$.pipe(
-      tap(console.log),
       switchMap(event =>
         this.authService.user.pipe(
-          tap(console.log),
           map(
             user =>
               event.tutors.includes(user.id) ||

@@ -13,25 +13,32 @@ import { Student } from './user.service';
 })
 export class EventService {
   baseEvent: TumiEvent = {
-    name: 'New TumiEvent',
-    start: moment().add(3, 'weeks'),
+    description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     end: moment().add(3, 'weeks'),
-    payedSignups: [],
+    external: false,
+    fullCost: 0,
+    hasFee: false,
+    hasOnlineSignup: true,
+    internal: false,
+    meetingPoint: '',
+    moneyWith: '',
+    moneyCollected: false,
+    name: 'New TumiEvent',
+    notes: '',
     onlineSignups: [],
     participantSpots: 0,
-    tutors: [],
-    tutorSpots: 0,
+    payedSignups: [],
+    preview: false,
     price: 0,
-    fullCost: 0,
-    soldTickets: 0,
-    notes: '',
-    description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     public: false,
-    external: false,
+    runningNotes: 'Notes for the tutors who run this event',
     signupLink: '',
-    hasFee: false,
+    soldTickets: 0,
+    start: moment().add(3, 'weeks'),
     trackTickets: false,
-    hasOnlineSignup: true
+    tutorNotes: '',
+    tutorSpots: 0,
+    tutors: []
   };
 
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private authService: AuthService) {}
@@ -43,16 +50,16 @@ export class EventService {
       .pipe(map(events => events.map(this.parseEvent)));
   }
 
-  public get publicEvents(): Observable<TumiEvent[]> {
-    return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('start')
-          .where('public', '==', true)
-          .where('start', '>', new Date())
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+  public get visibleEvents(): Observable<TumiEvent[]> {
+    return this.authService.isTutor.pipe(
+      switchMap(isTutor => {
+        if (isTutor) {
+          return this.previewEvents;
+        } else {
+          return this.publicEvents;
+        }
+      })
+    );
   }
 
   public get registeredEvents(): Observable<TumiEvent[]> {
@@ -148,6 +155,30 @@ export class EventService {
       });
   }
 
+  private get publicEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('public', '==', true)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  private get previewEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('preview', '==', true)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
   private serializeEvent(event: TumiEvent): SavedEvent {
     return {
       ...event,
@@ -166,31 +197,38 @@ export class EventService {
 }
 
 interface BaseEvent {
-  id?: string;
-  name: string;
-  participantSpots: number;
-  tutorSpots: number;
-  payedSignups: string[];
-  onlineSignups: string[];
-  tutors: string[];
-  notes: string;
   description: string;
-  price: number;
-  fullCost: number;
-  soldTickets: number;
-  public: boolean;
-  icon?: string;
   external: boolean;
-  signupLink: string;
-  hasFee: boolean;
-  trackTickets: boolean;
-  hasOnlineSignup: boolean;
   freeSpots?: string;
-  isTutor?: boolean;
+  fullCost: number;
+  hasFee: boolean;
+  hasOnlineSignup: boolean;
+  icon?: string;
+  id?: string;
+  internal: boolean;
   isOnline?: boolean;
+  isTutor?: boolean;
+  meetingPoint: string;
+  moneyWith: '';
+  moneyCollected: boolean;
+  name: string;
+  notes: string;
+  onlineSignups: string[];
   onlineUsers?: Student[];
+  participantSpots: number;
+  payedSignups: string[];
   payedUsers?: Student[];
+  preview: boolean;
+  price: number;
+  public: boolean;
+  runningNotes: string;
+  signupLink: string;
+  soldTickets: number;
+  trackTickets: boolean;
+  tutorNotes: string;
+  tutorSpots: number;
   tutorUsers?: Student[];
+  tutors: string[];
 }
 
 export interface TumiEvent extends BaseEvent {

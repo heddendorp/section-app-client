@@ -77,7 +77,7 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="isTutor$ | async">
+    <mat-card *ngIf="(isTutor$ | async) && !event.internal">
       <mat-card-title>Tutor sign up</mat-card-title>
       <mat-card-content>
         <p *ngIf="event.tutorSpots > event.tutors.length; else eventFull">
