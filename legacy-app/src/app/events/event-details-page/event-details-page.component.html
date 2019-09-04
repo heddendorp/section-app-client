@@ -1,8 +1,6 @@
-<div class="mat-typography">
-  <app-event-details-display
-    [event]="event$ | async"
-    [signed]="signed$ | async"
-    (studentSignup)="registerStudent($event)"
-    (tutorSignup)="registerTutor($event)"
-  ></app-event-details-display>
-</div>
+<app-event-details-display
+  [event]="event$ | async"
+  [signed]="signed$ | async"
+  (studentSignup)="registerStudent($event)"
+  (tutorSignup)="registerTutor($event)"
+></app-event-details-display>

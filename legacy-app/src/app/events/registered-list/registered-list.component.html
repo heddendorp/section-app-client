@@ -1,5 +1,7 @@
 <div fxLayout="column" fxLayoutGap="2rem" class="mat-typography">
-  <h2 class="no-margin">My TUMi</h2>
+  <h1 class="mat-display-2 no-margin">
+    My TUMi
+  </h1>
   <mat-card *ngIf="!(user$ | async)?.verified">
     <mat-card-header>
       <img src="/assets/illustrations/high_priority.svg" alt="" mat-card-avatar>
@@ -12,12 +14,12 @@
       <button mat-flat-button (click)="sendVerification()">Resend verification</button>
     </mat-card-actions>
   </mat-card>
-  <h4 class="mat-h3 no-margin">Personal Data</h4>
+  <h2 class="mat-display-4 no-margin">Personal Data</h2>
   <app-user-profile [user]="user$ | async"></app-user-profile>
   <p>If any of the above data is not correct please change your info to fix it</p>
   <button mat-stroked-button (click)="changeData()">Change userdata</button>
   <mat-divider></mat-divider>
-  <h4 class="mat-h3 no-margin">Upcoming Events</h4>
+  <h2 class="mat-display-4 no-margin">Upcoming Events</h2>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of upcomingEvents$ | async">
       <mat-card-header>
@@ -34,7 +36,7 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <h4 class="no-margin">Previous events</h4>
+  <h2 class="mat-display-4 no-margin">Previous events</h2>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(4, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of passedEvents$ | async">
       <mat-card-header>

@@ -12,7 +12,7 @@
       <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>
     </mat-card-title-group>
     <mat-card-content>
-      <p>Tutors still needed: {{event.tutorSpots - event.tutors.length}}</p>
+      <p>Tutors still needed: {{event.tutorSpots - event.tutors.length}} / {{event.tutorSpots}}</p>
       <p>User signed up: {{event.onlineSignups.length + event.payedSignups.length}} / {{event.participantSpots}}</p>
     </mat-card-content>
     <div fxFlex></div>

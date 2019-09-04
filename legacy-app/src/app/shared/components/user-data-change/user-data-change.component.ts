@@ -30,7 +30,7 @@ export class UserDataChangeComponent {
       firstName: [data.user.firstName, Validators.required],
       lastName: [data.user.lastName, Validators.required],
       email: [data.user.academicMail, Validators.required],
-      phone: [data.user.academicMail],
+      phone: [data.user.phone],
       faculty: [data.user.faculty, Validators.required],
       degree: [data.user.degree, Validators.required],
       country: [data.user.country, Validators.required],

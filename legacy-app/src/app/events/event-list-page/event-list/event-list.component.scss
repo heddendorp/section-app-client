@@ -6,6 +6,7 @@ div.external {
   top: 5px;
   right: 0;
   background: mat-color($tumi-primary);
+  color: mat-contrast($tumi-primary, default);
   padding: 2px 4px;
   border-radius: 4px 0 0 4px;
   @include mat-elevation(2);
