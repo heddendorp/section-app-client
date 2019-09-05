@@ -38,7 +38,7 @@ export class RegisteredListComponent implements OnInit {
   }
 
   async sendVerification() {
-    await this.authService.senVerification();
+    await this.authService.sendVerification();
     this.snackBar.openFromComponent(IconToastComponent, {
       data: {
         message: 'Email sent, please check your mail!',

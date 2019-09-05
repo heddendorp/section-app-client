@@ -74,7 +74,10 @@ export class AuthService {
   }
 
   public createUser(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(creds => {
+      this.sendVerification();
+      return creds;
+    });
   }
 
   public emailLogin(email, password) {
@@ -85,7 +88,7 @@ export class AuthService {
     return this.afAuth.auth.fetchSignInMethodsForEmail(email);
   }
 
-  public async senVerification() {
+  public async sendVerification() {
     const user = await this.afAuth.user.pipe(first()).toPromise();
     return user.sendEmailVerification();
   }
