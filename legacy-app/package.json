@@ -36,6 +36,7 @@
     "@angular/service-worker": "~8.2.4",
     "firebase": "6.4.2",
     "hammerjs": "^2.0.8",
+    "jspdf": "^1.5.3",
     "moment": "^2.24.0",
     "qrcode": "^1.4.1",
     "rxjs": "~6.5.2",

@@ -121,6 +121,11 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
       }
     }
   }
+  app-funds-page {
+    .transaction {
+      border: 1px solid white !important;
+    }
+  }
 }
 
 .grey-slant {
@@ -178,6 +183,12 @@ mat-nav-list {
       color: mat-color($tumi-primary, darker);
       background: transparentize(mat-color($tumi-primary, darker), 0.88);
     }
+  }
+}
+
+app-funds-page {
+  .transaction {
+    border: 1px solid black;
   }
 }
 
