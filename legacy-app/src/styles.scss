@@ -137,7 +137,7 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
   @include dark-theme;
 }
 .dark-theme {
-  @include dark-theme;
+  @include mat-toolbar-theme($tumi-dark-theme);
 }
 
 /* You can add global styles to this file, and also import other style files */
