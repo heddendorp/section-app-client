@@ -15,5 +15,12 @@
   </mat-card>
 <!--  <button mat-stroked-button routerLink="/about">Learn more about TUMi</button>-->
 <!--  <mat-divider></mat-divider>-->
+  <h1 class="mat-display-3 no-margin">
+    Upcoming events
+  </h1>
+  <form [formGroup]="filterForm" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" style="margin-bottom: 1rem;">
+    <mat-checkbox formControlName="showExternal">Show external events</mat-checkbox>
+    <mat-checkbox formControlName="showFull">Show full events</mat-checkbox>
+  </form>
   <app-event-list [events]="events$ | async"></app-event-list>
 </div>

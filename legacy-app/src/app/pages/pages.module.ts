@@ -7,8 +7,8 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
 
 const routes: Routes = [
-  { path: 'about', component: AboutPageComponent },
-  { path: 'party-animals', component: PaPageComponent },
+  { path: 'about', data: { standalone: true }, component: AboutPageComponent },
+  { path: 'party-animals', data: { standalone: true }, component: PaPageComponent },
   { path: 'signup', component: SignupPageComponent }
 ];
 

@@ -1,10 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
-  { path: 'office', loadChildren: () => import('./office/office.module').then(mod => mod.OfficeModule) },
-  { path: 'tutors', loadChildren: () => import('./tutors/tutors.module').then(mod => mod.TutorsModule) },
+  {
+    path: 'office',
+    loadChildren: () => import('./office/office.module').then(mod => mod.OfficeModule),
+    canActivate: [AngularFireAuthGuard]
+  },
+  {
+    path: 'tutors',
+    loadChildren: () => import('./tutors/tutors.module').then(mod => mod.TutorsModule),
+    canActivate: [AngularFireAuthGuard]
+  },
   { path: 'events', loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule) },
   { path: '', pathMatch: 'full', redirectTo: 'about' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
@@ -13,6 +22,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+  providers: [AngularFireAuthGuard],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

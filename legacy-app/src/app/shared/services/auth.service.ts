@@ -5,19 +5,16 @@ import { first, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Student } from './user.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(public afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
+  constructor(public afAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) {}
 
   public get authenticated(): Observable<boolean> {
     return this.afAuth.user.pipe(map(user => !!user));
-  }
-
-  public get signedUp(): Observable<boolean> {
-    return this.user.pipe(map(user => !!user));
   }
 
   public get isAdmin(): Observable<boolean> {
@@ -29,14 +26,14 @@ export class AuthService {
 
   public get isTutor(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student.isTutor || student.isAdmin),
+      map(student => student && (student.isTutor || student.isAdmin)),
       startWith(false)
     );
   }
 
   public get isEditor(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student.isEditor || student.isAdmin),
+      map(student => student && (student.isEditor || student.isAdmin)),
       startWith(false)
     );
   }
@@ -56,32 +53,37 @@ export class AuthService {
     );
   }
 
-  public login(provider): void {
+  public async login(provider) {
     switch (provider) {
       case 'google': {
-        this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+        await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
         break;
       }
       case 'facebook': {
-        this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+        await this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
         break;
       }
       case 'microsoft': {
-        this.afAuth.auth.signInWithPopup(new auth.OAuthProvider('microsoft.com'));
+        await this.afAuth.auth.signInWithPopup(new auth.OAuthProvider('microsoft.com'));
         break;
       }
     }
+    this.router.navigate(['events', 'list']);
   }
 
   public createUser(email, password) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(creds => {
       this.sendVerification();
+      this.router.navigate(['events', 'list']);
       return creds;
     });
   }
 
   public emailLogin(email, password) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(creds => {
+      this.router.navigate(['events', 'list']);
+      return creds;
+    });
   }
 
   public getLoginOptions(email) {
@@ -93,7 +95,8 @@ export class AuthService {
     return user.sendEmailVerification();
   }
 
-  public logout(): void {
-    this.afAuth.auth.signOut();
+  public async logout() {
+    await this.router.navigate(['events', 'list']);
+    await this.afAuth.auth.signOut();
   }
 }

@@ -16,7 +16,6 @@ export class SignupPageComponent implements OnInit {
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.signedUp$ = this.authService.signedUp;
     this.authenticated$ = this.authService.authenticated;
   }
 

@@ -9,11 +9,12 @@ import { EventDetailsPageComponent } from './event-details-page/event-details-pa
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LoadEventResolver } from './resolvers/load-event.resolver';
 import { EventDetailsDisplayComponent } from './event-details-page/event-details-display/event-details-display.component';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
   { path: 'list', component: EventListPageComponent },
   { path: 'show/:eventId', component: EventDetailsPageComponent, resolve: { event: LoadEventResolver } },
-  { path: 'my', component: RegisteredListComponent },
+  { path: 'my', component: RegisteredListComponent, canActivate: [AngularFireAuthGuard] },
   { path: '', redirectTo: 'list', pathMatch: 'full' }
 ];
 

@@ -42,11 +42,11 @@
             <mat-icon mat-list-icon svgIcon="party"></mat-icon>
             <h3 mat-line>Party Animals</h3>
           </a>
-          <a *ngIf="!(signedUp$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+          <a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
           </a>
-          <ng-container *ngIf="tutor$ | async">
+          <ng-container *ngIf="isTutor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>For Tutors</h3>
             <a mat-list-item routerLink="/tutors/events" routerLinkActive="active">
@@ -57,30 +57,26 @@
               <mat-icon mat-list-icon svgIcon="users"></mat-icon>
               <h3 mat-line>All Tutors</h3>
             </a>
-            <!--<a mat-list-item routerLink="/office/funds" routerLinkActive="active">
-              <mat-icon mat-list-icon svgIcon="money"></mat-icon>
-              <h3 mat-line>Money & Transactions</h3>
-            </a>-->
           </ng-container>
-          <ng-container *ngIf="editor$ | async">
+          <ng-container *ngIf="isEditor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>Office section</h3>
             <a mat-list-item routerLink="/office/events" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="timetable"></mat-icon>
               <h3 mat-line>Manage Events</h3>
             </a>
-            <a *ngIf="admin$ | async" mat-list-item routerLink="/office/users" routerLinkActive="active">
+            <a *ngIf="isAdmin$ | async" mat-list-item routerLink="/office/users" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="users"></mat-icon>
               <h3 mat-line>Manage Users</h3>
             </a>
-            <a *ngIf="admin$ | async" mat-list-item routerLink="/office/funds" routerLinkActive="active">
+            <a *ngIf="isAdmin$ | async" mat-list-item routerLink="/office/funds" routerLinkActive="active">
               <mat-icon mat-list-icon svgIcon="money"></mat-icon>
               <h3 mat-line>Money & Transactions</h3>
             </a>
           </ng-container>
         </mat-nav-list>
         <div fxFlex></div>
-        <button (click)="scanRequest()" *ngIf="admin$ | async" color="primary" mat-raised-button>
+        <button (click)="scanRequest()" *ngIf="isAdmin$ | async" color="primary" mat-raised-button>
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
