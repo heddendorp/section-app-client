@@ -4,13 +4,20 @@
 <p class="whitespace">{{ event.runningNotes }}</p>
 <h2 class="no-margin">Money</h2>
 <p style="margin-bottom: 2rem;">
-  <strong>Participant cost: </strong>{{ event.price }}<br />
-  <strong>Total event cost: </strong>{{ event.fullCost }}
+  <strong>Participant cost: </strong>{{ event.price }}€<br />
+  <strong>Total event cost: </strong>{{ event.fullCost }}€
   <span *ngIf="!event.moneyCollected">(Money not collected)</span
-  ><span *ngIf="event.moneyCollected">({{ event.moneyWith }})</span>
+  ><span *ngIf="event.moneyCollected"> with {{ event.moneyWith }}</span>
 </p>
 <h2 class="no-margin">Dates</h2>
 <p>
   <strong>From: </strong>{{ event.start | date: 'medium' }}<br />
   <strong>To: </strong>{{ event.end | date: 'medium' }}<br />
 </p>
+<mat-card *ngIf="isTutor && !event.moneyCollected">
+  <mat-card-title>Collect money</mat-card-title>
+  <img mat-card-image [src]="qrCode" fxHide.gt-xs>
+  <mat-card-content>
+    Bring this page to the office on a phone to collect the money for the event.
+  </mat-card-content>
+</mat-card>

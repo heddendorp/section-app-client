@@ -18,7 +18,7 @@ export class EventService {
     external: false,
     fullCost: 0,
     hasFee: false,
-    hasOnlineSignup: true,
+    hasOnlineSignup: false,
     internal: false,
     meetingPoint: '',
     moneyWith: '',
@@ -142,7 +142,16 @@ export class EventService {
   }
 
   public register(user, event): Promise<void> {
-    return this.updateEvent({ ...event, participants: [...event.participants, user.id] });
+    return this.updateEvent({ ...event, payedSignups: [...event.payedSignups, user.id] });
+  }
+
+  public giveOutMoney(user, event, fullCost): Promise<void> {
+    return this.updateEvent({
+      ...event,
+      moneyCollected: true,
+      fullCost,
+      moneyWith: `${user.firstName} ${user.lastName} (${user.email})`
+    });
   }
 
   public updateEvent(event: TumiEvent): Promise<void> {

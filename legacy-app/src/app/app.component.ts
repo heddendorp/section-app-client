@@ -90,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   scanRequest() {
-    this.dialog.open(ScanRequestComponent);
+    this.dialog.open(ScanRequestComponent, { minWidth: '80vw' });
   }
 
   ngOnDestroy(): void {

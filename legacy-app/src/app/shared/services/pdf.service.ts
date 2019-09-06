@@ -27,14 +27,16 @@ GERMANY`,
       40,
       22
     );
-    doc.text('RECEIPT', 50, 100);
+    doc.setFontStyle('bold').text('RECEIPT', 50, 100);
+    doc.setFontStyle('normal').text(transaction.comment, 20, 110, { maxWidth: 180 });
     doc.text(
-      `${transaction.comment}
-On: ${transaction.timestamp.format('lll')}
-Amount ${transaction.value > 0 ? 'payed' : 'collected'}: ${transaction.absValue}€
-For transaction ID: ${transaction.id}`,
-      30,
-      110
+      [
+        `On: ${transaction.timestamp.format('lll')}`,
+        `Amount ${transaction.value > 0 ? 'payed' : 'collected'}: ${transaction.absValue}€`,
+        `For transaction ID: ${transaction.id}`
+      ],
+      20,
+      130
     );
     doc.save(`receipt-${transaction.id}`);
   }

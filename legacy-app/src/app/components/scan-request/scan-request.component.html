@@ -1,29 +1,53 @@
-<h4 mat-dialog-title>Scan registration request</h4>
-<mat-dialog-content>
-  <h4 class="mat-h4">Please scan the registration request into this field</h4>
+<h1 mat-dialog-title>Scan office request</h1>
+<mat-dialog-content class="mat-typography" fxLayoutGap="1rem" fxLayout="column">
+  <h2>Please scan the registration request into this field</h2>
   <mat-form-field>
     <input [formControl]="scanControl" matInput placeholder="Scanning target" type="text" />
     <mat-hint>{{ error$ | async }}</mat-hint>
   </mat-form-field>
+  <h2 *ngIf="(requestType$| async) == 'register'">User wants to register for an event</h2>
+  <h2 *ngIf="(requestType$| async) == 'collectMoney'">User wants to collect money for an event</h2>
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
-    <div *ngIf="event$ | async">
-      <h4 class="mat-h4">Event: {{ (event$ | async).name }}</h4>
-      <p>Start: {{ (event$ | async).start | date: 'short' }} End: {{ (event$ | async).end | date: 'short' }}</p>
-      <p *ngIf="(event$ | async).hasFee">Make sure to collect {{ (event$ | async).price }}€!</p>
-    </div>
-    <div *ngIf="user$ | async">
-      <h4 class="mat-h4">User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</h4>
-      <p>{{ (user$ | async).email }}</p>
-    </div>
+    <mat-card *ngIf="event$ | async" fxFlex>
+      <mat-card-title>Event: {{ (event$ | async).name }}</mat-card-title>
+      <mat-card-content>
+        <p>Start: {{ (event$ | async).start | date: 'short' }}</p>
+        <p>End: {{ (event$ | async).end | date: 'short' }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="user$ | async" fxFlex>
+      <mat-card-title>User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</mat-card-title>
+      <mat-card-content>
+        <p>Mail: {{ (user$ | async).email }}</p>
+        <p>Academic Mail: {{ (user$ | async).academicMail }}</p>
+        <p>Is tutor: {{ (user$ | async).isTutor }}</p>
+        <p *ngIf="!(user$ | async).verified" style="font-weight: bold">Please ask user to make sure they verified their email</p>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <p *ngIf="alreadyOnEvent$ | async" style="color: red">
-    This user is already signed up for the event. Double registrations are possible but be aware!
-  </p>
-  <button (click)="commitRegistration()" [disabled]="!(canRegister$ | async)" color="accent" mat-raised-button>
-    Commit registration
-  </button>
-  <p *ngIf="registrationDone$ | async">Registration completed!</p>
+  <ng-container *ngIf="(requestType$| async) == 'register'">
+    <p *ngIf="(event$ | async).hasFee" class="mat-display-4">Make sure to collect {{ (event$ | async).price }}€!</p>
+    <p *ngIf="eventFull$ | async" style="color: red">
+      This event is already full, you can still register the user but the vent will be over capacity <br />
+      Currently signed up for this event:
+      {{ (event$ | async).onlineSignups.length + (event$ | async).payedSignups.length }} /
+      {{ (event$ | async).participantSpots }}
+    </p>
+    <p *ngIf="alreadyOnEvent$ | async" style="color: red">
+      This user is already signed up for the event. Double registrations are possible but be aware!
+    </p>
+  </ng-container>
+  <ng-container *ngIf="(requestType$| async) == 'collectMoney'">
+    <mat-form-field>
+      <input type="number" matInput placeholder="Money given out" [formControl]="moneyControl">
+      <mat-hint>You can change the money given out for this event here</mat-hint>
+    </mat-form-field>
+    <p class="mat-display-4">Please hand out the money for this event!</p>
+  </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
+  <button (click)="commitRegistration()" [disabled]="!(canRegister$ | async)" color="accent" mat-raised-button>
+    Approve request
+  </button>
 </mat-dialog-actions>
