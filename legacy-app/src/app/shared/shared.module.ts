@@ -25,6 +25,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import { FacultyPipe } from './services/faculty.pipe';
 import { TypePipe } from './services/type.pipe';
 import { DegreePipe } from './services/degree.pipe';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 const materialModules = [
   MatButtonModule,
@@ -66,7 +67,14 @@ const materialModules = [
     DegreePipe,
     TypePipe
   ],
-  declarations: [IconToastComponent, UserDataChangeComponent, FacultyPipe, TypePipe, DegreePipe],
-  entryComponents: [IconToastComponent, UserDataChangeComponent]
+  declarations: [
+    IconToastComponent,
+    UserDataChangeComponent,
+    FacultyPipe,
+    TypePipe,
+    DegreePipe,
+    ConfirmationDialogComponent
+  ],
+  entryComponents: [IconToastComponent, UserDataChangeComponent, ConfirmationDialogComponent]
 })
 export class SharedModule {}

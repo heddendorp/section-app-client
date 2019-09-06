@@ -13,6 +13,7 @@ import { Student } from './user.service';
 })
 export class EventService {
   baseEvent: TumiEvent = {
+    attendedSignups: [],
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     end: moment().add(3, 'weeks'),
     external: false,
@@ -92,6 +93,30 @@ export class EventService {
     return this.authService.user.pipe(switchMap(user => this.getTutorEventsForUser(user.id)));
   }
 
+  private get publicEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('public', '==', true)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  private get previewEvents(): Observable<TumiEvent[]> {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .orderBy('start')
+          .where('preview', '==', true)
+          .where('start', '>', new Date())
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
   public getOnlineEventsForUser(userId) {
     return this.firestore
       .collection<SavedEvent>('events', ref => ref.where('onlineSignups', 'array-contains', userId).orderBy('start'))
@@ -164,28 +189,24 @@ export class EventService {
       });
   }
 
-  private get publicEvents(): Observable<TumiEvent[]> {
-    return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('start')
-          .where('public', '==', true)
-          .where('start', '>', new Date())
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+  public attendEvent(user: Student, event: TumiEvent, onlineUser = false) {
+    if (!onlineUser) {
+      this.updateEvent({
+        ...event,
+        attendedSignups: [...event.attendedSignups, ...event.payedSignups.filter(id => id === user.id)],
+        payedSignups: event.payedSignups.filter(id => id !== user.id)
+      });
+    } else {
+      this.updateEvent({
+        ...event,
+        attendedSignups: [...event.attendedSignups, ...event.onlineSignups.filter(id => id === user.id)],
+        onlineSignups: event.onlineSignups.filter(id => id !== user.id)
+      });
+    }
   }
 
-  private get previewEvents(): Observable<TumiEvent[]> {
-    return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('start')
-          .where('preview', '==', true)
-          .where('start', '>', new Date())
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+  public removeTutorFromEvent(user: Student, event: TumiEvent) {
+    this.updateEvent({ ...event, tutors: event.tutors.filter(id => id !== user.id) });
   }
 
   private serializeEvent(event: TumiEvent): SavedEvent {
@@ -206,6 +227,8 @@ export class EventService {
 }
 
 interface BaseEvent {
+  attendedSignups: string[];
+  attendedUsers?: Student[];
   description: string;
   external: boolean;
   freeSpots?: string;

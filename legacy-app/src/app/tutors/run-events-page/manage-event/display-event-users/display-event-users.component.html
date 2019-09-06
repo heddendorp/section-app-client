@@ -1,21 +1,40 @@
-<h2 class="mat-display-4 no-margin">Signed up users</h2>
-<p><strong>Tutors on this event</strong></p>
-<mat-list>
-  <mat-list-item *ngFor="let user of event.tutorUsers">
-    {{user.firstName}} {{ user.lastName}} ({{user.email}})
-  </mat-list-item>
-</mat-list>
-<p><strong>Online Registrations</strong></p>
-<mat-list>
-  <mat-list-item *ngFor="let user of event.onlineUsers">
-    {{user.firstName}} {{ user.lastName}} ({{user.email}})
-  </mat-list-item>
-</mat-list>
-<ng-container *ngIf="event.hasFee || event.payedSignups.length">
-  <p><strong>Payed Registrations</strong></p>
+<h2 class="mat-display-4 no-margin">Users related to this event</h2>
+<ng-container *ngIf="!(isAdmin$ | async); else adminTutors">
+  <p><strong>Tutors on this event</strong></p>
   <mat-list>
-    <mat-list-item *ngFor="let user of event.payedUsers">
-      {{user.firstName}} {{ user.lastName}} ({{user.email}})
+    <mat-list-item *ngFor="let user of event.tutorUsers">
+      {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
     </mat-list-item>
   </mat-list>
 </ng-container>
+<ng-template #adminTutors>
+  <p><strong>Tutors on this event</strong> (Click Tutor to remove them from the event)</p>
+  <mat-action-list>
+    <button mat-list-item *ngFor="let user of event.tutorUsers" (click)="kickTutor(user)">
+      {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+    </button>
+  </mat-action-list>
+</ng-template>
+<p>
+  <strong>Online Registrations</strong>&nbsp;(Tap user to confirm attendance
+  <span *ngIf="event.hasFee">and payment</span>)
+</p>
+<mat-action-list>
+  <button mat-list-item *ngFor="let user of event.onlineUsers" (click)="registerOnlineUser(user)">
+    {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+  </button>
+</mat-action-list>
+<ng-container *ngIf="event.hasFee || event.payedSignups.length">
+  <p><strong>Payed Registrations</strong> (tap to confirm attendance)</p>
+  <mat-action-list>
+    <button mat-list-item *ngFor="let user of event.payedUsers" (click)="registerOfficeUser(user)">
+      {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+    </button>
+  </mat-action-list>
+</ng-container>
+<p><strong>Users who attended</strong></p>
+<mat-list>
+  <mat-list-item *ngFor="let user of event.attendedUsers">
+    {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+  </mat-list-item>
+</mat-list>

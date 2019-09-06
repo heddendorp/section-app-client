@@ -66,13 +66,14 @@
       <mat-card-title>Online sign up</mat-card-title>
       <mat-card-content>
         <p>This event allows online sign up, you can register right here.</p>
+        <p *ngIf="eventFull">Please mind! THis event is already booked, you can sign up once places become available again</p>
         <p *ngIf="event.hasFee">
           The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected at the event, please
           bring cash
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-stroked-button (click)="studentSignup.emit(event.id)" [disabled]="signed">
+        <button mat-stroked-button (click)="studentSignup.emit(event.id)" [disabled]="signed || eventFull">
           Register for this event now
         </button>
       </mat-card-actions>

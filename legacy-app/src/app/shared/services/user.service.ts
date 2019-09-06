@@ -68,15 +68,16 @@ export class UserService {
 
   public getEventWithUsers(eventId): Observable<TumiEvent> {
     return this.eventService.getEvent(eventId).pipe(
-      tap(console.log),
       switchMap(event =>
         this.getUsers(event.onlineSignups).pipe(map(onlineUsers => Object.assign(event, { onlineUsers })))
       ),
       switchMap(event =>
         this.getUsers(event.payedSignups).pipe(map(payedUsers => Object.assign(event, { payedUsers })))
       ),
-      switchMap(event => this.getUsers(event.tutors).pipe(map(tutorUsers => Object.assign(event, { tutorUsers })))),
-      tap(console.log)
+      switchMap(event =>
+        this.getUsers(event.attendedSignups).pipe(map(attendedUsers => Object.assign(event, { attendedUsers })))
+      ),
+      switchMap(event => this.getUsers(event.tutors).pipe(map(tutorUsers => Object.assign(event, { tutorUsers }))))
     );
   }
 

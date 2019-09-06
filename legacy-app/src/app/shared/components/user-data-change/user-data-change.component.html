@@ -2,27 +2,29 @@
 <mat-dialog-content>
   <form [formGroup]="userForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-form-field>
-      <input matInput required placeholder="First name" formControlName="firstName">
+      <input matInput required placeholder="First name" formControlName="firstName" />
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="Last name" formControlName="lastName">
+      <input matInput required placeholder="Last name" formControlName="lastName" />
     </mat-form-field>
     <mat-form-field>
-      <input type="tel" matInput placeholder="Phone number" formControlName="phone">
-      <mat-hint *ngIf="isTutor$ | async; else optional">Please enter your phone number for internal Communication</mat-hint>
+      <input type="tel" matInput placeholder="Phone number" formControlName="phone" />
+      <mat-hint *ngIf="isTutor$ | async; else optional"
+        >Please enter your phone number for internal Communication</mat-hint
+      >
       <ng-template #optional>
         <mat-hint>This field is optional</mat-hint>
       </ng-template>
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="University Email" type="email" formControlName="email">
+      <input matInput required placeholder="University Email" type="email" formControlName="email" />
       <mat-hint>Please enter your academic mail here so we can find you in our lists</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Faculty</mat-label>
       <mat-select required formControlName="faculty">
         <mat-option *ngFor="let faculty of faculties" [value]="faculty.key">
-          {{faculty.value}}
+          {{ faculty.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -30,18 +32,18 @@
       <mat-label>Study Type</mat-label>
       <mat-select required formControlName="degree">
         <mat-option *ngFor="let degree of targets" [value]="degree.key">
-          {{degree.value}}
+          {{ degree.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="Country of Origin" formControlName="country">
+      <input matInput required placeholder="Country of Origin" formControlName="country" />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Status</mat-label>
       <mat-select required formControlName="type">
         <mat-option *ngFor="let type of studentTypes" [value]="type.key">
-          {{type.value}}
+          {{ type.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -51,5 +53,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-flat-button mat-dialog-close>Cancel</button>
-  <button mat-flat-button color="primary" [disabled]="userForm.invalid" (click)="submitData()">Save</button>
+  <button mat-flat-button color="primary" [disabled]="userForm.invalid && !(isAdmin$ | async)" (click)="submitData()">
+    Save
+  </button>
 </mat-dialog-actions>
