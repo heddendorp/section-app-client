@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private data: { text: string }) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { text: string }) {}
 
   ngOnInit() {}
 }

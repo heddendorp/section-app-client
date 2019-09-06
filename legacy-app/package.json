@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build:dev": "ng build",
     "build:prod": "ng build --prod",
+    "build:stats": "ng build --prod --stats-json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -13,6 +14,8 @@
     "deploy": "firebase deploy",
     "precommit": "lint-staged",
     "prettify": "prettier --write ./**/*.{json,css,scss,md,js,ts}",
+    "prebundle-report": "yarn run build:stats",
+    "prebundle-report:next": "yarn run build:stats",
     "bundle-report": "webpack-bundle-analyzer dist/tumi/stats-es5.json",
     "bundle-report:next": "webpack-bundle-analyzer dist/tumi/stats-es2015.json"
   },

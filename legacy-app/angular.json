@@ -38,6 +38,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "node_modules/moment/locale/",
+                  "with": "src/locale/"
                 }
               ],
               "optimization": true,
