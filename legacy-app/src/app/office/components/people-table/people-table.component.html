@@ -1,4 +1,3 @@
-
 <!--<p>Filter displayed users</p>-->
 <!--<form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" style="margin-bottom: 2rem;">
   <mat-checkbox formControlName="showAll" [indeterminate]="filterIndeterminate | async">Show all users</mat-checkbox>
@@ -7,17 +6,28 @@
   <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
 </form>-->
 <mat-form-field style="width: 100%;">
-  <input autocomplete="off" type="search" matInput [formControl]="searchControl" placeholder="Search for a user">
+  <input autocomplete="off" type="search" matInput [formControl]="searchControl" placeholder="Search for a user" />
 </mat-form-field>
 <table [dataSource]="dataSource" class="people-table" mat-table>
   <ng-container matColumnDef="firstName">
     <th *matHeaderCellDef mat-header-cell>First Name</th>
-    <td *matCellDef="let element" mat-cell>{{ element.firstName }}</td>
+    <td *matCellDef="let element" mat-cell>
+      {{ element.firstName }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="lastName">
     <th *matHeaderCellDef mat-header-cell>Last Name</th>
     <td *matCellDef="let element" mat-cell>{{ element.lastName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th *matHeaderCellDef mat-header-cell>Role</th>
+    <td *matCellDef="let element" mat-cell>
+      <span *ngIf="element.isTutor">🛡</span>&nbsp;
+      <span *ngIf="element.isEditor">🖋</span>&nbsp;
+      <span *ngIf="element.isAdmin">🤠</span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="email">
@@ -41,7 +51,7 @@
   </ng-container>
 
   <tr *matHeaderRowDef="columns" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row routerLink="/office/users/{{row.id}}"></tr>
+  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row routerLink="/office/users/{{ row.id }}"></tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

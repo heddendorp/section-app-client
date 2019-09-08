@@ -16,7 +16,9 @@ export class UsersPageComponent implements OnInit {
   constructor(private userService: UserService, media: MediaObserver) {
     this.columns$ = media.asObservable().pipe(
       map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
-      map(simple => (simple ? ['lastName', 'firstName', 'email'] : ['lastName', 'firstName', 'email', 'country']))
+      map(simple =>
+        simple ? ['lastName', 'firstName', 'email'] : ['lastName', 'firstName', 'role', 'email', 'country']
+      )
     );
   }
 
