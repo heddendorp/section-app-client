@@ -17,6 +17,10 @@
   <strong>Notes for tutors</strong>
   <p class="description">{{ event.runningNotes }}</p>
 </ng-container>
+<ng-container *ngIf="event.tutorUsers">
+  <strong>Tutors already on this event</strong>
+  <p class="description">{{ tutorList }}</p>
+</ng-container>
 <mat-divider></mat-divider>
 <p *ngIf="signed" style="color: red">
   You are already signed up for this event, contact tumi-koordination@zv.tum.de to remove the registration.

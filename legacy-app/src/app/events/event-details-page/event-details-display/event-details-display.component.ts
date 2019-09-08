@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TumiEvent } from '../../../shared/services/event.service';
 import { BehaviorSubject } from 'rxjs';
 import { QrService } from '../../../shared/services/qr.service';
-import { first, map, tap } from 'rxjs/operators';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class EventDetailsDisplayComponent implements OnInit {
     this.isAuthenticated$ = this.authService.authenticated;
     this.authService.user
       .pipe(
+        filter(user => !!user),
         tap(user =>
           console.log(
             JSON.stringify({
@@ -48,5 +49,8 @@ export class EventDetailsDisplayComponent implements OnInit {
           })
           .then(url => this.qrCode.next(url))
       );
+  }
+  get tutorList() {
+    return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
   }
 }

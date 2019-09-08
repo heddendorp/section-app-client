@@ -1,40 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TumiEvent } from '../../shared/services/event.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
   styleUrls: ['./event-details-page.component.scss']
 })
-export class EventDetailsPageComponent implements OnInit {
+export class EventDetailsPageComponent implements OnInit, OnDestroy {
   event$: Observable<TumiEvent>;
   signed$: Observable<boolean>;
+  destroyed$ = new Subject();
 
   constructor(
     private route: ActivatedRoute,
     private fireFunctions: AngularFireFunctions,
     private snackBar: MatSnackBar,
     private authService: AuthService,
+    private userService: UserService,
+    private eventService: EventService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.event$ = this.route.data.pipe(
-      map(data => data.event),
-      tap(console.log)
+    // this.event$ = this.route.data.pipe(map(data => data.event));
+    const eventWithTutors = this.route.paramMap.pipe(
+      switchMap(params => this.userService.getEventWithTutors(params.get('eventId')))
+    );
+    const eventWithSignups = this.route.paramMap.pipe(
+      switchMap(params => this.eventService.getEventWithRegistrations(params.get('eventId')))
+    );
+    this.event$ = this.authService.isTutor.pipe(
+      switchMap(isTutor => (isTutor ? eventWithTutors : eventWithSignups)),
+      startWith(this.route.snapshot.data.event)
     );
     this.signed$ = this.event$.pipe(
       switchMap(event =>
         this.authService.user.pipe(
           map(
-            user => event.tutorSignups.includes(user.id) || event.userSignups.map(signup => signup.id).includes(user.id)
+            user =>
+              !!user &&
+              (event.tutorSignups.includes(user.id) || event.userSignups.map(signup => signup.id).includes(user.id))
           )
         )
       )
@@ -69,5 +82,9 @@ export class EventDetailsPageComponent implements OnInit {
       .toPromise();
     snack.dismiss();
     await this.router.navigate(['events', 'my']);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.complete();
   }
 }

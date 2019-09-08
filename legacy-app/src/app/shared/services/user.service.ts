@@ -60,8 +60,18 @@ export class UserService {
     );
   }
 
+  public getEventWithTutors(eventId) {
+    return this.eventService
+      .getEventWithRegistrations(eventId)
+      .pipe(
+        switchMap(event =>
+          this.getUsers(event.tutorSignups).pipe(map(tutorUsers => Object.assign(event, { tutorUsers })))
+        )
+      );
+  }
+
   public getEventWithUsers(eventId): Observable<TumiEvent> {
-    return this.eventService.getEventWithRegistrations(eventId).pipe(
+    return this.getEventWithTutors(eventId).pipe(
       switchMap(event =>
         combineLatest(
           event.userSignups.map(signup =>
@@ -75,9 +85,6 @@ export class UserService {
           map(signups => Object.assign(event, { userSignups: signups })),
           tap(console.log)
         )
-      ),
-      switchMap(event =>
-        this.getUsers(event.tutorSignups).pipe(map(tutorUsers => Object.assign(event, { tutorUsers })))
       )
     );
   }

@@ -14,10 +14,11 @@ service cloud.firestore {
     }
 
     match /events/{event} {
-      allow read: if resource.data.isVisiblePublicly || request.auth.uid != null;
+      allow read: if resource.data.isVisiblePublicly == true || request.auth.uid != null;
       allow write: if isEditor();
       match /signups/{signup} {
         allow write: if isAdmin();
+        allow read: if get(/databases/$(database)/documents/events/$(event)).data.isVisiblePublicly == true;
       }
     }
 
