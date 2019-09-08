@@ -37,7 +37,8 @@ export class EventService {
     isTicketTracker: false,
     tutorNotes: '',
     tutorSpots: 0,
-    tutorSignups: []
+    tutorSignups: [],
+    usersSignedUp: 0
   };
 
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private authService: AuthService) {}
@@ -243,6 +244,7 @@ export class EventService {
       tutorNotes: event.tutorNotes,
       tutorSpots: event.tutorSpots,
       tutorSignups: event.tutorSignups,
+      usersSignedUp: event.usersSignedUp,
       start: importStore.Timestamp.fromDate(event.start.toDate()),
       end: importStore.Timestamp.fromDate(event.end.toDate())
     };

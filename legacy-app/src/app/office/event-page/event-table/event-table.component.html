@@ -17,13 +17,24 @@
   </ng-container>
 
   <ng-container matColumnDef="tutors">
-    <th *matHeaderCellDef mat-header-cell>Assigned Tutors</th>
-    <td *matCellDef="let element" mat-cell>{{ element.tutorSignups }}</td>
+    <th *matHeaderCellDef mat-header-cell>Needed Tutors</th>
+    <td *matCellDef="let element" mat-cell>
+      {{ element.tutorSpots - element.tutorSignups.length }} / {{ element.tutorSpots }}
+    </td>
   </ng-container>
 
-  <ng-container matColumnDef="tutornum">
-    <th *matHeaderCellDef mat-header-cell>Needed Tutors</th>
-    <td *matCellDef="let element" mat-cell>{{element.tutorSpots - element.tutorSignups.length}} / {{ element.tutorSpots }}</td>
+  <ng-container matColumnDef="students">
+    <th *matHeaderCellDef mat-header-cell>Registrations</th>
+    <td *matCellDef="let element" mat-cell>{{ element.usersSignedUp }} / {{ element.participantSpots }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th *matHeaderCellDef mat-header-cell>Status</th>
+    <td *matCellDef="let element" mat-cell>
+      <span *ngIf="element.isVisiblePublicly" style="color: green">Public</span>
+      <span *ngIf="!element.isVisiblePublicly && element.isVisibleInternally" style="color: yellow">For Tutors</span>
+      <span *ngIf="!element.isVisiblePublicly && !element.isVisibleInternally" style="color: red">For Office</span>
+    </td>
   </ng-container>
 
   <tr *matHeaderRowDef="displayedColumns | async" mat-header-row></tr>

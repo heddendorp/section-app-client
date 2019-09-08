@@ -11,11 +11,11 @@
       </mat-card-title>
       <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>
     </mat-card-title-group>
+    <div fxFlex></div>
     <mat-card-content>
       <p>Tutors still needed: {{event.tutorSpots - event.tutorSignups.length}} / {{event.tutorSpots}}</p>
       <p>User signed up: {{event.usersSignedUp}} / {{event.participantSpots}}</p>
     </mat-card-content>
-    <div fxFlex></div>
     <mat-card-actions fxLayout="row">
       <button routerLink="./{{ event.id }}" mat-button fxFlex>More Info</button>
     </mat-card-actions>
