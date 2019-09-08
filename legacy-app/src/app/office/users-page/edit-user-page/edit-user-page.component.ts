@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Student, UserService } from '../../../shared/services/user.service';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { Student, UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-edit-user-page',

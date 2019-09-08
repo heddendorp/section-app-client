@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
-import { Student, UserService } from '../../shared/services/user.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { MoneyService } from '../../shared/services/money.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Student, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-scan-request',

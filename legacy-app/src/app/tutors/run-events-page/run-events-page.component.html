@@ -1,23 +1,18 @@
 <h4 class="no-margin mat-display-3">My Events</h4>
-<div
-  gdAuto
-  gdColumns="repeat(auto-fit, minmax(300px, 1fr))"
-  gdGap="1rem"
->
+<div gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="1rem">
   <mat-card *ngFor="let event of events$ | async" fxLayout="column">
     <mat-card-title-group>
-      <img fxFlex="80px" *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
-      <mat-card-title>{{ event.name }}
-      </mat-card-title>
+      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+      <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>
     </mat-card-title-group>
     <div fxFlex></div>
     <mat-card-content>
-      <p>Tutors still needed: {{event.tutorSpots - event.tutorSignups.length}} / {{event.tutorSpots}}</p>
-      <p>User signed up: {{event.usersSignedUp}} / {{event.participantSpots}}</p>
+      <p>Tutors still needed: {{ event.tutorSpots - event.tutorSignups.length }} / {{ event.tutorSpots }}</p>
+      <p>User signed up: {{ event.usersSignedUp }} / {{ event.participantSpots }}</p>
     </mat-card-content>
     <mat-card-actions fxLayout="row">
-      <button routerLink="./{{ event.id }}" mat-button fxFlex>More Info</button>
+      <button fxFlex mat-button routerLink="./{{ event.id }}">More Info</button>
     </mat-card-actions>
   </mat-card>
 </div>

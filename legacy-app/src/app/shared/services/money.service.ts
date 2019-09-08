@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as moment from 'moment';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { firestore } from 'firebase/app';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

@@ -4,11 +4,22 @@
       <button (click)="nav.toggle()" mat-icon-button>
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
-      <h4 routerLink="/" style="font-size: 1.5rem; line-height: 1.7rem; transform: translateY(4px)" ngStyle.gt-sm="font-size: 2rem; line-height: 2.2rem" ngStyle.xs="font-size: 1.25rem; line-height: 1.5rem">TUMinternational</h4>
-      <mat-icon svgIcon="tumi-logo" style="line-height: 2rem; font-size: 2rem; width: 2rem; height: 2rem; transform: scale(1)" fxHide.xs></mat-icon>
+      <h4
+        ngStyle.gt-sm="font-size: 2rem; line-height: 2.2rem"
+        ngStyle.xs="font-size: 1.25rem; line-height: 1.5rem"
+        routerLink="/"
+        style="font-size: 1.5rem; line-height: 1.7rem; transform: translateY(4px)"
+      >
+        TUMinternational
+      </h4>
+      <mat-icon
+        fxHide.xs
+        style="line-height: 2rem; font-size: 2rem; width: 2rem; height: 2rem; transform: scale(1)"
+        svgIcon="tumi-logo"
+      ></mat-icon>
       <div fxFlex></div>
       <ng-template #loginButton>
-        <button routerLink="/signup" mat-stroked-button>Login</button>
+        <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
       <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
         Log out
@@ -18,11 +29,11 @@
   <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
     <mat-sidenav
       #nav
-      style="width: 260px;"
       [fixedInViewport]="isMobile$ | async"
       [mode]="(isMobile$ | async) ? 'over' : 'side'"
       [opened]="!(isMobile$ | async) && !!(color$ | async)"
       fixedTopGap="56"
+      style="width: 260px;"
     >
       <aside fxLayout="column" style="height: 100%;">
         <mat-nav-list>

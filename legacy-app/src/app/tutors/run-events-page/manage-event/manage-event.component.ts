@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EventService, TumiEvent } from '../../../shared/services/event.service';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { EventService, TumiEvent } from '../../../shared/services/event.service';
 import { UserService } from '../../../shared/services/user.service';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-event',

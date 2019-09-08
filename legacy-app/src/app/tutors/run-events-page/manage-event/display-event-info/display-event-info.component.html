@@ -16,7 +16,7 @@
 </p>
 <mat-card *ngIf="isTutor && !event.moneyCollected">
   <mat-card-title>Collect money</mat-card-title>
-  <img mat-card-image [src]="qrCode" fxHide.gt-xs>
+  <img [src]="qrCode" fxHide.gt-xs mat-card-image />
   <mat-card-content>
     Bring this page to the office on a phone to collect the money for the event.
   </mat-card-content>

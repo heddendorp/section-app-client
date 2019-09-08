@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
-import { first, map } from 'rxjs/operators';
-import { AuthService } from '../../shared/services/auth.service';
-import { Student, UserService } from '../../shared/services/user.service';
-import { UserDataChangeComponent } from '../../shared/components/user-data-change/user-data-change.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
+import { UserDataChangeComponent } from '../../shared/components/user-data-change/user-data-change.component';
+import { AuthService } from '../../shared/services/auth.service';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
+import { Student, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-registered-list',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { getFreeSpots } from '../../shared/utility-functions';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-event-list-page',

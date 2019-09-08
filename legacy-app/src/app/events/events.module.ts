@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { EventDetailsDisplayComponent } from './event-details-page/event-details-display/event-details-display.component';
+import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 import { EventListPageComponent } from './event-list-page/event-list-page.component';
 import { EventListComponent } from './event-list-page/event-list/event-list.component';
-import { SharedModule } from '../shared/shared.module';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
-import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LoadEventResolver } from './resolvers/load-event.resolver';
-import { EventDetailsDisplayComponent } from './event-details-page/event-details-display/event-details-display.component';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
   { path: 'list', component: EventListPageComponent },

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Student, UserService } from '../../shared/services/user.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { MediaObserver } from '@angular/flex-layout';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Student, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-users-page',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Transaction } from './money.service';
 import jsPDF from 'jspdf';
+import { Transaction } from './money.service';
 
 @Injectable({
   providedIn: 'root'

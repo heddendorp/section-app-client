@@ -1,3 +1,7 @@
-<h1 class="mat-display-4">{{(event$ | async).name}}</h1>
+<h1 class="mat-display-4">{{ (event$ | async).name }}</h1>
 <app-display-event-info [event]="event$ | async" style="margin-bottom: 4rem;"></app-display-event-info>
-<app-display-event-users [event]="event$ | async" [participantEmail]="studentEmail$ | async" [tutorEmail]="tutorEmail$ | async"></app-display-event-users>
+<app-display-event-users
+  [event]="event$ | async"
+  [participantEmail]="studentEmail$ | async"
+  [tutorEmail]="tutorEmail$ | async"
+></app-display-event-users>

@@ -1,20 +1,18 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material/icon';
-import { Observable, Subject, timer } from 'rxjs';
-import { filter, first, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaObserver } from '@angular/flex-layout';
-import { AuthService } from './shared/services/auth.service';
-import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ScanRequestComponent } from './components/scan-request/scan-request.component';
-import { ActivationEnd, Router, RouterOutlet } from '@angular/router';
-import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { ThemePalette } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
-import { PaPageComponent } from './pages/pa-page/pa-page.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivationEnd, Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
+import { Observable, Subject, timer } from 'rxjs';
+import { filter, first, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { ScanRequestComponent } from './components/scan-request/scan-request.component';
+import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',

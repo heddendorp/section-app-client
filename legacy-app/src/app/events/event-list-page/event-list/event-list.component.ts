@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TumiEvent } from '../../../shared/services/event.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
+import { TumiEvent } from '../../../shared/services/event.service';
 
 @Component({
   selector: 'app-event-list',

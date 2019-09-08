@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TumiEvent } from '../../../shared/services/event.service';
 import { BehaviorSubject } from 'rxjs';
-import { QrService } from '../../../shared/services/qr.service';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
 import { AuthService } from '../../../shared/services/auth.service';
+import { TumiEvent } from '../../../shared/services/event.service';
+import { QrService } from '../../../shared/services/qr.service';
 
 @Component({
   selector: 'app-event-details-display',
@@ -21,6 +21,10 @@ export class EventDetailsDisplayComponent implements OnInit {
   isAuthenticated$;
 
   constructor(private qrService: QrService, private authService: AuthService) {}
+
+  get tutorList() {
+    return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
+  }
 
   ngOnInit() {
     this.eventFull = this.event.usersSignedUp >= this.event.participantSpots;
@@ -49,8 +53,5 @@ export class EventDetailsDisplayComponent implements OnInit {
           })
           .then(url => this.qrCode.next(url))
       );
-  }
-  get tutorList() {
-    return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
   }
 }

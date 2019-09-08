@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EventService, TumiEvent } from '../../../shared/services/event.service';
 import { map, switchMap } from 'rxjs/operators';
+import { EventService, TumiEvent } from '../../../shared/services/event.service';
 
 @Component({
   selector: 'app-event-edit-page',

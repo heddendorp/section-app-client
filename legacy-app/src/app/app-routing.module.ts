@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
   {

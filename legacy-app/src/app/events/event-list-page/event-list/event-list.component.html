@@ -1,38 +1,35 @@
-<div
-  *ngIf="events?.length; else emptyList"
-  gdAuto
-  gdColumns="repeat(auto-fit, minmax(300px, 1fr))"
-  gdGap="1rem"
->
+<div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="1rem">
   <mat-card *ngFor="let event of events" fxLayout="column">
-    <div class="badge external" *ngIf="event.isExternal">External Event</div>
-    <div class="badge internal" *ngIf="event.isInternal">Internal Event</div>
+    <div *ngIf="event.isExternal" class="badge external">External Event</div>
+    <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
     <mat-card-title-group>
-      <img fxFlex="80px" *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
-      <mat-card-title>{{ event.name }}
-      </mat-card-title>
-      <mat-card-subtitle>{{ event.start | date: 'short' }}
-        <ng-container *ngIf="!event.isExternal && !event.isInternal"> - <em>{{ event.freeSpots }}</em></ng-container>
+      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+      <mat-card-title>{{ event.name }} </mat-card-title>
+      <mat-card-subtitle
+        >{{ event.start | date: 'short' }}
+        <ng-container *ngIf="!event.isExternal && !event.isInternal">
+          - <em>{{ event.freeSpots }}</em></ng-container
+        >
       </mat-card-subtitle>
     </mat-card-title-group>
     <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal">
-      Tutors still needed: {{event.tutorSpots - event.tutorSignups.length}} / {{event.tutorSpots}}
+      Tutors still needed: {{ event.tutorSpots - event.tutorSignups.length }} / {{ event.tutorSpots }}
     </mat-card-content>
     <div fxFlex></div>
     <mat-card-actions fxLayout="row">
-      <button routerLink="/events/show/{{ event.id }}" mat-button fxFlex>More Info</button>
+      <button fxFlex mat-button routerLink="/events/show/{{ event.id }}">More Info</button>
     </mat-card-actions>
   </mat-card>
 </div>
 <ng-template #emptyList>
   <div
+    class="mat-typography"
     fxLayout="column"
     fxLayoutAlign="center center"
     fxLayoutGap="2rem"
     style="min-height: 50vh"
-    class="mat-typography"
   >
-    <img src="/assets/illustrations/empty.svg" style="height: 20vh"/>
+    <img src="/assets/illustrations/empty.svg" style="height: 20vh" />
     <h4 class="mat-display-4">Sorry, this list is empty. We'll have new events for you soon</h4>
   </div>
 </ng-template>

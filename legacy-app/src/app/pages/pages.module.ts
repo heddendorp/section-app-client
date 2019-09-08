@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AboutPageComponent } from './about-page/about-page.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { SignupPageComponent } from './signup-page/signup-page.component';
+import { AboutPageComponent } from './about-page/about-page.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
+import { SignupPageComponent } from './signup-page/signup-page.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true }, component: AboutPageComponent },

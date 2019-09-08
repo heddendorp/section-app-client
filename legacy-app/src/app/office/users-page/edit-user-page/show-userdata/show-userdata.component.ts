@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Student, UserService } from '../../../../shared/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDataChangeComponent } from '../../../../shared/components/user-data-change/user-data-change.component';
+import { Student, UserService } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-show-userdata',

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from '../../shared/services/auth.service';
-import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-mail-signin',

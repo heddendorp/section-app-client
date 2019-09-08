@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
-import { first, map, tap } from 'rxjs/operators';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
 
 @Component({
   selector: 'app-run-events-page',

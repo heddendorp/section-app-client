@@ -1,7 +1,7 @@
 <header fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1rem;">
-  <div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
     <button mat-icon-button routerLink="/events" style="height: 3rem; width: 3rem; transform: translate(-4px, -12px)">
-      <mat-icon svgIcon="chevron-left" style="height: 3rem; width: 3rem;"></mat-icon>
+      <mat-icon style="height: 3rem; width: 3rem;" svgIcon="chevron-left"></mat-icon>
     </button>
     <div>
       <h1 class="mat-display-2 no-margin">
@@ -13,7 +13,7 @@
   <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
 </header>
 <p class="description">{{ event.description }}</p>
-<ng-container *ngIf="(isTutor$ | async)">
+<ng-container *ngIf="isTutor$ | async">
   <strong>Notes for tutors</strong>
   <p class="description">{{ event.runningNotes }}</p>
 </ng-container>
@@ -38,7 +38,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-stroked-button target="_blank" href="{{ event.signupLink }}">Sign up now</a>
+      <a href="{{ event.signupLink }}" mat-stroked-button target="_blank">Sign up now</a>
     </mat-card-actions>
   </mat-card>
 </ng-template>
@@ -60,7 +60,7 @@
   <ng-container *ngIf="isAuthenticated$ | async; else noLogin">
     <mat-card *ngIf="event.hasFee || !event.hasOnlineSignup">
       <mat-card-title>Office Sign up</mat-card-title>
-      <img mat-card-image [src]="qrCode | async" alt="event QR code" fxHide.gt-sm />
+      <img [src]="qrCode | async" alt="event QR code" fxHide.gt-sm mat-card-image />
       <mat-card-content>
         <p fxHide.gt-sm>Please take this code into the TUMi office to Sign up for the event</p>
         <p fxShow.gt-sm>Take your phone to the office please, it will show the needed QR-code</p>
@@ -74,14 +74,16 @@
       <mat-card-title>Online sign up</mat-card-title>
       <mat-card-content>
         <p>This event allows online sign up, you can register right here.</p>
-        <p *ngIf="eventFull">Please mind! THis event is already booked, you can sign up once places become available again</p>
+        <p *ngIf="eventFull">
+          Please mind! THis event is already booked, you can sign up once places become available again
+        </p>
         <p *ngIf="event.hasFee">
           The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected at the event, please
           bring cash
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-stroked-button (click)="studentSignup.emit(event.id)" [disabled]="signed || eventFull">
+        <button (click)="studentSignup.emit(event.id)" [disabled]="signed || eventFull" mat-stroked-button>
           Register for this event now
         </button>
       </mat-card-actions>
@@ -90,12 +92,12 @@
       <mat-card-title>Tutor sign up</mat-card-title>
       <mat-card-content>
         <p *ngIf="event.tutorSpots > event.tutorSignups.length; else eventFull">
-          This event still has {{ event.tutorSpots - event.tutorSignups.length }} spots left for tutors. <br />You can sign up
-          right here to manage this event
+          This event still has {{ event.tutorSpots - event.tutorSignups.length }} spots left for tutors. <br />You can
+          sign up right here to manage this event
         </p>
         <p *ngIf="signed">
           If you are a tutor for this event you can get more info in your
-          <a routerLink="/events/my" class="styled">registered events</a>
+          <a class="styled" routerLink="/events/my">registered events</a>
         </p>
         <ng-template #eventFull>
           <p>There are no more Tutor spots left on this event</p>
@@ -103,9 +105,9 @@
       </mat-card-content>
       <mat-card-actions>
         <button
-          mat-flat-button
-          [disabled]="event.tutorSpots <= event.tutorSignups.length || signed"
           (click)="tutorSignup.emit(event.id)"
+          [disabled]="event.tutorSpots <= event.tutorSignups.length || signed"
+          mat-flat-button
         >
           Sign up as a tutor
         </button>

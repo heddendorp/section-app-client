@@ -136,6 +136,7 @@ $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 @media (prefers-color-scheme: dark) {
   @include dark-theme;
 }
+
 .dark-theme {
   @include mat-toolbar-theme($tumi-dark-theme);
 }
@@ -162,9 +163,11 @@ body {
 a.styled {
   text-decoration: underline dashed;
   color: inherit;
+
   &:hover {
     text-decoration: underline;
   }
+
   &:visited {
     text-decoration: underline double;
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import QRCode from 'qrcode';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import QRCode from 'qrcode';
 
 @Injectable({
   providedIn: 'root'

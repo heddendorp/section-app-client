@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TumiEvent } from '../../../shared/services/event.service';
 import { MediaObserver } from '@angular/flex-layout';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TumiEvent } from '../../../shared/services/event.service';
 
 @Component({
   selector: 'app-event-table',

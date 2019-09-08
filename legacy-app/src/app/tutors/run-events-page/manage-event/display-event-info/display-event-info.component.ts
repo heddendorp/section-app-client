@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { first, map } from 'rxjs/operators';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { TumiEvent } from '../../../../shared/services/event.service';
 import { QrService } from '../../../../shared/services/qr.service';
-import { AuthService } from '../../../../shared/services/auth.service';
-import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-display-event-info',

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { UserService } from '../../shared/services/user.service';
 
 @Component({

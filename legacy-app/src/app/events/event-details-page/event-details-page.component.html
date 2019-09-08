@@ -1,6 +1,6 @@
 <app-event-details-display
-  [event]="event$ | async"
-  [signed]="signed$ | async"
   (studentSignup)="registerStudent($event)"
   (tutorSignup)="registerTutor($event)"
+  [event]="event$ | async"
+  [signed]="signed$ | async"
 ></app-event-details-display>

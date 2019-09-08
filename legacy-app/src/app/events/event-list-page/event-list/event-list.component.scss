@@ -8,10 +8,12 @@ div.badge {
   padding: 2px 4px;
   border-radius: 4px 0 0 4px;
   @include mat-elevation(2);
+
   &.external {
     background: mat-color($tumi-primary);
     color: mat-contrast($tumi-primary, default);
   }
+
   &.internal {
     background: mat-color($tumi-accent);
     color: mat-contrast($tumi-accent, default);

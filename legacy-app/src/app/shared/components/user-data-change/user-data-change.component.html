@@ -2,27 +2,27 @@
 <mat-dialog-content>
   <form [formGroup]="userForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-form-field>
-      <input matInput required placeholder="First name" formControlName="firstName" />
+      <input formControlName="firstName" matInput placeholder="First name" required />
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="Last name" formControlName="lastName" />
+      <input formControlName="lastName" matInput placeholder="Last name" required />
     </mat-form-field>
     <mat-form-field>
-      <input type="tel" matInput placeholder="Phone number" formControlName="phone" />
+      <input formControlName="phone" matInput placeholder="Phone number" type="tel" />
       <mat-hint *ngIf="isTutor$ | async; else optional"
-        >Please enter your phone number for internal Communication</mat-hint
-      >
+        >Please enter your phone number for internal Communication
+      </mat-hint>
       <ng-template #optional>
         <mat-hint>This field is optional</mat-hint>
       </ng-template>
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="University Email" type="email" formControlName="email" />
+      <input formControlName="email" matInput placeholder="University Email" required type="email" />
       <mat-hint>Please enter your academic mail here so we can find you in our lists</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Faculty</mat-label>
-      <mat-select required formControlName="faculty">
+      <mat-select formControlName="faculty" required>
         <mat-option *ngFor="let faculty of faculties" [value]="faculty.key">
           {{ faculty.value }}
         </mat-option>
@@ -30,18 +30,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Study Type</mat-label>
-      <mat-select required formControlName="degree">
+      <mat-select formControlName="degree" required>
         <mat-option *ngFor="let degree of targets" [value]="degree.key">
           {{ degree.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput required placeholder="Country of Origin" formControlName="country" />
+      <input formControlName="country" matInput placeholder="Country of Origin" required />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Status</mat-label>
-      <mat-select required formControlName="type">
+      <mat-select formControlName="type" required>
         <mat-option *ngFor="let type of studentTypes" [value]="type.key">
           {{ type.value }}
         </mat-option>
@@ -52,8 +52,8 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button mat-dialog-close>Cancel</button>
-  <button mat-flat-button color="primary" [disabled]="userForm.invalid && !(isAdmin$ | async)" (click)="submitData()">
+  <button mat-dialog-close mat-flat-button>Cancel</button>
+  <button (click)="submitData()" [disabled]="userForm.invalid && !(isAdmin$ | async)" color="primary" mat-flat-button>
     Save
   </button>
 </mat-dialog-actions>

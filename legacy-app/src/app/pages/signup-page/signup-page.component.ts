@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { MailSigninComponent } from '../../components/mail-signin/mail-signin.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-signup-page',

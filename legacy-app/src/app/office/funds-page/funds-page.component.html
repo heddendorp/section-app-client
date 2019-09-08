@@ -3,45 +3,41 @@
   <h2 class="no-margin mat-display-4">Currently the register should hold {{ balance$ | async }}€</h2>
   <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <div fxLayout="column">
-      <form fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem" [formGroup]="filterForm">
-        <div fxLayout="row" fxLayoutGap="2rem" fxFlex.gt-md>
+      <form [formGroup]="filterForm" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
+        <div fxFlex.gt-md fxLayout="row" fxLayoutGap="2rem">
           <mat-form-field>
-            <input
-              [matDatepicker]="startPicker"
-              formControlName="startDate"
-              matInput
-              placeholder="Show newer than"
-            />
+            <input [matDatepicker]="startPicker" formControlName="startDate" matInput placeholder="Show newer than" />
             <mat-datepicker-toggle [for]="startPicker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <input
-              [matDatepicker]="endPicker"
-              formControlName="endDate"
-              matInput
-              placeholder="Show older than"
-            />
+            <input [matDatepicker]="endPicker" formControlName="endDate" matInput placeholder="Show older than" />
             <mat-datepicker-toggle [for]="endPicker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
         <mat-form-field fxFlex.gt-md>
-          <input matInput type="search" placeholder="Search" formControlName="searchString">
+          <input formControlName="searchString" matInput placeholder="Search" type="search" />
         </mat-form-field>
       </form>
-      <div fxLayout="column" fxFlex fxLayoutGap="1rem">
-        <div class="transaction" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" *ngFor="let transaction of transactions$ | async" >
+      <div fxFlex fxLayout="column" fxLayoutGap="1rem">
+        <div
+          *ngFor="let transaction of transactions$ | async"
+          class="transaction"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="1rem"
+        >
           <mat-icon
             [style.color]="transaction.value > 0 ? 'green' : 'red'"
             [svgIcon]="transaction.value > 0 ? 'plus' : 'minus'"
             mat-list-icon
           ></mat-icon>
-          <div fxLayout="column" fxFlex>
+          <div fxFlex fxLayout="column">
             <p>{{ transaction.absValue }}€ - {{ transaction.comment }}</p>
             <p class="mat-caption">{{ transaction.timestamp | date: 'medium' }}</p>
           </div>
-          <button mat-flat-button (click)="getReceipt(transaction)">Download Receipt</button>
+          <button (click)="getReceipt(transaction)" mat-flat-button>Download Receipt</button>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Student } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { allFaculties, allTargets, allTypes } from '../../uni-data';
-import { AuthService } from '../../services/auth.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { Student } from '../../services/user.service';
+import { allFaculties, allTargets, allTypes } from '../../uni-data';
 
 @Component({
   selector: 'app-user-data-change',

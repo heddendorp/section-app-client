@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { firestore as importStore } from 'firebase/app';
+import * as moment from 'moment';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, map, single, switchMap, tap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import * as moment from 'moment';
-import { firestore as importStore } from 'firebase/app';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Student } from './user.service';
 

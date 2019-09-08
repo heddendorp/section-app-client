@@ -24,20 +24,20 @@
           another account you have to remember.
         </p>
       </div>
-      <div gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" class="login-buttons">
-        <button mat-stroked-button color="primary" (click)="login('google')">
+      <div class="login-buttons" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem">
+        <button (click)="login('google')" color="primary" mat-stroked-button>
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
         </button>
-        <button mat-stroked-button color="primary" (click)="login('microsoft')">
+        <button (click)="login('microsoft')" color="primary" mat-stroked-button>
           <mat-icon svgIcon="microsoft"></mat-icon>
           <span>Sign up with microsoft</span>
         </button>
-        <button disabled mat-stroked-button color="primary" (click)="login('facebook')">
+        <button (click)="login('facebook')" color="primary" disabled mat-stroked-button>
           <mat-icon svgIcon="facebook"></mat-icon>
           <span>Sign up with facebook</span>
         </button>
-        <button mat-stroked-button (click)="login('email')">
+        <button (click)="login('email')" mat-stroked-button>
           <mat-icon svgIcon="mail"></mat-icon>
           <span>Sign up with your Email</span>
         </button>
@@ -45,7 +45,8 @@
       <div>
         <p class="mat-caption">It's recommended to use a social account instead of making a new one with your email</p>
         <p class="mat-caption">
-          If you have <strong>forgotten your password</strong>, please contact TUMi at <em>tumi@zv.tum.de</em> to get a reset.
+          If you have <strong>forgotten your password</strong>, please contact TUMi at <em>tumi@zv.tum.de</em> to get a
+          reset.
         </p>
       </div>
     </section>

@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventPageComponent } from './event-page/event-page.component';
-import { EventTableComponent } from './event-page/event-table/event-table.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { SignupPageComponent } from './event-page/signup-page/signup-page.component';
-import { EventEditPageComponent } from './event-page/event-edit-page/event-edit-page.component';
-import { OfficeComponent } from './office.component';
-import { EventEditFormComponent } from './event-page/event-edit-page/event-edit-form/event-edit-form.component';
-import { FundsPageComponent } from './funds-page/funds-page.component';
 import { CsvInputDialogComponent } from './components/csv-input-dialog/csv-input-dialog.component';
 import { PeopleTableComponent } from './components/people-table/people-table.component';
-import { UsersPageComponent } from './users-page/users-page.component';
+import { EventEditFormComponent } from './event-page/event-edit-page/event-edit-form/event-edit-form.component';
+import { EventEditPageComponent } from './event-page/event-edit-page/event-edit-page.component';
+import { EventPageComponent } from './event-page/event-page.component';
+import { EventTableComponent } from './event-page/event-table/event-table.component';
+import { SignupPageComponent } from './event-page/signup-page/signup-page.component';
+import { FundsPageComponent } from './funds-page/funds-page.component';
+import { OfficeComponent } from './office.component';
+import { LoadUserdataResolver } from './resolvers/load-userdata.resolver';
 import { EditUserPageComponent } from './users-page/edit-user-page/edit-user-page.component';
 import { ShowUserdataComponent } from './users-page/edit-user-page/show-userdata/show-userdata.component';
 import { ShowUsereventsComponent } from './users-page/edit-user-page/show-userevents/show-userevents.component';
-import { LoadUserdataResolver } from './resolvers/load-userdata.resolver';
+import { UsersPageComponent } from './users-page/users-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },

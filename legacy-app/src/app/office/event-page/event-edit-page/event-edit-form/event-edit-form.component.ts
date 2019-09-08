@@ -9,10 +9,10 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { TumiEvent } from '../../../../shared/services/event.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { TumiEvent } from '../../../../shared/services/event.service';
 
 @Component({
   selector: 'app-event-edit-form',

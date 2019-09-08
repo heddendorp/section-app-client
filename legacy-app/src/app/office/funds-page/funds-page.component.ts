@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MoneyService, Transaction } from '../../shared/services/money.service';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
 import * as moment from 'moment';
+import { combineLatest, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MoneyService, Transaction } from '../../shared/services/money.service';
 import { PDFService } from '../../shared/services/pdf.service';
 
 @Component({

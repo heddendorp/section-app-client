@@ -6,7 +6,7 @@
   <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
 </form>-->
 <mat-form-field style="width: 100%;">
-  <input autocomplete="off" type="search" matInput [formControl]="searchControl" placeholder="Search for a user" />
+  <input [formControl]="searchControl" autocomplete="off" matInput placeholder="Search for a user" type="search" />
 </mat-form-field>
 <table [dataSource]="dataSource" class="people-table" mat-table>
   <ng-container matColumnDef="firstName">
@@ -24,8 +24,7 @@
   <ng-container matColumnDef="role">
     <th *matHeaderCellDef mat-header-cell>Role</th>
     <td *matCellDef="let element" mat-cell>
-      <span *ngIf="element.isTutor">🛡</span>&nbsp;
-      <span *ngIf="element.isEditor">🖋</span>&nbsp;
+      <span *ngIf="element.isTutor">🛡</span>&nbsp; <span *ngIf="element.isEditor">🖋</span>&nbsp;
       <span *ngIf="element.isAdmin">🤠</span>
     </td>
   </ng-container>

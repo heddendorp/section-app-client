@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>Please confirm this action!</h1>
 <mat-dialog-content class="mat-typography">
-  <p>{{data.text}}</p>
+  <p>{{ data.text }}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button color="primary" [mat-dialog-close]="true">Proceed</button>
-  <button mat-flat-button color="warn" [mat-dialog-close]="false">Cancel</button>
+  <button [mat-dialog-close]="true" color="primary" mat-flat-button>Proceed</button>
+  <button [mat-dialog-close]="false" color="warn" mat-flat-button>Cancel</button>
 </mat-dialog-actions>

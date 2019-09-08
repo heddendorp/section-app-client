@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { EventService, TumiEvent } from './event.service';
 
 @Injectable({
@@ -74,16 +74,10 @@ export class UserService {
     return this.getEventWithTutors(eventId).pipe(
       switchMap(event =>
         combineLatest(
-          event.userSignups.map(signup =>
-            this.getUser(signup.id).pipe(
-              tap(console.log),
-              map(user => Object.assign(signup, { user }))
-            )
-          )
+          event.userSignups.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
         ).pipe(
           startWith([]),
-          map(signups => Object.assign(event, { userSignups: signups })),
-          tap(console.log)
+          map(signups => Object.assign(event, { userSignups: signups }))
         )
       )
     );
