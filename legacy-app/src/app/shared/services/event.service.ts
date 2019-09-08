@@ -149,6 +149,7 @@ export class EventService {
       .get()
       .pipe(
         map(event => event.data()),
+        map(this.parseEvent),
         switchMap((event: TumiEvent) =>
           this.firestore
             .collection('events')
@@ -247,7 +248,8 @@ export class EventService {
     return {
       ...event,
       start: moment(event.start.toDate()),
-      end: moment(event.end.toDate())
+      end: moment(event.end.toDate()),
+      usersSignedUp: event.usersSignedUp || 0
     };
   }
 }
@@ -273,6 +275,7 @@ interface BaseEvent {
   signupLink: string;
   soldTickets: number;
   isTicketTracker: boolean;
+  usersSignedUp?: number;
   tutorNotes: string;
   tutorSpots: number;
   tutorSignups: string[];

@@ -26,7 +26,10 @@ export class EventDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.event$ = this.route.data.pipe(map(data => data.event));
+    this.event$ = this.route.data.pipe(
+      map(data => data.event),
+      tap(console.log)
+    );
     this.signed$ = this.event$.pipe(
       switchMap(event =>
         this.authService.user.pipe(
@@ -40,7 +43,7 @@ export class EventDetailsPageComponent implements OnInit {
 
   async registerTutor(eventId) {
     const snack = this.snackBar.openFromComponent(IconToastComponent, {
-      data: { message: "Please wait while we're signing you up", icon: 'wait' },
+      data: { message: `Please wait while we're signing you up`, icon: 'wait' },
       duration: 0
     });
     await this.fireFunctions
@@ -55,7 +58,7 @@ export class EventDetailsPageComponent implements OnInit {
 
   async registerStudent(eventId) {
     const snack = this.snackBar.openFromComponent(IconToastComponent, {
-      data: { message: "Please wait while we're signing you up", icon: 'wait' },
+      data: { message: `Please wait while we're signing you up`, icon: 'wait' },
       duration: 0
     });
     await this.fireFunctions

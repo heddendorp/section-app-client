@@ -1,23 +1,45 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin(){
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+    }
+
+    function isEditor() {
+      return isAdmin() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isEditor == true
+    }
+
+    function isTutor() {
+        return isAdmin() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isTutor == true
+    }
+
     match /events/{event} {
-        allow read: if resource.data.public || request.auth.uid != null;
-        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isEditor == true;
+      allow read: if resource.data.public || request.auth.uid != null;
+      allow write: if isEditor();
+      match /signups/{signup} {
+        allow write: if isAdmin();
+      }
     }
+
     match /users/{user} {
-        allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isTutor == true;
-        allow read, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true || request.auth.uid == resource.data.id;
-        allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      allow read: if isTutor();
+      allow read, update: if request.auth.uid == resource.data.id;
+      allow write: if isAdmin();
     }
+
     match /stats/money {
-        allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
-        match /transactions/{transaction} {
-            allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
-        }
+      allow read: if isAdmin();
+      match /transactions/{transaction} {
+        allow read, write: if isAdmin();
+      }
     }
-     match /{document=**} {
-        allow read, write: if false;
-     }
+
+    match /{path=**}/signups/{signup} {
+      allow read: if request.auth.uid == resource.data.id || isTutor();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }

@@ -9,39 +9,53 @@
       "fields": [{ "fieldPath": "isEditor", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
     },
     {
-      "collectionId": "users",
-      "fields": [{ "fieldPath": "isStudent", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
+      "collectionId": "events",
+      "fields": [
+        { "fieldPath": "tutorSignups", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "start", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "events",
+      "fields": [{ "fieldPath": "isExternal", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
     },
     {
       "collectionId": "events",
       "fields": [
-        { "fieldPath": "onlineSignups", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "isVisibleInternally", "mode": "ASCENDING" },
         { "fieldPath": "start", "mode": "ASCENDING" }
       ]
     },
     {
       "collectionId": "events",
       "fields": [
-        { "fieldPath": "payedSignups", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "isVisiblePublicly", "mode": "ASCENDING" },
         { "fieldPath": "start", "mode": "ASCENDING" }
       ]
-    },
-    {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "tutors", "mode": "ARRAY_CONTAINS" }, { "fieldPath": "start", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "external", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "preview", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "public", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "signups",
+      "fieldPath": "id",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "order": "DESCENDING",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "arrayConfig": "CONTAINS",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION_GROUP"
+        }
+      ]
+    }
+  ]
 }

@@ -27,17 +27,19 @@ export class EventListPageComponent implements OnInit {
       this.filterForm.valueChanges.pipe(startWith(this.filterForm.value))
     ]).pipe(
       map(([events, filter]) =>
-        events.map(event => Object.assign(event, { freeSpots: getFreeSpots(event) })).filter(this.filterEvents(filter))
+        events
+          .map((event: TumiEvent) => Object.assign(event, { freeSpots: getFreeSpots(event) }))
+          .filter(this.filterEvents(filter))
       )
     );
   }
 
   filterEvents(filter) {
     return event => {
-      if (!filter.showExternal && event.external) {
+      if (!filter.showExternal && event.isExternal) {
         return false;
       }
-      if (!filter.showFull && event.freeSpots === 'Event is full' && !event.internal && !event.external) {
+      if (!filter.showFull && event.freeSpots === 'Event is full' && !event.isInternal && !event.isExternal) {
         return false;
       }
       return true;
