@@ -64,8 +64,17 @@ export class UserService {
     return this.eventService.getEventWithRegistrations(eventId).pipe(
       switchMap(event =>
         combineLatest(
-          event.userSignups.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
-        ).pipe(map(signups => Object.assign(event, { userSignups: signups })))
+          event.userSignups.map(signup =>
+            this.getUser(signup.id).pipe(
+              tap(console.log),
+              map(user => Object.assign(signup, { user }))
+            )
+          )
+        ).pipe(
+          startWith([]),
+          map(signups => Object.assign(event, { userSignups: signups })),
+          tap(console.log)
+        )
       ),
       switchMap(event =>
         this.getUsers(event.tutorSignups).pipe(map(tutorUsers => Object.assign(event, { tutorUsers })))

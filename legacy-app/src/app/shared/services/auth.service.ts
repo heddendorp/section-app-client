@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { auth, User } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { first, map, startWith, switchMap } from 'rxjs/operators';
+import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Student } from './user.service';
@@ -19,21 +19,21 @@ export class AuthService {
 
   public get isAdmin(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student && student.isAdmin),
+      map(student => !!(student && student.isAdmin)),
       startWith(false)
     );
   }
 
   public get isTutor(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student && (student.isTutor || student.isAdmin)),
+      map(student => !!(student && (student.isTutor || student.isAdmin))),
       startWith(false)
     );
   }
 
   public get isEditor(): Observable<boolean> {
     return this.user.pipe(
-      map(student => student && (student.isEditor || student.isAdmin)),
+      map(student => !!(student && (student.isEditor || student.isAdmin))),
       startWith(false)
     );
   }

@@ -7,12 +7,16 @@
       <h1 class="mat-display-2 no-margin">
         {{ event.name }}
       </h1>
-      <h5>{{ event.start | date: 'short' }} - {{ event.end | date: 'short' }}</h5>
+      <strong>{{ event.start | date: 'short' }} - {{ event.end | date: 'short' }}</strong>
     </div>
   </div>
   <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
 </header>
 <p class="description">{{ event.description }}</p>
+<ng-container *ngIf="(isTutor$ | async)">
+  <strong>Notes for tutors</strong>
+  <p class="description">{{ event.runningNotes }}</p>
+</ng-container>
 <mat-divider></mat-divider>
 <p *ngIf="signed" style="color: red">
   You are already signed up for this event, contact tumi-koordination@zv.tum.de to remove the registration.

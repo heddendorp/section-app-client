@@ -53,6 +53,10 @@ export class EventService {
     return this.authService.isTutor.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
   }
 
+  public get runningEvents(): Observable<TumiEvent[]> {
+    return this.authService.isAdmin.pipe(switchMap(isAdmin => (isAdmin ? this.futureEvents : this.tutoredEvents)));
+  }
+
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.authService.user.pipe(
       switchMap(user => combineLatest([this.getSignedEventsForUser(user.id), this.getTutorEventsForUser(user.id)])),

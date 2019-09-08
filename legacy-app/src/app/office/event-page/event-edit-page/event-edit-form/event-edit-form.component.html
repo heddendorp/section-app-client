@@ -63,8 +63,8 @@
   <mat-form-field>
     <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number"/>
   </mat-form-field>
-  <mat-slide-toggle formControlName="isExternal">External Event</mat-slide-toggle>
-  <mat-slide-toggle formControlName="isInternal">Internal Event</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isExternal">External Event <small>(Not organized by TUMi)</small></mat-slide-toggle>
+  <mat-slide-toggle formControlName="isInternal">Internal Event <small>(Only for Tutors)</small></mat-slide-toggle>
   <mat-form-field gdColumn.gt-xs="span 2">
     <input type="href" formControlName="signupLink" matInput placeholder="Singup Link"/>
     <mat-hint>Link where users can sign up for external events</mat-hint>
