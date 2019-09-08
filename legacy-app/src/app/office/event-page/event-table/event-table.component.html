@@ -18,12 +18,12 @@
 
   <ng-container matColumnDef="tutors">
     <th *matHeaderCellDef mat-header-cell>Assigned Tutors</th>
-    <td *matCellDef="let element" mat-cell>{{ element.tutors }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element.tutorSignups }}</td>
   </ng-container>
 
   <ng-container matColumnDef="tutornum">
     <th *matHeaderCellDef mat-header-cell>Needed Tutors</th>
-    <td *matCellDef="let element" mat-cell>{{element.tutorSpots - element.tutors.length}} / {{ element.tutorSpots }}</td>
+    <td *matCellDef="let element" mat-cell>{{element.tutorSpots - element.tutorSignups.length}} / {{ element.tutorSpots }}</td>
   </ng-container>
 
   <tr *matHeaderRowDef="displayedColumns | async" mat-header-row></tr>

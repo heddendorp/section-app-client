@@ -17,7 +17,7 @@ export class RunEventsPageComponent implements OnInit {
   async ngOnInit() {
     const isAdmin = await this.authService.isAdmin;
     if (isAdmin) {
-      this.events$ = this.eventService.futureEvents.pipe(tap(console.log));
+      this.events$ = this.eventService.futureEvents;
     } else {
       this.events$ = this.eventService.tutoredEvents;
     }

@@ -6,7 +6,7 @@
   <div fxLayout="row" gdColumn.gt-xs="span 2" fxLayoutGap="2rem">
     <mat-form-field fxFlex>
       <input formControlName="icon" matInput placeholder="Icon for your event"/>
-      <mat-hint>Try some words and see if they match your event</mat-hint>
+      <mat-hint>Try some words and see if they match your event (go to icons8.com for a better search)</mat-hint>
     </mat-form-field>
     <div fxFlex.gt-sm>
       <img [src]="iconUrl$ | async"/>
@@ -63,18 +63,18 @@
   <mat-form-field>
     <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number"/>
   </mat-form-field>
-  <mat-slide-toggle formControlName="external">External Event</mat-slide-toggle>
-  <mat-slide-toggle formControlName="internal">Internal Event</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isExternal">External Event</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isInternal">Internal Event</mat-slide-toggle>
   <mat-form-field gdColumn.gt-xs="span 2">
     <input type="href" formControlName="signupLink" matInput placeholder="Singup Link"/>
     <mat-hint>Link where users can sign up for external events</mat-hint>
   </mat-form-field>
   <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>
-  <mat-slide-toggle formControlName="trackTickets">Only track ticket number</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isTicketTracker">Only track ticket number</mat-slide-toggle>
   <mat-slide-toggle formControlName="hasFee">Payment necessary</mat-slide-toggle>
   <div></div>
-  <mat-slide-toggle formControlName="preview">Event is visible to tutors</mat-slide-toggle>
-  <mat-slide-toggle formControlName="public">Event is publicly visible</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isVisibleInternally">Event is visible to tutors</mat-slide-toggle>
+  <mat-slide-toggle formControlName="isVisiblePublicly">Event is publicly visible</mat-slide-toggle>
   <button (click)="saveChanges()" [disabled]="eventForm.invalid" color="primary" mat-stroked-button>
     Save changes
   </button>

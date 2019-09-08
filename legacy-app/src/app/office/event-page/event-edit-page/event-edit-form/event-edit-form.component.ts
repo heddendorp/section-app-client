@@ -33,54 +33,54 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       description: ['', Validators.required],
       end: [null, Validators.required],
       endTime: ['', Validators.pattern('^([01]\\d|2[0-3]):([0-5]\\d)$')],
-      external: [false, Validators.required],
+      isExternal: [false, Validators.required],
       fullCost: [0, Validators.required],
       hasFee: [false, Validators.required],
       hasOnlineSignup: [false, Validators.required],
       icon: [''],
-      internal: [false, Validators.required],
+      isInternal: [false, Validators.required],
       name: ['', Validators.required],
       participantSpots: [0, Validators.required],
-      preview: [false, Validators.required],
+      isVisibleInternally: [false, Validators.required],
       price: [{ value: 0, disabled: true }, Validators.required],
-      public: [false, Validators.required],
+      isVisiblePublicly: [false, Validators.required],
       runningNotes: ['', Validators.required],
       signupLink: [{ value: '', disabled: true }, Validators.required],
       start: [null, Validators.required],
       startTime: ['', Validators.pattern('^([01]\\d|2[0-3]):([0-5]\\d)$')],
-      trackTickets: [false, Validators.required],
+      isTicketTracker: [false, Validators.required],
       tutorSpots: [0, Validators.required]
     });
     this.iconUrl$ = this.eventForm.get('icon').valueChanges.pipe(
       debounceTime(200),
       map(icon => `https://png.icons8.com/color/${icon}/62`)
     );
-    this.eventForm.get('external').valueChanges.subscribe(value => {
+    this.eventForm.get('isExternal').valueChanges.subscribe(value => {
       if (value) {
         this.disableTumi();
-        this.eventForm.get('internal').disable({ emitEvent: false });
+        this.eventForm.get('isInternal').disable({ emitEvent: false });
         this.eventForm.get('signupLink').enable();
       } else {
         this.enableTumi();
-        this.eventForm.get('internal').enable({ emitEvent: false });
+        this.eventForm.get('isInternal').enable({ emitEvent: false });
         this.eventForm.get('signupLink').disable();
       }
     });
-    this.eventForm.get('public').valueChanges.subscribe(value => {
+    this.eventForm.get('isVisiblePublicly').valueChanges.subscribe(value => {
       if (value) {
-        this.eventForm.get('preview').setValue(true, { emitEvent: false });
-        this.eventForm.get('preview').disable({ emitEvent: false });
+        this.eventForm.get('isVisibleInternally').setValue(true, { emitEvent: false });
+        this.eventForm.get('isVisibleInternally').disable({ emitEvent: false });
       } else {
-        this.eventForm.get('preview').enable({ emitEvent: false });
+        this.eventForm.get('isVisibleInternally').enable({ emitEvent: false });
       }
     });
-    this.eventForm.get('internal').valueChanges.subscribe(value => {
+    this.eventForm.get('isInternal').valueChanges.subscribe(value => {
       if (value) {
         this.disableTumi();
-        this.eventForm.get('external').disable({ emitEvent: false });
+        this.eventForm.get('isExternal').disable({ emitEvent: false });
       } else {
         this.enableTumi();
-        this.eventForm.get('external').enable({ emitEvent: false });
+        this.eventForm.get('isExternal').enable({ emitEvent: false });
       }
     });
     this.eventForm.get('hasFee').valueChanges.subscribe(value => {
@@ -92,10 +92,10 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.eventForm.get('hasOnlineSignup').valueChanges.subscribe(value => {
       if (value) {
-        this.eventForm.get('trackTickets').setValue(false);
+        this.eventForm.get('isTicketTracker').setValue(false);
       }
     });
-    this.eventForm.get('trackTickets').valueChanges.subscribe(value => {
+    this.eventForm.get('isTicketTracker').valueChanges.subscribe(value => {
       if (value) {
         this.eventForm.get('hasOnlineSignup').setValue(false);
       }
@@ -129,21 +129,21 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     const formData = {
       description: value.description,
       end: value.end,
-      external: value.external || false,
+      isExternal: value.isExternal || false,
       fullCost: value.fullCost || 0,
       hasFee: value.hasFee || false,
       hasOnlineSignup: value.hasOnlineSignup || value.internal || false,
       icon: value.icon,
-      internal: value.internal || false,
+      isInternal: value.isInternal || false,
       name: value.name,
       participantSpots: value.participantSpots || 0,
-      preview: value.preview || value.public,
+      isVisibleInternally: value.isVisibleInternally || value.isVisiblePublicly,
       price: value.price || 0,
-      public: value.public,
+      isVisiblePublicly: value.isVisiblePublicly,
       runningNotes: value.runningNotes,
       signupLink: value.signupLink || '',
       start: value.start,
-      trackTickets: value.trackTickets || false,
+      isTicketTracker: value.isTicketTracker || false,
       tutorSpots: value.tutorSpots || 0
     };
     this.save.emit({ ...this.event, ...formData });
@@ -159,7 +159,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     this.eventForm.get('hasOnlineSignup').enable();
     this.eventForm.get('participantSpots').enable();
     this.eventForm.get('price').enable();
-    this.eventForm.get('trackTickets').enable();
+    this.eventForm.get('isTicketTracker').enable();
     this.eventForm.get('tutorSpots').enable();
   }
 
@@ -169,7 +169,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     this.eventForm.get('hasOnlineSignup').disable();
     this.eventForm.get('participantSpots').disable();
     this.eventForm.get('price').disable();
-    this.eventForm.get('trackTickets').disable();
+    this.eventForm.get('isTicketTracker').disable();
     this.eventForm.get('tutorSpots').disable();
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
@@ -13,33 +14,30 @@ import { Student } from './user.service';
 })
 export class EventService {
   baseEvent: TumiEvent = {
-    attendedSignups: [],
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     end: moment().add(3, 'weeks'),
-    external: false,
+    isExternal: false,
     fullCost: 0,
     hasFee: false,
     hasOnlineSignup: false,
-    internal: false,
+    isInternal: false,
+    icon: '',
     meetingPoint: '',
     moneyWith: '',
     moneyCollected: false,
     name: 'New TumiEvent',
-    notes: '',
-    onlineSignups: [],
     participantSpots: 0,
-    payedSignups: [],
-    preview: false,
+    isVisibleInternally: false,
     price: 0,
-    public: false,
+    isVisiblePublicly: false,
     runningNotes: 'Notes for the tutors who run this event',
     signupLink: '',
     soldTickets: 0,
     start: moment().add(3, 'weeks'),
-    trackTickets: false,
+    isTicketTracker: false,
     tutorNotes: '',
     tutorSpots: 0,
-    tutors: []
+    tutorSignups: []
   };
 
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private authService: AuthService) {}
@@ -52,28 +50,13 @@ export class EventService {
   }
 
   public get visibleEvents(): Observable<TumiEvent[]> {
-    return this.authService.isTutor.pipe(
-      switchMap(isTutor => {
-        if (isTutor) {
-          return this.previewEvents;
-        } else {
-          return this.publicEvents;
-        }
-      })
-    );
+    return this.authService.isTutor.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
   }
 
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.authService.user.pipe(
-      switchMap(user => {
-        const onlineSinged = this.getOnlineEventsForUser(user.id);
-        const officeSigned = this.getPayedEventsForUser(user.id);
-        const tutorSigned = this.getTutorEventsForUser(user.id);
-        return combineLatest(onlineSinged, officeSigned, tutorSigned);
-      }),
-      map(([online, office, tutor]) =>
-        [...online, ...office, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1))
-      )
+      switchMap(user => combineLatest([this.getSignedEventsForUser(user.id), this.getTutorEventsForUser(user.id)])),
+      map(([user, tutor]) => [...user, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1)))
     );
   }
 
@@ -82,7 +65,7 @@ export class EventService {
       .collection<SavedEvent>('events', ref =>
         ref
           .orderBy('start')
-          .where('external', '==', false)
+          .where('isExternal', '==', false)
           .where('start', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
@@ -98,7 +81,7 @@ export class EventService {
       .collection<SavedEvent>('events', ref =>
         ref
           .orderBy('start')
-          .where('public', '==', true)
+          .where('isVisiblePublicly', '==', true)
           .where('start', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
@@ -110,33 +93,26 @@ export class EventService {
       .collection<SavedEvent>('events', ref =>
         ref
           .orderBy('start')
-          .where('preview', '==', true)
+          .where('isVisibleInternally', '==', true)
           .where('start', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));
   }
 
-  public getOnlineEventsForUser(userId) {
+  public getSignedEventsForUser(userId) {
     return this.firestore
-      .collection<SavedEvent>('events', ref => ref.where('onlineSignups', 'array-contains', userId).orderBy('start'))
-      .valueChanges({ idField: 'id' })
+      .collectionGroup('signups', ref => ref.where('id', '==', userId))
+      .get()
       .pipe(
-        map(events => events.map(this.parseEvent)),
-        map(events => events.map(event => Object.assign({}, event, { isOnline: true })))
+        switchMap(signups => combineLatest(signups.docs.map(signup => fromPromise(signup.ref.parent.parent.get())))),
+        map(events => events.map(eventRef => eventRef.data()).map(this.parseEvent))
       );
-  }
-
-  public getPayedEventsForUser(userId) {
-    return this.firestore
-      .collection<SavedEvent>('events', ref => ref.where('payedSignups', 'array-contains', userId).orderBy('start'))
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
   }
 
   public getTutorEventsForUser(userId) {
     return this.firestore
-      .collection<SavedEvent>('events', ref => ref.where('tutors', 'array-contains', userId).orderBy('start'))
+      .collection<SavedEvent>('events', ref => ref.where('tutorSignups', 'array-contains', userId).orderBy('start'))
       .valueChanges({ idField: 'id' })
       .pipe(
         map(events => events.map(this.parseEvent)),
@@ -167,7 +143,12 @@ export class EventService {
   }
 
   public register(user, event): Promise<void> {
-    return this.updateEvent({ ...event, payedSignups: [...event.payedSignups, user.id] });
+    return this.firestore
+      .collection<TumiEvent>('events')
+      .doc(event.id)
+      .collection<EventSignup>('signups')
+      .doc(user.id)
+      .set({ id: user.id, partySize: 1, hasPayed: true, hasAttended: false });
   }
 
   public giveOutMoney(user, event, fullCost): Promise<void> {
@@ -189,29 +170,53 @@ export class EventService {
       });
   }
 
-  public attendEvent(user: Student, event: TumiEvent, onlineUser = false) {
-    if (!onlineUser) {
-      this.updateEvent({
-        ...event,
-        attendedSignups: [...event.attendedSignups, ...event.payedSignups.filter(id => id === user.id)],
-        payedSignups: event.payedSignups.filter(id => id !== user.id)
-      });
-    } else {
-      this.updateEvent({
-        ...event,
-        attendedSignups: [...event.attendedSignups, ...event.onlineSignups.filter(id => id === user.id)],
-        onlineSignups: event.onlineSignups.filter(id => id !== user.id)
-      });
-    }
+  public payForEvent(user: Student, event: TumiEvent) {
+    this.firestore
+      .collection<TumiEvent>('events')
+      .doc(event.id)
+      .collection<EventSignup>('signups')
+      .doc(user.id)
+      .update({ hasPayed: true });
+  }
+
+  public attendEvent(user: Student, event: TumiEvent) {
+    this.firestore
+      .collection<TumiEvent>('events')
+      .doc(event.id)
+      .collection<EventSignup>('signups')
+      .doc(user.id)
+      .update({ hasAttended: true });
   }
 
   public removeTutorFromEvent(user: Student, event: TumiEvent) {
-    this.updateEvent({ ...event, tutors: event.tutors.filter(id => id !== user.id) });
+    this.updateEvent({ ...event, tutorSignups: event.tutorSignups.filter(id => id !== user.id) });
   }
 
   private serializeEvent(event: TumiEvent): SavedEvent {
     return {
-      ...event,
+      description: event.description,
+      isExternal: event.isExternal,
+      fullCost: event.fullCost,
+      hasFee: event.hasFee,
+      hasOnlineSignup: event.hasOnlineSignup,
+      icon: event.icon || '',
+      id: event.id || '',
+      isInternal: event.isInternal,
+      meetingPoint: event.meetingPoint,
+      moneyWith: event.moneyWith,
+      moneyCollected: event.moneyCollected,
+      name: event.name,
+      participantSpots: event.participantSpots,
+      isVisibleInternally: event.isVisibleInternally,
+      price: event.price,
+      isVisiblePublicly: event.isVisiblePublicly,
+      runningNotes: event.runningNotes,
+      signupLink: event.signupLink,
+      soldTickets: event.soldTickets,
+      isTicketTracker: event.isTicketTracker,
+      tutorNotes: event.tutorNotes,
+      tutorSpots: event.tutorSpots,
+      tutorSignups: event.tutorSignups,
       start: importStore.Timestamp.fromDate(event.start.toDate()),
       end: importStore.Timestamp.fromDate(event.end.toDate())
     };
@@ -227,45 +232,45 @@ export class EventService {
 }
 
 interface BaseEvent {
-  attendedSignups: string[];
-  attendedUsers?: Student[];
   description: string;
-  external: boolean;
-  freeSpots?: string;
+  isExternal: boolean;
   fullCost: number;
   hasFee: boolean;
   hasOnlineSignup: boolean;
-  icon?: string;
+  icon: string;
   id?: string;
-  internal: boolean;
-  isOnline?: boolean;
-  isTutor?: boolean;
+  isInternal: boolean;
   meetingPoint: string;
   moneyWith: '';
   moneyCollected: boolean;
   name: string;
-  notes: string;
-  onlineSignups: string[];
-  onlineUsers?: Student[];
   participantSpots: number;
-  payedSignups: string[];
-  payedUsers?: Student[];
-  preview: boolean;
+  isVisibleInternally: boolean;
   price: number;
-  public: boolean;
+  isVisiblePublicly: boolean;
   runningNotes: string;
   signupLink: string;
   soldTickets: number;
-  trackTickets: boolean;
+  isTicketTracker: boolean;
   tutorNotes: string;
   tutorSpots: number;
-  tutorUsers?: Student[];
-  tutors: string[];
+  tutorSignups: string[];
+}
+
+export interface EventSignup {
+  id: string;
+  user?: Student;
+  partySize: number;
+  hasPayed: boolean;
+  hasAttended: boolean;
 }
 
 export interface TumiEvent extends BaseEvent {
   start: moment.Moment;
   end: moment.Moment;
+  tutorUsers?: Student[];
+  userSignups?: EventSignup[];
+  freeSpots?: string;
 }
 
 export interface SavedEvent extends BaseEvent {
