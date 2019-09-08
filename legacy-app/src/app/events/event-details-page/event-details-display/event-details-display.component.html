@@ -34,7 +34,7 @@
     </mat-card-actions>
   </mat-card>
 </ng-template>
-<div *ngIf="!event.external; else external" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
+<div *ngIf="!event.isExternal; else external" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
   <ng-template #noLogin>
     <mat-card>
       <mat-card-title>Log in to sign up</mat-card-title>
@@ -78,11 +78,11 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="(isTutor$ | async) && !event.internal">
+    <mat-card *ngIf="(isTutor$ | async) && !event.isInternal">
       <mat-card-title>Tutor sign up</mat-card-title>
       <mat-card-content>
-        <p *ngIf="event.tutorSpots > event.tutors.length; else eventFull">
-          This event still has {{ event.tutorSpots - event.tutors.length }} spots left for tutors. <br />You can sign up
+        <p *ngIf="event.tutorSpots > event.tutorSignups.length; else eventFull">
+          This event still has {{ event.tutorSpots - event.tutorSignups.length }} spots left for tutors. <br />You can sign up
           right here to manage this event
         </p>
         <p *ngIf="signed">
@@ -96,7 +96,7 @@
       <mat-card-actions>
         <button
           mat-flat-button
-          [disabled]="event.tutorSpots <= event.tutors.length || signed"
+          [disabled]="event.tutorSpots <= event.tutorSignups.length || signed"
           (click)="tutorSignup.emit(event.id)"
         >
           Sign up as a tutor

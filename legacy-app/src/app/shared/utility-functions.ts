@@ -1,7 +1,7 @@
 import { TumiEvent } from './services/event.service';
 
 export const getFreeSpots = (event: TumiEvent) => {
-  const participants = event.payedSignups.length + event.onlineSignups.length;
+  const participants = event.userSignups.length;
   const quota = participants / event.participantSpots;
   if (quota < 0.5) {
     return 'Many free spots';

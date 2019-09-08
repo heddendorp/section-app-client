@@ -59,11 +59,11 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         return;
       }
       const user = await this.userService
-        .getOne(request.user)
+        .getUser(request.user)
         .pipe(first())
         .toPromise();
       const event = await this.eventService
-        .getEvent(request.event)
+        .getEventWithRegistrations(request.event)
         .pipe(first())
         .toPromise();
       if (!user || !event) {
@@ -74,7 +74,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         this.error$.next(`Money for this event was already collected and is with ${event.moneyWith}`);
         return;
       }
-      if (event.onlineSignups.length + event.payedSignups.length >= event.participantSpots) {
+      if (event.userSignups.length >= event.participantSpots) {
         this.eventFull$.next(true);
         this.error$.next(`This event is already at capacity!`);
       }
@@ -83,7 +83,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       this.event$.next(event);
       this.user$.next(user);
       this.canRegister$.next(true);
-      this.alreadyOnEvent$.next(event.payedSignups.includes(user.id) || event.onlineSignups.includes(user.id));
+      this.alreadyOnEvent$.next(event.userSignups.map(signup => signup.id).includes(user.id));
     });
   }
 

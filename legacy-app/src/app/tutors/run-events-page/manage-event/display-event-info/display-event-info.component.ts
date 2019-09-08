@@ -23,7 +23,7 @@ export class DisplayEventInfoComponent implements OnInit {
         map(user => user.id)
       )
       .toPromise();
-    this.isTutor = this.event.tutors.includes(userId);
+    this.isTutor = this.event.tutorSignups.includes(userId);
     console.log(
       JSON.stringify({
         action: 'collectMoney',

@@ -38,7 +38,7 @@ export const registerForEvent = functions.https.onCall(
     }
 
     if (type === 'tutor') {
-      if (event.tutorSpots <= event.tutors.length) {
+      if (event.tutorSpots <= event.tutorSignups.length) {
         throw new functions.https.HttpsError('failed-precondition', `There are no free tutor spots on ${event.name}!`);
       }
       if (!user.isTutor && !user.isAdmin) {
@@ -50,7 +50,7 @@ export const registerForEvent = functions.https.onCall(
       await firestore
         .collection('events')
         .doc(eventId)
-        .update({ tutors: [...event.tutors, context.auth.uid] });
+        .update({ tutorSignups: [...event.tutorSignups, context.auth.uid] });
     } else if (type === 'student') {
       if (!event.internal && event.participantSpots <= event.payedSignups.length + event.onlineSignups.length) {
         throw new functions.https.HttpsError(
@@ -61,7 +61,9 @@ export const registerForEvent = functions.https.onCall(
       await firestore
         .collection('events')
         .doc(eventId)
-        .update({ onlineSignups: [...event.onlineSignups, context.auth.uid] });
+        .collection('signups')
+        .doc(context.auth.uid)
+        .set({ id: context.auth.uid, partySize: 1, hasPayed: false, hasAttended: false });
     }
   }
 );

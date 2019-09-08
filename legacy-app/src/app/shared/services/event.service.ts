@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, single, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { firestore as importStore } from 'firebase/app';
@@ -142,6 +142,27 @@ export class EventService {
       );
   }
 
+  public getEventWithRegistrations(id: string): Observable<TumiEvent> {
+    return this.firestore
+      .collection<TumiEvent>('events')
+      .doc(id)
+      .get()
+      .pipe(
+        map(event => event.data()),
+        switchMap((event: TumiEvent) =>
+          this.firestore
+            .collection('events')
+            .doc(id)
+            .collection<EventSignup>('signups')
+            .get()
+            .pipe(
+              map(signups => signups.docs.map(signup => signup.data())),
+              map((signups: EventSignup[]) => Object.assign(event, { userSignups: signups }))
+            )
+        )
+      );
+  }
+
   public register(user, event): Promise<void> {
     return this.firestore
       .collection<TumiEvent>('events')
@@ -171,7 +192,7 @@ export class EventService {
   }
 
   public payForEvent(user: Student, event: TumiEvent) {
-    this.firestore
+    return this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
       .collection<EventSignup>('signups')

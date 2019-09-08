@@ -56,8 +56,9 @@ export class DisplayEventUsersComponent implements OnInit {
           value: this.event.price,
           comment: `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`
         });
+        await this.eventService.payForEvent(user, this.event);
       }
-      this.eventService.attendEvent(user, this.event, true);
+      this.eventService.attendEvent(user, this.event);
     }
   }
   async registerOfficeUser(user: Student) {

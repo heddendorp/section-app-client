@@ -31,10 +31,7 @@ export class EventDetailsPageComponent implements OnInit {
       switchMap(event =>
         this.authService.user.pipe(
           map(
-            user =>
-              event.tutors.includes(user.id) ||
-              event.payedSignups.includes(user.id) ||
-              event.onlineSignups.includes(user.id)
+            user => event.tutorSignups.includes(user.id) || event.userSignups.map(signup => signup.id).includes(user.id)
           )
         )
       )

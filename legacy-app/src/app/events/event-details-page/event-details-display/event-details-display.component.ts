@@ -23,7 +23,7 @@ export class EventDetailsDisplayComponent implements OnInit {
   constructor(private qrService: QrService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.eventFull = this.event.onlineSignups.length + this.event.payedSignups.length >= this.event.participantSpots;
+    this.eventFull = this.event.userSignups.length >= this.event.participantSpots;
     this.isTutor$ = this.authService.isTutor;
     this.isAuthenticated$ = this.authService.authenticated;
     this.authService.user

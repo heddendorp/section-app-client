@@ -12,6 +12,6 @@ export class LoadEventResolver implements Resolve<TumiEvent> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<TumiEvent> | Promise<TumiEvent> | TumiEvent {
-    return this.eventService.getEvent(route.paramMap.get('eventId')).pipe(first());
+    return this.eventService.getEventWithRegistrations(route.paramMap.get('eventId')).pipe(first());
   }
 }
