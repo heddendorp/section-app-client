@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EventService, TumiEvent } from '../../../../shared/services/event.service';
-import { AuthService } from '../../../../shared/services/auth.service';
-import { Student } from '../../../../shared/services/user.service';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { EventService, TumiEvent } from '../../../../shared/services/event.service';
 import { MoneyService } from '../../../../shared/services/money.service';
+import { Student } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-display-event-users',
@@ -13,7 +14,10 @@ import { MoneyService } from '../../../../shared/services/money.service';
 })
 export class DisplayEventUsersComponent implements OnInit {
   @Input() event: TumiEvent;
+  @Input() participantEmail: string;
+  @Input() tutorEmail: string;
   isAdmin$;
+  tutorEmail$ = new Subject();
 
   constructor(
     private authService: AuthService,
@@ -39,6 +43,7 @@ export class DisplayEventUsersComponent implements OnInit {
       this.eventService.removeTutorFromEvent(user, this.event);
     }
   }
+
   async registerOnlineUser(user: Student) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
@@ -61,6 +66,7 @@ export class DisplayEventUsersComponent implements OnInit {
       this.eventService.attendEvent(user, this.event);
     }
   }
+
   async registerOfficeUser(user: Student) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {

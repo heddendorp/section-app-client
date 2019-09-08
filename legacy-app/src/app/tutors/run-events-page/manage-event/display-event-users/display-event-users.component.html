@@ -1,4 +1,5 @@
 <h2 class="mat-display-4 no-margin">Users related to this event</h2>
+<a mat-flat-button href="{{tutorEmail}}" target="_blank">Send Mail to Tutors</a>
 <ng-container *ngIf="!(isAdmin$ | async); else adminTutors">
   <p><strong>Tutors on this event</strong></p>
   <mat-list>
@@ -15,6 +16,8 @@
     </button>
   </mat-action-list>
 </ng-template>
+<a mat-flat-button href="{{participantEmail}}" target="_blank">Send Mail to Participants</a>
+<!--TODO: Implement the user management again with new signups-->
 <!--<p>
   <strong>Online Registrations</strong>&nbsp;(Tap user to confirm attendance
   <span *ngIf="event.hasFee">and payment</span>)
