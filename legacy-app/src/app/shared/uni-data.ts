@@ -35,8 +35,8 @@ export const getTarget = key => targets[key] || '';
 
 const types = {
   E: 'Exchange',
-  D: 'Degree',
-  L: 'Local'
+  D: 'Degree (Foreign)',
+  L: 'Degree (Local)'
 };
 
 export const allTypes = Object.keys(types).map(key => {

@@ -6,25 +6,11 @@
         <h4>Why do I have to sign up?</h4>
         <p>
           In order to sign up for events we need to know who you are. So you can conveniently sign up here and enter
-          your data so we can sign you up for events. Please note that an account is required for any event signup!
+          your data so we can sign you up for events. Please note that an account is required for any event signup! <br>
+          More info on this process can be found below the login options
         </p>
       </div>
-      <div>
-        <h4>How do I pay for an event?</h4>
-        <p>
-          If the event requires payment the app will tell you to sign up in our office. There we will collect the money
-          and confirm your participation after you payed. You will then see the event in your upcoming events.
-        </p>
-      </div>
-      <div>
-        <h4>Do you share Data?</h4>
-        <p>
-          If you use a social account to log in, such as facebook or google we do not send any data to that service.
-          <br />We <strong>strongly suggest</strong> to use a social login (blue buttons) in order to not create yet
-          another account you have to remember.
-        </p>
-      </div>
-      <div class="login-buttons" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem">
+      <div class="login-buttons" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" id="buttons">
         <button (click)="login('google')" color="primary" mat-stroked-button>
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
@@ -47,6 +33,21 @@
         <p class="mat-caption">
           If you have <strong>forgotten your password</strong>, please contact TUMi at <em>tumi@zv.tum.de</em> to get a
           reset.
+        </p>
+      </div>
+      <div>
+        <h4>How do I pay for an event?</h4>
+        <p>
+          If the event requires payment the app will tell you to sign up in our office. There we will collect the money
+          and confirm your participation after you payed. You will then see the event in your upcoming events.
+        </p>
+      </div>
+      <div>
+        <h4>Do you share Data?</h4>
+        <p>
+          If you use a social account to log in, such as facebook or google we do not send any data to that service.
+          <br />We <strong>strongly suggest</strong> to use a social login (blue buttons) in order to not create yet
+          another account you have to remember.
         </p>
       </div>
     </section>

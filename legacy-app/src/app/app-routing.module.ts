@@ -15,7 +15,7 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard]
   },
   { path: 'events', loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule) },
-  { path: '', pathMatch: 'full', redirectTo: 'about' },
+  { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
   { path: 'error', component: NotFoundPageComponent }
 ];

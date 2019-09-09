@@ -12,7 +12,7 @@ export class UserService {
 
   get students(): Observable<Student[]> {
     return this.firestore
-      .collection<Student>('users')
+      .collection<Student>('users', ref => ref.orderBy('lastName'))
       .valueChanges({ idField: 'id' })
       .pipe(
         catchError(err => {

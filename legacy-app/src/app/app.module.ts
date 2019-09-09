@@ -1,5 +1,6 @@
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -10,6 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import localeEn from '@angular/common/locales/en-DE';
+import localeEnExtra from '@angular/common/locales/extra/en-DE';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +21,8 @@ import { ScanRequestComponent } from './components/scan-request/scan-request.com
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
+
+registerLocaleData(localeEn, 'en-DE', localeEnExtra);
 
 @NgModule({
   declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent],
@@ -40,7 +45,10 @@ import { SharedModule } from './shared/shared.module';
     PagesModule,
     AppRoutingModule
   ],
-  providers: [{ provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin }],
+  providers: [
+    { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
+    { provide: LOCALE_ID, useValue: 'en-DE' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

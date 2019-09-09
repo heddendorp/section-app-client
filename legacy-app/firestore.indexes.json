@@ -21,6 +21,10 @@
     },
     {
       "collectionId": "events",
+      "fields": [{ "fieldPath": "isExternal", "mode": "ASCENDING" }, { "fieldPath": "end", "mode": "ASCENDING" }]
+    },
+    {
+      "collectionId": "events",
       "fields": [
         { "fieldPath": "isVisibleInternally", "mode": "ASCENDING" },
         { "fieldPath": "start", "mode": "ASCENDING" }

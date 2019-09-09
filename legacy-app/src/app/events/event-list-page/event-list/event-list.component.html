@@ -1,4 +1,4 @@
-<div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="1rem">
+<div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
   <mat-card *ngFor="let event of events" fxLayout="column">
     <div *ngIf="event.isExternal" class="badge external">External Event</div>
     <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
@@ -6,9 +6,9 @@
       <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
       <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle
-        >{{ event.start | date: 'short' }}
+        >{{ event.start | date: 'EEE dd MMM (bbbb)' }}
         <ng-container *ngIf="!event.isExternal && !event.isInternal">
-          - <em>{{ event.freeSpots }}</em></ng-container
+          <br> <em>{{ event.freeSpots }}</em></ng-container
         >
       </mat-card-subtitle>
     </mat-card-title-group>

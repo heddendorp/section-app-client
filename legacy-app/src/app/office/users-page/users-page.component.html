@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="2rem">
-  <h3 class="no-margin">Users</h3>
+  <h3 class="no-margin mat-display-3">Users</h3>
   <p>Manage the apps users and special roles here</p>
   <app-people-table [columns]="columns$ | async" [people]="users$ | async" (show)="showUser($event)"></app-people-table>
 </div>

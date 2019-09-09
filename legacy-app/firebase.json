@@ -13,8 +13,8 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
-          "source": "/esn-tumi/us-central1/replaceList",
-          "function": "replaceList"
+          "source": "/esn-tumi/us-central1/removeRegistration",
+          "function": "removeRegistration"
         },
         {
           "source": "/esn-tumi/us-central1/registerForEvent",

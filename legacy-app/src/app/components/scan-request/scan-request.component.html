@@ -28,7 +28,7 @@
     </mat-card>
   </div>
   <ng-container *ngIf="(requestType$ | async) == 'register'">
-    <p *ngIf="(event$ | async).hasFee" class="mat-display-4">Make sure to collect {{ (event$ | async).price }}€!</p>
+    <p *ngIf="(event$ | async).hasFee" class="mat-display-4">Make sure to collect {{ (event$ | async).price | currency: 'EUR' }}!</p>
     <p *ngIf="eventFull$ | async" style="color: red">
       This event is already full, you can still register the user but the vent will be over capacity <br />
       Currently signed up for this event:

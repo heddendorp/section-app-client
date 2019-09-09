@@ -55,7 +55,13 @@ export class EventService {
   }
 
   public get runningEvents(): Observable<TumiEvent[]> {
-    return this.authService.isAdmin.pipe(switchMap(isAdmin => (isAdmin ? this.futureEvents : this.tutoredEvents)));
+    return this.authService.isAdmin.pipe(
+      switchMap(isAdmin =>
+        isAdmin
+          ? this.futureEvents
+          : this.tutoredEvents.pipe(map(events => events.filter(event => event.end.isBefore())))
+      )
+    );
   }
 
   public get registeredEvents(): Observable<TumiEvent[]> {
@@ -69,9 +75,9 @@ export class EventService {
     return this.firestore
       .collection<SavedEvent>('events', ref =>
         ref
-          .orderBy('start')
+          .orderBy('end')
           .where('isExternal', '==', false)
-          .where('start', '>', new Date())
+          .where('end', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));
@@ -107,13 +113,23 @@ export class EventService {
 
   public getSignedEventsForUser(userId) {
     return this.firestore
-      .collectionGroup('signups', ref => ref.where('id', '==', userId))
-      .get()
+      .collectionGroup<EventSignup>('signups', ref => ref.where('id', '==', userId))
+      .snapshotChanges()
       .pipe(
+        map(changes => changes.map(change => change.payload.doc)),
         switchMap(signups =>
-          signups.size ? combineLatest(signups.docs.map(signup => fromPromise(signup.ref.parent.parent.get()))) : of([])
+          signups.length
+            ? combineLatest(
+                signups.map(signup =>
+                  fromPromise(signup.ref.parent.parent.get()).pipe(
+                    map(eventRef => eventRef.data()),
+                    map(event => Object.assign(event, { hasPayed: signup.data().hasPayed }))
+                  )
+                )
+              )
+            : of([])
         ),
-        map(events => events.map(eventRef => eventRef.data()).map(this.parseEvent))
+        map(events => events.map(this.parseEvent))
       );
   }
 
@@ -303,6 +319,8 @@ export interface TumiEvent extends BaseEvent {
   tutorUsers?: Student[];
   userSignups?: EventSignup[];
   freeSpots?: string;
+  hasPayed?: boolean;
+  isTutor?: boolean;
 }
 
 export interface SavedEvent extends BaseEvent {

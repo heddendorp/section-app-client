@@ -68,6 +68,49 @@ export const registerForEvent = functions.https.onCall(
   }
 );
 
+export const removeRegistration = functions.https.onCall(async ({ eventId }: { eventId: string }, context) => {
+  if (!eventId || typeof eventId !== 'string' || !eventId.length) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'The function must be called with one argument "eventId" containing the event ID.'
+    );
+  }
+  if (!context.auth) {
+    // Throwing an HttpsError so that the client gets the error details.
+    throw new functions.https.HttpsError('failed-precondition', 'The function must be called while authenticated.');
+  }
+  const userSnapshot = await firestore
+    .collection('users')
+    .doc(context.auth.uid)
+    .get();
+  const eventSnapshot = await firestore
+    .collection('events')
+    .doc(eventId)
+    .get();
+  const signupSnapshot = await firestore
+    .collection('events')
+    .doc(eventId)
+    .collection('signups')
+    .doc(context.auth.uid)
+    .get();
+  const user = userSnapshot.data();
+  const event = eventSnapshot.data();
+  const signup = signupSnapshot.data();
+  if (!event) {
+    throw new functions.https.HttpsError('invalid-argument', `Could not find an event with id ${eventId}!`);
+  }
+  if (!user) {
+    throw new functions.https.HttpsError('invalid-argument', `Could not find a record for UID ${context.auth.uid}!`);
+  }
+  if (!signup) {
+    throw new functions.https.HttpsError('invalid-argument', `Could not find a signup for UID ${context.auth.uid}!`);
+  }
+  if (signup.hasPayed) {
+    throw new functions.https.HttpsError('invalid-argument', `Already payed signups can not be deleted like this!`);
+  }
+  await signupSnapshot.ref.delete();
+});
+
 export const newUser = functions.auth.user().onCreate(async user => {
   const displayName = user.displayName || '';
   const [firstName, ...lastNames] = displayName.split(' ');
@@ -121,6 +164,21 @@ export const updatedSignup = functions.firestore
         const currentData = await transaction.get(eventRef);
         if (currentData && currentData.data()) {
           transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp + difference });
+        }
+      });
+    }
+  });
+
+export const deletedSignup = functions.firestore
+  .document('events/{eventId}/signups/{signupId}')
+  .onDelete(async (snap, context) => {
+    const value = snap.data();
+    if (value) {
+      await firestore.runTransaction(async transaction => {
+        const eventRef = firestore.collection('events').doc(context.params['eventId']);
+        const currentData = await transaction.get(eventRef);
+        if (currentData && currentData.data()) {
+          transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp - value.partySize });
         }
       });
     }

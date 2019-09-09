@@ -28,16 +28,16 @@
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <strong *ngIf="event.isOnline && event.hasFee" style="margin-bottom: 1rem;"
-          >Please remember to bring {{ event.price }} Euro to this event!</strong
-        >
-        <strong *ngIf="event.isTutor" style="margin-bottom: 1rem;"
-          >You have signed up to be a Tutor for this event!</strong
-        >
+        <strong *ngIf="event.isTutor" style="margin-bottom: 1rem;">
+          You have signed up to be a Tutor for this event!
+        </strong>
         <p class="description">
           {{ event.description }}
         </p>
       </mat-card-content>
+      <mat-card-actions *ngIf="!event.isTutor && !event.hasPayed">
+        <button mat-flat-button color="warn" (click)="deregister(event)">Deregister from this event</button>
+      </mat-card-actions>
     </mat-card>
   </div>
   <h2 class="mat-display-4 no-margin">Previous events</h2>

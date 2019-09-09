@@ -4,8 +4,8 @@
 <p class="whitespace">{{ event.runningNotes }}</p>
 <h2 class="no-margin">Money</h2>
 <p style="margin-bottom: 2rem;">
-  <strong>Participant cost: </strong>{{ event.price }}€<br />
-  <strong>Total event cost: </strong>{{ event.fullCost }}€
+  <strong>Participant cost: </strong>{{ event.price | currency: 'EUR' }}<br />
+  <strong>Total event cost: </strong>{{ event.fullCost | currency: 'EUR' }}
   <span *ngIf="!event.moneyCollected">(Money not collected)</span
   ><span *ngIf="event.moneyCollected"> with {{ event.moneyWith }}</span>
 </p>

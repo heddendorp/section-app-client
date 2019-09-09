@@ -7,7 +7,7 @@
       <h1 class="mat-display-2 no-margin">
         {{ event.name }}
       </h1>
-      <strong>{{ event.start | date: 'short' }} - {{ event.end | date: 'short' }}</strong>
+      <strong>{{ event.start | date: 'EEEE dd MMM HH:mm' }} - {{ event.end | date: 'dd MMM HH:mm' }}</strong>
     </div>
   </div>
   <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
@@ -65,7 +65,7 @@
         <p fxHide.gt-sm>Please take this code into the TUMi office to Sign up for the event</p>
         <p fxShow.gt-sm>Take your phone to the office please, it will show the needed QR-code</p>
         <p *ngIf="event.hasFee">
-          The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected in the office, please
+          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected in the office, please
           bring cash
         </p>
       </mat-card-content>
@@ -78,7 +78,7 @@
           Please mind! THis event is already booked, you can sign up once places become available again
         </p>
         <p *ngIf="event.hasFee">
-          The event participation fee of <strong>{{ event.price }} Euro</strong> will be collected at the event, please
+          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected at the event, please
           bring cash
         </p>
       </mat-card-content>
