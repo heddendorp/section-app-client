@@ -57,6 +57,10 @@
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
           </a>
+          <a mat-list-item routerLink="/help" routerLinkActive="active">
+            <mat-icon mat-list-icon svgIcon="help"></mat-icon>
+            <h3 mat-line>FAQ & Help</h3>
+          </a>
           <ng-container *ngIf="isTutor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>For Tutors</h3>
