@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Student, UserService } from '../../shared/services/user.service';
@@ -13,7 +14,7 @@ export class UsersPageComponent implements OnInit {
   users$: Observable<Student[]>;
   columns$;
 
-  constructor(private userService: UserService, media: MediaObserver) {
+  constructor(private userService: UserService, media: MediaObserver, private router: Router) {
     this.columns$ = media.asObservable().pipe(
       map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
       map(simple =>
@@ -23,6 +24,10 @@ export class UsersPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users$ = this.userService.students.pipe(tap(console.log));
+    this.users$ = this.userService.students;
+  }
+
+  showUser(id) {
+    this.router.navigate(['office', 'users', id]);
   }
 }

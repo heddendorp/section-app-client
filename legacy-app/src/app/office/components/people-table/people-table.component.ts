@@ -1,4 +1,14 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +25,7 @@ import { getFaculty } from '../../../shared/uni-data';
 export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() people: Student[];
   @Input() columns: string[];
+  @Output() show = new EventEmitter();
   destroyed$ = new Subject();
   filterForm: FormGroup;
   searchControl = new FormControl('');

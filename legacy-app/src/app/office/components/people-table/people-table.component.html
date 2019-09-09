@@ -50,7 +50,7 @@
   </ng-container>
 
   <tr *matHeaderRowDef="columns" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row routerLink="/office/users/{{ row.id }}"></tr>
+  <tr *matRowDef="let row; columns: columns" class="people-row" mat-row (click)="show.emit(row.id)"></tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

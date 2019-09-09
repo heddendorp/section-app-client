@@ -5,7 +5,7 @@ import { firestore as importStore } from 'firebase/app';
 import * as moment from 'moment';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Student } from './user.service';
 
@@ -110,7 +110,9 @@ export class EventService {
       .collectionGroup('signups', ref => ref.where('id', '==', userId))
       .get()
       .pipe(
-        switchMap(signups => combineLatest(signups.docs.map(signup => fromPromise(signup.ref.parent.parent.get())))),
+        switchMap(signups =>
+          signups.size ? combineLatest(signups.docs.map(signup => fromPromise(signup.ref.parent.parent.get()))) : of([])
+        ),
         map(events => events.map(eventRef => eventRef.data()).map(this.parseEvent))
       );
   }
