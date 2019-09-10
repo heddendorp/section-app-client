@@ -61,13 +61,14 @@ export class UserService {
   }
 
   public getEventWithTutors(eventId) {
-    return this.eventService
-      .getEventWithRegistrations(eventId)
-      .pipe(
-        switchMap(event =>
-          this.getUsers(event.tutorSignups).pipe(map(tutorUsers => Object.assign(event, { tutorUsers })))
+    return this.eventService.getEventWithRegistrations(eventId).pipe(
+      switchMap(event =>
+        this.getUsers(event.tutorSignups).pipe(
+          map(tutorUsers => tutorUsers.sort((a, b) => a.lastName.localeCompare(b.lastName))),
+          map(tutorUsers => Object.assign(event, { tutorUsers }))
         )
-      );
+      )
+    );
   }
 
   public getEventWithUsers(eventId): Observable<TumiEvent> {
@@ -77,6 +78,7 @@ export class UserService {
           event.userSignups.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
         ).pipe(
           startWith([]),
+          map(signups => signups.sort((a, b) => a.user.lastName.localeCompare(b.user.lastName))),
           map(signups => Object.assign(event, { userSignups: signups }))
         )
       )

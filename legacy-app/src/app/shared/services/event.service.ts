@@ -169,18 +169,18 @@ export class EventService {
     return this.firestore
       .collection<TumiEvent>('events')
       .doc(id)
-      .get()
+      .valueChanges()
       .pipe(
-        map(event => event.data()),
+        // map(event => event.data()),
         map(this.parseEvent),
         switchMap((event: TumiEvent) =>
           this.firestore
             .collection('events')
             .doc(id)
             .collection<EventSignup>('signups')
-            .get()
+            .valueChanges({ idField: 'id' })
             .pipe(
-              map(signups => signups.docs.map(signup => signup.data())),
+              // map(signups => signups.docs.map(signup => signup.data())),
               map((signups: EventSignup[]) => Object.assign(event, { userSignups: signups }))
             )
         )
@@ -224,13 +224,13 @@ export class EventService {
       .update({ hasPayed: true });
   }
 
-  public attendEvent(user: Student, event: TumiEvent) {
+  public attendEvent(user: Student, event: TumiEvent, hasAttended = true) {
     this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
       .collection<EventSignup>('signups')
       .doc(user.id)
-      .update({ hasAttended: true });
+      .update({ hasAttended });
   }
 
   public removeTutorFromEvent(user: Student, event: TumiEvent) {

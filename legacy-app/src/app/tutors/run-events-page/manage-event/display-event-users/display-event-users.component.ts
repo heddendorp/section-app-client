@@ -1,6 +1,6 @@
+import { formatCurrency } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../../../shared/services/event.service';
@@ -17,7 +17,6 @@ export class DisplayEventUsersComponent implements OnInit {
   @Input() participantEmail: string;
   @Input() tutorEmail: string;
   isAdmin$;
-  tutorEmail$ = new Subject();
 
   constructor(
     private authService: AuthService,
@@ -44,13 +43,13 @@ export class DisplayEventUsersComponent implements OnInit {
     }
   }
 
-  async registerOnlineUser(user: Student) {
+  async collectPayment(user: Student) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to confirm attendance for ${user.firstName} ${user.lastName} (${user.email}) ${
-            this.event.hasFee ? ' and that they payed ' + this.event.price + ' Euro' : ''
-          }?`
+          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, 'en-DE', 'EUR')} for ${
+            user.firstName
+          } ${user.lastName} (${user.email})?`
         }
       })
       .afterClosed()
@@ -63,21 +62,14 @@ export class DisplayEventUsersComponent implements OnInit {
         });
         await this.eventService.payForEvent(user, this.event);
       }
-      this.eventService.attendEvent(user, this.event);
     }
   }
 
-  async registerOfficeUser(user: Student) {
-    const proceed = await this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          text: `Do you really want to confirm attendance for ${user.firstName} ${user.lastName} (${user.email})`
-        }
-      })
-      .afterClosed()
-      .toPromise();
-    if (proceed) {
-      this.eventService.attendEvent(user, this.event);
-    }
+  registerUser(user: Student) {
+    this.eventService.attendEvent(user, this.event);
+  }
+
+  deregisterUser(user: Student) {
+    this.eventService.attendEvent(user, this.event, false);
   }
 }

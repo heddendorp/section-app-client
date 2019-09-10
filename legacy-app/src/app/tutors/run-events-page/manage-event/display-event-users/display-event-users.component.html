@@ -18,6 +18,40 @@
 </ng-template>
 <a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
 <!--TODO: Implement the user management again with new signups-->
+<p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
+<div fxLayout="column" fxLayoutGap="1.5rem">
+  <div
+    *ngFor="let registration of event.userSignups"
+    fxLayout="column"
+    fxLayout.gt-sm="row"
+    fxLayoutGap=".5rem"
+    fxLayoutAlign="start start"
+    fxLayoutAlign.gt-sm="start center"
+  >
+    <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center">
+      <mat-icon
+        [svgIcon]="registration.hasAttended ? 'checked' : 'cancel'"
+        [style.color]="registration.hasAttended ? 'green' : 'red'"
+      ></mat-icon>
+      <span>{{ registration.user.firstName }} {{ registration.user.lastName }} ({{ registration.user.email }})</span>
+    </div>
+    <div fxLayout="row" fxLayoutGap=".5rem">
+      <button
+        mat-flat-button
+        (click)="collectPayment(registration.user)"
+        *ngIf="!registration.hasPayed && event.hasFee"
+      >
+        Confirm Payment
+      </button>
+      <button mat-flat-button (click)="registerUser(registration.user)" *ngIf="!registration.hasAttended">
+        Confirm Attendance
+      </button>
+      <button mat-flat-button (click)="deregisterUser(registration.user)" *ngIf="registration.hasAttended">
+        Did not attend
+      </button>
+    </div>
+  </div>
+</div>
 <!--<p>
   <strong>Online Registrations</strong>&nbsp;(Tap user to confirm attendance
   <span *ngIf="event.hasFee">and payment</span>)

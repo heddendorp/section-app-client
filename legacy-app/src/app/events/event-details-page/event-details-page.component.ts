@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
@@ -23,6 +25,7 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fireFunctions: AngularFireFunctions,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private authService: AuthService,
     private userService: UserService,
     private eventService: EventService,
@@ -55,18 +58,28 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   async registerTutor(eventId) {
-    const snack = this.snackBar.openFromComponent(IconToastComponent, {
-      data: { message: `Please wait while we're signing you up`, icon: 'wait' },
-      duration: 0
-    });
-    await this.fireFunctions
-      .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>('registerForEvent')({
-        eventId,
-        type: 'tutor'
+    const proceed = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          text: `Do you really want to sign up as a tutor for this event?`
+        }
       })
+      .afterClosed()
       .toPromise();
-    snack.dismiss();
-    await this.router.navigate(['events', 'my']);
+    if (proceed) {
+      const snack = this.snackBar.openFromComponent(IconToastComponent, {
+        data: { message: `Please wait while we're signing you up`, icon: 'wait' },
+        duration: 0
+      });
+      await this.fireFunctions
+        .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>('registerForEvent')({
+          eventId,
+          type: 'tutor'
+        })
+        .toPromise();
+      snack.dismiss();
+      await this.router.navigate(['events', 'my']);
+    }
   }
 
   async registerStudent(eventId) {

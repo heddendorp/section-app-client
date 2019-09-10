@@ -32,8 +32,7 @@
     <p *ngIf="eventFull$ | async" style="color: red">
       This event is already full, you can still register the user but the vent will be over capacity <br />
       Currently signed up for this event:
-      {{ (event$ | async).onlineSignups.length + (event$ | async).payedSignups.length }} /
-      {{ (event$ | async).participantSpots }}
+      {{ (event$ | async).userSignups.length}}/{{ (event$ | async).participantSpots }}
     </p>
     <p *ngIf="alreadyOnEvent$ | async" style="color: red">
       This user is already signed up for the event. Double registrations are possible but be aware!

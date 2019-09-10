@@ -113,8 +113,8 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       }
       await this.eventService.giveOutMoney(user, event, this.moneyControl.value);
     }
-    this.registrationDone$.next(true);
     this.dialog.close();
+    this.registrationDone$.next(true);
   }
 
   ngOnDestroy(): void {
