@@ -4,7 +4,7 @@
       <mat-icon style="height: 3rem; width: 3rem;" svgIcon="chevron-left"></mat-icon>
     </button>
     <div>
-      <h1 class="mat-display-2 no-margin">
+      <h1 class="mat-display-3 no-margin">
         {{ event.name }}
       </h1>
       <strong>{{ event.start | date: 'EEEE dd MMM HH:mm' }} - {{ event.end | date: 'dd MMM HH:mm' }}</strong>
@@ -44,7 +44,7 @@
 </ng-template>
 <div *ngIf="!event.isExternal; else external" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
   <ng-template #noLogin>
-    <mat-card>
+    <!--<mat-card>
       <mat-card-title>Log in to sign up</mat-card-title>
       <mat-card-content>
         <p>
@@ -55,6 +55,18 @@
       <mat-card-actions>
         <button mat-stroked-button routerLink="/signup">Log in now!</button>
       </mat-card-actions>
+    </mat-card>-->
+    <mat-card>
+      <mat-card-title>Registration opens soon</mat-card-title>
+      <mat-card-content>
+        <p>
+          We will open registrations online soon, until then you can check out what we will offer here and maybe pick some events for you. <br>
+          The office will open on the 30th of September
+        </p>
+      </mat-card-content>
+      <!--<mat-card-actions>
+        <button mat-stroked-button routerLink="/signup">Log in now!</button>
+      </mat-card-actions>-->
     </mat-card>
   </ng-template>
   <ng-container *ngIf="isAuthenticated$ | async; else noLogin">

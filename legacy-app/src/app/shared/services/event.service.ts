@@ -59,7 +59,7 @@ export class EventService {
       switchMap(isAdmin =>
         isAdmin
           ? this.futureEvents
-          : this.tutoredEvents.pipe(map(events => events.filter(event => event.end.isBefore())))
+          : this.tutoredEvents.pipe(map(events => events.filter(event => event.end.isSameOrAfter())))
       )
     );
   }

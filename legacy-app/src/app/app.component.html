@@ -21,7 +21,7 @@
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
+      <button (click)="authService.logout()" *ngIf="authenticated$ | async" mat-stroked-button>
         Log out
       </button>
     </mat-toolbar>
@@ -53,10 +53,10 @@
             <mat-icon mat-list-icon svgIcon="party"></mat-icon>
             <h3 mat-line>Party Animals</h3>
           </a>
-          <a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+          <!--<a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
-          </a>
+          </a>-->
           <a mat-list-item routerLink="/help" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
