@@ -53,14 +53,14 @@
             <mat-icon mat-list-icon svgIcon="party"></mat-icon>
             <h3 mat-line>Party Animals</h3>
           </a>
-          <!--<a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
-            <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
-            <h3 mat-line><strong>Get started</strong></h3>
-          </a>-->
           <a mat-list-item routerLink="/help" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
           </a>
+          <!--<a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+            <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
+            <h3 mat-line><strong>Get started</strong></h3>
+          </a>-->
           <ng-container *ngIf="isTutor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>For Tutors</h3>
@@ -95,7 +95,7 @@
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
-        <p><a href="https://www.international.tum.de/en/impressum/" target="_blank">Imprint</a></p>
+        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a routerLink="/data-privacy">Privacy Policy</a></p>
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>

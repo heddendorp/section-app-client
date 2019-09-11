@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { firestore } from 'firebase/app';
+import { firestore as importStore } from 'firebase/app';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TumiEvent } from './event.service';
+import { Student } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +41,7 @@ export class MoneyService {
       .collection('stats')
       .doc('money')
       .collection('transactions')
-      .add({ ...transaction, timestamp: moment().toDate() });
+      .add({ value: transaction.value, comment: transaction.comment, timestamp: moment().toDate() });
   }
 }
 
@@ -47,10 +49,12 @@ interface BaseTransaction {
   id: string;
   value: number;
   comment: string;
+  user?: Partial<Student>;
+  event?: Partial<TumiEvent>;
 }
 
 interface StoredTransaction extends BaseTransaction {
-  timestamp: firestore.Timestamp;
+  timestamp: importStore.Timestamp;
 }
 
 export interface Transaction extends BaseTransaction {
