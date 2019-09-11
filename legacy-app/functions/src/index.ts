@@ -120,6 +120,8 @@ export const newUser = functions.auth.user().onCreate(async user => {
     firstName: firstName || '',
     lastName: lastNames.join(' ') || '',
     id: user.uid,
+    provider: user.providerData[0].providerId || '',
+    photoURL: user.providerData[0].photoURL || '',
     isAdmin: false,
     isTutor: false,
     isEditor: false
