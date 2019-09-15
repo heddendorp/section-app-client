@@ -17,13 +17,14 @@
   <strong>Notes for tutors</strong>
   <p class="description">{{ event.runningNotes }}</p>
 </ng-container>
-<ng-container *ngIf="event.tutorUsers">
+<ng-container *ngIf="event.tutorUsers?.length">
   <strong>Tutors already on this event</strong>
   <p class="description">{{ tutorList }}</p>
 </ng-container>
 <mat-divider></mat-divider>
 <p *ngIf="signed" style="color: red">
-  You are already signed up for this event, contact tumi-koordination@zv.tum.de to remove the registration.
+  You are already signed up for this event, check out <a routerLink="/events/my" class="styled">your events</a> for more
+  information.
 </p>
 <ng-template #external>
   <mat-card>
@@ -60,7 +61,8 @@
       <mat-card-title>Registration opens soon</mat-card-title>
       <mat-card-content>
         <p>
-          We will open registrations online soon, until then you can check out what we will offer here and maybe pick some events for you. <br>
+          We will open registrations online soon, until then you can check out what we will offer here and maybe pick
+          some events for you. <br />
           The office will open on the 30th of September
         </p>
       </mat-card-content>
@@ -70,28 +72,31 @@
     </mat-card>
   </ng-template>
   <ng-container *ngIf="isAuthenticated$ | async; else noLogin">
-    <mat-card *ngIf="event.hasFee || !event.hasOnlineSignup">
-      <mat-card-title>Office Sign up</mat-card-title>
+    <mat-card *ngIf="event.hasFee || (!event.hasOnlineSignup && !event.isInternal)">
+      <mat-card-header>
+        <mat-card-title>Office registration</mat-card-title>
+        <mat-card-subtitle>{{ event.name }} for {{ email$ | async }}</mat-card-subtitle>
+      </mat-card-header>
       <img [src]="qrCode | async" alt="event QR code" fxHide.gt-sm mat-card-image />
       <mat-card-content>
         <p fxHide.gt-sm>Please take this code into the TUMi office to Sign up for the event</p>
-        <p fxShow.gt-sm>Take your phone to the office please, it will show the needed QR-code</p>
+        <p fxHide.lt-md>Take your phone to the office please, it will show the needed QR-code</p>
         <p *ngIf="event.hasFee">
-          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected in the office, please
-          bring cash
+          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected in the
+          office, please bring cash
         </p>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="event.hasOnlineSignup">
+    <mat-card *ngIf="event.hasOnlineSignup || event.isInternal">
       <mat-card-title>Online sign up</mat-card-title>
       <mat-card-content>
         <p>This event allows online sign up, you can register right here.</p>
         <p *ngIf="eventFull">
-          Please mind! THis event is already booked, you can sign up once places become available again
+          Please mind! This event is already booked, you can sign up once places become available again
         </p>
         <p *ngIf="event.hasFee">
-          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected at the event, please
-          bring cash
+          The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected at the
+          event, please bring cash
         </p>
       </mat-card-content>
       <mat-card-actions>

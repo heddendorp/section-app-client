@@ -2,20 +2,21 @@
 
 div.badge {
   font-size: 11px;
+  line-height: 12px;
   position: absolute;
   top: 5px;
   right: 0;
-  padding: 2px 4px;
-  border-radius: 4px 0 0 4px;
+  padding: 8px;
+  border-radius: 6px 0 0 6px;
   @include mat-elevation(2);
 
   &.external {
-    background: mat-color($tumi-primary);
-    color: mat-contrast($tumi-primary, default);
+    background: mat-color($tumi-primary, 500);
+    color: mat-contrast($tumi-primary, 500);
   }
 
   &.internal {
-    background: mat-color($tumi-accent);
-    color: mat-contrast($tumi-accent, default);
+    background: mat-color($tumi-accent, 500);
+    color: mat-contrast($tumi-accent, 500);
   }
 }

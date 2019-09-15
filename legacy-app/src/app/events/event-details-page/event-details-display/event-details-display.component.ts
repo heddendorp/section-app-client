@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { filter, first, tap } from 'rxjs/operators';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../../shared/services/auth.service';
 import { TumiEvent } from '../../../shared/services/event.service';
 import { QrService } from '../../../shared/services/qr.service';
@@ -19,6 +19,7 @@ export class EventDetailsDisplayComponent implements OnInit {
   eventFull: boolean;
   isTutor$;
   isAuthenticated$;
+  email$;
 
   constructor(private qrService: QrService, private authService: AuthService) {}
 
@@ -27,9 +28,10 @@ export class EventDetailsDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventFull = this.event.usersSignedUp >= this.event.participantSpots;
+    this.eventFull = this.event.usersSignedUp >= this.event.participantSpots && !this.event.isInternal;
     this.isTutor$ = this.authService.isTutor;
     this.isAuthenticated$ = this.authService.authenticated;
+    this.email$ = this.authService.user.pipe(map(user => user.email));
     this.authService.user
       .pipe(
         filter(user => !!user),
