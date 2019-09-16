@@ -14,7 +14,7 @@
   <strong>From: </strong>{{ event.start | date: 'medium' }}<br />
   <strong>To: </strong>{{ event.end | date: 'medium' }}<br />
 </p>
-<mat-card *ngIf="isTutor && !event.moneyCollected">
+<mat-card *ngIf="isTutor && !event.moneyCollected && event.fullCost">
   <mat-card-title>Collect money</mat-card-title>
   <img [src]="qrCode" fxHide.gt-xs mat-card-image />
   <mat-card-content>

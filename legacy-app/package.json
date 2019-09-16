@@ -38,6 +38,7 @@
     "@angular/router": "~8.2.4",
     "@angular/service-worker": "~8.2.4",
     "firebase": "6.4.2",
+    "first-input-delay": "^0.1.3",
     "hammerjs": "^2.0.8",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
