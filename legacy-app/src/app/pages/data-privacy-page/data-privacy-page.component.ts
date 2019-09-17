@@ -11,7 +11,8 @@ declare var gtag: (...args) => void;
 })
 export class DataPrivacyPageComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
-  optOutControl = new FormControl(localStorage.getItem('disableAnalytics') || false);
+  optOutControl = new FormControl(JSON.parse(localStorage.getItem('disableAnalytics')) || false);
+  userIdControl = new FormControl(JSON.parse(localStorage.getItem('preventUserID')) || false);
 
   constructor() {}
 
@@ -22,6 +23,12 @@ export class DataPrivacyPageComponent implements OnInit, OnDestroy {
         tap(value => gtag('event', 'optOut', { value }))
       )
       .subscribe(value => localStorage.setItem('disableAnalytics', value));
+    this.userIdControl.valueChanges
+      .pipe(
+        takeUntil(this.destroyed$),
+        tap(value => gtag('event', 'userTrack', { value }))
+      )
+      .subscribe(value => localStorage.setItem('preventUserID', value));
   }
 
   ngOnDestroy(): void {

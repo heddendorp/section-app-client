@@ -4,14 +4,28 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { auth, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { first, map, startWith, switchMap } from 'rxjs/operators';
+import { filter, first, map, startWith, switchMap } from 'rxjs/operators';
 import { Student } from './user.service';
+declare var gtag: (...args) => void;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(public afAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) {}
+  constructor(public afAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) {
+    this.afAuth.authState
+      .pipe(
+        filter(state => !!state),
+        map(state => state.uid)
+      )
+      .subscribe(uid => {
+        if (!localStorage.getItem('preventUserID')) {
+          gtag('config', 'G-04YZMLFE3Z', {
+            user_id: uid
+          });
+        }
+      });
+  }
 
   public get authenticated(): Observable<boolean> {
     return this.afAuth.user.pipe(map(user => !!user));

@@ -38,9 +38,13 @@
     <p>
       We use Google Analytics on this page with IP anonymization enabled. Also all data transferred is covered by the
       EU-US Privacy shield. This tool also uses tracking cookies to identify your machine on future visits. Should this
-      be a problem for you, you can opt out of analytics here and we will disable them on this machine.
+      be a problem for you, you can opt out of analytics here and we will disable them on this machine. <br />
+      Additionally we use an internal UserID to better understand interactions with the website which you can also
+      prevent here.<br />
+      <em>Any changes made here will not affect your experience with the app.</em>
     </p>
     <mat-slide-toggle [formControl]="optOutControl">Disable Analytics on this machine</mat-slide-toggle>
+    <mat-slide-toggle [formControl]="userIdControl">Disable UserID on this machine</mat-slide-toggle>
     <p style="margin-top: 1rem;">
       You can always reach us at <a href="mailto:webmaster@esn-tumi.de" class="styled">webmaster@esn-tumi.de</a> with
       further questions and requests.
