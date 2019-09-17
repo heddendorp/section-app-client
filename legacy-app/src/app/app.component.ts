@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ApplicationRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,8 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { Observable, Subject, timer } from 'rxjs';
-import { filter, first, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { concat, interval, Observable, Subject, timer } from 'rxjs';
+import { filter, first, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
@@ -33,19 +33,38 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     san: DomSanitizer,
     registry: MatIconRegistry,
+    appRef: ApplicationRef,
+    updates: SwUpdate,
+    media: MediaObserver,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private update: SwUpdate,
     private authService: AuthService,
     private router: Router,
-    private titleService: Title,
-    media: MediaObserver
+    private titleService: Title
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
     this.isMobile$ = media.asObservable().pipe(
       map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')),
       startWith(false)
     );
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
+    const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
+
+    updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    updates.available.subscribe(event => {
+      this.snackBar
+        .openFromComponent(IconToastComponent, {
+          duration: 0,
+          data: {
+            message: 'A new version of this app is available!',
+            action: 'Activate now',
+            icon: 'update'
+          }
+        })
+        .onAction()
+        .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
+    });
   }
 
   ngOnInit(): void {
@@ -72,24 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isAdmin$ = this.authService.isAdmin;
     this.isTutor$ = this.authService.isTutor;
     this.isEditor$ = this.authService.isEditor;
-    timer(1000, 60000)
-      .pipe(
-        takeUntil(this.destroyed$),
-        switchMap(() => this.update.available.pipe(first()))
-      )
-      .subscribe(() => {
-        this.snackBar
-          .openFromComponent(IconToastComponent, {
-            duration: 0,
-            data: {
-              message: 'A new version of this app is available!',
-              action: 'Activate now',
-              icon: 'update'
-            }
-          })
-          .onAction()
-          .subscribe(() => this.update.activateUpdate().then(() => document.location.reload()));
-      });
   }
 
   scanRequest() {

@@ -31,8 +31,7 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     BrowserModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      registrationStrategy: 'registerImmediately'
+      enabled: environment.production
     }),
     BrowserAnimationsModule,
     FlexLayoutModule,
