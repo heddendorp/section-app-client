@@ -1,5 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
-  <mat-icon *ngIf="data.icon" [svgIcon]="data.icon"></mat-icon>
+  <mat-icon class="snack-icon" *ngIf="data.icon" [svgIcon]="data.icon"></mat-icon>
   <span class="mat-body-1">{{ data.message }}</span>
   <button (click)="dismiss()" *ngIf="data.action" color="accent" mat-button>{{ data.action }}</button>
+  <button *ngIf="data.allowClose" (click)="cancel()" mat-icon-button><mat-icon svgIcon="cancel"></mat-icon></button>
 </div>

@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { auth, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { filter, first, map, startWith, switchMap } from 'rxjs/operators';
+import { gtagFunction, sendEvent } from '../utility-functions';
 import { Student } from './user.service';
-declare var gtag: (...args) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class AuthService {
       )
       .subscribe(uid => {
         if (!localStorage.getItem('preventUserID')) {
-          gtag('config', 'G-04YZMLFE3Z', {
+          gtagFunction('config', 'G-04YZMLFE3Z', {
             user_id: uid
           });
         }
@@ -68,6 +68,7 @@ export class AuthService {
   }
 
   public async login(provider) {
+    sendEvent('login', { method: provider });
     switch (provider) {
       case 'google': {
         await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
@@ -87,6 +88,7 @@ export class AuthService {
 
   public createUser(email, password) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(creds => {
+      sendEvent('sign_up');
       this.sendVerification();
       this.router.navigate(['events', 'list']);
       return creds;
@@ -95,6 +97,7 @@ export class AuthService {
 
   public emailLogin(email, password) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(creds => {
+      sendEvent('login', { method: 'password' });
       this.router.navigate(['events', 'list']);
       return creds;
     });

@@ -8,11 +8,14 @@ import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar'
 })
 export class IconToastComponent {
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: { icon?: string; action?: string; message: string },
+    @Inject(MAT_SNACK_BAR_DATA) public data: { icon?: string; action?: string; message: string; allowClose?: boolean },
     private snackbarRef: MatSnackBarRef<IconToastComponent>
   ) {}
 
   dismiss() {
     this.snackbarRef.dismissWithAction();
+  }
+  cancel() {
+    this.snackbarRef.dismiss();
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-declare var gtag: (...args) => void;
+import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-data-privacy-page',
@@ -20,13 +20,13 @@ export class DataPrivacyPageComponent implements OnInit, OnDestroy {
     this.optOutControl.valueChanges
       .pipe(
         takeUntil(this.destroyed$),
-        tap(value => gtag('event', 'optOut', { value }))
+        tap(value => sendEvent('set_analytics', { event_category: 'technical', choice: value }))
       )
       .subscribe(value => localStorage.setItem('disableAnalytics', value));
     this.userIdControl.valueChanges
       .pipe(
         takeUntil(this.destroyed$),
-        tap(value => gtag('event', 'userTrack', { value }))
+        tap(value => sendEvent('set_user_tracking', { event_category: 'technical', choice: value }))
       )
       .subscribe(value => localStorage.setItem('preventUserID', value));
   }

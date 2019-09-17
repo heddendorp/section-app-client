@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-pa-page',
@@ -11,7 +12,7 @@ export class PaPageComponent implements OnInit {
   ngOnInit() {}
 
   trackClick() {
-    // @ts-ignore
-    gtag('event', 'pa-link');
+    sendEvent('pa-link');
+    sendEvent('visit_pa_signup');
   }
 }

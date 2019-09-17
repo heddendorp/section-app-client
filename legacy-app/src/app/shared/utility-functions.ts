@@ -13,3 +13,13 @@ export const getFreeSpots = (event: TumiEvent) => {
     return 'Event is full';
   }
 };
+
+export const gtagFunction = (...args) => {
+  // @ts-ignore
+  gtag(...args);
+};
+
+export const sendEvent = (name: string, data: any = {}) => {
+  // @ts-ignore
+  gtagFunction('event', name, data);
+};

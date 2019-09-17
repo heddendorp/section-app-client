@@ -13,6 +13,7 @@ import { filter, first, map, startWith, switchMap, takeUntil, tap } from 'rxjs/o
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
+import { sendEvent } from './shared/utility-functions';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     updates.available.subscribe(event => {
+      sendEvent('found_update', { event_category: 'technical' });
       this.snackBar
         .openFromComponent(IconToastComponent, {
           duration: 0,
@@ -63,11 +65,33 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         })
         .onAction()
+        .pipe(tap(() => sendEvent('activate_update', { event_category: 'technical' })))
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
   }
 
   ngOnInit(): void {
+    if (!JSON.parse(localStorage.getItem('privacy_dismissed'))) {
+      this.snackBar
+        .openFromComponent(IconToastComponent, {
+          duration: 20 * 1000,
+          data: {
+            message: 'This app uses analytics cookies to improve your experience',
+            action: 'More Info',
+            icon: 'about',
+            allowClose: true
+          }
+        })
+        .afterDismissed()
+        .subscribe(({ dismissedByAction }) => {
+          if (dismissedByAction) {
+            this.router.navigate(['data-privacy']);
+          } else {
+            localStorage.setItem('privacy_dismissed', JSON.stringify(true));
+          }
+        });
+    }
+
     this.router.events
       .pipe(
         filter(event => event instanceof ActivationEnd),
