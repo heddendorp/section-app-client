@@ -9,4 +9,9 @@ export class PaPageComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  trackClick() {
+    // @ts-ignore
+    gtag('event', 'pa-link');
+  }
 }

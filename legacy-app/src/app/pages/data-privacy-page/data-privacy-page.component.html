@@ -2,7 +2,10 @@
 <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2rem">
   <div fxLayout="column" style="max-width: 600px">
     <strong>Data being collected from all users of the website</strong>
-    <p>For technical purposes, data such as IP address, browser version, default language and window size are stored temporarily.</p>
+    <p>
+      For technical purposes, data such as IP address, browser version, default language and window size are stored
+      temporarily.
+    </p>
     <strong style="margin-top: 1rem;">Data being collected from registered users of the website</strong>
     <p>
       By signing up on this website you agree that we store the data you enter in our system. All our services use
@@ -18,11 +21,27 @@
     </p>
     <strong style="margin-top: 1rem;">Your Rights</strong>
     <ol style="margin-top: 0;">
-      <li>Access according to GDPR article 15: Any user may at any time request information about collected personal data concerning the user.</li>
-      <li>Rectification according to GDPR article 16: Any user may at any time request the correction of personal data concerning the user.</li>
-      <li>Erasure according to GDPR article 17: Any user may at any time reques personal data concerning the user to be deleted.</li>
+      <li>
+        Access according to GDPR article 15: Any user may at any time request information about collected personal data
+        concerning the user.
+      </li>
+      <li>
+        Rectification according to GDPR article 16: Any user may at any time request the correction of personal data
+        concerning the user.
+      </li>
+      <li>
+        Erasure according to GDPR article 17: Any user may at any time request personal data concerning the user to be
+        deleted.
+      </li>
     </ol>
+    <strong>Google Analytics</strong>
     <p>
+      We use Google Analytics on this page with IP anonymization enabled. Also all data transferred is covered by the
+      EU-US Privacy shield. This tool also uses tracking cookies to identify your machine on future visits. Should this
+      be a problem for you, you can opt out of analytics here and we will disable them on this machine.
+    </p>
+    <mat-slide-toggle [formControl]="optOutControl">Disable Analytics on this machine</mat-slide-toggle>
+    <p style="margin-top: 1rem;">
       You can always reach us at <a href="mailto:webmaster@esn-tumi.de" class="styled">webmaster@esn-tumi.de</a> with
       further questions and requests.
     </p>
