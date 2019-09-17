@@ -13,11 +13,11 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
-          "source": "/esn-tumi/us-central1/removeRegistration",
+          "source": "/esn-tumi/europe-west1/removeRegistration",
           "function": "removeRegistration"
         },
         {
-          "source": "/esn-tumi/us-central1/registerForEvent",
+          "source": "/esn-tumi/europe-west1/registerForEvent",
           "function": "registerForEvent"
         },
         {
