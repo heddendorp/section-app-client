@@ -10,12 +10,12 @@ import { ImprintPageComponent } from './imprint-page/imprint-page.component';
 import { DataPrivacyPageComponent } from './data-privacy-page/data-privacy-page.component';
 
 const routes: Routes = [
-  { path: 'about', data: { standalone: true }, component: AboutPageComponent },
-  { path: 'help', component: HelpPageComponent },
-  { path: 'party-animals', data: { standalone: true }, component: PaPageComponent },
-  { path: 'signup', component: SignupPageComponent },
-  { path: 'imprint', component: ImprintPageComponent },
-  { path: 'data-privacy', component: DataPrivacyPageComponent }
+  { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
+  { path: 'help', data: { title: 'Help' }, component: HelpPageComponent },
+  { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
+  { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
+  { path: 'imprint', data: { title: 'Imprint' }, component: ImprintPageComponent },
+  { path: 'data-privacy', data: { title: 'Privacy' }, component: DataPrivacyPageComponent }
 ];
 
 @NgModule({

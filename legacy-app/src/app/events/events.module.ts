@@ -12,9 +12,14 @@ import { RegisteredListComponent } from './registered-list/registered-list.compo
 import { LoadEventResolver } from './resolvers/load-event.resolver';
 
 const routes: Routes = [
-  { path: 'list', component: EventListPageComponent },
-  { path: 'show/:eventId', component: EventDetailsPageComponent, resolve: { event: LoadEventResolver } },
-  { path: 'my', component: RegisteredListComponent, canActivate: [AngularFireAuthGuard] },
+  { path: 'list', data: { title: 'Events' }, component: EventListPageComponent },
+  {
+    path: 'show/:eventId',
+    data: { title: 'Event' },
+    component: EventDetailsPageComponent,
+    resolve: { event: LoadEventResolver }
+  },
+  { path: 'my', data: { title: 'My' }, component: RegisteredListComponent, canActivate: [AngularFireAuthGuard] },
   { path: '', redirectTo: 'list', pathMatch: 'full' }
 ];
 

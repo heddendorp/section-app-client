@@ -7,7 +7,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -47,7 +47,8 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
   ],
   providers: [
     { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
-    { provide: LOCALE_ID, useValue: 'en-DE' }
+    { provide: LOCALE_ID, useValue: 'en-DE' },
+    Title
   ],
   bootstrap: [AppComponent]
 })

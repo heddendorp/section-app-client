@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'events', loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule) },
   { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
-  { path: 'error', component: NotFoundPageComponent }
+  { path: 'error', component: NotFoundPageComponent, data: { title: 'Error' } }
 ];
 
 @NgModule({

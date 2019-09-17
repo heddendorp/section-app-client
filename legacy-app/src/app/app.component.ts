@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Observable, Subject, timer } from 'rxjs';
@@ -38,6 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private update: SwUpdate,
     private authService: AuthService,
     private router: Router,
+    private titleService: Title,
     media: MediaObserver
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
@@ -48,6 +49,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof ActivationEnd),
+        map((event: ActivationEnd) => event.snapshot.data.title || ''),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe(title => this.titleService.setTitle(`TUMi - ${title}`));
     this.color$ = this.router.events.pipe(
       filter(event => event instanceof ActivationEnd),
       map<ActivationEnd, ThemePalette>(event => {
