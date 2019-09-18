@@ -1,7 +1,7 @@
 <div [class.app--is-mobile]="isMobile$ | async" class="app-container">
   <div [class]="class$ | async">
     <mat-toolbar [color]="color$ | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-      <button (click)="nav.toggle()" mat-icon-button>
+      <button (click)="nav.toggle()" mat-icon-button aria-label="Menu">
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
       <h4

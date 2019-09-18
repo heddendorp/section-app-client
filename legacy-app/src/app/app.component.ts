@@ -54,8 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
-    const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
-
+    const updateChecksOnceAppStable$ = concat(/*appIsStable$,*/ updateCheckTimer$);
     updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     updates.available.subscribe(event => {
       sendEvent('found_update', { event_category: 'technical' });

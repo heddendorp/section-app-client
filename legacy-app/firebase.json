@@ -11,6 +11,26 @@
       "target": "tumi",
       "public": "dist/tumi",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "header": [
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|svg|html|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=14400"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=31557600"
+            }
+          ]
+        }
+      ],
       "rewrites": [
         {
           "source": "/esn-tumi/europe-west1/removeRegistration",
