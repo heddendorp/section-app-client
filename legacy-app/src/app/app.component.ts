@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
     fromEvent<MediaQueryListEvent>(mediaMatcher.matchMedia('(prefers-color-scheme: dark)'), 'change')
-      .pipe(startWith(mediaMatcher.matchMedia('(prefers-color-scheme: dark)')))
+      /*.pipe(startWith(mediaMatcher.matchMedia('(prefers-color-scheme: dark)')))*/
       .subscribe(event => {
         if (event.matches) {
           this.loadStyle('dark.css');
@@ -141,15 +141,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const head = this.document.getElementsByTagName('head')[0];
 
     const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
-    if (themeLink) {
-      themeLink.href = styleName;
-    } else {
-      const style = this.document.createElement('link');
-      style.id = 'client-theme';
-      style.rel = 'stylesheet';
-      style.href = `${styleName}`;
-
-      head.appendChild(style);
-    }
+    themeLink.href = styleName;
   }
 }

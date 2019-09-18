@@ -2,18 +2,19 @@
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
+$normalFont: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
+$headlineFont: '"Josefin Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
 
 $custom-typography: mat-typography-config(
-  $font-family:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-  $display-4: mat-typography-level(2.125rem, 2.563rem, 400, 'Josefin Sans', $letter-spacing: 0.0074rem),
-  $display-3: mat-typography-level(3rem, 3.625rem, 400, 'Josefin Sans', $letter-spacing: 0),
-  $display-2: mat-typography-level(3.75rem, 4.5rem, 300, 'Josefin Sans', $letter-spacing: -0.0083rem),
-  $display-1: mat-typography-level(6rem, 7.188rem, 300, 'Josefin Sans', $letter-spacing: -0.0156rem),
-  $headline: mat-typography-level(1.5rem, 1.81rem, 300, 'Josefin Sans', $letter-spacing: 0),
-  $title: mat-typography-level(1.25rem, 1.5rem, 500, 'Josefin Sans', $letter-spacing: 0.0075rem),
-  $subheading-2: mat-typography-level(1rem, 1.5rem, 400, 'Josefin Sans', 0.0094rem),
-  $subheading-1: mat-typography-level(0.875rem, 1.5rem, 400, 'Josefin Sans', 0.0071rem),
+  $font-family: $normalFont,
+  $display-4: mat-typography-level(2.125rem, 2.563rem, 400, $headlineFont, $letter-spacing: 0.0074rem),
+  $display-3: mat-typography-level(3rem, 3.625rem, 400, $headlineFont, $letter-spacing: 0),
+  $display-2: mat-typography-level(3.75rem, 4.5rem, 300, $headlineFont, $letter-spacing: -0.0083rem),
+  $display-1: mat-typography-level(6rem, 7.188rem, 300, $headlineFont, $letter-spacing: -0.0156rem),
+  $headline: mat-typography-level(1.5rem, 1.81rem, 300, $headlineFont, $letter-spacing: 0),
+  $title: mat-typography-level(1.25rem, 1.5rem, 500, $headlineFont, $letter-spacing: 0.0075rem),
+  $subheading-2: mat-typography-level(1rem, 1.5rem, 400, $headlineFont, 0.0094rem),
+  $subheading-1: mat-typography-level(0.875rem, 1.5rem, 400, $headlineFont, 0.0071rem),
   $body-2: mat-typography-level(0.875rem, 1rem, 400, $letter-spacing: 0.0178rem),
   $body-1: mat-typography-level(1rem, 1.75rem, 400, $letter-spacing: 0.0275rem),
   $caption: mat-typography-level(0.75rem, 0.75rem, 400, $letter-spacing: 0.03333rem),
