@@ -68,7 +68,6 @@ export class AuthService {
   }
 
   public async login(provider) {
-    sendEvent('login', { method: provider });
     switch (provider) {
       case 'google': {
         await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
@@ -83,6 +82,7 @@ export class AuthService {
         break;
       }
     }
+    sendEvent('login', { method: provider });
     this.router.navigate(['events', 'list']);
   }
 
