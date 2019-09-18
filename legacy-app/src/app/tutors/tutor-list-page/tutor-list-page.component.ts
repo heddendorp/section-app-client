@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Student, UserService } from '../../shared/services/user.service';
 
@@ -8,12 +10,15 @@ import { Student, UserService } from '../../shared/services/user.service';
   styleUrls: ['./tutor-list-page.component.scss']
 })
 export class TutorListPageComponent implements OnInit {
-  tutors$: Observable<Student[]>;
+  dataSource = new MatTableDataSource();
+  displayedColumns = ['name', 'email', 'phone'];
+  searchControl = new FormControl();
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.tutors$ = this.userService.tutors;
+    this.userService.tutors.subscribe(data => (this.dataSource.data = data));
+    this.searchControl.valueChanges.subscribe(value => (this.dataSource.filter = value));
   }
 
   getId(index: number, student: Student): string {
