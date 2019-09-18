@@ -45,6 +45,7 @@
     "hammerjs": "^2.0.8",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
+    "ngx-quicklink": "^0.1.4",
     "qrcode": "^1.4.1",
     "rxjs": "~6.5.2",
     "tslib": "^1.10.0",

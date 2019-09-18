@@ -105,40 +105,8 @@ $tumi-warn: mat-palette($mat-red);
 $tumi-theme: mat-light-theme($tumi-primary, $tumi-accent, $tumi-warn);
 $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($tumi-theme);
-
-@mixin dark-theme {
-  @include angular-material-theme($tumi-dark-theme);
-  mat-nav-list {
-    [mat-list-item],
-    mat-list-item {
-      &.active:not(:hover) {
-        color: mat-color($tumi-primary, lighter) !important;
-        background: transparentize(mat-color($tumi-primary, lighter), 0.88) !important;
-      }
-    }
-  }
-  app-funds-page {
-    .transaction {
-      border: 1px solid white !important;
-    }
-  }
-}
-
 .grey-slant {
   @include mat-button-theme($tumi-theme);
-}
-
-//noinspection CssInvalidMediaFeature
-@media (prefers-color-scheme: dark) {
-  @include dark-theme;
-}
-
-.dark-theme {
-  @include mat-toolbar-theme($tumi-dark-theme);
 }
 
 /* You can add global styles to this file, and also import other style files */

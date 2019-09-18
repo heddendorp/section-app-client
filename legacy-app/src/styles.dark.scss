@@ -1,0 +1,20 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import 'styles';
+
+@include angular-material-theme($tumi-dark-theme);
+mat-nav-list {
+  [mat-list-item],
+  mat-list-item {
+    &.active:not(:hover) {
+      color: mat-color($tumi-primary, lighter) !important;
+      background: transparentize(mat-color($tumi-primary, lighter), 0.88) !important;
+    }
+  }
+}
+app-funds-page {
+  .transaction {
+    border: 1px solid white !important;
+  }
+}

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
+import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 const routes: Routes = [
@@ -27,7 +28,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [QuicklinkModule, RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy })],
   providers: [AngularFireAuthGuard],
   exports: [RouterModule]
 })

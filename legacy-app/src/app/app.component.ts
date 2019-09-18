@@ -1,4 +1,6 @@
-import { ApplicationRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { DOCUMENT } from '@angular/common';
+import { ApplicationRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,8 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, interval, Observable, Subject, timer } from 'rxjs';
-import { filter, first, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
+import { filter, first, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
@@ -37,6 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
     appRef: ApplicationRef,
     updates: SwUpdate,
     media: MediaObserver,
+    mediaMatcher: MediaMatcher,
+    @Inject(DOCUMENT) private document: Document,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private authService: AuthService,
@@ -68,6 +72,15 @@ export class AppComponent implements OnInit, OnDestroy {
         .pipe(tap(() => sendEvent('activate_update', { event_category: 'technical' })))
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
+    fromEvent<MediaQueryListEvent>(mediaMatcher.matchMedia('(prefers-color-scheme: dark)'), 'change')
+      .pipe(startWith(mediaMatcher.matchMedia('(prefers-color-scheme: dark)')))
+      .subscribe(event => {
+        if (event.matches) {
+          this.loadStyle('dark.css');
+        } else {
+          this.loadStyle('light.css');
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -123,5 +136,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
+  }
+
+  private loadStyle(styleName: string) {
+    const head = this.document.getElementsByTagName('head')[0];
+
+    const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
+    if (themeLink) {
+      themeLink.href = styleName;
+    } else {
+      const style = this.document.createElement('link');
+      style.id = 'client-theme';
+      style.rel = 'stylesheet';
+      style.href = `${styleName}`;
+
+      head.appendChild(style);
+    }
   }
 }

@@ -27,8 +27,19 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
+            "extractCss": true,
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/styles.light.scss",
+                "bundleName": "light",
+                "inject": false
+              },
+              {
+                "input": "src/styles.dark.scss",
+                "bundleName": "dark",
+                "inject": false
+              }
             ],
             "scripts": []
           },
