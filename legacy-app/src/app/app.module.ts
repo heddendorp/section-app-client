@@ -4,7 +4,7 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
+import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN, FUNCTIONS_REGION } from '@angular/fire/functions';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule, Title } from '@angular/platform-browser';
@@ -47,6 +47,7 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
   ],
   providers: [
     { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
+    { provide: FUNCTIONS_REGION, useValue: 'europe-west1' },
     { provide: LOCALE_ID, useValue: 'en-DE' },
     Title
   ],
