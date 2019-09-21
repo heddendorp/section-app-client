@@ -43,6 +43,7 @@
   <form [formGroup]="filterForm" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" style="margin-bottom: 1rem;">
     <mat-checkbox formControlName="showExternal">Show external events</mat-checkbox>
     <mat-checkbox formControlName="showFull">Show full events</mat-checkbox>
+    <mat-checkbox formControlName="showFullTutors">Show full events (tutors)</mat-checkbox>
   </form>
   <app-event-list [events]="events$ | async"></app-event-list>
 </div>

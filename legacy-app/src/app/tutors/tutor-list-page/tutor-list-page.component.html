@@ -11,14 +11,14 @@
     <th mat-header-cell *matHeaderCellDef>Mail</th>
     <td mat-cell *matCellDef="let element">
       <a fxHide.lt-md class="styled" href="mailto:{{ element.email }}" target="_blank">{{ element.email }}</a>
-      <a fxHide.gt-sm mat-button href="mailto:{{ element.email }}" target="_blank">Send Mail</a>
+      <a fxHide.gt-sm mat-button href="mailto:{{ element.email }}">Send Mail</a>
     </td>
   </ng-container>
   <ng-container matColumnDef="phone">
     <th mat-header-cell *matHeaderCellDef>Phone</th>
     <td mat-cell *matCellDef="let element">
       <a fxHide.lt-md class="styled" href="tel:{{ element.phone }}" target="_blank">{{ element.phone }}</a>
-      <a fxHide.gt-sm *ngIf="element.phone?.length" mat-button href="tel:{{ element.phone }}" target="_blank">Call</a>
+      <a fxHide.gt-sm *ngIf="element.phone?.length" mat-button href="tel:{{ element.phone }}">Call</a>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

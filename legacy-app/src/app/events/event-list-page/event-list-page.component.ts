@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { getFreeSpots } from '../../shared/utility-functions';
 
@@ -12,16 +13,19 @@ import { getFreeSpots } from '../../shared/utility-functions';
 })
 export class EventListPageComponent implements OnInit {
   events$: Observable<TumiEvent[]>;
+  isTutor$: Observable<boolean>;
   filterForm: FormGroup;
 
-  constructor(private eventService: EventService, fb: FormBuilder) {
+  constructor(private eventService: EventService, fb: FormBuilder, private authService: AuthService) {
     this.filterForm = fb.group({
       showExternal: true,
-      showFull: false
+      showFull: false,
+      showFullTutors: false
     });
   }
 
   ngOnInit() {
+    this.isTutor$ = this.authService.isTutor;
     this.events$ = combineLatest([
       this.eventService.visibleEvents,
       this.filterForm.valueChanges.pipe(startWith(this.filterForm.value))
@@ -37,6 +41,14 @@ export class EventListPageComponent implements OnInit {
   filterEvents(filter) {
     return event => {
       if (!filter.showExternal && event.isExternal) {
+        return false;
+      }
+      if (
+        !filter.showFullTutors &&
+        event.tutorSpots <= event.tutorSignups.length &&
+        !event.isInternal &&
+        !event.isExternal
+      ) {
         return false;
       }
       if (!filter.showFull && event.freeSpots === 'Event is full' && !event.isInternal && !event.isExternal) {

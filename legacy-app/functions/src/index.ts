@@ -8,9 +8,9 @@ const firestore = app.firestore();
 // // https://firebase.google.com/docs/functions/typescript
 //
 
-export const registerForEvent = functions
-  .region('europe-west1')
-  .https.onCall(async ({ eventId, type }: { eventId: string; type: 'tutor' | 'student' }, context) => {
+export const registerForEvent = functions/*.region('europe-west1')*/
+.https
+  .onCall(async ({ eventId, type }: { eventId: string; type: 'tutor' | 'student' }, context) => {
     if (!eventId || typeof eventId !== 'string' || !eventId.length) {
       throw new functions.https.HttpsError(
         'invalid-argument',
@@ -68,9 +68,9 @@ export const registerForEvent = functions
     }
   });
 
-export const removeRegistration = functions
-  .region('europe-west1')
-  .https.onCall(async ({ eventId }: { eventId: string }, context) => {
+export const removeRegistration = functions/*.region('europe-west1')*/
+.https
+  .onCall(async ({ eventId }: { eventId: string }, context) => {
     if (!eventId || typeof eventId !== 'string' || !eventId.length) {
       throw new functions.https.HttpsError(
         'invalid-argument',
