@@ -1,40 +1,123 @@
 {
   "indexes": [
     {
-      "collectionId": "users",
-      "fields": [{ "fieldPath": "isTutor", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "users",
-      "fields": [{ "fieldPath": "isEditor", "mode": "ASCENDING" }, { "fieldPath": "lastName", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "tutorSignups", "mode": "ARRAY_CONTAINS" },
-        { "fieldPath": "start", "mode": "ASCENDING" }
+        {
+          "fieldPath": "isExternal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "end",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "isExternal", "mode": "ASCENDING" }, { "fieldPath": "start", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
-      "fields": [{ "fieldPath": "isExternal", "mode": "ASCENDING" }, { "fieldPath": "end", "mode": "ASCENDING" }]
-    },
-    {
-      "collectionId": "events",
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "isVisibleInternally", "mode": "ASCENDING" },
-        { "fieldPath": "start", "mode": "ASCENDING" }
+        {
+          "fieldPath": "isExternal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "start",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "events",
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "isVisiblePublicly", "mode": "ASCENDING" },
-        { "fieldPath": "start", "mode": "ASCENDING" }
+        {
+          "fieldPath": "isVisibleInternally",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "start",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isVisiblePublicly",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "start",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "tutorSignups",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "start",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isExternal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isInternal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isVisibleInternally",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "start",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isEditor",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isTutor",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastName",
+          "order": "ASCENDING"
+        }
       ]
     }
   ],
