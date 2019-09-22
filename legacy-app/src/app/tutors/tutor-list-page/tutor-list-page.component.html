@@ -2,10 +2,14 @@
 <mat-form-field style="width: 100%;">
   <input type="search" matInput [formControl]="searchControl" placeholder="Search for a Tutor" />
 </mat-form-field>
-<table mat-table [dataSource]="dataSource" style="width: 100%;">
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.firstName }} {{ element.lastName }}</td>
+<table mat-table matSort [dataSource]="dataSource" style="width: 100%;">
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
   </ng-container>
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef>Mail</th>

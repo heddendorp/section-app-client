@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { TumiEvent } from '../../../shared/services/event.service';
@@ -17,5 +17,9 @@ export class EventListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isTutor$ = this.authService.isTutor;
+  }
+
+  getId(index, event: TumiEvent) {
+    return event.id;
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { Student, UserService } from '../../shared/services/user.service';
 
@@ -11,14 +12,17 @@ import { Student, UserService } from '../../shared/services/user.service';
 })
 export class TutorListPageComponent implements OnInit {
   dataSource = new MatTableDataSource();
-  displayedColumns = ['name', 'email', 'phone'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'phone'];
   searchControl = new FormControl();
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.userService.tutors.subscribe(data => (this.dataSource.data = data));
     this.searchControl.valueChanges.subscribe(value => (this.dataSource.filter = value));
+    this.dataSource.sort = this.sort;
   }
 
   getId(index: number, student: Student): string {

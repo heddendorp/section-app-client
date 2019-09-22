@@ -21,7 +21,7 @@
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
 <div fxLayout="column" fxLayoutGap="1.5rem">
   <div
-    *ngFor="let registration of event.userSignups"
+    *ngFor="let registration of event.userSignups; trackBy: trackById"
     fxLayout="column"
     fxLayout.gt-sm="row"
     fxLayoutGap=".5rem"

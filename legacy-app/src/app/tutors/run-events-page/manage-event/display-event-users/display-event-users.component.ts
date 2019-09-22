@@ -72,4 +72,8 @@ export class DisplayEventUsersComponent implements OnInit {
   deregisterUser(user: Student) {
     this.eventService.attendEvent(user, this.event, false);
   }
+
+  trackById(index, user: Student) {
+    return user.id;
+  }
 }

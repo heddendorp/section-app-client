@@ -1,5 +1,5 @@
 <div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
-  <mat-card *ngFor="let event of events" fxLayout="column">
+  <mat-card *ngFor="let event of events; trackBy: getId" fxLayout="column">
     <div *ngIf="event.isExternal" class="badge external">External Event</div>
     <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
     <mat-card-title-group>
