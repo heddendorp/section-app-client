@@ -19,6 +19,10 @@ export const gtagFunction = (...args) => {
   gtag(...args);
 };
 
+export const gtagConfig = (value: any) => {
+  gtagFunction('config', 'G-04YZMLFE3Z', value);
+};
+
 export const sendEvent = (name: string, data: any = {}) => {
   // @ts-ignore
   gtagFunction('event', name, data);

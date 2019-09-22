@@ -1,6 +1,7 @@
+import { AnalyticsCommand } from '@angular/cli/commands/analytics-impl';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -13,6 +14,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import localeEn from '@angular/common/locales/en-DE';
 import localeEnExtra from '@angular/common/locales/extra/en-DE';
+import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,6 +51,7 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
     { provide: FUNCTIONS_REGION, useValue: 'europe-west1' },
     { provide: LOCALE_ID, useValue: 'en-DE' },
+    environment.production ? { provide: ErrorHandler, useClass: AnalyticsErrorHandler } : [],
     Title
   ],
   bootstrap: [AppComponent]

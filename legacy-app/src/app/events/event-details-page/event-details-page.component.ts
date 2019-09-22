@@ -10,6 +10,7 @@ import { IconToastComponent } from '../../shared/components/icon-toast/icon-toas
 import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { UserService } from '../../shared/services/user.service';
+import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-event-details-page',
@@ -77,6 +78,7 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
           type: 'tutor'
         })
         .toPromise();
+      sendEvent('event_tutor_signup', { eventId });
       snack.dismiss();
       await this.router.navigate(['events', 'my']);
     }
@@ -93,6 +95,7 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
         type: 'student'
       })
       .toPromise();
+    sendEvent('event_user_signup', { eventId });
     snack.dismiss();
     await this.router.navigate(['events', 'my']);
   }

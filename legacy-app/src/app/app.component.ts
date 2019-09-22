@@ -15,7 +15,7 @@ import { filter, first, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
-import { sendEvent } from './shared/utility-functions';
+import { gtagConfig, sendEvent } from './shared/utility-functions';
 
 @Component({
   selector: 'app-root',
@@ -107,6 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter(event => event instanceof ActivationEnd),
+        tap(() => gtagConfig({ page_path: location.pathname })),
         map((event: ActivationEnd) => event.snapshot.data.title || ''),
         takeUntil(this.destroyed$)
       )

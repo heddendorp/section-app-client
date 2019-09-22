@@ -111,11 +111,14 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       const endTime = event.end.format('HH:mm');
       event.start.startOf('day');
       event.end.startOf('day');
-      this.eventForm.reset({
-        ...event,
-        startTime,
-        endTime
-      });
+      this.eventForm.reset(
+        {
+          ...event,
+          startTime,
+          endTime
+        },
+        { emitEvent: true }
+      );
     }
   }
 
