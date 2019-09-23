@@ -19,6 +19,7 @@ export const newUser = functions
       isTutor: false,
       isEditor: false
     };
+    console.log('User created: ', user.email);
     await firestore
       .collection('users')
       .doc(userEntry.id)
