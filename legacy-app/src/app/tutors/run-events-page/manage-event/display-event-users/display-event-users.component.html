@@ -43,6 +43,13 @@
       >
         Confirm Payment
       </button>
+      <button
+        mat-flat-button
+        (click)="removeUser(registration.user)"
+        *ngIf="isAdmin$ | async"
+      >
+        Remove from Event
+      </button>
       <button mat-flat-button (click)="registerUser(registration.user)" *ngIf="!registration.hasAttended">
         Confirm Attendance
       </button>

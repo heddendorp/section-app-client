@@ -65,6 +65,20 @@ export class DisplayEventUsersComponent implements OnInit {
     }
   }
 
+  async removeUser(user: Student) {
+    const proceed = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) from this event`
+        }
+      })
+      .afterClosed()
+      .toPromise();
+    if (proceed) {
+      await this.eventService.deregister(user, this.event);
+    }
+  }
+
   registerUser(user: Student) {
     this.eventService.attendEvent(user, this.event);
   }

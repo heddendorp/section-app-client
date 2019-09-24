@@ -196,6 +196,15 @@ export class EventService {
       .set({ id: user.id, partySize: 1, hasPayed: true, hasAttended: false });
   }
 
+  public deregister(user, event): Promise<void> {
+    return this.firestore
+      .collection<TumiEvent>('events')
+      .doc(event.id)
+      .collection<EventSignup>('signups')
+      .doc(user.id)
+      .delete();
+  }
+
   public giveOutMoney(user, event, fullCost): Promise<void> {
     return this.updateEvent({
       ...event,

@@ -65,8 +65,6 @@ export const eventSignup = (event: any, user: any, signup: any) =>
   ).html;
 
 const priceColumn = (event: any, signup: any) => {
-  console.log(event);
-  console.log(signup);
   if (event.hasFee) {
     if (!signup.hasPayed) {
       return `<mj-column>
