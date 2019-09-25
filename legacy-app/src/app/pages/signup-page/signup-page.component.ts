@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { MailSigninComponent } from '../../components/mail-signin/mail-signin.component';
@@ -10,8 +11,8 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['./signup-page.component.scss']
 })
 export class SignupPageComponent implements OnInit {
-  signedUp$: Observable<boolean>;
   authenticated$: Observable<boolean>;
+  consentControl = new FormControl(false);
 
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
