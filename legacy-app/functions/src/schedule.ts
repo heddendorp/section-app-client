@@ -81,7 +81,12 @@ export const openEvents = functions
           Authorization: `Bearer ${functions.config().slack.token}`
         },
         json: true,
-        body: { token: functions.config().slack.token, blocks, channel: '#event-updates' }
+        body: {
+          token: functions.config().slack.token,
+          blocks,
+          channel: '#event-updates',
+          text: 'Click for the daily update of events that need tutors'
+        }
       });
       console.log(response.body);
     } catch (error) {

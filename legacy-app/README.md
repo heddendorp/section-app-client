@@ -1,10 +1,12 @@
-# ![Logo](https://img.icons8.com/cotton/64/000000/around-the-globe.png) TUMi app **α**
+# ![Logo](https://esn-tumi.de/assets/images/blume.svg | width=100) TUMi app **α**
 
 This app is meant to provide all tolls necessary to organize the **ESN TUMi munich** events.
 
 **α**: please not that the current available version of this app is very much in development and not intended to be used for anything more than clicking around to see where the journey might go
 
 ## Roadmap
+
+To see the current status visit the [Features](/FEATURES.md) page.
 
 ### MVP 1 _(planned by august 2019)_
 
@@ -31,7 +33,7 @@ The MVP describes the set of features that the app needs to provide any value ov
   - Change the user signup to be open for everyone
   - Implement Facebook and EMail signup
   - Allow the office to change userdata
-- Allow searching through transactions and generate invoices for users\
+- Allow searching through transactions and generate invoices for users
 - The tool should send confirmation emails whenever money was exchanged
 
 ### V 1 _(until february 2020)_
