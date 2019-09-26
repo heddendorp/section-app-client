@@ -1,4 +1,4 @@
-# ![Logo](https://esn-tumi.de/assets/images/blume.svg | width=100) TUMi app **α**
+# <img src="https://esn-tumi.de/assets/images/blume.svg" alt="Logo" width="80px"> TUMi app **α**
 
 This app is meant to provide all tolls necessary to organize the **ESN TUMi munich** events.
 
