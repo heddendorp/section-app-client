@@ -4,7 +4,7 @@ This app is meant to provide all tolls necessary to organize the **ESN TUMi muni
 
 **α**: please note that the current available version of this app is very much in development and not intended to be used for anything more than clicking around to see where the journey might go
 
-<a href="https://www.browserstack.com/" target="_blank"><img src="/gh_assets/browserstack_logo.svg" alt="Browserstack Logo" width="80px"></a> Device tested using browserstack
+<a href="https://www.browserstack.com/" target="_blank"><img src="/gh_assets/browserstack_logo.svg" alt="Browserstack Logo" width="150px"></a> Device tested using browserstack
 
 ## Roadmap
 
