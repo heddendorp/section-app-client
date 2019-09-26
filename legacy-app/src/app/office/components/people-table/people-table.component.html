@@ -1,10 +1,3 @@
-<!--<p>Filter displayed users</p>-->
-<!--<form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" style="margin-bottom: 2rem;">
-  <mat-checkbox formControlName="showAll" [indeterminate]="filterIndeterminate | async">Show all users</mat-checkbox>
-  <mat-checkbox formControlName="showAdmins">Show Admins</mat-checkbox>
-  <mat-checkbox formControlName="showTutors">Show Tutors</mat-checkbox>
-  <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
-</form>-->
 <mat-form-field style="width: 100%;">
   <input [formControl]="searchControl" autocomplete="off" matInput placeholder="Search for a user" type="search" />
 </mat-form-field>

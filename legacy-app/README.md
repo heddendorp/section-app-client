@@ -44,12 +44,12 @@ In V 1 the first non essential but highly useful features will be shipped
 - Option to display external events in the calendar
 - Event related information sharing (such as links to shared photo albums and meeting points)
 - Reminders and information emails
-- Waitinglist option for very popular events
+- Waiting list option for very popular events
 - Implement tutor tools for late payments and event planning
 
 ### V 1.1
 
-V 1.1 will further expand the featureset of the app based on identified needs in V 1
+V 1.1 will further expand the feature set of the app based on identified needs in V 1
 
 ## Development
 
