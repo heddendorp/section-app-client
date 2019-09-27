@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
@@ -28,17 +46,18 @@ export class EventListPageComponent implements OnInit {
     this.isTutor$ = this.authService.isTutor;
     this.events$ = combineLatest([
       this.eventService.visibleEvents,
-      this.filterForm.valueChanges.pipe(startWith(this.filterForm.value))
+      this.filterForm.valueChanges.pipe(startWith(this.filterForm.value)),
+      this.isTutor$
     ]).pipe(
-      map(([events, filter]) =>
+      map(([events, filter, isTutor]) =>
         events
           .map((event: TumiEvent) => Object.assign(event, { freeSpots: getFreeSpots(event) }))
-          .filter(this.filterEvents(filter))
+          .filter(this.filterEvents(filter, isTutor))
       )
     );
   }
 
-  filterEvents(filter) {
+  filterEvents(filter, isTutor) {
     return event => {
       if (!filter.showExternal && event.isExternal) {
         return false;
@@ -47,7 +66,8 @@ export class EventListPageComponent implements OnInit {
         !filter.showFullTutors &&
         event.tutorSpots <= event.tutorSignups.length &&
         !event.isInternal &&
-        !event.isExternal
+        !event.isExternal &&
+        isTutor
       ) {
         return false;
       }

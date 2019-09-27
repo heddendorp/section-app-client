@@ -1,3 +1,21 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div [class.app--is-mobile]="isMobile$ | async" class="app-container">
   <div [class]="class$ | async">
     <mat-toolbar [color]="color$ | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
@@ -21,7 +39,7 @@
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="authService.logout()" *ngIf="authenticated$ | async" mat-stroked-button>
+      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
         Log out
       </button>
     </mat-toolbar>
@@ -57,10 +75,10 @@
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
           </a>
-          <!--<a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+          <a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
-          </a>-->
+          </a>
           <ng-container *ngIf="isTutor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>For Tutors</h3>

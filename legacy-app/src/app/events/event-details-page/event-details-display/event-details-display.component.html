@@ -1,3 +1,21 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <header fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1rem;">
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
     <button mat-icon-button routerLink="/events" style="height: 3rem; width: 3rem; transform: translate(-4px, -12px)">
@@ -45,7 +63,7 @@
 </ng-template>
 <div *ngIf="!event.isExternal; else external" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="2rem">
   <ng-template #noLogin>
-    <!--<mat-card>
+    <mat-card>
       <mat-card-title>Log in to sign up</mat-card-title>
       <mat-card-content>
         <p>
@@ -56,19 +74,6 @@
       <mat-card-actions>
         <button mat-stroked-button routerLink="/signup">Log in now!</button>
       </mat-card-actions>
-    </mat-card>-->
-    <mat-card>
-      <mat-card-title>Registration opens soon</mat-card-title>
-      <mat-card-content>
-        <p>
-          We will open registrations online soon, until then you can check out what we will offer here and maybe pick
-          some events for you. <br />
-          The office will open on the 30th of September
-        </p>
-      </mat-card-content>
-      <!--<mat-card-actions>
-        <button mat-stroked-button routerLink="/signup">Log in now!</button>
-      </mat-card-actions>-->
     </mat-card>
   </ng-template>
   <ng-container *ngIf="isAuthenticated$ | async; else noLogin">
