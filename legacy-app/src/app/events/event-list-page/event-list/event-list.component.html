@@ -20,6 +20,7 @@
   <mat-card routerLink="/events/show/{{ event.id }}" *ngFor="let event of events; trackBy: getId" fxLayout="column">
     <div *ngIf="event.isExternal" class="badge external">External Event</div>
     <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
+    <div *ngIf="event.hasOnlineSignup" class="badge internal">Online Registration</div>
     <mat-card-title-group>
       <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
       <mat-card-title>{{ event.name }} </mat-card-title>
