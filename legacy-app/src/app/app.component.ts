@@ -26,11 +26,12 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { ActivationEnd, Router } from '@angular/router';
+import { ActivationEnd, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
-import { filter, first, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { filter, first, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { slideInAnimation } from './animation';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
@@ -39,7 +40,8 @@ import { gtagConfig, sendEvent } from './shared/utility-functions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
@@ -129,6 +131,13 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         filter(event => event instanceof ActivationEnd),
         tap(() => gtagConfig({ page_path: location.pathname })),
+        withLatestFrom(this.isMobile$),
+        map(([event, mobile]) => {
+          if (mobile) {
+            this.sidenav.close();
+          }
+          return event;
+        }),
         map((event: ActivationEnd) => event.snapshot.data.title || ''),
         takeUntil(this.destroyed$)
       )
@@ -159,9 +168,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  private loadStyle(styleName: string) {
-    const head = this.document.getElementsByTagName('head')[0];
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
 
+  private loadStyle(styleName: string) {
     const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
     themeLink.href = styleName;
   }

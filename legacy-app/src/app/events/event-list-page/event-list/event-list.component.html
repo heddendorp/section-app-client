@@ -17,7 +17,8 @@
   -->
 
 <div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
-  <mat-card *ngFor="let event of events; trackBy: getId" fxLayout="column" routerLink="/events/show/{{ event.id }}">
+  <mat-card *ngFor="let event of events; trackBy: getId" class="event" fxLayout="column" mat-ripple
+            routerLink="/events/show/{{ event.id }}">
     <div *ngIf="event.isExternal" class="badge external">External Event</div>
     <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
     <div *ngIf="event.hasOnlineSignup" class="badge internal">Online Registration</div>
@@ -34,10 +35,6 @@
     <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal">
       Tutors still needed: {{ event.tutorSpots - event.tutorSignups.length }} / {{ event.tutorSpots }}
     </mat-card-content>
-    <div fxFlex></div>
-    <mat-card-actions fxLayout="row">
-      <button fxFlex mat-button routerLink="/events/show/{{ event.id }}">More Info</button>
-    </mat-card-actions>
   </mat-card>
 </div>
 <ng-template #emptyList>

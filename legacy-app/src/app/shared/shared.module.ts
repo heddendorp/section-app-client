@@ -24,7 +24,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, MatRippleModule, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -64,7 +64,8 @@ const materialModules = [
   MatSlideToggleModule,
   MatCheckboxModule,
   MatSelectModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatRippleModule
 ];
 
 @NgModule({

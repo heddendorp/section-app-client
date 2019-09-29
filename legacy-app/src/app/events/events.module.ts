@@ -34,13 +34,13 @@ import { LoadVisibleEventsResolver } from './resolvers/load-visible-events.resol
 const routes: Routes = [
   {
     path: 'list',
-    data: { title: 'Events' },
+    data: { title: 'Events', animation: 'EventList' },
     resolve: { events: LoadVisibleEventsResolver },
     component: EventListPageComponent
   },
   {
     path: 'show/:eventId',
-    data: { title: 'Event' },
+    data: { title: 'Event', animation: 'EventDetail' },
     component: EventDetailsPageComponent,
     resolve: { event: LoadEventResolver }
   },

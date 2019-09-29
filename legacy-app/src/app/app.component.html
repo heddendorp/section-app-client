@@ -67,10 +67,6 @@
             <mat-icon mat-list-icon svgIcon="about"></mat-icon>
             <h3 mat-line>About TUMi</h3>
           </a>
-          <!--<a mat-list-item routerLink="/party-animals" routerLinkActive="active">
-            <mat-icon mat-list-icon svgIcon="party"></mat-icon>
-            <h3 mat-line>Party Animals</h3>
-          </a>-->
           <a mat-list-item routerLink="/help" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
@@ -118,8 +114,8 @@
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>
-      <main class="mat-typography">
-        <router-outlet></router-outlet>
+      <main [@routeAnimations]="prepareRoute(outlet)" class="mat-typography">
+        <router-outlet #outlet="outlet"></router-outlet>
       </main>
     </mat-sidenav-content>
   </mat-sidenav-container>
