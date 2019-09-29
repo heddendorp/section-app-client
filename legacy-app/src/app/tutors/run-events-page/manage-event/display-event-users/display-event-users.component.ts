@@ -1,16 +1,35 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { formatCurrency } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
-import { EventService, TumiEvent } from '../../../../shared/services/event.service';
+import { EventService, EventSignup, TumiEvent } from '../../../../shared/services/event.service';
 import { MoneyService } from '../../../../shared/services/money.service';
 import { Student } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-display-event-users',
   templateUrl: './display-event-users.component.html',
-  styleUrls: ['./display-event-users.component.scss']
+  styleUrls: ['./display-event-users.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DisplayEventUsersComponent implements OnInit {
   @Input() event: TumiEvent;
@@ -87,7 +106,7 @@ export class DisplayEventUsersComponent implements OnInit {
     this.eventService.attendEvent(user, this.event, false);
   }
 
-  trackById(index, user: Student) {
-    return user.id;
+  trackById(index, item: Student | EventSignup) {
+    return item.id;
   }
 }

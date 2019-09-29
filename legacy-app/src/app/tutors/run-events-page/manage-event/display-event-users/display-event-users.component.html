@@ -1,6 +1,24 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <h2 class="mat-display-4 no-margin">Users related to this event</h2>
 <a href="{{ tutorEmail }}" mat-flat-button target="_blank">Send Mail to Tutors</a>
-<ng-container *ngIf="!(isAdmin$ | async); else adminTutors">
+<!--<ng-container *ngIf="!(isAdmin$ | async); else adminTutors">
   <p><strong>Tutors on this event</strong></p>
   <mat-list>
     <mat-list-item *ngFor="let user of event.tutorUsers">
@@ -15,11 +33,60 @@
       {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
     </button>
   </mat-action-list>
-</ng-template>
-<a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
-<!--TODO: Implement the user management again with new signups-->
+</ng-template>-->
+<table mat-table [dataSource]="event.tutorUsers" [trackBy]="trackById" style="width: 100%;">
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="mail">
+    <th mat-header-cell *matHeaderCellDef> Mail </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['name', 'mail']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['name', 'mail'];"></tr>
+</table>
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
-<div fxLayout="column" fxLayoutGap="1.5rem">
+<a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
+<table mat-table [dataSource]="event.userSignups" [trackBy]="trackById" style="width: 100%;">
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.user.firstName}} {{element.user.lastName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="mail">
+  <th mat-header-cell *matHeaderCellDef> Mail </th>
+  <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
+</ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element"> <button mat-flat-button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee">
+      Confirm Payment
+    </button>
+      <button mat-button (click)="removeUser(element.user)" *ngIf="isAdmin$ | async">
+        Remove from Event
+      </button>
+      <button mat-button (click)="registerUser(element.user)" *ngIf="!element.hasAttended">
+        Confirm Attendance
+      </button>
+      <button mat-button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended">
+        Did not attend
+      </button> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['name', 'mail', 'actions']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['name', 'mail', 'actions'];"></tr>
+</table>
+<!--<div fxLayout="column" fxLayoutGap="1.5rem">
   <div
     *ngFor="let registration of event.userSignups; trackBy: trackById"
     fxLayout="column"
@@ -58,27 +125,4 @@
       </button>
     </div>
   </div>
-</div>
-<!--<p>
-  <strong>Online Registrations</strong>&nbsp;(Tap user to confirm attendance
-  <span *ngIf="event.hasFee">and payment</span>)
-</p>
-<mat-action-list>
-  <button mat-list-item *ngFor="let user of event.onlineUsers" (click)="registerOnlineUser(user)">
-    {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
-  </button>
-</mat-action-list>
-<ng-container *ngIf="event.hasFee || event.payedSignups.length">
-  <p><strong>Payed Registrations</strong> (tap to confirm attendance)</p>
-  <mat-action-list>
-    <button mat-list-item *ngFor="let user of event.payedUsers" (click)="registerOfficeUser(user)">
-      {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
-    </button>
-  </mat-action-list>
-</ng-container>
-<p><strong>Users who attended</strong></p>
-<mat-list>
-  <mat-list-item *ngFor="let user of event.attendedUsers">
-    {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
-  </mat-list-item>
-</mat-list>-->
+</div>-->

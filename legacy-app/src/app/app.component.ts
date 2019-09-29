@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { MediaMatcher } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -12,6 +30,7 @@ import { ActivationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
 import { filter, first, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
@@ -55,7 +74,9 @@ export class AppComponent implements OnInit, OnDestroy {
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(/*appIsStable$,*/ updateCheckTimer$);
-    updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    if (environment.production) {
+      updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    }
     updates.available.subscribe(event => {
       sendEvent('found_update', { event_category: 'technical' });
       this.snackBar

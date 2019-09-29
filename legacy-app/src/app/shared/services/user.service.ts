@@ -1,7 +1,26 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { tag } from 'rxjs-spy/operators';
+import { catchError, distinctUntilChanged, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventService, TumiEvent } from './event.service';
 
 @Injectable({
@@ -61,27 +80,33 @@ export class UserService {
   }
 
   public getEventWithTutors(eventId) {
-    return this.eventService.getEventWithRegistrations(eventId).pipe(
+    return this.eventService.getEvent(eventId).pipe(
       switchMap(event =>
         this.getUsers(event.tutorSignups).pipe(
           map(tutorUsers => tutorUsers.sort((a, b) => a.lastName.localeCompare(b.lastName))),
-          map(tutorUsers => Object.assign(event, { tutorUsers }))
+          map(tutorUsers => Object.assign({}, event, { tutorUsers }))
         )
-      )
+      ),
+      share()
     );
   }
 
   public getEventWithUsers(eventId): Observable<TumiEvent> {
-    return this.getEventWithTutors(eventId).pipe(
-      switchMap(event =>
-        combineLatest(
-          event.userSignups.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
-        ).pipe(
-          startWith([]),
-          map(signups => signups.sort((a, b) => a.user.lastName.localeCompare(b.user.lastName))),
-          map(signups => Object.assign(event, { userSignups: signups }))
-        )
-      )
+    const eventWithTutorsObservable = this.getEventWithTutors(eventId);
+    const registrationsWithUsersObservable = this.eventService.getRegistrationsForEvent(eventId).pipe(
+      switchMap(registrations => {
+        if (registrations.length) {
+          return combineLatest(
+            registrations.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
+          );
+        }
+        return of([]);
+      }),
+      map(registrations => registrations.sort((a, b) => a.user.lastName.localeCompare(b.user.lastName)))
+    );
+    return combineLatest([eventWithTutorsObservable, registrationsWithUsersObservable]).pipe(
+      map(([event, userSignups]) => Object.assign({}, event, { userSignups })),
+      share()
     );
   }
 
@@ -93,7 +118,10 @@ export class UserService {
   }
 
   private getUsers(ids: string[]): Observable<Student[]> {
-    return combineLatest(ids.map(userId => this.getUser(userId))).pipe(startWith([]));
+    if (ids.length === 0) {
+      return of([]);
+    }
+    return combineLatest(ids.map(userId => this.getUser(userId)));
   }
 
   private cleanUser(user) {
