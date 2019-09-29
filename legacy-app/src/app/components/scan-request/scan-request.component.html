@@ -1,54 +1,148 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <h1 mat-dialog-title>Scan office request</h1>
 <mat-dialog-content class="mat-typography" fxLayout="column" fxLayoutGap="1rem">
   <h2>Please scan the registration request into this field</h2>
-  <mat-form-field>
-    <input [formControl]="scanControl" matInput placeholder="Scanning target" type="text" />
-    <mat-hint>{{ error$ | async }}</mat-hint>
-  </mat-form-field>
-  <h2 *ngIf="(requestType$ | async) == 'register'">User wants to register for an event</h2>
-  <h2 *ngIf="(requestType$ | async) == 'collectMoney'">User wants to collect money for an event</h2>
-  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
-    <mat-card *ngIf="event$ | async" fxFlex>
-      <mat-card-title>Event: {{ (event$ | async).name }}</mat-card-title>
-      <mat-card-content>
-        <p>Start: {{ (event$ | async).start | date: 'short' }}</p>
-        <p>End: {{ (event$ | async).end | date: 'short' }}</p>
-      </mat-card-content>
-    </mat-card>
-    <mat-card *ngIf="user$ | async" fxFlex>
-      <mat-card-title>User: {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}</mat-card-title>
-      <mat-card-content>
-        <p>Mail: {{ (user$ | async).email }}</p>
-        <p>Academic Mail: {{ (user$ | async).academicMail }}</p>
-        <p>Is tutor: {{ (user$ | async).isTutor }}</p>
-        <p *ngIf="!(user$ | async).verified" style="font-weight: bold">
-          Please ask user to make sure they verified their email
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <ng-container *ngIf="(requestType$ | async) == 'register'">
-    <p *ngIf="(event$ | async).hasFee" class="mat-display-4">Make sure to collect {{ (event$ | async).price | currency: 'EUR' }}!</p>
-    <p *ngIf="eventFull$ | async" style="color: red">
-      This event is already full, you can still register the user but the vent will be over capacity <br />
-      Currently signed up for this event:
-      {{ (event$ | async).userSignups.length}}/{{ (event$ | async).participantSpots }}
-    </p>
-    <p *ngIf="alreadyOnEvent$ | async" style="color: red">
-      This user is already signed up for the event. Double registrations are possible but be aware!
-    </p>
-  </ng-container>
-  <ng-container *ngIf="(requestType$ | async) == 'collectMoney'">
+  <form [formGroup]="scanForm">
     <mat-form-field>
-      <input [formControl]="moneyControl" matInput placeholder="Money given out" type="number" />
-      <mat-hint>You can change the money given out for this event here</mat-hint>
+      <input formControlName="scan" matInput placeholder="Scanning target" type="text"/>
+      <mat-hint>{{ error$ | async }}</mat-hint>
     </mat-form-field>
-    <p class="mat-display-4">Please hand out the money for this event!</p>
-  </ng-container>
+  </form>
+  <mat-card *ngIf="user" class="mat-elevation-z2">
+    <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+    <mat-card-content>
+      <p>Mail: {{ user.email }}</p>
+      <p>Academic Mail: {{ user.academicMail }}</p>
+      <p>Is tutor: {{ user.isTutor }}</p>
+      <p *ngIf="!user.verified" style="font-weight: bold">
+        Please ask user to make sure they verified their email
+      </p>
+      <p *ngIf="!user.faculty" style="font-weight: bold">
+        Please ask the user to fill in their data under <em>My TUMi</em>
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <h2>With the following requests</h2>
+  <table [dataSource]="events" [trackBy]="trackRequest" class="mat-elevation-z8" mat-table style="width: 100%;">
+    <ng-container matColumnDef="type">
+      <th *matHeaderCellDef mat-header-cell>Request</th>
+      <td *matCellDef="let element" mat-cell>{{ element.action | titlecase }}</td>
+      <td *matFooterCellDef mat-footer-cell><strong>Total</strong></td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell>Name</th>
+      <td *matCellDef="let element" mat-cell>{{ element.event.name }}</td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+    <ng-container matColumnDef="from">
+      <th *matHeaderCellDef mat-header-cell>From</th>
+      <td *matCellDef="let element" mat-cell>{{ element.event.start | date: 'medium' }}</td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <th *matHeaderCellDef mat-header-cell>Price</th>
+      <td *matCellDef="let element" mat-cell>
+        <ng-container [ngSwitch]="element.action">
+          <ng-container *ngSwitchCase="'register'">
+            {{ element.event.price | currency: 'EUR' }}
+          </ng-container>
+          <ng-container *ngSwitchCase="'refund'">
+            {{ -element.event.price | currency: 'EUR' }}
+          </ng-container>
+          <ng-container *ngSwitchCase="'collectMoney'">
+            {{ -element.event.fullCost | currency: 'EUR' }}
+          </ng-container>
+        </ng-container>
+      </td>
+      <td *matFooterCellDef mat-footer-cell>{{ fullPrice | currency: 'EUR' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="users">
+      <th *matHeaderCellDef mat-header-cell>Users</th>
+      <td *matCellDef="let element" mat-cell>
+        {{ element.event.userSignups.length }} / {{ element.event.participantSpots }}
+      </td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef mat-header-cell>Confirm</th>
+      <td *matCellDef="let element" mat-cell>
+        <ng-container [ngSwitch]="element.action">
+          <ng-container *ngSwitchCase="'register'">
+            <button
+              (click)="addUserToWaitList(element)"
+              *ngIf="element.event.userSignups.length >= element.event.participantSpots"
+              mat-button
+            >
+              Put on Wait list
+            </button>
+            <button
+              (click)="registerUser(element)"
+              *ngIf="element.event.userSignups.length < element.event.participantSpots"
+              mat-button
+            >
+              Register for Event
+            </button>
+          </ng-container>
+          <ng-container *ngSwitchCase="'refund'">
+            <button (click)="processRefund(element)" [disabled]="!element.userSignedUp" mat-button>
+              Process Refund
+            </button>
+          </ng-container>
+          <ng-container *ngSwitchCase="'collectMoney'">
+            <button (click)="collectMoney(element)" [disabled]="element.event.moneyCollected" mat-button>
+              Give out Money
+            </button>
+          </ng-container>
+        </ng-container>
+      </td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+    <ng-container matColumnDef="to">
+      <th *matHeaderCellDef mat-header-cell>To</th>
+      <td *matCellDef="let element" mat-cell>{{ element.event.end | date: 'medium' }}</td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+    <ng-container matColumnDef="warnings">
+      <th *matHeaderCellDef mat-header-cell>Warnings</th>
+      <td *matCellDef="let element" mat-cell>
+        {{ element?.warning }}
+        <ng-container *ngIf="element.action === 'collectMoney' && element.event.moneyCollected"
+        >Money with {{ element.event.moneyWith }}</ng-container>
+      </td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="['type', 'name', 'from', 'to', 'price', 'users', 'warnings', 'action']" mat-header-row></tr>
+    <tr
+      *matRowDef="let row; columns: ['type', 'name', 'from', 'to', 'price', 'users', 'warnings', 'action']"
+      mat-row
+    ></tr>
+    <tr *matFooterRowDef="['type', 'name', 'from', 'to', 'price', 'users', 'warnings', 'action']" mat-footer-row></tr>
+  </table>
+
+  <div *ngIf="events && events[0].action === 'collectMoney'">
+    <mat-form-field style="width: 100%;">
+      <input [formControl]="moneyControl" matInput placeholder="Money given out" type="number"/>
+    </mat-form-field>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-  <button (click)="commitRegistration()" [disabled]="!(canRegister$ | async)" color="accent" mat-raised-button>
-    Approve request
-  </button>
+  <button color="primary" mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

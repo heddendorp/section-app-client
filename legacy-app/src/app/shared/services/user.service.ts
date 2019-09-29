@@ -19,8 +19,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { tag } from 'rxjs-spy/operators';
-import { catchError, distinctUntilChanged, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, share, switchMap } from 'rxjs/operators';
 import { EventService, TumiEvent } from './event.service';
 
 @Injectable({

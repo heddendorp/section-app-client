@@ -34,57 +34,59 @@
     </button>
   </mat-action-list>
 </ng-template>-->
-<table mat-table [dataSource]="event.tutorUsers" [trackBy]="trackById" style="width: 100%;">
+<table [dataSource]="event.tutorUsers" [trackBy]="trackById" mat-table style="width: 100%;">
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+    <th *matHeaderCellDef mat-header-cell> Name</th>
+    <td *matCellDef="let element" mat-cell> {{element.firstName}} {{element.lastName}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="mail">
-    <th mat-header-cell *matHeaderCellDef> Mail </th>
-    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    <th *matHeaderCellDef mat-header-cell> Mail</th>
+    <td *matCellDef="let element" mat-cell> {{element.email}} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['name', 'mail']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['name', 'mail'];"></tr>
+  <tr *matHeaderRowDef="['name', 'mail']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'mail'];" mat-row></tr>
 </table>
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
 <a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
-<table mat-table [dataSource]="event.userSignups" [trackBy]="trackById" style="width: 100%;">
+<table [dataSource]="event.userSignups" [trackBy]="trackById" mat-table style="width: 100%;">
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.user.firstName}} {{element.user.lastName}} </td>
+    <th *matHeaderCellDef mat-header-cell> Name</th>
+    <td *matCellDef="let element" mat-cell> {{element.user.firstName}} {{element.user.lastName}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="mail">
-  <th mat-header-cell *matHeaderCellDef> Mail </th>
-  <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
-</ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Actions </th>
-    <td mat-cell *matCellDef="let element"> <button mat-flat-button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee">
-      Confirm Payment
-    </button>
-      <button mat-button (click)="removeUser(element.user)" *ngIf="isAdmin$ | async">
-        Remove from Event
-      </button>
-      <button mat-button (click)="registerUser(element.user)" *ngIf="!element.hasAttended">
-        Confirm Attendance
-      </button>
-      <button mat-button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended">
-        Did not attend
-      </button> </td>
+    <th *matHeaderCellDef mat-header-cell> Mail</th>
+    <td *matCellDef="let element" mat-cell> {{element.user.email}} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['name', 'mail', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['name', 'mail', 'actions'];"></tr>
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef mat-header-cell> Actions</th>
+    <td *matCellDef="let element" mat-cell>
+      <button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee" mat-flat-button>
+        Confirm Payment
+      </button>
+      <button (click)="removeUser(element.user)" *ngIf="isAdmin$ | async" mat-button>
+        Remove from Event
+      </button>
+      <button (click)="registerUser(element.user)" *ngIf="!element.hasAttended" mat-button>
+        Confirm Attendance
+      </button>
+      <button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended" mat-button>
+        Did not attend
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="['name', 'mail', 'actions']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'mail', 'actions'];" mat-row></tr>
 </table>
 <!--<div fxLayout="column" fxLayoutGap="1.5rem">
   <div

@@ -16,16 +16,9 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<div fxLayout="column" fxLayoutGap="2rem">
-  <h3 class="no-margin mat-display-3">Users</h3>
-  <p>Manage the apps users and special roles here</p>
-  <p>Filter displayed users</p>
-  <form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem"
-        style="margin-bottom: 2rem;">
-    <mat-checkbox [indeterminate]="filterIndeterminate | async" formControlName="showAll">Show all users</mat-checkbox>
-    <mat-checkbox formControlName="showAdmins">Show Admins</mat-checkbox>
-    <mat-checkbox formControlName="showTutors">Show Tutors</mat-checkbox>
-    <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
-  </form>
-  <app-people-table (show)="showUser($event)" [columns]="columns$ | async" [people]="users$ | async"></app-people-table>
-</div>
+<h1 mat-dialog-title>Refund: {{data.event.name}}</h1>
+<mat-dialog-content class="mat-typography">
+  <img [src]="qrCode" alt="event QR code" fxHide.gt-sm/>
+  <p fxHide.gt-sm>Please take this code into the TUMi office to get a refund for the event</p>
+  <p fxHide.lt-md>Take your phone to the office please, it will show the needed QR-code</p>
+</mat-dialog-content>

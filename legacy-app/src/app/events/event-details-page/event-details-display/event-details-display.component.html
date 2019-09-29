@@ -28,7 +28,7 @@
       <strong>{{ event.start | date: 'EEEE dd MMM HH:mm' }} - {{ event.end | date: 'dd MMM HH:mm' }}</strong>
     </div>
   </div>
-  <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+  <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
 </header>
 <p class="description">{{ event.description }}</p>
 <ng-container *ngIf="isTutor$ | async">
@@ -41,7 +41,7 @@
 </ng-container>
 <mat-divider></mat-divider>
 <p *ngIf="signed" style="color: red">
-  You are already signed up for this event, check out <a routerLink="/events/my" class="styled">your events</a> for more
+  You are already signed up for this event, check out <a class="styled" routerLink="/events/my">your events</a> for more
   information.
 </p>
 <ng-template #external>
@@ -49,7 +49,7 @@
     <mat-card-title>External event</mat-card-title>
     <mat-card-content>
       <p>
-        This event is not offered by TUMi, however we feel like it would be interesting to you. <br />
+        This event is not offered by TUMi, however we feel like it would be interesting to you. <br/>
         You can learn more by following the link we provided.
       </p>
       <p>
@@ -82,7 +82,7 @@
         <mat-card-title>Office registration</mat-card-title>
         <mat-card-subtitle fxHide.gt-sm>{{ event.name }} for {{ email$ | async }}</mat-card-subtitle>
       </mat-card-header>
-      <img [src]="qrCode | async" alt="event QR code" fxHide.gt-sm mat-card-image />
+      <img [src]="qrCode | async" alt="event QR code" fxHide.gt-sm mat-card-image/>
       <mat-card-content>
         <p fxHide.gt-sm>Please take this code into the TUMi office to Sign up for the event</p>
         <p fxHide.lt-md>Take your phone to the office please, it will show the needed QR-code</p>
@@ -114,7 +114,7 @@
       <mat-card-title>Tutor sign up</mat-card-title>
       <mat-card-content>
         <p *ngIf="event.tutorSpots > event.tutorSignups.length; else eventFull">
-          This event still has {{ event.tutorSpots - event.tutorSignups.length }} spots left for tutors. <br />You can
+          This event still has {{ event.tutorSpots - event.tutorSignups.length }} spots left for tutors. <br/>You can
           sign up right here to manage this event
         </p>
         <p *ngIf="signed">

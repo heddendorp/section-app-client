@@ -23,7 +23,7 @@ import { firestore as importStore } from 'firebase/app';
 import * as moment from 'moment';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, distinctUntilChanged, map, share, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, share, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Student } from './user.service';
 
@@ -131,7 +131,7 @@ export class EventService {
 
   public getSignedEventsForUser(userId) {
     return this.firestore
-      .collectionGroup<EventSignup>('signups', ref => ref.where('id', '==', userId))
+      .collectionGroup<SavedEventSignup>('signups', ref => ref.where('id', '==', userId))
       .snapshotChanges()
       .pipe(
         map(changes => changes.map(change => change.payload.doc)),
@@ -141,7 +141,12 @@ export class EventService {
                 signups.map(signup =>
                   fromPromise(signup.ref.parent.parent.get()).pipe(
                     map(eventRef => eventRef.data()),
-                    map(event => Object.assign(event, { hasPayed: signup.data().hasPayed }))
+                    map(event =>
+                      Object.assign({}, event, {
+                        hasPayed: signup.data().hasPayed,
+                        isWaitList: signup.data().isWaitList || false
+                      })
+                    )
                   )
                 )
               )
@@ -200,24 +205,33 @@ export class EventService {
     return this.firestore
       .collection('events')
       .doc(id)
-      .collection<EventSignup>('signups')
-      .valueChanges({ idField: 'id' });
+      .collection<SavedEventSignup>('signups')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(registrations =>
+          registrations.map(registration =>
+            Object.assign({}, registration, {
+              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
+            })
+          )
+        )
+      );
   }
 
-  public register(user, event): Promise<void> {
+  public register(user, event, isWaitList = false): Promise<void> {
     return this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
-      .collection<EventSignup>('signups')
+      .collection<SavedEventSignup>('signups')
       .doc(user.id)
-      .set({ id: user.id, partySize: 1, hasPayed: true, hasAttended: false });
+      .set({ id: user.id, partySize: 1, hasPayed: true, hasAttended: false, timestamp: new Date(), isWaitList });
   }
 
   public deregister(user, event): Promise<void> {
     return this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
-      .collection<EventSignup>('signups')
+      .collection<SavedEventSignup>('signups')
       .doc(user.id)
       .delete();
   }
@@ -245,7 +259,7 @@ export class EventService {
     return this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
-      .collection<EventSignup>('signups')
+      .collection<SavedEventSignup>('signups')
       .doc(user.id)
       .update({ hasPayed: true });
   }
@@ -254,7 +268,7 @@ export class EventService {
     this.firestore
       .collection<TumiEvent>('events')
       .doc(event.id)
-      .collection<EventSignup>('signups')
+      .collection<SavedEventSignup>('signups')
       .doc(user.id)
       .update({ hasAttended });
   }
@@ -331,12 +345,21 @@ interface BaseEvent {
   tutorSignups: string[];
 }
 
-export interface EventSignup {
+interface BaseEventSignup {
   id: string;
   user?: Student;
   partySize: number;
   hasPayed: boolean;
   hasAttended: boolean;
+  isWaitList: boolean;
+}
+
+export interface EventSignup extends BaseEventSignup {
+  timestamp: moment.Moment;
+}
+
+export interface SavedEventSignup extends BaseEventSignup {
+  timestamp: importStore.Timestamp;
 }
 
 export interface TumiEvent extends BaseEvent {
@@ -346,6 +369,7 @@ export interface TumiEvent extends BaseEvent {
   userSignups?: EventSignup[];
   freeSpots?: string;
   hasPayed?: boolean;
+  isWaitList?: boolean;
   isTutor?: boolean;
 }
 

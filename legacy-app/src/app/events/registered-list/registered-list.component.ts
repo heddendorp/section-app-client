@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +28,7 @@ import { UserDataChangeComponent } from '../../shared/components/user-data-chang
 import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Student, UserService } from '../../shared/services/user.service';
+import { RefundDialogComponent } from '../components/refund-dialog/refund-dialog.component';
 
 @Component({
   selector: 'app-registered-list',
@@ -59,6 +78,11 @@ export class RegisteredListComponent implements OnInit {
     if (result) {
       await this.userService.save(result);
     }
+  }
+
+  async refund(event) {
+    const user = await this.user$.pipe(first()).toPromise();
+    this.dialog.open(RefundDialogComponent, { data: { event, user } });
   }
 
   async deregister(event) {

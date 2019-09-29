@@ -19,9 +19,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tag } from 'rxjs-spy/operators';
-import { distinctUntilChanged, map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { log } from 'util';
+import { map, share, startWith, switchMap } from 'rxjs/operators';
 import { TumiEvent } from '../../../shared/services/event.service';
 import { UserService } from '../../../shared/services/user.service';
 

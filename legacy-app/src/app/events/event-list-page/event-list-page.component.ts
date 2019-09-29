@@ -18,6 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
@@ -34,7 +35,12 @@ export class EventListPageComponent implements OnInit {
   isTutor$: Observable<boolean>;
   filterForm: FormGroup;
 
-  constructor(private eventService: EventService, fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private eventService: EventService,
+    fb: FormBuilder,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {
     this.filterForm = fb.group({
       showExternal: true,
       showFull: false,
@@ -45,9 +51,9 @@ export class EventListPageComponent implements OnInit {
   ngOnInit() {
     this.isTutor$ = this.authService.isTutor;
     this.events$ = combineLatest([
-      this.eventService.visibleEvents,
+      this.eventService.visibleEvents.pipe(startWith(this.route.snapshot.data.events)),
       this.filterForm.valueChanges.pipe(startWith(this.filterForm.value)),
-      this.isTutor$
+      this.isTutor$.pipe(startWith(false))
     ]).pipe(
       map(([events, filter, isTutor]) =>
         events

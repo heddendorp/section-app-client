@@ -45,15 +45,13 @@ export class DisplayEventInfoComponent implements OnInit {
     this.isTutor = this.event.tutorSignups.includes(userId);
     console.log(
       JSON.stringify({
-        action: 'collectMoney',
         user: userId,
-        event: this.event.id
+        events: [{ action: 'collectMoney', id: this.event.id }]
       })
     );
     this.qrCode = await this.qrService.getURL({
-      action: 'collectMoney',
       user: userId,
-      event: this.event.id
+      events: [{ action: 'collectMoney', id: this.event.id }]
     });
   }
 }

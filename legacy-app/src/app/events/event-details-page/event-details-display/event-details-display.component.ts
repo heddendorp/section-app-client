@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
@@ -38,9 +56,8 @@ export class EventDetailsDisplayComponent implements OnInit {
         tap(user =>
           console.log(
             JSON.stringify({
-              action: 'register',
               user: user.id,
-              event: this.event.id
+              events: [{ id: this.event.id, action: 'register' }]
             })
           )
         ),
@@ -49,9 +66,8 @@ export class EventDetailsDisplayComponent implements OnInit {
       .subscribe(user =>
         this.qrService
           .getURL({
-            action: 'register',
             user: user.id,
-            event: this.event.id
+            events: [{ id: this.event.id, action: 'register' }]
           })
           .then(url => this.qrCode.next(url))
       );

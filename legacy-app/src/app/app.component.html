@@ -19,7 +19,7 @@
 <div [class.app--is-mobile]="isMobile$ | async" class="app-container">
   <div [class]="class$ | async">
     <mat-toolbar [color]="color$ | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-      <button (click)="nav.toggle()" mat-icon-button aria-label="Menu">
+      <button (click)="nav.toggle()" aria-label="Menu" mat-icon-button>
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
       <h4
@@ -113,7 +113,8 @@
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
-        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a routerLink="/data-privacy">Privacy Policy</a></p>
+        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a
+          routerLink="/data-privacy">Privacy Policy</a></p>
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>

@@ -20,15 +20,15 @@
 <mat-dialog-content>
   <form [formGroup]="loginForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-form-field>
-      <input formControlName="email" matInput placeholder="Email" required type="email" />
+      <input formControlName="email" matInput placeholder="Email" required type="email"/>
       <mat-error *ngIf="loginForm.get('email').hasError('email')">
         Please enter a valid email address
       </mat-error>
-      <mat-error *ngIf="loginForm.get('email').hasError('required')"> Email is <strong>required</strong> </mat-error>
+      <mat-error *ngIf="loginForm.get('email').hasError('required')"> Email is <strong>required</strong></mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input formControlName="password" matInput placeholder="Password" required type="password" />
-      <mat-error *ngIf="loginForm.get('password').hasError('required')"> Email is <strong>required</strong> </mat-error>
+      <input formControlName="password" matInput placeholder="Password" required type="password"/>
+      <mat-error *ngIf="loginForm.get('password').hasError('required')"> Email is <strong>required</strong></mat-error>
       <mat-error *ngIf="loginForm.get('password').hasError('minlength')">
         Please choose a password that is at least {{ loginForm.get('password').getError('minlength').requiredLength }}
         characters long

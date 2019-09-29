@@ -1,91 +1,111 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>TUMi - start</title>
-    <base href="/" />
+<head>
+  <meta charset="utf-8"/>
+  <title>TUMi - start</title>
+  <base href="/"/>
 
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link href="favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link href="/assets/icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
-    <link href="/assets/icons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-    <link href="/assets/icons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
-    <link color="#2196f3" href="/assets/icons/safari-pinned-tab.svg" rel="mask-icon" />
-    <meta content="TUMi" name="apple-mobile-web-app-title" />
-    <meta content="TUMi" name="application-name" />
-    <meta content="#2196f3" name="msapplication-TileColor" />
-    <meta content="#2196f3" name="theme-color" />
-    <meta name="Description" content="TUMi web application for event information, management and registration" />
-    <meta property="og:description" content="ESN TUMi events and offers" />
-    <meta property="og:image" content="/assets/images/logo.png" />
-    <meta property="fb:app_id" content="413902465899100" />
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet" />
-    <script>
-      document.documentElement.style.display = 'none';
-      document.head.insertAdjacentHTML(
-        'beforeend',
-        `<link rel="stylesheet" id="client-theme" href="/${
-          window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        }.css" onload="document.documentElement.style.display = \`\`">`
-      );
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-04YZMLFE3Z"></script>
-    <script>
-      window['ga-disable-G-04YZMLFE3Z'] = localStorage.getItem('disableAnalytics') || false;
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="manifest.webmanifest" rel="manifest"/>
+  <link href="/assets/icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="/assets/icons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="/assets/icons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link color="#2196f3" href="/assets/icons/safari-pinned-tab.svg" rel="mask-icon"/>
+  <meta content="TUMi" name="apple-mobile-web-app-title"/>
+  <meta content="TUMi" name="application-name"/>
+  <meta content="#2196f3" name="msapplication-TileColor"/>
+  <meta content="#2196f3" name="theme-color"/>
+  <meta content="TUMi web application for event information, management and registration" name="Description"/>
+  <meta content="ESN TUMi events and offers" property="og:description"/>
+  <meta content="/assets/images/logo.png" property="og:image"/>
+  <meta content="413902465899100" property="fb:app_id"/>
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet"/>
+  <script>
+    document.documentElement.style.display = 'none';
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `<link rel="stylesheet" id="client-theme" href="/${
+        window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      }.css" onload="document.documentElement.style.display = \`\`">`
+    );
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-04YZMLFE3Z"></script>
+  <script>
+    window['ga-disable-G-04YZMLFE3Z'] = localStorage.getItem('disableAnalytics') || false;
+    window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-04YZMLFE3Z');
-      gtag('config', 'G-04YZMLFE3Z', { anonymize_ip: true });
-    </script>
-    <style>
-      div.loader {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-      div.loader svg {
-        overflow: visible;
-        width: 100px;
-        height: 150px;
-      }
+    gtag('js', new Date());
 
-      div.loader svg path {
-        stroke: url(#gradient);
-        stroke-width: 20px;
-        stroke-linecap: round;
-        fill: none;
-        stroke-dasharray: 157px;
-        stroke-dashoffset: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <app-root>
-      <div class="loader">
-        <svg>
-          <g>
-            <path d="M 50,100 A 1,1 0 0 1 50,0" />
-          </g>
-          <g>
-            <path d="M 50,75 A 1,1 0 0 0 50,-25" />
-          </g>
-          <defs>
-            <linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-              <stop offset="0%" style="stop-color:#00aeef;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#ec008c;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </app-root>
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
-  </body>
+    gtag('config', 'G-04YZMLFE3Z');
+    gtag('config', 'G-04YZMLFE3Z', { anonymize_ip: true });
+  </script>
+  <style>
+    div.loader {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    div.loader svg {
+      overflow: visible;
+      width: 100px;
+      height: 150px;
+    }
+
+    div.loader svg path {
+      stroke: url(#gradient);
+      stroke-width: 20px;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 157px;
+      stroke-dashoffset: 0;
+    }
+  </style>
+</head>
+<body>
+<app-root>
+  <div class="loader">
+    <svg>
+      <g>
+        <path d="M 50,100 A 1,1 0 0 1 50,0"/>
+      </g>
+      <g>
+        <path d="M 50,75 A 1,1 0 0 0 50,-25"/>
+      </g>
+      <defs>
+        <linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#00aeef;stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:#ec008c;stop-opacity:1"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</app-root>
+<noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
 </html>
