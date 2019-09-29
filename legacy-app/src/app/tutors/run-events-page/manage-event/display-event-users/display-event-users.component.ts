@@ -75,10 +75,12 @@ export class DisplayEventUsersComponent implements OnInit {
       .toPromise();
     if (proceed) {
       if (this.event.hasFee) {
-        this.moneyService.addTransaction({
-          value: this.event.price,
-          comment: `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`
-        });
+        this.moneyService.addEventTransaction(
+          `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`,
+          this.event,
+          user,
+          'onLocationPayment'
+        );
         await this.eventService.payForEvent(user, this.event);
       }
     }

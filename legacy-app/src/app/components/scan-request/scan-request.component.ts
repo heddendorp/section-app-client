@@ -134,29 +134,35 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       this.error$.next('User was not signed up for that event!');
       return;
     }
-    this.moneyService.addTransaction({
-      value: -request.event.price,
-      comment: `Event Refund (${request.event.name}) payed to ${this.user.firstName} ${this.user.lastName} (${this.user.email})`
-    });
+    this.moneyService.addEventTransaction(
+      `Event Refund (${request.event.name}) payed to ${this.user.firstName} ${this.user.lastName} (${this.user.email})`,
+      request.event,
+      this.user,
+      'refund'
+    );
     this.eventService.deregister(this.user, request.event);
   }
 
   registerUser(request) {
     if (request.event.hasFee) {
-      this.moneyService.addTransaction({
-        value: request.event.price,
-        comment: `Event Signup (${request.event.name}) payed by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`
-      });
+      this.moneyService.addEventTransaction(
+        `Event registration (${request.event.name}) payed by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`,
+        request.event,
+        this.user,
+        'registration'
+      );
     }
     this.eventService.register(this.user, request.event);
   }
 
   addUserToWaitList(request) {
     if (request.event.hasFee) {
-      this.moneyService.addTransaction({
-        value: request.event.price,
-        comment: `Wait list Signup (${request.event.name}) payed by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`
-      });
+      this.moneyService.addEventTransaction(
+        `Wait list registration (${request.event.name}) payed by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`,
+        request.event,
+        this.user,
+        'registration'
+      );
     }
     this.eventService.register(this.user, request.event, true);
   }
@@ -164,10 +170,12 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
   collectMoney(request) {
     this.moneyControl.disable();
     if (this.moneyControl.value) {
-      this.moneyService.addTransaction({
-        value: -this.moneyControl.value,
-        comment: `Event Money collected (${request.event.name}) by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`
-      });
+      this.moneyService.addEventTransaction(
+        `Event Money collected (${request.event.name}) by ${this.user.firstName} ${this.user.lastName} (${this.user.email})`,
+        request.event,
+        this.user,
+        'moneyCollection'
+      );
     }
     this.eventService.giveOutMoney(this.user, request.event, this.moneyControl.value);
   }

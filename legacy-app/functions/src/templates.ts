@@ -1,10 +1,28 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import mjml2html = require('mjml');
 import moment = require('moment');
 
-export const eventSignup = (event: any, user: any, signup: any) =>
+export const receipt = ({ event, user, type, timestamp }: { event: any; user: any; type: string; timestamp: any }) =>
   mjml2html(
     `
-  <mjml>
+<mjml>
   <mj-body background-color="#ccd3e0">
     <mj-section background-color="#fff" padding-bottom="20px" padding-top="20px">
       <mj-column width="100%">
@@ -21,7 +39,7 @@ export const eventSignup = (event: any, user: any, signup: any) =>
     <mj-section background-color="#356cc7" padding-bottom="5px" padding-top="0">
       <mj-column width="100%">
         <mj-divider border-color="#ffffff" border-width="2px" border-style="solid" padding-left="20px" padding-right="20px" padding-bottom="0px" padding-top="0"></mj-divider>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="28px" padding-top="28px"><span style="font-size:20px; font-weight:bold">Your Signup was successful</span>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="28px" padding-top="28px"><span style="font-size:20px; font-weight:bold">Receipt</span>
           <br/>
           <span style="font-size:15px">Please find more info below</span></mj-text>
       </mj-column>
@@ -36,12 +54,12 @@ export const eventSignup = (event: any, user: any, signup: any) =>
     )}</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Registration Date</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${moment().format(
-          'DD.MM. HH:mm'
-        )}</mj-text>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Receipt Date</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${moment(
+          timestamp.toDate()
+        ).format('DD.MM. HH:mm')}</mj-text>
       </mj-column>
-      ${priceColumn(event, signup)}
+      ${priceColumn(event, type)}
     </mj-section>
     <mj-section background-color="#356CC7" padding-bottom="20px" padding-top="20px">
       <mj-column width="50%">
@@ -64,19 +82,33 @@ export const eventSignup = (event: any, user: any, signup: any) =>
     {}
   ).html;
 
-const priceColumn = (event: any, signup: any) => {
-  if (event.hasFee) {
-    if (!signup.hasPayed) {
+const priceColumn = (event: any, type: string) => {
+  switch (type) {
+    case 'registration': {
       return `<mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Price</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.price}€ (payable at event)</mj-text>
-      </mj-column>`;
-    } else {
-      return `<mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Amount Payed</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Price payed</strong></mj-text>
         <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.price}€</mj-text>
       </mj-column>`;
     }
+    case 'onLocationPayment': {
+      return `<mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Payed at Event</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.price}€</mj-text>
+      </mj-column>`;
+    }
+    case 'refund': {
+      return `<mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Money received</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.price}€</mj-text>
+      </mj-column>`;
+    }
+    case 'moneyCollection': {
+      return `<mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Money collected</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.fullCost}€</mj-text>
+      </mj-column>`;
+    }
+    default:
+      return '';
   }
-  return '';
 };
