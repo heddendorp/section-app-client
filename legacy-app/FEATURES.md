@@ -51,6 +51,8 @@ Get an overview of features that are implemented and planned for the app
 ### Events
 
 - Internal Events just for Tutors
+- Event refunds
+- Waiting list for events that are already full
 - Ticket Trackers: Events where only the number of sold Tickets is important
 - Add a meeting point (google maps link)
 
@@ -80,7 +82,8 @@ Get an overview of features that are implemented and planned for the app
 - Collect additional Info at registration
 - Implement event planning features
 - Send reminder Mails before the event takes place
-- Implement a waiting-list option
+- Check for event overlaps
+- Implement something like a shopping cart to sign up for multiple events
 
 ### Communication
 
