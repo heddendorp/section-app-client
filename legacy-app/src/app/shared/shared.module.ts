@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -65,7 +66,8 @@ const materialModules = [
   MatCheckboxModule,
   MatSelectModule,
   MatExpansionModule,
-  MatRippleModule
+  MatRippleModule,
+  MatBadgeModule
 ];
 
 @NgModule({

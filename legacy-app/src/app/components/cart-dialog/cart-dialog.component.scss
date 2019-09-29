@@ -1,4 +1,4 @@
-/*
+/*!
  *     The TUMi app provides a modern way of managing events for an esn section.
  *     Copyright (C) 2019  Lukas Heddendorp
  *
@@ -15,24 +15,3 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import QRCode from 'qrcode';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class QrService {
-  constructor(private domSan: DomSanitizer) {}
-
-  async getURL(data): Promise<SafeResourceUrl> {
-    console.log(JSON.stringify(data));
-    try {
-      const url = await QRCode.toDataURL(JSON.stringify(data) /*{ errorCorrectionLevel: 'M' }*/);
-      return this.domSan.bypassSecurityTrustResourceUrl(url);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}

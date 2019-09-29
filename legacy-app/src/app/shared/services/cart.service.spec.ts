@@ -16,23 +16,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import QRCode from 'qrcode';
+import { TestBed } from '@angular/core/testing';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class QrService {
-  constructor(private domSan: DomSanitizer) {}
+import { CartService } from './cart.service';
 
-  async getURL(data): Promise<SafeResourceUrl> {
-    console.log(JSON.stringify(data));
-    try {
-      const url = await QRCode.toDataURL(JSON.stringify(data) /*{ errorCorrectionLevel: 'M' }*/);
-      return this.domSan.bypassSecurityTrustResourceUrl(url);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
+describe('CartService', () => {
+  beforeEach(() => TestBed.configureTestingModule({}));
+
+  it('should be created', () => {
+    const service: CartService = TestBed.get(CartService);
+    expect(service).toBeTruthy();
+  });
+});

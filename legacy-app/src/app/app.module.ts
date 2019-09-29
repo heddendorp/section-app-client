@@ -35,6 +35,7 @@ import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
 import { MailSigninComponent } from './components/mail-signin/mail-signin.component';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
@@ -44,8 +45,8 @@ import { SharedModule } from './shared/shared.module';
 registerLocaleData(localeEn, 'en-DE', localeEnExtra);
 
 @NgModule({
-  declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent],
-  entryComponents: [ScanRequestComponent, MailSigninComponent],
+  declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent, CartDialogComponent],
+  entryComponents: [ScanRequestComponent, MailSigninComponent, CartDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

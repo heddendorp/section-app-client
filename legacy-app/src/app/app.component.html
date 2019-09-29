@@ -36,10 +36,14 @@
         svgIcon="tumi-logo"
       ></mat-icon>
       <div fxFlex></div>
+      <button (click)="openCart()" *ngIf="authenticated$ | async" fxHide.gt-sm mat-icon-button>
+        <mat-icon [matBadge]="savedEvents$ | async" matBadgeColor="accent" svgIcon="cart"></mat-icon>
+      </button>
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" mat-stroked-button>
+      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" fxHide.xs
+              mat-stroked-button>
         Log out
       </button>
     </mat-toolbar>

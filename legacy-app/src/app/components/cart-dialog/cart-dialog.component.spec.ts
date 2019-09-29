@@ -16,23 +16,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import QRCode from 'qrcode';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class QrService {
-  constructor(private domSan: DomSanitizer) {}
+import { CartDialogComponent } from './cart-dialog.component';
 
-  async getURL(data): Promise<SafeResourceUrl> {
-    console.log(JSON.stringify(data));
-    try {
-      const url = await QRCode.toDataURL(JSON.stringify(data) /*{ errorCorrectionLevel: 'M' }*/);
-      return this.domSan.bypassSecurityTrustResourceUrl(url);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
+describe('CartDialogComponent', () => {
+  let component: CartDialogComponent;
+  let fixture: ComponentFixture<CartDialogComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [CartDialogComponent]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CartDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

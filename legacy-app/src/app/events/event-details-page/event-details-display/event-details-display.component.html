@@ -91,6 +91,9 @@
           office, please bring cash
         </p>
       </mat-card-content>
+      <mat-card-actions fxHide.gt-sm>
+        <button (click)="saveEvent()" color="primary" mat-button>Add to saved Events</button>
+      </mat-card-actions>
     </mat-card>
     <mat-card *ngIf="event.hasOnlineSignup || event.isInternal">
       <mat-card-title>Online sign up</mat-card-title>

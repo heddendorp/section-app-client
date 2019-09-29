@@ -18,6 +18,7 @@ service cloud.firestore {
       allow write: if isEditor();
       match /signups/{signup} {
         allow write: if isAdmin();
+        allow update: if isTutor();
         allow read: if get(/databases/$(database)/documents/events/$(event)).data.isVisiblePublicly == true;
       }
     }

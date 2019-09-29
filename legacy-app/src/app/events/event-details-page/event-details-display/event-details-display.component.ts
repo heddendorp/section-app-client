@@ -20,6 +20,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CartService } from '../../../shared/services/cart.service';
 import { TumiEvent } from '../../../shared/services/event.service';
 import { QrService } from '../../../shared/services/qr.service';
 
@@ -39,7 +40,7 @@ export class EventDetailsDisplayComponent implements OnInit {
   isAuthenticated$;
   email$;
 
-  constructor(private qrService: QrService, private authService: AuthService) {}
+  constructor(private qrService: QrService, private authService: AuthService, private cartService: CartService) {}
 
   get tutorList() {
     return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
@@ -71,5 +72,9 @@ export class EventDetailsDisplayComponent implements OnInit {
           })
           .then(url => this.qrCode.next(url))
       );
+  }
+
+  saveEvent() {
+    this.cartService.addEvent(this.event);
   }
 }

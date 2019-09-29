@@ -32,9 +32,11 @@ import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
 import { filter, first, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { slideInAnimation } from './animation';
+import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
 import { AuthService } from './shared/services/auth.service';
+import { CartService } from './shared/services/cart.service';
 import { gtagConfig, sendEvent } from './shared/utility-functions';
 
 @Component({
@@ -50,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isAdmin$: Observable<boolean>;
   isTutor$: Observable<boolean>;
   isEditor$: Observable<boolean>;
+  savedEvents$: Observable<number>;
   color$: Observable<ThemePalette>;
   class$: Observable<string>;
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
@@ -66,7 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private cartService: CartService
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
     this.isMobile$ = media.asObservable().pipe(
@@ -158,6 +162,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isAdmin$ = this.authService.isAdmin;
     this.isTutor$ = this.authService.isTutor;
     this.isEditor$ = this.authService.isEditor;
+    this.savedEvents$ = this.cartService.eventCount;
   }
 
   scanRequest() {
@@ -166,6 +171,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
+  }
+
+  openCart() {
+    this.dialog.open(CartDialogComponent);
   }
 
   prepareRoute(outlet: RouterOutlet) {
