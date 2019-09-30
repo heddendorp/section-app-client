@@ -31,7 +31,7 @@
       <p>Mail: {{ user.email }}</p>
       <p>Academic Mail: {{ user.academicMail }}</p>
       <p>Is tutor: {{ user.isTutor }}</p>
-      <p *ngIf="!user.verified" style="font-weight: bold">
+      <p *ngIf="!user.verified && user.provider === 'password'" style="font-weight: bold">
         Please ask user to make sure they verified their email
       </p>
       <p *ngIf="!user.faculty" style="font-weight: bold">

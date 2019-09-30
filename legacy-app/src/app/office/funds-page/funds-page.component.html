@@ -1,3 +1,21 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="no-margin mat-display-2">Funds</h1>
   <h2 class="no-margin mat-display-4">Currently the register should hold {{ balance$ | async }}€</h2>
@@ -20,26 +38,33 @@
           <input formControlName="searchString" matInput placeholder="Search" type="search" />
         </mat-form-field>
       </form>
-      <div fxFlex fxLayout="column" fxLayoutGap="1rem">
-        <div
-          *ngFor="let transaction of transactions$ | async"
-          class="transaction"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="1rem"
-        >
-          <mat-icon
-            [style.color]="transaction.value > 0 ? 'green' : 'red'"
-            [svgIcon]="transaction.value > 0 ? 'plus' : 'minus'"
-            mat-list-icon
-          ></mat-icon>
-          <div fxFlex fxLayout="column">
-            <p>{{ transaction.absValue }}€ - {{ transaction.comment }}</p>
-            <p class="mat-caption">{{ transaction.timestamp | date: 'medium' }}</p>
-          </div>
-          <button (click)="getReceipt(transaction)" mat-flat-button>Download Receipt</button>
-        </div>
-      </div>
+      <table [dataSource]="transactions$ | async" [trackBy]="trackById" mat-table>
+        <ng-container matColumnDef="type">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-icon
+              [style.color]="element.value > 0 ? 'green' : 'red'"
+              [svgIcon]="element.value > 0 ? 'plus' : 'minus'"
+              mat-list-icon
+            ></mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="value">
+          <th *matHeaderCellDef mat-header-cell>Value</th>
+          <td *matCellDef="let element" mat-cell>{{ element.absValue | currency: 'EUR' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="subject">
+          <th *matHeaderCellDef mat-header-cell>Subject</th>
+          <td *matCellDef="let element" mat-cell>{{ element.comment }}</td>
+        </ng-container>
+        <ng-container matColumnDef="timestamp">
+          <th *matHeaderCellDef mat-header-cell>Time</th>
+          <td *matCellDef="let element" mat-cell>{{ element.timestamp | date: 'medium' }}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="['type', 'value', 'subject', 'timestamp']" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: ['type', 'value', 'subject', 'timestamp']" mat-row></tr>
+      </table>
     </div>
     <form [formGroup]="transactionForm" fxFlex="30" fxLayout="column">
       <h2>Add a new transaction</h2>

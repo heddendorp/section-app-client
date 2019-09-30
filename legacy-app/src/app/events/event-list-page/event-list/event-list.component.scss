@@ -45,7 +45,7 @@ mat-card.event {
   @include mat-elevation-transition();
   border-radius: 6px;
   transition: border;
-
+  cursor: pointer;
   &:hover {
     @include mat-elevation(4);
   }

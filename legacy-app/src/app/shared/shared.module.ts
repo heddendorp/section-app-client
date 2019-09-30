@@ -16,6 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -67,7 +68,8 @@ const materialModules = [
   MatSelectModule,
   MatExpansionModule,
   MatRippleModule,
-  MatBadgeModule
+  MatBadgeModule,
+  ScrollingModule
 ];
 
 @NgModule({

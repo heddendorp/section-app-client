@@ -41,13 +41,17 @@ export class ManageEventComponent implements OnInit {
       share(),
       startWith(this.route.snapshot.data[0])
     );
-    this.tutorEmail$ = this.event$.pipe(map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join(',')));
+    this.tutorEmail$ = this.event$.pipe(
+      map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join('; '))
+    );
     this.studentEmail$ = this.event$.pipe(
       map(
         event =>
-          `mailto:?subject=${encodeURIComponent(`[TUMi] ${event.name}`)}&bcc=${event.userSignups
+          `mailto:tumi-koordination@zv.tum.de?subject=${encodeURIComponent(
+            `[TUMi] ${event.name}`
+          )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.userSignups
             .map(signup => signup.user.email)
-            .join(',')}`
+            .join('; ')}`
       )
     );
   }

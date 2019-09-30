@@ -1,8 +1,26 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { MoneyService, Transaction } from '../../shared/services/money.service';
 import { PDFService } from '../../shared/services/pdf.service';
 
@@ -36,7 +54,8 @@ export class FundsPageComponent implements OnInit {
         data.map(transaction => {
           return { ...transaction, absValue: Math.abs(transaction.value) };
         })
-      )
+      ),
+      tap(console.log)
     );
     const filter = this.filterForm.valueChanges.pipe(startWith(this.filterForm.value));
     this.transactions$ = combineLatest([transactions, filter]).pipe(map(this.filterTransactions));
@@ -49,6 +68,10 @@ export class FundsPageComponent implements OnInit {
 
   getReceipt(transaction) {
     this.pdfService.getInvoice(transaction);
+  }
+
+  trackById(index, element) {
+    return element.id;
   }
 
   private filterTransactions([transactions, filter]: [
