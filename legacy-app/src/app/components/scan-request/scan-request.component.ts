@@ -69,6 +69,9 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
           this.error$.next('The value could not be read correctly');
           return false;
         }
+        if (request.event) {
+          return true;
+        }
         if (request.events.find(event => !['register', 'collectMoney', 'refund'].includes(event.action))) {
           this.error$.next(
             `Request included an unknown action (${request.events.map(event => event.action).concat(', ')})`
@@ -81,7 +84,14 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         }
         return true;
       }),
-      map(value => JSON.parse(value)),
+      map(value => {
+        const request = JSON.parse(value);
+        if (request.event) {
+          request.events = [{ id: request.event, action: 'register' }];
+          this.error$.next('Old QR-code detected!');
+        }
+        return request;
+      }),
       share()
     );
     this.user$ = requestObservable.pipe(
