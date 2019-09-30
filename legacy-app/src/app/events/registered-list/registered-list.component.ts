@@ -51,10 +51,10 @@ export class RegisteredListComponent implements OnInit {
 
   ngOnInit() {
     this.upcomingEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.start.isAfter()))
+      map(events => events.filter(event => event.end.isAfter()))
     );
     this.passedEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.start.isBefore()))
+      map(events => events.filter(event => event.end.isBefore()))
     );
     this.user$ = this.authService.user;
   }

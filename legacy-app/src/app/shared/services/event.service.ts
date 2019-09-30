@@ -367,6 +367,8 @@ export interface TumiEvent extends BaseEvent {
   end: moment.Moment;
   tutorUsers?: Student[];
   userSignups?: EventSignup[];
+  coming?: EventSignup[];
+  waitlist?: EventSignup[];
   freeSpots?: string;
   hasPayed?: boolean;
   isWaitList?: boolean;

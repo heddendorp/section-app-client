@@ -19,7 +19,7 @@
 import * as functions from 'firebase-functions';
 import * as nodemailer from 'nodemailer';
 import { firestore } from './index';
-import { receipt } from './templates';
+import { receipt, waitListMove } from './templates';
 
 export const newEvent = functions
   .region('europe-west1')
@@ -94,6 +94,43 @@ export const deletedSignup = functions
           transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp - value.partySize });
         }
       });
+      const signupQuery = firestore
+        .collection('events')
+        .doc(context.params['eventId'])
+        .collection('signups')
+        .where('isWaitList', '==', true)
+        .orderBy('timestamp')
+        .limit(value.partySize);
+      const eventData = await firestore
+        .collection('events')
+        .doc(context.params['eventId'])
+        .get();
+      const queryData = await signupQuery.get();
+      if (!queryData.empty) {
+        await queryData.docs.map(async (doc: any) => {
+          const userSnap = await firestore
+            .collection('users')
+            .doc(doc.id)
+            .get();
+          const transporter = nodemailer.createTransport(
+            {
+              port: 587,
+              host: 'postout.lrz.de',
+              secure: false,
+              auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
+            },
+            { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+          );
+          if (userSnap.data()) {
+            await transporter.sendMail({
+              subject: '[TUMi] Event Update',
+              to: userSnap.data()!.email,
+              html: waitListMove(eventData.data(), userSnap.data())
+            });
+          }
+          await firestore.doc(doc.ref.path).update({ isWaitList: false });
+        });
+      }
     }
   });
 
@@ -114,7 +151,7 @@ export const balanceUpdate = functions
       );
       if (value.type !== 'general') {
         await transporter.sendMail({
-          subject: '[TUMi] Event Registration',
+          subject: '[TUMi] Event Receipt',
           to: value.user.email,
           html: receipt(value)
         });

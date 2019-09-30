@@ -39,7 +39,17 @@ export class ManageEventComponent implements OnInit {
     this.event$ = this.route.paramMap.pipe(
       switchMap(params => this.userService.getEventWithUsers(params.get('eventId'))),
       share(),
-      startWith(this.route.snapshot.data[0])
+      startWith(this.route.snapshot.data[0]),
+      map(event => {
+        return {
+          ...event,
+          coming: [
+            ...event.userSignups.filter(item => !item.hasAttended && !item.isWaitList),
+            ...event.userSignups.filter(item => item.hasAttended && !item.isWaitList)
+          ],
+          waitlist: event.userSignups.filter(item => item.isWaitList)
+        };
+      })
     );
     this.tutorEmail$ = this.event$.pipe(
       map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join('; '))
@@ -49,7 +59,7 @@ export class ManageEventComponent implements OnInit {
         event =>
           `mailto:tumi-koordination@zv.tum.de?subject=${encodeURIComponent(
             `[TUMi] ${event.name}`
-          )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.userSignups
+          )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.coming
             .map(signup => signup.user.email)
             .join('; ')}`
       )

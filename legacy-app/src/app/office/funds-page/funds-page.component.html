@@ -19,7 +19,7 @@
 <div fxLayout="column" fxLayoutGap="2rem">
   <h1 class="no-margin mat-display-2">Funds</h1>
   <h2 class="no-margin mat-display-4">Currently the register should hold {{ balance$ | async }}€</h2>
-  <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutGap="2rem">
+  <div fxLayout="column-reverse" fxLayoutGap="2rem">
     <div fxLayout="column">
       <form [formGroup]="filterForm" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
         <div fxFlex.gt-md fxLayout="row" fxLayoutGap="2rem">
@@ -60,6 +60,12 @@
         <ng-container matColumnDef="timestamp">
           <th *matHeaderCellDef mat-header-cell>Time</th>
           <td *matCellDef="let element" mat-cell>{{ element.timestamp | date: 'medium' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let element" mat-cell>
+            <button (click)="getReceipt(element)" mat-button>Get receipt</button>
+          </td>
         </ng-container>
 
         <tr *matHeaderRowDef="['type', 'value', 'subject', 'timestamp']" mat-header-row></tr>
