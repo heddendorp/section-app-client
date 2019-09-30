@@ -31,6 +31,7 @@ import { QrService } from '../../shared/services/qr.service';
 export class CartDialogComponent implements OnInit {
   events$;
   count$;
+  price$;
   qrCode$;
 
   constructor(private cartService: CartService, private qrService: QrService, private authService: AuthService) {}
@@ -38,6 +39,7 @@ export class CartDialogComponent implements OnInit {
   ngOnInit() {
     this.events$ = this.cartService.savedEvents;
     this.count$ = this.cartService.eventCount;
+    this.price$ = this.cartService.fullPrice;
     this.qrCode$ = this.events$.pipe(
       switchMap((events: any[]) =>
         this.authService.user.pipe(

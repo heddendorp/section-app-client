@@ -20,7 +20,7 @@
 <mat-dialog-content class="mat-typography">
   <p>
     Here you see the events you saved on this device, use this to collect the events you want to attend and register
-    fast in the office. <br>
+    fast in the office. <br/>
     <strong>Please note: </strong>This list is only saved on your device, you can't transfer it from your pc.
   </p>
   <span>Tap an event to remove it from the List</span>
@@ -30,6 +30,7 @@
       <p matLine>{{ event.start }} - {{ event.end }}</p>
     </button>
   </mat-action-list>
+  <strong>Total Price: {{ price$ | async }}</strong>
   <img *ngIf="count$ | async" [src]="qrCode$ | async" alt="Signup QR code" fxHide.gt-sm style="width: 100%;"/>
 </mat-dialog-content>
 <mat-dialog-actions>

@@ -24,6 +24,7 @@ import { filter, map, share, switchMap, takeUntil } from 'rxjs/operators';
 import { EventService } from '../../shared/services/event.service';
 import { MoneyService } from '../../shared/services/money.service';
 import { UserService } from '../../shared/services/user.service';
+import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-scan-request',
@@ -150,6 +151,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       this.user,
       'refund'
     );
+    sendEvent('refund', { event_label: request.event.name, value: -request.event.price });
     this.eventService.deregister(this.user, request.event);
   }
 
@@ -161,6 +163,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         this.user,
         'registration'
       );
+      sendEvent('purchase', { event_label: request.event.name, value: request.event.price });
     }
     this.eventService.register(this.user, request.event);
   }
@@ -174,6 +177,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         'registration'
       );
     }
+    sendEvent('purchase', { event_label: request.event.name, value: request.event.price, is_waitlist: true });
     this.eventService.register(this.user, request.event, true);
   }
 

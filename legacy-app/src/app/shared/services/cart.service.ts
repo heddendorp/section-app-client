@@ -47,6 +47,12 @@ export class CartService {
     return this.events.asObservable();
   }
 
+  get fullPrice() {
+    return this.events
+      .asObservable()
+      .pipe(map(events => events.reduce((acc, curr) => acc + curr.price, 0) || `Couldn't compute`));
+  }
+
   addEvent(event) {
     const events = this.events.value;
     if (events.some(val => val.id === event.id)) {
@@ -58,6 +64,7 @@ export class CartService {
         id: event.id,
         icon: event.icon,
         name: event.name,
+        price: event.price,
         start: event.start.format('DD.MM. HH:mm'),
         end: event.end.format('DD.MM. HH:mm')
       }
