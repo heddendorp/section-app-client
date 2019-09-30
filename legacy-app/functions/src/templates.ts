@@ -66,6 +66,9 @@ export const receipt = ({ event, user, type, timestamp }: { event: any; user: an
         <mj-button background-color="#ffae00" color="#FFF" font-size="14px" align="center" font-weight="bold" border="none" padding="15px 30px" border-radius="10px" href="https://esn-tumi.de/events/show/${
           event.id
         }" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="10px">See Event Info</mj-button>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">
+        Please note: In order to get a refund for events you have to come to the office <strong>three working days</strong> in advance
+      </mj-text>
       </mj-column>
     </mj-section>
     <mj-section background-color="#356cc7" padding-bottom="5px" padding-top="0">
