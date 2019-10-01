@@ -21,15 +21,15 @@
 
 <table [dataSource]="event.tutorUsers" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Name</th>
-    <td *matCellDef="let element" mat-cell> {{element.firstName}} {{element.lastName}} </td>
+    <th *matHeaderCellDef mat-header-cell>Name</th>
+    <td *matCellDef="let element" mat-cell>{{ element.firstName }} {{ element.lastName }}</td>
   </ng-container>
   <ng-container matColumnDef="mail">
-    <th *matHeaderCellDef mat-header-cell> Mail</th>
-    <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+    <th *matHeaderCellDef mat-header-cell>Mail</th>
+    <td *matCellDef="let element" mat-cell>{{ element.email }}</td>
   </ng-container>
   <ng-container matColumnDef="action">
-    <th *matHeaderCellDef mat-header-cell> Remove</th>
+    <th *matHeaderCellDef mat-header-cell>Remove</th>
     <td *matCellDef="let element" mat-cell>
       <button (click)="kickTutor(element)" *ngIf="isAdmin$ | async" mat-button>
         Remove from Event
@@ -37,21 +37,21 @@
     </td>
   </ng-container>
   <tr *matHeaderRowDef="['name', 'mail', 'action']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'mail', 'action'];" mat-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'mail', 'action']" mat-row></tr>
 </table>
+
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
 <a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
 <table [dataSource]="event.coming" [trackBy]="trackById" mat-table style="width: 100%;">
-  <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Name</th>
-    <td *matCellDef="let element" mat-cell> {{element.user.firstName}} {{element.user.lastName}} </td>
-  </ng-container>
-  <ng-container matColumnDef="mail">
-    <th *matHeaderCellDef mat-header-cell> Mail</th>
-    <td *matCellDef="let element" mat-cell> {{element.user.email}} </td>
+  <ng-container matColumnDef="info">
+    <th *matHeaderCellDef mat-header-cell>Info</th>
+    <td *matCellDef="let element" mat-cell>
+      {{ element.user.firstName }} {{ element.user.lastName }}
+      <span *ngIf="!element.user.firstName && !element.user.lastName">({{ element.user.email }})</span>
+    </td>
   </ng-container>
   <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef mat-header-cell> Actions</th>
+    <th *matHeaderCellDef mat-header-cell>Actions</th>
     <td *matCellDef="let element" mat-cell>
       <button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee" mat-flat-button>
         Confirm Payment
@@ -63,23 +63,24 @@
         Confirm Attendance
       </button>
       <button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended" mat-button>
-        Did not attend
+        Cancel Attendance
       </button>
     </td>
   </ng-container>
-  <tr *matHeaderRowDef="['name', 'mail', 'actions']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'mail', 'actions'];" mat-row></tr>
+  <tr *matHeaderRowDef="['info', 'actions']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['info', 'actions']" mat-row></tr>
 </table>
+
 <p style="margin-top: 2rem;"><strong>Students om the wait list</strong></p>
 <table [dataSource]="event.waitlist" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Name</th>
-    <td *matCellDef="let element" mat-cell> {{element.user.firstName}} {{element.user.lastName}} </td>
+    <th *matHeaderCellDef mat-header-cell>Name</th>
+    <td *matCellDef="let element" mat-cell>{{ element.user.firstName }} {{ element.user.lastName }}</td>
   </ng-container>
   <ng-container matColumnDef="mail">
-    <th *matHeaderCellDef mat-header-cell> Mail</th>
-    <td *matCellDef="let element" mat-cell> {{element.user.email}} </td>
+    <th *matHeaderCellDef mat-header-cell>Mail</th>
+    <td *matCellDef="let element" mat-cell>{{ element.user.email }}</td>
   </ng-container>
   <tr *matHeaderRowDef="['name', 'mail']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'mail'];" mat-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'mail']" mat-row></tr>
 </table>
