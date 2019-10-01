@@ -28,8 +28,16 @@
     <th *matHeaderCellDef mat-header-cell> Mail</th>
     <td *matCellDef="let element" mat-cell> {{element.email}} </td>
   </ng-container>
-  <tr *matHeaderRowDef="['name', 'mail']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'mail'];" mat-row></tr>
+  <ng-container matColumnDef="action">
+    <th *matHeaderCellDef mat-header-cell> Remove</th>
+    <td *matCellDef="let element" mat-cell>
+      <button (click)="kickTutor(element)" *ngIf="isAdmin$ | async" mat-button>
+        Remove from Event
+      </button>
+    </td>
+  </ng-container>
+  <tr *matHeaderRowDef="['name', 'mail', 'action']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'mail', 'action'];" mat-row></tr>
 </table>
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
 <a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
