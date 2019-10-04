@@ -30,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MarkdownModule } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
 
@@ -56,6 +57,7 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     }),
     BrowserAnimationsModule,
     FlexLayoutModule,
+    MarkdownModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
     AngularFireAuthModule,

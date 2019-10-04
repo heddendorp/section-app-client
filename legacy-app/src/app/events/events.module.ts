@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 import { SharedModule } from '../shared/shared.module';
 import { RefundDialogComponent } from './components/refund-dialog/refund-dialog.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -60,6 +61,6 @@ const routes: Routes = [
   ],
   entryComponents: [RefundDialogComponent],
   providers: [LoadEventResolver, LoadVisibleEventsResolver],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
 })
 export class EventsModule {}

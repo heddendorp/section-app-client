@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/got": "^9.6.7",
     "@types/mjml": "^4.0.2",
+    "@types/moment-timezone": "^0.5.12",
     "@types/nodemailer": "^6.2.1",
     "firebase-admin": "^8.0.0",
     "firebase-functions": "^3.0.0",

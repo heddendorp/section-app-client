@@ -30,10 +30,10 @@
   </div>
   <img *ngIf="event.icon" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
 </header>
-<p class="description">{{ event.description }}</p>
+<markdown [data]="event.description"></markdown>
 <ng-container *ngIf="isTutor$ | async">
   <strong>Notes for tutors</strong>
-  <p class="description">{{ event.runningNotes }}</p>
+  <markdown [data]="event.runningNotes"></markdown>
 </ng-container>
 <ng-container *ngIf="event.tutorUsers?.length">
   <strong>Tutors already on this event</strong>
