@@ -38,6 +38,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
   events$;
   user$;
   moneyControl = new FormControl();
+  ticketControl = new FormControl(1);
   user;
   events;
   fullPrice = 0;
@@ -192,6 +193,22 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       );
     }
     this.eventService.giveOutMoney(this.user, request.event, this.moneyControl.value);
+  }
+
+  sellTickets(request) {
+    this.ticketControl.disable();
+    if (this.ticketControl.value) {
+      const tickNum = this.ticketControl.value;
+      const fullPrice = tickNum * request.event.price;
+      this.moneyService.addEventTransaction(
+        `${tickNum} tickets sold for ${request.event.name} to ${this.user.firstName} ${this.user.lastName} (${this.user.email})`,
+        request.event,
+        this.user,
+        'ticketSale',
+        fullPrice
+      );
+      this.eventService.sellTickets(request.event, tickNum);
+    }
   }
 
   ngOnDestroy(): void {

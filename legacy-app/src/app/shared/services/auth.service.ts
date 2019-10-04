@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -25,6 +43,10 @@ export class AuthService {
           });
         }
       });
+    this.afAuth.auth.getRedirectResult().then(result => {
+      sendEvent('login', { method: result.additionalUserInfo.providerId });
+      this.router.navigate(['events', 'list']);
+    });
   }
 
   public get authenticated(): Observable<boolean> {
@@ -70,20 +92,18 @@ export class AuthService {
   public async login(provider) {
     switch (provider) {
       case 'google': {
-        await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+        await this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
         break;
       }
       case 'facebook': {
-        await this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+        await this.afAuth.auth.signInWithRedirect(new auth.FacebookAuthProvider());
         break;
       }
       case 'microsoft': {
-        await this.afAuth.auth.signInWithPopup(new auth.OAuthProvider('microsoft.com'));
+        await this.afAuth.auth.signInWithRedirect(new auth.OAuthProvider('microsoft.com'));
         break;
       }
     }
-    sendEvent('login', { method: provider });
-    this.router.navigate(['events', 'list']);
   }
 
   public createUser(email, password) {

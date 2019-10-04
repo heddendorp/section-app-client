@@ -91,7 +91,7 @@
           office, please bring cash
         </p>
       </mat-card-content>
-      <mat-card-actions fxHide.gt-sm>
+      <mat-card-actions *ngIf="!event.isTicketTracker" fxHide.gt-sm>
         <button (click)="saveEvent()" color="primary" mat-button>Add to saved Events</button>
       </mat-card-actions>
     </mat-card>

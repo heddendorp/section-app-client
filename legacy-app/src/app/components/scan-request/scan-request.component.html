@@ -76,7 +76,14 @@
     <ng-container matColumnDef="users">
       <th *matHeaderCellDef mat-header-cell>Users</th>
       <td *matCellDef="let element" mat-cell>
-        {{ element.event.userSignups.length }} / {{ element.event.participantSpots }}
+        <ng-container [ngSwitch]="element.event.isTicketTracker">
+          <ng-container *ngSwitchCase="false">
+            {{ element.event.userSignups.length }} / {{ element.event.participantSpots }}
+          </ng-container>
+          <ng-container *ngSwitchCase="true">
+            {{ element.event.soldTickets }} / {{ element.event.participantSpots }}
+          </ng-container>
+        </ng-container>
       </td>
       <td *matFooterCellDef mat-footer-cell></td>
     </ng-container>
@@ -85,20 +92,37 @@
       <td *matCellDef="let element" mat-cell>
         <ng-container [ngSwitch]="element.action">
           <ng-container *ngSwitchCase="'register'">
-            <button
-              (click)="addUserToWaitList(element)"
-              *ngIf="element.event.userSignups.length >= element.event.participantSpots"
-              mat-button
-            >
-              Put on Wait list
-            </button>
-            <button
-              (click)="registerUser(element)"
-              *ngIf="element.event.userSignups.length < element.event.participantSpots"
-              mat-button
-            >
-              Register for Event
-            </button>
+            <ng-container [ngSwitch]="element.event.isTicketTracker">
+              <ng-container *ngSwitchCase="false">
+                <button
+                  (click)="addUserToWaitList(element)"
+                  *ngIf="element.event.userSignups.length >= element.event.participantSpots"
+                  mat-button
+                >
+                  Put on Wait list
+                </button>
+                <button
+                  (click)="registerUser(element)"
+                  *ngIf="element.event.userSignups.length < element.event.participantSpots"
+                  mat-button
+                >
+                  Register for Event
+                </button>
+              </ng-container>
+              <ng-container *ngSwitchCase="true">
+                <div fxLayout="row" fxLayoutGap=".5rem">
+                  <mat-form-field>
+                    <input [formControl]="ticketControl" matInput placeholder="Number of tickets" type="number"/>
+                  </mat-form-field>
+                  <button
+                    (click)="sellTickets(element)"
+                    mat-button
+                  >
+                    Sell tickets
+                  </button>
+                </div>
+              </ng-container>
+            </ng-container>
           </ng-container>
           <ng-container *ngSwitchCase="'refund'">
             <button (click)="processRefund(element)" [disabled]="!element.userSignedUp" mat-button>

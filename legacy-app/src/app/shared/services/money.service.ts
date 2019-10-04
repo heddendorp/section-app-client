@@ -66,7 +66,8 @@ export class MoneyService {
     comment: string,
     event: TumiEvent,
     user: Student,
-    type: 'registration' | 'onLocationPayment' | 'refund' | 'moneyCollection'
+    type: 'registration' | 'onLocationPayment' | 'refund' | 'moneyCollection' | 'ticketSale',
+    fullCost = 0
   ) {
     let value = 0;
     switch (type) {
@@ -84,6 +85,10 @@ export class MoneyService {
       }
       case 'moneyCollection': {
         value = -event.fullCost;
+        break;
+      }
+      case 'ticketSale': {
+        value = fullCost;
         break;
       }
     }

@@ -27,12 +27,12 @@
       <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle
       >{{ event.start | date: 'EEE dd MMM (bbbb)' }}
-        <ng-container *ngIf="!event.isExternal && !event.isInternal">
+        <ng-container *ngIf="!event.isExternal && !event.isInternal && !event.isTicketTracker">
           <br> <em>{{ event.freeSpots }}</em></ng-container
         >
       </mat-card-subtitle>
     </mat-card-title-group>
-    <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal">
+    <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal && !event.isTicketTracker">
       Tutors still needed: {{ event.tutorSpots - event.tutorSignups.length }} / {{ event.tutorSpots }}
     </mat-card-content>
   </mat-card>

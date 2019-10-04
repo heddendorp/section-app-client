@@ -245,6 +245,13 @@ export class EventService {
     });
   }
 
+  public sellTickets(event, ticketNum): Promise<void> {
+    return this.updateEvent({
+      ...event,
+      soldTickets: event.soldTickets + ticketNum
+    });
+  }
+
   public updateEvent(event: TumiEvent): Promise<void> {
     return this.firestore
       .collection<SavedEvent>('events')

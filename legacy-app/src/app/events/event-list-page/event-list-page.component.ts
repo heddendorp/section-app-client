@@ -73,11 +73,18 @@ export class EventListPageComponent implements OnInit {
         event.tutorSpots <= event.tutorSignups.length &&
         !event.isInternal &&
         !event.isExternal &&
+        !event.isTicketTracker &&
         isTutor
       ) {
         return false;
       }
-      if (!filter.showFull && event.freeSpots === 'Event is full' && !event.isInternal && !event.isExternal) {
+      if (
+        !filter.showFull &&
+        event.freeSpots === 'Event is full' &&
+        !event.isInternal &&
+        !event.isExternal &&
+        !event.isTicketTracker
+      ) {
         return false;
       }
       return true;
