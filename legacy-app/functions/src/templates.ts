@@ -17,7 +17,7 @@
  */
 
 import mjml2html = require('mjml');
-import moment = require('moment');
+import moment = require('moment-timezone');
 
 export const waitListMove = (event: any, user: any) =>
   mjml2html(`
@@ -48,9 +48,11 @@ export const waitListMove = (event: any, user: any) =>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Event</strong></mj-text>
         <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${
           event.name
-        } <br> ${moment(event.start.toDate()).format('DD.MM. HH:mm')} - ${moment(event.end.toDate()).format(
-    'DD.MM. HH:mm'
-  )}</mj-text>
+        } <br> ${moment(event.start.toDate())
+    .tz('Europe/Berlin')
+    .format('DD.MM. HH:mm')} - ${moment(event.end.toDate())
+    .tz('Europe/Berlin')
+    .format('DD.MM. HH:mm')}</mj-text>
       </mj-column>
       <mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>What this means</strong></mj-text>
@@ -78,7 +80,19 @@ export const waitListMove = (event: any, user: any) =>
   </mj-body>
 </mjml>`).html;
 
-export const receipt = ({ event, user, type, timestamp }: { event: any; user: any; type: string; timestamp: any }) =>
+export const receipt = ({
+  event,
+  user,
+  type,
+  timestamp,
+  value
+}: {
+  event: any;
+  user: any;
+  type: string;
+  timestamp: any;
+  value: number;
+}) =>
   mjml2html(
     `
 <mjml>
@@ -108,9 +122,11 @@ export const receipt = ({ event, user, type, timestamp }: { event: any; user: an
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Event</strong></mj-text>
         <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${
           event.name
-        } <br> ${moment(event.start.toDate()).format('DD.MM. HH:mm')} - ${moment(event.end.toDate()).format(
-      'DD.MM. HH:mm'
-    )}</mj-text>
+        } <br> ${moment(event.start.toDate())
+      .tz('Europe/Berlin')
+      .format('DD.MM. HH:mm')} - ${moment(event.end.toDate())
+      .tz('Europe/Berlin')
+      .format('DD.MM. HH:mm')}</mj-text>
       </mj-column>
       <mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Receipt Date</strong></mj-text>
@@ -118,7 +134,7 @@ export const receipt = ({ event, user, type, timestamp }: { event: any; user: an
           timestamp.toDate()
         ).format('DD.MM. HH:mm')}</mj-text>
       </mj-column>
-      ${priceColumn(event, type)}
+      ${priceColumn(event, type, value)}
     </mj-section>
     <mj-section background-color="#356CC7" padding-bottom="20px" padding-top="20px">
       <mj-column width="50%">
@@ -144,12 +160,18 @@ export const receipt = ({ event, user, type, timestamp }: { event: any; user: an
     {}
   ).html;
 
-const priceColumn = (event: any, type: string) => {
+const priceColumn = (event: any, type: string, value: number) => {
   switch (type) {
     case 'registration': {
       return `<mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Price payed</strong></mj-text>
         <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${event.price}€</mj-text>
+      </mj-column>`;
+    }
+    case 'ticketSale': {
+      return `<mj-column>
+        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Money payed</strong></mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${value}€</mj-text>
       </mj-column>`;
     }
     case 'onLocationPayment': {

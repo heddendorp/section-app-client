@@ -22,6 +22,7 @@
     "got": "^9.6.0",
     "mjml": "^4.5.0",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
     "nodemailer": "^6.3.0"
   },
   "devDependencies": {
