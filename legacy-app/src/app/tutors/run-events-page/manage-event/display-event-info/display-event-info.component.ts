@@ -16,7 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { first, map } from 'rxjs/operators';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { TumiEvent } from '../../../../shared/services/event.service';
@@ -30,12 +31,16 @@ import { QrService } from '../../../../shared/services/qr.service';
 })
 export class DisplayEventInfoComponent implements OnInit {
   @Input() event: TumiEvent;
+  @Output() addTickets = new EventEmitter();
   isTutor;
+  isAdmin$;
   qrCode;
+  ticketControl = new FormControl(0);
 
   constructor(private qrService: QrService, private authService: AuthService) {}
 
   async ngOnInit() {
+    this.isAdmin$ = this.authService.isAdmin;
     const userId = await this.authService.user
       .pipe(
         first(),

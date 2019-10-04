@@ -19,8 +19,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, share, startWith, switchMap } from 'rxjs/operators';
-import { TumiEvent } from '../../../shared/services/event.service';
+import { first, map, share, startWith, switchMap } from 'rxjs/operators';
+import { EventService, TumiEvent } from '../../../shared/services/event.service';
+import { MoneyService } from '../../../shared/services/money.service';
 import { UserService } from '../../../shared/services/user.service';
 
 @Component({
@@ -33,7 +34,12 @@ export class ManageEventComponent implements OnInit {
   tutorEmail$: Observable<string>;
   studentEmail$: Observable<string>;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private evenService: EventService,
+    private moneyService: MoneyService
+  ) {}
 
   ngOnInit() {
     this.event$ = this.route.paramMap.pipe(
@@ -64,5 +70,17 @@ export class ManageEventComponent implements OnInit {
             .join('; ')}`
       )
     );
+  }
+
+  async addTickets(ammount) {
+    const event = await this.event$.pipe(first()).toPromise();
+    if (ammount) {
+      const fullCost = event.price * ammount;
+      this.moneyService.addTransaction({
+        value: fullCost,
+        comment: `${ammount} external ticket sales added for ${event.name}`
+      });
+      this.evenService.sellTickets(event, ammount);
+    }
   }
 }
