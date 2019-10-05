@@ -75,6 +75,11 @@
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
+      <mat-card-actions *ngIf="event.isWaitList">
+        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>Get a refund for this
+          event
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

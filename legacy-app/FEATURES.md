@@ -20,11 +20,16 @@ Get an overview of features that are implemented and planned for the app
 - Confirmation Mails for Event registrations
 - Display all needed Infos to students and tutors
 - Editable by the Admins and Editors
+  - Includes Markdown parsing for the description
 - _Run Events_ Page for Tutors to see al necessary info
   - Lists of singed up users and Tutors
   - Confirm attendance and payment for users
   - Collect money from the office and see who has the money
 - Users can get QR codes for fast registration in the office
+- Event refunds
+- Waiting list for events that are already full
+- Ticket Trackers: Events where only the number of sold Tickets is important
+- List of saved events to sign up for multiple events efficiently
 
 ### Pages
 
@@ -35,6 +40,7 @@ Get an overview of features that are implemented and planned for the app
 ### Communication
 
 - Email confirmation for any regular event registration
+- Email receipts for payments at events
 - Daily slack update with events missing tutors
 
 ### Finances
@@ -51,18 +57,11 @@ Get an overview of features that are implemented and planned for the app
 ### Events
 
 - Internal Events just for Tutors
-- Event refunds
-- Waiting list for events that are already full
-- Ticket Trackers: Events where only the number of sold Tickets is important
 - Add a meeting point (google maps link)
 
 ### Data Privacy
 
 - Still in review
-
-### Communication
-
-- Email receipts for payments at events
 
 ### Others
 
@@ -81,20 +80,23 @@ Get an overview of features that are implemented and planned for the app
 - Provide calendar integration
 - Collect additional Info at registration
 - Implement event planning features
-- Send reminder Mails before the event takes place
 - Check for event overlaps
-- Implement something like a shopping cart to sign up for multiple events
 
 ### Communication
 
-- Pushy notifications for reminders
+- Push notifications for reminders
 - Reminder emails before events
+- Automated sending of the detailed event info for all events
 
 ### Party Animals
 
 - Add the party animals registration
 - Allow party animals group assignment
 - Display party animals events
+
+### Pages
+
+- Add esnCard info page
 
 ### Others
 
@@ -107,6 +109,8 @@ Get an overview of features that are implemented and planned for the app
 - Bot interface for messenger or slack to access app information
 - Additional stats pages or tools
 - Account balance functionality for easier payments
+- Party size to allow signing up groups
+- Add a markdown editor for event editing
 - Online payment gateway
 - **Multi tenant** version
   - Possibly this could be extended into a more general app that works for multiple sections

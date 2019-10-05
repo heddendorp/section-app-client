@@ -46,6 +46,17 @@ export class DisplayEventUsersComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin$ = this.authService.isAdmin;
+    /*console.log(
+      this.event.userSignups
+        .filter(reg => reg.hasPayed)
+        .reduce((acc, curr) => {
+          let res = acc + '|' + curr.user.email;
+          if (curr.user.academicMail) {
+            res += '|' + curr.user.academicMail;
+          }
+          return res;
+        }, '')
+    );*/
   }
 
   async kickTutor(user: Student) {

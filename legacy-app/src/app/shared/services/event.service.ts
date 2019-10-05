@@ -91,11 +91,10 @@ export class EventService {
 
   public get futureEvents(): Observable<TumiEvent[]> {
     return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('end')
-          .where('isExternal', '==', false)
-          .where('end', '>', new Date())
+      .collection<SavedEvent>(
+        'events',
+        ref => ref.orderBy('end').where('isExternal', '==', false)
+        // .where('end', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));

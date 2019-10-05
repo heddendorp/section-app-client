@@ -77,10 +77,14 @@
     <th *matHeaderCellDef mat-header-cell>Name</th>
     <td *matCellDef="let element" mat-cell>{{ element.user.firstName }} {{ element.user.lastName }}</td>
   </ng-container>
+  <ng-container matColumnDef="timestamp">
+    <th *matHeaderCellDef mat-header-cell>Timestamp</th>
+    <td *matCellDef="let element" mat-cell>{{ element.timestamp | date:'medium' }}</td>
+  </ng-container>
   <ng-container matColumnDef="mail">
     <th *matHeaderCellDef mat-header-cell>Mail</th>
     <td *matCellDef="let element" mat-cell>{{ element.user.email }}</td>
   </ng-container>
-  <tr *matHeaderRowDef="['name', 'mail']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'mail']" mat-row></tr>
+  <tr *matHeaderRowDef="['name', 'timestamp', 'mail']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'timestamp', 'mail']" mat-row></tr>
 </table>
