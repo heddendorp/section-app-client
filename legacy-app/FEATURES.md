@@ -2,7 +2,7 @@
 
 Get an overview of features that are implemented and planned for the app
 
-## Shipped
+## Shipped ✔
 
 ### Users
 
@@ -52,11 +52,12 @@ Get an overview of features that are implemented and planned for the app
 
 - Tutor list for easier internal communication
 
-## In Development
+## In Development ⚠
 
 ### Events
 
 - Internal Events just for Tutors
+- Update wait list when the event-data changes _(Such as available spots)_
 - Add a meeting point (google maps link)
 
 ### Data Privacy
@@ -67,13 +68,14 @@ Get an overview of features that are implemented and planned for the app
 
 - Office _God-mode_ to change almost anything without being bound to regular constraints
 
-## Planned
+## Planned ⭕
 
 ### Users
 
 - Trigger password reset
 - Run Tutor applications and board feedback
 - Track internal position: Newbie, Oldie, Board ...
+- Handle users that are only tutor for one specific event
 
 ### Events
 
@@ -81,6 +83,7 @@ Get an overview of features that are implemented and planned for the app
 - Collect additional Info at registration
 - Implement event planning features
 - Check for event overlaps
+- Allow display of events hosted by other sections
 
 ### Communication
 
@@ -98,13 +101,25 @@ Get an overview of features that are implemented and planned for the app
 
 - Add esnCard info page
 
+### Core
+
+- Rewrite using state management
+  - Will increase speed due to local caching
+  - Will reduce server load because not everything is directly read on the firebase
+  - Allows better state recovery when relaunching the application
+- Update to firebase analytics and remote config
+  - Arrived in the sdk v7 and once implemented in @angular/fire tracking should be updated for it
+- Find a way of syncing events of the office and users during the registration
+- **Write tests**
+
 ### Others
 
 - Expand PWA functionality and handle offline devices
 - Improve performance and keep up with library developments
 - Offer more documentation and general info, possibly in a github wiki
+- Allow using a phone to scan QR codes so no special hardware is required
 
-## Possible
+## Possible ❓
 
 - Bot interface for messenger or slack to access app information
 - Additional stats pages or tools
