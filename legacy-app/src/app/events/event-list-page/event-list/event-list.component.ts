@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { TumiEvent } from '../../../shared/services/event.service';
@@ -25,7 +25,8 @@ import { AuthState } from '../../../shared/state/auth.state';
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  styleUrls: ['./event-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventListComponent {
   @Input() events: TumiEvent[];

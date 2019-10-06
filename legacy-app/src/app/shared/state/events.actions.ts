@@ -25,3 +25,9 @@ export class SelectEvent {
 
   constructor(public eventId: string) {}
 }
+
+export class LoadRegistrations {
+  static readonly type = '[Events] Load registrations for Event';
+
+  constructor(public eventId: string) {}
+}

@@ -18,23 +18,6 @@
 
 <div fxLayout="column" fxLayoutGap="2rem">
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
-    <!--<mat-card fxFlex>
-      <mat-card-title-group>
-        <img mat-card-sm-image src="/assets/illustrations/party/beer.svg" alt="Beer Glass" />
-        <mat-card-title>Check out Party animals!</mat-card-title>
-        <mat-card-subtitle>Registration is open now!</mat-card-subtitle>
-      </mat-card-title-group>
-      <mat-card-content>
-        <p>Can you handle your beer and do you want some new Friends? Then join our Party Animals programme!</p>
-        <p>
-          160 Students in 8 awesome Teams with 5 tutors each having the best time in and around munich for two weeks -
-          01/10/2019 to 13/10/2019
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button color="primary" mat-raised-button routerLink="/party-animals">Check it out now!</button>
-      </mat-card-actions>
-    </mat-card>-->
     <mat-card fxFlex fxHide.xs>
       <mat-card-title-group>
         <img alt="TUMi Logo" mat-card-sm-image src="/assets/images/blume.svg"/>
@@ -54,8 +37,6 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <!--  <button mat-stroked-button routerLink="/about">Learn more about TUMi</button>-->
-  <!--  <mat-divider></mat-divider>-->
   <h1 class="mat-display-3 no-margin">
     Upcoming events
   </h1>
@@ -65,5 +46,8 @@
     <mat-checkbox formControlName="showFull">Show full events</mat-checkbox>
     <mat-checkbox *ngIf="isTutor$ | async" formControlName="showFullTutors">Show full events (tutors)</mat-checkbox>
   </form>
-  <app-event-list [events]="events$ | async"></app-event-list>
+  <app-event-list *ngIf="loaded$ | async; else loading" [events]="events$ | async"></app-event-list>
+  <ng-template #loading>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-template>
 </div>

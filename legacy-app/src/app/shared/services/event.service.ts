@@ -88,6 +88,23 @@ export class EventService {
       .pipe(map(events => events.map(this.parseEvent)));
   }
 
+  public getRegistrationsForEvent(id: string): Observable<EventSignup[]> {
+    return this.firestore
+      .collection('events')
+      .doc(id)
+      .collection<SavedEventSignup>('signups')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(registrations =>
+          registrations.map(registration =>
+            Object.assign({}, registration, {
+              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
+            })
+          )
+        )
+      );
+  }
+
   public get visibleEvents(): Observable<TumiEvent[]> {
     return this.isTutor$.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
   }
@@ -218,23 +235,6 @@ export class EventService {
       map(([event, userSignups]) => Object.assign({}, event, { userSignups })),
       share()
     );
-  }
-
-  public getRegistrationsForEvent(id: string): Observable<EventSignup[]> {
-    return this.firestore
-      .collection('events')
-      .doc(id)
-      .collection<SavedEventSignup>('signups')
-      .valueChanges({ idField: 'id' })
-      .pipe(
-        map(registrations =>
-          registrations.map(registration =>
-            Object.assign({}, registration, {
-              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
-            })
-          )
-        )
-      );
   }
 
   public register(user, event, isWaitList = false): Promise<void> {
@@ -392,7 +392,11 @@ export interface TumiEvent extends BaseEvent {
   start: moment.Moment;
   end: moment.Moment;
   tutorUsers?: Student[];
+  /**
+   * @deprecated user registrations instead
+   */
   userSignups?: EventSignup[];
+  registrations?: EventSignup[];
   coming?: EventSignup[];
   waitlist?: EventSignup[];
   freeSpots?: string;

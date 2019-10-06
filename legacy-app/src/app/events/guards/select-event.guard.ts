@@ -20,7 +20,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { SelectEvent } from '../../shared/state/events.actions';
+import { AuthState } from '../../shared/state/auth.state';
+import { LoadRegistrations, LoadUpcomingEvents, SelectEvent } from '../../shared/state/events.actions';
 
 @Injectable()
 export class SelectEventGuard implements CanActivate {
@@ -30,7 +31,14 @@ export class SelectEventGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.store.dispatch(new SelectEvent(next.paramMap.get('eventId')));
+    this.store.dispatch([
+      new LoadUpcomingEvents(),
+      new LoadRegistrations(next.paramMap.get('eventId')),
+      new SelectEvent(next.paramMap.get('eventId'))
+    ]);
+    if (this.store.selectSnapshot(AuthState.isTutor)) {
+      this.store.dispatch([]);
+    }
     return true;
   }
 }

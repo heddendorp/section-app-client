@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
@@ -29,7 +29,8 @@ import { AuthState } from '../../../shared/state/auth.state';
 @Component({
   selector: 'app-event-details-display',
   templateUrl: './event-details-display.component.html',
-  styleUrls: ['./event-details-display.component.scss']
+  styleUrls: ['./event-details-display.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventDetailsDisplayComponent implements OnInit {
   @Input() event: TumiEvent;

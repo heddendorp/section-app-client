@@ -21,7 +21,7 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../services/event.service';
 import { filterEvents } from '../utility-functions';
 import { AuthState, AuthStateModel } from './auth.state';
-import { LoadUpcomingEvents, SelectEvent } from './events.actions';
+import { LoadRegistrations, LoadUpcomingEvents, SelectEvent } from './events.actions';
 
 export interface EventsStateModel {
   events: { [id: string]: TumiEvent };
@@ -60,6 +60,11 @@ export class EventsState {
   }
 
   @Selector()
+  static loaded(state: EventsStateModel) {
+    return state.loaded;
+  }
+
+  @Selector()
   static selectedEvent(state: EventsStateModel) {
     return state.events[state.selectedId];
   }
@@ -88,6 +93,28 @@ export class EventsState {
           ids: events.map(event => event.id),
           events: events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {}),
           loaded: true
+        })
+      );
+  }
+
+  @Action(LoadRegistrations)
+  async loadRegistrations(ctx: StateContext<EventsStateModel>, action: LoadRegistrations) {
+    this.eventService
+      .getRegistrationsForEvent(action.eventId)
+      .pipe(
+        takeUntil(
+          this.actions$.pipe(
+            ofAction(LoadRegistrations),
+            skip(1)
+          )
+        )
+      )
+      .subscribe(registrations =>
+        ctx.patchState({
+          events: {
+            ...ctx.getState().events,
+            [action.eventId]: { ...ctx.getState().events[action.eventId], registrations }
+          }
         })
       );
   }

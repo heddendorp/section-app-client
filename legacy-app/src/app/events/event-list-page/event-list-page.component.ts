@@ -16,12 +16,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
+import { TumiEvent } from '../../shared/services/event.service';
 import { AuthState } from '../../shared/state/auth.state';
 import { EventsState } from '../../shared/state/events.state';
 
@@ -30,30 +29,17 @@ import { EventsState } from '../../shared/state/events.state';
   templateUrl: './event-list-page.component.html',
   styleUrls: ['./event-list-page.component.scss']
 })
-export class EventListPageComponent implements OnInit {
+export class EventListPageComponent {
   @Select(EventsState.filteredEvents) events$: Observable<TumiEvent[]>;
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
+  @Select(EventsState.loaded) loaded$: Observable<boolean>;
   filterForm: FormGroup;
 
-  constructor(private eventService: EventService, fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(fb: FormBuilder) {
     this.filterForm = fb.group({
       showExternal: true,
       showFull: false,
       showFullTutors: true
     });
-  }
-
-  ngOnInit() {
-    /*this.events$ = combineLatest([
-      this.eventService.visibleEvents.pipe(startWith(this.route.snapshot.data.events)),
-      this.filterForm.valueChanges.pipe(startWith(this.filterForm.value)),
-      this.isTutor$.pipe(startWith(false))
-    ]).pipe(
-      map(([events, filter, isTutor]) =>
-        events
-          .map((event: TumiEvent) => Object.assign(event, { freeSpots: getFreeSpots(event) }))
-          .filter(this.filterEvents(filter, isTutor))
-      )
-    );*/
   }
 }
