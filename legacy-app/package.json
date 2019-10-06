@@ -41,6 +41,7 @@
     "@angular/router": "~8.2.9",
     "@angular/service-worker": "~8.2.9",
     "@ngxs/devtools-plugin": "^3.5.1",
+    "@ngxs/form-plugin": "^3.5.1",
     "@ngxs/router-plugin": "^3.5.1",
     "@ngxs/storage-plugin": "^3.5.1",
     "@ngxs/store": "^3.5.1",

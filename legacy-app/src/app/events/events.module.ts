@@ -28,22 +28,22 @@ import { EventDetailsDisplayComponent } from './event-details-page/event-details
 import { EventDetailsPageComponent } from './event-details-page/event-details-page.component';
 import { EventListPageComponent } from './event-list-page/event-list-page.component';
 import { EventListComponent } from './event-list-page/event-list/event-list.component';
+import { LoadEventsGuard } from './guards/load-events.guard';
+import { SelectEventGuard } from './guards/select-event.guard';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
-import { LoadEventResolver } from './resolvers/load-event.resolver';
-import { LoadVisibleEventsResolver } from './resolvers/load-visible-events.resolver';
 
 const routes: Routes = [
   {
     path: 'list',
     data: { title: 'Events', animation: 'EventList' },
-    resolve: { events: LoadVisibleEventsResolver },
+    canActivate: [LoadEventsGuard],
     component: EventListPageComponent
   },
   {
     path: 'show/:eventId',
     data: { title: 'Event', animation: 'EventDetail' },
     component: EventDetailsPageComponent,
-    resolve: { event: LoadEventResolver }
+    canActivate: [SelectEventGuard]
   },
   { path: 'my', data: { title: 'My' }, component: RegisteredListComponent, canActivate: [AngularFireAuthGuard] },
   { path: '', redirectTo: 'list', pathMatch: 'full' }
@@ -60,7 +60,7 @@ const routes: Routes = [
     RefundDialogComponent
   ],
   entryComponents: [RefundDialogComponent],
-  providers: [LoadEventResolver, LoadVisibleEventsResolver],
+  providers: [SelectEventGuard, LoadEventsGuard],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
 })
 export class EventsModule {}

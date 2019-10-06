@@ -68,9 +68,22 @@ export class EventService {
     this.user$ = store.select(state => state.auth.user);
   }
 
+  // OLD FUNCTIONS
   public get events(): Observable<TumiEvent[]> {
     return this.firestore
       .collection<SavedEvent>('events', ref => ref.orderBy('start'))
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  getUpcomingEvents(includeInternallyVisible = false) {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .where('start', '>', new Date())
+          .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
+          .orderBy('start')
+      )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));
   }

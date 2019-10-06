@@ -23,12 +23,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Student, UserService } from '../../shared/services/user.service';
 import { AuthState } from '../../shared/state/auth.state';
+import { EventsState } from '../../shared/state/events.state';
 import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
@@ -37,7 +38,7 @@ import { sendEvent } from '../../shared/utility-functions';
   styleUrls: ['./event-details-page.component.scss']
 })
 export class EventDetailsPageComponent implements OnInit, OnDestroy {
-  event$: Observable<TumiEvent>;
+  @Select(EventsState.selectedEvent) event$: Observable<TumiEvent>;
   signed$: Observable<boolean>;
   destroyed$ = new Subject();
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
@@ -60,12 +61,12 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
     );
     const eventWithSignups = this.route.paramMap.pipe(
       switchMap(params => this.eventService.getEventWithRegistrations(params.get('eventId')))
-    );
+    ); /*
     this.event$ = this.isTutor$.pipe(
       switchMap(isTutor => (isTutor ? eventWithTutors : eventWithSignups)),
       startWith(this.route.snapshot.data.event),
       tap(event => sendEvent('view_event', { id: event.id, name: event.name }))
-    );
+    );*/ /*
     this.signed$ = this.event$.pipe(
       switchMap(event =>
         this.user$.pipe(
@@ -76,7 +77,7 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
           )
         )
       )
-    );
+    );*/
   }
 
   async registerTutor(eventId) {

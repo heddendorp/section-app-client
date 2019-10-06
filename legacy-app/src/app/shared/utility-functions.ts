@@ -46,3 +46,31 @@ export const sendEvent = (name: string, data: any = {}) => {
 };
 
 export const countSignups = (acc: number, curr: EventSignup) => acc + curr.partySize;
+
+export const filterEvents = (filter, isTutor) => {
+  return (event: TumiEvent) => {
+    if (!filter.showExternal && event.isExternal) {
+      return false;
+    }
+    if (
+      !filter.showFullTutors &&
+      event.tutorSpots <= event.tutorSignups.length &&
+      !event.isInternal &&
+      !event.isExternal &&
+      !event.isTicketTracker &&
+      isTutor
+    ) {
+      return false;
+    }
+    if (
+      !filter.showFull &&
+      event.usersSignedUp >= event.participantSpots &&
+      !event.isInternal &&
+      !event.isExternal &&
+      !event.isTicketTracker
+    ) {
+      return false;
+    }
+    return true;
+  };
+};

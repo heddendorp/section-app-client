@@ -1213,6 +1213,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ngxs/form-plugin@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/form-plugin/-/form-plugin-3.5.1.tgz#96f756bed07b07eed9c251736748a9d6cd1f5d16"
+  integrity sha512-UTQhVv6ynT2UBDB9ePItA41AxYGPbQdPK4vNtdFHd84Sz2mK+LL5b/K3jSUGki+Z8gTZWL53l1bUP2B1xWpPdg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngxs/router-plugin@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@ngxs/router-plugin/-/router-plugin-3.5.1.tgz#62614d1ccd2c080bfc94bf514e44ea2718957ce6"
