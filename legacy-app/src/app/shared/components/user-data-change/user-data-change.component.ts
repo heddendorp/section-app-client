@@ -1,9 +1,28 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
 import { Student } from '../../services/user.service';
+import { AuthState } from '../../state/auth.state';
 import { allFaculties, allTargets, allTypes } from '../../uni-data';
 
 @Component({
@@ -17,13 +36,12 @@ export class UserDataChangeComponent {
   targets = allTargets;
   studentTypes = allTypes;
 
-  isAdmin$: Observable<boolean>;
-  isTutor$: Observable<boolean>;
+  @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { user: Student },
     private dialog: MatDialogRef<UserDataChangeComponent>,
-    private authService: AuthService,
     fb: FormBuilder
   ) {
     this.userForm = fb.group({
@@ -38,8 +56,6 @@ export class UserDataChangeComponent {
       isEditor: [data.user.isEditor, Validators.required],
       isTutor: [data.user.isTutor, Validators.required]
     });
-    this.isTutor$ = authService.isTutor;
-    this.isAdmin$ = authService.isAdmin;
   }
 
   submitData() {
@@ -54,7 +70,7 @@ export class UserDataChangeComponent {
       country: values.country,
       type: values.type,
       isEditor: values.isEditor,
-      isTutor: values.isTutor
+      isTutor: values.isTutor$
     };
     this.dialog.close(
       Object.assign(

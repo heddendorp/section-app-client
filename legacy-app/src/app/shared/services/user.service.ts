@@ -135,7 +135,7 @@ export class UserService {
       type: user.type,
       degree: user.degree,
       phone: user.phone,
-      isTutor: user.isTutor,
+      isTutor: user.isTutor$,
       isEditor: user.isEditor,
       verified: user.verified
     };

@@ -40,10 +40,10 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-dialog-close mat-flat-button>Cancel</button>
-  <button (click)="signup()" [disabled]="loginForm.invalid || loginForm.disabled" mat-flat-button>
+  <button (click)="createUser()" [disabled]="loginForm.invalid || loginForm.disabled" mat-flat-button>
     Create Account
   </button>
-  <button (click)="signin()" [disabled]="loginForm.invalid || loginForm.disabled" color="primary" mat-flat-button>
+  <button (click)="logIn()" [disabled]="loginForm.invalid || loginForm.disabled" color="primary" mat-flat-button>
     Log in
   </button>
 </mat-dialog-actions>

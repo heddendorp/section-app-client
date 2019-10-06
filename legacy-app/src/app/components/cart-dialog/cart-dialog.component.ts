@@ -17,11 +17,15 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { QrService } from '../../shared/services/qr.service';
+import { Student } from '../../shared/services/user.service';
+import { AuthState } from '../../shared/state/auth.state';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -33,6 +37,7 @@ export class CartDialogComponent implements OnInit {
   count$;
   price$;
   qrCode$;
+  @Select(AuthState.user) user$: Observable<Student>;
 
   constructor(private cartService: CartService, private qrService: QrService, private authService: AuthService) {}
 
@@ -42,7 +47,7 @@ export class CartDialogComponent implements OnInit {
     this.price$ = this.cartService.fullPrice;
     this.qrCode$ = this.events$.pipe(
       switchMap((events: any[]) =>
-        this.authService.user.pipe(
+        this.user$.pipe(
           map(user =>
             Object.assign({
               user: user.id,

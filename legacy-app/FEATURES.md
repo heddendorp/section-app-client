@@ -75,6 +75,7 @@ Get an overview of features that are implemented and planned for the app
 - Trigger password reset
 - Run Tutor applications and board feedback
 - Track internal position: Newbie, Oldie, Board ...
+- Allow teams to manage their own events
 - Handle users that are only tutor for one specific event
 
 ### Events

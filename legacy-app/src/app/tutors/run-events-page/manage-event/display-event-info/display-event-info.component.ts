@@ -18,10 +18,14 @@
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { TumiEvent } from '../../../../shared/services/event.service';
 import { QrService } from '../../../../shared/services/qr.service';
+import { Student } from '../../../../shared/services/user.service';
+import { AuthState } from '../../../../shared/state/auth.state';
 
 @Component({
   selector: 'app-display-event-info',
@@ -32,16 +36,16 @@ import { QrService } from '../../../../shared/services/qr.service';
 export class DisplayEventInfoComponent implements OnInit {
   @Input() event: TumiEvent;
   @Output() addTickets = new EventEmitter();
-  isTutor;
-  isAdmin$;
+  @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
+  @Select(AuthState.user) user$: Observable<Student>;
+  isTutor: boolean;
   qrCode;
   ticketControl = new FormControl(0);
 
   constructor(private qrService: QrService, private authService: AuthService) {}
 
   async ngOnInit() {
-    this.isAdmin$ = this.authService.isAdmin;
-    const userId = await this.authService.user
+    const userId = await this.user$
       .pipe(
         first(),
         map(user => user.id)

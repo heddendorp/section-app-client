@@ -41,12 +41,14 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/mater
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgxsModule } from '@ngxs/store';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
 import { DegreePipe } from './services/degree.pipe';
 import { FacultyPipe } from './services/faculty.pipe';
 import { TypePipe } from './services/type.pipe';
+import { AuthState } from './state/auth.state';
 
 const materialModules = [
   MatButtonModule,
@@ -73,7 +75,7 @@ const materialModules = [
 ];
 
 @NgModule({
-  imports: [CommonModule, materialModules, FlexLayoutModule, ReactiveFormsModule],
+  imports: [CommonModule, materialModules, FlexLayoutModule, ReactiveFormsModule, NgxsModule.forFeature([AuthState])],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

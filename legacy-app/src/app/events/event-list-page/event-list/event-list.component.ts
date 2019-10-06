@@ -16,26 +16,23 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../../shared/services/auth.service';
 import { TumiEvent } from '../../../shared/services/event.service';
+import { AuthState } from '../../../shared/state/auth.state';
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class EventListComponent {
   @Input() events: TumiEvent[];
   @Output() details = new EventEmitter<TumiEvent>();
-  isTutor$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.isTutor$ = this.authService.isTutor;
-  }
+  constructor() {}
 
   getId(index, event: TumiEvent) {
     return event.id;

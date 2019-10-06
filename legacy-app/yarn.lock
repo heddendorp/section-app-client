@@ -1206,6 +1206,27 @@
     tree-kill "1.2.1"
     webpack-sources "1.4.3"
 
+"@ngxs/devtools-plugin@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.5.1.tgz#027c0e8c533cae6c0570db3154accec41760c1c0"
+  integrity sha512-3/dHWCnAC5D4K3c0XJZ3RtzbRAcYYJDnZtHTL9z/kzH96Rynb41K+T8bJ/XhLFHSbXuNxd0/m+/unuS0CQQGvA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/router-plugin@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/router-plugin/-/router-plugin-3.5.1.tgz#62614d1ccd2c080bfc94bf514e44ea2718957ce6"
+  integrity sha512-Rsm7JQlLoLO+aSj2TE8g2yK90XwgyEE30pOmHWEdMt7YBKRst4wmz95SEczll1d+yphZet9AX2iAIxC6PRVxiw==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/store@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.5.1.tgz#277aab3adc532088e53699962142b57852f59298"
+  integrity sha512-oChcRNHHpYwrYQO4aPs4OP5vjvqspb9OdUW7ZcyVHJF5UyLCrETBWh+fqJwFoEXAiiOBL2CP4LtVcSu+o8DEVg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@nodelib/fs.scandir@2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.2.tgz#1f981cd5b83e85cfdeb386fc693d4baab392fa54"

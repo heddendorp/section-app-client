@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -28,6 +29,7 @@ import { UserDataChangeComponent } from '../../shared/components/user-data-chang
 import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Student, UserService } from '../../shared/services/user.service';
+import { AuthState } from '../../shared/state/auth.state';
 import { RefundDialogComponent } from '../components/refund-dialog/refund-dialog.component';
 
 @Component({
@@ -38,7 +40,7 @@ import { RefundDialogComponent } from '../components/refund-dialog/refund-dialog
 export class RegisteredListComponent implements OnInit {
   upcomingEvents$: Observable<TumiEvent[]>;
   passedEvents$: Observable<TumiEvent[]>;
-  user$: Observable<Student>;
+  @Select(AuthState.user) user$: Observable<Student>;
 
   constructor(
     private eventService: EventService,
@@ -56,7 +58,6 @@ export class RegisteredListComponent implements OnInit {
     this.passedEvents$ = this.eventService.registeredEvents.pipe(
       map(events => events.filter(event => event.end.isBefore()))
     );
-    this.user$ = this.authService.user;
   }
 
   async sendVerification() {

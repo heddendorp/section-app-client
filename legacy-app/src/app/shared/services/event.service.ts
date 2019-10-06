@@ -19,12 +19,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
 import { firestore as importStore } from 'firebase/app';
 import * as moment from 'moment';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { catchError, map, share, switchMap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { Student } from './user.service';
 
 @Injectable({
@@ -51,15 +51,22 @@ export class EventService {
     runningNotes: 'Notes for the tutors who run this event',
     signupLink: '',
     soldTickets: 0,
-    start: moment().add(3, 'weeks'),
+    start: moment().add(1, 'weeks'),
     isTicketTracker: false,
     tutorNotes: '',
     tutorSpots: 0,
     tutorSignups: [],
     usersSignedUp: 0
   };
+  isAdmin$: Observable<boolean>;
+  isTutor$: Observable<boolean>;
+  user$: Observable<Student>;
 
-  constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private authService: AuthService) {}
+  constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private store: Store) {
+    this.isAdmin$ = store.select(state => state.auth.user.isAdmin);
+    this.isTutor$ = store.select(state => state.auth.user.isTutor || state.auth.user.isAdmin);
+    this.user$ = store.select(state => state.auth.user);
+  }
 
   public get events(): Observable<TumiEvent[]> {
     return this.firestore
@@ -69,11 +76,11 @@ export class EventService {
   }
 
   public get visibleEvents(): Observable<TumiEvent[]> {
-    return this.authService.isTutor.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
+    return this.isTutor$.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
   }
 
   public get runningEvents(): Observable<TumiEvent[]> {
-    return this.authService.isAdmin.pipe(
+    return this.isAdmin$.pipe(
       switchMap(isAdmin =>
         isAdmin
           ? this.futureEvents
@@ -83,7 +90,7 @@ export class EventService {
   }
 
   public get registeredEvents(): Observable<TumiEvent[]> {
-    return this.authService.user.pipe(
+    return this.user$.pipe(
       switchMap(user => combineLatest([this.getSignedEventsForUser(user.id), this.getTutorEventsForUser(user.id)])),
       map(([user, tutor]) => [...user, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1)))
     );
@@ -101,7 +108,7 @@ export class EventService {
   }
 
   public get tutoredEvents(): Observable<TumiEvent[]> {
-    return this.authService.user.pipe(switchMap(user => this.getTutorEventsForUser(user.id)));
+    return this.user$.pipe(switchMap(user => this.getTutorEventsForUser(user.id)));
   }
 
   private get publicEvents(): Observable<TumiEvent[]> {

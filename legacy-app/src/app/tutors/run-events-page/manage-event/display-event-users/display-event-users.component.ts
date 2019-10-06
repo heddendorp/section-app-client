@@ -19,11 +19,14 @@
 import { formatCurrency } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { EventService, EventSignup, TumiEvent } from '../../../../shared/services/event.service';
 import { MoneyService } from '../../../../shared/services/money.service';
 import { Student } from '../../../../shared/services/user.service';
+import { AuthState } from '../../../../shared/state/auth.state';
 
 @Component({
   selector: 'app-display-event-users',
@@ -35,7 +38,7 @@ export class DisplayEventUsersComponent implements OnInit {
   @Input() event: TumiEvent;
   @Input() participantEmail: string;
   @Input() tutorEmail: string;
-  isAdmin$;
+  @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -45,7 +48,6 @@ export class DisplayEventUsersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isAdmin$ = this.authService.isAdmin;
     /*console.log(
       this.event.userSignups
         .filter(reg => reg.hasPayed)

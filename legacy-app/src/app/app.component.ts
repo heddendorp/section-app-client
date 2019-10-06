@@ -28,6 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivationEnd, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { Select, Store } from '@ngxs/store';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
 import { filter, first, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -35,8 +36,9 @@ import { slideInAnimation } from './animation';
 import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
-import { AuthService } from './shared/services/auth.service';
 import { CartService } from './shared/services/cart.service';
+import { Logout } from './shared/state/auth.actions';
+import { AuthState } from './shared/state/auth.state';
 import { gtagConfig, sendEvent } from './shared/utility-functions';
 
 @Component({
@@ -48,10 +50,10 @@ import { gtagConfig, sendEvent } from './shared/utility-functions';
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   isMobile$: Observable<boolean>;
-  authenticated$: Observable<boolean>;
-  isAdmin$: Observable<boolean>;
-  isTutor$: Observable<boolean>;
-  isEditor$: Observable<boolean>;
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
+  @Select(AuthState.isEditor) isEditor$: Observable<boolean>;
   savedEvents$: Observable<number>;
   color$: Observable<ThemePalette>;
   class$: Observable<string>;
@@ -65,9 +67,9 @@ export class AppComponent implements OnInit, OnDestroy {
     media: MediaObserver,
     mediaMatcher: MediaMatcher,
     @Inject(DOCUMENT) private document: Document,
+    private store: Store,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private authService: AuthService,
     private router: Router,
     private titleService: Title,
     private cartService: CartService
@@ -158,10 +160,6 @@ export class AppComponent implements OnInit, OnDestroy {
       startWith('primary')
     );
     this.class$ = this.color$.pipe(map(theme => (theme ? '' : 'dark-theme')));
-    this.authenticated$ = this.authService.authenticated;
-    this.isAdmin$ = this.authService.isAdmin;
-    this.isTutor$ = this.authService.isTutor;
-    this.isEditor$ = this.authService.isEditor;
     this.savedEvents$ = this.cartService.eventCount;
   }
 
@@ -179,6 +177,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
+
+  logout() {
+    this.store.dispatch(new Logout());
   }
 
   private loadStyle(styleName: string) {

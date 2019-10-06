@@ -36,13 +36,13 @@
         svgIcon="tumi-logo"
       ></mat-icon>
       <div fxFlex></div>
-      <button (click)="openCart()" *ngIf="authenticated$ | async" fxHide.gt-sm mat-icon-button>
+      <button (click)="openCart()" *ngIf="isAuthenticated$ | async" fxHide.gt-sm mat-icon-button>
         <mat-icon [matBadge]="savedEvents$ | async" matBadgeColor="accent" svgIcon="cart"></mat-icon>
       </button>
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="authService.logout()" *ngIf="authenticated$ | async; else loginButton" fxHide.xs
+      <button (click)="logout()" *ngIf="isAuthenticated$ | async; else loginButton" fxHide.xs
               mat-stroked-button>
         Log out
       </button>
@@ -63,7 +63,7 @@
             <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
             <h3 mat-line>Upcoming events</h3>
           </a>
-          <a *ngIf="authenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
+          <a *ngIf="isAuthenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="schedule"></mat-icon>
             <h3 mat-line>My TUMi</h3>
           </a>
@@ -75,7 +75,7 @@
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
           </a>
-          <a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+          <a *ngIf="!(isAuthenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
           </a>
@@ -113,7 +113,7 @@
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
-        <button (click)="authService.logout()" *ngIf="authenticated$ | async" fxHide.gt-xs mat-raised-button>
+        <button (click)="logout()" *ngIf="isAuthenticated$ | async" fxHide.gt-xs mat-raised-button>
           <span>Logout</span>
         </button>
         <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a

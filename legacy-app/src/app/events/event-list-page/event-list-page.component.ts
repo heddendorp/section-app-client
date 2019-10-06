@@ -19,10 +19,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Select } from '@ngxs/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
+import { AuthState } from '../../shared/state/auth.state';
 import { getFreeSpots } from '../../shared/utility-functions';
 
 @Component({
@@ -32,24 +33,18 @@ import { getFreeSpots } from '../../shared/utility-functions';
 })
 export class EventListPageComponent implements OnInit {
   events$: Observable<TumiEvent[]>;
-  isTutor$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
   filterForm: FormGroup;
 
-  constructor(
-    private eventService: EventService,
-    fb: FormBuilder,
-    private authService: AuthService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private eventService: EventService, fb: FormBuilder, private route: ActivatedRoute) {
     this.filterForm = fb.group({
       showExternal: true,
       showFull: false,
-      showFullTutors: false
+      showFullTutors: true
     });
   }
 
   ngOnInit() {
-    this.isTutor$ = this.authService.isTutor;
     this.events$ = combineLatest([
       this.eventService.visibleEvents.pipe(startWith(this.route.snapshot.data.events)),
       this.filterForm.valueChanges.pipe(startWith(this.filterForm.value)),

@@ -17,12 +17,14 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Select } from '@ngxs/store';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
-import { AuthService } from '../../../shared/services/auth.service';
 import { CartService } from '../../../shared/services/cart.service';
 import { TumiEvent } from '../../../shared/services/event.service';
 import { QrService } from '../../../shared/services/qr.service';
+import { Student } from '../../../shared/services/user.service';
+import { AuthState } from '../../../shared/state/auth.state';
 
 @Component({
   selector: 'app-event-details-display',
@@ -36,11 +38,12 @@ export class EventDetailsDisplayComponent implements OnInit {
   @Output() studentSignup = new EventEmitter();
   qrCode = new BehaviorSubject(null);
   eventFull: boolean;
-  isTutor$;
-  isAuthenticated$;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AuthState.user) user$: Observable<Student>;
   email$;
 
-  constructor(private qrService: QrService, private authService: AuthService, private cartService: CartService) {}
+  constructor(private qrService: QrService, private cartService: CartService) {}
 
   get tutorList() {
     return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
@@ -48,10 +51,8 @@ export class EventDetailsDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.eventFull = this.event.usersSignedUp >= this.event.participantSpots && !this.event.isInternal;
-    this.isTutor$ = this.authService.isTutor;
-    this.isAuthenticated$ = this.authService.authenticated;
-    this.email$ = this.authService.user.pipe(map(user => user.email));
-    this.authService.user
+    this.email$ = this.user$.pipe(map(user => user.email));
+    this.user$
       .pipe(
         filter(user => !!user),
         tap(user =>

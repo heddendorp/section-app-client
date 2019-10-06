@@ -30,6 +30,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsModule } from '@ngxs/store';
 import { MarkdownModule } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
@@ -55,6 +57,11 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
     }),
+    NgxsModule.forRoot([], { developmentMode: !environment.production }),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: environment.production
+    }),
+    // NgxsRouterPluginModule.forRoot(),
     BrowserAnimationsModule,
     FlexLayoutModule,
     MarkdownModule.forRoot(),
