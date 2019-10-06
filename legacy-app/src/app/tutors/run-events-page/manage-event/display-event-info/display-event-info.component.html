@@ -50,7 +50,7 @@
     </button>
   </div>
 </ng-container>
-<mat-card *ngIf="isTutor$ && !event.moneyCollected && event.fullCost">
+<mat-card *ngIf="isTutor && !event.moneyCollected && event.fullCost">
   <mat-card-title>Collect money</mat-card-title>
   <img [src]="qrCode" fxHide.gt-xs mat-card-image />
   <mat-card-content>

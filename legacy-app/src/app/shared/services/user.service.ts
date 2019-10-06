@@ -110,6 +110,7 @@ export class UserService {
   }
 
   public save(user: Student) {
+    console.log(user);
     return this.firestore
       .collection<Student>('users')
       .doc(user.id)
@@ -135,7 +136,7 @@ export class UserService {
       type: user.type,
       degree: user.degree,
       phone: user.phone,
-      isTutor: user.isTutor$,
+      isTutor: user.isTutor,
       isEditor: user.isEditor,
       verified: user.verified
     };

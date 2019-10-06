@@ -21,7 +21,6 @@ import { FormControl } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { AuthService } from '../../../../shared/services/auth.service';
 import { TumiEvent } from '../../../../shared/services/event.service';
 import { QrService } from '../../../../shared/services/qr.service';
 import { Student } from '../../../../shared/services/user.service';
@@ -42,7 +41,7 @@ export class DisplayEventInfoComponent implements OnInit {
   qrCode;
   ticketControl = new FormControl(0);
 
-  constructor(private qrService: QrService, private authService: AuthService) {}
+  constructor(private qrService: QrService) {}
 
   async ngOnInit() {
     const userId = await this.user$

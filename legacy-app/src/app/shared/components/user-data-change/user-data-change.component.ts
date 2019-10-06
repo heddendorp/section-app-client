@@ -70,7 +70,7 @@ export class UserDataChangeComponent {
       country: values.country,
       type: values.type,
       isEditor: values.isEditor,
-      isTutor: values.isTutor$
+      isTutor: values.isTutor
     };
     this.dialog.close(
       Object.assign(
