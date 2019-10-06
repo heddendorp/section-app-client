@@ -22,7 +22,7 @@ import * as moment from 'moment';
 import { combineLatest, Observable } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { MoneyService, Transaction } from '../../shared/services/money.service';
-import { PDFService } from '../../shared/services/pdf.service';
+import { PDFService } from '../services/pdf.service';
 
 @Component({
   selector: 'app-funds-page',

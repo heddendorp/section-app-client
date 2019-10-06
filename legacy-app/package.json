@@ -42,6 +42,7 @@
     "@angular/service-worker": "~8.2.9",
     "@ngxs/devtools-plugin": "^3.5.1",
     "@ngxs/router-plugin": "^3.5.1",
+    "@ngxs/storage-plugin": "^3.5.1",
     "@ngxs/store": "^3.5.1",
     "firebase": "6.6.2",
     "first-input-delay": "^0.1.3",

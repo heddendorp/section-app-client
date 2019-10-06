@@ -18,12 +18,9 @@
 
 import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
-import { OfficeModule } from '../../office/office.module';
-import { Transaction } from './money.service';
+import { Transaction } from '../../shared/services/money.service';
 
-@Injectable({
-  providedIn: OfficeModule
-})
+@Injectable()
 export class PDFService {
   constructor() {}
 
