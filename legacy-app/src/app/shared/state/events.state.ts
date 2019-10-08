@@ -19,7 +19,7 @@
 import { Action, Actions, ofAction, Selector, State, StateContext, Store } from '@ngxs/store';
 import { skip, takeUntil } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../services/event.service';
-import { filterEvents } from '../utility-functions';
+import { filterEvents, getFreeSpots } from '../utility-functions';
 import { AuthState, AuthStateModel } from './auth.state';
 import { LoadRegistrations, LoadUpcomingEvents, SelectEvent } from './events.actions';
 
@@ -72,7 +72,10 @@ export class EventsState {
   @Selector([AuthState])
   static filteredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isTutor = authState.user.isAdmin || authState.user.isTutor;
-    return state.ids.map(id => state.events[id]).filter(filterEvents(state.filterForm.model, isTutor));
+    return state.ids
+      .map(id => state.events[id])
+      .filter(filterEvents(state.filterForm.model, isTutor))
+      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 
   @Action(LoadUpcomingEvents)

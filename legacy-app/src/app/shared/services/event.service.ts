@@ -31,6 +31,7 @@ import { Student } from './user.service';
   providedIn: 'root'
 })
 export class EventService {
+  // TODO: Update to use the js native Date
   baseEvent: TumiEvent = {
     description: `This is a new event that's almost entirely empty. You should try to fill in as much info as possible`,
     end: moment().add(3, 'weeks'),
