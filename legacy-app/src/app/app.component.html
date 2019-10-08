@@ -113,7 +113,7 @@
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
-        <button (click)="logout()" *ngIf="isAuthenticated$ | async" fxHide.gt-xs mat-raised-button>
+        <button (click)="logout()" *ngIf="isAuthenticated$ | async" fxHide.gt-xs fxShow mat-raised-button>
           <span>Logout</span>
         </button>
         <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a

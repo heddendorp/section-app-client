@@ -20,7 +20,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { filter, map, share, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, map, share, switchMap, takeUntil } from 'rxjs/operators';
 import { EventService } from '../../shared/services/event.service';
 import { MoneyService } from '../../shared/services/money.service';
 import { UserService } from '../../shared/services/user.service';
@@ -56,46 +56,49 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const requestObservable = this.scanForm.get('scan').valueChanges.pipe(
-      filter(value => {
-        let request;
-        this.error$.next('');
-        try {
-          request = JSON.parse(value);
-        } catch (e) {
-          console.log(e);
-          this.error$.next('The value could not be read correctly');
-          return false;
-        }
-        if (!request) {
-          this.error$.next('The value could not be read correctly');
-          return false;
-        }
-        if (request.event) {
+    const requestObservable = this.scanForm
+      .get('scan')
+      .valueChanges.pipe(debounceTime(100))
+      .pipe(
+        filter(value => {
+          let request;
+          this.error$.next('');
+          try {
+            request = JSON.parse(value);
+          } catch (e) {
+            console.log(e);
+            this.error$.next('The value could not be read correctly');
+            return false;
+          }
+          if (!request) {
+            this.error$.next('The value could not be read correctly');
+            return false;
+          }
+          if (request.event) {
+            return true;
+          }
+          if (request.events.find(event => !['register', 'collectMoney', 'refund'].includes(event.action))) {
+            this.error$.next(
+              `Request included an unknown action (${request.events.map(event => event.action).concat(', ')})`
+            );
+            return false;
+          }
+          if (!request.user || !request.events.length) {
+            this.error$.next(`The request seems to be missing data`);
+            return false;
+          }
           return true;
-        }
-        if (request.events.find(event => !['register', 'collectMoney', 'refund'].includes(event.action))) {
-          this.error$.next(
-            `Request included an unknown action (${request.events.map(event => event.action).concat(', ')})`
-          );
-          return false;
-        }
-        if (!request.user || !request.events.length) {
-          this.error$.next(`The request seems to be missing data`);
-          return false;
-        }
-        return true;
-      }),
-      map(value => {
-        const request = JSON.parse(value);
-        if (request.event) {
-          request.events = [{ id: request.event, action: 'register' }];
-          this.error$.next('Old QR-code detected!');
-        }
-        return request;
-      }),
-      share()
-    );
+        }),
+        map(value => {
+          const request = JSON.parse(value);
+          if (request.event) {
+            request.events = [{ id: request.event, action: 'register' }];
+            this.error$.next('Old QR-code detected!');
+          }
+          return request;
+        }),
+        share()
+      );
     this.user$ = requestObservable.pipe(
       switchMap(request => this.userService.getUser(request.user)),
       share()

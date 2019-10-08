@@ -17,6 +17,7 @@
  */
 
 import * as functions from 'firebase-functions';
+import * as moment from 'moment-timezone';
 import * as nodemailer from 'nodemailer';
 import { firestore } from './index';
 import { receipt, waitListMove } from './templates';
@@ -106,7 +107,12 @@ export const deletedSignup = functions
         .doc(context.params['eventId'])
         .get();
       const queryData = await signupQuery.get();
-      if (!queryData.empty) {
+      if (
+        !queryData.empty &&
+        moment(eventData.data()!.start.toDate())
+          .tz('Europe/Berlin')
+          .isBefore()
+      ) {
         await queryData.docs.map(async (doc: any) => {
           const userSnap = await firestore
             .collection('users')

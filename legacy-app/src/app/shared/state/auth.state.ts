@@ -20,7 +20,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { auth } from 'firebase/app';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Student, UserService } from '../services/user.service';
 import { gtagFunction, sendEvent } from '../utility-functions';
 import {
@@ -84,6 +84,7 @@ export class AuthState implements NgxsOnInit {
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
     this.angularFireAuth.user
       .pipe(
+        filter(user => !!user),
         tap(user => {
           if (localStorage.getItem('preventUserID') !== 'false') {
             gtagFunction('config', 'G-04YZMLFE3Z', {
@@ -119,6 +120,8 @@ export class AuthState implements NgxsOnInit {
   async LoginWithPassword(ctx: StateContext<AuthStateModel>, action: LoginWithPassword) {
     try {
       await this.angularFireAuth.auth.signInWithEmailAndPassword(action.email, action.password);
+      sendEvent('login', { method: 'password' });
+      await this.router.navigate(['events', 'list']);
     } catch (e) {
       ctx.dispatch(new AuthError(e.code));
       throw e;
@@ -129,6 +132,9 @@ export class AuthState implements NgxsOnInit {
   async CreateUserWithPassword(ctx: StateContext<AuthStateModel>, action: CreateUserWithPassword) {
     try {
       await this.angularFireAuth.auth.createUserWithEmailAndPassword(action.email, action.password);
+      sendEvent('login', { method: 'password' });
+      await this.router.navigate(['events', 'list']);
+      location.reload();
     } catch (e) {
       ctx.dispatch(new AuthError(e.code));
       throw e;

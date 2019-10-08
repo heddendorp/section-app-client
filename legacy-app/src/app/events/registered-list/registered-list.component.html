@@ -69,17 +69,15 @@
   </div>
   <h2 class="mat-display-4 no-margin">Previous events</h2>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(4, 1fr)" gdGap="2rem">
-    <mat-card *ngFor="let event of passedEvents$ | async">
+    <mat-card (click)="refund(event)" *ngFor="let event of passedEvents$ | async">
       <mat-card-header>
         <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
-      <mat-card-actions *ngIf="event.isWaitList">
-        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>Get a refund for this
-          event
-        </button>
-      </mat-card-actions>
+      <mat-card-content *ngIf="event.isWaitList">
+        You where list for this event, go to the office to get a refund
+      </mat-card-content>
     </mat-card>
   </div>
 </div>

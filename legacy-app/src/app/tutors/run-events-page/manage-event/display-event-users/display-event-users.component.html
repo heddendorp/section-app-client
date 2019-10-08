@@ -62,7 +62,7 @@
       <button (click)="registerUser(element.user)" *ngIf="!element.hasAttended" mat-button>
         Confirm Attendance
       </button>
-      <button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended" mat-button>
+      <button (click)="deregisterUser(element.user)" *ngIf="element.hasAttended" color="warn" mat-flat-button>
         Cancel Attendance
       </button>
     </td>
