@@ -71,7 +71,7 @@ export class EventsState {
 
   @Selector([AuthState])
   static filteredEvents(state: EventsStateModel, authState: AuthStateModel) {
-    const isTutor = authState.user.isAdmin || authState.user.isTutor;
+    const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
       .map(id => state.events[id])
       .filter(filterEvents(state.filterForm.model, isTutor))
