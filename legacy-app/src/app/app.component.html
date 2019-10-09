@@ -1,7 +1,25 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div [class.app--is-mobile]="isMobile$ | async" class="app-container">
   <div [class]="class$ | async">
     <mat-toolbar [color]="color$ | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-      <button (click)="nav.toggle()" mat-icon-button aria-label="Menu">
+      <button (click)="nav.toggle()" aria-label="Menu" mat-icon-button>
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
       <h4
@@ -18,10 +36,14 @@
         svgIcon="tumi-logo"
       ></mat-icon>
       <div fxFlex></div>
+      <button (click)="openCart()" *ngIf="isAuthenticated$ | async" fxHide.gt-sm mat-icon-button>
+        <mat-icon [matBadge]="savedEvents$ | async" matBadgeColor="accent" svgIcon="cart"></mat-icon>
+      </button>
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="authService.logout()" *ngIf="authenticated$ | async" mat-stroked-button>
+      <button (click)="logout()" *ngIf="isAuthenticated$ | async; else loginButton" fxHide.xs
+              mat-stroked-button>
         Log out
       </button>
     </mat-toolbar>
@@ -41,7 +63,7 @@
             <mat-icon mat-list-icon svgIcon="calendar"></mat-icon>
             <h3 mat-line>Upcoming events</h3>
           </a>
-          <a *ngIf="authenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
+          <a *ngIf="isAuthenticated$ | async" mat-list-item routerLink="/events/my" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="schedule"></mat-icon>
             <h3 mat-line>My TUMi</h3>
           </a>
@@ -49,18 +71,14 @@
             <mat-icon mat-list-icon svgIcon="about"></mat-icon>
             <h3 mat-line>About TUMi</h3>
           </a>
-          <a mat-list-item routerLink="/party-animals" routerLinkActive="active">
-            <mat-icon mat-list-icon svgIcon="party"></mat-icon>
-            <h3 mat-line>Party Animals</h3>
-          </a>
           <a mat-list-item routerLink="/help" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="help"></mat-icon>
             <h3 mat-line>FAQ & Help</h3>
           </a>
-          <!--<a *ngIf="!(authenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
+          <a *ngIf="!(isAuthenticated$ | async)" mat-list-item routerLink="/signup" routerLinkActive="active">
             <mat-icon mat-list-icon svgIcon="signup"></mat-icon>
             <h3 mat-line><strong>Get started</strong></h3>
-          </a>-->
+          </a>
           <ng-container *ngIf="isTutor$ | async">
             <mat-divider></mat-divider>
             <h3 matSubheader>For Tutors</h3>
@@ -95,12 +113,16 @@
           <mat-icon svgIcon="scanner"></mat-icon>
           <span>Scan office request</span>
         </button>
-        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a routerLink="/data-privacy">Privacy Policy</a></p>
+        <button (click)="logout()" *ngIf="isAuthenticated$ | async" fxHide.gt-xs mat-raised-button>
+          <span>Logout</span>
+        </button>
+        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a
+          routerLink="/data-privacy">Privacy Policy</a></p>
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>
-      <main class="mat-typography">
-        <router-outlet></router-outlet>
+      <main [@routeAnimations]="prepareRoute(outlet)" class="mat-typography">
+        <router-outlet #outlet="outlet"></router-outlet>
       </main>
     </mat-sidenav-content>
   </mat-sidenav-container>

@@ -1,3 +1,21 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div class="page" fxLayout="column" fxLayoutAlign="start">
   <header fxFlex.gt-sm="400px" fxFlex.sm="300px" fxFlex.xl="600px" fxLayout="column" fxLayoutAlign="center center">
     <h1 class="no-margin" ngClass.lt-xl="mat-display-3" ngClass.xl="mat-display-1" style="color:white; padding: 2rem;">
@@ -11,12 +29,12 @@
     <section class="mat-typography infos" fxLayout="column" fxLayoutGap="4rem">
       <h3 class="mat-display-3">TUMi?</h3>
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
-        <img fxFlex="33" src="/assets/illustrations/welcome.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/illustrations/welcome.svg"/>
         <div fxFlex>
           <h4 class="mat-display-4 no-margin">We take care of international students</h4>
           <p>
             Every semester we organize the orientation weeks for incoming exchange students to get them started at TUM
-            and in munich. <br />
+            and in munich. <br/>
             We also give out the student IDs and help out with problems coming up.
           </p>
         </div>
@@ -30,10 +48,10 @@
           </p>
           <button color="primary" mat-stroked-button routerLink="/events">Check out our upcoming events</button>
         </div>
-        <img fxFlex="33" src="/assets/illustrations/form.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/illustrations/form.svg"/>
       </div>
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
-        <img fxFlex="33" src="/assets/illustrations/rocket.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/illustrations/rocket.svg"/>
         <div fxFlex>
           <h4 class="mat-display-4 no-margin">We want you on board</h4>
           <p>
@@ -42,7 +60,7 @@
             from all over the world
           </p>
           <a color="primary" disabled href="https://wiki.tum.de/display/tumiforms" mat-stroked-button target="_blank"
-            >Applications open in January</a
+          >Applications open in January</a
           >
         </div>
       </div>
@@ -63,10 +81,10 @@
             hours and secure rooms for various activities
           </p>
         </div>
-        <img fxFlex="33" src="/assets/illustrations/student.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/illustrations/student.svg"/>
       </div>
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
-        <img fxFlex="33" src="/assets/images/logo_white-color.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/images/logo_white-color.svg"/>
         <div fxFlex>
           <h4 class="mat-display-4 no-margin">We are part of ESN</h4>
           <p>
@@ -89,11 +107,15 @@
             great free service offer that this app runs on
           </p>
           <p>
-            How does all of this work? Feel fre to check out the source code
+            Thanks to <a class="styled" href="https://www.browserstack.com" target="_blank">browserstack</a> for
+            providing an amazing free offering to make sure this app works on all devices
+          </p>
+          <p>
+            How does all of this work? Feel free to check out the source code
             <a class="styled" href="https://github.com/Isigiel/tumi-app" target="_blank">here</a>
           </p>
         </div>
-        <img fxFlex="33" src="/assets/illustrations/technical.svg" />
+        <img fxFlex.gt-sm="33" src="/assets/illustrations/technical.svg"/>
       </div>
     </section>
   </div>

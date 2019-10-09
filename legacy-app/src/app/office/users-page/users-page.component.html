@@ -1,12 +1,31 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div fxLayout="column" fxLayoutGap="2rem">
   <h3 class="no-margin mat-display-3">Users</h3>
   <p>Manage the apps users and special roles here</p>
   <p>Filter displayed users</p>
-  <form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" style="margin-bottom: 2rem;">
-    <mat-checkbox formControlName="showAll" [indeterminate]="filterIndeterminate | async">Show all users</mat-checkbox>
+  <form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem"
+        style="margin-bottom: 2rem;">
+    <mat-checkbox [indeterminate]="filterIndeterminate | async" formControlName="showAll">Show all users</mat-checkbox>
     <mat-checkbox formControlName="showAdmins">Show Admins</mat-checkbox>
     <mat-checkbox formControlName="showTutors">Show Tutors</mat-checkbox>
     <mat-checkbox formControlName="showStudents">Show regular Students</mat-checkbox>
   </form>
-  <app-people-table [columns]="columns$ | async" [people]="users$ | async" (show)="showUser($event)"></app-people-table>
+  <app-people-table (show)="showUser($event)" [columns]="columns$ | async" [people]="users$ | async"></app-people-table>
 </div>

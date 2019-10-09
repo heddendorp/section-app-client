@@ -1,3 +1,21 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div fxLayout="column" fxLayoutGap="2rem">
   <h2 class="no-margin mat-display-3">Get started</h2>
   <div fxLayout="column-reverse" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
@@ -12,19 +30,20 @@
       </div>
       <mat-checkbox [formControl]="consentControl">By signing in I accept the <a routerLink="/data-privacy" class="styled">Privacy Policy</a></mat-checkbox>
       <div class="login-buttons" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" id="buttons">
-        <button [disabled]="!consentControl.value" (click)="login('google')" color="primary" mat-stroked-button>
+        <button (click)="googleLogin()" [disabled]="!consentControl.value" color="primary" mat-stroked-button>
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
         </button>
-        <button [disabled]="!consentControl.value" (click)="login('microsoft')" color="primary" mat-stroked-button>
+        <button (click)="oauthLogin('microsoft.com')" [disabled]="!consentControl.value" color="primary"
+                mat-stroked-button>
           <mat-icon svgIcon="microsoft"></mat-icon>
           <span>Sign up with microsoft</span>
         </button>
-        <button [disabled]="!consentControl.value" (click)="login('facebook')" color="primary" mat-stroked-button>
+        <button (click)="facebookLogin()" [disabled]="!consentControl.value" color="primary" mat-stroked-button>
           <mat-icon svgIcon="facebook"></mat-icon>
           <span>Sign up with facebook</span>
         </button>
-        <button [disabled]="!consentControl.value" (click)="login('email')" mat-stroked-button>
+        <button (click)="passwordLogin()" [disabled]="!consentControl.value" mat-stroked-button>
           <mat-icon svgIcon="mail"></mat-icon>
           <span>Sign up with your Email</span>
         </button>
@@ -52,6 +71,6 @@
         </p>
       </div>
     </section>
-    <img fxFlex="40" src="/assets/illustrations/signup.svg" />
+    <img fxFlex.gt-md="40" fxHide.xs src="/assets/illustrations/signup.svg"/>
   </div>
 </div>

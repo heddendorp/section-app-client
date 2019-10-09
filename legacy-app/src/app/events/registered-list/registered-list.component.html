@@ -1,10 +1,28 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div class="mat-typography" fxLayout="column" fxLayoutGap="2rem">
   <h1 class="mat-display-2 no-margin">
     My TUMi
   </h1>
   <mat-card *ngIf="!(user$ | async)?.verified">
     <mat-card-header>
-      <img alt="" mat-card-avatar src="/assets/illustrations/high_priority.svg" />
+      <img alt="" mat-card-avatar src="/assets/illustrations/high_priority.svg"/>
       <mat-card-title>Email not verified!</mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -23,20 +41,29 @@
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of upcomingEvents$ | async">
       <mat-card-header>
-        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
+        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
-        <mat-card-subtitle>{{ event.start | date: 'dd MMM yy (HH:mm)' }} to {{ event.end | date: 'dd MMM yy (HH:mm)' }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ event.start | date: 'dd MMM yy (HH:mm)' }}
+          to {{ event.end | date: 'dd MMM yy (HH:mm)' }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <strong *ngIf="event.isTutor" style="margin-bottom: 1rem;">
           You have signed up to be a Tutor for this event!
         </strong>
+        <strong *ngIf="event.isWaitList" style="margin-bottom: 1rem;">
+          You are on the wait list for this event
+        </strong>
         <p class="description">
           {{ event.description }}
         </p>
       </mat-card-content>
-      <mat-card-actions *ngIf="!event.isTutor && !event.hasPayed">
-        <button mat-flat-button color="warn" (click)="deregister(event)">Deregister from this event</button>
+      <mat-card-actions *ngIf="!event.isTutor">
+        <button (click)="deregister(event)" *ngIf="!event.hasPayed" color="warn" mat-flat-button>Deregister from this
+          event
+        </button>
+        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>Get a refund for this
+          event
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -44,10 +71,15 @@
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(4, 1fr)" gdGap="2rem">
     <mat-card *ngFor="let event of passedEvents$ | async">
       <mat-card-header>
-        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62" />
+        <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/{{ event.icon }}/62"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>
+      <mat-card-actions *ngIf="event.isWaitList">
+        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>Get a refund for this
+          event
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

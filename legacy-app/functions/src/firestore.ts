@@ -1,7 +1,25 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import * as functions from 'firebase-functions';
 import * as nodemailer from 'nodemailer';
 import { firestore } from './index';
-import { eventSignup } from './templates';
+import { receipt, waitListMove } from './templates';
 
 export const newEvent = functions
   .region('europe-west1')
@@ -35,20 +53,6 @@ export const newSignup = functions
           `Could not find a record for path ${snap.ref.parent.parent!.path}!`
         );
       }
-      const transporter = nodemailer.createTransport(
-        {
-          port: 587,
-          host: 'postout.lrz.de',
-          secure: false,
-          auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
-        },
-        { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
-      );
-      await transporter.sendMail({
-        subject: '[TUMi] Event Registration',
-        to: user.email,
-        html: eventSignup(event, user, value)
-      });
       await firestore.runTransaction(async transaction => {
         const eventRef = firestore.collection('events').doc(context.params['eventId']);
         const currentData = await transaction.get(eventRef);
@@ -90,6 +94,43 @@ export const deletedSignup = functions
           transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp - value.partySize });
         }
       });
+      const signupQuery = firestore
+        .collection('events')
+        .doc(context.params['eventId'])
+        .collection('signups')
+        .where('isWaitList', '==', true)
+        .orderBy('timestamp')
+        .limit(value.partySize);
+      const eventData = await firestore
+        .collection('events')
+        .doc(context.params['eventId'])
+        .get();
+      const queryData = await signupQuery.get();
+      if (!queryData.empty) {
+        await queryData.docs.map(async (doc: any) => {
+          const userSnap = await firestore
+            .collection('users')
+            .doc(doc.id)
+            .get();
+          const transporter = nodemailer.createTransport(
+            {
+              port: 587,
+              host: 'postout.lrz.de',
+              secure: false,
+              auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
+            },
+            { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+          );
+          if (userSnap.data()) {
+            await transporter.sendMail({
+              subject: '[TUMi] Event Update',
+              to: userSnap.data()!.email,
+              html: waitListMove(eventData.data(), userSnap.data())
+            });
+          }
+          await firestore.doc(doc.ref.path).update({ isWaitList: false });
+        });
+      }
     }
   });
 
@@ -97,8 +138,24 @@ export const balanceUpdate = functions
   .region('europe-west1')
   .firestore.document('stats/money/transactions/{id}')
   .onCreate(async snap => {
-    const value = snap.data();
+    const value = snap.data() as any;
     if (value) {
+      const transporter = nodemailer.createTransport(
+        {
+          port: 587,
+          host: 'postout.lrz.de',
+          secure: false,
+          auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
+        },
+        { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+      );
+      if (value.type !== 'general') {
+        await transporter.sendMail({
+          subject: '[TUMi] Event Receipt',
+          to: value.user.email,
+          html: receipt(value)
+        });
+      }
       await firestore.runTransaction(async transaction => {
         const moneyRef = firestore.collection('stats').doc('money');
         const currentBalance = await transaction.get(moneyRef);

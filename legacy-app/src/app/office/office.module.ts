@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,6 +30,7 @@ import { SignupPageComponent } from './event-page/signup-page/signup-page.compon
 import { FundsPageComponent } from './funds-page/funds-page.component';
 import { OfficeComponent } from './office.component';
 import { LoadUserdataResolver } from './resolvers/load-userdata.resolver';
+import { PDFService } from './services/pdf.service';
 import { EditUserPageComponent } from './users-page/edit-user-page/edit-user-page.component';
 import { ShowUserdataComponent } from './users-page/edit-user-page/show-userdata/show-userdata.component';
 import { ShowUsereventsComponent } from './users-page/edit-user-page/show-userevents/show-userevents.component';
@@ -42,7 +61,7 @@ const routes: Routes = [
     ShowUserdataComponent,
     ShowUsereventsComponent
   ],
-  providers: [LoadUserdataResolver],
+  providers: [LoadUserdataResolver, PDFService],
   entryComponents: [CsvInputDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })

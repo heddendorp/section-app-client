@@ -1,7 +1,26 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -10,6 +29,8 @@ import { UserDataChangeComponent } from '../../shared/components/user-data-chang
 import { AuthService } from '../../shared/services/auth.service';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
 import { Student, UserService } from '../../shared/services/user.service';
+import { AuthState } from '../../shared/state/auth.state';
+import { RefundDialogComponent } from '../components/refund-dialog/refund-dialog.component';
 
 @Component({
   selector: 'app-registered-list',
@@ -19,7 +40,7 @@ import { Student, UserService } from '../../shared/services/user.service';
 export class RegisteredListComponent implements OnInit {
   upcomingEvents$: Observable<TumiEvent[]>;
   passedEvents$: Observable<TumiEvent[]>;
-  user$: Observable<Student>;
+  @Select(AuthState.user) user$: Observable<Student>;
 
   constructor(
     private eventService: EventService,
@@ -32,12 +53,11 @@ export class RegisteredListComponent implements OnInit {
 
   ngOnInit() {
     this.upcomingEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.start.isAfter()))
+      map(events => events.filter(event => event.end.isAfter()))
     );
     this.passedEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.start.isBefore()))
+      map(events => events.filter(event => event.end.isBefore()))
     );
-    this.user$ = this.authService.user;
   }
 
   async sendVerification() {
@@ -59,6 +79,11 @@ export class RegisteredListComponent implements OnInit {
     if (result) {
       await this.userService.save(result);
     }
+  }
+
+  async refund(event) {
+    const user = await this.user$.pipe(first()).toPromise();
+    this.dialog.open(RefundDialogComponent, { data: { event, user } });
   }
 
   async deregister(event) {

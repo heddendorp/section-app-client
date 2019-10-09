@@ -1,15 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
-import { AuthService } from '../../shared/services/auth.service';
-import { EventService, TumiEvent } from '../../shared/services/event.service';
-import { UserService } from '../../shared/services/user.service';
+import { TumiEvent } from '../../shared/services/event.service';
+import { Student } from '../../shared/services/user.service';
+import { AuthState } from '../../shared/state/auth.state';
+import { EventsState } from '../../shared/state/events.state';
 import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
@@ -17,42 +37,30 @@ import { sendEvent } from '../../shared/utility-functions';
   templateUrl: './event-details-page.component.html',
   styleUrls: ['./event-details-page.component.scss']
 })
-export class EventDetailsPageComponent implements OnInit, OnDestroy {
-  event$: Observable<TumiEvent>;
-  signed$: Observable<boolean>;
-  destroyed$ = new Subject();
+export class EventDetailsPageComponent implements OnInit {
+  @Select(EventsState.selectedEvent) event$: Observable<TumiEvent>;
+  registered$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
+  @Select(EventsState.loaded) loaded$: Observable<boolean>;
+  @Select(AuthState.user) user$: Observable<Student>;
 
   constructor(
-    private route: ActivatedRoute,
     private fireFunctions: AngularFireFunctions,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private authService: AuthService,
-    private userService: UserService,
-    private eventService: EventService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    // this.event$ = this.route.data.pipe(map(data => data.event));
-    const eventWithTutors = this.route.paramMap.pipe(
-      switchMap(params => this.userService.getEventWithTutors(params.get('eventId')))
-    );
-    const eventWithSignups = this.route.paramMap.pipe(
-      switchMap(params => this.eventService.getEventWithRegistrations(params.get('eventId')))
-    );
-    this.event$ = this.authService.isTutor.pipe(
-      switchMap(isTutor => (isTutor ? eventWithTutors : eventWithSignups)),
-      startWith(this.route.snapshot.data.event),
-      tap(event => sendEvent('view_event', { id: event.id, name: event.name }))
-    );
-    this.signed$ = this.event$.pipe(
+    this.registered$ = this.event$.pipe(
+      filter(event => !!event.registrations),
       switchMap(event =>
-        this.authService.user.pipe(
+        this.user$.pipe(
           map(
             user =>
               !!user &&
-              (event.tutorSignups.includes(user.id) || event.userSignups.map(signup => signup.id).includes(user.id))
+              (event.tutorSignups.includes(user.id) ||
+                event.registrations.map(registration => registration.id).includes(user.id))
           )
         )
       )
@@ -99,9 +107,5 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
     sendEvent('event_user_signup', { eventId });
     snack.dismiss();
     await this.router.navigate(['events', 'my']);
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.complete();
   }
 }

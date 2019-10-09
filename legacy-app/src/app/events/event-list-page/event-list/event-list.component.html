@@ -1,24 +1,40 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <div *ngIf="events?.length; else emptyList" gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
-  <mat-card *ngFor="let event of events; trackBy: getId" fxLayout="column">
+  <mat-card *ngFor="let event of events; trackBy: getId" class="event" fxLayout="column" mat-ripple
+            routerLink="/events/show/{{ event.id }}">
     <div *ngIf="event.isExternal" class="badge external">External Event</div>
     <div *ngIf="event.isInternal" class="badge internal">Internal Event</div>
+    <div *ngIf="event.hasOnlineSignup" class="badge internal">Online Registration</div>
     <mat-card-title-group>
-      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160"/>
       <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle
-        >{{ event.start | date: 'EEE dd MMM (bbbb)' }}
-        <ng-container *ngIf="!event.isExternal && !event.isInternal">
+      >{{ event.start | date: 'EEE dd MMM (bbbb)' }}
+        <ng-container *ngIf="!event.isExternal && !event.isInternal && !event.isTicketTracker">
           <br> <em>{{ event.freeSpots }}</em></ng-container
         >
       </mat-card-subtitle>
     </mat-card-title-group>
-    <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal">
+    <mat-card-content *ngIf="(isTutor$ | async) && !event.isExternal && !event.isInternal && !event.isTicketTracker">
       Tutors still needed: {{ event.tutorSpots - event.tutorSignups.length }} / {{ event.tutorSpots }}
     </mat-card-content>
-    <div fxFlex></div>
-    <mat-card-actions fxLayout="row">
-      <button fxFlex mat-button routerLink="/events/show/{{ event.id }}">More Info</button>
-    </mat-card-actions>
   </mat-card>
 </div>
 <ng-template #emptyList>
@@ -29,7 +45,7 @@
     fxLayoutGap="2rem"
     style="min-height: 50vh"
   >
-    <img src="/assets/illustrations/empty.svg" style="height: 20vh" alt="Empty list illustration" />
+    <img alt="Empty list illustration" src="/assets/illustrations/empty.svg" style="height: 20vh"/>
     <h4 class="mat-display-4">Sorry, this list is empty. We'll have new events for you soon</h4>
   </div>
 </ng-template>

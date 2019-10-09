@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { MediaMatcher } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -8,27 +26,35 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import { ActivationEnd, Router } from '@angular/router';
+import { ActivationEnd, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { Select, Store } from '@ngxs/store';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
-import { filter, first, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { filter, first, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { environment } from '../environments/environment';
+import { slideInAnimation } from './animation';
+import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
 import { ScanRequestComponent } from './components/scan-request/scan-request.component';
 import { IconToastComponent } from './shared/components/icon-toast/icon-toast.component';
-import { AuthService } from './shared/services/auth.service';
+import { CartService } from './shared/services/cart.service';
+import { Logout } from './shared/state/auth.actions';
+import { AuthState } from './shared/state/auth.state';
 import { gtagConfig, sendEvent } from './shared/utility-functions';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   isMobile$: Observable<boolean>;
-  authenticated$: Observable<boolean>;
-  isAdmin$: Observable<boolean>;
-  isTutor$: Observable<boolean>;
-  isEditor$: Observable<boolean>;
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+  @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
+  @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
+  @Select(AuthState.isEditor) isEditor$: Observable<boolean>;
+  savedEvents$: Observable<number>;
   color$: Observable<ThemePalette>;
   class$: Observable<string>;
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
@@ -41,11 +67,12 @@ export class AppComponent implements OnInit, OnDestroy {
     media: MediaObserver,
     mediaMatcher: MediaMatcher,
     @Inject(DOCUMENT) private document: Document,
+    private store: Store,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private authService: AuthService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private cartService: CartService
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
     this.isMobile$ = media.asObservable().pipe(
@@ -55,7 +82,9 @@ export class AppComponent implements OnInit, OnDestroy {
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(/*appIsStable$,*/ updateCheckTimer$);
-    updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    if (environment.production) {
+      updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    }
     updates.available.subscribe(event => {
       sendEvent('found_update', { event_category: 'technical' });
       this.snackBar
@@ -108,6 +137,13 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         filter(event => event instanceof ActivationEnd),
         tap(() => gtagConfig({ page_path: location.pathname })),
+        withLatestFrom(this.isMobile$),
+        map(([event, mobile]) => {
+          if (mobile) {
+            this.sidenav.close();
+          }
+          return event;
+        }),
         map((event: ActivationEnd) => event.snapshot.data.title || ''),
         takeUntil(this.destroyed$)
       )
@@ -124,23 +160,30 @@ export class AppComponent implements OnInit, OnDestroy {
       startWith('primary')
     );
     this.class$ = this.color$.pipe(map(theme => (theme ? '' : 'dark-theme')));
-    this.authenticated$ = this.authService.authenticated;
-    this.isAdmin$ = this.authService.isAdmin;
-    this.isTutor$ = this.authService.isTutor;
-    this.isEditor$ = this.authService.isEditor;
+    this.savedEvents$ = this.cartService.eventCount;
   }
 
   scanRequest() {
-    this.dialog.open(ScanRequestComponent, { minWidth: '80vw' });
+    this.dialog.open(ScanRequestComponent, { minWidth: '95vw', autoFocus: true });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
   }
 
-  private loadStyle(styleName: string) {
-    const head = this.document.getElementsByTagName('head')[0];
+  openCart() {
+    this.dialog.open(CartDialogComponent);
+  }
 
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
+
+  logout() {
+    this.store.dispatch(new Logout());
+  }
+
+  private loadStyle(styleName: string) {
     const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
     themeLink.href = styleName;
   }

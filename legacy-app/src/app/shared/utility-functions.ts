@@ -1,4 +1,22 @@
-import { TumiEvent } from './services/event.service';
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { EventSignup, TumiEvent } from './services/event.service';
 
 export const getFreeSpots = (event: TumiEvent) => {
   const participants = event.usersSignedUp;
@@ -24,6 +42,35 @@ export const gtagConfig = (value: any) => {
 };
 
 export const sendEvent = (name: string, data: any = {}) => {
-  // @ts-ignore
   gtagFunction('event', name, data);
+};
+
+export const countSignups = (acc: number, curr: EventSignup) => acc + curr.partySize;
+
+export const filterEvents = (filter, isTutor) => {
+  return (event: TumiEvent) => {
+    if (!filter.showExternal && event.isExternal) {
+      return false;
+    }
+    if (
+      !filter.showFullTutors &&
+      event.tutorSpots <= event.tutorSignups.length &&
+      !event.isInternal &&
+      !event.isExternal &&
+      !event.isTicketTracker &&
+      isTutor
+    ) {
+      return false;
+    }
+    if (
+      !filter.showFull &&
+      event.usersSignedUp >= event.participantSpots &&
+      !event.isInternal &&
+      !event.isExternal &&
+      !event.isTicketTracker
+    ) {
+      return false;
+    }
+    return true;
+  };
 };
