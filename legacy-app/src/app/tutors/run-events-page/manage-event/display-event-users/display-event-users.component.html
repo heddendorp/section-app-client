@@ -71,7 +71,7 @@
   <tr *matRowDef="let row; columns: ['info', 'actions']" mat-row></tr>
 </table>
 
-<p style="margin-top: 2rem;"><strong>Students om the wait list</strong></p>
+<p style="margin-top: 2rem;"><strong>Students on the waiting list</strong></p>
 <table [dataSource]="event.waitlist" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>
