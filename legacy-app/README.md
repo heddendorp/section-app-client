@@ -1,6 +1,6 @@
 # <img src="https://esn-tumi.de/assets/images/blume.svg" alt="Logo" width="80px"> TUMi app **α**
 
-This app is meant to provide all tolls necessary to organize the **ESN TUMi munich** events.
+This app is meant to provide all tolls necessary to organize the **ESN TUMi Munich** events.
 
 **α**: please note that the current available version of this app is very much in development and not intended to be used for anything more than clicking around to see where the journey might go
 
@@ -10,7 +10,7 @@ This app is meant to provide all tolls necessary to organize the **ESN TUMi muni
 
 To see the current status visit the [Features](/FEATURES.md) page.
 
-### MVP 1 _(planned by august 2019)_
+### MVP 1 _(planned by August 2019)_
 
 The MVP describes the set of features that the app needs to provide any value over the current system of event registration and management.
 
@@ -26,19 +26,19 @@ The MVP describes the set of features that the app needs to provide any value ov
   - Allow users to create QR-codes that will speed up registration
 - Platform support will be a terrible mix of **mobile only** for students and **desktop only** for administrative features, this will be resolved with a more responsive approach later on
 
-### MVP 2 _(planned by october 2019)_
+### MVP 2 _(planned by October 2019)_
 
 - Event management
   - Implement all additional event types
-  - Move event signups to their own collection to save more metadata
+  - Move event sign-ups to their own collection to save more metadata
 - User management
   - Change the user signup to be open for everyone
-  - Implement Facebook and EMail signup
-  - Allow the office to change userdata
+  - Implement Facebook and EMail sign up
+  - Allow the office to change user data
 - Allow searching through transactions and generate invoices for users
 - The tool should send confirmation emails whenever money was exchanged
 
-### V 1 _(until february 2020)_
+### V 1 _(until February 2020)_
 
 In V 1 the first non essential but highly useful features will be shipped
 
@@ -57,7 +57,7 @@ V 1.1 will further expand the feature set of the app based on identified needs i
 
 ### Local setup
 
-1.  Make sure you have both the angular cli, yarn and node installed on your machine
+1.  Make sure you have both the angular CLI, yarn and node installed on your machine
 1.  Clone the repository, open a command line in the folder and run `yarn`
 1.  You can start the development server by running `yarn start` now
 
