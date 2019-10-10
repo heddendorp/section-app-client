@@ -18,16 +18,15 @@
 
 export const environment = {
   production: true,
-  staging: false,
+  staging: true,
   firebase: {
-    apiKey: 'AIzaSyDiDVg6ggmSY-Z8Iu5dWO83Mg4GTmt8Zl0',
-    authDomain: 'esn-tumi.firebaseapp.com',
-    databaseURL: 'https://esn-tumi.firebaseio.com',
-    projectId: 'esn-tumi',
-    storageBucket: '',
-    messagingSenderId: '756904945827',
-    appId: '1:756904945827:web:c4b8570bf907f627',
-    measurementId: 'G-HN3R0ZJRDD'
+    apiKey: 'AIzaSyDe9EBfXdOx0dR8HLT1bLrDN5y2boIMoMQ',
+    authDomain: 'tumi-events.firebaseapp.com',
+    databaseURL: 'https://tumi-events.firebaseio.com',
+    projectId: 'tumi-events',
+    storageBucket: 'tumi-events.appspot.com',
+    messagingSenderId: '1005990962176',
+    appId: '1:1005990962176:web:d2c5279d59c23f49b064e5'
   },
-  functionsOrigin: 'https://esn-tumi.de'
+  functionsOrigin: 'https://tumi-events.web.app'
 };

@@ -34,12 +34,13 @@
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
         </button>
-        <button (click)="oauthLogin('microsoft.com')" [disabled]="!consentControl.value" color="primary"
+        <button (click)="oauthLogin('microsoft.com')" [disabled]="!consentControl.value || isStaging" color="primary"
                 mat-stroked-button>
           <mat-icon svgIcon="microsoft"></mat-icon>
           <span>Sign up with microsoft</span>
         </button>
-        <button (click)="facebookLogin()" [disabled]="!consentControl.value" color="primary" mat-stroked-button>
+        <button (click)="facebookLogin()" [disabled]="!consentControl.value || isStaging" color="primary"
+                mat-stroked-button>
           <mat-icon svgIcon="facebook"></mat-icon>
           <span>Sign up with facebook</span>
         </button>

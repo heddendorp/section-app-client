@@ -22,6 +22,7 @@
 
 export const environment = {
   production: false,
+  staging: false,
   firebase: {
     apiKey: 'AIzaSyDiDVg6ggmSY-Z8Iu5dWO83Mg4GTmt8Zl0',
     authDomain: 'esn-tumi.firebaseapp.com',

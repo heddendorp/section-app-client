@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
+import { environment } from '../../../environments/environment';
 import { MailSigninComponent } from '../../components/mail-signin/mail-signin.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoginWithFacebook, LoginWithGoogle, LoginWithOauth } from '../../shared/state/auth.actions';
@@ -32,6 +33,7 @@ import { LoginWithFacebook, LoginWithGoogle, LoginWithOauth } from '../../shared
 })
 export class SignupPageComponent {
   consentControl = new FormControl(false);
+  isStaging = environment.staging;
 
   constructor(private authService: AuthService, private dialog: MatDialog, private store: Store) {}
 
