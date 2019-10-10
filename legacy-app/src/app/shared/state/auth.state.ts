@@ -78,7 +78,7 @@ export class AuthState implements NgxsOnInit {
 
   @Selector()
   static isEditor(state: AuthStateModel) {
-    return state.user.isAdmin || state.user.isAdmin;
+    return state.user.isAdmin || state.user.isEditor;
   }
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
