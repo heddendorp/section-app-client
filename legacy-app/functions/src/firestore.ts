@@ -95,6 +95,13 @@ export const deletedSignup = functions
           transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp - value.partySize });
         }
       });
+      const eventData = await firestore
+        .collection('events')
+        .doc(context.params['eventId'])
+        .get();
+      if (value.isWaitList) {
+        return;
+      }
       const signupQuery = firestore
         .collection('events')
         .doc(context.params['eventId'])
@@ -102,17 +109,8 @@ export const deletedSignup = functions
         .where('isWaitList', '==', true)
         .orderBy('timestamp')
         .limit(value.partySize);
-      const eventData = await firestore
-        .collection('events')
-        .doc(context.params['eventId'])
-        .get();
       const queryData = await signupQuery.get();
-      if (
-        !queryData.empty &&
-        moment(eventData.data()!.start.toDate())
-          .tz('Europe/Berlin')
-          .isBefore()
-      ) {
+      if (!queryData.empty && moment(eventData.data()!.start.toDate()).isAfter(moment())) {
         await queryData.docs.map(async (doc: any) => {
           const userSnap = await firestore
             .collection('users')
