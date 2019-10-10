@@ -34,6 +34,7 @@ import { AuthState } from '../../../shared/state/auth.state';
 })
 export class EventDetailsDisplayComponent implements OnInit {
   @Input() event: TumiEvent;
+  @Input() tutors: Student[];
   @Input() signed: boolean;
   @Output() tutorSignup = new EventEmitter();
   @Output() studentSignup = new EventEmitter();
@@ -47,7 +48,7 @@ export class EventDetailsDisplayComponent implements OnInit {
   constructor(private qrService: QrService, private cartService: CartService) {}
 
   get tutorList() {
-    return this.event.tutorUsers.map(user => `${user.firstName} ${user.lastName}`).join(', ');
+    return this.tutors.map(user => `${user.firstName} ${user.lastName}`).join(', ');
   }
 
   ngOnInit() {

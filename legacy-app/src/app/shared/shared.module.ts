@@ -52,6 +52,7 @@ import { FacultyPipe } from './services/faculty.pipe';
 import { TypePipe } from './services/type.pipe';
 import { AuthState } from './state/auth.state';
 import { EventsState } from './state/events.state';
+import { UsersState } from './state/users.state';
 
 const materialModules = [
   MatButtonModule,
@@ -85,7 +86,7 @@ const materialModules = [
     FlexLayoutModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
-    NgxsModule.forFeature([AuthState, EventsState])
+    NgxsModule.forFeature([AuthState, EventsState, UsersState])
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },

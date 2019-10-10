@@ -21,6 +21,7 @@
   (studentSignup)="registerStudent($event)"
   (tutorSignup)="registerTutor($event)"
   [event]="event$ | async"
+  [tutors]="tutors$ | async"
   [signed]="registered$ | async"
 ></app-event-details-display>
 <ng-template #loading>

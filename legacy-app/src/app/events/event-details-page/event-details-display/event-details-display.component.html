@@ -35,7 +35,7 @@
   <strong>Notes for tutors</strong>
   <markdown [data]="event.runningNotes"></markdown>
 </ng-container>
-<ng-container *ngIf="event.tutorUsers?.length">
+<ng-container *ngIf="tutors?.length">
   <strong>Tutors already on this event</strong>
   <p class="description">{{ tutorList }}</p>
 </ng-container>

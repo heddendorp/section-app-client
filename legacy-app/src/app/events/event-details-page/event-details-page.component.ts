@@ -21,15 +21,17 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, first, map, switchMap } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from '../../shared/components/icon-toast/icon-toast.component';
 import { TumiEvent } from '../../shared/services/event.service';
 import { Student } from '../../shared/services/user.service';
 import { AuthState } from '../../shared/state/auth.state';
 import { EventsState } from '../../shared/state/events.state';
+import { LoadUser } from '../../shared/state/users.actions';
+import { UsersState } from '../../shared/state/users.state';
 import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
@@ -43,15 +45,17 @@ export class EventDetailsPageComponent implements OnInit {
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
   @Select(EventsState.loaded) loaded$: Observable<boolean>;
   @Select(AuthState.user) user$: Observable<Student>;
+  tutors$: Observable<Student[]>;
 
   constructor(
     private fireFunctions: AngularFireFunctions,
     private snackBar: MatSnackBar,
+    private store: Store,
     private dialog: MatDialog,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.registered$ = this.event$.pipe(
       filter(event => !!event.registrations),
       switchMap(event =>
@@ -65,6 +69,12 @@ export class EventDetailsPageComponent implements OnInit {
         )
       )
     );
+    const isTutor = await this.isTutor$.pipe(first()).toPromise();
+    if (isTutor) {
+      const event = await this.event$.pipe(first()).toPromise();
+      await this.store.dispatch(event.tutorSignups.map(id => new LoadUser(id))).toPromise();
+      this.tutors$ = this.store.select(UsersState.userList(event.tutorSignups));
+    }
   }
 
   async registerTutor(eventId) {
