@@ -22,19 +22,20 @@ import localeEn from '@angular/common/locales/en-DE';
 import localeEnExtra from '@angular/common/locales/extra/en-DE';
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN, FUNCTIONS_REGION } from '@angular/fire/functions';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
 
@@ -46,6 +47,7 @@ import { ScanRequestComponent } from './components/scan-request/scan-request.com
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
+import { sendEvent } from './shared/utility-functions';
 
 registerLocaleData(localeEn, 'en-DE', localeEnExtra);
 
@@ -68,7 +70,20 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     // NgxsRouterPluginModule.forRoot(),
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: true
+        }
+      }
+    }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
     AngularFireAuthModule,
@@ -87,4 +102,13 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
+    this.angularFireAuth.auth.getRedirectResult().then(result => {
+      if (result.user) {
+        sendEvent('login', { method: result.additionalUserInfo.providerId });
+        this.router.navigate(['events', 'list']);
+      }
+    });
+  }
+}

@@ -75,6 +75,29 @@ export class DisplayEventUsersComponent implements OnInit {
     }
   }
 
+  async makeTransaction(user: Student) {
+    const proceed = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, 'en-DE', 'EUR')} for ${
+            user.firstName
+          } ${user.lastName} (${user.email})?`
+        }
+      })
+      .afterClosed()
+      .toPromise();
+    if (proceed) {
+      if (this.event.hasFee) {
+        this.moneyService.addEventTransaction(
+          `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`,
+          this.event,
+          user,
+          'onLocationPayment'
+        );
+      }
+    }
+  }
+
   async collectPayment(user: Student) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {

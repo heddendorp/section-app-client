@@ -194,6 +194,11 @@ markdown {
       text-decoration: underline double;
     }
   }
+
+  img {
+    width: 100%;
+    max-width: 600px;
+  }
 }
 
 // theme for the navigation list

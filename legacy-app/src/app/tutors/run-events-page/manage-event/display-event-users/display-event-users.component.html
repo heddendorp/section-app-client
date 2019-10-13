@@ -56,6 +56,10 @@
       <button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee" mat-flat-button>
         Confirm Payment
       </button>
+      <button (click)="makeTransaction(element.user)" *ngIf="(isAdmin$|async) && event.id === 'aMGWtSFlbzFKJfUsY9z8'"
+              mat-flat-button>
+        Add transaction for this user
+      </button>
       <button (click)="removeUser(element.user)" *ngIf="isAdmin$ | async" mat-button>
         Remove from Event
       </button>

@@ -129,6 +129,7 @@ export const deletedSignup = functions
             await transporter.sendMail({
               subject: '[TUMi] Event Update',
               to: userSnap.data()!.email,
+              bcc: 'tumi@zv.tum.de',
               html: waitListMove(eventData.data(), userSnap.data())
             });
           }
@@ -157,6 +158,7 @@ export const balanceUpdate = functions
         await transporter.sendMail({
           subject: '[TUMi] Event Receipt',
           to: value.user.email,
+          bcc: 'tumi@zv.tum.de',
           html: receipt(value)
         });
       }

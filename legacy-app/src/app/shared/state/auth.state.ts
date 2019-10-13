@@ -47,14 +47,7 @@ export interface AuthStateModel {
   }
 })
 export class AuthState implements NgxsOnInit {
-  constructor(private angularFireAuth: AngularFireAuth, private userService: UserService, private router: Router) {
-    this.angularFireAuth.auth.getRedirectResult().then(result => {
-      if (result.user) {
-        sendEvent('login', { method: result.additionalUserInfo.providerId });
-        this.router.navigate(['events', 'list']);
-      }
-    });
-  }
+  constructor(private angularFireAuth: AngularFireAuth, private userService: UserService, private router: Router) {}
 
   @Selector()
   static user(state: AuthStateModel) {
