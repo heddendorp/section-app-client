@@ -82,8 +82,8 @@
       </button>
     </td>
   </ng-container>
-  <tr *matHeaderRowDef="['info', 'phone', 'actions']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['info', 'phone', 'actions']" mat-row></tr>
+  <tr *matHeaderRowDef="columns$ | async" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: columns$ | async" mat-row></tr>
 </table>
 
 <p style="margin-top: 2rem;"><strong>Students on the waiting list</strong></p>

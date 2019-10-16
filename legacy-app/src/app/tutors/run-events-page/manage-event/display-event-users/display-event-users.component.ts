@@ -18,9 +18,11 @@
 
 import { formatCurrency } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { EventService, EventSignup, TumiEvent } from '../../../../shared/services/event.service';
@@ -39,13 +41,20 @@ export class DisplayEventUsersComponent implements OnInit {
   @Input() participantEmail: string;
   @Input() tutorEmail: string;
   @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
+  columns$;
 
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
     private eventService: EventService,
-    private moneyService: MoneyService
-  ) {}
+    private moneyService: MoneyService,
+    media: MediaObserver
+  ) {
+    this.columns$ = media.asObservable().pipe(
+      map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
+      map(simple => (simple ? ['info', 'actions'] : ['info', 'phone', 'actions']))
+    );
+  }
 
   ngOnInit() {
     /*console.log(
