@@ -50,6 +50,12 @@
       <span *ngIf="!element.user.firstName && !element.user.lastName">({{ element.user.email }})</span>
     </td>
   </ng-container>
+  <ng-container matColumnDef="phone">
+    <th *matHeaderCellDef mat-header-cell>Phone</th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.user.phone}}
+    </td>
+  </ng-container>
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell>Actions</th>
     <td *matCellDef="let element" mat-cell>
@@ -71,8 +77,8 @@
       </button>
     </td>
   </ng-container>
-  <tr *matHeaderRowDef="['info', 'actions']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['info', 'actions']" mat-row></tr>
+  <tr *matHeaderRowDef="['info', 'phone', 'actions']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['info', 'phone', 'actions']" mat-row></tr>
 </table>
 
 <p style="margin-top: 2rem;"><strong>Students on the waiting list</strong></p>

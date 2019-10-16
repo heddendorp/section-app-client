@@ -60,6 +60,13 @@ Get an overview of features that are implemented and planned for the app
 - Update wait list when the event-data changes _(Such as available spots)_
 - Add a meeting point (google maps link)
 
+### Core
+
+- Rewrite using state management
+  - Will increase speed due to local caching
+  - Will reduce server load because not everything is directly read on the firebase
+  - Allows better state recovery when relaunching the application
+
 ### Data Privacy
 
 - Still in review
@@ -104,14 +111,11 @@ Get an overview of features that are implemented and planned for the app
 
 ### Core
 
-- Rewrite using state management
-  - Will increase speed due to local caching
-  - Will reduce server load because not everything is directly read on the firebase
-  - Allows better state recovery when relaunching the application
 - Update to firebase analytics and remote config
   - Arrived in the sdk v7 and once implemented in @angular/fire tracking should be updated for it
 - Find a way of syncing events of the office and users during the registration
 - **Write tests**
+- Carefully inspect all firestore rules and tighten security around a couple of functions
 
 ### Others
 
