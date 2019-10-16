@@ -291,6 +291,15 @@ export class EventService {
       .update({ hasPayed: true });
   }
 
+  public removeFromWaitlist(user: Student, event: TumiEvent) {
+    return this.firestore
+      .collection<TumiEvent>('events')
+      .doc(event.id)
+      .collection<SavedEventSignup>('signups')
+      .doc(user.id)
+      .update({ isWaitList: false });
+  }
+
   public attendEvent(user: Student, event: TumiEvent, hasAttended = true) {
     this.firestore
       .collection<TumiEvent>('events')

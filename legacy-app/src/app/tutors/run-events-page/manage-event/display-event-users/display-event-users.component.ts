@@ -61,6 +61,10 @@ export class DisplayEventUsersComponent implements OnInit {
     );*/
   }
 
+  get encodedEventName() {
+    return encodeURIComponent(`[TUMi] ${this.event.name}`);
+  }
+
   async kickTutor(user: Student) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
@@ -126,13 +130,27 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) from this event`
+          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) from this event? No mail will be sent but people from the wait list might move up`
         }
       })
       .afterClosed()
       .toPromise();
     if (proceed) {
       await this.eventService.deregister(user, this.event);
+    }
+  }
+
+  async bumpUser(user: Student) {
+    const proceed = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          text: `Do you really want to bump ${user.firstName} ${user.lastName} (${user.email}) from the wait list? No mail informing them will be sent!`
+        }
+      })
+      .afterClosed()
+      .toPromise();
+    if (proceed) {
+      await this.eventService.removeFromWaitlist(user, this.event);
     }
   }
 

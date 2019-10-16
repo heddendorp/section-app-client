@@ -147,6 +147,10 @@ body {
   margin: 0 !important;
 }
 
+.selectable {
+  user-select: all;
+}
+
 .break-words {
   overflow-wrap: break-word;
   word-wrap: break-word;

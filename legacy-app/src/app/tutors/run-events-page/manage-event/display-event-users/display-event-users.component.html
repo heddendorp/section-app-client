@@ -17,8 +17,8 @@
   -->
 
 <h2 class="mat-display-4 no-margin">Users related to this event</h2>
-<a href="{{ tutorEmail }}" mat-flat-button target="_blank">Send Mail to Tutors</a>
-
+<a href="mailto:{{ tutorEmail }}" mat-flat-button target="_blank">Send Mail to Tutors</a>
+<pre class="selectable">{{ tutorEmail }}</pre>
 <table [dataSource]="event.tutorUsers" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>
@@ -41,7 +41,9 @@
 </table>
 
 <p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
-<a href="{{ participantEmail }}" mat-flat-button target="_blank">Send Mail to Participants</a>
+<a href="mailto:tumi-koordination@zv.tum.de?subject={{encodedEventName}}&cc={{tutorEmail}}&bcc={{ participantEmail }}"
+   mat-flat-button target="_blank">Send Mail to Participants</a>
+<pre class="selectable">{{ participantEmail }}</pre>
 <table [dataSource]="event.coming" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="info">
     <th *matHeaderCellDef mat-header-cell>Info</th>
@@ -53,7 +55,7 @@
   <ng-container matColumnDef="phone">
     <th *matHeaderCellDef mat-header-cell>Phone</th>
     <td *matCellDef="let element" mat-cell>
-      {{element.user.phone}}
+      {{ element.user.phone }}
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">
@@ -62,8 +64,11 @@
       <button (click)="collectPayment(element.user)" *ngIf="!element.hasPayed && event.hasFee" mat-flat-button>
         Confirm Payment
       </button>
-      <button (click)="makeTransaction(element.user)" *ngIf="(isAdmin$|async) && event.id === 'aMGWtSFlbzFKJfUsY9z8'"
-              mat-flat-button>
+      <button
+        (click)="makeTransaction(element.user)"
+        *ngIf="(isAdmin$ | async) && event.id === 'aMGWtSFlbzFKJfUsY9z8'"
+        mat-flat-button
+      >
         Add transaction for this user
       </button>
       <button (click)="removeUser(element.user)" *ngIf="isAdmin$ | async" mat-button>
@@ -89,12 +94,20 @@
   </ng-container>
   <ng-container matColumnDef="timestamp">
     <th *matHeaderCellDef mat-header-cell>Timestamp</th>
-    <td *matCellDef="let element" mat-cell>{{ element.timestamp | date:'medium' }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element.timestamp | date: 'medium' }}</td>
   </ng-container>
   <ng-container matColumnDef="mail">
     <th *matHeaderCellDef mat-header-cell>Mail</th>
     <td *matCellDef="let element" mat-cell>{{ element.user.email }}</td>
   </ng-container>
-  <tr *matHeaderRowDef="['name', 'timestamp', 'mail']" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: ['name', 'timestamp', 'mail']" mat-row></tr>
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef mat-header-cell></th>
+    <td *matCellDef="let element" mat-cell>
+      <button (click)="bumpUser(element.user)" *ngIf="isAdmin$ | async" mat-button>
+        Bump up from wait list
+      </button>
+    </td>
+  </ng-container>
+  <tr *matHeaderRowDef="['name', 'timestamp', 'mail', 'actions']" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: ['name', 'timestamp', 'mail', 'actions']" mat-row></tr>
 </table>

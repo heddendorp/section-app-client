@@ -57,19 +57,21 @@ export class ManageEventComponent implements OnInit {
         };
       })
     );
-    this.tutorEmail$ = this.event$.pipe(
-      map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join('; '))
-    );
-    this.studentEmail$ = this.event$.pipe(
-      map(
-        event =>
-          `mailto:tumi-koordination@zv.tum.de?subject=${encodeURIComponent(
-            `[TUMi] ${event.name}`
-          )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.coming
-            .map(signup => signup.user.email)
-            .join('; ')}`
-      )
-    );
+    this.tutorEmail$ = this.event$.pipe(map(event => event.tutorUsers.map(tutor => tutor.email).join('; ')));
+    this.studentEmail$ = this.event$.pipe(map(event => event.coming.map(signup => signup.user.email).join('; ')));
+    // this.tutorEmail$ = this.event$.pipe(
+    //   map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join('; '))
+    // );
+    // this.studentEmail$ = this.event$.pipe(
+    //   map(
+    //     event =>
+    //       `mailto:tumi-koordination@zv.tum.de?subject=${encodeURIComponent(
+    //         `[TUMi] ${event.name}`
+    //       )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.coming
+    //         .map(signup => signup.user.email)
+    //         .join('; ')}`
+    //   )
+    // );
   }
 
   async addTickets(ammount) {
