@@ -22,17 +22,19 @@
       <button (click)="nav.toggle()" aria-label="Menu" mat-icon-button>
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
-      <h4
-        ngStyle.gt-sm="font-size: 2rem; line-height: 2.2rem"
-        ngStyle.xs="font-size: 1.25rem; line-height: 1.5rem"
-        routerLink="/"
-        style="font-size: 1.5rem; line-height: 1.7rem; transform: translateY(4px)"
-      >
-        TUMinternational
-      </h4>
+      <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap=".5rem" routerLink="/">
+        <img alt="TUM" src="/assets/images/tum_logo_white.svg" style="height: 2rem;">
+        <h4
+          ngStyle.gt-sm="font-size: 2rem;"
+          ngStyle.xs="font-size: 1.25rem;"
+          style="font-size: 1.5rem; line-height: 1rem;"
+        >
+          international
+        </h4>
+      </div>
       <mat-icon
         fxHide.xs
-        style="line-height: 2rem; font-size: 2rem; width: 2rem; height: 2rem; transform: scale(1)"
+        style="line-height: 2rem; font-size: 2rem; width: 2rem; height: 2rem; transform: scale(1); margin-left: 1rem;"
         svgIcon="tumi-logo"
       ></mat-icon>
       <div fxFlex></div>

@@ -81,6 +81,72 @@ $esn-cyan: (
   )
 );
 
+$tum-blue: (
+  50: #e2f1fc,
+  100: #b9dcf8,
+  200: #8cc6f4,
+  300: #5fb0ef,
+  400: #3a9fed,
+  500: #0e8fea,
+  600: #0b82dd,
+  700: #0470ca,
+  800: #005fb8,
+  900: #004299,
+  A100: #82b1ff,
+  A200: #448aff,
+  A400: #2979ff,
+  A700: #2962ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);
+
+$tum-pink: (
+  50: #fde4ee,
+  100: #fbbcd4,
+  200: #f990b7,
+  300: #f8619a,
+  400: #f63b82,
+  500: #f5076b,
+  600: #e40568,
+  700: #cd0463,
+  800: #b8005f,
+  900: #930058,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);
+
 $esn-magenta: (
   50: #fbe2f0,
   100: #f4b6d9,
@@ -114,8 +180,8 @@ $esn-magenta: (
   )
 );
 
-$tumi-primary: mat-palette($mat-blue);
-$tumi-accent: mat-palette($mat-pink);
+$tumi-primary: mat-palette($tum-blue, 500, 200, 800);
+$tumi-accent: mat-palette($tum-pink);
 
 // The warn palette is optional (defaults to red).
 $tumi-warn: mat-palette($mat-red);
@@ -224,71 +290,6 @@ mat-nav-list {
 app-funds-page {
   .transaction {
     border: 1px solid black;
-  }
-}
-
-div.loader {
-  $transition-duration: 2s;
-  $path-length: 157px; // Retrieved using SVG's getTotalLength()
-
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    overflow: visible;
-    width: 100px;
-    height: 150px;
-
-    g {
-      animation: slide $transition-duration linear infinite;
-
-      &:nth-child(2) {
-        animation-delay: $transition-duration / 4;
-
-        path {
-          animation-delay: $transition-duration / 4;
-          stroke-dasharray: 0px $path-length + 1;
-          stroke-dashoffset: 1px;
-        }
-      }
-    }
-
-    path {
-      stroke: url(#gradient);
-      stroke-width: 20px;
-      stroke-linecap: round;
-      fill: none;
-      stroke-dasharray: 0 $path-length;
-      stroke-dashoffset: 0;
-      animation: escalade $transition-duration cubic-bezier(0.8, 0, 0.2, 1) infinite;
-    }
-  }
-
-  @keyframes slide {
-    0% {
-      transform: translateY(-50px);
-    }
-    100% {
-      transform: translateY(50px);
-    }
-  }
-
-  @keyframes escalade {
-    0% {
-      stroke-dasharray: 0 $path-length;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: $path-length - 1 $path-length;
-      stroke-dashoffset: 0;
-    }
-    100% {
-      stroke-dasharray: $path-length - 1 $path-length;
-      stroke-dashoffset: -($path-length - 1);
-    }
   }
 }
 
