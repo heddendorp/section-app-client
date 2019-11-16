@@ -1,3 +1,21 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -53,7 +71,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.iconUrl$ = this.eventForm.get('icon').valueChanges.pipe(
       debounceTime(200),
-      map(icon => `https://png.icons8.com/color/${icon}/62`)
+      map(icon => `https://img.icons8.com/color/60/${icon}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`)
     );
     this.eventForm.get('isExternal').valueChanges.subscribe(value => {
       if (value) {

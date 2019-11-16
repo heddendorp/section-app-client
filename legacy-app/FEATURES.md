@@ -108,6 +108,8 @@ Get an overview of features that are implemented and planned for the app
 ### Pages
 
 - Add esnCard info page
+- More instructions for the App on help page
+  - Explain the event basket
 
 ### Core
 

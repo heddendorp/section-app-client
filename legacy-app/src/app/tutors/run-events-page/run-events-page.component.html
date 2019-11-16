@@ -20,7 +20,8 @@
 <div gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="1rem">
   <mat-card *ngFor="let event of events$ | async" fxLayout="column">
     <mat-card-title-group>
-      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image src="https://png.icons8.com/color/{{ event.icon }}/160" />
+      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image
+           src="https://img.icons8.com/color/192/{{ event.icon }}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2"/>
       <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>
     </mat-card-title-group>

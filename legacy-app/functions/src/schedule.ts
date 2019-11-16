@@ -63,7 +63,9 @@ export const openEvents = functions
         },
         accessory: {
           type: 'image',
-          image_url: `https://png.icons8.com/color/${encodeURIComponent(event.icon)}/160`,
+          image_url: `https://img.icons8.com/color/60/${encodeURIComponent(
+            event.icon
+          )}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`,
           alt_text: event.icon
         }
       };

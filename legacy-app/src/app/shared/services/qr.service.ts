@@ -29,7 +29,7 @@ export class QrService {
   async getURL(data): Promise<SafeResourceUrl> {
     console.log(JSON.stringify(data));
     try {
-      const url = await QRCode.toDataURL(JSON.stringify(data) /*{ errorCorrectionLevel: 'M' }*/);
+      const url = await QRCode.toDataURL(JSON.stringify(data));
       return this.domSan.bypassSecurityTrustResourceUrl(url);
     } catch (err) {
       console.error(err);
