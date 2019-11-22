@@ -22,11 +22,11 @@
 @import 'styles';
 
 @include angular-material-theme($tumi-theme);
-
-.white-svg {
-  filter: invert(1);
+.dark-theme {
+  .white-svg {
+    filter: invert(1);
+  }
 }
-
 svg {
   .dynamic-fill {
     fill: #f5f5f5;
