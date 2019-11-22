@@ -1,0 +1,58 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<div fxLayout="column" fxLayoutAlign="start">
+  <header fxFlex.gt-sm="400px" fxFlex.sm="300px" fxFlex.xl="600px" fxLayout="column" fxLayoutAlign="center center">
+    <h1 class="no-margin" ngClass.lt-xl="mat-display-3" ngClass.xl="mat-display-1" style="color:white; padding: 2rem;">
+      Local Platform South-East
+    </h1>
+    <svg preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="dynamic-fill" points="0,100 100,0 100,100"></polygon>
+    </svg>
+  </header>
+  <section fxLayout="row" fxLayoutAlign="center" style="margin: 1rem;">
+    <div style="max-width: 1500px">
+      <h2 class="mat-display-3 no-margin">Welcome to munich 👋</h2>
+      <h3 class="mat-headline" style="margin-bottom: 2rem;">We collected some useful information here</h3>
+      <section class="mat-typography" gdAuto gdColumns="1fr" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
+        <div>
+          <h2>Locations</h2>
+          <p>All plenaries are at the technical university of munich</p>
+          <a href="https://goo.gl/maps/38bHnntg4YB1m9hF8" mat-stroked-button target="_blank">Google maps link</a>
+        </div>
+        <div>
+          <h2>Emergency contacts</h2>
+          <p>In case of serious trouble you can reach the OC here:</p>
+          <mat-action-list>
+            <a mat-list-item>
+              <span>Call Sophia</span>
+            </a>
+            <a mat-list-item>
+              <span>Call Chris</span>
+            </a>
+          </mat-action-list>
+        </div>
+        <div>
+          <h2>Schedule</h2>
+          <p>To have all the information all the time, find the schedule below</p>
+          <a href="#" mat-stroked-button target="_blank">Schedule</a>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>

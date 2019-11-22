@@ -1,4 +1,4 @@
-/*!
+/*
  *     The TUMi app provides a modern way of managing events for an esn section.
  *     Copyright (C) 2019  Lukas Heddendorp
  *
@@ -16,19 +16,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-@import 'styles';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-@include angular-material-theme($tumi-theme);
+import { LpPageComponent } from './lp-page.component';
 
-.white-svg {
-  filter: invert(1);
-}
+describe('LpPageComponent', () => {
+  let component: LpPageComponent;
+  let fixture: ComponentFixture<LpPageComponent>;
 
-svg {
-  .dynamic-fill {
-    fill: #f5f5f5;
-  }
-}
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [LpPageComponent]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LpPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

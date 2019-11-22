@@ -1,4 +1,4 @@
-/*!
+/*
  *     The TUMi app provides a modern way of managing events for an esn section.
  *     Copyright (C) 2019  Lukas Heddendorp
  *
@@ -16,19 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-@import 'styles';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-@include angular-material-theme($tumi-theme);
-
-.white-svg {
-  filter: invert(1);
-}
-
-svg {
-  .dynamic-fill {
-    fill: #f5f5f5;
-  }
+@Component({
+  selector: 'app-lp-page',
+  templateUrl: './lp-page.component.html',
+  styleUrls: ['./lp-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class LpPageComponent {
+  constructor() {}
 }
