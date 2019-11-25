@@ -27,23 +27,37 @@
   </header>
   <section fxLayout="row" fxLayoutAlign="center" style="margin: 1rem;">
     <div style="max-width: 1500px">
-      <h2 class="mat-display-3 no-margin">Welcome to munich 👋</h2>
+      <h2 class="mat-display-3 no-margin">Servus 👋</h2>
       <h3 class="mat-headline" style="margin-bottom: 2rem;">We collected some useful information here</h3>
       <section class="mat-typography" gdAuto gdColumns="1fr" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
         <div>
           <h2>Locations</h2>
-          <p>All plenaries are at the technical university of munich</p>
-          <a href="https://goo.gl/maps/38bHnntg4YB1m9hF8" mat-stroked-button target="_blank">Google maps link</a>
+          <mat-nav-list>
+            <a href="https://goo.gl/maps/38bHnntg4YB1m9hF8" mat-list-item>
+              <mat-icon mat-list-icon svgIcon="home-marker"></mat-icon>
+              <span mat-line>All plenaries are at the technical university of munich</span>
+            </a>
+            <a href="https://maps.app.goo.gl/5m5W8dx8UYXjRc3B7" mat-list-item>
+              <mat-icon mat-list-icon svgIcon="marker"></mat-icon>
+              <span mat-line>Beerpong on friday evening</span>
+            </a>
+            <a href="https://goo.gl/maps/JW29vvqwwQEajsT57" mat-list-item>
+              <mat-icon mat-list-icon svgIcon="marker"></mat-icon>
+              <span mat-line>Tollwood christmas markety on Saturday evening</span>
+            </a>
+          </mat-nav-list>
         </div>
         <div>
           <h2>Emergency contacts</h2>
           <p>In case of serious trouble you can reach the OC here:</p>
           <mat-action-list>
             <a mat-list-item>
-              <span>Call Sophia</span>
+              <mat-icon mat-list-icon svgIcon="call"></mat-icon>
+              <span mat-line>Call Sophia</span>
             </a>
             <a mat-list-item>
-              <span>Call Chris</span>
+              <mat-icon mat-list-icon svgIcon="call"></mat-icon>
+              <span mat-line>Call Chris</span>
             </a>
           </mat-action-list>
         </div>
@@ -51,6 +65,15 @@
           <h2>Schedule</h2>
           <p>To have all the information all the time, find the schedule below</p>
           <a href="#" mat-stroked-button target="_blank">Schedule</a>
+        </div>
+        <div>
+          <h2>Transportation</h2>
+          <p>We recommend to get a ticket for public transportation</p>
+          <p>The easiest way to find out where you're going in munich is by just entering it into Google maps, if you
+            prefer to do it the oldschool way though, check out the map</p>
+          <a
+            href="https://www.mvv-muenchen.de/fileadmin/mediapool/03-Plaene_Bahnhoefe/Netzplaene/MVV_Netzplan_S_U_T.pdf"
+            mat-stroked-button target="_blank">Munich network map</a>
         </div>
       </section>
     </div>
