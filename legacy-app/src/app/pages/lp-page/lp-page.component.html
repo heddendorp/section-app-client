@@ -16,7 +16,7 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<div fxLayout="column" fxLayoutAlign="start">
+<div class="mat-app-background" fxLayout="column" fxLayoutAlign="start">
   <header fxFlex.gt-sm="400px" fxFlex.sm="300px" fxFlex.xl="600px" fxLayout="column" fxLayoutAlign="center center">
     <h1 class="no-margin" ngClass.lt-xl="mat-display-3" ngClass.xl="mat-display-1" style="color:white; padding: 2rem;">
       Local Platform South-East
@@ -35,15 +35,15 @@
           <mat-nav-list>
             <a href="https://goo.gl/maps/38bHnntg4YB1m9hF8" mat-list-item>
               <mat-icon mat-list-icon svgIcon="home-marker"></mat-icon>
-              <span mat-line>All plenaries are at the technical university of munich</span>
+              <strong mat-line>All plenaries are at the technical university of munich</strong>
+            </a>
+            <a href="https://goo.gl/maps/P16bqRcUFMuHRrxs6" mat-list-item>
+              <mat-icon mat-list-icon svgIcon="marker"></mat-icon>
+              <strong mat-line>Meeting point on friday evening (christmas market crawl)</strong>
             </a>
             <a href="https://maps.app.goo.gl/5m5W8dx8UYXjRc3B7" mat-list-item>
               <mat-icon mat-list-icon svgIcon="marker"></mat-icon>
-              <span mat-line>Beerpong on friday evening</span>
-            </a>
-            <a href="https://goo.gl/maps/JW29vvqwwQEajsT57" mat-list-item>
-              <mat-icon mat-list-icon svgIcon="marker"></mat-icon>
-              <span mat-line>Tollwood christmas markety on Saturday evening</span>
+              <strong mat-line>Beerpong/Games on Saturday evening</strong>
             </a>
           </mat-nav-list>
         </div>
@@ -51,11 +51,11 @@
           <h2>Emergency contacts</h2>
           <p>In case of serious trouble you can reach the OC here:</p>
           <mat-action-list>
-            <a mat-list-item>
+            <a href="tel:+4917683694484" mat-list-item>
               <mat-icon mat-list-icon svgIcon="call"></mat-icon>
               <span mat-line>Call Sophia</span>
             </a>
-            <a mat-list-item>
+            <a href="tel:+4915161430390" mat-list-item>
               <mat-icon mat-list-icon svgIcon="call"></mat-icon>
               <span mat-line>Call Chris</span>
             </a>
@@ -64,7 +64,9 @@
         <div>
           <h2>Schedule</h2>
           <p>To have all the information all the time, find the schedule below</p>
-          <a href="#" mat-stroked-button target="_blank">Schedule</a>
+          <a
+            href="https://docs.google.com/spreadsheets/d/1i1Zg2Ly1zIhkJsvas5R8oMIBPSPOc-rgsYVmzmtFjjM/edit?fbclid=IwAR2coqHP4TacjtgSfqS2COrVvYn4FykCk5oCJarbDHBfRnjEGl4PRtFM7zA#gid=1291866327"
+            mat-stroked-button target="_blank">Schedule</a>
         </div>
         <div>
           <h2>Transportation</h2>
