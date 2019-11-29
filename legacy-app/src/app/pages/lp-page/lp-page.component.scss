@@ -38,3 +38,19 @@ header {
     /* set height to pixels if you want angle to change with screen width */
   }
 }
+
+.locations {
+  a {
+    mat-icon {
+      height: 36px;
+      width: 36px;
+    }
+
+    p {
+      text-decoration: none !important;
+      margin: 0;
+    }
+
+    text-decoration: none !important;
+  }
+}
