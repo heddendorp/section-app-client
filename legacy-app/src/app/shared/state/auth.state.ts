@@ -75,6 +75,7 @@ export class AuthState implements NgxsOnInit {
   }
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
+    this.angularFireAuth.user.pipe(filter(user => !user)).subscribe(() => ctx.dispatch(new SetUser(null)));
     this.angularFireAuth.user
       .pipe(
         filter(user => !!user),
