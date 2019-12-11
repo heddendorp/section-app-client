@@ -25,6 +25,7 @@ import { DataPrivacyPageComponent } from './data-privacy-page/data-privacy-page.
 import { HelpPageComponent } from './help-page/help-page.component';
 import { ImprintPageComponent } from './imprint-page/imprint-page.component';
 import { LpPageComponent } from './lp-page/lp-page.component';
+import { NaPageComponent } from './na-page/na-page.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'help', data: { title: 'Help' }, component: HelpPageComponent },
   { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
   { path: 'lp', data: { standalone: true, title: 'LP' }, component: LpPageComponent },
+  { path: 'na', data: { standalone: true, title: 'NA' }, component: NaPageComponent },
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
   { path: 'imprint', data: { title: 'Imprint' }, component: ImprintPageComponent },
   { path: 'data-privacy', data: { title: 'Privacy' }, component: DataPrivacyPageComponent }
@@ -46,7 +48,8 @@ const routes: Routes = [
     HelpPageComponent,
     ImprintPageComponent,
     DataPrivacyPageComponent,
-    LpPageComponent
+    LpPageComponent,
+    NaPageComponent
   ],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
