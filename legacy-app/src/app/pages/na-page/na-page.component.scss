@@ -1,0 +1,157 @@
+/*!
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2019  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import 'src/styles';
+@import '~@angular/material/theming';
+
+:host {
+  display: block;
+  margin: -1rem;
+  position: relative;
+}
+
+.parallax-container {
+  overflow: hidden;
+  padding-top: 4rem;
+  //background: #CFD8DC;
+  background: #355c7d; /* fallback for old browsers */
+  //background: -webkit-linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #c06c84,
+    #6c5b7b,
+    #355c7d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#scene {
+  overflow: visible;
+
+  div {
+    width: 100vw;
+
+    img {
+      width: 120vw;
+      left: -10vw;
+      position: relative;
+
+      &.last {
+        bottom: -20px;
+      }
+    }
+
+    &.title {
+      height: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      h1 {
+        font-weight: bold;
+        margin: 19% 0 0;
+        text-align: center;
+        color: #ffeb3b;
+        font-size: 40px;
+
+        &.is-small {
+          margin: 15% 0 0;
+        }
+
+        &.is-medium {
+          font-size: 10vw;
+          margin: 17% 0 0;
+        }
+
+        &.is-big {
+          font-size: 10vw;
+        }
+      }
+    }
+  }
+}
+
+.deco {
+  position: absolute;
+
+  &.tv {
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    //opacity: .5;
+  }
+}
+
+.seperator {
+  position: absolute;
+  bottom: 0;
+  object-fit: cover;
+  object-position: bottom;
+  max-height: 10vw;
+  width: 100%;
+}
+
+section {
+  position: relative;
+  padding: 1rem;
+
+  &.dark {
+    background: #303030;
+    color: #ffffff;
+    @include mat-list-theme($tumi-dark-theme);
+  }
+
+  &.light {
+    background: #fafafa;
+    color: #202020;
+  }
+
+  &.separated {
+    padding-bottom: 4vw;
+  }
+}
+
+header {
+  background-color: #0065bd;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23003359' fill-opacity='0.26' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  padding-bottom: 4vw;
+
+  svg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10vw;
+    /* set height to pixels if you want angle to change with screen width */
+  }
+}
+
+.locations {
+  a {
+    mat-icon {
+      height: 36px;
+      width: 36px;
+    }
+
+    p {
+      text-decoration: none !important;
+      margin: 0;
+    }
+
+    text-decoration: none !important;
+  }
+}
