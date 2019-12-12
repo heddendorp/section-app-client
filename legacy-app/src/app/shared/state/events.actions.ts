@@ -20,6 +20,10 @@ export class LoadUpcomingEvents {
   static readonly type = '[Events] Load upcoming events';
 }
 
+export class LoadTutoredEvents {
+  static readonly type = '[Events] Load tutored events';
+}
+
 export class SelectEvent {
   static readonly type = '[Events] Select Event';
 

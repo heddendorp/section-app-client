@@ -77,35 +77,6 @@ export class EventService {
       .pipe(map(events => events.map(this.parseEvent)));
   }
 
-  getUpcomingEvents(includeInternallyVisible = false) {
-    return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .where('start', '>', new Date())
-          .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
-          .orderBy('start')
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
-  }
-
-  public getRegistrationsForEvent(id: string): Observable<EventSignup[]> {
-    return this.firestore
-      .collection('events')
-      .doc(id)
-      .collection<SavedEventSignup>('signups')
-      .valueChanges({ idField: 'id' })
-      .pipe(
-        map(registrations =>
-          registrations.map(registration =>
-            Object.assign({}, registration, {
-              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
-            })
-          )
-        )
-      );
-  }
-
   public get visibleEvents(): Observable<TumiEvent[]> {
     return this.isTutor$.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
   }
@@ -164,6 +135,43 @@ export class EventService {
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  getUpcomingEvents(includeInternallyVisible = false) {
+    return this.firestore
+      .collection<SavedEvent>('events', ref =>
+        ref
+          .where('start', '>', new Date())
+          .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
+          .orderBy('start')
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map(events => events.map(this.parseEvent)));
+  }
+
+  getTutoredEvents(includeAll = false) {
+    if (includeAll) {
+      return this.futureEvents;
+    } else {
+      return this.tutoredEvents;
+    }
+  }
+
+  public getRegistrationsForEvent(id: string): Observable<EventSignup[]> {
+    return this.firestore
+      .collection('events')
+      .doc(id)
+      .collection<SavedEventSignup>('signups')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(registrations =>
+          registrations.map(registration =>
+            Object.assign({}, registration, {
+              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
+            })
+          )
+        )
+      );
   }
 
   public getSignedEventsForUser(userId) {

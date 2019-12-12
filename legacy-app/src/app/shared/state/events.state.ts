@@ -21,11 +21,11 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../services/event.service';
 import { filterEvents, getFreeSpots } from '../utility-functions';
 import { AuthState, AuthStateModel } from './auth.state';
-import { LoadRegistrations, LoadUpcomingEvents, SelectEvent } from './events.actions';
+import { LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
 
 export interface EventsStateModel {
   events: { [id: string]: TumiEvent };
-  ids: string[];
+  ids: Array<string>;
   selectedId: string | null;
   loaded: boolean;
   filterForm: {
@@ -78,22 +78,38 @@ export class EventsState {
       .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 
+  @Selector([AuthState])
+  static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
+    const isAdmin = !!authState.user && authState.user.isAdmin;
+    return state.ids
+      .map(id => state.events[id])
+      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin);
+  }
+
   @Action(LoadUpcomingEvents)
   async loadEvents(ctx: StateContext<EventsStateModel>) {
     const isTutor = this.store.selectSnapshot(AuthState.isTutor);
     this.eventService
       .getUpcomingEvents(isTutor)
-      .pipe(
-        takeUntil(
-          this.actions$.pipe(
-            ofAction(LoadUpcomingEvents),
-            skip(1)
-          )
-        )
-      )
+      .pipe(takeUntil(this.actions$.pipe(ofAction(LoadUpcomingEvents), skip(1))))
       .subscribe(events =>
         ctx.patchState({
-          ids: events.map(event => event.id),
+          ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
+          events: events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {}),
+          loaded: true
+        })
+      );
+  }
+
+  @Action(LoadTutoredEvents)
+  async loadTutoredEvents(ctx: StateContext<EventsStateModel>) {
+    const isAdmin = this.store.selectSnapshot(AuthState.isAdmin);
+    this.eventService
+      .getTutoredEvents(isAdmin)
+      .pipe(takeUntil(this.actions$.pipe(ofAction(LoadTutoredEvents), skip(1))))
+      .subscribe(events =>
+        ctx.patchState({
+          ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
           events: events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {}),
           loaded: true
         })
@@ -104,14 +120,7 @@ export class EventsState {
   async loadRegistrations(ctx: StateContext<EventsStateModel>, action: LoadRegistrations) {
     this.eventService
       .getRegistrationsForEvent(action.eventId)
-      .pipe(
-        takeUntil(
-          this.actions$.pipe(
-            ofAction(LoadRegistrations),
-            skip(1)
-          )
-        )
-      )
+      .pipe(takeUntil(this.actions$.pipe(ofAction(LoadRegistrations), skip(1))))
       .subscribe(registrations =>
         ctx.patchState({
           events: {
