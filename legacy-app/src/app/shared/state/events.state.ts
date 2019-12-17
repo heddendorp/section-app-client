@@ -17,6 +17,7 @@
  */
 
 import { Action, Actions, ofAction, Selector, State, StateContext, Store } from '@ngxs/store';
+import * as moment from 'moment';
 import { skip, takeUntil } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../services/event.service';
 import { filterEvents, getFreeSpots } from '../utility-functions';
@@ -56,7 +57,7 @@ export class EventsState {
 
   @Selector()
   static events(state: EventsStateModel) {
-    return state.ids.map(id => state.events[id]);
+    return state.ids.map(id => state.events[id]).sort((a, b) => a.start.diff(b.start));
   }
 
   @Selector()
@@ -75,15 +76,19 @@ export class EventsState {
     return state.ids
       .map(id => state.events[id])
       .filter(filterEvents(state.filterForm.model, isTutor))
-      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
+      .filter(event => event.start > moment())
+      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }))
+      .sort((a, b) => a.start.diff(b.start));
   }
 
   @Selector([AuthState])
   static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isAdmin = !!authState.user && authState.user.isAdmin;
-    return state.ids
+    const tumiEvents = state.ids
       .map(id => state.events[id])
-      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin);
+      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin)
+      .sort((a, b) => a.start.diff(b.start));
+    return tumiEvents;
   }
 
   @Action(LoadUpcomingEvents)
@@ -95,7 +100,10 @@ export class EventsState {
       .subscribe(events =>
         ctx.patchState({
           ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
-          events: events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {}),
+          events: {
+            ...ctx.getState().events,
+            ...events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {})
+          },
           loaded: true
         })
       );
@@ -110,7 +118,10 @@ export class EventsState {
       .subscribe(events =>
         ctx.patchState({
           ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
-          events: events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {}),
+          events: {
+            ...ctx.getState().events,
+            ...events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {})
+          },
           loaded: true
         })
       );
