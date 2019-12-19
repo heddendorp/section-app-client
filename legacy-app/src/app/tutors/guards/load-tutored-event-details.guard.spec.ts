@@ -16,28 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export class LoadUpcomingEvents {
-  static readonly type = '[Events] Load upcoming events';
-}
+import { inject, TestBed } from '@angular/core/testing';
 
-export class LoadTutoredEvents {
-  static readonly type = '[Events] Load tutored events';
-}
+import { LoadTutoredEventDetailsGuard } from './load-tutored-event-details.guard';
 
-export class SelectEvent {
-  static readonly type = '[Events] Select Event';
+describe('LoadTutoredEventDetailsGuard', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [LoadTutoredEventDetailsGuard]
+    });
+  });
 
-  constructor(public eventId: string) {}
-}
-
-export class LoadEvent {
-  static readonly type = '[Events] Load Event';
-
-  constructor(public eventId: string) {}
-}
-
-export class LoadRegistrations {
-  static readonly type = '[Events] Load registrations for Event';
-
-  constructor(public eventId: string) {}
-}
+  it('should ...', inject([LoadTutoredEventDetailsGuard], (guard: LoadTutoredEventDetailsGuard) => {
+    expect(guard).toBeTruthy();
+  }));
+});

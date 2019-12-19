@@ -411,7 +411,7 @@ export interface TumiEvent extends BaseEvent {
   end: moment.Moment;
   tutorUsers?: Student[];
   /**
-   * @deprecated user registrations instead
+   * @deprecated use registrations instead
    */
   userSignups?: EventSignup[];
   registrations?: EventSignup[];

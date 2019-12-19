@@ -16,16 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Action, Actions, ofAction, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Action, Actions, createSelector, ofAction, Selector, State, StateContext, Store } from '@ngxs/store';
 import * as moment from 'moment';
-import { skip, takeUntil } from 'rxjs/operators';
+import { first, skip, takeUntil, tap } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../services/event.service';
+import { addOrReplace } from '../state-operators';
 import { filterEvents, getFreeSpots } from '../utility-functions';
 import { AuthState, AuthStateModel } from './auth.state';
-import { LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
+import { LoadEvent, LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
+import { UsersState, UsersStateModel } from './users.state';
 
 export interface EventsStateModel {
-  events: { [id: string]: TumiEvent };
+  entities: { [id: string]: TumiEvent };
   ids: Array<string>;
   selectedId: string | null;
   loaded: boolean;
@@ -37,10 +39,12 @@ export interface EventsStateModel {
   };
 }
 
+const addEvents = addOrReplace<TumiEvent>('start');
+
 @State<EventsStateModel>({
   name: 'events',
   defaults: {
-    events: {},
+    entities: {},
     ids: [],
     selectedId: null,
     filterForm: {
@@ -55,9 +59,13 @@ export interface EventsStateModel {
 export class EventsState {
   constructor(private store: Store, private eventService: EventService, private actions$: Actions) {}
 
+  static getEvent(id: string) {
+    return createSelector([EventsState], (state: EventsStateModel) => state.entities[id]);
+  }
+
   @Selector()
   static events(state: EventsStateModel) {
-    return state.ids.map(id => state.events[id]).sort((a, b) => a.start.diff(b.start));
+    return state.ids.map(id => state.entities[id]).sort((a, b) => a.start.diff(b.start));
   }
 
   @Selector()
@@ -67,27 +75,31 @@ export class EventsState {
 
   @Selector()
   static selectedEvent(state: EventsStateModel) {
-    return state.events[state.selectedId];
+    return state.entities[state.selectedId];
+  }
+
+  @Selector([UsersState])
+  static selectedWithUsers(state: EventsStateModel, usersState: UsersStateModel) {
+    const selectedEvent = state.entities[state.selectedId];
+    return { ...selectedEvent, tutorUsers: selectedEvent.tutorSignups.map(id => usersState.entities[id]) };
   }
 
   @Selector([AuthState])
   static filteredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
-      .map(id => state.events[id])
+      .map(id => state.entities[id])
       .filter(filterEvents(state.filterForm.model, isTutor))
       .filter(event => event.start > moment())
-      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }))
-      .sort((a, b) => a.start.diff(b.start));
+      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 
   @Selector([AuthState])
   static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isAdmin = !!authState.user && authState.user.isAdmin;
     const tumiEvents = state.ids
-      .map(id => state.events[id])
-      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin)
-      .sort((a, b) => a.start.diff(b.start));
+      .map(id => state.entities[id])
+      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin);
     return tumiEvents;
   }
 
@@ -99,11 +111,7 @@ export class EventsState {
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadUpcomingEvents), skip(1))))
       .subscribe(events =>
         ctx.patchState({
-          ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
-          events: {
-            ...ctx.getState().events,
-            ...events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {})
-          },
+          ...addEvents(ctx.getState(), events),
           loaded: true
         })
       );
@@ -117,14 +125,18 @@ export class EventsState {
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadTutoredEvents), skip(1))))
       .subscribe(events =>
         ctx.patchState({
-          ids: Array.from(new Set([...ctx.getState().ids, ...events.map(event => event.id)])),
-          events: {
-            ...ctx.getState().events,
-            ...events.reduce((acc, curr) => Object.assign({}, acc, { [curr.id]: curr }), {})
-          },
+          ...addEvents(ctx.getState(), events),
           loaded: true
         })
       );
+  }
+
+  @Action(LoadEvent)
+  async loadEvent(ctx: StateContext<EventsStateModel>, action: LoadEvent) {
+    return this.eventService.getEvent(action.eventId).pipe(
+      first(),
+      tap(event => ctx.patchState({ ...addEvents(ctx.getState(), [event]), loaded: true }))
+    );
   }
 
   @Action(LoadRegistrations)
@@ -134,9 +146,9 @@ export class EventsState {
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadRegistrations), skip(1))))
       .subscribe(registrations =>
         ctx.patchState({
-          events: {
-            ...ctx.getState().events,
-            [action.eventId]: { ...ctx.getState().events[action.eventId], registrations }
+          entities: {
+            ...ctx.getState().entities,
+            [action.eventId]: { ...ctx.getState().entities[action.eventId], registrations }
           }
         })
       );

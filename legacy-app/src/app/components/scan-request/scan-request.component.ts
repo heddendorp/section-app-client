@@ -77,13 +77,13 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
           if (request.event) {
             return true;
           }
-          if (request.events.find(event => !['register', 'collectMoney', 'refund'].includes(event.action))) {
+          if (request.entities.find(event => !['register', 'collectMoney', 'refund'].includes(event.action))) {
             this.error$.next(
-              `Request included an unknown action (${request.events.map(event => event.action).concat(', ')})`
+              `Request included an unknown action (${request.entities.map(event => event.action).concat(', ')})`
             );
             return false;
           }
-          if (!request.user || !request.events.length) {
+          if (!request.user || !request.entities.length) {
             this.error$.next(`The request seems to be missing data`);
             return false;
           }
@@ -106,7 +106,7 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
     this.events$ = requestObservable.pipe(
       switchMap(value =>
         combineLatest(
-          value.events.map(request =>
+          value.entities.map(request =>
             this.eventService
               .getEventWithRegistrations(request.id)
               .pipe(map(event => Object.assign({}, { event, action: request.action })))

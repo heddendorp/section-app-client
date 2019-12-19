@@ -21,3 +21,9 @@ export class LoadUser {
 
   constructor(public userId: string) {}
 }
+
+export class LoadUsers {
+  static readonly type = '[Users] Load Users';
+
+  constructor(public userIds: string[]) {}
+}

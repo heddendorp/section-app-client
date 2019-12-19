@@ -16,13 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export function addOrReplace<T>(entities: T[], sortBy: string = null) {
+import * as moment from 'moment';
+
+export function addOrReplace<T>(sortBy: string = null) {
   const idKey = 'id';
-  return (state: any) => {
+  return (state: any, entities: T[]) => {
     const nextEntities = { ...state.entities };
     const nextIds = [...state.ids];
     let nextState = state;
-
     entities.forEach(entity => {
       const id = entity[idKey];
       nextEntities[id] = entity;
@@ -36,37 +37,40 @@ export function addOrReplace<T>(entities: T[], sortBy: string = null) {
       };
     });
 
-    if (['start', 'end'].includes(sortBy)) {
-      const sortedIds = nextState.entities.sort((a, b) => a[sortBy].diff(b[sortBy])).map(e => e.id);
-      nextState = {
-        ...nextState,
-        ids: sortedIds
-      };
-    }
+    if (sortBy && entities.length && entities[0][sortBy]) {
+      if (moment(entities[0][sortBy]).isValid()) {
+        const sortedIds = nextState.ids
+          .map(id => nextState.entities[id])
+          .sort((a, b) => a[sortBy].diff(b[sortBy]))
+          .map(e => e.id);
+        nextState = {
+          ...nextState,
+          ids: sortedIds
+        };
+      }
 
-    if (typeof entities[0][sortBy] === 'string') {
-      const sortedIds = nextState.entities
-        .sort((a, b) => {
-          if (a[sortBy] < b[sortBy]) {
-            return -1;
-          }
-          if (a[sortBy] > b[sortBy]) {
-            return 1;
-          }
-          return 0;
-        })
-        .map(e => e.id);
-      nextState = {
-        ...nextState,
-        ids: sortedIds
-      };
+      if (typeof entities[0][sortBy] === 'string') {
+        const sortedIds = nextState.ids
+          .map(id => nextState.entities[id])
+          .sort((a, b) => {
+            if (a[sortBy] < b[sortBy]) {
+              return -1;
+            }
+            if (a[sortBy] > b[sortBy]) {
+              return 1;
+            }
+            return 0;
+          })
+          .map(e => e.id);
+        nextState = {
+          ...nextState,
+          ids: sortedIds
+        };
+      }
     }
 
     return {
-      ...nextState,
-      entities: nextEntities,
-      ids: nextIds,
-      lastUpdated: Date.now()
+      ...nextState
     };
   };
 }
