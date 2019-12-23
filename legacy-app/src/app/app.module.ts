@@ -35,6 +35,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
+import 'json.date-extensions';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
@@ -65,7 +66,8 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
-    NgxsStoragePluginModule.forRoot(),
+    // @ts-ignore
+    NgxsStoragePluginModule.forRoot({ deserialize: JSON.parseWithDate }),
     NgxsFormPluginModule.forRoot(),
     // NgxsRouterPluginModule.forRoot(),
     BrowserAnimationsModule,
