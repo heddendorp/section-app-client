@@ -81,7 +81,15 @@ export class EventsState {
   @Selector([UsersState])
   static selectedWithUsers(state: EventsStateModel, usersState: UsersStateModel) {
     const selectedEvent = state.entities[state.selectedId];
-    return { ...selectedEvent, tutorUsers: selectedEvent.tutorSignups.map(id => usersState.entities[id]) };
+    return {
+      ...selectedEvent,
+      tutorUsers: selectedEvent.tutorSignups.map(id => usersState.entities[id]),
+      coming: [
+        ...selectedEvent.registrations.filter(item => !item.hasAttended && !item.isWaitList),
+        ...selectedEvent.registrations.filter(item => item.hasAttended && !item.isWaitList)
+      ],
+      waitlist: selectedEvent.registrations.filter(item => item.isWaitList)
+    };
   }
 
   @Selector([AuthState])

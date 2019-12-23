@@ -32,7 +32,7 @@ import { EventsState } from '../../../shared/state/events.state';
   styleUrls: ['./manage-event.component.scss']
 })
 export class ManageEventComponent implements OnInit {
-  @Select(EventsState.selectedEvent) event$: Observable<TumiEvent>;
+  @Select(EventsState.selectedWithUsers) event$: Observable<TumiEvent>;
   tutorEmail$: Observable<string>;
   studentEmail$: Observable<string>;
 
@@ -41,39 +41,17 @@ export class ManageEventComponent implements OnInit {
     private userService: UserService,
     private evenService: EventService,
     private moneyService: MoneyService
-  ) {}
+  ) {
+    console.log('construct event');
+  }
 
   ngOnInit() {
-    /*this.event$ = this.route.paramMap.pipe(
-      switchMap(params => this.userService.getEventWithUsers(params.get('eventId'))),
-      share(),
-      startWith(this.route.snapshot.data[0]),
-      map(event => {
-        return {
-          ...event,
-          coming: [
-            ...event.userSignups.filter(item => !item.hasAttended && !item.isWaitList),
-            ...event.userSignups.filter(item => item.hasAttended && !item.isWaitList)
-          ],
-          waitlist: event.userSignups.filter(item => item.isWaitList)
-        };
-      })
-    );*/
+    console.log('init event');
+    this.event$.subscribe(console.log);
     this.tutorEmail$ = this.event$.pipe(map(event => event.tutorUsers.map(tutor => tutor.email).join('; ')));
-    this.studentEmail$ = this.event$.pipe(map(event => event.coming.map(signup => signup.user.email).join('; ')));
-    // this.tutorEmail$ = this.event$.pipe(
-    //   map(event => 'mailto:' + event.tutorUsers.map(tutor => tutor.email).join('; '))
-    // );
-    // this.studentEmail$ = this.event$.pipe(
-    //   map(
-    //     event =>
-    //       `mailto:tumi-koordination@zv.tum.de?subject=${encodeURIComponent(
-    //         `[TUMi] ${event.name}`
-    //       )}&cc=${event.tutorUsers.map(user => user.email).join('; ')}&bcc=${event.coming
-    //         .map(signup => signup.user.email)
-    //         .join('; ')}`
-    //   )
-    // );
+    this.studentEmail$ = this.event$.pipe(
+      map(event => event.coming.map(registration => registration.user.email).join('; '))
+    );
   }
 
   async addTickets(amount) {
