@@ -35,6 +35,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
+import * as moment from 'moment';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
@@ -50,6 +51,7 @@ import { SharedModule } from './shared/shared.module';
 import { sendEvent } from './shared/utility-functions';
 
 registerLocaleData(localeEn, 'en-DE', localeEnExtra);
+const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 
 @NgModule({
   declarations: [AppComponent, NotFoundPageComponent, ScanRequestComponent, MailSigninComponent, CartDialogComponent],
@@ -65,7 +67,19 @@ registerLocaleData(localeEn, 'en-DE', localeEnExtra);
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
-    NgxsStoragePluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({
+      deserialize(obj: any): any {
+        return JSON.parse(obj, (key, value) => {
+          if (typeof value === 'string') {
+            const test = reISO.exec(value);
+            if (test) {
+              return moment(value);
+            }
+          }
+          return value;
+        });
+      }
+    }),
     NgxsFormPluginModule.forRoot(),
     // NgxsRouterPluginModule.forRoot(),
     BrowserAnimationsModule,
