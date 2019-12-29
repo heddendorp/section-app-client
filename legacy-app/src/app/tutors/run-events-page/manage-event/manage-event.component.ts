@@ -20,7 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { EventService, TumiEvent } from '../../../shared/services/event.service';
 import { MoneyService } from '../../../shared/services/money.service';
 import { UserService } from '../../../shared/services/user.service';
@@ -41,15 +41,15 @@ export class ManageEventComponent implements OnInit {
     private userService: UserService,
     private evenService: EventService,
     private moneyService: MoneyService
-  ) {
-    console.log('construct event');
-  }
+  ) {}
 
   ngOnInit() {
-    console.log('init event');
-    this.event$.subscribe(console.log);
-    this.tutorEmail$ = this.event$.pipe(map(event => event.tutorUsers.map(tutor => tutor.email).join('; ')));
+    this.tutorEmail$ = this.event$.pipe(
+      filter(event => !!event),
+      map(event => event.tutorUsers.map(tutor => tutor.email).join('; '))
+    );
     this.studentEmail$ = this.event$.pipe(
+      filter(event => !!event),
       map(event => event.coming.map(registration => registration.user.email).join('; '))
     );
   }

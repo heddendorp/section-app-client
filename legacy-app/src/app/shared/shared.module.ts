@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -76,6 +77,7 @@ const materialModules = [
   MatRippleModule,
   MatBadgeModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
   ScrollingModule
 ];
 

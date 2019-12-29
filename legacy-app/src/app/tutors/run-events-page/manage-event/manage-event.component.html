@@ -16,11 +16,16 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<h1 class="mat-display-4">{{ (event$ | async).name }}</h1>
-<app-display-event-info (addTickets)="addTickets($event)" [event]="event$ | async"
+<h1 class="mat-display-4">{{ (event$ | async)?.name }}</h1>
+<app-display-event-info (addTickets)="addTickets($event)" *ngIf="event$| async; else loader" [event]="event$ | async"
                         style="margin-bottom: 4rem;"></app-display-event-info>
 <app-display-event-users
+  *ngIf="event$| async"
   [event]="event$ | async"
   [participantEmail]="studentEmail$ | async"
   [tutorEmail]="tutorEmail$ | async"
 ></app-display-event-users>
+<ng-template #loader>
+  <h2>Event loading ...</h2>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

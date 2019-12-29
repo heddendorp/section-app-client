@@ -24,6 +24,7 @@ import { addOrReplace } from '../state-operators';
 import { filterEvents, getFreeSpots } from '../utility-functions';
 import { AuthState, AuthStateModel } from './auth.state';
 import { LoadEvent, LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
+import { LoadUser } from './users.actions';
 import { UsersState, UsersStateModel } from './users.state';
 
 export interface EventsStateModel {
@@ -87,8 +88,10 @@ export class EventsState {
       coming: [
         ...selectedEvent.registrations.filter(item => !item.hasAttended && !item.isWaitList),
         ...selectedEvent.registrations.filter(item => item.hasAttended && !item.isWaitList)
-      ],
-      waitlist: selectedEvent.registrations.filter(item => item.isWaitList)
+      ].map(registration => Object.assign({}, registration, { user: usersState.entities[registration.id] })),
+      waitlist: selectedEvent.registrations
+        .filter(item => item.isWaitList)
+        .map(registration => Object.assign({}, registration, { user: usersState.entities[registration.id] }))
     };
   }
 
@@ -140,9 +143,14 @@ export class EventsState {
   }
 
   @Action(LoadEvent)
-  async loadEvent(ctx: StateContext<EventsStateModel>, action: LoadEvent) {
+  loadEvent(ctx: StateContext<EventsStateModel>, action: LoadEvent) {
     return this.eventService.getEvent(action.eventId).pipe(
       first(),
+      tap(event => {
+        if (action.withTutors) {
+          ctx.dispatch(event.tutorSignups.map(id => new LoadUser(id)));
+        }
+      }),
       tap(event => ctx.patchState({ ...addEvents(ctx.getState(), [event]), loaded: true }))
     );
   }
@@ -151,7 +159,14 @@ export class EventsState {
   async loadRegistrations(ctx: StateContext<EventsStateModel>, action: LoadRegistrations) {
     this.eventService
       .getRegistrationsForEvent(action.eventId)
-      .pipe(takeUntil(this.actions$.pipe(ofAction(LoadRegistrations), skip(1))))
+      .pipe(
+        takeUntil(this.actions$.pipe(ofAction(LoadRegistrations), skip(1))),
+        tap(registrations => {
+          if (action.withUsers) {
+            ctx.dispatch(registrations.map(registration => new LoadUser(registration.id)));
+          }
+        })
+      )
       .subscribe(registrations =>
         ctx.patchState({
           entities: {
@@ -163,7 +178,7 @@ export class EventsState {
   }
 
   @Action(SelectEvent)
-  async selectEvent(ctx: StateContext<EventsStateModel>, action: SelectEvent) {
+  selectEvent(ctx: StateContext<EventsStateModel>, action: SelectEvent) {
     return ctx.patchState({ selectedId: action.eventId });
   }
 }

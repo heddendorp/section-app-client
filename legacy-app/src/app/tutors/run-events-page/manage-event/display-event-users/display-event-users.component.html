@@ -22,11 +22,11 @@
 <table [dataSource]="event.tutorUsers" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>
-    <td *matCellDef="let element" mat-cell>{{ element.firstName }} {{ element.lastName }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element?.firstName }} {{ element?.lastName }}</td>
   </ng-container>
   <ng-container matColumnDef="mail">
     <th *matHeaderCellDef mat-header-cell>Mail</th>
-    <td *matCellDef="let element" mat-cell>{{ element.email }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element?.email }}</td>
   </ng-container>
   <ng-container matColumnDef="action">
     <th *matHeaderCellDef mat-header-cell>Remove</th>
@@ -48,14 +48,16 @@
   <ng-container matColumnDef="info">
     <th *matHeaderCellDef mat-header-cell>Info</th>
     <td *matCellDef="let element" mat-cell>
-      {{ element.user.firstName }} {{ element.user.lastName }}
-      <span *ngIf="!element.user.firstName && !element.user.lastName">({{ element.user.email }})</span>
+      <ng-container *ngIf="!!element.user; else userLoading">
+        {{ element.user?.firstName }} {{ element.user?.lastName }}
+        <span *ngIf="!element.user?.firstName && !element.user?.lastName">({{ element.user?.email }})</span>
+      </ng-container>
     </td>
   </ng-container>
   <ng-container matColumnDef="phone">
     <th *matHeaderCellDef mat-header-cell>Phone</th>
     <td *matCellDef="let element" mat-cell>
-      {{ element.user.phone }}
+      {{ element.user?.phone }}
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">
@@ -90,7 +92,7 @@
 <table [dataSource]="event.waitlist" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>
-    <td *matCellDef="let element" mat-cell>{{ element.user.firstName }} {{ element.user.lastName }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element.user?.firstName }} {{ element.user?.lastName }}</td>
   </ng-container>
   <ng-container matColumnDef="timestamp">
     <th *matHeaderCellDef mat-header-cell>Timestamp</th>
@@ -98,7 +100,7 @@
   </ng-container>
   <ng-container matColumnDef="mail">
     <th *matHeaderCellDef mat-header-cell>Mail</th>
-    <td *matCellDef="let element" mat-cell>{{ element.user.email }}</td>
+    <td *matCellDef="let element" mat-cell>{{ element.user?.email }}</td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell></th>
@@ -111,3 +113,7 @@
   <tr *matHeaderRowDef="['name', 'timestamp', 'mail', 'actions']" mat-header-row></tr>
   <tr *matRowDef="let row; columns: ['name', 'timestamp', 'mail', 'actions']" mat-row></tr>
 </table>
+
+<ng-template #userLoading>
+  User is loading
+</ng-template>

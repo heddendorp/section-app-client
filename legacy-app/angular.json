@@ -43,8 +43,7 @@
               }
             ],
             "scripts": [
-              "node_modules/marked/lib/marked.js",
-              "node_modules/json.date-extensions/json.date-extensions.min.js"
+              "node_modules/marked/lib/marked.js"
             ]
           },
           "configurations": {

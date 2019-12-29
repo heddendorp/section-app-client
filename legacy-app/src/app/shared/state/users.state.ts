@@ -61,6 +61,10 @@ export class UsersState {
 
   @Action(LoadUser)
   loadUser(ctx: StateContext<UsersStateModel>, action: LoadUser) {
+    const entity = ctx.getState().entities[action.userId];
+    if (!!entity) {
+      return entity;
+    }
     return this.userService.getUser(action.userId).pipe(
       first(),
       tap(user =>

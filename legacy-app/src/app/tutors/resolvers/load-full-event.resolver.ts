@@ -31,7 +31,6 @@ export class LoadFullEventResolver implements Resolve<TumiEvent> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<TumiEvent> | Promise<TumiEvent> | TumiEvent {
-    console.count('full-event-resolver');
     return this.userService.getEventWithUsers(route.paramMap.get('eventId')).pipe(first());
   }
 }

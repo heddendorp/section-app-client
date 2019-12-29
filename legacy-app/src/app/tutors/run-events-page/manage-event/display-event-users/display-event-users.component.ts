@@ -172,6 +172,9 @@ export class DisplayEventUsersComponent implements OnInit {
   }
 
   trackById(index, item: Student | EventSignup) {
+    if (typeof item === 'undefined') {
+      return index;
+    }
     return item.id;
   }
 }

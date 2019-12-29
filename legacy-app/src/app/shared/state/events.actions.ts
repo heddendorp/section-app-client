@@ -33,11 +33,11 @@ export class SelectEvent {
 export class LoadEvent {
   static readonly type = '[Events] Load Event';
 
-  constructor(public eventId: string) {}
+  constructor(public eventId: string, public withTutors = false) {}
 }
 
 export class LoadRegistrations {
   static readonly type = '[Events] Load registrations for Event';
 
-  constructor(public eventId: string) {}
+  constructor(public eventId: string, public withUsers: boolean = false) {}
 }

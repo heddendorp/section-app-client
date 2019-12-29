@@ -20,8 +20,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LoadEvent, LoadRegistrations, SelectEvent } from '../../shared/state/events.actions';
-import { EventsState } from '../../shared/state/events.state';
-import { LoadUsers } from '../../shared/state/users.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -31,12 +29,10 @@ export class LoadTutoredEventDetailsGuard implements CanActivate {
 
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     this.store.dispatch([
-      new LoadRegistrations(next.paramMap.get('eventId')),
-      new SelectEvent(next.paramMap.get('eventId'))
+      new LoadEvent(next.paramMap.get('eventId'), true),
+      new LoadRegistrations(next.paramMap.get('eventId'), true)
     ]);
-    await this.store.dispatch(new LoadEvent(next.paramMap.get('eventId'))).toPromise();
-    const activeEvent = this.store.selectSnapshot(EventsState.getEvent(next.paramMap.get('eventId')));
-    this.store.dispatch(new LoadUsers(activeEvent.tutorSignups));
+    await this.store.dispatch(new SelectEvent(next.paramMap.get('eventId'))).toPromise();
     return true;
   }
 }
