@@ -32,6 +32,7 @@ export interface EventsStateModel {
   ids: Array<string>;
   selectedId: string | null;
   loaded: boolean;
+  version: number;
   filterForm: {
     model: any;
     dirty: boolean;
@@ -48,6 +49,7 @@ const addEvents = addOrReplace<TumiEvent>('start');
     entities: {},
     ids: [],
     selectedId: null,
+    version: 1,
     filterForm: {
       model: undefined,
       dirty: false,

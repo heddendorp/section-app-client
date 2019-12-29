@@ -49,6 +49,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { sendEvent } from './shared/utility-functions';
+import { migration1 } from './storageMigrations';
 
 registerLocaleData(localeEn, 'en-DE', localeEnExtra);
 const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:Z|(\+|-)([\d|:]*))?$/;
@@ -78,7 +79,15 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
           }
           return value;
         });
-      }
+      },
+      migrations: [
+        {
+          version: 1,
+          key: 'users',
+          versionKey: 'version',
+          migrate: migration1
+        }
+      ]
     }),
     NgxsFormPluginModule.forRoot(),
     // NgxsRouterPluginModule.forRoot(),

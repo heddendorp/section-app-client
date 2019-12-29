@@ -27,6 +27,7 @@ export interface UsersStateModel {
   ids: string[];
   selectedId: string | null;
   loaded: boolean;
+  version: number;
   filterForm: {
     model: any;
     dirty: boolean;
@@ -43,6 +44,7 @@ const addUsers = addOrReplace<Student>('lastName');
     entities: {},
     ids: [],
     selectedId: null,
+    version: 1,
     filterForm: {
       model: undefined,
       dirty: false,

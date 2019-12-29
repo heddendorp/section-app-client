@@ -16,28 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import 'hammerjs';
-import * as moment from 'moment';
-import { create } from 'rxjs-spy';
-
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-  enableProdMode();
-} else {
-  const spy = create();
-  spy.log();
+export function migration1(state) {
+  return {
+    entities: state.users || {},
+    version: 2
+  };
 }
-
-if (!localStorage.getItem('@@RESET') || moment(localStorage.getItem('@@RESET')) < moment('2019-12-29')) {
-  localStorage.removeItem('@@STATE');
-  localStorage.setItem('@@RESET', moment().toJSON());
-  location.reload();
-}
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
