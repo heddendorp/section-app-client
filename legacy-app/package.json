@@ -71,7 +71,6 @@
     "@angular/language-service": "~8.2.14",
     "@types/jasmine": "3.4.0",
     "@types/jasminewd2": "2.0.3",
-    "@types/luxon": "^1.15.2",
     "@types/node": "~12.7.7",
     "codelyzer": "^5.1.1",
     "firebase-tools": "^7.3.0",
