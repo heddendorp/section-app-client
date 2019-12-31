@@ -19,5 +19,5 @@
 export class LoadUser {
   static readonly type = '[Users] Load User';
 
-  constructor(public userId: string) {}
+  constructor(public userId: string, public reload = false) {}
 }

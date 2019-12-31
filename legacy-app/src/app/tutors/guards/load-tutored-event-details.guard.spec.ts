@@ -16,24 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { TumiEvent } from '../../shared/services/event.service';
-import { EventsState } from '../../shared/state/events.state';
+import { inject, TestBed } from '@angular/core/testing';
 
-@Component({
-  selector: 'app-run-events-page',
-  templateUrl: './run-events-page.component.html',
-  styleUrls: ['./run-events-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class RunEventsPageComponent {
-  constructor() {}
+import { LoadTutoredEventDetailsGuard } from './load-tutored-event-details.guard';
 
-  @Select(EventsState.tutoredEvents) events$: Observable<TumiEvent[]>;
+describe('LoadTutoredEventDetailsGuard', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [LoadTutoredEventDetailsGuard]
+    });
+  });
 
-  getId(index, object) {
-    return object.id;
-  }
-}
+  it('should ...', inject([LoadTutoredEventDetailsGuard], (guard: LoadTutoredEventDetailsGuard) => {
+    expect(guard).toBeTruthy();
+  }));
+});

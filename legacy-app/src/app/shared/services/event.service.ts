@@ -24,7 +24,7 @@ import { firestore as importStore } from 'firebase/app';
 import * as moment from 'moment';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, map, share, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, share, switchMap } from 'rxjs/operators';
 import { Student } from './user.service';
 
 @Injectable({
@@ -66,7 +66,7 @@ export class EventService {
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private store: Store) {
     this.isAdmin$ = store.select(state => state.auth.user.isAdmin);
     this.isTutor$ = store.select(state => state.auth.user.isTutor || state.auth.user.isAdmin);
-    this.user$ = store.select(state => state.auth.user);
+    this.user$ = store.select(state => state.auth.user).pipe(filter(user => !!user));
   }
 
   // OLD FUNCTIONS
@@ -411,7 +411,7 @@ export interface TumiEvent extends BaseEvent {
   end: moment.Moment;
   tutorUsers?: Student[];
   /**
-   * @deprecated user registrations instead
+   * @deprecated use registrations instead
    */
   userSignups?: EventSignup[];
   registrations?: EventSignup[];

@@ -16,24 +16,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { TumiEvent } from '../../shared/services/event.service';
-import { EventsState } from '../../shared/state/events.state';
-
-@Component({
-  selector: 'app-run-events-page',
-  templateUrl: './run-events-page.component.html',
-  styleUrls: ['./run-events-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class RunEventsPageComponent {
-  constructor() {}
-
-  @Select(EventsState.tutoredEvents) events$: Observable<TumiEvent[]>;
-
-  getId(index, object) {
-    return object.id;
-  }
+export function migration1(state) {
+  return {
+    entities: state.users || {},
+    version: 2
+  };
 }

@@ -17,10 +17,11 @@
   -->
 
 <h4 class="no-margin mat-display-3">My Events</h4>
+<!-- TODO: Improve rendering performance for this list -->
 <div gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr))" gdGap="1rem">
-  <mat-card *ngFor="let event of events$ | async" fxLayout="column">
+  <mat-card *ngFor="let event of events$ | async; trackBy: getId" fxLayout="column">
     <mat-card-title-group>
-      <img *ngIf="event.icon" fxFlex="80px" mat-card-sm-image
+      <img *ngIf="event.icon" fxFlex="80px" height="80px" loading="lazy" mat-card-sm-image width="80px"
            src="https://img.icons8.com/color/192/{{ event.icon }}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2"/>
       <mat-card-title>{{ event.name }} </mat-card-title>
       <mat-card-subtitle>{{ event.start | date: 'short' }}</mat-card-subtitle>

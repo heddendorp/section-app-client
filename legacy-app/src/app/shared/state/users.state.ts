@@ -16,16 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Action, Actions, createSelector, State, StateContext, Store } from '@ngxs/store';
+import { Action, createSelector, State, StateContext, Store } from '@ngxs/store';
 import { first, tap } from 'rxjs/operators';
 import { Student, UserService } from '../services/user.service';
+import { addOrReplace } from '../state-operators';
 import { LoadUser } from './users.actions';
 
 export interface UsersStateModel {
-  users: { [id: string]: Student };
+  entities: { [id: string]: Student };
   ids: string[];
   selectedId: string | null;
   loaded: boolean;
+  version: number;
   filterForm: {
     model: any;
     dirty: boolean;
@@ -34,12 +36,15 @@ export interface UsersStateModel {
   };
 }
 
+const addUsers = addOrReplace<Student>('lastName');
+
 @State<UsersStateModel>({
   name: 'users',
   defaults: {
-    users: {},
+    entities: {},
     ids: [],
     selectedId: null,
+    version: 1,
     filterForm: {
       model: undefined,
       dirty: false,
@@ -50,23 +55,23 @@ export interface UsersStateModel {
   }
 })
 export class UsersState {
-  constructor(private store: Store, private userService: UserService, private actions$: Actions) {}
+  constructor(private store: Store, private userService: UserService) {}
 
   static userList(ids: string[]) {
-    return createSelector(
-      [UsersState],
-      (state: UsersStateModel) => ids.map(id => state.users[id])
-    );
+    return createSelector([UsersState], (state: UsersStateModel) => ids.map(id => state.entities[id]));
   }
 
   @Action(LoadUser)
   loadUser(ctx: StateContext<UsersStateModel>, action: LoadUser) {
+    const entity = ctx.getState().entities[action.userId];
+    if (!!entity) {
+      return entity;
+    }
     return this.userService.getUser(action.userId).pipe(
       first(),
       tap(user =>
         ctx.patchState({
-          ids: [...ctx.getState().ids, user.id],
-          users: { ...ctx.getState().users, [user.id]: user },
+          ...addUsers(ctx.getState(), [user]),
           loaded: true
         })
       )

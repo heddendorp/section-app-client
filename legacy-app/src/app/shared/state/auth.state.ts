@@ -37,11 +37,13 @@ import {
 export interface AuthStateModel {
   user: Student | null;
   loaded: boolean;
+  version: number;
 }
 
 @State<AuthStateModel>({
   name: 'auth',
   defaults: {
+    version: 1,
     user: null,
     loaded: false
   }

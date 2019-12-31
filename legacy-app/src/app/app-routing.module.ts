@@ -46,7 +46,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [QuicklinkModule, RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy })],
+  imports: [
+    QuicklinkModule,
+    RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy, enableTracing: false })
+  ],
   providers: [AngularFireAuthGuard],
   exports: [RouterModule]
 })

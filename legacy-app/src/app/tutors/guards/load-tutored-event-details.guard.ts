@@ -16,24 +16,23 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { TumiEvent } from '../../shared/services/event.service';
-import { EventsState } from '../../shared/state/events.state';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { LoadEvent, LoadRegistrations, SelectEvent } from '../../shared/state/events.actions';
 
-@Component({
-  selector: 'app-run-events-page',
-  templateUrl: './run-events-page.component.html',
-  styleUrls: ['./run-events-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Injectable({
+  providedIn: 'root'
 })
-export class RunEventsPageComponent {
-  constructor() {}
+export class LoadTutoredEventDetailsGuard implements CanActivate {
+  constructor(private store: Store) {}
 
-  @Select(EventsState.tutoredEvents) events$: Observable<TumiEvent[]>;
-
-  getId(index, object) {
-    return object.id;
+  async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    this.store.dispatch([
+      new LoadEvent(next.paramMap.get('eventId'), true),
+      new LoadRegistrations(next.paramMap.get('eventId'), true)
+    ]);
+    await this.store.dispatch(new SelectEvent(next.paramMap.get('eventId'))).toPromise();
+    return true;
   }
 }

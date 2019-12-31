@@ -19,6 +19,7 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import 'hammerjs';
+import * as moment from 'moment';
 import { create } from 'rxjs-spy';
 
 import { AppModule } from './app/app.module';
@@ -29,6 +30,12 @@ if (environment.production) {
 } else {
   const spy = create();
   spy.log();
+}
+
+if (!localStorage.getItem('@@RESET') || moment(localStorage.getItem('@@RESET')) < moment('2019-12-29')) {
+  localStorage.removeItem('@@STATE');
+  localStorage.setItem('@@RESET', moment().toJSON());
+  location.reload();
 }
 
 platformBrowserDynamic()
