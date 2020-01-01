@@ -111,6 +111,8 @@ section {
 
   &.dark {
     padding: 1rem;
+    @include mat-expansion-panel-theme($tumi-dark-theme);
+    @include mat-card-theme($tumi-dark-theme);
   }
 
   &.light {
