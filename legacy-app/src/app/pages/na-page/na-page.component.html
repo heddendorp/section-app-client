@@ -27,7 +27,7 @@
       <img src="/assets/illustrations/mountians/level-3.svg"/>
     </div>
     <div class="title" data-depth="0.3">
-      <h1 ngClass.lt-md="is-small" ngClass.lt-xl="is-medium" ngClass.xl="is-big">1. NA-Munich</h1>
+      <h1 ngClass.lt-md="is-small" ngClass.lt-xl="is-medium" ngClass.xl="is-big">1. NA Munich</h1>
     </div>
     <div data-depth="0.25">
       <img src="/assets/illustrations/mountians/level-4.svg"/>
@@ -67,12 +67,12 @@
           <!--          <p>In case of serious trouble you can reach the OC here:</p>-->
           <mat-nav-list class="tel-list">
             <a href="tel:+4917683694484" mat-list-item>
-              <img mat-list-avatar src="/assets/images/na/sophia.png">
+              <img mat-list-avatar src="/assets/images/na/sophia.png"/>
               <h3 class="no-margin" mat-line>Sophia Münch (TUMi)</h3>
               <span mat-line>+49 176 83694484</span>
             </a>
             <a href="tel:+4915161430390" mat-list-item>
-              <img mat-list-avatar src="/assets/images/na/christoph.png">
+              <img mat-list-avatar src="/assets/images/na/christoph.png"/>
               <h3 class="no-margin" mat-line>Christoph Braun (TUMi)</h3>
               <span mat-line>+49 1516 1430390</span>
             </a>
@@ -82,12 +82,12 @@
               <span mat-line>+91 94293 14915</span>
             </a>
             <a href="tel:+4915752089714" mat-list-item>
-              <img mat-list-avatar src="/assets/images/na/kathi.png">
+              <img mat-list-avatar src="/assets/images/na/kathi.png"/>
               <h3 class="no-margin" mat-line>Kathi Grieshaber (TUMi)</h3>
               <span mat-line>+49 1575 2089714</span>
             </a>
             <a href="tel:+4917663437805" mat-list-item>
-              <img mat-list-avatar src="/assets/images/na/julia.png">
+              <img mat-list-avatar src="/assets/images/na/julia.png"/>
               <h3 class="no-margin" mat-line>Julia Dick (TUMi)</h3>
               <span mat-line>+49 176 63437805</span>
             </a>
@@ -98,7 +98,17 @@
             </a>
           </mat-nav-list>
         </div>
-        <div *appShowUntil="'2020-01-24'">
+        <div>
+          <h2>Important to know</h2>
+          <p>
+            Emergency&ensp;112 <br/>
+            Police&ensp;110
+          </p>
+          <p>
+            In munich all stores close by <strong>08:00PM</strong> keep that in mind if you have to get stuff during the
+            NA
+          </p>
+          <div style="width: 100%;margin-bottom: 2rem;"></div>
           <h2>Packlist</h2>
           <ul>
             <li>Your passport/ID card</li>
@@ -561,7 +571,7 @@
       <h2 class="mat-display-3 no-margin">Some more info about us and Munich</h2>
       <!--      <h3 class="mat-headline" style="margin-bottom: 2rem;">Even more maybe less essential info can be found here</h3>-->
       <section class="mat-typography" gdAuto gdColumns="1fr" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
-        <div>
+        <div fxLayout="column" fxLayoutGap="2rem" style="position:relative;">
           <h2>TUMi</h2>
           <p>
             We are a student association that has around 100 active members. TUMi was founded in 1995 and is part of ESN
@@ -570,6 +580,7 @@
             activities. All our activities are open to German students to promote social interaction between
             international and local students.
           </p>
+          <img src="/assets/images/na/tumi.jpg" style="width: 100%;"/>
         </div>
         <div>
           <h2>Things to see around here</h2>
