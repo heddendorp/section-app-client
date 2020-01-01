@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { TumiEvent } from '../../shared/services/event.service';
 import { AuthState } from '../../shared/state/auth.state';
 import { EventsState } from '../../shared/state/events.state';
 
@@ -30,7 +29,7 @@ import { EventsState } from '../../shared/state/events.state';
   styleUrls: ['./event-list-page.component.scss']
 })
 export class EventListPageComponent {
-  @Select(EventsState.filteredEvents) events$: Observable<TumiEvent[]>;
+  @Select(EventsState.filteredEvents) events$: Observable<any>;
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
   @Select(EventsState.loaded) loaded$: Observable<boolean>;
   filterForm: FormGroup;

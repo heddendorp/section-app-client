@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-import { EventService, TumiEvent } from '../../../shared/services/event.service';
+import { EventService } from '../../../shared/services/event.service';
 import { MoneyService } from '../../../shared/services/money.service';
 import { UserService } from '../../../shared/services/user.service';
 import { EventsState } from '../../../shared/state/events.state';
@@ -32,7 +32,7 @@ import { EventsState } from '../../../shared/state/events.state';
   styleUrls: ['./manage-event.component.scss']
 })
 export class ManageEventComponent implements OnInit {
-  @Select(EventsState.selectedWithUsers) event$: Observable<TumiEvent>;
+  @Select(EventsState.selectedWithUsers) event$: Observable<any>;
   tutorEmail$: Observable<string>;
   studentEmail$: Observable<string>;
 
