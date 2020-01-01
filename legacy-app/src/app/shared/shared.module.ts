@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
+import { ShowUntilDirective } from './directives/show-until.directive';
 import { DegreePipe } from './services/degree.pipe';
 import { FacultyPipe } from './services/faculty.pipe';
 import { TypePipe } from './services/type.pipe';
@@ -78,6 +79,7 @@ const materialModules = [
   MatBadgeModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
+  MatExpansionModule,
   ScrollingModule
 ];
 
@@ -107,7 +109,8 @@ const materialModules = [
     UserDataChangeComponent,
     FacultyPipe,
     DegreePipe,
-    TypePipe
+    TypePipe,
+    ShowUntilDirective
   ],
   declarations: [
     IconToastComponent,
@@ -115,7 +118,8 @@ const materialModules = [
     FacultyPipe,
     TypePipe,
     DegreePipe,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ShowUntilDirective
   ],
   entryComponents: [IconToastComponent, UserDataChangeComponent, ConfirmationDialogComponent]
 })

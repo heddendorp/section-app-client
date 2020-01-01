@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -75,6 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private cartService: CartService
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
+    registry.addSvgIconSetInNamespace('na', san.bypassSecurityTrustResourceUrl('/assets/icons/na.svg'));
     this.isMobile$ = media.asObservable().pipe(
       map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')),
       startWith(false)
