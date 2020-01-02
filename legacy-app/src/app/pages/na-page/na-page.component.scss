@@ -190,6 +190,21 @@ mat-nav-list.tel-list {
   }
 }
 
+.social-program {
+  a.styled {
+    border: rgba(255, 255, 255, 0.15) 1px solid;
+    border-radius: 6px;
+    padding: 8px;
+    @include mat-elevation-transition();
+    transition: background-color 0.28s ease;
+
+    &:hover {
+      @include mat-elevation(6);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
