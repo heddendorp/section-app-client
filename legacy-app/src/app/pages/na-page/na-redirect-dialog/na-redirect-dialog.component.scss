@@ -1,4 +1,4 @@
-/*
+/*!
  *     The TUMi app provides a modern way of managing events for an esn section.
  *     Copyright (C) 2020  Lukas Heddendorp
  *
@@ -15,25 +15,3 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import Parallax from 'parallax-js';
-import { NaRedirectDialogComponent } from './na-redirect-dialog/na-redirect-dialog.component';
-
-@Component({
-  selector: 'app-na-page',
-  templateUrl: './na-page.component.html',
-  styleUrls: ['./na-page.component.scss']
-})
-export class NaPageComponent implements OnInit {
-  constructor(private dialog: MatDialog) {}
-
-  ngOnInit() {
-    const scene = document.getElementById('scene');
-    const parallaxInstance = new Parallax(scene);
-    if (!localStorage.getItem('@@REDIRECT')) {
-      this.dialog.open(NaRedirectDialogComponent);
-    }
-  }
-}

@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import { HelpPageComponent } from './help-page/help-page.component';
 import { ImprintPageComponent } from './imprint-page/imprint-page.component';
 import { LpPageComponent } from './lp-page/lp-page.component';
 import { NaPageComponent } from './na-page/na-page.component';
+import { NaRedirectDialogComponent } from './na-page/na-redirect-dialog/na-redirect-dialog.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 
@@ -49,8 +50,10 @@ const routes: Routes = [
     ImprintPageComponent,
     DataPrivacyPageComponent,
     LpPageComponent,
-    NaPageComponent
+    NaPageComponent,
+    NaRedirectDialogComponent
   ],
+  entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
 })
 export class PagesModule {}

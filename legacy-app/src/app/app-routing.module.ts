@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
+const redirect = JSON.parse(localStorage.getItem('@@REDIRECT') || 'false');
+
 const routes: Routes = [
   {
     path: 'office',
@@ -40,7 +42,7 @@ const routes: Routes = [
     data: { title: 'Events' },
     loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule)
   },
-  { path: '', pathMatch: 'full', redirectTo: 'events' },
+  { path: '', pathMatch: 'full', redirectTo: redirect || 'events' },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
   { path: 'error', component: NotFoundPageComponent, data: { title: 'Error' } }
 ];

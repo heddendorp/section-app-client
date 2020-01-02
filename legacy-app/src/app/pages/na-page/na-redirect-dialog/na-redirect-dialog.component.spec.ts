@@ -16,24 +16,27 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import Parallax from 'parallax-js';
-import { NaRedirectDialogComponent } from './na-redirect-dialog/na-redirect-dialog.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-@Component({
-  selector: 'app-na-page',
-  templateUrl: './na-page.component.html',
-  styleUrls: ['./na-page.component.scss']
-})
-export class NaPageComponent implements OnInit {
-  constructor(private dialog: MatDialog) {}
+import { NaRedirectDialogComponent } from './na-redirect-dialog.component';
 
-  ngOnInit() {
-    const scene = document.getElementById('scene');
-    const parallaxInstance = new Parallax(scene);
-    if (!localStorage.getItem('@@REDIRECT')) {
-      this.dialog.open(NaRedirectDialogComponent);
-    }
-  }
-}
+describe('NaRedirectDialogComponent', () => {
+  let component: NaRedirectDialogComponent;
+  let fixture: ComponentFixture<NaRedirectDialogComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [NaRedirectDialogComponent]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NaRedirectDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

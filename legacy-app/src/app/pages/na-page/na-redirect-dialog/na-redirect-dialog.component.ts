@@ -16,24 +16,23 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import Parallax from 'parallax-js';
-import { NaRedirectDialogComponent } from './na-redirect-dialog/na-redirect-dialog.component';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-na-page',
-  templateUrl: './na-page.component.html',
-  styleUrls: ['./na-page.component.scss']
+  selector: 'app-na-redirect-dialog',
+  templateUrl: './na-redirect-dialog.component.html',
+  styleUrls: ['./na-redirect-dialog.component.scss']
 })
-export class NaPageComponent implements OnInit {
-  constructor(private dialog: MatDialog) {}
+export class NaRedirectDialogComponent {
+  constructor(private dialog: MatDialogRef<NaRedirectDialogComponent>) {}
 
-  ngOnInit() {
-    const scene = document.getElementById('scene');
-    const parallaxInstance = new Parallax(scene);
-    if (!localStorage.getItem('@@REDIRECT')) {
-      this.dialog.open(NaRedirectDialogComponent);
+  decideRedirect(redirect: boolean) {
+    if (redirect) {
+      localStorage.setItem('@@REDIRECT', JSON.stringify('/na'));
+    } else {
+      localStorage.setItem('@@REDIRECT', JSON.stringify(false));
     }
+    this.dialog.close();
   }
 }
