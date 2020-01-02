@@ -155,6 +155,19 @@ header {
   }
 }
 
+.tags {
+  background: linear-gradient(to left, #e090f0, #05bdf5);
+  //background: -webkit-linear-gradient(to right, #E090F0, #05BDF5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  .white {
+    background: white;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 mat-nav-list.tel-list {
   mat-icon {
     width: 40px;
@@ -218,7 +231,8 @@ table {
   empty-cells: show;
   border: 1px solid #cbcbcb;
 
-  td {
+  td,
+  th {
     padding: 0.5em 1em;
     border-width: 0 0 1px 0;
     border-bottom: 1px solid #cbcbcb;

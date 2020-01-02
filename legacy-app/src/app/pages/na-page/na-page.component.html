@@ -60,14 +60,20 @@
       </p>
       <p>
         P.S.: You want to post about the NA on Social Media and don't know how to tag it? <br/>
-        Don't worry, we got you covered! You're encouraged to use <strong>#lifechangiNAdventure</strong>,
-        <strong>#NAMunich</strong> and <strong>#TUMiLove</strong> 📸💖
+        Don't worry, we got you covered! You're encouraged to use
+        <span class="tags">
+          <strong>#lifechangiNAdventure</strong><span class="white">,</span>&nbsp;<strong>#NAMunich</strong>&nbsp;<span
+          class="white"
+        >and</span
+        >&nbsp;<strong>#TUMiLove</strong>
+        </span>
+        📸💖
       </p>
       <section
         class="mat-typography"
         gdAuto
         gdColumns="1fr"
-        gdColumns.gt-sm="repeat(2, 1fr)"
+        gdColumns.gt-md="repeat(2, 1fr)"
         gdGap="2rem"
         style="margin-top: 3rem;"
       >
@@ -588,8 +594,7 @@
   <section class="light" fxLayout="row" fxLayoutAlign="center">
     <div style="max-width: 1500px">
       <h2 class="mat-display-3">Some more info about us and Munich</h2>
-      <!--      <h3 class="mat-headline" style="margin-bottom: 2rem;">Even more maybe less essential info can be found here</h3>-->
-      <section class="mat-typography" gdAuto gdColumns="1fr" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
+      <section class="mat-typography" gdAuto gdColumns="1fr" gdColumns.gt-md="repeat(2, 1fr)" gdGap="2rem">
         <div fxLayout="column" fxLayoutGap="2rem" style="position:relative;">
           <h2>TUMi</h2>
           <p>
@@ -675,22 +680,24 @@
             <img src="/assets/images/na/partners/tumi.svg"/>
           </div>
         </div>
-        <div>
+        <div style="position:relative;">
           <h2>German/Bayrisch - English</h2>
           <p fxHide.gt-sm>To see our table of essential phrases please open this page on a desktop or laptop</p>
-          <table fxHide.lt-md>
-            <tbody>
+          <table fxHide.lt-md style="width: 100%;">
+            <thead>
             <tr>
-              <td>
+              <th>
                 <strong>Bavarian</strong>
-              </td>
-              <td>
+              </th>
+              <th>
                 <strong>German</strong>
-              </td>
-              <td>
+              </th>
+              <th>
                 <strong>English</strong>
-              </td>
+              </th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>
                 Servus!

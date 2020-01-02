@@ -20,9 +20,9 @@ import { NgModule } from '@angular/core';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
+import { AppComponent } from './app.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-
-const redirect = JSON.parse(localStorage.getItem('@@REDIRECT') || 'false');
+import { CheckRedirectGuard } from './shared/guards/check-redirect.guard';
 
 const routes: Routes = [
   {
@@ -42,7 +42,7 @@ const routes: Routes = [
     data: { title: 'Events' },
     loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule)
   },
-  { path: '', pathMatch: 'full', redirectTo: redirect || 'events' },
+  { path: '', pathMatch: 'full', component: AppComponent, canActivate: [CheckRedirectGuard] },
   { path: '**', pathMatch: 'full', redirectTo: 'error' },
   { path: 'error', component: NotFoundPageComponent, data: { title: 'Error' } }
 ];
@@ -52,7 +52,7 @@ const routes: Routes = [
     QuicklinkModule,
     RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy, enableTracing: false })
   ],
-  providers: [AngularFireAuthGuard],
+  providers: [AngularFireAuthGuard, CheckRedirectGuard],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
