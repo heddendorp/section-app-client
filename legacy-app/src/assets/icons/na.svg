@@ -1,4 +1,32 @@
 <svg>
+  <svg height="64px" id="soda" viewBox="0 0 64 64" width="64px" xmlns="http://www.w3.org/2000/svg">
+    <linearGradient gradientUnits="userSpaceOnUse" id="hecOtGFwaE4HRPEzxBUVMa" x1="32" x2="32" y1="6.149" y2="59.342">
+      <stop offset="0" stop-color="#1a6dff"/>
+      <stop offset="1" stop-color="#c822ff"/>
+    </linearGradient>
+    <path
+      d="M46,16h-6.25l-0.747-0.998C38.058,13.742,36.575,13,35,13h-1.375l3.064-4.855	c0.179-0.149,0.403-0.23,0.639-0.23H44v-2h-6.671c-0.801,0-1.555,0.313-2.122,0.879L31.263,13H29c-1.575,0-3.057,0.742-4.002,2.002	L24.25,16H18c-2.778,0-5.035,2.278-5,5.064C13.014,22.142,13.922,23,15,23h0c0.227,0,0.419,0.168,0.449,0.393l4.091,30.277	c0.334,2.469,2.464,4.33,4.955,4.33h15.009c2.491,0,4.621-1.861,4.955-4.33l4.091-30.277C48.581,23.168,48.773,23,49,23h0	c1.078,0,1.986-0.858,2-1.936C51.035,18.278,48.778,16,46,16z M42.477,53.402c-0.2,1.48-1.478,2.598-2.973,2.598h-1.188	c-0.413-1.163-1.512-2-2.816-2h-7c-1.304,0-2.403,0.837-2.816,2h-1.188c-1.495,0-2.773-1.117-2.973-2.598L17.955,27h28.089	L42.477,53.402z M46.315,25h-28.63l-0.27-2h29.17L46.315,25z M15,21c0-1.654,1.346-3,3-3h6.75c0.315,0,0.611-0.148,0.8-0.4	L26.6,16.2c0.564-0.752,1.461-1.2,2.4-1.2h6c0.939,0,1.836,0.448,2.4,1.199l1.05,1.4c0.189,0.252,0.485,0.4,0.8,0.4H46	c1.654,0,3,1.346,3,3H15z"
+      fill="url(#hecOtGFwaE4HRPEzxBUVMa)"/>
+    <linearGradient gradientTransform="matrix(1 0 0 -1 0 486)" gradientUnits="userSpaceOnUse"
+                    id="hecOtGFwaE4HRPEzxBUVMb" x1="32" x2="32"
+                    y1="444.266" y2="438.774">
+      <stop offset="0" stop-color="#6dc7ff"/>
+      <stop offset="1" stop-color="#e6abff"/>
+    </linearGradient>
+    <path
+      d="M35.202,42H28.8c-0.442,0-0.8,0.317-0.8,0.709v0.573c0,1.703,1.287,3.268,3.172,3.603	C33.743,47.341,36,45.612,36,43.416v-0.709C36,42.317,35.643,42,35.202,42z"
+      fill="url(#hecOtGFwaE4HRPEzxBUVMb)"/>
+    <linearGradient gradientUnits="userSpaceOnUse" id="hecOtGFwaE4HRPEzxBUVMc" x1="27" x2="27" y1="34.638" y2="39.926">
+      <stop offset="0" stop-color="#6dc7ff"/>
+      <stop offset="1" stop-color="#e6abff"/>
+    </linearGradient>
+    <circle cx="27" cy="37" fill="url(#hecOtGFwaE4HRPEzxBUVMc)" r="2"/>
+    <linearGradient gradientUnits="userSpaceOnUse" id="hecOtGFwaE4HRPEzxBUVMd" x1="37" x2="37" y1="34.638" y2="39.926">
+      <stop offset="0" stop-color="#6dc7ff"/>
+      <stop offset="1" stop-color="#e6abff"/>
+    </linearGradient>
+    <circle cx="37" cy="37" fill="url(#hecOtGFwaE4HRPEzxBUVMd)" r="2"/>
+  </svg>
   <svg height="64pt" id="presentation" version="1.1" viewBox="0 0 64 64" width="64pt"
        xmlns="http://www.w3.org/2000/svg">
     <defs>

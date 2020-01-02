@@ -39,13 +39,21 @@
     width: 100vw;
 
     img {
-      width: 120vw;
-      left: -10vw;
+      width: 140vw;
+      left: -20vw;
       position: relative;
 
       &.last {
         bottom: -20px;
       }
+    }
+
+    .grey {
+      width: 140vw;
+      left: -20vw;
+      background: #303030;
+      height: 100px;
+      position: relative;
     }
 
     &.title {
@@ -83,8 +91,8 @@
   z-index: 0;
 
   &.tv {
-    bottom: 0;
-    right: 0;
+    bottom: 10vw;
+    right: 1vw;
     width: 100px;
   }
 }
@@ -94,7 +102,7 @@
   bottom: 0;
   object-fit: cover;
   object-position: bottom;
-  max-height: 10vw;
+  max-height: 20vw;
   width: 100%;
   transform: translateY(2px);
 }
@@ -128,7 +136,7 @@ section {
   }
 
   &.separated {
-    padding-bottom: 4vw;
+    padding-bottom: 12vw;
   }
 }
 
@@ -148,19 +156,19 @@ header {
 }
 
 .tag1 {
-  background: linear-gradient(to left, #e090f0, #979ff2);
+  background: linear-gradient(to right, #e090f0, #979ff2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .tag2 {
-  background: linear-gradient(to left, #979ff2, #4eaef3);
+  background: linear-gradient(to right, #979ff2, #4eaef3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .tag3 {
-  background: linear-gradient(to left, #4eaef3, #05bdf5);
+  background: linear-gradient(to right, #4eaef3, #05bdf5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
