@@ -28,15 +28,8 @@
 .parallax-container {
   overflow: hidden;
   padding-top: 4rem;
-  //background: #CFD8DC;
-  background: #355c7d; /* fallback for old browsers */
-  //background: -webkit-linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to top,
-    #c06c84,
-    #6c5b7b,
-    #355c7d
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #355c7d;
+  background: linear-gradient(to top, #c06c84, #6c5b7b, #355c7d);
 }
 
 #scene {
@@ -65,7 +58,7 @@
         font-weight: bold;
         margin: 19% 0 0;
         text-align: center;
-        color: #ffeb3b;
+        color: #fcd145;
         font-size: 40px;
 
         &.is-small {
@@ -93,7 +86,6 @@
     bottom: 0;
     right: 0;
     width: 100px;
-    //opacity: .5;
   }
 }
 
@@ -155,17 +147,22 @@ header {
   }
 }
 
-.tags {
-  background: linear-gradient(to left, #e090f0, #05bdf5);
-  //background: -webkit-linear-gradient(to right, #E090F0, #05BDF5);
+.tag1 {
+  background: linear-gradient(to left, #e090f0, #979ff2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
 
-  .white {
-    background: white;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+.tag2 {
+  background: linear-gradient(to left, #979ff2, #4eaef3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tag3 {
+  background: linear-gradient(to left, #4eaef3, #05bdf5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 mat-nav-list.tel-list {
