@@ -419,7 +419,7 @@
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  5Pax 1Day
+                  1-5Pax 1Day
                 </mat-panel-title>
                 <mat-panel-description>
                   {{ 14.8 | currency: 'EUR' }}
@@ -466,7 +466,7 @@
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  5Pax 4Days
+                  1-5Pax 4Days
                 </mat-panel-title>
                 <mat-panel-description>
                   {{ 47.9 | currency: 'EUR' }}
@@ -604,13 +604,14 @@
           </p>
           <img src="/assets/images/na/tumi.jpg" style="width: 100%;"/>
         </div>
-        <div>
+        <div fxLayout="column" fxLayoutGap="2rem" style="position:relative;">
           <h2>MESA</h2>
           <p>
-            The Munich Erasmus Student Association (MESA e.V.) is an association founded by former ERASMUS students
-            studying at LMU Munich. Not only do we assist Erasmus students studying at LMU, but we also help integrate
-            all international students of other local universities. We help students settle in Munich, answer their
-            questions and try to make you’re their time in the Bavarian capital as pleasant as possible.
+            MESA - Munich Erasmus Student Association e.V - was originally founded by former Erasmus students of the LMU
+            in 1999 and is part of ESN since 2004. We have approximately 50 active members. We are not part of the LMU
+            but we have a close cooperation with our international Office. We focus on LMUexchange students but we also
+            have a lot of TU students and other internationals. We have more than 50 events per semester and a weekly
+            come together at a karaoke bar.
           </p>
         </div>
         <div>
@@ -670,7 +671,7 @@
         <div>
           <h2>Our awesome partners</h2>
           <div class="partners" fxLayout="row wrap" fxLayoutGap="1rem">
-            <img src="/assets/images/na/partners/alumni.jpg"/>
+            <img src="/assets/images/na/partners/alumni.svg"/>
             <img src="/assets/images/na/partners/lmu.svg"/>
             <img src="/assets/images/na/partners/maxl.png"/>
             <img src="/assets/images/na/partners/rp.png"/>
@@ -1044,8 +1045,9 @@
       </section>
     </div>
   </section>
-  <section class="light" fxLayout="column" fxLayoutAlign="center center">
-    <h2>Made with
+  <section class="light" fxLayout="column" fxLayoutAlign="center center" style="padding-top: 5rem;">
+    <h2>
+      Made with
       <mat-icon svgIcon="na:soda"></mat-icon>
       in munich
     </h2>
