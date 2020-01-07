@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
       <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap=".5rem" routerLink="/">
-        <img alt="TUM" class="white-svg" src="/assets/images/tum_logo_white.svg" style="height: 2rem;">
+        <img alt="TUM" class="white-svg" src="/assets/images/tum_logo_white.svg" style="height: 2rem;"/>
         <h4
           ngStyle.gt-sm="font-size: 2rem;"
           ngStyle.xs="font-size: 1.25rem;"
@@ -44,8 +44,7 @@
       <ng-template #loginButton>
         <button mat-stroked-button routerLink="/signup">Login</button>
       </ng-template>
-      <button (click)="logout()" *ngIf="isAuthenticated$ | async; else loginButton" fxHide.xs
-              mat-stroked-button>
+      <button (click)="logout()" *ngIf="isAuthenticated$ | async; else loginButton" fxHide.xs mat-stroked-button>
         Log out
       </button>
     </mat-toolbar>
@@ -53,10 +52,10 @@
   <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
     <mat-sidenav
       #nav
+      (swipeleft)="sidenav.close()"
       [fixedInViewport]="isMobile$ | async"
       [mode]="(isMobile$ | async) ? 'over' : 'side'"
       [opened]="!(isMobile$ | async) && !!(color$ | async)"
-      (swipeleft)="sidenav.close()"
       fixedTopGap="56"
       style="width: 260px;"
     >
@@ -123,8 +122,9 @@
         <button (click)="logout()" *ngIf="isAuthenticated$ | async" fxHide.gt-xs fxShow mat-raised-button>
           <span>Logout</span>
         </button>
-        <p class="mat-body-1" style="text-align: center"><a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a
-          routerLink="/data-privacy">Privacy Policy</a></p>
+        <p class="mat-body-1" style="text-align: center">
+          <a routerLink="/imprint">Imprint</a>&nbsp;/&nbsp;<a routerLink="/data-privacy">Privacy Policy</a>
+        </p>
       </aside>
     </mat-sidenav>
     <mat-sidenav-content>

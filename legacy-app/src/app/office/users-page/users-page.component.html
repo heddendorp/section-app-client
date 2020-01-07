@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -20,8 +20,13 @@
   <h3 class="no-margin mat-display-3">Users</h3>
   <p>Manage the apps users and special roles here</p>
   <p>Filter displayed users</p>
-  <form [formGroup]="filterForm" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem"
-        style="margin-bottom: 2rem;">
+  <form
+    [formGroup]="filterForm"
+    gdAuto
+    gdColumns="repeat(auto-fit, minmax(250px, 1fr))"
+    gdGap="1rem"
+    style="margin-bottom: 2rem;"
+  >
     <mat-checkbox [indeterminate]="filterIndeterminate | async" formControlName="showAll">Show all users</mat-checkbox>
     <mat-checkbox formControlName="showAdmins">Show Admins</mat-checkbox>
     <mat-checkbox formControlName="showTutors">Show Tutors</mat-checkbox>

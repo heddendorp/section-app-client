@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -43,8 +43,10 @@
       <mat-card-header>
         <img *ngIf="event.icon" mat-card-avatar src="https://png.icons8.com/color/192/{{ event.icon }}"/>
         <mat-card-title>{{ event.name }}</mat-card-title>
-        <mat-card-subtitle>{{ event.start | date: 'dd MMM yy (HH:mm)' }}
-          to {{ event.end | date: 'dd MMM yy (HH:mm)' }}</mat-card-subtitle>
+        <mat-card-subtitle
+        >{{ event.start | date: 'dd MMM yy (HH:mm)' }} to
+          {{ event.end | date: 'dd MMM yy (HH:mm)' }}</mat-card-subtitle
+        >
       </mat-card-header>
       <mat-card-content>
         <strong *ngIf="event.isTutor" style="margin-bottom: 1rem;">
@@ -58,11 +60,11 @@
         </p>
       </mat-card-content>
       <mat-card-actions *ngIf="!event.isTutor">
-        <button (click)="deregister(event)" *ngIf="!event.hasPayed" color="warn" mat-flat-button>Deregister from this
-          event
+        <button (click)="deregister(event)" *ngIf="!event.hasPayed" color="warn" mat-flat-button>
+          Deregister from this event
         </button>
-        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>Get a refund for this
-          event
+        <button (click)="refund(event)" *ngIf="event.hasPayed" color="warn" mat-flat-button>
+          Get a refund for this event
         </button>
       </mat-card-actions>
     </mat-card>
@@ -71,8 +73,11 @@
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(4, 1fr)" gdGap="2rem">
     <mat-card (click)="refund(event)" *ngFor="let event of passedEvents$ | async">
       <mat-card-header>
-        <img *ngIf="event.icon" mat-card-avatar
-             src="https://img.icons8.com/color/192/{{ event.icon }}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2"/>
+        <img
+          *ngIf="event.icon"
+          mat-card-avatar
+          src="https://img.icons8.com/color/192/{{ event.icon }}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2"
+        />
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.start | date: 'short' }} to {{ event.end | date: 'short' }}</mat-card-subtitle>
       </mat-card-header>

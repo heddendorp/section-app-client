@@ -18,12 +18,13 @@
 
 <h2 mat-dialog-title>Coming to the NA?</h2>
 <mat-dialog-content class="mat-typography">
-  <p>If you are attending the NA you can configure the app to always open this page first instead of the Events
-    Page.</p>
+  <p>
+    If you are attending the NA you can configure the app to always open this page first instead of the Events Page.
+  </p>
   <em>This behaviour will revert if you clear your browser data, use a different device or after the NA is over.</em>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout.lt-md="column" fxLayoutGap="1rem">
   <button (click)="decideRedirect(true)" color="primary" mat-raised-button>Let's do it</button>
-  <button mat-dialog-close mat-stroked-button> Ask me again next time</button>
+  <button mat-dialog-close mat-stroked-button>Ask me again next time</button>
   <button (click)="decideRedirect(false)" color="warn" mat-stroked-button>No and don't ask again</button>
 </mat-dialog-actions>

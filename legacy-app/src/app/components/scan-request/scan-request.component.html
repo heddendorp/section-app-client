@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -114,10 +114,7 @@
                   <mat-form-field>
                     <input [formControl]="ticketControl" matInput placeholder="Number of tickets" type="number"/>
                   </mat-form-field>
-                  <button
-                    (click)="sellTickets(element)"
-                    mat-button
-                  >
+                  <button (click)="sellTickets(element)" mat-button>
                     Sell tickets
                   </button>
                 </div>
@@ -148,7 +145,8 @@
       <td *matCellDef="let element" mat-cell>
         {{ element?.warning }}
         <ng-container *ngIf="element.action === 'collectMoney' && element.event.moneyCollected"
-        >Money with {{ element.event.moneyWith }}</ng-container>
+        >Money with {{ element.event.moneyWith }}</ng-container
+        >
       </td>
       <td *matFooterCellDef mat-footer-cell></td>
     </ng-container>

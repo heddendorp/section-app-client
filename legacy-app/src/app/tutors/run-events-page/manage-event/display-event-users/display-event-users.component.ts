@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,10 @@ export class DisplayEventUsersComponent implements OnInit {
     );
   }
 
+  get encodedEventName() {
+    return encodeURIComponent(`[TUMi] ${this.event.name}`);
+  }
+
   ngOnInit() {
     /*console.log(
       this.event.userSignups
@@ -68,10 +72,6 @@ export class DisplayEventUsersComponent implements OnInit {
           return res;
         }, '')
     );*/
-  }
-
-  get encodedEventName() {
-    return encodeURIComponent(`[TUMi] ${this.event.name}`);
   }
 
   async kickTutor(user: Student) {

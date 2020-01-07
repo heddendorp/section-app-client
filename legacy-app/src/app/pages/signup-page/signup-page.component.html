@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -24,23 +24,34 @@
         <h4 class="mat-display-4 no-margin">Why do I have to sign up?</h4>
         <p>
           In order to sign up for events we need to know who you are. So you can conveniently sign up here and enter
-          your data so we can sign you up for events. Please note that an account is required for any event signup! <br>
+          your data so we can sign you up for events. Please note that an account is required for any event signup!
+          <br/>
           More info on this process can be found below the login options
         </p>
       </div>
-      <mat-checkbox [formControl]="consentControl">By signing in I accept the <a routerLink="/data-privacy" class="styled">Privacy Policy</a></mat-checkbox>
+      <mat-checkbox [formControl]="consentControl"
+      >By signing in I accept the <a class="styled" routerLink="/data-privacy">Privacy Policy</a>
+      </mat-checkbox>
       <div class="login-buttons" gdAuto gdColumns="repeat(auto-fit, minmax(250px, 1fr))" gdGap="1rem" id="buttons">
         <button (click)="googleLogin()" [disabled]="!consentControl.value" color="primary" mat-stroked-button>
           <mat-icon svgIcon="google"></mat-icon>
           <span>Sign up with Google</span>
         </button>
-        <button (click)="oauthLogin('microsoft.com')" [disabled]="!consentControl.value || isStaging" color="primary"
-                mat-stroked-button>
+        <button
+          (click)="oauthLogin('microsoft.com')"
+          [disabled]="!consentControl.value || isStaging"
+          color="primary"
+          mat-stroked-button
+        >
           <mat-icon svgIcon="microsoft"></mat-icon>
           <span>Sign up with microsoft</span>
         </button>
-        <button (click)="facebookLogin()" [disabled]="!consentControl.value || isStaging" color="primary"
-                mat-stroked-button>
+        <button
+          (click)="facebookLogin()"
+          [disabled]="!consentControl.value || isStaging"
+          color="primary"
+          mat-stroked-button
+        >
           <mat-icon svgIcon="facebook"></mat-icon>
           <span>Sign up with facebook</span>
         </button>
@@ -52,8 +63,13 @@
       <div>
         <p class="mat-caption">It's recommended to use a social account instead of making a new one with your email</p>
         <p class="mat-caption">
-          If you have <strong>forgotten your password</strong>, please contact us at <em><a href="mailto:webmaster@esn-tumi.de?subject=[TUMi app] password reset" class="styled">webmaster@esn-tumi.de</a></em> to get a
-          reset.
+          If you have <strong>forgotten your password</strong>, please contact us at
+          <em
+          ><a class="styled" href="mailto:webmaster@esn-tumi.de?subject=[TUMi app] password reset"
+          >webmaster@esn-tumi.de</a
+          ></em
+          >
+          to get a reset.
         </p>
       </div>
       <div>

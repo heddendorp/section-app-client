@@ -1,6 +1,6 @@
 <!--
   ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2019  Lukas Heddendorp
+  ~     Copyright (C) 2020  Lukas Heddendorp
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -34,18 +34,12 @@
 </p>
 <ng-container *ngIf="event.isTicketTracker">
   <h2 class="no-margin">Ticket Tracking event</h2>
-  <p>
-    <strong>Tickets Sold: </strong>{{ event.soldTickets }}<br/>
-  </p>
+  <p><strong>Tickets Sold: </strong>{{ event.soldTickets }}<br/></p>
   <div *ngIf="isAdmin$ | async">
     <mat-form-field>
       <input [formControl]="ticketControl" matInput placeholder="Number of tickets" type="number"/>
     </mat-form-field>
-    <button
-      (click)="addTickets.emit(ticketControl.value)"
-      [disabled]="!ticketControl.value"
-      mat-button
-    >
+    <button (click)="addTickets.emit(ticketControl.value)" [disabled]="!ticketControl.value" mat-button>
       Add externally sold tickets
     </button>
   </div>
