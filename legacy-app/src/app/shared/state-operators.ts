@@ -41,7 +41,7 @@ export function addOrReplace<T>(sortBy: string = null) {
       if (moment(entities[0][sortBy]).isValid()) {
         const sortedIds = nextState.ids
           .map(id => nextState.entities[id])
-          .sort((a, b) => a[sortBy].diff(b[sortBy]))
+          .sort((a, b) => moment(a[sortBy]).diff(moment(b[sortBy])))
           .map(e => e.id);
         nextState = {
           ...nextState,

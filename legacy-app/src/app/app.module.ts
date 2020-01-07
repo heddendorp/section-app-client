@@ -74,7 +74,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
           if (typeof value === 'string') {
             const test = reISO.exec(value);
             if (test) {
-              return moment(value);
+              return moment(value).clone();
             }
           }
           return value;
