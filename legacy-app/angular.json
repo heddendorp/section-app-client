@@ -26,7 +26,8 @@
               "src/favicon.ico",
               "src/robots.txt",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/CHANGELOG.md"
             ],
             "extractCss": true,
             "styles": [
