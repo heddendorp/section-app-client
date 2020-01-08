@@ -16,12 +16,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { auth } from 'firebase/app';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Student, UserService } from '../services/user.service';
+import { getFaculty, getTarget, getType } from '../uni-data';
 import {
   AuthError,
   CreateUserWithPassword,
@@ -48,7 +50,12 @@ export interface AuthStateModel {
   }
 })
 export class AuthState implements NgxsOnInit {
-  constructor(private angularFireAuth: AngularFireAuth, private userService: UserService, private router: Router) {}
+  constructor(
+    private angularFireAuth: AngularFireAuth,
+    private userService: UserService,
+    private router: Router,
+    private analytics: AngularFireAnalytics
+  ) {}
 
   @Selector()
   static user(state: AuthStateModel) {
@@ -84,7 +91,17 @@ export class AuthState implements NgxsOnInit {
           this.userService
             .getUser(user.uid)
             .pipe(map(student => Object.assign({}, student, { id: user.uid, verified: user.emailVerified })))
-        )
+        ),
+        tap(user => {
+          this.analytics.setUserProperties({
+            faculty: getFaculty(user.faculty),
+            admin: user.isAdmin,
+            tutor: user.isTutor,
+            type: getType(user.type),
+            degree: getTarget(user.degree),
+            country: user.country
+          });
+        })
       )
       .subscribe(user => ctx.dispatch(new SetUser(user)));
   }

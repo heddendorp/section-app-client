@@ -147,6 +147,7 @@ export class AppModule {
   constructor(angularFireAuth: AngularFireAuth, private router: Router, analytics: AngularFireAnalytics) {
     angularFireAuth.auth.getRedirectResult().then(result => {
       if (result.user) {
+        console.log(result.user);
         analytics.setUserProperties(result.user);
         this.router.navigate(['events', 'list']);
       }
