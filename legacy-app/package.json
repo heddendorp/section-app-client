@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "predeploy": "firebase use default && yarn run build:prod",
+    "predeploy": "firebase use default && yarn run build:prod && yarn run release:deploy",
     "predeploy:full": "yarn run predeploy",
     "predeploy:staging": "firebase use staging && yarn run build:staging",
     "deploy:full": "yarn run upload:all",
@@ -25,7 +25,9 @@
     "prebundle-report": "yarn run build:stats",
     "prebundle-report:next": "yarn run build:stats",
     "bundle-report": "webpack-bundle-analyzer dist/tumi/stats-es5.json",
-    "bundle-report:next": "webpack-bundle-analyzer dist/tumi/stats-es2015.json"
+    "bundle-report:next": "webpack-bundle-analyzer dist/tumi/stats-es2015.json",
+    "release": "standard-version --no-verify",
+    "release:deploy": "standard-version --prerelease deploy"
   },
   "private": true,
   "dependencies": {
@@ -90,6 +92,7 @@
     "prettier": "^1.12.1",
     "protractor": "~5.4.0",
     "rxjs-spy": "^7.5.1",
+    "standard-version": "^7.0.1",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0",
     "typescript": ">=3.1 < 3.6",
