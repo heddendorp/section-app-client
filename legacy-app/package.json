@@ -1,6 +1,6 @@
 {
   "name": "tumi",
-  "version": "0.0.1-deploy.3",
+  "version": "0.0.1-deploy.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,8 +27,9 @@
     "bundle-report": "webpack-bundle-analyzer dist/tumi/stats-es5.json",
     "bundle-report:next": "webpack-bundle-analyzer dist/tumi/stats-es2015.json",
     "release": "standard-version --no-verify",
+    "release:preview": "standard-version --no-verify --dry-run",
     "release:deploy": "standard-version --prerelease deploy --no-verify --skip.changelog --skip.tag --skip.commit",
-    "postrelease": "copyfiles CHANGELOG.md src"
+    "postrelease": "copyfiles CHANGELOG.md src/assets"
   },
   "private": true,
   "dependencies": {

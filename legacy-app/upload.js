@@ -17,7 +17,7 @@
  */
 const git = require('git-last-commit');
 const execSync = require('child_process').execSync;
-const version = require('package').version;
+const version = require('./package.json').version;
 
 git.getLastCommit(function(err, { subject }) {
   if (process.argv[process.argv.length - 1] === 'hosting') {
