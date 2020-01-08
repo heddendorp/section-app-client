@@ -27,6 +27,7 @@ import {
   AngularFireAnalyticsModule,
   COLLECTION_ENABLED,
   CONFIG,
+  DEBUG_MODE,
   ScreenTrackingService,
   UserTrackingService
 } from '@angular/fire/analytics';
@@ -134,6 +135,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
       }
     },
     { provide: COLLECTION_ENABLED, useValue: localStorage.getItem('disableAnalytics') || false },
+    { provide: DEBUG_MODE, useValue: localStorage.getItem('@@debug') || false },
     environment.production ? { provide: ErrorHandler, useClass: AnalyticsErrorHandler } : [],
     ScreenTrackingService,
     UserTrackingService,

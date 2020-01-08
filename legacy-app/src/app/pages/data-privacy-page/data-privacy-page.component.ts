@@ -30,6 +30,7 @@ export class DataPrivacyPageComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
   optOutControl = new FormControl(JSON.parse(localStorage.getItem('disableAnalytics')) || false);
   userIdControl = new FormControl(JSON.parse(localStorage.getItem('preventUserID')) || false);
+  debugModeControl = new FormControl(JSON.parse(localStorage.getItem('@@debug')) || false);
 
   constructor() {}
 
@@ -40,6 +41,9 @@ export class DataPrivacyPageComponent implements OnInit, OnDestroy {
     this.userIdControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(value => localStorage.setItem('preventUserID', value));
+    this.debugModeControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(value => localStorage.setItem('@@debug', value));
   }
 
   ngOnDestroy(): void {
