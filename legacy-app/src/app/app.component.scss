@@ -1,6 +1,6 @@
 /*!
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -76,6 +76,9 @@ mat-sidenav {
 
   p {
     margin: 1rem;
+    font-size: 0.75rem;
+    color: inherit;
+    text-decoration: none;
 
     a {
       font-size: 0.75rem;

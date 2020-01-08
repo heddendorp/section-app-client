@@ -31,6 +31,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { Select, Store } from '@ngxs/store';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
 import { filter, first, map, startWith, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { version } from '../../package.json';
 import { environment } from '../environments/environment';
 import { slideInAnimation } from './animation';
 import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
@@ -47,6 +48,7 @@ import { AuthState } from './shared/state/auth.state';
   animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  appVersion = version;
   destroyed$ = new Subject();
   isMobile$: Observable<boolean>;
   @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;

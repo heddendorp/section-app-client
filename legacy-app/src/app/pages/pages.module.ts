@@ -19,8 +19,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 import { SharedModule } from '../shared/shared.module';
 import { AboutPageComponent } from './about-page/about-page.component';
+import { ChangelogPageComponent } from './changelog-page/changelog-page.component';
 import { DataPrivacyPageComponent } from './data-privacy-page/data-privacy-page.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { ImprintPageComponent } from './imprint-page/imprint-page.component';
@@ -37,6 +39,7 @@ const routes: Routes = [
   { path: 'lp', data: { standalone: true, title: 'LP' }, component: LpPageComponent },
   { path: 'na', data: { standalone: true, title: 'NA' }, component: NaPageComponent },
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
+  { path: 'changes', data: { title: 'Changes' }, component: ChangelogPageComponent },
   { path: 'imprint', data: { title: 'Imprint' }, component: ImprintPageComponent },
   { path: 'data-privacy', data: { title: 'Privacy' }, component: DataPrivacyPageComponent }
 ];
@@ -51,9 +54,10 @@ const routes: Routes = [
     DataPrivacyPageComponent,
     LpPageComponent,
     NaPageComponent,
-    NaRedirectDialogComponent
+    NaRedirectDialogComponent,
+    ChangelogPageComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule]
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
 })
 export class PagesModule {}

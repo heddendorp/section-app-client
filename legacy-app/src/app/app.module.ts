@@ -25,6 +25,8 @@ import { AngularFireModule } from '@angular/fire';
 import {
   AngularFireAnalytics,
   AngularFireAnalyticsModule,
+  APP_NAME,
+  APP_VERSION,
   COLLECTION_ENABLED,
   CONFIG,
   DEBUG_MODE,
@@ -46,6 +48,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import * as moment from 'moment';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { version } from '../../package.json';
 import { environment } from '../environments/environment';
 import { AnalyticsErrorHandler } from './AnalyticsErrorHandler';
 
@@ -136,6 +139,8 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     },
     { provide: COLLECTION_ENABLED, useValue: localStorage.getItem('disableAnalytics') || false },
     { provide: DEBUG_MODE, useValue: localStorage.getItem('@@debug') || false },
+    { provide: APP_VERSION, useValue: version },
+    { provide: APP_NAME, useValue: 'esn-tumi' },
     environment.production ? { provide: ErrorHandler, useClass: AnalyticsErrorHandler } : [],
     ScreenTrackingService,
     UserTrackingService,
