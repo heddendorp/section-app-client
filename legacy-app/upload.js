@@ -17,11 +17,12 @@
  */
 const git = require('git-last-commit');
 const execSync = require('child_process').execSync;
+const version = require('package').version;
 
 git.getLastCommit(function(err, { subject }) {
   if (process.argv[process.argv.length - 1] === 'hosting') {
-    execSync('firebase deploy -m "' + subject + '" --only hosting', { stdio: [0, 1, 2] });
+    execSync('firebase deploy -m "' + subject + ' (' + version + ')" --only hosting', { stdio: [0, 1, 2] });
   } else {
-    execSync('firebase deploy -m "' + subject + '"', { stdio: [0, 1, 2] });
+    execSync('firebase deploy -m "' + subject + ' (' + version + ')"', { stdio: [0, 1, 2] });
   }
 });
