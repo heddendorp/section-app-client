@@ -22,6 +22,13 @@ import localeEn from '@angular/common/locales/en-DE';
 import localeEnExtra from '@angular/common/locales/extra/en-DE';
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import {
+  AngularFireAnalyticsModule,
+  COLLECTION_ENABLED,
+  CONFIG,
+  ScreenTrackingService,
+  UserTrackingService
+} from '@angular/fire/analytics';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN, FUNCTIONS_REGION } from '@angular/fire/functions';
@@ -48,7 +55,6 @@ import { ScanRequestComponent } from './components/scan-request/scan-request.com
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
-import { sendEvent } from './shared/utility-functions';
 import { migration1 } from './storageMigrations';
 
 registerLocaleData(localeEn, 'en-DE', localeEnExtra);
@@ -107,6 +113,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
       }
     }),
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAnalyticsModule,
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
     AngularFireAuthModule,
     AngularFireFunctionsModule,
@@ -119,7 +126,16 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
     { provide: FUNCTIONS_REGION, useValue: 'europe-west1' },
     { provide: LOCALE_ID, useValue: 'en-DE' },
+    {
+      provide: CONFIG,
+      useValue: {
+        anonymize_ip: true
+      }
+    },
+    { provide: COLLECTION_ENABLED, useValue: localStorage.getItem('disableAnalytics') || false },
     environment.production ? { provide: ErrorHandler, useClass: AnalyticsErrorHandler } : [],
+    ScreenTrackingService,
+    UserTrackingService,
     Title
   ],
   bootstrap: [AppComponent]
@@ -128,7 +144,6 @@ export class AppModule {
   constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
     this.angularFireAuth.auth.getRedirectResult().then(result => {
       if (result.user) {
-        sendEvent('login', { method: result.additionalUserInfo.providerId });
         this.router.navigate(['events', 'list']);
       }
     });

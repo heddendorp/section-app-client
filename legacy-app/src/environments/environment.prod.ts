@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ export const environment = {
     authDomain: 'esn-tumi.firebaseapp.com',
     databaseURL: 'https://esn-tumi.firebaseio.com',
     projectId: 'esn-tumi',
-    storageBucket: '',
+    storageBucket: 'esn-tumi.appspot.com',
     messagingSenderId: '756904945827',
     appId: '1:756904945827:web:c4b8570bf907f627',
     measurementId: 'G-HN3R0ZJRDD'

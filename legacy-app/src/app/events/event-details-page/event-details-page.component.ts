@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@ import { AuthState } from '../../shared/state/auth.state';
 import { EventsState } from '../../shared/state/events.state';
 import { LoadUser } from '../../shared/state/users.actions';
 import { UsersState } from '../../shared/state/users.state';
-import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-event-details-page',
@@ -97,7 +96,6 @@ export class EventDetailsPageComponent implements OnInit {
           type: 'tutor'
         })
         .toPromise();
-      sendEvent('event_tutor_signup', { eventId });
       snack.dismiss();
       await this.router.navigate(['events', 'my']);
     }
@@ -114,7 +112,6 @@ export class EventDetailsPageComponent implements OnInit {
         type: 'student'
       })
       .toPromise();
-    sendEvent('event_user_signup', { eventId });
     snack.dismiss();
     await this.router.navigate(['events', 'my']);
   }

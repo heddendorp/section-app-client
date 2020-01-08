@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ import { debounceTime, filter, map, share, switchMap, takeUntil } from 'rxjs/ope
 import { EventService } from '../../shared/services/event.service';
 import { MoneyService } from '../../shared/services/money.service';
 import { UserService } from '../../shared/services/user.service';
-import { sendEvent } from '../../shared/utility-functions';
 
 @Component({
   selector: 'app-scan-request',
@@ -155,7 +154,6 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
       this.user,
       'refund'
     );
-    sendEvent('refund', { event_label: request.event.name, value: -request.event.price });
     this.eventService.deregister(this.user, request.event);
   }
 
@@ -167,7 +165,6 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         this.user,
         'registration'
       );
-      sendEvent('purchase', { event_label: request.event.name, value: request.event.price });
     }
     this.eventService.register(this.user, request.event);
   }
@@ -181,7 +178,6 @@ export class ScanRequestComponent implements OnInit, OnDestroy {
         'registration'
       );
     }
-    sendEvent('purchase', { event_label: request.event.name, value: request.event.price, is_waitlist: true });
     this.eventService.register(this.user, request.event, true);
   }
 

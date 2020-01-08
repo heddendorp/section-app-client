@@ -30,7 +30,7 @@ import { ActivationEnd, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Select, Store } from '@ngxs/store';
 import { concat, fromEvent, interval, Observable, Subject } from 'rxjs';
-import { filter, first, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, first, map, startWith, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { slideInAnimation } from './animation';
 import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
@@ -39,7 +39,6 @@ import { IconToastComponent } from './shared/components/icon-toast/icon-toast.co
 import { CartService } from './shared/services/cart.service';
 import { Logout } from './shared/state/auth.actions';
 import { AuthState } from './shared/state/auth.state';
-import { gtagConfig, sendEvent } from './shared/utility-functions';
 
 @Component({
   selector: 'app-root',
@@ -87,7 +86,6 @@ export class AppComponent implements OnInit, OnDestroy {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
     updates.available.subscribe(event => {
-      sendEvent('found_update', { event_category: 'technical' });
       this.snackBar
         .openFromComponent(IconToastComponent, {
           duration: 0,
@@ -98,7 +96,6 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         })
         .onAction()
-        .pipe(tap(() => sendEvent('activate_update', { event_category: 'technical' })))
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
     fromEvent<MediaQueryListEvent>(mediaMatcher.matchMedia('(prefers-color-scheme: dark)'), 'change')
@@ -137,7 +134,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter(event => event instanceof ActivationEnd),
-        tap(() => gtagConfig({ page_path: location.pathname })),
         withLatestFrom(this.isMobile$),
         map(([event, mobile]) => {
           if (mobile) {

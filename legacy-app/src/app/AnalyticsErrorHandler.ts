@@ -17,12 +17,14 @@
  */
 
 import { ErrorHandler } from '@angular/core';
-import { sendEvent } from './shared/utility-functions';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 export class AnalyticsErrorHandler implements ErrorHandler {
+  constructor(private analytics: AngularFireAnalytics) {}
+
   handleError(error: any): void {
     const message = error.message ? error.message : error.toString();
-    sendEvent('exception', { fatal: false, description: message });
+    this.analytics.logEvent('exception', { fatal: false, description: message });
     throw error;
   }
 }

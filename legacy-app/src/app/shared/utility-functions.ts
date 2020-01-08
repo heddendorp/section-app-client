@@ -32,19 +32,6 @@ export const getFreeSpots = (event: TumiEvent) => {
   }
 };
 
-export const gtagFunction = (...args) => {
-  // @ts-ignore
-  gtag(...args);
-};
-
-export const gtagConfig = (value: any) => {
-  gtagFunction('config', 'G-04YZMLFE3Z', value);
-};
-
-export const sendEvent = (name: string, data: any = {}) => {
-  gtagFunction('event', name, data);
-};
-
 export const countSignups = (acc: number, curr: EventSignup) => acc + curr.partySize;
 
 export const filterEvents = (filter, isTutor) => {

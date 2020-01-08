@@ -1,8 +1,25 @@
+/*
+ *     The TUMi app provides a modern way of managing events for an esn section.
+ *     Copyright (C) 2020  Lukas Heddendorp
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
-import { sendEvent } from '../../shared/utility-functions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-privacy-page',
@@ -18,16 +35,10 @@ export class DataPrivacyPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.optOutControl.valueChanges
-      .pipe(
-        takeUntil(this.destroyed$),
-        tap(value => sendEvent('set_analytics', { event_category: 'technical', choice: value }))
-      )
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(value => localStorage.setItem('disableAnalytics', value));
     this.userIdControl.valueChanges
-      .pipe(
-        takeUntil(this.destroyed$),
-        tap(value => sendEvent('set_user_tracking', { event_category: 'technical', choice: value }))
-      )
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(value => localStorage.setItem('preventUserID', value));
   }
 
