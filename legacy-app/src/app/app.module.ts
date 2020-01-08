@@ -23,6 +23,7 @@ import localeEnExtra from '@angular/common/locales/extra/en-DE';
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import {
+  AngularFireAnalytics,
   AngularFireAnalyticsModule,
   COLLECTION_ENABLED,
   CONFIG,
@@ -141,9 +142,10 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
-    this.angularFireAuth.auth.getRedirectResult().then(result => {
+  constructor(angularFireAuth: AngularFireAuth, private router: Router, analytics: AngularFireAnalytics) {
+    angularFireAuth.auth.getRedirectResult().then(result => {
       if (result.user) {
+        analytics.setUserProperties(result.user);
         this.router.navigate(['events', 'list']);
       }
     });
