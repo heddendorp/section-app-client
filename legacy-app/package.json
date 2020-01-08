@@ -1,6 +1,6 @@
 {
   "name": "tumi",
-  "version": "0.0.0",
+  "version": "0.0.1-deploy.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,7 +12,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "predeploy": "firebase use default && yarn run build:prod && yarn run release:deploy",
+    "predeploy": "firebase use default && yarn run release:deploy && yarn run build:prod",
     "predeploy:full": "yarn run predeploy",
     "predeploy:staging": "firebase use staging && yarn run build:staging",
     "deploy:full": "yarn run upload:all",

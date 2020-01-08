@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.1-deploy.0](https://github.com/Isigiel/tumi-app/compare/v0.0.0...v0.0.1-deploy.0) (2020-01-08)
+
+### Features
+
+- **app:** Add Changelog and versioning ([04b2ac8](https://github.com/Isigiel/tumi-app/commit/04b2ac8081f86019131586870743e6ccefba3903))
+- **app:** Display Version and Changelog in app ([33d6667](https://github.com/Isigiel/tumi-app/commit/33d6667706dc07f0ce9f1c2ddabbd94be7f6f2f0))
+
 ## 0.0.0 (2020-01-08)
 
 ### Features
