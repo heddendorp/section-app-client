@@ -8,6 +8,7 @@
   },
   "hosting": [
     {
+      "appAssociation": "AUTO",
       "target": "tumi",
       "public": "dist/tumi",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
@@ -32,6 +33,10 @@
         }
       ],
       "rewrites": [
+        {
+          "source": "/go/**",
+          "dynamicLinks": true
+        },
         {
           "source": "/esn-tumi/europe-west1/removeRegistration",
           "function": "removeRegistration"
