@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -166,7 +166,8 @@ export const balanceUpdate = functions
         const moneyRef = firestore.collection('stats').doc('money');
         const currentBalance = await transaction.get(moneyRef);
         if (currentBalance && currentBalance.data()) {
-          transaction.update(moneyRef, { balance: currentBalance.data()!.balance + value.value });
+          const newBalanceCents = currentBalance.data()!.balance * 100 + value.value * 100;
+          transaction.update(moneyRef, { balance: (newBalanceCents / 100).toFixed(2) });
         }
       });
     }
