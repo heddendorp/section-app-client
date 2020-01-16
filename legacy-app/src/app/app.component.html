@@ -52,7 +52,6 @@
   <mat-sidenav-container [style.marginTop.px]="(isMobile$ | async) ? 56 : 0">
     <mat-sidenav
       #nav
-      (swipeleft)="sidenav.close()"
       [fixedInViewport]="isMobile$ | async"
       [mode]="(isMobile$ | async) ? 'over' : 'side'"
       [opened]="!(isMobile$ | async) && !!(color$ | async)"

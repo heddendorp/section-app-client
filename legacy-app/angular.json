@@ -176,5 +176,8 @@
       }
     }
   },
-  "defaultProject": "tumi"
+  "defaultProject": "tumi",
+  "cli": {
+    "analytics": "1fd913d1-58be-4989-97d1-25c2d548d08f"
+  }
 }

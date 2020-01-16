@@ -19,7 +19,6 @@
 import { NgModule } from '@angular/core';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
-import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
 import { AppComponent } from './app.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { CheckRedirectGuard } from './shared/guards/check-redirect.guard';
@@ -48,10 +47,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    QuicklinkModule,
-    RouterModule.forRoot(routes, { preloadingStrategy: QuicklinkStrategy, enableTracing: false })
-  ],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   providers: [AngularFireAuthGuard, CheckRedirectGuard],
   exports: [RouterModule]
 })
