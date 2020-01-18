@@ -27,6 +27,7 @@ import { DataPrivacyPageComponent } from './data-privacy-page/data-privacy-page.
 import { HelpPageComponent } from './help-page/help-page.component';
 import { ImprintPageComponent } from './imprint-page/imprint-page.component';
 import { LpPageComponent } from './lp-page/lp-page.component';
+import { AgendaExplorerComponent } from './na-page/agenda-explorer/agenda-explorer.component';
 import { NaPageComponent } from './na-page/na-page.component';
 import { NaRedirectDialogComponent } from './na-page/na-redirect-dialog/na-redirect-dialog.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
@@ -55,7 +56,8 @@ const routes: Routes = [
     LpPageComponent,
     NaPageComponent,
     NaRedirectDialogComponent,
-    ChangelogPageComponent
+    ChangelogPageComponent,
+    AgendaExplorerComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]

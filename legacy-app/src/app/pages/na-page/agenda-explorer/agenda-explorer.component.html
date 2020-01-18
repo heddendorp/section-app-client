@@ -1,0 +1,55 @@
+<!--
+  ~     The TUMi app provides a modern way of managing events for an esn section.
+  ~     Copyright (C) 2020  Lukas Heddendorp
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<mat-card *ngIf="(currentItem | async)?.start">
+  <mat-progress-bar [value]="(currentItem | async)?.progress"></mat-progress-bar>
+  <mat-card-title>Until {{ (currentItem | async)?.end | date: 'shortTime' }}</mat-card-title>
+  <mat-accordion displayMode="flat">
+    <mat-expansion-panel
+      *ngFor="let item of (nextItem | async)?.items; trackBy: trackByTopic; first as isFirst; last as isLast"
+      [expanded]="isFirst && isLast"
+      class="mat-elevation-z0"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ item.topic }}</mat-panel-title>
+        <mat-panel-description>{{ item.room }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <strong>{{ item.speaker }}</strong>
+      <p>{{ item.description }}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+<mat-card *ngIf="(nextItem | async)?.start">
+  <mat-card-title>{{ (nextItem | async)?.duration | titlecase }}</mat-card-title>
+  <mat-card-subtitle>{{ (nextItem | async)?.start | date: 'short' }}
+    - {{ (nextItem | async)?.end | date: 'shortTime' }}</mat-card-subtitle>
+  <mat-accordion displayMode="flat">
+    <mat-expansion-panel
+      *ngFor="let item of (nextItem | async)?.items; trackBy: trackByTopic; first as isFirst; last as isLast"
+      [expanded]="isFirst && isLast"
+      class="mat-elevation-z0"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ item.topic }}</mat-panel-title>
+        <mat-panel-description>{{ item.room }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <strong>{{ item.speaker }}</strong>
+      <p>{{ item.description }}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
