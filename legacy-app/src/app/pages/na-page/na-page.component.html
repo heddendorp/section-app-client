@@ -337,160 +337,95 @@
         </div>
         <div class="transport">
           <h2>Transportation</h2>
-          <p>We recommend to get a ticket for public transportation</p>
           <p>
-            The easiest way to find out where you're going in Munich is by just entering it into Google Maps, if you
-            prefer to do it the old-school way though, check out the map
-          </p>
-          <a
-            href="https://www.mvv-muenchen.de/fileadmin/mediapool/03-Plaene_Bahnhoefe/Netzplaene/MVV_Netzplan_S_U_T.pdf"
-            mat-stroked-button
-            target="_blank"
-          >Munich network map</a
-          >
-          <h3 style="margin-top: 2rem;">Getting to Munich</h3>
-          <div fxLayout="column" fxLayoutGap="2rem">
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
-              <mat-icon fxFlex="64px" svgIcon="na:plane"></mat-icon>
-              <p>
-                <strong>By plane</strong><br/>
-                You can take a S-Bahn that is going to the city centre to the main station. From there it is either
-                possible to take only the U-Bahn U2 (direction Feldmoching; station: Hohenzollernplatz) and then walk to
-                the hostel or to take an additional bus (line 53/59) that takes you to the bus station Barbarastraße.
-              </p>
-            </div>
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
-              <mat-icon fxFlex="64px" svgIcon="na:train"></mat-icon>
-              <p>
-                <strong>By train</strong><br/>
-                From main station it is either possible to take only the U-Bahn U2 (direction Feldmoching; station:
-                Hohenzollernplatz)) and then walk to the hostel or to take an additional bus (line 53/59) that takes you
-                to the bus station Barbarastraße.
-              </p>
-            </div>
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
-              <mat-icon fxFlex="64px" svgIcon="na:bus"></mat-icon>
-              <p>
-                <strong>By bus</strong><br/>
-                Munich also has a big central bus station which is located at Hackerbrücke. The easiest way is to walk
-                to the main station (8min), take the U2 (direction: Feldmoching, station Hohenzollernplatz) and walk to
-                the Hostel (10 min) or take an additional bus (line 53/59) to the bus station Barbarastraße.
-              </p>
-            </div>
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
-              <mat-icon fxFlex="64px" svgIcon="na:car"></mat-icon>
-              <p>
-                <strong>By car</strong><br/>
-                From direction South-West via A96, from the West (Karlsruhe Stuttgart) via A8, from the North (Nürnberg)
-                via A9. The address of the hostel is Elisabethstraße 87, 80797 München.
-              </p>
-            </div>
-          </div>
-          <h3 style="margin-top: 2rem;">Tickets in Munich</h3>
-          <p>
-            You can get tickets by using the
-            <a class="styled" href="https://www.bahn.de/hilfe/view/pk/de/download-db-navigator.shtml" target="_blank"
-            >DB Navigator</a
-            >, the
-            <a class="styled" href="https://www.mvg.de/services/mobile-services/fahrinfo.html" target="_blank"
-            >MVG App</a
-            >
-            or any vending machine in the stations. All locations are in Zone M. The tickets only have to be valid for
-            Zone M.
+            Way Hostel-Plenaries by bike: 8min, by walking: 25min, by public transport: 17min (excluding possible
+            waiting times)
           </p>
           <mat-accordion>
-            <mat-expansion-panel>
+            <mat-expansion-panel expanded>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  1Pax 1Day
+                  Getting to Munich
                 </mat-panel-title>
-                <mat-panel-description>
-                  {{ 7.8 | currency: 'EUR' }}
-                </mat-panel-description>
               </mat-expansion-panel-header>
-              <ul>
-                <li>Valid in Zone M</li>
-                <li>One person</li>
-                <li>Valid for one day until 6am the following day</li>
-              </ul>
-              <a
-                class="styled"
-                href="https://www.mvv-muenchen.de/en/tickets-and-fares/tickets-daytickets/single-day-ticket/index.html"
-                target="_blank"
-              >MVV - info</a
-              >
+              <div fxLayout="column" fxLayoutGap="2rem">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+                  <mat-icon fxFlex="64px" svgIcon="na:plane"></mat-icon>
+                  <p>
+                    <strong>By plane</strong><br/>
+                    You can take a S-Bahn that is going to the city centre to the main station. From there it is either
+                    possible to take only the U-Bahn U2 (direction Feldmoching; station: Hohenzollernplatz) and then
+                    walk to the hostel or to take an additional bus (line 53/59) that takes you to the bus station
+                    Barbarastraße.
+                  </p>
+                </div>
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+                  <mat-icon fxFlex="64px" svgIcon="na:train"></mat-icon>
+                  <p>
+                    <strong>By train</strong><br/>
+                    From main station it is either possible to take only the U-Bahn U2 (direction Feldmoching; station:
+                    Hohenzollernplatz)) and then walk to the hostel or to take an additional bus (line 53/59) that takes
+                    you to the bus station Barbarastraße.
+                  </p>
+                </div>
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+                  <mat-icon fxFlex="64px" svgIcon="na:bus"></mat-icon>
+                  <p>
+                    <strong>By bus</strong><br/>
+                    Munich also has a big central bus station which is located at Hackerbrücke. The easiest way is to
+                    walk to the main station (8min), take the U2 (direction: Feldmoching, station Hohenzollernplatz) and
+                    walk to the Hostel (10 min) or take an additional bus (line 53/59) to the bus station Barbarastraße.
+                  </p>
+                </div>
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+                  <mat-icon fxFlex="64px" svgIcon="na:car"></mat-icon>
+                  <p>
+                    <strong>By car</strong><br/>
+                    From direction South-West via A96, from the West (Karlsruhe Stuttgart) via A8, from the North
+                    (Nürnberg) via A9. The address of the hostel is Elisabethstraße 87, 80797 München.
+                  </p>
+                </div>
+              </div>
             </mat-expansion-panel>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  1-5Pax 1Day
+                  Free bike in munich
                 </mat-panel-title>
-                <mat-panel-description>
-                  {{ 14.8 | currency: 'EUR' }}
-                </mat-panel-description>
               </mat-expansion-panel-header>
-              <ul>
-                <li>Valid in Zone M</li>
-                <li>Up to five people</li>
-                <li>Valid for one day until 6am the following day</li>
-              </ul>
-              <a
-                class="styled"
-                href="https://www.mvv-muenchen.de/tickets/tickets-tageskarten/gruppen-tageskarte/index.html"
-                target="_blank"
-              >MVV - info</a
-              >
+              <p>
+                If you are interested in a free bike, please fill
+                <a class="styled" href="https://forms.gle/RXpgptKmPD3rENve6" target="_blank">this form</a> (Deadline:
+                Monday,
+                20.01.2020, 23:59pm)<br/>
+                Please notice that if you fill that form you have to pick up your bike as Swapfiets is preparing the
+                bikes for us and there is the possibility of a future cooperation depending on how well we represent
+                ourselves.
+              </p>
+              <p>
+                Swapfiets Munich - Opening times: Thursday & Friday 12 - 20, Saturday 12 - 18 <br> Address:
+                <a class="styled" href="https://goo.gl/maps/5D49LDgGJCuYvPj88" target="_blank">Augustenstraße 44, 80333
+                  München</a>
+                (8min walk from TUM/plenaries)
+              </p>
             </mat-expansion-panel>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  1Pax 4Days
+                  Free public transport tickets
                 </mat-panel-title>
-                <mat-panel-description>
-                  {{ 29.9 | currency: 'EUR' }}
-                </mat-panel-description>
               </mat-expansion-panel-header>
-              <ul>
-                <li>Valid in Zone M</li>
-                <li>One person</li>
-                <li>4 days until 6am the following day</li>
-                <li>Additional touristic discounts</li>
-              </ul>
+              <p>If you are not taking a bike we can offer you Free MVG Tickets (including U-Bahn, Bus and Tram, no
+                S-Bahn)</p>
+              <p>
+                The easiest way to find out where you're going in Munich is by just entering it into Google Maps, if you
+                prefer to do it the old-school way though, check out the map
+              </p>
               <a
-                class="styled"
-                href="https://www.mvv-muenchen.de/en/tickets-and-fares/tickets-daytickets/citytourcard/index.html"
+                href="https://www.mvv-muenchen.de/fileadmin/mediapool/03-Plaene_Bahnhoefe/Netzplaene/MVV_Netzplan_S_U_T.pdf"
+                mat-stroked-button
                 target="_blank"
-              >MVV - info</a
-              >
-              <span>&nbsp;and&nbsp;</span>
-              <a class="styled" href="https://www.citytourcard-muenchen.com/city/muenchen-de/" target="_blank"
-              >City Tour Card Info</a
-              >
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  1-5Pax 4Days
-                </mat-panel-title>
-                <mat-panel-description>
-                  {{ 47.9 | currency: 'EUR' }}
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <ul>
-                <li>Valid in Zone M</li>
-                <li>5 people (cheaper for less people)</li>
-                <li>4 days until 6am the following day</li>
-                <li>Additional touristic discounts</li>
-              </ul>
-              <a
-                class="styled"
-                href="https://www.mvv-muenchen.de/en/tickets-and-fares/tickets-daytickets/citytourcard/index.html"
-                target="_blank"
-              >MVV - info</a
-              >
-              <span>&nbsp;and&nbsp;</span>
-              <a class="styled" href="https://www.citytourcard-muenchen.com/city/muenchen-de/" target="_blank"
-              >City Tour Card Info</a
+              >Munich network map</a
               >
             </mat-expansion-panel>
           </mat-accordion>
@@ -531,9 +466,7 @@
                 <img mat-card-md-image src="/assets/illustrations/na/camera.svg"/>
               </mat-card-title-group>
               <mat-card-actions>
-                <a color="primary" href="https://esn-tumi.de/go/na-photos" mat-button target="_blank"
-                >Open the Album</a
-                >
+                <a color="primary" href="https://esn-tumi.de/go/na-photos" mat-button target="_blank">Open the Album</a>
               </mat-card-actions>
             </mat-card>
             <mat-card fxFlex>
