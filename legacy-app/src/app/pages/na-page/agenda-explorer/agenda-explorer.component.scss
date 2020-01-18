@@ -16,13 +16,16 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@import '~@angular/material/theming';
+@import 'src/styles';
+
 :host {
   display: block;
-  //border-radius: 6px;
-  //padding: 6px;
-  //border: 2px solid #fafafa;
   margin-bottom: 1rem;
 }
+
+@include mat-card-theme($tumi-dark-theme);
+@include mat-expansion-panel-theme($tumi-dark-theme);
 
 mat-card.mat-card {
   padding: 0;
