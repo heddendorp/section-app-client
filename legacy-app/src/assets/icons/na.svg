@@ -1,4 +1,34 @@
 <svg>
+  <svg height="64pt" id="museum" version="1.1" viewBox="0 0 64 64" width="64pt" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient gradientTransform="matrix(0.372093,0,0,0.372093,0,0)" gradientUnits="userSpaceOnUse"
+                      id="linear0-museum" x1="86" x2="86" y1="33.153" y2="58.23544">
+        <stop offset="0" style="stop-color:rgb(98.823529%,95.294118%,99.215686%);stop-opacity:1;"/>
+        <stop offset="1" style="stop-color:rgb(43.137255%,85.490196%,98.823529%);stop-opacity:1;"/>
+      </linearGradient>
+      <linearGradient gradientTransform="matrix(0.372093,0,0,0.372093,0,0)" gradientUnits="userSpaceOnUse"
+                      id="linear1-museum" x1="86" x2="86" y1="15.68425" y2="159.3795">
+        <stop offset="0" style="stop-color:rgb(87.843137%,56.470588%,94.117647%);stop-opacity:1;"/>
+        <stop offset="1" style="stop-color:rgb(1.960784%,74.117647%,96.078431%);stop-opacity:1;"/>
+      </linearGradient>
+      <linearGradient gradientTransform="matrix(0.372093,0,0,0.372093,0,0)" gradientUnits="userSpaceOnUse"
+                      id="linear2-museum" x1="86" x2="86" y1="15.68425" y2="159.38488">
+        <stop offset="0" style="stop-color:rgb(87.843137%,56.470588%,94.117647%);stop-opacity:1;"/>
+        <stop offset="1" style="stop-color:rgb(1.960784%,74.117647%,96.078431%);stop-opacity:1;"/>
+      </linearGradient>
+    </defs>
+    <g id="surface1766253">
+      <path
+        d="M 32 13.003906 C 29.789062 13.003906 28 14.792969 28 17.003906 C 28 19.210938 29.789062 21.003906 32 21.003906 C 34.210938 21.003906 36 19.210938 36 17.003906 C 36 14.792969 34.210938 13.003906 32 13.003906 Z M 32 13.003906 "
+        style=" stroke:none;fill-rule:nonzero;fill:url(#linear0-museum);"/>
+      <path
+        d="M 56 26 C 57.101562 26 58 25.109375 58 24.011719 L 58 23.527344 C 58 22.886719 57.6875 22.28125 57.144531 21.894531 L 34.804688 6.859375 C 33.101562 5.710938 30.898438 5.710938 29.195312 6.859375 L 6.835938 21.910156 C 6.3125 22.28125 6 22.886719 6 23.527344 L 6 24.011719 C 6 25.109375 6.898438 26 8 26 L 11 26 L 11 48.003906 C 9.347656 48.003906 8 49.347656 8 51.003906 L 8 52.1875 C 6.839844 52.601562 6 53.699219 6 55.003906 L 6 58 L 58 58 L 58 55.003906 C 58 53.699219 57.160156 52.601562 56 52.1875 L 56 51.003906 C 56 49.347656 54.652344 48.003906 53 48.003906 L 53 26 Z M 8 24 L 7.976562 23.546875 L 30.3125 8.515625 C 30.824219 8.167969 31.410156 7.996094 32 7.996094 C 32.589844 7.996094 33.175781 8.171875 33.6875 8.515625 L 56 23.527344 L 56.003906 24 C 56.003906 24 56.003906 24 56 24 L 27 24 L 27 24.007812 L 21 24.007812 L 21 24 Z M 49 34 L 49 30 L 51 30 L 51 44 L 49 44 L 49 39 L 47 39 L 47 44 L 45 44 L 45 30 L 47 30 L 47 34 Z M 43 48 L 37 48 L 37 26 L 43 26 Z M 15 39 L 15 44 L 13 44 L 13 30 L 15 30 L 15 34 L 17 34 L 17 30 L 19 30 L 19 44 L 17 44 L 17 39 Z M 21 26 L 27 26 L 27 48 L 21 48 Z M 35 26 L 35 28 L 29 28 L 29 26 Z M 35 44 L 33 44 L 33 39 L 31 39 L 31 44 L 29 44 L 29 30 L 31 30 L 31 34 L 33 34 L 33 30 L 35 30 Z M 29 46 L 35 46 L 35 48 L 29 48 Z M 19 26 L 19 28 L 13 28 L 13 26 Z M 13 46 L 19 46 L 19 48 L 13 48 Z M 56 56 L 8 56 L 8 55.003906 C 8 54.449219 8.449219 54 9 54 L 55 54 C 55.550781 54 56 54.449219 56 55.003906 Z M 54 51.003906 L 54 52 L 10 52 L 10 51.003906 C 10 50.449219 10.449219 50 11 50 L 53 50 C 53.550781 50 54 50.449219 54 51.003906 Z M 45 48 L 45 46 L 51 46 L 51 48 Z M 51 28 L 45 28 L 45 26 L 51 26 Z M 51 28 "
+        style=" stroke:none;fill-rule:nonzero;fill:url(#linear1-museum);"/>
+      <path
+        d="M 32 22.003906 C 34.757812 22.003906 37 19.757812 37 17.003906 C 37 14.246094 34.757812 12.003906 32 12.003906 C 29.242188 12.003906 27 14.246094 27 17.003906 C 27 19.757812 29.242188 22.003906 32 22.003906 Z M 32 14.003906 C 33.652344 14.003906 35 15.347656 35 17.003906 C 35 18.65625 33.652344 20.003906 32 20.003906 C 30.347656 20.003906 29 18.65625 29 17.003906 C 29 15.347656 30.347656 14.003906 32 14.003906 Z M 32 14.003906 "
+        style=" stroke:none;fill-rule:nonzero;fill:url(#linear2-museum);"/>
+    </g>
+  </svg>
   <svg height="64px" id="soda" viewBox="0 0 64 64" width="64px" xmlns="http://www.w3.org/2000/svg">
     <linearGradient gradientUnits="userSpaceOnUse" id="hecOtGFwaE4HRPEzxBUVMa" x1="32" x2="32" y1="6.149" y2="59.342">
       <stop offset="0" stop-color="#1a6dff"/>
