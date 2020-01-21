@@ -21,7 +21,7 @@
   <mat-card-title>Until {{ (currentItem | async)?.end | date: 'shortTime' }}</mat-card-title>
   <mat-accordion displayMode="flat">
     <mat-expansion-panel
-      *ngFor="let item of (nextItem | async)?.items; trackBy: trackByTopic; first as isFirst; last as isLast"
+      *ngFor="let item of (currentItem | async)?.items; trackBy: trackByTopic; first as isFirst; last as isLast"
       [expanded]="isFirst && isLast"
       class="mat-elevation-z0"
     >

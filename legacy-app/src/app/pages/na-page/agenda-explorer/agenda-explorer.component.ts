@@ -20,7 +20,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { combineLatest, interval, Observable, Subject } from 'rxjs';
-import { map, share, switchMap, takeUntil } from 'rxjs/operators';
+import { map, retry, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-agenda-explorer',
@@ -38,20 +38,25 @@ export class AgendaExplorerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const options = { params: new HttpParams().set('key', 'AIzaSyBC3m_hlMPk3lxA_50hVNDGxjrmOkl_Cf0') };
-    const fridayRequest = this.http.get<{ values: any[] }>(
-      'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Friday!1:1022',
-      options
-    );
-    const saturdayRequest = this.http.get<{ values: any[] }>(
-      'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Saturday!1:1022',
-      options
-    );
-    const sundayRequest = this.http.get<{ values: any[] }>(
-      'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Sunday!1:1022',
-      options
-    );
+    const fridayRequest = this.http
+      .get<{ values: any[] }>(
+        'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Friday!1:1022',
+        options
+      )
+      .pipe(retry(5));
+    const saturdayRequest = this.http
+      .get<{ values: any[] }>(
+        'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Saturday!1:1022',
+        options
+      )
+      .pipe(retry(5));
+    const sundayRequest = this.http
+      .get<{ values: any[] }>(
+        'https://content-sheets.googleapis.com/v4/spreadsheets/12xRDc2TObRaezX5uCYPufsluokLu_cwOeWGJTIXdwwE/values/Sunday!1:1022',
+        options
+      )
+      .pipe(retry(5));
     this.agenda = combineLatest([fridayRequest, saturdayRequest, sundayRequest]).pipe(
-      share(),
       map(requests => requests.map(request => request.values.slice(2))),
       map(days => {
         const slots = [];
@@ -81,9 +86,10 @@ export class AgendaExplorerComponent implements OnInit, OnDestroy {
           })
         );
         return slots;
-      })
+      }),
+      shareReplay(1)
     );
-    this.timer = interval(1000).pipe(takeUntil(this.destroyed$), share());
+    this.timer = interval(1000).pipe(takeUntil(this.destroyed$));
     this.nextItem = this.timer.pipe(
       switchMap(_ => this.agenda),
       map(agenda => agenda.find(slot => slot.start > moment())),
