@@ -1,6 +1,6 @@
 /*
  *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2019  Lukas Heddendorp
+ *     Copyright (C) 2020  Lukas Heddendorp
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { TumiEvent } from '../../../../shared/services/event.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output() save = new EventEmitter<TumiEvent>();
   destroyed$ = new Subject();
   eventForm: FormGroup;
-  iconUrl$: Observable<string>;
+  icon$: Observable<string>;
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({
@@ -69,9 +69,9 @@ export class EventEditFormComponent implements OnInit, OnChanges, OnDestroy {
       isTicketTracker: [false, Validators.required],
       tutorSpots: [0, Validators.required]
     });
-    this.iconUrl$ = this.eventForm.get('icon').valueChanges.pipe(
-      debounceTime(200),
-      map(icon => `https://img.icons8.com/color/60/${icon}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`)
+    this.icon$ = this.eventForm.get('icon').valueChanges.pipe(
+      debounceTime(200)
+      // map(icon => `https://img.icons8.com/color/60/${icon}.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`)
     );
     this.eventForm.get('isExternal').valueChanges.subscribe(value => {
       if (value) {

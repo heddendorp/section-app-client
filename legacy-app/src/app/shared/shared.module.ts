@@ -48,6 +48,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 import { UserDataChangeComponent } from './components/user-data-change/user-data-change.component';
+import { IconSrcDirective } from './directives/icon-src.directive';
 import { ShowUntilDirective } from './directives/show-until.directive';
 import { DegreePipe } from './services/degree.pipe';
 import { FacultyPipe } from './services/faculty.pipe';
@@ -110,7 +111,8 @@ const materialModules = [
     FacultyPipe,
     DegreePipe,
     TypePipe,
-    ShowUntilDirective
+    ShowUntilDirective,
+    IconSrcDirective
   ],
   declarations: [
     IconToastComponent,
@@ -119,7 +121,8 @@ const materialModules = [
     TypePipe,
     DegreePipe,
     ConfirmationDialogComponent,
-    ShowUntilDirective
+    ShowUntilDirective,
+    IconSrcDirective
   ],
   entryComponents: [IconToastComponent, UserDataChangeComponent, ConfirmationDialogComponent]
 })

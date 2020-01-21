@@ -75,7 +75,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
     }),
-    NgxsModule.forRoot([], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([], { developmentMode: false }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
