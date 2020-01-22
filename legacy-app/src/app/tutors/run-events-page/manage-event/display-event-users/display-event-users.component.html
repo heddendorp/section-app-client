@@ -40,7 +40,7 @@
   <tr *matRowDef="let row; columns: ['name', 'mail', 'action']" mat-row></tr>
 </table>
 
-<p style="margin-top: 2rem;"><strong>Students registered for this event</strong></p>
+<p style="margin-top: 2rem;"><strong>Students registered for this event</strong>&nbsp;({{event.coming.length}})</p>
 <a
   href="mailto:tumi-koordination@zv.tum.de?subject={{ encodedEventName }}&cc={{ tutorEmail }}&bcc={{
     participantEmail
@@ -94,7 +94,7 @@
   <tr *matRowDef="let row; columns: columns$ | async" mat-row></tr>
 </table>
 
-<p style="margin-top: 2rem;"><strong>Students on the waiting list</strong></p>
+<p style="margin-top: 2rem;"><strong>Students on the waiting list</strong>&nbsp;({{event.waitlist.length}})</p>
 <table [dataSource]="event.waitlist" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>

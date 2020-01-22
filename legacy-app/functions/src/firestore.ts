@@ -99,7 +99,8 @@ export const deletedSignup = functions
         .collection('events')
         .doc(context.params['eventId'])
         .get();
-      if (value.isWaitList) {
+      const freeSpots = eventData.data()!.participantSpots - eventData.data()!.usersSignedUp;
+      if (value.isWaitList || freeSpots <= 0) {
         return;
       }
       const signupQuery = firestore
@@ -108,7 +109,7 @@ export const deletedSignup = functions
         .collection('signups')
         .where('isWaitList', '==', true)
         .orderBy('timestamp')
-        .limit(value.partySize);
+        .limit(freeSpots);
       const queryData = await signupQuery.get();
       if (!queryData.empty && moment(eventData.data()!.start.toDate()).isAfter(moment())) {
         await queryData.docs.map(async (doc: any) => {
