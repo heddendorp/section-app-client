@@ -1,6 +1,6 @@
 {
   "name": "tumi",
-  "version": "0.0.1-deploy.30",
+  "version": "0.0.1-deploy.32",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

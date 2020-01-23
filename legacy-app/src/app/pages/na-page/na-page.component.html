@@ -70,9 +70,9 @@
       </p>
       <p>
         P.P.S.: <strong>TUMi has Instagram now!</strong> <br/>
-        Just in time for the NA TUMi has finally joined the party. Tag <strong class="tag2"><a
-        href="https://www.instagram.com/esn.tumi/">@esn.tumi</a></strong> and
-        follow us <em>(we need it)</em>
+        Just in time for the NA TUMi has finally joined the party. Tag
+        <strong class="tag2"><a href="https://www.instagram.com/esn.tumi/">@esn.tumi</a></strong> and follow us
+        <em>(we need it)</em>
       </p>
       <section
         class="mat-typography"
@@ -132,36 +132,42 @@
             Almost all rooms the NA is held in <strong>don't have sockets</strong>! Please keep that in mind and charge
             your devices sufficiently
           </p>
+          <p>
+            If you want to use <strong>WiFi</strong> there's eduroam at TUM and for non-students we also have BayernWLAN
+            which is free and open.
+          </p>
           <div style="width: 100%;margin-bottom: 2rem;"></div>
-          <h2>Packing list</h2>
-          <ul>
-            <li>Your passport/ID card</li>
-            <li>ESNcard</li>
-            <li>Medical and travel insurance</li>
-            <li>Medication if needed</li>
-            <li>A towel (not included in the hostel)</li>
-            <li>Padlock for locker at hostel</li>
-            <li>Bank card and cash (in Germany, most things are still paid in cash)</li>
-            <li>Regional food for the regional dinner</li>
-            <li>
-              We appreciate you bringing your own cup/mug and water bottle. The tapped water in Munich is amazing!
-            </li>
-            <li>ESN clothes</li>
-            <li>Your mascot</li>
-            <li>Your section's flag</li>
-            <li>Old ESN merch from your section for the merch exchange</li>
-          </ul>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              Packing list
+            </mat-expansion-panel-header>
+            <ul>
+              <li>Your passport/ID card</li>
+              <li>ESNcard</li>
+              <li>Medical and travel insurance</li>
+              <li>Medication if needed</li>
+              <li>A towel (not included in the hostel)</li>
+              <li>Padlock for locker at hostel</li>
+              <li>Bank card and cash (in Germany, most things are still paid in cash)</li>
+              <li>Regional food for the regional dinner</li>
+              <li>
+                We appreciate you bringing your own cup/mug and water bottle. The tapped water in Munich is amazing!
+              </li>
+              <li>ESN clothes</li>
+              <li>Your mascot</li>
+              <li>Your section's flag</li>
+              <li>Old ESN merch from your section for the merch exchange</li>
+            </ul>
+          </mat-expansion-panel>
         </div>
         <div class="social-program">
           <h2>Social Program</h2>
           <p>
             Find the schedule with the different parts of the Social Program below. Just tap an item to see the location
             on Google Maps.
-            <br/>
-            <em>All times are subject to change and you will receive a live agenda before the event starts</em>
           </p>
-          <h3 style="margin-top: 2rem;">Thursday</h3>
-          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 *appShowUntil="'2020-01-24'" style="margin-top: 2rem;">Thursday</h3>
+          <div *appShowUntil="'2020-01-24'" class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -215,8 +221,8 @@
               </div>
             </a>
           </div>
-          <h3 style="margin-top: 2rem;">Friday</h3>
-          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 *appShowUntil="'2020-01-25'" style="margin-top: 2rem;">Friday</h3>
+          <div *appShowUntil="'2020-01-25'" class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -244,8 +250,8 @@
               </div>
             </a>
           </div>
-          <h3 style="margin-top: 2rem;">Saturday</h3>
-          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 *appShowUntil="'2020-01-26'" style="margin-top: 2rem;">Saturday</h3>
+          <div *appShowUntil="'2020-01-26'" class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -375,7 +381,7 @@
             waiting times)
           </p>
           <mat-accordion>
-            <mat-expansion-panel expanded>
+            <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Getting to Munich
@@ -426,7 +432,7 @@
                   Free bike in munich
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>
+              <!--<p>
                 If you are interested in a free bike, please fill
                 <a class="styled" href="https://forms.gle/RXpgptKmPD3rENve6" target="_blank">this form</a> (Deadline:
                 Monday,
@@ -434,22 +440,26 @@
                 Please notice that if you fill that form you have to pick up your bike as Swapfiets is preparing the
                 bikes for us and there is the possibility of a future cooperation depending on how well we represent
                 ourselves.
-              </p>
+              </p>-->
               <p>
-                Swapfiets Munich - Opening times: Thursday & Friday 12 - 20, Saturday 12 - 18 <br> Address:
-                <a class="styled" href="https://goo.gl/maps/5D49LDgGJCuYvPj88" target="_blank">Augustenstraße 44, 80333
-                  München</a>
+                Swapfiets Munich - Opening times: Thursday & Friday 12 - 20, Saturday 12 - 18 <br/>
+                Address:
+                <a class="styled" href="https://goo.gl/maps/5D49LDgGJCuYvPj88" target="_blank"
+                >Augustenstraße 44, 80333 München</a
+                >
                 (8min walk from TUM/plenaries)
               </p>
             </mat-expansion-panel>
-            <mat-expansion-panel>
+            <mat-expansion-panel expanded>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Free public transport tickets
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>If you are not taking a bike we can offer you Free MVG Tickets (including U-Bahn, Bus and Tram, no
-                S-Bahn)</p>
+              <p>
+                If you are not taking a bike we can offer you Free MVG Tickets (including U-Bahn, Bus and Tram, no
+                S-Bahn)
+              </p>
               <p>
                 The easiest way to find out where you're going in Munich is by just entering it into Google Maps, if you
                 prefer to do it the old-school way though, check out the map
@@ -499,7 +509,9 @@
                 <img mat-card-md-image src="/assets/illustrations/na/camera.svg"/>
               </mat-card-title-group>
               <mat-card-actions>
-                <a color="primary" href="https://esn-tumi.de/go/na-photos" mat-button target="_blank">Open the Album</a>
+                <a color="primary" href="https://photos.app.goo.gl/ZCtDGDGhPtsSMupx6" mat-button target="_blank"
+                >Open the Album</a
+                >
               </mat-card-actions>
             </mat-card>
             <mat-card fxFlex>
