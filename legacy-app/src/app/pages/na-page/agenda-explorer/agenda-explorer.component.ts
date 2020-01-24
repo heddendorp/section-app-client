@@ -98,7 +98,7 @@ export class AgendaExplorerComponent implements OnInit, OnDestroy {
           return null;
         }
         return Object.assign({}, slot, {
-          duration: moment.duration(slot.end.diff(moment())).humanize(true)
+          duration: moment.duration(slot.start.diff(moment())).humanize(true)
         });
       })
     );
