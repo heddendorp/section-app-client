@@ -49,7 +49,7 @@
     <div style="max-width: 1500px">
       <h2 class="mat-display-3 no-margin">Servus 👋</h2>
       <h3 class="mat-headline" style="margin-bottom: 2rem;">Welcome to the survival guide</h3>
-      <app-agenda-explorer></app-agenda-explorer>
+      <!--      <app-agenda-explorer></app-agenda-explorer>-->
       <p style="margin-bottom: 2rem;">
         Dear participants of the National Assembly,
         <br/>
@@ -66,13 +66,15 @@
       <p>
         P.S.: You want to post about the NA on Social Media and don't know how to tag it? <br/>
         Don't worry, we got you covered! You're encouraged to use <strong class="tag1">#lifechangiNAdventure</strong>,
-        <strong class="tag2">#NAMunich</strong> and <strong class="tag3">#TUMiLove</strong> 📸💖
-      </p>
-      <p>
-        P.P.S.: <strong>TUMi has Instagram now!</strong> <br/>
+        <strong class="tag2">#NAMunich</strong> and <strong class="tag3">#TUMiLove</strong> 📸💖 <br/><br/>
+        <strong>TUMi has Instagram now!</strong> <br/>
         Just in time for the NA TUMi has finally joined the party. Tag
         <strong class="tag2"><a href="https://www.instagram.com/esn.tumi/">@esn.tumi</a></strong> and follow us
         <em>(we need it)</em>
+      </p>
+      <p>
+        <strong>Technical notice: </strong>After the event we removed telephone numbers and sharing links to prevent
+        unwanted access
       </p>
       <section
         class="mat-typography"
@@ -84,39 +86,32 @@
       >
         <div class="dark-list">
           <h2>Your favorite OC</h2>
-          <!--          <p>In case of serious trouble you can reach the OC here:</p>-->
-          <mat-nav-list class="tel-list">
-            <a href="tel:+4917683694484" mat-list-item>
+          <mat-list class="tel-list">
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/sophia.png"/>
               <h3 class="no-margin" mat-line>Sophia Münch (TUMi)</h3>
-              <span mat-line>+49 176 83694484</span>
-            </a>
-            <a href="tel:+4915161430390" mat-list-item>
+            </mat-list-item>
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/christoph.png"/>
               <h3 class="no-margin" mat-line>Christoph Braun (TUMi)</h3>
-              <span mat-line>+49 1516 1430390</span>
-            </a>
-            <a href="tel:+919429314915" mat-list-item>
+            </mat-list-item>
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/shiv.png"/>
               <h3 class="no-margin" mat-line>Shiv Patel (TUMi)</h3>
-              <span mat-line>+91 94293 14915</span>
-            </a>
-            <a href="tel:+4915752089714" mat-list-item>
+            </mat-list-item>
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/kathi.png"/>
               <h3 class="no-margin" mat-line>Kathi Grieshaber (TUMi)</h3>
-              <span mat-line>+49 1575 2089714</span>
-            </a>
-            <a href="tel:+4917663437805" mat-list-item>
+            </mat-list-item>
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/julia.png"/>
               <h3 class="no-margin" mat-line>Julia Dick (TUMi)</h3>
-              <span mat-line>+49 176 63437805</span>
-            </a>
-            <a href="tel:+4915128983259" mat-list-item>
+            </mat-list-item>
+            <mat-list-item>
               <img mat-list-avatar src="/assets/images/na/astrid.png"/>
               <h3 class="no-margin" mat-line>Astrid Berggold (MESA)</h3>
-              <span mat-line>+49 1512 8983259</span>
-            </a>
-          </mat-nav-list>
+            </mat-list-item>
+          </mat-list>
         </div>
         <div>
           <h2>Good to know</h2>
@@ -166,8 +161,8 @@
             Find the schedule with the different parts of the Social Program below. Just tap an item to see the location
             on Google Maps.
           </p>
-          <h3 *appShowUntil="'2020-01-24'" style="margin-top: 2rem;">Thursday</h3>
-          <div *appShowUntil="'2020-01-24'" class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 style="margin-top: 2rem;">Thursday</h3>
+          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -221,8 +216,8 @@
               </div>
             </a>
           </div>
-          <h3 *appShowUntil="'2020-01-25'" style="margin-top: 2rem;">Friday</h3>
-          <div *appShowUntil="'2020-01-25'" class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 style="margin-top: 2rem;">Friday</h3>
+          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -250,8 +245,8 @@
               </div>
             </a>
           </div>
-          <h3 *appShowUntil="'2020-01-26'" style="margin-top: 2rem;">Saturday</h3>
-          <div *appShowUntil="'2020-01-26'" class="locations" fxLayout="column" fxLayoutGap="1rem">
+          <h3 style="margin-top: 2rem;">Saturday</h3>
+          <div class="locations" fxLayout="column" fxLayoutGap="1rem">
             <a
               class="styled"
               fxLayout="row"
@@ -482,11 +477,6 @@
                 <mat-card-subtitle>Learn all the latest from the OC</mat-card-subtitle>
                 <img mat-card-md-image src="/assets/illustrations/na/megaphone.svg"/>
               </mat-card-title-group>
-              <mat-card-actions>
-                <a color="primary" href="https://chat.whatsapp.com/IwMurjO1jtS2HjkhHvOsMr" mat-button target="_blank"
-                >Join the Group</a
-                >
-              </mat-card-actions>
             </mat-card>
             <mat-card fxFlex>
               <mat-card-title-group>
@@ -494,11 +484,6 @@
                 <mat-card-subtitle>No rules except for the CoC</mat-card-subtitle>
                 <img mat-card-md-image src="/assets/illustrations/na/whatsapp.svg"/>
               </mat-card-title-group>
-              <mat-card-actions>
-                <a color="primary" href="https://chat.whatsapp.com/JYFntA3Ci9dGlJpa43mPeU" mat-button target="_blank"
-                >Join the Group</a
-                >
-              </mat-card-actions>
             </mat-card>
           </div>
           <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="2rem">
@@ -508,11 +493,6 @@
                 <mat-card-subtitle>Share all your photos with the participants in this album</mat-card-subtitle>
                 <img mat-card-md-image src="/assets/illustrations/na/camera.svg"/>
               </mat-card-title-group>
-              <mat-card-actions>
-                <a color="primary" href="https://photos.app.goo.gl/ZCtDGDGhPtsSMupx6" mat-button target="_blank"
-                >Open the Album</a
-                >
-              </mat-card-actions>
             </mat-card>
             <mat-card fxFlex>
               <mat-card-title-group>
@@ -520,11 +500,6 @@
                 <mat-card-subtitle>Memes only</mat-card-subtitle>
                 <img mat-card-md-image src="/assets/illustrations/na/munch.svg"/>
               </mat-card-title-group>
-              <mat-card-actions>
-                <a color="primary" href="https://chat.whatsapp.com/H2K5slB5uNu3t5OcK9waId" mat-button target="_blank"
-                >Join the Group</a
-                >
-              </mat-card-actions>
             </mat-card>
           </div>
         </div>
@@ -1052,7 +1027,8 @@
       <a class="styled" href="https://github.com/Isigiel/tumi-app/tree/master/src/app/pages/na-page" target="_blank"
       >here</a
       >
-      if you dare and drop Lukas a message if you have problems
+      if you dare and <a class="styled" href="mailto:lu.heddendorp@gmail.com">drop Lukas a message</a> if you have
+      problems or questions
     </h3>
   </section>
 </div>

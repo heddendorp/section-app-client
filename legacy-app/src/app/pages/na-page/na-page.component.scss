@@ -174,10 +174,9 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
-mat-nav-list.tel-list {
-  mat-icon {
-    width: 40px;
-    height: 40px;
+mat-list.tel-list {
+  mat-list-item {
+    height: 75px;
   }
 
   img {
