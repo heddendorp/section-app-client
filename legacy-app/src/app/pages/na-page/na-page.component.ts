@@ -19,7 +19,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import Parallax from 'parallax-js';
-import { NaRedirectDialogComponent } from './na-redirect-dialog/na-redirect-dialog.component';
 
 @Component({
   selector: 'app-na-page',
@@ -32,8 +31,8 @@ export class NaPageComponent implements OnInit {
   ngOnInit() {
     const scene = document.getElementById('scene');
     const parallaxInstance = new Parallax(scene);
-    if (!localStorage.getItem('@@REDIRECT')) {
-      this.dialog.open(NaRedirectDialogComponent);
-    }
+    // if (!localStorage.getItem('@@REDIRECT')) {
+    //   this.dialog.open(NaRedirectDialogComponent);
+    // }
   }
 }
