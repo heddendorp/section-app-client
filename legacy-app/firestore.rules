@@ -36,6 +36,20 @@ service cloud.firestore {
       }
     }
 
+    match /stats/events {
+      allow read: if isTutor();
+      match /items/{item} {
+        allow read: if isAdmin();
+      }
+    }
+
+    match /stats/users {
+          allow read: if isTutor();
+          match /items/{item} {
+            allow read: if isAdmin();
+          }
+        }
+
     match /{path=**}/signups/{signup} {
       allow read: if request.auth.uid == resource.data.id || isTutor();
     }

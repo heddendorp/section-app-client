@@ -1,0 +1,26 @@
+<h2>Events</h2>
+<div gdAuto gdColumns="auto auto" gdGap="1rem">
+  <strong>Total Events</strong>
+  <p>{{ stats.eventNum | number }}</p>
+  <strong>Total registrations</strong>
+  <p>{{ stats.registrationNum | number }}</p>
+  <strong>Average Registrations per Event</strong>
+  <p>{{ stats.registrationNum / stats.eventNum | number }}</p>
+  <h3 gdColumn="span 2">Stats for Events with Participation fee</h3>
+  <strong>Events</strong>
+  <p>{{ stats.payed.eventNum | number }}</p>
+  <strong>Total registrations</strong>
+  <p>{{ stats.payed.registrationNum | number }}</p>
+  <strong>Attended registrations</strong>
+  <p>{{ stats.payed.attendedNum | number }}</p>
+  <strong>Registration without attendance</strong>
+  <p>{{ stats.payed.registrationNum - stats.payed.attendedNum | number }}</p>
+  <strong>Average Registrations per Event</strong>
+  <p>{{ stats.payed.registrationNum / stats.payed.eventNum | number }}</p>
+  <strong>Cost sum of all events</strong>
+  <p>{{ stats.payed.cost | currency: 'EUR' }}</p>
+  <strong>Money collected for all events</strong>
+  <p>{{ stats.payed.collected | currency: 'EUR' }}</p>
+  <strong>Average cost per registration</strong>
+  <p>{{ stats.payed.collected / stats.payed.registrationNum | currency: 'EUR' }}</p>
+</div>

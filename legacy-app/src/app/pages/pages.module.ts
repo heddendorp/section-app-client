@@ -32,6 +32,8 @@ import { NaPageComponent } from './na-page/na-page.component';
 import { NaRedirectDialogComponent } from './na-page/na-redirect-dialog/na-redirect-dialog.component';
 import { PaPageComponent } from './pa-page/pa-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
+import { StatsPageComponent } from './stats-page/stats-page.component';
+import { EventStatsComponent } from './stats-page/event-stats/event-stats.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
@@ -42,7 +44,8 @@ const routes: Routes = [
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
   { path: 'changes', data: { title: 'Changes' }, component: ChangelogPageComponent },
   { path: 'imprint', data: { title: 'Imprint' }, component: ImprintPageComponent },
-  { path: 'data-privacy', data: { title: 'Privacy' }, component: DataPrivacyPageComponent }
+  { path: 'data-privacy', data: { title: 'Privacy' }, component: DataPrivacyPageComponent },
+  { path: 'stats', data: { title: 'Statistics' }, component: StatsPageComponent }
 ];
 
 @NgModule({
@@ -57,7 +60,9 @@ const routes: Routes = [
     NaPageComponent,
     NaRedirectDialogComponent,
     ChangelogPageComponent,
-    AgendaExplorerComponent
+    AgendaExplorerComponent,
+    StatsPageComponent,
+    EventStatsComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]

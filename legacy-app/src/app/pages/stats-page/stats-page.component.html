@@ -1,0 +1,7 @@
+<h1 class="mat-display-4">Statistics</h1>
+<button (click)="rebuildStats()" *ngIf="isAdmin$ | async" color="warn" mat-stroked-button>Rebuild Stats</button>
+<div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2rem">
+  <div class="mat-typography" fxLayout="column" style="max-width: 600px">
+    <app-event-stats *ngIf="eventStats | async" [stats]="eventStats | async"></app-event-stats>
+  </div>
+</div>

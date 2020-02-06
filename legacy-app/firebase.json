@@ -46,6 +46,10 @@
           "function": "registerForEvent"
         },
         {
+          "source": "/esn-tumi/europe-west1/updateEventStats",
+          "function": "updateEventStats"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
