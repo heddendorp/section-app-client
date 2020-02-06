@@ -1,0 +1,33 @@
+<h2>Users</h2>
+<div gdAuto gdColumns="auto auto" gdGap="1rem">
+  <strong>Total Users</strong>
+  <p>{{ stats.userNum | number }}</p>
+  <strong>Total Users that payed money</strong>
+  <p>{{ stats.userNumPayed | number }}</p>
+  <strong>Total Users that registered for Events</strong>
+  <p>{{ stats.userNumRegistered | number }}</p>
+  <strong>Total Users that attended Events</strong>
+  <p>{{ stats.userNumAttended | number }}</p>
+  <strong>Total registrations</strong>
+  <p>{{ stats.registrationNum | number }}</p>
+  <strong>Average Registrations per User that registered for Events</strong>
+  <p>{{ stats.registrationNum / stats.userNumRegistered | number }}</p>
+  <strong>Attended registrations</strong>
+  <p>{{ stats.attendedNum | number }}</p>
+  <strong>Average attended Registrations per User that attended Events</strong>
+  <p>{{ stats.attendedNum / stats.userNumAttended | number }}</p>
+  <strong>Total money spent</strong>
+  <p>{{ stats.spent | currency: 'EUR' }}</p>
+  <strong>Total money spent and attended</strong>
+  <p>{{ stats.spentWell | currency: 'EUR' }}</p>
+  <strong>Total money wasted</strong>
+  <p>{{ stats.spent - stats.spentWell | currency: 'EUR' }}</p>
+  <strong>Average money spent per User</strong>
+  <p>{{ stats.spent / stats.userNum | currency: 'EUR' }}</p>
+  <strong>Average money spent per User that attended events</strong>
+  <p>{{ stats.spent / stats.userNumRegistered | currency: 'EUR' }}</p>
+  <strong>Average money spent per User that payed for events</strong>
+  <p>{{ stats.spent / stats.userNumPayed | currency: 'EUR' }}</p>
+  <strong>Average money wasted per User</strong>
+  <p>{{ (stats.spent - stats.spentWell) / stats.userNum | currency: 'EUR' }}</p>
+</div>

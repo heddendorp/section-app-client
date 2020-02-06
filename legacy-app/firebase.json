@@ -50,6 +50,10 @@
           "function": "updateEventStats"
         },
         {
+          "source": "/esn-tumi/europe-west1/updateUserStats",
+          "function": "updateUserStats"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

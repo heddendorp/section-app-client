@@ -16,4 +16,12 @@ export class StatsService {
   updateEventStats() {
     return this.fireFunctions.httpsCallable('updateEventStats')(null);
   }
+
+  getUserStats() {
+    return this.firestore.collection('stats').doc('users').valueChanges();
+  }
+
+  updateUserStats() {
+    return this.fireFunctions.httpsCallable('updateUserStats')(null);
+  }
 }

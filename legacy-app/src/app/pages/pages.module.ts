@@ -34,6 +34,7 @@ import { PaPageComponent } from './pa-page/pa-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { StatsPageComponent } from './stats-page/stats-page.component';
 import { EventStatsComponent } from './stats-page/event-stats/event-stats.component';
+import { UserStatsComponent } from './stats-page/user-stats/user-stats.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
@@ -62,7 +63,8 @@ const routes: Routes = [
     ChangelogPageComponent,
     AgendaExplorerComponent,
     StatsPageComponent,
-    EventStatsComponent
+    EventStatsComponent,
+    UserStatsComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]

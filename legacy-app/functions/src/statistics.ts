@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import { firestore } from './index';
+import * as _ from 'lodash';
 
 export const updateEventStats = functions.https.onCall(async () => {
   const eventsSnapshot = await firestore
@@ -70,10 +71,77 @@ export const updateEventStats = functions.https.onCall(async () => {
   await batch.commit();
 });
 
-/*export const updateUserStats = functions.https.onCall(async (call, context) => {
+export const updateUserStats = functions.https.onCall(async (call, context) => {
+  const eventsSnapshot = await firestore.collection('events').get();
+  const events = eventsSnapshot.docs.map(doc => doc.data());
   const usersSnapshot = await firestore.collection('users').get();
   const users = usersSnapshot.docs.map(doc => doc.data());
-});*/
+  const signupsSnapshot = await firestore.collectionGroup('signups').get();
+  const signups = signupsSnapshot.docs.map(doc => Object.assign(doc.data(), { event: doc.ref.parent.parent!.id }));
+
+  const userInfos = users.map(user => {
+    const eventSignups = signups.filter(signup => signup.id === user.id);
+    const totalRegistrations = eventSignups.length;
+    const waitListRegistrations = eventSignups.filter(s => s.isWaitlist).length;
+    const payedRegistrations = eventSignups.filter(s => s.hasPayed).length;
+    const attendedRegistrations = eventSignups.filter(s => s.hasAttended).length;
+    const moneySpent = eventSignups
+      .filter(s => s.hasPayed)
+      .reduce((acc, curr) => acc + events.find(e => e.id === curr.event)!.price, 0);
+    const moneyAttended = eventSignups
+      .filter(s => s.hasPayed)
+      .filter(s => s.hasAttended)
+      .reduce((acc, curr) => acc + events.find(e => e.id === curr.event)!.price, 0);
+
+    return {
+      id: user.id,
+      email: user.email,
+      // provider: user.provider || 'unkown',
+      tutor: user.isTutor,
+      editor: user.isEditor,
+      admin: user.isAdmin,
+      name: user.firstName + ' ' + user.lastName,
+      totalRegistrations,
+      waitListRegistrations,
+      payedRegistrations,
+      attendedRegistrations,
+      moneySpent,
+      moneyAttended
+    };
+  });
+
+  const stats = {
+    userNum: userInfos.length,
+    userNumPayed: userInfos.filter(u => u.moneySpent > 0).length,
+    userNumAttended: userInfos.filter(u => u.attendedRegistrations > 0).length,
+    userNumRegistered: userInfos.filter(u => u.totalRegistrations > 0).length,
+    registrationNum: userInfos.reduce((acc, curr) => acc + curr.totalRegistrations, 0),
+    attendedNum: userInfos.reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
+    waitListNum: userInfos.reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
+    spent: userInfos.reduce((acc, curr) => acc + curr.moneySpent, 0),
+    spentWell: userInfos.reduce((acc, curr) => acc + curr.moneyAttended, 0)
+  };
+  await deleteCollection(firestore, 'stats/users/items', 200);
+  await firestore
+    .collection('stats')
+    .doc('users')
+    .delete();
+
+  const batch = firestore.batch();
+  const eventStatsRef = firestore.collection('stats').doc('users');
+  batch.set(eventStatsRef, stats);
+  await batch.commit();
+  await Promise.all(
+    _.chunk(userInfos, 500).map(async chunk => {
+      const writeBatch = firestore.batch();
+      chunk.forEach(item => {
+        const itemRef = eventStatsRef.collection('items').doc();
+        writeBatch.set(itemRef, item);
+      });
+      await writeBatch.commit();
+    })
+  );
+});
 
 function deleteCollection(db: any, collectionPath: any, batchSize: any) {
   let collectionRef = db.collection(collectionPath);

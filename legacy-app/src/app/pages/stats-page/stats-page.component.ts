@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../../shared/services/stats.service';
 import { Select } from '@ngxs/store';
 import { AuthState } from '../../shared/state/auth.state';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stats-page',
@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class StatsPageComponent implements OnInit {
   eventStats;
+  userStats;
+  loadingMessage = new BehaviorSubject(null);
   @Select(AuthState.isAdmin) isAdmin$: Observable<boolean>;
 
   constructor(private statsService: StatsService) {
@@ -18,10 +20,14 @@ export class StatsPageComponent implements OnInit {
 
   ngOnInit() {
     this.eventStats = this.statsService.getEventStats();
-    this.eventStats.subscribe(console.log);
+    this.userStats = this.statsService.getUserStats();
   }
 
   async rebuildStats() {
+    this.loadingMessage.next('Recalculating event stats');
     await this.statsService.updateEventStats().toPromise();
+    this.loadingMessage.next('Recalculating user stats');
+    await this.statsService.updateUserStats().toPromise();
+    this.loadingMessage.next(null);
   }
 }
