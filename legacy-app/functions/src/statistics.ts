@@ -85,6 +85,7 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
     const waitListRegistrations = eventSignups.filter(s => s.isWaitlist).length;
     const payedRegistrations = eventSignups.filter(s => s.hasPayed).length;
     const attendedRegistrations = eventSignups.filter(s => s.hasAttended).length;
+    const tutoredEvents = events.filter(event => event.tutorSignups && event.tutorSignups.includes(user.id)).length;
     const moneySpent = eventSignups
       .filter(s => s.hasPayed)
       .reduce((acc, curr) => acc + events.find(e => e.id === curr.event)!.price, 0);
@@ -105,12 +106,20 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
       waitListRegistrations,
       payedRegistrations,
       attendedRegistrations,
+      tutoredEvents,
       moneySpent,
       moneyAttended
     };
   });
 
-  const stats = {
+  userInfos.sort((b, a) => a.totalRegistrations - b.totalRegistrations);
+  const mostRegistrations = userInfos.slice(0, 10);
+  userInfos.sort((b, a) => a.attendedRegistrations - b.attendedRegistrations);
+  const mostAttended = userInfos.slice(0, 10);
+  userInfos.sort((b, a) => a.tutoredEvents - b.tutoredEvents);
+  const mostTutored = userInfos.slice(0, 10);
+
+  let stats = {
     userNum: userInfos.length,
     userNumPayed: userInfos.filter(u => u.moneySpent > 0).length,
     userNumAttended: userInfos.filter(u => u.attendedRegistrations > 0).length,
@@ -119,7 +128,10 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
     attendedNum: userInfos.reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
     waitListNum: userInfos.reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
     spent: userInfos.reduce((acc, curr) => acc + curr.moneySpent, 0),
-    spentWell: userInfos.reduce((acc, curr) => acc + curr.moneyAttended, 0)
+    spentWell: userInfos.reduce((acc, curr) => acc + curr.moneyAttended, 0),
+    mostRegistrations,
+    mostAttended,
+    mostTutored
   };
   await deleteCollection(firestore, 'stats/users/items', 200);
   await firestore
@@ -132,7 +144,7 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
   batch.set(eventStatsRef, stats);
   await batch.commit();
   await Promise.all(
-    _.chunk(userInfos, 500).map(async chunk => {
+    _.chunk(userInfos, 50).map(async chunk => {
       const writeBatch = firestore.batch();
       chunk.forEach(item => {
         const itemRef = eventStatsRef.collection('items').doc();

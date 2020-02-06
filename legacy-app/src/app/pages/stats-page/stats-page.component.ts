@@ -24,10 +24,11 @@ export class StatsPageComponent implements OnInit {
   }
 
   async rebuildStats() {
-    this.loadingMessage.next('Recalculating event stats');
-    await this.statsService.updateEventStats().toPromise();
-    this.loadingMessage.next('Recalculating user stats');
-    await this.statsService.updateUserStats().toPromise();
+    this.loadingMessage.next('Recalculating stats');
+    await Promise.all([
+      this.statsService.updateEventStats().toPromise(),
+      this.statsService.updateUserStats().toPromise()
+    ]);
     this.loadingMessage.next(null);
   }
 }

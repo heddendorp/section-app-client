@@ -30,4 +30,20 @@
   <p>{{ stats.spent / stats.userNumPayed | currency: 'EUR' }}</p>
   <strong>Average money wasted per User</strong>
   <p>{{ (stats.spent - stats.spentWell) / stats.userNum | currency: 'EUR' }}</p>
+  <h3 gdColumn="span 2">Users with most registrations</h3>
+  <ng-container *ngFor="let user of stats.mostRegistrations">
+    <strong>{{ user.name || user.email }}</strong>
+    <p>{{ user.totalRegistrations }}</p>
+  </ng-container>
+  <h3 gdColumn="span 2">Users with most attended Events</h3>
+  <ng-container *ngFor="let user of stats.mostAttended">
+    <strong>{{ user.name || user.email }}</strong>
+    <p>{{ user.attendedRegistrations }}</p>
+  </ng-container>
+  <h3 gdColumn="span 2">Users with most tutored Events</h3>
+  <ng-container *ngFor="let user of stats.mostTutored">
+    <strong>{{ user.name || user.email }}</strong>
+    <p>{{ user.tutoredEvents }}</p>
+  </ng-container>
 </div>
+<!--<pre>{{ stats | json }}</pre>-->
