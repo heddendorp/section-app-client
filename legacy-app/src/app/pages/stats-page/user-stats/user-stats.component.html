@@ -30,20 +30,48 @@
   <p>{{ stats?.spent / stats?.userNumPayed | currency: 'EUR' }}</p>
   <strong>Average money wasted per User</strong>
   <p>{{ (stats?.spent - stats?.spentWell) / stats?.userNum | currency: 'EUR' }}</p>
-  <h3 gdColumn="span 2">Users with most registrations</h3>
-  <ng-container *ngFor="let user of stats?.mostRegistrations">
-    <strong>{{ user.name || user.email }}</strong>
-    <p>{{ user.totalRegistrations }}</p>
-  </ng-container>
-  <h3 gdColumn="span 2">Users with most attended Events</h3>
-  <ng-container *ngFor="let user of stats?.mostAttended">
-    <strong>{{ user.name || user.email }}</strong>
-    <p>{{ user.attendedRegistrations }}</p>
-  </ng-container>
-  <h3 gdColumn="span 2">Users with most tutored Events</h3>
+  <mat-expansion-panel gdColumn="span 2">
+    <mat-expansion-panel-header>Users with most registrations</mat-expansion-panel-header>
+    <div gdAuto gdColumns="auto auto" gdGap="1rem">
+      <ng-container *ngFor="let user of stats?.mostRegistrations">
+        <strong>{{ user.name || user.email }}</strong>
+        <p>{{ user.totalRegistrations }}</p>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel gdColumn="span 2">
+    <mat-expansion-panel-header>Users with most attended Events</mat-expansion-panel-header>
+    <div gdAuto gdColumns="auto auto" gdGap="1rem">
+      <ng-container *ngFor="let user of stats?.mostAttended">
+        <strong>{{ user.name || user.email }}</strong>
+        <p>{{ user.attendedRegistrations }}</p>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+  <!--<h3 gdColumn="span 2">Users with most tutored Events</h3>
   <ng-container *ngFor="let user of stats?.mostTutored">
     <strong>{{ user.name || user.email }}</strong>
     <p>{{ user.tutoredEvents }}</p>
-  </ng-container>
+  </ng-container>-->
+  <mat-expansion-panel gdColumn="span 2">
+    <mat-expansion-panel-header>All Tutors</mat-expansion-panel-header>
+    <table>
+      <thead>
+      <tr>
+        <th>Tutor</th>
+        <th>Number of Events</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of stats?.tutors">
+        <td>
+          <strong *ngIf="user.name.trim()">{{ user.name }}</strong>
+          <strong *ngIf="!user.name.trim()">{{ user.email }}</strong>
+        </td>
+        <td>{{ user.tutoredEvents }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </mat-expansion-panel>
 </div>
 <!--<pre>{{ stats | json }}</pre>-->

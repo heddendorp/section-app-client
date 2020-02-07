@@ -131,7 +131,8 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
     spentWell: userInfos.reduce((acc, curr) => acc + curr.moneyAttended, 0),
     mostRegistrations,
     mostAttended,
-    mostTutored
+    mostTutored,
+    tutors: userInfos.filter(u => u.tutor)
   };
   await deleteCollection(firestore, 'stats/users/items', 200);
   await firestore
