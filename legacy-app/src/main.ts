@@ -18,7 +18,6 @@
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import 'hammerjs';
 import * as moment from 'moment';
 import { create } from 'rxjs-spy';
 
