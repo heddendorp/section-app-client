@@ -35,13 +35,15 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
 import { StatsPageComponent } from './stats-page/stats-page.component';
 import { EventStatsComponent } from './stats-page/event-stats/event-stats.component';
 import { UserStatsComponent } from './stats-page/user-stats/user-stats.component';
+import { PartyAnimalsPromoPageComponent } from './party-animals-promo-page/party-animals-promo-page.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
   { path: 'help', data: { title: 'Help' }, component: HelpPageComponent },
-  { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
-  { path: 'lp', data: { standalone: true, title: 'LP' }, component: LpPageComponent },
-  { path: 'na', data: { standalone: true, title: 'NA' }, component: NaPageComponent },
+  { path: 'pa-ws19', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
+  { path: 'party*', data: { standalone: true, title: 'Party Animals' }, component: PartyAnimalsPromoPageComponent },
+  { path: 'lp', data: { standalone: true, title: 'Local Platform' }, component: LpPageComponent },
+  { path: 'na', data: { standalone: true, title: 'National Assembly' }, component: NaPageComponent },
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
   { path: 'changes', data: { title: 'Changes' }, component: ChangelogPageComponent },
   { path: 'imprint', data: { title: 'Imprint' }, component: ImprintPageComponent },
@@ -64,7 +66,8 @@ const routes: Routes = [
     AgendaExplorerComponent,
     StatsPageComponent,
     EventStatsComponent,
-    UserStatsComponent
+    UserStatsComponent,
+    PartyAnimalsPromoPageComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
