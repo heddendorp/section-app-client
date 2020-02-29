@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  margin: -1rem;
+}
+
+.pa-start {
+  height: 800px;
+  width: 100%;
+  background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%), url("/assets/first-events/pa/images/starter.jpg") center no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  position: relative;
+
+  h1 {
+    //margin: 0;
+  }
+
+  p.large {
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .content {
+    color: white;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    position: absolute;
+  }
+}
+
+.intro {
+  background: url("/assets/first-events/wallpaper.png");
+  color: white;
+  padding: 2rem;
+
+  p {
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  }
+}
+
+.pa-intro {
+  height: 400px;
+  width: calc(100% - 4rem);
+  background: linear-gradient(0deg, #0D47A1 10%, white 50%), url("/assets/first-events/pa/images/beerlympics.jpg") center no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  padding: 2rem;
+  position: relative;
+
+  h2 {
+    bottom: 1rem;
+    left: 2rem;
+    color: white;
+    position: absolute;
+    margin: 0;
+  }
+}
+
+.pa-groups {
+  //background: url("/assets/first-events/sun.png");
+  padding: 2rem;
+}
+
+.pa-end {
+  height: 400px;
+  width: 100%;
+  background: linear-gradient(0deg, #0D47A1 10%, white 50%), url("/assets/first-events/pa/images/end.jpg") center no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  padding: 2rem;
+  position: relative;
+
+  h2 {
+    bottom: 1rem;
+    left: 2rem;
+    color: white;
+    position: absolute;
+    margin: 0;
+  }
+}
