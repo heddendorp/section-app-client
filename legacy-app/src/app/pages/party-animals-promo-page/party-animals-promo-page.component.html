@@ -1,13 +1,99 @@
 <div class="pa-start">
   <div class="content">
-    <h1 class="mat-display-3" ngClass.gt-sm="mat-display-4">Welcome!</h1>
+    <h1 class="mat-display-2" ngClass.gt-sm="mat-display-4">Welcome!</h1>
     <p ngClass.gt-md="large">
-      TUMi is kicking the semester off with amazing orientation weeks already planned for you. Take part in "The
-      ultimate Munich student life safari" as last semesters participants called it, <strong>Party Animals</strong>!
+      TUMi is kicking the semester off with amazing orientation weeks already planned for you. Take part in
+      <em>"The ultimate Munich student life safari"</em> as last semesters' participants called it,
+      <strong>Party Animals</strong>!
       <br/>
       Or take part in some of the many many separate events we have lined up for you.
     </p>
     <button mat-flat-button routerLink="/events">Take me to regular events</button>
+  </div>
+</div>
+<div class="pa-schedule">
+  <h2 class="mat-display-4">Schedule</h2>
+  <p>
+    We have planned this preliminary schedule for you. This is mainly a guide to indicate when The Party Animals events
+    will happen and give you an impression of the time needed. <br/>
+    You can get hints by looking at our posts down below and we will announce the specific events soon.
+  </p>
+  <!--<small fxHide.gt-sm>
+    To make this list readable on your phone we've hidden some less important information. Make sure to chek it on a
+    bigger device to learn everything!
+  </small>-->
+  <div class="schedule-items" gdAuto gdColumns="repeat(3, 1fr)" gdColumns.gt-sm="repeat(7, 1fr)" gdGap="1rem">
+    <span gdColumn="span 3"></span>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Thu 02.04.</strong>
+      <img appIconSrc="handshake:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Noon and evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Fri 03.04.</strong>
+      <img appIconSrc="confetti:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Morning and night</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Sat 04.04.</strong>
+      <img appIconSrc="city-buildings:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Sun 05.04.</strong>
+      <img appIconSrc="beer:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Mon 06.04.</strong>
+      <img appIconSrc="bar:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Tue 07.04.</strong>
+      <img appIconSrc="micro:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Wed 08.04.</strong>
+      <img appIconSrc="champagne-bottle:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Thu 09.04.</strong>
+      <img appIconSrc="food:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Fri 10.04.</strong>
+      <img appIconSrc="trophy:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Sat 11.04.</strong>
+      <img appIconSrc="weber:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Afternoon</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Sun 12.04.</strong>
+      <img appIconSrc="train:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>Evening</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Mon 13.04.</strong>
+      <img appIconSrc="circled:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Tue 14.04.</strong>
+      <img appIconSrc="world-map:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
+    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+      <strong>Web 15.04.</strong>
+      <img appIconSrc="trekking:nolan" fxFlex="64px" height="64px" width="64px"/>
+      <strong>All day</strong>
+    </div>
   </div>
 </div>
 <div

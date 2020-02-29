@@ -1,3 +1,6 @@
+@import 'src/styles';
+@import '~@angular/material/theming';
+
 :host {
   display: block;
   margin: -1rem;
@@ -6,7 +9,8 @@
 .pa-start {
   height: 800px;
   width: 100%;
-  background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%), url("/assets/first-events/pa/images/starter.jpg") center no-repeat;
+  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
+  url('/assets/first-events/pa/images/starter.jpg') center no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
   position: relative;
@@ -16,7 +20,7 @@
   }
 
   p.large {
-    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+    font: 500 20px/32px Roboto, 'Helvetica Neue', sans-serif;
   }
 
   .content {
@@ -28,31 +32,28 @@
   }
 }
 
-.intro {
-  background: url("/assets/first-events/wallpaper.png");
+.pa-schedule {
+  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%), linear-gradient(#91959e 0, #424242 250px);
+  background-blend-mode: multiply;
   color: white;
-  padding: 2rem;
-
-  p {
-    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
-  }
+  padding: 4rem 2rem 2rem;
+  //margin-top: 1px;
 }
 
-.pa-intro {
-  height: 400px;
-  width: calc(100% - 4rem);
-  background: linear-gradient(0deg, #0D47A1 10%, white 50%), url("/assets/first-events/pa/images/beerlympics.jpg") center no-repeat;
-  background-size: cover;
-  background-blend-mode: multiply;
-  padding: 2rem;
-  position: relative;
+.schedule-items {
+  margin-top: 2rem;
 
-  h2 {
-    bottom: 1rem;
-    left: 2rem;
-    color: white;
-    position: absolute;
-    margin: 0;
+  .schedule-item {
+    border: rgba(255, 255, 255, 0.15) 1px solid;
+    border-radius: 6px;
+    padding: 8px;
+    @include mat-elevation-transition();
+    transition: background-color 0.28s ease;
+
+    &:hover {
+      @include mat-elevation(6);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 }
 
@@ -64,7 +65,8 @@
 .pa-end {
   height: 400px;
   width: 100%;
-  background: linear-gradient(0deg, #0D47A1 10%, white 50%), url("/assets/first-events/pa/images/end.jpg") center no-repeat;
+  background: linear-gradient(0deg, #0d47a1 10%, white 50%),
+  url('/assets/first-events/pa/images/end.jpg') center no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
   padding: 2rem;
