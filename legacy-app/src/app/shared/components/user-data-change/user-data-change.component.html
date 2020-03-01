@@ -2,22 +2,26 @@
 <mat-dialog-content>
   <form [formGroup]="userForm" gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">
     <mat-form-field>
-      <input formControlName="firstName" matInput placeholder="First name" required />
+      <mat-label>First name</mat-label>
+      <input formControlName="firstName" matInput required/>
     </mat-form-field>
     <mat-form-field>
-      <input formControlName="lastName" matInput placeholder="Last name" required />
+      <mat-label>Last name</mat-label>
+      <input formControlName="lastName" matInput required/>
     </mat-form-field>
     <mat-form-field>
-      <input formControlName="phone" matInput placeholder="Phone number" type="tel" />
+      <mat-label>Phone number</mat-label>
+      <input formControlName="phone" matInput type="tel"/>
       <mat-hint *ngIf="isTutor$ | async; else optional"
-        >Please enter your phone number for internal Communication
+      >Please enter your phone number for internal Communication
       </mat-hint>
       <ng-template #optional>
         <mat-hint>This field is optional</mat-hint>
       </ng-template>
     </mat-form-field>
     <mat-form-field>
-      <input formControlName="email" matInput placeholder="University Email" required type="email" />
+      <mat-label>University Email</mat-label>
+      <input formControlName="email" matInput required type="email"/>
       <mat-hint>Please enter your academic mail here so we can find you in our lists</mat-hint>
     </mat-form-field>
     <mat-form-field>
@@ -37,7 +41,8 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input formControlName="country" matInput placeholder="Country of Origin" required />
+      <mat-label>Country of Origin</mat-label>
+      <input formControlName="country" matInput required/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Status</mat-label>

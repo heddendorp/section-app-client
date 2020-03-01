@@ -56,6 +56,7 @@ import { TypePipe } from './services/type.pipe';
 import { AuthState } from './state/auth.state';
 import { EventsState } from './state/events.state';
 import { UsersState } from './state/users.state';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 const materialModules = [
   MatButtonModule,
@@ -99,6 +100,10 @@ const materialModules = [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true }
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' }
     }
   ],
   exports: [

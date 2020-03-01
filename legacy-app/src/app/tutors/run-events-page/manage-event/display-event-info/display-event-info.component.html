@@ -37,7 +37,8 @@
   <p><strong>Tickets Sold: </strong>{{ event.soldTickets }}<br/></p>
   <div *ngIf="isAdmin$ | async">
     <mat-form-field>
-      <input [formControl]="ticketControl" matInput placeholder="Number of tickets" type="number"/>
+      <mat-label>Number of tickets</mat-label>
+      <input [formControl]="ticketControl" matInput type="number"/>
     </mat-form-field>
     <button (click)="addTickets.emit(ticketControl.value)" [disabled]="!ticketControl.value" mat-button>
       Add externally sold tickets

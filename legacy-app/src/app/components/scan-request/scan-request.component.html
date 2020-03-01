@@ -21,7 +21,8 @@
   <h2>Please scan the registration request into this field</h2>
   <form [formGroup]="scanForm">
     <mat-form-field>
-      <input formControlName="scan" matInput placeholder="Scanning target" type="text"/>
+      <mat-label>Scanning target</mat-label>
+      <input formControlName="scan" matInput type="text"/>
       <mat-hint>{{ error$ | async }}</mat-hint>
     </mat-form-field>
   </form>
@@ -112,7 +113,8 @@
               <ng-container *ngSwitchCase="true">
                 <div fxLayout="row" fxLayoutGap=".5rem">
                   <mat-form-field>
-                    <input [formControl]="ticketControl" matInput placeholder="Number of tickets" type="number"/>
+                    <mat-label>Number of tickets</mat-label>
+                    <input [formControl]="ticketControl" matInput type="number"/>
                   </mat-form-field>
                   <button (click)="sellTickets(element)" mat-button>
                     Sell tickets
@@ -161,7 +163,8 @@
 
   <div *ngIf="events && events[0].action === 'collectMoney'">
     <mat-form-field style="width: 100%;">
-      <input [formControl]="moneyControl" matInput placeholder="Money given out" type="number"/>
+      <mat-label>Money given out</mat-label>
+      <input [formControl]="moneyControl" matInput type="number"/>
     </mat-form-field>
   </div>
 </mat-dialog-content>

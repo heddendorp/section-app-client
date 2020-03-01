@@ -17,7 +17,8 @@
   -->
 
 <mat-form-field style="width: 100%;">
-  <input [formControl]="searchControl" autocomplete="off" matInput placeholder="Search for a user" type="search" />
+  <mat-label>Search for a user</mat-label>
+  <input [formControl]="searchControl" autocomplete="off" matInput type="search"/>
 </mat-form-field>
 <table [dataSource]="dataSource" class="people-table" mat-table>
   <ng-container matColumnDef="firstName">

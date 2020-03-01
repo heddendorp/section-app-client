@@ -26,11 +26,13 @@
   gdGap="1rem"
 >
   <mat-form-field gdColumn.gt-xs="span 2">
-    <input formControlName="name" matInput placeholder="Event Name" />
+    <mat-label>Event Name</mat-label>
+    <input formControlName="name" matInput/>
   </mat-form-field>
   <div fxLayout="row" fxLayoutGap="2rem" gdColumn.gt-xs="span 2">
     <mat-form-field fxFlex>
-      <input formControlName="icon" matInput placeholder="Icon for your event" />
+      <mat-label>Icon for your event</mat-label>
+      <input formControlName="icon" matInput/>
       <mat-hint>Try some words and see if they match your event (go to icons8.com for a better search)</mat-hint>
     </mat-form-field>
     <div fxFlex.gt-sm>
@@ -38,62 +40,72 @@
     </div>
   </div>
   <mat-form-field>
+    <mat-label>Choose the starting date</mat-label>
     <input
       [matDatepicker]="startPicker"
       [max]="eventForm.get('end').valueChanges | async"
       formControlName="start"
       matInput
-      placeholder="Choose the starting date"
     />
     <mat-datepicker-toggle [for]="startPicker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #startPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="startTime" matInput placeholder="Time your event starts" />
+    <mat-label>Time your event starts</mat-label>
+    <input formControlName="startTime" matInput/>
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
   <mat-form-field>
+    <mat-label>Choose the ending date</mat-label>
     <input
       [matDatepicker]="endPicker"
       [min]="eventForm.get('start').valueChanges | async"
       formControlName="end"
       matInput
-      placeholder="Choose the ending date"
     />
     <mat-datepicker-toggle [for]="endPicker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="endTime" matInput placeholder="Time your event ends" />
+    <mat-label>Time your event ends</mat-label>
+    <input formControlName="endTime" matInput/>
     <mat-hint>Enter your time in <strong>24hr format</strong></mat-hint>
   </mat-form-field>
   <mat-form-field gdColumn.gt-xs="span 2" gdGridAlign="stretch end" gdRow="span 3">
-    <textarea formControlName="description" matInput placeholder="Event description" rows="6"></textarea>
+    <mat-label>Event description</mat-label>
+    <textarea formControlName="description" matInput rows="6"></textarea>
   </mat-form-field>
   <mat-form-field gdColumn.gt-xs="span 2" gdGridAlign="stretch end" gdRow="span 3">
-    <textarea formControlName="runningNotes" matInput placeholder="Notes for Tutors" rows="6"></textarea>
+
+    <mat-label>Notes for Tutors</mat-label>
+    <textarea formControlName="runningNotes" matInput rows="6"></textarea>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="price" matInput placeholder="Participant cost for the event" type="number" />
+    <mat-label>Participant cost for the event</mat-label>
+    <input formControlName="price" matInput type="number"/>
     <mat-icon matSuffix svgIcon="euro"></mat-icon>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="fullCost" matInput placeholder="Full cost of the Event" type="number" />
+    <mat-label>Full cost of the Event</mat-label>
+    <input formControlName="fullCost" matInput type="number"/>
     <mat-icon matSuffix svgIcon="euro"></mat-icon>
     <mat-hint>What will be given to the Tutor</mat-hint>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="participantSpots" matInput placeholder="Number of spots" type="number" />
+    <mat-label>Number of spots</mat-label>
+    <input formControlName="participantSpots" matInput type="number"/>
   </mat-form-field>
   <mat-form-field>
-    <input formControlName="tutorSpots" matInput placeholder="Number of Tutors" type="number" />
+    <mat-label>Number of Tutors</mat-label>
+    <input formControlName="tutorSpots" matInput type="number"/>
   </mat-form-field>
   <mat-slide-toggle formControlName="isExternal"
     >External Event <small>(Not organized by TUMi)</small>
   </mat-slide-toggle>
   <mat-slide-toggle formControlName="isInternal">Internal Event <small>(Only for Tutors)</small></mat-slide-toggle>
   <mat-form-field gdColumn.gt-xs="span 2">
-    <input formControlName="signupLink" matInput placeholder="Singup Link" type="href" />
+    <mat-label>Singup Link</mat-label>
+    <input formControlName="signupLink" matInput type="href"/>
     <mat-hint>Link where users can sign up for external events</mat-hint>
   </mat-form-field>
   <mat-slide-toggle formControlName="hasOnlineSignup">Online Signup</mat-slide-toggle>

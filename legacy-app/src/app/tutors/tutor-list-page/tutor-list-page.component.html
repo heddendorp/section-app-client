@@ -18,7 +18,8 @@
 
 <h3 class="mat-display-3 no-margin">All Tutors</h3>
 <mat-form-field style="width: 100%;">
-  <input [formControl]="searchControl" matInput placeholder="Search for a Tutor" type="search"/>
+  <mat-label>Search for a Tutor</mat-label>
+  <input [formControl]="searchControl" matInput type="search"/>
 </mat-form-field>
 <table [dataSource]="dataSource" mat-table matSort style="width: 100%;">
   <ng-container matColumnDef="firstName">
