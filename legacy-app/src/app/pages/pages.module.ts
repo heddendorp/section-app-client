@@ -36,6 +36,7 @@ import { StatsPageComponent } from './stats-page/stats-page.component';
 import { EventStatsComponent } from './stats-page/event-stats/event-stats.component';
 import { UserStatsComponent } from './stats-page/user-stats/user-stats.component';
 import { PartyAnimalsPromoPageComponent } from './party-animals-promo-page/party-animals-promo-page.component';
+import { PaRegistrationPageComponent } from './party-animals-promo-page/pa-registration-page/pa-registration-page.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
@@ -67,7 +68,8 @@ const routes: Routes = [
     StatsPageComponent,
     EventStatsComponent,
     UserStatsComponent,
-    PartyAnimalsPromoPageComponent
+    PartyAnimalsPromoPageComponent,
+    PaRegistrationPageComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]

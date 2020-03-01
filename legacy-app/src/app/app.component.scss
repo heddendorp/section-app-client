@@ -72,6 +72,18 @@ mat-sidenav {
       font-weight: 500;
       line-height: 1.5rem;
     }
+
+    .raised {
+      background: mat-color($tumi-accent, 600);
+      color: white;
+      @include mat-elevation(4);
+      margin-bottom: 2rem;
+
+      h3 {
+        font-weight: bold !important;
+        //line-height: 1.5rem !important;
+      }
+    }
   }
 
   p {
