@@ -1,3 +1,17 @@
 :host {
   display: block;
 }
+
+.pa-card {
+  color: white;
+
+  .mat-card-subtitle {
+    color: white;
+  }
+
+  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
+  url('/assets/first-events/pa/images/starter.jpg') center no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  position: relative;
+}

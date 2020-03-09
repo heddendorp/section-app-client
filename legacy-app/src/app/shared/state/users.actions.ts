@@ -19,5 +19,20 @@
 export class LoadUser {
   static readonly type = '[Users] Load User';
 
-  constructor(public userId: string, public reload = false) {}
+  constructor(public userId: string, public reload = false) {
+  }
+}
+
+export class LoadPaUsers {
+  static readonly type = '[Users] Load PA Users';
+
+  constructor(public reload = false) {
+  }
+}
+
+export class MarkApplicationInternal {
+  static readonly type = '[Users] Mark Application as internal';
+
+  constructor(public user) {
+  }
 }

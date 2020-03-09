@@ -15,6 +15,7 @@ export const newUser = functions
       id: user.uid,
       provider: user.providerData[0].providerId || '',
       photoURL: user.providerData[0].photoURL || '',
+      created: new Date(),
       isAdmin: false,
       isTutor: false,
       isEditor: false

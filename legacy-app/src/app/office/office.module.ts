@@ -35,6 +35,7 @@ import { EditUserPageComponent } from './users-page/edit-user-page/edit-user-pag
 import { ShowUserdataComponent } from './users-page/edit-user-page/show-userdata/show-userdata.component';
 import { ShowUsereventsComponent } from './users-page/edit-user-page/show-userevents/show-userevents.component';
 import { UsersPageComponent } from './users-page/users-page.component';
+import { PaManagerComponent } from './pa-manager/pa-manager.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
@@ -42,7 +43,8 @@ const routes: Routes = [
   { path: 'users/:userId', component: EditUserPageComponent, resolve: [LoadUserdataResolver] },
   { path: 'funds', component: FundsPageComponent },
   { path: 'events', component: EventPageComponent },
-  { path: 'events/edit/:id', component: EventEditPageComponent }
+  { path: 'events/edit/:id', component: EventEditPageComponent },
+  { path: 'manage-pa', component: PaManagerComponent }
 ];
 
 @NgModule({
@@ -59,7 +61,8 @@ const routes: Routes = [
     UsersPageComponent,
     EditUserPageComponent,
     ShowUserdataComponent,
-    ShowUsereventsComponent
+    ShowUsereventsComponent,
+    PaManagerComponent
   ],
   providers: [LoadUserdataResolver, PDFService],
   entryComponents: [CsvInputDialogComponent],

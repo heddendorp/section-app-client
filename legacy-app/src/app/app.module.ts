@@ -154,7 +154,9 @@ export class AppModule {
       if (result.user) {
         console.log(result.user);
         analytics.setUserProperties(result.user);
-        this.router.navigate(['events', 'list']);
+        if (!location.pathname.includes('pa-register')) {
+          this.router.navigate(['events', 'list']);
+        }
       }
     });
   }

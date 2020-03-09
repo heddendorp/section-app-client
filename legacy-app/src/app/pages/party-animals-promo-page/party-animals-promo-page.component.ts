@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-party-animals-promo-page',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartyAnimalsPromoPageComponent implements OnInit {
 
-  constructor() {
+  constructor(public analytics: AngularFireAnalytics) {
   }
 
   ngOnInit(): void {
+    this.analytics.logEvent('pa_visit');
   }
 
 }

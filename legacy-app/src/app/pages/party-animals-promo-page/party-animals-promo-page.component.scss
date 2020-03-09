@@ -50,6 +50,10 @@
     @include mat-elevation-transition();
     transition: background-color 0.28s ease;
 
+    p {
+      margin: 0;
+    }
+
     /*&:hover {
       @include mat-elevation(6);
       background-color: rgba(255, 255, 255, 0.1);
@@ -71,6 +75,7 @@
   background-blend-mode: multiply;
   padding: 2rem;
   position: relative;
+  cursor: pointer;
 
   h2 {
     bottom: 1rem;

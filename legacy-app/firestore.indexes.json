@@ -97,6 +97,20 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "paStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "isEditor",
           "order": "ASCENDING"
         },

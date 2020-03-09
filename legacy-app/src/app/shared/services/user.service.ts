@@ -21,6 +21,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, share, switchMap } from 'rxjs/operators';
 import { EventService, TumiEvent } from './event.service';
+import { pick } from 'lodash';
+import { firestore as importStore } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,34 @@ export class UserService {
           return of([]);
         })
       );
+  }
+
+  get paRegistrations(): Observable<Student[]> {
+    return (
+      this.firestore
+        .collection<SavedStudent>('users', ref =>
+          ref.orderBy('lastName').where('paStatus', 'in', ['applied', 'started', 'internal'])
+        )
+        // .collection<Student>('users', ref => ref.orderBy('lastName').where('paStatus', '==', 'applied'))
+        .valueChanges({ idField: 'id' })
+        .pipe(
+          map(users =>
+            users.map(user => {
+              let paApplicationTime = user.paApplicationTime?.toDate();
+              if (!paApplicationTime) {
+                paApplicationTime = null;
+              }
+              return { ...user, paApplicationTime };
+            })
+          ),
+          catchError(err => {
+            console.groupCollapsed('Firebase Error: get students()');
+            console.error(err);
+            console.groupEnd();
+            return of([]);
+          })
+        )
+    );
   }
 
   public getUser(id): Observable<Student> {
@@ -124,40 +154,88 @@ export class UserService {
     return combineLatest(ids.map(userId => this.getUser(userId)));
   }
 
-  private cleanUser(user) {
+  cleanUser(user) {
     return {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      academicMail: user.academicMail,
-      faculty: user.faculty,
+      academicMail: user.academicMail || '',
+      callBy: user.callBy || user.firstName,
       country: user.country,
-      type: user.type,
-      degree: user.degree,
-      phone: user.phone,
-      isTutor: user.isTutor,
+      degree: user.degree || '',
+      email: user.email,
+      esnMember: user.esnMember || false,
+      esnSection: user.esnSection || '',
+      faculty: user.faculty,
+      firstName: user.firstName,
+      gender: user.gender || '',
+      id: user.id,
       isEditor: user.isEditor,
+      isTutor: user.isTutor,
+      lastName: user.lastName,
+      paApplicationTime: user.paApplicationTime || null,
+      paStatus: user.paStatus || 'none',
+      partyData: user.partyData || {},
+      phone: user.phone,
+      type: user.type,
+      university: user.university || '',
       verified: user.verified
     };
   }
+
+  private cleanUser2 = user =>
+    pick(user, [
+      'academicMail',
+      'callBy',
+      'country',
+      'degree',
+      'email',
+      'esnMember',
+      'esnSection',
+      'faculty',
+      'firstName',
+      'gender',
+      'isEditor',
+      'isTutor',
+      'lastName',
+      'paApplicationTime',
+      'paStatus',
+      'partyData',
+      'phone',
+      'type',
+      'university',
+      'verified'
+    ]);
 }
 
-export interface Student {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+interface BaseStudent {
   academicMail: string;
-  faculty: string;
+  callBy: string;
   country: string;
-  type: string;
   degree: string;
-  phone?: string;
-  isTutor: boolean;
-  isEditor: boolean;
+  email: string;
+  esnMember: boolean;
+  esnSection?: string;
+  faculty: string;
+  firstName: string;
+  gender: string;
+  id: string;
   isAdmin: boolean;
+  isEditor: boolean;
+  isTutor: boolean;
+  lastName: string;
+  paStatus: string;
+  partyData?: any;
+  phone?: string;
+  photoURL?: string;
+  type: string;
+  university: string;
   verified: boolean;
   userEvents?: TumiEvent[];
   tutorEvents?: TumiEvent[];
+}
+
+interface SavedStudent extends BaseStudent {
+  paApplicationTime: importStore.Timestamp;
+}
+
+export interface Student extends BaseStudent {
+  paApplicationTime: Date;
 }

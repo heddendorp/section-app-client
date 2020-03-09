@@ -43,6 +43,7 @@ const routes: Routes = [
   { path: 'help', data: { title: 'Help' }, component: HelpPageComponent },
   { path: 'pa-ws19', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
   { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PartyAnimalsPromoPageComponent },
+  { path: 'pa-register', data: { standalone: true, title: 'PA - Sign Up' }, component: PaRegistrationPageComponent },
   { path: 'lp', data: { standalone: true, title: 'Local Platform' }, component: LpPageComponent },
   { path: 'na', data: { standalone: true, title: 'National Assembly' }, component: NaPageComponent },
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },

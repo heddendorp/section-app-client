@@ -18,7 +18,7 @@
 
 <div fxLayout="column" fxLayoutGap="2rem">
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
-    <mat-card fxFlex fxHide.xs>
+    <!--<mat-card fxFlex fxShow.gt-md>
       <mat-card-title-group>
         <img alt="TUMi Logo" mat-card-sm-image src="/assets/images/blume.svg"/>
         <mat-card-title>What is TUMi?</mat-card-title>
@@ -34,12 +34,28 @@
       <mat-card-actions>
         <button color="primary" mat-stroked-button routerLink="/about">Learn more!</button>
       </mat-card-actions>
-    </mat-card>
-    <mat-card fxFlex>
+    </mat-card>-->
+    <!--<mat-card fxFlex>
       <mat-card-title-group>
         <img alt="TUMi Logo" appIconSrc="instagram-new:nolan" mat-card-sm-image/>
         <mat-card-title>TUMi has Instagram</mat-card-title>
         <mat-card-subtitle>Follow us to keep up to date</mat-card-subtitle>
+      </mat-card-title-group>
+      &lt;!&ndash;<mat-card-content>
+        <p>
+          TUMi or TUMinternational is a student for student program in which local students organize event for exchange
+          students, foreign degree students and other locals looking to gain some international experience.
+        </p>
+        <p>Browse our events below, we're looking forward to seeing you there!</p>
+      </mat-card-content>&ndash;&gt;
+      <mat-card-actions>
+        <a color="primary" href="https://www.instagram.com/esn.tumi/" mat-raised-button>Open insta</a>
+      </mat-card-actions>
+    </mat-card>-->
+    <mat-card class="pa-card" fxFlex>
+      <mat-card-title-group>
+        <mat-card-title>Party Animals is starting soon!</mat-card-title>
+        <mat-card-subtitle>Learn more and sign up</mat-card-subtitle>
       </mat-card-title-group>
       <!--<mat-card-content>
         <p>
@@ -49,7 +65,7 @@
         <p>Browse our events below, we're looking forward to seeing you there!</p>
       </mat-card-content>-->
       <mat-card-actions>
-        <a color="primary" href="https://www.instagram.com/esn.tumi/" mat-raised-button>Open insta</a>
+        <button color="primary" mat-flat-button routerLink="/party-animals">Take me there!</button>
       </mat-card-actions>
     </mat-card>
   </div>

@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+.pink {
+  color: #E91E63;
+}
+
+.blue {
+  color: #2196F3;
+}
+
+.applications {
+  mat-card {
+    &.m {
+      background: rgba(33, 150, 243, 0.1);
+    }
+
+    &.f {
+      background: rgba(233, 30, 99, 0.1);
+    }
+
+    img.mat-card-avatar {
+      width: 60px;
+      height: 60px;
+    }
+
+    mat-card-content {
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

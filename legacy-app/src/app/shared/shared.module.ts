@@ -57,6 +57,7 @@ import { AuthState } from './state/auth.state';
 import { EventsState } from './state/events.state';
 import { UsersState } from './state/users.state';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const materialModules = [
   MatButtonModule,
@@ -78,6 +79,7 @@ const materialModules = [
   MatSelectModule,
   MatExpansionModule,
   MatRippleModule,
+  MatStepperModule,
   MatBadgeModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,

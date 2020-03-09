@@ -77,7 +77,7 @@ export class RegisteredListComponent implements OnInit {
       .afterClosed()
       .toPromise();
     if (result) {
-      await this.userService.save(result);
+      await this.userService.save({ ...user, ...result });
     }
   }
 

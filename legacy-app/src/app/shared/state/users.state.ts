@@ -16,11 +16,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Action, createSelector, State, StateContext, Store } from '@ngxs/store';
+import { Action, createSelector, Selector, State, StateContext, Store } from '@ngxs/store';
 import { first, tap } from 'rxjs/operators';
 import { Student, UserService } from '../services/user.service';
 import { addOrReplace } from '../state-operators';
-import { LoadUser } from './users.actions';
+import { LoadPaUsers, LoadUser, MarkApplicationInternal } from './users.actions';
+import { EventsStateModel } from './events.state';
 
 export interface UsersStateModel {
   entities: { [id: string]: Student };
@@ -55,7 +56,28 @@ const addUsers = addOrReplace<Student>('lastName');
   }
 })
 export class UsersState {
-  constructor(private store: Store, private userService: UserService) {}
+  constructor(private store: Store, private userService: UserService) {
+  }
+
+  @Selector()
+  static paRegistrations(state: UsersStateModel) {
+    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'applied');
+  }
+
+  @Selector()
+  static paStartedRegistrations(state: UsersStateModel) {
+    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'started');
+  }
+
+  @Selector()
+  static paInternalRegistrations(state: UsersStateModel) {
+    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'internal');
+  }
+
+  @Selector()
+  static loaded(state: EventsStateModel) {
+    return state.loaded;
+  }
 
   static userList(ids: string[]) {
     return createSelector([UsersState], (state: UsersStateModel) => ids.map(id => state.entities[id]));
@@ -76,5 +98,28 @@ export class UsersState {
         })
       )
     );
+  }
+
+  @Action(LoadPaUsers)
+  loadPaUsers(ctx: StateContext<UsersStateModel>) {
+    return this.userService.paRegistrations.pipe(
+      tap(users => console.log(users)),
+      tap(users =>
+        ctx.patchState({
+          ...addUsers(ctx.getState(), users),
+          loaded: true
+        })
+      )
+    );
+  }
+
+  @Action(MarkApplicationInternal)
+  markInternal(ctx: StateContext<UsersStateModel>, action: MarkApplicationInternal) {
+    return this.userService.save({ ...action.user, paStatus: 'internal' }).then(() => {
+      ctx.patchState({
+        ...addUsers(ctx.getState(), [{ ...action.user, paStatus: 'internal' }]),
+        loaded: true
+      });
+    });
   }
 }

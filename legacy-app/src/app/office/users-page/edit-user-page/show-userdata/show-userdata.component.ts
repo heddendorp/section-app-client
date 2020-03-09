@@ -21,7 +21,7 @@ export class ShowUserdataComponent implements OnInit {
       .afterClosed()
       .toPromise();
     if (result) {
-      await this.userService.save(result);
+      await this.userService.save({ ...this.user, ...result });
     }
   }
 }

@@ -2,97 +2,146 @@
   <div class="content">
     <h1 class="mat-display-2" ngClass.gt-sm="mat-display-4">Welcome!</h1>
     <p ngClass.gt-md="large">
-      Some years ago the TUMi secret council sat together to develop the ultimate way to kick off exchange in Munich.
+      Some years ago the TUMi secret council sat together and developed the ultimate way to kick off exchange in Munich.
       They came up with the Orientationweeks+ programme. Since then we have been perfecting this idea every semester
       without any regard for the health of our tutors. Last semester one student called it "The ultimate Munich student
       life safari", here and around the world it is known as <strong>Party Animals</strong>!<br/>
       Should this be a little bit too much for you we also prepared a whole selection of single events you can check out
     </p>
-<!--    <button mat-flat-button routerLink="/events">Orientation weeks</button>-->
+    <button color="accent" mat-raised-button routerLink="/pa-register">Sign up now!</button>
   </div>
 </div>
 <div class="pa-schedule">
   <h2 class="mat-display-4">Schedule</h2>
   <p>
-    We have planned this preliminary schedule for you. This is mainly a guide to indicate when The Party Animals events
+    We have planned this preliminary schedule for you. This is mainly a guide to indicate when the Party Animals events
     will happen and give you an impression of the time needed. <br/>
-    You can get hints by looking at our posts down below and we will announce the specific events soon.
+    Changes to this program can happen if our plans don't work out as planned
   </p>
   <!--<small fxHide.gt-sm>
     To make this list readable on your phone we've hidden some less important information. Make sure to chek it on a
     bigger device to learn everything!
   </small>-->
-  <div class="schedule-items" gdAuto gdColumns="repeat(3, 1fr)" gdColumns.gt-sm="repeat(7, 1fr)" gdGap="1rem">
-    <span gdColumn="span 3"></span>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Thu 02.04.</strong>
+  <div
+    class="schedule-items"
+    gdAuto
+    gdColumns="repeat(1, 1fr)"
+    gdColumns.gt-sm="repeat(auto-fit, minmax(400px, 1fr))"
+    gdGap="1rem"
+  >
+    <!--    <span gdColumn="span 3"></span>-->
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="handshake:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Noon and evening</strong>
+      <div>
+        <strong>Thu 02.04.</strong>
+        <p>Kick-off</p>
+        <p>Noon and evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Fri 03.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="confetti:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Morning and night</strong>
+      <div>
+        <strong>Fri 03.04.</strong>
+        <!--        <p>International Welcome at TUM</p>-->
+        <p>TUMi x MESA Party</p>
+        <p>Night</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Sat 04.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="city-buildings:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Sat 04.04.</strong>
+        <p>City rally</p>
+        <p>All day</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Sun 05.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="beer:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Sun 05.04.</strong>
+        <p>Starkbierfest</p>
+        <p>All day</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Mon 06.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="bar:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Evening</strong>
+      <div>
+        <strong>Mon 06.04.</strong>
+        <p>Pub Crawl</p>
+        <p>Evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Tue 07.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="micro:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Evening</strong>
+      <div>
+        <strong>Tue 07.04.</strong>
+        <p>Karaoke night</p>
+        <p>Evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Wed 08.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="champagne-bottle:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Evening</strong>
+      <div>
+        <strong>Wed 08.04.</strong>
+        <p>8below Party</p>
+        <p>Evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Thu 09.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="food:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Evening</strong>
+      <div>
+        <strong>Thu 09.04.</strong>
+        <p>International Dinner</p>
+        <p>Evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Fri 10.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="trophy:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Fri 10.04.</strong>
+        <p>Beerlympics</p>
+        <p>All day</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Sat 11.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="weber:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Afternoon</strong>
+      <div>
+        <strong>Sat 11.04.</strong>
+        <p>Isar BBQ</p>
+        <p>Afternoon</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Sun 12.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="train:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>Evening</strong>
+      <div>
+        <strong>Sun 12.04.</strong>
+        <p>Tram Party + Afterparty</p>
+        <p>Evening</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Mon 13.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="circled:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Mon 13.04.</strong>
+        <p>Alternative day in case of bad weather</p>
+        <p>All day</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Tue 14.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="world-map:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Tue 14.04.</strong>
+        <p>City Trip (Augsburg)</p>
+        <p>All day</p>
+      </div>
     </div>
-    <div class="schedule-item" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
-      <strong>Web 15.04.</strong>
+    <div class="schedule-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <img appIconSrc="trekking:nolan" fxFlex="64px" height="64px" width="64px"/>
-      <strong>All day</strong>
+      <div>
+        <strong>Wed 15.04.</strong>
+        <p>Hike to Andechs + Closing party</p>
+        <p>All day</p>
+      </div>
     </div>
   </div>
   <p>
@@ -247,6 +296,6 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="pa-end">
+<div class="pa-end" routerLink="/pa-register">
   <h2 class="mat-display-3">Sign up now!</h2>
 </div>
