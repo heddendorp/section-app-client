@@ -16,8 +16,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Action, createSelector, Selector, State, StateContext, Store } from '@ngxs/store';
-import { first, tap } from 'rxjs/operators';
+import { Action, Actions, createSelector, ofAction, Selector, State, StateContext, Store } from '@ngxs/store';
+import { first, skip, takeUntil, tap } from 'rxjs/operators';
 import { Student, UserService } from '../services/user.service';
 import { addOrReplace } from '../state-operators';
 import { LoadPaUsers, LoadUser, MarkApplicationInternal } from './users.actions';
@@ -56,7 +56,7 @@ const addUsers = addOrReplace<Student>('lastName');
   }
 })
 export class UsersState {
-  constructor(private store: Store, private userService: UserService) {
+  constructor(private store: Store, private userService: UserService, private actions$: Actions) {
   }
 
   @Selector()
@@ -102,15 +102,17 @@ export class UsersState {
 
   @Action(LoadPaUsers)
   loadPaUsers(ctx: StateContext<UsersStateModel>) {
-    return this.userService.paRegistrations.pipe(
-      tap(users => console.log(users)),
-      tap(users =>
+    return this.userService.paRegistrations
+      .pipe(
+        takeUntil(this.actions$.pipe(ofAction(LoadPaUsers), skip(1))),
+        tap(users => console.log(users))
+      )
+      .subscribe(users =>
         ctx.patchState({
           ...addUsers(ctx.getState(), users),
           loaded: true
         })
-      )
-    );
+      );
   }
 
   @Action(MarkApplicationInternal)
