@@ -31,9 +31,9 @@ export class CheckRedirectGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const redirect = JSON.parse(localStorage.getItem('@@REDIRECT') || 'false');
-    if (redirect) {
+    /*if (redirect) {
       return this.router.parseUrl(redirect);
-    }
-    return this.router.parseUrl('events');
+    }*/
+    return this.router.parseUrl('cov');
   }
 }

@@ -37,6 +37,7 @@ import { EventStatsComponent } from './stats-page/event-stats/event-stats.compon
 import { UserStatsComponent } from './stats-page/user-stats/user-stats.component';
 import { PartyAnimalsPromoPageComponent } from './party-animals-promo-page/party-animals-promo-page.component';
 import { PaRegistrationPageComponent } from './party-animals-promo-page/pa-registration-page/pa-registration-page.component';
+import { CovPageComponent } from './cov-page/cov-page.component';
 
 const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
@@ -44,6 +45,7 @@ const routes: Routes = [
   { path: 'pa-ws19', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
   { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PartyAnimalsPromoPageComponent },
   { path: 'pa-register', data: { standalone: true, title: 'PA - Sign Up' }, component: PaRegistrationPageComponent },
+  { path: 'cov', data: { standalone: true, title: 'CoV - Notice' }, component: CovPageComponent },
   { path: 'lp', data: { standalone: true, title: 'Local Platform' }, component: LpPageComponent },
   { path: 'na', data: { standalone: true, title: 'National Assembly' }, component: NaPageComponent },
   { path: 'signup', data: { title: 'Login' }, component: SignupPageComponent },
@@ -70,7 +72,8 @@ const routes: Routes = [
     EventStatsComponent,
     UserStatsComponent,
     PartyAnimalsPromoPageComponent,
-    PaRegistrationPageComponent
+    PaRegistrationPageComponent,
+    CovPageComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]

@@ -18,6 +18,29 @@
 
 <div fxLayout="column" fxLayoutGap="2rem">
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
+    <mat-card fxFlex>
+      <mat-card-title-group>
+        <mat-card-title>SARS-CoV-2</mat-card-title>
+        <mat-card-subtitle>TUMi is suspending Events</mat-card-subtitle>
+        <img
+          appIconSrc="warning-shield"
+          mat-card-md-image
+          width="80px"
+        />
+      </mat-card-title-group>
+      <mat-card-content>
+        <p>
+          Due to restrictions to prevent further spread of SARS-CoV-2 TUMi is not organizing any events in the
+          foreseeable
+          future. We will take up operations again once the restrictions are lowered by the state and university. <br>
+          In the mean time please check your email or the TUM website for more information.
+        </p>
+      </mat-card-content>
+      <mat-card-actions align="start">
+        <a color="primary" href="https://www.tum.de/en/about-tum/news/coronavirus/" mat-raised-button target="_blank">TUM
+          info site</a>
+      </mat-card-actions>
+    </mat-card>
     <!--<mat-card fxFlex fxShow.gt-md>
       <mat-card-title-group>
         <img alt="TUMi Logo" mat-card-sm-image src="/assets/images/blume.svg"/>
@@ -52,22 +75,22 @@
         <a color="primary" href="https://www.instagram.com/esn.tumi/" mat-raised-button>Open insta</a>
       </mat-card-actions>
     </mat-card>-->
-    <mat-card class="pa-card" fxFlex>
+    <!--<mat-card class="pa-card" fxFlex>
       <mat-card-title-group>
         <mat-card-title>Party Animals is starting soon!</mat-card-title>
         <mat-card-subtitle>Learn more and sign up</mat-card-subtitle>
       </mat-card-title-group>
-      <!--<mat-card-content>
+      &lt;!&ndash;<mat-card-content>
         <p>
           TUMi or TUMinternational is a student for student program in which local students organize event for exchange
           students, foreign degree students and other locals looking to gain some international experience.
         </p>
         <p>Browse our events below, we're looking forward to seeing you there!</p>
-      </mat-card-content>-->
+      </mat-card-content>&ndash;&gt;
       <mat-card-actions>
         <button color="primary" mat-flat-button routerLink="/party-animals">Take me there!</button>
       </mat-card-actions>
-    </mat-card>
+    </mat-card>-->
   </div>
   <h1 class="mat-display-3 no-margin">
     Upcoming events

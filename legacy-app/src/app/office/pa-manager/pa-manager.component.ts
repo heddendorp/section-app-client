@@ -19,6 +19,7 @@ export class PaManagerComponent implements OnInit {
   @Select(UsersState.paStartedRegistrations) inProgress$: Observable<Student[]>;
   @Select(UsersState.paInternalRegistrations) internal$: Observable<Student[]>;
   registrationNum$ = this.registrations$.pipe(
+    // tap(console.log),
     map(registrations => registrations.length)
   );
   registrationFNum$ = this.registrations$.pipe(

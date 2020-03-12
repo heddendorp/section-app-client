@@ -147,7 +147,7 @@ export class AuthState implements NgxsOnInit {
   @Action(Logout)
   async logout(ctx: StateContext<AuthStateModel>) {
     const state = ctx.getState();
-    await this.router.navigate(['events', 'list']);
+    await this.router.navigate(['/']);
     await this.angularFireAuth.auth.signOut();
 
     ctx.setState({
