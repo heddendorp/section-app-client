@@ -17,7 +17,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { SharedModule } from '../shared/shared.module';
@@ -43,7 +43,11 @@ const routes: Routes = [
   { path: 'about', data: { standalone: true, title: 'About' }, component: AboutPageComponent },
   { path: 'help', data: { title: 'Help' }, component: HelpPageComponent },
   { path: 'pa-ws19', data: { standalone: true, title: 'Party Animals' }, component: PaPageComponent },
-  { path: 'party-animals', data: { standalone: true, title: 'Party Animals' }, component: PartyAnimalsPromoPageComponent },
+  {
+    path: 'party-animals',
+    data: { standalone: true, title: 'Party Animals' },
+    component: PartyAnimalsPromoPageComponent
+  },
   { path: 'pa-register', data: { standalone: true, title: 'PA - Sign Up' }, component: PaRegistrationPageComponent },
   { path: 'cov', data: { standalone: true, title: 'CoV - Notice' }, component: CovPageComponent },
   { path: 'lp', data: { standalone: true, title: 'Local Platform' }, component: LpPageComponent },
@@ -76,6 +80,7 @@ const routes: Routes = [
     CovPageComponent
   ],
   entryComponents: [NaRedirectDialogComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PagesModule {}

@@ -17,7 +17,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
@@ -61,6 +61,7 @@ const routes: Routes = [
   ],
   entryComponents: [RefundDialogComponent],
   providers: [SelectEventGuard, LoadEventsGuard],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()]
+  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EventsModule {}

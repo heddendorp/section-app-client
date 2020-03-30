@@ -21,24 +21,31 @@
     <mat-card fxFlex>
       <mat-card-title-group>
         <mat-card-title>SARS-CoV-2</mat-card-title>
-        <mat-card-subtitle>TUMi is suspending Events</mat-card-subtitle>
-        <img
+        <mat-card-subtitle>Keep calm and wash your hands</mat-card-subtitle>
+        <lottie-player
+          autoplay
+          background="transparent" loop mat-card-md-image speed="1"
+          src="https://assets5.lottiefiles.com/private_files/lf30_Rq4Htd.json" style="width: 112px; height: 112px;">
+        </lottie-player>
+        <!--<img
           appIconSrc="warning-shield"
           mat-card-md-image
           width="80px"
-        />
+        />-->
       </mat-card-title-group>
       <mat-card-content>
         <p>
-          Due to restrictions to prevent further spread of SARS-CoV-2 TUMi is not organizing any events in the
+          Due to restrictions to prevent further spread of SARS-CoV-2 TUMi is not organizing any in person events in the
           foreseeable
-          future. We will take up operations again once the restrictions are lowered by the state and university. <br>
-          In the mean time please check your email or the TUM website for more information.
+          future. <br>
+          Feel free to check out the online events we're planning for you below. <br>
+          For official info, visit the TUM page!
         </p>
       </mat-card-content>
       <mat-card-actions align="start">
-        <a color="primary" href="https://www.tum.de/en/about-tum/news/coronavirus/" mat-raised-button target="_blank">TUM
-          info site</a>
+        <a color="primary" href="https://www.facebook.com/groups/1578294439000555" mat-raised-button target="_blank">TUMi
+          facebook group</a>
+        <a href="https://www.tum.de/en/about-tum/news/coronavirus/" mat-stroked-button target="_blank">TUM info site</a>
       </mat-card-actions>
     </mat-card>
     <!--<mat-card fxFlex fxShow.gt-md>

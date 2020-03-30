@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+// import '@lottiefiles/lottie-player';
+
 @Component({
   selector: 'app-cov-page',
   templateUrl: './cov-page.component.html',

@@ -54,6 +54,10 @@
           "function": "updateUserStats"
         },
         {
+          "source": "ngsw.json",
+          "destination": "/ngsw.json"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

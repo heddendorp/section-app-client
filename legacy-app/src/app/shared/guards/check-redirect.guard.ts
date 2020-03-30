@@ -34,6 +34,6 @@ export class CheckRedirectGuard implements CanActivate {
     /*if (redirect) {
       return this.router.parseUrl(redirect);
     }*/
-    return this.router.parseUrl('cov');
+    return this.router.parseUrl('events');
   }
 }
