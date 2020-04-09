@@ -109,10 +109,10 @@ export class EventsState {
 
   @Selector([AuthState])
   static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
-    const isAdmin = !!authState.user && authState.user.isAdmin;
+    const isEditor = !!authState.user && authState.user.isEditor;
     const tumiEvents = state.ids
       .map(id => state.entities[id])
-      .filter(event => event.tutorSignups.includes(authState.user.id) || isAdmin);
+      .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor);
     return tumiEvents;
   }
 
@@ -132,9 +132,9 @@ export class EventsState {
 
   @Action(LoadTutoredEvents)
   async loadTutoredEvents(ctx: StateContext<EventsStateModel>) {
-    const isAdmin = this.store.selectSnapshot(AuthState.isAdmin);
+    const isEditor = this.store.selectSnapshot(AuthState.isEditor);
     this.eventService
-      .getTutoredEvents(isAdmin)
+      .getTutoredEvents(isEditor)
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadTutoredEvents), skip(1))))
       .subscribe(events =>
         ctx.patchState({
