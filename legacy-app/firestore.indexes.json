@@ -24,6 +24,20 @@
         },
         {
           "fieldPath": "start",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isExternal",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "start",
           "order": "ASCENDING"
         }
       ]

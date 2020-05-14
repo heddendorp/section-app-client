@@ -102,7 +102,7 @@ export class EventService {
     return this.firestore
       .collection<SavedEvent>(
         'events',
-        ref => ref.orderBy('end').where('isExternal', '==', false)
+        ref => ref.orderBy('start', 'desc').where('isExternal', '==', false)
         // .where('end', '>', new Date())
       )
       .valueChanges({ idField: 'id' })

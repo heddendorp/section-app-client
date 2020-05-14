@@ -112,7 +112,8 @@ export class EventsState {
     const isEditor = !!authState.user && authState.user.isEditor;
     const tumiEvents = state.ids
       .map(id => state.entities[id])
-      .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor);
+      .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor)
+      .sort(((a, b) => b.start.diff(a.start)));
     return tumiEvents;
   }
 
