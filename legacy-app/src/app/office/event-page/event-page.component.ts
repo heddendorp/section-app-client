@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EventService, TumiEvent } from '../../shared/services/event.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-page',
@@ -32,9 +33,10 @@ export class EventPageComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit() {
-    this.events$ = this.eventService.events /*.pipe(
+    this.events$ = this.eventService.events/*.pipe(
       tap(events => {
         const selected = events.filter(event => event.isVisiblePublicly);
+        console.log(selected);
         const names = selected.map(event => event.name);
         console.log(names.join('\n 1 '));
       })

@@ -6,6 +6,7 @@ export const updateEventStats = functions.https.onCall(async () => {
   const eventsSnapshot = await firestore
     .collection('events')
     .where('isVisiblePublicly', '==', true)
+    .where('start', '<', new Date(2020,3,30))
     .get();
   const events = eventsSnapshot.docs.map(doc => doc.data());
   const signupsSnapshot = await firestore.collectionGroup('signups').get();
