@@ -40,7 +40,7 @@ export class EventService {
     hasFee: false,
     hasOnlineSignup: false,
     isInternal: false,
-    icon: '',
+    icon: 'overtime',
     meetingPoint: '',
     moneyWith: '',
     moneyCollected: false,
@@ -143,7 +143,7 @@ export class EventService {
         ref
           .where('start', '>', new Date())
           .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
-          .orderBy('start')
+          .orderBy('start', 'desc')
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));

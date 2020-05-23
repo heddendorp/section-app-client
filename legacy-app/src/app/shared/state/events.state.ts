@@ -26,6 +26,7 @@ import { AuthState, AuthStateModel } from './auth.state';
 import { LoadEvent, LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
 import { LoadUser } from './users.actions';
 import { UsersState, UsersStateModel } from './users.state';
+import { orderBy } from 'lodash';
 
 export interface EventsStateModel {
   entities: { [id: string]: TumiEvent };
@@ -60,7 +61,8 @@ const addEvents = addOrReplace<TumiEvent>('start');
   }
 })
 export class EventsState {
-  constructor(private store: Store, private eventService: EventService, private actions$: Actions) {}
+  constructor(private store: Store, private eventService: EventService, private actions$: Actions) {
+  }
 
   static getEvent(id: string) {
     return createSelector([EventsState], (state: EventsStateModel) => state.entities[id]);
@@ -110,10 +112,10 @@ export class EventsState {
   @Selector([AuthState])
   static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isEditor = !!authState.user && authState.user.isEditor;
-    const tumiEvents = state.ids
-      .map(id => state.entities[id])
-      .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor)
-      .sort(((a, b) => b.start.diff(a.start)));
+    const tumiEvents =
+      orderBy(state.ids
+        .map(id => state.entities[id])
+        .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor), ['start'], ['desc']);
     return tumiEvents;
   }
 
