@@ -141,9 +141,9 @@ export class EventService {
     return this.firestore
       .collection<SavedEvent>('events', ref =>
         ref
-          .where('start', '>', new Date())
+          .where('end', '>', new Date())
           .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
-          .orderBy('start', 'desc')
+          .orderBy('end', 'desc')
       )
       .valueChanges({ idField: 'id' })
       .pipe(map(events => events.map(this.parseEvent)));

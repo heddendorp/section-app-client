@@ -105,7 +105,7 @@ export class EventsState {
     return state.ids
       .map(id => state.entities[id])
       .filter(filterEvents(state.filterForm.model, isTutor))
-      .filter(event => event.start > moment())
+      .filter(event => event.end > moment())
       .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 
