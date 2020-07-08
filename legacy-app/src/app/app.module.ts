@@ -17,10 +17,10 @@
  */
 
 import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import localeEn from '@angular/common/locales/en-DE';
 import localeEnExtra from '@angular/common/locales/extra/en-DE';
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import {
   AngularFireAnalytics,
@@ -31,11 +31,11 @@ import {
   CONFIG,
   DEBUG_MODE,
   ScreenTrackingService,
-  UserTrackingService
+  UserTrackingService,
 } from '@angular/fire/analytics';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN, FUNCTIONS_REGION } from '@angular/fire/functions';
+import { AngularFireFunctionsModule, ORIGIN, REGION } from '@angular/fire/functions';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule, Title } from '@angular/platform-browser';
@@ -73,11 +73,11 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      registrationStrategy: 'registerImmediately'
+      registrationStrategy: 'registerImmediately',
     }),
     NgxsModule.forRoot([], { developmentMode: false }),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: environment.production
+      disabled: environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
       deserialize(obj: any): any {
@@ -95,9 +95,9 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
         {
           version: 1,
           key: 'users',
-          migrate: migration1
-        }
-      ]
+          migrate: migration1,
+        },
+      ],
     }),
     NgxsFormPluginModule.forRoot(),
     // NgxsRouterPluginModule.forRoot(),
@@ -113,9 +113,9 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
           pedantic: false,
           sanitize: false,
           smartLists: true,
-          smartypants: true
-        }
-      }
+          smartypants: true,
+        },
+      },
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
@@ -125,17 +125,16 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     AngularFirePerformanceModule,
     SharedModule,
     PagesModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
-    { provide: FUNCTIONS_ORIGIN, useValue: environment.functionsOrigin },
-    { provide: FUNCTIONS_REGION, useValue: 'europe-west1' },
-    { provide: LOCALE_ID, useValue: 'en-DE' },
+    { provide: ORIGIN, useValue: environment.functionsOrigin },
+    { provide: REGION, useValue: 'europe-west1' },
     {
       provide: CONFIG,
       useValue: {
-        anonymize_ip: true
-      }
+        anonymize_ip: true,
+      },
     },
     { provide: COLLECTION_ENABLED, useValue: localStorage.getItem('disableAnalytics') || false },
     { provide: DEBUG_MODE, useValue: localStorage.getItem('@@debug') || false },
@@ -144,13 +143,13 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     environment.production ? { provide: ErrorHandler, useClass: AnalyticsErrorHandler } : [],
     ScreenTrackingService,
     UserTrackingService,
-    Title
+    Title,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(angularFireAuth: AngularFireAuth, private router: Router, analytics: AngularFireAnalytics) {
-    angularFireAuth.auth.getRedirectResult().then(result => {
+    angularFireAuth.getRedirectResult().then((result) => {
       if (result.user) {
         console.log(result.user);
         analytics.setUserProperties(result.user);

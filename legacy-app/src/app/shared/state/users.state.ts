@@ -22,6 +22,7 @@ import { Student, UserService } from '../services/user.service';
 import { addOrReplace } from '../state-operators';
 import { LoadPaUsers, LoadUser, MarkApplicationInternal } from './users.actions';
 import { EventsStateModel } from './events.state';
+import { Injectable } from '@angular/core';
 
 export interface UsersStateModel {
   entities: { [id: string]: Student };
@@ -50,28 +51,28 @@ const addUsers = addOrReplace<Student>('lastName');
       model: undefined,
       dirty: false,
       status: '',
-      errors: {}
+      errors: {},
     },
-    loaded: false
-  }
+    loaded: false,
+  },
 })
+@Injectable()
 export class UsersState {
-  constructor(private store: Store, private userService: UserService, private actions$: Actions) {
-  }
+  constructor(private store: Store, private userService: UserService, private actions$: Actions) {}
 
   @Selector()
   static paRegistrations(state: UsersStateModel) {
-    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'applied');
+    return state.ids.map((id) => state.entities[id]).filter((user) => user.paStatus === 'applied');
   }
 
   @Selector()
   static paStartedRegistrations(state: UsersStateModel) {
-    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'started');
+    return state.ids.map((id) => state.entities[id]).filter((user) => user.paStatus === 'started');
   }
 
   @Selector()
   static paInternalRegistrations(state: UsersStateModel) {
-    return state.ids.map(id => state.entities[id]).filter(user => user.paStatus === 'internal');
+    return state.ids.map((id) => state.entities[id]).filter((user) => user.paStatus === 'internal');
   }
 
   @Selector()
@@ -80,7 +81,7 @@ export class UsersState {
   }
 
   static userList(ids: string[]) {
-    return createSelector([UsersState], (state: UsersStateModel) => ids.map(id => state.entities[id]));
+    return createSelector([UsersState], (state: UsersStateModel) => ids.map((id) => state.entities[id]));
   }
 
   @Action(LoadUser)
@@ -91,12 +92,12 @@ export class UsersState {
     }
     return this.userService.getUser(action.userId).pipe(
       first(),
-      tap(user =>
+      tap((user) =>
         ctx.patchState({
           ...addUsers(ctx.getState(), [user]),
-          loaded: true
-        })
-      )
+          loaded: true,
+        }),
+      ),
     );
   }
 
@@ -105,13 +106,13 @@ export class UsersState {
     return this.userService.paRegistrations
       .pipe(
         takeUntil(this.actions$.pipe(ofAction(LoadPaUsers), skip(1))),
-        tap(users => console.log(users))
+        tap((users) => console.log(users)),
       )
-      .subscribe(users =>
+      .subscribe((users) =>
         ctx.patchState({
           ...addUsers(ctx.getState(), users),
-          loaded: true
-        })
+          loaded: true,
+        }),
       );
   }
 
@@ -120,7 +121,7 @@ export class UsersState {
     return this.userService.save({ ...action.user, paStatus: 'internal' }).then(() => {
       ctx.patchState({
         ...addUsers(ctx.getState(), [{ ...action.user, paStatus: 'internal' }]),
-        loaded: true
+        loaded: true,
       });
     });
   }

@@ -58,6 +58,8 @@ import { EventsState } from './state/events.state';
 import { UsersState } from './state/users.state';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 const materialModules = [
   MatButtonModule,
@@ -84,7 +86,7 @@ const materialModules = [
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatExpansionModule,
-  ScrollingModule
+  ScrollingModule,
 ];
 
 @NgModule({
@@ -94,19 +96,19 @@ const materialModules = [
     FlexLayoutModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
-    NgxsModule.forFeature([AuthState, EventsState, UsersState])
+    NgxsModule.forFeature([AuthState, EventsState, UsersState]),
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true }
+      useValue: { minWidth: '50vw', closeOnNavigation: true, disableClose: false, hasBackdrop: true },
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' }
-    }
+      useValue: { appearance: 'outline' },
+    },
   ],
   exports: [
     materialModules,
@@ -119,7 +121,7 @@ const materialModules = [
     DegreePipe,
     TypePipe,
     ShowUntilDirective,
-    IconSrcDirective
+    IconSrcDirective,
   ],
   declarations: [
     IconToastComponent,
@@ -129,8 +131,8 @@ const materialModules = [
     DegreePipe,
     ConfirmationDialogComponent,
     ShowUntilDirective,
-    IconSrcDirective
+    IconSrcDirective,
   ],
-  entryComponents: [IconToastComponent, UserDataChangeComponent, ConfirmationDialogComponent]
+  entryComponents: [IconToastComponent, UserDataChangeComponent, ConfirmationDialogComponent],
 })
 export class SharedModule {}

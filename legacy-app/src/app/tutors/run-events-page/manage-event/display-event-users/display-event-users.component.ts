@@ -17,7 +17,7 @@
  */
 
 import { formatCurrency } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
@@ -34,7 +34,7 @@ import { AuthState } from '../../../../shared/state/auth.state';
   selector: 'app-display-event-users',
   templateUrl: './display-event-users.component.html',
   styleUrls: ['./display-event-users.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayEventUsersComponent implements OnInit {
   @Input() event: TumiEvent;
@@ -48,11 +48,12 @@ export class DisplayEventUsersComponent implements OnInit {
     private dialog: MatDialog,
     private eventService: EventService,
     private moneyService: MoneyService,
-    media: MediaObserver
+    @Inject(LOCALE_ID) private locale: string,
+    media: MediaObserver,
   ) {
     this.columns$ = media.asObservable().pipe(
-      map(checks => !checks.filter(check => check.matches).find(match => match.mqAlias === 'gt-sm')),
-      map(simple => (simple ? ['info', 'actions'] : ['info', 'phone', 'actions']))
+      map((checks) => !checks.filter((check) => check.matches).find((match) => match.mqAlias === 'gt-sm')),
+      map((simple) => (simple ? ['info', 'actions'] : ['info', 'phone', 'actions'])),
     );
   }
 
@@ -78,8 +79,8 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) as a tutor from this event`
-        }
+          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) as a tutor from this event`,
+        },
       })
       .afterClosed()
       .toPromise();
@@ -92,10 +93,10 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, 'en-DE', 'EUR')} for ${
+          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, this.locale, 'EUR')} for ${
             user.firstName
-          } ${user.lastName} (${user.email})?`
-        }
+          } ${user.lastName} (${user.email})?`,
+        },
       })
       .afterClosed()
       .toPromise();
@@ -105,7 +106,7 @@ export class DisplayEventUsersComponent implements OnInit {
           `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`,
           this.event,
           user,
-          'onLocationPayment'
+          'onLocationPayment',
         );
       }
     }
@@ -115,10 +116,10 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, 'en-DE', 'EUR')} for ${
+          text: `Do you really want to confirm payment of ${formatCurrency(this.event.price, this.locale, 'EUR')} for ${
             user.firstName
-          } ${user.lastName} (${user.email})?`
-        }
+          } ${user.lastName} (${user.email})?`,
+        },
       })
       .afterClosed()
       .toPromise();
@@ -128,7 +129,7 @@ export class DisplayEventUsersComponent implements OnInit {
           `On location event payment (${this.event.name}) payed by ${user.firstName} ${user.lastName} (${user.email})`,
           this.event,
           user,
-          'onLocationPayment'
+          'onLocationPayment',
         );
         await this.eventService.payForEvent(user, this.event);
       }
@@ -139,8 +140,8 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) from this event? No mail will be sent but people from the wait list might move up`
-        }
+          text: `Do you really want to remove ${user.firstName} ${user.lastName} (${user.email}) from this event? No mail will be sent but people from the wait list might move up`,
+        },
       })
       .afterClosed()
       .toPromise();
@@ -153,8 +154,8 @@ export class DisplayEventUsersComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to bump ${user.firstName} ${user.lastName} (${user.email}) from the wait list? No mail informing them will be sent!`
-        }
+          text: `Do you really want to bump ${user.firstName} ${user.lastName} (${user.email}) from the wait list? No mail informing them will be sent!`,
+        },
       })
       .afterClosed()
       .toPromise();

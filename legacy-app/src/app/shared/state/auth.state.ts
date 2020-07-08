@@ -16,8 +16,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AngularFireAnalytics } from '@angular/fire/analytics';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { auth } from 'firebase/app';
@@ -32,8 +30,11 @@ import {
   LoginWithOauth,
   LoginWithPassword,
   Logout,
-  SetUser
+  SetUser,
 } from './auth.actions';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
+import { Injectable } from '@angular/core';
 
 export interface AuthStateModel {
   user: Student | null;
@@ -46,15 +47,16 @@ export interface AuthStateModel {
   defaults: {
     version: 1,
     user: null,
-    loaded: false
-  }
+    loaded: false,
+  },
 })
+@Injectable()
 export class AuthState implements NgxsOnInit {
   constructor(
     private angularFireAuth: AngularFireAuth,
     private userService: UserService,
     private router: Router,
-    private analytics: AngularFireAnalytics
+    private analytics: AngularFireAnalytics,
   ) {}
 
   @Selector()
@@ -83,48 +85,48 @@ export class AuthState implements NgxsOnInit {
   }
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
-    this.angularFireAuth.user.pipe(filter(user => !user)).subscribe(() => ctx.dispatch(new SetUser(null)));
+    this.angularFireAuth.user.pipe(filter((user) => !user)).subscribe(() => ctx.dispatch(new SetUser(null)));
     this.angularFireAuth.user
       .pipe(
-        filter(user => !!user),
-        switchMap(user =>
+        filter((user) => !!user),
+        switchMap((user) =>
           this.userService
             .getUser(user.uid)
-            .pipe(map(student => Object.assign({}, student, { id: user.uid, verified: user.emailVerified })))
+            .pipe(map((student) => Object.assign({}, student, { id: user.uid, verified: user.emailVerified }))),
         ),
-        tap(user => {
+        tap((user) => {
           this.analytics.setUserProperties({
             faculty: getFaculty(user.faculty),
             admin: user.isAdmin,
             tutor: user.isTutor,
             type: getType(user.type),
             degree: getTarget(user.degree),
-            country: user.country
+            country: user.country,
           });
-        })
+        }),
       )
-      .subscribe(user => ctx.dispatch(new SetUser(user)));
+      .subscribe((user) => ctx.dispatch(new SetUser(user)));
   }
 
   @Action(LoginWithGoogle)
   async loginWithGoogle() {
-    await this.angularFireAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
+    await this.angularFireAuth.signInWithRedirect(new auth.GoogleAuthProvider());
   }
 
   @Action(LoginWithFacebook)
   async loginWithFacebook() {
-    await this.angularFireAuth.auth.signInWithRedirect(new auth.FacebookAuthProvider());
+    await this.angularFireAuth.signInWithRedirect(new auth.FacebookAuthProvider());
   }
 
   @Action(LoginWithOauth)
   async LoginWithOauth(ctx: StateContext<AuthStateModel>, action: LoginWithOauth) {
-    await this.angularFireAuth.auth.signInWithRedirect(new auth.OAuthProvider(action.provider));
+    await this.angularFireAuth.signInWithRedirect(new auth.OAuthProvider(action.provider));
   }
 
   @Action(LoginWithPassword)
   async LoginWithPassword(ctx: StateContext<AuthStateModel>, action: LoginWithPassword) {
     try {
-      await this.angularFireAuth.auth.signInWithEmailAndPassword(action.email, action.password);
+      await this.angularFireAuth.signInWithEmailAndPassword(action.email, action.password);
       await this.router.navigate(['events', 'list']);
     } catch (e) {
       ctx.dispatch(new AuthError(e.code));
@@ -135,7 +137,7 @@ export class AuthState implements NgxsOnInit {
   @Action(CreateUserWithPassword)
   async CreateUserWithPassword(ctx: StateContext<AuthStateModel>, action: CreateUserWithPassword) {
     try {
-      await this.angularFireAuth.auth.createUserWithEmailAndPassword(action.email, action.password);
+      await this.angularFireAuth.createUserWithEmailAndPassword(action.email, action.password);
       await this.router.navigate(['events', 'list']);
       location.reload();
     } catch (e) {
@@ -148,11 +150,11 @@ export class AuthState implements NgxsOnInit {
   async logout(ctx: StateContext<AuthStateModel>) {
     const state = ctx.getState();
     await this.router.navigate(['/']);
-    await this.angularFireAuth.auth.signOut();
+    await this.angularFireAuth.signOut();
 
     ctx.setState({
       ...state,
-      user: null
+      user: null,
     });
   }
 
@@ -163,7 +165,7 @@ export class AuthState implements NgxsOnInit {
     ctx.setState({
       ...state,
       user: action.user,
-      loaded: true
+      loaded: true,
     });
   }
 }

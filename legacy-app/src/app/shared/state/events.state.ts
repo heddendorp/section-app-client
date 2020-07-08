@@ -27,6 +27,7 @@ import { LoadEvent, LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, Se
 import { LoadUser } from './users.actions';
 import { UsersState, UsersStateModel } from './users.state';
 import { orderBy } from 'lodash';
+import { Injectable } from '@angular/core';
 
 export interface EventsStateModel {
   entities: { [id: string]: TumiEvent };
@@ -55,14 +56,14 @@ const addEvents = addOrReplace<TumiEvent>('start');
       model: undefined,
       dirty: false,
       status: '',
-      errors: {}
+      errors: {},
     },
-    loaded: false
-  }
+    loaded: false,
+  },
 })
+@Injectable()
 export class EventsState {
-  constructor(private store: Store, private eventService: EventService, private actions$: Actions) {
-  }
+  constructor(private store: Store, private eventService: EventService, private actions$: Actions) {}
 
   static getEvent(id: string) {
     return createSelector([EventsState], (state: EventsStateModel) => state.entities[id]);
@@ -70,7 +71,7 @@ export class EventsState {
 
   @Selector()
   static events(state: EventsStateModel) {
-    return state.ids.map(id => state.entities[id]).sort((a, b) => a.start.diff(b.start));
+    return state.ids.map((id) => state.entities[id]).sort((a, b) => a.start.diff(b.start));
   }
 
   @Selector()
@@ -88,14 +89,14 @@ export class EventsState {
     const selectedEvent = state.entities[state.selectedId];
     return {
       ...selectedEvent,
-      tutorUsers: selectedEvent.tutorSignups.map(id => usersState.entities[id]),
+      tutorUsers: selectedEvent.tutorSignups.map((id) => usersState.entities[id]),
       coming: [
-        ...selectedEvent.registrations.filter(item => !item.hasAttended && !item.isWaitList),
-        ...selectedEvent.registrations.filter(item => item.hasAttended && !item.isWaitList)
-      ].map(registration => Object.assign({}, registration, { user: usersState.entities[registration.id] })),
+        ...selectedEvent.registrations.filter((item) => !item.hasAttended && !item.isWaitList),
+        ...selectedEvent.registrations.filter((item) => item.hasAttended && !item.isWaitList),
+      ].map((registration) => Object.assign({}, registration, { user: usersState.entities[registration.id] })),
       waitlist: selectedEvent.registrations
-        .filter(item => item.isWaitList)
-        .map(registration => Object.assign({}, registration, { user: usersState.entities[registration.id] }))
+        .filter((item) => item.isWaitList)
+        .map((registration) => Object.assign({}, registration, { user: usersState.entities[registration.id] })),
     };
   }
 
@@ -103,19 +104,22 @@ export class EventsState {
   static filteredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
-      .map(id => state.entities[id])
+      .map((id) => state.entities[id])
       .filter(filterEvents(state.filterForm.model, isTutor))
-      .filter(event => event.end > moment())
-      .map(event => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
+      .filter((event) => event.end > moment())
+      .map((event) => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 
   @Selector([AuthState])
   static tutoredEvents(state: EventsStateModel, authState: AuthStateModel) {
     const isEditor = !!authState.user && authState.user.isEditor;
-    const tumiEvents =
-      orderBy(state.ids
-        .map(id => state.entities[id])
-        .filter(event => event.tutorSignups.includes(authState.user.id) || isEditor), ['start'], ['desc']);
+    const tumiEvents = orderBy(
+      state.ids
+        .map((id) => state.entities[id])
+        .filter((event) => event.tutorSignups.includes(authState.user.id) || isEditor),
+      ['start'],
+      ['desc'],
+    );
     return tumiEvents;
   }
 
@@ -125,11 +129,11 @@ export class EventsState {
     this.eventService
       .getUpcomingEvents(isTutor)
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadUpcomingEvents), skip(1))))
-      .subscribe(events =>
+      .subscribe((events) =>
         ctx.patchState({
           ...addEvents(ctx.getState(), events),
-          loaded: true
-        })
+          loaded: true,
+        }),
       );
   }
 
@@ -139,11 +143,11 @@ export class EventsState {
     this.eventService
       .getTutoredEvents(isEditor)
       .pipe(takeUntil(this.actions$.pipe(ofAction(LoadTutoredEvents), skip(1))))
-      .subscribe(events =>
+      .subscribe((events) =>
         ctx.patchState({
           ...addEvents(ctx.getState(), events),
-          loaded: true
-        })
+          loaded: true,
+        }),
       );
   }
 
@@ -151,12 +155,12 @@ export class EventsState {
   loadEvent(ctx: StateContext<EventsStateModel>, action: LoadEvent) {
     return this.eventService.getEvent(action.eventId).pipe(
       first(),
-      tap(event => {
+      tap((event) => {
         if (action.withTutors) {
-          ctx.dispatch(event.tutorSignups.map(id => new LoadUser(id)));
+          ctx.dispatch(event.tutorSignups.map((id) => new LoadUser(id)));
         }
       }),
-      tap(event => ctx.patchState({ ...addEvents(ctx.getState(), [event]), loaded: true }))
+      tap((event) => ctx.patchState({ ...addEvents(ctx.getState(), [event]), loaded: true })),
     );
   }
 
@@ -166,19 +170,19 @@ export class EventsState {
       .getRegistrationsForEvent(action.eventId)
       .pipe(
         takeUntil(this.actions$.pipe(ofAction(LoadRegistrations), skip(1))),
-        tap(registrations => {
+        tap((registrations) => {
           if (action.withUsers) {
-            ctx.dispatch(registrations.map(registration => new LoadUser(registration.id)));
+            ctx.dispatch(registrations.map((registration) => new LoadUser(registration.id)));
           }
-        })
+        }),
       )
-      .subscribe(registrations =>
+      .subscribe((registrations) =>
         ctx.patchState({
           entities: {
             ...ctx.getState().entities,
-            [action.eventId]: { ...ctx.getState().entities[action.eventId], registrations }
-          }
-        })
+            [action.eventId]: { ...ctx.getState().entities[action.eventId], registrations },
+          },
+        }),
       );
   }
 

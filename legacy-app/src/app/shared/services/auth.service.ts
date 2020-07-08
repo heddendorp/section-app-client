@@ -21,13 +21,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { first } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(public afAuth: AngularFireAuth) {}
 
   public getLoginOptions(email): Promise<string[]> {
-    return this.afAuth.auth.fetchSignInMethodsForEmail(email);
+    return this.afAuth.fetchSignInMethodsForEmail(email);
   }
 
   public async sendVerification(): Promise<void> {
