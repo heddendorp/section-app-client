@@ -84,6 +84,21 @@ export class AuthState implements NgxsOnInit {
     return state.user.isAdmin || state.user.isEditor;
   }
 
+  @Selector()
+  static profileIncomplete(state: AuthStateModel) {
+    if (!state.user) {
+      return false;
+    }
+    const user = state.user;
+    return (
+      !user.firstName?.length ||
+      !user.lastName?.length ||
+      !user.email?.length ||
+      !user.phone?.length ||
+      !user.address?.length
+    );
+  }
+
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
     this.angularFireAuth.user.pipe(filter((user) => !user)).subscribe(() => ctx.dispatch(new SetUser(null)));
     this.angularFireAuth.user

@@ -26,19 +26,20 @@ import { EventsState } from '../../shared/state/events.state';
 @Component({
   selector: 'app-event-list-page',
   templateUrl: './event-list-page.component.html',
-  styleUrls: ['./event-list-page.component.scss']
+  styleUrls: ['./event-list-page.component.scss'],
 })
 export class EventListPageComponent {
   @Select(EventsState.filteredEvents) events$: Observable<any>;
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
   @Select(EventsState.loaded) loaded$: Observable<boolean>;
+  @Select(AuthState.profileIncomplete) incompleteProfile$: Observable<boolean>;
   filterForm: FormGroup;
 
   constructor(fb: FormBuilder) {
     this.filterForm = fb.group({
       showExternal: true,
       showFull: false,
-      showFullTutors: true
+      showFullTutors: true,
     });
   }
 }

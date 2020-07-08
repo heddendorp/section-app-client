@@ -36,7 +36,7 @@ import { UsersState } from '../../shared/state/users.state';
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
-  styleUrls: ['./event-details-page.component.scss']
+  styleUrls: ['./event-details-page.component.scss'],
 })
 export class EventDetailsPageComponent implements OnInit {
   @Select(EventsState.selectedEvent) event$: Observable<TumiEvent>;
@@ -51,27 +51,27 @@ export class EventDetailsPageComponent implements OnInit {
     private snackBar: MatSnackBar,
     private store: Store,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
   ) {}
 
   async ngOnInit() {
     this.registered$ = this.event$.pipe(
-      filter(event => !!event.registrations),
-      switchMap(event =>
+      filter((event) => !!event.registrations),
+      switchMap((event) =>
         this.user$.pipe(
           map(
-            user =>
+            (user) =>
               !!user &&
               (event.tutorSignups.includes(user.id) ||
-                event.registrations.map(registration => registration.id).includes(user.id))
-          )
-        )
-      )
+                event.registrations.map((registration) => registration.id).includes(user.id)),
+          ),
+        ),
+      ),
     );
     const isTutor = await this.isTutor$.pipe(first()).toPromise();
     if (isTutor) {
       const event = await this.event$.pipe(first()).toPromise();
-      await this.store.dispatch(event.tutorSignups.map(id => new LoadUser(id))).toPromise();
+      await this.store.dispatch(event.tutorSignups.map((id) => new LoadUser(id))).toPromise();
       this.tutors$ = this.store.select(UsersState.userList(event.tutorSignups));
     }
   }
@@ -80,20 +80,20 @@ export class EventDetailsPageComponent implements OnInit {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          text: `Do you really want to sign up as a tutor for this event?`
-        }
+          text: `Do you really want to sign up as a tutor for this event?`,
+        },
       })
       .afterClosed()
       .toPromise();
     if (proceed) {
       const snack = this.snackBar.openFromComponent(IconToastComponent, {
         data: { message: `Please wait while we're signing you up`, icon: 'wait' },
-        duration: 0
+        duration: 0,
       });
       await this.fireFunctions
         .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>('registerForEvent')({
           eventId,
-          type: 'tutor'
+          type: 'tutor',
         })
         .toPromise();
       snack.dismiss();
@@ -104,12 +104,12 @@ export class EventDetailsPageComponent implements OnInit {
   async registerStudent(eventId) {
     const snack = this.snackBar.openFromComponent(IconToastComponent, {
       data: { message: `Please wait while we're signing you up`, icon: 'wait' },
-      duration: 0
+      duration: 0,
     });
     await this.fireFunctions
       .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>('registerForEvent')({
         eventId,
-        type: 'student'
+        type: 'student',
       })
       .toPromise();
     snack.dismiss();

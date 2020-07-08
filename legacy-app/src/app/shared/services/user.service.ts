@@ -25,63 +25,63 @@ import { pick } from 'lodash';
 import { firestore as importStore } from 'firebase/app';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   constructor(private firestore: AngularFirestore, private eventService: EventService) {}
 
   get students(): Observable<Student[]> {
     return this.firestore
-      .collection<Student>('users', ref => ref.orderBy('lastName'))
+      .collection<Student>('users', (ref) => ref.orderBy('lastName'))
       .valueChanges({ idField: 'id' })
       .pipe(
-        catchError(err => {
+        catchError((err) => {
           console.groupCollapsed('Firebase Error: get students()');
           console.error(err);
           console.groupEnd();
           return of([]);
-        })
+        }),
       );
   }
 
   get tutors(): Observable<Student[]> {
     return this.firestore
-      .collection<Student>('users', ref => ref.orderBy('lastName').where('isTutor', '==', true))
+      .collection<Student>('users', (ref) => ref.orderBy('lastName').where('isTutor', '==', true))
       .valueChanges({ idField: 'id' })
       .pipe(
-        catchError(err => {
+        catchError((err) => {
           console.groupCollapsed('Firebase Error: get students()');
           console.error(err);
           console.groupEnd();
           return of([]);
-        })
+        }),
       );
   }
 
   get paRegistrations(): Observable<Student[]> {
     return (
       this.firestore
-        .collection<SavedStudent>('users', ref =>
-          ref.orderBy('lastName').where('paStatus', 'in', ['applied', 'started', 'internal'])
+        .collection<SavedStudent>('users', (ref) =>
+          ref.orderBy('lastName').where('paStatus', 'in', ['applied', 'started', 'internal']),
         )
         // .collection<Student>('users', ref => ref.orderBy('lastName').where('paStatus', '==', 'applied'))
         .valueChanges({ idField: 'id' })
         .pipe(
-          map(users =>
-            users.map(user => {
+          map((users) =>
+            users.map((user) => {
               let paApplicationTime = user.paApplicationTime?.toDate();
               if (!paApplicationTime) {
                 paApplicationTime = null;
               }
               return { ...user, paApplicationTime };
-            })
+            }),
           ),
-          catchError(err => {
+          catchError((err) => {
             console.groupCollapsed('Firebase Error: get students()');
             console.error(err);
             console.groupEnd();
             return of([]);
-          })
+          }),
         )
     );
   }
@@ -93,96 +93,95 @@ export class UserService {
       .valueChanges()
       .pipe(
         map((user: Student) => Object.assign(user, { id })),
-        catchError(err => of(undefined))
+        catchError((err) => of(undefined)),
       );
   }
 
   public getFullDetails(id): Observable<any> {
     return this.getUser(id).pipe(
-      switchMap(user =>
+      switchMap((user) =>
         combineLatest([this.eventService.getSignedEventsForUser(id), this.eventService.getTutorEventsForUser(id)]).pipe(
-          map(([userEvents, tutorEvents]) => Object.assign({}, user, { userEvents, tutorEvents }))
-        )
+          map(([userEvents, tutorEvents]) => Object.assign({}, user, { userEvents, tutorEvents })),
+        ),
       ),
-      catchError(err => of(undefined))
+      catchError((err) => of(undefined)),
     );
   }
 
   public getEventWithTutors(eventId) {
     return this.eventService.getEvent(eventId).pipe(
-      switchMap(event =>
+      switchMap((event) =>
         this.getUsers(event.tutorSignups).pipe(
-          map(tutorUsers => tutorUsers.sort((a, b) => a.lastName.localeCompare(b.lastName))),
-          map(tutorUsers => Object.assign({}, event, { tutorUsers }))
-        )
+          map((tutorUsers) => tutorUsers.sort((a, b) => a.lastName.localeCompare(b.lastName))),
+          map((tutorUsers) => Object.assign({}, event, { tutorUsers })),
+        ),
       ),
-      share()
+      share(),
     );
   }
 
   public getEventWithUsers(eventId): Observable<TumiEvent> {
     const eventWithTutorsObservable = this.getEventWithTutors(eventId);
     const registrationsWithUsersObservable = this.eventService.getRegistrationsForEvent(eventId).pipe(
-      switchMap(registrations => {
+      switchMap((registrations) => {
         if (registrations.length) {
           return combineLatest(
-            registrations.map(signup => this.getUser(signup.id).pipe(map(user => Object.assign(signup, { user }))))
+            registrations.map((signup) => this.getUser(signup.id).pipe(map((user) => Object.assign(signup, { user })))),
           );
         }
         return of([]);
       }),
-      map(registrations => registrations.sort((a, b) => a.user.lastName.localeCompare(b.user.lastName)))
+      map((registrations) => registrations.sort((a, b) => a.user.lastName.localeCompare(b.user.lastName))),
     );
     return combineLatest([eventWithTutorsObservable, registrationsWithUsersObservable]).pipe(
       map(([event, userSignups]) => Object.assign({}, event, { userSignups })),
-      share()
+      share(),
     );
   }
 
   public save(user: Student) {
     console.log(user);
-    return this.firestore
-      .collection<Student>('users')
-      .doc(user.id)
-      .update(this.cleanUser(user));
+    return this.firestore.collection<Student>('users').doc(user.id).update(this.cleanUser(user));
   }
 
   private getUsers(ids: string[]): Observable<Student[]> {
     if (ids.length === 0) {
       return of([]);
     }
-    return combineLatest(ids.map(userId => this.getUser(userId)));
+    return combineLatest(ids.map((userId) => this.getUser(userId)));
   }
 
   cleanUser(user) {
     return {
-      academicMail: user.academicMail || '',
-      callBy: user.callBy || user.firstName,
+      academicMail: user.academicMail ?? '',
+      address: user.address ?? '',
+      callBy: user.callBy ?? user.firstName,
       country: user.country,
-      degree: user.degree || '',
+      degree: user.degree ?? '',
       email: user.email,
-      esnMember: user.esnMember || false,
-      esnSection: user.esnSection || '',
+      esnMember: user.esnMember ?? false,
+      esnSection: user.esnSection ?? '',
       faculty: user.faculty,
       firstName: user.firstName,
-      gender: user.gender || '',
+      gender: user.gender ?? '',
       id: user.id,
       isEditor: user.isEditor,
       isTutor: user.isTutor,
       lastName: user.lastName,
-      paApplicationTime: user.paApplicationTime || null,
-      paStatus: user.paStatus || 'none',
-      partyData: user.partyData || {},
+      paApplicationTime: user.paApplicationTime ?? null,
+      paStatus: user.paStatus ?? 'none',
+      partyData: user.partyData ?? {},
       phone: user.phone,
       type: user.type,
-      university: user.university || '',
-      verified: user.verified
+      university: user.university ?? '',
+      verified: user.verified,
     };
   }
 
-  private cleanUser2 = user =>
+  private cleanUser2 = (user) =>
     pick(user, [
       'academicMail',
+      'address',
       'callBy',
       'country',
       'degree',
@@ -201,7 +200,7 @@ export class UserService {
       'phone',
       'type',
       'university',
-      'verified'
+      'verified',
     ]);
 }
 
@@ -211,6 +210,7 @@ interface BaseStudent {
   country: string;
   degree: string;
   email: string;
+  address: string;
   esnMember: boolean;
   esnSection?: string;
   faculty: string;

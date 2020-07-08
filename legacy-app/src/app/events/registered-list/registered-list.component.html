@@ -32,10 +32,26 @@
       <button (click)="sendVerification()" mat-flat-button>Resend verification</button>
     </mat-card-actions>
   </mat-card>
+  <mat-card *ngIf="incompleteProfile$ | async">
+    <mat-card-title-group>
+      <img alt="TUMi Logo" appIconSrc="box-important:fluent" mat-card-sm-image/>
+      <mat-card-title>MISSING INFO!</mat-card-title>
+      <mat-card-subtitle>New regulations due to COVID-19!</mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-content>
+      <p>
+        Due to government issued regulations we have to collect additional data from you before you can sign up for events again.
+      </p>
+      <p>Please go to your profile and add the missing info now</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button color="accent" (click)="changeData()" mat-raised-button>Do it now</button>
+    </mat-card-actions>
+  </mat-card>
   <h2 class="mat-display-4 no-margin">Personal Data</h2>
   <app-user-profile [user]="user$ | async"></app-user-profile>
   <p>If any of the above data is not correct please change your info to fix it</p>
-  <button (click)="changeData()" mat-stroked-button>Change userdata</button>
+  <button (click)="changeData()" mat-raised-button color="primary">Update Profile</button>
   <mat-divider></mat-divider>
   <h2 class="mat-display-4 no-margin">Upcoming Events</h2>
   <div gdAuto gdColumns="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)" gdGap="2rem">

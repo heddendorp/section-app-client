@@ -30,7 +30,7 @@ import { AuthState } from '../../../shared/state/auth.state';
   selector: 'app-event-details-display',
   templateUrl: './event-details-display.component.html',
   styleUrls: ['./event-details-display.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventDetailsDisplayComponent implements OnInit {
   @Input() event: TumiEvent;
@@ -38,6 +38,7 @@ export class EventDetailsDisplayComponent implements OnInit {
   @Input() signed: boolean;
   @Output() tutorSignup = new EventEmitter();
   @Output() studentSignup = new EventEmitter();
+  @Select(AuthState.profileIncomplete) incompleteProfile$: Observable<boolean>;
   qrCode = new BehaviorSubject(null);
   eventFull: boolean;
   @Select(AuthState.isTutor) isTutor$: Observable<boolean>;
@@ -48,32 +49,32 @@ export class EventDetailsDisplayComponent implements OnInit {
   constructor(private qrService: QrService, private cartService: CartService) {}
 
   get tutorList() {
-    return this.tutors.map(user => `${user.firstName} ${user.lastName}`).join(', ');
+    return this.tutors.map((user) => `${user.firstName} ${user.lastName}`).join(', ');
   }
 
   ngOnInit() {
     this.eventFull = this.event.usersSignedUp >= this.event.participantSpots && !this.event.isInternal;
-    this.email$ = this.user$.pipe(map(user => user.email));
+    this.email$ = this.user$.pipe(map((user) => user.email));
     this.user$
       .pipe(
-        filter(user => !!user),
-        tap(user =>
+        filter((user) => !!user),
+        tap((user) =>
           console.log(
             JSON.stringify({
               user: user.id,
-              events: [{ id: this.event.id, action: 'register' }]
-            })
-          )
+              events: [{ id: this.event.id, action: 'register' }],
+            }),
+          ),
         ),
-        first()
+        first(),
       )
-      .subscribe(user =>
+      .subscribe((user) =>
         this.qrService
           .getURL({
             user: user.id,
-            events: [{ id: this.event.id, action: 'register' }]
+            events: [{ id: this.event.id, action: 'register' }],
           })
-          .then(url => this.qrCode.next(url))
+          .then((url) => this.qrCode.next(url)),
       );
   }
 

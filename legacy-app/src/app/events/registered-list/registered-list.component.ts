@@ -35,12 +35,13 @@ import { RefundDialogComponent } from '../components/refund-dialog/refund-dialog
 @Component({
   selector: 'app-registered-list',
   templateUrl: './registered-list.component.html',
-  styleUrls: ['./registered-list.component.scss']
+  styleUrls: ['./registered-list.component.scss'],
 })
 export class RegisteredListComponent implements OnInit {
   upcomingEvents$: Observable<TumiEvent[]>;
   passedEvents$: Observable<TumiEvent[]>;
   @Select(AuthState.user) user$: Observable<Student>;
+  @Select(AuthState.profileIncomplete) incompleteProfile$: Observable<boolean>;
 
   constructor(
     private eventService: EventService,
@@ -48,15 +49,15 @@ export class RegisteredListComponent implements OnInit {
     private dialog: MatDialog,
     public userService: UserService,
     private snackBar: MatSnackBar,
-    private functions: AngularFireFunctions
+    private functions: AngularFireFunctions,
   ) {}
 
   ngOnInit() {
     this.upcomingEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.end.isAfter()))
+      map((events) => events.filter((event) => event.end.isAfter())),
     );
     this.passedEvents$ = this.eventService.registeredEvents.pipe(
-      map(events => events.filter(event => event.end.isBefore()))
+      map((events) => events.filter((event) => event.end.isBefore())),
     );
   }
 
@@ -65,8 +66,8 @@ export class RegisteredListComponent implements OnInit {
     this.snackBar.openFromComponent(IconToastComponent, {
       data: {
         message: 'Email sent, please check your mail!',
-        icon: 'check-mail'
-      }
+        icon: 'check-mail',
+      },
     });
   }
 
@@ -89,18 +90,16 @@ export class RegisteredListComponent implements OnInit {
   async deregister(event) {
     const proceed = await this.dialog
       .open(ConfirmationDialogComponent, {
-        data: { text: `Do you really want to remove your registration from ${event.name}?` }
+        data: { text: `Do you really want to remove your registration from ${event.name}?` },
       })
       .afterClosed()
       .toPromise();
     if (proceed) {
       const snack = this.snackBar.openFromComponent(IconToastComponent, {
         data: { message: `Please wait while we're removing your registration`, icon: 'wait' },
-        duration: 0
+        duration: 0,
       });
-      await this.functions
-        .httpsCallable('removeRegistration')({ eventId: event.id })
-        .toPromise();
+      await this.functions.httpsCallable('removeRegistration')({ eventId: event.id }).toPromise();
       snack.dismiss();
     }
   }

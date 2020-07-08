@@ -45,7 +45,7 @@ import { AuthState } from './shared/state/auth.state';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [slideInAnimation]
+  animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
   appVersion = version;
@@ -73,36 +73,36 @@ export class AppComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private titleService: Title,
-    private cartService: CartService
+    private cartService: CartService,
   ) {
     registry.addSvgIconSet(san.bypassSecurityTrustResourceUrl('/assets/icons/set.svg'));
     registry.addSvgIconSetInNamespace('na', san.bypassSecurityTrustResourceUrl('/assets/icons/na.svg'));
     this.isMobile$ = media.asObservable().pipe(
-      map(checks => !!checks.filter(check => check.matches).find(match => match.mqAlias === 'xs')),
-      startWith(false)
+      map((checks) => !!checks.filter((check) => check.matches).find((match) => match.mqAlias === 'xs')),
+      startWith(false),
     );
-    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable === true));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(/*appIsStable$,*/ updateCheckTimer$);
     if (environment.production) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
-    updates.available.subscribe(event => {
+    updates.available.subscribe((event) => {
       this.snackBar
         .openFromComponent(IconToastComponent, {
           duration: 0,
           data: {
             message: 'A new version of this app is available!',
             action: 'Activate now',
-            icon: 'update'
-          }
+            icon: 'update',
+          },
         })
         .onAction()
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
     fromEvent<MediaQueryListEvent>(mediaMatcher.matchMedia('(prefers-color-scheme: dark)'), 'change')
       /*.pipe(startWith(mediaMatcher.matchMedia('(prefers-color-scheme: dark)')))*/
-      .subscribe(event => {
+      .subscribe((event) => {
         if (event.matches) {
           this.loadStyle('dark.css');
         } else {
@@ -120,8 +120,8 @@ export class AppComponent implements OnInit, OnDestroy {
             message: 'This app uses analytics cookies to improve your experience',
             action: 'More Info',
             icon: 'about',
-            allowClose: true
-          }
+            allowClose: true,
+          },
         })
         .afterDismissed()
         .subscribe(({ dismissedByAction }) => {
@@ -135,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof ActivationEnd),
+        filter((event) => event instanceof ActivationEnd),
         withLatestFrom(this.isMobile$),
         map(([event, mobile]) => {
           if (mobile) {
@@ -144,21 +144,21 @@ export class AppComponent implements OnInit, OnDestroy {
           return event;
         }),
         map((event: ActivationEnd) => event.snapshot.data.title || ''),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
-      .subscribe(title => this.titleService.setTitle(`TUMi - ${title}`));
+      .subscribe((title) => this.titleService.setTitle(`TUMi - ${title}`));
     this.color$ = this.router.events.pipe(
-      filter(event => event instanceof ActivationEnd),
-      map<ActivationEnd, ThemePalette>(event => {
+      filter((event) => event instanceof ActivationEnd),
+      map<ActivationEnd, ThemePalette>((event) => {
         if (event.snapshot.data.standalone) {
           return;
         } else {
           return 'primary';
         }
       }),
-      startWith('primary')
+      startWith('primary'),
     );
-    this.class$ = this.color$.pipe(map(theme => (theme ? '' : 'dark-theme')));
+    this.class$ = this.color$.pipe(map((theme) => (theme ? '' : 'dark-theme')));
     this.savedEvents$ = this.cartService.eventCount;
   }
 
