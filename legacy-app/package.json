@@ -1,6 +1,6 @@
 {
   "name": "tumi",
-  "version": "0.0.2-deploy.55",
+  "version": "0.0.2-deploy.56",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -29,7 +29,7 @@
     "release": "standard-version --no-verify",
     "release:preview": "standard-version --no-verify --dry-run",
     "release:deploy": "standard-version --prerelease deploy --no-verify --skip.changelog --skip.tag --skip.commit",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -39,7 +39,7 @@
     "@angular/compiler": "~9.1.7",
     "@angular/core": "~9.1.7",
     "@angular/fire": "^5.4.2",
-    "@angular/flex-layout": "^9.0.0-beta.30",
+    "@angular/flex-layout": "^10.0.0-beta.32",
     "@angular/forms": "~9.1.7",
     "@angular/material": "^9.2.3",
     "@angular/material-moment-adapter": "^9.2.3",
