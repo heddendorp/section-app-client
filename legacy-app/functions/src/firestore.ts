@@ -62,7 +62,9 @@ export const updatedSignup = functions
   .region('europe-west1')
   .firestore.document('events/{eventId}/signups/{signupId}')
   .onUpdate(async (change, context) => {
+    // tslint:disable-next-line
     const oldValue = change.before.data()!.partySize;
+    // tslint:disable-next-line
     const newValue = change.after.data()!.partySize;
     const difference = newValue - oldValue;
     if (difference !== 0) {

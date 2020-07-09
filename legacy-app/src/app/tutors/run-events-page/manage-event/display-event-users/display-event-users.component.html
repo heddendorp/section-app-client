@@ -40,14 +40,14 @@
   <tr *matRowDef="let row; columns: ['name', 'mail', 'action']" mat-row></tr>
 </table>
 
-<p style="margin-top: 2rem;"><strong>Students registered for this event</strong>&nbsp;({{event.coming.length}})</p>
+<p style="margin-top: 2rem;"><strong>Students registered for this event</strong>&nbsp;({{ event.coming.length }})</p>
 <a
   href="mailto:tumi-koordination@zv.tum.de?subject={{ encodedEventName }}&cc={{ tutorEmail }}&bcc={{
     participantEmail
   }}"
   mat-flat-button
   target="_blank"
->Send Mail to Participants</a
+  >Send Mail to Participants</a
 >
 <pre class="selectable">{{ participantEmail }}</pre>
 <table [dataSource]="event.coming" [trackBy]="trackById" mat-table style="width: 100%;">
@@ -94,7 +94,59 @@
   <tr *matRowDef="let row; columns: columns$ | async" mat-row></tr>
 </table>
 
-<p style="margin-top: 2rem;"><strong>Students on the waiting list</strong>&nbsp;({{event.waitlist.length}})</p>
+<p style="margin-top: 2rem;">
+  <strong>Hygiene table</strong> (click table to select and then copy it to your document)
+</p>
+<div class="selectable hygene-table">
+  <table>
+    <thead>
+      <tr>
+        <td>Event Name:</td>
+        <td colspan="4">{{ event.name }}</td>
+      </tr>
+      <tr>
+        <td>Date:</td>
+        <td colspan="4">{{ event.start | date: 'mediumDate' }}</td>
+      </tr>
+      <tr>
+        <td>Tutors:</td>
+        <td colspan="4">
+          <ng-container *ngFor="let tutor of event.tutorUsers"
+            >{{ tutor.firstName }} {{ tutor.lastName }},
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">Participants (including tutors):</td>
+      </tr>
+      <tr class="centered">
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>E-mail</th>
+        <th>Signature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of event.tutorUsers">
+        <td>{{ user?.firstName }} {{ user?.lastName }}</td>
+        <td>{{ user?.address }}</td>
+        <td>{{ user?.phone }}</td>
+        <td>{{ user?.email }}</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr *ngFor="let registration of event.coming">
+        <td>{{ registration.user?.firstName }} {{ registration.user?.lastName }}</td>
+        <td>{{ registration.user?.address }}</td>
+        <td>{{ registration.user?.phone }}</td>
+        <td>{{ registration.user?.email }}</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p style="margin-top: 2rem;"><strong>Students on the waiting list</strong>&nbsp;({{ event.waitlist.length }})</p>
 <table [dataSource]="event.waitlist" [trackBy]="trackById" mat-table style="width: 100%;">
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>

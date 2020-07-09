@@ -23,3 +23,23 @@
 pre {
   white-space: pre-wrap;
 }
+
+.hygene-table{
+  background: white;
+  color: black;
+  padding: 1rem;
+  table{
+    border-collapse: collapse;
+  }
+  thead{
+    text-align: left;
+    .centered{
+      text-align: center;
+    }
+  }
+  tbody{
+    td{
+      border: 1px solid black;
+    }
+  }
+}

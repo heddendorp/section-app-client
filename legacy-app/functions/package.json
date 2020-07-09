@@ -15,21 +15,22 @@
   "main": "lib/index.js",
   "dependencies": {
     "@types/got": "^9.6.9",
-    "@types/mjml": "^4.0.4",
+    "@types/mjml": "^4.0.3",
+    "@types/moment-timezone": "^0.5.12",
     "@types/nodemailer": "^6.4.0",
-    "firebase-admin": "^8.13.0",
-    "firebase-functions": "^3.7.0",
+    "firebase-admin": "^8.9.2",
+    "firebase-functions": "^3.3.0",
     "got": "^9.6.0",
-    "lodash": "^4.17.17",
-    "mjml": "^4.6.3",
-    "moment": "^2.27.0",
-    "moment-timezone": "^0.5.31",
+    "lodash": "^4.17.15",
+    "mjml": "^4.5.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.27",
     "nodemailer": "^6.4.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.157",
-    "tslint": "^6.1.2",
-    "typescript": "^3.9.6"
+    "@types/lodash": "^4.14.149",
+    "tslint": "^5.20.1",
+    "typescript": "^3.5.3"
   },
   "private": true
 }
