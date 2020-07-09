@@ -20,10 +20,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": [
-              "en-DE"
-            ],
-            "aot": true,
             "outputPath": "dist/tumi",
             "index": "src/index.html",
             "main": "src/main.ts",

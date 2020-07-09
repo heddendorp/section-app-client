@@ -20,7 +20,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en-DE';
 import localeEnExtra from '@angular/common/locales/extra/en-DE';
 import { HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import {
   AngularFireAnalytics,
@@ -130,6 +130,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
   providers: [
     { provide: ORIGIN, useValue: environment.functionsOrigin },
     { provide: REGION, useValue: 'europe-west1' },
+    { provide: LOCALE_ID, useValue: 'en-DE' },
     {
       provide: CONFIG,
       useValue: {

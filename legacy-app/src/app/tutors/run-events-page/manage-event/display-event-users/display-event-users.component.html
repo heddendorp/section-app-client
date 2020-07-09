@@ -112,7 +112,7 @@
         <td>Tutors:</td>
         <td colspan="4">
           <ng-container *ngFor="let tutor of event.tutorUsers"
-            >{{ tutor.firstName }} {{ tutor.lastName }},
+            >{{ tutor?.firstName }} {{ tutor?.lastName }},
           </ng-container>
         </td>
       </tr>
