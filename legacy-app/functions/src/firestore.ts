@@ -26,10 +26,7 @@ export const newEvent = functions
   .region('europe-west1')
   .firestore.document('events/{eventId}')
   .onCreate(async (snap, context) => {
-    await firestore
-      .collection('events')
-      .doc(context.params['eventId'])
-      .update({ usersSignedUp: 0 });
+    await firestore.collection('events').doc(context.params['eventId']).update({ usersSignedUp: 0 });
   });
 
 export const newSignup = functions
@@ -38,10 +35,7 @@ export const newSignup = functions
   .onCreate(async (snap, context) => {
     const value = snap.data();
     if (value) {
-      const userSnap = await firestore
-        .collection('users')
-        .doc(value.id)
-        .get();
+      const userSnap = await firestore.collection('users').doc(value.id).get();
       const eventSnap = await firestore.doc(snap.ref.parent.parent!.path).get();
       const user = userSnap.data();
       const event = eventSnap.data();
@@ -51,10 +45,10 @@ export const newSignup = functions
       if (!event) {
         throw new functions.https.HttpsError(
           'invalid-argument',
-          `Could not find a record for path ${snap.ref.parent.parent!.path}!`
+          `Could not find a record for path ${snap.ref.parent.parent!.path}!`,
         );
       }
-      await firestore.runTransaction(async transaction => {
+      await firestore.runTransaction(async (transaction) => {
         const eventRef = firestore.collection('events').doc(context.params['eventId']);
         const currentData = await transaction.get(eventRef);
         if (currentData && currentData.data()) {
@@ -72,7 +66,7 @@ export const updatedSignup = functions
     const newValue = change.after.data()!.partySize;
     const difference = newValue - oldValue;
     if (difference !== 0) {
-      await firestore.runTransaction(async transaction => {
+      await firestore.runTransaction(async (transaction) => {
         const eventRef = firestore.collection('events').doc(context.params['eventId']);
         const currentData = await transaction.get(eventRef);
         if (currentData && currentData.data()) {
@@ -88,17 +82,14 @@ export const deletedSignup = functions
   .onDelete(async (snap, context) => {
     const value = snap.data();
     if (value) {
-      await firestore.runTransaction(async transaction => {
+      await firestore.runTransaction(async (transaction) => {
         const eventRef = firestore.collection('events').doc(context.params['eventId']);
         const currentData = await transaction.get(eventRef);
         if (currentData && currentData.data()) {
           transaction.update(eventRef, { usersSignedUp: currentData.data()!.usersSignedUp - value.partySize });
         }
       });
-      const eventData = await firestore
-        .collection('events')
-        .doc(context.params['eventId'])
-        .get();
+      const eventData = await firestore.collection('events').doc(context.params['eventId']).get();
       const freeSpots = eventData.data()!.participantSpots - eventData.data()!.usersSignedUp;
       if (value.isWaitList || freeSpots <= 0) {
         return;
@@ -113,25 +104,22 @@ export const deletedSignup = functions
       const queryData = await signupQuery.get();
       if (!queryData.empty && moment(eventData.data()!.start.toDate()).isAfter(moment())) {
         await queryData.docs.map(async (doc: any) => {
-          const userSnap = await firestore
-            .collection('users')
-            .doc(doc.id)
-            .get();
+          const userSnap = await firestore.collection('users').doc(doc.id).get();
           const transporter = nodemailer.createTransport(
             {
               port: 587,
               host: 'postout.lrz.de',
               secure: false,
-              auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
+              auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass },
             },
-            { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+            { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' },
           );
           if (userSnap.data()) {
             await transporter.sendMail({
               subject: '[TUMi] Event Update',
               to: userSnap.data()!.email,
               bcc: 'tumi@zv.tum.de',
-              html: waitListMove(eventData.data(), userSnap.data())
+              html: waitListMove(eventData.data(), userSnap.data()),
             });
           }
           await firestore.doc(doc.ref.path).update({ isWaitList: false });
@@ -143,7 +131,7 @@ export const deletedSignup = functions
 export const balanceUpdate = functions
   .region('europe-west1')
   .firestore.document('stats/money/transactions/{id}')
-  .onCreate(async snap => {
+  .onCreate(async (snap) => {
     const value = snap.data() as any;
     if (value) {
       const transporter = nodemailer.createTransport(
@@ -151,19 +139,19 @@ export const balanceUpdate = functions
           port: 587,
           host: 'postout.lrz.de',
           secure: false,
-          auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass }
+          auth: { user: 'tumi.tuzeio1@tum.de', pass: functions.config().email.pass },
         },
-        { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+        { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' },
       );
       if (value.type !== 'general') {
         await transporter.sendMail({
           subject: '[TUMi] Event Receipt',
           to: value.user.email,
           bcc: 'tumi@zv.tum.de',
-          html: receipt(value)
+          html: receipt(value),
         });
       }
-      await firestore.runTransaction(async transaction => {
+      await firestore.runTransaction(async (transaction) => {
         const moneyRef = firestore.collection('stats').doc('money');
         const currentBalance = await transaction.get(moneyRef);
         if (currentBalance && currentBalance.data()) {

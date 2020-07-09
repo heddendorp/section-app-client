@@ -10,7 +10,7 @@
     {
       "appAssociation": "AUTO",
       "target": "tumi",
-      "public": "dist/tumi",
+      "public": "dist/tumi/en-DE",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "header": [
         {

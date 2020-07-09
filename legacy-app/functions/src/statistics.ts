@@ -6,18 +6,18 @@ export const updateEventStats = functions.https.onCall(async () => {
   const eventsSnapshot = await firestore
     .collection('events')
     .where('isVisiblePublicly', '==', true)
-    .where('start', '<', new Date(2020,3,30))
+    .where('start', '<', new Date(2020, 3, 30))
     .get();
-  const events = eventsSnapshot.docs.map(doc => doc.data());
+  const events = eventsSnapshot.docs.map((doc) => doc.data());
   const signupsSnapshot = await firestore.collectionGroup('signups').get();
-  const signups = signupsSnapshot.docs.map(doc => Object.assign(doc.data(), { event: doc.ref.parent.parent!.id }));
+  const signups = signupsSnapshot.docs.map((doc) => Object.assign(doc.data(), { event: doc.ref.parent.parent!.id }));
 
-  const eventInfos = events.map(event => {
-    const eventSignups = signups.filter(signup => signup.event === event.id);
+  const eventInfos = events.map((event) => {
+    const eventSignups = signups.filter((signup) => signup.event === event.id);
     const totalRegistrations = eventSignups.length;
-    const waitListRegistrations = eventSignups.filter(s => s.isWaitlist).length;
-    const payedRegistrations = eventSignups.filter(s => s.hasPayed).length;
-    const attendedRegistrations = eventSignups.filter(s => s.hasAttended).length;
+    const waitListRegistrations = eventSignups.filter((s) => s.isWaitlist).length;
+    const payedRegistrations = eventSignups.filter((s) => s.hasPayed).length;
+    const attendedRegistrations = eventSignups.filter((s) => s.hasAttended).length;
 
     return {
       id: event.id,
@@ -33,39 +33,36 @@ export const updateEventStats = functions.https.onCall(async () => {
       totalRegistrations,
       waitListRegistrations,
       payedRegistrations,
-      attendedRegistrations
+      attendedRegistrations,
     };
   });
 
   const stats = {
     eventNum: eventInfos.length,
-    partyNum: eventInfos.filter(e => e.party).length,
-    onlineNum: eventInfos.filter(e => e.online).length,
+    partyNum: eventInfos.filter((e) => e.party).length,
+    onlineNum: eventInfos.filter((e) => e.online).length,
     registrationNum: eventInfos.reduce((acc, curr) => acc + curr.totalRegistrations, 0),
     attendedNum: eventInfos.reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
     waitListNum: eventInfos.reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
     cost: eventInfos.reduce((acc, curr) => acc + curr.cost, 0),
     collected: eventInfos.reduce((acc, curr) => acc + curr.price * curr.payedRegistrations, 0),
     payed: {
-      eventNum: eventInfos.filter(e => e.payed).length,
-      registrationNum: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.totalRegistrations, 0),
-      attendedNum: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
-      waitListNum: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
-      payedNum: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.payedRegistrations, 0),
-      cost: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.cost, 0),
-      collected: eventInfos.filter(e => e.payed).reduce((acc, curr) => acc + curr.price * curr.payedRegistrations, 0)
-    }
+      eventNum: eventInfos.filter((e) => e.payed).length,
+      registrationNum: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.totalRegistrations, 0),
+      attendedNum: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
+      waitListNum: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
+      payedNum: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.payedRegistrations, 0),
+      cost: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.cost, 0),
+      collected: eventInfos.filter((e) => e.payed).reduce((acc, curr) => acc + curr.price * curr.payedRegistrations, 0),
+    },
   };
   await deleteCollection(firestore, 'stats/events/items', 200);
-  await firestore
-    .collection('stats')
-    .doc('events')
-    .delete();
+  await firestore.collection('stats').doc('events').delete();
 
   const batch = firestore.batch();
   const eventStatsRef = firestore.collection('stats').doc('events');
   batch.set(eventStatsRef, stats);
-  eventInfos.forEach(item => {
+  eventInfos.forEach((item) => {
     const itemRef = eventStatsRef.collection('items').doc();
     batch.set(itemRef, item);
   });
@@ -74,26 +71,26 @@ export const updateEventStats = functions.https.onCall(async () => {
 
 export const updateUserStats = functions.https.onCall(async (call, context) => {
   const eventsSnapshot = await firestore.collection('events').get();
-  const events = eventsSnapshot.docs.map(doc => doc.data());
+  const events = eventsSnapshot.docs.map((doc) => doc.data());
   const usersSnapshot = await firestore.collection('users').get();
-  const users = usersSnapshot.docs.map(doc => doc.data());
+  const users = usersSnapshot.docs.map((doc) => doc.data());
   const signupsSnapshot = await firestore.collectionGroup('signups').get();
-  const signups = signupsSnapshot.docs.map(doc => Object.assign(doc.data(), { event: doc.ref.parent.parent!.id }));
+  const signups = signupsSnapshot.docs.map((doc) => Object.assign(doc.data(), { event: doc.ref.parent.parent!.id }));
 
-  const userInfos = users.map(user => {
-    const eventSignups = signups.filter(signup => signup.id === user.id);
+  const userInfos = users.map((user) => {
+    const eventSignups = signups.filter((signup) => signup.id === user.id);
     const totalRegistrations = eventSignups.length;
-    const waitListRegistrations = eventSignups.filter(s => s.isWaitlist).length;
-    const payedRegistrations = eventSignups.filter(s => s.hasPayed).length;
-    const attendedRegistrations = eventSignups.filter(s => s.hasAttended).length;
-    const tutoredEvents = events.filter(event => event.tutorSignups && event.tutorSignups.includes(user.id)).length;
+    const waitListRegistrations = eventSignups.filter((s) => s.isWaitlist).length;
+    const payedRegistrations = eventSignups.filter((s) => s.hasPayed).length;
+    const attendedRegistrations = eventSignups.filter((s) => s.hasAttended).length;
+    const tutoredEvents = events.filter((event) => event.tutorSignups && event.tutorSignups.includes(user.id)).length;
     const moneySpent = eventSignups
-      .filter(s => s.hasPayed)
-      .reduce((acc, curr) => acc + events.find(e => e.id === curr.event)!.price, 0);
+      .filter((s) => s.hasPayed)
+      .reduce((acc, curr) => acc + events.find((e) => e.id === curr.event)!.price, 0);
     const moneyAttended = eventSignups
-      .filter(s => s.hasPayed)
-      .filter(s => s.hasAttended)
-      .reduce((acc, curr) => acc + events.find(e => e.id === curr.event)!.price, 0);
+      .filter((s) => s.hasPayed)
+      .filter((s) => s.hasAttended)
+      .reduce((acc, curr) => acc + events.find((e) => e.id === curr.event)!.price, 0);
 
     return {
       id: user.id,
@@ -109,7 +106,7 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
       attendedRegistrations,
       tutoredEvents,
       moneySpent,
-      moneyAttended
+      moneyAttended,
     };
   });
 
@@ -120,11 +117,11 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
   userInfos.sort((b, a) => a.tutoredEvents - b.tutoredEvents);
   const mostTutored = userInfos.slice(0, 10);
 
-  let stats = {
+  const stats = {
     userNum: userInfos.length,
-    userNumPayed: userInfos.filter(u => u.moneySpent > 0).length,
-    userNumAttended: userInfos.filter(u => u.attendedRegistrations > 0).length,
-    userNumRegistered: userInfos.filter(u => u.totalRegistrations > 0).length,
+    userNumPayed: userInfos.filter((u) => u.moneySpent > 0).length,
+    userNumAttended: userInfos.filter((u) => u.attendedRegistrations > 0).length,
+    userNumRegistered: userInfos.filter((u) => u.totalRegistrations > 0).length,
     registrationNum: userInfos.reduce((acc, curr) => acc + curr.totalRegistrations, 0),
     attendedNum: userInfos.reduce((acc, curr) => acc + curr.attendedRegistrations, 0),
     waitListNum: userInfos.reduce((acc, curr) => acc + curr.waitListRegistrations, 0),
@@ -133,33 +130,30 @@ export const updateUserStats = functions.https.onCall(async (call, context) => {
     mostRegistrations,
     mostAttended,
     mostTutored,
-    tutors: userInfos.filter(u => u.tutor)
+    tutors: userInfos.filter((u) => u.tutor),
   };
   await deleteCollection(firestore, 'stats/users/items', 200);
-  await firestore
-    .collection('stats')
-    .doc('users')
-    .delete();
+  await firestore.collection('stats').doc('users').delete();
 
   const batch = firestore.batch();
   const eventStatsRef = firestore.collection('stats').doc('users');
   batch.set(eventStatsRef, stats);
   await batch.commit();
   await Promise.all(
-    _.chunk(userInfos, 50).map(async chunk => {
+    _.chunk(userInfos, 50).map(async (chunk) => {
       const writeBatch = firestore.batch();
-      chunk.forEach(item => {
+      chunk.forEach((item) => {
         const itemRef = eventStatsRef.collection('items').doc();
         writeBatch.set(itemRef, item);
       });
       await writeBatch.commit();
-    })
+    }),
   );
 });
 
 function deleteCollection(db: any, collectionPath: any, batchSize: any) {
-  let collectionRef = db.collection(collectionPath);
-  let query = collectionRef.orderBy('__name__').limit(batchSize);
+  const collectionRef = db.collection(collectionPath);
+  const query = collectionRef.orderBy('__name__').limit(batchSize);
 
   return new Promise((resolve, reject) => {
     deleteQueryBatch(db, query, batchSize, resolve, reject);
@@ -171,12 +165,12 @@ function deleteQueryBatch(db: any, query: any, batchSize: any, resolve: any, rej
     .get()
     .then((snapshot: any) => {
       // When there are no documents left, we are done
-      if (snapshot.size == 0) {
+      if (snapshot.size === 0) {
         return 0;
       }
 
       // Delete documents in a batch
-      let batch = db.batch();
+      const batch = db.batch();
       snapshot.docs.forEach((doc: any) => {
         batch.delete(doc.ref);
       });
