@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/Isigiel/tumi-app/compare/v0.0.1...v0.0.2) (2020-07-09)
+
+
+### Features
+
+* **app:** collect additional information from students ([d233690](https://github.com/Isigiel/tumi-app/commit/d233690a5587878161a56edcdfb01b206ac12fae))
+* **app:** Update all form fields to proper markup and style ([3ae77eb](https://github.com/Isigiel/tumi-app/commit/3ae77ebe96bcb4e6dd00f1d8c7fdf06f7ff300a6))
+* **app:** update to angular 10 ([9530160](https://github.com/Isigiel/tumi-app/commit/953016063d35f69fa68fe5d23d6309ce7fa857b5))
+* **app:** Updated the application and CoV info ([be567a0](https://github.com/Isigiel/tumi-app/commit/be567a07e68b58e0504b7c8bdfe7dbfebb45e96d))
+* **pages:** Add new party animals page ([afca591](https://github.com/Isigiel/tumi-app/commit/afca591f8fabfa6e2f2cb4d33b6740ce7a4077ae))
+* **pages:** Add Party Animals registration ([be07121](https://github.com/Isigiel/tumi-app/commit/be07121164e9a0af9e4898a9ee4524a8fd2abbd3))
+* **pages:** Add Party Animals registration ([9d81aa7](https://github.com/Isigiel/tumi-app/commit/9d81aa760aeef9871d6af910c04a30d2bdd0eb7f))
+* **pages:** Added SARS-CoV-2 info notice ([3e27c36](https://github.com/Isigiel/tumi-app/commit/3e27c36e95ec10e686168202dd2c525915564a6a))
+* **pages:** Extend statistics some more ([c5964f5](https://github.com/Isigiel/tumi-app/commit/c5964f5f65af33b90e7117b2756776fd88a864cc))
+* **tutors:** Add covid hygiene table template for events ([e97be96](https://github.com/Isigiel/tumi-app/commit/e97be964f52fcc4cd8f2f547d695eb2d3ee4c923))
+* **tutors:** Order the tutored events in a more convenient way ([27b4b6b](https://github.com/Isigiel/tumi-app/commit/27b4b6b39233f8bb79311d3c600c923233a4dc5c))
+
+
+### Bug Fixes
+
+* **tutors:** Order the events with lodash ([8adb19e](https://github.com/Isigiel/tumi-app/commit/8adb19ed3d9d8d3991f91abe2bd07f7e94cd8503))
+* **tutors:** Show all events to editors as well ([42012bf](https://github.com/Isigiel/tumi-app/commit/42012bfba5407ed21739b126409819eb83ca3978))
+
 ### 0.0.1 (2020-02-07)
 
 
