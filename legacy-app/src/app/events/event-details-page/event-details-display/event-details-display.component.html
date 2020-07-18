@@ -126,8 +126,9 @@
             Please mind! This event is already booked, you can sign up once places become available again
           </p>
           <p *ngIf="event.hasFee">
-            The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected at the
-            event, please bring cash
+            The event participation fee of <strong>{{ event.price | currency: 'EUR' }}</strong> will be collected before
+            the event, we will contact you with details. <br>
+            <strong>Please only register if you are sure, you will attend as places are strictly limited.</strong>
           </p>
         </mat-card-content>
         <mat-card-actions>
