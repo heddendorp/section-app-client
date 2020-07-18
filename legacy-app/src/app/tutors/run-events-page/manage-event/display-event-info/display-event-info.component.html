@@ -17,9 +17,9 @@
   -->
 
 <h2 class="no-margin">Description</h2>
-<markdown [data]="event.description"></markdown>
+<markdown [data]="event.description" emoji></markdown>
 <h2 class="no-margin">Tutor Instructions</h2>
-<markdown [data]="event.runningNotes"></markdown>
+<markdown [data]="event.runningNotes" emoji></markdown>
 <h2 class="no-margin">Money</h2>
 <p style="margin-bottom: 2rem;">
   <strong>Participant cost: </strong>{{ event.price | currency: 'EUR' }}<br />

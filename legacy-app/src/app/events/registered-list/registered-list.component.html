@@ -71,7 +71,7 @@
         <strong *ngIf="event.isWaitList" style="margin-bottom: 1rem;">
           You are on the wait list for this event
         </strong>
-        <markdown [data]="event.description"></markdown>
+        <markdown [data]="event.description" emoji></markdown>
       </mat-card-content>
       <mat-card-actions *ngIf="!event.isTutor">
         <button (click)="deregister(event)" *ngIf="!event.hasPayed" color="warn" mat-flat-button>

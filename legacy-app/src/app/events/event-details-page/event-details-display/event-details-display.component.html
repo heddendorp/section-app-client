@@ -34,10 +34,10 @@
     [appIconSrc]="event.icon"
   />
 </header>
-<markdown [data]="event.description"></markdown>
+<markdown [data]="event.description" emoji></markdown>
 <ng-container *ngIf="isTutor$ | async">
   <strong>Notes for tutors</strong>
-  <markdown [data]="event.runningNotes"></markdown>
+  <markdown [data]="event.runningNotes" emoji></markdown>
 </ng-container>
 <ng-container *ngIf="tutors?.length">
   <strong>Tutors already on this event</strong>
