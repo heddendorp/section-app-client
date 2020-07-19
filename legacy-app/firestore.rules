@@ -30,9 +30,10 @@ service cloud.firestore {
     }
 
     match /stats/money {
-      allow read: if isAdmin();
+      allow read: if isTutor();
       match /transactions/{transaction} {
-        allow read, write: if isAdmin();
+        allow write: if isAdmin();
+        allow read, create: if isTutor();
       }
     }
 
