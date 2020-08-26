@@ -120,27 +120,30 @@
         <td colspan="5">Participants (including tutors):</td>
       </tr>
       <tr class="centered">
-        <th>Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>E-mail</th>
         <th>Address</th>
         <th>Phone Number</th>
-        <th>E-mail</th>
-        <th>Signature</th>
+        <th>Attended</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of event.tutorUsers">
-        <td>{{ user?.firstName }} {{ user?.lastName }}</td>
+        <td>{{ user?.firstName }}</td>
+        <td>{{ user?.lastName }}</td>
+        <td>{{ user?.email }}</td>
         <td>{{ user?.address }}</td>
         <td>{{ user?.phone }}</td>
-        <td>{{ user?.email }}</td>
-        <td>&nbsp;</td>
+        <td>Yes</td>
       </tr>
       <tr *ngFor="let registration of event.coming">
-        <td>{{ registration.user?.firstName }} {{ registration.user?.lastName }}</td>
+        <td>{{ registration.user?.firstName }}</td>
+        <td>{{ registration.user?.lastName }}</td>
+        <td>{{ registration.user?.email }}</td>
         <td>{{ registration.user?.address }}</td>
         <td>{{ registration.user?.phone }}</td>
-        <td>{{ registration.user?.email }}</td>
-        <td>&nbsp;</td>
+        <td>{{registration.hasAttended}}</td>
       </tr>
     </tbody>
   </table>
