@@ -99,6 +99,10 @@
               <mat-icon mat-list-icon svgIcon="users"></mat-icon>
               <h3 mat-line>All Tutors</h3>
             </a>
+            <a mat-list-item routerLink="/tutors/shop" routerLinkActive="active">
+              <mat-icon mat-list-icon svgIcon="shop"></mat-icon>
+              <h3 mat-line>Tutor Merch Shop</h3>
+            </a>
           </ng-container>
           <ng-container *ngIf="isEditor$ | async">
             <mat-divider></mat-divider>

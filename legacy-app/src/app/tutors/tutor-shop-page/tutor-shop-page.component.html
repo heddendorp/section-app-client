@@ -1,0 +1,80 @@
+<h3 class="mat-display-3 no-margin">Merch shop</h3>
+<div gdAuto="dense" gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="2rem">
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/info.png" mat-card-avatar />
+      <mat-card-title> The what now?!</mat-card-title>
+      <mat-card-subtitle>What this is and how you can get it</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/shop/all-1.jpg" />
+    <mat-card-content>
+      <p>
+        Recently we've been busy creating some more merch to <em>TUMi</em>fy your life! <br />
+        Check out what we have in stock now and get some swag to show off to your friends.
+      </p>
+      <p>
+        If you're interested in buying some of our fine products, head over to slack and message
+        <b>@tumi-koordination</b> with your order. You can pay for and pick up your stuff at the TUMi office.
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/shopping-bag.png" mat-card-avatar />
+      <mat-card-title> The TUMi bag </mat-card-title>
+      <mat-card-subtitle>To carry all your new stuff home</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/shop/bag.jpg" />
+    <mat-card-content> Priced at {{ 2 | currency: 'EUR' }} </mat-card-content>
+  </mat-card>
+  <mat-card gdColumn.gt-sm="span 2">
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/beer.png" mat-card-avatar />
+      <mat-card-title> The TUMi beer stein </mat-card-title>
+      <mat-card-subtitle>Also holds other liquids</mat-card-subtitle>
+    </mat-card-header>
+    <div class="mat-card-image" fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="2rem">
+      <div fxFlex="grow">
+        <img src="assets/images/shop/mug-1.jpg" style="width: 100%; height: auto" />
+      </div>
+      <div fxFlex="grow">
+        <img src="assets/images/shop/mug-2.jpg" style="width: 100%; height: auto" />
+      </div>
+    </div>
+    <mat-card-content> Priced at {{ 5 | currency: 'EUR' }} </mat-card-content>
+  </mat-card>
+  <mat-card gdColumn.gt-sm="span 2">
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/filled-like.png" mat-card-avatar />
+      <mat-card-title> The TUMi 2 in 1 blanket/pillow </mat-card-title>
+      <mat-card-subtitle>Feel the warm #TUMilove wherever you are</mat-card-subtitle>
+    </mat-card-header>
+    <div class="mat-card-image" fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="2rem">
+      <div fxFlex="grow">
+        <img src="assets/images/shop/pillow-1.jpg" style="width: 100%; height: auto" />
+      </div>
+      <div fxFlex="grow">
+        <img src="assets/images/shop/pillow-2.jpg" style="width: 100%; height: auto" />
+      </div>
+    </div>
+    <mat-card-content> Priced at {{ 7.5 | currency: 'EUR' }} </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/sport-bottle.png" mat-card-avatar />
+      <mat-card-title> The TUMi bottle </mat-card-title>
+      <mat-card-subtitle>Responsible water is suggested</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/shop/bottle.jpg" />
+    <mat-card-content> Priced at {{ 5 | currency: 'EUR' }} </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/bicycle.png" mat-card-avatar />
+      <mat-card-title> That's not all </mat-card-title>
+      <mat-card-subtitle>There's even more coming for you</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/shop/soon.svg" />
+    <mat-card-content> We're expecting some new items soon </mat-card-content>
+  </mat-card>
+</div>

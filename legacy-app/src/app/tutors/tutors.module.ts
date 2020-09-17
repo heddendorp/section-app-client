@@ -29,12 +29,14 @@ import { DisplayEventUsersComponent } from './run-events-page/manage-event/displ
 import { ManageEventComponent } from './run-events-page/manage-event/manage-event.component';
 import { RunEventsPageComponent } from './run-events-page/run-events-page.component';
 import { TutorListPageComponent } from './tutor-list-page/tutor-list-page.component';
+import { TutorShopPageComponent } from './tutor-shop-page/tutor-shop-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: 'list', component: TutorListPageComponent },
+  { path: 'shop', component: TutorShopPageComponent },
   { path: 'events', component: RunEventsPageComponent, canActivate: [LoadTutoredEventsGuard] },
-  { path: 'events/:eventId', component: ManageEventComponent, canActivate: [LoadTutoredEventDetailsGuard] }
+  { path: 'events/:eventId', component: ManageEventComponent, canActivate: [LoadTutoredEventDetailsGuard] },
 ];
 
 @NgModule({
@@ -43,9 +45,10 @@ const routes: Routes = [
     TutorListPageComponent,
     ManageEventComponent,
     DisplayEventInfoComponent,
-    DisplayEventUsersComponent
+    DisplayEventUsersComponent,
+    TutorShopPageComponent,
   ],
   providers: [LoadFullEventResolver, LoadTutoredEventsGuard, LoadTutoredEventDetailsGuard],
-  imports: [CommonModule, RouterModule.forChild(routes), MarkdownModule.forChild(), SharedModule]
+  imports: [CommonModule, RouterModule.forChild(routes), MarkdownModule.forChild(), SharedModule],
 })
 export class TutorsModule {}
