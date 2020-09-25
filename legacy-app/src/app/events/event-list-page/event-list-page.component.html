@@ -65,48 +65,61 @@
         <button color="primary" mat-stroked-button routerLink="/about">Learn more!</button>
       </mat-card-actions>
     </mat-card>-->
-    <mat-card fxFlex>
+    <mat-card fxFlex class="rainbow-box">
       <mat-card-title-group>
-        <img alt="TUMi Logo" appIconSrc="membership-card:color" mat-card-sm-image/>
-        <mat-card-title>ESNcards are available</mat-card-title>
-        <mat-card-subtitle>Send us an email if you're interested</mat-card-subtitle>
+        <img alt="TUMi Logo" appIconSrc="membership-card:fluent" mat-card-sm-image />
+        <mat-card-title>ESNcards are here</mat-card-title>
+        <mat-card-subtitle>Get them at our office!</mat-card-subtitle>
       </mat-card-title-group>
-      <!--<mat-card-content>
-        <p>
-          TUMi or TUMinternational is a student for student program in which local students organize event for exchange
-          students, foreign degree students and other locals looking to gain some international experience.
+      <mat-card-content>
+        <p>Did you know that each year more than 150,000 international students get their ESNcard?</p>
+        <p fxHide.lt-md>
+          Well, simply put, ESNcard is the membership card to the Erasmus Generation. A card that will carry the
+          memories of your best times spent abroad with constant new experiences and lots of international friends.
+          <b>And a card that will grant you over 1500 discounts and special deals all around Europe!</b>
         </p>
-        <p>Browse our events below, we're looking forward to seeing you there!</p>
-      </mat-card-content>-->
+        <p>
+          You can get the card at the TUMi office while picking up your student ID, just get a timeslot below ⬇ <br />
+          The card is sold for <b>{{ 10 | currency: 'EUR' }}</b> and you can learn more about discounts by following the link.
+        </p>
+      </mat-card-content>
+
       <mat-card-actions>
-        <a color="primary" href="mailto:tumi@zv.tum.de?subject=ESNcard" mat-raised-button>Send mail</a>
+        <a
+          color="primary"
+          href="https://esncard.org/blog/join-erasmus-generation-get-esncard"
+          target="_blank"
+          mat-raised-button
+          >Learn More</a
+        >
       </mat-card-actions>
     </mat-card>
-    <mat-card class="pa-card" fxFlex *ngIf="!(incompleteProfile$|async)">
+    <!--<mat-card class="pa-card" fxFlex *ngIf="!(incompleteProfile$|async)">
       <mat-card-title-group>
         <mat-card-title>TUMi is here for you!</mat-card-title>
         <mat-card-subtitle>Join our WhatsApp group today</mat-card-subtitle>
       </mat-card-title-group>
-      <!--<mat-card-content>
+      &lt;!&ndash;<mat-card-content>
         <p>
           TUMi or TUMinternational is a student for student program in which local students organize event for exchange
           students, foreign degree students and other locals looking to gain some international experience.
         </p>
         <p>Browse our events below, we're looking forward to seeing you there!</p>
-      </mat-card-content>-->
+      </mat-card-content>&ndash;&gt;
       <mat-card-actions>
         <a color="primary" mat-flat-button href="https://chat.whatsapp.com/B7voovk2irm8XpzUliIjjF">Take me there!</a>
       </mat-card-actions>
-    </mat-card>
+    </mat-card>-->
     <mat-card fxFlex *ngIf="incompleteProfile$ | async">
       <mat-card-title-group>
-        <img alt="TUMi Logo" appIconSrc="box-important:fluent" mat-card-sm-image/>
+        <img alt="TUMi Logo" appIconSrc="box-important:fluent" mat-card-sm-image />
         <mat-card-title>MISSING INFO!</mat-card-title>
         <mat-card-subtitle>New regulations due to COVID-19!</mat-card-subtitle>
       </mat-card-title-group>
       <mat-card-content>
         <p>
-          Due to government issued regulations we have to collect additional data from you before you can sign up for events again.
+          Due to government issued regulations we have to collect additional data from you before you can sign up for
+          events again.
         </p>
         <p>Please go to your profile and add the missing info now</p>
       </mat-card-content>
@@ -115,16 +128,14 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <h1 class="mat-display-3 no-margin">
-    Upcoming events
-  </h1>
+  <h1 class="mat-display-3 no-margin">Upcoming events</h1>
   <form
     [formGroup]="filterForm"
     fxLayout="row"
     fxLayout.xs="column"
     fxLayoutGap="1rem"
     ngxsForm="events.filterForm"
-    style="margin-bottom: 1rem;"
+    style="margin-bottom: 1rem"
   >
     <mat-checkbox formControlName="showExternal">Show external events</mat-checkbox>
     <mat-checkbox formControlName="showFull">Show full events</mat-checkbox>

@@ -15,3 +15,27 @@
   background-blend-mode: multiply;
   position: relative;
 }
+
+.rainbow-box{
+  border: 5px solid transparent;
+  border-radius: 8px;
+  position: relative;
+  background-clip: padding-box;
+  padding: 10px;
+  //border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  //border-image-slice: 1;
+  &:after{
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    background: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    content: '';
+    z-index: -1;
+    border-radius: 8px;
+  }
+  mat-card-actions{
+    margin: 0;
+  }
+}

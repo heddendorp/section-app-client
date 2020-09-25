@@ -27,6 +27,33 @@
     <img mat-card-image src="assets/images/shop/bag.jpg" />
     <mat-card-content> Priced at {{ 2 | currency: 'EUR' }} </mat-card-content>
   </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/ball-point-pen.png" mat-card-avatar />
+      <mat-card-title> The TUMi starterpack </mat-card-title>
+      <mat-card-subtitle>TUMify yourself</mat-card-subtitle>
+    </mat-card-header>
+    <!--    <img mat-card-image src="assets/images/shop/book.jpg" />-->
+    <mat-card-content>
+      <p>Includes: <br /></p>
+      <ul>
+        <li>Sunglasses</li>
+        <li>Pen</li>
+        <li>Pencil</li>
+        <li>Bottle opener</li>
+      </ul>
+      <p>Priced at {{ 2 | currency: 'EUR' }}</p></mat-card-content
+    >
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/journal.png" mat-card-avatar />
+      <mat-card-title> The TUMi notebook </mat-card-title>
+      <mat-card-subtitle>For event ideas</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/shop/book.jpg" />
+    <mat-card-content> Priced at {{ 5 | currency: 'EUR' }} </mat-card-content>
+  </mat-card>
   <mat-card gdColumn.gt-sm="span 2">
     <mat-card-header>
       <img src="https://img.icons8.com/fluent/96/000000/beer.png" mat-card-avatar />
@@ -76,5 +103,27 @@
     </mat-card-header>
     <img mat-card-image src="assets/images/shop/soon.svg" />
     <mat-card-content> We're expecting some new items soon </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <img src="https://img.icons8.com/fluent/96/000000/money.png" mat-card-avatar />
+      <mat-card-title>Let's talk about money</mat-card-title>
+      <mat-card-subtitle>Can I get this for free?</mat-card-subtitle>
+    </mat-card-header>
+    <!--    <img mat-card-image src="assets/images/shop/all-1.jpg" />-->
+    <mat-card-content>
+      <p>
+        <b>YES!</b>&nbsp;These items will also be available for free to tutors and students. Most likely in a loyalty
+        scheme, giving them to very engaged students and tutors.
+      </p>
+      <p>
+        The contents of the starter pack will be in the welcome bags for all students and you have a decent chance of
+        scoring some of those at in-person TUMi meetings.
+      </p>
+      <p>
+        Lastly, we are not making any money on these products, instead the prices are set as low as we can. So you're
+        getting most of these products at cost.
+      </p>
+    </mat-card-content>
   </mat-card>
 </div>
