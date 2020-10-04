@@ -6,7 +6,9 @@
 
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell>Name</th>
-    <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+    <td *matCellDef="let element" mat-cell>
+      <a routerLink="/office/events/edit/{{ element.id }}" style="color:inherit; text-decoration: none">{{ element.name }}</a>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="time">
@@ -38,5 +40,5 @@
   </ng-container>
 
   <tr *matHeaderRowDef="displayedColumns | async" mat-header-row></tr>
-  <tr (click)="editEvent(row)" *matRowDef="let row; columns: displayedColumns | async" class="event-row" mat-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns | async" class="event-row" mat-row></tr>
 </table>

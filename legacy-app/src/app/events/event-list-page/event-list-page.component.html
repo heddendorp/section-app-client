@@ -79,18 +79,19 @@
           <b>And a card that will grant you over 1500 discounts and special deals all around Europe!</b>
         </p>
         <p>
-          You can get the card at the TUMi office while picking up your student ID, just get a timeslot below ⬇ <br />
-          The card is sold for <b>{{ 10 | currency: 'EUR' }}</b> and you can learn more about discounts by following the link.
+          You can get the card at the TUMi office ( also while picking up your student ID ). The card is sold for
+          <b>{{ 10 | currency: 'EUR' }}</b> and you can learn more about discounts by following the link. <br>
+          <em>The cards are available for all international students (not only exchange)</em>
         </p>
       </mat-card-content>
 
       <mat-card-actions>
+        <a mat-raised-button color="primary" routerLink="/events/appointments">Book appointment</a>
         <a
-          color="primary"
           href="https://esncard.org/blog/join-erasmus-generation-get-esncard"
           target="_blank"
-          mat-raised-button
-          >Learn More</a
+          mat-stroked-button
+        >Learn More</a
         >
       </mat-card-actions>
     </mat-card>

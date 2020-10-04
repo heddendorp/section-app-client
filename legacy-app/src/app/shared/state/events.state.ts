@@ -105,8 +105,20 @@ export class EventsState {
     const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
       .map((id) => state.entities[id])
+      .filter((event) => !event.name.includes('StudentCard'))
       .filter(filterEvents(state.filterForm.model, isTutor))
-      .filter((event) => event.end > moment())
+      .filter((event) => event.start > moment())
+      .map((event) => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
+  }
+
+  @Selector([AuthState])
+  static appointments(state: EventsStateModel, authState: AuthStateModel): TumiEvent[] {
+    const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
+    return state.ids
+      .map((id) => state.entities[id])
+      .filter((event) => event.name.includes('StudentCard'))
+      .filter((event) => event.usersSignedUp < event.participantSpots || isTutor)
+      .filter((event) => event.start > moment())
       .map((event) => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
   }
 

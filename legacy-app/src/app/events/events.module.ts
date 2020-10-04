@@ -31,22 +31,29 @@ import { EventListComponent } from './event-list-page/event-list/event-list.comp
 import { LoadEventsGuard } from './guards/load-events.guard';
 import { SelectEventGuard } from './guards/select-event.guard';
 import { RegisteredListComponent } from './registered-list/registered-list.component';
+import { AppointmentsPageComponent } from './appointments-page/appointments-page.component';
 
 const routes: Routes = [
   {
     path: 'list',
     data: { title: 'Events', animation: 'EventList' },
     canActivate: [LoadEventsGuard],
-    component: EventListPageComponent
+    component: EventListPageComponent,
+  },
+  {
+    path: 'appointments',
+    data: { title: 'Appointments', animation: 'EventList' },
+    canActivate: [LoadEventsGuard],
+    component: AppointmentsPageComponent,
   },
   {
     path: 'show/:eventId',
     data: { title: 'Event', animation: 'EventDetail' },
     component: EventDetailsPageComponent,
-    canActivate: [SelectEventGuard]
+    canActivate: [SelectEventGuard],
   },
   { path: 'my', data: { title: 'My' }, component: RegisteredListComponent, canActivate: [AngularFireAuthGuard] },
-  { path: '', redirectTo: 'list', pathMatch: 'full' }
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -57,11 +64,12 @@ const routes: Routes = [
     EventDetailsPageComponent,
     UserProfileComponent,
     EventDetailsDisplayComponent,
-    RefundDialogComponent
+    RefundDialogComponent,
+    AppointmentsPageComponent,
   ],
   entryComponents: [RefundDialogComponent],
   providers: [SelectEventGuard, LoadEventsGuard],
   imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MarkdownModule.forChild()],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class EventsModule {}

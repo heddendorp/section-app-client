@@ -28,7 +28,7 @@ import { catchError, filter, map, share, switchMap } from 'rxjs/operators';
 import { Student } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
   // TODO: Update to use the js native Date
@@ -57,44 +57,44 @@ export class EventService {
     tutorNotes: '',
     tutorSpots: 0,
     tutorSignups: [],
-    usersSignedUp: 0
+    usersSignedUp: 0,
   };
   isAdmin$: Observable<boolean>;
   isTutor$: Observable<boolean>;
   user$: Observable<Student>;
 
   constructor(private firestore: AngularFirestore, private snackbar: MatSnackBar, private store: Store) {
-    this.isAdmin$ = store.select(state => state.auth.user.isAdmin);
-    this.isTutor$ = store.select(state => state.auth.user.isTutor || state.auth.user.isAdmin);
-    this.user$ = store.select(state => state.auth.user).pipe(filter(user => !!user));
+    this.isAdmin$ = store.select((state) => state.auth.user.isAdmin);
+    this.isTutor$ = store.select((state) => state.auth.user.isTutor || state.auth.user.isAdmin);
+    this.user$ = store.select((state) => state.auth.user).pipe(filter((user) => !!user));
   }
 
   // OLD FUNCTIONS
   public get events(): Observable<TumiEvent[]> {
     return this.firestore
-      .collection<SavedEvent>('events', ref => ref.orderBy('start'))
+      .collection<SavedEvent>('events', (ref) => ref.orderBy('start', 'desc'))
       .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+      .pipe(map((events) => events.map(this.parseEvent)));
   }
 
   public get visibleEvents(): Observable<TumiEvent[]> {
-    return this.isTutor$.pipe(switchMap(isTutor => (isTutor ? this.previewEvents : this.publicEvents)));
+    return this.isTutor$.pipe(switchMap((isTutor) => (isTutor ? this.previewEvents : this.publicEvents)));
   }
 
   public get runningEvents(): Observable<TumiEvent[]> {
     return this.isAdmin$.pipe(
-      switchMap(isAdmin =>
+      switchMap((isAdmin) =>
         isAdmin
           ? this.futureEvents
-          : this.tutoredEvents.pipe(map(events => events.filter(event => event.end.isSameOrAfter())))
-      )
+          : this.tutoredEvents.pipe(map((events) => events.filter((event) => event.end.isSameOrAfter()))),
+      ),
     );
   }
 
   public get registeredEvents(): Observable<TumiEvent[]> {
     return this.user$.pipe(
-      switchMap(user => combineLatest([this.getSignedEventsForUser(user.id), this.getTutorEventsForUser(user.id)])),
-      map(([user, tutor]) => [...user, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1)))
+      switchMap((user) => combineLatest([this.getSignedEventsForUser(user.id), this.getTutorEventsForUser(user.id)])),
+      map(([user, tutor]) => [...user, ...tutor].sort((a, b) => (a.start.isBefore(b.start) ? -1 : 1))),
     );
   }
 
@@ -102,51 +102,45 @@ export class EventService {
     return this.firestore
       .collection<SavedEvent>(
         'events',
-        ref => ref.orderBy('start', 'desc').where('isExternal', '==', false)
+        (ref) => ref.orderBy('start', 'desc').where('isExternal', '==', false),
         // .where('end', '>', new Date())
       )
       .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+      .pipe(map((events) => events.map(this.parseEvent)));
   }
 
   public get tutoredEvents(): Observable<TumiEvent[]> {
-    return this.user$.pipe(switchMap(user => this.getTutorEventsForUser(user.id)));
+    return this.user$.pipe(switchMap((user) => this.getTutorEventsForUser(user.id)));
   }
 
   private get publicEvents(): Observable<TumiEvent[]> {
     return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('start')
-          .where('isVisiblePublicly', '==', true)
-          .where('start', '>', new Date())
+      .collection<SavedEvent>('events', (ref) =>
+        ref.orderBy('start').where('isVisiblePublicly', '==', true).where('start', '>', new Date()),
       )
       .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+      .pipe(map((events) => events.map(this.parseEvent)));
   }
 
   private get previewEvents(): Observable<TumiEvent[]> {
     return this.firestore
-      .collection<SavedEvent>('events', ref =>
-        ref
-          .orderBy('start')
-          .where('isVisibleInternally', '==', true)
-          .where('start', '>', new Date())
+      .collection<SavedEvent>('events', (ref) =>
+        ref.orderBy('start').where('isVisibleInternally', '==', true).where('start', '>', new Date()),
       )
       .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+      .pipe(map((events) => events.map(this.parseEvent)));
   }
 
   getUpcomingEvents(includeInternallyVisible = false) {
     return this.firestore
-      .collection<SavedEvent>('events', ref =>
+      .collection<SavedEvent>('events', (ref) =>
         ref
           .where('end', '>', new Date())
           .where(includeInternallyVisible ? 'isVisibleInternally' : 'isVisiblePublicly', '==', true)
-          .orderBy('end', 'desc')
+          .orderBy('end', 'desc'),
       )
       .valueChanges({ idField: 'id' })
-      .pipe(map(events => events.map(this.parseEvent)));
+      .pipe(map((events) => events.map(this.parseEvent)));
   }
 
   getTutoredEvents(includeAll = false) {
@@ -164,50 +158,50 @@ export class EventService {
       .collection<SavedEventSignup>('signups')
       .valueChanges({ idField: 'id' })
       .pipe(
-        map(registrations =>
-          registrations.map(registration =>
+        map((registrations) =>
+          registrations.map((registration) =>
             Object.assign({}, registration, {
-              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment()
-            })
-          )
-        )
+              timestamp: registration.timestamp ? moment(registration.timestamp.toDate()) : moment(),
+            }),
+          ),
+        ),
       );
   }
 
   public getSignedEventsForUser(userId) {
     return this.firestore
-      .collectionGroup<SavedEventSignup>('signups', ref => ref.where('id', '==', userId))
+      .collectionGroup<SavedEventSignup>('signups', (ref) => ref.where('id', '==', userId))
       .snapshotChanges()
       .pipe(
-        map(changes => changes.map(change => change.payload.doc)),
-        switchMap(signups =>
+        map((changes) => changes.map((change) => change.payload.doc)),
+        switchMap((signups) =>
           signups.length
             ? combineLatest(
-                signups.map(signup =>
+                signups.map((signup) =>
                   fromPromise(signup.ref.parent.parent.get()).pipe(
-                    map(eventRef => eventRef.data()),
-                    map(event =>
+                    map((eventRef) => eventRef.data()),
+                    map((event) =>
                       Object.assign({}, event, {
                         hasPayed: signup.data().hasPayed,
-                        isWaitList: signup.data().isWaitList || false
-                      })
-                    )
-                  )
-                )
+                        isWaitList: signup.data().isWaitList || false,
+                      }),
+                    ),
+                  ),
+                ),
               )
-            : of([])
+            : of([]),
         ),
-        map(events => events.map(this.parseEvent))
+        map((events) => events.map(this.parseEvent)),
       );
   }
 
   public getTutorEventsForUser(userId) {
     return this.firestore
-      .collection<SavedEvent>('events', ref => ref.where('tutorSignups', 'array-contains', userId).orderBy('start'))
+      .collection<SavedEvent>('events', (ref) => ref.where('tutorSignups', 'array-contains', userId).orderBy('start'))
       .valueChanges({ idField: 'id' })
       .pipe(
-        map(events => events.map(this.parseEvent)),
-        map(events => events.map(event => Object.assign({}, event, { isTutor: true })))
+        map((events) => events.map(this.parseEvent)),
+        map((events) => events.map((event) => Object.assign({}, event, { isTutor: true }))),
       );
   }
 
@@ -215,7 +209,7 @@ export class EventService {
     return this.firestore
       .collection<SavedEvent>('events')
       .add(this.serializeEvent(this.baseEvent))
-      .then(doc => {
+      .then((doc) => {
         this.snackbar.open('Event created!');
         return doc.id;
       });
@@ -228,8 +222,8 @@ export class EventService {
       .valueChanges()
       .pipe(
         map(this.parseEvent),
-        map(event => Object.assign({}, event, { id })),
-        catchError(err => of(undefined))
+        map((event) => Object.assign({}, event, { id })),
+        catchError((err) => of(undefined)),
       );
   }
 
@@ -242,7 +236,7 @@ export class EventService {
     const signupsObservable = this.getRegistrationsForEvent(id);
     return combineLatest([eventObservable, signupsObservable]).pipe(
       map(([event, userSignups]) => Object.assign({}, event, { userSignups })),
-      share()
+      share(),
     );
   }
 
@@ -269,14 +263,14 @@ export class EventService {
       ...event,
       moneyCollected: true,
       fullCost,
-      moneyWith: `${user.firstName} ${user.lastName} (${user.email})`
+      moneyWith: `${user.firstName} ${user.lastName} (${user.email})`,
     });
   }
 
   public sellTickets(event, ticketNum): Promise<void> {
     return this.updateEvent({
       ...event,
-      soldTickets: event.soldTickets + ticketNum
+      soldTickets: event.soldTickets + ticketNum,
     });
   }
 
@@ -318,7 +312,7 @@ export class EventService {
   }
 
   public removeTutorFromEvent(user: Student, event: TumiEvent) {
-    this.updateEvent({ ...event, tutorSignups: event.tutorSignups.filter(id => id !== user.id) });
+    this.updateEvent({ ...event, tutorSignups: event.tutorSignups.filter((id) => id !== user.id) });
   }
 
   private serializeEvent(event: TumiEvent): SavedEvent {
@@ -348,7 +342,7 @@ export class EventService {
       tutorSignups: event.tutorSignups,
       usersSignedUp: event.usersSignedUp,
       start: importStore.Timestamp.fromDate(event.start.toDate()),
-      end: importStore.Timestamp.fromDate(event.end.toDate())
+      end: importStore.Timestamp.fromDate(event.end.toDate()),
     };
   }
 
@@ -357,7 +351,7 @@ export class EventService {
       ...event,
       start: moment(event.start.toDate()),
       end: moment(event.end.toDate()),
-      usersSignedUp: event.usersSignedUp || 0
+      usersSignedUp: event.usersSignedUp || 0,
     };
   }
 }
