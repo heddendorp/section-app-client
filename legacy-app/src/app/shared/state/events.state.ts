@@ -105,7 +105,7 @@ export class EventsState {
     const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
       .map((id) => state.entities[id])
-      .filter((event) => !event.name.includes('StudentCard'))
+      .filter((event) => !(event.name.includes('StudentCard') || event.name.includes('registration')))
       .filter(filterEvents(state.filterForm.model, isTutor))
       .filter((event) => event.start > moment())
       .map((event) => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
@@ -116,7 +116,7 @@ export class EventsState {
     const isTutor = !!authState.user && (authState.user.isAdmin || authState.user.isTutor);
     return state.ids
       .map((id) => state.entities[id])
-      .filter((event) => event.name.includes('StudentCard'))
+      .filter((event) => event.name.includes('StudentCard') || event.name.includes('registration'))
       .filter((event) => event.usersSignedUp < event.participantSpots || isTutor)
       .filter((event) => event.start > moment())
       .map((event) => Object.assign({}, event, { freeSpots: getFreeSpots(event) }));
