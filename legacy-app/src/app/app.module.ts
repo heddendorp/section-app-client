@@ -72,10 +72,10 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
     BrowserModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: location.host === 'tumi.esn.world',
       registrationStrategy: 'registerImmediately',
     }),
-    NgxsModule.forRoot([], { developmentMode: false }),
+    NgxsModule.forRoot([], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production,
     }),
@@ -150,6 +150,9 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
 })
 export class AppModule {
   constructor(angularFireAuth: AngularFireAuth, private router: Router, analytics: AngularFireAnalytics) {
+    if (location.host === 'esn-tumi.de') {
+      location.replace('https://tumi.esn.world');
+    }
     angularFireAuth.getRedirectResult().then((result) => {
       if (result.user) {
         console.log(result.user);
