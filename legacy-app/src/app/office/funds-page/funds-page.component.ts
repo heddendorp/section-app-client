@@ -27,7 +27,7 @@ import { PDFService } from '../services/pdf.service';
 @Component({
   selector: 'app-funds-page',
   templateUrl: './funds-page.component.html',
-  styleUrls: ['./funds-page.component.scss']
+  styleUrls: ['./funds-page.component.scss'],
 })
 export class FundsPageComponent implements OnInit {
   balance$: Observable<number>;
@@ -38,24 +38,24 @@ export class FundsPageComponent implements OnInit {
   constructor(private moneyService: MoneyService, fb: FormBuilder, private pdfService: PDFService) {
     this.transactionForm = fb.group({
       value: [null, Validators.required],
-      comment: ['', Validators.required]
+      comment: ['', Validators.required],
     });
     this.filterForm = fb.group({
-      startDate: null,
+      startDate: moment().subtract(2, 'weeks'),
       endDate: null,
-      searchString: ''
+      searchString: '',
     });
   }
 
   ngOnInit() {
     this.balance$ = this.moneyService.balance;
     const transactions = this.moneyService.transactions.pipe(
-      map(data =>
-        data.map(transaction => {
+      map((data) =>
+        data.map((transaction) => {
           return { ...transaction, absValue: Math.abs(transaction.value) };
-        })
+        }),
       ),
-      tap(console.log)
+      tap(console.log),
     );
     const filter = this.filterForm.valueChanges.pipe(startWith(this.filterForm.value));
     this.transactions$ = combineLatest([transactions, filter]).pipe(map(this.filterTransactions));
@@ -76,9 +76,9 @@ export class FundsPageComponent implements OnInit {
 
   private filterTransactions([transactions, filter]: [
     Transaction[],
-    { startDate: moment.Moment; endDate: moment.Moment; searchString: string }
+    { startDate: moment.Moment; endDate: moment.Moment; searchString: string },
   ]) {
-    return transactions.filter(transaction => {
+    return transactions.filter((transaction) => {
       if (filter.searchString && !transaction.comment.toLowerCase().includes(filter.searchString.toLowerCase())) {
         return false;
       }
