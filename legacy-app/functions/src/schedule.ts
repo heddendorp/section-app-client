@@ -45,7 +45,8 @@ export const openEvents = functions
       .map((doc) =>
         Object.assign(doc.data(), { start: moment(doc.data().start.toDate()), end: moment(doc.data().end.toDate()) }),
       )
-      .filter((event) => event.tutorSpots > event.tutorSignups.length);
+      .filter((event) => event.tutorSpots > event.tutorSignups.length)
+      .filter((event) => !event.name.includes('StudentCard'));
     if (!events.length) {
       console.log('No open events found');
       return;
@@ -55,7 +56,7 @@ export const openEvents = functions
       const [icon, style] = iconString.split(':');
       const image_url = `https://img.icons8.com/${style || 'color'}/192/${
         icon || 'tear-off-calendar'
-      }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
+      }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
       return {
         type: 'section',
         text: {

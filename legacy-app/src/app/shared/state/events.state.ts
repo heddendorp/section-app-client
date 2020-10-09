@@ -26,7 +26,7 @@ import { AuthState, AuthStateModel } from './auth.state';
 import { LoadEvent, LoadRegistrations, LoadTutoredEvents, LoadUpcomingEvents, SelectEvent } from './events.actions';
 import { LoadUser } from './users.actions';
 import { UsersState, UsersStateModel } from './users.state';
-import { orderBy } from 'lodash';
+import { orderBy } from 'lodash-es';
 import { Injectable } from '@angular/core';
 
 export interface EventsStateModel {

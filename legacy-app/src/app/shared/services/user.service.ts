@@ -21,7 +21,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, share, switchMap } from 'rxjs/operators';
 import { EventService, TumiEvent } from './event.service';
-import { pick } from 'lodash';
+import { pick } from 'lodash-es';
 import { firestore as importStore } from 'firebase/app';
 
 @Injectable({
