@@ -14,23 +14,23 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@types/got": "^9.6.9",
-    "@types/mjml": "^4.0.3",
-    "@types/moment-timezone": "^0.5.12",
+    "@types/got": "^9.6.11",
+    "@types/mjml": "^4.0.4",
+    "@types/moment-timezone": "^0.5.30",
     "@types/nodemailer": "^6.4.0",
-    "firebase-admin": "^8.9.2",
-    "firebase-functions": "^3.3.0",
+    "firebase-admin": "^9.2.0",
+    "firebase-functions": "^3.11.0",
     "got": "^9.6.0",
-    "lodash": "^4.17.15",
-    "mjml": "^4.5.1",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
-    "nodemailer": "^6.4.2"
+    "lodash": "^4.17.20",
+    "mjml": "^4.7.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
+    "nodemailer": "^6.4.13"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.149",
+    "@types/lodash": "^4.14.161",
     "tslint": "^5.20.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.9.7"
   },
   "private": true
 }
