@@ -1,0 +1,10 @@
+<h1>Register Online</h1>
+<p>You can register for this event right here</p>
+<button
+  mat-stroked-button
+  color="primary"
+  [disabled]="!(canSignUp$ | ngrxPush)"
+  (click)="register()"
+>
+  Register now
+</button>

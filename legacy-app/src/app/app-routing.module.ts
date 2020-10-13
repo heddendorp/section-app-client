@@ -1,54 +1,36 @@
-/*
- *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2020  Lukas Heddendorp
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { NgModule } from '@angular/core';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
-import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { CheckRedirectGuard } from './shared/guards/check-redirect.guard';
+import { Routes, RouterModule } from '@angular/router';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 const routes: Routes = [
   {
-    path: 'office',
-    data: { title: 'Office' },
-    loadChildren: () => import('./office/office.module').then(mod => mod.OfficeModule),
-    canActivate: [AngularFireAuthGuard]
+    path: '',
+    component: NavigationComponent,
+    children: [
+      {
+        path: 'events',
+        loadChildren: () =>
+          import('./modules/events/events.module').then((m) => m.EventsModule),
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./modules/users/users.module').then((m) => m.UsersModule),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./modules/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
+      { path: '', pathMatch: 'full', redirectTo: 'events' },
+    ],
   },
-  {
-    path: 'tutors',
-    data: { title: 'Tutors' },
-    loadChildren: () => import('./tutors/tutors.module').then(mod => mod.TutorsModule),
-    canActivate: [AngularFireAuthGuard]
-  },
-  {
-    path: 'events',
-    data: { title: 'Events' },
-    loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule)
-  },
-  { path: '', pathMatch: 'full', component: AppComponent, canActivate: [CheckRedirectGuard] },
-  { path: '**', pathMatch: 'full', redirectTo: 'error' },
-  { path: 'error', component: NotFoundPageComponent, data: { title: 'Error' } }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
-  providers: [AngularFireAuthGuard, CheckRedirectGuard],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

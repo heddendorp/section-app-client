@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>Login with Email</h1>
+<mat-dialog-content>
+  <form [formGroup]="loginForm" fxLayout="column" fxLayoutGap="1rem">
+    <mat-form-field>
+      <mat-label>E-Mail</mat-label>
+      <input matInput formControlName="mail" type="email" />
+    </mat-form-field>
+    <button mat-stroked-button (click)="getLoginOptions()" color="primary">
+      Check Email
+    </button>
+    <ng-container [ngSwitch]="mailState | ngrxPush">
+      <ng-container *ngSwitchCase="'social'">
+        <p>
+          We found a <em>{{ social | ngrxPush }}</em> account registered for
+          this email. Please use that to log in.
+        </p>
+        <button mat-stroked-button mat-dialog-close="retry">Redo Login</button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'password'">
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" />
+        </mat-form-field>
+        <span *ngIf="error | ngrxPush as message" style="color: red">{{
+          message
+        }}</span>
+        <button
+          mat-stroked-button
+          color="primary"
+          [disabled]="loginForm.invalid"
+          (click)="login()"
+        >
+          Login with password
+        </button>
+        <button mat-stroked-button (click)="resetPassword()">
+          Reset password
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'none'">
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirm Password</mat-label>
+          <input matInput formControlName="password_confirm" type="password" />
+        </mat-form-field>
+        <span *ngIf="error | ngrxPush as message" style="color: red">{{
+          message
+        }}</span>
+        <button
+          mat-stroked-button
+          color="primary"
+          [disabled]="loginForm.invalid"
+          (click)="newAccount()"
+        >
+          Create new account
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'reset'">
+        <p>
+          We started the password reset, it can take up to one day for the reset
+          link to arrive at the address you provided.
+        </p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'loading'">
+        <p>Loading, please wait...</p>
+      </ng-container>
+    </ng-container>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

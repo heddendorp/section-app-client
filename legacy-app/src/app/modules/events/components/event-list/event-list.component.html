@@ -1,0 +1,41 @@
+<div
+  gdAuto
+  gdColumns="1fr"
+  gdColumns.gt-xs="repeat(auto-fit, minmax(400px, 1fr))"
+  gdGap="1rem"
+>
+  <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
+    <span
+      *ngIf="
+        i === 0 ||
+        (events[i - 1].start | date: 'shortDate') !=
+          (event.start | date: 'shortDate')
+      "
+      gdColumn="-1/1"
+      >{{ event.start | date: "EEE d LLLL" }}</span
+    >
+    <a class="event" mat-ripple fxLayout="column" routerLink="./{{ event.id }}">
+      <div fxLayout="row" fxLayoutGap=".5rem">
+        <div fxFlex="grow" class="title">
+          <div
+            *ngIf="event.visibility !== 'public'"
+            fxLayout="row"
+            style="margin-top: -0.5rem"
+          >
+            <div class="tag {{ event.visibility }}">
+              {{ event.visibility | titlecase }}
+            </div>
+          </div>
+          <h3 class="break-words">{{ event.name }}</h3>
+          <h4 class="mat-subheader">
+            starts {{ event.start | date: "shortTime" }}
+          </h4>
+        </div>
+        <img fxFlex="80px" loading="lazy" [appIconSrc]="event.icon" />
+      </div>
+      <!--    <div fxFlex="grow"></div>-->
+      <!--<p>
+      </p>-->
+    </a>
+  </ng-container>
+</div>

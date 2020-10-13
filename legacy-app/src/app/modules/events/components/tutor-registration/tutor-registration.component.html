@@ -1,0 +1,10 @@
+<h1>Register as Tutor</h1>
+<p>You can register as tutor for this event</p>
+<button
+  mat-stroked-button
+  color="primary"
+  [disabled]="!(canSignUp$ | ngrxPush)"
+  (click)="register()"
+>
+  Register as Tutor
+</button>

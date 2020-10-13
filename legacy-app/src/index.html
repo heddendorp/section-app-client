@@ -1,89 +1,47 @@
-<!--
-  ~     The TUMi app provides a modern way of managing events for an esn section.
-  ~     Copyright (C) 2020  Lukas Heddendorp
-  ~
-  ~     This program is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
-  ~
-  ~     This program is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
-  ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>ESN TUMi</title>
-  <meta name="description"
-        content="ESN TUMi organizes events for international students at TUM and help you to get settled in Munich.">
-  <meta content="/assets/images/logo.png" name="image"/>
-  <meta content="ESN TUMi events and offers" property="og:title"/>
-  <meta content="ESN TUMi organizes events for international students at TUM and help you to get settled in Munich."
-        property="og:description"/>
-  <meta content="/assets/images/logo.png" property="og:image"/>
-  <meta content="https://tumi.esn.world/" property="og:url"/>
-  <meta content="413902465899100" property="fb:app_id"/>
-  <base href="/"/>
-
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
-  <link href="manifest.webmanifest" rel="manifest"/>
-  <link href="/assets/icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-  <link href="/assets/icons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-  <link href="/assets/icons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-  <link color="#2196f3" href="/assets/icons/safari-pinned-tab.svg" rel="mask-icon"/>
-  <meta content="TUMi" name="apple-mobile-web-app-title"/>
-  <meta content="TUMi" name="application-name"/>
-  <meta content="#005fb8" name="msapplication-TileColor"/>
-  <meta content="#005fb8" name="theme-color"/>
-
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet"/>
-  <style>
-    div.loader {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: white;
-      background: #005fb8;
-    }
-
-    img.loader__logo {
-      max-width: 300px;
-    }
-
-    h1.loader__text {
-      color: white;
-      margin-top: 3rem;
-      font-size: 3rem;
-      font-family: '"Josefin Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue"',
-      sans-serif;
-    }
-
-    p.loader__hint {
-      font-family: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue"',
-      sans-serif;
-      margin-top: 4rem;
-    }
-  </style>
-</head>
-<body>
-<app-root>
-  <div class="loader">
-    <img alt="TUM logo" class="loader__logo" src="/assets/images/tum_logo_white.svg"/>
-    <h1 class="loader__text">international</h1>
-    <p class="loader__hint">Loading...</p>
-  </div>
-</app-root>
-<noscript>Please enable JavaScript to continue using this application.</noscript>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>TUMi App</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/assets/favicon/safari-pinned-tab.svg"
+      color="#2196f3"
+    />
+    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#2196f3" />
+    <meta
+      name="msapplication-config"
+      content="/assets/favicon/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#2196f3" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="mat-typography">
+    <app-root></app-root>
+  </body>
 </html>

@@ -1,0 +1,66 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | ngrxPush) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
+    [opened]="(isHandset$ | ngrxPush) === false"
+  >
+    <mat-toolbar class="title mat-display-2"
+      ><span>TUMi</span>&nbsp;app</mat-toolbar
+    >
+    <mat-nav-list>
+      <a mat-list-item routerLink="events" routerLinkActive="active">
+        <mat-icon svgIcon="icon-overtime" mat-list-icon></mat-icon>
+        <h3 mat-line>Events</h3>
+      </a>
+      <a
+        mat-list-item
+        routerLink="users"
+        routerLinkActive="active"
+        *ngIf="isAdmin$ | ngrxPush"
+      >
+        <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
+        <h3 mat-line>Users</h3>
+      </a>
+      <a
+        mat-list-item
+        routerLink="profile"
+        routerLinkActive="active"
+        *ngIf="isAuthenticated$ | ngrxPush"
+      >
+        <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
+        <h3 mat-line>My Profile</h3>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | ngrxPush"
+      >
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          svgIcon="icon-menu"
+        ></mat-icon>
+      </button>
+      <span fxFlex="noshrink"></span>
+      <button
+        mat-stroked-button
+        (click)="login()"
+        *ngIf="!(isAuthenticated$ | ngrxPush); else logoutButton"
+      >
+        Login
+      </button>
+      <ng-template #logoutButton>
+        <button mat-stroked-button (click)="logout()">Logout</button>
+      </ng-template>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

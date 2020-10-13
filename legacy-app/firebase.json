@@ -1,62 +1,21 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "functions": {
-    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint", "npm --prefix \"$RESOURCE_DIR\" run build"]
-  },
   "hosting": [
     {
-      "appAssociation": "AUTO",
-      "target": "tumi",
-      "public": "dist/tumi",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "header": [
+      "target": "tumi-app",
+      "public": "dist/tumi-app",
+      "ignore": ["**/.*"],
+      "headers": [
         {
-          "source": "**/*.@(jpg|jpeg|gif|png|svg|html|css)",
+          "source": "*.[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].+(css|js)",
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "max-age=14400"
-            }
-          ]
-        },
-        {
-          "source": "**/*.@(js)",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "max-age=31557600"
+              "value": "public,max-age=31536000,immutable"
             }
           ]
         }
       ],
       "rewrites": [
-        {
-          "source": "/go/**",
-          "dynamicLinks": true
-        },
-        {
-          "source": "/esn-tumi/europe-west1/removeRegistration",
-          "function": "removeRegistration"
-        },
-        {
-          "source": "/esn-tumi/europe-west1/registerForEvent",
-          "function": "registerForEvent"
-        },
-        {
-          "source": "/esn-tumi/europe-west1/updateEventStats",
-          "function": "updateEventStats"
-        },
-        {
-          "source": "/esn-tumi/europe-west1/updateUserStats",
-          "function": "updateUserStats"
-        },
-        {
-          "source": "ngsw.json",
-          "destination": "/ngsw.json"
-        },
         {
           "source": "**",
           "destination": "/index.html"

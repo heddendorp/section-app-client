@@ -1,0 +1,41 @@
+<h1>Event Participants</h1>
+<h2>Tutors</h2>
+<div *ngFor="let tutor of event.registeredTutors | ngrxPush">
+  {{ tutor.firstName }} {{ tutor.lastName }}
+</div>
+<h2>Registered Students</h2>
+<p class="mat-caption">Tap students toggle their status</p>
+<div fxLayout="column" fxLayoutGap="4px">
+  <div
+    *ngFor="let registration of event.registrations | ngrxPush"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    class="student"
+    (click)="toggleRegistration(registration)"
+  >
+    <mat-icon
+      style="margin-right: 4px"
+      svgIcon="icon-{{
+        registration.hasAttended ? 'checkmark' : 'delete-sign'
+      }}"
+    ></mat-icon>
+    <div fxFlex="grow">
+      <span
+        >{{ registration.user.firstName }}
+        {{ registration.user.lastName }}</span
+      >
+    </div>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      (click)="stopPropagation($event)"
+    >
+      <mat-icon svgIcon="icon-menu-squared"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="removeRegitstration(registration.id)">
+        Remove from Event
+      </button>
+    </mat-menu>
+  </div>
+</div>

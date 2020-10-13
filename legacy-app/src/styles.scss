@@ -1,243 +1,103 @@
-/*!
- *     The TUMi app provides a modern way of managing events for an esn section.
- *     Copyright (C) 2020  Lukas Heddendorp
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
-$normalFont: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
-$headlineFont: '"Josefin Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
-
-$custom-typography: mat-typography-config(
-  $font-family: $normalFont,
-  $display-4: mat-typography-level(2.125rem, 2.563rem, 400, $headlineFont, $letter-spacing: 0.0074rem),
-  $display-3: mat-typography-level(3rem, 3.625rem, 400, $headlineFont, $letter-spacing: 0),
-  $display-2: mat-typography-level(3.75rem, 4.5rem, 300, $headlineFont, $letter-spacing: -0.0083rem),
-  $display-1: mat-typography-level(6rem, 7.188rem, 300, $headlineFont, $letter-spacing: -0.0156rem),
-  $headline: mat-typography-level(1.5rem, 1.81rem, 300, $headlineFont, $letter-spacing: 0),
-  $title: mat-typography-level(1.25rem, 1.5rem, 500, $headlineFont, $letter-spacing: 0.0075rem),
-  $subheading-2: mat-typography-level(1rem, 1.5rem, 400, $headlineFont, 0.0094rem),
-  $subheading-1: mat-typography-level(0.875rem, 1.5rem, 400, $headlineFont, 0.0071rem),
-  $body-2: mat-typography-level(0.875rem, 1rem, 400, $letter-spacing: 0.0178rem),
-  $body-1: mat-typography-level(1rem, 1.75rem, 400, $letter-spacing: 0.0275rem),
-  $caption: mat-typography-level(0.75rem, 0.75rem, 400, $letter-spacing: 0.03333rem),
-  $button: mat-typography-level(0.875rem, 0.95rem, 500, $letter-spacing: 0.0892rem)
-);
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core($custom-typography);
+@include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-
-$esn-cyan: (
-  50: #e0f4fd,
-  100: #b0e2f9,
-  200: #90caf9,
-  300: #43bdf1,
-  400: #00afef,
-  500: #00a1ec,
-  600: #0094de,
-  700: #0081ca,
-  800: #0070b6,
-  900: #005195,
-  A100: #82b1ff,
-  A200: #448aff,
-  A400: #2979ff,
-  A700: #2962ff,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
-);
-
-$tum-blue: (
-  50: #e2f1fc,
-  100: #b9dcf8,
-  200: #8cc6f4,
-  300: #5fb0ef,
-  400: #3a9fed,
-  500: #0e8fea,
-  600: #0b82dd,
-  700: #0470ca,
-  800: #005fb8,
-  900: #004299,
-  A100: #82b1ff,
-  A200: #448aff,
-  A400: #2979ff,
-  A700: #2962ff,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
-);
-
-$tum-pink: (
-  50: #fde4ee,
-  100: #fbbcd4,
-  200: #f990b7,
-  300: #f8619a,
-  400: #f63b82,
-  500: #f5076b,
-  600: #e40568,
-  700: #cd0463,
-  800: #b8005f,
-  900: #930058,
-  A100: #ff80ab,
-  A200: #ff4081,
-  A400: #f50057,
-  A700: #c51162,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
-);
-
-$esn-magenta: (
-  50: #fbe2f0,
-  100: #f4b6d9,
-  200: #f085bf,
-  300: #ed4ea4,
-  400: #ec008e,
-  500: #ed0076,
-  600: #db0072,
-  700: #c4006c,
-  800: #af0068,
-  900: #86005f,
-  A100: #ff80ab,
-  A200: #ff4081,
-  A400: #f50057,
-  A700: #c51162,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
-);
-
-$tumi-primary: mat-palette($tum-blue, 500, 200, 800);
-$tumi-accent: mat-palette($tum-pink);
+$tumi-app-primary: mat-palette($mat-blue);
+$tumi-app-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$tumi-warn: mat-palette($mat-red);
+$tumi-app-warn: mat-palette($mat-red);
 
-// Create the theme object (a Sass map containing all of the palettes).
-$tumi-theme: mat-light-theme($tumi-primary, $tumi-accent, $tumi-warn);
-$tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$tumi-app-theme: mat-light-theme(
+  (
+    color: (
+      primary: $tumi-app-primary,
+      accent: $tumi-app-accent,
+      warn: $tumi-app-warn,
+    ),
+  )
+);
 
-@include angular-material-theme($tumi-dark-theme);
-mat-nav-list {
-  [mat-list-item],
-  mat-list-item {
-    &.active:not(:hover) {
-      color: mat-color($tumi-primary, lighter) !important;
-      background: transparentize(mat-color($tumi-primary, lighter), 0.88) !important;
-    }
-  }
-}
-
-app-funds-page {
-  .transaction {
-    border: 1px solid white !important;
-  }
-}
-
-svg {
-  .dynamic-fill {
-    fill: #303030;
-  }
-}
-
-.grey-slant {
-  @include mat-button-theme($tumi-theme);
-}
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($tumi-app-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
 html,
 body {
   height: 100%;
-  box-sizing: border-box;
+}
+
+body {
   margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
+.title {
+  span {
+    background: linear-gradient(33deg, #b92b27, #1565c0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.no-margin {
   margin: 0 !important;
+  font-weight: 500 !important;
 }
 
-.selectable {
-  user-select: all;
+mat-nav-list.mat-nav-list {
+  .mat-list-item.active {
+    background: mat-color($tumi-app-primary, default, 0.1);
+
+    &:focus,
+    &:hover {
+      background: mat-color($tumi-app-primary, default, 0.2);
+    }
+
+    mat-icon {
+      color: mat-color($tumi-app-primary);
+    }
+  }
+}
+
+button:not(.mat-icon-button),
+a:not(.mat-icon-button) {
+  .mat-button-wrapper {
+    mat-icon.mat-icon {
+      width: 24px !important;
+      height: 24px !important;
+      font-size: 24px !important;
+      line-height: 24px !important;
+      margin-right: 8px;
+      margin-left: -8px;
+    }
+  }
+}
+
+mat-icon.mat-icon {
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 24px !important;
+  line-height: 24px !important;
+
+  &[matDatepickerToggleIcon] {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 24px !important;
+    line-height: 24px !important;
+  }
 }
 
 .break-words {
@@ -264,11 +124,16 @@ a.styled {
     text-decoration: underline double;
   }
 }
+
 markdown {
   overflow-wrap: break-word;
   word-wrap: break-word;
+  -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
   hyphens: auto;
 
   a {
@@ -287,33 +152,5 @@ markdown {
   img {
     width: 100%;
     max-width: 600px;
-  }
-}
-
-// theme for the navigation list
-mat-nav-list {
-  padding: 8px;
-
-  [mat-list-item],
-  mat-list-item {
-    margin: 4px 0;
-    border-radius: 4px;
-
-    &.active:not(:hover) {
-      color: mat-color($tumi-primary, darker);
-      background: transparentize(mat-color($tumi-primary, darker), 0.88);
-    }
-  }
-}
-
-app-funds-page {
-  .transaction {
-    border: 1px solid black;
-  }
-}
-
-form.grid-form {
-  .mat-form-field-infix {
-    width: inherit;
   }
 }

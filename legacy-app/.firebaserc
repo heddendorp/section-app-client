@@ -1,22 +1,14 @@
 {
-  "projects": {
-    "default": "esn-tumi",
-    "staging": "tumi-events"
-  },
   "targets": {
     "esn-tumi": {
       "hosting": {
-        "tumi": [
+        "tumi-app": [
           "esn-tumi"
         ]
       }
-    },
-    "tumi-events": {
-      "hosting": {
-        "tumi": [
-          "tumi-events"
-        ]
-      }
     }
+  },
+  "projects": {
+    "default": "esn-tumi"
   }
 }

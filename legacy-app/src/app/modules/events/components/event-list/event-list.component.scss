@@ -1,0 +1,48 @@
+.event {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: gray 1px solid;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  h3 {
+    margin: 0;
+    font-weight: bold;
+  }
+  h4 {
+    padding: 0;
+    margin: 0;
+  }
+  .title {
+    margin: 0 0 0.5rem;
+  }
+  .tag {
+    border-radius: 4px;
+    font-size: small;
+    padding: 0 4px;
+  }
+  .tag.draft {
+    color: white;
+    background: #b92b27;
+  }
+  .tag.internal {
+    color: white;
+    background: #1565c0;
+  }
+  .tag.public {
+    display: none;
+  }
+  p {
+    margin: 0;
+    margin-top: 0.5rem;
+    float: bottom;
+  }
+  img {
+    width: 80px;
+    height: 80px;
+    float: right;
+    margin-right: -0.5rem;
+    margin-top: -0.5rem;
+  }
+}
