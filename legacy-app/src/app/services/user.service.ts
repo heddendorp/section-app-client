@@ -32,6 +32,9 @@ export class UserService {
   }
 
   populateRegistrationList$(registrations: any[]): Observable<any[]> {
+    if (registrations.length === 0) {
+      return of([]);
+    }
     return combineLatest(
       registrations.map((registration) =>
         this.getUser$(registration.id).pipe(

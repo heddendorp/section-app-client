@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { EventService } from '../../services/event.service';
+import { EventService } from '../../../../services/event.service';
 import { first } from 'rxjs/operators';
 
 @Component({

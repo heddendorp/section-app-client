@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import {
-  catchError,
-  map,
-  shareReplay,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/user.service';
+import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +101,26 @@ export class EventService {
       .delete();
   }
 
+  public async register(
+    user: any,
+    event: any,
+    isWaitList = false
+  ): Promise<void> {
+    await this.store
+      .collection('events')
+      .doc(event.id)
+      .collection('signups')
+      .doc(user.id)
+      .set({
+        id: user.id,
+        partySize: 1,
+        hasPayed: true,
+        hasAttended: false,
+        timestamp: new Date(),
+        isWaitList,
+      });
+  }
+
   private transformEvent = (event: any) => {
     if (!event.tutorSignups) {
       console.log(event);
@@ -116,20 +130,21 @@ export class EventService {
       start: event.start.toDate(),
       end: event.end.toDate(),
       registeredTutors: this.userService.getUserList$(event.tutorSignups),
-      registrations: this.store
-        .collection('events')
-        .doc(event.id)
-        .collection('signups')
-        .valueChanges({ idField: 'id' })
-        .pipe(
-          withLatestFrom(this.auth.isTutor$),
-          switchMap(([registrations, isTutor]: [any[], boolean]) =>
-            isTutor
-              ? this.userService.populateRegistrationList$(registrations)
-              : of(registrations)
-          ),
-          shareReplay()
+      registrations: combineLatest([
+        this.store
+          .collection('events')
+          .doc(event.id)
+          .collection('signups')
+          .valueChanges({ idField: 'id' }),
+        this.auth.isTutor$,
+      ]).pipe(
+        switchMap(([registrations, isTutor]: [any[], boolean]) =>
+          isTutor
+            ? this.userService.populateRegistrationList$(registrations)
+            : of(registrations)
         ),
+        shareReplay()
+      ),
     };
   };
 

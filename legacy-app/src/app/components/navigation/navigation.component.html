@@ -7,7 +7,7 @@
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
     [opened]="(isHandset$ | ngrxPush) === false"
   >
-    <mat-toolbar class="title mat-display-2"
+    <mat-toolbar class="app-title mat-display-2"
       ><span>TUMi</span>&nbsp;app</mat-toolbar
     >
     <mat-nav-list>
@@ -32,6 +32,15 @@
       >
         <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
         <h3 mat-line>My Profile</h3>
+      </a>
+      <a
+        *ngIf="isAdmin$ | ngrxPush"
+        mat-list-item
+        routerLink="scanner"
+        routerLinkActive="active"
+      >
+        <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+        <h3 mat-line>Scanning</h3>
       </a>
     </mat-nav-list>
   </mat-sidenav>

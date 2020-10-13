@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NavigationComponent } from './components/navigation/navigation.component';
 
 const routes: Routes = [
@@ -22,6 +22,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/profile/profile.module').then(
             (m) => m.ProfileModule
+          ),
+      },
+      {
+        path: 'scanner',
+        loadChildren: () =>
+          import('./modules/scanner/scanner.module').then(
+            (m) => m.ScannerModule
           ),
       },
       { path: '', pathMatch: 'full', redirectTo: 'events' },

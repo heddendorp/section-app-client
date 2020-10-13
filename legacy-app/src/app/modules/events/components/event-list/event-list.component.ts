@@ -13,6 +13,7 @@ import {
 })
 export class EventListComponent {
   @Input() events: any[] = [];
+  @Input() showCounts = false;
   constructor() {}
 
   public getId(index: number, object: any): string {

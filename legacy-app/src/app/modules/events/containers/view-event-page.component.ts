@@ -5,7 +5,7 @@ import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';
-import { EventService } from '../services/event.service';
+import { EventService } from '../../../services/event.service';
 import { ConfirmDialog } from '../../shared/components';
 
 @Component({
@@ -61,7 +61,7 @@ import { ConfirmDialog } from '../../shared/components';
               *ngIf="isTutor$ | ngrxPush"
               [event]="event"
             ></app-tutor-registration>
-            <app-office-registration></app-office-registration>
+            <app-office-registration [event]="event"></app-office-registration>
           </ng-container>
           <ng-container *ngSwitchCase="'external'">
             <app-external-registration

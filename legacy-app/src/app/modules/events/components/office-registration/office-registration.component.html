@@ -1,2 +1,8 @@
 <h1>Register in Office</h1>
-<p>To register for this event you will have to go to the office</p>
+<p>
+  To register for this event you will have to go to the office and scan the QR
+  code below. <br />
+  Please bring the {{ event.price | currency: "EUR" }} fee in cash.
+  <strong>We can only accept cash payments</strong>
+</p>
+<img [src]="QrUrl$ | ngrxPush" alt="QR code" />

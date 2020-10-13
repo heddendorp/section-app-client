@@ -42,6 +42,7 @@ export class EventFormDialogComponent implements OnDestroy {
       type: ['event'],
       registrationMode: ['office'],
       tutorSpots: [0, Validators.required],
+      participantSpots: [0, Validators.required],
       splitTutorPlaces: [false],
       price: [0, Validators.required],
       hasFee: [false],
@@ -70,11 +71,6 @@ export class EventFormDialogComponent implements OnDestroy {
         start: format(data.event.start, 'd.L.y HH:mm'),
         end: format(data.event.end, 'd.L.y HH:mm'),
       });
-      this.eventForm.patchValue({
-        ...data.event,
-        start: format(data.event.start, 'd.L.y HH:mm'),
-        end: format(data.event.end, 'd.L.y HH:mm'),
-      });
     }
   }
 
@@ -92,7 +88,6 @@ export class EventFormDialogComponent implements OnDestroy {
 
   async submit(): Promise<void> {
     const bootstrapData = {
-      participantSpots: 0,
       tutorSignups: [],
     };
     const data = this.eventForm.value;

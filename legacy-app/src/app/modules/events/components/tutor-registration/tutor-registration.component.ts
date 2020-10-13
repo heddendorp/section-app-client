@@ -42,6 +42,10 @@ export class TutorRegistrationComponent implements OnChanges {
           if (this.event.tutorSignups.includes(user.id)) {
             return of(false);
           }
+
+          if (this.event.tutorSignups.length >= this.event.tutorSpots) {
+            return of(false);
+          }
           return this.event.registeredTutors.pipe(
             map((tutors: any[]) => {
               const oldieNum = tutors.filter((tutor: any) =>

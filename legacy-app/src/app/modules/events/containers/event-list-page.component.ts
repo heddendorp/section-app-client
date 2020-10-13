@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EventService } from '../services/event.service';
+import { EventService } from '../../../services/event.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { first, startWith, switchMap } from 'rxjs/operators';
@@ -37,7 +37,10 @@ import { EventFormDialogComponent } from '../components';
         <!--        <mat-option value="product">Products</mat-option>-->
       </mat-select>
     </mat-form-field>
-    <app-event-list [events]="events$ | ngrxPush"></app-event-list>
+    <app-event-list
+      [events]="events$ | ngrxPush"
+      [showCounts]="isTutor$ | ngrxPush"
+    ></app-event-list>
   `,
   styles: [
     `
@@ -52,6 +55,7 @@ import { EventFormDialogComponent } from '../components';
 export class EventListPageComponent {
   public events$: Observable<any[]>;
   public isEditor$: Observable<boolean>;
+  public isTutor$: Observable<boolean>;
   public eventTypes = new FormControl(['event', 'bundle']);
 
   constructor(
@@ -64,6 +68,7 @@ export class EventListPageComponent {
       switchMap((types) => eventService.upcomingOfTypes$(types))
     );
     this.isEditor$ = auth.isEditor$;
+    this.isTutor$ = auth.isTutor$;
   }
 
   public async createEvent(): Promise<void> {

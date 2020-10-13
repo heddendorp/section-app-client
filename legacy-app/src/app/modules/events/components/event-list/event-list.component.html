@@ -29,6 +29,11 @@
           <h3 class="break-words">{{ event.name }}</h3>
           <h4 class="mat-subheader">
             starts {{ event.start | date: "shortTime" }}
+            <span *ngIf="showCounts"
+              >&nbsp;Tutors: {{ event.tutorSignups.length }}/{{
+                event.tutorSpots
+              }}</span
+            >
           </h4>
         </div>
         <img fxFlex="80px" loading="lazy" [appIconSrc]="event.icon" />

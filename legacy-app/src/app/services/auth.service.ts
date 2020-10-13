@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
 import { LoginOptionsDialogComponent } from '../components/login-options-dialog/login-options-dialog.component';
 import { auth } from 'firebase/app';

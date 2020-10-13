@@ -38,6 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { IconToastComponent } from './components/icon-toast.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 const materialModules = [
   MatSidenavModule,
@@ -59,6 +60,7 @@ const materialModules = [
   MatCardModule,
   MatRippleModule,
   MatSnackBarModule,
+  A11yModule,
   // MatChipsModule,
   // LayoutModule,
 ];

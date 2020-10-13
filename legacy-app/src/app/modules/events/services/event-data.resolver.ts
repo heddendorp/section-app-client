@@ -4,7 +4,7 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { EventService } from './event.service';
+import { EventService } from '../../../services/event.service';
 import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
