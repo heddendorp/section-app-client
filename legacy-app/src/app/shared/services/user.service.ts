@@ -73,7 +73,11 @@ export class UserService {
               if (!paApplicationTime) {
                 paApplicationTime = null;
               }
-              return { ...user, paApplicationTime };
+              let joinedTutors = user.joinedTutors?.toDate();
+              if (!joinedTutors) {
+                joinedTutors = null;
+              }
+              return { ...user, paApplicationTime, joinedTutors };
             }),
           ),
           catchError((err) => {
@@ -169,6 +173,7 @@ export class UserService {
       isTutor: user.isTutor,
       lastName: user.lastName,
       paApplicationTime: user.paApplicationTime ?? null,
+      joinedTutors: user.joinedTutors ?? null,
       paStatus: user.paStatus ?? 'none',
       partyData: user.partyData ?? {},
       phone: user.phone,
@@ -201,6 +206,7 @@ export class UserService {
       'type',
       'university',
       'verified',
+      'joinedTutors',
     ]);
 }
 
@@ -234,8 +240,10 @@ interface BaseStudent {
 
 interface SavedStudent extends BaseStudent {
   paApplicationTime: importStore.Timestamp;
+  joinedTutors: importStore.Timestamp;
 }
 
 export interface Student extends BaseStudent {
   paApplicationTime: Date;
+  joinedTutors: Date;
 }

@@ -45,15 +45,6 @@
   <meta content="#005fb8" name="theme-color"/>
 
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet"/>
-  <script>
-    document.documentElement.style.display = 'none';
-    document.head.insertAdjacentHTML(
-      'beforeend',
-      `<link rel="stylesheet" id="client-theme" href="/${
-        window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      }.css" onload="document.documentElement.style.display = \`\`">`
-    );
-  </script>
   <style>
     div.loader {
       width: 100%;
@@ -94,6 +85,5 @@
   </div>
 </app-root>
 <noscript>Please enable JavaScript to continue using this application.</noscript>
-<!--<script src="https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js"></script>-->
 </body>
 </html>

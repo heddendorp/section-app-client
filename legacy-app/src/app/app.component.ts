@@ -100,15 +100,6 @@ export class AppComponent implements OnInit, OnDestroy {
         .onAction()
         .subscribe(() => updates.activateUpdate().then(() => document.location.reload()));
     });
-    fromEvent<MediaQueryListEvent>(mediaMatcher.matchMedia('(prefers-color-scheme: dark)'), 'change')
-      /*.pipe(startWith(mediaMatcher.matchMedia('(prefers-color-scheme: dark)')))*/
-      .subscribe((event) => {
-        if (event.matches) {
-          this.loadStyle('dark.css');
-        } else {
-          this.loadStyle('light.css');
-        }
-      });
   }
 
   ngOnInit(): void {

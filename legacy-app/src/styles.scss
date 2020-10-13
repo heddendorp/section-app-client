@@ -190,6 +190,29 @@ $tumi-warn: mat-palette($mat-red);
 $tumi-theme: mat-light-theme($tumi-primary, $tumi-accent, $tumi-warn);
 $tumi-dark-theme: mat-dark-theme($tumi-primary, $tumi-accent, $tumi-warn);
 
+@include angular-material-theme($tumi-dark-theme);
+mat-nav-list {
+  [mat-list-item],
+  mat-list-item {
+    &.active:not(:hover) {
+      color: mat-color($tumi-primary, lighter) !important;
+      background: transparentize(mat-color($tumi-primary, lighter), 0.88) !important;
+    }
+  }
+}
+
+app-funds-page {
+  .transaction {
+    border: 1px solid white !important;
+  }
+}
+
+svg {
+  .dynamic-fill {
+    fill: #303030;
+  }
+}
+
 .grey-slant {
   @include mat-button-theme($tumi-theme);
 }
@@ -244,12 +267,8 @@ a.styled {
 markdown {
   overflow-wrap: break-word;
   word-wrap: break-word;
-  -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
   hyphens: auto;
 
   a {

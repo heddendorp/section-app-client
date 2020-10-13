@@ -17,6 +17,7 @@
  */
 
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { firestore } from './index';
 
 export const registerForEvent = functions /*.region('europe-west1')*/.https
@@ -24,21 +25,15 @@ export const registerForEvent = functions /*.region('europe-west1')*/.https
     if (!eventId || typeof eventId !== 'string' || !eventId.length) {
       throw new functions.https.HttpsError(
         'invalid-argument',
-        'The function must be called with one argument "eventId" containing the event ID.'
+        'The function must be called with one argument "eventId" containing the event ID.',
       );
     }
     if (!context.auth) {
       // Throwing an HttpsError so that the client gets the error details.
       throw new functions.https.HttpsError('failed-precondition', 'The function must be called while authenticated.');
     }
-    const userSnapshot = await firestore
-      .collection('users')
-      .doc(context.auth.uid)
-      .get();
-    const eventSnapshot = await firestore
-      .collection('events')
-      .doc(eventId)
-      .get();
+    const userSnapshot = await firestore.collection('users').doc(context.auth.uid).get();
+    const eventSnapshot = await firestore.collection('events').doc(eventId).get();
     const user = userSnapshot.data();
     const event = eventSnapshot.data();
     if (!event) {
@@ -55,18 +50,18 @@ export const registerForEvent = functions /*.region('europe-west1')*/.https
       if (!user.isTutor && !user.isAdmin) {
         throw new functions.https.HttpsError(
           'failed-precondition',
-          `Only admins and tutors can sign up as a tutor for events!`
+          `Only admins and tutors can sign up as a tutor for events!`,
         );
       }
       await firestore
         .collection('events')
         .doc(eventId)
-        .update({ tutorSignups: [...event.tutorSignups, context.auth.uid] });
+        .update({ tutorSignups: _.uniq([...event.tutorSignups, context.auth.uid]) });
     } else if (type === 'student') {
       if (!event.isInternal && event.participantSpots <= event.usersSignedUp) {
         throw new functions.https.HttpsError(
           'failed-precondition',
-          `There are no free student spots on ${event.name}!`
+          `There are no free student spots on ${event.name}!`,
         );
       }
       await firestore
@@ -83,21 +78,15 @@ export const removeRegistration = functions /*.region('europe-west1')*/.https
     if (!eventId || typeof eventId !== 'string' || !eventId.length) {
       throw new functions.https.HttpsError(
         'invalid-argument',
-        'The function must be called with one argument "eventId" containing the event ID.'
+        'The function must be called with one argument "eventId" containing the event ID.',
       );
     }
     if (!context.auth) {
       // Throwing an HttpsError so that the client gets the error details.
       throw new functions.https.HttpsError('failed-precondition', 'The function must be called while authenticated.');
     }
-    const userSnapshot = await firestore
-      .collection('users')
-      .doc(context.auth.uid)
-      .get();
-    const eventSnapshot = await firestore
-      .collection('events')
-      .doc(eventId)
-      .get();
+    const userSnapshot = await firestore.collection('users').doc(context.auth.uid).get();
+    const eventSnapshot = await firestore.collection('events').doc(eventId).get();
     const signupSnapshot = await firestore
       .collection('events')
       .doc(eventId)

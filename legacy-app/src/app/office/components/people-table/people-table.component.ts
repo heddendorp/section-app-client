@@ -25,20 +25,20 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { Student } from '../../../shared/services/user.service';
 import { getFaculty } from '../../../shared/uni-data';
 
 @Component({
   selector: 'app-people-table',
   templateUrl: './people-table.component.html',
-  styleUrls: ['./people-table.component.scss']
+  styleUrls: ['./people-table.component.scss'],
 })
 export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() people: Student[];
@@ -58,7 +58,7 @@ export class PeopleTableComponent implements OnInit, OnChanges, OnDestroy {
     this.dataSource.paginator = this.paginator;
     this.searchControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(value => (this.dataSource.filter = value));
+      .subscribe((value) => (this.dataSource.filter = value));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

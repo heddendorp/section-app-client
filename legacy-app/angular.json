@@ -33,17 +33,7 @@
             ],
             "extractCss": true,
             "styles": [
-              "src/styles.scss",
-              {
-                "input": "src/styles.light.scss",
-                "bundleName": "light",
-                "inject": false
-              },
-              {
-                "input": "src/styles.dark.scss",
-                "bundleName": "dark",
-                "inject": false
-              }
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js",

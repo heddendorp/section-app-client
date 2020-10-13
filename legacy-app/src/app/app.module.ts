@@ -151,7 +151,7 @@ const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:
 export class AppModule {
   constructor(angularFireAuth: AngularFireAuth, private router: Router, analytics: AngularFireAnalytics) {
     if (location.host === 'esn-tumi.de') {
-      location.replace('https://tumi.esn.world');
+      location.replace(`https://tumi.esn.world${location.pathname}`);
     }
     angularFireAuth.getRedirectResult().then((result) => {
       if (result.user) {
