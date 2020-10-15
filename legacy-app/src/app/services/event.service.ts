@@ -4,6 +4,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +59,6 @@ export class EventService {
         if (isEditor) {
           visibility.push('draft');
         }
-        console.log(visibility);
         return this.store
           .collection('events', (ref) =>
             ref
@@ -119,6 +119,54 @@ export class EventService {
         timestamp: new Date(),
         isWaitList,
       });
+  }
+
+  public async deregister(user: any, event: any): Promise<void> {
+    await this.store
+      .collection('events')
+      .doc(event.id)
+      .collection('signups')
+      .doc(user.id)
+      .delete();
+  }
+
+  public getEventsForCurrentUser(): Observable<any[]> {
+    return this.auth.user$.pipe(
+      switchMap((user) => this.getEventsForUser(user.id))
+    );
+  }
+
+  public getEventsForUser(userId: string): Observable<any[]> {
+    return this.store
+      .collectionGroup('signups', (ref) =>
+        ref.where('id', '==', userId).orderBy('timestamp', 'desc')
+      )
+      .snapshotChanges()
+      .pipe(
+        map((changes) => changes.map((change) => change.payload.doc)),
+        switchMap((signups) =>
+          signups.length
+            ? combineLatest(
+                signups.map((registration: any) => {
+                  const parentRef = registration.ref.parent.parent;
+                  if (!parentRef) {
+                    return of({});
+                  }
+                  return fromPromise(parentRef.get()).pipe(
+                    map((eventRef: any) => eventRef.data()),
+                    map((event) =>
+                      Object.assign({}, event, {
+                        hasPayed: registration.data().hasPayed,
+                        isWaitList: registration.data().isWaitList || false,
+                      })
+                    )
+                  );
+                })
+              )
+            : of([])
+        ),
+        this.mapEvents
+      );
   }
 
   private transformEvent = (event: any) => {

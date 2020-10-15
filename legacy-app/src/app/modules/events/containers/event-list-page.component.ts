@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
-import { first, startWith, switchMap } from 'rxjs/operators';
+import { first, startWith, switchMap, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';

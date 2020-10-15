@@ -44,27 +44,42 @@
         <p *ngFor="let warning of request.warnings" style="color: #b92b27">
           {{ warning }}
         </p>
-        <button
-          (click)="addUserToWaitList(request)"
-          *ngIf="request.onWaitlist; else registerButton"
-          [disabled]="request.registered"
-          color="primary"
-          mat-stroked-button
-          style="margin-bottom: 0.5rem"
-        >
-          Add to waitlist
-        </button>
-        <ng-template #registerButton>
-          <button
-            (click)="registerUser(request)"
-            [disabled]="request.registered"
-            color="primary"
-            mat-stroked-button
-            style="margin-bottom: 0.5rem"
-          >
-            Register
-          </button>
-        </ng-template>
+        <ng-container [ngSwitch]="request.action">
+          <ng-container *ngSwitchCase="'register'">
+            <button
+              (click)="addUserToWaitList(request)"
+              *ngIf="request.onWaitlist; else registerButton"
+              [disabled]="request.registered"
+              color="primary"
+              mat-stroked-button
+              style="margin-bottom: 0.5rem"
+            >
+              Add to waitlist
+            </button>
+            <ng-template #registerButton>
+              <button
+                (click)="registerUser(request)"
+                [disabled]="request.registered"
+                color="primary"
+                mat-stroked-button
+                style="margin-bottom: 0.5rem"
+              >
+                Register
+              </button>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngSwitchCase="'refund'">
+            <button
+              (click)="deregisterUser(request)"
+              [disabled]="!request.registered"
+              color="primary"
+              mat-stroked-button
+              style="margin-bottom: 0.5rem"
+            >
+              Refund money
+            </button>
+          </ng-container>
+        </ng-container>
       </div>
     </div>
   </div>

@@ -25,6 +25,7 @@
         {{ registration.user.lastName }}</span
       >
     </div>
+    <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
       mat-icon-button
       [matMenuTriggerFor]="menu"

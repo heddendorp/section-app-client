@@ -61,6 +61,9 @@ export class ScannerComponent {
                     const warnings: string[] = [];
                     let onWaitlist = false;
                     let registered = false;
+                    const registration = registrations.find(
+                      (r: any) => r.id === user.id
+                    );
                     if (
                       registrations.length >= request.event.participantSpots
                     ) {
@@ -69,11 +72,21 @@ export class ScannerComponent {
                         'Event full; Registration will be on the waitlist'
                       );
                     }
-                    if (registrations.find((r: any) => r.id === user.id)) {
+                    if (registration) {
                       registered = true;
-                      warnings.push(
-                        'User is already registered for this event'
-                      );
+                      if (request.action === 'register') {
+                        warnings.push(
+                          'User is already registered for this event'
+                        );
+                      }
+                      if (
+                        request.action === 'refund' &&
+                        !registration.isWaitList
+                      ) {
+                        warnings.push(
+                          'User is not on the waitlist for this event'
+                        );
+                      }
                     }
                     return {
                       ...request,
@@ -102,6 +115,19 @@ export class ScannerComponent {
       );
     }
     await this.eventService.register(user, request.event);
+  }
+
+  public async deregisterUser(request: any): Promise<void> {
+    const user = await this.user$.pipe(first()).toPromise();
+    if (request.event.hasFee) {
+      await this.moneyService.addEventTransaction(
+        `Event Refund (${request.event.name}) payed to ${user.firstName} ${user.lastName} (${user.email})`,
+        request.event,
+        user,
+        'refund'
+      );
+    }
+    await this.eventService.deregister(user, request.event);
   }
 
   async addUserToWaitList(request: any): Promise<void> {

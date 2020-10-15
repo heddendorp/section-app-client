@@ -14,17 +14,24 @@
       gdColumn="-1/1"
       >{{ event.start | date: "EEE d LLLL" }}</span
     >
-    <a class="event" mat-ripple fxLayout="column" routerLink="./{{ event.id }}">
+    <a
+      class="event"
+      fxLayout="column"
+      mat-ripple
+      routerLink="/events/{{ event.id }}"
+    >
       <div fxLayout="row" fxLayoutGap=".5rem">
         <div fxFlex="grow" class="title">
           <div
             *ngIf="event.visibility !== 'public'"
             fxLayout="row"
+            fxLayoutGap="8px"
             style="margin-top: -0.5rem"
           >
             <div class="tag {{ event.visibility }}">
               {{ event.visibility | titlecase }}
             </div>
+            <div *ngIf="event.isWaitList" class="tag waitlist">on waitlist</div>
           </div>
           <h3 class="break-words">{{ event.name }}</h3>
           <h4 class="mat-subheader">

@@ -1,2 +1,5 @@
-<h1>Profile</h1>
-<p>The profile will be back shortly</p>
+<h1>Your Events</h1>
+<app-event-list
+  [events]="events$ | ngrxPush"
+  [showCounts]="false"
+></app-event-list>

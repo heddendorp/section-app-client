@@ -1,8 +1,21 @@
-<h1>Register in Office</h1>
-<p>
-  To register for this event you will have to go to the office and scan the QR
-  code below. <br />
-  Please bring the {{ event.price | currency: "EUR" }} fee in cash.
-  <strong>We can only accept cash payments</strong>
-</p>
-<img [src]="QrUrl$ | ngrxPush" alt="QR code" />
+<ng-container *ngIf="registration$ | ngrxPush as registration; else register">
+  <h1>Refund in Office</h1>
+  <p>
+    You can request a refund for this event in the office, just bring the code.
+    <br />
+    <ng-container *ngIf="registration.isWaitList">
+      As you are on the waitlist for this event, a refund will not be a problem.
+    </ng-container>
+  </p>
+  <img [src]="qrURL$ | ngrxPush" alt="QR code" />
+</ng-container>
+<ng-template #register>
+  <h1>Register in Office</h1>
+  <p>
+    To register for this event you will have to go to the office and scan the QR
+    code below. <br />
+    Please bring the {{ event.price | currency: "EUR" }} fee in cash.
+    <strong>We can only accept cash payments</strong>
+  </p>
+  <img [src]="qrURL$ | ngrxPush" alt="QR code" />
+</ng-template>

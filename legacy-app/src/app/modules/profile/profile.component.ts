@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { EventService } from '../../services/event.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -6,8 +8,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class ProfileComponent {
+  public events$: Observable<any[]>;
+  constructor(eventService: EventService) {
+    this.events$ = eventService.getEventsForCurrentUser();
+  }
 }

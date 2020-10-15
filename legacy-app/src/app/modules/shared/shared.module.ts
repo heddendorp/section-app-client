@@ -15,7 +15,7 @@ import {
   MatRippleModule,
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
-import { ConfirmDialog } from './components';
+import { ConfirmDialog, EventListComponent } from './components';
 import { IconSrcDirective } from './directives';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -39,6 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { IconToastComponent } from './components/icon-toast.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { RouterModule } from '@angular/router';
 
 const materialModules = [
   MatSidenavModule,
@@ -65,13 +66,18 @@ const materialModules = [
   // LayoutModule,
 ];
 
-export const COMPONENTS = [ConfirmDialog, IconToastComponent];
+export const COMPONENTS = [
+  ConfirmDialog,
+  IconToastComponent,
+  EventListComponent,
+];
 export const DIRECTIVES = [IconSrcDirective];
 
 @NgModule({
   declarations: [COMPONENTS, DIRECTIVES],
   imports: [
     CommonModule,
+    RouterModule.forChild([]),
     materialModules,
     FlexLayoutModule,
     ReactiveFormsModule,

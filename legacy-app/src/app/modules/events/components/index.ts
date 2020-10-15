@@ -1,4 +1,4 @@
-export * from './event-list/event-list.component';
+export * from '../../shared/components/event-list/event-list.component';
 export * from './external-registration/external-registration.component';
 export * from './office-registration/office-registration.component';
 export * from './online-registration/online-registration.component';

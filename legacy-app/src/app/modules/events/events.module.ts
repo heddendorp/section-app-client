@@ -5,7 +5,6 @@ import { EventsRoutingModule } from './events-routing.module';
 import { EventListPageComponent, ViewEventPageComponent } from './containers';
 import { SharedModule } from '../shared';
 import {
-  EventListComponent,
   ExternalRegistrationComponent,
   OfficeRegistrationComponent,
   OnlineRegistrationComponent,
@@ -19,7 +18,6 @@ import { EventFormDialogComponent } from './components/event-form-dialog/event-f
 @NgModule({
   declarations: [
     EventListPageComponent,
-    EventListComponent,
     ViewEventPageComponent,
     OnlineRegistrationComponent,
     OfficeRegistrationComponent,
