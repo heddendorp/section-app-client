@@ -10,6 +10,7 @@ const routes: Routes = [
     component: ViewEventPageComponent,
     resolve: { event: EventDataResolver },
   },
+  { path: 'list', pathMatch: 'full', redirectTo: '' },
 ];
 
 @NgModule({

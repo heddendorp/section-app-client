@@ -45,6 +45,7 @@ export class EventFormDialogComponent implements OnDestroy {
       participantSpots: [0, Validators.required],
       splitTutorPlaces: [false],
       price: [0, Validators.required],
+      fullCost: [0, Validators.required],
       hasFee: [false],
       icon: ['overtime', Validators.required],
       end: ['', this.checkDateFormat('d.L.y HH:mm')],
