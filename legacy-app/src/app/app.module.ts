@@ -21,6 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { LoginOptionsDialogComponent } from './components/login-options-dialog/login-options-dialog.component';
 import { EmailLoginDialogComponent } from './components/email-login-dialog/email-login-dialog.component';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,9 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
     HttpClientModule,
     SharedModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
