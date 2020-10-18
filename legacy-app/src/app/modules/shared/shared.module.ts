@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ApplicationRef, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import {
@@ -20,6 +20,7 @@ import { IconSrcDirective } from './directives';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -40,6 +41,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { IconToastComponent } from './components/icon-toast.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { RouterModule } from '@angular/router';
+import { concat, interval } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { SwUpdate } from '@angular/service-worker';
 
 const materialModules = [
   MatSidenavModule,
@@ -112,9 +117,36 @@ export const DIRECTIVES = [IconSrcDirective];
   ],
 })
 export class SharedModule {
-  constructor(registry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(
+    registry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    appRef: ApplicationRef,
+    updates: SwUpdate,
+    snackBar: MatSnackBar
+  ) {
     registry.addSvgIconSet(
-      sanitizer.bypassSecurityTrustResourceUrl('/assets/icons/set.svg')
+      sanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/set.svg`)
     );
+    const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
+    const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
+    const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
+    if (environment.production) {
+      updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    }
+    updates.available.subscribe((event) => {
+      snackBar
+        .openFromComponent(IconToastComponent, {
+          duration: 0,
+          data: {
+            message: 'A new version of this app is available!',
+            action: 'Activate now',
+            icon: 'icon-available-updates',
+          },
+        })
+        .onAction()
+        .subscribe(() =>
+          updates.activateUpdate().then(() => document.location.reload())
+        );
+    });
   }
 }
