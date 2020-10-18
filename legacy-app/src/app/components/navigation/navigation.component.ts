@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { first, map, share, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-navigation',
@@ -32,5 +33,18 @@ export class NavigationComponent {
 
   public logout(): Promise<void> {
     return this.authService.logout();
+  }
+
+  async closeSidenav(drawer: MatSidenav): Promise<void> {
+    const isHandset = await this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(
+        map((result) => result.matches),
+        first()
+      )
+      .toPromise();
+    if (isHandset) {
+      await drawer.close();
+    }
   }
 }
