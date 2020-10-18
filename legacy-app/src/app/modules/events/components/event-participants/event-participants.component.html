@@ -1,7 +1,30 @@
 <h1>Event Participants</h1>
 <h2>Tutors</h2>
-<div *ngFor="let tutor of event.registeredTutors | ngrxPush">
-  {{ tutor.firstName }} {{ tutor.lastName }}
+<div fxLayout="column" fxLayoutGap="4px">
+  <div
+    *ngFor="let tutor of event.registeredTutors | ngrxPush"
+    class="student"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+  >
+    <div fxFlex="grow">
+      <span>{{ tutor.firstName }} {{ tutor.lastName }}</span>
+    </div>
+    <span *ngIf="!tutor.joinedAsTutor" class="tag">newbie</span>
+    <button
+      (click)="stopPropagation($event)"
+      *ngIf="$isAdmin | ngrxPush"
+      [matMenuTriggerFor]="menu"
+      mat-icon-button
+    >
+      <mat-icon svgIcon="icon-menu-squared"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="removeTutor(tutor.id)" mat-menu-item>
+        Remove from Event
+      </button>
+    </mat-menu>
+  </div>
 </div>
 <h2>Registered Students</h2>
 <p class="mat-caption">Tap students toggle their status</p>
@@ -28,14 +51,18 @@
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
       mat-icon-button
+      *ngIf="$isAdmin | ngrxPush"
       [matMenuTriggerFor]="menu"
       (click)="stopPropagation($event)"
     >
       <mat-icon svgIcon="icon-menu-squared"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="removeRegitstration(registration.id)">
+      <button (click)="removeRegistration(registration)" mat-menu-item>
         Remove from Event
+      </button>
+      <button (click)="removeRegistration(registration, true)" mat-menu-item>
+        Remove with refund
       </button>
     </mat-menu>
   </div>

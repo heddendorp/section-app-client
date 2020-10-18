@@ -8,3 +8,14 @@
 >
   Register as Tutor
 </button>
+<h3>Tutors already on this event</h3>
+<mat-list>
+  <mat-list-item *ngFor="let tutor of event.registeredTutors | ngrxPush">
+    <img
+      alt="Photo"
+      mat-list-avatar
+      src="{{ tutor.photoURL || '/assets/icons/user.svg' }}"
+    />
+    <p mat-line>{{ tutor.firstName }} {{ tutor.lastName }}</p>
+  </mat-list-item>
+</mat-list>
