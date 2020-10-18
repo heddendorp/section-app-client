@@ -1,3 +1,11 @@
+<ng-container *ngIf="isTutor$ | ngrxPush">
+  <h1>Your're a tutor for</h1>
+  <app-event-list
+    [events]="tutorEvents$ | ngrxPush"
+    [showCounts]="false"
+  ></app-event-list>
+  <div style="margin-bottom: 2rem"></div>
+</ng-container>
 <h1>Your Events</h1>
 <app-event-list
   [events]="events$ | ngrxPush"

@@ -13,7 +13,8 @@ import {
 import { EventParticipantsComponent } from './components/event-participants/event-participants.component';
 import { AnonymousRegistrationComponent } from './components/anonymous-registration/anonymous-registration.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { EventFormDialogComponent } from './components/event-form-dialog/event-form-dialog.component';
+import { EventFormDialogComponent } from './components';
+import { CollectMoneyComponent } from './components/collect-money/collect-money.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { EventFormDialogComponent } from './components/event-form-dialog/event-f
     EventParticipantsComponent,
     AnonymousRegistrationComponent,
     EventFormDialogComponent,
+    CollectMoneyComponent,
   ],
   imports: [
     CommonModule,

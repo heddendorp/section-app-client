@@ -9,6 +9,7 @@ import {
   first,
   map,
   shareReplay,
+  startWith,
   switchMap,
 } from 'rxjs/operators';
 import { MoneyService } from '../../services/money.service';
@@ -31,6 +32,9 @@ export class ScannerComponent {
   ) {
     const currentRequest = this.scanControl.valueChanges.pipe(
       debounceTime(300),
+      startWith(
+        '{"user":"azEGMK73cXbvEoSYh4NgezTa0hj2","events":[{"id":"ZDxuxIFo13R77EKspdDm","action":"collectMoney"}]}'
+      ),
       map((request) => JSON.parse(request)),
       catchError((err, caught) => concat(of(null), caught))
     );
@@ -64,6 +68,11 @@ export class ScannerComponent {
                     const registration = registrations.find(
                       (r: any) => r.id === user.id
                     );
+                    if (request.event.moneyCollected) {
+                      warnings.push(
+                        `Money already collected by ${request.event.moneyWith}`
+                      );
+                    }
                     if (
                       registrations.length >= request.event.participantSpots
                     ) {
@@ -141,6 +150,22 @@ export class ScannerComponent {
       );
     }
     await this.eventService.register(user, request.event, true);
+  }
+
+  public async collectMoney(request: any): Promise<void> {
+    const user = await this.user$.pipe(first()).toPromise();
+    if (request.event.fullCost) {
+      await this.moneyService.addEventTransaction(
+        `Event Money collected (${request.event.name}) by ${user.firstName} ${user.lastName} (${user.email})`,
+        request.event,
+        user,
+        'moneyCollection'
+      );
+    }
+    await this.eventService.updateEvent(request.event.id, {
+      moneyCollected: true,
+      moneyWith: `${user.firstName} ${user.lastName} (${user.email})`,
+    });
   }
 
   public reset(): void {

@@ -44,7 +44,7 @@ import { ConfirmDialog } from '../../shared/components';
       <ng-container *ngIf="isTutor$ | ngrxPush">
         <markdown [data]="event.runningNotes" emoji></markdown>
       </ng-container>
-      <div gdAuto gdColumns="repeat(auto-fit, minmax(200px, 1fr))" gdGap="1rem">
+      <div gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
         <ng-container
           [ngSwitch]="event.registrationMode"
           *ngIf="authenticated$ | ngrxPush; else loginPrompt"
@@ -69,6 +69,10 @@ import { ConfirmDialog } from '../../shared/components';
             ></app-external-registration>
           </ng-container>
         </ng-container>
+        <app-collect-money
+          *ngIf="(canSeeParticipants$ | ngrxPush) && event.fullCost"
+          [event]="event"
+        ></app-collect-money>
         <ng-template #loginPrompt>
           <app-anonymous-registration></app-anonymous-registration
         ></ng-template>

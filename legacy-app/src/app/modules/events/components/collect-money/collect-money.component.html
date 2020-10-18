@@ -1,0 +1,9 @@
+<h1>Collect Money</h1>
+<p>
+  Take this code to the office to collect
+  {{ event.fullCost | currency: "EUR" }} for running the event.
+</p>
+<p *ngIf="event.moneyCollected" style="color: #b92b27">
+  Money was already collected by {{ event.moneyWith }}
+</p>
+<img [src]="qrURL$ | ngrxPush" alt="QR code" />

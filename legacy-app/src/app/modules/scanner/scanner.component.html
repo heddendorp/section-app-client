@@ -79,6 +79,16 @@
               Refund money
             </button>
           </ng-container>
+          <ng-container *ngSwitchCase="'collectMoney'">
+            <button
+              (click)="collectMoney(request)"
+              color="primary"
+              mat-stroked-button
+              style="margin-bottom: 0.5rem"
+            >
+              Give out {{ request.event.fullCost | currency: "EUR" }}
+            </button>
+          </ng-container>
         </ng-container>
       </div>
     </div>

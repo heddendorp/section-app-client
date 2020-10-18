@@ -60,8 +60,8 @@ export class MoneyService {
         event: {
           id: user.id,
           name: event.name,
-          price: event.price,
-          // fullCost: event.fullCost,
+          price: event.price ?? null,
+          fullCost: event.fullCost,
           start: event.start,
           end: event.end,
         },

@@ -136,6 +136,23 @@ export class EventService {
     );
   }
 
+  public getEventsForCurrentTutor(): Observable<any[]> {
+    return this.auth.user$.pipe(
+      switchMap((user) => this.getEventsForTutor(user.id))
+    );
+  }
+
+  public getEventsForTutor(userId: string): Observable<any[]> {
+    return this.store
+      .collection('events', (ref) =>
+        ref
+          .where('tutorSignups', 'array-contains', userId)
+          .orderBy('start', 'desc')
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(this.mapEvents, shareReplay());
+  }
+
   public getEventsForUser(userId: string): Observable<any[]> {
     return this.store
       .collectionGroup('signups', (ref) =>
