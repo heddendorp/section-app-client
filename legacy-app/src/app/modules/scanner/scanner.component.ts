@@ -32,9 +32,6 @@ export class ScannerComponent {
   ) {
     const currentRequest = this.scanControl.valueChanges.pipe(
       debounceTime(300),
-      startWith(
-        '{"user":"azEGMK73cXbvEoSYh4NgezTa0hj2","events":[{"id":"ZDxuxIFo13R77EKspdDm","action":"collectMoney"}]}'
-      ),
       map((request) => JSON.parse(request)),
       catchError((err, caught) => concat(of(null), caught))
     );
