@@ -15,7 +15,7 @@ import {
   MatRippleModule,
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
-import { ConfirmDialog, EventListComponent } from './components';
+import { ConfirmDialog, EventGridComponent } from './components';
 import { IconSrcDirective } from './directives';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -45,6 +45,7 @@ import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { SwUpdate } from '@angular/service-worker';
+// import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const materialModules = [
   MatSidenavModule,
@@ -60,6 +61,8 @@ const materialModules = [
   // MatAutocompleteModule,
   // MatProgressSpinnerModule,
   MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   // MatSlideToggleModule,
   MatMenuModule,
   MatSelectModule,
@@ -67,6 +70,7 @@ const materialModules = [
   MatRippleModule,
   MatSnackBarModule,
   A11yModule,
+  // ClipboardModule,
   // MatChipsModule,
   // LayoutModule,
 ];
@@ -74,7 +78,7 @@ const materialModules = [
 export const COMPONENTS = [
   ConfirmDialog,
   IconToastComponent,
-  EventListComponent,
+  EventGridComponent,
 ];
 export const DIRECTIVES = [IconSrcDirective];
 

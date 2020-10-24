@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { EventService } from '../../services/event.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',

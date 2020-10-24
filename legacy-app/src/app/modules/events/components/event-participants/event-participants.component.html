@@ -8,7 +8,10 @@
     fxLayoutAlign="start center"
   >
     <div fxFlex="grow">
-      <span>{{ tutor.firstName }} {{ tutor.lastName }}</span>
+      <span
+        >{{ tutor.firstName }} {{ tutor.lastName }} ({{ tutor.email }})
+        {{ tutor.phone }}</span
+      >
     </div>
     <span *ngIf="!tutor.joinedAsTutor" class="tag">newbie</span>
     <button
@@ -26,7 +29,12 @@
     </mat-menu>
   </div>
 </div>
-<h2>Registered Students</h2>
+<div fxLayout="row" fxLayoutAlign="space-between start">
+  <h2>Registered Students</h2>
+  <button (click)="copyStudentMails()" mat-stroked-button>
+    Copy participant mails
+  </button>
+</div>
 <p class="mat-caption">Tap students toggle their status</p>
 <div fxLayout="column" fxLayoutGap="4px">
   <div
@@ -44,8 +52,9 @@
     ></mat-icon>
     <div fxFlex="grow">
       <span
-        >{{ registration.user.firstName }}
-        {{ registration.user.lastName }}</span
+        >{{ registration.user.firstName }} {{ registration.user.lastName }} ({{
+          registration.user.email
+        }})</span
       >
     </div>
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
@@ -58,6 +67,20 @@
       <mat-icon svgIcon="icon-menu-squared"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
+      <button
+        (click)="updateWaitListStatus(registration, false)"
+        *ngIf="registration.isWaitList"
+        mat-menu-item
+      >
+        Remove from WaitList
+      </button>
+      <button
+        (click)="updateWaitListStatus(registration, true)"
+        *ngIf="!registration.isWaitList"
+        mat-menu-item
+      >
+        Put on WaitList
+      </button>
       <button (click)="removeRegistration(registration)" mat-menu-item>
         Remove from Event
       </button>

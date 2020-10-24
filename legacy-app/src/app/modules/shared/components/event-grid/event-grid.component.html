@@ -14,13 +14,8 @@
       gdColumn="-1/1"
       >{{ event.start | date: "EEE d LLLL" }}</span
     >
-    <a
-      class="event"
-      fxLayout="column"
-      mat-ripple
-      routerLink="/events/{{ event.id }}"
-    >
-      <div fxLayout="row" fxLayoutGap=".5rem">
+    <a class="event" fxLayout="column" routerLink="/events/{{ event.id }}">
+      <div fxLayout="row" fxLayoutGap=".5rem" style="margin-bottom: -0.5rem">
         <div fxFlex="grow" class="title">
           <div
             *ngIf="event.visibility !== 'public'"
@@ -42,12 +37,26 @@
               }}</span
             >
           </h4>
+          <span
+            >Free spots: {{ event.participantSpots - event.usersSignedUp }}
+            {{
+              event.participantSpots - event.usersSignedUp <= 0
+                ? "(Only wait-list)"
+                : ""
+            }}</span
+          >
         </div>
         <img fxFlex="80px" loading="lazy" [appIconSrc]="event.icon" />
       </div>
       <!--    <div fxFlex="grow"></div>-->
       <!--<p>
       </p>-->
+      <div
+        [ngStyle]="{
+          width: (1 - event.usersSignedUp / event.participantSpots) * 100 + '%'
+        }"
+        class="fill-bar participants"
+      ></div>
     </a>
   </ng-container>
 </div>

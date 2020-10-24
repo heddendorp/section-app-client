@@ -8,14 +8,113 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$tail-blue: (
+  50: #e3f2fd,
+  100: #ebf8ff,
+  200: #bee3f8,
+  300: #90cdf4,
+  400: #63b3ed,
+  500: #4299e1,
+  600: #3182ce,
+  700: #2b6cb0,
+  800: #2c5282,
+  900: #2a4365,
+  A100: #ebf8ff,
+  A200: #bee3f8,
+  A400: #63b3ed,
+  A700: #2b6cb0,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$tail-pink: (
+  50: #fce4ec,
+  100: #fff5f7,
+  200: #fed7e2,
+  300: #fbb6ce,
+  400: #f687b3,
+  500: #ed64a6,
+  600: #d53f8c,
+  700: #b83280,
+  800: #97266d,
+  900: #702459,
+  A100: #fff5f7,
+  A200: #fed7e2,
+  A400: #f687b3,
+  A700: #b83280,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$tail-red: (
+  50: #ffebee,
+  100: #fff5f5,
+  200: #fed7d7,
+  300: #feb2b2,
+  400: #fc8181,
+  500: #f56565,
+  600: #e53e3e,
+  700: #c53030,
+  800: #9b2c2c,
+  900: #742a2a,
+  A100: #fff5f5,
+  A200: #fed7d7,
+  A400: #fc8181,
+  A700: #c53030,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tumi-app-primary: mat-palette($mat-blue);
-$tumi-app-accent: mat-palette($mat-pink, A200, A100, A400);
+$tumi-app-primary: mat-palette($tail-blue);
+$tumi-app-accent: mat-palette($tail-pink);
 
 // The warn palette is optional (defaults to red).
-$tumi-app-warn: mat-palette($mat-red);
+$tumi-app-warn: mat-palette($tail-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { fromPromise } from 'rxjs/internal-compatibility';
@@ -49,7 +49,13 @@ export class EventService {
       );
   }
 
-  upcomingOfTypes$(types: string[]): Observable<any[]> {
+  upcomingOfTypes$({
+    types,
+    date,
+  }: {
+    types: string[];
+    date: Date;
+  }): Observable<any[]> {
     return combineLatest([this.auth.isTutor$, this.auth.isEditor$]).pipe(
       switchMap(([isTutor, isEditor]: [boolean, boolean]) => {
         const visibility = ['public'];
@@ -62,7 +68,7 @@ export class EventService {
         return this.store
           .collection('events', (ref) =>
             ref
-              .where('start', '>', new Date())
+              .where('start', '>', date)
               .where('visibility', 'in', visibility)
               .orderBy('start', 'asc')
           )
@@ -173,6 +179,7 @@ export class EventService {
                     map((eventRef: any) => eventRef.data()),
                     map((event) =>
                       Object.assign({}, event, {
+                        id: parentRef.id,
                         hasPayed: registration.data().hasPayed,
                         isWaitList: registration.data().isWaitList || false,
                       })
@@ -182,14 +189,15 @@ export class EventService {
               )
             : of([])
         ),
-        this.mapEvents
+        this.mapEvents,
+        catchError((err) => {
+          console.log(err);
+          return of([]);
+        })
       );
   }
 
   private transformEvent = (event: any) => {
-    if (!event.tutorSignups) {
-      console.log(event);
-    }
     return {
       ...event,
       start: event.start.toDate(),

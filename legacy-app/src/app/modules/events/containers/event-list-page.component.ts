@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EventService } from '../../../services/event.service';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { first, startWith, switchMap, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';
+import { startOfToday } from 'date-fns';
 
 @Component({
   selector: 'app-event-list-page',
@@ -25,22 +26,27 @@ import { EventFormDialogComponent } from '../components';
         Add Event
       </button>
     </div>
-    <mat-form-field
-      [ngStyle.gt-xs]="{ width: '500px' }"
-      [ngStyle]="{ width: '100%' }"
-    >
-      <mat-label>Show me</mat-label>
-      <mat-select [formControl]="eventTypes" multiple>
-        <mat-option value="appointment">Appointments</mat-option>
-        <mat-option value="event">Events</mat-option>
-        <!--        <mat-option value="bundle">Bundles</mat-option>-->
-        <!--        <mat-option value="product">Products</mat-option>-->
-      </mat-select>
-    </mat-form-field>
-    <app-event-list
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+      <mat-form-field fxFlex="auto">
+        <mat-label>Show me</mat-label>
+        <mat-select [formControl]="eventTypes" multiple>
+          <mat-option value="appointment">Appointments</mat-option>
+          <mat-option value="event">Events</mat-option>
+          <!--        <mat-option value="bundle">Bundles</mat-option>-->
+          <!--        <mat-option value="product">Products</mat-option>-->
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="auto" *ngIf="isTutor$ | ngrxPush">
+        <mat-label>Show events starting after</mat-label>
+        <input matInput [formControl]="dateFilter" [matDatepicker]="picker" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <app-event-grid
       [events]="events$ | ngrxPush"
       [showCounts]="isTutor$ | ngrxPush"
-    ></app-event-list>
+    ></app-event-grid>
   `,
   styles: [
     `
@@ -57,15 +63,20 @@ export class EventListPageComponent {
   public isEditor$: Observable<boolean>;
   public isTutor$: Observable<boolean>;
   public eventTypes = new FormControl(['event', 'bundle']);
+  public dateFilter = new FormControl(startOfToday());
 
   constructor(
     private eventService: EventService,
     auth: AuthService,
     private dialog: MatDialog
   ) {
-    this.events$ = this.eventTypes.valueChanges.pipe(
-      startWith(this.eventTypes.value),
-      switchMap((types) => eventService.upcomingOfTypes$(types))
+    this.events$ = combineLatest([
+      this.eventTypes.valueChanges.pipe(startWith(this.eventTypes.value)),
+      this.dateFilter.valueChanges.pipe(startWith(this.dateFilter.value)),
+    ]).pipe(
+      switchMap(([types, date]) =>
+        eventService.upcomingOfTypes$({ types, date })
+      )
     );
     this.isEditor$ = auth.isEditor$;
     this.isTutor$ = auth.isTutor$;

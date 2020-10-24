@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss'],
+  selector: 'app-event-grid',
+  templateUrl: './event-grid.component.html',
+  styleUrls: ['./event-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventListComponent {
+export class EventGridComponent {
   @Input() events: any[] = [];
   @Input() showCounts = false;
   constructor() {}
