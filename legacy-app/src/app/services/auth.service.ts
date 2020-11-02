@@ -3,10 +3,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
 import { LoginOptionsDialogComponent } from '../components/login-options-dialog/login-options-dialog.component';
-import { auth } from 'firebase/app';
+import firebase from 'firebase/app';
 import { EmailLoginDialogComponent } from '../components/email-login-dialog/email-login-dialog.component';
 import UserCredential = firebase.auth.UserCredential;
 
@@ -16,6 +16,7 @@ import UserCredential = firebase.auth.UserCredential;
 export class AuthService {
   private readonly user: Observable<any>;
   private readonly authenticated: Observable<boolean>;
+
   constructor(
     private fireAuth: AngularFireAuth,
     private dialog: MatDialog,
@@ -69,7 +70,7 @@ export class AuthService {
   }
 
   public async login(): Promise<void> {
-    await this.fireAuth.setPersistence(auth.Auth.Persistence.LOCAL);
+    await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const method = await this.dialog
       .open(LoginOptionsDialogComponent)
       .afterClosed()
@@ -77,18 +78,20 @@ export class AuthService {
     if (method) {
       switch (method) {
         case 'google': {
-          await this.fireAuth.signInWithRedirect(new auth.GoogleAuthProvider());
+          await this.fireAuth.signInWithRedirect(
+            new firebase.auth.GoogleAuthProvider()
+          );
           break;
         }
         case 'facebook': {
           await this.fireAuth.signInWithRedirect(
-            new auth.FacebookAuthProvider()
+            new firebase.auth.FacebookAuthProvider()
           );
           break;
         }
         case 'microsoft': {
           await this.fireAuth.signInWithRedirect(
-            new auth.OAuthProvider('microsoft.com')
+            new firebase.auth.OAuthProvider('microsoft.com')
           );
           break;
         }
