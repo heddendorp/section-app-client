@@ -55,6 +55,10 @@
         >{{ registration.user.firstName }} {{ registration.user.lastName }} ({{
           registration.user.email
         }})</span
+      ><span
+        >[{{ registration.user.phoneNumber }}]{{
+          registration.timestamp.toDate() | date: "medium"
+        }}</span
       >
     </div>
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
