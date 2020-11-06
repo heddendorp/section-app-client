@@ -47,6 +47,7 @@ export class EventFormDialogComponent implements OnDestroy {
       price: [0, Validators.required],
       fullCost: [0, Validators.required],
       hasFee: [false],
+      signupLink: ['', Validators.required],
       icon: ['overtime', Validators.required],
       end: ['', this.checkDateFormat('d.L.y HH:mm')],
       start: ['', this.checkDateFormat('d.L.y HH:mm')],
@@ -64,6 +65,17 @@ export class EventFormDialogComponent implements OnDestroy {
         } else {
           this.eventForm.get('price')?.disable();
           this.eventForm.patchValue({ price: 0 });
+        }
+      });
+    this.eventForm
+      .get('registrationMode')
+      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((mode) => {
+        if (mode === 'external') {
+          this.eventForm.get('signupLink')?.enable();
+        } else {
+          this.eventForm.get('signupLink')?.disable();
+          this.eventForm.patchValue({ signupLink: null });
         }
       });
     if (data?.event) {

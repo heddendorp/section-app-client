@@ -110,7 +110,7 @@ $tail-red: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tumi-app-primary: mat-palette($tail-blue);
+$tumi-app-primary: mat-palette($tail-blue, 500, 200);
 $tumi-app-accent: mat-palette($tail-pink);
 
 // The warn palette is optional (defaults to red).
@@ -147,7 +147,7 @@ body {
 
 .app-title {
   span {
-    background: linear-gradient(33deg, #b92b27, #1565c0);
+    background: linear-gradient(33deg, #e53e3e, #5a67d8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -158,11 +158,11 @@ body {
 
 mat-nav-list.mat-nav-list {
   .mat-list-item.active {
-    background: mat-color($tumi-app-primary, default, 0.1);
+    background: mat-color($tumi-app-primary, lighter, 0.5);
 
     &:focus,
     &:hover {
-      background: mat-color($tumi-app-primary, default, 0.2);
+      background: mat-color($tumi-app-primary, lighter, 1);
     }
 
     mat-icon {
