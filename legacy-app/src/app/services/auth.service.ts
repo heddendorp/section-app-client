@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, share, shareReplay, switchMap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
 import { LoginOptionsDialogComponent } from '../components/login-options-dialog/login-options-dialog.component';
 import firebase from 'firebase/app';
@@ -34,7 +34,7 @@ export class AuthService {
         }
         return of(user);
       }),
-      shareReplay()
+      shareReplay(1)
     );
   }
 

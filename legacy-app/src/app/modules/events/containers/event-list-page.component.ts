@@ -46,6 +46,7 @@ import { startOfToday } from 'date-fns';
     <app-event-grid
       [events]="events$ | ngrxPush"
       [showCounts]="isTutor$ | ngrxPush"
+      [dayDividers]="true"
     ></app-event-grid>
   `,
   styles: [

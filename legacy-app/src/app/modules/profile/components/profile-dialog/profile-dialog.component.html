@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Update Profile Data</h1>
+<mat-dialog-content>
+  <form
+    [formGroup]="profileForm"
+    gdAuto
+    gdColumns="1fr"
+    gdColumns.gt-xs="1fr 1fr"
+    gdGap="0 1rem"
+  >
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input formControlName="firstName" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input formControlName="lastName" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field gdColumn.gt-xs="span 2">
+      <mat-label>Phone Number</mat-label>
+      <input formControlName="phone" matInput type="tel" />
+    </mat-form-field>
+    <mat-form-field gdColumn.gt-xs="span 2">
+      <mat-label>Address</mat-label>
+      <textarea
+        cols="4"
+        formControlName="address"
+        matInput
+        type="text"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field gdColumn.gt-xs="span 2">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of types" [value]="type.key">{{
+          type.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field gdColumn.gt-xs="span 2">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country">
+        <mat-option
+          *ngFor="let country of countries$ | ngrxPush"
+          [value]="country.alpha2Code"
+          >{{ country.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-dialog-close mat-stroked-button>Cancel</button>
+  <button
+    [disabled]="profileForm.invalid"
+    [mat-dialog-close]="profileForm.value"
+    color="primary"
+    mat-stroked-button
+  >
+    Save
+  </button>
+</mat-dialog-actions>

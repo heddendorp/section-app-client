@@ -1,12 +1,45 @@
+<ng-container *ngrxLet="user$; let user">
+  <h1>Hey {{ user.firstName }} 👋</h1>
+  <div class="contact-card">
+    <p class="title">Contact Card</p>
+    <p>
+      {{ user.firstName }} {{ user.lastName }} from {{ country$ | ngrxPush }}
+    </p>
+    <div gdAuto gdColumns="max-content auto" gdGap="0 .5rem">
+      <strong>Mail: </strong>
+      <p>{{ user.email }}</p>
+      <strong>Phone: </strong>
+      <p>{{ user.phone }}</p>
+      <strong>Address: </strong>
+      <p>{{ user.address }}</p>
+      <strong>Status: </strong>
+      <p>{{ user.friendlyType }}</p>
+    </div>
+
+    <p class="mat-caption">
+      We collect this data to secure public funding for our events and have
+      enough data for contact tracing. Please make sure all data is accurate or
+      update it.
+    </p>
+  </div>
+  <button
+    (click)="editProfile()"
+    color="primary"
+    mat-flat-button
+    style="margin: 1rem 0"
+  >
+    Update contact
+  </button>
+</ng-container>
 <ng-container *ngIf="isTutor$ | ngrxPush">
-  <h1>Your're a tutor for</h1>
+  <h2>Your're a tutor for</h2>
   <app-event-grid
     [events]="tutorEvents$ | ngrxPush"
     [showCounts]="true"
   ></app-event-grid>
   <div style="margin-bottom: 2rem"></div>
 </ng-container>
-<h1>Your Events</h1>
+<h2>Your Events</h2>
 <app-event-grid
   [events]="events$ | ngrxPush"
   [showCounts]="false"

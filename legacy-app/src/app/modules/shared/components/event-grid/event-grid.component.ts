@@ -14,6 +14,7 @@ import {
 export class EventGridComponent {
   @Input() events: any[] = [];
   @Input() showCounts = false;
+  @Input() dayDividers = false;
   constructor() {}
 
   public getId(index: number, object: any): string {

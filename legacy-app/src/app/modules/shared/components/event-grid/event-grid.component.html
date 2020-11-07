@@ -7,9 +7,10 @@
   <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
     <span
       *ngIf="
-        i === 0 ||
-        (events[i - 1].start | date: 'shortDate') !=
-          (event.start | date: 'shortDate')
+        (i === 0 ||
+          (events[i - 1].start | date: 'shortDate') !=
+            (event.start | date: 'shortDate')) &&
+        dayDividers
       "
       gdColumn="-1/1"
       >{{ event.start | date: "EEE d LLLL" }}</span
@@ -48,9 +49,6 @@
         </div>
         <img fxFlex="80px" loading="lazy" [appIconSrc]="event.icon" />
       </div>
-      <!--    <div fxFlex="grow"></div>-->
-      <!--<p>
-      </p>-->
       <div
         [ngStyle]="{
           width: (1 - event.usersSignedUp / event.participantSpots) * 100 + '%'
