@@ -94,3 +94,55 @@
     </mat-menu>
   </div>
 </div>
+<h2>Event Table</h2>
+<table style="user-select: all">
+  <tbody>
+    <tr>
+      <td colspan="3">Event Name:</td>
+      <td colspan="5">{{ event.name }}</td>
+    </tr>
+    <tr>
+      <td colspan="3">Date:</td>
+      <td colspan="5">{{ event.start | date }}</td>
+    </tr>
+    <tr>
+      <td colspan="3">Tutors:</td>
+      <td colspan="5">
+        <ng-container *ngFor="let tutor of event.registeredTutors | ngrxPush"
+          >{{ tutor.firstName }} {{ tutor.lastName }},
+        </ng-container>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">Participants (including tutors):</td>
+      <td colspan="5">{{ event.usersSignedUp + event.tutorSignups.length }}</td>
+    </tr>
+    <!--  </tbody>-->
+    <!--  <thead>-->
+    <tr>
+      <th></th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Country</th>
+      <th>E-mail</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Status</th>
+    </tr>
+    <!--  </thead>-->
+    <!--  <tbody>-->
+    <tr
+      *ngFor="let registration of event.registrations | ngrxPush; let i = index"
+      class="table-row"
+    >
+      <td>{{ i + 1 }}</td>
+      <td>{{ registration.user.firstName }}</td>
+      <td>{{ registration.user.lastName }}</td>
+      <td>{{ registration.user.country }}</td>
+      <td>{{ registration.user.email }}</td>
+      <td>{{ registration.user.phone }}</td>
+      <td>{{ registration.user.address }}</td>
+      <td>{{ registration.user.type }}</td>
+    </tr>
+  </tbody>
+</table>

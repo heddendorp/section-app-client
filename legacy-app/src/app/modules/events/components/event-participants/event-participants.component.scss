@@ -16,3 +16,11 @@
   color: white;
   background: #1565c0;
 }
+table {
+  border-collapse: collapse;
+}
+.table-row {
+  td {
+    border: 1px solid black;
+  }
+}
