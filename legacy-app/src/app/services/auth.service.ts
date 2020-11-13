@@ -30,7 +30,10 @@ export class AuthService {
     this.user = fireAuth.user.pipe(
       switchMap((user: any) => {
         if (user) {
-          return firestore.collection('users').doc(user.uid).valueChanges();
+          return firestore
+            .collection('users')
+            .doc(user.uid)
+            .valueChanges({ idField: 'id' });
         }
         return of(user);
       }),

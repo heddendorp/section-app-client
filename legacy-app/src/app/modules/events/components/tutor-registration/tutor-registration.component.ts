@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialog } from '../../../shared/components';
+import { ConfirmDialogComponent } from '../../../shared/components';
 import { IconToastComponent } from '../../../shared/components/icon-toast.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
@@ -69,7 +69,7 @@ export class TutorRegistrationComponent implements OnChanges {
 
   async register(): Promise<void> {
     const proceed = await this.dialog
-      .open(ConfirmDialog, {
+      .open(ConfirmDialogComponent, {
         data: {
           title: `Do you really want to sign up as a tutor for this event?`,
           result: true,

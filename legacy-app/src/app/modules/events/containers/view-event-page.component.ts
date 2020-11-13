@@ -6,7 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';
 import { EventService } from '../../../services/event.service';
-import { ConfirmDialog } from '../../shared/components';
+import { ConfirmDialogComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-view-event-page',
@@ -143,7 +143,7 @@ export class ViewEventPageComponent {
   async deleteEvent(): Promise<void> {
     const event = await this.event$.pipe(first()).toPromise();
     const proceed = await this.dialog
-      .open(ConfirmDialog, {
+      .open(ConfirmDialogComponent, {
         data: {
           title: `Do you really want to delete ${event.name}?`,
           result: true,

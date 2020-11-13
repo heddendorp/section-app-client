@@ -39,14 +39,10 @@ export class EventService {
 
   getOne$(id: string): Observable<any> {
     return this.store
-      .collection('events')
-      .doc<any>(id)
-      .valueChanges()
-      .pipe(
-        map((event) => ({ ...event, id })),
-        this.mapEvents,
-        shareReplay()
-      );
+      .collection<any>('events')
+      .doc(id)
+      .valueChanges({ idField: 'id' })
+      .pipe(this.mapEvents, shareReplay());
   }
 
   upcomingOfTypes$({

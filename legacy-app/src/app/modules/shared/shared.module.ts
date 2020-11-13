@@ -15,7 +15,7 @@ import {
   MatRippleModule,
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
-import { ConfirmDialog, EventGridComponent } from './components';
+import { ConfirmDialogComponent, EventGridComponent } from './components';
 import { IconSrcDirective } from './directives';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -76,7 +76,7 @@ const materialModules = [
 ];
 
 export const COMPONENTS = [
-  ConfirmDialog,
+  ConfirmDialogComponent,
   IconToastComponent,
   EventGridComponent,
 ];

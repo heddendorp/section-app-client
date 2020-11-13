@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../../services/auth.service';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { ConfirmDialog } from '../../../shared/components';
+import { ConfirmDialogComponent } from '../../../shared/components';
 import { IconToastComponent } from '../../../shared/components/icon-toast.component';
 
 @Component({

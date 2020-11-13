@@ -20,7 +20,7 @@ export class UserService {
     return this.store
       .collection('users')
       .doc(id)
-      .valueChanges()
+      .valueChanges({ idField: 'id' })
       .pipe(shareReplay());
   }
 
