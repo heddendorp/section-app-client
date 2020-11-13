@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventGridComponent } from './event-grid.component';
 
@@ -6,7 +6,7 @@ describe('EventListComponent', () => {
   let component: EventGridComponent;
   let fixture: ComponentFixture<EventGridComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventGridComponent],
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EmailLoginDialogComponent } from './email-login-dialog.component';
 
@@ -6,7 +6,7 @@ describe('EmailLoginDialogComponent', () => {
   let component: EmailLoginDialogComponent;
   let fixture: ComponentFixture<EmailLoginDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EmailLoginDialogComponent],
     }).compileComponents();
