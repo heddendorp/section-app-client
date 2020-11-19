@@ -16,9 +16,8 @@ import { ConfirmDialogComponent } from '../../shared/components';
         fxLayout="row"
         fxLayoutAlign="space-between center"
         fxLayoutGap="8px"
-        style="margin-bottom: 1rem;"
       >
-        <h1 style="margin: 0;" fxFlex="grow">{{ event.name }}</h1>
+        <h1 fxFlex="grow" style="margin: 0;">{{ event.name }}</h1>
         <button
           [matMenuTriggerFor]="menu"
           fxFlex="noshrink"
@@ -40,6 +39,9 @@ import { ConfirmDialogComponent } from '../../shared/components';
           </button>
         </mat-menu>
       </div>
+      <h3 class="mat-subheading-1" style="margin-bottom: 1rem;">
+        Starts: {{ event.start | date: 'medium' }}
+      </h3>
       <markdown [data]="event.description" emoji></markdown>
       <ng-container *ngIf="isTutor$ | ngrxPush">
         <markdown [data]="event.runningNotes" emoji></markdown>
