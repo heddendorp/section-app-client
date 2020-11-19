@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>New Transaction</h1>
+<mat-dialog-content>
+  <form [formGroup]="transactionForm" fxLayout="column" fxLayoutGap="1rem">
+    <mat-form-field>
+      <mat-label>Comment</mat-label>
+      <input formControlName="comment" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Value</mat-label>
+      <input formControlName="value" matInput type="number" />
+      <mat-hint>Use a negative value if you're handing out money</mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-dialog-close mat-stroked-button>Cancel</button>
+  <button
+    [disabled]="transactionForm.invalid"
+    [mat-dialog-close]="transactionForm.value"
+    color="primary"
+    mat-stroked-button
+  >
+    Save
+  </button>
+</mat-dialog-actions>

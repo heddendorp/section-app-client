@@ -1,0 +1,40 @@
+<h1>Money (Currently {{ balance$ | ngrxPush | currency: "EUR" }})</h1>
+<div fxLayout="row" fxLayoutAlign="space-between start">
+  <h2>Recent Transactions</h2>
+  <button (click)="addTransaction()" color="primary" mat-flat-button>
+    Add transaction
+  </button>
+</div>
+<div gdAuto gdColumns="24px 60px auto" gdGap="1rem">
+  <ng-container
+    *ngFor="let transaction of transactions$ | ngrxPush; trackBy: getId"
+  >
+    <ng-container [ngSwitch]="transaction.type">
+      <mat-icon
+        *ngSwitchCase="'registration'"
+        [style.color]="transaction.value >= 0 ? '#059669' : '#DC2626'"
+        svgIcon="icon-pay"
+      ></mat-icon>
+      <mat-icon
+        *ngSwitchCase="'refund'"
+        [style.color]="transaction.value >= 0 ? '#059669' : '#DC2626'"
+        svgIcon="icon-refund"
+      ></mat-icon>
+      <mat-icon
+        *ngSwitchCase="'moneyCollection'"
+        [style.color]="transaction.value >= 0 ? '#059669' : '#DC2626'"
+        svgIcon="icon-get-cash"
+      ></mat-icon>
+      <mat-icon
+        *ngSwitchDefault
+        [style.color]="transaction.value >= 0 ? '#059669' : '#DC2626'"
+        svgIcon="icon-money-bag"
+      ></mat-icon>
+    </ng-container>
+    <h4>{{ transaction.value | currency: "EUR" }}</h4>
+    <div>
+      <p>{{ transaction.comment }}</p>
+      <p>{{ transaction.timestamp | date: "medium" }}</p>
+    </div>
+  </ng-container>
+</div>

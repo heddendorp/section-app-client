@@ -31,13 +31,20 @@ const routes: Routes = [
             (m) => m.ScannerModule
           ),
       },
+      {
+        path: 'money',
+        loadChildren: () =>
+          import('./modules/money/money.module').then((m) => m.MoneyModule),
+      },
       { path: '', pathMatch: 'full', redirectTo: 'events' },
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

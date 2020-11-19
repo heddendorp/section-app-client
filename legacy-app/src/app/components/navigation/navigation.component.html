@@ -38,6 +38,15 @@
       <a
         *ngIf="isAdmin$ | ngrxPush"
         mat-list-item
+        routerLink="money"
+        routerLinkActive="active"
+      >
+        <mat-icon mat-list-icon svgIcon="icon-money"></mat-icon>
+        <h3 mat-line>Money</h3>
+      </a>
+      <a
+        *ngIf="isAdmin$ | ngrxPush"
+        mat-list-item
         routerLink="scanner"
         routerLinkActive="active"
       >
