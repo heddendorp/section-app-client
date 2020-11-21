@@ -20,7 +20,7 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { LoginOptionsDialogComponent } from './components/login-options-dialog/login-options-dialog.component';
 import { EmailLoginDialogComponent } from './components/email-login-dialog/email-login-dialog.component';
-import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { AngularFireFunctionsModule, ORIGIN } from '@angular/fire/functions';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
@@ -61,7 +61,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       enabled: environment.production,
     }),
   ],
-  providers: [ScreenTrackingService, UserTrackingService],
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
+    // { provide: ORIGIN, useValue: 'http://localhost:5001' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

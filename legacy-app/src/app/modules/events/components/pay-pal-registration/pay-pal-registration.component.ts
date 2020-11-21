@@ -24,6 +24,7 @@ export class PayPalRegistrationComponent implements OnChanges {
   @Input() event: any;
   /* eslint-enable @typescript-eslint/naming-convention */
   public registration$ = new Subject<any>();
+  public freeSpots$ = new Subject<boolean>();
   private paymentStatus$ = new Subject<string>();
   /* eslint-disable @typescript-eslint/naming-convention */
   public paymentConfig: IPayPalConfig = {
@@ -76,6 +77,9 @@ export class PayPalRegistrationComponent implements OnChanges {
         .toPromise();
       const registration = registrations.find((r: any) => r.id === user.id);
       this.registration$.next(registration);
+      this.freeSpots$.next(
+        this.event.participantSpots > this.event.usersSignedUp
+      );
     }
   }
 
@@ -95,16 +99,19 @@ export class PayPalRegistrationComponent implements OnChanges {
           {
             eventId: string;
             orderId: string;
-            type: 'tutor' | 'student' | 'paypal';
           },
           any
-        >('registerForEvent')({
+        >('confirmPayment')({
           eventId: this.event.id,
           orderId: id,
-          type: 'paypal',
         })
         .toPromise();
-      snack.dismiss();
+      this.snack.openFromComponent(IconToastComponent, {
+        data: {
+          icon: 'icon-checkmark',
+          message: 'Your registration was successfully processed!',
+        },
+      });
     }
   }
 }

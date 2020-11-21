@@ -1,0 +1,40 @@
+{
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint \"src/**/*\" --no-eslintrc -c .eslintrc.js",
+    "build": "tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "configure": "firebase functions:config:get > .runtimeconfig.json",
+    "configure:windows": "firebase functions:config:get | ac .runtimeconfig.json"
+  },
+  "engines": {
+    "node": "12"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^9.2.0",
+    "firebase-functions": "^3.11.0",
+    "got": "^11.8.0",
+    "lodash": "^4.17.20",
+    "mjml": "^4.7.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32",
+    "nodemailer": "^6.4.16"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.165",
+    "@types/mjml": "^4.0.4",
+    "@types/nodemailer": "^6.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.8.0",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "^2.22.0",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^3.8.0"
+  },
+  "private": true
+}

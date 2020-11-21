@@ -7,8 +7,15 @@
 </ng-container>
 <ng-template #register>
   <h1>Register with online payment</h1>
-  <ngx-paypal [config]="paymentConfig"></ngx-paypal>
+  <ngx-paypal
+    *ngIf="freeSpots$ | ngrxPush; else eventFull"
+    [config]="paymentConfig"
+  ></ngx-paypal>
   <p class="mat-caption">
     Please note that we can only allow refunds for special circumstances.
   </p>
+</ng-template>
+
+<ng-template #eventFull>
+  <p style="color: #b92b27">There are no free spots left for this event</p>
 </ng-template>

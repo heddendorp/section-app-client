@@ -42,7 +42,7 @@ export class EventService {
       .collection<any>('events')
       .doc(id)
       .valueChanges({ idField: 'id' })
-      .pipe(this.mapEvents, shareReplay());
+      .pipe(this.mapEvents, shareReplay(1));
   }
 
   upcomingOfTypes$({
