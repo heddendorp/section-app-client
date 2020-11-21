@@ -8526,6 +8526,13 @@ ngx-markdown@^11.0.0-beta.1:
     prismjs "^1.22.0"
     tslib "^2.0.0"
 
+ngx-paypal@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-paypal/-/ngx-paypal-6.2.0.tgz#3af1fcccf7fde57464b8e9e7ed8cf8d71876a513"
+  integrity sha512-gK7WYhJiGW2YkT4SkYxVXNaznOCT2Y+peGlem+ohCQmqwjuzxSBAwKRQgcX/jFT++8tM8Ek1SvLLdpCx05N5iQ==
+  dependencies:
+    tslib "^2.0.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

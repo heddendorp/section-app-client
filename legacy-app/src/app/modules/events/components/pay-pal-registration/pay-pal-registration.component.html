@@ -1,0 +1,14 @@
+<ng-container *ngIf="registration$ | ngrxPush as registration; else register">
+  <h1>Refund of online registration</h1>
+  <p>
+    In order to get a refund on this registration please contact TUMi at
+    <a class="styled" href="mailto:finance@esn-tumi.de">finance@esn-tumi.de</a>.
+  </p>
+</ng-container>
+<ng-template #register>
+  <h1>Register with online payment</h1>
+  <ngx-paypal [config]="paymentConfig"></ngx-paypal>
+  <p class="mat-caption">
+    Please note that we can only allow refunds for special circumstances.
+  </p>
+</ng-template>

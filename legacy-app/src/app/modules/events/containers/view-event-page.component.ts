@@ -58,6 +58,15 @@ import { ConfirmDialogComponent } from '../../shared/components';
             ></app-tutor-registration>
             <app-online-registration [event]="event"></app-online-registration>
           </ng-container>
+          <ng-container *ngSwitchCase="'paypal'">
+            <app-tutor-registration
+              *ngIf="isTutor$ | ngrxPush"
+              [event]="event"
+            ></app-tutor-registration>
+            <app-pay-pal-registration
+              [event]="event"
+            ></app-pay-pal-registration>
+          </ng-container>
           <ng-container *ngSwitchCase="'office'">
             <app-tutor-registration
               *ngIf="isTutor$ | ngrxPush"

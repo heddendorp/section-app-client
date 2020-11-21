@@ -38,7 +38,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { IconToastComponent } from './components/icon-toast.component';
+import { IconToastComponent } from './components';
 import { A11yModule } from '@angular/cdk/a11y';
 import { RouterModule } from '@angular/router';
 import { concat, interval } from 'rxjs';
@@ -53,7 +53,7 @@ const materialModules = [
   MatIconModule,
   MatButtonModule,
   MatListModule,
-  // MatExpansionModule,
+  MatExpansionModule,
   // MatDividerModule,
   MatFormFieldModule,
   MatInputModule,

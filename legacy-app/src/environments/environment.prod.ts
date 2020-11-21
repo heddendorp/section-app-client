@@ -1,5 +1,9 @@
 export const environment = {
   production: true,
+  paypal: {
+    clientId:
+      'AfP53ewxt5R6C2IRp77QhbDjh3W83VtTXQeaX6_DloRwX9TZoYC_mCfNkcP1nItNAxqhqOSxwiKoGUYd',
+  },
   firebase: {
     apiKey: 'AIzaSyDiDVg6ggmSY-Z8Iu5dWO83Mg4GTmt8Zl0',
     authDomain: 'esn-tumi.firebaseapp.com',
