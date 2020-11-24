@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
 import { parse, format } from 'date-fns';
 
 @Component({
@@ -53,8 +53,12 @@ export class EventFormDialogComponent implements OnDestroy {
       start: ['', this.checkDateFormat('d.L.y HH:mm')],
     });
     this.icon$ =
-      this.eventForm.get('icon')?.valueChanges.pipe(debounceTime(200)) ||
-      of('');
+      this.eventForm
+        .get('icon')
+        ?.valueChanges.pipe(
+          debounceTime(200),
+          startWith(this.eventForm.get('icon')?.value)
+        ) || of('');
     this.eventForm.get('price')?.disable();
     this.eventForm
       .get('hasFee')

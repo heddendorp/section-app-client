@@ -26,7 +26,7 @@ export const confirmPayment = functions.https.onCall(
         },
       }
     ).json<any>();
-    console.log(orderInfo);
+    console.log(orderInfo.purchase_units);
     if (orderInfo.status !== 'COMPLETED') {
       throw new functions.https.HttpsError(
         'failed-precondition',
@@ -43,7 +43,11 @@ export const confirmPayment = functions.https.onCall(
         partySize: 1,
         hasPayed: true,
         hasAttended: false,
-        paypal: true,
+        paypal: {
+          orderId,
+          payer: orderInfo.payer,
+          purchase_units: orderInfo.purchase_units,
+        },
         timestamp: new Date(),
       });
   }

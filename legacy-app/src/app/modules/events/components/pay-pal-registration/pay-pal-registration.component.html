@@ -7,6 +7,9 @@
 </ng-container>
 <ng-template #register>
   <h1>Register with online payment</h1>
+  <h3 class="mat-subheading-1">
+    Pay {{ event.price | currency: "EUR" }} now to register for this event
+  </h3>
   <ngx-paypal
     *ngIf="freeSpots$ | ngrxPush; else eventFull"
     [config]="paymentConfig"
