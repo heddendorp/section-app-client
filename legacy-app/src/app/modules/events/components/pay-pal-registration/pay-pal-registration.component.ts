@@ -61,6 +61,15 @@ export class PayPalRegistrationComponent implements OnChanges {
         },
       ],
     }),
+    advanced: {
+      extraQueryParams: [
+        {
+          name: 'disable-funding',
+          value:
+            'bancontact,blik,eps,giropay,ideal,mercadopago,mybank,p24,sepa,sofort,venmo',
+        },
+      ],
+    },
   };
 
   constructor(
