@@ -1,12 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { AuthService } from '../../../services/auth.service';
+import { first, map, startWith, switchMap } from 'rxjs/operators';
+import { AuthService, EventService } from '@tumi/services';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';
-import { EventService } from '../../../services/event.service';
-import { ConfirmDialogComponent } from '../../shared/components';
+import { ConfirmDialogComponent } from '@tumi/modules/shared';
 
 @Component({
   selector: 'app-view-event-page',
@@ -85,8 +84,8 @@ import { ConfirmDialogComponent } from '../../shared/components';
           [event]="event"
         ></app-collect-money>
         <ng-template #loginPrompt>
-          <app-anonymous-registration></app-anonymous-registration
-        ></ng-template>
+          <app-anonymous-registration></app-anonymous-registration>
+        </ng-template>
       </div>
       <app-event-participants
         [event]="event"
@@ -111,6 +110,7 @@ export class ViewEventPageComponent {
   public isEditor$: Observable<boolean>;
   public canBeDeleted$: Observable<boolean>;
   public canSeeParticipants$: Observable<boolean>;
+
   constructor(
     route: ActivatedRoute,
     auth: AuthService,

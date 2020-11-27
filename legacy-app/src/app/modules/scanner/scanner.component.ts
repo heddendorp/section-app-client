@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EventService } from '../../services/event.service';
-import { UserService } from '../../services/user.service';
+import { EventService, MoneyService, UserService } from '@tumi/services';
 import { FormControl } from '@angular/forms';
-import { combineLatest, concat, Observable, of, Subject } from 'rxjs';
+import { combineLatest, concat, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
   first,
   map,
   shareReplay,
-  startWith,
   switchMap,
 } from 'rxjs/operators';
-import { MoneyService } from '../../services/money.service';
 
 @Component({
   selector: 'app-scanner',

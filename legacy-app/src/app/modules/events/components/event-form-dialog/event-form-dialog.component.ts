@@ -1,7 +1,6 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   Inject,
   OnDestroy,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import {
 } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
-import { parse, format } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-event-form-dialog',
@@ -26,8 +25,9 @@ import { parse, format } from 'date-fns';
 export class EventFormDialogComponent implements OnDestroy {
   public title: string;
   public eventForm: FormGroup;
-  private destroyed$ = new Subject();
   public icon$: Observable<string>;
+  private destroyed$ = new Subject();
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { event?: any },
     private dialog: MatDialogRef<EventFormDialogComponent>,
@@ -91,13 +91,6 @@ export class EventFormDialogComponent implements OnDestroy {
     }
   }
 
-  private checkDateFormat(dateFormat: string): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const date = parse(control.value, dateFormat, new Date());
-      return !isNaN(date.valueOf()) ? null : { invalidDate: control.value };
-    };
-  }
-
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
@@ -114,5 +107,12 @@ export class EventFormDialogComponent implements OnDestroy {
       start: parse(data.start, 'd.L.y HH:mm', new Date()),
       end: parse(data.end, 'd.L.y HH:mm', new Date()),
     });
+  }
+
+  private checkDateFormat(dateFormat: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const date = parse(control.value, dateFormat, new Date());
+      return !isNaN(date.valueOf()) ? null : { invalidDate: control.value };
+    };
   }
 }

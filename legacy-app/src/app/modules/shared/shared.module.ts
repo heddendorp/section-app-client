@@ -15,7 +15,11 @@ import {
   MatRippleModule,
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
-import { ConfirmDialogComponent, EventGridComponent } from './components';
+import {
+  ConfirmDialogComponent,
+  EventGridComponent,
+  IconToastComponent,
+} from './components';
 import { IconSrcDirective } from './directives';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -38,12 +42,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { IconToastComponent } from './components';
 import { A11yModule } from '@angular/cdk/a11y';
 import { RouterModule } from '@angular/router';
 import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { environment } from '@tumi/environments/environment';
 import { SwUpdate } from '@angular/service-worker';
 // import { ClipboardModule } from '@angular/cdk/clipboard';
 

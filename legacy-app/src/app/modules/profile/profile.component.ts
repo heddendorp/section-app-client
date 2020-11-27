@@ -1,13 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { EventService } from '../../services/event.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AuthService,
+  CountryService,
+  EventService,
+  UserService,
+} from '@tumi/services';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { first, map, switchMap, tap } from 'rxjs/operators';
-import { CountryService } from '../../services/country.service';
+import { first, map, switchMap } from 'rxjs/operators';
 import { getType } from '../shared';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileDialogComponent } from './components/profile-dialog/profile-dialog.component';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +23,13 @@ export class ProfileComponent {
   public isTutor$: Observable<boolean>;
   public user$: Observable<any>;
   public country$: Observable<string>;
+
   constructor(
     eventService: EventService,
     auth: AuthService,
     country: CountryService,
     private dialog: MatDialog,
-    private user: UserService
+    private userService: UserService
   ) {
     this.events$ = eventService.getEventsForCurrentUser();
     this.tutorEvents$ = eventService.getEventsForCurrentTutor();
@@ -46,7 +49,7 @@ export class ProfileComponent {
       .afterClosed()
       .toPromise();
     if (update) {
-      await this.user.update(user.id, update);
+      await this.userService.update(user.id, update);
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { MoneyService } from '../../services/money.service';
+
+import { MoneyService } from '@tumi/services';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTransactionDialogComponent } from './components/new-transaction-dialog/new-transaction-dialog.component';

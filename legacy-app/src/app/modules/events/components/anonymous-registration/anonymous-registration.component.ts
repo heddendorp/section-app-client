@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AuthService } from '../../../../services/auth.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '@tumi/services';
 
 @Component({
   selector: 'app-anonymous-registration',
@@ -9,6 +9,7 @@ import { AuthService } from '../../../../services/auth.service';
 })
 export class AnonymousRegistrationComponent {
   constructor(private auth: AuthService) {}
+
   login(): void {
     this.auth.login();
   }

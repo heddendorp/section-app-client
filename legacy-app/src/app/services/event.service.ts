@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { fromPromise } from 'rxjs/internal-compatibility';
@@ -37,15 +37,15 @@ export class EventService {
       .update(update);
   }
 
-  getOne$(id: string): Observable<any> {
+  public getOne$(id: string): Observable<any> {
     return this.store
       .collection<any>('events')
       .doc(id)
       .valueChanges({ idField: 'id' })
-      .pipe(this.mapEvents, shareReplay(1));
+      .pipe(this.mapEvents(), shareReplay(1));
   }
 
-  upcomingOfTypes$({
+  public upcomingOfTypes$({
     types,
     date,
   }: {
@@ -70,7 +70,7 @@ export class EventService {
           )
           .valueChanges({ idField: 'id' })
           .pipe(
-            this.mapEvents,
+            this.mapEvents(),
             map((events) =>
               events.filter((event: any) => types.includes(event.type))
             ),
@@ -79,7 +79,7 @@ export class EventService {
               console.log(visibility);
               return of([]);
             }),
-            shareReplay()
+            shareReplay(1)
           );
       }),
       catchError((err) => {
@@ -90,11 +90,11 @@ export class EventService {
     );
   }
 
-  deleteEvent(id: string): Promise<void> {
+  public deleteEvent(id: string): Promise<void> {
     return this.store.collection('events').doc(id).delete();
   }
 
-  removeRegistration(eventId: string, id: string): Promise<void> {
+  public removeRegistration(eventId: string, id: string): Promise<void> {
     return this.store
       .collection('events')
       .doc(eventId)
@@ -152,7 +152,7 @@ export class EventService {
           .orderBy('start', 'desc')
       )
       .valueChanges({ idField: 'id' })
-      .pipe(this.mapEvents, shareReplay());
+      .pipe(this.mapEvents(), shareReplay(1));
   }
 
   public getEventsForUser(userId: string): Observable<any[]> {
@@ -185,7 +185,7 @@ export class EventService {
               )
             : of([])
         ),
-        this.mapEvents,
+        this.mapEvents(),
         catchError((err) => {
           console.log(err);
           return of([]);
@@ -193,33 +193,32 @@ export class EventService {
       );
   }
 
-  private transformEvent = (event: any) => {
-    return {
-      ...event,
-      start: event.start.toDate(),
-      end: event.end.toDate(),
-      registeredTutors: this.userService.getUserList$(event.tutorSignups),
-      registrations: combineLatest([
-        this.store
-          .collection('events')
-          .doc(event.id)
-          .collection('signups')
-          .valueChanges({ idField: 'id' }),
-        this.auth.isTutor$,
-      ]).pipe(
-        switchMap(([registrations, isTutor]: [any[], boolean]) =>
-          isTutor
-            ? this.userService.populateRegistrationList$(registrations)
-            : of(registrations)
-        ),
-        shareReplay()
+  private transformEvent = (event: any) => ({
+    ...event,
+    start: event.start.toDate(),
+    end: event.end.toDate(),
+    registeredTutors: this.userService.getUserList$(event.tutorSignups),
+    registrations: combineLatest([
+      this.store
+        .collection('events')
+        .doc(event.id)
+        .collection('signups')
+        .valueChanges({ idField: 'id' }),
+      this.auth.isTutor$,
+    ]).pipe(
+      switchMap(([registrations, isTutor]: [any[], boolean]) =>
+        isTutor
+          ? this.userService.populateRegistrationList$(registrations)
+          : of(registrations)
       ),
-    };
-  };
+      shareReplay()
+    ),
+  });
 
-  private mapEvents = map((events: any[] | any) =>
-    Array.isArray(events)
-      ? events.filter((event) => !!event.start).map(this.transformEvent)
-      : this.transformEvent(events)
-  );
+  private mapEvents = () =>
+    map((events: any[] | any) =>
+      Array.isArray(events)
+        ? events.filter((event) => !!event.start).map(this.transformEvent)
+        : this.transformEvent(events)
+    );
 }

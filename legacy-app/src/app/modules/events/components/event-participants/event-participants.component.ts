@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { EventService } from '../../../../services/event.service';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService, EventService, MoneyService } from '@tumi/services';
 import { Observable } from 'rxjs';
-import { MoneyService } from '../../../../services/money.service';
 import { first, map } from 'rxjs/operators';
 
 @Component({
@@ -37,6 +35,7 @@ export class EventParticipantsComponent {
   ): Promise<void> {
     if (this.event.hasFee && refund) {
       await this.moneyService.addEventTransaction(
+        // eslint-disable-next-line max-len
         `Event Refund (${this.event.name}) payed to ${registration.user.firstName} ${registration.user.lastName} (${registration.user.email})`,
         this.event,
         registration.user,

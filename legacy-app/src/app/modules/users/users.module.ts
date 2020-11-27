@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '../shared';
-import { UserListPageComponent } from './container/user-list-page.component';
+import { UserListPageComponent } from '@tumi/modules/users/container';
 
 @NgModule({
   declarations: [UserListPageComponent],

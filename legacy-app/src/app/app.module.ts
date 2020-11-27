@@ -4,24 +4,26 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './modules/shared';
-import { NavigationComponent } from './components/navigation/navigation.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AngularFireModule } from '@angular/fire';
-import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import {
   AngularFireAnalyticsModule,
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/analytics';
-import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { LoginOptionsDialogComponent } from './components/login-options-dialog/login-options-dialog.component';
-import { EmailLoginDialogComponent } from './components/email-login-dialog/email-login-dialog.component';
-import { AngularFireFunctionsModule, ORIGIN } from '@angular/fire/functions';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { environment } from '@tumi/environments/environment';
+import {
+  EmailLoginDialogComponent,
+  LoginOptionsDialogComponent,
+  NavigationComponent,
+} from '@tumi/components';
+import { SharedModule } from '@tumi/modules/shared';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
@@ -54,18 +57,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     }),
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
+    SharedModule,
   ],
-  providers: [
-    ScreenTrackingService,
-    UserTrackingService,
-    // { provide: ORIGIN, useValue: 'http://localhost:5001' },
-  ],
+  providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

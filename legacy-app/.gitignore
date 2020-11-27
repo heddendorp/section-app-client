@@ -41,6 +41,7 @@ yarn-error.log
 testem.log
 /typings
 /.firebase
+.eslintcache
 
 # System Files
 .DS_Store

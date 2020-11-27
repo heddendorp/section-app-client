@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { UserListPageComponent } from './container/user-list-page.component';
+import { RouterModule, Routes } from '@angular/router';
+import { UserListPageComponent } from '@tumi/modules/users/container';
 
 const routes: Routes = [{ path: '', component: UserListPageComponent }];
 

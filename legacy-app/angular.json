@@ -34,9 +34,10 @@
             ],
             "styles": ["src/styles.scss"],
             "scripts": [
-              "node_modules/marked/lib/marked.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js"
-            ]
+              "marked/lib/marked.js",
+              "emoji-toolkit/lib/js/joypixels.min.js"
+            ],
+            "allowedCommonJsDependencies": ["qrcode"]
           },
           "configurations": {
             "production": {
@@ -101,7 +102,16 @@
               "src/robots.txt"
             ],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": [
+              "marked/lib/marked.js",
+              "emoji-toolkit/lib/js/joypixels.min.js"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "e2e": {
@@ -119,18 +129,12 @@
         "deploy": {
           "builder": "@angular/fire:deploy",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
-          }
         }
       }
     }
   },
   "defaultProject": "tumi-app",
   "cli": {
-    "analytics": "87e101e5-a248-468f-9a8a-6be7a71a662d"
+    "analytics": "0b5f6a10-0f3b-4a46-80e3-bdcfaec01455"
   }
 }

@@ -5,13 +5,13 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '@tumi/services';
 import { first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '@tumi/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconToastComponent } from '../../../shared';
+import { IconToastComponent } from '@tumi/modules/shared';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
@@ -25,14 +25,13 @@ export class PayPalRegistrationComponent implements OnChanges {
   /* eslint-enable @typescript-eslint/naming-convention */
   public registration$ = new Subject<any>();
   public freeSpots$ = new Subject<boolean>();
-  private paymentStatus$ = new Subject<string>();
   /* eslint-disable @typescript-eslint/naming-convention */
   public paymentConfig: IPayPalConfig = {
     clientId: environment.paypal.clientId,
     currency: 'EUR',
-    onApprove: (data) => this.approvePayment(),
+    onApprove: () => this.approvePayment(),
     onClientAuthorization: (data) => this.paymentStatus$.next(data.id),
-    onError: (data) => this.paymentStatus$.next('error'),
+    onError: () => this.paymentStatus$.next('error'),
     onCancel: (data) => console.log(data),
     createOrderOnClient: (_): ICreateOrderRequest => ({
       intent: 'CAPTURE',
@@ -71,6 +70,7 @@ export class PayPalRegistrationComponent implements OnChanges {
       ],
     },
   };
+  private paymentStatus$ = new Subject<string>();
 
   constructor(
     private auth: AuthService,
@@ -93,7 +93,7 @@ export class PayPalRegistrationComponent implements OnChanges {
   }
 
   private async approvePayment(): Promise<void> {
-    const snack = this.snack.openFromComponent(IconToastComponent, {
+    this.snack.openFromComponent(IconToastComponent, {
       data: { icon: 'icon-transaction', message: 'Authorizing payment' },
       duration: 0,
     });

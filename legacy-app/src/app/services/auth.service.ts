@@ -3,11 +3,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, share, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
-import { LoginOptionsDialogComponent } from '../components/login-options-dialog/login-options-dialog.component';
+import {
+  EmailLoginDialogComponent,
+  LoginOptionsDialogComponent,
+} from '@tumi/components';
 import firebase from 'firebase/app';
-import { EmailLoginDialogComponent } from '../components/email-login-dialog/email-login-dialog.component';
 import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({

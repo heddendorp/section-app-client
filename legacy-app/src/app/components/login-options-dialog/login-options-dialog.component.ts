@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-login-options-dialog',
@@ -28,7 +28,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
       </p>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-stroked-button>Cancel</button>
+      <button mat-stroked-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
   `,
   styles: [],

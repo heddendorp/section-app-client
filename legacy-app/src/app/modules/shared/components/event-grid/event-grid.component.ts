@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-event-grid',
@@ -15,6 +10,7 @@ export class EventGridComponent {
   @Input() events: any[] = [];
   @Input() showCounts = false;
   @Input() dayDividers = false;
+
   constructor() {}
 
   public getId(index: number, object: any): string {

@@ -16,6 +16,7 @@ export const environment = {
     storageBucket: 'esn-tumi.appspot.com',
     messagingSenderId: '756904945827',
     appId: '1:756904945827:web:c4b8570bf907f627',
+    measurementId: 'G-HN3R0ZJRDD',
   },
 };
 

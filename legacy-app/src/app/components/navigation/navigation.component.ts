@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { first, map, share, shareReplay } from 'rxjs/operators';
-import { AuthService } from '../../services/auth.service';
+import { first, map, shareReplay } from 'rxjs/operators';
+import { AuthService } from '@tumi/services';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
@@ -16,7 +16,7 @@ export class NavigationComponent {
     .observe(Breakpoints.Handset)
     .pipe(
       map((result) => result.matches),
-      shareReplay()
+      shareReplay(1)
     );
 
   isAuthenticated$: Observable<boolean> = this.authService.authenticated$;

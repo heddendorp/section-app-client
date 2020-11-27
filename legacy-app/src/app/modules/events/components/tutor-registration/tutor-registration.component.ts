@@ -1,20 +1,20 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   Input,
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../shared/components';
-import { IconToastComponent } from '../../../shared/components/icon-toast.component';
+import {
+  ConfirmDialogComponent,
+  IconToastComponent,
+} from '@tumi/modules/shared';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '@tumi/services';
 import { map, switchMap } from 'rxjs/operators';
-import { getStartOffsetOfAttribute } from '@angular/cdk/schematics';
 
 @Component({
   selector: 'app-tutor-registration',
@@ -25,6 +25,7 @@ import { getStartOffsetOfAttribute } from '@angular/cdk/schematics';
 export class TutorRegistrationComponent implements OnChanges {
   @Input() event: any;
   public canSignUp$: Observable<any>;
+
   constructor(
     private fireFunctions: AngularFireFunctions,
     private dialog: MatDialog,
