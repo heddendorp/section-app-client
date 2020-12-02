@@ -30,7 +30,7 @@ export const updatePayments = functions.pubsub
             (capture: any) => capture.status !== 'COMPLETED'
           )
         );
-        const fullValue = orderInfo.purchase_units.reduce(
+        const fullFees = orderInfo.purchase_units.reduce(
           (acc: number, item: any) =>
             acc +
             item.payments.captures
@@ -38,18 +38,16 @@ export const updatePayments = functions.pubsub
               .reduce(
                 (acc: number, item: any) =>
                   acc +
-                  parseFloat(
-                    item.seller_receivable_breakdown.gross_amount.value
-                  ),
+                  parseFloat(item.seller_receivable_breakdown.paypal_fee.value),
                 0
               ),
           0
         );
-        const fullFees = orderInfo.purchase_units.reduce(
+        const fullValue = orderInfo.purchase_units.reduce(
           (acc: number, item: any) =>
             acc +
             item.payments.captures.reduce(
-              (acc: number, item: any) => acc + parseFloat(item.ammount.value),
+              (acc: number, item: any) => acc + parseFloat(item.amount.value),
               0
             ),
           0

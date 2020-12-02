@@ -50,16 +50,31 @@
         registration.hasAttended ? 'checkmark' : 'delete-sign'
       }}"
     ></mat-icon>
+    <mat-icon
+      style="margin-right: 4px"
+      *ngIf="registration.paypal"
+      svgIcon="icon-paypal"
+    ></mat-icon>
     <div fxFlex="grow">
-      <span
-        >{{ registration.user.firstName }} {{ registration.user.lastName }} ({{
-          registration.user.email
-        }})</span
-      ><span
-        >[{{ registration.user.phoneNumber }}]{{
-          registration.timestamp.toDate() | date: "medium"
-        }}</span
-      >
+      <div>
+        <span
+          >{{ registration.user.firstName }}
+          {{ registration.user.lastName }} ({{ registration.user.email }})</span
+        ><span
+          >[{{ registration.user.phoneNumber }}]{{
+            registration.timestamp.toDate() | date: "medium"
+          }}</span
+        >
+      </div>
+      <div *ngIf="registration?.paypal?.completed">
+        <span
+          ><strong>Payment completed</strong> Total:
+          {{ registration.paypal.fullValue | currency: "EUR" }} ({{
+            registration.paypal.fullFees | currency: "EUR"
+          }}
+          fees)</span
+        >
+      </div>
     </div>
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
@@ -93,6 +108,23 @@
       </button>
     </mat-menu>
   </div>
+  <ng-container *ngrxLet="event.registrations; let registrations">
+    <div *ngIf="event.registrationMode === 'paypal' && registrations?.length">
+      <br />
+      <span
+        >Completed order Volume:
+        {{ calculateTotal(registrations, "fullValue") | currency: "EUR" }}</span
+      ><br />
+      <span
+        >Completed order Fees:
+        {{ calculateTotal(registrations, "fullFees") | currency: "EUR" }}</span
+      ><br />
+      <span
+        >Completed order Net:
+        {{ calculateTotal(registrations, "fullNet") | currency: "EUR" }}</span
+      ><br /><br /><br />
+    </div>
+  </ng-container>
 </div>
 <h2>Event Table</h2>
 <table style="user-select: all">

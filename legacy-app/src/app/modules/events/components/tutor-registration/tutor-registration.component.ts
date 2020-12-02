@@ -82,7 +82,7 @@ export class TutorRegistrationComponent implements OnChanges {
       const snack = this.snackBar.openFromComponent(IconToastComponent, {
         data: {
           message: `Please wait while we're signing you up`,
-          icon: 'icon-spinner-frame-1',
+          icon: 'icon-loading',
         },
         duration: 0,
       });
