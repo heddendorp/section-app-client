@@ -11,71 +11,77 @@ export const updatePayments = functions.pubsub
       .where('paypal', '!=', false)
       .get();
     await Promise.all(
-      openPayments.docs.map(async (doc) => {
-        const registration = doc.data();
-        const orderInfo = await got(
-          `https://api.paypal.com/v2/checkout/orders/${registration.paypal.orderId}`,
-          {
-            headers: {
-              Authorization: `Basic ${Buffer.from(
-                `${functions.config().paypal.id}:${
-                  functions.config().paypal.secret
-                }`
-              ).toString('base64')}`,
-            },
-          }
-        ).json<any>();
-        const completed = !orderInfo.purchase_units.find((unit: any) =>
-          unit.payments.captures.find(
-            (capture: any) => capture.status !== 'COMPLETED'
-          )
-        );
-        const fullFees = orderInfo.purchase_units.reduce(
-          (acc: number, item: any) =>
-            acc +
-            item.payments.captures
-              .filter((capture: any) => capture.status === 'COMPLETED')
-              .reduce(
-                (acc: number, item: any) =>
-                  acc +
-                  parseFloat(item.seller_receivable_breakdown.paypal_fee.value),
+      openPayments.docs
+        .filter((doc) => !doc.get('paypal.completed'))
+        .map(async (doc) => {
+          const registration = doc.data();
+          const orderInfo = await got(
+            `https://api.paypal.com/v2/checkout/orders/${registration.paypal.orderId}`,
+            {
+              headers: {
+                Authorization: `Basic ${Buffer.from(
+                  `${functions.config().paypal.id}:${
+                    functions.config().paypal.secret
+                  }`
+                ).toString('base64')}`,
+              },
+            }
+          ).json<any>();
+          const completed = !orderInfo.purchase_units.find((unit: any) =>
+            unit.payments.captures.find(
+              (capture: any) => capture.status !== 'COMPLETED'
+            )
+          );
+          const fullFees = orderInfo.purchase_units.reduce(
+            (acc: number, item: any) =>
+              acc +
+              item.payments.captures
+                .filter((capture: any) => capture.status === 'COMPLETED')
+                .reduce(
+                  (acc: number, item: any) =>
+                    acc +
+                    parseFloat(
+                      item.seller_receivable_breakdown.paypal_fee.value
+                    ),
+                  0
+                ),
+            0
+          );
+          const fullValue = orderInfo.purchase_units.reduce(
+            (acc: number, item: any) =>
+              acc +
+              item.payments.captures.reduce(
+                (acc: number, item: any) => acc + parseFloat(item.amount.value),
                 0
               ),
-          0
-        );
-        const fullValue = orderInfo.purchase_units.reduce(
-          (acc: number, item: any) =>
-            acc +
-            item.payments.captures.reduce(
-              (acc: number, item: any) => acc + parseFloat(item.amount.value),
-              0
-            ),
-          0
-        );
-        const fullNet = orderInfo.purchase_units.reduce(
-          (acc: number, item: any) =>
-            acc +
-            item.payments.captures
-              .filter((capture: any) => capture.status === 'COMPLETED')
-              .reduce(
-                (acc: number, item: any) =>
-                  acc +
-                  parseFloat(item.seller_receivable_breakdown.net_amount.value),
-                0
-              ),
-          0
-        );
-        const paypal = {
-          orderId: registration.paypal.orderId,
-          orderStatus: orderInfo.status,
-          completed,
-          fullValue,
-          fullNet,
-          fullFees,
-        };
-        functions.logger.info(paypal);
-        return doc.ref.update({ paypal });
-      })
+            0
+          );
+          const fullNet = orderInfo.purchase_units.reduce(
+            (acc: number, item: any) =>
+              acc +
+              item.payments.captures
+                .filter((capture: any) => capture.status === 'COMPLETED')
+                .reduce(
+                  (acc: number, item: any) =>
+                    acc +
+                    parseFloat(
+                      item.seller_receivable_breakdown.net_amount.value
+                    ),
+                  0
+                ),
+            0
+          );
+          const paypal = {
+            orderId: registration.paypal.orderId,
+            orderStatus: orderInfo.status,
+            completed,
+            fullValue,
+            fullNet,
+            fullFees,
+          };
+          functions.logger.info(paypal);
+          return doc.ref.update({ paypal });
+        })
     );
   });
 
