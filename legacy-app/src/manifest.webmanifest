@@ -19,5 +19,14 @@
   "background_color": "#8b5cf6",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./"
+  "start_url": "./?source=pwa",
+  "shortcuts": [
+    {
+      "name": "Open Upcoming Events",
+      "short_name": "Events",
+      "description": "View the list of events coming up",
+      "url": "/events?source=pwa",
+      "icons": [{ "src": "/assets/favicon/events-icon.png", "sizes": "192x192" }]
+    }
+  ]
 }

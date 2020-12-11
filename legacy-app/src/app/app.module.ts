@@ -14,7 +14,10 @@ import {
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import {
+  ServiceWorkerModule,
+  SwRegistrationOptions,
+} from '@angular/service-worker';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { environment } from '@tumi/environments/environment';
@@ -24,6 +27,7 @@ import {
   NavigationComponent,
 } from '@tumi/components';
 import { SharedModule } from '@tumi/modules/shared';
+import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,7 @@ import { SharedModule } from '@tumi/modules/shared';
     NavigationComponent,
     LoginOptionsDialogComponent,
     EmailLoginDialogComponent,
+    MoveUrlDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,12 +62,17 @@ import { SharedModule } from '@tumi/modules/shared';
     }),
     AppRoutingModule,
     BrowserAnimationsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
+    ServiceWorkerModule.register('ngsw-worker.js'),
     SharedModule,
   ],
-  providers: [ScreenTrackingService, UserTrackingService],
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
+    {
+      provide: SwRegistrationOptions,
+      useFactory: () => ({ enabled: location.host.includes('esn.world') }),
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
