@@ -39,11 +39,19 @@ const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'events' },
     ],
   },
+  {
+    path: 'page',
+    loadChildren: () =>
+      import('./modules/pages/pages.module').then((m) => m.PagesModule),
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      initialNavigation: 'enabled',
+    }),
   ],
   exports: [RouterModule],
 })

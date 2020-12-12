@@ -1,5 +1,5 @@
-import { ApplicationRef, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ApplicationRef, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_BASE_HREF, CommonModule, DOCUMENT } from '@angular/common';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -15,6 +15,8 @@ import {
   MatRippleModule,
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { Request } from 'express';
 import {
   ConfirmDialogComponent,
   EventGridComponent,
@@ -132,7 +134,11 @@ export class SharedModule {
     snackBar: MatSnackBar
   ) {
     registry.addSvgIconSet(
-      sanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/set.svg`)
+      sanitizer.bypassSecurityTrustResourceUrl(
+        environment.production
+          ? './assets/icons/set.svg'
+          : 'http://localhost:4200/assets/icons/set.svg'
+      )
     );
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);

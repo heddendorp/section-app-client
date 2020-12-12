@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #drawer
-    class="sidenav"
+    style="width: 300px"
     fixedInViewport
     [attr.role]="(isHandset$ | ngrxPush) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"

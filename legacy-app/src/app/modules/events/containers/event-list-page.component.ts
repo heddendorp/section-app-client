@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { AuthService, EventService } from '@tumi/services';
 import { combineLatest, Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -68,8 +69,33 @@ export class EventListPageComponent {
   constructor(
     private eventService: EventService,
     auth: AuthService,
+    meta: Meta,
+    title: Title,
     private dialog: MatDialog
   ) {
+    title.setTitle('TUMi - events');
+    meta.updateTag(
+      { property: 'og:title', content: 'TUMi - events' },
+      "property='og:title'"
+    );
+    meta.updateTag(
+      { property: 'og:url', content: `https://tumi.esn.world/events` },
+      "property='og:url'"
+    );
+    meta.updateTag(
+      {
+        property: 'og:description',
+        content: 'Upcoming events for locals and internationals by ESN TUMi',
+      },
+      "property='og:description'"
+    );
+    meta.updateTag(
+      {
+        name: 'description',
+        content: 'Upcoming events for locals and internationals by ESN TUMi',
+      },
+      "name='description'"
+    );
     this.events$ = combineLatest([
       this.eventTypes.valueChanges.pipe(startWith(this.eventTypes.value)),
       this.dateFilter.valueChanges.pipe(startWith(this.dateFilter.value)),

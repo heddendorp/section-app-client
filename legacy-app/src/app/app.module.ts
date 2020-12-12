@@ -1,5 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { BrowserModule, Meta, Title } from '@angular/platform-browser';
+import { NgModule, PLATFORM_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,7 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     MoveUrlDialogComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -68,9 +69,15 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
   providers: [
     ScreenTrackingService,
     UserTrackingService,
+    Meta,
+    Title,
     {
       provide: SwRegistrationOptions,
-      useFactory: () => ({ enabled: location.host.includes('esn.world') }),
+      useFactory: (platform: any) => ({
+        enabled:
+          isPlatformBrowser(platform) && location.host.includes('esn.world'),
+      }),
+      deps: [PLATFORM_ID],
     },
   ],
   bootstrap: [AppComponent],

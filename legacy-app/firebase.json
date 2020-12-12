@@ -2,7 +2,7 @@
   "hosting": [
     {
       "target": "tumi-app",
-      "public": "dist/tumi-app",
+      "public": "dist/tumi-app/browser",
       "ignore": ["**/.*"],
       "headers": [
         {
@@ -16,6 +16,26 @@
         }
       ],
       "rewrites": [
+        {
+          "source": "/",
+          "function": "universal"
+        },
+        {
+          "source": "/events/**",
+          "function": "universal"
+        },
+        {
+          "source": "/events",
+          "function": "universal"
+        },
+        {
+          "source": "/page/**",
+          "function": "universal"
+        },
+        {
+          "source": "/page",
+          "function": "universal"
+        },
         {
           "source": "**",
           "destination": "/index.html"

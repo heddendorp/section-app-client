@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tumi-app",
+            "outputPath": "dist/tumi-app/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -129,6 +129,81 @@
         "deploy": {
           "builder": "@angular/fire:deploy",
           "options": {}
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/tumi-app/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "externalDependencies": [
+              "@firebase/analytics",
+              "@firebase/analytics-types",
+              "@firebase/app",
+              "@firebase/app-types",
+              "@firebase/auth",
+              "@firebase/auth-interop-types",
+              "@firebase/auth-types",
+              "@firebase/component",
+              "@firebase/database",
+              "@firebase/database-types",
+              "@firebase/firestore",
+              "@firebase/firestore-types",
+              "@firebase/functions",
+              "@firebase/functions-types",
+              "@firebase/installations",
+              "@firebase/installations-types",
+              "@firebase/logger",
+              "@firebase/messaging",
+              "@firebase/messaging-types",
+              "@firebase/performance",
+              "@firebase/performance-types",
+              "@firebase/polyfill",
+              "@firebase/remote-config",
+              "@firebase/remote-config-types",
+              "@firebase/storage",
+              "@firebase/storage-types",
+              "@firebase/util",
+              "@firebase/webchannel-wrapper"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "tumi-app:build",
+            "serverTarget": "tumi-app:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tumi-app:build:production",
+              "serverTarget": "tumi-app:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "tumi-app:build:production",
+            "serverTarget": "tumi-app:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
+          }
         }
       }
     }

@@ -42,6 +42,7 @@ testem.log
 /typings
 /.firebase
 .eslintcache
+*.log
 
 src/styles.scss.tail
 

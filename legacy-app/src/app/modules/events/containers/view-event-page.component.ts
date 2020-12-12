@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { first, map, startWith, switchMap } from 'rxjs/operators';
+import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AuthService, EventService } from '@tumi/services';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';
@@ -114,6 +115,8 @@ export class ViewEventPageComponent {
   constructor(
     route: ActivatedRoute,
     auth: AuthService,
+    meta: Meta,
+    title: Title,
     private router: Router,
     private eventService: EventService,
     private dialog: MatDialog
@@ -124,7 +127,45 @@ export class ViewEventPageComponent {
     this.event$ = route.data.pipe(
       switchMap((data) =>
         this.eventService.getOne$(data.event.id).pipe(startWith(data.event))
-      )
+      ),
+      tap((event) => {
+        title.setTitle(`TUMi - ${event.name}`);
+        meta.updateTag(
+          { property: 'og:title', content: `TUMi - ${event.name}` },
+          "property='og:title'"
+        );
+        meta.updateTag(
+          {
+            property: 'og:url',
+            content: `https://tumi.esn.world/events/${event.id}`,
+          },
+          "property='og:url'"
+        );
+        meta.updateTag(
+          {
+            property: 'og:description',
+            content: event.description,
+          },
+          "property='og:description'"
+        );
+        meta.updateTag(
+          {
+            name: 'description',
+            content: event.description,
+          },
+          "name='description'"
+        );
+        const [icon, style] = event.icon.split(':');
+        meta.updateTag(
+          {
+            property: 'og:image',
+            content: `https://img.icons8.com/${style ?? 'color'}/192/${
+              icon ?? ''
+            }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`,
+          },
+          "property='og:image'"
+        );
+      })
     );
     this.canBeDeleted$ = this.event$.pipe(
       map(

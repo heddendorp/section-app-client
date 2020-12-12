@@ -11,5 +11,8 @@ typings/
 # Node.js dependency directory
 node_modules/
 
+# Universal angular app
+dist/
+
 .runtimeconfig.json
 firebase-debug.log
