@@ -20,6 +20,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class NavigationComponent {
   isAuthenticated$: Observable<boolean> = this.authService.authenticated$;
   isAdmin$: Observable<boolean> = this.authService.isAdmin$;
+  isTutor$: Observable<boolean> = this.authService.isTutor$;
   isHandset$: Observable<boolean>;
   constructor(
     private breakpointObserver: BreakpointObserver,

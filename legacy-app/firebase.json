@@ -15,7 +15,12 @@
           ]
         }
       ],
+      "redirects": [{ "source": "/", "destination": "/events", "type": 302 }],
       "rewrites": [
+        {
+          "source": "/go/**",
+          "dynamicLinks": true
+        },
         {
           "source": "/",
           "function": "universal"

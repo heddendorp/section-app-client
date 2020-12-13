@@ -36,6 +36,15 @@
         <h3 mat-line>My Profile</h3>
       </a>
       <a
+        mat-list-item
+        routerLink="page/shop"
+        routerLinkActive="active"
+        *ngIf="isTutor$ | ngrxPush"
+      >
+        <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
+        <h3 mat-line>TUMi Merch</h3>
+      </a>
+      <a
         *ngIf="isAdmin$ | ngrxPush"
         mat-list-item
         routerLink="money"

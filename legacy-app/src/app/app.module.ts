@@ -1,4 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 import { BrowserModule, Meta, Title } from '@angular/platform-browser';
 import { NgModule, PLATFORM_ID } from '@angular/core';
 
@@ -40,6 +41,7 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -73,10 +75,14 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     Title,
     {
       provide: SwRegistrationOptions,
-      useFactory: (platform: any) => ({
-        enabled:
-          isPlatformBrowser(platform) && location.host.includes('esn.world'),
-      }),
+      useFactory: (platform: any) => {
+        const res = {
+          enabled:
+            isPlatformBrowser(platform) && location.host.includes('esn.world'),
+        };
+        console.log(res);
+        return res;
+      },
       deps: [PLATFORM_ID],
     },
   ],

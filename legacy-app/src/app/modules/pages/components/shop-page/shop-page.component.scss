@@ -1,0 +1,122 @@
+:host {
+  display: block;
+  background: #1f2937;
+  min-height: 100%;
+}
+.header {
+  background: linear-gradient(transparent 90%, #1f2937),
+    url("/assets/images/shop/header.jpg") center;
+  background-size: cover;
+  width: 100%;
+  height: 600px;
+  &.mobile {
+    height: 350px;
+    background: linear-gradient(transparent 85%, #1f2937),
+      url("/assets/images/shop/header.jpg") center;
+    background-size: cover;
+  }
+  h1 {
+    font-weight: bold;
+    color: white;
+    font-size: 8rem;
+    margin-bottom: 8rem;
+    text-shadow: 0 1px #808d93, -1px 0 #cdd2d5, -1px 2px #808d93,
+      -2px 1px #cdd2d5, -2px 3px #808d93, -3px 2px #cdd2d5, -3px 4px #808d93,
+      -4px 3px #cdd2d5, -4px 5px #808d93, -5px 4px #cdd2d5, -5px 6px #808d93,
+      -6px 5px #cdd2d5, -6px 7px #808d93, -7px 6px #cdd2d5, -7px 8px #808d93,
+      -8px 7px #cdd2d5;
+    &.mobile {
+      font-size: 4rem;
+      margin-bottom: 4rem;
+    }
+  }
+}
+.card {
+  height: 600px;
+  border-radius: 2rem;
+  overflow: hidden;
+  position: relative;
+  &.mobile {
+    height: 400px;
+  }
+}
+.card1 {
+  width: 300px;
+  &.mobile {
+    width: 350px;
+  }
+  background: linear-gradient(
+      to top,
+      transparent 80%,
+      transparentize(#f3f4f6, 0.2)
+    ),
+    linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+    url("/assets/images/shop/bottle.jpg") center;
+  background-size: cover;
+}
+.card2 {
+  width: 400px;
+  &.mobile {
+    width: 350px;
+  }
+  background: linear-gradient(
+      to top,
+      transparent 80%,
+      transparentize(#f3f4f6, 0.2)
+    ),
+    linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+    url("/assets/images/shop/mug.jpg") center;
+  background-size: cover;
+}
+.card3 {
+  width: 500px;
+  &.mobile {
+    width: 350px;
+  }
+  background: linear-gradient(
+      to top,
+      transparent 80%,
+      transparentize(#f3f4f6, 0.2)
+    ),
+    linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+    url("/assets/images/shop/pillow.jpg") center;
+  background-size: cover;
+}
+.card4 {
+  width: 450px;
+  &.mobile {
+    width: 350px;
+    background: linear-gradient(
+        to top,
+        transparent 85%,
+        transparentize(#f3f4f6, 0.2)
+      ),
+      linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+      url("/assets/images/shop/book.jpg") center;
+    background-size: cover;
+  }
+  background: linear-gradient(
+      to top,
+      transparent 90%,
+      transparentize(#f3f4f6, 0.2)
+    ),
+    linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+    url("/assets/images/shop/book.jpg") center;
+  background-size: cover;
+}
+.name {
+  color: #1e3a8a;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2rem;
+  position: absolute;
+  font-weight: bolder;
+}
+.price {
+  color: #dbeafe;
+  right: 1rem;
+  bottom: 2rem;
+  font-size: 4rem;
+  font-weight: bolder;
+  position: absolute;
+}

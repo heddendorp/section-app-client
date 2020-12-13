@@ -1,5 +1,10 @@
 import { ApplicationRef, Inject, NgModule, PLATFORM_ID } from '@angular/core';
-import { APP_BASE_HREF, CommonModule, DOCUMENT } from '@angular/common';
+import {
+  APP_BASE_HREF,
+  CommonModule,
+  DOCUMENT,
+  isPlatformBrowser,
+} from '@angular/common';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -131,7 +136,8 @@ export class SharedModule {
     sanitizer: DomSanitizer,
     appRef: ApplicationRef,
     updates: SwUpdate,
-    snackBar: MatSnackBar
+    snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) platform: any
   ) {
     registry.addSvgIconSet(
       sanitizer.bypassSecurityTrustResourceUrl(
@@ -143,7 +149,7 @@ export class SharedModule {
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
-    if (environment.production) {
+    if (environment.production && isPlatformBrowser(platform)) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
     updates.available.subscribe((event) => {
