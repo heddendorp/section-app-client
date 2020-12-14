@@ -85,9 +85,8 @@ export const updatePayments = functions.pubsub
     );
   });
 
-export const openEvents = functions
-  .region('europe-west1')
-  .pubsub.schedule('every day 18:00')
+export const openEvents = functions.pubsub
+  .schedule('every day 18:00')
   .timeZone('Europe/Berlin')
   .onRun(async (context) => {
     const now = new Date();

@@ -11,6 +11,21 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
 @Component({
   selector: 'app-view-event-page',
   template: `
+    <a
+      style="width: calc(100% + 2rem); background: #F3F4F6; padding: .5rem 1rem ; margin: -1rem -1rem 1rem;text-decoration: none; border-bottom: #E5E7EB 1px solid"
+      fxLayoutAlign="start center"
+      fxLayout="row"
+      routerLink="/events"
+    >
+      <mat-icon
+        svgIcon="icon-circled-left"
+        style="margin-right: .5rem;height: 36px !important;width: 36px !important;"
+      ></mat-icon>
+      <span
+        style="font-weight: 500; font-size: 16px; line-height: 34px; color: black;"
+        >Back to event overview</span
+      >
+    </a>
     <ng-container *ngrxLet="event$; let event">
       <div
         fxLayout="row"

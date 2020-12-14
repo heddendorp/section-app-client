@@ -4,9 +4,8 @@ import * as nodemailer from 'nodemailer';
 import { firestore } from './index';
 import { receipt, waitListMove } from './templates';
 
-export const newEvent = functions
-  .region('europe-west1')
-  .firestore.document('events/{eventId}')
+export const newEvent = functions.firestore
+  .document('events/{eventId}')
   .onCreate(async (snap, context) => {
     await firestore
       .collection('events')
@@ -14,9 +13,8 @@ export const newEvent = functions
       .update({ usersSignedUp: 0 });
   });
 
-export const newSignup = functions
-  .region('europe-west1')
-  .firestore.document('events/{eventId}/signups/{signupId}')
+export const newSignup = functions.firestore
+  .document('events/{eventId}/signups/{signupId}')
   .onCreate(async (snap, context) => {
     const value = snap.data();
     if (value) {
@@ -50,9 +48,8 @@ export const newSignup = functions
     }
   });
 
-export const updatedSignup = functions
-  .region('europe-west1')
-  .firestore.document('events/{eventId}/signups/{signupId}')
+export const updatedSignup = functions.firestore
+  .document('events/{eventId}/signups/{signupId}')
   .onUpdate(async (change, context) => {
     // tslint:disable-next-line
     const oldValue = change.before.data()!.partySize;
@@ -74,9 +71,8 @@ export const updatedSignup = functions
     }
   });
 
-export const deletedSignup = functions
-  .region('europe-west1')
-  .firestore.document('events/{eventId}/signups/{signupId}')
+export const deletedSignup = functions.firestore
+  .document('events/{eventId}/signups/{signupId}')
   .onDelete(async (snap, context) => {
     const value = snap.data();
     if (value) {
@@ -143,9 +139,8 @@ export const deletedSignup = functions
     }
   });
 
-export const balanceUpdate = functions
-  .region('europe-west1')
-  .firestore.document('stats/money/transactions/{id}')
+export const balanceUpdate = functions.firestore
+  .document('stats/money/transactions/{id}')
   .onCreate(async (snap) => {
     const value = snap.data() as any;
     if (value) {

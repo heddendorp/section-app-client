@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { AuthService, EventService } from '@tumi/services';
 import { combineLatest, Observable } from 'rxjs';
@@ -71,6 +77,7 @@ export class EventListPageComponent {
     auth: AuthService,
     meta: Meta,
     title: Title,
+    @Inject(PLATFORM_ID) platform: any,
     private dialog: MatDialog
   ) {
     title.setTitle('TUMi - events');
@@ -96,6 +103,10 @@ export class EventListPageComponent {
       },
       "name='description'"
     );
+    if (isPlatformServer(platform)) {
+      this.dateFilter.disable();
+      this.eventTypes.disable();
+    }
     this.events$ = combineLatest([
       this.eventTypes.valueChanges.pipe(startWith(this.eventTypes.value)),
       this.dateFilter.valueChanges.pipe(startWith(this.dateFilter.value)),
