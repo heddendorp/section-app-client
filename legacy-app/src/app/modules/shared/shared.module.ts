@@ -1,60 +1,50 @@
+import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
-  APP_BASE_HREF,
-  CommonModule,
-  DOCUMENT,
-  isPlatformBrowser,
-} from '@angular/common';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import {
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-  MatFormFieldModule,
-} from '@angular/material/form-field';
+  ErrorStateMatcher,
+  MatNativeDateModule,
+  ShowOnDirtyErrorStateMatcher,
+} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
 } from '@angular/material/dialog';
 import {
-  ErrorStateMatcher,
-  MatNativeDateModule,
-  MatRippleModule,
-  ShowOnDirtyErrorStateMatcher,
-} from '@angular/material/core';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { Request } from 'express';
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { DomSanitizer } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { environment } from '@tumi/environments/environment';
+import { MarkdownModule } from 'ngx-markdown';
+import { concat, interval } from 'rxjs';
+import { first } from 'rxjs/operators';
 import {
   ConfirmDialogComponent,
   EventGridComponent,
   IconToastComponent,
 } from './components';
 import { IconSrcDirective } from './directives';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBar,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
-import { DomSanitizer } from '@angular/platform-browser';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { MarkdownModule } from 'ngx-markdown';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { A11yModule } from '@angular/cdk/a11y';
-import { RouterModule } from '@angular/router';
-import { concat, interval } from 'rxjs';
-import { first } from 'rxjs/operators';
-import { environment } from '@tumi/environments/environment';
-import { SwUpdate } from '@angular/service-worker';
 // import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const materialModules = [
@@ -63,7 +53,7 @@ const materialModules = [
   MatIconModule,
   MatButtonModule,
   MatListModule,
-  MatExpansionModule,
+  // MatExpansionModule,
   // MatDividerModule,
   MatFormFieldModule,
   MatInputModule,
@@ -76,8 +66,8 @@ const materialModules = [
   // MatSlideToggleModule,
   MatMenuModule,
   MatSelectModule,
-  MatCardModule,
-  MatRippleModule,
+  // MatCardModule,
+  // MatRippleModule,
   MatSnackBarModule,
   A11yModule,
   // ClipboardModule,
