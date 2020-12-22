@@ -1,0 +1,82 @@
+<header
+  class="bg-gradient-to-tr from-primary-600 to-accent-600 text-white p-4 sticky"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="2rem"
+>
+  <h1 class="text-4xl lg:text-6xl font-bold">Privacy Policy</h1>
+  <a
+    routerLink="/"
+    class="rounded bg-gray-200 bg-opacity-20 text-xl p-2"
+    fxFlex.xs="noshrink"
+    >Back to app</a
+  >
+</header>
+
+<main class="prose lg:prose-lg prose-primary p-4">
+  <h2>Data being collected from all users of the website</h2>
+  <p>
+    For technical purposes, data such as IP address, browser version, default
+    language and window size are stored temporarily.
+  </p>
+  <h2>Data being collected from registered users of the website</h2>
+  <p>
+    By signing up on this website you agree that we store the data you enter in
+    our system. All our services use firebase infrastructure that is running on
+    EU Datacenters with two exceptions. Authentication and Hosting are handled
+    on US Datacenters, any personal Data that should be transferred here is
+    covered by the US-EU privacy shield, guaranteeing processing according to
+    european norms. Our services temporarily store IP-Addresses needed to
+    operate certain functionality up to a few months. Also our performance
+    monitoring is based on google analytics but only stores anonymized data.
+    Click to get more information on the
+    <a href="https://firebase.google.com/support/privacy"
+      >privacy of firebase services</a
+    >. <br />
+    Also, due to their design, social logins give a certain amount of data to
+    the login provider, we do not however share any additional data you enter
+    here. Also we only get access to your set name and Mail Address when using a
+    social login and don't gain rights to interact with the social platform.
+  </p>
+  <h2>Your Rights</h2>
+  <ol>
+    <li>
+      Access according to GDPR article 15: Any user may at any time request
+      information about collected personal data concerning the user.
+    </li>
+    <li>
+      Rectification according to GDPR article 16: Any user may at any time
+      request the correction of personal data concerning the user.
+    </li>
+    <li>
+      Erasure according to GDPR article 17: Any user may at any time request
+      personal data concerning the user to be deleted.
+    </li>
+  </ol>
+  <h2>Google Analytics</h2>
+  <p>
+    We use Google Analytics on this page with IP anonymization enabled. Also all
+    data transferred is covered by the EU-US Privacy shield. This tool also uses
+    tracking cookies to identify your machine on future visits. Should this be a
+    problem for you, you can opt out of analytics here and we will disable them
+    on this machine. <br />
+    <em>Any changes made here will not affect your experience with the app.</em>
+  </p>
+  <mat-checkbox [formControl]="optOutControl"
+    >Disable Analytics on this machine</mat-checkbox
+  >
+  <br />
+  <!--<mat-checkbox [formControl]="userIdControl"
+    >Disable UserID on this machine</mat-checkbox
+  >
+  <br />-->
+  <mat-checkbox [formControl]="debugModeControl"
+    >Enable debug mode for this device</mat-checkbox
+  >
+  <p>
+    You can always reach us at
+    <a href="mailto:webmaster@esn-tumi.de">webmaster@esn-tumi.de</a>
+    with further questions and requests.
+  </p>
+  <p>The legal basis for data processing is Art. 6 (1) S.1 lit. f DSGVO.</p>
+</main>

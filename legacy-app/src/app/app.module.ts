@@ -10,6 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import {
   AngularFireAnalyticsModule,
+  COLLECTION_ENABLED,
+  CONFIG,
+  DEBUG_MODE,
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/analytics';
@@ -74,15 +77,32 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     Meta,
     Title,
     {
-      provide: SwRegistrationOptions,
-      useFactory: (platform: any) => {
-        const res = {
-          enabled:
-            isPlatformBrowser(platform) && location.host.includes('esn.world'),
-        };
-        console.log(res);
-        return res;
+      provide: CONFIG,
+      useValue: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        anonymize_ip: true,
       },
+    },
+    {
+      provide: DEBUG_MODE,
+      useFactory: (platform: any) =>
+        isPlatformBrowser(platform) &&
+        JSON.parse(localStorage.getItem('@@debug') ?? 'false'),
+      deps: [PLATFORM_ID],
+    },
+    {
+      provide: COLLECTION_ENABLED,
+      useFactory: (platform: any) =>
+        isPlatformBrowser(platform) &&
+        !JSON.parse(localStorage.getItem('disableAnalytics') ?? 'false'),
+      deps: [PLATFORM_ID],
+    },
+    {
+      provide: SwRegistrationOptions,
+      useFactory: (platform: any) => ({
+        enabled:
+          isPlatformBrowser(platform) && location.host.includes('esn.world'),
+      }),
       deps: [PLATFORM_ID],
     },
   ],

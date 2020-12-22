@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ShopPageComponent } from '@tumi/modules/pages/components/shop-page/shop-page.component';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  DataPrivacyPageComponent,
+  ImprintPageComponent,
+  ShopPageComponent,
+} from '@tumi/modules/pages/components';
 
 const routes: Routes = [
   { path: 'shop', component: ShopPageComponent },
+  { path: 'privacy', component: DataPrivacyPageComponent },
+  { path: 'imprint', component: ImprintPageComponent },
   { path: '', pathMatch: 'full', redirectTo: 'shop' },
 ];
 

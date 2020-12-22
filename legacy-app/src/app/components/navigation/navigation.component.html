@@ -7,63 +7,70 @@
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
     [opened]="(isHandset$ | ngrxPush) === false"
   >
-    <mat-toolbar class="text-4xl justify-center"
-      ><span
-        class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
-        >TUMi</span
-      >&nbsp;app</mat-toolbar
-    >
-    <mat-nav-list (click)="closeSidenav(drawer)">
-      <a mat-list-item routerLink="events" routerLinkActive="active">
-        <mat-icon svgIcon="icon-overtime" mat-list-icon></mat-icon>
-        <h3 mat-line>Events</h3>
-      </a>
-      <a
-        mat-list-item
-        routerLink="users"
-        routerLinkActive="active"
-        *ngIf="isAdmin$ | ngrxPush"
+    <div fxLayout="column" class="h-full">
+      <mat-toolbar fxFlex="noshrink" class="text-4xl justify-center"
+        ><span
+          class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+          >TUMi</span
+        >&nbsp;app</mat-toolbar
       >
-        <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
-        <h3 mat-line>Users</h3>
-      </a>
-      <a
-        mat-list-item
-        routerLink="profile"
-        routerLinkActive="active"
-        *ngIf="isAuthenticated$ | ngrxPush"
-      >
-        <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
-        <h3 mat-line>My Profile</h3>
-      </a>
-      <a
-        mat-list-item
-        routerLink="page/shop"
-        routerLinkActive="active"
-        *ngIf="isTutor$ | ngrxPush"
-      >
-        <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
-        <h3 mat-line>TUMi Merch</h3>
-      </a>
-      <a
-        *ngIf="isAdmin$ | ngrxPush"
-        mat-list-item
-        routerLink="money"
-        routerLinkActive="active"
-      >
-        <mat-icon mat-list-icon svgIcon="icon-money"></mat-icon>
-        <h3 mat-line>Money</h3>
-      </a>
-      <a
-        *ngIf="isAdmin$ | ngrxPush"
-        mat-list-item
-        routerLink="scanner"
-        routerLinkActive="active"
-      >
-        <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
-        <h3 mat-line>Scanning</h3>
-      </a>
-    </mat-nav-list>
+      <mat-nav-list (click)="closeSidenav(drawer)">
+        <a mat-list-item routerLink="events" routerLinkActive="active">
+          <mat-icon svgIcon="icon-overtime" mat-list-icon></mat-icon>
+          <h3 mat-line>Events</h3>
+        </a>
+        <a
+          mat-list-item
+          routerLink="users"
+          routerLinkActive="active"
+          *ngIf="isAdmin$ | ngrxPush"
+        >
+          <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
+          <h3 mat-line>Users</h3>
+        </a>
+        <a
+          mat-list-item
+          routerLink="profile"
+          routerLinkActive="active"
+          *ngIf="isAuthenticated$ | ngrxPush"
+        >
+          <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
+          <h3 mat-line>My Profile</h3>
+        </a>
+        <a
+          mat-list-item
+          routerLink="page/shop"
+          routerLinkActive="active"
+          *ngIf="isTutor$ | ngrxPush"
+        >
+          <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
+          <h3 mat-line>TUMi Merch</h3>
+        </a>
+        <a
+          *ngIf="isAdmin$ | ngrxPush"
+          mat-list-item
+          routerLink="money"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon svgIcon="icon-money"></mat-icon>
+          <h3 mat-line>Money</h3>
+        </a>
+        <a
+          *ngIf="isAdmin$ | ngrxPush"
+          mat-list-item
+          routerLink="scanner"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+          <h3 mat-line>Scanning</h3>
+        </a>
+      </mat-nav-list>
+      <div fxFlex="grow"></div>
+      <div class="text-center text-gray-800 my-2">
+        <a routerLink="/page/privacy">Privacy</a> /
+        <a routerLink="/page/imprint">Imprint</a>
+      </div>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="mat-elevation-z2">
