@@ -1,120 +1,61 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import "~@angular/material/theming";
+@import "../node_modules/@angular/material/_theming.scss";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat-core(
+  mat-typography-config($font-family: 'theme("fontFamily.sans")')
+);
 
-$tail-teal: (
-  50: #f0fdfa,
-  100: #ccfbf1,
-  200: #99f6e4,
-  300: #5eead4,
-  400: #2dd4bf,
-  500: #14b8a6,
-  600: #0d9488,
-  700: #0f766e,
-  800: #115e59,
-  900: #134e4a,
-  A100: #ccfbf1,
-  A200: #99f6e4,
-  A400: #2dd4bf,
-  A700: #0f766e,
+$tail-primary: (
+  100: theme("colors.primary.100"),
+  500: theme("colors.primary.500"),
+  700: theme("colors.primary.700"),
   contrast: (
-    50: $dark-primary-text,
     100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
     500: $light-primary-text,
-    600: $light-primary-text,
     700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: $dark-primary-text,
   ),
 );
 
-$tail-fuchsia: (
-  50: #fdf4ff,
-  100: #fae8ff,
-  200: #f5d0fe,
-  300: #f0abfc,
-  400: #e879f9,
-  500: #d946ef,
-  600: #c026d3,
-  700: #a21caf,
-  800: #86198f,
-  900: #701a75,
-  A100: #fae8ff,
-  A200: #f5d0fe,
-  A400: #e879f9,
-  A700: #a21caf,
+$tail-accent: (
+  100: theme("colors.accent.100"),
+  500: theme("colors.accent.500"),
+  700: theme("colors.accent.700"),
   contrast: (
-    50: $dark-primary-text,
     100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $light-primary-text,
-    400: $light-primary-text,
     500: $light-primary-text,
-    600: $light-primary-text,
     700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text,
   ),
 );
 
-$tail-red: (
-  50: #fef2f2,
-  100: #fee2e2,
-  200: #fecaca,
-  300: #fca5a5,
-  400: #f87171,
-  500: #ef4444,
-  600: #dc2626,
-  700: #b91c1c,
-  800: #991b1b,
-  900: #7f1d1d,
-  A100: #fee2e2,
-  A200: #fecaca,
-  A400: #f87171,
-  A700: #b91c1c,
+$tail-warn: (
+  100: theme("colors.warn.100"),
+  500: theme("colors.warn.500"),
+  700: theme("colors.warn.700"),
   contrast: (
-    50: $dark-primary-text,
     100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
     500: $light-primary-text,
-    600: $light-primary-text,
     700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text,
   ),
 );
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tumi-app-primary: mat-palette($tail-teal);
-$tumi-app-accent: mat-palette($tail-fuchsia);
+$tumi-app-primary: mat-palette($tail-primary);
+$tumi-app-accent: mat-palette($tail-accent);
 
 // The warn palette is optional (defaults to red).
-$tumi-app-warn: mat-palette($tail-red);
+$tumi-app-warn: mat-palette($tail-warn);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -177,31 +118,6 @@ $tumi-app-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.app-title {
-  span {
-    background: linear-gradient(
-      to left bottom,
-      mat-color($tumi-app-primary),
-      mat-color($tumi-app-accent)
-    );
-    //noinspection CssInvalidPropertyValue
-    background-clip: text;
-    color: transparent;
-  }
-
-  margin: 0 !important;
-  font-weight: 500 !important;
-}
-
 mat-nav-list.mat-nav-list {
   .mat-list-item.active {
     background: mat-color($tumi-app-primary, lighter, 0.5);
@@ -262,30 +178,5 @@ a.styled {
 
   &:visited {
     text-decoration: underline double;
-  }
-}
-
-markdown {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-
-  a {
-    text-decoration: underline dashed;
-    color: inherit;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &:visited {
-      text-decoration: underline double;
-    }
-  }
-
-  img {
-    width: 100%;
-    max-width: 600px;
   }
 }

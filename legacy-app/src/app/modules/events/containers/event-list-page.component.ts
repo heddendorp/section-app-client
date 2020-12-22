@@ -17,11 +17,7 @@ import { startOfToday } from 'date-fns';
 @Component({
   selector: 'app-event-list-page',
   template: `
-    <div
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-      style="margin-bottom: 1rem;"
-    >
+    <div fxLayout="row" fxLayoutAlign="space-between center">
       <h1 style="margin: 0;">Events</h1>
       <button
         mat-flat-button

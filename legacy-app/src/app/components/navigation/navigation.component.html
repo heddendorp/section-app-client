@@ -7,10 +7,11 @@
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
     [opened]="(isHandset$ | ngrxPush) === false"
   >
-    <mat-toolbar
-      class="app-title mat-display-2"
-      style="padding-top: 1.5rem; justify-content: center"
-      ><span>TUMi</span>&nbsp;app</mat-toolbar
+    <mat-toolbar class="text-4xl justify-center"
+      ><span
+        class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+        >TUMi</span
+      >&nbsp;app</mat-toolbar
     >
     <mat-nav-list (click)="closeSidenav(drawer)">
       <a mat-list-item routerLink="events" routerLinkActive="active">

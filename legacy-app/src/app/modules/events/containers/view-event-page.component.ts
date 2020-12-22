@@ -57,9 +57,9 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
       <h3 class="mat-subheading-1" style="margin-bottom: 1rem;">
         Starts: {{ event.start | date: 'medium' }}
       </h3>
-      <markdown [data]="event.description" emoji></markdown>
+      <markdown [data]="event.description" emoji class="prose"></markdown>
       <ng-container *ngIf="isTutor$ | ngrxPush">
-        <markdown [data]="event.runningNotes" emoji></markdown>
+        <markdown [data]="event.runningNotes" emoji class="prose"></markdown>
       </ng-container>
       <div gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
         <ng-container
