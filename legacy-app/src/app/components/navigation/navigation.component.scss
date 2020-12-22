@@ -6,11 +6,7 @@
   width: 300px;
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
+.header {
   position: sticky;
   top: 0;
   z-index: 1000;

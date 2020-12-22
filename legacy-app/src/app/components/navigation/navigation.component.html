@@ -8,12 +8,19 @@
     [opened]="(isHandset$ | ngrxPush) === false"
   >
     <div fxLayout="column" class="h-full">
-      <mat-toolbar fxFlex="noshrink" class="text-4xl justify-center"
-        ><span
-          class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
-          >TUMi</span
-        >&nbsp;app</mat-toolbar
+      <div
+        fxFlex="noshrink"
+        class="text-4xl py-4"
+        fxLayout="row"
+        fxLayoutAlign="center center"
       >
+        <span>
+          <span
+            class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+            >TUMi</span
+          >&nbsp;app
+        </span>
+      </div>
       <mat-nav-list (click)="closeSidenav(drawer)">
         <a mat-list-item routerLink="events" routerLinkActive="active">
           <mat-icon svgIcon="icon-overtime" mat-list-icon></mat-icon>
@@ -73,7 +80,10 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" class="mat-elevation-z2">
+    <div
+      fxLayout="row"
+      class="bg-gradient-to-tr from-primary-600 to-primary-500 text-white p-4"
+    >
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -97,7 +107,7 @@
       <ng-template #logoutButton>
         <button mat-stroked-button (click)="logout()">Logout</button>
       </ng-template>
-    </mat-toolbar>
+    </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

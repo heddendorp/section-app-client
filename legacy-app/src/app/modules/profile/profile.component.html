@@ -1,7 +1,7 @@
 <ng-container *ngrxLet="user$; let user">
-  <h1>Hey {{ user.firstName }} 👋</h1>
-  <div class="contact-card">
-    <p class="title">Contact Card</p>
+  <h1 class="text-4xl font-bold mb-4">Hey {{ user.firstName }} 👋</h1>
+  <div class="border-2 border-gray-700 rounded px-4 py-2">
+    <p class="text-xl font-bold font-mono mb-2">Contact Card</p>
     <p>
       {{ user.firstName }} {{ user.lastName }} from {{ country$ | ngrxPush }}
     </p>
@@ -16,7 +16,7 @@
       <p>{{ user.friendlyType }}</p>
     </div>
 
-    <p class="mat-caption">
+    <p class="text-sm text-gray-500 mt-4">
       We collect this data to secure public funding for our events and have
       enough data for contact tracing. Please make sure all data is accurate or
       update it.

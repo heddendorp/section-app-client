@@ -30,7 +30,6 @@ import {
   MatSnackBar,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
@@ -49,7 +48,7 @@ import { IconSrcDirective } from './directives';
 
 const materialModules = [
   MatSidenavModule,
-  MatToolbarModule,
+  // MatToolbarModule,
   MatIconModule,
   MatButtonModule,
   MatListModule,

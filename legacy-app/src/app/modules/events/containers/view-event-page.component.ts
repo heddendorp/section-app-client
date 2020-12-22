@@ -32,7 +32,9 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
         fxLayoutAlign="space-between center"
         fxLayoutGap="8px"
       >
-        <h1 fxFlex="grow" style="margin: 0;">{{ event.name }}</h1>
+        <h1 fxFlex="grow" class="text-4xl lg:text-6xl font-bold mb-2">
+          {{ event.name }}
+        </h1>
         <button
           [matMenuTriggerFor]="menu"
           fxFlex="noshrink"
@@ -54,12 +56,20 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
           </button>
         </mat-menu>
       </div>
-      <h3 class="mat-subheading-1" style="margin-bottom: 1rem;">
+      <h3 class="mb-8 tex-lg font-bold">
         Starts: {{ event.start | date: 'medium' }}
       </h3>
-      <markdown [data]="event.description" emoji class="prose"></markdown>
+      <markdown
+        [data]="event.description"
+        emoji
+        class="prose lg:prose-lg"
+      ></markdown>
       <ng-container *ngIf="isTutor$ | ngrxPush">
-        <markdown [data]="event.runningNotes" emoji class="prose"></markdown>
+        <markdown
+          [data]="event.runningNotes"
+          emoji
+          class="prose lg:prose-lg"
+        ></markdown>
       </ng-container>
       <div gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
         <ng-container
