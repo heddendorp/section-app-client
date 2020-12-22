@@ -131,7 +131,7 @@ export class SharedModule {
     registry.addSvgIconSet(
       sanitizer.bypassSecurityTrustResourceUrl(
         environment.production
-          ? './assets/icons/set.svg'
+          ? 'https://tumi.esn.world/assets/icons/set.svg'
           : 'http://localhost:4200/assets/icons/set.svg'
       )
     );

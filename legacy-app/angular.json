@@ -55,11 +55,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "extractCss": true,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "1mb",
-                  "maximumError": "10mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
