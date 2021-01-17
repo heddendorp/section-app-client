@@ -106,6 +106,7 @@ export const openEvents = functions.pubsub
     const events = querySnapshot.docs
       .map((doc) =>
         Object.assign(doc.data(), {
+          id: doc.id,
           start: moment(doc.data().start.toDate()),
           end: moment(doc.data().end.toDate()),
         })
@@ -120,7 +121,7 @@ export const openEvents = functions.pubsub
       const [icon, style] = iconString.split(':');
       const image_url = `https://img.icons8.com/${style || 'color'}/192/${
         icon || 'tear-off-calendar'
-      }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
+      }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
       return {
         type: 'section',
         text: {
@@ -133,7 +134,7 @@ export const openEvents = functions.pubsub
             event.tutorSpots - event.tutorSignups.length
           }/${
             event.tutorSpots
-          } Tutors still needed\nhttps://esn-tumi.de/events/show/${event.id}`,
+          } Tutors still needed\nhttps://tumi.esn.world/events/${event.id}`,
         },
         accessory: {
           type: 'image',
