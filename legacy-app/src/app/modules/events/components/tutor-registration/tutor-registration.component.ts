@@ -39,7 +39,7 @@ export class TutorRegistrationComponent implements OnChanges {
     if (changes.event) {
       this.canSignUp$ = this.auth.user$.pipe(
         switchMap((user) => {
-          const isOldTutor = user.hasOwnProperty('joinedAsTutor');
+          const isOldTutor = user.isOldie;
           if (this.event.tutorSignups.includes(user.id)) {
             return of(false);
           }
@@ -49,12 +49,10 @@ export class TutorRegistrationComponent implements OnChanges {
           }
           return this.event.registeredTutors.pipe(
             map((tutors: any[]) => {
-              const oldieNum = tutors.filter((tutor: any) =>
-                tutor.hasOwnProperty('joinedAsTutor')
-              ).length;
-              const newbieNum = tutors.filter(
-                (tutor: any) => !tutor.hasOwnProperty('joinedAsTutor')
-              ).length;
+              const oldieNum = tutors.filter((tutor: any) => tutor.isOldie)
+                .length;
+              const newbieNum = tutors.filter((tutor: any) => !tutor.isOldie)
+                .length;
               if (this.event.splitTutorPlaces) {
                 return isOldTutor
                   ? oldieNum < this.event.tutorSpots / 2

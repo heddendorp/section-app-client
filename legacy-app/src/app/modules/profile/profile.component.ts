@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { User } from '@tumi/models';
 import {
   AuthService,
   CountryService,
@@ -6,7 +7,7 @@ import {
   UserService,
 } from '@tumi/services';
 import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 import { getType } from '../shared';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileDialogComponent } from './components/profile-dialog/profile-dialog.component';
@@ -21,7 +22,7 @@ export class ProfileComponent {
   public events$: Observable<any[]>;
   public tutorEvents$: Observable<any[]>;
   public isTutor$: Observable<boolean>;
-  public user$: Observable<any>;
+  public user$: Observable<User>;
   public country$: Observable<string>;
 
   constructor(
@@ -34,9 +35,7 @@ export class ProfileComponent {
     this.events$ = eventService.getEventsForCurrentUser();
     this.tutorEvents$ = eventService.getEventsForCurrentTutor();
     this.isTutor$ = auth.isTutor$;
-    this.user$ = auth.user$.pipe(
-      map((user) => ({ ...user, friendlyType: getType(user.type) }))
-    );
+    this.user$ = auth.user$;
     this.country$ = this.user$.pipe(
       switchMap((user) => country.getName(user.country))
     );

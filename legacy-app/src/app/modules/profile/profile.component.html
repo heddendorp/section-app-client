@@ -1,4 +1,4 @@
-<ng-container *ngrxLet="user$; let user">
+<ng-container *ngIf="user$ | async as user">
   <h1 class="text-4xl font-bold mb-4">Hey {{ user.firstName }} 👋</h1>
   <div class="border-2 border-gray-700 rounded px-4 py-2">
     <p class="text-xl font-bold font-mono mb-2">Contact Card</p>
@@ -11,7 +11,7 @@
       <strong>Phone: </strong>
       <p>{{ user.phone }}</p>
       <strong>Address: </strong>
-      <p>{{ user.address }}</p>
+      <p class="whitespace-pre-wrap">{{ user.address }}</p>
       <strong>Status: </strong>
       <p>{{ user.friendlyType }}</p>
     </div>

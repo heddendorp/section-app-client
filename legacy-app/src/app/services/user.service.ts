@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '@tumi/models';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -9,19 +10,28 @@ import { map, shareReplay } from 'rxjs/operators';
 export class UserService {
   constructor(private store: AngularFirestore) {}
 
-  get tutors$(): Observable<any[]> {
+  get tutors$(): Observable<User[]> {
     return this.store
-      .collection('users', (ref) => ref.where('isTutor', '==', true))
-      .valueChanges({ idField: 'id' });
-    // .pipe(shareReplay());
+      .collection<User>(User.collection(this.store), (ref) =>
+        ref.where('isTutor', '==', true)
+      )
+      .valueChanges()
+      .pipe(shareReplay(1));
+  }
+
+  get users$(): Observable<User[]> {
+    return this.store
+      .collection<User>(User.collection(this.store))
+      .valueChanges()
+      .pipe(shareReplay(1));
   }
 
   getUser$(id: string): Observable<any> {
     return this.store
-      .collection('users')
+      .collection<User>(User.collection(this.store))
       .doc(id)
-      .valueChanges({ idField: 'id' })
-      .pipe(shareReplay());
+      .valueChanges()
+      .pipe(shareReplay(1));
   }
 
   getUserList$(ids: string[]): Observable<any[]> {
@@ -44,7 +54,10 @@ export class UserService {
     );
   }
 
-  update(id: string, update: any): Promise<void> {
-    return this.store.collection('users').doc(id).update(update);
+  update(id: string, update: Partial<User>): Promise<void> {
+    return this.store
+      .collection<User>(User.collection(this.store))
+      .doc(id)
+      .set(update as User, { merge: true });
   }
 }

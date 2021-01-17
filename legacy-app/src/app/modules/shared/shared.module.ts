@@ -30,6 +30,7 @@ import {
   MatSnackBar,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
@@ -44,34 +45,23 @@ import {
   IconToastComponent,
 } from './components';
 import { IconSrcDirective } from './directives';
-// import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const materialModules = [
   MatSidenavModule,
-  // MatToolbarModule,
   MatIconModule,
   MatButtonModule,
   MatListModule,
-  // MatExpansionModule,
-  // MatDividerModule,
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule,
-  // MatAutocompleteModule,
-  // MatProgressSpinnerModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  // MatSlideToggleModule,
   MatMenuModule,
   MatSelectModule,
-  // MatCardModule,
-  // MatRippleModule,
   MatSnackBarModule,
+  MatTableModule,
   A11yModule,
-  // ClipboardModule,
-  // MatChipsModule,
-  // LayoutModule,
 ];
 
 export const COMPONENTS = [
@@ -86,14 +76,14 @@ export const DIRECTIVES = [IconSrcDirective];
   imports: [
     CommonModule,
     RouterModule.forChild([]),
-    materialModules,
+    ...materialModules,
     FlexLayoutModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     MarkdownModule,
   ],
   exports: [
-    materialModules,
+    ...materialModules,
     COMPONENTS,
     DIRECTIVES,
     FlexLayoutModule,

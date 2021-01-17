@@ -3,7 +3,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { User } from '@tumi/models';
+import { isNotNullOrUndefined } from '@tumi/modules/shared';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   EmailLoginDialogComponent,
@@ -16,29 +18,28 @@ import UserCredential = firebase.auth.UserCredential;
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly user: Observable<any>;
+  private readonly user: Observable<User>;
   private readonly authenticated: Observable<boolean>;
 
   constructor(
     private fireAuth: AngularFireAuth,
     private dialog: MatDialog,
     private router: Router,
-    firestore: AngularFirestore
+    store: AngularFirestore
   ) {
     this.authenticated = fireAuth.authState.pipe(
       map((state) => !!state),
       shareReplay()
     );
     this.user = fireAuth.user.pipe(
-      switchMap((user: any) => {
-        if (user) {
-          return firestore
-            .collection('users')
-            .doc(user.uid)
-            .valueChanges({ idField: 'id' });
-        }
-        return of(user);
-      }),
+      isNotNullOrUndefined(),
+      switchMap((user: firebase.User) =>
+        store
+          .collection<User>(User.collection(store))
+          .doc(user.uid)
+          .valueChanges()
+      ),
+      isNotNullOrUndefined(),
       shareReplay(1)
     );
   }
@@ -47,7 +48,7 @@ export class AuthService {
     return this.authenticated;
   }
 
-  public get user$(): Observable<any> {
+  public get user$(): Observable<User> {
     return this.user;
   }
 

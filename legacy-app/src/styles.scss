@@ -86,7 +86,7 @@ $tumi-app-theme: mat-light-theme(
     //@include mat-card-theme($theme-or-color-config);
     @include mat-checkbox-theme($theme-or-color-config);
     //@include mat-chips-theme($theme-or-color-config);
-    //@include mat-table-theme($theme-or-color-config);
+    @include mat-table-theme($theme-or-color-config);
     @include mat-datepicker-theme($theme-or-color-config);
     @include mat-dialog-theme($theme-or-color-config);
     //@include mat-divider-theme($theme-or-color-config);
