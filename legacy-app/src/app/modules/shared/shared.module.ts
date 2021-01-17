@@ -105,7 +105,7 @@ export const DIRECTIVES = [IconSrcDirective];
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
+      useValue: { appearance: 'fill' },
     },
   ],
 })

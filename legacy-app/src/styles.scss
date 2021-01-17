@@ -118,13 +118,30 @@ $tumi-app-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+html,
+body,
+app-root,
+app-navigation {
+  min-height: 100vh;
+  display: block;
+}
+
+body {
+  background-size: cover;
+  background: url("/assets/images/background.jpg") no-repeat fixed center;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 mat-nav-list.mat-nav-list {
   .mat-list-item.active {
-    background: mat-color($tumi-app-primary, lighter, 0.5);
+    background: mat-color($tumi-app-primary, lighter, 0.4);
 
     &:focus,
     &:hover {
-      background: mat-color($tumi-app-primary, lighter, 1);
+      background: mat-color($tumi-app-primary, lighter, 0.6);
     }
 
     mat-icon {
@@ -166,6 +183,12 @@ mat-icon.mat-icon {
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
+}
+
+markdown {
+  a {
+    word-break: break-all;
+  }
 }
 
 a.styled {

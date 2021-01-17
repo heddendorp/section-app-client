@@ -1,14 +1,49 @@
+<header
+  fxLayout="row"
+  class="p-4"
+  [style.margin-left.px]="(isHandset$ | ngrxPush) ? 0 : 300"
+>
+  <button
+    type="button"
+    aria-label="Toggle sidenav"
+    mat-icon-button
+    color="primary"
+    (click)="drawer.toggle()"
+    *ngIf="isHandset$ | ngrxPush"
+  >
+    <mat-icon aria-label="Side nav toggle icon" svgIcon="icon-menu"></mat-icon>
+  </button>
+  <div fxFlex="noshrink" fxLayout="row" fxLayoutAlign="center center">
+    <span
+      class="bg-clip-text text-3xl font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+      *ngIf="isHandset$ | async"
+    >
+      TUMi
+    </span>
+  </div>
+  <button
+    mat-flat-button
+    (click)="login()"
+    *ngIf="!(isAuthenticated$ | ngrxPush); else logoutButton"
+  >
+    Login
+  </button>
+  <ng-template #logoutButton>
+    <button mat-flat-button (click)="logout()">Logout</button>
+  </ng-template>
+</header>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #drawer
-    style="width: 300px"
     fixedInViewport
     [attr.role]="(isHandset$ | ngrxPush) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
     [opened]="(isHandset$ | ngrxPush) === false"
+    [fixedTopGap]="(isHandset$ | ngrxPush) ? 72 : 0"
   >
     <div fxLayout="column" class="h-full">
       <div
+        *ngIf="(isHandset$ | ngrxPush) === false"
         fxFlex="noshrink"
         class="text-5xl py-4"
         fxLayout="row"
@@ -80,34 +115,6 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div
-      fxLayout="row"
-      class="bg-gradient-to-tr from-primary-600 to-primary-500 text-white p-4"
-    >
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | ngrxPush"
-      >
-        <mat-icon
-          aria-label="Side nav toggle icon"
-          svgIcon="icon-menu"
-        ></mat-icon>
-      </button>
-      <span fxFlex="noshrink"></span>
-      <button
-        mat-stroked-button
-        (click)="login()"
-        *ngIf="!(isAuthenticated$ | ngrxPush); else logoutButton"
-      >
-        Login
-      </button>
-      <ng-template #logoutButton>
-        <button mat-stroked-button (click)="logout()">Logout</button>
-      </ng-template>
-    </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

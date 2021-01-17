@@ -1,7 +1,8 @@
+@import "../../../../../mixins.scss";
 .event {
+  @include panel();
   padding: 1rem;
   border-radius: 1rem;
-  border: gray 1px solid;
   cursor: pointer;
   color: inherit;
   text-decoration: none;

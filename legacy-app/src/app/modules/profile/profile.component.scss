@@ -1,4 +1,10 @@
+@import "../../../mixins.scss";
+
 :host {
   display: block;
   padding: 1rem;
+}
+
+.panel {
+  @include panel();
 }

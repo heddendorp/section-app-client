@@ -12,7 +12,7 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
   selector: 'app-view-event-page',
   template: `
     <a
-      style="width: calc(100% + 2rem); background: #F3F4F6; padding: .5rem 1rem ; margin: -1rem -1rem 1rem;text-decoration: none; border-bottom: #E5E7EB 1px solid"
+      style="width: calc(100% + 2rem); background: rgba(255,255,255,0.2); padding: .5rem 1rem ; margin: -1rem -1rem 1rem;text-decoration: none; border-bottom: rgba(255,255,255,0.3) 1px solid"
       fxLayoutAlign="start center"
       fxLayout="row"
       routerLink="/events"
@@ -59,17 +59,22 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
       <h3 class="mb-8 tex-lg font-bold">
         Starts: {{ event.start | date: 'medium' }}
       </h3>
-      <markdown
-        [data]="event.description"
-        emoji
-        class="prose lg:prose-lg"
-      ></markdown>
-      <ng-container *ngIf="isTutor$ | ngrxPush">
+      <div class="panel">
         <markdown
-          [data]="event.runningNotes"
+          [data]="event.description"
           emoji
           class="prose lg:prose-lg"
         ></markdown>
+      </div>
+      <ng-container *ngIf="isTutor$ | ngrxPush">
+        <h3 class="mt-4 tex-lg font-bold">Notes for tutors:</h3>
+        <div class="panel my-4">
+          <markdown
+            [data]="event.runningNotes"
+            emoji
+            class="prose lg:prose-lg"
+          ></markdown>
+        </div>
       </ng-container>
       <div gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
         <ng-container
@@ -124,6 +129,12 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
       :host {
         display: block;
         padding: 1rem;
+      }
+      .panel {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 20px;
+        border: solid 1px rgba(255, 255, 255, 0.3);
       }
     `,
   ],
