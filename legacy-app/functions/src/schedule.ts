@@ -8,7 +8,7 @@ import ListUsersResult = auth.ListUsersResult;
 import UserRecord = auth.UserRecord;
 
 export const manageUsers = functions.pubsub
-  .schedule('every 1 weeks')
+  .schedule('every monday 00:00')
   .onRun(async () => {
     let nextPage;
     do {
