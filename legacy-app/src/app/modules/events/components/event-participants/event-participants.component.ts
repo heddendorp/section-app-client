@@ -31,7 +31,7 @@ export class EventParticipantsComponent {
 
   public calculateTotal(registrations: any[], field: string) {
     return registrations
-      .filter((item) => item.paypal.completed)
+      .filter((item) => item?.paypal?.completed)
       .reduce((acc, item) => acc + item.paypal[field], 0);
   }
 
