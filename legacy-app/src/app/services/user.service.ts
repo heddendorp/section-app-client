@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '@tumi/models';
+import { subMonths } from 'date-fns';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -21,7 +22,9 @@ export class UserService {
 
   get users$(): Observable<User[]> {
     return this.store
-      .collection<User>(User.collection(this.store))
+      .collection<User>(User.collection(this.store), (ref) =>
+        ref.where('lastSignInTime', '>', subMonths(new Date(), 6))
+      )
       .valueChanges()
       .pipe(shareReplay(1));
   }

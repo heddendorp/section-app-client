@@ -15,6 +15,9 @@ import { map, startWith, switchMap, tap } from 'rxjs/operators';
     <mat-form-field class="w-full my-4">
       <mat-label>Search User</mat-label>
       <input matInput [formControl]="searchControl" type="search" />
+      <mat-hint
+        >Only users that signed in in the lat six months are displayed</mat-hint
+      >
     </mat-form-field>
     <app-user-table [users]="users$ | ngrxPush"></app-user-table>`,
   styles: [
