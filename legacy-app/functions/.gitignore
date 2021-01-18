@@ -16,3 +16,4 @@ dist/
 
 .runtimeconfig.json
 firebase-debug.log
+key.json

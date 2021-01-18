@@ -1,7 +1,43 @@
+import * as admin from 'firebase-admin';
+import { auth } from 'firebase-admin/lib/auth';
 import * as functions from 'firebase-functions';
+import got from 'got';
 import * as moment from 'moment-timezone';
 import { firestore } from './index';
-import got from 'got';
+import ListUsersResult = auth.ListUsersResult;
+import UserRecord = auth.UserRecord;
+
+export const manageUsers = functions.pubsub
+  .schedule('every 1 weeks')
+  .onRun(async () => {
+    let nextPage;
+    do {
+      const batch = firestore.batch();
+      const userPage: ListUsersResult = await admin
+        .auth()
+        .listUsers(500, nextPage);
+      userPage.users.forEach((user: UserRecord) => {
+        const userRef = firestore.collection('users').doc(user.uid);
+        batch.update(userRef, {
+          creationTime: moment(user.metadata.creationTime).toDate(),
+          lastSignInTime: moment(user.metadata.lastRefreshTime).toDate(),
+          verified: user.emailVerified,
+        });
+      });
+      try {
+        await batch.commit();
+      } catch (e) {
+        const parts = e.details.split('/');
+        const id = parts[parts.length - 1];
+        console.error(
+          'Deleting user from auth as they are not in the firestore: ',
+          id
+        );
+        await admin.auth().deleteUser(id);
+      }
+      nextPage = userPage.pageToken;
+    } while (!!nextPage);
+  });
 
 export const updatePayments = functions.pubsub
   .schedule('every 1 hours')
