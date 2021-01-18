@@ -20,7 +20,7 @@
     "prerender": "ng run tumi-app:prerender",
     "prestatistics": "cross-env NODE_ENV=production",
     "serve:ssr": "node dist/tumi-app/server/main.js",
-    "start": "ng serve",
+    "start": "ng serve --hmr",
     "statistics": "ng build --prod --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
     "test": "ng test"
   },
