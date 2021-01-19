@@ -8,7 +8,7 @@ import {
 import { Meta, Title } from '@angular/platform-browser';
 import { AuthService, EventService } from '@tumi/services';
 import { combineLatest, Observable } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../components';

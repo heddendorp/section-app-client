@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { User } from '@tumi/models';
-import { isNotNullOrUndefined } from '@tumi/modules/shared';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
-import { combineLatest, Observable, of } from 'rxjs';
 import {
   EmailLoginDialogComponent,
   LoginOptionsDialogComponent,
 } from '@tumi/components';
+import { User } from '@tumi/models';
+import { isNotNullOrUndefined } from '@tumi/modules/shared';
 import firebase from 'firebase/app';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
@@ -29,7 +29,7 @@ export class AuthService {
   ) {
     this.authenticated = fireAuth.authState.pipe(
       map((state) => !!state),
-      shareReplay()
+      shareReplay(1)
     );
     this.user = fireAuth.user.pipe(
       isNotNullOrUndefined(),
@@ -53,21 +53,33 @@ export class AuthService {
   }
 
   public get isTutor$(): Observable<boolean> {
-    return this.user.pipe(
-      map((user) =>
-        user ? user.isTutor || user.isEditor || user.isAdmin : false
+    return this.authenticated$.pipe(
+      switchMap((authenticated) =>
+        authenticated
+          ? this.user$.pipe(
+              map((user) => user.isTutor || user.isEditor || user.isAdmin)
+            )
+          : of(false)
       )
     );
   }
 
   public get isEditor$(): Observable<boolean> {
-    return this.user.pipe(
-      map((user) => (user ? user.isEditor || user.isAdmin : false))
+    return this.authenticated$.pipe(
+      switchMap((authenticated) =>
+        authenticated
+          ? this.user$.pipe(map((user) => user.isEditor || user.isAdmin))
+          : of(false)
+      )
     );
   }
 
   public get isAdmin$(): Observable<boolean> {
-    return this.user.pipe(map((user) => (user ? user.isAdmin : false)));
+    return this.authenticated$.pipe(
+      switchMap((authenticated) =>
+        authenticated ? this.user$.pipe(map((user) => user.isAdmin)) : of(false)
+      )
+    );
   }
 
   public async logout(): Promise<void> {

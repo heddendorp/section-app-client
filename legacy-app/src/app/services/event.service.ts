@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
 import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
-import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Injectable({
   providedIn: 'root',
