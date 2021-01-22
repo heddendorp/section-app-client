@@ -72,52 +72,9 @@ $tumi-app-theme: mat-light-theme(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@mixin angular-material-tumi-theme($theme-or-color-config) {
-  @include _mat-check-duplicate-theme-styles(
-    $theme-or-color-config,
-    "angular-material-theme"
-  ) {
-    @include mat-core-theme($theme-or-color-config);
-    //@include mat-autocomplete-theme($theme-or-color-config);
-    //@include mat-badge-theme($theme-or-color-config);
-    //@include mat-bottom-sheet-theme($theme-or-color-config);
-    @include mat-button-theme($theme-or-color-config);
-    //@include mat-button-toggle-theme($theme-or-color-config);
-    //@include mat-card-theme($theme-or-color-config);
-    @include mat-checkbox-theme($theme-or-color-config);
-    //@include mat-chips-theme($theme-or-color-config);
-    @include mat-table-theme($theme-or-color-config);
-    @include mat-datepicker-theme($theme-or-color-config);
-    @include mat-dialog-theme($theme-or-color-config);
-    //@include mat-divider-theme($theme-or-color-config);
-    //@include mat-expansion-panel-theme($theme-or-color-config);
-    @include mat-form-field-theme($theme-or-color-config);
-    //@include mat-grid-list-theme($theme-or-color-config);
-    @include mat-icon-theme($theme-or-color-config);
-    @include mat-input-theme($theme-or-color-config);
-    @include mat-list-theme($theme-or-color-config);
-    @include mat-menu-theme($theme-or-color-config);
-    //@include mat-paginator-theme($theme-or-color-config);
-    //@include mat-progress-bar-theme($theme-or-color-config);
-    //@include mat-progress-spinner-theme($theme-or-color-config);
-    @include mat-radio-theme($theme-or-color-config);
-    @include mat-select-theme($theme-or-color-config);
-    @include mat-sidenav-theme($theme-or-color-config);
-    //@include mat-slide-toggle-theme($theme-or-color-config);
-    //@include mat-slider-theme($theme-or-color-config);
-    //@include mat-stepper-theme($theme-or-color-config);
-    //@include mat-sort-theme($theme-or-color-config);
-    //@include mat-tabs-theme($theme-or-color-config);
-    //@include mat-toolbar-theme($theme-or-color-config);
-    //@include mat-tooltip-theme($theme-or-color-config);
-    //@include mat-tree-theme($theme-or-color-config);
-    @include mat-snack-bar-theme($theme-or-color-config);
-  }
-}
-@include angular-material-tumi-theme($tumi-app-theme);
+@include angular-material-theme($tumi-app-theme);
 
 /* You can add global styles to this file, and also import other style files */
-
 html,
 body,
 app-root,
@@ -137,15 +94,16 @@ body {
 
 mat-nav-list.mat-nav-list {
   .mat-list-item.active {
-    background: mat-color($tumi-app-primary, lighter, 0.4);
+    background: mat-color($tumi-app-primary, darker, 0.4);
+    color: white;
 
     &:focus,
     &:hover {
-      background: mat-color($tumi-app-primary, lighter, 0.6);
+      background: mat-color($tumi-app-primary, darker, 0.6);
     }
 
     mat-icon {
-      color: mat-color($tumi-app-primary);
+      color: mat-color($tumi-app-primary, lighter);
     }
   }
 }

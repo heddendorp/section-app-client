@@ -13,7 +13,7 @@
         {{ tutor.phone }}</span
       >
     </div>
-    <span *ngIf="!tutor.joinedAsTutor" class="tag">newbie</span>
+    <span *ngIf="!tutor.isOldie" class="tag">newbie</span>
     <button
       (click)="stopPropagation($event)"
       *ngIf="$isAdmin | ngrxPush"

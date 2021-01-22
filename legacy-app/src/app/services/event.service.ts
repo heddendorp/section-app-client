@@ -202,7 +202,7 @@ export class EventService {
       this.store
         .collection('events')
         .doc(event.id)
-        .collection('signups')
+        .collection('signups', (ref) => ref.orderBy('timestamp', 'asc'))
         .valueChanges({ idField: 'id' }),
       this.auth.isTutor$,
     ]).pipe(
