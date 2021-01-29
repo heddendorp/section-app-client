@@ -1,6 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+  prefix: "",
   purge: ["./src/**/*.{html,ts}"],
   darkMode: false, // or 'media' or 'class'
   // Disable plugins that provide functionality already provided by @angular/flex-layout
@@ -34,5 +35,8 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/line-clamp"),
+  ],
 };
