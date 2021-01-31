@@ -92,6 +92,10 @@ export class Application {
       .withConverter(Application.getConverter(firestore));
   }
 
+  get name(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
   public get birthday(): Date {
     return this.birthdayTimestamp.toDate();
   }

@@ -7,6 +7,8 @@ import { SelectMethodPageComponent } from './containers/select-method-page/selec
 import { NewMemberPageComponent } from './containers/new-member-page/new-member-page.component';
 import { FullMemberPageComponent } from './containers/full-member-page/full-member-page.component';
 import { SubmittedApplicationsPageComponent } from './containers/submitted-applications-page/submitted-applications-page.component';
+import { ManageApplicationsPageComponent } from './containers/manage-applications-page/manage-applications-page.component';
+import { ApplicationDetailsPageComponent } from './containers/application-details-page/application-details-page.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { SubmittedApplicationsPageComponent } from './containers/submitted-appli
     NewMemberPageComponent,
     FullMemberPageComponent,
     SubmittedApplicationsPageComponent,
+    ManageApplicationsPageComponent,
+    ApplicationDetailsPageComponent,
   ],
   imports: [CommonModule, SharedModule, ApplicationsRoutingModule],
 })

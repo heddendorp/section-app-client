@@ -1,0 +1,23 @@
+<h1
+  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 pb-8"
+>
+  All applications
+</h1>
+<div fxLayout="column" fxLayoutGap="1rem">
+  <div
+    class="panel"
+    *ngFor="let application of applications$ | ngrxPush"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="1rem"
+  >
+    <div>
+      <h2 class="text-xl">Application of {{ application.name }}</h2>
+      <p>Created: {{ application.created | date }}</p>
+    </div>
+    <div fxFlex="noshrink"></div>
+    <a routerLink="./{{ application.id }}" mat-stroked-button
+      >See details and vote</a
+    >
+  </div>
+</div>

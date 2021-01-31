@@ -30,6 +30,9 @@ module.exports = {
         accent: colors.fuchsia,
         warn: colors.red,
       },
+      spacing: {
+        100: "25rem",
+      },
     },
   },
   variants: {
