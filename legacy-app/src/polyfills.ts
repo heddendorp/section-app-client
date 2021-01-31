@@ -60,3 +60,8 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// Algolia polyfill
+(window as any).process = {
+  env: { DEBUG: undefined },
+};

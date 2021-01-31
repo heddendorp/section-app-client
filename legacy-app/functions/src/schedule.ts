@@ -21,6 +21,7 @@ export const manageUsers = functions.pubsub
         batch.update(userRef, {
           creationTime: moment(user.metadata.creationTime).toDate(),
           lastSignInTime: moment(user.metadata.lastRefreshTime).toDate(),
+          photoUrl: user.photoURL,
           verified: user.emailVerified,
         });
       });

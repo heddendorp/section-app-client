@@ -1,8 +1,26 @@
 import * as functions from 'firebase-functions';
 import * as moment from 'moment-timezone';
 import * as nodemailer from 'nodemailer';
+import algoliasearch from 'algoliasearch';
 import { firestore } from './index';
 import { receipt, waitListMove } from './templates';
+
+export const writeUser = functions.firestore
+  .document('users/{userId}')
+  .onWrite(async (change, context) => {
+    const apiKey = functions.config().algolia.api_key;
+    const appId = functions.config().algolia.app_id;
+    const client = algoliasearch(appId, apiKey);
+    const index = client.initIndex('users');
+    if (change.after.exists) {
+      await index.saveObject({
+        ...change.after.data(),
+        objectID: change.after.id,
+      });
+    } else {
+      await index.deleteObject(change.before.id);
+    }
+  });
 
 export const newEvent = functions.firestore
   .document('events/{eventId}')
