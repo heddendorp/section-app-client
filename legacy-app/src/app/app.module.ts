@@ -1,7 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
+import {
+  AngularFireRemoteConfigModule,
+  DEFAULTS,
+  SETTINGS,
+} from '@angular/fire/remote-config';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { BrowserModule, Meta, Title } from '@angular/platform-browser';
-import { NgModule, PLATFORM_ID } from '@angular/core';
+import { isDevMode, NgModule, PLATFORM_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -52,6 +57,7 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     AngularFireAnalyticsModule,
     AngularFirePerformanceModule,
     AngularFireFunctionsModule,
+    AngularFireRemoteConfigModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
@@ -97,6 +103,12 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
         !JSON.parse(localStorage.getItem('disableAnalytics') ?? 'false'),
       deps: [PLATFORM_ID],
     },
+    {
+      provide: SETTINGS,
+      useFactory: () =>
+        isDevMode() ? { minimumFetchIntervalMillis: 10_000 } : {},
+    },
+    { provide: DEFAULTS, useValue: { showTutorApplication: false } },
     {
       provide: SwRegistrationOptions,
       useFactory: (platform: any) => ({

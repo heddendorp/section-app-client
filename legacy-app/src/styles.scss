@@ -3,9 +3,10 @@
 @import "tailwindcss/components";
 
 @import "tailwindcss/utilities";
+@import "mixins";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import "../node_modules/@angular/material/_theming.scss";
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -86,6 +87,10 @@ app-navigation {
 body {
   background-size: cover;
   background: url("/assets/images/background.jpg") no-repeat fixed center;
+}
+
+.panel {
+  @include panel();
 }
 
 .mat-drawer-backdrop.mat-drawer-shown {

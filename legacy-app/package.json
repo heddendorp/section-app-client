@@ -20,7 +20,6 @@
     "prerender": "ng run tumi-app:prerender",
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "start": "ng serve",
-    "start:hmr": "ng serve --hmr",
     "statistics": "ng build --prod --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
     "test": "ng test"
   },
@@ -115,7 +114,6 @@
     }
   },
   "lint-staged": {
-    "*.{html,ts}": "eslint --cache --fix",
     "*": "prettier --write --ignore-unknown"
   }
 }

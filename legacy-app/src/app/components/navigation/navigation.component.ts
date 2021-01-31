@@ -6,6 +6,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
 import { Observable } from 'rxjs';
 import { first, map, shareReplay, startWith } from 'rxjs/operators';
 import { AuthService } from '@tumi/services';
@@ -22,9 +23,11 @@ export class NavigationComponent {
   isAdmin$: Observable<boolean> = this.authService.isAdmin$;
   isTutor$: Observable<boolean> = this.authService.isTutor$;
   isHandset$: Observable<boolean>;
+  showTutorApplication$: Observable<boolean>;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
+    private remoteConfig: AngularFireRemoteConfig,
     @Inject(PLATFORM_ID) platformId: any
   ) {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
@@ -32,6 +35,7 @@ export class NavigationComponent {
       map((handset) => (isPlatformServer(platformId) ? true : handset)),
       shareReplay(1)
     );
+    this.showTutorApplication$ = this.remoteConfig.booleans.showTutorApplication;
   }
 
   public login(): Promise<void> {

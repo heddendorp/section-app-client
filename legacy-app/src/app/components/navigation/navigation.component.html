@@ -63,15 +63,6 @@
         </a>
         <a
           mat-list-item
-          routerLink="users"
-          routerLinkActive="active"
-          *ngIf="isAdmin$ | ngrxPush"
-        >
-          <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
-          <h3 mat-line>Users</h3>
-        </a>
-        <a
-          mat-list-item
           routerLink="profile"
           routerLinkActive="active"
           *ngIf="isAuthenticated$ | ngrxPush"
@@ -89,6 +80,15 @@
           <h3 mat-line>TUMi Merch</h3>
         </a>
         <a
+          mat-list-item
+          routerLink="users"
+          routerLinkActive="active"
+          *ngIf="isAdmin$ | ngrxPush"
+        >
+          <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
+          <h3 mat-line>Users</h3>
+        </a>
+        <a
           *ngIf="isAdmin$ | ngrxPush"
           mat-list-item
           routerLink="money"
@@ -98,6 +98,15 @@
           <h3 mat-line>Money</h3>
         </a>
         <a
+          mat-list-item
+          *ngIf="showTutorApplication$ | async"
+          routerLink="apply"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon svgIcon="icon-submit-resume"></mat-icon>
+          <h3 mat-line>Become a Tutor</h3>
+        </a>
+        <a
           *ngIf="isAdmin$ | ngrxPush"
           mat-list-item
           routerLink="scanner"
@@ -105,6 +114,25 @@
         >
           <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
           <h3 mat-line>Scanning</h3>
+        </a>
+        <h3 matSubheader *ngIf="isAdmin$ | ngrxPush">Association management</h3>
+        <a
+          *ngIf="isAdmin$ | ngrxPush"
+          mat-list-item
+          routerLink="money"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon svgIcon="icon-parse-resumes"></mat-icon>
+          <h3 mat-line>Manage applications</h3>
+        </a>
+        <a
+          *ngIf="isAdmin$ | ngrxPush"
+          mat-list-item
+          routerLink="money"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon svgIcon="icon-conference"></mat-icon>
+          <h3 mat-line>Manage members</h3>
         </a>
       </mat-nav-list>
       <div fxFlex="grow"></div>

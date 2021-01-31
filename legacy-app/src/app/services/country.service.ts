@@ -17,9 +17,14 @@ export class CountryService {
       .pipe(map(({ name }) => name));
   }
 
-  public getAll(): Observable<any[]> {
-    return this.http.get<any[]>(
+  public getAll(): Observable<Country[]> {
+    return this.http.get<Country[]>(
       'https://restcountries.eu/rest/v2/all?fields=name;alpha2Code'
     );
   }
+}
+
+export interface Country {
+  name: string;
+  alpha2Code: string;
 }

@@ -36,6 +36,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/money/money.module').then((m) => m.MoneyModule),
       },
+      {
+        path: 'association',
+        loadChildren: () =>
+          import('./modules/association/association.module').then(
+            (m) => m.AssociationModule
+          ),
+      },
+      {
+        path: 'apply',
+        loadChildren: () =>
+          import('./modules/applications/applications.module').then(
+            (m) => m.ApplicationsModule
+          ),
+      },
       { path: '', pathMatch: 'full', redirectTo: 'events' },
     ],
   },

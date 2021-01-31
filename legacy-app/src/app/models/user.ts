@@ -20,7 +20,8 @@ export class User {
     public country: string,
     public phone: string,
     public address: string,
-    private joinedAsTutorTimestamp: firebase.firestore.Timestamp
+    private joinedAsTutorTimestamp: firebase.firestore.Timestamp,
+    private birthdayTimestamp: firebase.firestore.Timestamp
   ) {}
 
   static get attributes(): string[] {
@@ -34,6 +35,7 @@ export class User {
       'country',
       'phone',
       'address',
+      'birthday',
     ];
   }
 
@@ -51,6 +53,14 @@ export class User {
 
   get isOldie(): boolean {
     return !!this.joinedAsTutorTimestamp;
+  }
+
+  get birthday(): Date {
+    return this.birthdayTimestamp.toDate();
+  }
+
+  set birthday(date: Date) {
+    this.birthdayTimestamp = firebase.firestore.Timestamp.fromDate(date);
   }
 
   static getConverter(store: AngularFirestore): FirestoreDataConverter<User> {
@@ -80,7 +90,8 @@ export class User {
           data.country,
           data.phone,
           data.address,
-          data.joinedAsTutor
+          data.joinedAsTutor,
+          data.birthday
         );
       },
     };

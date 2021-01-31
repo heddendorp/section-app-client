@@ -40,7 +40,7 @@ import { BehaviorSubject } from 'rxjs';
           >
           by logging in.
         </p>
-        <button mat-flat-button (click)="acceptPrivacy()">Continue</button>
+        <button mat-stroked-button (click)="acceptPrivacy()">Continue</button>
       </div>
       <p style="margin-top: 1rem;">
         We suggest logging in by using one of your existing social accounts.
@@ -53,7 +53,7 @@ import { BehaviorSubject } from 'rxjs';
   styles: [
     `
       mat-action-list.disabled {
-        filter: blur(3px);
+        filter: opacity(0.25) blur(1px);
       }
       mat-action-list {
         transition: filter 0.3s ease-in-out;

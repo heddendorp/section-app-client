@@ -28,13 +28,24 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "complexity": "error",
+        "max-len": "off",
+        "max-lines": ["error", 400],
+        "max-lines-per-function": "error",
+        "yoda": "error"
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/conditional-complexity": "warn",
+        "@angular-eslint/template/cyclomatic-complexity": [
+          "warn",
+          { "maxComplexity": 10 }
+        ]
+      }
     }
   ]
 }
