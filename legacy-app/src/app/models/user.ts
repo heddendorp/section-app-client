@@ -4,7 +4,15 @@ import firebase from 'firebase/app';
 import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
+interface MemberRights {
+  seeDrafts: boolean;
+  manageApplications: boolean;
+  manageMembers: boolean;
+}
+
 export class User {
+  private rights: MemberRights;
+
   constructor(
     private store: AngularFirestore,
     readonly id: string,
@@ -14,28 +22,36 @@ export class User {
     public lastName: string,
     public photoUrl: string,
     readonly isAdmin: boolean,
-    public isEditor: boolean,
-    public isTutor: boolean,
     public type: 'E' | 'D' | 'L' | 'P',
     public country: string,
     public phone: string,
     public address: string,
+    public status: MemberStatus,
     private joinedAsTutorTimestamp: firebase.firestore.Timestamp,
-    private birthdayTimestamp: firebase.firestore.Timestamp
-  ) {}
+    private birthdayTimestamp: firebase.firestore.Timestamp,
+    rights: MemberRights | undefined,
+    private _isTutor: boolean
+  ) {
+    this.rights = {
+      seeDrafts: false,
+      manageApplications: false,
+      manageMembers: false,
+      ...rights,
+    };
+  }
 
   static get attributes(): string[] {
     return [
       'email',
       'firstName',
       'lastName',
-      'isEditor',
-      'isTutor',
       'type',
       'country',
       'phone',
       'address',
       'birthday',
+      'status',
+      'rights',
     ];
   }
 
@@ -63,6 +79,47 @@ export class User {
     this.birthdayTimestamp = firebase.firestore.Timestamp.fromDate(date);
   }
 
+  /**
+   * @deprecated
+   */
+  get isEditor() {
+    return this.canSeeDrafts;
+  }
+
+  /**
+   * @deprecated
+   */
+  get isTutor() {
+    return this.isMember || this.isEditor || this._isTutor;
+  }
+
+  get canSeeDrafts(): boolean {
+    return this.rights.seeDrafts || this.isAdmin;
+  }
+
+  get canManageApplications(): boolean {
+    return this.rights.manageApplications || this.isAdmin;
+  }
+
+  get canManageMembers(): boolean {
+    return this.rights.manageMembers || this.isAdmin;
+  }
+
+  get isMember(): boolean {
+    return this.status !== MemberStatus.none;
+  }
+
+  get visibleToUser(): string[] {
+    const stati = ['public'];
+    if (this.status !== MemberStatus.none || this.rights.seeDrafts) {
+      stati.push('internal');
+    }
+    if (this.rights.seeDrafts) {
+      stati.push('draft');
+    }
+    return stati;
+  }
+
   static getConverter(store: AngularFirestore): FirestoreDataConverter<User> {
     return {
       toFirestore: (modelObject: User): firebase.firestore.DocumentData => {
@@ -84,14 +141,15 @@ export class User {
           data.lastName,
           data.photoUrl,
           data.isAdmin,
-          data.isEditor,
-          data.isTutor,
           data.type,
           data.country,
           data.phone,
           data.address,
+          data.status ?? MemberStatus.none,
           data.joinedAsTutor,
-          data.birthday
+          data.birthday,
+          data.rights,
+          data.isTutor
         );
       },
     };
@@ -112,4 +170,10 @@ export class User {
     this.phone = '';
     this.address = '';
   }
+}
+
+export enum MemberStatus {
+  none = 'NONE',
+  trail = 'TRAIL',
+  full = 'FULL',
 }

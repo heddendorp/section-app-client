@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@tumi/models';
+import { MemberStatus, User } from '@tumi/models';
 import { ConfirmDialogComponent } from '@tumi/modules/shared';
 import { EventService, UserService } from '@tumi/services';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +12,13 @@ import { first, switchMap } from 'rxjs/operators';
   template: `<ng-container *ngIf="user$ | async as user">
     <h2>{{ user.name }}</h2>
     <p>{{ user.email }}</p>
-    <button mat-flat-button color="warn" (click)="removeUserdata()">
+    <p>Member status {{ user.status }}</p>
+    <button
+      mat-flat-button
+      color="warn"
+      (click)="removeUserdata()"
+      [disabled]="user.isMember"
+    >
       Remove userdata
     </button>
     <button
@@ -22,6 +28,7 @@ import { first, switchMap } from 'rxjs/operators';
     >
       Load attended events
     </button>
+    <button mat-flat-button (click)="makeFullMember()">Make full member</button>
     <mat-list *ngIf="showEvents$ | async">
       <mat-list-item *ngFor="let event of events$ | ngrxPush">
         <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
@@ -72,6 +79,23 @@ export class UserDetailsComponent implements OnInit {
       .toPromise();
     if (proceed) {
       user.removeData();
+      await this.userService.update(user.id, user);
+    }
+  }
+
+  public async makeFullMember() {
+    const user = await this.user$.pipe(first()).toPromise();
+    const proceed = await this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: `Do you really want to make ${user.name} a full member?`,
+          result: true,
+        },
+      })
+      .afterClosed()
+      .toPromise();
+    if (proceed) {
+      user.status = MemberStatus.full;
       await this.userService.update(user.id, user);
     }
   }

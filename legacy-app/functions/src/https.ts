@@ -2,6 +2,34 @@ import * as functions from 'firebase-functions';
 import { firestore } from './index';
 import got from 'got';
 
+export const selfPromotion = functions.https.onCall(async (_, context) => {
+  if (!context.auth) {
+    // Throwing an HttpsError so that the client gets the error details.
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'The function must be called while authenticated.'
+    );
+  }
+  const snapshot = await firestore
+    .collection('users')
+    .doc(context.auth.uid)
+    .get();
+  const user = snapshot.data();
+  if (!user) {
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'The authenticated user could not be found in the database.'
+    );
+  }
+  if (user.isTutor || user.isAdmin || user.isEditor) {
+    await snapshot.ref.update({
+      status: 'TRAIL',
+      isTutor: false,
+      isEditor: false,
+    });
+  }
+});
+
 export const confirmPayment = functions.https.onCall(
   async (
     { eventId, orderId }: { eventId: string; orderId: string },
