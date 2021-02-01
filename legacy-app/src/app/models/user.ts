@@ -86,7 +86,7 @@ export class User {
   }
 
   get birthday(): Date {
-    return this.birthdayTimestamp.toDate();
+    return this.birthdayTimestamp?.toDate();
   }
 
   set birthday(date: Date) {

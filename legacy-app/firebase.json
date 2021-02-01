@@ -42,6 +42,10 @@
           "function": "universal"
         },
         {
+          "source": "/apply",
+          "function": "universal"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }

@@ -5,6 +5,7 @@
 </h1>
 
 <app-rights-manager
-  [user]="user$ | ngrxPush"
+  *ngIf="user$ | ngrxPush as user"
+  [user]="user"
   (rightsUpdated)="updateRights($event)"
 ></app-rights-manager>

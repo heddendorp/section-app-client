@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Meta, Title } from '@angular/platform-browser';
 import { MemberStatus } from '@tumi/models';
 import { IconToastComponent } from '@tumi/modules/shared';
 import { AuthService } from '@tumi/services';
@@ -22,8 +23,34 @@ export class SelectMethodPageComponent {
   constructor(
     private authService: AuthService,
     private snack: MatSnackBar,
-    private functions: AngularFireFunctions
-  ) {}
+    private functions: AngularFireFunctions,
+    meta: Meta,
+    title: Title
+  ) {
+    title.setTitle('TUMi - apply');
+    meta.updateTag(
+      { property: 'og:title', content: 'TUMi - apply' },
+      "property='og:title'"
+    );
+    meta.updateTag(
+      { property: 'og:url', content: `https://tumi.esn.world/apply` },
+      "property='og:url'"
+    );
+    meta.updateTag(
+      {
+        property: 'og:description',
+        content: 'Apply to become a TUMi member now!',
+      },
+      "property='og:description'"
+    );
+    meta.updateTag(
+      {
+        name: 'description',
+        content: 'Apply to become a TUMi member now!',
+      },
+      "name='description'"
+    );
+  }
 
   startLogin(): void {
     this.authService.login();
