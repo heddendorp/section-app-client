@@ -23,7 +23,7 @@ export const selfPromotion = functions.https.onCall(async (_, context) => {
   }
   if (user.isTutor || user.isAdmin || user.isEditor) {
     await snapshot.ref.update({
-      status: 'TRAIL',
+      status: 'TRIAL',
       isTutor: false,
       isEditor: false,
     });

@@ -174,6 +174,6 @@ export class User {
 
 export enum MemberStatus {
   none = 'NONE',
-  trail = 'TRAIL',
+  trial = 'TRIAL',
   full = 'FULL',
 }
