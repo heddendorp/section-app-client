@@ -96,6 +96,7 @@ export class UserDetailsComponent implements OnInit {
       .toPromise();
     if (proceed) {
       user.status = MemberStatus.full;
+      user.joinedAssociation = new Date('10/01/2020 20:00');
       await this.userService.update(user.id, user);
     }
   }

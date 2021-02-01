@@ -7,7 +7,7 @@ import {
   EmailLoginDialogComponent,
   LoginOptionsDialogComponent,
 } from '@tumi/components';
-import { User } from '@tumi/models';
+import { MemberStatus, User } from '@tumi/models';
 import { isNotNullOrUndefined } from '@tumi/modules/shared';
 import firebase from 'firebase/app';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -52,18 +52,40 @@ export class AuthService {
     return this.user;
   }
 
+  /**
+   * @deprecated use alternative to get status
+   */
   public get isTutor$(): Observable<boolean> {
     return this.authenticated$.pipe(
       switchMap((authenticated) =>
+        authenticated ? this.user$.pipe(map((user) => user.isTutor)) : of(false)
+      )
+    );
+  }
+
+  public get isMember$(): Observable<boolean> {
+    return this.authenticated$.pipe(
+      switchMap((authenticated) =>
         authenticated
-          ? this.user$.pipe(
-              map((user) => user.isTutor || user.isEditor || user.isAdmin)
-            )
+          ? this.user$.pipe(map((user) => user.isMember))
           : of(false)
       )
     );
   }
 
+  public hasMemberStatus$(status: MemberStatus): Observable<boolean> {
+    return this.authenticated$.pipe(
+      switchMap((authenticated) =>
+        authenticated
+          ? this.user$.pipe(map((user) => user.status == status))
+          : of(false)
+      )
+    );
+  }
+
+  /**
+   * @deprecated use alternative to get permissions
+   */
   public get isEditor$(): Observable<boolean> {
     return this.authenticated$.pipe(
       switchMap((authenticated) =>
@@ -74,6 +96,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * @deprecated use alternative to get permissions
+   */
   public get isAdmin$(): Observable<boolean> {
     return this.authenticated$.pipe(
       switchMap((authenticated) =>

@@ -36,7 +36,7 @@
   </ul>
 </div>
 
-<div class="panel text-lg mb-8">
+<div class="panel text-lg mb-4">
   <div
     class="mb-4"
     fxLayout="row"
@@ -102,12 +102,10 @@
     <h2 class="text-2xl font-bold">Current situation</h2>
     <p>
       We're aware of the current lack of events, the board will take this into
-      account when assessing the full member submissions
+      account when assessing the full member applications
     </p>
   </div>
 </div>
-
-<h2 class="text-2xl font-bold mb-4">Start your application</h2>
 
 <div
   fxLayout="column"
@@ -116,7 +114,25 @@
   fxLayoutGap="1rem"
 >
   <div
-    *ngIf="isAuthenticated$ | ngrxPush; else login"
+    *ngIf="(isAuthenticated$ | ngrxPush) === false"
+    class="panel text-lg"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <img src="/assets/icons/enter.svg" alt="" class="h-16 object-contain" />
+    <h3 class="text-2xl">Log in or register</h3>
+    <p>In order to apply, you have to log in or create an account firsts</p>
+    <button mat-stroked-button color="primary" (click)="startLogin()">
+      Get started
+    </button>
+  </div>
+
+  <div
+    *ngIf="
+      (isAuthenticated$ | ngrxPush) &&
+      (isMember$ | ngrxPush) === false &&
+      (isTutor$ | ngrxPush) === false
+    "
     class="panel text-lg"
     fxLayout="column"
     fxLayoutGap="1rem"
@@ -127,26 +143,42 @@
       class="h-16 object-contain"
     />
     <h3 class="text-2xl">Apply to become a trial member</h3>
-    <p>Get started in TUMi today</p>
+    <p>This is the first step to become a TUMi member!</p>
     <a mat-stroked-button color="primary" routerLink="new">Start application</a>
   </div>
-  <ng-template #login>
-    <div class="panel text-lg" fxLayout="column" fxLayoutGap="1rem">
-      <img src="/assets/icons/enter.svg" alt="" class="h-16 object-contain" />
-      <h3 class="text-2xl">Log in or register</h3>
-      <p>In order to apply, you have to log in or create an account firsts</p>
-      <button mat-stroked-button color="primary" (click)="startLogin()">
-        Get started
-      </button>
-    </div>
-  </ng-template>
+
   <div
-    *ngIf="isTutor$ | ngrxPush"
+    *ngIf="
+      (isAuthenticated$ | ngrxPush) &&
+      (isMember$ | ngrxPush) === false &&
+      (isTutor$ | ngrxPush) === true
+    "
     class="panel text-lg"
     fxLayout="column"
     fxLayoutGap="1rem"
   >
-    <img src="/assets/icons/skip.svg" alt="" class="h-16 object-contain" />
+    <img
+      src="/assets/icons/new-application.svg"
+      alt=""
+      class="h-16 object-contain"
+    />
+    <h3 class="text-2xl">Become a trial member now</h3>
+    <p>
+      It seems like you've been active at TUMi before so you can become a trial
+      member now
+    </p>
+    <button mat-stroked-button color="primary" (click)="selfPromote()">
+      Get started
+    </button>
+  </div>
+
+  <div
+    *ngIf="isTrailMember$ | ngrxPush"
+    class="panel text-lg"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <img src="/assets/icons/up.svg" alt="" class="h-16 object-contain" />
     <h3 class="text-2xl">Apply to become a full member</h3>
     <p>
       It seems like you have TUMi experience already so you can become a full

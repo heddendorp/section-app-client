@@ -30,7 +30,8 @@ export class User {
     private joinedAsTutorTimestamp: firebase.firestore.Timestamp,
     private birthdayTimestamp: firebase.firestore.Timestamp,
     rights: MemberRights | undefined,
-    private _isTutor: boolean
+    private _isTutor: boolean,
+    private _joinedAssociation: firebase.firestore.Timestamp
   ) {
     this.rights = {
       seeDrafts: false,
@@ -52,6 +53,7 @@ export class User {
       'birthday',
       'status',
       'rights',
+      'joinedAssociation',
     ];
   }
 
@@ -63,10 +65,16 @@ export class User {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  /**
+   * @deprecated
+   */
   get joinedAsTutor(): Date {
     return this.joinedAsTutorTimestamp.toDate();
   }
 
+  /**
+   * @deprecated
+   */
   get isOldie(): boolean {
     return !!this.joinedAsTutorTimestamp;
   }
@@ -109,6 +117,14 @@ export class User {
     return this.status !== MemberStatus.none;
   }
 
+  get joinedAssociation(): Date {
+    return this._joinedAssociation.toDate();
+  }
+
+  set joinedAssociation(date: Date) {
+    this._joinedAssociation = firebase.firestore.Timestamp.fromDate(date);
+  }
+
   get visibleToUser(): string[] {
     const stati = ['public'];
     if (this.status !== MemberStatus.none || this.rights.seeDrafts) {
@@ -149,7 +165,8 @@ export class User {
           data.joinedAsTutor,
           data.birthday,
           data.rights,
-          data.isTutor
+          data.isTutor,
+          data.joinedAssociation
         );
       },
     };
