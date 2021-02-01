@@ -26,13 +26,25 @@ import { first, switchMap } from 'rxjs/operators';
       (click)="showEvents$.next(true)"
       [disabled]="showEvents$ | ngrxPush"
     >
-      Load attended events
+      Load attended events</button
+    ><button
+      mat-flat-button
+      (click)="showTutorEvents$.next(true)"
+      [disabled]="showTutorEvents$ | ngrxPush"
+    >
+      Load tutored events
     </button>
-    <button mat-flat-button (click)="makeFullMember()">Make full member</button>
     <mat-list *ngIf="showEvents$ | async">
       <mat-list-item *ngFor="let event of events$ | ngrxPush">
         <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
         <p mat-line>{{ event.name }}</p>
+      </mat-list-item>
+    </mat-list>
+    <mat-list *ngIf="showTutorEvents$ | async">
+      <mat-list-item *ngFor="let event of tutoredEvents$ | ngrxPush">
+        <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
+        <p mat-line>{{ event.name }}</p>
+        <p mat-line>Tutor</p>
       </mat-list-item>
     </mat-list>
   </ng-container>`,
@@ -49,7 +61,9 @@ import { first, switchMap } from 'rxjs/operators';
 export class UserDetailsComponent implements OnInit {
   public user$: Observable<User>;
   public events$: Observable<any[]>;
+  public tutoredEvents$: Observable<any[]>;
   public showEvents$ = new BehaviorSubject(false);
+  public showTutorEvents$ = new BehaviorSubject(false);
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -63,6 +77,9 @@ export class UserDetailsComponent implements OnInit {
     );
     this.events$ = this.user$.pipe(
       switchMap((user) => this.eventService.getEventsForUser(user.id))
+    );
+    this.tutoredEvents$ = this.user$.pipe(
+      switchMap((user) => this.eventService.getEventsForTutor(user.id))
     );
   }
 
@@ -79,24 +96,6 @@ export class UserDetailsComponent implements OnInit {
       .toPromise();
     if (proceed) {
       user.removeData();
-      await this.userService.update(user.id, user);
-    }
-  }
-
-  public async makeFullMember() {
-    const user = await this.user$.pipe(first()).toPromise();
-    const proceed = await this.dialog
-      .open(ConfirmDialogComponent, {
-        data: {
-          title: `Do you really want to make ${user.name} a full member?`,
-          result: true,
-        },
-      })
-      .afterClosed()
-      .toPromise();
-    if (proceed) {
-      user.status = MemberStatus.full;
-      user.joinedAssociation = new Date('10/01/2020 20:00');
       await this.userService.update(user.id, user);
     }
   }
