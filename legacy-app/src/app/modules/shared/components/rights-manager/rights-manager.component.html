@@ -1,0 +1,19 @@
+<form [formGroup]="rightsForm" fxLayout="column" fxLayoutGap="1rem">
+  <mat-checkbox formControlName="seeDrafts">seeDrafts</mat-checkbox>
+  <mat-checkbox formControlName="manageApplications"
+    >manageApplications</mat-checkbox
+  >
+  <mat-checkbox formControlName="manageMembers">manageMembers</mat-checkbox>
+  <mat-checkbox formControlName="manageUsers">manageUsers</mat-checkbox>
+  <mat-checkbox formControlName="accessTransactions"
+    >accessTransactions</mat-checkbox
+  >
+  <mat-checkbox formControlName="scanRequests">scanRequests</mat-checkbox>
+  <button
+    mat-stroked-button
+    [disabled]="rightsForm.invalid"
+    (click)="rightsUpdated.emit(rightsForm.value)"
+  >
+    Save Rights
+  </button>
+</form>

@@ -59,7 +59,7 @@ export class UserDetailsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.user$ = this.route.paramMap.pipe(
-      switchMap((params) => this.userService.getUser$(params.get('id') ?? ''))
+      switchMap((params) => this.userService.getOne$(params.get('id') ?? ''))
     );
     this.events$ = this.user$.pipe(
       switchMap((user) => this.eventService.getEventsForUser(user.id))

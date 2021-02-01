@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
+import { User } from '@tumi/models';
 import { Observable } from 'rxjs';
 import { first, map, shareReplay, startWith } from 'rxjs/operators';
 import { AuthService } from '@tumi/services';
@@ -20,8 +21,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class NavigationComponent {
   isAuthenticated$: Observable<boolean> = this.authService.authenticated$;
-  isAdmin$: Observable<boolean> = this.authService.isAdmin$;
-  isTutor$: Observable<boolean> = this.authService.isTutor$;
+  user$: Observable<User> = this.authService.user$;
   isHandset$: Observable<boolean>;
   showTutorApplication$: Observable<boolean>;
   constructor(

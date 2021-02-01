@@ -41,7 +41,7 @@
     [opened]="(isHandset$ | ngrxPush) === false"
     [fixedTopGap]="(isHandset$ | ngrxPush) ? 72 : 0"
   >
-    <div fxLayout="column" class="h-full">
+    <div fxLayout="column" class="h-full" *ngrxLet="user$; let user">
       <div
         *ngIf="(isHandset$ | ngrxPush) === false"
         fxFlex="noshrink"
@@ -74,7 +74,7 @@
           mat-list-item
           routerLink="page/shop"
           routerLinkActive="active"
-          *ngIf="isTutor$ | ngrxPush"
+          *ngIf="user?.isMember"
         >
           <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
           <h3 mat-line>TUMi Merch</h3>
@@ -83,13 +83,13 @@
           mat-list-item
           routerLink="users"
           routerLinkActive="active"
-          *ngIf="isAdmin$ | ngrxPush"
+          *ngIf="user?.canManageMembers"
         >
           <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
           <h3 mat-line>Users</h3>
         </a>
         <a
-          *ngIf="isAdmin$ | ngrxPush"
+          *ngIf="user?.canAccessTransactions"
           mat-list-item
           routerLink="money"
           routerLinkActive="active"
@@ -107,7 +107,7 @@
           <h3 mat-line>Become a Tutor</h3>
         </a>
         <a
-          *ngIf="isAdmin$ | ngrxPush"
+          *ngIf="user?.canScanRequests"
           mat-list-item
           routerLink="scanner"
           routerLinkActive="active"
@@ -115,9 +115,14 @@
           <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
           <h3 mat-line>Scanning</h3>
         </a>
-        <h3 matSubheader *ngIf="isAdmin$ | ngrxPush">Association management</h3>
+        <h3
+          matSubheader
+          *ngIf="user?.canManageMembers || user?.canManageApplications"
+        >
+          Association management
+        </h3>
         <a
-          *ngIf="isAdmin$ | ngrxPush"
+          *ngIf="user?.canManageApplications"
           mat-list-item
           routerLink="apply/manage"
           routerLinkActive="active"
@@ -126,7 +131,7 @@
           <h3 mat-line>Manage applications</h3>
         </a>
         <a
-          *ngIf="isAdmin$ | ngrxPush"
+          *ngIf="user?.canManageMembers"
           mat-list-item
           routerLink="association"
           routerLinkActive="active"

@@ -45,6 +45,7 @@ import {
   IconToastComponent,
 } from './components';
 import { IconSrcDirective } from './directives';
+import { RightsManagerComponent } from './components/rights-manager/rights-manager.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -72,7 +73,7 @@ export const COMPONENTS = [
 export const DIRECTIVES = [IconSrcDirective];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES],
+  declarations: [COMPONENTS, DIRECTIVES, RightsManagerComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([]),
@@ -90,6 +91,7 @@ export const DIRECTIVES = [IconSrcDirective];
     ReactiveFormsModule,
     ReactiveComponentModule,
     MarkdownModule,
+    RightsManagerComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },

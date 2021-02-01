@@ -1,0 +1,10 @@
+<h1
+  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 mb-8"
+>
+  {{ (user$ | ngrxPush)?.name }}
+</h1>
+
+<app-rights-manager
+  [user]="user$ | ngrxPush"
+  (rightsUpdated)="updateRights($event)"
+></app-rights-manager>

@@ -34,7 +34,7 @@ export class ScannerComponent {
     );
     this.user$ = currentRequest.pipe(
       switchMap((request) =>
-        request ? this.userService.getUser$(request.user) : of(null)
+        request ? this.userService.getOne$(request.user) : of(null)
       ),
       shareReplay()
     );

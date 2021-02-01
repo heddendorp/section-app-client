@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssociationComponent } from './association.component';
+import { MemberListPageComponent } from './member-list-page.component';
 
-describe('AssociationComponent', () => {
-  let component: AssociationComponent;
-  let fixture: ComponentFixture<AssociationComponent>;
+describe('MemberListPageComponent', () => {
+  let component: MemberListPageComponent;
+  let fixture: ComponentFixture<MemberListPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssociationComponent],
+      declarations: [MemberListPageComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssociationComponent);
+    fixture = TestBed.createComponent(MemberListPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

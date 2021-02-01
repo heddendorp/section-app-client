@@ -4,14 +4,17 @@ import firebase from 'firebase/app';
 import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
-interface MemberRights {
+export interface MemberRights {
   seeDrafts: boolean;
   manageApplications: boolean;
   manageMembers: boolean;
+  manageUsers: boolean;
+  accessTransactions: boolean;
+  scanRequests: boolean;
 }
 
 export class User {
-  private rights: MemberRights;
+  private _rights: MemberRights;
 
   constructor(
     private store: AngularFirestore,
@@ -33,10 +36,13 @@ export class User {
     private _isTutor: boolean,
     private _joinedAssociation: firebase.firestore.Timestamp
   ) {
-    this.rights = {
+    this._rights = {
       seeDrafts: false,
       manageApplications: false,
       manageMembers: false,
+      manageUsers: false,
+      accessTransactions: false,
+      scanRequests: false,
       ...rights,
     };
   }
@@ -102,19 +108,39 @@ export class User {
   }
 
   get canSeeDrafts(): boolean {
-    return this.rights.seeDrafts || this.isAdmin;
+    return this._rights.seeDrafts || this.isAdmin;
   }
 
   get canManageApplications(): boolean {
-    return this.rights.manageApplications || this.isAdmin;
+    return this._rights.manageApplications || this.isAdmin;
   }
 
   get canManageMembers(): boolean {
-    return this.rights.manageMembers || this.isAdmin;
+    return this._rights.manageMembers || this.isAdmin;
+  }
+
+  get canManageUsers(): boolean {
+    return this._rights.manageUsers || this.isAdmin;
+  }
+
+  get canAccessTransactions(): boolean {
+    return this._rights.accessTransactions || this.isAdmin;
+  }
+
+  get canScanRequests(): boolean {
+    return this._rights.scanRequests || this.isAdmin;
   }
 
   get isMember(): boolean {
     return this.status !== MemberStatus.none;
+  }
+
+  public get rights(): MemberRights {
+    return this._rights;
+  }
+
+  public set rights(value: MemberRights) {
+    this._rights = value;
   }
 
   get joinedAssociation(): Date {
@@ -127,10 +153,10 @@ export class User {
 
   get visibleToUser(): string[] {
     const stati = ['public'];
-    if (this.status !== MemberStatus.none || this.rights.seeDrafts) {
+    if (this.status !== MemberStatus.none || this._rights.seeDrafts) {
       stati.push('internal');
     }
-    if (this.rights.seeDrafts) {
+    if (this._rights.seeDrafts) {
       stati.push('draft');
     }
     return stati;

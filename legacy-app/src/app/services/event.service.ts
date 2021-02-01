@@ -197,7 +197,7 @@ export class EventService {
     ...event,
     start: event.start.toDate(),
     end: event.end.toDate(),
-    registeredTutors: this.userService.getUserList$(event.tutorSignups),
+    registeredTutors: this.userService.getList$(event.tutorSignups),
     registrations: combineLatest([
       this.store
         .collection('events')
