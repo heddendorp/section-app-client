@@ -42,6 +42,14 @@
           "function": "universal"
         },
         {
+          "source": "/about/**",
+          "function": "universal"
+        },
+        {
+          "source": "/about",
+          "function": "universal"
+        },
+        {
           "source": "/apply",
           "function": "universal"
         },
