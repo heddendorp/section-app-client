@@ -1,3 +1,4 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoneyRoutingModule } from './money-routing.module';
@@ -7,6 +8,6 @@ import { SharedModule } from '@tumi/modules/shared';
 
 @NgModule({
   declarations: [MoneyComponent, NewTransactionDialogComponent],
-  imports: [CommonModule, MoneyRoutingModule, SharedModule],
+  imports: [CommonModule, MoneyRoutingModule, SharedModule, ScrollingModule],
 })
 export class MoneyModule {}
