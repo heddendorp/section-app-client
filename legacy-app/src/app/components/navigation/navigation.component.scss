@@ -4,7 +4,7 @@
   background: none;
   mat-sidenav {
     width: 300px;
-    @include acrylic(0.2, 5px);
+    background: rgba(255, 255, 255, 0.1);
     border-right: rgba(255, 255, 255, 0.3) 1px solid;
   }
   mat-sidenav-content {

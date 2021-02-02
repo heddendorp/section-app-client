@@ -15,7 +15,8 @@
   </button>
   <div fxFlex="noshrink" fxLayout="row" fxLayoutAlign="center center">
     <span
-      class="bg-clip-text text-3xl font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+      class="bg-clip-text text-3xl font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600 select-none"
+      routerLink="/"
       *ngIf="isHandset$ | async"
     >
       TUMi
@@ -39,9 +40,9 @@
     [attr.role]="(isHandset$ | ngrxPush) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | ngrxPush) ? 'over' : 'side'"
     [opened]="(isHandset$ | ngrxPush) === false"
-    [fixedTopGap]="(isHandset$ | ngrxPush) ? 72 : 0"
+    [fixedTopGap]="(isHandset$ | ngrxPush) ? 70 : 0"
   >
-    <div fxLayout="column" class="h-full" *ngrxLet="user$; let user">
+    <div fxLayout="column" class="h-full">
       <div
         *ngIf="(isHandset$ | ngrxPush) === false"
         fxFlex="noshrink"
@@ -63,42 +64,6 @@
         </a>
         <a
           mat-list-item
-          routerLink="profile"
-          routerLinkActive="active"
-          *ngIf="isAuthenticated$ | ngrxPush"
-        >
-          <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
-          <h3 mat-line>My Profile</h3>
-        </a>
-        <a
-          mat-list-item
-          routerLink="page/shop"
-          routerLinkActive="active"
-          *ngIf="user?.isMember"
-        >
-          <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
-          <h3 mat-line>TUMi Merch</h3>
-        </a>
-        <a
-          mat-list-item
-          routerLink="users"
-          routerLinkActive="active"
-          *ngIf="user?.canManageMembers"
-        >
-          <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
-          <h3 mat-line>Users</h3>
-        </a>
-        <a
-          *ngIf="user?.canAccessTransactions"
-          mat-list-item
-          routerLink="money"
-          routerLinkActive="active"
-        >
-          <mat-icon mat-list-icon svgIcon="icon-money"></mat-icon>
-          <h3 mat-line>Money</h3>
-        </a>
-        <a
-          mat-list-item
           *ngIf="showTutorApplication$ | async"
           routerLink="apply"
           routerLinkActive="active"
@@ -106,39 +71,77 @@
           <mat-icon mat-list-icon svgIcon="icon-submit-resume"></mat-icon>
           <h3 mat-line>Become a Tutor</h3>
         </a>
-        <a
-          *ngIf="user?.canScanRequests"
-          mat-list-item
-          routerLink="scanner"
-          routerLinkActive="active"
-        >
-          <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
-          <h3 mat-line>Scanning</h3>
-        </a>
-        <h3
-          matSubheader
-          *ngIf="user?.canManageMembers || user?.canManageApplications"
-        >
-          Association management
-        </h3>
-        <a
-          *ngIf="user?.canManageApplications"
-          mat-list-item
-          routerLink="apply/manage"
-          routerLinkActive="active"
-        >
-          <mat-icon mat-list-icon svgIcon="icon-parse-resumes"></mat-icon>
-          <h3 mat-line>Manage applications</h3>
-        </a>
-        <a
-          *ngIf="user?.canManageMembers"
-          mat-list-item
-          routerLink="association"
-          routerLinkActive="active"
-        >
-          <mat-icon mat-list-icon svgIcon="icon-conference"></mat-icon>
-          <h3 mat-line>Manage members</h3>
-        </a>
+        <ng-container *ngrxLet="user$; let user">
+          <a
+            mat-list-item
+            routerLink="profile"
+            routerLinkActive="active"
+            *ngIf="user"
+          >
+            <mat-icon svgIcon="icon-contact-card" mat-list-icon></mat-icon>
+            <h3 mat-line>My Profile</h3>
+          </a>
+          <a
+            mat-list-item
+            routerLink="page/shop"
+            routerLinkActive="active"
+            *ngIf="user?.isMember"
+          >
+            <mat-icon svgIcon="icon-online-shop-2" mat-list-icon></mat-icon>
+            <h3 mat-line>TUMi Merch</h3>
+          </a>
+          <a
+            mat-list-item
+            routerLink="users"
+            routerLinkActive="active"
+            *ngIf="user?.canManageMembers"
+          >
+            <mat-icon svgIcon="icon-conference" mat-list-icon></mat-icon>
+            <h3 mat-line>Users</h3>
+          </a>
+          <a
+            *ngIf="user?.canAccessTransactions"
+            mat-list-item
+            routerLink="money"
+            routerLinkActive="active"
+          >
+            <mat-icon mat-list-icon svgIcon="icon-money"></mat-icon>
+            <h3 mat-line>Money</h3>
+          </a>
+          <a
+            *ngIf="user?.canScanRequests"
+            mat-list-item
+            routerLink="scanner"
+            routerLinkActive="active"
+          >
+            <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+            <h3 mat-line>Scanning</h3>
+          </a>
+          <h3
+            matSubheader
+            *ngIf="user?.canManageMembers || user?.canManageApplications"
+          >
+            Association management
+          </h3>
+          <a
+            *ngIf="user?.canManageApplications"
+            mat-list-item
+            routerLink="apply/manage"
+            routerLinkActive="active"
+          >
+            <mat-icon mat-list-icon svgIcon="icon-parse-resumes"></mat-icon>
+            <h3 mat-line>Manage applications</h3>
+          </a>
+          <a
+            *ngIf="user?.canManageMembers"
+            mat-list-item
+            routerLink="association"
+            routerLinkActive="active"
+          >
+            <mat-icon mat-list-icon svgIcon="icon-conference"></mat-icon>
+            <h3 mat-line>Manage members</h3>
+          </a>
+        </ng-container>
       </mat-nav-list>
       <div fxFlex="grow"></div>
       <div class="text-center text-gray-800 my-2">
