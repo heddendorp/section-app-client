@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MemberStatus, User } from '@tumi/models';
-import { subMonths } from 'date-fns';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 

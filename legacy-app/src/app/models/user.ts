@@ -144,7 +144,7 @@ export class User {
   }
 
   get joinedAssociation(): Date {
-    return this._joinedAssociation.toDate();
+    return this._joinedAssociation?.toDate();
   }
 
   set joinedAssociation(date: Date) {

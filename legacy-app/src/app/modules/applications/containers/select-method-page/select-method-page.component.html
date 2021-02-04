@@ -4,8 +4,8 @@
   Join TUMi!
 </h1>
 <div class="panel mb-4 text-lg">
-  <p>Are you interested in...</p>
-  <ul class="list-disc list-inside mb-4">
+  <p class="font-bold mb-2">Are you interested in...</p>
+  <ul class="list-disc list-outside mb-6 ml-5">
     <li>
       supporting international students with settling in, showing them around
       the campus and introducing them to Munich and its cultural highlights?
@@ -17,8 +17,8 @@
       exciting and fun program?
     </li>
   </ul>
-  <p>We suggest to only apply if</p>
-  <ul class="list-disc list-inside">
+  <p class="mb-2">We suggest to only apply if</p>
+  <ul class="list-disc list-outside ml-5">
     <li>
       your level of German is at least B1, because it is likely that you will be
       interacting on your own in German-only-speaking environments during TUMi
@@ -52,9 +52,9 @@
     <h2 class="text-2xl font-bold">The Process</h2>
   </div>
 
-  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="2rem">
     <div fxFlex="40">
-      <h3 class="text-2xl">Trial Member</h3>
+      <h3 class="text-2xl mb-2">Trial Member</h3>
       <p>
         You join TUMi as a trial member on acceptance, this makes you part of
         the organisation and allows you to take part as a tutor in TUMi events
@@ -70,22 +70,22 @@
       </p>
     </div>
     <div>
-      <h3 class="text-2xl">Full Member</h3>
+      <h3 class="text-2xl mb-2">Full Member</h3>
       <p>
         After being part of TUMi for some time you can apply for full
         membership. There are two requirements:
       </p>
-      <ol class="list-decimal list-inside">
+      <ol class="list-decimal list-outside ml-5 mb-2">
         <li>Take part in one kickoff or stammtisch</li>
         <li>Be tutor on four events</li>
       </ol>
-      <p>
+      <p class="mb-2">
         When becoming a full member you will also have to pay membership fees
         (currently {{ 5 | currency: "EUR" }} per semester), these serve mainly
         the purpose to show who is still active. <br />
         Full members also gain some privileges:
       </p>
-      <ul class="list-disc list-inside">
+      <ul class="list-disc list-outside ml-5">
         <li>Voting rights at the assembly</li>
         <li>Ability to run for a board position</li>
         <li>Ability to introduce their own events</li>
@@ -128,7 +128,7 @@
   >
     <img src="/assets/icons/enter.svg" alt="" class="h-16 object-contain" />
     <h3 class="text-2xl">Log in or register</h3>
-    <p>In order to apply, you have to log in or create an account firsts</p>
+    <p>In order to apply, you have to log in or create an account first</p>
     <button mat-stroked-button color="primary" (click)="startLogin()">
       Get started
     </button>

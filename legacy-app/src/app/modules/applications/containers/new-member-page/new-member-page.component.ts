@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
@@ -23,12 +23,13 @@ import { first } from 'rxjs/operators';
 })
 export class NewMemberPageComponent implements OnInit {
   public applicationForm: FormGroup;
-  private user$: Observable<User>;
   public countries$: Observable<Country[]>;
   public hasApplication$: Observable<boolean>;
   public types = allTypes;
   public maxBirthday = subYears(new Date(), 15);
   public minGraduation = new Date();
+  private user$: Observable<User>;
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -37,6 +38,10 @@ export class NewMemberPageComponent implements OnInit {
     private users: UserService,
     private applications: ApplicationService
   ) {}
+
+  get languages(): FormArray {
+    return this.applicationForm.get('languages') as FormArray;
+  }
 
   async ngOnInit(): Promise<void> {
     this.applicationForm = this.fb.group({
@@ -71,10 +76,18 @@ export class NewMemberPageComponent implements OnInit {
     const user = await this.user$.pipe(first()).toPromise();
     this.hasApplication$ = this.applications.userHasApplication(user.id);
     this.applicationForm.patchValue(user);
-  }
-
-  get languages(): FormArray {
-    return this.applicationForm.get('languages') as FormArray;
+    const inProgess = localStorage.getItem('applicationDraft');
+    if (inProgess) {
+      try {
+        const application = JSON.parse(inProgess);
+        this.applicationForm.patchValue(application);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    this.applicationForm.valueChanges.subscribe((value) =>
+      localStorage.setItem('applicationDraft', JSON.stringify(value))
+    );
   }
 
   public chosenMonthHandler(

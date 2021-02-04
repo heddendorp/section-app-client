@@ -11,6 +11,7 @@ export const manageUsers = functions.pubsub
   .schedule('every monday 00:00')
   .onRun(async () => {
     let nextPage;
+    firestore.settings({ ignoreUndefinedProperties: true });
     do {
       const batch = firestore.batch();
       const userPage: ListUsersResult = await admin
@@ -21,7 +22,7 @@ export const manageUsers = functions.pubsub
         batch.update(userRef, {
           creationTime: moment(user.metadata.creationTime).toDate(),
           lastSignInTime: moment(user.metadata.lastRefreshTime).toDate(),
-          photoUrl: user.photoURL,
+          photoURL: user.photoURL,
           verified: user.emailVerified,
         });
       });
