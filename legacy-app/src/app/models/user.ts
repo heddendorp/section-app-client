@@ -11,6 +11,7 @@ export interface MemberRights {
   manageUsers: boolean;
   accessTransactions: boolean;
   scanRequests: boolean;
+  betaFeatures: boolean;
 }
 
 export class User {
@@ -43,6 +44,7 @@ export class User {
       manageUsers: false,
       accessTransactions: false,
       scanRequests: false,
+      betaFeatures: false,
       ...rights,
     };
   }
@@ -129,6 +131,10 @@ export class User {
 
   get canScanRequests(): boolean {
     return this._rights.scanRequests || this.isAdmin;
+  }
+
+  get canSeeBetaFeatures(): boolean {
+    return this._rights.betaFeatures || this.isAdmin;
   }
 
   get isMember(): boolean {

@@ -58,6 +58,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/pages/pages.module').then((m) => m.PagesModule),
   },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./modules/about/about.module').then((m) => m.AboutModule),
+  },
   { path: '**', pathMatch: 'full', redirectTo: '/page/not-found' },
 ];
 

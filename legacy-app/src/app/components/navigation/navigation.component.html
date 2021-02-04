@@ -83,6 +83,15 @@
           </a>
           <a
             mat-list-item
+            routerLink="about"
+            routerLinkActive="active"
+            *ngIf="user?.canSeeBetaFeatures"
+          >
+            <mat-icon svgIcon="icon-information" mat-list-icon></mat-icon>
+            <h3 mat-line>What is TUMi?</h3>
+          </a>
+          <a
+            mat-list-item
             routerLink="page/shop"
             routerLinkActive="active"
             *ngIf="user?.isMember"
