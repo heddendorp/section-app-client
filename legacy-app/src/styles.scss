@@ -93,6 +93,12 @@ body {
   @include panel();
 }
 
+mat-checkbox.mat-checkbox {
+  label.mat-checkbox-layout {
+    white-space: normal;
+  }
+}
+
 .mat-drawer-backdrop.mat-drawer-shown {
   background: transparent;
   backdrop-filter: blur(20px);

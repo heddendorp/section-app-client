@@ -1,5 +1,94 @@
 <h1
   class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 pb-8"
 >
-  Coming soon!
+  Full member application
 </h1>
+<div
+  class="panel mb-4"
+  fxLayout="row"
+  fxLayoutGap="1rem"
+  fxLayoutAlign="start center"
+  *ngIf="hasApplication$ | ngrxPush"
+>
+  <img src="/assets/icons/warning.svg" alt="⚠" />
+  <h2 class="text-xl">You already have submitted an application!</h2>
+</div>
+<div
+  class="panel mb-4"
+  fxLayout="row"
+  fxLayoutGap="1rem"
+  fxLayoutAlign="start center"
+>
+  <img src="/assets/icons/germany.svg" alt="🇩🇪" />
+  <h2 class="text-xl">
+    TUMi Bewerbungen können auch auf deutsch abgegeben werden!
+  </h2>
+</div>
+<form
+  [formGroup]="applicationForm"
+  class="panel"
+  gdAuto
+  gdColumns="1fr"
+  gdColumns.gt-xs="1fr 2fr 40px"
+  gdGap="1rem 1rem"
+>
+  <h3 gdColumn="-1/1" class="text-lg">Events relevant for your application</h3>
+  <p gdColumn="-1/1">
+    To make this more convenient we loaded the events from the app, feel free to
+    delete some you don't want to submit or add some we didn't add. <br />
+    Make sure to also mention the stammtisch, assembly or kickoff you attended!
+    <br />
+    Also you can check your
+    <a routerLink="/profile" target="_blank" class="styled">profile</a> for
+    other events you visited.
+  </p>
+  <ng-container formArrayName="events">
+    <ng-container
+      *ngFor="let control of eventArray.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Comment</mat-label>
+        <input matInput formControlName="comment" type="text" />
+        <mat-hint>Optional comment what you did during this event</mat-hint>
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="removeEvent(i)"
+        gdGridAlign.xs="center center"
+      >
+        <mat-icon svgIcon="icon-filled-trash"></mat-icon>
+      </button>
+    </ng-container>
+    <button
+      type="button"
+      mat-stroked-button
+      gdColumn="-1/1"
+      (click)="addEvent()"
+    >
+      Add event
+    </button>
+  </ng-container>
+  <mat-form-field gdColumn="-1/1">
+    <mat-label>Application Text</mat-label>
+    <textarea matInput formControlName="comment" rows="4"></textarea>
+    <mat-hint>In case you want to leave us a comment</mat-hint>
+  </mat-form-field>
+  <mat-checkbox gdColumn="-1/1" formControlName="duties">
+    I am aware that full members of ESN TUMi e.V. have to pay membership fees
+  </mat-checkbox>
+  <button
+    type="button"
+    mat-flat-button
+    gdColumn="-1/1"
+    color="primary"
+    [disabled]="applicationForm.invalid"
+    (click)="saveApplication()"
+  >
+    Submit application
+  </button>
+</form>

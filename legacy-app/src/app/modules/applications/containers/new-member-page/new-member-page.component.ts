@@ -74,7 +74,9 @@ export class NewMemberPageComponent implements OnInit {
     this.countries$ = this.countries.getAll();
     this.user$ = this.auth.user$;
     const user = await this.user$.pipe(first()).toPromise();
-    this.hasApplication$ = this.applications.userHasApplication(user.id);
+    this.hasApplication$ = this.applications.userHasNewMemberApplication(
+      user.id
+    );
     this.applicationForm.patchValue(user);
     const inProgess = localStorage.getItem('applicationDraft');
     if (inProgess) {
@@ -122,7 +124,7 @@ export class NewMemberPageComponent implements OnInit {
     user.birthday = data.birthday;
     user.email = data.email;
     await this.users.update(user.id, user);
-    await this.applications.addApplication(data);
+    await this.applications.addNewMember(data);
     await this.router.navigateByUrl('/apply/submitted');
   }
 }

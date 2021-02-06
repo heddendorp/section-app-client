@@ -9,6 +9,13 @@
     *ngFor="let member of members$ | ngrxPush"
     routerLink="./{{ member.id }}"
     mat-list-item
-    >{{ member.name }}</a
   >
+    <mat-icon
+      mat-list-icon
+      [svgIcon]="
+        member.status === 'FULL' ? 'icon-full-version' : 'icon-trial-version'
+      "
+    ></mat-icon>
+    <p mat-line>{{ member.name }}</p>
+  </a>
 </mat-nav-list>

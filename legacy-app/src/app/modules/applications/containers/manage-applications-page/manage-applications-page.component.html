@@ -7,13 +7,20 @@
   <div
     class="panel"
     *ngFor="let application of applications$ | ngrxPush"
-    fxLayout="row"
-    fxLayoutAlign="start center"
+    fxLayout.gt-sm="row"
+    fxLayout="column"
+    fxLayoutAlign.gt-sm="start center"
     fxLayoutGap="1rem"
   >
     <div>
       <h2 class="text-xl">Application of {{ application.name }}</h2>
       <p>Created: {{ application.created | date }}</p>
+      <div class="-mb-2 mt-2 space-x-1">
+        <mat-icon
+          *ngFor="let vote of application.votes"
+          [svgIcon]="vote.icon"
+        ></mat-icon>
+      </div>
     </div>
     <div fxFlex="noshrink"></div>
     <a routerLink="./{{ application.id }}" mat-stroked-button

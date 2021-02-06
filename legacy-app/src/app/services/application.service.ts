@@ -4,30 +4,68 @@ import {
   AngularFirestoreCollection,
   DocumentReference,
 } from '@angular/fire/firestore';
-import { Application, ApplicationVote } from '@tumi/models';
+import { NewMemberApplication, ApplicationVote } from '@tumi/models';
+import { FullMemberApplication } from '@tumi/models/fullMemberApplication';
 import { application } from 'express';
 import firebase from 'firebase';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import App = firebase.app.App;
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationService {
-  private collection: AngularFirestoreCollection<Application>;
+  private newMembersCollection: AngularFirestoreCollection<NewMemberApplication>;
+  private fullMembersCollection: AngularFirestoreCollection<FullMemberApplication>;
   constructor(private store: AngularFirestore) {
-    this.collection = this.store.collection<Application>(
-      Application.collection(store)
+    this.newMembersCollection = this.store.collection<NewMemberApplication>(
+      NewMemberApplication.collection(store)
+    );
+    this.fullMembersCollection = this.store.collection<FullMemberApplication>(
+      FullMemberApplication.collection(store)
     );
   }
 
-  public getAll(): Observable<Application[]> {
-    return this.collection.valueChanges();
+  public getAllNewMembers(
+    includeVotes = true
+  ): Observable<NewMemberApplication[]> {
+    if (!includeVotes) {
+      return this.store
+        .collection<NewMemberApplication>(
+          NewMemberApplication.collection(this.store),
+          (ref) => ref.orderBy('created', 'desc')
+        )
+        .valueChanges();
+    }
+    return this.store
+      .collection<NewMemberApplication>(
+        NewMemberApplication.collection(this.store),
+        (ref) => ref.orderBy('created', 'asc')
+      )
+      .valueChanges()
+      .pipe(
+        switchMap((applications) =>
+          combineLatest(
+            applications.map((application) =>
+              this.votesForNewMemberApplication(application.id)
+            )
+          ).pipe(
+            map((votes) =>
+              applications.map((application, index) => {
+                application.votes = votes[index];
+                return application;
+              })
+            )
+          )
+        )
+      );
   }
 
-  public getOne(applicationId: string): Observable<Application> {
-    return this.collection
+  public getOneNewMember(
+    applicationId: string
+  ): Observable<NewMemberApplication> {
+    return this.newMembersCollection
       .doc(applicationId)
       .valueChanges()
       .pipe(
@@ -40,30 +78,61 @@ export class ApplicationService {
       );
   }
 
-  public addApplication(
-    application: Application
-  ): Promise<DocumentReference<Application>> {
-    return this.collection.add(application);
+  public addNewMember(
+    application: NewMemberApplication
+  ): Promise<DocumentReference<NewMemberApplication>> {
+    return this.newMembersCollection.add(application);
   }
 
-  public userHasApplication(userId: string): Observable<boolean> {
+  public addFullMember(
+    application: FullMemberApplication
+  ): Promise<DocumentReference<FullMemberApplication>> {
+    return this.fullMembersCollection.add(application);
+  }
+
+  public userHasNewMemberApplication(userId: string): Observable<boolean> {
     return this.store
-      .collection<Application>(Application.collection(this.store), (ref) =>
-        ref.where('userId', '==', userId)
+      .collection<NewMemberApplication>(
+        NewMemberApplication.collection(this.store),
+        (ref) => ref.where('userId', '==', userId)
       )
       .get()
       .pipe(map((snapshot) => !snapshot.empty));
   }
 
-  public applicationsForUser(userId: string): Observable<Application[]> {
+  public userHasFullMemberApplication(userId: string): Observable<boolean> {
     return this.store
-      .collection<Application>(Application.collection(this.store), (ref) =>
-        ref.where('userId', '==', userId)
+      .collection<FullMemberApplication>(
+        FullMemberApplication.collection(this.store),
+        (ref) => ref.where('userId', '==', userId)
+      )
+      .get()
+      .pipe(map((snapshot) => !snapshot.empty));
+  }
+
+  public newMemberApplicationsForUser(
+    userId: string
+  ): Observable<NewMemberApplication[]> {
+    return this.store
+      .collection<NewMemberApplication>(
+        NewMemberApplication.collection(this.store),
+        (ref) => ref.where('userId', '==', userId)
       )
       .valueChanges();
   }
 
-  public setVote(
+  public fullMemberApplicationsForUser(
+    userId: string
+  ): Observable<FullMemberApplication[]> {
+    return this.store
+      .collection<FullMemberApplication>(
+        FullMemberApplication.collection(this.store),
+        (ref) => ref.where('userId', '==', userId)
+      )
+      .valueChanges();
+  }
+
+  public setVoteOnNewMember(
     applicationId: string,
     voteId: string,
     vote: ApplicationVote
@@ -76,7 +145,7 @@ export class ApplicationService {
       .set(vote);
   }
 
-  public userHasVoted(
+  public userHasVotedOnNewMember(
     applicationId: string,
     userId: string
   ): Observable<boolean> {
@@ -89,7 +158,7 @@ export class ApplicationService {
       .pipe(map((snap) => snap.exists));
   }
 
-  public votesForApplication(
+  public votesForNewMemberApplication(
     applicationId: string
   ): Observable<ApplicationVote[]> {
     return this.store

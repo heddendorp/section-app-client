@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Application, ApplicationVote } from '@tumi/models';
+import { NewMemberApplication, ApplicationVote } from '@tumi/models';
 import { AuthService } from '@tumi/services';
 import { ApplicationService } from '@tumi/services/application.service';
 import {
@@ -19,7 +19,7 @@ import { first, map, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationDetailsPageComponent implements OnInit {
-  public application$: Observable<Application>;
+  public application$: Observable<NewMemberApplication>;
   public age$: Observable<string>;
   public studyTime$: Observable<string>;
   public newVoteForm: FormGroup;
@@ -43,14 +43,14 @@ export class ApplicationDetailsPageComponent implements OnInit {
       map((application) => formatDistanceToNow(application.graduation))
     );
     this.votes$ = this.application$.pipe(
-      switchMap(({ id }) => this.applications.votesForApplication(id))
+      switchMap(({ id }) => this.applications.votesForNewMemberApplication(id))
     );
     this.alreadyVoted$ = combineLatest([
       this.auth.user$,
       this.application$,
     ]).pipe(
       switchMap(([user, application]) =>
-        this.applications.userHasVoted(application.id, user.id)
+        this.applications.userHasVotedOnNewMember(application.id, user.id)
       )
     );
     this.newVoteForm = this.fb.group({
@@ -64,7 +64,7 @@ export class ApplicationDetailsPageComponent implements OnInit {
     const user = await this.auth.user$.pipe(first()).toPromise();
     const vote = this.newVoteForm.value;
     vote.author = user.name;
-    await this.applications.setVote(application.id, user.id, vote);
+    await this.applications.setVoteOnNewMember(application.id, user.id, vote);
     location.reload();
   }
 }

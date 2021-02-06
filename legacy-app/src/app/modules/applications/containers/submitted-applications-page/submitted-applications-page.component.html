@@ -4,8 +4,22 @@
   My Applications
 </h1>
 <div fxLayout="column" fxLayoutGap="1rem">
-  <div class="panel" *ngFor="let application of applications$ | ngrxPush">
-    <h2 class="text-xl">Application from {{ application.created | date }}</h2>
+  <div
+    class="panel"
+    *ngFor="let application of newMemberApplications$ | ngrxPush"
+  >
+    <h2 class="text-xl">
+      New Member Application from {{ application.created | date }}
+    </h2>
+    <p class="text-lg">Status {{ application.state }}</p>
+  </div>
+  <div
+    class="panel"
+    *ngFor="let application of fullMemberApplications$ | ngrxPush"
+  >
+    <h2 class="text-xl">
+      Full Member Application from {{ application.created | date }}
+    </h2>
     <p class="text-lg">Status {{ application.state }}</p>
   </div>
 </div>

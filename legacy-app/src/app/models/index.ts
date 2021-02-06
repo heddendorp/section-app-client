@@ -1,3 +1,3 @@
 export * from './user';
-export * from './application';
+export * from './newMemberApplication';
 export * from './applicationVote';

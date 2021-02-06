@@ -1,9 +1,12 @@
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ApplicationVote } from '@tumi/models/applicationVote';
 import firebase from 'firebase';
 import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
-export class Application {
+export class NewMemberApplication {
+  public votes: ApplicationVote[] = [];
+  readonly type: 'newMember' = 'newMember';
   constructor(
     private store: AngularFirestore,
     readonly id: string,
@@ -48,20 +51,20 @@ export class Application {
   }
   static getConverter(
     store: AngularFirestore
-  ): FirestoreDataConverter<Application> {
+  ): FirestoreDataConverter<NewMemberApplication> {
     return {
       toFirestore: (
-        modelObject: Application
+        modelObject: NewMemberApplication
       ): firebase.firestore.DocumentData => {
-        const application = pick(modelObject, Application.attributes);
+        const application = pick(modelObject, NewMemberApplication.attributes);
         return pickBy(application, negate(isNil));
       },
       fromFirestore: (
         snapshot: firebase.firestore.QueryDocumentSnapshot,
         options: firebase.firestore.SnapshotOptions
-      ): Application => {
+      ): NewMemberApplication => {
         const data = snapshot.data(options);
-        return new Application(
+        return new NewMemberApplication(
           store,
           snapshot.id,
           data.userId,
@@ -89,7 +92,7 @@ export class Application {
   static collection(firestore: AngularFirestore) {
     return firestore.firestore
       .collection('applications')
-      .withConverter(Application.getConverter(firestore));
+      .withConverter(NewMemberApplication.getConverter(firestore));
   }
 
   get name(): string {
