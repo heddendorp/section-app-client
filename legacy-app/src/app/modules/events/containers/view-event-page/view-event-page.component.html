@@ -1,0 +1,115 @@
+<a
+  style="
+    width: calc(100% + 2rem);
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    margin: -1rem -1rem 1rem;
+    text-decoration: none;
+    border-bottom: rgba(255, 255, 255, 0.3) 1px solid;
+  "
+  fxLayoutAlign="start center"
+  fxLayout="row"
+  routerLink="/events"
+>
+  <mat-icon
+    svgIcon="icon-back-arrow"
+    style="
+      margin-right: 0.5rem;
+      height: 36px !important;
+      width: 36px !important;
+    "
+  ></mat-icon>
+  <span
+    style="font-weight: 500; font-size: 16px; line-height: 34px; color: black"
+    >Back to event overview</span
+  >
+</a>
+<ng-container *ngrxLet="event$; let event">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+    <h1 fxFlex="grow" class="text-4xl lg:text-6xl font-bold mb-2">
+      {{ event.name }}
+    </h1>
+    <button
+      [matMenuTriggerFor]="menu"
+      fxFlex="noshrink"
+      mat-flat-button
+      color="accent"
+      *ngIf="isEditor$ | ngrxPush"
+    >
+      Edit
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="editEvent()">Edit event</button>
+      <button mat-menu-item disabled>Archive Event</button>
+      <button
+        mat-menu-item
+        [disabled]="!(canBeDeleted$ | ngrxPush)"
+        (click)="deleteEvent()"
+      >
+        Delete Event
+      </button>
+    </mat-menu>
+  </div>
+  <h3 class="mb-8 tex-lg font-bold">
+    Starts: {{ event.start | date: "medium" }}
+  </h3>
+  <div class="panel">
+    <markdown
+      [data]="event.description"
+      emoji
+      class="prose lg:prose-lg"
+    ></markdown>
+  </div>
+  <ng-container *ngIf="isTutor$ | ngrxPush">
+    <h3 class="mt-4 tex-lg font-bold">Notes for tutors:</h3>
+    <div class="panel my-4">
+      <markdown
+        [data]="event.runningNotes"
+        emoji
+        class="prose lg:prose-lg"
+      ></markdown>
+    </div>
+  </ng-container>
+  <div gdAuto gdColumns="repeat(auto-fit, minmax(350px, 1fr))" gdGap="1rem">
+    <ng-container
+      [ngSwitch]="event.registrationMode"
+      *ngIf="authenticated$ | ngrxPush; else loginPrompt"
+    >
+      <ng-container *ngSwitchCase="'online'">
+        <app-tutor-registration
+          [event]="event"
+          *ngIf="isTutor$ | ngrxPush"
+        ></app-tutor-registration>
+        <app-online-registration [event]="event"></app-online-registration>
+      </ng-container>
+      <ng-container *ngSwitchCase="'paypal'">
+        <app-tutor-registration
+          *ngIf="isTutor$ | ngrxPush"
+          [event]="event"
+        ></app-tutor-registration>
+        <app-pay-pal-registration [event]="event"></app-pay-pal-registration>
+      </ng-container>
+      <ng-container *ngSwitchCase="'office'">
+        <app-tutor-registration
+          *ngIf="isTutor$ | ngrxPush"
+          [event]="event"
+        ></app-tutor-registration>
+        <app-office-registration [event]="event"></app-office-registration>
+      </ng-container>
+      <ng-container *ngSwitchCase="'external'">
+        <app-external-registration [event]="event"></app-external-registration>
+      </ng-container>
+    </ng-container>
+    <app-collect-money
+      *ngIf="(canSeeParticipants$ | ngrxPush) && event.fullCost"
+      [event]="event"
+    ></app-collect-money>
+    <ng-template #loginPrompt>
+      <app-anonymous-registration></app-anonymous-registration>
+    </ng-template>
+  </div>
+  <app-event-participants
+    [event]="event"
+    *ngIf="canSeeParticipants$ | ngrxPush"
+  ></app-event-participants>
+</ng-container>

@@ -6,11 +6,13 @@ describe('ViewEventPageComponent', () => {
   let component: ViewEventPageComponent;
   let fixture: ComponentFixture<ViewEventPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ViewEventPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewEventPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewEventPageComponent);
