@@ -18,7 +18,7 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
       routerLink="/events"
     >
       <mat-icon
-        svgIcon="icon-circled-left"
+        svgIcon="icon-back-arrow"
         style="margin-right: .5rem;height: 36px !important;width: 36px !important;"
       ></mat-icon>
       <span
