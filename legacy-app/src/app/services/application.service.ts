@@ -62,6 +62,41 @@ export class ApplicationService {
       );
   }
 
+  public getAllFullMembers(
+    includeVotes = true
+  ): Observable<FullMemberApplication[]> {
+    if (!includeVotes) {
+      return this.store
+        .collection<FullMemberApplication>(
+          FullMemberApplication.collection(this.store),
+          (ref) => ref.orderBy('created', 'desc')
+        )
+        .valueChanges();
+    }
+    return this.store
+      .collection<FullMemberApplication>(
+        FullMemberApplication.collection(this.store),
+        (ref) => ref.orderBy('created', 'asc')
+      )
+      .valueChanges()
+      .pipe(
+        switchMap((applications) =>
+          combineLatest(
+            applications.map((application) =>
+              this.votesForNewMemberApplication(application.id)
+            )
+          ).pipe(
+            map((votes) =>
+              applications.map((application, index) => {
+                application.votes = votes[index];
+                return application;
+              })
+            )
+          )
+        )
+      );
+  }
+
   public getOneNewMember(
     applicationId: string
   ): Observable<NewMemberApplication> {

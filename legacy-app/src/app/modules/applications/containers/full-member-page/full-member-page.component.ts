@@ -28,6 +28,7 @@ export class FullMemberPageComponent implements OnInit {
     this.applicationForm = this.fb.group({
       events: this.fb.array([]),
       comment: ['', Validators.required],
+      name: [''],
       duties: [false, Validators.requiredTrue],
     });
     this.user$ = this.auth.user$;
@@ -35,6 +36,7 @@ export class FullMemberPageComponent implements OnInit {
     this.hasApplication$ = this.applications.userHasFullMemberApplication(
       user.id
     );
+    this.applicationForm.get('name')?.patchValue(user.name);
     const events = await this.events
       .getEventsForTutor(user.id)
       .pipe(first())

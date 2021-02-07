@@ -12,13 +12,14 @@ export class FullMemberApplication {
     private store: AngularFirestore,
     readonly id: string,
     readonly userId: string,
+    readonly name: string,
     public comment: string,
     public events: { name: string; comment: string }[],
     private _created: firebase.firestore.Timestamp,
     public state: ApplicationState
   ) {}
   static get attributes(): string[] {
-    return ['comment', 'events', 'userId', 'created', 'state'];
+    return ['comment', 'events', 'userId', 'created', 'state', 'name'];
   }
   static getConverter(
     store: AngularFirestore
@@ -39,6 +40,7 @@ export class FullMemberApplication {
           store,
           snapshot.id,
           data.userId,
+          data.name,
           data.comment,
           data.events,
           data.created,

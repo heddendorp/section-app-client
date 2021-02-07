@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NewMemberApplication } from '@tumi/models';
+import { FullMemberApplication } from '@tumi/models/fullMemberApplication';
 import { ApplicationService } from '@tumi/services/application.service';
 import { Observable } from 'rxjs';
 
@@ -10,10 +11,12 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageApplicationsPageComponent implements OnInit {
-  public applications$: Observable<NewMemberApplication[]>;
+  public newMemberApplications$: Observable<NewMemberApplication[]>;
+  public fullMemberApplications$: Observable<FullMemberApplication[]>;
   constructor(private applications: ApplicationService) {}
 
   ngOnInit(): void {
-    this.applications$ = this.applications.getAllNewMembers();
+    this.newMemberApplications$ = this.applications.getAllNewMembers();
+    this.fullMemberApplications$ = this.applications.getAllFullMembers();
   }
 }

@@ -6,14 +6,14 @@
 <div fxLayout="column" fxLayoutGap="1rem">
   <div
     class="panel"
-    *ngFor="let application of applications$ | ngrxPush"
+    *ngFor="let application of newMemberApplications$ | ngrxPush"
     fxLayout.gt-sm="row"
     fxLayout="column"
     fxLayoutAlign.gt-sm="start center"
     fxLayoutGap="1rem"
   >
     <div>
-      <h2 class="text-xl">Application of {{ application.name }}</h2>
+      <h2 class="text-xl">New member Application of {{ application.name }}</h2>
       <p>Created: {{ application.created | date }}</p>
       <div class="-mb-2 mt-2 space-x-1">
         <mat-icon
@@ -23,8 +23,31 @@
       </div>
     </div>
     <div fxFlex="noshrink"></div>
-    <a routerLink="./{{ application.id }}" mat-stroked-button
-      >See details and vote</a
-    >
+    <a routerLink="./{{ application.id }}" mat-stroked-button>
+      See details and vote
+    </a>
+  </div>
+  <div
+    class="panel"
+    *ngFor="let application of fullMemberApplications$ | ngrxPush"
+    fxLayout.gt-sm="row"
+    fxLayout="column"
+    fxLayoutAlign.gt-sm="start center"
+    fxLayoutGap="1rem"
+  >
+    <div>
+      <h2 class="text-xl">Full Member Application of {{ application.name }}</h2>
+      <p>Created: {{ application.created | date }}</p>
+      <div class="-mb-2 mt-2 space-x-1">
+        <mat-icon
+          *ngFor="let vote of application.votes"
+          [svgIcon]="vote.icon"
+        ></mat-icon>
+      </div>
+    </div>
+    <div fxFlex="noshrink"></div>
+    <a routerLink="./{{ application.id }}" disabled mat-stroked-button>
+      See details and vote
+    </a>
   </div>
 </div>
