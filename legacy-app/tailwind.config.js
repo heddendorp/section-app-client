@@ -1,8 +1,10 @@
 const colors = require("tailwindcss/colors");
-
 module.exports = {
   prefix: "",
-  purge: ["./src/**/*.{html,ts}"],
+  purge: {
+    content: ["./src/**/*.{html,ts}"],
+    enabled: process.title.includes("prod"),
+  },
   darkMode: false, // or 'media' or 'class'
   // Disable plugins that provide functionality already provided by @angular/flex-layout
   corePlugins: {

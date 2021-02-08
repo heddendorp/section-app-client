@@ -7,7 +7,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "changeDetection": "OnPush"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -18,7 +19,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/tumi-app/browser",
             "index": "src/index.html",
@@ -37,10 +38,7 @@
               "marked/lib/marked.js",
               "emoji-toolkit/lib/js/joypixels.min.js"
             ],
-            "allowedCommonJsDependencies": ["qrcode"],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            }
+            "allowedCommonJsDependencies": ["qrcode"]
           },
           "configurations": {
             "production": {
@@ -75,7 +73,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "tumi-app:build"
           },
@@ -92,7 +90,7 @@
           }
         },
         "test": {
-          "builder": "@angular-builders/custom-webpack:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
@@ -108,10 +106,7 @@
             "scripts": [
               "marked/lib/marked.js",
               "emoji-toolkit/lib/js/joypixels.min.js"
-            ],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            }
+            ]
           }
         },
         "lint": {
