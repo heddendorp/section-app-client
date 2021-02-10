@@ -1,0 +1,11 @@
+@import "src/mixins";
+.navigation {
+  @include acrylic(0.2, 10px);
+  @apply p-2 md:text-2xl md:font-bold border border-white border-opacity-30 z-10;
+  &.landing {
+    @apply fixed top-4 md:top-12 left-4 md:left-12 right-4 md:right-12 my-auto text-gray-50;
+  }
+  a {
+    @apply hidden md:block;
+  }
+}

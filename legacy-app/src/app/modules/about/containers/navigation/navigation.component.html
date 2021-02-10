@@ -1,0 +1,28 @@
+<nav
+  class="navigation {{ outlet.activatedRouteData.navigationMode }}"
+  fxLayout="row"
+  fxLayoutGap="2rem"
+  fxLayoutAlign="start center"
+>
+  <img
+    src="/assets/logos/full_light.svg"
+    alt="TUMi logo"
+    class="object-contain h-12 md:h-28"
+    fxHide
+    fxShow.gt-sm
+    routerLink="/about"
+  />
+  <img
+    src="/assets/logos/esn_light.svg"
+    alt="TUMi logo"
+    class="object-contain h-10 md:h-28"
+    fxHide.gt-sm
+    routerLink="/about"
+  />
+  <div fxFlex="10"></div>
+  <a routerLink="students">For Students</a>
+  <a routerLink="interested">For Members</a>
+  <a routerLink="faq">FAQ</a>
+  <a routerLink="/">Back to the app</a>
+</nav>
+<router-outlet #outlet="outlet"></router-outlet>
