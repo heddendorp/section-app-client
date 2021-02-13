@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NavigationComponent } from '@tumi/modules/about/containers/navigation/navigation.component';
 import { FaqPageComponent } from '@tumi/modules/about/pages/faq-page/faq-page.component';
-import { ForInterestedPageComponent } from '@tumi/modules/about/pages/for-interested-page/for-interested-page.component';
-import { ForStudentsPageComponent } from '@tumi/modules/about/pages/for-students-page/for-students-page.component';
 import { LandingPageComponent } from '@tumi/modules/about/pages/landing-page/landing-page.component';
 import { SosPageComponent } from '@tumi/modules/about/pages/sos-page/sos-page.component';
 
@@ -17,8 +15,6 @@ const routes: Routes = [
         component: LandingPageComponent,
         data: { navigationMode: 'landing' },
       },
-      { path: 'students', component: ForStudentsPageComponent },
-      { path: 'interested', component: ForInterestedPageComponent },
       { path: 'faq', component: FaqPageComponent },
       { path: 'sos', component: SosPageComponent },
     ],

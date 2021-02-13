@@ -1,6 +1,27 @@
 :host {
   display: block;
 }
+
+.custom-shape-divider-top-1613246603 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1613246603 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+
+.custom-shape-divider-top-1613246603 .shape-fill {
+  fill: #1e293b;
+}
+
 .custom-shape-divider-bottom-1612976657 {
   position: absolute;
   bottom: 0;
