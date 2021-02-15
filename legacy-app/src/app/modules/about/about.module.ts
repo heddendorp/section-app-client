@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '@tumi/modules/shared';
+import { SharedModule } from '../shared';
 
 import { AboutRoutingModule } from './about-routing.module';
 import { NavigationComponent } from './containers/navigation/navigation.component';
