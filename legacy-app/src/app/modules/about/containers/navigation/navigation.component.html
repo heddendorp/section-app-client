@@ -20,9 +20,15 @@
 
   <!-- The nav menu -->
   <nav class="nav" (click)="toggle.checked = false">
-    <a class="nav-item" routerLink="incoming">For Incomings </a>
-    <a class="nav-item" routerLink="local">For Locals</a>
-    <a class="nav-item" routerLink="tumi">About TUMi</a>
+    <a class="nav-item" routerLinkActive="underline" routerLink="incoming">
+      For Incomings
+    </a>
+    <a class="nav-item" routerLinkActive="underline" routerLink="local">
+      For Locals
+    </a>
+    <a class="nav-item" routerLinkActive="underline" routerLink="tumi">
+      About TUMi
+    </a>
     <a class="nav-item" routerLink="/">Open the App</a>
   </nav>
 </div>
@@ -36,25 +42,29 @@
       class="text-md lg:test-xl py-2 px-3 rounded hover:bg-white hover:bg-opacity-20 font-medium"
       routerLinkActive="bg-opacity-10 bg-white"
       routerLink="incoming"
-      >For Incomings</a
     >
+      For Incomings
+    </a>
     <a
       class="text-md lg:test-xl py-2 px-3 rounded hover:bg-white hover:bg-opacity-20 font-medium"
       routerLinkActive="bg-opacity-10 bg-white"
       routerLink="local"
-      >For Locals</a
     >
+      For Locals
+    </a>
     <a
       class="text-md lg:test-xl py-2 px-3 rounded hover:bg-white hover:bg-opacity-20 font-medium"
       routerLinkActive="bg-opacity-10 bg-white"
       routerLink="tumi"
-      >About TUMi</a
     >
+      About TUMi
+    </a>
     <a
       class="text-md lg:test-xl py-2 px-3 rounded hover:bg-white hover:bg-opacity-20 font-medium"
       routerLink="/"
-      >Open the App</a
     >
+      Open the App
+    </a>
     <div fxFlex="noshrink"></div>
     <a routerLink="/about">
       <img
