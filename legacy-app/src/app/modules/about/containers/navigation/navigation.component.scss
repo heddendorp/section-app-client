@@ -11,7 +11,7 @@
   &.landing {
     @apply border top-4 lg:top-12 left-4 lg:left-12 right-4 lg:right-12 my-auto;
   }
-  img.esn-logo {
+  a.esn-logo {
     @apply absolute right-3 top-3;
   }
 }
@@ -104,15 +104,6 @@ $transition-delay: 0.05s;
       &:before {
         opacity: 0;
       }
-    }
-  }
-
-  // Dummy content
-  & ~ .dummy-content {
-    padding-top: 30px;
-
-    &:before {
-      background-color: rgba(0, 0, 0, 0.3);
     }
   }
 }

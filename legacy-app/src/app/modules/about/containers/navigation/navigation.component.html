@@ -1,42 +1,14 @@
-<!--<nav
-  class="navigation {{ outlet.activatedRouteData.navigationMode }}"
-  fxLayout="row"
-  fxLayoutGap="2rem"
-  fxLayoutAlign="start center"
->
-  <img
-    src="/assets/logos/full_light.svg"
-    alt="TUMi logo"
-    class="object-contain h-16 lg:h-28 hidden md:block"
-    routerLink="/about"
-  />
-  <img
-    src="/assets/logos/esn_light.svg"
-    alt="TUMi logo"
-    class="object-contain h-12 md:hidden"
-    routerLink="/about"
-  />
-  <div fxFlex="5"></div>
-  <a routerLink="incoming">For Incomings</a>
-  <a routerLink="local">For Locals</a>
-  <a routerLink="local">About TUMi</a>
-  <div fxFlex="noshrink"></div>
-  <a routerLink="/">Open the app</a>
-  <div fxFlex="1rem" fxFlex.gt-md="2rem"></div>
-  <button mat-icon-button>
-    <mat-icon svgIcon="icon-menu"></mat-icon>
-  </button>
-</nav>-->
 <div
   class="navigation {{ outlet.activatedRouteData.navigationMode }} md:hidden"
 >
-  <img
-    src="/assets/logos/esn_light.svg"
-    alt="ESN logo"
-    class="object-contain h-12 esn-logo"
-    routerLink="/about"
-  />
-  <input id="toggle" type="checkbox" />
+  <a routerLink="/about" class="esn-logo">
+    <img
+      src="/assets/logos/esn_light.svg"
+      alt="ESN logo"
+      class="object-contain h-12"
+    />
+  </a>
+  <input #toggle id="toggle" type="checkbox" />
 
   <!-- IMPORTANT: Any element that we want to modify when the checkbox state changes go here, being "sibling" of the checkbox element -->
 
@@ -47,8 +19,8 @@
   </label>
 
   <!-- The nav menu -->
-  <nav class="nav">
-    <a class="nav-item" routerLink="incoming">For Incomings</a>
+  <nav class="nav" (click)="toggle.checked = false">
+    <a class="nav-item" routerLink="incoming">For Incomings </a>
     <a class="nav-item" routerLink="local">For Locals</a>
     <a class="nav-item" routerLink="tumi">About TUMi</a>
     <a class="nav-item" routerLink="/">Open the App</a>
@@ -84,12 +56,13 @@
       >Open the App</a
     >
     <div fxFlex="noshrink"></div>
-    <img
-      src="/assets/logos/full_light.svg"
-      alt="TUMi logo"
-      class="object-contain h-16 lg:h-20 outline-none"
-      routerLink="/about"
-    />
+    <a routerLink="/about">
+      <img
+        src="/assets/logos/full_light.svg"
+        alt="TUMi logo"
+        class="object-contain h-16 lg:h-20 outline-none"
+      />
+    </a>
   </nav>
 </div>
 <router-outlet #outlet="outlet"></router-outlet>
