@@ -2,6 +2,11 @@
   display: block;
 }
 
+.cover-image {
+  @apply object-cover w-full;
+  max-height: calc(100vh - 6rem);
+}
+
 .custom-shape-divider-top-1613246603 {
   position: absolute;
   top: 0;
