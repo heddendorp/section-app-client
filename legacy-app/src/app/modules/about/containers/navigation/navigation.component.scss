@@ -1,9 +1,15 @@
 @import "src/mixins";
 .navigation {
   @include acrylic(0.2, 10px);
-  @apply md:py-2 md:px-6 border border-white border-opacity-30 z-10 overflow-hidden relative;
+  @apply fixed md:py-2 md:px-6 border-b border-white border-opacity-30 z-10 overflow-hidden text-gray-50;
+  top: 0;
+  right: 0;
+  left: 0;
+  will-change: top, right, left, border;
+  transition: top ease-in-out 0.3s, left ease-in-out 0.3s,
+    right ease-in-out 0.3s, border ease-in-out 0.3s;
   &.landing {
-    @apply fixed top-4 lg:top-12 left-4 lg:left-12 right-4 lg:right-12 my-auto text-gray-50;
+    @apply border top-4 lg:top-12 left-4 lg:left-12 right-4 lg:right-12 my-auto;
   }
   img.esn-logo {
     @apply absolute right-3 top-3;
