@@ -6,7 +6,7 @@
 }
 
 @mixin acrylic($opacity: 0.2, $blur: 0) {
-  background: rgba(255, 255, 255, $opacity);
+  background-color: rgba(255, 255, 255, $opacity);
   @if ($blur != 0) {
     backgroud-clip: padding-box;
     backdrop-filter: blur($blur);
