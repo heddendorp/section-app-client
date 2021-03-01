@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MemberStatus, User } from '@tumi/models';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,18 @@ export class UserService {
       )
       .valueChanges()
       .pipe(shareReplay(1));
+  }
+
+  public getTutorNonMembers$(): Observable<User[]> {
+    return this.store
+      .collection<User>(User.collection(this.store), (ref) =>
+        ref.where('isTutor', '==', true)
+      )
+      .valueChanges()
+      .pipe(
+        map((tutors) => tutors.filter((t) => !t.isMember)),
+        shareReplay(1)
+      );
   }
 
   public getOne$(id: string): Observable<any> {

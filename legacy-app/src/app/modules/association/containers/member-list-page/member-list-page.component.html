@@ -1,8 +1,17 @@
 <h1
-  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 mb-8"
+  *ngrxLet="memberCount$; let count"
+  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-700 to-accent-500 mb-2"
 >
-  Association Members
+  Association Members ({{ count.full + count.trial }})
 </h1>
+<h2 class="mb-6 text-3xl text-accent-600" *ngrxLet="memberCount$; let count">
+  Full: {{ count.full }} &nbsp; Trial: {{ count.trial }}
+</h2>
+
+<app-member-functions
+  [members]="members$ | ngrxPush"
+  [tutors]="tutors$ | ngrxPush"
+></app-member-functions>
 
 <mat-nav-list>
   <a

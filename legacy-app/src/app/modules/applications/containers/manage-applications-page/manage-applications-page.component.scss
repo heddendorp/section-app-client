@@ -2,3 +2,14 @@
   display: block;
   padding: 1rem;
 }
+
+.panel {
+  @apply border-2 relative;
+  &.voted {
+    @apply border-green-700 border-opacity-30;
+    &:after {
+      content: "voted";
+      @apply absolute text-sm top-2 right-3 px-2 bg-green-100 bg-opacity-20 text-green-700 border border-green-700 border-opacity-30 rounded;
+    }
+  }
+}

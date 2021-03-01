@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NewMemberApplication } from '@tumi/models';
+import { ApplicationVote, NewMemberApplication, User } from '@tumi/models';
 import { FullMemberApplication } from '@tumi/models/fullMemberApplication';
 import { ApplicationService } from '@tumi/services/application.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../../../services';
 
 @Component({
   selector: 'app-manage-applications-page',
@@ -13,10 +14,19 @@ import { Observable } from 'rxjs';
 export class ManageApplicationsPageComponent implements OnInit {
   public newMemberApplications$: Observable<NewMemberApplication[]>;
   public fullMemberApplications$: Observable<FullMemberApplication[]>;
-  constructor(private applications: ApplicationService) {}
+  public user$: Observable<User>;
+  constructor(
+    private applications: ApplicationService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.newMemberApplications$ = this.applications.getAllNewMembers();
     this.fullMemberApplications$ = this.applications.getAllFullMembers();
+    this.user$ = this.auth.user$;
+  }
+
+  public hasVoted(votes: ApplicationVote[], id: string): string {
+    return votes.find((v) => v.id === id) ? 'voted' : '';
   }
 }

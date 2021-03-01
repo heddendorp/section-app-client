@@ -1,16 +1,23 @@
 <h1
-  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 pb-8"
+  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-700 to-accent-500 mb-2"
 >
-  All applications
+  All applications ({{
+    (fullMemberApplications$ | ngrxPush)?.length +
+      (newMemberApplications$ | ngrxPush)?.length
+  }})
 </h1>
-<div fxLayout="column" fxLayoutGap="1rem">
+<h2 class="mb-6 text-3xl text-accent-600">
+  Full: {{ (fullMemberApplications$ | ngrxPush)?.length }} &nbsp; New:
+  {{ (newMemberApplications$ | ngrxPush)?.length }}
+</h2>
+<div fxLayout="column" fxLayoutGap="1rem" *ngrxLet="user$; let user">
   <div
-    class="panel"
     *ngFor="let application of newMemberApplications$ | ngrxPush"
     fxLayout.gt-sm="row"
     fxLayout="column"
     fxLayoutAlign.gt-sm="start center"
     fxLayoutGap="1rem"
+    class="panel {{ hasVoted(application.votes, user.id) }}"
   >
     <div>
       <h2 class="text-xl">New member Application of {{ application.name }}</h2>

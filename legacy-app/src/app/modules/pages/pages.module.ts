@@ -16,5 +16,6 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
     NotFoundPageComponent,
   ],
   imports: [CommonModule, PagesRoutingModule, SharedModule],
+  exports: [ImprintPageComponent],
 })
 export class PagesModule {}

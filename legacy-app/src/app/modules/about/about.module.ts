@@ -9,6 +9,7 @@ import { SosPageComponent } from './pages/sos-page/sos-page.component';
 import { TumiPageComponent } from './pages/tumi-page/tumi-page.component';
 import { LocalPageComponent } from './pages/local-page/local-page.component';
 import { IncomingPageComponent } from './pages/incoming-page/incoming-page.component';
+import { ImageGridComponent } from './containers/image-grid/image-grid.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { IncomingPageComponent } from './pages/incoming-page/incoming-page.compo
     TumiPageComponent,
     LocalPageComponent,
     IncomingPageComponent,
+    ImageGridComponent,
   ],
   imports: [CommonModule, AboutRoutingModule, SharedModule],
 })
