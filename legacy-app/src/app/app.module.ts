@@ -6,8 +6,15 @@ import {
 } from '@angular/fire/remote-config';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { BrowserModule, Meta, Title } from '@angular/platform-browser';
-import { isDevMode, NgModule, PLATFORM_ID } from '@angular/core';
-
+import {
+  APP_INITIALIZER,
+  ErrorHandler,
+  isDevMode,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import * as Sentry from '@sentry/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -116,6 +123,22 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
           isPlatformBrowser(platform) && location.host.includes('esn.world'),
       }),
       deps: [PLATFORM_ID],
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

@@ -11,7 +11,8 @@ import { MemberStatus, User } from '@tumi/models';
 import { isNotNullOrUndefined } from '@tumi/modules/shared';
 import firebase from 'firebase/app';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import * as Sentry from '@sentry/angular';
 import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
@@ -40,6 +41,15 @@ export class AuthService {
           .valueChanges()
       ),
       isNotNullOrUndefined(),
+      tap((user) => {
+        Sentry.setContext('rights', user.rights);
+        Sentry.setUser({ id: user.id, email: user.email, name: user.name });
+        Sentry.addBreadcrumb({
+          category: 'auth',
+          message: 'Authenticated user ' + user.email,
+          level: Sentry.Severity.Info,
+        });
+      }),
       shareReplay(1)
     );
   }
