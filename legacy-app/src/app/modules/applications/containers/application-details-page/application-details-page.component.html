@@ -8,7 +8,12 @@
     <h2 class="text-xl mb-8">
       {{ application?.name }} ({{ application?.email }})
     </h2>
-    <div gdAuto gdGap="1rem" gdColumns="repeat(4, max-content)">
+    <div
+      gdAuto
+      gdGap="1rem"
+      gdColumns="repeat(2, max-content)"
+      gdColumns.gt-sm="repeat(4, max-content)"
+    >
       <p>Phone:</p>
       <p>{{ application?.phone }}</p>
       <p>Birthday:</p>
@@ -25,18 +30,18 @@
       <p>Graduation:</p>
       <p>{{ application?.graduation | date }} ({{ studyTime$ | ngrxPush }})</p>
     </div>
-    <p class="font-bold my-4">Language skills</p>
+    <p class="font-bold mt-4 mb-2">Language skills</p>
     <div gdAuto gdGap="1rem" gdColumns="repeat(2, max-content)">
       <ng-container *ngFor="let skill of application?.languages">
         <p>{{ skill.language }}</p>
         <p>{{ skill.level }}</p>
       </ng-container>
     </div>
-    <p class="font-bold my-4">Motivation</p>
+    <p class="font-bold mt-4 mb-2">Motivation</p>
     <p class="whitespace-pre-line">{{ application?.motivation }}</p>
-    <p class="font-bold my-4">International experience</p>
+    <p class="font-bold mt-4 mb-2">International experience</p>
     <p class="whitespace-pre-line">{{ application?.experienceAbroad }}</p>
-    <p class="font-bold my-4">Volunteering Experience</p>
+    <p class="font-bold mt-4 mb-2">Volunteering Experience</p>
     <p class="whitespace-pre-line">{{ application?.experienceVolunteering }}</p>
   </div>
   <div fxFlex="40" class="panel" fxLayout="column">
@@ -73,5 +78,17 @@
         </button>
       </form>
     </ng-container>
+    <div fxFlex="noshrink"></div>
+    <ng-container *ngIf="canBeAccepted$ | ngrxPush; else cantAccept">
+      <button mat-flat-button color="primary" (click)="acceptApplication()">
+        Accept application
+      </button>
+    </ng-container>
+    <ng-template #cantAccept>
+      <p class="mt-4">
+        You can accept this application as soon as there are at least two
+        positive votes on it
+      </p>
+    </ng-template>
   </div>
 </div>

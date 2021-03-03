@@ -4,7 +4,11 @@ import {
   AngularFirestoreCollection,
   DocumentReference,
 } from '@angular/fire/firestore';
-import { NewMemberApplication, ApplicationVote } from '@tumi/models';
+import {
+  NewMemberApplication,
+  ApplicationVote,
+  ApplicationState,
+} from '@tumi/models';
 import { FullMemberApplication } from '@tumi/models/fullMemberApplication';
 import { application } from 'express';
 import firebase from 'firebase';
@@ -34,14 +38,20 @@ export class ApplicationService {
       return this.store
         .collection<NewMemberApplication>(
           NewMemberApplication.collection(this.store),
-          (ref) => ref.orderBy('created', 'desc')
+          (ref) =>
+            ref
+              .where('state', '==', ApplicationState.Submitted)
+              .orderBy('created', 'desc')
         )
         .valueChanges();
     }
     return this.store
       .collection<NewMemberApplication>(
         NewMemberApplication.collection(this.store),
-        (ref) => ref.orderBy('created', 'asc')
+        (ref) =>
+          ref
+            .where('state', '==', ApplicationState.Submitted)
+            .orderBy('created', 'asc')
       )
       .valueChanges()
       .pipe(
@@ -165,6 +175,20 @@ export class ApplicationService {
         (ref) => ref.where('userId', '==', userId)
       )
       .valueChanges();
+  }
+
+  public updateNewMemberApplication(
+    id: string,
+    update: Partial<NewMemberApplication>
+  ): Promise<void> {
+    return this.newMembersCollection.doc(id).update(update);
+  }
+
+  public updateFullMemberApplication(
+    id: string,
+    update: Partial<FullMemberApplication>
+  ): Promise<void> {
+    return this.fullMembersCollection.doc(id).update(update);
   }
 
   public setVoteOnNewMember(

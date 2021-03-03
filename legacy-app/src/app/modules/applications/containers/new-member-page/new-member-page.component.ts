@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ApplicationState, User } from '@tumi/models';
-import { allTypes } from '@tumi/modules/shared';
+import { allTypes, IconToastComponent } from '@tumi/modules/shared';
 import {
   AuthService,
   Country,
@@ -36,6 +37,7 @@ export class NewMemberPageComponent implements OnInit {
     private countries: CountryService,
     private router: Router,
     private users: UserService,
+    private toast: MatSnackBar,
     private applications: ApplicationService
   ) {}
 
@@ -125,6 +127,12 @@ export class NewMemberPageComponent implements OnInit {
     user.email = data.email;
     await this.users.update(user.id, user);
     await this.applications.addNewMember(data);
+    this.toast.openFromComponent<IconToastComponent>(IconToastComponent, {
+      data: {
+        message: 'Application was successfully submitted!',
+        icon: 'icon-checkmark',
+      },
+    });
     await this.router.navigateByUrl('/apply/submitted');
   }
 }
