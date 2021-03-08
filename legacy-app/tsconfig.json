@@ -18,6 +18,7 @@
     "target": "es2015",
     "module": "es2020",
     "lib": ["es2018", "dom"],
+    "resolveJsonModule": true,
     "paths": {
       "@tumi/*": ["./src/app/*"],
       "@tumi/environments/*": ["./src/environments/*"]

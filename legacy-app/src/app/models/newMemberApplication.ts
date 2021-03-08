@@ -6,6 +6,7 @@ import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
 export class NewMemberApplication {
   public votes: ApplicationVote[] = [];
+  private graduationTimestamp: firebase.firestore.Timestamp;
   readonly type: 'newMember' = 'newMember';
   constructor(
     private store: AngularFirestore,
@@ -20,14 +21,22 @@ export class NewMemberApplication {
     public studyLevel: string,
     public studySemester: string,
     public studyField: string,
-    private graduationTimestamp: firebase.firestore.Timestamp,
+    graduationTimestamp: firebase.firestore.Timestamp | string,
     public languages: { language: string; level: string }[],
     public experienceAbroad: string,
     public experienceVolunteering: string,
     public motivation: string,
     private createdTimestamp: firebase.firestore.Timestamp,
     public state: ApplicationState
-  ) {}
+  ) {
+    if (typeof graduationTimestamp === 'string') {
+      this.graduationTimestamp = firebase.firestore.Timestamp.fromDate(
+        new Date(graduationTimestamp)
+      );
+    } else {
+      this.graduationTimestamp = graduationTimestamp;
+    }
+  }
   static get attributes(): string[] {
     return [
       'firstName',

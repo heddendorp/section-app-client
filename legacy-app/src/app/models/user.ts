@@ -16,6 +16,7 @@ export interface MemberRights {
 
 export class User {
   private _rights: MemberRights;
+  private _joinedAssociation: firebase.firestore.Timestamp;
 
   constructor(
     private store: AngularFirestore,
@@ -35,7 +36,7 @@ export class User {
     private birthdayTimestamp: firebase.firestore.Timestamp,
     rights: MemberRights | undefined,
     private _isTutor: boolean,
-    private _joinedAssociation: firebase.firestore.Timestamp
+    joinedAssociation: firebase.firestore.Timestamp | string
   ) {
     this._rights = {
       seeDrafts: false,
@@ -47,6 +48,11 @@ export class User {
       betaFeatures: false,
       ...rights,
     };
+    if (typeof joinedAssociation === 'string') {
+      this.joinedAssociation = new Date(joinedAssociation);
+    } else {
+      this._joinedAssociation = joinedAssociation;
+    }
   }
 
   static get attributes(): string[] {

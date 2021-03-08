@@ -43,7 +43,12 @@ export class AuthService {
       isNotNullOrUndefined(),
       tap((user) => {
         Sentry.setContext('rights', user.rights);
-        Sentry.setUser({ id: user.id, email: user.email, name: user.name });
+        Sentry.setUser({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          dataUrl: `https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data~2Fusers~2F${user.id}`,
+        });
         Sentry.addBreadcrumb({
           category: 'auth',
           message: 'Authenticated user ' + user.email,

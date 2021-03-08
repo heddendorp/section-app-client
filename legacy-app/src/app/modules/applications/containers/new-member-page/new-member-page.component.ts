@@ -84,7 +84,11 @@ export class NewMemberPageComponent implements OnInit {
     if (inProgess) {
       try {
         const application = JSON.parse(inProgess);
-        this.applicationForm.patchValue(application);
+        this.applicationForm.patchValue({
+          ...application,
+          birthday: new Date(application.birthday),
+          graduation: new Date(application.graduation),
+        });
       } catch (e) {
         console.log(e);
       }

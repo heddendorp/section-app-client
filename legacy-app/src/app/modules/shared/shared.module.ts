@@ -46,6 +46,7 @@ import {
 } from './components';
 import { IconSrcDirective } from './directives';
 import { RightsManagerComponent } from './components/rights-manager/rights-manager.component';
+import * as Sentry from '@sentry/angular';
 
 const materialModules = [
   MatSidenavModule,
@@ -131,7 +132,11 @@ export class SharedModule {
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
     if (environment.production && isPlatformBrowser(platform)) {
-      updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+      updateChecksOnceAppStable$.subscribe(() =>
+        updates
+          .checkForUpdate()
+          .catch((e) => Sentry.captureMessage(e.message, Sentry.Severity.Info))
+      );
     }
     updates.available.subscribe((event) => {
       snackBar

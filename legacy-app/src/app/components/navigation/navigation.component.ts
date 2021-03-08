@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { isPlatformServer } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -5,13 +6,13 @@ import {
   Inject,
   PLATFORM_ID,
 } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
-import { User } from '@tumi/models';
-import { Observable } from 'rxjs';
-import { first, map, shareReplay, startWith } from 'rxjs/operators';
-import { AuthService } from '@tumi/services';
 import { MatSidenav } from '@angular/material/sidenav';
+import { User } from '@tumi/models';
+import { AuthService } from '@tumi/services';
+import { Observable } from 'rxjs';
+import { first, map, shareReplay } from 'rxjs/operators';
+import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-navigation',
@@ -24,6 +25,8 @@ export class NavigationComponent {
   user$: Observable<User> = this.authService.user$;
   isHandset$: Observable<boolean>;
   showTutorApplication$: Observable<boolean>;
+  appVersion = version;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
