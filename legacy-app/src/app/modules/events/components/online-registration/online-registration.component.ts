@@ -5,13 +5,13 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '@tumi/services';
-import { map, switchMap } from 'rxjs/operators';
 import { IconToastComponent } from '@tumi/modules/shared';
+import { AuthService } from '@tumi/services';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-online-registration',
@@ -21,6 +21,7 @@ import { IconToastComponent } from '@tumi/modules/shared';
 })
 export class OnlineRegistrationComponent implements OnChanges {
   @Input() event: any;
+  public signupSuject = new Subject<Observable<any>>();
   public canSignUp$: Observable<any>;
 
   constructor(
@@ -29,19 +30,21 @@ export class OnlineRegistrationComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private auth: AuthService
   ) {
-    this.canSignUp$ = of(false);
+    this.canSignUp$ = this.signupSuject.pipe(switchMap((obs) => obs));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.event) {
-      this.canSignUp$ = this.auth.user$.pipe(
-        switchMap((user) =>
-          this.event.registrations.pipe(
-            map(
-              (registrations: any[]) =>
-                !registrations.find(
-                  (registration) => registration.id === user.id
-                )
+      this.signupSuject.next(
+        this.auth.user$.pipe(
+          switchMap((user) =>
+            this.event.registrations.pipe(
+              map(
+                (registrations: { id: string }[]) =>
+                  !registrations.find(
+                    (registration) => registration.id === user.id
+                  )
+              )
             )
           )
         )
