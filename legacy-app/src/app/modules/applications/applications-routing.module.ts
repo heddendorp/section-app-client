@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationDetailsPageComponent } from '@tumi/modules/applications/containers/application-details-page/application-details-page.component';
+import { FullMemberApplicationDetailsComponent } from '@tumi/modules/applications/containers/full-member-application-details/full-member-application-details.component';
 import { FullMemberPageComponent } from '@tumi/modules/applications/containers/full-member-page/full-member-page.component';
 import { ManageApplicationsPageComponent } from '@tumi/modules/applications/containers/manage-applications-page/manage-applications-page.component';
 import { NewMemberPageComponent } from '@tumi/modules/applications/containers/new-member-page/new-member-page.component';
@@ -8,6 +9,7 @@ import { SelectMethodPageComponent } from '@tumi/modules/applications/containers
 import { SubmittedApplicationsPageComponent } from '@tumi/modules/applications/containers/submitted-applications-page/submitted-applications-page.component';
 import { IsAuthenticatedGuard } from '@tumi/modules/applications/guards/is-authenticated.guard';
 import { ApplicationResolver } from '@tumi/modules/applications/resolvers/application.resolver';
+import { FullMemberApplicationResolver } from '@tumi/modules/applications/resolvers/full-member-application.resolver';
 
 const routes: Routes = [
   { path: '', component: SelectMethodPageComponent },
@@ -31,6 +33,18 @@ const routes: Routes = [
     canActivate: [IsAuthenticatedGuard],
     resolve: { application: ApplicationResolver },
     component: ApplicationDetailsPageComponent,
+  },
+  {
+    path: 'manage/:applicationId',
+    canActivate: [IsAuthenticatedGuard],
+    resolve: { application: ApplicationResolver },
+    component: ApplicationDetailsPageComponent,
+  },
+  {
+    path: 'manage-full/:applicationId',
+    canActivate: [IsAuthenticatedGuard],
+    resolve: { application: FullMemberApplicationResolver },
+    component: FullMemberApplicationDetailsComponent,
   },
   { path: 'full', component: FullMemberPageComponent },
 ];

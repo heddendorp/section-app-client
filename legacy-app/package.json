@@ -53,13 +53,13 @@
     "bufferutil": "^4.0.3",
     "date-fns": "^2.19.0",
     "express": "^4.15.2",
-    "firebase": "^8.3.0",
+    "firebase": "8.2.10",
     "lodash-es": "^4.17.21",
     "ngx-markdown": "^11.1.2",
     "ngx-paypal": "^7.0.0",
     "qrcode": "^1.4.4",
     "rxjs": "~6.6.6",
-    "tslib": "^2.0.0",
+    "tslib": "^2.1.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

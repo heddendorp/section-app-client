@@ -9,6 +9,7 @@ import { FullMemberPageComponent } from './containers/full-member-page/full-memb
 import { SubmittedApplicationsPageComponent } from './containers/submitted-applications-page/submitted-applications-page.component';
 import { ManageApplicationsPageComponent } from './containers/manage-applications-page/manage-applications-page.component';
 import { ApplicationDetailsPageComponent } from './containers/application-details-page/application-details-page.component';
+import { FullMemberApplicationDetailsComponent } from './containers/full-member-application-details/full-member-application-details.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ApplicationDetailsPageComponent } from './containers/application-detail
     SubmittedApplicationsPageComponent,
     ManageApplicationsPageComponent,
     ApplicationDetailsPageComponent,
+    FullMemberApplicationDetailsComponent,
   ],
   imports: [CommonModule, SharedModule, ApplicationsRoutingModule],
 })

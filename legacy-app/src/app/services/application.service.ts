@@ -123,6 +123,22 @@ export class ApplicationService {
       );
   }
 
+  public getOneFullMember(
+    applicationId: string
+  ): Observable<FullMemberApplication> {
+    return this.fullMembersCollection
+      .doc(applicationId)
+      .valueChanges()
+      .pipe(
+        map((application) => {
+          if (!application) {
+            throw new Error(`No application with id ${applicationId} found`);
+          }
+          return application;
+        })
+      );
+  }
+
   public addNewMember(
     application: NewMemberApplication
   ): Promise<DocumentReference<NewMemberApplication>> {
