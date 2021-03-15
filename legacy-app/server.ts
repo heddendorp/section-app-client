@@ -7,6 +7,7 @@ import * as express from 'express';
 import { join } from 'path';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
+import { version } from './package.json';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -28,7 +29,7 @@ export const app = (): express.Express => {
       // enable Express.js middleware tracing
       new Tracing.Integrations.Express({ app: server }),
     ],
-
+    release: `universal-render@${process.env.NPM_PACKAGE_VERSION}`,
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production

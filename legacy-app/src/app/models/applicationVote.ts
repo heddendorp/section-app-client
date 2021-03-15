@@ -1,5 +1,5 @@
 import { AngularFirestore } from '@angular/fire/firestore';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 

@@ -5,16 +5,14 @@ import {
   DocumentReference,
 } from '@angular/fire/firestore';
 import {
-  NewMemberApplication,
-  ApplicationVote,
   ApplicationState,
+  ApplicationVote,
+  NewMemberApplication,
 } from '@tumi/models';
 import { FullMemberApplication } from '@tumi/models/fullMemberApplication';
-import { application } from 'express';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import App = firebase.app.App;
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +20,7 @@ import App = firebase.app.App;
 export class ApplicationService {
   private newMembersCollection: AngularFirestoreCollection<NewMemberApplication>;
   private fullMembersCollection: AngularFirestoreCollection<FullMemberApplication>;
+
   constructor(private store: AngularFirestore) {
     this.newMembersCollection = this.store.collection<NewMemberApplication>(
       NewMemberApplication.collection(store)

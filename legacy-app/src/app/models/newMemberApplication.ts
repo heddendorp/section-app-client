@@ -1,6 +1,6 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ApplicationVote } from '@tumi/models/applicationVote';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
