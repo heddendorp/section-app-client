@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconToastComponent } from '@tumi/modules/shared';
 import { AuthService } from '@tumi/services';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-online-registration',
@@ -21,7 +21,7 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class OnlineRegistrationComponent implements OnChanges {
   @Input() event: any;
-  public signupSuject = new Subject<Observable<any>>();
+  public eventSubject = new Subject<any>();
   public canSignUp$: Observable<any>;
 
   constructor(
@@ -30,15 +30,11 @@ export class OnlineRegistrationComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private auth: AuthService
   ) {
-    this.canSignUp$ = this.signupSuject.pipe(switchMap((obs) => obs));
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.event) {
-      this.signupSuject.next(
+    this.canSignUp$ = this.eventSubject.pipe(
+      switchMap((event) =>
         this.auth.user$.pipe(
           switchMap((user) =>
-            this.event.registrations.pipe(
+            event.registrations.pipe(
               map(
                 (registrations: { id: string }[]) =>
                   !registrations.find(
@@ -48,7 +44,13 @@ export class OnlineRegistrationComponent implements OnChanges {
             )
           )
         )
-      );
+      )
+    );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.event) {
+      this.eventSubject.next(changes.event.currentValue);
     }
   }
 
