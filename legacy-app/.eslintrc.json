@@ -1,24 +1,17 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*",
-    "fuctions/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*", "fuctions/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
-        ],
+        "project": ["tsconfig.json", "e2e/tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -39,21 +32,14 @@
         ],
         "complexity": "error",
         "max-len": "off",
-        "max-lines": [
-          "error",
-          400
-        ],
+        "max-lines": ["error", 400],
         "max-lines-per-function": "error",
         "yoda": "error"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
       "rules": {
         "@angular-eslint/template/conditional-complexity": "warn",
         "@angular-eslint/template/cyclomatic-complexity": [
