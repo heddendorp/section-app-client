@@ -48,6 +48,7 @@
     "@ngrx/component": "^11.0.0-rc.0",
     "@nguniversal/express-engine": "^11.2.1",
     "@sentry/angular": "^6.2.2",
+    "@sentry/node": "^6.2.2",
     "@sentry/tracing": "^6.2.2",
     "algoliasearch": "^4.8.6",
     "bufferutil": "^4.0.3",

@@ -5,6 +5,8 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import { Request, Response } from 'express';
 import * as express from 'express';
 import { join } from 'path';
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -17,6 +19,28 @@ import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export const app = (): express.Express => {
   const server = express();
+  Sentry.init({
+    dsn:
+      'https://03588ce705ed47ad9c0f82b4ad9676d9@o541164.ingest.sentry.io/5677343',
+    integrations: [
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Tracing.Integrations.Express({ app: server }),
+    ],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+
+  // RequestHandler creates a separate execution context using domains, so that every
+  // transaction/span/breadcrumb is attached to its own Hub instance
+  server.use(Sentry.Handlers.requestHandler());
+  // TracingHandler creates a trace for every incoming request
+  server.use(Sentry.Handlers.tracingHandler());
+
   const distFolder = join(process.cwd(), 'dist/tumi-app/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
@@ -49,6 +73,9 @@ export const app = (): express.Express => {
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
+
+  // The error handler must be before any other error middleware and after all controllers
+  server.use(Sentry.Handlers.errorHandler());
 
   return server;
 };
