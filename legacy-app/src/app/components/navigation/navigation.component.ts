@@ -41,7 +41,7 @@ export class NavigationComponent {
     this.showTutorApplication$ = this.remoteConfig.booleans.showTutorApplication;
   }
 
-  public login(): Promise<void> {
+  public login(): Promise<boolean> {
     return this.authService.login();
   }
 

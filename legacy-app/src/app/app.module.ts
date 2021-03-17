@@ -127,7 +127,7 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
-        showDialog: true,
+        showDialog: false,
       }),
     },
     {

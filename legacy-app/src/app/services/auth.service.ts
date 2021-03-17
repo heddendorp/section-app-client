@@ -11,7 +11,7 @@ import { MemberStatus, User } from '@tumi/models';
 import { isNotNullOrUndefined } from '@tumi/modules/shared';
 import firebase from 'firebase/app';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { first, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import * as Sentry from '@sentry/angular';
 import UserCredential = firebase.auth.UserCredential;
 
@@ -127,7 +127,7 @@ export class AuthService {
     await this.router.navigate(['/events']);
   }
 
-  public async login(): Promise<void> {
+  public async login(): Promise<boolean> {
     await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const method = await this.dialog
       .open(LoginOptionsDialogComponent)
@@ -164,6 +164,7 @@ export class AuthService {
         }
       }
     }
+    return await this.authenticated$.pipe(first()).toPromise();
   }
 
   fetchSignInMethodsForEmail(mail: string): Promise<string[]> {
