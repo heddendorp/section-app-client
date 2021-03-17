@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '@tumi/models';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
@@ -204,14 +205,14 @@ export class EventService {
         .doc(event.id)
         .collection('signups', (ref) => ref.orderBy('timestamp', 'asc'))
         .valueChanges({ idField: 'id' }),
-      this.auth.isTutor$,
+      this.auth.user$,
     ]).pipe(
-      switchMap(([registrations, isTutor]: [any[], boolean]) =>
-        isTutor
+      switchMap(([registrations, user]: [any[], User]) =>
+        user.isMember
           ? this.userService.populateRegistrationList$(registrations)
           : of(registrations)
       ),
-      shareReplay()
+      shareReplay(1)
     ),
   });
 
