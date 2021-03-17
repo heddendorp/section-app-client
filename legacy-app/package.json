@@ -1,6 +1,6 @@
 {
   "name": "tumi-app",
-  "version": "2.0.0-deploy.10",
+  "version": "2.0.0-deploy.12",
   "private": true,
   "scripts": {
     "build:all": "yarn run build:ssr && yarn run copy:hosting",
@@ -15,7 +15,7 @@
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "postdeploy:all": "cross-var sentry-cli releases files \"tumi-app@$npm_package_version\" upload-sourcemaps ./dist/tumi-app/browser && cross-var sentry-cli releases deploys \"tumi-app@$npm_package_version\" new -e production && cross-var sentry-cli releases finalize \"tumi-app@$npm_package_version\"",
+    "postdeploy:all": "cross-var sentry-cli releases files \"tumi-app@$npm_package_version\" upload-sourcemaps ./dist/tumi-app/browser && cross-var sentry-cli releases deploys \"tumi-app@$npm_package_version\" new -e production && cross-var sentry-cli releases finalize \"tumi-app@$npm_package_version\"&& cross-var sentry-cli releases deploys \"universal-render@$npm_package_version\" new -e production && cross-var sentry-cli releases finalize \"universal-render@$npm_package_version\"",
     "postrelease:deploy": "yarn run sentry:release:start",
     "prebuild:all": "yarn run release:deploy",
     "precopy:hosting": "rimraf functions/dist",
@@ -24,7 +24,7 @@
     "release": "standard-version --no-verify",
     "release:deploy": "standard-version --prerelease deploy --no-verify --skip.changelog --skip.tag --skip.commit",
     "release:preview": "standard-version --no-verify --dry-run",
-    "sentry:release:start": "cross-var sentry-cli releases new \"tumi-app@$npm_package_version\"",
+    "sentry:release:start": "cross-var sentry-cli releases new \"tumi-app@$npm_package_version\" && cross-var sentry-cli releases new \"universal-render@$npm_package_version\"",
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "start": "ng serve",
     "statistics": "ng build --prod --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
