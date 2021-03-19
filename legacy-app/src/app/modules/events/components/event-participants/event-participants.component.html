@@ -13,7 +13,7 @@
         {{ tutor.phone }}</span
       >
     </div>
-    <span *ngIf="!tutor.isOldie" class="tag">newbie</span>
+    <span *ngIf="tutor.isTrialMember" class="tag">trial</span>
     <button
       (click)="stopPropagation($event)"
       *ngIf="$isAdmin | ngrxPush"
@@ -76,6 +76,7 @@
         >
       </div>
     </div>
+    <span *ngIf="registration.user.isTrialMember" class="tag">trial</span>
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
       mat-icon-button

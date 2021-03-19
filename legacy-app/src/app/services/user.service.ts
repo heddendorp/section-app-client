@@ -13,7 +13,10 @@ export class UserService {
   public getAllMembers$(): Observable<User[]> {
     return this.store
       .collection<User>(User.collection(this.store), (ref) =>
-        ref.where('status', 'not-in', [MemberStatus.none])
+        ref
+          .where('status', 'not-in', [MemberStatus.none])
+          .orderBy('status', 'asc')
+          .orderBy('joinedAssociation', 'asc')
       )
       .valueChanges()
       .pipe(shareReplay(1));

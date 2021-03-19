@@ -131,7 +131,7 @@ export const registerForEvent = functions /*.region('europe-west1')*/.https
             `There are no free tutor spots on ${event.name}!`
           );
         }
-        if (!user.isTutor && !user.isAdmin) {
+        if ((user.status ?? 'NONE') === 'NONE' && !user.isAdmin) {
           throw new functions.https.HttpsError(
             'failed-precondition',
             `Only admins and tutors can sign up as a tutor for events!`

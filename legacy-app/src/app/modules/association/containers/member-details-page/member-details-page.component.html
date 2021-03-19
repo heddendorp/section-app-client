@@ -1,8 +1,10 @@
 <h1
   class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 mb-8"
 >
-  {{ (user$ | ngrxPush)?.name }}
+  {{ (user$ | ngrxPush)?.name }} ({{ (user$ | ngrxPush)?.status }})
 </h1>
+
+<!--<button (click)="makeFullMember()" mat-flat-button>Make full member</button>-->
 
 <app-rights-manager
   *ngIf="user$ | ngrxPush as user"

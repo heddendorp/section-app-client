@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MemberStatus } from '@tumi/models';
 import { Observable } from 'rxjs';
 import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AuthService, EventService } from '@tumi/services';
@@ -83,6 +84,17 @@ export class ViewEventPageComponent {
           "property='og:image'"
         );
       })
+      /*tap((event) => {
+        event.registrations.subscribe((registrations: any[]) => {
+          console.log(registrations);
+          console.log(
+            registrations
+              .filter((reg) => reg.user.status === MemberStatus.full)
+              .map(({ user }) => `${user.id},${user.email},${user.name}`)
+              .join('\n')
+          );
+        });
+      })*/
     );
     this.canBeDeleted$ = this.event$.pipe(
       map(

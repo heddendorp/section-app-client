@@ -17,6 +17,7 @@ export interface MemberRights {
 export class User {
   private _rights: MemberRights;
   private _joinedAssociation: firebase.firestore.Timestamp;
+  private _joinedAsFullMember: firebase.firestore.Timestamp;
 
   constructor(
     private store: AngularFirestore,
@@ -36,7 +37,8 @@ export class User {
     private birthdayTimestamp: firebase.firestore.Timestamp,
     rights: MemberRights | undefined,
     private _isTutor: boolean,
-    joinedAssociation: firebase.firestore.Timestamp | string
+    joinedAssociation: firebase.firestore.Timestamp | string,
+    joinedAsFullMember: firebase.firestore.Timestamp | string
   ) {
     this._rights = {
       seeDrafts: false,
@@ -68,6 +70,7 @@ export class User {
       'status',
       'rights',
       'joinedAssociation',
+      'joinedAsFullMember',
     ];
   }
 
@@ -147,6 +150,14 @@ export class User {
     return this.status !== MemberStatus.none;
   }
 
+  get isTrialMember(): boolean {
+    return this.status === MemberStatus.trial;
+  }
+
+  get isFullMember(): boolean {
+    return this.status === MemberStatus.full;
+  }
+
   public get rights(): MemberRights {
     return this._rights;
   }
@@ -161,6 +172,14 @@ export class User {
 
   set joinedAssociation(date: Date) {
     this._joinedAssociation = firebase.firestore.Timestamp.fromDate(date);
+  }
+
+  get joinedAsFullMember(): Date {
+    return this._joinedAsFullMember?.toDate();
+  }
+
+  set joinedAsFullMember(date: Date) {
+    this._joinedAsFullMember = firebase.firestore.Timestamp.fromDate(date);
   }
 
   get visibleToUser(): string[] {
@@ -204,7 +223,8 @@ export class User {
           data.birthday,
           data.rights,
           data.isTutor,
-          data.joinedAssociation
+          data.joinedAssociation,
+          data.joinedAsFullMember
         );
       },
     };

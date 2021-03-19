@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MemberRights, User } from '@tumi/models';
+import { MemberRights, MemberStatus, User } from '@tumi/models';
 import { UserService } from '@tumi/services';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -24,5 +24,13 @@ export class MemberDetailsPageComponent implements OnInit {
   async updateRights(rights: MemberRights) {
     const user = await this.user$.pipe(first()).toPromise();
     await this.users.update(user.id, { rights });
+  }
+
+  async makeFullMember() {
+    const user = await this.user$.pipe(first()).toPromise();
+    await this.users.update(user.id, {
+      joinedAsFullMember: new Date(),
+      status: MemberStatus.full,
+    });
   }
 }

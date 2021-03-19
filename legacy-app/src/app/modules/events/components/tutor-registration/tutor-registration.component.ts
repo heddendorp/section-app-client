@@ -77,22 +77,37 @@ export class TutorRegistrationComponent implements OnChanges {
       .afterClosed()
       .toPromise();
     if (proceed) {
-      const snack = this.snackBar.openFromComponent(IconToastComponent, {
+      this.snackBar.openFromComponent(IconToastComponent, {
         data: {
           message: `Please wait while we're signing you up`,
           icon: 'icon-loading',
         },
         duration: 0,
       });
-      await this.fireFunctions
-        .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>(
-          'registerForEvent'
-        )({
-          eventId: this.event.id,
-          type: 'tutor',
-        })
-        .toPromise();
-      snack.dismiss();
+      try {
+        await this.fireFunctions
+          .httpsCallable<{ eventId: string; type: 'tutor' | 'student' }, any>(
+            'registerForEvent'
+          )({
+            eventId: this.event.id,
+            type: 'tutor',
+          })
+          .toPromise();
+        this.snackBar.openFromComponent(IconToastComponent, {
+          data: {
+            message: `Signup successful!`,
+            icon: 'icon-checkmark',
+          },
+        });
+      } catch (e) {
+        console.log(e);
+        this.snackBar.openFromComponent(IconToastComponent, {
+          data: {
+            message: `Something went wrong`,
+            icon: 'icon-delete-sign',
+          },
+        });
+      }
     }
   }
 }
