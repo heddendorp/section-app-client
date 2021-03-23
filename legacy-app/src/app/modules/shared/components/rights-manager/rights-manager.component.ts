@@ -32,6 +32,7 @@ export class RightsManagerComponent implements OnInit {
       accessTransactions: [false, Validators.required],
       scanRequests: [false, Validators.required],
       betaFeatures: [false, Validators.required],
+      createEvents: [false, Validators.required],
     });
     this.rightsForm.setValue(this.user.rights);
   }

@@ -5,6 +5,7 @@ import { isNil, negate, pick, pickBy } from 'lodash-es';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
 export interface MemberRights {
+  createEvents: boolean;
   seeDrafts: boolean;
   manageApplications: boolean;
   manageMembers: boolean;
@@ -48,6 +49,7 @@ export class User {
       accessTransactions: false,
       scanRequests: false,
       betaFeatures: false,
+      createEvents: false,
       ...rights,
     };
     if (typeof joinedAssociation === 'string') {
@@ -144,6 +146,10 @@ export class User {
 
   get canSeeBetaFeatures(): boolean {
     return this._rights.betaFeatures || this.isAdmin;
+  }
+
+  get canCreateEvents(): boolean {
+    return this._rights.createEvents || this.isAdmin;
   }
 
   get isMember(): boolean {
