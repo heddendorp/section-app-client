@@ -1,6 +1,6 @@
 {
   "name": "tumi-app",
-  "version": "2.0.0-deploy.16",
+  "version": "2.0.0-deploy.17",
   "private": true,
   "scripts": {
     "build:all": "yarn run build:ssr && yarn run copy:hosting",
@@ -86,6 +86,7 @@
     "@types/qrcode": "^1.4.0",
     "@typescript-eslint/eslint-plugin": "4.19.0",
     "@typescript-eslint/parser": "4.19.0",
+    "async": "^3.2.0",
     "copyfiles": "^2.4.1",
     "cross-var": "^1.1.0",
     "eslint": "^7.22.0",
