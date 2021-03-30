@@ -13,6 +13,7 @@ export interface MemberRights {
   accessTransactions: boolean;
   scanRequests: boolean;
   betaFeatures: boolean;
+  manageInvoices: boolean;
 }
 
 export class User {
@@ -50,6 +51,7 @@ export class User {
       scanRequests: false,
       betaFeatures: false,
       createEvents: false,
+      manageInvoices: false,
       ...rights,
     };
     if (typeof joinedAssociation === 'string') {
@@ -138,6 +140,10 @@ export class User {
 
   get canAccessTransactions(): boolean {
     return this._rights.accessTransactions || this.isAdmin;
+  }
+
+  get canManageInvoices(): boolean {
+    return this._rights.manageInvoices || this.isAdmin;
   }
 
   get canScanRequests(): boolean {

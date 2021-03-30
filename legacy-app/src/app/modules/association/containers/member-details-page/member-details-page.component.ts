@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { MemberRights, MemberStatus, User } from '@tumi/models';
-import { UserService } from '@tumi/services';
+import { Invoice } from '@tumi/models/invoice';
+import { IconToastComponent } from '@tumi/modules/shared';
+import { AuthService, UserService } from '@tumi/services';
+import { InvoiceService } from '@tumi/services/invoice.service';
 import { Observable } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { first, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-details-page',
@@ -13,11 +17,24 @@ import { first, switchMap } from 'rxjs/operators';
 })
 export class MemberDetailsPageComponent implements OnInit {
   user$: Observable<User>;
-  constructor(private users: UserService, private route: ActivatedRoute) {}
+  invoices$: Observable<Invoice[]>;
+  constructor(
+    private users: UserService,
+    private route: ActivatedRoute,
+    private invoices: InvoiceService,
+    private snackBar: MatSnackBar,
+    public auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.route.paramMap.pipe(
       switchMap((params) => this.users.getOne$(params.get('userId') as string))
+    );
+    this.invoices$ = this.route.paramMap.pipe(
+      switchMap((params) =>
+        this.invoices.getForUserId(params.get('userId') as string)
+      ),
+      tap(console.log)
     );
   }
 
@@ -31,6 +48,17 @@ export class MemberDetailsPageComponent implements OnInit {
     await this.users.update(user.id, {
       joinedAsFullMember: new Date(),
       status: MemberStatus.full,
+    });
+  }
+
+  public async sendInvoice(): Promise<void> {
+    const user = await this.user$.pipe(first()).toPromise();
+    await this.invoices.createInvoiceForUser(user);
+    this.snackBar.openFromComponent(IconToastComponent, {
+      data: {
+        message: `Invoice created!`,
+        icon: 'icon-checkmark',
+      },
     });
   }
 }

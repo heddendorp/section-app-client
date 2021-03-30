@@ -145,6 +145,15 @@
             <mat-icon mat-list-icon svgIcon="icon-conference"></mat-icon>
             <h3 mat-line>Manage members</h3>
           </a>
+          <a
+            *ngIf="user?.canManageInvoices"
+            mat-list-item
+            routerLink="association/invoices"
+            routerLinkActive="active"
+          >
+            <mat-icon mat-list-icon svgIcon="icon-conference"></mat-icon>
+            <h3 mat-line>Manage Invoices</h3>
+          </a>
         </ng-container>
       </mat-nav-list>
       <div fxFlex="grow"></div>

@@ -14,6 +14,7 @@ export class MemberListPageComponent implements OnInit {
   public members$: Observable<User[]>;
   public tutors$: Observable<User[]>;
   public memberCount$: Observable<{ full: number; trial: number }>;
+  public displayedColumns = ['name', 'status', 'email', 'actions'];
   constructor(private users: UserService) {}
 
   ngOnInit(): void {

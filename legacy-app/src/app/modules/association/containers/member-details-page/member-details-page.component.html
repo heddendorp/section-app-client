@@ -5,7 +5,11 @@
 </h1>
 
 <!--<button (click)="makeFullMember()" mat-flat-button>Make full member</button>-->
-
+<app-member-invoice-info
+  [invoices]="invoices$ | ngrxPush"
+  [user]="auth.user$ | ngrxPush"
+  (sendInvoice)="sendInvoice()"
+></app-member-invoice-info>
 <app-rights-manager
   *ngIf="user$ | ngrxPush as user"
   [user]="user"

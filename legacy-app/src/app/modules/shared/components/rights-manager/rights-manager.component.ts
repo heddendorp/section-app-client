@@ -30,6 +30,7 @@ export class RightsManagerComponent implements OnInit {
       manageMembers: [false, Validators.required],
       manageUsers: [false, Validators.required],
       accessTransactions: [false, Validators.required],
+      manageInvoices: [false, Validators.required],
       scanRequests: [false, Validators.required],
       betaFeatures: [false, Validators.required],
       createEvents: [false, Validators.required],
