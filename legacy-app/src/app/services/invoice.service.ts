@@ -19,7 +19,12 @@ export class InvoiceService {
   }
 
   public getAllInvoices() {
-    return this.invoiceCollection.valueChanges().pipe(shareReplay(1));
+    return this.store
+      .collection<Invoice>(Invoice.collection(this.store), (ref) =>
+        ref.orderBy('timestamp', 'desc')
+      )
+      .valueChanges()
+      .pipe(shareReplay(1));
   }
 
   public getForUserId(userId: string) {

@@ -11,6 +11,13 @@ import { Observable } from 'rxjs';
 })
 export class InvoicesPageComponent implements OnInit {
   public invoices$: Observable<Invoice[]>;
+  public displayedColumns = [
+    'timestamp',
+    'status',
+    'description',
+    'email',
+    'amount',
+  ];
   constructor(private invoices: InvoiceService) {}
 
   ngOnInit(): void {

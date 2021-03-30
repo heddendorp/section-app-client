@@ -1,1 +1,42 @@
-<p>invoices-page works!</p>
+<h1
+  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-700 to-accent-500 mb-2"
+>
+  Invoices
+</h1>
+<table mat-table [dataSource]="invoices$ | ngrxPush" class="w-full mt-6">
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.stripeInvoiceStatus | titlecase }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="timestamp">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.timestamp | date: "medium" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.items[0].description }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef>Amount</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.items[0].amount / 100 | currency: element.items[0].currency }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
