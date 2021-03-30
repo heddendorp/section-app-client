@@ -110,6 +110,7 @@
   </div>
   <app-event-participants
     [event]="event"
+    [user]="user$ | ngrxPush"
     *ngIf="canSeeParticipants$ | ngrxPush"
   ></app-event-participants>
 </ng-container>

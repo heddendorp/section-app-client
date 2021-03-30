@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MemberStatus } from '@tumi/models';
+import { MemberStatus, User } from '@tumi/models';
 import { Observable } from 'rxjs';
 import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AuthService, EventService } from '@tumi/services';
@@ -27,6 +27,7 @@ export class ViewEventPageComponent {
   public authenticated$: Observable<boolean>;
   public isTutor$: Observable<boolean>;
   public isEditor$: Observable<boolean>;
+  public user$: Observable<User>;
   public canBeDeleted$: Observable<boolean>;
   public canSeeParticipants$: Observable<boolean>;
 
@@ -42,6 +43,7 @@ export class ViewEventPageComponent {
     this.authenticated$ = auth.authenticated$;
     this.isTutor$ = auth.isTutor$;
     this.isEditor$ = auth.isEditor$;
+    this.user$ = auth.user$;
     this.event$ = route.data.pipe(
       switchMap((data) =>
         this.eventService.getOne$(data.event.id).pipe(startWith(data.event))

@@ -16,7 +16,7 @@
     <span *ngIf="tutor.isTrialMember" class="tag">trial</span>
     <button
       (click)="stopPropagation($event)"
-      *ngIf="$isAdmin | ngrxPush"
+      *ngIf="user.isAdmin"
       [matMenuTriggerFor]="menu"
       mat-icon-button
     >
@@ -80,7 +80,7 @@
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
       mat-icon-button
-      *ngIf="$isAdmin | ngrxPush"
+      *ngIf="user.canManageEvents"
       [matMenuTriggerFor]="menu"
       (click)="stopPropagation($event)"
     >
@@ -142,7 +142,7 @@
       <td colspan="3">Tutors:</td>
       <td colspan="5">
         <ng-container *ngFor="let tutor of event.registeredTutors | ngrxPush"
-          >{{ tutor.firstName }} {{ tutor.lastName }},
+          >{{ tutor.name }},
         </ng-container>
       </td>
     </tr>

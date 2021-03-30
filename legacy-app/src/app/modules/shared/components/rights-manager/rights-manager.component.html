@@ -1,4 +1,10 @@
-<form [formGroup]="rightsForm" fxLayout="column" fxLayoutGap="1rem">
+<form
+  [formGroup]="rightsForm"
+  gdAuto
+  gdGap="1rem"
+  gdColumns.gt-sm="1fr 1fr"
+  gdColumns="1fr"
+>
   <mat-checkbox formControlName="seeDrafts">seeDrafts</mat-checkbox>
   <mat-checkbox formControlName="manageApplications"
     >manageApplications</mat-checkbox
@@ -12,6 +18,7 @@
   <mat-checkbox formControlName="scanRequests">scanRequests</mat-checkbox>
   <mat-checkbox formControlName="betaFeatures">betaFeatures</mat-checkbox>
   <mat-checkbox formControlName="createEvents">createEvents</mat-checkbox>
+  <mat-checkbox formControlName="manageEvents">manageEvents</mat-checkbox>
   <button
     mat-stroked-button
     [disabled]="rightsForm.invalid"

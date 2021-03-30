@@ -190,9 +190,9 @@ export class AuthService {
   }
 
   canSeeParticipants$(event: any): Observable<boolean> {
-    return combineLatest([this.isEditor$, this.user$]).pipe(
-      map(([isEditor, user]) => {
-        if (isEditor) {
+    return this.user$.pipe(
+      map((user) => {
+        if (user.canManageEvents) {
           return true;
         }
         if (!user) {

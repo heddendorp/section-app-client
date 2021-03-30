@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { User } from '@tumi/models';
 import { AuthService, EventService, MoneyService } from '@tumi/services';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -12,16 +13,13 @@ import { first, map } from 'rxjs/operators';
 })
 export class EventParticipantsComponent {
   @Input() event: any;
-  $isAdmin: Observable<boolean>;
+  @Input() user: User;
 
   constructor(
     private eventService: EventService,
     private moneyService: MoneyService,
-    private clipboard: Clipboard,
-    auth: AuthService
-  ) {
-    this.$isAdmin = auth.isAdmin$;
-  }
+    private clipboard: Clipboard
+  ) {}
 
   async toggleRegistration(registration: any): Promise<void> {
     await this.eventService.updateRegistration(this.event.id, registration.id, {
