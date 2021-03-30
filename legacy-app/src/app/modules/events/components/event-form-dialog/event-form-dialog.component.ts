@@ -41,6 +41,7 @@ export class EventFormDialogComponent implements OnDestroy {
       visibility: ['draft'],
       type: ['event'],
       registrationMode: ['office'],
+      organizer: ['tumi'],
       tutorSpots: [0, Validators.required],
       participantSpots: [0, Validators.required],
       splitTutorPlaces: [false],

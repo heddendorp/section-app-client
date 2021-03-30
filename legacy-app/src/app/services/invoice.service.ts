@@ -28,7 +28,6 @@ export class InvoiceService {
   }
 
   public getForUserId(userId: string) {
-    console.log(userId);
     return this.store
       .collection<Invoice>(Invoice.collection(this.store), (ref) =>
         ref.where('userId', '==', userId).orderBy('timestamp', 'desc')

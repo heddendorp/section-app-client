@@ -1,0 +1,6 @@
+@import "src/mixins";
+:host {
+  display: block;
+  @include panel();
+  @apply mt-4;
+}

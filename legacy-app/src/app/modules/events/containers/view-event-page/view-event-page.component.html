@@ -60,6 +60,10 @@
       class="prose lg:prose-lg"
     ></markdown>
   </div>
+  <app-event-organizer
+    *ngIf="event.organizer"
+    [event]="event"
+  ></app-event-organizer>
   <ng-container *ngIf="isTutor$ | ngrxPush">
     <h3 class="mt-4 tex-lg font-bold">Notes for tutors:</h3>
     <div class="panel my-4">

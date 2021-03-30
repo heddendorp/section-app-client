@@ -16,6 +16,7 @@ import { AnonymousRegistrationComponent } from './components/anonymous-registrat
 import { CollectMoneyComponent } from './components/collect-money/collect-money.component';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { PayPalRegistrationComponent } from './components/pay-pal-registration/pay-pal-registration.component';
+import { EventOrganizerComponent } from './components/event-organizer/event-organizer.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PayPalRegistrationComponent } from './components/pay-pal-registration/p
     EventFormDialogComponent,
     CollectMoneyComponent,
     PayPalRegistrationComponent,
+    EventOrganizerComponent,
   ],
   imports: [CommonModule, SharedModule, EventsRoutingModule, NgxPayPalModule],
 })
