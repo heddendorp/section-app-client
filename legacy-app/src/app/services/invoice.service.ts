@@ -5,7 +5,7 @@ import {
 } from '@angular/fire/firestore';
 import { User } from '@tumi/models';
 import { Invoice } from '@tumi/models/invoice';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +35,18 @@ export class InvoiceService {
       )
       .valueChanges()
       .pipe(shareReplay(1));
+  }
+
+  public getFirstForUserId(userId: string) {
+    return this.store
+      .collection<Invoice>(Invoice.collection(this.store), (ref) =>
+        ref.where('userId', '==', userId).orderBy('timestamp', 'desc').limit(1)
+      )
+      .valueChanges()
+      .pipe(
+        map((arr) => arr[0] ?? null),
+        shareReplay(1)
+      );
   }
 
   public createInvoiceForUser({ email, id }: User) {

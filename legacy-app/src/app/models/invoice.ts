@@ -15,6 +15,7 @@ export class Invoice {
     readonly userId: string,
     readonly items: InvoiceItem[],
     readonly lastStripeEvent?: string,
+    readonly stripeInvoiceUrl?: string,
     readonly stripeInvoiceStatus?:
       | 'draft'
       | 'open'
@@ -50,6 +51,7 @@ export class Invoice {
           data.userId,
           data.items,
           data?.lastStripeEvent,
+          data?.stripeInvoiceUrl,
           data?.stripeInvoiceStatus,
           data?.daysUntilDue
         );

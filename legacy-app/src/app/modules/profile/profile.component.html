@@ -38,6 +38,29 @@
         <strong>Joined: </strong>
         <p>{{ user.joinedAssociation | date }}</p>
       </div>
+      <ng-container *ngIf="invoice$ | ngrxPush as invoice">
+        <p class="mt-4 font-bold">Latest invoice:</p>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxLayoutGap="1rem"
+        >
+          <p>
+            {{ invoice.timestamp | date }} ({{
+              invoice.items[0].amount / 100
+                | currency: invoice.items[0].currency
+            }}): {{ invoice.items[0].description }} [{{
+              invoice.stripeInvoiceStatus
+            }}]
+          </p>
+          <a
+            mat-stroked-button
+            [href]="invoice.stripeInvoiceUrl"
+            target="_blank"
+            >Open invoice</a
+          >
+        </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>
