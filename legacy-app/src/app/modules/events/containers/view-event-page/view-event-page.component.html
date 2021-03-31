@@ -41,6 +41,15 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="editEvent()">Edit event</button>
       <button mat-menu-item disabled>Archive Event</button>
+      <a
+        mat-menu-item
+        target="_blank"
+        href="https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data~2Fevents~2F{{
+          event.id
+        }}"
+      >
+        Firebase item
+      </a>
       <button
         mat-menu-item
         [disabled]="!(canBeDeleted$ | ngrxPush)"

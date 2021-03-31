@@ -38,14 +38,14 @@
               }}</span
             >
           </h4>
-          <span
-            >Free spots: {{ event.participantSpots - event.usersSignedUp }}
-            {{
+          <span *ngIf="event.registrationMode !== 'external'">
+            Free spots: {{ event.participantSpots - event.usersSignedUp }}
+            <!--{{
               event.participantSpots - event.usersSignedUp <= 0
                 ? "(Only wait-list)"
                 : ""
-            }}</span
-          >
+            }}-->
+          </span>
         </div>
         <img
           fxFlex="80px"

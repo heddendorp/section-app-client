@@ -41,8 +41,9 @@
       <ng-container *ngIf="invoice$ | ngrxPush as invoice">
         <p class="mt-4 font-bold">Latest invoice:</p>
         <div
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
+          fxLayout.gt-xs="row"
+          fxLayout="column"
+          fxLayoutAlign.gt-xs="space-between center"
           fxLayoutGap="1rem"
         >
           <p>
@@ -57,8 +58,9 @@
             mat-stroked-button
             [href]="invoice.stripeInvoiceUrl"
             target="_blank"
-            >Open invoice</a
           >
+            Open invoice
+          </a>
         </div>
       </ng-container>
     </div>
