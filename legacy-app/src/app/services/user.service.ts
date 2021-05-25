@@ -16,7 +16,7 @@ export class UserService {
         ref
           .where('status', 'not-in', [MemberStatus.none])
           .orderBy('status', 'asc')
-          .orderBy('joinedAssociation', 'asc')
+          .orderBy('lastName', 'asc')
       )
       .valueChanges()
       .pipe(shareReplay(1));
@@ -32,6 +32,15 @@ export class UserService {
         map((tutors) => tutors.filter((t) => !t.isMember)),
         shareReplay(1)
       );
+  }
+
+  public getPeopleOnMailingList$(): Observable<User[]> {
+    return this.store
+      .collection<User>(User.collection(this.store), (ref) =>
+        ref.where('onAlumniMailingList', '==', true)
+      )
+      .valueChanges()
+      .pipe(shareReplay(1));
   }
 
   public getOne$(id: string): Observable<any> {

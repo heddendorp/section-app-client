@@ -55,6 +55,11 @@
       *ngIf="registration.paypal"
       svgIcon="icon-paypal"
     ></mat-icon>
+    <mat-icon
+      style="margin-right: 4px"
+      *ngIf="registration.stripe"
+      svgIcon="icon-stripe"
+    ></mat-icon>
     <div fxFlex="grow">
       <div>
         <span
@@ -73,6 +78,12 @@
             registration.paypal.fullFees | currency: "EUR"
           }}
           fees)</span
+        >
+      </div>
+      <div *ngIf="registration?.stripe?.payment_status">
+        <span>
+          <strong>Stripe Payment: </strong>
+          {{ registration.stripe.payment_status }}</span
         >
       </div>
     </div>
@@ -125,57 +136,81 @@
         {{ calculateTotal(registrations, "fullNet") | currency: "EUR" }}</span
       ><br /><br /><br />
     </div>
+    <div *ngIf="event.registrationMode === 'stripe' && registrations?.length">
+      <br />
+      <span
+        >Completed order Volume:
+        {{ calculateStripeInfo(registrations).fullVol | currency: "EUR" }}</span
+      ><br />
+      <span
+        >Order Fees:
+        {{
+          calculateStripeInfo(registrations).fullFees | currency: "EUR"
+        }}</span
+      ><br />
+      <span
+        >Net value:
+        {{ calculateStripeInfo(registrations).netVol | currency: "EUR" }}</span
+      ><br /><br /><br />
+    </div>
   </ng-container>
 </div>
 <h2>Event Table</h2>
-<table style="user-select: all">
-  <tbody>
-    <tr>
-      <td colspan="3">Event Name:</td>
-      <td colspan="5">{{ event.name }}</td>
-    </tr>
-    <tr>
-      <td colspan="3">Date:</td>
-      <td colspan="5">{{ event.start | date }}</td>
-    </tr>
-    <tr>
-      <td colspan="3">Tutors:</td>
-      <td colspan="5">
-        <ng-container *ngFor="let tutor of event.registeredTutors | ngrxPush"
-          >{{ tutor.name }},
-        </ng-container>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3">Participants (including tutors):</td>
-      <td colspan="5">{{ event.usersSignedUp + event.tutorSignups.length }}</td>
-    </tr>
-    <!--  </tbody>-->
-    <!--  <thead>-->
-    <tr>
-      <th></th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Country</th>
-      <th>E-mail</th>
-      <th>Phone</th>
-      <th>Address</th>
-      <th>Status</th>
-    </tr>
-    <!--  </thead>-->
-    <!--  <tbody>-->
-    <tr
-      *ngFor="let registration of event.registrations | ngrxPush; let i = index"
-      class="table-row"
-    >
-      <td>{{ i + 1 }}</td>
-      <td>{{ registration.user.firstName }}</td>
-      <td>{{ registration.user.lastName }}</td>
-      <td>{{ registration.user.country }}</td>
-      <td>{{ registration.user.email }}</td>
-      <td>{{ registration.user.phone }}</td>
-      <td>{{ registration.user.address }}</td>
-      <td>{{ registration.user.type }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="overflow-x-auto max-w-full block">
+  <table style="user-select: all">
+    <tbody>
+      <tr>
+        <td colspan="3">Event Name:</td>
+        <td colspan="5">{{ event.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Date:</td>
+        <td colspan="5">{{ event.start | date }}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Tutors:</td>
+        <td colspan="5">
+          <ng-container *ngFor="let tutor of event.registeredTutors | ngrxPush"
+            >{{ tutor.name }},
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">Participants (including tutors):</td>
+        <td colspan="5">
+          {{ event.usersSignedUp + event.tutorSignups.length }}
+        </td>
+      </tr>
+      <!--  </tbody>-->
+      <!--  <thead>-->
+      <tr>
+        <th></th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Country</th>
+        <th>E-mail</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Status</th>
+      </tr>
+      <!--  </thead>-->
+      <!--  <tbody>-->
+      <tr
+        *ngFor="
+          let registration of event.registrations | ngrxPush;
+          let i = index
+        "
+        class="table-row"
+      >
+        <td>{{ i + 1 }}</td>
+        <td>{{ registration.user.firstName }}</td>
+        <td>{{ registration.user.lastName }}</td>
+        <td>{{ registration.user.country }}</td>
+        <td>{{ registration.user.email }}</td>
+        <td>{{ registration.user.phone }}</td>
+        <td>{{ registration.user.address }}</td>
+        <td>{{ registration.user.type }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

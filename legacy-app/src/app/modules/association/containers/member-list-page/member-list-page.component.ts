@@ -12,20 +12,29 @@ import { MemberStatus, User } from '../../../../models';
 })
 export class MemberListPageComponent implements OnInit {
   public members$: Observable<User[]>;
+  public mailingList$: Observable<User[]>;
   public tutors$: Observable<User[]>;
-  public memberCount$: Observable<{ full: number; trial: number }>;
+  public memberCount$: Observable<{
+    full: number;
+    trial: number;
+    sponsor: number;
+  }>;
   public displayedColumns = ['name', 'status', 'email', 'actions'];
   constructor(private users: UserService) {}
 
   ngOnInit(): void {
     this.members$ = this.users.getAllMembers$();
     this.tutors$ = this.users.getTutorNonMembers$();
+    this.mailingList$ = this.users.getPeopleOnMailingList$();
     this.memberCount$ = this.members$.pipe(
       map((members) => ({
         full: members.filter((member) => member.status === MemberStatus.full)
           .length,
         trial: members.filter((member) => member.status === MemberStatus.trial)
           .length,
+        sponsor: members.filter(
+          (member) => member.status === MemberStatus.sponsor
+        ).length,
       }))
     );
   }

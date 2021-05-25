@@ -8,6 +8,7 @@ import { AuthService, UserService } from '@tumi/services';
 import { InvoiceService } from '@tumi/services/invoice.service';
 import { Observable } from 'rxjs';
 import { first, switchMap, tap } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-member-details-page',
@@ -28,7 +29,8 @@ export class MemberDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.route.paramMap.pipe(
-      switchMap((params) => this.users.getOne$(params.get('userId') as string))
+      switchMap((params) => this.users.getOne$(params.get('userId') as string)),
+      tap((data) => console.log(data))
     );
     this.invoices$ = this.route.paramMap.pipe(
       switchMap((params) =>

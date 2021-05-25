@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class MemberFunctionsComponent {
   @Input() members: User[];
+  @Input() mailingList: User[];
   @Input() tutors: User[];
   constructor(private clipboard: Clipboard, private snack: MatSnackBar) {}
 
@@ -26,6 +27,10 @@ export class MemberFunctionsComponent {
 
   copyTutorMails() {
     this.copyString(this.tutors.map((m) => m.email).join(';'));
+  }
+
+  copyMailingListMails() {
+    this.copyString(this.mailingList.map((m) => m.email).join(';'));
   }
 
   private copyString(toCopy: string) {

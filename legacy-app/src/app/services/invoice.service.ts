@@ -21,7 +21,7 @@ export class InvoiceService {
   public getAllInvoices() {
     return this.store
       .collection<Invoice>(Invoice.collection(this.store), (ref) =>
-        ref.orderBy('timestamp', 'desc')
+        ref.orderBy('stripeInvoiceStatus', 'asc')
       )
       .valueChanges()
       .pipe(shareReplay(1));

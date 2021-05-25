@@ -47,11 +47,14 @@ import {
 import { IconSrcDirective } from './directives';
 import { RightsManagerComponent } from './components/rights-manager/rights-manager.component';
 import * as Sentry from '@sentry/angular';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const materialModules = [
   MatSidenavModule,
   MatIconModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatListModule,
   MatFormFieldModule,
   MatInputModule,
@@ -63,6 +66,7 @@ const materialModules = [
   MatSelectModule,
   MatSnackBarModule,
   MatTableModule,
+  MatTooltipModule,
   A11yModule,
 ];
 

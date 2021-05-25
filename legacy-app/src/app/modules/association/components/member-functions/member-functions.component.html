@@ -1,12 +1,18 @@
 <div class="panel">
   <h2 class="mb-6 text-xl font-bold">Additional management info</h2>
   <p class="mb-2">Tutors who are not members: {{ tutors?.length }}</p>
+  <p class="mb-2">
+    People on the alumni mailing list: {{ mailingList?.length }}
+  </p>
   <div fxLayoutGap="1rem" fxLayout="row">
     <button mat-stroked-button (click)="copyMemberMails()">
       Copy Member mails
     </button>
     <button mat-stroked-button (click)="copyTutorMails()">
       Copy Tutor (non member) mails
+    </button>
+    <button mat-stroked-button (click)="copyMailingListMails()">
+      Copy alumni list mails
     </button>
   </div>
 </div>

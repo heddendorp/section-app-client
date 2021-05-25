@@ -5,3 +5,4 @@ export * from './online-registration/online-registration.component';
 export * from './tutor-registration/tutor-registration.component';
 export * from './event-form-dialog/event-form-dialog.component';
 export * from './pay-pal-registration/pay-pal-registration.component';
+export * from './stripe-registration/stripe-registration.component';

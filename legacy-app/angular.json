@@ -211,6 +211,7 @@
   },
   "defaultProject": "tumi-app",
   "cli": {
+    "defaultCollection": "@schematics/angular",
     "analytics": "0b5f6a10-0f3b-4a46-80e3-bdcfaec01455"
   }
 }

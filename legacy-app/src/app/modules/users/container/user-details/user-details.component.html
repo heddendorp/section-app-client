@@ -1,0 +1,88 @@
+<ng-container *ngIf="user$ | async as user">
+  <h1
+    class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 mb-8"
+  >
+    {{ user?.name }}
+  </h1>
+  <form
+    [formGroup]="userForm"
+    gdAuto
+    gdGap=".5rem"
+    gdColumns="repeat(2, max-content)"
+  >
+    <p>Name:</p>
+    <p>{{ user.name }}</p>
+    <p>Email:</p>
+    <p>{{ user.email }}</p>
+    <p>Phone:</p>
+    <p>{{ user.phone }}</p>
+    <p>Address:</p>
+    <p>{{ user.address }}</p>
+    <p>Country:</p>
+    <p>{{ user.country }}</p>
+    <p gdColumn="-1/1">Association Details</p>
+    <p>Membership Status:</p>
+    <mat-button-toggle-group gdGridAlign="start" formControlName="status">
+      <mat-button-toggle [value]="MemberStatus.none">None</mat-button-toggle>
+      <mat-button-toggle [value]="MemberStatus.trial">Trial</mat-button-toggle>
+      <mat-button-toggle [value]="MemberStatus.full">Full</mat-button-toggle>
+      <mat-button-toggle [value]="MemberStatus.sponsor"
+        >Sponsoring</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+    <p>Membership fee:</p>
+    <p>{{ user.membershipFee | currency: "EUR" }}</p>
+    <p>On alumni mailing list:</p>
+    <mat-button-toggle-group
+      gdGridAlign="start"
+      formControlName="onAlumniMailingList"
+    >
+      <mat-button-toggle [value]="false">No</mat-button-toggle>
+      <mat-button-toggle [value]="true">Yes</mat-button-toggle>
+    </mat-button-toggle-group>
+    <p>Rights:</p>
+    <pre>{{ user.rights | json }}</pre>
+    <button
+      type="button"
+      gdColumn="-1/1"
+      mat-stroked-button
+      (click)="saveChanges()"
+    >
+      Save User
+    </button>
+  </form>
+  <button
+    mat-flat-button
+    color="warn"
+    (click)="removeUserdata()"
+    [disabled]="user.isMember"
+  >
+    Remove userdata
+  </button>
+  <button
+    mat-flat-button
+    (click)="showEvents$.next(true)"
+    [disabled]="showEvents$ | ngrxPush"
+  >
+    Load attended events</button
+  ><button
+    mat-flat-button
+    (click)="showTutorEvents$.next(true)"
+    [disabled]="showTutorEvents$ | ngrxPush"
+  >
+    Load tutored events
+  </button>
+  <mat-list *ngIf="showEvents$ | async">
+    <mat-list-item *ngFor="let event of events$ | ngrxPush">
+      <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
+      <p mat-line>{{ event.name }}</p>
+    </mat-list-item>
+  </mat-list>
+  <mat-list *ngIf="showTutorEvents$ | async">
+    <mat-list-item *ngFor="let event of tutoredEvents$ | ngrxPush">
+      <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
+      <p mat-line>{{ event.name }}</p>
+      <p mat-line>Tutor</p>
+    </mat-list-item>
+  </mat-list>
+</ng-container>

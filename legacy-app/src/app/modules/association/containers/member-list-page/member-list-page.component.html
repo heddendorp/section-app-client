@@ -2,15 +2,17 @@
   *ngrxLet="memberCount$; let count"
   class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-700 to-accent-500 mb-2"
 >
-  Association Members ({{ count.full + count.trial }})
+  Association Members ({{ count.full + count.trial + count.sponsor }})
 </h1>
 <h2 class="mb-6 text-3xl text-accent-600" *ngrxLet="memberCount$; let count">
-  Full: {{ count.full }} &nbsp; Trial: {{ count.trial }}
+  Full: {{ count.full }} &nbsp; Trial: {{ count.trial }} &nbsp; Sponsor:
+  {{ count.sponsor }}
 </h2>
 
 <app-member-functions
   [members]="members$ | ngrxPush"
   [tutors]="tutors$ | ngrxPush"
+  [mailingList]="mailingList$ | ngrxPush"
 ></app-member-functions>
 <table mat-table [dataSource]="members$ | ngrxPush" class="w-full mt-6">
   <ng-container matColumnDef="email">

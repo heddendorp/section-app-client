@@ -36,6 +36,8 @@ export class User {
     public phone: string,
     public address: string,
     public status: MemberStatus,
+    public membershipFee: number,
+    public onAlumniMailingList: boolean,
     private joinedAsTutorTimestamp: firebase.firestore.Timestamp,
     private birthdayTimestamp: firebase.firestore.Timestamp,
     rights: MemberRights | undefined,
@@ -61,6 +63,11 @@ export class User {
     } else {
       this._joinedAssociation = joinedAssociation;
     }
+    if (typeof joinedAsFullMember === 'string') {
+      this.joinedAsFullMember = new Date(joinedAsFullMember);
+    } else {
+      this._joinedAsFullMember = joinedAsFullMember;
+    }
   }
 
   static get attributes(): string[] {
@@ -74,6 +81,8 @@ export class User {
       'address',
       'birthday',
       'status',
+      'membershipFee',
+      'onAlumniMailingList',
       'rights',
       'joinedAssociation',
       'joinedAsFullMember',
@@ -237,6 +246,8 @@ export class User {
           data.phone,
           data.address,
           data.status ?? MemberStatus.none,
+          data.membershipFee ?? 5,
+          data.onAlumniMailingList ?? false,
           data.joinedAsTutor,
           data.birthday,
           data.rights,
@@ -269,4 +280,5 @@ export enum MemberStatus {
   none = 'NONE',
   trial = 'TRIAL',
   full = 'FULL',
+  sponsor = 'SPONSOR'
 }

@@ -42,4 +42,15 @@
       This event is organized by the student association ESN TUMi München e.V.
     </p>
   </div>
+  <div
+    *ngSwitchCase="'ext'"
+    fxLayout.gt-sm="row"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="start center"
+  >
+    <p class="text-md md:text-lg xl:text-xl">
+      This event is is not organized by us but we wanted to share it with you.
+    </p>
+  </div>
 </ng-container>

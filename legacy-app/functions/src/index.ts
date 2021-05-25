@@ -15,4 +15,5 @@ export * from './auth';
 export * from './https';
 export * from './schedule';
 export * from './ssr';
+export * from './checkout';
 // export * from './statistics';

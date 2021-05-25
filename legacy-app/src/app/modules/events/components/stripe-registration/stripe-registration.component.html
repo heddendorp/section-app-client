@@ -1,0 +1,25 @@
+<ng-container *ngIf="registration$ | ngrxPush as registration; else register">
+  <h1>Refund of online registration</h1>
+  <p>
+    In order to get a refund on this registration please contact TUMi at
+    <a class="styled" href="mailto:finance@esn-tumi.de">finance@esn-tumi.de</a>.
+  </p>
+</ng-container>
+<ng-template #register>
+  <h1 class="font-bold text-xl mb-2">Register with online payment</h1>
+  <h3 class="mb-2">
+    Pay {{ event.price | currency: "EUR" }} now to register for this event
+  </h3>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="startPayment()"
+    *ngIf="freeSpots$ | ngrxPush; else eventFull"
+  >
+    Pay now
+  </button>
+</ng-template>
+
+<ng-template #eventFull>
+  <p style="color: #b92b27">There are no free spots left for this event</p>
+</ng-template>

@@ -33,6 +33,22 @@ export class EventParticipantsComponent {
       .reduce((acc, item) => acc + item.paypal[field], 0);
   }
 
+  public calculateStripeInfo(registrations: any[]) {
+    const paidNum = registrations.filter(
+      (item) => item?.stripe?.payment_status === 'paid'
+    ).length;
+    const fullVol = paidNum * this.event.price;
+    const fullFees =
+      registrations
+        .filter((item) => item?.stripe?.payment_status === 'paid')
+        .reduce((acc, curr) => acc + curr.stripe.fee, 0) / 100;
+    return {
+      fullVol,
+      fullFees,
+      netVol: fullVol - fullFees,
+    };
+  }
+
   public async removeRegistration(
     registration: any,
     refund = false

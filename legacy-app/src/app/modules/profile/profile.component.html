@@ -38,6 +38,13 @@
         <strong>Joined: </strong>
         <p>{{ user.joinedAssociation | date }}</p>
       </div>
+      <p class="font-bold mt-2">Changing your ESN TUMi e.V. membership</p>
+      <p>
+        If you decide to leave the association or want to change your membership
+        please write an email to
+        <span class="font-mono select-all">president@esn-tumi.de</span> stating
+        your wishes and we will get in contact with you.
+      </p>
       <ng-container *ngIf="invoice$ | ngrxPush as invoice">
         <p class="mt-4 font-bold">Latest invoice:</p>
         <div

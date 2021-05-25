@@ -3,7 +3,7 @@
   "private": true,
   "main": "lib/index.js",
   "engines": {
-    "node": "12"
+    "node": "14"
   },
   "scripts": {
     "build": "tsc",
@@ -24,7 +24,8 @@
     "mjml": "^4.9.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
-    "nodemailer": "^6.5.0"
+    "nodemailer": "^6.5.0",
+    "stripe": "^8.149.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",

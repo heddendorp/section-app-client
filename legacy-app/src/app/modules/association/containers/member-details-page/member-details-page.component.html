@@ -5,6 +5,19 @@
 </h1>
 
 <!--<button (click)="makeFullMember()" mat-flat-button>Make full member</button>-->
+<a
+  href="https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data~2Fusers~2F{{
+    (user$ | ngrxPush)?.id
+  }}"
+  target="_blank"
+  mat-flat-button
+  class="my-4"
+>
+  Firestore item</a
+>
+<a routerLink="/users/{{ (user$ | ngrxPush)?.id }}" mat-flat-button class="m-4"
+  >User settings</a
+>
 <app-member-invoice-info
   [invoices]="invoices$ | ngrxPush"
   [user]="auth.user$ | ngrxPush"

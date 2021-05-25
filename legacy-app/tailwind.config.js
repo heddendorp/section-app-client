@@ -1,12 +1,15 @@
+const { guessProductionMode } = require("@ngneat/tailwind");
 const colors = require("tailwindcss/colors");
+
+process.env.TAILWIND_MODE = guessProductionMode() ? "build" : "watch";
+
 module.exports = {
   prefix: "",
+  mode: "jit",
   purge: {
-    content: ["./src/**/*.{html,ts}"],
-    enabled: process.title.includes("prod"),
+    content: ["./src/**/*.{html,ts,css,scss,sass,less,styl}"],
   },
   darkMode: false, // or 'media' or 'class'
-  // Disable plugins that provide functionality already provided by @angular/flex-layout
   corePlugins: {
     flex: false,
     flexDirection: false,
@@ -41,8 +44,9 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require("@tailwindcss/typography"),
     require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/forms"),
     require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/typography"),
   ],
 };

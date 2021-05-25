@@ -44,7 +44,8 @@
       <mat-label>Registration</mat-label>
       <mat-select formControlName="registrationMode">
         <mat-option value="office">Office</mat-option>
-        <mat-option value="paypal">PayPal</mat-option>
+        <mat-option disabled value="paypal">PayPal</mat-option>
+        <mat-option value="stripe">Stripe</mat-option>
         <mat-option value="online">Online</mat-option>
         <mat-option value="external">External</mat-option>
       </mat-select>
@@ -54,6 +55,7 @@
       <mat-select formControlName="organizer">
         <mat-option value="tumi">TUMi e.V.</mat-option>
         <mat-option value="goa">Global & Alumni Office</mat-option>
+        <mat-option value="ext">External Organiser</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field gdColumn.gt-xs="span 2">
