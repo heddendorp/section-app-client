@@ -1,12 +1,12 @@
 {
   "name": "tumi-app",
-  "version": "2.0.0",
+  "version": "2.0.1-deploy.0",
   "private": true,
   "scripts": {
     "build:all": "yarn run build:ssr && yarn run copy:hosting",
     "build:functions": "npm run --prefix functions build",
-    "build:prod": "ng build --prod",
-    "build:ssr": "ng build --prod --source-map && ng run tumi-app:server:production",
+    "build:prod": "ng build --configuration production",
+    "build:ssr": "ng build --configuration production --source-map && ng run tumi-app:server:production",
     "copy:hosting": "copyfiles dist/**/* functions",
     "deploy": "ng deploy",
     "deploy:all": "firebase deploy",
@@ -27,7 +27,7 @@
     "sentry:release:start": "cross-var sentry-cli releases new \"tumi-app@$npm_package_version\" && cross-var sentry-cli releases new \"universal-render@$npm_package_version\"",
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "start": "ng serve",
-    "statistics": "ng build --prod --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
+    "statistics": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
     "test": "ng test"
   },
   "dependencies": {
