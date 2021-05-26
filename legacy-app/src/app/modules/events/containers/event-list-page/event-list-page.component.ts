@@ -31,7 +31,7 @@ export class EventListPageComponent {
   public events$: Observable<any[]>;
   public isEditor$: Observable<boolean>;
   public isTutor$: Observable<boolean>;
-  public eventTypes = new FormControl(['event', 'bundle']);
+  public eventTypes = new FormControl('event');
   public dateFilter = new FormControl(startOfToday());
 
   constructor(
@@ -74,7 +74,7 @@ export class EventListPageComponent {
       this.dateFilter.valueChanges.pipe(startWith(this.dateFilter.value)),
     ]).pipe(
       switchMap(([types, date]) =>
-        eventService.upcomingOfTypes$({ types, date })
+        eventService.upcomingOfTypes$({ types: [types], date })
       )
     );
     this.isEditor$ = auth.isEditor$;

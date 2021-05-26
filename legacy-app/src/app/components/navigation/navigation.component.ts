@@ -12,7 +12,7 @@ import { User } from '@tumi/models';
 import { AuthService } from '@tumi/services';
 import { Observable } from 'rxjs';
 import { first, map, shareReplay } from 'rxjs/operators';
-import { version } from '../../../../package.json';
+import packInfo from '../../../../package.json';
 
 @Component({
   selector: 'app-navigation',
@@ -25,7 +25,7 @@ export class NavigationComponent {
   user$: Observable<User> = this.authService.user$;
   isHandset$: Observable<boolean>;
   showTutorApplication$: Observable<boolean>;
-  appVersion = version;
+  appVersion = packInfo.version;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
