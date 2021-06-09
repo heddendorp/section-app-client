@@ -7,6 +7,7 @@ import { ShopPageComponent } from './components/shop-page/shop-page.component';
 import { DataPrivacyPageComponent } from './components/data-privacy-page/data-privacy-page.component';
 import { ImprintPageComponent } from './components/imprint-page/imprint-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { IsntagramHelperComponent } from './components/isntagram-helper/isntagram-helper.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
     DataPrivacyPageComponent,
     ImprintPageComponent,
     NotFoundPageComponent,
+    IsntagramHelperComponent,
   ],
   imports: [CommonModule, PagesRoutingModule, SharedModule],
   exports: [ImprintPageComponent],

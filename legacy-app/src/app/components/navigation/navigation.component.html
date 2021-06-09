@@ -154,6 +154,21 @@
             <mat-icon mat-list-icon svgIcon="icon-transaction-list"></mat-icon>
             <h3 mat-line>Manage Invoices</h3>
           </a>
+          <ng-container *ngIf="user?.canSeeBetaFeatures">
+            <h3
+              matSubheader
+            >
+              Experiments
+            </h3>
+            <a
+              mat-list-item
+              routerLink="page/insta"
+              routerLinkActive="active"
+            >
+              <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+              <h3 mat-line>Instagram helper</h3>
+            </a>
+          </ng-container>
         </ng-container>
       </mat-nav-list>
       <div fxFlex="grow"></div>
