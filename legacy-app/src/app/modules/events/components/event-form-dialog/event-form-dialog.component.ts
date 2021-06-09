@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, first, startWith, takeUntil } from "rxjs/operators";
+import { debounceTime, first, startWith, takeUntil, withLatestFrom } from "rxjs/operators";
 import { format, parse } from 'date-fns';
 import { AuthService } from "@tumi/services";
 
@@ -62,9 +62,11 @@ export class EventFormDialogComponent implements OnDestroy {
           debounceTime(200),
           startWith(this.eventForm.get('icon')?.value)
         ) || of('');
-    this.auth.user$.pipe(takeUntil(this.destroyed$)).subscribe(user =>{
-      if(!user.canPublishEvents){
+    this.eventForm.get('organizer')?.valueChanges.pipe(takeUntil(this.destroyed$), withLatestFrom(this.auth.user$)).subscribe(([organizer, user])=>{
+      if((!user.canPublishEvents) && organizer === 'tummi'){
         this.eventForm.get("visibility")?.disable();
+      } else {
+        this.eventForm.get("visibility")?.enable();
       }
     })
     this.eventForm.get('price')?.disable();
