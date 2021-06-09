@@ -6,6 +6,7 @@ import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 
 export interface MemberRights {
   createEvents: boolean;
+  publishEvents: boolean;
   manageEvents: boolean;
   seeDrafts: boolean;
   manageApplications: boolean;
@@ -55,6 +56,7 @@ export class User {
       betaFeatures: false,
       createEvents: false,
       manageEvents: false,
+      publishEvents:false,
       manageInvoices: false,
       ...rights,
     };
@@ -171,6 +173,10 @@ export class User {
 
   get canManageEvents(): boolean {
     return this._rights.manageEvents || this.isAdmin;
+  }
+
+  get canPublishEvents(): boolean {
+    return this._rights.publishEvents || this.isAdmin;
   }
 
   get isMember(): boolean {

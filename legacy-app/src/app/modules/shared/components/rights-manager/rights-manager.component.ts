@@ -35,6 +35,7 @@ export class RightsManagerComponent implements OnInit {
       betaFeatures: [false, Validators.required],
       createEvents: [false, Validators.required],
       manageEvents: [false, Validators.required],
+      publishEvents: [false, Validators.required],
     });
     this.rightsForm.setValue(this.user.rights);
   }

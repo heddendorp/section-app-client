@@ -13,8 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, first, startWith, takeUntil } from "rxjs/operators";
 import { format, parse } from 'date-fns';
+import { AuthService } from "@tumi/services";
 
 @Component({
   selector: 'app-event-form-dialog',
@@ -31,6 +32,7 @@ export class EventFormDialogComponent implements OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { event?: any },
     private dialog: MatDialogRef<EventFormDialogComponent>,
+    private auth: AuthService,
     fb: FormBuilder
   ) {
     this.title = data?.event?.name || 'New Event';
@@ -60,6 +62,11 @@ export class EventFormDialogComponent implements OnDestroy {
           debounceTime(200),
           startWith(this.eventForm.get('icon')?.value)
         ) || of('');
+    this.auth.user$.pipe(takeUntil(this.destroyed$)).subscribe(user =>{
+      if(!user.canPublishEvents){
+        this.eventForm.get("visibility")?.disable();
+      }
+    })
     this.eventForm.get('price')?.disable();
     this.eventForm
       .get('hasFee')

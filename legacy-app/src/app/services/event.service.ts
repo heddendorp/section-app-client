@@ -53,13 +53,17 @@ export class EventService {
     types: string[];
     date: Date;
   }): Observable<any[]> {
-    return combineLatest([this.auth.isTutor$, this.auth.isEditor$]).pipe(
-      switchMap(([isTutor, isEditor]: [boolean, boolean]) => {
+    return this.auth.user$.pipe(
+      switchMap((user) => {
         const visibility = ['public'];
-        if (isTutor) {
+        if (user.isMember) {
           visibility.push('internal');
+          visibility.push('alumni');
+        } else if (user.onAlumniMailingList) {
+          visibility.push('alumni');
         }
-        if (isEditor) {
+
+        if (user.canSeeDrafts) {
           visibility.push('draft');
         }
         return this.store
