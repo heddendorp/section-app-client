@@ -110,6 +110,7 @@ export class EventFormDialogComponent implements OnDestroy {
     const bootstrapData = {
       tutorSignups: [],
     };
+    this.eventForm.get('visibility')?.enable();
     const data = this.eventForm.value;
     this.dialog.close({
       ...data,
