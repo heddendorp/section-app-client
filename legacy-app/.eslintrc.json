@@ -19,8 +19,7 @@
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "prettier",
-        "plugin:@angular-eslint/recommended--extra"
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
