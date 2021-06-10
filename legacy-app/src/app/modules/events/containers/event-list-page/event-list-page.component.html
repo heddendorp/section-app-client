@@ -1,19 +1,31 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="mb-6">
   <h1
-    class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500"
+    class="
+      text-6xl
+      font-bold
+      text-transparent
+      bg-clip-text bg-gradient-to-tr
+      from-accent-600
+      to-accent-500
+    "
   >
     Events
   </h1>
   <button
     mat-flat-button
     color="accent"
-    *ngIf="isEditor$ | ngrxPush"
+    *ngIf="(user$ | ngrxPush)?.canCreateEvents"
     (click)="createEvent()"
   >
     Add Event
   </button>
 </div>
-<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+<div
+  fxLayout="column"
+  fxLayout.gt-sm="row"
+  fxLayoutGap="1rem"
+  *ngrxLet="user$; let user"
+>
   <mat-form-field fxFlex="auto">
     <mat-label>Show me</mat-label>
     <mat-select [formControl]="eventTypes">
@@ -23,7 +35,7 @@
       <!--        <mat-option value="product">Products</mat-option>-->
     </mat-select>
   </mat-form-field>
-  <mat-form-field fxFlex="auto" *ngIf="isTutor$ | ngrxPush">
+  <mat-form-field fxFlex="auto" *ngIf="user?.isMember">
     <mat-label>Show events starting after</mat-label>
     <input matInput [formControl]="dateFilter" [matDatepicker]="picker" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -32,6 +44,6 @@
 </div>
 <app-event-grid
   [events]="events$ | ngrxPush"
-  [showCounts]="isTutor$ | ngrxPush"
+  [showCounts]="(user$ | ngrxPush)?.isMember"
   [dayDividers]="true"
 ></app-event-grid>

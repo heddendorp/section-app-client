@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../../components';
 import { startOfToday } from 'date-fns';
+import { User } from '@tumi/models';
 
 @Component({
   selector: 'app-event-list-page',
@@ -29,8 +30,7 @@ import { startOfToday } from 'date-fns';
 })
 export class EventListPageComponent {
   public events$: Observable<any[]>;
-  public isEditor$: Observable<boolean>;
-  public isTutor$: Observable<boolean>;
+  public user$: Observable<User>;
   public eventTypes = new FormControl('event');
   public dateFilter = new FormControl(startOfToday());
 
@@ -77,8 +77,7 @@ export class EventListPageComponent {
         eventService.upcomingOfTypes$({ types: [types], date })
       )
     );
-    this.isEditor$ = auth.isEditor$;
-    this.isTutor$ = auth.isTutor$;
+    this.user$ = auth.user$;
   }
 
   public async createEvent(): Promise<void> {
