@@ -50,9 +50,11 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
         context.textAlign = 'center';
         context.fillStyle = '#fff';
         context.fillText(text, 540, 200);
+        context.font = 'normal 60pt sans-serif';
+        context.fillText('tumi.esn.world', 540, 300);
 
         events.forEach((event, index) => {
-          const offset = 300 + index * 200;
+          const offset = 400 + index * 200;
           context.globalAlpha = 0.4;
           context.fillStyle = '#fff';
           context.fillRect(25, offset + 25, 1030, 150);
@@ -76,9 +78,6 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
               offset + 130,
               780
             );
-            this.downloadButton.nativeElement.href =
-              this.canvas.nativeElement.toDataURL('image/jpeg');
-            console.log(this.canvas.nativeElement.toDataURL('image/jpeg'));
           });
         });
       });
