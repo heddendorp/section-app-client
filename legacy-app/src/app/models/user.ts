@@ -56,7 +56,7 @@ export class User {
       betaFeatures: false,
       createEvents: false,
       manageEvents: false,
-      publishEvents:false,
+      publishEvents: false,
       manageInvoices: false,
       ...rights,
     };
@@ -136,7 +136,12 @@ export class User {
   }
 
   get canSeeDrafts(): boolean {
-    return this._rights.seeDrafts || this.isAdmin;
+    return (
+      this._rights.seeDrafts ||
+      this.canCreateEvents ||
+      this.canPublishEvents ||
+      this.isAdmin
+    );
   }
 
   get canManageApplications(): boolean {
@@ -286,5 +291,5 @@ export enum MemberStatus {
   none = 'NONE',
   trial = 'TRIAL',
   full = 'FULL',
-  sponsor = 'SPONSOR'
+  sponsor = 'SPONSOR',
 }
