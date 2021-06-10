@@ -50,14 +50,17 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
         context.textAlign = 'center';
         context.fillStyle = '#fff';
         context.fillText(text, 540, 200);
-        context.font = 'normal 60pt sans-serif';
-        context.fillText('tumi.esn.world', 540, 300);
+        context.font = 'normal 57pt sans-serif';
+        context.fillText('Register at: tumi.esn.world', 540, 300);
 
         events.forEach((event, index) => {
           const offset = 400 + index * 200;
           context.globalAlpha = 0.4;
           context.fillStyle = '#fff';
-          context.fillRect(25, offset + 25, 1030, 150);
+          context.strokeStyle = '#fff';
+          context.lineWidth = 2;
+          // context.fillRect(25, offset + 25, 1030, 150);
+          this.roundRect(context, 25, offset + 25, 1030, 150);
           context.globalAlpha = 1.0;
           context.fillStyle = '#000';
           const [icon, style] = event.icon.split(':');
@@ -66,21 +69,65 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
             icon ?? ''
           }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
           eventImage.addEventListener('load', () => {
-            context.drawImage(eventImage, 50, offset + 25);
+            context.drawImage(eventImage, 40, offset + 25);
             context.font = 'normal 40pt sans-serif';
             context.textAlign = 'left';
             context.textBaseline = 'middle';
-            context.fillText(event.name, 250, offset + 75, 780);
+            context.fillText(event.name, 220, offset + 75, 810);
             context.font = 'normal 30pt sans-serif';
-            context.fillText(
-              format(event.start, 'EEEEEE dd MMM HH:mm'),
-              250,
-              offset + 130,
-              780
-            );
+            if (!event.name.includes('ESNcard')) {
+              context.fillText(
+                format(event.start, 'EEEEEE dd MMM HH:mm'),
+                220,
+                offset + 130,
+                780
+              );
+            } else {
+              context.fillText(
+                'Any time at tumi.esn.world',
+                220,
+                offset + 130,
+                780
+              );
+            }
           });
         });
       });
     });
+  }
+  private roundRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    radius = 16,
+    fill = true,
+    stroke = true
+  ) {
+    const radiusObject = { tl: radius, tr: radius, br: radius, bl: radius };
+    ctx.beginPath();
+    ctx.moveTo(x + radiusObject.tl, y);
+    ctx.lineTo(x + width - radiusObject.tr, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radiusObject.tr);
+    ctx.lineTo(x + width, y + height - radiusObject.br);
+    ctx.quadraticCurveTo(
+      x + width,
+      y + height,
+      x + width - radiusObject.br,
+      y + height
+    );
+    ctx.lineTo(x + radiusObject.bl, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radiusObject.bl);
+    ctx.lineTo(x, y + radiusObject.tl);
+    ctx.quadraticCurveTo(x, y, x + radiusObject.tl, y);
+    ctx.closePath();
+    if (fill) {
+      ctx.fill();
+    }
+    if (stroke) {
+      ctx.globalAlpha = 0.6;
+      ctx.stroke();
+    }
   }
 }
