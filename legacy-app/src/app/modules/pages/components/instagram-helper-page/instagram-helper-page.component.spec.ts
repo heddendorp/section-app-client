@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IsntagramHelperComponent } from './isntagram-helper.component';
+import { InstagramHelperPageComponent } from './instagram-helper-page.component';
 
 describe('IsntagramHelperComponent', () => {
-  let component: IsntagramHelperComponent;
-  let fixture: ComponentFixture<IsntagramHelperComponent>;
+  let component: InstagramHelperPageComponent;
+  let fixture: ComponentFixture<InstagramHelperPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IsntagramHelperComponent ]
-    })
-    .compileComponents();
+      declarations: [InstagramHelperPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IsntagramHelperComponent);
+    fixture = TestBed.createComponent(InstagramHelperPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

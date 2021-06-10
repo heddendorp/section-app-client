@@ -6,14 +6,14 @@ import {
   NotFoundPageComponent,
   ShopPageComponent,
 } from '@tumi/modules/pages/components';
-import { IsntagramHelperComponent } from "@tumi/modules/pages/components/isntagram-helper/isntagram-helper.component";
+import { InstagramHelperPageComponent } from './components/instagram-helper-page/instagram-helper-page.component';
 
 const routes: Routes = [
   { path: 'shop', component: ShopPageComponent },
   { path: 'privacy', component: DataPrivacyPageComponent },
   { path: 'imprint', component: ImprintPageComponent },
   { path: 'not-found', component: NotFoundPageComponent },
-  { path: 'insta', component: IsntagramHelperComponent },
+  { path: 'insta', component: InstagramHelperPageComponent },
   { path: '', pathMatch: 'full', redirectTo: 'shop' },
 ];
 
