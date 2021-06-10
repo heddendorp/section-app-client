@@ -3,7 +3,14 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MemberStatus, User } from '@tumi/models';
 import { Observable } from 'rxjs';
-import { first, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  first,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { AuthService, EventService } from '@tumi/services';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../../components';
@@ -44,6 +51,7 @@ export class ViewEventPageComponent {
       switchMap((data) =>
         this.eventService.getOne$(data.event.id).pipe(startWith(data.event))
       ),
+      shareReplay(1),
       tap((event) => {
         title.setTitle(`TUMi - ${event.name}`);
         meta.updateTag(
@@ -106,6 +114,7 @@ export class ViewEventPageComponent {
 
   async editEvent(): Promise<void> {
     const event = await this.event$.pipe(first()).toPromise();
+    console.log(event);
     const newEvent = await this.dialog
       .open(EventFormDialogComponent, {
         data: { event },
