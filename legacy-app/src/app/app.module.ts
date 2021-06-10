@@ -124,22 +124,26 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
       }),
       deps: [PLATFORM_ID],
     },
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: false,
-      }),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    environment.production
+      ? [
+          {
+            provide: ErrorHandler,
+            useValue: Sentry.createErrorHandler({
+              showDialog: false,
+            }),
+          },
+          {
+            provide: Sentry.TraceService,
+            deps: [Router],
+          },
+          {
+            provide: APP_INITIALIZER,
+            useFactory: () => () => {},
+            deps: [Sentry.TraceService],
+            multi: true,
+          },
+        ]
+      : [],
   ],
   bootstrap: [AppComponent],
 })

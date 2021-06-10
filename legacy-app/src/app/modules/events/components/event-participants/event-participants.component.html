@@ -88,6 +88,9 @@
       </div>
     </div>
     <span *ngIf="registration.user.isTrialMember" class="tag">trial</span>
+    <span *ngIf="registration.user.onAlumniMailingList" class="tag"
+      >alumni</span
+    >
     <span *ngIf="registration.isWaitList" class="tag">waitlist</span>
     <button
       mat-icon-button
