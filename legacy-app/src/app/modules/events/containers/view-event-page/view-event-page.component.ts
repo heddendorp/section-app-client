@@ -25,8 +25,6 @@ import { ConfirmDialogComponent } from '@tumi/modules/shared';
 export class ViewEventPageComponent {
   public event$: Observable<any>;
   public authenticated$: Observable<boolean>;
-  public isTutor$: Observable<boolean>;
-  public isEditor$: Observable<boolean>;
   public user$: Observable<User>;
   public canBeDeleted$: Observable<boolean>;
   public canSeeParticipants$: Observable<boolean>;
@@ -41,8 +39,6 @@ export class ViewEventPageComponent {
     private dialog: MatDialog
   ) {
     this.authenticated$ = auth.authenticated$;
-    this.isTutor$ = auth.isTutor$;
-    this.isEditor$ = auth.isEditor$;
     this.user$ = auth.user$;
     this.event$ = route.data.pipe(
       switchMap((data) =>

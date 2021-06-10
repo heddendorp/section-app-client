@@ -34,7 +34,7 @@
       fxFlex="noshrink"
       mat-flat-button
       color="accent"
-      *ngIf="isEditor$ | ngrxPush"
+      *ngIf="(user$ | ngrxPush)?.canCreateEvent"
     >
       Edit
     </button>
@@ -73,7 +73,7 @@
     *ngIf="event.organizer"
     [event]="event"
   ></app-event-organizer>
-  <ng-container *ngIf="isTutor$ | ngrxPush">
+  <ng-container *ngIf="(user$ | ngrxPush)?.isMember">
     <h3 class="mt-4 tex-lg font-bold">Notes for tutors:</h3>
     <div class="panel my-4">
       <markdown
@@ -91,27 +91,27 @@
       <ng-container *ngSwitchCase="'online'">
         <app-tutor-registration
           [event]="event"
-          *ngIf="isTutor$ | ngrxPush"
+          *ngIf="(user$ | ngrxPush)?.isMember"
         ></app-tutor-registration>
         <app-online-registration [event]="event"></app-online-registration>
       </ng-container>
       <ng-container *ngSwitchCase="'paypal'">
         <app-tutor-registration
-          *ngIf="isTutor$ | ngrxPush"
+          *ngIf="(user$ | ngrxPush)?.isMember"
           [event]="event"
         ></app-tutor-registration>
         <app-pay-pal-registration [event]="event"></app-pay-pal-registration>
       </ng-container>
       <ng-container *ngSwitchCase="'stripe'">
         <app-tutor-registration
-          *ngIf="isTutor$ | ngrxPush"
+          *ngIf="(user$ | ngrxPush)?.isMember"
           [event]="event"
         ></app-tutor-registration>
         <app-stripe-registration [event]="event"></app-stripe-registration>
       </ng-container>
       <ng-container *ngSwitchCase="'office'">
         <app-tutor-registration
-          *ngIf="isTutor$ | ngrxPush"
+          *ngIf="(user$ | ngrxPush)?.isMember"
           [event]="event"
         ></app-tutor-registration>
         <app-office-registration [event]="event"></app-office-registration>
