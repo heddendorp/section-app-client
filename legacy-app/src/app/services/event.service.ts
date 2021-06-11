@@ -3,7 +3,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '@tumi/models';
 import { combineLatest, Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
@@ -54,16 +60,17 @@ export class EventService {
     date: Date;
   }): Observable<any[]> {
     return this.auth.user$.pipe(
+      startWith(null),
       switchMap((user) => {
         const visibility = ['public'];
-        if (user.isMember) {
+        if (user && user.isMember) {
           visibility.push('internal');
           visibility.push('alumni');
-        } else if (user.onAlumniMailingList) {
+        } else if (user && user.onAlumniMailingList) {
           visibility.push('alumni');
         }
 
-        if (user.canSeeDrafts) {
+        if (user && user.canSeeDrafts) {
           visibility.push('draft');
         }
         return this.store
