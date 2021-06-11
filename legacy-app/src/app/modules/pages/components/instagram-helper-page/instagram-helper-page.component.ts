@@ -29,7 +29,12 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
     this.events$ = this.events
       .upcomingOfTypes$({ types: ['event'], date: startOfToday() })
       .pipe(
-        map((events) => events.filter((event) => event.visibility === 'public'))
+        map((events) =>
+          events
+            .filter((event) => event.visibility === 'public')
+            .filter((event) => event.participantSpots - event.usersSignedUp > 0)
+            .slice(0, 7)
+        )
       );
   }
 
@@ -49,12 +54,12 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
         context.font = 'bold 60pt sans-serif';
         context.textAlign = 'center';
         context.fillStyle = '#fff';
-        context.fillText(text, 540, 200);
+        context.fillText(text, 540, 250);
         context.font = 'normal 57pt sans-serif';
-        context.fillText('Register at: tumi.esn.world', 540, 300);
+        context.fillText('Register at: tumi.esn.world', 540, 350);
 
         events.forEach((event, index) => {
-          const offset = 400 + index * 200;
+          const offset = 450 + index * 200;
           context.globalAlpha = 0.4;
           context.fillStyle = '#fff';
           context.strokeStyle = '#fff';
@@ -95,6 +100,7 @@ export class InstagramHelperPageComponent implements OnInit, AfterViewInit {
       });
     });
   }
+
   private roundRect(
     ctx: CanvasRenderingContext2D,
     x: number,
