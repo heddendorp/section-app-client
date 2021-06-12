@@ -11,13 +11,15 @@ import {
   OnlineRegistrationComponent,
   TutorRegistrationComponent,
 } from './components';
-import { EventParticipantsComponent } from './components/event-participants/event-participants.component';
-import { AnonymousRegistrationComponent } from './components/anonymous-registration/anonymous-registration.component';
-import { CollectMoneyComponent } from './components/collect-money/collect-money.component';
+import {
+  AnonymousRegistrationComponent,
+  CollectMoneyComponent,
+  EventOrganizerComponent,
+  EventParticipantsComponent,
+  PayPalRegistrationComponent,
+  StripeRegistrationComponent,
+} from '@tumi/modules/events/components';
 import { NgxPayPalModule } from 'ngx-paypal';
-import { PayPalRegistrationComponent } from '@tumi/modules/events/components';
-import { EventOrganizerComponent } from './components/event-organizer/event-organizer.component';
-import { StripeRegistrationComponent } from '@tumi/modules/events/components';
 
 @NgModule({
   declarations: [
