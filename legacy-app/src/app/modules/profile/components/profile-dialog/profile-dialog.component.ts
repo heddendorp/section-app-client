@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountryService } from '@tumi/services';
 import { Observable } from 'rxjs';
 import { allTypes } from '@tumi/modules/shared';
+import { User } from '@tumi/models';
 
 @Component({
   selector: 'app-profile-dialog',
@@ -17,7 +18,7 @@ export class ProfileDialogComponent {
   public types = allTypes;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
+    @Inject(MAT_DIALOG_DATA) public data: User,
     fb: FormBuilder,
     countries: CountryService
   ) {
@@ -25,6 +26,7 @@ export class ProfileDialogComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phone: ['', Validators.required],
+      iban: [''],
       address: ['', Validators.required],
       email: ['', Validators.required],
       type: ['', Validators.required],

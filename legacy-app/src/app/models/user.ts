@@ -35,6 +35,7 @@ export class User {
     public type: 'E' | 'D' | 'L' | 'P',
     public country: string,
     public phone: string,
+    public iban: string,
     public address: string,
     public status: MemberStatus,
     public membershipFee: number,
@@ -80,6 +81,7 @@ export class User {
       'type',
       'country',
       'phone',
+      'iban',
       'address',
       'birthday',
       'status',
@@ -255,6 +257,7 @@ export class User {
           data.type,
           data.country,
           data.phone,
+          data.iban ?? '',
           data.address,
           data.status ?? MemberStatus.none,
           data.membershipFee ?? 5,
@@ -284,6 +287,7 @@ export class User {
     this.country = '';
     this.phone = '';
     this.address = '';
+    this.iban = '';
   }
 }
 
