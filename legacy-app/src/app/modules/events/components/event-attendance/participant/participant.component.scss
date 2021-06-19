@@ -1,0 +1,17 @@
+@use "src/mixins";
+
+:host {
+  @include mixins.panel();
+  overflow: hidden;
+}
+
+.actions {
+  margin: 1rem -1rem -1rem;
+
+  button {
+    @apply p-2 cursor-pointer font-bold border-t border-white bg-opacity-30;
+    &:last-of-type {
+      @apply border-l border-white;
+    }
+  }
+}
