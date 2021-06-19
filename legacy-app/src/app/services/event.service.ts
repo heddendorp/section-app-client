@@ -225,6 +225,12 @@ export class EventService {
       ),
       shareReplay(1)
     ),
+    receipts: this.store
+      .collection('events')
+      .doc(event.id)
+      .collection('receipts', (ref) => ref.orderBy('description', 'asc'))
+      .valueChanges({ idField: 'id' })
+      .pipe(shareReplay(1)),
   });
 
   private mapEvents = () =>

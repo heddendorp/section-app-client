@@ -1,6 +1,6 @@
+@use "src/mixins";
+
 :host {
   display: block;
-  padding: 1rem;
-  border-radius: 1rem;
-  border: gray 1px solid;
+  @include mixins.panel();
 }

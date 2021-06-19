@@ -1,6 +1,6 @@
-@import "../../../../../../mixins";
+@use "src/mixins";
 
 :host {
   display: block;
-  @include panel();
+  @include mixins.panel();
 }

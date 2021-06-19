@@ -45,6 +45,7 @@ import {
 } from '@tumi/components';
 import { SharedModule } from '@tumi/modules/shared';
 import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-dialog.component';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { MoveUrlDialogComponent } from './components/move-url-dialog/move-url-di
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
+    AngularFireStorageModule,
     AngularFireAnalyticsModule,
     AngularFirePerformanceModule,
     AngularFireFunctionsModule,

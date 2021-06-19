@@ -1,7 +1,13 @@
-<h1>Event Participants</h1>
-<h2>Tutors</h2>
+<h1 class="mat-h1">People on this event</h1>
+<h2 class="mat-h2">Tutors</h2>
 <div fxLayout="column" fxLayoutGap="4px">
-  <div
+  <mat-list>
+    <mat-list-item *ngFor="let tutor of event.registeredTutors | ngrxPush">
+      <h3 mat-line>{{ tutor.name }}</h3>
+      <p mat-line>{{ tutor.phone }}</p>
+    </mat-list-item>
+  </mat-list>
+  <!--<div
     *ngFor="let tutor of event.registeredTutors | ngrxPush"
     class="student"
     fxLayout="row"
@@ -27,35 +33,40 @@
         Remove from Event
       </button>
     </mat-menu>
-  </div>
+  </div>-->
 </div>
-<div fxLayout="row" fxLayoutAlign="space-between start">
-  <h2>Registered Students</h2>
+<div
+  fxLayout.gt-sm="row"
+  fxLayout="column"
+  fxLayoutAlign.gt-sm="space-between start"
+>
+  <h2 class="mat-h2">Registered Students</h2>
   <button (click)="copyStudentMails()" mat-stroked-button>
     Copy participant mails
   </button>
 </div>
-<p class="mat-caption">Tap students toggle their status</p>
+<!--<p class="mat-caption">Tap students toggle their status</p>-->
 <div fxLayout="column" fxLayoutGap="4px">
   <div
     *ngFor="let registration of event.registrations | ngrxPush"
     fxLayout="row"
     fxLayoutAlign="start center"
     class="student"
-    (click)="toggleRegistration(registration)"
   >
-    <mat-icon
+    <!--<mat-icon
       style="margin-right: 4px"
       svgIcon="icon-{{
         registration.hasAttended ? 'checkmark' : 'delete-sign'
       }}"
-    ></mat-icon>
+    ></mat-icon>-->
     <mat-icon
+      fxHide.xs
       style="margin-right: 4px"
       *ngIf="registration.paypal"
       svgIcon="icon-paypal"
     ></mat-icon>
     <mat-icon
+      fxHide.xs
       style="margin-right: 4px"
       *ngIf="registration.stripe"
       svgIcon="icon-stripe"

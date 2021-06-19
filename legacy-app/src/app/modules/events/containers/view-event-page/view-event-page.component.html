@@ -25,26 +25,57 @@
   >
 </a>
 <ng-container *ngrxLet="event$; let event">
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
-    <h1 fxFlex="grow" class="text-4xl lg:text-6xl font-bold mb-2">
-      {{ event.name }}
-    </h1>
-    <button
-      [matMenuTriggerFor]="menu"
-      fxFlex="noshrink"
-      mat-flat-button
-      color="accent"
-      *ngIf="(user$ | ngrxPush)?.canCreateEvents"
-    >
-      Edit
-    </button>
+  <div
+    fxLayout="column"
+    fxLayout.gt-sm="row"
+    fxLayoutAlign.gt-sm="space-between center"
+    fxLayoutGap="1rem"
+    class="mb-8"
+  >
+    <div fxLayout="column" fxFlex="grow">
+      <h1 class="text-4xl lg:text-6xl font-bold mb-2">
+        {{ event.name }}
+      </h1>
+      <h3 class="tex-lg font-bold">
+        Starts: {{ event.start | date: "h:mm a zzzz" }}
+      </h3>
+    </div>
+    <div fxLayout="column" fxLayoutGap="1rem">
+      <button
+        [matMenuTriggerFor]="menu"
+        fxFlex="noshrink"
+        mat-flat-button
+        color="accent"
+        *ngIf="(user$ | ngrxPush)?.canCreateEvents"
+      >
+        Edit
+      </button>
+      <a
+        fxFlex="noshrink"
+        mat-flat-button
+        color="primary"
+        *ngIf="canSeeParticipants$ | ngrxPush"
+        routerLink="./attendance"
+      >
+        Take attendance
+      </a>
+      <a
+        fxFlex="noshrink"
+        mat-flat-button
+        color="primary"
+        *ngIf="canSeeParticipants$ | ngrxPush"
+        routerLink="./finances"
+      >
+        Edit finances
+      </a>
+    </div>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="editEvent()">Edit event</button>
       <button mat-menu-item disabled>Archive Event</button>
       <a
         mat-menu-item
         target="_blank"
-        href="https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data~2Fevents~2F{{
+        href="https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data/~2Fevents~2F{{
           event.id
         }}"
       >
@@ -59,9 +90,6 @@
       </button>
     </mat-menu>
   </div>
-  <h3 class="mb-8 tex-lg font-bold">
-    Starts: {{ event.start | date: "h:mm a zzzz" }}
-  </h3>
   <div class="panel">
     <markdown
       [data]="event.description"
@@ -120,10 +148,10 @@
         <app-external-registration [event]="event"></app-external-registration>
       </ng-container>
     </ng-container>
-    <app-collect-money
+    <!--<app-collect-money
       *ngIf="(canSeeParticipants$ | ngrxPush) && event.fullCost"
       [event]="event"
-    ></app-collect-money>
+    ></app-collect-money>-->
     <ng-template #loginPrompt>
       <app-anonymous-registration></app-anonymous-registration>
     </ng-template>

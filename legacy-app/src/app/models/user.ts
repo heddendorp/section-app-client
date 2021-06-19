@@ -101,6 +101,18 @@ export class User {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  get profileIncomplete() {
+    return (
+      this.firstName.length > 0 &&
+      this.lastName.length > 0 &&
+      this.email.length > 0 &&
+      this.phone.length > 0 &&
+      this.address.length > 0 &&
+      this.status &&
+      this.country.length === 2
+    );
+  }
+
   /**
    * @deprecated
    */

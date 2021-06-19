@@ -31,7 +31,12 @@
           </div>
           <h3 class="break-words">{{ event.name }}</h3>
           <h4 class="mat-subheader">
-            starts {{ event.start | date: "shortTime" }}
+            <ng-container *ngIf="showDates">
+              {{ event.start | date: "short" }}
+            </ng-container>
+            <ng-container *ngIf="!showDates">
+              starts {{ event.start | date: "shortTime" }}
+            </ng-container>
             <span *ngIf="showCounts"
               >&nbsp;Tutors: {{ event.tutorSignups.length }}/{{
                 event.tutorSpots

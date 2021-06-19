@@ -20,6 +20,12 @@ import {
   StripeRegistrationComponent,
 } from '@tumi/modules/events/components';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { AttendanceDialogComponent } from '@tumi/modules/events/components/view-event/attendance-dialog/attendance-dialog.component';
+import { EventFinancesComponent } from '@tumi/modules/events/containers';
+import { EventAttendanceComponent } from '@tumi/modules/events/containers';
+import { ParticipantComponent } from './components/event-attendance/participant/participant.component';
+import { MatCardModule } from '@angular/material/card';
+import { GetDownloadURLPipeModule } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -36,7 +42,18 @@ import { NgxPayPalModule } from 'ngx-paypal';
     PayPalRegistrationComponent,
     EventOrganizerComponent,
     StripeRegistrationComponent,
+    AttendanceDialogComponent,
+    EventFinancesComponent,
+    EventAttendanceComponent,
+    ParticipantComponent,
   ],
-  imports: [CommonModule, SharedModule, EventsRoutingModule, NgxPayPalModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    EventsRoutingModule,
+    NgxPayPalModule,
+    MatCardModule,
+    GetDownloadURLPipeModule,
+  ],
 })
 export class EventsModule {}

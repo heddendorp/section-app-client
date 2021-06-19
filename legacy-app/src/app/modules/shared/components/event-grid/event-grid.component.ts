@@ -10,6 +10,7 @@ export class EventGridComponent {
   @Input() events: any[] = [];
   @Input() showCounts = false;
   @Input() dayDividers = false;
+  @Input() showDates = false;
 
   constructor() {}
 
