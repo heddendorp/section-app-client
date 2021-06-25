@@ -78,7 +78,7 @@
           {{ registration.user.lastName }} ({{ registration.user.email }})</span
         ><span
           >[{{ registration.user.phone }}]{{
-            registration.timestamp.toDate() | date: "medium"
+            registration.timestamp?.toDate() | date: "medium"
           }}</span
         >
       </div>
@@ -129,8 +129,12 @@
       <button (click)="removeRegistration(registration)" mat-menu-item>
         Remove from Event
       </button>
-      <button (click)="removeRegistration(registration, true)" mat-menu-item>
-        Remove with refund
+      <button
+        (click)="removeRegistration(registration, true)"
+        mat-menu-item
+        [disabled]="event.registrationMode === 'stripe'"
+      >
+        Remove with {{ event.registrationMode }} refund
       </button>
     </mat-menu>
   </div>

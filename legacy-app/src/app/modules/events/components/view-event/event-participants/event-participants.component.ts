@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { User } from '@tumi/models';
-import { AuthService, EventService, MoneyService } from '@tumi/services';
-import { Observable } from 'rxjs';
+import { EventService, MoneyService } from '@tumi/services';
 import { first, map } from 'rxjs/operators';
+import { ConfirmDialogComponent } from '@tumi/modules/shared';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-participants',
@@ -18,6 +19,7 @@ export class EventParticipantsComponent {
   constructor(
     private eventService: EventService,
     private moneyService: MoneyService,
+    private dialog: MatDialog,
     private clipboard: Clipboard
   ) {}
 
@@ -53,7 +55,11 @@ export class EventParticipantsComponent {
     registration: any,
     refund = false
   ): Promise<void> {
-    if (this.event.hasFee && refund) {
+    if (
+      this.event.hasFee &&
+      refund &&
+      this.event.registrationMode === 'office'
+    ) {
       await this.moneyService.addEventTransaction(
         // eslint-disable-next-line max-len
         `Event Refund (${this.event.name}) payed to ${registration.user.firstName} ${registration.user.lastName} (${registration.user.email})`,
@@ -61,6 +67,22 @@ export class EventParticipantsComponent {
         registration.user,
         'refund'
       );
+    }
+    if (
+      this.event.hasFee &&
+      refund &&
+      this.event.registrationMode === 'stripe'
+    ) {
+      const proceed = await this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            title: `Do you really want to issue a stripe refund to this user?`,
+            result: true,
+          },
+        })
+        .afterClosed()
+        .toPromise();
+      if (!proceed) return;
     }
     await this.eventService.removeRegistration(this.event.id, registration.id);
   }

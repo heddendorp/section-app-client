@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import { firestore } from './index';
+import * as nodemailer from 'nodemailer';
 // import { firestore } from './index';
 // import * as _ from 'lodash';
 const stripe = require('stripe')(functions.config().stripe.key);
@@ -36,17 +37,40 @@ export const paymentWebhook = functions.https.onRequest(async (req, res) => {
   try {
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
   } catch (err) {
-    console.error(err);
+    functions.logger.error(err);
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    console.log({
-      payment_intent: session.payment_intent,
-      extend: ['balance_transaction'],
+  const session = event.data.object;
+
+  if (event.type === 'checkout.session.async_payment_failed') {
+    const transporter = nodemailer.createTransport(
+      {
+        port: 587,
+        host: 'postout.lrz.de',
+        secure: false,
+        auth: {
+          user: 'tumi.tuzeio1@tum.de',
+          pass: functions.config().email.pass,
+        },
+      },
+      { replyTo: 'tumi@zv.tum.de', from: 'tumi.tuzeio1@tum.de' }
+    );
+    await transporter.sendMail({
+      subject: '[TUMi] Payment fail',
+      to: 'president@esn-tumi.de',
+      bcc: 'lu.heddendorp@gmail.com',
+      text: `failed payment at
+        ${JSON.stringify(session)}
+        Please check stripe right now`,
     });
+  }
+
+  if (
+    event.type === 'checkout.session.completed' ||
+    event.type === 'checkout.session.async_payment_succeeded'
+  ) {
     let charges;
 
     try {
@@ -60,9 +84,14 @@ export const paymentWebhook = functions.https.onRequest(async (req, res) => {
       return;
     }
 
-    const fee = charges.data
-      .map((charge: any) => charge.balance_transaction.fee)
-      .reduce((acc: number, curr: number) => acc + curr, 0);
+    let fee;
+    if (session.payment_status === 'paid') {
+      fee = charges.data
+        .map((charge: any) => charge.balance_transaction.fee)
+        .reduce((acc: number, curr: number) => acc + curr, 0);
+    } else {
+      fee = 0;
+    }
 
     const eventId = session.metadata.event;
     const userId = session.metadata.user;
@@ -83,7 +112,7 @@ export const paymentWebhook = functions.https.onRequest(async (req, res) => {
           fee,
           chargeIds: charges.data.map((charge: any) => charge.id),
         },
-        timestap: new Date(),
+        timestamp: new Date(),
       });
   }
   res.status(200).send('ok');
