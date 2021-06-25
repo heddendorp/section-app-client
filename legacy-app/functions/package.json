@@ -15,23 +15,23 @@
     "start": "npm run shell"
   },
   "dependencies": {
-    "algoliasearch": "^4.9.1",
-    "firebase": "^8.6.2",
-    "firebase-admin": "^9.8.0",
+    "algoliasearch": "^4.9.3",
+    "firebase": "^8.6.8",
+    "firebase-admin": "^9.9.0",
     "firebase-functions": "^3.14.1",
     "got": "^11.8.2",
     "lodash": "^4.17.21",
-    "mjml": "^4.9.3",
+    "mjml": "^4.10.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
-    "nodemailer": "^6.6.1",
-    "stripe": "^8.149.0"
+    "nodemailer": "^6.6.2",
+    "stripe": "^8.156.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
     "@types/mjml": "^4.7.0",
     "@types/nodemailer": "^6.4.2",
-    "firebase-functions-test": "^0.2.3",
-    "typescript": "^4.3.2"
+    "firebase-functions-test": "^0.3.0",
+    "typescript": "^4.3.4"
   }
 }

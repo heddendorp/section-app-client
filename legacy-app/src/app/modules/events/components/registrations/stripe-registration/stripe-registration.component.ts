@@ -1,10 +1,10 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   Input,
-  SimpleChanges,
   OnChanges,
+  OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { AngularFireFunctions } from '@angular/fire/functions';
@@ -81,24 +81,24 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
       .httpsCallable('createCheckoutSession')({
         success_url:
           (environment.production
-            ? 'https://tumi.esn.world'
-            : 'http://localhost:4200') +
+            ?"https://tumi.esn.world"'
+            :"http://localhost:4200"') +
           `/events/${this.event.id}?payment=success`,
         cancel_url:
           (environment.production
-            ? 'https://tumi.esn.world'
-            : 'http://localhost:4200') +
+            ?"https://tumi.esn.world"'
+            :"http://localhost:4200"') +
           `/events/${this.event.id}?payment=error`,
         customer_email: user.email,
-        payment_method_types: ['card'],
+        payment_method_types: "card"',"sofort"',"sepa_debit"'],
         metadata: {
           event: this.event.id,
-          user: user.id,
+          user: user.i,
         },
         line_items: [
           {
             price_data: {
-              currency: 'eur',
+              currency:"eur"',
               unit_amount: this.event.price * 100,
               product_data: {
                 name: this.event.name,
