@@ -81,8 +81,9 @@ export const paymentWebhook = functions.https.onRequest(async (req, res) => {
           payment_status: session.payment_status,
           payment_intent: session.payment_intent,
           fee,
+          chargeIds: charges.data.map((charge: any) => charge.id),
         },
-        timestamp: new Date(),
+        timestap: new Date(),
       });
   }
   res.status(200).send('ok');

@@ -11,10 +11,11 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthService } from '@tumi/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { first } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from '@tumi/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { IconToastComponent } from '@tumi/modules/shared';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-stripe-registration',
@@ -26,12 +27,14 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
   @Input() event: any;
   public registration$ = new Subject<any>();
   public freeSpots$ = new Subject<boolean>();
+  public profileIncomplete$ = new BehaviorSubject<boolean>(true);
   private stripe: Stripe;
   constructor(
     private auth: AuthService,
     private snack: MatSnackBar,
     private functions: AngularFireFunctions,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private analytics: AngularFireAnalytics
   ) {}
 
   async ngOnInit() {
@@ -56,6 +59,18 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
             message: 'Payment successful, registration in progress!',
           },
         });
+        this.analytics.logEvent('purchase', {
+          value: this.event.price,
+          currency: 'EUR',
+          items: [
+            {
+              id: this.event.id,
+              name: this.event.name,
+              price: this.event.price,
+              quantity: 1,
+            },
+          ],
+        });
       }
     });
   }
@@ -63,6 +78,7 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
   public async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes.event) {
       const user = await this.auth.user$.pipe(first()).toPromise();
+      this.profileIncomplete$.next(!user.profileComplete);
       const registrations = await this.event.registrations
         .pipe(first())
         .toPromise();
@@ -81,24 +97,24 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
       .httpsCallable('createCheckoutSession')({
         success_url:
           (environment.production
-            ?"https://tumi.esn.world"'
-            :"http://localhost:4200"') +
+            ? 'https://tumi.esn.world'
+            : 'http://localhost:4200') +
           `/events/${this.event.id}?payment=success`,
         cancel_url:
           (environment.production
-            ?"https://tumi.esn.world"'
-            :"http://localhost:4200"') +
+            ? 'https://tumi.esn.world'
+            : 'http://localhost:4200') +
           `/events/${this.event.id}?payment=error`,
         customer_email: user.email,
-        payment_method_types: "card"',"sofort"',"sepa_debit"'],
+        payment_method_types: ['card', 'sofort', 'sepa_debit'],
         metadata: {
           event: this.event.id,
-          user: user.i,
+          user: user.id,
         },
         line_items: [
           {
             price_data: {
-              currency:"eur"',
+              currency: 'eur',
               unit_amount: this.event.price * 100,
               product_data: {
                 name: this.event.name,

@@ -3,21 +3,38 @@
   <p>
     In order to get a refund on this registration please contact TUMi at
     <a class="styled" href="mailto:finance@esn-tumi.de">finance@esn-tumi.de</a>.
+    Please note that refunds are generally only possible until three working
+    days before the event.
   </p>
 </ng-container>
 <ng-template #register>
   <h1 class="font-bold text-xl mb-2">Register with online payment</h1>
   <h3 class="mb-2">
-    Pay {{ event.price | currency: "EUR" }} now to register for this event
+    Pay {{ event.price | currency: "EUR" }} now to register for this event.
+    Please note that we can't offer refunds later than three working days before
+    the event.
   </h3>
   <button
     mat-stroked-button
     color="primary"
+    [disabled]="profileIncomplete$ | async"
     (click)="startPayment()"
     *ngIf="freeSpots$ | ngrxPush; else eventFull"
   >
     Pay now
   </button>
+  <p class="my-2" *ngIf="profileIncomplete$ | ngrxPush">
+    It seems like your profile on the TUMi app is not yet complete, please make
+    sure your data is up to date.
+  </p>
+  <a
+    routerLink="/profile"
+    target="_blank"
+    *ngIf="profileIncomplete$ | ngrxPush"
+    mat-raised-button
+    color="primary"
+  >Go to profile</a
+  >
 </ng-template>
 
 <ng-template #eventFull>

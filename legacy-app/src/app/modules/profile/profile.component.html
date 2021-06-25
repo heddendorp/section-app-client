@@ -1,5 +1,11 @@
 <ng-container *ngIf="user$ | async as user">
   <h1 class="text-4xl font-bold mb-4">Hey {{ user.firstName }} 👋</h1>
+  <h1
+    class="text-4xl font-bold mb-4 text-red-500"
+    *ngIf="!user.profileComplete"
+  >
+    Please update your data below ⬇
+  </h1>
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
     <div fxFlex.gt-md="100" class="panel px-4 py-2">
       <p class="text-xl font-bold font-mono mb-2">Contact Card</p>

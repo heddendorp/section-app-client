@@ -101,7 +101,7 @@ export class User {
     return `${this.firstName} ${this.lastName}`;
   }
 
-  get profileIncomplete() {
+  get profileComplete() {
     return (
       this.firstName.length > 0 &&
       this.lastName.length > 0 &&
