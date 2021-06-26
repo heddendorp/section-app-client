@@ -1,9 +1,18 @@
 <h1 class="mat-h1">People on this event</h1>
-<h2 class="mat-h2">Tutors</h2>
+<div
+  fxLayout.gt-sm="row"
+  fxLayout="column"
+  fxLayoutAlign.gt-sm="space-between start"
+>
+  <h2 class="mat-h2">Tutors</h2>
+  <button (click)="copyTutorMails()" mat-stroked-button>
+    Copy tutor mails
+  </button>
+</div>
 <div fxLayout="column" fxLayoutGap="4px">
   <mat-list>
     <mat-list-item *ngFor="let tutor of event.registeredTutors | ngrxPush">
-      <h3 mat-line>{{ tutor.name }}</h3>
+      <h3 mat-line>{{ tutor.name }} ({{ tutor.email }})</h3>
       <p mat-line>{{ tutor.phone }}</p>
     </mat-list-item>
   </mat-list>

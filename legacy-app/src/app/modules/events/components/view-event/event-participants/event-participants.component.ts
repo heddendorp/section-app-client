@@ -128,4 +128,27 @@ export class EventParticipantsComponent {
       isWaitList,
     });
   }
+
+  async copyTutorMails() {
+    const mailString = await this.event.registeredTutors
+      .pipe(
+        map((tutors: any) =>
+          tutors.map((tutor: any) => tutor.email).join('; ')
+        ),
+        first()
+      )
+      .toPromise();
+    const pending = this.clipboard.beginCopy(mailString);
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
+  }
 }
