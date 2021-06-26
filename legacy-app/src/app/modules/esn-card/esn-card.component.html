@@ -1,0 +1,112 @@
+<section class="p-4 md:p-8">
+  <h2
+    class="
+      mt-4
+      md:mt-0
+      font-bold
+      text-6xl
+      leading-snug
+      text-transparent
+      bg-clip-text bg-gradient-to-tr
+      from-accent-800
+      to-accent-600
+    "
+  >
+    The ESNcard
+  </h2>
+  <h3 class="mb-4 text-2xl text-accent-700">
+    The card of the Erasmus generation
+  </h3>
+  <div class="panel" fxLayout="column" fxLayoutGap="1.5rem">
+    <h4 class="text-primary-700 text-2xl">How to get one for yourself</h4>
+    <div
+      fxLayoutGap="1rem"
+      fxLayout.gt-md="row"
+      fxLayout="column"
+      *ngrxLet="user$; let user"
+    >
+      <mat-icon
+        svgIcon="icon-1-circle"
+        class="large"
+        fxFlex="64px"
+        fxFlexAlign="center"
+      ></mat-icon>
+      <div fxLayoutGap=".5rem" fxLayout="column" fxLayoutAlign="start start">
+        <p class="leading-normal">
+          <strong>Make sure this data is correct:</strong> <br />
+          Your name: {{ user.name }} <br />
+          Your shipping address: {{ user.address }} <br />
+          Your nationality: {{ country$ | ngrxPush }}
+        </p>
+        <p>
+          If there's something wrong go to you profile and change the data
+          please
+        </p>
+        <a routerLink="/profile" target="_blank" mat-flat-button>
+          Go to profile
+        </a>
+      </div>
+    </div>
+    <div
+      fxLayoutGap="1rem"
+      fxLayout.gt-md="row"
+      fxLayout="column"
+      *ngrxLet="user$; let user"
+    >
+      <mat-icon
+        svgIcon="icon-2-circle"
+        class="large"
+        fxFlex="64px"
+        fxFlexAlign="center"
+      ></mat-icon>
+      <div fxLayoutGap=".5rem" fxLayout="column" fxLayoutAlign="start start">
+        <p class="leading-normal">
+          <strong>Send us an email</strong> <br />
+          We've tried to prepare something that should take you to your mailer
+          straight away. <br />Please add your data of birth and a passport
+          sized photo of yourself.
+        </p>
+        <p class="leading-normal text-sm">
+          If this button doesn't work for you, please enter all the info from
+          above, attach an image and send the mail to tumi@zv.tum.de
+        </p>
+        <a
+          href="mailto:tumi@zv.tum.de?subject=%5BESNcard%5D%20order%20Information&body=Hey%20TUMi%2C%0D%0AI'd%20like%20to%20order%20an%20ESNcard%2C%20here's%20my%20info.%0D%0AName%3A%20{{
+            user.name
+          }}%0D%0AAddress%3A%20{{ user.address }}%0D%0ANationality%3A%20{{
+            country$ | ngrxPush
+          }}%0D%0ADate%20of%20birth%3A%20PLEASE%20ADD%20THIS%20YOURSELF%0D%0A%0D%0AI%20have%20also%20attached%20a%20passport%20sized%20photo%20of%20myself.%0D%0A%0D%0ABest%20regards%2C%0D%0A{{
+            user.firstName
+          }}"
+          target="_blank"
+          mat-flat-button
+        >
+          Send email
+        </a>
+      </div>
+    </div>
+    <div
+      fxLayoutGap="1rem"
+      fxLayout.gt-md="row"
+      fxLayout="column"
+      *ngrxLet="user$; let user"
+    >
+      <mat-icon
+        svgIcon="icon-3-circle"
+        class="large"
+        fxFlex="64px"
+        fxFlexAlign="center"
+      ></mat-icon>
+      <div fxLayoutGap=".5rem" fxLayout="column" fxLayoutAlign="start start">
+        <p class="leading-normal">
+          <strong>Pay the fee</strong> <br />
+          After you sent the email, please pay for the ESNcard by visiting the
+          special event we created for it.
+        </p>
+        <a routerLink="/events/hQVWhKwNWfLH1HHzbDFF" mat-flat-button
+          >Pay {{ 10 | currency: "EUR" }} fee here</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
