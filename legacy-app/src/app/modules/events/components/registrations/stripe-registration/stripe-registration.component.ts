@@ -91,6 +91,13 @@ export class StripeRegistrationComponent implements OnInit, OnChanges {
   }
 
   public async startPayment() {
+    this.snack.openFromComponent(IconToastComponent, {
+      data: {
+        message: `Please wait while we're preparing the payment`,
+        icon: 'icon-loading',
+      },
+      duration: 0,
+    });
     const user = await this.auth.user$.pipe(first()).toPromise();
     const [icon, style] = this.event.icon.split(':');
     const session = await this.functions

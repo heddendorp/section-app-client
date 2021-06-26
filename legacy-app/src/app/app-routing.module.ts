@@ -13,6 +13,13 @@ const routes: Routes = [
           import('./modules/events/events.module').then((m) => m.EventsModule),
       },
       {
+        path: 'ESNcard',
+        loadChildren: () =>
+          import('./modules/esn-card/esn-card.module').then(
+            (m) => m.EsnCardModule
+          ),
+      },
+      {
         path: 'users',
         loadChildren: () =>
           import('./modules/users/users.module').then((m) => m.UsersModule),

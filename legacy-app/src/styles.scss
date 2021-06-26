@@ -155,6 +155,13 @@ mat-icon.mat-icon {
     font-size: 24px !important;
     line-height: 24px !important;
   }
+
+  &.large {
+    width: 4rem !important;
+    height: 4rem !important;
+    font-size: 4rem !important;
+    line-height: 4rem !important;
+  }
 }
 
 .break-words {

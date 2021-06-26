@@ -15,7 +15,16 @@
   </button>
   <div fxFlex="noshrink" fxLayout="row" fxLayoutAlign="center center">
     <span
-      class="bg-clip-text text-3xl font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600 select-none"
+      class="
+        bg-clip-text
+        text-3xl
+        font-bold
+        text-transparent
+        bg-gradient-to-bl
+        from-primary-600
+        to-accent-600
+        select-none
+      "
       routerLink="/"
       *ngIf="isHandset$ | async"
     >
@@ -52,7 +61,14 @@
       >
         <span>
           <span
-            class="bg-clip-text font-bold text-transparent bg-gradient-to-bl from-primary-600 to-accent-600"
+            class="
+              bg-clip-text
+              font-bold
+              text-transparent
+              bg-gradient-to-bl
+              from-primary-600
+              to-accent-600
+            "
             >TUMi</span
           >&nbsp;app
         </span>
@@ -76,6 +92,10 @@
           <h3 mat-line>What is TUMi?</h3>
         </a>
         <ng-container *ngrxLet="user$; let user">
+          <a mat-list-item routerLink="ESNcard" routerLinkActive="active">
+            <mat-icon svgIcon="icon-membership-card" mat-list-icon></mat-icon>
+            <h3 mat-line>Get the ESNcard</h3>
+          </a>
           <a
             mat-list-item
             routerLink="profile"
@@ -155,17 +175,12 @@
             <h3 mat-line>Manage Invoices</h3>
           </a>
           <ng-container *ngIf="user?.canSeeBetaFeatures">
-            <h3
-              matSubheader
-            >
-              Experiments
-            </h3>
-            <a
-              mat-list-item
-              routerLink="page/insta"
-              routerLinkActive="active"
-            >
-              <mat-icon mat-list-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+            <h3 matSubheader>Experiments</h3>
+            <a mat-list-item routerLink="page/insta" routerLinkActive="active">
+              <mat-icon
+                mat-list-icon
+                svgIcon="icon-barcode-scanner-2"
+              ></mat-icon>
               <h3 mat-line>Instagram helper</h3>
             </a>
           </ng-container>
