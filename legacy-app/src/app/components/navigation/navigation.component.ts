@@ -26,6 +26,7 @@ export class NavigationComponent {
   isHandset$: Observable<boolean>;
   showTutorApplication$: Observable<boolean>;
   appVersion = packInfo.version;
+  impersonation = localStorage.getItem('impersonation');
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -38,7 +39,8 @@ export class NavigationComponent {
       map((handset) => (isPlatformServer(platformId) ? true : handset)),
       shareReplay(1)
     );
-    this.showTutorApplication$ = this.remoteConfig.booleans.showTutorApplication;
+    this.showTutorApplication$ =
+      this.remoteConfig.booleans.showTutorApplication;
   }
 
   public login(): Promise<boolean> {
@@ -60,5 +62,10 @@ export class NavigationComponent {
     if (isHandset) {
       await drawer.close();
     }
+  }
+
+  removeImpersonation() {
+    localStorage.removeItem('impersonation');
+    location.reload();
   }
 }

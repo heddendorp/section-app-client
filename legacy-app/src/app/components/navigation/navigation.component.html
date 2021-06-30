@@ -187,6 +187,12 @@
         </ng-container>
       </mat-nav-list>
       <div fxFlex="grow"></div>
+      <div class="p-4" *ngIf="impersonation">
+        <strong class="font-bold text-red-500">You are not yourself</strong>
+        <button mat-flat-button (click)="removeImpersonation()">
+          Remove impersonation
+        </button>
+      </div>
       <div class="text-center text-gray-800 my-2">
         <a routerLink="/page/privacy">Privacy</a> /
         <a routerLink="/page/imprint">Imprint</a>

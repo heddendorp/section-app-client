@@ -34,12 +34,13 @@ export class AuthService {
     );
     this.user = fireAuth.user.pipe(
       isNotNullOrUndefined(),
-      switchMap((user: firebase.User) =>
-        store
+      switchMap((user: firebase.User) => {
+        const impersonatedUser = localStorage.getItem('impersonation');
+        return store
           .collection<User>(User.collection(store))
-          .doc(user.uid)
-          .valueChanges()
-      ),
+          .doc(impersonatedUser ?? user.uid)
+          .valueChanges();
+      }),
       isNotNullOrUndefined(),
       tap((user) => {
         Sentry.setContext('rights', user.rights);

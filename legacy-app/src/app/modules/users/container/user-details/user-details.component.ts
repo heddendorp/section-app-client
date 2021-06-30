@@ -91,4 +91,10 @@ export class UserDetailsComponent implements OnInit {
       await this.userService.update(user.id, user);
     }
   }
+
+  async impersonateUser() {
+    const user = await this.user$.pipe(first()).toPromise();
+    localStorage.setItem('impersonation', user.id);
+    location.reload();
+  }
 }

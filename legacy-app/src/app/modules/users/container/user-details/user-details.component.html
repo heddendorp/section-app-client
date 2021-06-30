@@ -1,6 +1,14 @@
 <ng-container *ngIf="user$ | async as user">
   <h1
-    class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 mb-8"
+    class="
+      text-6xl
+      font-bold
+      text-transparent
+      bg-clip-text bg-gradient-to-tr
+      from-accent-600
+      to-accent-500
+      mb-8
+    "
   >
     {{ user?.name }}
   </h1>
@@ -71,6 +79,9 @@
     [disabled]="showTutorEvents$ | ngrxPush"
   >
     Load tutored events
+  </button>
+  <button mat-flat-button (click)="impersonateUser()">
+    Impersonate this user
   </button>
   <mat-list *ngIf="showEvents$ | async">
     <mat-list-item *ngFor="let event of events$ | ngrxPush">
