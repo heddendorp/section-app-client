@@ -103,13 +103,13 @@ export class User {
 
   get profileComplete() {
     return (
-      this.firstName.length > 0 &&
-      this.lastName.length > 0 &&
-      this.email.length > 0 &&
-      this.phone.length > 0 &&
-      this.address.length > 0 &&
+      this.firstName?.length > 0 &&
+      this.lastName?.length > 0 &&
+      this.email?.length > 0 &&
+      this.phone?.length > 0 &&
+      this.address?.length > 0 &&
       this.status &&
-      this.country.length === 2
+      this.country?.length === 2
     );
   }
 
