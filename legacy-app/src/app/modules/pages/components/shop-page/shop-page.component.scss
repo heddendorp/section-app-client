@@ -1,3 +1,4 @@
+@use 'src/mixins';
 :host {
   display: block;
   background: #1f2937;
@@ -41,7 +42,7 @@
   }
 }
 .card1 {
-  width: 450px;
+  width: 400px;
   &.mobile {
     width: 350px;
   }
@@ -69,7 +70,7 @@
   background-size: cover;
 }
 .card3 {
-  width: 450px;
+  width: 500px;
   &.mobile {
     width: 350px;
   }
@@ -79,11 +80,11 @@
       transparentize(#f3f4f6, 0.2)
     ),
     linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
-    url("/assets/images/shop/spoon.png") center;
+    url("/assets/images/shop/spoon.png") center, rgba(255, 255, 255, 0.2);
   background-size: cover;
 }
 .card4 {
-  width: 450px;
+  width: 500px;
   &.mobile {
     width: 350px;
   }

@@ -1,6 +1,6 @@
 {
   "name": "tumi-app",
-  "version": "2.1.0-deploy.26",
+  "version": "2.1.0-deploy.27",
   "private": true,
   "scripts": {
     "build:all": "yarn run build:ssr && yarn run copy:hosting",
