@@ -41,7 +41,7 @@
   }
 }
 .card1 {
-  width: 300px;
+  width: 450px;
   &.mobile {
     width: 350px;
   }
@@ -51,7 +51,7 @@
       transparentize(#f3f4f6, 0.2)
     ),
     linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
-    url("/assets/images/shop/bottle.jpg") center;
+    url("/assets/images/shop/opener.jpg") center;
   background-size: cover;
 }
 .card2 {
@@ -69,7 +69,7 @@
   background-size: cover;
 }
 .card3 {
-  width: 500px;
+  width: 450px;
   &.mobile {
     width: 350px;
   }
@@ -79,31 +79,45 @@
       transparentize(#f3f4f6, 0.2)
     ),
     linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
-    url("/assets/images/shop/pillow.jpg") center;
+    url("/assets/images/shop/spoon.png") center;
   background-size: cover;
 }
 .card4 {
   width: 450px;
   &.mobile {
     width: 350px;
-    background: linear-gradient(
-        to top,
-        transparent 85%,
-        transparentize(#f3f4f6, 0.2)
-      ),
-      linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
-      url("/assets/images/shop/book.jpg") center;
-    background-size: cover;
   }
   background: linear-gradient(
       to top,
-      transparent 90%,
+      transparent 80%,
       transparentize(#f3f4f6, 0.2)
     ),
     linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
-    url("/assets/images/shop/book.jpg") center;
+    url("/assets/images/shop/backpack.jpg") center;
   background-size: cover;
 }
+//.card4 {
+//  width: 450px;
+//  &.mobile {
+//    width: 350px;
+//    background: linear-gradient(
+//        to top,
+//        transparent 85%,
+//        transparentize(#f3f4f6, 0.2)
+//      ),
+//      linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+//      url("/assets/images/shop/book.jpg") center;
+//    background-size: cover;
+//  }
+//  background: linear-gradient(
+//      to top,
+//      transparent 90%,
+//      transparentize(#f3f4f6, 0.2)
+//    ),
+//    linear-gradient(transparent 90%, transparentize(#1f2937, 0.2)),
+//    url("/assets/images/shop/book.jpg") center;
+//  background-size: cover;
+//}
 .name {
   color: #1e3a8a;
   top: 1rem;
