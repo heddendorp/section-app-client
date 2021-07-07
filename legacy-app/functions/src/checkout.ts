@@ -83,6 +83,7 @@ export const createCheckoutSession = functions.https.onCall(
         mode: 'payment',
         success_url,
         cancel_url,
+        allow_promotion_codes: true,
       });
       functions.logger.debug(session);
     } catch (err) {
