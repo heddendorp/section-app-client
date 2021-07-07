@@ -70,6 +70,7 @@ export class NewMemberPageComponent implements OnInit {
       experienceAbroad: [''],
       experienceVolunteering: [''],
       motivation: [''],
+      referrer: [''],
     });
     this.applicationForm.get('languages.0.language')?.disable();
     this.applicationForm.get('languages.1.language')?.disable();

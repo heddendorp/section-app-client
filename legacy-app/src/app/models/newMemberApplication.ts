@@ -26,6 +26,7 @@ export class NewMemberApplication {
     public experienceAbroad: string,
     public experienceVolunteering: string,
     public motivation: string,
+    public referrer: string,
     private createdTimestamp: firebase.firestore.Timestamp,
     public state: ApplicationState
   ) {
@@ -53,6 +54,7 @@ export class NewMemberApplication {
       'experienceAbroad',
       'experienceVolunteering',
       'motivation',
+      'referrer',
       'userId',
       'created',
       'state',
@@ -91,6 +93,7 @@ export class NewMemberApplication {
           data.experienceAbroad,
           data.experienceVolunteering,
           data.motivation,
+          data.referrer,
           data.created,
           data.state
         );

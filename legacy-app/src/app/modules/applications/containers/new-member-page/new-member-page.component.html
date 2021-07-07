@@ -1,5 +1,13 @@
 <h1
-  class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-accent-600 to-accent-500 pb-8"
+  class="
+    text-6xl
+    font-bold
+    text-transparent
+    bg-clip-text bg-gradient-to-tr
+    from-accent-600
+    to-accent-500
+    pb-8
+  "
 >
   Application
 </h1>
@@ -182,6 +190,11 @@
       Why do you want to join TUMi? Which activities would you like to organize
       and how much time do you intend to invest into TUMi?
     </mat-hint>
+  </mat-form-field>
+  <mat-form-field gdColumn.gt-xs="span 2">
+    <mat-label>Referrer</mat-label>
+    <input matInput formControlName="referrer" />
+    <mat-hint>Who told you about TUMi, write down their name here</mat-hint>
   </mat-form-field>
   <button
     mat-flat-button
