@@ -128,7 +128,7 @@
           *ngIf="(user$ | ngrxPush)?.isMember"
           [event]="event"
         ></app-tutor-registration>
-        <app-pay-pal-registration [event]="event"></app-pay-pal-registration>
+        <app-pay-pal-registration></app-pay-pal-registration>
       </ng-container>
       <ng-container *ngSwitchCase="'stripe'">
         <app-tutor-registration
