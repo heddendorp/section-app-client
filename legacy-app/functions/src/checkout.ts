@@ -153,9 +153,10 @@ export const paymentWebhook = functions.https.onRequest(async (req, res) => {
 
     let fee;
     if (session.payment_status === 'paid') {
+      functions.logger.debug(charges.data);
       fee = charges.data
-        .map((charge: any) => charge.balance_transaction.fee)
-        .reduce((acc: number, curr: number) => acc + curr, 0);
+        .map((charge: any) => charge.balance_transaction?.fee)
+        .reduce((acc: number, curr: number) => acc + curr ?? 0, 0);
     } else {
       fee = 0;
     }

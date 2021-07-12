@@ -81,10 +81,10 @@ export class NewMemberPageComponent implements OnInit {
       user.id
     );
     this.applicationForm.patchValue(user);
-    const inProgess = localStorage.getItem('applicationDraft');
-    if (inProgess) {
+    const inProgress = localStorage.getItem('applicationDraft');
+    if (inProgress) {
       try {
-        const application = JSON.parse(inProgess);
+        const application = JSON.parse(inProgress);
         this.applicationForm.patchValue({
           ...application,
           birthday: new Date(application.birthday),

@@ -25,7 +25,7 @@ export class ProfileDialogComponent {
     this.profileForm = fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.maxLength(20)]],
       iban: [''],
       address: ['', Validators.required],
       email: ['', Validators.required],

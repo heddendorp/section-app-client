@@ -21,7 +21,14 @@
     </mat-form-field>
     <mat-form-field gdColumn.gt-xs="span 2">
       <mat-label>Phone Number</mat-label>
-      <input formControlName="phone" matInput type="tel" autocomplete="tel" />
+      <input
+        formControlName="phone"
+        matInput
+        type="tel"
+        autocomplete="tel"
+        required
+        maxlength="20"
+      />
     </mat-form-field>
     <mat-form-field *ngIf="data.isMember" gdColumn.gt-xs="span 2">
       <mat-label>IBAN</mat-label>

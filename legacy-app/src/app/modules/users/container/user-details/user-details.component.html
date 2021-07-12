@@ -83,6 +83,14 @@
   <button mat-flat-button (click)="impersonateUser()">
     Impersonate this user
   </button>
+  <a
+    href="https://console.firebase.google.com/u/0/project/esn-tumi/firestore/data/~2Fusers~2F{{
+      user.id
+    }}"
+    target="_blank"
+    mat-flat-button
+    >Open in firebase</a
+  >
   <mat-list *ngIf="showEvents$ | async">
     <mat-list-item *ngFor="let event of events$ | ngrxPush">
       <img [appIconSrc]="event.icon" [alt]="event.icon" mat-list-avatar />
