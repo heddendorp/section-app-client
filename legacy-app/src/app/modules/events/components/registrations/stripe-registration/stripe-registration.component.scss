@@ -1,6 +1,0 @@
-@use "src/mixins";
-
-:host {
-  display: block;
-  @include mixins.panel();
-}
