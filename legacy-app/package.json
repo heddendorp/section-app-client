@@ -1,6 +1,6 @@
 {
   "name": "tumi-app",
-  "version": "2.1.0-deploy.33",
+  "version": "2.1.0-deploy.42",
   "private": true,
   "engines": {
     "node": ">=14 <15"
@@ -36,7 +36,8 @@
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "start": "ng serve",
     "statistics": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/tumi-app/browser/stats.json",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "cd functions && npm i"
   },
   "dependencies": {
     "@angular/animations": "~12.1.3",
