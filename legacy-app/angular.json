@@ -9,7 +9,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/tumi-app/browser",
             "index": "apps/tumi-app/src/index.html",
@@ -21,7 +23,9 @@
               "apps/tumi-app/src/favicon.ico",
               "apps/tumi-app/src/assets"
             ],
-            "styles": ["apps/tumi-app/src/styles.scss"],
+            "styles": [
+              "apps/tumi-app/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -86,7 +90,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/tumi-app"],
+          "outputs": [
+            "coverage/apps/tumi-app"
+          ],
           "options": {
             "jestConfig": "apps/tumi-app/jest.config.js",
             "passWithNoTests": true
@@ -98,7 +104,23 @@
             "outputPath": "dist/apps/tumi-app/server",
             "main": "apps/tumi-app/server.ts",
             "tsConfig": "apps/tumi-app/tsconfig.server.json",
-            "inlineStyleLanguage": "scss"
+            "inlineStyleLanguage": "scss",
+            "externalDependencies": [
+              "firebase",
+              "@firebase/app",
+              "@firebase/analytics",
+              "@firebase/auth",
+              "@firebase/component",
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/functions",
+              "@firebase/installations",
+              "@firebase/messaging",
+              "@firebase/storage",
+              "@firebase/performance",
+              "@firebase/remote-config",
+              "@firebase/util"
+            ]
           },
           "configurations": {
             "production": {
@@ -135,7 +157,9 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {
@@ -148,6 +172,12 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "ssr": true
+          }
         }
       }
     },
@@ -172,7 +202,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/tumi-app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/tumi-app-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -184,7 +216,9 @@
       "architect": {
         "build": {
           "builder": "@simondotm/nx-firebase:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/tumi-functions",
             "main": "apps/tumi-functions/src/index.ts",
@@ -231,12 +265,16 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/tumi-functions/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/tumi-functions/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/tumi-functions"],
+          "outputs": [
+            "coverage/apps/tumi-functions"
+          ],
           "options": {
             "jestConfig": "apps/tumi-functions/jest.config.js",
             "passWithNoTests": true
