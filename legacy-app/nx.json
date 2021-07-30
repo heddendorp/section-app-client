@@ -33,6 +33,9 @@
     "api": {
       "tags": ["scope:server"]
     },
+    "models": {
+      "tags": ["scope:server"]
+    },
     "tumi-app": {
       "tags": []
     },

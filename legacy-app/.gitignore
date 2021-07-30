@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/libs/models/src/lib/client
 
 # dependencies
 /node_modules
@@ -37,5 +38,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.env
 
 .runtimeconfig.json

@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../lib/client"
+}
+
+enum Role {
+  USER
+  MEMBER
+  ADMIN
+}
+
+enum PublicationState {
+  DRAFT
+  FULL_MEMBERS
+  MEMBERS
+  PUBLIC
+}
+
+enum SubmissionItemType {
+  FILE
+  NUMBER
+  TEXT
+  DATE
+  RATING
+}
+
+enum SubmissionTime {
+  REGISTRATION
+  BEFORE
+  DURING
+  AFTER
+}
+
+model Tenant {
+  id        String           @id @default(uuid()) @db.Uuid
+  createdAt DateTime         @default(now())
+  users     UsersOfTenants[]
+  name      String
+  events    Event[]
+}
+
+model User {
+  id                 String              @id @default(uuid()) @db.Uuid
+  createdAt          DateTime            @default(now())
+  tenants            UsersOfTenants[]
+  eventSubmissions   EventSubmission[]
+  eventRegistrations EventRegistration[]
+}
+
+model UsersOfTenants {
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String   @db.Uuid
+  role      Role     @default(USER)
+  @@id([userId, tenantId])
+}
+
+model Event {
+  id               String                @id @default(uuid()) @db.Uuid
+  createdAt        DateTime              @default(now())
+  tenant           Tenant                @relation(fields: [tenantId], references: [id])
+  tenantId         String                @db.Uuid
+  title            String
+  icon             String
+  teaser           String
+  publicationState PublicationState      @default(DRAFT)
+  submissionItems  EventSubmissionItem[]
+  registrations    EventRegistration[]
+}
+
+model EventRegistration {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String   @db.Uuid
+}
+
+model EventSubmissionItem {
+  id             String            @id @default(uuid()) @db.Uuid
+  createdAt      DateTime          @default(now())
+  event          Event             @relation(fields: [eventId], references: [id])
+  eventId        String            @db.Uuid
+  required       Boolean
+  submissionTime SubmissionTime
+  submissions    EventSubmission[]
+}
+
+model EventSubmission {
+  id               String              @id @default(uuid()) @db.Uuid
+  createdAt        DateTime            @default(now())
+  user             User                @relation(fields: [userId], references: [id])
+  userId           String              @db.Uuid
+  submissionItem   EventSubmissionItem @relation(fields: [submissionItemId], references: [id])
+  submissionItemId String              @db.Uuid
+}
