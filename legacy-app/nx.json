@@ -30,6 +30,9 @@
     ]
   },
   "projects": {
+    "api": {
+      "tags": ["scope:server"]
+    },
     "tumi-app": {
       "tags": []
     },

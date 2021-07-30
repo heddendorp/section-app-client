@@ -1,6 +1,56 @@
 {
   "version": 1,
   "projects": {
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "tumi-app": {
       "projectType": "application",
       "root": "apps/tumi-app",
@@ -9,9 +59,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/tumi-app/browser",
             "index": "apps/tumi-app/src/index.html",
@@ -23,9 +71,7 @@
               "apps/tumi-app/src/favicon.ico",
               "apps/tumi-app/src/assets"
             ],
-            "styles": [
-              "apps/tumi-app/src/styles.scss"
-            ],
+            "styles": ["apps/tumi-app/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -71,7 +117,10 @@
               "browserTarget": "tumi-app:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/tumi-app/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -90,9 +139,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/tumi-app"
-          ],
+          "outputs": ["coverage/apps/tumi-app"],
           "options": {
             "jestConfig": "apps/tumi-app/jest.config.js",
             "passWithNoTests": true
@@ -157,9 +204,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {
@@ -202,9 +247,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/tumi-app-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/tumi-app-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -216,9 +259,7 @@
       "architect": {
         "build": {
           "builder": "@simondotm/nx-firebase:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/tumi-functions",
             "main": "apps/tumi-functions/src/index.ts",
@@ -265,16 +306,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/tumi-functions/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/tumi-functions/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/tumi-functions"
-          ],
+          "outputs": ["coverage/apps/tumi-functions"],
           "options": {
             "jestConfig": "apps/tumi-functions/jest.config.js",
             "passWithNoTests": true
