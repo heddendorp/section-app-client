@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /libs/models/src/lib/client
+/libs/models/src/prisma/dbml
 
 # dependencies
 /node_modules

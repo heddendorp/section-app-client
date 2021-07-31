@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tumi/auth": ["libs/auth/src/index.ts"],
       "@tumi/models": ["libs/models/src/index.ts"]
     }
   },

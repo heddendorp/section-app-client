@@ -8,19 +8,25 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output = "../lib/client"
+  output   = "../lib/client"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+  output   = "./dbml"
 }
 
 enum Role {
   USER
+  TRIAL
   MEMBER
+  ALUMNI
   ADMIN
 }
 
 enum PublicationState {
   DRAFT
-  FULL_MEMBERS
-  MEMBERS
+  APPROVAL
   PUBLIC
 }
 
@@ -53,6 +59,7 @@ model User {
   tenants            UsersOfTenants[]
   eventSubmissions   EventSubmission[]
   eventRegistrations EventRegistration[]
+  Receipt            Receipt[]
 }
 
 model UsersOfTenants {
@@ -62,7 +69,22 @@ model UsersOfTenants {
   tenant    Tenant   @relation(fields: [tenantId], references: [id])
   tenantId  String   @db.Uuid
   role      Role     @default(USER)
+
   @@id([userId, tenantId])
+}
+
+model EventTemplate {
+  id              String   @id @default(uuid()) @db.Uuid
+  createdAt       DateTime @default(now())
+  name            String
+  description     String
+  location        String
+  duration        Int
+  participantText String
+  participantMail String
+  runningText     String
+  finances        Json
+  Event           Event[]
 }
 
 model Event {
@@ -76,6 +98,43 @@ model Event {
   publicationState PublicationState      @default(DRAFT)
   submissionItems  EventSubmissionItem[]
   registrations    EventRegistration[]
+  eventTemplate    EventTemplate         @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId  String                @db.Uuid
+  Receipt          Receipt[]
+  CostItem         CostItem[]
+  PhotoShare       PhotoShare[]
+}
+
+model CostItem {
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  event     Event     @relation(fields: [eventId], references: [id])
+  eventId   String    @db.Uuid
+  name      String
+  ammount   Int
+  Receipt   Receipt[]
+}
+
+model Receipt {
+  id            String   @id @default(uuid()) @db.Uuid
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @db.Uuid
+  costItem      CostItem @relation(fields: [costItemId], references: [id])
+  costItemId    String   @db.Uuid
+  covered       Boolean  @default(false)
+  amount        Int
+  date          DateTime
+  amountCovered Int
+  Event         Event?   @relation(fields: [eventId], references: [id])
+  eventId       String?  @db.Uuid
+}
+
+model PhotoShare {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String   @db.Uuid
 }
 
 model EventRegistration {
