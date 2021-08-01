@@ -51,6 +51,31 @@
         }
       }
     },
+    "app-shell": {
+      "projectType": "library",
+      "root": "libs/app-shell",
+      "sourceRoot": "libs/app-shell/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/app-shell"],
+          "options": {
+            "jestConfig": "libs/app-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/app-shell/src/**/*.ts",
+              "libs/app-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "auth": {
       "projectType": "library",
       "root": "libs/auth",

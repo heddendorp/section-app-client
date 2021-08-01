@@ -33,6 +33,9 @@
     "api": {
       "tags": ["scope:server"]
     },
+    "app-shell": {
+      "tags": ["scope:client"]
+    },
     "auth": {
       "tags": ["scope:client"]
     },
