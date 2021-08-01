@@ -11,6 +11,11 @@ generator client {
   output   = "../lib/client"
 }
 
+generator nexusPrisma {
+   provider = "nexus-prisma"
+   output   = "../lib/nexus"
+}
+
 generator dbml {
   provider = "prisma-dbml-generator"
   output   = "./dbml"
