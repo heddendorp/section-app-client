@@ -18,7 +18,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSidenavModule,
     MatToolbarModule,
     AuthModule,
-  ]
   ],
   declarations: [NavigationComponent],
   exports: [NavigationComponent],
