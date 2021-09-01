@@ -7,5 +7,6 @@ import { AuthButtonComponent } from './auth-button/auth-button.component';
   declarations: [
     AuthButtonComponent
   ],
+  exports: [AuthButtonComponent]
 })
 export class AuthModule {}
