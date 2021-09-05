@@ -31,7 +31,8 @@
   },
   "projects": {
     "api": {
-      "tags": ["scope:server"]
+      "tags": ["scope:server"],
+      "implicitDependencies": ["tumi-app"]
     },
     "app-shell": {
       "tags": ["scope:client"]

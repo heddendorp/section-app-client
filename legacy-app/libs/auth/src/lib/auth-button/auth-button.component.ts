@@ -9,5 +9,9 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class AuthButtonComponent{
 
-  constructor(@Inject(DOCUMENT) public document: Document,public auth: AuthService) { }
+  constructor(@Inject(DOCUMENT) public document: Document,public auth: AuthService) {
+    auth.user$.subscribe(user => {
+      console.log(user);
+    } );
+   }
 }

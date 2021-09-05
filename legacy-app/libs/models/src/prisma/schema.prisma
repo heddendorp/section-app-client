@@ -12,8 +12,8 @@ generator client {
 }
 
 generator nexusPrisma {
-   provider = "nexus-prisma"
-   output   = "../lib/nexus"
+  provider = "nexus-prisma"
+//  output   = "../lib/nexus"
 }
 
 generator dbml {
@@ -50,11 +50,17 @@ enum SubmissionTime {
   AFTER
 }
 
+enum RegistrationType {
+  ORGANIZER
+  PARTICIPANT
+}
+
 model Tenant {
   id        String           @id @default(uuid()) @db.Uuid
   createdAt DateTime         @default(now())
   users     UsersOfTenants[]
   name      String
+  shortName String
   events    Event[]
 }
 
@@ -64,7 +70,7 @@ model User {
   tenants            UsersOfTenants[]
   eventSubmissions   EventSubmission[]
   eventRegistrations EventRegistration[]
-  Receipt            Receipt[]
+  receipts           Receipt[]
 }
 
 model UsersOfTenants {
@@ -87,9 +93,9 @@ model EventTemplate {
   duration        Int
   participantText String
   participantMail String
-  runningText     String
+  organizerText   String
   finances        Json
-  Event           Event[]
+  eventInstances  Event[]
 }
 
 model Event {
@@ -105,9 +111,8 @@ model Event {
   registrations    EventRegistration[]
   eventTemplate    EventTemplate         @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId  String                @db.Uuid
-  Receipt          Receipt[]
-  CostItem         CostItem[]
-  PhotoShare       PhotoShare[]
+  costItems        CostItem[]
+  photoShares      PhotoShare[]
 }
 
 model CostItem {
@@ -117,7 +122,7 @@ model CostItem {
   eventId   String    @db.Uuid
   name      String
   ammount   Int
-  Receipt   Receipt[]
+  receipts  Receipt[]
 }
 
 model Receipt {
@@ -131,8 +136,6 @@ model Receipt {
   amount        Int
   date          DateTime
   amountCovered Int
-  Event         Event?   @relation(fields: [eventId], references: [id])
-  eventId       String?  @db.Uuid
 }
 
 model PhotoShare {
@@ -143,12 +146,13 @@ model PhotoShare {
 }
 
 model EventRegistration {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @db.Uuid
-  event     Event    @relation(fields: [eventId], references: [id])
-  eventId   String   @db.Uuid
+  id        String           @id @default(uuid()) @db.Uuid
+  createdAt DateTime         @default(now())
+  type      RegistrationType @default(PARTICIPANT)
+  user      User             @relation(fields: [userId], references: [id])
+  userId    String           @db.Uuid
+  event     Event            @relation(fields: [eventId], references: [id])
+  eventId   String           @db.Uuid
 }
 
 model EventSubmissionItem {
