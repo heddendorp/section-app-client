@@ -1,0 +1,15 @@
+{
+  "name": "Untitled GraphQL Schema",
+  "schemaPath": "lib/graphql/schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Angular app endpoint": {
+        "url": "http://localhost:4200/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

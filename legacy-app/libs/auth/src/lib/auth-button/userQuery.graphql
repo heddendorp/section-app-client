@@ -1,0 +1,6 @@
+query getTenants{
+  tenants{
+    id
+    name
+  }
+}

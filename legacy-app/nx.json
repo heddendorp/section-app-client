@@ -40,6 +40,9 @@
     "auth": {
       "tags": ["scope:client"]
     },
+    "data-access": {
+      "tags": []
+    },
     "graphql": {
       "tags": []
     },

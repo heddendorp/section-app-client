@@ -10,13 +10,14 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@tumi/app-shell": ["libs/app-shell/src/index.ts"],
       "@tumi/auth": ["libs/auth/src/index.ts"],
+      "@tumi/data-access": ["libs/data-access/src/index.ts"],
       "@tumi/graphql": ["libs/graphql/src/index.ts"],
       "@tumi/models": ["libs/models/src/index.ts"]
     }

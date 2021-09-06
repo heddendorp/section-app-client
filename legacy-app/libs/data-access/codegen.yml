@@ -1,0 +1,12 @@
+overwrite: true
+schema: "libs/graphql/schema.graphql"
+generates:
+  libs/data-access/src/lib/generated/generated.ts:
+    documents:
+      - "./apps/tumi-app/**/*.graphql"
+      - "./libs/**/*.graphql"
+      - "!*schema.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
