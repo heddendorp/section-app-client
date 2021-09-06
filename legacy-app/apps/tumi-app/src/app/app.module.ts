@@ -9,6 +9,7 @@ import { AppShellModule } from '@tumi/app-shell';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { InMemoryCache } from '@apollo/client/core';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot([]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',

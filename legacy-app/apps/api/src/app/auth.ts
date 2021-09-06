@@ -26,12 +26,12 @@ export const getUser = (prisma) => (req, res, next) => {
   if (!req.user) {
     return next();
   }
-  console.log(req.user);
   req.token = req.user;
+  delete req.user;
   prisma.user
     .findFirst({
       where: {
-        authId: req.user.sub,
+        authId: req.token.sub,
       },
     })
     .then((user) => {

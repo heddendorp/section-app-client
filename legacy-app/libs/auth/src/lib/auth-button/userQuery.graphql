@@ -1,6 +1,5 @@
-query getTenants{
-  tenants{
+query getCurrentUser {
+  currentUser{
     id
-    name
   }
 }

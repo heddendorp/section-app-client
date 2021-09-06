@@ -29,6 +29,8 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Returns the logged in user if found or null */
+  currentUser?: Maybe<User>;
   tenants: Array<Tenant>;
   userById?: Maybe<User>;
 };
@@ -54,16 +56,15 @@ export type User = {
   id: Scalars['ID'];
 };
 
-export type GetTenantsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantsQuery = { __typename?: 'Query', tenants: Array<{ __typename?: 'Tenant', id: string, name: string }> };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string }> };
 
-export const GetTenantsDocument = gql`
-    query getTenants {
-  tenants {
+export const GetCurrentUserDocument = gql`
+    query getCurrentUser {
+  currentUser {
     id
-    name
   }
 }
     `;
@@ -71,8 +72,8 @@ export const GetTenantsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetTenantsGQL extends Apollo.Query<GetTenantsQuery, GetTenantsQueryVariables> {
-    document = GetTenantsDocument;
+  export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
+    document = GetCurrentUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
