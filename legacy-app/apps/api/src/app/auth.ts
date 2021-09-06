@@ -12,30 +12,33 @@ export const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://tumi.eu.auth0.com/.well-known/jwks.json`
+    jwksUri: `https://tumi.eu.auth0.com/.well-known/jwks.json`,
   }),
 
   // Validate the audience and the issuer.
   audience: 'esn.events',
   issuer: [`https://tumi.eu.auth0.com/`],
   algorithms: ['RS256'],
-  credentialsRequired: false
+  credentialsRequired: false,
 });
 
-export const getUser = (prisma)=>(req, res, next) => {
+export const getUser = (prisma) => (req, res, next) => {
   if (!req.user) {
     return next();
   }
-  prisma.user.findUnique({
-    where: {
-      id: req.user.sub
-    }
-  })
-    .then(user => {
+  console.log(req.user);
+  req.token = req.user;
+  prisma.user
+    .findFirst({
+      where: {
+        authId: req.user.sub,
+      },
+    })
+    .then((user) => {
       if (!user) {
         return next();
       }
       req.user = user;
       next();
-    })
-}
+    });
+};
