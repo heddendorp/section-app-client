@@ -13,11 +13,14 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets",{
-              "glob": "schema.prisma",
-              "input": "libs/models/src/prisma",
-              "output": "./"
-            }]
+            "assets": [
+              "apps/api/src/assets",
+              {
+                "glob": "schema.prisma",
+                "input": "libs/models/src/prisma",
+                "output": "./"
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -105,6 +108,27 @@
         }
       }
     },
+    "graphql": {
+      "root": "libs/graphql",
+      "sourceRoot": "libs/graphql/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/graphql/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/graphql"],
+          "options": {
+            "jestConfig": "libs/graphql/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "models": {
       "root": "libs/models",
       "sourceRoot": "libs/models/src",
@@ -143,27 +167,6 @@
           "outputs": [],
           "options": {
             "command": "npx prisma db push"
-          }
-        }
-      }
-    },
-    "schema": {
-      "root": "libs/schema",
-      "sourceRoot": "libs/schema/src",
-      "projectType": "library",
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/schema/**/*.ts"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/schema"],
-          "options": {
-            "jestConfig": "libs/schema/jest.config.js",
-            "passWithNoTests": true
           }
         }
       }

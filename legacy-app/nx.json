@@ -40,11 +40,11 @@
     "auth": {
       "tags": ["scope:client"]
     },
+    "graphql": {
+      "tags": []
+    },
     "models": {
       "tags": ["scope:server"]
-    },
-    "schema": {
-      "tags": []
     },
     "tumi-app": {
       "tags": []

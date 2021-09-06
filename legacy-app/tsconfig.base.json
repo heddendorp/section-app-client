@@ -17,8 +17,8 @@
     "paths": {
       "@tumi/app-shell": ["libs/app-shell/src/index.ts"],
       "@tumi/auth": ["libs/auth/src/index.ts"],
-      "@tumi/models": ["libs/models/src/index.ts"],
-      "@tumi/schema": ["libs/schema/src/index.ts"]
+      "@tumi/graphql": ["libs/graphql/src/index.ts"],
+      "@tumi/models": ["libs/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
