@@ -1,6 +1,6 @@
 {
   "name": "Untitled GraphQL Schema",
-  "schemaPath": "lib/graphql/schema.graphql",
+  "schemaPath": "libs/graphql/schema.graphql",
   "extensions": {
     "endpoints": {
       "Angular app endpoint": {

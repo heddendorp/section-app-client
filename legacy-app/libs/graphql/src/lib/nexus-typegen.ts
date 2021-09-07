@@ -4,6 +4,7 @@
  */
 
 
+import type { Context } from "./context"
 import type { core } from "nexus"
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -62,6 +63,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateUserInput: { // input type
+    firstName: string; // String!
+    lastName: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -81,6 +86,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
   Query: {};
   Tenant: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -89,8 +95,11 @@ export interface NexusGenObjects {
     shortName: string; // String!
   }
   User: { // root type
+    authId: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    firstName: string; // String!
     id: string; // ID!
+    lastName: string; // String!
   }
 }
 
@@ -105,6 +114,9 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    registerUser: NexusGenRootTypes['User']; // User!
+  }
   Query: { // field return type
     currentUser: NexusGenRootTypes['User'] | null; // User
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
@@ -117,12 +129,18 @@ export interface NexusGenFieldTypes {
     shortName: string; // String!
   }
   User: { // field return type
+    authId: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    firstName: string; // String!
     id: string; // ID!
+    lastName: string; // String!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    registerUser: 'User'
+  }
   Query: { // field return type name
     currentUser: 'User'
     tenants: 'Tenant'
@@ -135,12 +153,20 @@ export interface NexusGenFieldTypeNames {
     shortName: 'String'
   }
   User: { // field return type name
+    authId: 'String'
     createdAt: 'DateTime'
+    firstName: 'String'
     id: 'ID'
+    lastName: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    registerUser: { // args
+      userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
+    }
+  }
   Query: {
     userById: { // args
       id: string; // ID!
@@ -156,7 +182,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
@@ -179,7 +205,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: any;
+  context: Context;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;

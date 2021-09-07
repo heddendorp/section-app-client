@@ -23,6 +23,7 @@ const server = new ApolloServer({
     return {
       prisma,
       user: req.user,
+      token: req.token,
     };
   },
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],

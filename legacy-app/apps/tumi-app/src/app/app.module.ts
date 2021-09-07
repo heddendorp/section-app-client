@@ -3,13 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import {
+  AuthGuard,
+  AuthHttpInterceptor,
+  AuthModule,
+} from '@auth0/auth0-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppShellModule } from '@tumi/app-shell';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +23,15 @@ import { RouterModule } from '@angular/router';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot([]),
+    ReactiveFormsModule,
+    RouterModule.forRoot([
+      {
+        path: 'profile',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('@tumi/ui/profile').then((module) => module.UiProfileModule),
+      },
+    ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
@@ -46,6 +60,10 @@ import { RouterModule } from '@angular/router';
         };
       },
       deps: [HttpLink],
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
     },
   ],
   bootstrap: [AppComponent],

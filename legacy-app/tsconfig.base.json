@@ -19,7 +19,9 @@
       "@tumi/auth": ["libs/auth/src/index.ts"],
       "@tumi/data-access": ["libs/data-access/src/index.ts"],
       "@tumi/graphql": ["libs/graphql/src/index.ts"],
-      "@tumi/models": ["libs/models/src/index.ts"]
+      "@tumi/models": ["libs/models/src/index.ts"],
+      "@tumi/ui/profile": ["libs/ui/profile/src/index.ts"],
+      "@tumi/util/material": ["libs/util/material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

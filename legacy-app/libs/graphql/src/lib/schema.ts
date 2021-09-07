@@ -16,7 +16,7 @@ export const schema = makeSchema({
       'src',
       'lib',
       'nexus-typegen.ts'
-    ), // 2
+    ),
     schema: join(
       __dirname,
       '..',
@@ -25,6 +25,20 @@ export const schema = makeSchema({
       'libs',
       'graphql',
       'schema.graphql'
-    ), // 3
+    ),
+  },
+  contextType: {
+    module: join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'libs',
+      'graphql',
+      'src',
+      'lib',
+      'context.ts'
+    ),
+    export: 'Context',
   },
 });

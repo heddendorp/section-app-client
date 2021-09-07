@@ -27,6 +27,23 @@ export type Scalars = {
   Json: any;
 };
 
+/** New user input object */
+export type CreateUserInput = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  /** Add a new user to the database */
+  registerUser: User;
+};
+
+
+export type MutationRegisterUserArgs = {
+  userInput?: Maybe<CreateUserInput>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** Returns the logged in user if found or null */
@@ -52,14 +69,25 @@ export type Tenant = {
 /** One User of the app */
 export type User = {
   __typename?: 'User';
+  /** Id from auth0 for this user */
+  authId: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  firstName: Scalars['String'];
   id: Scalars['ID'];
+  lastName: Scalars['String'];
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string }> };
+
+export type RegisterUserMutationVariables = Exact<{
+  userInput?: Maybe<CreateUserInput>;
+}>;
+
+
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', id: string } };
 
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
@@ -74,6 +102,24 @@ export const GetCurrentUserDocument = gql`
   })
   export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
     document = GetCurrentUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RegisterUserDocument = gql`
+    mutation RegisterUser($userInput: CreateUserInput) {
+  registerUser(userInput: $userInput) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
+    document = RegisterUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

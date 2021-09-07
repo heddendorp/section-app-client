@@ -19,7 +19,7 @@ export class AuthButtonComponent {
     auth.user$.subscribe(() => {
       getUser.fetch().subscribe((user) => {
         if (!user.data.currentUser) {
-          router.navigateByUrl('/profile/new');
+          router.navigate(['/', 'profile', 'new']);
         }
       });
     });

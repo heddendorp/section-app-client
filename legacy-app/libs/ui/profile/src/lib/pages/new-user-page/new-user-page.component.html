@@ -1,0 +1,24 @@
+<main class='p-4'>
+  <h1>Hello there 👋</h1>
+  <p>Let's get you set up</p>
+  <form [formGroup]='welcomeForm'>
+    <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName='firstName' type='text' required>
+      <mat-error>Your first name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName='lastName' type='text' required>
+      <mat-error>Your last name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Birthday</mat-label>
+        <input matInput formControlName='birthdate' [matDatepicker]='picker'>
+      <mat-error>Your birthday is required</mat-error>
+      <mat-datepicker-toggle matSuffix [for]='picker'></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-button>Get started</button>
+  </form>
+</main>
