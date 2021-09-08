@@ -5,5 +5,9 @@
     "types": []
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.d.ts", "../../libs/ui/profile/src/index.ts"]
+  "include": [
+    "src/**/*.d.ts",
+    "../../libs/ui/profile/src/index.ts",
+    "../../libs/ui/event-templates/src/index.ts"
+  ]
 }

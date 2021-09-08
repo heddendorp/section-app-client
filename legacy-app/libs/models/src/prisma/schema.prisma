@@ -13,7 +13,7 @@ generator client {
 
 generator nexusPrisma {
   provider = "nexus-prisma"
-//  output   = "../lib/nexus"
+  //  output   = "../lib/nexus"
 }
 
 generator dbml {
@@ -27,11 +27,11 @@ enum Role {
 }
 
 enum MembershipStatus {
-NONE
-TRIAL
-FULL
-SPONSOR
-ALUMNI
+  NONE
+  TRIAL
+  FULL
+  SPONSOR
+  ALUMNI
 }
 
 enum PublicationState {
@@ -62,12 +62,12 @@ enum RegistrationType {
 
 /// One Tenant of the app, most likely an ESN section
 model Tenant {
-  id        String           @id @default(uuid()) @db.Uuid
-  createdAt DateTime         @default(now())
-  users     UsersOfTenants[]
-  name      String
-  shortName String
-  events    Event[]
+  id             String           @id @default(uuid()) @db.Uuid
+  createdAt      DateTime         @default(now())
+  users          UsersOfTenants[]
+  name           String
+  shortName      String
+  eventTemplates EventTemplate[]
 }
 
 /// One User of the app
@@ -75,12 +75,12 @@ model User {
   id                 String              @id @default(uuid()) @db.Uuid
   createdAt          DateTime            @default(now())
   /// Id from auth0 for this user
-  authId String @unique
+  authId             String              @unique
   // User attributes
-  firstName String
-  lastName String
-  email String
-  birthdate DateTime
+  firstName          String
+  lastName           String
+  email              String
+  birthdate          DateTime
   // User relations
   tenants            UsersOfTenants[]
   eventSubmissions   EventSubmission[]
@@ -89,21 +89,23 @@ model User {
 }
 
 model UsersOfTenants {
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @db.Uuid
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  tenantId  String   @db.Uuid
-  role      Role     @default(USER)
-  status      MembershipStatus     @default(NONE)
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id])
+  userId    String           @db.Uuid
+  tenant    Tenant           @relation(fields: [tenantId], references: [id])
+  tenantId  String           @db.Uuid
+  role      Role             @default(USER)
+  status    MembershipStatus @default(NONE)
 
   @@id([userId, tenantId])
 }
 
+/// Template that holds all information for an event that is needed to run it
 model EventTemplate {
   id              String   @id @default(uuid()) @db.Uuid
   createdAt       DateTime @default(now())
-  name            String
+  title           String
+  icon            String
   description     String
   location        String
   duration        Int
@@ -112,23 +114,30 @@ model EventTemplate {
   organizerText   String
   finances        Json
   eventInstances  Event[]
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId        String   @db.Uuid
 }
 
+/// Actual instande of an Event based on a template
 model Event {
   id               String                @id @default(uuid()) @db.Uuid
   createdAt        DateTime              @default(now())
-  tenant           Tenant                @relation(fields: [tenantId], references: [id])
-  tenantId         String                @db.Uuid
   title            String
   icon             String
-  teaser           String
+  start            DateTime
+  end              DateTime
+  description      String
+  location         String
+  participantText  String
+  participantMail  String
+  organizerText    String
   publicationState PublicationState      @default(DRAFT)
   submissionItems  EventSubmissionItem[]
   registrations    EventRegistration[]
+  costItems        CostItem[]
+  photoShare       PhotoShare?
   eventTemplate    EventTemplate         @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId  String                @db.Uuid
-  costItems        CostItem[]
-  photoShares      PhotoShare[]
 }
 
 model CostItem {

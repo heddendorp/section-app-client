@@ -63,6 +63,9 @@ type User {
   birthdate: DateTime!
   createdAt: DateTime!
   firstName: String!
+
+  """Concatenated name of the user"""
+  fullName: String!
   id: ID!
   lastName: String!
 }

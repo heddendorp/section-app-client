@@ -483,6 +483,31 @@
         }
       }
     },
+    "ui-event-templates": {
+      "projectType": "library",
+      "root": "libs/ui/event-templates",
+      "sourceRoot": "libs/ui/event-templates/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/event-templates"],
+          "options": {
+            "jestConfig": "libs/ui/event-templates/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/event-templates/src/**/*.ts",
+              "libs/ui/event-templates/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ui-profile": {
       "projectType": "library",
       "root": "libs/ui/profile",
@@ -506,6 +531,31 @@
             ]
           },
           "outputs": ["{options.outputFile}"]
+        }
+      }
+    },
+    "util-components": {
+      "projectType": "library",
+      "root": "libs/util/components",
+      "sourceRoot": "libs/util/components/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/components"],
+          "options": {
+            "jestConfig": "libs/util/components/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/components/src/**/*.ts",
+              "libs/util/components/src/**/*.html"
+            ]
+          }
         }
       }
     },

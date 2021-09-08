@@ -1,0 +1,23 @@
+<mat-form-field class="w-full">
+  <mat-label>Meeting point</mat-label>
+  <input
+    matInput
+    type="text"
+    [formControl]="locationControl"
+    [matAutocomplete]="auto"
+    (blur)="onTouch()"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    autoActiveFirstOption
+    [displayWith]="optionDisplay"
+    (optionSelected)="onChange($event.option.value)"
+  >
+    <mat-option *ngFor="let option of locationOptions | async" [value]="option">
+      <span *ngIf="option?.type === 'POI'"
+        >{{ option?.poi?.name }}&nbsp;|&nbsp;</span
+      >
+      <span>{{ option?.address?.freeformAddress }}</span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

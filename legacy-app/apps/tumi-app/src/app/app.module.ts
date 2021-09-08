@@ -31,6 +31,14 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
         loadChildren: () =>
           import('@tumi/ui/profile').then((module) => module.UiProfileModule),
       },
+      {
+        path: 'event-templates',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('@tumi/ui/event-templates').then(
+            (module) => module.UiEventTemplatesModule
+          ),
+      },
     ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',

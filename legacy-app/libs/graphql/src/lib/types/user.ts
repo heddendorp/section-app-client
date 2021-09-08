@@ -18,6 +18,10 @@ export const userType = objectType({
     t.field(User.firstName);
     t.field(User.lastName);
     t.field(User.birthdate);
+    t.nonNull.string('fullName', {
+      description: 'Concatenated name of the user',
+      resolve: (root) => `${root.firstName} ${root.lastName}`,
+    });
   },
 });
 

@@ -59,7 +59,13 @@
     "tumi-functions": {
       "tags": []
     },
+    "ui-event-templates": {
+      "tags": []
+    },
     "ui-profile": {
+      "tags": []
+    },
+    "util-components": {
       "tags": []
     },
     "util-material": {

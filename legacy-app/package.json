@@ -9,7 +9,7 @@
     "start": "ng serve",
     "start:app": "nx serve tumi-app",
     "start:api": "nx serve api",
-    "build": "ng build",
+    "build": "nx build api",
     "test": "ng test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "ng e2e",
@@ -33,12 +33,13 @@
     "build:ssr": "ng build && ng run tumi-app:server",
     "prerender": "ng run tumi-app:prerender",
     "generate:graphql": "patch-package && nx run models:generate && nx run data-access:generate",
-    "db:push": "nx run models:push"
+    "db:push": "nx run models:push",
+    "postdb:push": "yarn generate:graphql"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "12.2.0",
-    "@angular/cdk": "12.1.3",
+    "@angular/cdk": "12.2.0",
     "@angular/common": "12.2.0",
     "@angular/compiler": "12.2.0",
     "@angular/core": "12.2.0",
@@ -61,6 +62,7 @@
     "apollo-angular": "^2.6.0",
     "apollo-server-core": "^3.3.0",
     "apollo-server-express": "^3.3.0",
+    "azure-maps-rest": "^2.0.5",
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
     "express-jwt-authz": "^2.4.1",
@@ -139,3 +141,4 @@
     "schema": "./libs/models/src/prisma/schema.prisma"
   }
 }
+

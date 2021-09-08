@@ -7,12 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatButtonModule } from '@angular/material/button';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'new', pathMatch: 'exact', component: NewUserPageComponent },
+      { path: '', pathMatch: 'exact', component: ProfilePageComponent },
+      { path: 'new', component: NewUserPageComponent },
     ]),
     ReactiveFormsModule,
     MatInputModule,
@@ -20,6 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatLuxonDateModule,
     MatButtonModule,
   ],
-  declarations: [NewUserPageComponent],
+  declarations: [NewUserPageComponent, ProfilePageComponent],
 })
 export class UiProfileModule {}
