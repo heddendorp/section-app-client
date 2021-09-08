@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RegisterUserGQL } from '@tumi/data-access';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './new-user-page.component.html',
   styleUrls: ['./new-user-page.component.scss'],
 })
-export class NewUserPageComponent implements OnInit {
+export class NewUserPageComponent {
   public welcomeForm: FormGroup;
   constructor(private registerUser: RegisterUserGQL, private fb: FormBuilder) {
     this.welcomeForm = this.fb.group({
@@ -17,5 +17,10 @@ export class NewUserPageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  public onSubmit() {
+    if (this.welcomeForm.invalid) return;
+    this.registerUser
+      .mutate({ userInput: this.welcomeForm.value })
+      .subscribe((res) => console.log(res));
+  }
 }

@@ -13,6 +13,7 @@ scalar Bytes
 
 """New user input object"""
 input CreateUserInput {
+  birthdate: DateTime!
   firstName: String!
   lastName: String!
 }
@@ -36,6 +37,8 @@ type Mutation {
 }
 
 type Query {
+  currentTenant: Tenant
+
   """Returns the logged in user if found or null"""
   currentUser: User
   tenants: [Tenant!]!
@@ -57,6 +60,7 @@ type Tenant {
 type User {
   """Id from auth0 for this user"""
   authId: String!
+  birthdate: DateTime!
   createdAt: DateTime!
   firstName: String!
   id: ID!

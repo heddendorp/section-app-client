@@ -1,5 +1,5 @@
 import { Tenant } from 'nexus-prisma';
-import { extendType, objectType } from 'nexus';
+import { extendType, objectType, queryField } from 'nexus';
 
 export const tenantType = objectType({
   name: Tenant.$name,
@@ -22,4 +22,9 @@ export const tenantQuery = extendType({
       },
     });
   },
+});
+
+export const currentTenantQuery = queryField('currentTenant', {
+  type: tenantType,
+  resolve: (source, args, context) => context.tenant,
 });

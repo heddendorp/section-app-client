@@ -29,6 +29,7 @@ export type Scalars = {
 
 /** New user input object */
 export type CreateUserInput = {
+  birthdate: Scalars['DateTime'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
 };
@@ -71,6 +72,7 @@ export type User = {
   __typename?: 'User';
   /** Id from auth0 for this user */
   authId: Scalars['String'];
+  birthdate: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   firstName: Scalars['String'];
   id: Scalars['ID'];

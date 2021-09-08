@@ -23,10 +23,15 @@ generator dbml {
 
 enum Role {
   USER
-  TRIAL
-  MEMBER
-  ALUMNI
   ADMIN
+}
+
+enum MembershipStatus {
+NONE
+TRIAL
+FULL
+SPONSOR
+ALUMNI
 }
 
 enum PublicationState {
@@ -90,6 +95,7 @@ model UsersOfTenants {
   tenant    Tenant   @relation(fields: [tenantId], references: [id])
   tenantId  String   @db.Uuid
   role      Role     @default(USER)
+  status      MembershipStatus     @default(NONE)
 
   @@id([userId, tenantId])
 }

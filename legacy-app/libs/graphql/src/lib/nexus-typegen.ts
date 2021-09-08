@@ -64,6 +64,7 @@ declare global {
 
 export interface NexusGenInputs {
   CreateUserInput: { // input type
+    birthdate: NexusGenScalars['DateTime']; // DateTime!
     firstName: string; // String!
     lastName: string; // String!
   }
@@ -96,6 +97,7 @@ export interface NexusGenObjects {
   }
   User: { // root type
     authId: string; // String!
+    birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     firstName: string; // String!
     id: string; // ID!
@@ -118,6 +120,7 @@ export interface NexusGenFieldTypes {
     registerUser: NexusGenRootTypes['User']; // User!
   }
   Query: { // field return type
+    currentTenant: NexusGenRootTypes['Tenant'] | null; // Tenant
     currentUser: NexusGenRootTypes['User'] | null; // User
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
     userById: NexusGenRootTypes['User'] | null; // User
@@ -130,6 +133,7 @@ export interface NexusGenFieldTypes {
   }
   User: { // field return type
     authId: string; // String!
+    birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     firstName: string; // String!
     id: string; // ID!
@@ -142,6 +146,7 @@ export interface NexusGenFieldTypeNames {
     registerUser: 'User'
   }
   Query: { // field return type name
+    currentTenant: 'Tenant'
     currentUser: 'User'
     tenants: 'Tenant'
     userById: 'User'
@@ -154,6 +159,7 @@ export interface NexusGenFieldTypeNames {
   }
   User: { // field return type name
     authId: 'String'
+    birthdate: 'DateTime'
     createdAt: 'DateTime'
     firstName: 'String'
     id: 'ID'

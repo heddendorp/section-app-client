@@ -1,7 +1,7 @@
 <main class='p-4'>
   <h1>Hello there 👋</h1>
   <p>Let's get you set up</p>
-  <form [formGroup]='welcomeForm'>
+  <form [formGroup]='welcomeForm' (ngSubmit)='onSubmit()'>
     <mat-form-field>
         <mat-label>First Name</mat-label>
         <input matInput formControlName='firstName' type='text' required>

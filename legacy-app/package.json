@@ -65,11 +65,13 @@
     "express-jwt": "^6.1.0",
     "express-jwt-authz": "^2.4.1",
     "firebase": "^9.0.0",
+    "got": "^11.8.2",
     "graphql": "^15.5.3",
     "jwks-rsa": "^2.0.4",
     "luxon": "^2.0.2",
     "nexus": "^1.1.0",
     "nexus-prisma": "^0.33.0",
+    "node-fetch": "^3.0.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
@@ -137,4 +139,3 @@
     "schema": "./libs/models/src/prisma/schema.prisma"
   }
 }
-

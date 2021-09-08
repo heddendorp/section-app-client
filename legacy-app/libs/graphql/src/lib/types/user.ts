@@ -17,6 +17,7 @@ export const userType = objectType({
     t.field(User.createdAt);
     t.field(User.firstName);
     t.field(User.lastName);
+    t.field(User.birthdate);
   },
 });
 
@@ -26,6 +27,7 @@ export const createUserInputType = inputObjectType({
   definition(t) {
     t.field(User.firstName);
     t.field(User.lastName);
+    t.field(User.birthdate);
   },
 });
 
@@ -44,7 +46,7 @@ export const getById = queryField('userById', {
 export const getCurrent = queryField('currentUser', {
   type: userType,
   description: 'Returns the logged in user if found or null',
-  resolve: (source, args, context) => {
+  resolve: async (source, args, context) => {
     return context.user;
   },
 });
@@ -55,9 +57,23 @@ export const createUser = mutationField('registerUser', {
   args: {
     userInput: createUserInputType,
   },
-  resolve: (source, args, context) => {
+  resolve: async (source, args, context) => {
+    const { email } = await context.auth0.getUserInfo(context.token.sub);
     return context.prisma.user.create({
-      data: { ...args.userInput, authId: context.token.sub },
+      data: {
+        ...args.userInput,
+        authId: context.token.sub,
+        email,
+        tenants: {
+          create: [
+            {
+              tenant: {
+                connect: { id: context.tenant.id },
+              },
+            },
+          ],
+        },
+      },
     });
   },
 });

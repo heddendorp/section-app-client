@@ -6,6 +6,7 @@ import * as path from 'path';
 import { PrismaClient } from '@tumi/models';
 import { schema } from '@tumi/graphql';
 import { checkJwt, getUser } from './app/auth';
+import { Auth0 } from './app/auth0';
 
 const prisma = new PrismaClient();
 
@@ -19,11 +20,13 @@ app.use(getUser(prisma));
 
 const server = new ApolloServer({
   schema,
-  context({ req }) {
+  async context({ req }) {
     return {
       prisma,
       user: req.user,
       token: req.token,
+      auth0: new Auth0(),
+      tenant: await prisma.tenant.findFirst(),
     };
   },
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
