@@ -3,9 +3,13 @@ import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -41,7 +45,6 @@ export type Mutation = {
   registerUser: User;
 };
 
-
 export type MutationRegisterUserArgs = {
   userInput?: Maybe<CreateUserInput>;
 };
@@ -54,7 +57,6 @@ export type Query = {
   tenants: Array<Tenant>;
   userById?: Maybe<User>;
 };
-
 
 export type QueryUserByIdArgs = {
   id: Scalars['ID'];
@@ -83,77 +85,98 @@ export type User = {
   lastName: Scalars['String'];
 };
 
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string }> };
+export type GetCurrentUserQuery = {
+  __typename?: 'Query';
+  currentUser?: Maybe<{ __typename?: 'User'; id: string }>;
+};
 
 export type RegisterUserMutationVariables = Exact<{
   userInput?: Maybe<CreateUserInput>;
 }>;
 
+export type RegisterUserMutation = {
+  __typename?: 'Mutation';
+  registerUser: { __typename?: 'User'; id: string };
+};
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', id: string } };
+export type UserProfileQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string, fullName: string, birthdate: any, firstName: string }> };
+export type UserProfileQuery = {
+  __typename?: 'Query';
+  currentUser?: Maybe<{
+    __typename?: 'User';
+    id: string;
+    fullName: string;
+    birthdate: any;
+    firstName: string;
+  }>;
+};
 
 export const GetCurrentUserDocument = gql`
-    query getCurrentUser {
-  currentUser {
-    id
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
-    document = GetCurrentUserDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  query getCurrentUser {
+    currentUser {
+      id
     }
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetCurrentUserGQL extends Apollo.Query<
+  GetCurrentUserQuery,
+  GetCurrentUserQueryVariables
+> {
+  document = GetCurrentUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const RegisterUserDocument = gql`
-    mutation RegisterUser($userInput: CreateUserInput) {
-  registerUser(userInput: $userInput) {
-    id
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
-    document = RegisterUserDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  mutation RegisterUser($userInput: CreateUserInput) {
+    registerUser(userInput: $userInput) {
+      id
     }
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RegisterUserGQL extends Apollo.Mutation<
+  RegisterUserMutation,
+  RegisterUserMutationVariables
+> {
+  document = RegisterUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const UserProfileDocument = gql`
-    query userProfile {
-  currentUser {
-    id
-    fullName
-    birthdate
-    firstName
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UserProfileGQL extends Apollo.Query<UserProfileQuery, UserProfileQueryVariables> {
-    document = UserProfileDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  query userProfile {
+    currentUser {
+      id
+      fullName
+      birthdate
+      firstName
     }
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UserProfileGQL extends Apollo.Query<
+  UserProfileQuery,
+  UserProfileQueryVariables
+> {
+  document = UserProfileDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
