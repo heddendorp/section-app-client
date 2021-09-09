@@ -34,6 +34,7 @@ jobs:
         path: |
           dist/**
           package.json
+          yarn.lock
           !node_modules/**
 
   deploy:
