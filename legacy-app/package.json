@@ -9,7 +9,7 @@
     "start": "node dist/apps/api/main.js",
     "start:app": "nx serve tumi-app",
     "start:api": "nx serve api",
-    "build": "nx build api",
+    "build:api": "nx build api",
     "test": "ng test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "ng e2e",
@@ -57,7 +57,7 @@
     "@ngneat/tailwind": "7.0.3",
     "@nguniversal/express-engine": "12.1.0",
     "@nrwl/devkit": "12.9.0",
-    "@prisma/client": "^2.30.3",
+    "@prisma/client": "^3.0.1",
     "@simondotm/nx-firebase": "^0.3.3",
     "apollo-angular": "^2.6.0",
     "apollo-server-core": "^3.3.0",
@@ -130,7 +130,7 @@
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.3.1",
-    "prisma": "^2.30.3",
+    "prisma": "^3.0.1",
     "prisma-dbml-generator": "^0.7.0",
     "tailwindcss": "2.2.9",
     "ts-jest": "27.0.3",
@@ -141,4 +141,3 @@
     "schema": "./libs/models/src/prisma/schema.prisma"
   }
 }
-
