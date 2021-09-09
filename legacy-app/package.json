@@ -6,7 +6,7 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main && patch-package && yarn prisma generate",
     "nx": "nx",
-    "start": "ng serve",
+    "start": "node dist/apps/api/main.js",
     "start:app": "nx serve tumi-app",
     "start:api": "nx serve api",
     "build": "nx build api",

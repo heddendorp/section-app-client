@@ -7,8 +7,12 @@ import { PrismaClient } from '@tumi/models';
 import { schema } from '@tumi/graphql';
 import { checkJwt, getUser } from './app/auth';
 import { Auth0 } from './app/auth0';
+import { seedDB } from './app/seeding';
 
 const prisma = new PrismaClient();
+
+// Make sure our db has one tenant
+seedDB(prisma);
 
 // Required logic for integrating with Express
 const app = express();
