@@ -32,7 +32,8 @@ jobs:
       with:
         name: node-app
         path: |
-          .
+          dist/**
+          package.json
           !node_modules/**
 
   deploy:
