@@ -35,6 +35,7 @@ jobs:
           dist/**
           package.json
           yarn.lock
+          decorate-angular-cli.js
           !node_modules/**
 
   deploy:
