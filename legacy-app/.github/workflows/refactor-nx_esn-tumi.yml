@@ -35,7 +35,7 @@ jobs:
           dist/**
           package.json
           yarn.lock
-          decorate-angular-cli.js
+          libs/models/src/prisma/schema.prisma
           !node_modules/**
 
   deploy:
