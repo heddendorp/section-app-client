@@ -21,9 +21,9 @@ jobs:
           login-server: esntumi.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-  - run: |
-      docker build . -t esntumi.azurecr.io/tumiapp:${{ github.sha }}
-      docker push esntumi.azurecr.io/tumiapp:${{ github.sha }}
+    - run: |
+        docker build . -t esntumi.azurecr.io/tumiapp:${{ github.sha }}
+        docker push esntumi.azurecr.io/tumiapp:${{ github.sha }}
 
     - name: 'Deploy to Azure Web App'
       id: deploy-to-webapp
