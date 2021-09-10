@@ -38,6 +38,11 @@ const server = new ApolloServer({
 
 server.start().then(() => {
   server.applyMiddleware({ app });
+  app.get('*', function (request, response) {
+    response.sendFile(
+      path.resolve(__dirname, '..', 'tumi-app', 'browser', 'index.html')
+    );
+  });
   httpServer.listen({ port: process.env.PORT ?? 3333 }, () => {
     console.log(`
     🚀 Server ready at http://localhost:3333
