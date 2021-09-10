@@ -33,10 +33,6 @@ jobs:
         name: node-app
         path: |
           dist/**
-          package.json
-          yarn.lock
-          libs/models/src/prisma/schema.prisma
-          !node_modules/**
 
   deploy:
     runs-on: ubuntu-latest
