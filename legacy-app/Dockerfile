@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/appsvc/node:14-lts
+FROM node:14
 
 ENV HOST 0.0.0.0
 ENV PORT 8080
