@@ -9,6 +9,7 @@
     <mat-form-field  class='w-full'>
       <mat-label>Icon</mat-label>
       <input matInput formControlName='icon' type='text' required>
+      <img [src]='iconFieldValue | async | iconURL' alt='icon' matSuffix width='24px' height='24px'>
       <mat-error>You have to define an icon</mat-error>
     </mat-form-field>
     <mat-form-field  class='w-full'>

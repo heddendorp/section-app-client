@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { UtilPipesModule } from '@tumi/util/pipes';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
       { path: '', pathMatch: 'full', component: TemplateListPageComponent },
     ]),
     UtilComponentsModule,
+    UtilPipesModule,
     FlexLayoutModule,
     MatDialogModule,
     ReactiveFormsModule,

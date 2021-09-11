@@ -23,7 +23,8 @@
       "@tumi/ui/event-templates": ["libs/ui/event-templates/src/index.ts"],
       "@tumi/ui/profile": ["libs/ui/profile/src/index.ts"],
       "@tumi/util-components": ["libs/util/components/src/index.ts"],
-      "@tumi/util/material": ["libs/util/material/src/index.ts"]
+      "@tumi/util/material": ["libs/util/material/src/index.ts"],
+      "@tumi/util/pipes": ["libs/util/pipes/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'tumi-event-form-dialog',
@@ -15,6 +16,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EventFormDialogComponent implements OnInit {
   public dialogForm: FormGroup;
+  public iconFieldValue: Observable<string>;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +32,7 @@ export class EventFormDialogComponent implements OnInit {
       participantMail: ['', Validators.required],
       organizerText: ['', Validators.required],
     });
+    this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
   }
 
   ngOnInit(): void {

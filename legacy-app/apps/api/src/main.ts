@@ -46,7 +46,7 @@ server.start().then(() => {
   httpServer.listen({ port: process.env.PORT ?? 3333 }, () => {
     console.log(`
     🚀 Server ready at http://localhost:3333
-    🕵️  GraphQL ready at: http://localhost:3333${server.graphqlPath}
+    🕵️ GraphQL ready at: http://localhost:3333${server.graphqlPath}
     `);
   });
 });

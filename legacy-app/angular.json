@@ -585,6 +585,31 @@
           "outputs": ["{options.outputFile}"]
         }
       }
+    },
+    "util-pipes": {
+      "projectType": "library",
+      "root": "libs/util/pipes",
+      "sourceRoot": "libs/util/pipes/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/pipes"],
+          "options": {
+            "jestConfig": "libs/util/pipes/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/pipes/src/**/*.ts",
+              "libs/util/pipes/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

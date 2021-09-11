@@ -70,6 +70,9 @@
     },
     "util-material": {
       "tags": []
+    },
+    "util-pipes": {
+      "tags": []
     }
   }
 }
