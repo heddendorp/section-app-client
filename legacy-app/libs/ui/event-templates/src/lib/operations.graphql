@@ -1,0 +1,22 @@
+mutation createEventTemplate($input: CreateEventTemplateInput) {
+  createEventTemplate(eventTemplateInput: $input){
+    id
+    createdAt
+  }
+}
+
+query getEventTemplates{
+  eventTemplates{
+    id
+    title
+    icon
+  }
+}
+
+query getEventTemplate($id: ID!){
+  eventTemplate(id: $id){
+    id
+    title
+    icon
+  }
+}

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@tumi/models';
 
 export function seedDB(prisma: PrismaClient) {
-  prisma.tenant.upsert({
+  return prisma.tenant.upsert({
     where: {
       shortName: 'tumi',
     },

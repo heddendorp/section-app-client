@@ -16,6 +16,8 @@ import { InMemoryCache } from '@apollo/client/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { CheckUserGuard } from './guards/check-user.guard';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +35,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
       },
       {
         path: 'event-templates',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, CheckUserGuard],
         loadChildren: () =>
           import('@tumi/ui/event-templates').then(
             (module) => module.UiEventTemplatesModule
@@ -73,6 +75,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
   ],
   bootstrap: [AppComponent],
 })

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Event Template Form</h1>
-<mat-dialog-content>
-  <form [formGroup]='dialogForm' class='space-y-2'>
+<form [formGroup]='dialogForm' (ngSubmit)='onSubmit()'>
+<mat-dialog-content class='space-y-2'>
     <mat-form-field class='w-full'>
         <mat-label>Event title</mat-label>
         <input matInput formControlName='title' type='text' required>
@@ -11,6 +11,13 @@
       <input matInput formControlName='icon' type='text' required>
       <img [src]='iconFieldValue | async | iconURL' alt='icon' matSuffix width='24px' height='24px'>
       <mat-error>You have to define an icon</mat-error>
+    </mat-form-field>
+    <mat-form-field  class='w-full'>
+      <mat-label>Duration</mat-label>
+      <input matInput formControlName='duration' type='number' required>
+      <span matSuffix>h</span>
+      <mat-hint>The duration of this event in hours</mat-hint>
+      <mat-error>You have to add the duration of this event</mat-error>
     </mat-form-field>
     <mat-form-field  class='w-full'>
       <mat-label>Public event description</mat-label>
@@ -31,9 +38,9 @@
       <mat-hint>This text will be visible for section members</mat-hint>
       <mat-error>You have to add infos for event organizers</mat-error>
     </mat-form-field>
-  </form>
 </mat-dialog-content>
 <mat-dialog-actions align='end'>
-  <button mat-button>Cancel</button>
-  <button mat-button color='primary'>Save</button>
+  <button mat-button mat-dialog-close type='reset'>Cancel</button>
+  <button mat-button color='primary' type='submit'>Save</button>
 </mat-dialog-actions>
+</form>

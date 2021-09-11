@@ -12,7 +12,10 @@ import { seedDB } from './app/seeding';
 const prisma = new PrismaClient();
 
 // Make sure our db has one tenant
-seedDB(prisma);
+seedDB(prisma).then((tenant) => {
+  console.debug('Seed completed');
+  console.debug(tenant);
+});
 
 // Required logic for integrating with Express
 const app = express();

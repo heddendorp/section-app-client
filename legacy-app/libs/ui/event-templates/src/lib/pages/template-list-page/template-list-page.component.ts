@@ -1,6 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '../../components/event-form-dialog/event-form-dialog.component';
+import {
+  CreateEventTemplateGQL,
+  GetEventTemplatesGQL,
+  GetEventTemplatesQuery,
+} from '@tumi/data-access';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tumi-template-list-page',
@@ -9,9 +17,33 @@ import { EventFormDialogComponent } from '../../components/event-form-dialog/eve
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateListPageComponent implements OnInit {
-  constructor(private dialog: MatDialog) {}
+  public eventTemplates$: Observable<GetEventTemplatesQuery['eventTemplates']>;
+  private eventTemplateQuery;
 
-  ngOnInit(): void {
-    this.dialog.open(EventFormDialogComponent, { minWidth: '70vw' });
+  constructor(
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private createTemplateMutation: CreateEventTemplateGQL,
+    private loadTemplates: GetEventTemplatesGQL
+  ) {
+    this.eventTemplateQuery = this.loadTemplates.watch();
+    this.eventTemplates$ = this.eventTemplateQuery.valueChanges.pipe(
+      map(({ data }) => data.eventTemplates)
+    );
+  }
+
+  ngOnInit(): void {}
+
+  async createTemplate() {
+    const template = await this.dialog
+      .open(EventFormDialogComponent)
+      .afterClosed()
+      .toPromise();
+    if (template) {
+      this.snackBar.open('Saving template', undefined, { duration: 0 });
+      await this.createTemplateMutation.mutate({ input: template }).toPromise();
+      await this.eventTemplateQuery.refetch();
+      this.snackBar.open('Template saved successfully');
+    }
   }
 }

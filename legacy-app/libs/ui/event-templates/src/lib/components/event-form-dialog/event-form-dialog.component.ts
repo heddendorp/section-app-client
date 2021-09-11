@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -20,24 +20,37 @@ export class EventFormDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dialog: MatDialogRef<EventFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { dialog?: any }
   ) {
     this.dialogForm = this.fb.group({
       title: ['', Validators.required],
       icon: ['', Validators.required],
       description: ['', Validators.required],
-      location: ['', Validators.required],
+      location: [null, Validators.required],
       duration: ['', Validators.required],
       participantText: ['', Validators.required],
-      participantMail: ['', Validators.required],
+      participantMail: ['' /*, Validators.required*/],
       organizerText: ['', Validators.required],
     });
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
   }
 
-  ngOnInit(): void {
-    this.dialogForm.valueChanges.subscribe(console.info);
-  }
+  ngOnInit(): void {}
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.dialogForm.valid) {
+      const templateValue = this.dialogForm.value;
+      this.dialog.close({
+        ...templateValue,
+        location:
+          templateValue.location.type === 'POI'
+            ? templateValue.location.poi.name
+            : templateValue.location.address.freeformAddress,
+        locationId: templateValue.location.id,
+      });
+    } else {
+      console.info('Cancelling form submission as it was not valid');
+    }
+  }
 }

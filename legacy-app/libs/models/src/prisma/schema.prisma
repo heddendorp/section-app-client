@@ -66,7 +66,7 @@ model Tenant {
   createdAt      DateTime         @default(now())
   users          UsersOfTenants[]
   name           String
-  shortName      String @unique
+  shortName      String           @unique
   eventTemplates EventTemplate[]
 }
 
@@ -102,24 +102,25 @@ model UsersOfTenants {
 
 /// Template that holds all information for an event that is needed to run it
 model EventTemplate {
-  id              String   @id @default(uuid()) @db.Uuid
-  createdAt       DateTime @default(now())
+  id              String      @id @default(uuid()) @db.Uuid
+  createdAt       DateTime    @default(now())
   title           String
   icon            String
   description     String
   location        String
-  duration        Int
+  locationId      String
+  duration        Decimal
   participantText String
   participantMail String
   organizerText   String
   finances        Json
-  eventInstances  Event[]
-  tenant          Tenant   @relation(fields: [tenantId], references: [id])
-  tenantId        String   @db.Uuid
+  eventInstances  TumiEvent[]
+  tenant          Tenant      @relation(fields: [tenantId], references: [id])
+  tenantId        String      @db.Uuid
 }
 
-/// Actual instande of an Event based on a template
-model Event {
+/// Actual instande of an TumiEventbased on a template
+model TumiEvent {
   id               String                @id @default(uuid()) @db.Uuid
   createdAt        DateTime              @default(now())
   title            String
@@ -128,6 +129,7 @@ model Event {
   end              DateTime
   description      String
   location         String
+  locationId       String
   participantText  String
   participantMail  String
   organizerText    String
@@ -143,7 +145,7 @@ model Event {
 model CostItem {
   id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now())
-  event     Event     @relation(fields: [eventId], references: [id])
+  event     TumiEvent @relation(fields: [eventId], references: [id])
   eventId   String    @db.Uuid
   name      String
   ammount   Int
@@ -164,10 +166,10 @@ model Receipt {
 }
 
 model PhotoShare {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  event     Event    @relation(fields: [eventId], references: [id])
-  eventId   String   @db.Uuid
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  event     TumiEvent @relation(fields: [eventId], references: [id])
+  eventId   String    @db.Uuid
 }
 
 model EventRegistration {
@@ -176,14 +178,14 @@ model EventRegistration {
   type      RegistrationType @default(PARTICIPANT)
   user      User             @relation(fields: [userId], references: [id])
   userId    String           @db.Uuid
-  event     Event            @relation(fields: [eventId], references: [id])
+  event     TumiEvent        @relation(fields: [eventId], references: [id])
   eventId   String           @db.Uuid
 }
 
 model EventSubmissionItem {
   id             String            @id @default(uuid()) @db.Uuid
   createdAt      DateTime          @default(now())
-  event          Event             @relation(fields: [eventId], references: [id])
+  event          TumiEvent         @relation(fields: [eventId], references: [id])
   eventId        String            @db.Uuid
   required       Boolean
   submissionTime SubmissionTime

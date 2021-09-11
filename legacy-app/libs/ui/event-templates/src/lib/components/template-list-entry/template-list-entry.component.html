@@ -1,0 +1,5 @@
+<div *ngIf='template'>
+  <img [src]='template.icon | iconURL' alt=''>
+  <h1>{{template.title}}</h1>
+  <a mat-flat-button [routerLink]='template.id'>Open</a>
+</div>

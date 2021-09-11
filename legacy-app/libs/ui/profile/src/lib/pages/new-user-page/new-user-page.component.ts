@@ -26,7 +26,7 @@ export class NewUserPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser.fetch().subscribe(({ data }) => {
-      if (data) {
+      if (data.currentUser) {
         this.router.navigate(['/', 'profile']);
       }
     });
