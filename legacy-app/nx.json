@@ -34,19 +34,13 @@
       "tags": ["scope:server"],
       "implicitDependencies": ["tumi-app"]
     },
-    "app-shell": {
-      "tags": ["scope:client"]
-    },
-    "auth": {
-      "tags": ["scope:client"]
-    },
     "data-access": {
       "tags": []
     },
-    "graphql": {
+    "server-graphql": {
       "tags": []
     },
-    "models": {
+    "server-models": {
       "tags": ["scope:server"]
     },
     "tumi-app": {
@@ -58,6 +52,12 @@
     },
     "tumi-functions": {
       "tags": []
+    },
+    "ui-app-shell": {
+      "tags": ["scope:client"]
+    },
+    "ui-auth": {
+      "tags": ["scope:client"]
     },
     "ui-event-templates": {
       "tags": []

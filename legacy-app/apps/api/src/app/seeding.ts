@@ -1,4 +1,4 @@
-import { MembershipStatus, PrismaClient, Role } from '@tumi/models';
+import { MembershipStatus, PrismaClient, Role } from '@tumi/server-models';
 
 export async function seedDB(prisma: PrismaClient) {
   const tenant = await prisma.tenant.upsert({

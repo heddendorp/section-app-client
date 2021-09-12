@@ -32,8 +32,8 @@
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "build:ssr": "ng build && ng run tumi-app:server",
     "prerender": "ng run tumi-app:prerender",
-    "generate:graphql": "patch-package && nx run models:generate && nx run data-access:generate",
-    "db:push": "nx run models:push",
+    "generate:graphql": "patch-package && nx run server-models:generate && nx run data-access:generate",
+    "db:push": "nx run server-models:push",
     "postdb:push": "yarn generate:graphql"
   },
   "private": true,
@@ -139,6 +139,6 @@
     "typescript": "4.3.5"
   },
   "prisma": {
-    "schema": "./libs/models/src/prisma/schema.prisma"
+    "schema": "./libs/server/models/src/prisma/schema.prisma"
   }
 }

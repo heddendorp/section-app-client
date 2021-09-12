@@ -1,0 +1,240 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Tenant {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  users UsersOfTenants [not null]
+  name String [not null]
+  shortName String [unique, not null]
+  eventTemplates EventTemplate [not null]
+  organizers EventOrganizer [not null]
+
+  Note: 'One Tenant of the app, most likely an ESN section'
+}
+
+Table User {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  authId String [unique, not null, note: 'Id from auth0 for this user']
+  firstName String [not null]
+  lastName String [not null]
+  email String [not null]
+  birthdate DateTime [not null]
+  tenants UsersOfTenants [not null]
+  eventSubmissions EventSubmission [not null]
+  eventRegistrations EventRegistration [not null]
+  receipts Receipt [not null]
+  createdEvents TumiEvent [not null]
+
+  Note: 'One User of the app'
+}
+
+Table UsersOfTenants {
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  tenant Tenant [not null]
+  tenantId String [not null]
+  role Role [not null, default: 'USER']
+  status MembershipStatus [not null, default: 'NONE']
+
+  indexes {
+    (userId, tenantId) [pk]
+  }
+}
+
+Table EventOrganizer {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  tenant Tenant [not null]
+  tenantId String [not null]
+  name String [not null]
+  text String [not null]
+  link String
+  events TumiEvent [not null]
+}
+
+Table EventTemplate {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  title String [not null]
+  icon String [not null]
+  description String [not null]
+  comment String [not null]
+  location String [not null]
+  locationId String [not null]
+  duration Decimal [not null]
+  participantText String [not null]
+  participantMail String [not null]
+  organizerText String [not null]
+  finances Json [not null]
+  eventInstances TumiEvent [not null]
+  tenant Tenant [not null]
+  tenantId String [not null]
+
+  Note: 'Template that holds all information for an event that is needed to run it'
+}
+
+Table TumiEvent {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  title String [not null]
+  icon String [not null]
+  start DateTime [not null]
+  end DateTime [not null]
+  description String [not null]
+  location String [not null]
+  locationId String [not null]
+  participantText String [not null]
+  participantMail String [not null]
+  organizerText String [not null]
+  participantLimit Int [not null]
+  organizerLimit Int [not null]
+  publicationState PublicationState [not null, default: 'DRAFT']
+  participantSignup MembershipStatus [not null]
+  organizerSignup MembershipStatus [not null]
+  submissionItems EventSubmissionItem [not null]
+  registrations EventRegistration [not null]
+  costItems CostItem [not null]
+  photoShare PhotoShare
+  organizer EventOrganizer [not null]
+  eventOrganizerId String [not null]
+  createdBy User [not null]
+  creatorId String [not null]
+  eventTemplate EventTemplate [not null]
+  eventTemplateId String [not null]
+
+  Note: 'Actual instande of an TumiEventbased on a template'
+}
+
+Table CostItem {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  event TumiEvent [not null]
+  eventId String [not null]
+  name String [not null]
+  ammount Int [not null]
+  receipts Receipt [not null]
+}
+
+Table Receipt {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  costItem CostItem [not null]
+  costItemId String [not null]
+  covered Boolean [not null, default: false]
+  amount Int [not null]
+  date DateTime [not null]
+  amountCovered Int [not null]
+}
+
+Table PhotoShare {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  event TumiEvent [not null]
+  eventId String [not null]
+}
+
+Table EventRegistration {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  type RegistrationType [not null, default: 'PARTICIPANT']
+  user User [not null]
+  userId String [not null]
+  event TumiEvent [not null]
+  eventId String [not null]
+}
+
+Table EventSubmissionItem {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  event TumiEvent [not null]
+  eventId String [not null]
+  required Boolean [not null]
+  submissionTime SubmissionTime [not null]
+  submissions EventSubmission [not null]
+}
+
+Table EventSubmission {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  submissionItem EventSubmissionItem [not null]
+  submissionItemId String [not null]
+}
+
+Enum Role {
+  USER
+  ADMIN
+}
+
+Enum MembershipStatus {
+  NONE
+  TRIAL
+  FULL
+  SPONSOR
+  ALUMNI
+}
+
+Enum PublicationState {
+  DRAFT
+  APPROVAL
+  PUBLIC
+}
+
+Enum SubmissionItemType {
+  FILE
+  NUMBER
+  TEXT
+  DATE
+  RATING
+}
+
+Enum SubmissionTime {
+  REGISTRATION
+  BEFORE
+  DURING
+  AFTER
+}
+
+Enum RegistrationType {
+  ORGANIZER
+  PARTICIPANT
+}
+
+Ref: UsersOfTenants.userId > User.id
+
+Ref: UsersOfTenants.tenantId > Tenant.id
+
+Ref: EventOrganizer.tenantId > Tenant.id
+
+Ref: EventTemplate.tenantId > Tenant.id
+
+Ref: TumiEvent.eventOrganizerId > EventOrganizer.id
+
+Ref: TumiEvent.creatorId > User.id
+
+Ref: TumiEvent.eventTemplateId > EventTemplate.id
+
+Ref: CostItem.eventId > TumiEvent.id
+
+Ref: Receipt.userId > User.id
+
+Ref: Receipt.costItemId > CostItem.id
+
+Ref: PhotoShare.eventId - TumiEvent.id
+
+Ref: EventRegistration.userId > User.id
+
+Ref: EventRegistration.eventId > TumiEvent.id
+
+Ref: EventSubmissionItem.eventId > TumiEvent.id
+
+Ref: EventSubmission.userId > User.id
+
+Ref: EventSubmission.submissionItemId > EventSubmissionItem.id

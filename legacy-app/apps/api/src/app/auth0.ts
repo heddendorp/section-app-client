@@ -1,7 +1,7 @@
 import got from 'got';
 import * as jwt from 'jsonwebtoken';
 
-export class Auth0 {
+export class UiAuth0 {
   private token;
 
   private async verifyToken() {

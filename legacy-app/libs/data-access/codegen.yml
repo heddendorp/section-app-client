@@ -1,5 +1,5 @@
 overwrite: true
-schema: "libs/graphql/schema.graphql"
+schema: "libs/server/graphql/schema.graphql"
 generates:
   libs/data-access/src/lib/generated/generated.ts:
     documents:

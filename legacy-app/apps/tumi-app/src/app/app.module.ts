@@ -9,7 +9,7 @@ import {
   AuthModule,
 } from '@auth0/auth0-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AppShellModule } from '@tumi/app-shell';
+import { UiAppShellModule } from '@tumi/ui-app-shell';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
@@ -56,7 +56,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
       },
     }),
     FlexLayoutModule,
-    AppShellModule,
+    UiAppShellModule,
   ],
   providers: [
     {

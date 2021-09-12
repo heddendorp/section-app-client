@@ -3,10 +3,10 @@ import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import * as express from 'express';
 import * as http from 'http';
 import * as path from 'path';
-import { PrismaClient } from '@tumi/models';
-import { schema } from '@tumi/graphql';
+import { PrismaClient } from '@tumi/server-models';
+import { schema } from '@tumi/server-graphql';
 import { checkJwt, getUser } from './app/auth';
-import { Auth0 } from './app/auth0';
+import { UiAuth0 } from './app/auth0';
 import { seedDB } from './app/seeding';
 
 const prisma = new PrismaClient();
@@ -31,7 +31,7 @@ const server = new ApolloServer({
       prisma,
       user: req.user,
       token: req.token,
-      auth0: new Auth0(),
+      auth0: new UiAuth0(),
       tenant: await prisma.tenant.findFirst(),
     };
   },

@@ -24,7 +24,7 @@ Nx-Firebase will add `firebase-admin` and `firebase-functions` to your workspace
 ## Next Steps
 
 - `npm install -g firebase-tools` - Install the [Firebase CLI](https://firebase.google.com/docs/cli)
-- `firebase login` - Authenticate the Firebase CLI
+- `firebase login` - UiAuthenticate the Firebase CLI
 - `firebase use --add` - Add your Firebase Project as a target to `.firebaserc`
 - You do not need to `npm install` in the app project directory, but can still add and run custom npm scripts to the app `package.json` if you wish
 

@@ -1,9 +1,9 @@
 import * as jwt from 'express-jwt';
 import * as jwksRsa from 'jwks-rsa';
 
-// Authorization middleware. When used, the
+// UiAuthorization middleware. When used, the
 // Access Token must exist and be verified against
-// the Auth0 JSON Web Key Set
+// the UiAuth0 JSON Web Key Set
 export const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and

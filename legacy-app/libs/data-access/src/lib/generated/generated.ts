@@ -1,7 +1,6 @@
-import * as Apollo from 'apollo-angular';
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
-
+import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -213,14 +212,20 @@ export type TumiEvent = {
   location: Scalars['String'];
   locationId: Scalars['String'];
   organizerLimit: Scalars['Int'];
-  organizerSignup: Array<MembershipStatus>;
   /** Indicates whether the current user can register to this event as Organizer */
-  organizerSignupPossible?: Maybe<Scalars['Boolean']>;
+  organizerRegistrationPossible?: Maybe<Scalars['Boolean']>;
+  organizerSignup: Array<MembershipStatus>;
   organizerText: Scalars['String'];
+  /** Number of users registered as organizer to this event */
+  organizersRegistered?: Maybe<Scalars['Int']>;
   participantLimit: Scalars['Int'];
   participantMail: Scalars['String'];
+  /** Indicates whether the current user can register to this event as participant */
+  participantRegistrationPossible?: Maybe<Scalars['Boolean']>;
   participantSignup: Array<MembershipStatus>;
   participantText: Scalars['String'];
+  /** Number of users registered as participant to this event */
+  participantsRegistered?: Maybe<Scalars['Int']>;
   photoShare?: Maybe<PhotoShare>;
   publicationState: PublicationState;
   registrations: Array<EventRegistration>;
@@ -311,7 +316,7 @@ export const GetCurrentUserDocument = gql`
   })
   export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
     document = GetCurrentUserDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -330,7 +335,7 @@ export const CreateEventTemplateDocument = gql`
   })
   export class CreateEventTemplateGQL extends Apollo.Mutation<CreateEventTemplateMutation, CreateEventTemplateMutationVariables> {
     document = CreateEventTemplateDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -351,7 +356,7 @@ export const CreateEventFromTemplateDocument = gql`
   })
   export class CreateEventFromTemplateGQL extends Apollo.Mutation<CreateEventFromTemplateMutation, CreateEventFromTemplateMutationVariables> {
     document = CreateEventFromTemplateDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -371,7 +376,7 @@ export const GetEventTemplatesDocument = gql`
   })
   export class GetEventTemplatesGQL extends Apollo.Query<GetEventTemplatesQuery, GetEventTemplatesQueryVariables> {
     document = GetEventTemplatesDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -392,7 +397,7 @@ export const GetEventTemplateDocument = gql`
   })
   export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
     document = GetEventTemplateDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -417,7 +422,7 @@ export const LoadEventDocument = gql`
   })
   export class LoadEventGQL extends Apollo.Query<LoadEventQuery, LoadEventQueryVariables> {
     document = LoadEventDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -437,7 +442,7 @@ export const EventListDocument = gql`
   })
   export class EventListGQL extends Apollo.Query<EventListQuery, EventListQueryVariables> {
     document = EventListDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -455,7 +460,7 @@ export const RegisterUserDocument = gql`
   })
   export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
     document = RegisterUserDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -476,7 +481,7 @@ export const UserProfileDocument = gql`
   })
   export class UserProfileGQL extends Apollo.Query<UserProfileQuery, UserProfileQueryVariables> {
     document = UserProfileDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
