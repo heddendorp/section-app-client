@@ -18,7 +18,7 @@
               "apps/api/src/assets",
               {
                 "glob": "schema.prisma",
-                "input": "libs/models/src/prisma",
+                "input": "libs/server/models/src/prisma",
                 "output": "./"
               }
             ]
@@ -190,7 +190,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
