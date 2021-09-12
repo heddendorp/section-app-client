@@ -11,6 +11,14 @@ scalar BigInt
 """The `Byte` scalar type represents byte value as a Buffer"""
 scalar Bytes
 
+"""Additional inputs to create an event from a template"""
+input CreateEventFromTemplateInput {
+  end: DateTime!
+  organizerLimit: Int!
+  participantLimit: Int!
+  start: DateTime!
+}
+
 """Input needed to create a new event template"""
 input CreateEventTemplateInput {
   description: String!
@@ -38,6 +46,16 @@ scalar DateTime
 
 """An arbitrary-precision Decimal type"""
 scalar Decimal
+
+type EventRegistration {
+  createdAt: DateTime!
+  event: TumiEvent!
+  eventId: String!
+  id: ID!
+  type: RegistrationType!
+  user: User!
+  userId: String!
+}
 
 """
 Template that holds all information for an event that is needed to run it
@@ -73,7 +91,9 @@ enum MembershipStatus {
 }
 
 type Mutation {
-  createEventTemplate(eventTemplateInput: CreateEventTemplateInput): EventTemplate
+  """Creates a new event from a given Template"""
+  createEventFromTemplate(createEventFromTemplateInput: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent
+  createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
@@ -98,11 +118,17 @@ type Query {
   """Returns the logged in user if found or null"""
   currentUser: User
 
+  """Get one event by ID"""
+  event(eventId: ID!): TumiEvent
+
   """Get one event template by ID"""
   eventTemplate(id: ID!): EventTemplate
 
   """Query event templates for the current tenant"""
   eventTemplates: [EventTemplate!]!
+
+  """Get a list of all events"""
+  events: [TumiEvent!]!
   tenants: [Tenant!]!
   userById(
     """ID of the user"""
@@ -146,6 +172,7 @@ type Tenant {
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
   createdAt: DateTime!
+  createdBy: User!
   description: String!
   end: DateTime!
   eventTemplate: EventTemplate!
@@ -153,11 +180,33 @@ type TumiEvent {
   icon: String!
   id: ID!
   location: String!
+  locationId: String!
+  organizerLimit: Int!
+
+  """
+  Indicates whether the current user can register to this event as Organizer
+  """
+  organizerRegistrationPossible: Boolean
+  organizerSignup: [MembershipStatus!]!
   organizerText: String!
+
+  """Number of users registered as organizer to this event"""
+  organizersRegistered: Int
+  participantLimit: Int!
   participantMail: String!
+
+  """
+  Indicates whether the current user can register to this event as participant
+  """
+  participantRegistrationPossible: Boolean
+  participantSignup: [MembershipStatus!]!
   participantText: String!
+
+  """Number of users registered as participant to this event"""
+  participantsRegistered: Int
   photoShare: PhotoShare
   publicationState: PublicationState!
+  registrations: [EventRegistration!]!
   start: DateTime!
   title: String!
 }

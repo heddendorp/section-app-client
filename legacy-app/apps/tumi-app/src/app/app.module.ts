@@ -41,6 +41,11 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
             (module) => module.UiEventTemplatesModule
           ),
       },
+      {
+        path: 'events',
+        loadChildren: () =>
+          import('@tumi/ui/events').then((module) => module.UiEventsModule),
+      },
     ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',

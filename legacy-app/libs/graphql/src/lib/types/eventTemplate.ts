@@ -64,7 +64,7 @@ export const createEventTemplateMutation = mutationField(
   {
     type: eventTemplateType,
     args: {
-      eventTemplateInput: createEventTemplateInput,
+      eventTemplateInput: nonNull(createEventTemplateInput),
     },
     resolve: (source, { eventTemplateInput }, context) => {
       return context.prisma.eventTemplate.create({

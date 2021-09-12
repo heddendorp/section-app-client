@@ -62,6 +62,9 @@
     "ui-event-templates": {
       "tags": []
     },
+    "ui-events": {
+      "tags": []
+    },
     "ui-profile": {
       "tags": []
     },

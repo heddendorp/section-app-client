@@ -509,6 +509,31 @@
         }
       }
     },
+    "ui-events": {
+      "projectType": "library",
+      "root": "libs/ui/events",
+      "sourceRoot": "libs/ui/events/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/events"],
+          "options": {
+            "jestConfig": "libs/ui/events/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/events/src/**/*.ts",
+              "libs/ui/events/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ui-profile": {
       "projectType": "library",
       "root": "libs/ui/profile",
@@ -618,6 +643,12 @@
     "packageManager": "yarn"
   },
   "schematics": {
+    "@schematics/angular": {
+      "component": {
+        "changeDetection": "OnPush",
+        "style": "scss"
+      }
+    },
     "@nrwl/angular": {
       "application": {
         "linter": "eslint"

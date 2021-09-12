@@ -79,6 +79,12 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateEventFromTemplateInput: { // input type
+    end: NexusGenScalars['DateTime']; // DateTime!
+    organizerLimit: number; // Int!
+    participantLimit: number; // Int!
+    start: NexusGenScalars['DateTime']; // DateTime!
+  }
   CreateEventTemplateInput: { // input type
     description: string; // String!
     duration: NexusGenScalars['Decimal']; // Decimal!
@@ -120,6 +126,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  EventRegistration: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    eventId: string; // String!
+    id: string; // ID!
+    type: NexusGenEnums['RegistrationType']; // RegistrationType!
+    userId: string; // String!
+  }
   EventTemplate: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -155,8 +168,13 @@ export interface NexusGenObjects {
     icon: string; // String!
     id: string; // ID!
     location: string; // String!
+    locationId: string; // String!
+    organizerLimit: number; // Int!
+    organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     organizerText: string; // String!
+    participantLimit: number; // Int!
     participantMail: string; // String!
+    participantSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     participantText: string; // String!
     publicationState: NexusGenEnums['PublicationState']; // PublicationState!
     start: NexusGenScalars['DateTime']; // DateTime!
@@ -183,6 +201,15 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  EventRegistration: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    event: NexusGenRootTypes['TumiEvent']; // TumiEvent!
+    eventId: string; // String!
+    id: string; // ID!
+    type: NexusGenEnums['RegistrationType']; // RegistrationType!
+    user: NexusGenRootTypes['User']; // User!
+    userId: string; // String!
+  }
   EventTemplate: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -200,6 +227,7 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Mutation: { // field return type
+    createEventFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerUser: NexusGenRootTypes['User']; // User!
   }
@@ -212,8 +240,10 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     currentTenant: NexusGenRootTypes['Tenant'] | null; // Tenant
     currentUser: NexusGenRootTypes['User'] | null; // User
+    event: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     eventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     eventTemplates: NexusGenRootTypes['EventTemplate'][]; // [EventTemplate!]!
+    events: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
     userById: NexusGenRootTypes['User'] | null; // User
   }
@@ -225,6 +255,7 @@ export interface NexusGenFieldTypes {
   }
   TumiEvent: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    createdBy: NexusGenRootTypes['User']; // User!
     description: string; // String!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventTemplate: NexusGenRootTypes['EventTemplate']; // EventTemplate!
@@ -232,11 +263,21 @@ export interface NexusGenFieldTypes {
     icon: string; // String!
     id: string; // ID!
     location: string; // String!
+    locationId: string; // String!
+    organizerLimit: number; // Int!
+    organizerRegistrationPossible: boolean | null; // Boolean
+    organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     organizerText: string; // String!
+    organizersRegistered: number | null; // Int
+    participantLimit: number; // Int!
     participantMail: string; // String!
+    participantRegistrationPossible: boolean | null; // Boolean
+    participantSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     participantText: string; // String!
+    participantsRegistered: number | null; // Int
     photoShare: NexusGenRootTypes['PhotoShare'] | null; // PhotoShare
     publicationState: NexusGenEnums['PublicationState']; // PublicationState!
+    registrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     start: NexusGenScalars['DateTime']; // DateTime!
     title: string; // String!
   }
@@ -252,6 +293,15 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  EventRegistration: { // field return type name
+    createdAt: 'DateTime'
+    event: 'TumiEvent'
+    eventId: 'String'
+    id: 'ID'
+    type: 'RegistrationType'
+    user: 'User'
+    userId: 'String'
+  }
   EventTemplate: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
@@ -269,6 +319,7 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   Mutation: { // field return type name
+    createEventFromTemplate: 'TumiEvent'
     createEventTemplate: 'EventTemplate'
     registerUser: 'User'
   }
@@ -281,8 +332,10 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     currentTenant: 'Tenant'
     currentUser: 'User'
+    event: 'TumiEvent'
     eventTemplate: 'EventTemplate'
     eventTemplates: 'EventTemplate'
+    events: 'TumiEvent'
     tenants: 'Tenant'
     userById: 'User'
   }
@@ -294,6 +347,7 @@ export interface NexusGenFieldTypeNames {
   }
   TumiEvent: { // field return type name
     createdAt: 'DateTime'
+    createdBy: 'User'
     description: 'String'
     end: 'DateTime'
     eventTemplate: 'EventTemplate'
@@ -301,11 +355,21 @@ export interface NexusGenFieldTypeNames {
     icon: 'String'
     id: 'ID'
     location: 'String'
+    locationId: 'String'
+    organizerLimit: 'Int'
+    organizerRegistrationPossible: 'Boolean'
+    organizerSignup: 'MembershipStatus'
     organizerText: 'String'
+    organizersRegistered: 'Int'
+    participantLimit: 'Int'
     participantMail: 'String'
+    participantRegistrationPossible: 'Boolean'
+    participantSignup: 'MembershipStatus'
     participantText: 'String'
+    participantsRegistered: 'Int'
     photoShare: 'PhotoShare'
     publicationState: 'PublicationState'
+    registrations: 'EventRegistration'
     start: 'DateTime'
     title: 'String'
   }
@@ -322,14 +386,21 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createEventFromTemplate: { // args
+      createEventFromTemplateInput: NexusGenInputs['CreateEventFromTemplateInput']; // CreateEventFromTemplateInput!
+      templateId: string; // ID!
+    }
     createEventTemplate: { // args
-      eventTemplateInput?: NexusGenInputs['CreateEventTemplateInput'] | null; // CreateEventTemplateInput
+      eventTemplateInput: NexusGenInputs['CreateEventTemplateInput']; // CreateEventTemplateInput!
     }
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
     }
   }
   Query: {
+    event: { // args
+      eventId: string; // ID!
+    }
     eventTemplate: { // args
       id: string; // ID!
     }

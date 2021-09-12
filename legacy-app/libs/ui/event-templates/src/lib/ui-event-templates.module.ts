@@ -13,6 +13,7 @@ import { UtilPipesModule } from '@tumi/util/pipes';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TemplateListEntryComponent } from './components/template-list-entry/template-list-entry.component';
 import { TemplateDetailsPageComponent } from './pages/template-details-page/template-details-page.component';
+import { CreateEventDialogComponent } from './components/create-event-dialog/create-event-dialog.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { TemplateDetailsPageComponent } from './pages/template-details-page/temp
     EventFormDialogComponent,
     TemplateListEntryComponent,
     TemplateDetailsPageComponent,
+    CreateEventDialogComponent,
   ],
 })
 export class UiEventTemplatesModule {}

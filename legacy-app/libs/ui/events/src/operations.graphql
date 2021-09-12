@@ -1,0 +1,20 @@
+query loadEvent($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    createdBy {
+      id
+      fullName
+    }
+    organizerSignup
+    participantSignup
+  }
+}
+
+query eventList{
+  events{
+    id
+    title
+    start
+  }
+}

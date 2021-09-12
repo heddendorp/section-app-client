@@ -86,6 +86,7 @@ model User {
   eventSubmissions   EventSubmission[]
   eventRegistrations EventRegistration[]
   receipts           Receipt[]
+  createdEvents      TumiEvent[]
 }
 
 model UsersOfTenants {
@@ -121,25 +122,31 @@ model EventTemplate {
 
 /// Actual instande of an TumiEventbased on a template
 model TumiEvent {
-  id               String                @id @default(uuid()) @db.Uuid
-  createdAt        DateTime              @default(now())
-  title            String
-  icon             String
-  start            DateTime
-  end              DateTime
-  description      String
-  location         String
-  locationId       String
-  participantText  String
-  participantMail  String
-  organizerText    String
-  publicationState PublicationState      @default(DRAFT)
-  submissionItems  EventSubmissionItem[]
-  registrations    EventRegistration[]
-  costItems        CostItem[]
-  photoShare       PhotoShare?
-  eventTemplate    EventTemplate         @relation(fields: [eventTemplateId], references: [id])
-  eventTemplateId  String                @db.Uuid
+  id                String                @id @default(uuid()) @db.Uuid
+  createdAt         DateTime              @default(now())
+  createdBy         User                  @relation(fields: [creatorId], references: [id])
+  title             String
+  icon              String
+  start             DateTime
+  end               DateTime
+  description       String
+  location          String
+  locationId        String
+  participantText   String
+  participantMail   String
+  organizerText     String
+  participantLimit  Int
+  organizerLimit    Int
+  publicationState  PublicationState      @default(DRAFT)
+  participantSignup MembershipStatus[]
+  organizerSignup   MembershipStatus[]
+  submissionItems   EventSubmissionItem[]
+  registrations     EventRegistration[]
+  costItems         CostItem[]
+  photoShare        PhotoShare?
+  eventTemplate     EventTemplate         @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId   String                @db.Uuid
+  creatorId         String                @db.Uuid
 }
 
 model CostItem {

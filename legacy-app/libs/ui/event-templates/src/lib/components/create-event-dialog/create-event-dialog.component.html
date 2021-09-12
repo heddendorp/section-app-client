@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Create Event: {{ data.template?.title }}</h1>
+<form [formGroup]="eventDataForm" (ngSubmit)='onSubmit()'>
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Start</mat-label>
+      <input matInput formControlName="start" type="datetime-local" />
+      <mat-error>You have to specify when the event will begin</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>End</mat-label>
+      <input matInput formControlName="end" type="datetime-local" />
+      <mat-hint
+        >The end of the event will automatically set to
+        {{ data.template?.duration }}h after the start</mat-hint
+      >
+      <mat-error>You have to specify when the event will end</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Number of Organizers</mat-label>
+      <input matInput formControlName="organizerLimit" type="number" />
+      <mat-hint>The maximum number of organizers running this event</mat-hint>
+      <mat-error>You have to specify the number of organizers</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Number of Participants</mat-label>
+      <input matInput formControlName="participantLimit" type="number" />
+      <mat-hint>The maximum number of participants for this event</mat-hint>
+      <mat-error>You have to specify the number of participants</mat-error>
+    </mat-form-field>
+    <p>You can make further edits after creating the event on the next page</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>

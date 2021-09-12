@@ -28,6 +28,14 @@ export type Scalars = {
   Json: any;
 };
 
+/** Additional inputs to create an event from a template */
+export type CreateEventFromTemplateInput = {
+  end: Scalars['DateTime'];
+  organizerLimit: Scalars['Int'];
+  participantLimit: Scalars['Int'];
+  start: Scalars['DateTime'];
+};
+
 /** Input needed to create a new event template */
 export type CreateEventTemplateInput = {
   description: Scalars['String'];
@@ -46,6 +54,17 @@ export type CreateUserInput = {
   birthdate: Scalars['DateTime'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+};
+
+export type EventRegistration = {
+  __typename?: 'EventRegistration';
+  createdAt: Scalars['DateTime'];
+  event: TumiEvent;
+  eventId: Scalars['String'];
+  id: Scalars['ID'];
+  type: RegistrationType;
+  user: User;
+  userId: Scalars['String'];
 };
 
 /** Template that holds all information for an event that is needed to run it */
@@ -77,14 +96,22 @@ export enum MembershipStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Creates a new event from a given Template */
+  createEventFromTemplate?: Maybe<TumiEvent>;
   createEventTemplate?: Maybe<EventTemplate>;
   /** Add a new user to the database */
   registerUser: User;
 };
 
 
+export type MutationCreateEventFromTemplateArgs = {
+  createEventFromTemplateInput: CreateEventFromTemplateInput;
+  templateId: Scalars['ID'];
+};
+
+
 export type MutationCreateEventTemplateArgs = {
-  eventTemplateInput?: Maybe<CreateEventTemplateInput>;
+  eventTemplateInput: CreateEventTemplateInput;
 };
 
 
@@ -111,12 +138,21 @@ export type Query = {
   currentTenant?: Maybe<Tenant>;
   /** Returns the logged in user if found or null */
   currentUser?: Maybe<User>;
+  /** Get one event by ID */
+  event?: Maybe<TumiEvent>;
   /** Get one event template by ID */
   eventTemplate?: Maybe<EventTemplate>;
   /** Query event templates for the current tenant */
   eventTemplates: Array<EventTemplate>;
+  /** Get a list of all events */
+  events: Array<TumiEvent>;
   tenants: Array<Tenant>;
   userById?: Maybe<User>;
+};
+
+
+export type QueryEventArgs = {
+  eventId: Scalars['ID'];
 };
 
 
@@ -167,6 +203,7 @@ export type Tenant = {
 export type TumiEvent = {
   __typename?: 'TumiEvent';
   createdAt: Scalars['DateTime'];
+  createdBy: User;
   description: Scalars['String'];
   end: Scalars['DateTime'];
   eventTemplate: EventTemplate;
@@ -174,11 +211,19 @@ export type TumiEvent = {
   icon: Scalars['String'];
   id: Scalars['ID'];
   location: Scalars['String'];
+  locationId: Scalars['String'];
+  organizerLimit: Scalars['Int'];
+  organizerSignup: Array<MembershipStatus>;
+  /** Indicates whether the current user can register to this event as Organizer */
+  organizerSignupPossible?: Maybe<Scalars['Boolean']>;
   organizerText: Scalars['String'];
+  participantLimit: Scalars['Int'];
   participantMail: Scalars['String'];
+  participantSignup: Array<MembershipStatus>;
   participantText: Scalars['String'];
   photoShare?: Maybe<PhotoShare>;
   publicationState: PublicationState;
+  registrations: Array<EventRegistration>;
   start: Scalars['DateTime'];
   title: Scalars['String'];
 };
@@ -203,11 +248,19 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string }> };
 
 export type CreateEventTemplateMutationVariables = Exact<{
-  input?: Maybe<CreateEventTemplateInput>;
+  input: CreateEventTemplateInput;
 }>;
 
 
 export type CreateEventTemplateMutation = { __typename?: 'Mutation', createEventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, createdAt: any }> };
+
+export type CreateEventFromTemplateMutationVariables = Exact<{
+  templateId: Scalars['ID'];
+  eventData: CreateEventFromTemplateInput;
+}>;
+
+
+export type CreateEventFromTemplateMutation = { __typename?: 'Mutation', createEventFromTemplate?: Maybe<{ __typename?: 'TumiEvent', id: string }> };
 
 export type GetEventTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -219,7 +272,19 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string }> };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any }> };
+
+export type LoadEventQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, createdBy: { __typename?: 'User', id: string, fullName: string } }> };
+
+export type EventListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> };
 
 export type RegisterUserMutationVariables = Exact<{
   userInput?: Maybe<CreateUserInput>;
@@ -252,7 +317,7 @@ export const GetCurrentUserDocument = gql`
     }
   }
 export const CreateEventTemplateDocument = gql`
-    mutation createEventTemplate($input: CreateEventTemplateInput) {
+    mutation createEventTemplate($input: CreateEventTemplateInput!) {
   createEventTemplate(eventTemplateInput: $input) {
     id
     createdAt
@@ -265,6 +330,27 @@ export const CreateEventTemplateDocument = gql`
   })
   export class CreateEventTemplateGQL extends Apollo.Mutation<CreateEventTemplateMutation, CreateEventTemplateMutationVariables> {
     document = CreateEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateEventFromTemplateDocument = gql`
+    mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTemplateInput!) {
+  createEventFromTemplate(
+    templateId: $templateId
+    createEventFromTemplateInput: $eventData
+  ) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventFromTemplateGQL extends Apollo.Mutation<CreateEventFromTemplateMutation, CreateEventFromTemplateMutationVariables> {
+    document = CreateEventFromTemplateDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -296,6 +382,7 @@ export const GetEventTemplateDocument = gql`
     id
     title
     icon
+    duration
   }
 }
     `;
@@ -305,6 +392,51 @@ export const GetEventTemplateDocument = gql`
   })
   export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
     document = GetEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventDocument = gql`
+    query loadEvent($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    createdBy {
+      id
+      fullName
+    }
+    organizerSignup
+    participantSignup
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventGQL extends Apollo.Query<LoadEventQuery, LoadEventQueryVariables> {
+    document = LoadEventDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EventListDocument = gql`
+    query eventList {
+  events {
+    id
+    title
+    start
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventListGQL extends Apollo.Query<EventListQuery, EventListQueryVariables> {
+    document = EventListDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

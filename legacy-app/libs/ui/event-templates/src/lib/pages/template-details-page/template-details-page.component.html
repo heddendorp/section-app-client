@@ -1,5 +1,5 @@
 <div *ngIf='eventTemplate$ | async as template'>
   <img [src]='template.icon | iconURL' alt=''>
   <h1>{{template.title}}</h1>
-  <button mat-stroked-button>Create Event from this template</button>
+  <button mat-stroked-button (click)='createEvent()'>Create Event from this template</button>
 </div>

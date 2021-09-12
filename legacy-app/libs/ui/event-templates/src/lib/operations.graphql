@@ -1,7 +1,13 @@
-mutation createEventTemplate($input: CreateEventTemplateInput) {
+mutation createEventTemplate($input: CreateEventTemplateInput!) {
   createEventTemplate(eventTemplateInput: $input){
     id
     createdAt
+  }
+}
+
+mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTemplateInput!){
+  createEventFromTemplate(templateId: $templateId, createEventFromTemplateInput: $eventData){
+    id
   }
 }
 
@@ -18,5 +24,6 @@ query getEventTemplate($id: ID!){
     id
     title
     icon
+    duration
   }
 }

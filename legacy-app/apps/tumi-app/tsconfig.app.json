@@ -8,6 +8,7 @@
   "include": [
     "src/**/*.d.ts",
     "../../libs/ui/profile/src/index.ts",
-    "../../libs/ui/event-templates/src/index.ts"
+    "../../libs/ui/event-templates/src/index.ts",
+    "../../libs/ui/events/src/index.ts"
   ]
 }
