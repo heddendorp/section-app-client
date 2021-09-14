@@ -1,3 +1,7 @@
-<main class='p-4'>
-  <p>event-list-page works!</p>
+<main class="p-4">
+  <h1 class="mb-6">Upcoming Events</h1>
+  <tumi-event-list
+    *ngIf="events$ | async as events"
+    [events]="events"
+  ></tumi-event-list>
 </main>

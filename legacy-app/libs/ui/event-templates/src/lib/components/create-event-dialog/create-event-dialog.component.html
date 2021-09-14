@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Create Event: {{ data.template?.title }}</h1>
-<form [formGroup]="eventDataForm" (ngSubmit)='onSubmit()'>
+<form [formGroup]="eventDataForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content class="space-y-2">
     <mat-form-field class="w-full">
       <mat-label>Start</mat-label>
@@ -26,6 +26,19 @@
       <input matInput formControlName="participantLimit" type="number" />
       <mat-hint>The maximum number of participants for this event</mat-hint>
       <mat-error>You have to specify the number of participants</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Event organizer</mat-label>
+      <mat-select formControlName="organizerId" required>
+        <mat-option
+          *ngFor="let organizer of data.organizers"
+          [value]="organizer.id"
+        >
+          {{ organizer.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Who is organizing this event</mat-hint>
+      <mat-error>You have to provide the organizer</mat-error>
     </mat-form-field>
     <p>You can make further edits after creating the event on the next page</p>
   </mat-dialog-content>

@@ -1,6 +1,7 @@
+import * as Apollo from 'apollo-angular';
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
+
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -30,6 +31,7 @@ export type Scalars = {
 /** Additional inputs to create an event from a template */
 export type CreateEventFromTemplateInput = {
   end: Scalars['DateTime'];
+  organizerId?: Maybe<Scalars['ID']>;
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
   start: Scalars['DateTime'];
@@ -37,6 +39,7 @@ export type CreateEventFromTemplateInput = {
 
 /** Input needed to create a new event template */
 export type CreateEventTemplateInput = {
+  comment: Scalars['String'];
   description: Scalars['String'];
   duration: Scalars['Decimal'];
   icon: Scalars['String'];
@@ -55,6 +58,18 @@ export type CreateUserInput = {
   lastName: Scalars['String'];
 };
 
+export type EventOrganizer = {
+  __typename?: 'EventOrganizer';
+  createdAt: Scalars['DateTime'];
+  events: Array<TumiEvent>;
+  id: Scalars['ID'];
+  link?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  tenant: Tenant;
+  tenantId: Scalars['String'];
+  text: Scalars['String'];
+};
+
 export type EventRegistration = {
   __typename?: 'EventRegistration';
   createdAt: Scalars['DateTime'];
@@ -69,6 +84,7 @@ export type EventRegistration = {
 /** Template that holds all information for an event that is needed to run it */
 export type EventTemplate = {
   __typename?: 'EventTemplate';
+  comment: Scalars['String'];
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   duration: Scalars['Decimal'];
@@ -97,6 +113,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new event from a given Template */
   createEventFromTemplate?: Maybe<TumiEvent>;
+  /** Create a new event organizer */
+  createEventOrganizer?: Maybe<EventOrganizer>;
   createEventTemplate?: Maybe<EventTemplate>;
   /** Add a new user to the database */
   registerUser: User;
@@ -109,6 +127,11 @@ export type MutationCreateEventFromTemplateArgs = {
 };
 
 
+export type MutationCreateEventOrganizerArgs = {
+  newOrganizerInput: NewOrganizerInput;
+};
+
+
 export type MutationCreateEventTemplateArgs = {
   eventTemplateInput: CreateEventTemplateInput;
 };
@@ -116,6 +139,13 @@ export type MutationCreateEventTemplateArgs = {
 
 export type MutationRegisterUserArgs = {
   userInput?: Maybe<CreateUserInput>;
+};
+
+/** Input to create a new Event Organizer */
+export type NewOrganizerInput = {
+  link?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type PhotoShare = {
@@ -145,6 +175,8 @@ export type Query = {
   eventTemplates: Array<EventTemplate>;
   /** Get a list of all events */
   events: Array<TumiEvent>;
+  /** Retrieve a list of all event organizers */
+  organizers: Array<EventOrganizer>;
   tenants: Array<Tenant>;
   userById?: Maybe<User>;
 };
@@ -205,12 +237,14 @@ export type TumiEvent = {
   createdBy: User;
   description: Scalars['String'];
   end: Scalars['DateTime'];
+  eventOrganizerId: Scalars['String'];
   eventTemplate: EventTemplate;
   eventTemplateId: Scalars['String'];
   icon: Scalars['String'];
   id: Scalars['ID'];
   location: Scalars['String'];
   locationId: Scalars['String'];
+  organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
   /** Indicates whether the current user can register to this event as Organizer */
   organizerRegistrationPossible?: Maybe<Scalars['Boolean']>;
@@ -279,17 +313,22 @@ export type GetEventTemplateQueryVariables = Exact<{
 
 export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any }> };
 
+export type GetOrganizerOptionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOrganizerOptionsQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+
 export type LoadEventQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, createdBy: { __typename?: 'User', id: string, fullName: string } }> };
+export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, organizer: { __typename?: 'EventOrganizer', link?: Maybe<string>, text: string } }> };
 
 export type EventListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> };
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any }> };
 
 export type RegisterUserMutationVariables = Exact<{
   userInput?: Maybe<CreateUserInput>;
@@ -302,6 +341,18 @@ export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UserProfileQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string, fullName: string, birthdate: any, firstName: string }> };
+
+export type CreateOrganizerMutationVariables = Exact<{
+  input: NewOrganizerInput;
+}>;
+
+
+export type CreateOrganizerMutation = { __typename?: 'Mutation', createEventOrganizer?: Maybe<{ __typename?: 'EventOrganizer', id: string }> };
+
+export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string, text: string }> };
 
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
@@ -316,7 +367,7 @@ export const GetCurrentUserDocument = gql`
   })
   export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
     document = GetCurrentUserDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -335,7 +386,7 @@ export const CreateEventTemplateDocument = gql`
   })
   export class CreateEventTemplateGQL extends Apollo.Mutation<CreateEventTemplateMutation, CreateEventTemplateMutationVariables> {
     document = CreateEventTemplateDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -356,7 +407,7 @@ export const CreateEventFromTemplateDocument = gql`
   })
   export class CreateEventFromTemplateGQL extends Apollo.Mutation<CreateEventFromTemplateMutation, CreateEventFromTemplateMutationVariables> {
     document = CreateEventFromTemplateDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -376,7 +427,7 @@ export const GetEventTemplatesDocument = gql`
   })
   export class GetEventTemplatesGQL extends Apollo.Query<GetEventTemplatesQuery, GetEventTemplatesQueryVariables> {
     document = GetEventTemplatesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -397,7 +448,26 @@ export const GetEventTemplateDocument = gql`
   })
   export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
     document = GetEventTemplateDocument;
-    
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetOrganizerOptionsDocument = gql`
+    query getOrganizerOptions {
+  organizers {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetOrganizerOptionsGQL extends Apollo.Query<GetOrganizerOptionsQuery, GetOrganizerOptionsQueryVariables> {
+    document = GetOrganizerOptionsDocument;
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -407,12 +477,18 @@ export const LoadEventDocument = gql`
   event(eventId: $id) {
     id
     title
-    createdBy {
-      id
-      fullName
+    icon
+    start
+    end
+    description
+    organizerText
+    organizer {
+      link
+      text
     }
     organizerSignup
     participantSignup
+    organizerRegistrationPossible
   }
 }
     `;
@@ -422,7 +498,7 @@ export const LoadEventDocument = gql`
   })
   export class LoadEventGQL extends Apollo.Query<LoadEventQuery, LoadEventQueryVariables> {
     document = LoadEventDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -432,6 +508,7 @@ export const EventListDocument = gql`
   events {
     id
     title
+    icon
     start
   }
 }
@@ -442,7 +519,7 @@ export const EventListDocument = gql`
   })
   export class EventListGQL extends Apollo.Query<EventListQuery, EventListQueryVariables> {
     document = EventListDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -460,7 +537,7 @@ export const RegisterUserDocument = gql`
   })
   export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
     document = RegisterUserDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -481,7 +558,45 @@ export const UserProfileDocument = gql`
   })
   export class UserProfileGQL extends Apollo.Query<UserProfileQuery, UserProfileQueryVariables> {
     document = UserProfileDocument;
-    
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateOrganizerDocument = gql`
+    mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateOrganizerGQL extends Apollo.Mutation<CreateOrganizerMutation, CreateOrganizerMutationVariables> {
+    document = CreateOrganizerDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetOrganizersDocument = gql`
+    query getOrganizers {
+  organizers {
+    id
+    name
+    text
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetOrganizersGQL extends Apollo.Query<GetOrganizersQuery, GetOrganizersQueryVariables> {
+    document = GetOrganizersDocument;
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

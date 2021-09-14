@@ -1,0 +1,6 @@
+<div *ngIf="event" class="p-4 text-white bg-gray-700" fxFlex="column">
+  <a routerLink=".." mat-button>⬅️ Go back to events</a>
+  <img [src]="event.icon | iconURL" class="mx-auto" />
+  <h1>{{ event.title }}</h1>
+  <p>Starts {{ event.start | date: 'medium' }}</p>
+</div>

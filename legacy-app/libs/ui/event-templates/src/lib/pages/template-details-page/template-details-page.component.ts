@@ -4,6 +4,7 @@ import {
   CreateEventFromTemplateGQL,
   GetEventTemplateGQL,
   GetEventTemplateQuery,
+  GetOrganizerOptionsGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -22,6 +23,7 @@ export class TemplateDetailsPageComponent implements OnInit {
   constructor(
     private getEventTemplate: GetEventTemplateGQL,
     private createEventMutation: CreateEventFromTemplateGQL,
+    private getOrganizerOptions: GetOrganizerOptionsGQL,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
@@ -40,9 +42,12 @@ export class TemplateDetailsPageComponent implements OnInit {
 
   async createEvent() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
+    const { data } = await this.getOrganizerOptions.fetch().toPromise();
     if (template?.id) {
       const eventData = await this.dialog
-        .open(CreateEventDialogComponent, { data: { template } })
+        .open(CreateEventDialogComponent, {
+          data: { template, organizers: data.organizers },
+        })
         .afterClosed()
         .toPromise();
       if (eventData) {

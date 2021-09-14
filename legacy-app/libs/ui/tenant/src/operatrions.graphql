@@ -1,0 +1,13 @@
+mutation createOrganizer($input: NewOrganizerInput!){
+  createEventOrganizer(newOrganizerInput: $input){
+    id
+  }
+}
+
+query getOrganizers{
+  organizers{
+    id
+    name
+    text
+  }
+}

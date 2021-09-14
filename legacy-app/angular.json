@@ -182,7 +182,7 @@
               "apps/tumi-app/src/assets"
             ],
             "styles": ["apps/tumi-app/src/styles.scss"],
-            "scripts": []
+            "scripts": ["node_modules/marked/lib/marked.js","node_modules/emoji-toolkit/lib/js/joypixels.min.js"]
           },
           "configurations": {
             "production": {
@@ -557,6 +557,31 @@
             ]
           },
           "outputs": ["{options.outputFile}"]
+        }
+      }
+    },
+    "ui-tenant": {
+      "projectType": "library",
+      "root": "libs/ui/tenant",
+      "sourceRoot": "libs/ui/tenant/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/tenant"],
+          "options": {
+            "jestConfig": "libs/ui/tenant/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/tenant/src/**/*.ts",
+              "libs/ui/tenant/src/**/*.html"
+            ]
+          }
         }
       }
     },

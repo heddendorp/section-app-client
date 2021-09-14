@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TemplateListEntryComponent } from './components/template-list-entry/template-list-entry.component';
 import { TemplateDetailsPageComponent } from './pages/template-details-page/template-details-page.component';
 import { CreateEventDialogComponent } from './components/create-event-dialog/create-event-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { CreateEventDialogComponent } from './components/create-event-dialog/cre
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatSelectModule,
   ],
   declarations: [
     TemplateListPageComponent,

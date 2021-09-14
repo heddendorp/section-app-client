@@ -27,3 +27,10 @@ query getEventTemplate($id: ID!){
     duration
   }
 }
+
+query getOrganizerOptions{
+  organizers{
+    id
+    name
+  }
+}

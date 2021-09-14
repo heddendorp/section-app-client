@@ -1,7 +1,12 @@
-<main class='p-4'>
+<main class="p-4">
   <p>template-list-page works!</p>
-  <button (click)='createTemplate()'>Add new template</button>
+  <button (click)="createTemplate()" mat-flat-button color="accent">
+    Add new template
+  </button>
   <div>
-    <tumi-template-list-entry *ngFor='let template of eventTemplates$ | async' [template]='template'></tumi-template-list-entry>
+    <tumi-template-list-entry
+      *ngFor="let template of eventTemplates$ | async"
+      [template]="template"
+    ></tumi-template-list-entry>
   </div>
 </main>

@@ -5,7 +5,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GetEventTemplateQuery } from '@tumi/data-access';
+import {
+  GetEventTemplateQuery,
+  GetOrganizerOptionsQuery,
+} from '@tumi/data-access';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -23,7 +26,10 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { template: GetEventTemplateQuery['eventTemplate'] },
+    public data: {
+      template: GetEventTemplateQuery['eventTemplate'];
+      organizers: GetOrganizerOptionsQuery['organizers'];
+    },
     private fb: FormBuilder,
     private dialog: MatDialogRef<CreateEventDialogComponent>
   ) {
@@ -32,6 +38,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       end: ['', Validators.required],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
+      organizerId: ['', Validators.required],
     });
   }
 
@@ -60,6 +67,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       });
     } else {
       console.info('Cancelling form submission as it was not valid');
+      console.log(this.eventDataForm);
     }
   }
 

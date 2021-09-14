@@ -18,6 +18,7 @@ export const eventTemplateType = objectType({
     t.field(EventTemplate.title);
     t.field(EventTemplate.icon);
     t.field(EventTemplate.description);
+    t.field(EventTemplate.comment);
     t.field(EventTemplate.location);
     t.field(EventTemplate.locationId);
     t.field(EventTemplate.duration);
@@ -37,6 +38,7 @@ export const createEventTemplateInput = inputObjectType({
     t.field(EventTemplate.title);
     t.field(EventTemplate.icon);
     t.field(EventTemplate.description);
+    t.field(EventTemplate.comment);
     t.field(EventTemplate.location);
     t.field(EventTemplate.locationId);
     t.field(EventTemplate.duration);

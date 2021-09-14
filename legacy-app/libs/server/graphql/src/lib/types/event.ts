@@ -18,6 +18,14 @@ export const eventType = objectType({
     t.field(TumiEvent.id);
     t.field(TumiEvent.createdAt);
     t.field(TumiEvent.createdBy);
+    t.field(TumiEvent.eventOrganizerId);
+    t.field({
+      ...TumiEvent.organizer,
+      resolve: (source, args, context) =>
+        context.prisma.eventOrganizer.findUnique({
+          where: { id: source.eventOrganizerId },
+        }),
+    });
     t.field(TumiEvent.title);
     t.field(TumiEvent.icon);
     t.field(TumiEvent.start);
@@ -124,6 +132,7 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.end);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
+    t.id('organizerId');
   },
 });
 
@@ -186,6 +195,11 @@ export const createFromTemplateMutation = mutationField(
             MembershipStatus.ALUMNI,
           ],
           organizerSignup: [MembershipStatus.TRIAL, MembershipStatus.FULL],
+          organizer: {
+            connect: {
+              id: createEventFromTemplateInput.organizerId,
+            },
+          },
           eventTemplate: {
             connect: {
               id: template.id,

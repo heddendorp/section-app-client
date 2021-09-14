@@ -2,12 +2,22 @@ query loadEvent($id: ID!) {
   event(eventId: $id) {
     id
     title
-    createdBy {
-      id
-      fullName
+    icon
+    start
+    end
+    description
+    organizerText
+#    createdBy {
+#      id
+#      fullName
+#    }
+    organizer{
+      link
+      text
     }
     organizerSignup
     participantSignup
+    organizerRegistrationPossible
   }
 }
 
@@ -15,6 +25,7 @@ query eventList{
   events{
     id
     title
+    icon
     start
   }
 }

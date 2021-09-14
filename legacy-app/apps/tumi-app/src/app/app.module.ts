@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CheckUserGuard } from './guards/check-user.guard';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MarkdownModule.forRoot(),
     RouterModule.forRoot([
       {
         path: 'profile',
@@ -45,6 +47,12 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
         path: 'events',
         loadChildren: () =>
           import('@tumi/ui/events').then((module) => module.UiEventsModule),
+      },
+      {
+        path: 'tenant',
+        canActivate: [AuthGuard, CheckUserGuard],
+        loadChildren: () =>
+          import('@tumi/ui/tenant').then((module) => module.UiTenantModule),
       },
     ]),
     AuthModule.forRoot({

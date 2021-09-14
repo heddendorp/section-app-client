@@ -27,6 +27,7 @@ export class EventFormDialogComponent implements OnInit {
       title: ['', Validators.required],
       icon: ['', Validators.required],
       description: ['', Validators.required],
+      comment: ['' /*, Validators.required*/],
       location: [null, Validators.required],
       duration: ['', Validators.required],
       participantText: ['', Validators.required],

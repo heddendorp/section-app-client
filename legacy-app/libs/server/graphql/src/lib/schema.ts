@@ -12,6 +12,7 @@ export const schema = makeSchema({
       '..',
       '..',
       'libs',
+      'server',
       'graphql',
       'src',
       'lib',
@@ -23,6 +24,7 @@ export const schema = makeSchema({
       '..',
       '..',
       'libs',
+      'server',
       'graphql',
       'schema.graphql'
     ),
@@ -34,6 +36,7 @@ export const schema = makeSchema({
       '..',
       '..',
       'libs',
+      'server',
       'graphql',
       'src',
       'lib',

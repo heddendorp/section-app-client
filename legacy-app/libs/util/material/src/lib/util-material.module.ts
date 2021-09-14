@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class UtilMaterialModule {
   constructor(registry: MatIconRegistry, san: DomSanitizer) {
     registry.addSvgIconSet(
-      san.bypassSecurityTrustResourceUrl('./assets/icons/set.svg')
+      san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg')
     );
   }
 }

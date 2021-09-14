@@ -68,6 +68,9 @@
     "ui-profile": {
       "tags": []
     },
+    "ui-tenant": {
+      "tags": []
+    },
     "util-components": {
       "tags": []
     },

@@ -4,6 +4,8 @@ import { LocationAutocompleteComponent } from './components/location-autocomplet
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GridComponent } from './components/grid/grid.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -11,8 +13,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule,
     MatInputModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
   ],
-  declarations: [LocationAutocompleteComponent],
-  exports: [LocationAutocompleteComponent],
+  declarations: [LocationAutocompleteComponent, GridComponent],
+  exports: [LocationAutocompleteComponent, GridComponent],
 })
 export class UtilComponentsModule {}

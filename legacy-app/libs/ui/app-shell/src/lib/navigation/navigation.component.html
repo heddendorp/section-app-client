@@ -12,6 +12,7 @@
       <a mat-list-item routerLink="events">Events</a>
       <a mat-list-item routerLink="profile">Profile</a>
       <a mat-list-item routerLink="event-templates">Event templates</a>
+      <a mat-list-item routerLink="tenant">Management</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -23,7 +24,10 @@
         (click)="drawer.toggle()"
         *ngIf="isHandset$ | async"
       >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          svgIcon="icon-menu"
+        ></mat-icon>
       </button>
       <span>TUMi app</span>
       <div fxFlex="grow"></div>

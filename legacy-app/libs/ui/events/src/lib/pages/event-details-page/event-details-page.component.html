@@ -1,1 +1,17 @@
-<p>event-details-page works!</p>
+<main *ngIf="event$ | async as event">
+  <tumi-event-header [event]="event"></tumi-event-header>
+  <div class="bg-gradient-to-b from-gray-700 py-8"></div>
+  <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
+    <markdown
+      [data]="event.description"
+      emoji
+      class="prose lg:prose-xl"
+    ></markdown>
+  </div>
+
+  <!--<markdown
+    [data]="event.organizerText"
+    emoji
+    class="prose lg:prose-xl"
+  ></markdown>-->
+</main>
