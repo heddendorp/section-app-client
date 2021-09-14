@@ -1,4 +1,4 @@
-<main *ngIf="event$ | async as event">
+<main *ngIf="event$ | async as event" class="bg-white">
   <tumi-event-header [event]="event"></tumi-event-header>
   <div class="bg-gradient-to-b from-gray-700 py-8"></div>
   <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
@@ -8,8 +8,15 @@
       class="prose lg:prose-xl break-words"
     ></markdown>
   </div>
-  <div class="p-6 lg:p-12 border-t border-b">
+  <div class="my-4 p-6 lg:p-12 border-t border-b">
     <p>{{ event.organizer.text }}</p>
+  </div>
+  <div class="p-4 lg:p-6 mx-2 lg:mx-6 rounded-2xl border-2 border-blue-500">
+    <h2 class="font-bold text-blue-600">Notice</h2>
+    <p>
+      Event registration for students will be opened soon, feel free to browse
+      for now
+    </p>
   </div>
   <div *ngIf="event.organizerRegistrationPossible" class="p-6 lg:p-12">
     <h3 class="mb-4">Information for organizing</h3>
@@ -21,18 +28,32 @@
   </div>
 
   <div
-    *ngIf="event.organizerRegistrationPossible"
+    *ngIf="event.couldBeOrganizer"
     class="p-6 lg:p-12 bg-gray-100 rounded-t-2xl shadow-inner"
   >
     <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
-    <button
-      mat-raised-button
-      color="accent"
-      class="w-full"
-      (click)="registerAsOrganizer()"
-    >
-      Sign up now
-    </button>
+    <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+      <button
+        mat-raised-button
+        color="accent"
+        class="w-full"
+        [disabled]="!event.organizerRegistrationPossible"
+        (click)="registerAsOrganizer()"
+      >
+        Sign up now
+      </button>
+      <div fxFlex="50">
+        <h3>Organizers already on this event</h3>
+        <mat-list>
+          <mat-list-item *ngIf="event.organizers.length === 0"
+            >Nobody yet</mat-list-item
+          >
+          <mat-list-item *ngFor="let user of event.organizers">
+            {{ user.fullName }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
   </div>
 
   <!--<markdown

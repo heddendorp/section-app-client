@@ -240,6 +240,8 @@ export type Tenant = {
 /** Actual instande of an TumiEventbased on a template */
 export type TumiEvent = {
   __typename?: 'TumiEvent';
+  /** Indicates whether the user could be an organizer for this event */
+  couldBeOrganizer?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['DateTime'];
   createdBy: User;
   description: Scalars['String'];
@@ -257,6 +259,8 @@ export type TumiEvent = {
   organizerRegistrationPossible?: Maybe<Scalars['Boolean']>;
   organizerSignup: Array<MembershipStatus>;
   organizerText: Scalars['String'];
+  /** Organizers alraedy on this event */
+  organizers: Array<User>;
   /** Number of users registered as organizer to this event */
   organizersRegistered?: Maybe<Scalars['Int']>;
   participantLimit: Scalars['Int'];
@@ -347,7 +351,7 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, organizer: { __typename?: 'EventOrganizer', link?: Maybe<string>, text: string } }> };
+export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, organizer: { __typename?: 'EventOrganizer', link?: Maybe<string>, text: string }, organizers: Array<{ __typename?: 'User', fullName: string }> }> };
 
 export type RegisterForEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
@@ -543,6 +547,10 @@ export const LoadEventDocument = gql`
     organizerSignup
     participantSignup
     organizerRegistrationPossible
+    couldBeOrganizer
+    organizers {
+      fullName
+    }
   }
 }
     `;

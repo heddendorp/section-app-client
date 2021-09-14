@@ -18,6 +18,10 @@ query loadEvent($id: ID!) {
     organizerSignup
     participantSignup
     organizerRegistrationPossible
+    couldBeOrganizer
+    organizers{
+      fullName
+    }
   }
 }
 
@@ -28,6 +32,10 @@ mutation registerForEvent($eventId: ID!, $type: RegistrationType){
     participantRegistrationPossible
     organizersRegistered
     participantsRegistered
+    couldBeOrganizer
+    organizers{
+      fullName
+    }
   }
 }
 

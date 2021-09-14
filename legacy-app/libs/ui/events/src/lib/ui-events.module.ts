@@ -16,6 +16,7 @@ import { UtilComponentsModule } from '@tumi/util-components';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { AuthGuard } from '@auth0/auth0-angular';
     MatSnackBarModule,
     MarkdownModule.forChild(),
     UtilMaterialModule,
+    MatListModule,
   ],
   declarations: [
     EventListPageComponent,

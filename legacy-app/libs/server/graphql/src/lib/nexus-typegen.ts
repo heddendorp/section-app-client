@@ -292,6 +292,7 @@ export interface NexusGenFieldTypes {
     shortName: string; // String!
   }
   TumiEvent: { // field return type
+    couldBeOrganizer: boolean | null; // Boolean
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy: NexusGenRootTypes['User']; // User!
     description: string; // String!
@@ -308,6 +309,7 @@ export interface NexusGenFieldTypes {
     organizerRegistrationPossible: boolean | null; // Boolean
     organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     organizerText: string; // String!
+    organizers: NexusGenRootTypes['User'][]; // [User!]!
     organizersRegistered: number | null; // Int
     participantLimit: number; // Int!
     participantMail: string; // String!
@@ -410,6 +412,7 @@ export interface NexusGenFieldTypeNames {
     shortName: 'String'
   }
   TumiEvent: { // field return type name
+    couldBeOrganizer: 'Boolean'
     createdAt: 'DateTime'
     createdBy: 'User'
     description: 'String'
@@ -426,6 +429,7 @@ export interface NexusGenFieldTypeNames {
     organizerRegistrationPossible: 'Boolean'
     organizerSignup: 'MembershipStatus'
     organizerText: 'String'
+    organizers: 'User'
     organizersRegistered: 'Int'
     participantLimit: 'Int'
     participantMail: 'String'

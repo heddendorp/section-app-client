@@ -12,6 +12,7 @@ import { TumiEvent } from 'nexus-prisma';
 import { UserInputError } from 'apollo-server-core';
 import { MembershipStatus, RegistrationType } from '@tumi/server-models';
 import { registrationTypeEnum } from './enums';
+import { userType } from './user';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -49,6 +50,46 @@ export const eventType = objectType({
     t.field(TumiEvent.photoShare);
     t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
+    t.field('organizers', {
+      description: 'Organizers alraedy on this event',
+      type: nonNull(list(nonNull(userType))),
+      resolve: (source, args, context) =>
+        context.prisma.user.findMany({
+          where: {
+            eventRegistrations: {
+              some: {
+                eventId: source.id,
+              },
+            },
+          },
+        }),
+    });
+    t.boolean('couldBeOrganizer', {
+      description:
+        'Indicates whether the user could be an organizer for this event',
+      resolve: async (root, args, context) => {
+        if (!context.user) {
+          console.info('Organizer signup not possible because of missing user');
+          return false;
+        }
+        const { status } = await context.prisma.usersOfTenants.findUnique({
+          where: {
+            userId_tenantId: {
+              userId: context.user.id,
+              tenantId: context.tenant.id,
+            },
+          },
+          select: { status: true },
+        });
+        if (!root.organizerSignup.includes(status)) {
+          console.info(
+            'Organizer signup not possible because of missing status ' + status
+          );
+          return false;
+        }
+        return true;
+      },
+    });
     t.int('participantsRegistered', {
       description: 'Number of users registered as participant to this event',
       resolve: async (root, args, context) =>

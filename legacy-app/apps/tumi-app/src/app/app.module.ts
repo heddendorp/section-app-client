@@ -30,6 +30,7 @@ import { CheckUserGuard } from './guards/check-user.guard';
     ReactiveFormsModule,
     MarkdownModule.forRoot(),
     RouterModule.forRoot([
+      { path: '', pathMatch: 'full', redirectTo: 'events' },
       {
         path: 'profile',
         canActivate: [AuthGuard],

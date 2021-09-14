@@ -199,6 +199,8 @@ type Tenant {
 
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
+  """Indicates whether the user could be an organizer for this event"""
+  couldBeOrganizer: Boolean
   createdAt: DateTime!
   createdBy: User!
   description: String!
@@ -219,6 +221,9 @@ type TumiEvent {
   organizerRegistrationPossible: Boolean
   organizerSignup: [MembershipStatus!]!
   organizerText: String!
+
+  """Organizers alraedy on this event"""
+  organizers: [User!]!
 
   """Number of users registered as organizer to this event"""
   organizersRegistered: Int
