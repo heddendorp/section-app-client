@@ -1,5 +1,13 @@
-<div *ngIf='eventTemplate$ | async as template'>
-  <img [src]='template.icon | iconURL' alt=''>
-  <h1>{{template.title}}</h1>
-  <button mat-stroked-button (click)='createEvent()'>Create Event from this template</button>
+<div *ngIf="eventTemplate$ | async as template">
+  <img [src]="template.icon | iconURL" alt="" />
+  <h1>{{ template.title }}</h1>
+  <h2>Description</h2>
+  <markdown [data]="template.description"></markdown>
+  <h2>Running notes</h2>
+  <markdown [data]="template.organizerText"></markdown>
+  <button mat-stroked-button (click)="createEvent()">
+    Create Event from this template
+  </button>
+  <button mat-flat-button color="accent">Edit</button>
+  <button mat-flat-button color="warn">Delete</button>
 </div>

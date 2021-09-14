@@ -116,6 +116,8 @@ export type Mutation = {
   /** Create a new event organizer */
   createEventOrganizer?: Maybe<EventOrganizer>;
   createEventTemplate?: Maybe<EventTemplate>;
+  /** Delete one template by id */
+  deleteTemplate?: Maybe<EventTemplate>;
   registerForEvent?: Maybe<TumiEvent>;
   /** Add a new user to the database */
   registerUser: User;
@@ -139,6 +141,11 @@ export type MutationCreateEventOrganizerArgs = {
 
 export type MutationCreateEventTemplateArgs = {
   eventTemplateInput: CreateEventTemplateInput;
+};
+
+
+export type MutationDeleteTemplateArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -330,7 +337,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ 
 export type UserRolesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserRolesQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', fullName: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role, status: MembershipStatus }> }> };
+export type UserRolesQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string, fullName: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role, status: MembershipStatus }> }> };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -357,7 +364,7 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any }> };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string }> };
 
 export type GetOrganizerOptionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -443,6 +450,7 @@ export const GetCurrentUserDocument = gql`
 export const UserRolesDocument = gql`
     query userRoles {
   currentUser {
+    id
     fullName
     currentTenant {
       role
@@ -529,6 +537,8 @@ export const GetEventTemplateDocument = gql`
     title
     icon
     duration
+    description
+    organizerText
   }
 }
     `;

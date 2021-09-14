@@ -50,9 +50,6 @@ $tumi-dark-theme: mat.define-dark-theme(
 @include mat.all-component-themes($tumi-app-theme);
 
 /* You can add global styles to this file, and also import other style files */
-.dark {
-  @include mat.button-theme($tumi-dark-theme);
-}
 
 @layer base {
   html {
@@ -79,5 +76,8 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   h3 {
     @apply text-lg;
+  }
+  .dark-button {
+    @include mat.button-theme($tumi-dark-theme);
   }
 }

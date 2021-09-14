@@ -16,6 +16,7 @@ import { TemplateDetailsPageComponent } from './pages/template-details-page/temp
 import { CreateEventDialogComponent } from './components/create-event-dialog/create-event-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { UiAuthModule } from '@tumi/ui-auth';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { UiAuthModule } from '@tumi/ui-auth';
     MatButtonModule,
     MatSnackBarModule,
     MatSelectModule,
+    MarkdownModule.forChild(),
   ],
   declarations: [
     TemplateListPageComponent,

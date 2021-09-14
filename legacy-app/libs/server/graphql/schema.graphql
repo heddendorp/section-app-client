@@ -111,10 +111,16 @@ type Mutation {
   """Create a new event organizer"""
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
+
+  """Delete one template by id"""
+  deleteTemplate(id: ID!): EventTemplate
   registerForEvent(eventId: ID!, registrationType: RegistrationType = PARTICIPANT): TumiEvent
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
+
+  """Update an event template"""
+  updateTemplate: EventTemplate
 
   """Change the role of s user on the current tenant"""
   updateUserRole(role: Role!, userId: ID!): User!
@@ -252,6 +258,16 @@ type TumiEvent {
   publicationState: PublicationState!
   registrations: [EventRegistration!]!
   start: DateTime!
+  title: String!
+}
+
+"""Input to update an event template"""
+input UpdateTemplateInput {
+  description: String!
+  icon: String!
+  location: String!
+  locationId: String!
+  organizerText: String!
   title: String!
 }
 

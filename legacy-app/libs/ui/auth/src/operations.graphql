@@ -1,5 +1,6 @@
 query userRoles{
   currentUser{
+    id
     fullName
     currentTenant{
       role

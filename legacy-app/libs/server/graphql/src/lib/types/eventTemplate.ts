@@ -48,6 +48,19 @@ export const createEventTemplateInput = inputObjectType({
   },
 });
 
+export const updateTemplateInputType = inputObjectType({
+  name: 'UpdateTemplateInput',
+  description: 'Input to update an event template',
+  definition(t) {
+    t.field(EventTemplate.title);
+    t.field(EventTemplate.icon);
+    t.field(EventTemplate.description);
+    t.field(EventTemplate.organizerText);
+    t.field(EventTemplate.location);
+    t.field(EventTemplate.locationId);
+  },
+});
+
 export const listEventTemplatesQuery = queryField('eventTemplates', {
   description: 'Query event templates for the current tenant',
   type: nonNull(list(nonNull(eventTemplateType))),
@@ -83,6 +96,22 @@ export const createEventTemplateMutation = mutationField(
     },
   }
 );
+
+export const updateTemplateMutation = mutationField('updateTemplate', {
+  type: eventTemplateType,
+  description: 'Update an event template',
+  args: {},
+});
+
+export const deleteTemplateMutation = mutationField('deleteTemplate', {
+  type: eventTemplateType,
+  description: 'Delete one template by id',
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: (source, { id }, context) =>
+    context.prisma.eventTemplate.delete({ where: { id } }),
+});
 
 export const getEventQuery = queryField('eventTemplate', {
   type: eventTemplateType,

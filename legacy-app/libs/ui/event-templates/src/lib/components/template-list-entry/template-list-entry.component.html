@@ -1,5 +1,7 @@
-<div *ngIf='template'>
-  <img [src]='template.icon | iconURL' alt=''>
-  <h1>{{template.title}}</h1>
-  <a mat-flat-button [routerLink]='template.id'>Open</a>
+<div *ngIf="template" fxLayout="row">
+  <img [src]="template.icon | iconURL" alt="" class="w-20" />
+  <div fxLayout="column">
+    <h1>{{ template.title }}</h1>
+    <a mat-flat-button [routerLink]="template.id">Open</a>
+  </div>
 </div>

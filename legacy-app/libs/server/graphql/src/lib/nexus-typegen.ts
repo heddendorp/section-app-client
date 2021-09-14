@@ -108,6 +108,14 @@ export interface NexusGenInputs {
     name: string; // String!
     text: string; // String!
   }
+  UpdateTemplateInput: { // input type
+    description: string; // String!
+    icon: string; // String!
+    location: string; // String!
+    locationId: string; // String!
+    organizerText: string; // String!
+    title: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -265,8 +273,10 @@ export interface NexusGenFieldTypes {
     createEventFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventOrganizer: NexusGenRootTypes['EventOrganizer'] | null; // EventOrganizer
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
+    deleteTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
+    updateTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     updateUserRole: NexusGenRootTypes['User']; // User!
     updateUserStatus: NexusGenRootTypes['User']; // User!
   }
@@ -388,8 +398,10 @@ export interface NexusGenFieldTypeNames {
     createEventFromTemplate: 'TumiEvent'
     createEventOrganizer: 'EventOrganizer'
     createEventTemplate: 'EventTemplate'
+    deleteTemplate: 'EventTemplate'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    updateTemplate: 'EventTemplate'
     updateUserRole: 'User'
     updateUserStatus: 'User'
   }
@@ -481,6 +493,9 @@ export interface NexusGenArgTypes {
     }
     createEventTemplate: { // args
       eventTemplateInput: NexusGenInputs['CreateEventTemplateInput']; // CreateEventTemplateInput!
+    }
+    deleteTemplate: { // args
+      id: string; // ID!
     }
     registerForEvent: { // args
       eventId: string; // ID!

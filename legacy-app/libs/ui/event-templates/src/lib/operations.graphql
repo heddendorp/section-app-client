@@ -11,6 +11,12 @@ mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTe
   }
 }
 
+mutation deleteTemplate($id: ID!){
+  deleteTemplate(id: $id){
+    id
+  }
+}
+
 query getEventTemplates{
   eventTemplates{
     id
@@ -25,6 +31,8 @@ query getEventTemplate($id: ID!){
     title
     icon
     duration
+    description
+    organizerText
   }
 }
 
