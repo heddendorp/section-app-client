@@ -9,6 +9,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { TenantUsersPageComponent } from './pages/tenant-users-page/tenant-users-page.component';
+import { MatTableModule } from '@angular/material/table';
+import { UpdateUserDialogComponent } from './components/update-user-dialog/update-user-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -16,17 +20,22 @@ import { MatListModule } from '@angular/material/list';
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: TenantLandingPageComponent },
       { path: 'organizers', component: TenantOrganizersPageComponent },
+      { path: 'users', component: TenantUsersPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
     ReactiveFormsModule,
     MatInputModule,
     MatListModule,
+    MatTableModule,
+    MatSelectModule,
   ],
   declarations: [
     TenantLandingPageComponent,
     TenantOrganizersPageComponent,
     NewOrganizerDialogComponent,
+    TenantUsersPageComponent,
+    UpdateUserDialogComponent,
   ],
 })
 export class UiTenantModule {}

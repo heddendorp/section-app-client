@@ -1,13 +1,49 @@
-mutation createOrganizer($input: NewOrganizerInput!){
-  createEventOrganizer(newOrganizerInput: $input){
+mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
     id
   }
 }
 
-query getOrganizers{
-  organizers{
+query getOrganizers {
+  organizers {
     id
     name
     text
+  }
+}
+
+query getUsers {
+  users {
+    id
+    firstName
+    lastName
+    currentTenant {
+      role
+      status
+    }
+  }
+}
+
+#mutation updateStatus($id: ID!, $status: MembershipStatus!) {
+#  updateUserStatus(userId: $id, status: $status) {
+#    id
+#    currentTenant {
+#      status
+#    }
+#  }
+#}
+
+mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+  updateUserRole(userId: $id, role: $role) {
+    id
+    currentTenant {
+      role
+    }
+  }
+  updateUserStatus(userId: $id, status: $status) {
+    id
+    currentTenant {
+      status
+    }
   }
 }

@@ -1,6 +1,8 @@
 import {
+  arg,
   idArg,
   inputObjectType,
+  list,
   mutationField,
   nonNull,
   objectType,
@@ -8,6 +10,7 @@ import {
 } from 'nexus';
 import { User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
+import { membershipStatusEnum, roleEnum } from './enums';
 
 export const userType = objectType({
   name: User.$name,
@@ -64,6 +67,75 @@ export const getCurrent = queryField('currentUser', {
   resolve: async (source, args, context) => {
     return context.user;
   },
+});
+
+export const listUsersQuery = queryField('users', {
+  type: nonNull(list(nonNull(userType))),
+  description: 'returns a list of users',
+  resolve: (source, args, context) =>
+    context.prisma.user.findMany({
+      where: { tenants: { some: { tenantId: context.tenant.id } } },
+    }),
+});
+
+export const updateUserStatusMutation = mutationField('updateUserStatus', {
+  type: nonNull(userType),
+  description: 'Change the status of s user on the current tenant',
+  args: {
+    userId: nonNull(idArg()),
+    status: nonNull(arg({ type: membershipStatusEnum })),
+  },
+  resolve: (source, { userId, status }, context) =>
+    context.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        tenants: {
+          update: {
+            where: {
+              userId_tenantId: {
+                userId,
+                tenantId: context.tenant.id,
+              },
+            },
+            data: {
+              status,
+            },
+          },
+        },
+      },
+    }),
+});
+
+export const updateUserRoleMutation = mutationField('updateUserRole', {
+  type: nonNull(userType),
+  description: 'Change the role of s user on the current tenant',
+  args: {
+    userId: nonNull(idArg()),
+    role: nonNull(arg({ type: roleEnum })),
+  },
+  resolve: (source, { userId, role }, context) =>
+    context.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        tenants: {
+          update: {
+            where: {
+              userId_tenantId: {
+                userId,
+                tenantId: context.tenant.id,
+              },
+            },
+            data: {
+              role,
+            },
+          },
+        },
+      },
+    }),
 });
 
 export const createUser = mutationField('registerUser', {

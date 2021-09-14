@@ -115,6 +115,12 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
+
+  """Change the role of s user on the current tenant"""
+  updateUserRole(role: Role!, userId: ID!): User!
+
+  """Change the status of s user on the current tenant"""
+  updateUserStatus(status: MembershipStatus!, userId: ID!): User!
 }
 
 """Input to create a new Event Organizer"""
@@ -162,6 +168,9 @@ type Query {
     """ID of the user"""
     id: ID!
   ): User
+
+  """returns a list of users"""
+  users: [User!]!
 }
 
 enum RegistrationType {

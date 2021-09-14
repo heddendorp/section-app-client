@@ -119,6 +119,10 @@ export type Mutation = {
   registerForEvent?: Maybe<TumiEvent>;
   /** Add a new user to the database */
   registerUser: User;
+  /** Change the role of s user on the current tenant */
+  updateUserRole: User;
+  /** Change the status of s user on the current tenant */
+  updateUserStatus: User;
 };
 
 
@@ -146,6 +150,18 @@ export type MutationRegisterForEventArgs = {
 
 export type MutationRegisterUserArgs = {
   userInput?: Maybe<CreateUserInput>;
+};
+
+
+export type MutationUpdateUserRoleArgs = {
+  role: Role;
+  userId: Scalars['ID'];
+};
+
+
+export type MutationUpdateUserStatusArgs = {
+  status: MembershipStatus;
+  userId: Scalars['ID'];
 };
 
 /** Input to create a new Event Organizer */
@@ -186,6 +202,8 @@ export type Query = {
   organizers: Array<EventOrganizer>;
   tenants: Array<Tenant>;
   userById?: Maybe<User>;
+  /** returns a list of users */
+  users: Array<User>;
 };
 
 
@@ -359,7 +377,7 @@ export type RegisterForEventMutationVariables = Exact<{
 }>;
 
 
-export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent?: Maybe<{ __typename?: 'TumiEvent', id: string, organizerRegistrationPossible?: Maybe<boolean>, participantRegistrationPossible?: Maybe<boolean>, organizersRegistered?: Maybe<number>, participantsRegistered?: Maybe<number> }> };
+export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent?: Maybe<{ __typename?: 'TumiEvent', id: string, organizerRegistrationPossible?: Maybe<boolean>, participantRegistrationPossible?: Maybe<boolean>, organizersRegistered?: Maybe<number>, participantsRegistered?: Maybe<number>, couldBeOrganizer?: Maybe<boolean>, organizers: Array<{ __typename?: 'User', fullName: string }> }> };
 
 export type EventListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -389,6 +407,20 @@ export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetOrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string, text: string }> };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role, status: MembershipStatus }> }> };
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+  role: Role;
+  status: MembershipStatus;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUserRole: { __typename?: 'User', id: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role }> }, updateUserStatus: { __typename?: 'User', id: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', status: MembershipStatus }> } };
 
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
@@ -573,6 +605,10 @@ export const RegisterForEventDocument = gql`
     participantRegistrationPossible
     organizersRegistered
     participantsRegistered
+    couldBeOrganizer
+    organizers {
+      fullName
+    }
   }
 }
     `;
@@ -680,6 +716,57 @@ export const GetOrganizersDocument = gql`
   })
   export class GetOrganizersGQL extends Apollo.Query<GetOrganizersQuery, GetOrganizersQueryVariables> {
     document = GetOrganizersDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetUsersDocument = gql`
+    query getUsers {
+  users {
+    id
+    firstName
+    lastName
+    currentTenant {
+      role
+      status
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetUsersGQL extends Apollo.Query<GetUsersQuery, GetUsersQueryVariables> {
+    document = GetUsersDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+  updateUserRole(userId: $id, role: $role) {
+    id
+    currentTenant {
+      role
+    }
+  }
+  updateUserStatus(userId: $id, status: $status) {
+    id
+    currentTenant {
+      status
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

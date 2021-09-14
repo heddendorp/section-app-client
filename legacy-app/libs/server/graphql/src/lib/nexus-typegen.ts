@@ -267,6 +267,8 @@ export interface NexusGenFieldTypes {
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
+    updateUserRole: NexusGenRootTypes['User']; // User!
+    updateUserStatus: NexusGenRootTypes['User']; // User!
   }
   PhotoShare: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -284,6 +286,7 @@ export interface NexusGenFieldTypes {
     organizers: NexusGenRootTypes['EventOrganizer'][]; // [EventOrganizer!]!
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
     userById: NexusGenRootTypes['User'] | null; // User
+    users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Tenant: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -387,6 +390,8 @@ export interface NexusGenFieldTypeNames {
     createEventTemplate: 'EventTemplate'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    updateUserRole: 'User'
+    updateUserStatus: 'User'
   }
   PhotoShare: { // field return type name
     createdAt: 'DateTime'
@@ -404,6 +409,7 @@ export interface NexusGenFieldTypeNames {
     organizers: 'EventOrganizer'
     tenants: 'Tenant'
     userById: 'User'
+    users: 'User'
   }
   Tenant: { // field return type name
     createdAt: 'DateTime'
@@ -482,6 +488,14 @@ export interface NexusGenArgTypes {
     }
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
+    }
+    updateUserRole: { // args
+      role: NexusGenEnums['Role']; // Role!
+      userId: string; // ID!
+    }
+    updateUserStatus: { // args
+      status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+      userId: string; // ID!
     }
   }
   Query: {

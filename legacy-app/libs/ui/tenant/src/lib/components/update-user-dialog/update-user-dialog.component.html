@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>
+  Update {{ data.user.firstName }} {{ data.user.lastName }}
+</h1>
+<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field class="w-full">
+      <mat-label>User role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option [value]="Role.Admin">
+          {{ Role.Admin | titlecase }}
+        </mat-option>
+        <mat-option [value]="Role.User">
+          {{ Role.User | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Membership status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option [value]="MembershipStatus.Alumni">
+          {{ MembershipStatus.Alumni | titlecase }}
+        </mat-option>
+        <mat-option [value]="MembershipStatus.Full">
+          {{ MembershipStatus.Full | titlecase }}
+        </mat-option>
+        <mat-option [value]="MembershipStatus.None">
+          {{ MembershipStatus.None | titlecase }}
+        </mat-option>
+        <mat-option [value]="MembershipStatus.Sponsor">
+          {{ MembershipStatus.Sponsor | titlecase }}
+        </mat-option>
+        <mat-option [value]="MembershipStatus.Trial">
+          {{ MembershipStatus.Trial | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>
