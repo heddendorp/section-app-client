@@ -15,6 +15,7 @@ import { TemplateListEntryComponent } from './components/template-list-entry/tem
 import { TemplateDetailsPageComponent } from './pages/template-details-page/template-details-page.component';
 import { CreateEventDialogComponent } from './components/create-event-dialog/create-event-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { UiAuthModule } from '@tumi/ui-auth';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
       { path: '', pathMatch: 'full', component: TemplateListPageComponent },
       { path: ':templateId', component: TemplateDetailsPageComponent },
     ]),
+    UiAuthModule,
     UtilComponentsModule,
     UtilPipesModule,
     FlexLayoutModule,

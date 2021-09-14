@@ -205,6 +205,13 @@ export interface NexusGenObjects {
     id: string; // ID!
     lastName: string; // String!
   }
+  UsersOfTenants: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    role: NexusGenEnums['Role']; // Role!
+    status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+    tenantId: string; // String!
+    userId: string; // String!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -258,6 +265,7 @@ export interface NexusGenFieldTypes {
     createEventFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventOrganizer: NexusGenRootTypes['EventOrganizer'] | null; // EventOrganizer
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
+    registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
   }
   PhotoShare: { // field return type
@@ -317,10 +325,20 @@ export interface NexusGenFieldTypes {
     authId: string; // String!
     birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    currentTenant: NexusGenRootTypes['UsersOfTenants'] | null; // UsersOfTenants
     firstName: string; // String!
     fullName: string; // String!
     id: string; // ID!
     lastName: string; // String!
+  }
+  UsersOfTenants: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    role: NexusGenEnums['Role']; // Role!
+    status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+    tenant: NexusGenRootTypes['Tenant']; // Tenant!
+    tenantId: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+    userId: string; // String!
   }
 }
 
@@ -365,6 +383,7 @@ export interface NexusGenFieldTypeNames {
     createEventFromTemplate: 'TumiEvent'
     createEventOrganizer: 'EventOrganizer'
     createEventTemplate: 'EventTemplate'
+    registerForEvent: 'TumiEvent'
     registerUser: 'User'
   }
   PhotoShare: { // field return type name
@@ -424,10 +443,20 @@ export interface NexusGenFieldTypeNames {
     authId: 'String'
     birthdate: 'DateTime'
     createdAt: 'DateTime'
+    currentTenant: 'UsersOfTenants'
     firstName: 'String'
     fullName: 'String'
     id: 'ID'
     lastName: 'String'
+  }
+  UsersOfTenants: { // field return type name
+    createdAt: 'DateTime'
+    role: 'Role'
+    status: 'MembershipStatus'
+    tenant: 'Tenant'
+    tenantId: 'String'
+    user: 'User'
+    userId: 'String'
   }
 }
 
@@ -442,6 +471,10 @@ export interface NexusGenArgTypes {
     }
     createEventTemplate: { // args
       eventTemplateInput: NexusGenInputs['CreateEventTemplateInput']; // CreateEventTemplateInput!
+    }
+    registerForEvent: { // args
+      eventId: string; // ID!
+      registrationType: NexusGenEnums['RegistrationType'] | null; // RegistrationType
     }
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput

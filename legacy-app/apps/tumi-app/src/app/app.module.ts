@@ -16,9 +16,10 @@ import { InMemoryCache } from '@apollo/client/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { CheckUserGuard } from './guards/check-user.guard';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MarkdownModule } from 'ngx-markdown';
+import { onError } from '@apollo/client/link/error';
+import { CheckUserGuard } from './guards/check-user.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,7 +61,12 @@ import { MarkdownModule } from 'ngx-markdown';
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
       audience: 'esn.events',
       httpInterceptor: {
-        allowedList: ['/graphql'],
+        allowedList: [
+          {
+            uri: '/graphql',
+            allowAnonymous: true,
+          },
+        ],
       },
     }),
     FlexLayoutModule,
@@ -75,12 +81,30 @@ import { MarkdownModule } from 'ngx-markdown';
     {
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
+        const http = httpLink.create({ uri: '/graphql' });
+        const error = onError(({ graphQLErrors, networkError }) => {
+          if (graphQLErrors)
+            graphQLErrors.map(({ message, locations, path }) =>
+              console.log(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+              )
+            );
+
+          if (networkError) console.log(`[Network error]: ${networkError}`);
+        });
+
+        const link = error.concat(http);
+
         return {
+          link,
           cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: '/graphql',
-          }),
         };
+        // return {
+        //   cache: new InMemoryCache(),
+        //   link: httpLink.create({
+        //     uri: '/graphql',
+        //   }),
+        // };
       },
       deps: [HttpLink],
     },

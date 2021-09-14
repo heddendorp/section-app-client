@@ -21,6 +21,16 @@ query loadEvent($id: ID!) {
   }
 }
 
+mutation registerForEvent($eventId: ID!, $type: RegistrationType){
+  registerForEvent(eventId: $eventId, registrationType: $type){
+    id
+    organizerRegistrationPossible
+    participantRegistrationPossible
+    organizersRegistered
+    participantsRegistered
+  }
+}
+
 query eventList{
   events{
     id

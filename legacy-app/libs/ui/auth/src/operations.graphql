@@ -1,0 +1,9 @@
+query userRoles{
+  currentUser{
+    fullName
+    currentTenant{
+      role
+      status
+    }
+  }
+}

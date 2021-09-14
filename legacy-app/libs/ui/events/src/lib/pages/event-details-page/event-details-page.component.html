@@ -5,8 +5,34 @@
     <markdown
       [data]="event.description"
       emoji
-      class="prose lg:prose-xl"
+      class="prose lg:prose-xl break-words"
     ></markdown>
+  </div>
+  <div class="p-6 lg:p-12 border-t border-b">
+    <p>{{ event.organizer.text }}</p>
+  </div>
+  <div *ngIf="event.organizerRegistrationPossible" class="p-6 lg:p-12">
+    <h3 class="mb-4">Information for organizing</h3>
+    <markdown
+      [data]="event.organizerText"
+      emoji
+      class="prose lg:prose-xl break-words"
+    ></markdown>
+  </div>
+
+  <div
+    *ngIf="event.organizerRegistrationPossible"
+    class="p-6 lg:p-12 bg-gray-100 rounded-t-2xl shadow-inner"
+  >
+    <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
+    <button
+      mat-raised-button
+      color="accent"
+      class="w-full"
+      (click)="registerAsOrganizer()"
+    >
+      Sign up now
+    </button>
   </div>
 
   <!--<markdown

@@ -13,6 +13,9 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 import { UtilComponentsModule } from '@tumi/util-components';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UtilMaterialModule } from '@tumi/util/material';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 @NgModule({
   imports: [
@@ -20,14 +23,24 @@ import { UtilComponentsModule } from '@tumi/util-components';
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: EventListPageComponent },
       { path: ':eventId', component: EventDetailsPageComponent },
-      { path: ':eventId/edit', component: EventEditPageComponent },
-      { path: ':eventId/run', component: EventRunPageComponent },
+      {
+        path: ':eventId/edit',
+        canActivate: [AuthGuard],
+        component: EventEditPageComponent,
+      },
+      {
+        path: ':eventId/run',
+        canActivate: [AuthGuard],
+        component: EventRunPageComponent,
+      },
     ]),
     UtilPipesModule,
     UtilComponentsModule,
     FlexLayoutModule,
     MatButtonModule,
-    MarkdownModule,
+    MatSnackBarModule,
+    MarkdownModule.forChild(),
+    UtilMaterialModule,
   ],
   declarations: [
     EventListPageComponent,

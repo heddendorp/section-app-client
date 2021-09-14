@@ -1,5 +1,6 @@
 export * from './tenant';
 export * from './user';
+export * from './userOfTenant';
 export * from './eventTemplate';
 export * from './event';
 export * from './eventOrganizer';

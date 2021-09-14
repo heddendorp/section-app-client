@@ -1,4 +1,5 @@
 import {
+  arg,
   idArg,
   inputObjectType,
   list,
@@ -10,6 +11,7 @@ import {
 import { TumiEvent } from 'nexus-prisma';
 import { UserInputError } from 'apollo-server-core';
 import { MembershipStatus, RegistrationType } from '@tumi/server-models';
+import { registrationTypeEnum } from './enums';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -98,7 +100,10 @@ export const eventType = objectType({
       description:
         'Indicates whether the current user can register to this event as Organizer',
       resolve: async (root, args, context) => {
-        if (!context.user) return false;
+        if (!context.user) {
+          console.info('Organizer signup not possible because of missing user');
+          return false;
+        }
         const { status } = await context.prisma.usersOfTenants.findUnique({
           where: {
             userId_tenantId: {
@@ -108,12 +113,28 @@ export const eventType = objectType({
           },
           select: { status: true },
         });
-        if (!root.organizerSignup.includes(status)) return false;
+        if (!root.organizerSignup.includes(status)) {
+          console.info(
+            'Organizer signup not possible because of missing status ' + status
+          );
+          return false;
+        }
         const previousRegistration =
-          await context.prisma.eventRegistration.findFirst({
-            where: { user: { id: context.user.id } },
+          await context.prisma.eventRegistration.findUnique({
+            where: {
+              userId_eventId: {
+                userId: context.user.id,
+                eventId: root.id,
+              },
+            },
           });
-        if (!previousRegistration) return false;
+        if (previousRegistration) {
+          console.info(
+            'Organizer signup not possible because of already registered'
+          );
+          console.info(previousRegistration);
+          return false;
+        }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
             where: { type: RegistrationType.ORGANIZER },
@@ -148,6 +169,26 @@ export const getOneEventQuery = queryField('event', {
   args: { eventId: nonNull(idArg()) },
   resolve: (source, { eventId }, context) =>
     context.prisma.tumiEvent.findUnique({ where: { id: eventId } }),
+});
+
+export const registerForEvent = mutationField('registerForEvent', {
+  type: eventType,
+  args: {
+    registrationType: arg({
+      type: registrationTypeEnum,
+      default: RegistrationType.PARTICIPANT,
+    }),
+    eventId: nonNull(idArg()),
+  },
+  resolve: (source, { registrationType, eventId }, context) =>
+    context.prisma.tumiEvent.update({
+      where: { id: eventId },
+      data: {
+        registrations: {
+          create: { type: registrationType, userId: context.user.id },
+        },
+      },
+    }),
 });
 
 export const createFromTemplateMutation = mutationField(

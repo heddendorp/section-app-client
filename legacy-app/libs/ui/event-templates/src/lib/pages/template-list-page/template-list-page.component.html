@@ -1,6 +1,11 @@
 <main class="p-4">
   <p>template-list-page works!</p>
-  <button (click)="createTemplate()" mat-flat-button color="accent">
+  <button
+    (click)="createTemplate()"
+    mat-flat-button
+    color="accent"
+    *tumiIfRole="[Role.Admin]"
+  >
     Add new template
   </button>
   <div>

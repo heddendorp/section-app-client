@@ -5,6 +5,7 @@ import {
   CreateEventTemplateGQL,
   GetEventTemplatesGQL,
   GetEventTemplatesQuery,
+  Role,
 } from '@tumi/data-access';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateListPageComponent implements OnInit {
+  public Role = Role;
   public eventTemplates$: Observable<GetEventTemplatesQuery['eventTemplates']>;
   private eventTemplateQuery;
 

@@ -1,5 +1,11 @@
-<div *ngIf="event" class="p-4 text-white bg-gray-700" fxFlex="column">
-  <a routerLink=".." mat-button>⬅️ Go back to events</a>
+<div
+  *ngIf="event"
+  class="p-4 lg:p-6 text-white bg-gray-700 dark"
+  fxFlex="column"
+>
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
+  ></a>
   <img [src]="event.icon | iconURL" class="mx-auto" />
   <h1>{{ event.title }}</h1>
   <p>Starts {{ event.start | date: 'medium' }}</p>

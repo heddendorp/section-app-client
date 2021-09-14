@@ -7,6 +7,7 @@ import {
   queryField,
 } from 'nexus';
 import { User } from 'nexus-prisma';
+import { userOfTenantType } from './userOfTenant';
 
 export const userType = objectType({
   name: User.$name,
@@ -18,6 +19,16 @@ export const userType = objectType({
     t.field(User.firstName);
     t.field(User.lastName);
     t.field(User.birthdate);
+    t.field({
+      name: 'currentTenant',
+      type: userOfTenantType,
+      resolve: (source, args, context) =>
+        context.prisma.usersOfTenants.findUnique({
+          where: {
+            userId_tenantId: { userId: source.id, tenantId: context.tenant.id },
+          },
+        }),
+    });
     t.nonNull.string('fullName', {
       description: 'Concatenated name of the user',
       resolve: (root) => `${root.firstName} ${root.lastName}`,

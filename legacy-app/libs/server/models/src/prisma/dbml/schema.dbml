@@ -147,6 +147,10 @@ Table EventRegistration {
   userId String [not null]
   event TumiEvent [not null]
   eventId String [not null]
+
+  indexes {
+    (userId, eventId) [unique]
+  }
 }
 
 Table EventSubmissionItem {

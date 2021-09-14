@@ -111,6 +111,7 @@ type Mutation {
   """Create a new event organizer"""
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
+  registerForEvent(eventId: ID!, registrationType: RegistrationType = PARTICIPANT): TumiEvent
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
@@ -246,10 +247,21 @@ type User {
   authId: String!
   birthdate: DateTime!
   createdAt: DateTime!
+  currentTenant: UsersOfTenants
   firstName: String!
 
   """Concatenated name of the user"""
   fullName: String!
   id: ID!
   lastName: String!
+}
+
+type UsersOfTenants {
+  createdAt: DateTime!
+  role: Role!
+  status: MembershipStatus!
+  tenant: Tenant!
+  tenantId: String!
+  user: User!
+  userId: String!
 }

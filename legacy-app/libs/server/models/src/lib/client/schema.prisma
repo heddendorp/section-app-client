@@ -202,6 +202,7 @@ model EventRegistration {
   userId    String           @db.Uuid
   event     TumiEvent        @relation(fields: [eventId], references: [id])
   eventId   String           @db.Uuid
+  @@unique([userId, eventId])
 }
 
 model EventSubmissionItem {
