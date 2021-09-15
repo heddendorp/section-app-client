@@ -27,6 +27,9 @@ export async function seedDB(prisma: PrismaClient) {
       firstName: 'Lukas',
       lastName: 'Heddendorp',
       email: 'lu.heddendorp@gmail.com',
+      picture:
+        'https://lh3.googleusercontent.com/a-/AOh14Gj7il6hmD_v_33d8-8qZ6ImjudYePD52Ra20fQe3X8=s96-c',
+      email_verified: true,
       birthdate: new Date('1996-10-20T22:00:00.000Z'),
       tenants: {
         create: {
@@ -41,7 +44,7 @@ export async function seedDB(prisma: PrismaClient) {
       },
     },
   });
-  await transferEvents(prisma, tenant);
+  // await transferEvents(prisma, tenant);
 }
 
 const oldData =
