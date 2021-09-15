@@ -3,8 +3,10 @@
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="bg-white">
-  <tumi-event-header [event]="event"></tumi-event-header>
-  <div class="bg-gray-700 py-8"></div>
+  <tumi-event-header
+    [event]="event"
+    class="p-4 lg:p-6 pb-20 lg:pb-24 text-white bg-gray-700 dark"
+  ></tumi-event-header>
   <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
     <markdown
       [data]="event.description"

@@ -1,8 +1,4 @@
-<div
-  *ngIf="event"
-  class="p-4 lg:p-6 text-white bg-gray-700 dark"
-  fxFlex="column"
->
+<div *ngIf="event" fxFlex="column">
   <div fxLayout="row" fxLayoutAlign="space-between">
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
@@ -11,7 +7,10 @@
       <mat-icon svgIcon="icon-edit"></mat-icon
     ></a>
   </div>
-  <img [src]="event.icon | iconURL" class="mx-auto" />
+  <img
+    [src]="event.icon | iconURL"
+    class="mx-auto mb-4 lg:mb-8 p-1 rounded-lg bg-white border"
+  />
   <h1>{{ event.title }}</h1>
   <p>Starts {{ event.start | date: 'medium' }}</p>
 </div>
