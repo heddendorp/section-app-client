@@ -90,6 +90,34 @@
         </mat-error>
       </mat-form-field>
     </div>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-form-field class="w-full">
+        <mat-label>Number of organizers</mat-label>
+        <input
+          matInput
+          formControlName="organizerLimit"
+          type="number"
+          required
+        />
+        <mat-hint>Maximum number of students that can sign up</mat-hint>
+        <mat-error>
+          You have to set the maximum number of participants
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Number of participants</mat-label>
+        <input
+          matInput
+          formControlName="participantLimit"
+          type="number"
+          required
+        />
+        <mat-hint>Maximum number of organizers that can sign up</mat-hint>
+        <mat-error>
+          You have to set the maximum number of organizers
+        </mat-error>
+      </mat-form-field>
+    </div>
     <div class="mt-4">
       <button type="submit" mat-flat-button color="primary">
         Save Changes

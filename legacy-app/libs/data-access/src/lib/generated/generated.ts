@@ -346,8 +346,10 @@ export type UpdateEventInput = {
   end: Scalars['DateTime'];
   eventOrganizerId?: Maybe<Scalars['ID']>;
   icon: Scalars['String'];
+  organizerLimit: Scalars['Int'];
   organizerSignup: Array<MembershipStatus>;
   organizerText: Scalars['String'];
+  participantLimit: Scalars['Int'];
   participantSignup: Array<MembershipStatus>;
   price?: Maybe<Scalars['Decimal']>;
   registrationLink?: Maybe<Scalars['String']>;
@@ -472,7 +474,7 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, couldBeParticipant?: Maybe<boolean>, organizers: Array<{ __typename?: 'User', fullName: string, id: string }> }>, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, couldBeParticipant?: Maybe<boolean>, participantLimit: number, organizerLimit: number, organizers: Array<{ __typename?: 'User', fullName: string, id: string }> }>, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
 
 export type UpdateEventMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -480,7 +482,7 @@ export type UpdateEventMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', updateEventGeneralInfo: { __typename?: 'TumiEvent', title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus> } };
+export type UpdateEventMutation = { __typename?: 'Mutation', updateEventGeneralInfo: { __typename?: 'TumiEvent', title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, participantLimit: number, organizerLimit: number } };
 
 export type LoadUsersByStatusQueryVariables = Exact<{
   allowList: Array<MembershipStatus> | MembershipStatus;
@@ -810,6 +812,8 @@ export const LoadEventForEditDocument = gql`
     organizerRegistrationPossible
     couldBeOrganizer
     couldBeParticipant
+    participantLimit
+    organizerLimit
     organizers {
       fullName
       id
@@ -847,6 +851,8 @@ export const UpdateEventDocument = gql`
     eventOrganizerId
     organizerSignup
     participantSignup
+    participantLimit
+    organizerLimit
   }
 }
     `;

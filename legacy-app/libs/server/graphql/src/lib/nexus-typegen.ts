@@ -116,8 +116,10 @@ export interface NexusGenInputs {
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId?: string | null; // ID
     icon: string; // String!
+    organizerLimit: number; // Int!
     organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     organizerText: string; // String!
+    participantLimit: number; // Int!
     participantSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     price?: NexusGenScalars['Decimal'] | null; // Decimal
     registrationLink?: string | null; // String

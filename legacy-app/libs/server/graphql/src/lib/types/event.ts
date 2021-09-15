@@ -248,6 +248,8 @@ export const updateEventInput = inputObjectType({
     t.field(TumiEvent.price);
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
+    t.field(TumiEvent.participantLimit);
+    t.field(TumiEvent.organizerLimit);
     t.id('eventOrganizerId');
   },
 });

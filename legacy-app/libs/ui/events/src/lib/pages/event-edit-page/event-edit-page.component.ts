@@ -51,6 +51,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       eventOrganizerId: ['', Validators.required],
       organizerSignup: ['', Validators.required],
       participantSignup: ['', Validators.required],
+      participantLimit: ['', Validators.required],
+      organizerLimit: ['', Validators.required],
     });
     this.event$ = this.route.paramMap.pipe(
       switchMap((params) =>
@@ -88,27 +90,29 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           case RegistrationMode.Stripe: {
             this.generalInformationForm.get('price')?.enable();
             this.generalInformationForm.get('registrationLink')?.disable();
+            this.generalInformationForm.get('participantLimit')?.enable();
+            this.generalInformationForm.get('organizerLimit')?.enable();
             break;
           }
           case RegistrationMode.Online: {
             this.generalInformationForm.get('price')?.disable();
             this.generalInformationForm.get('registrationLink')?.disable();
+            this.generalInformationForm.get('participantLimit')?.enable();
+            this.generalInformationForm.get('organizerLimit')?.enable();
             break;
           }
           case RegistrationMode.External: {
             this.generalInformationForm.get('price')?.disable();
             this.generalInformationForm.get('registrationLink')?.enable();
+
+            this.generalInformationForm.get('participantLimit')?.disable();
+            this.generalInformationForm.get('organizerLimit')?.disable();
             break;
           }
         }
       });
     const event = await this.event$.pipe(first()).toPromise();
     if (event) {
-      console.log({
-        ...event,
-        start: new Date(event.start),
-        end: new Date(event.end),
-      });
       this.generalInformationForm.patchValue({
         ...event,
         start: DateTime.fromISO(event.start).toISO({ includeOffset: false }),

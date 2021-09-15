@@ -287,8 +287,10 @@ input UpdateEventInput {
   end: DateTime!
   eventOrganizerId: ID
   icon: String!
+  organizerLimit: Int!
   organizerSignup: [MembershipStatus!]!
   organizerText: String!
+  participantLimit: Int!
   participantSignup: [MembershipStatus!]!
   price: Decimal
   registrationLink: String

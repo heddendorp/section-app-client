@@ -47,6 +47,8 @@ query loadEventForEdit($id: ID!) {
     organizerRegistrationPossible
     couldBeOrganizer
     couldBeParticipant
+    participantLimit
+    organizerLimit
     organizers {
       fullName
       id
@@ -72,6 +74,8 @@ mutation updateEvent($id: ID!, $data: UpdateEventInput!){
     eventOrganizerId
     organizerSignup
     participantSignup
+    participantLimit
+    organizerLimit
   }
 }
 
