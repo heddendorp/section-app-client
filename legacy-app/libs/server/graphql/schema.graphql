@@ -120,7 +120,7 @@ type Mutation {
   registerUser(userInput: CreateUserInput): User!
 
   """Update an event template"""
-  updateTemplate: EventTemplate
+  updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
 
   """Change the role of s user on the current tenant"""
   updateUserRole(role: Role!, userId: ID!): User!
@@ -263,11 +263,15 @@ type TumiEvent {
 
 """Input to update an event template"""
 input UpdateTemplateInput {
+  comment: String!
   description: String!
+  duration: Decimal!
   icon: String!
   location: String!
   locationId: String!
   organizerText: String!
+  participantMail: String!
+  participantText: String!
   title: String!
 }
 

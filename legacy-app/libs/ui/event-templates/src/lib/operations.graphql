@@ -11,6 +11,28 @@ mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTe
   }
 }
 
+mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!){
+  updateTemplate(id: $templateId, data: $update){
+    id
+    title
+    icon
+    duration
+    description
+    organizerText
+    participantMail
+    participantText
+    comment
+    location
+    locationId
+  }
+}
+
+mutation deleteEventTemplate($templateId: ID!){
+  deleteTemplate(id: $templateId){
+    id
+  }
+}
+
 mutation deleteTemplate($id: ID!){
   deleteTemplate(id: $id){
     id
@@ -33,6 +55,11 @@ query getEventTemplate($id: ID!){
     duration
     description
     organizerText
+    participantMail
+    participantText
+    comment
+    location
+    locationId
   }
 }
 

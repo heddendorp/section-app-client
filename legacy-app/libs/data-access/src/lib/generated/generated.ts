@@ -3,13 +3,9 @@ import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -110,7 +106,7 @@ export enum MembershipStatus {
   Full = 'FULL',
   None = 'NONE',
   Sponsor = 'SPONSOR',
-  Trial = 'TRIAL',
+  Trial = 'TRIAL'
 }
 
 export type Mutation = {
@@ -125,42 +121,58 @@ export type Mutation = {
   registerForEvent?: Maybe<TumiEvent>;
   /** Add a new user to the database */
   registerUser: User;
+  /** Update an event template */
+  updateTemplate?: Maybe<EventTemplate>;
   /** Change the role of s user on the current tenant */
   updateUserRole: User;
   /** Change the status of s user on the current tenant */
   updateUserStatus: User;
 };
 
+
 export type MutationCreateEventFromTemplateArgs = {
   createEventFromTemplateInput: CreateEventFromTemplateInput;
   templateId: Scalars['ID'];
 };
 
+
 export type MutationCreateEventOrganizerArgs = {
   newOrganizerInput: NewOrganizerInput;
 };
+
 
 export type MutationCreateEventTemplateArgs = {
   eventTemplateInput: CreateEventTemplateInput;
 };
 
+
 export type MutationDeleteTemplateArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationRegisterForEventArgs = {
   eventId: Scalars['ID'];
   registrationType?: Maybe<RegistrationType>;
 };
 
+
 export type MutationRegisterUserArgs = {
   userInput?: Maybe<CreateUserInput>;
 };
+
+
+export type MutationUpdateTemplateArgs = {
+  data: UpdateTemplateInput;
+  id: Scalars['ID'];
+};
+
 
 export type MutationUpdateUserRoleArgs = {
   role: Role;
   userId: Scalars['ID'];
 };
+
 
 export type MutationUpdateUserStatusArgs = {
   status: MembershipStatus;
@@ -185,7 +197,7 @@ export type PhotoShare = {
 export enum PublicationState {
   Approval = 'APPROVAL',
   Draft = 'DRAFT',
-  Public = 'PUBLIC',
+  Public = 'PUBLIC'
 }
 
 export type Query = {
@@ -209,13 +221,16 @@ export type Query = {
   users: Array<User>;
 };
 
+
 export type QueryEventArgs = {
   eventId: Scalars['ID'];
 };
 
+
 export type QueryEventTemplateArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryUserByIdArgs = {
   id: Scalars['ID'];
@@ -223,12 +238,12 @@ export type QueryUserByIdArgs = {
 
 export enum RegistrationType {
   Organizer = 'ORGANIZER',
-  Participant = 'PARTICIPANT',
+  Participant = 'PARTICIPANT'
 }
 
 export enum Role {
   Admin = 'ADMIN',
-  User = 'USER',
+  User = 'USER'
 }
 
 export enum SubmissionItemType {
@@ -236,14 +251,14 @@ export enum SubmissionItemType {
   File = 'FILE',
   Number = 'NUMBER',
   Rating = 'RATING',
-  Text = 'TEXT',
+  Text = 'TEXT'
 }
 
 export enum SubmissionTime {
   After = 'AFTER',
   Before = 'BEFORE',
   During = 'DURING',
-  Registration = 'REGISTRATION',
+  Registration = 'REGISTRATION'
 }
 
 /** One Tenant of the app, most likely an ESN section */
@@ -296,6 +311,17 @@ export type TumiEvent = {
   title: Scalars['String'];
 };
 
+/** Input to update an event template */
+export type UpdateTemplateInput = {
+  comment: Scalars['String'];
+  description: Scalars['String'];
+  icon: Scalars['String'];
+  location: Scalars['String'];
+  locationId: Scalars['String'];
+  organizerText: Scalars['String'];
+  title: Scalars['String'];
+};
+
 /** One User of the app */
 export type User = {
   __typename?: 'User';
@@ -322,211 +348,118 @@ export type UsersOfTenants = {
   userId: Scalars['String'];
 };
 
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetCurrentUserQuery = {
-  __typename?: 'Query';
-  currentUser?: Maybe<{ __typename?: 'User'; id: string }>;
-};
 
-export type UserRolesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string }> };
 
-export type UserRolesQuery = {
-  __typename?: 'Query';
-  currentUser?: Maybe<{
-    __typename?: 'User';
-    id: string;
-    fullName: string;
-    currentTenant?: Maybe<{
-      __typename?: 'UsersOfTenants';
-      role: Role;
-      status: MembershipStatus;
-    }>;
-  }>;
-};
+export type UserRolesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserRolesQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string, fullName: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role, status: MembershipStatus }> }> };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
 }>;
 
-export type CreateEventTemplateMutation = {
-  __typename?: 'Mutation';
-  createEventTemplate?: Maybe<{
-    __typename?: 'EventTemplate';
-    id: string;
-    createdAt: any;
-  }>;
-};
+
+export type CreateEventTemplateMutation = { __typename?: 'Mutation', createEventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, createdAt: any }> };
 
 export type CreateEventFromTemplateMutationVariables = Exact<{
   templateId: Scalars['ID'];
   eventData: CreateEventFromTemplateInput;
 }>;
 
-export type CreateEventFromTemplateMutation = {
-  __typename?: 'Mutation';
-  createEventFromTemplate?: Maybe<{ __typename?: 'TumiEvent'; id: string }>;
-};
 
-export type GetEventTemplatesQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateEventFromTemplateMutation = { __typename?: 'Mutation', createEventFromTemplate?: Maybe<{ __typename?: 'TumiEvent', id: string }> };
 
-export type GetEventTemplatesQuery = {
-  __typename?: 'Query';
-  eventTemplates: Array<{
-    __typename?: 'EventTemplate';
-    id: string;
-    title: string;
-    icon: string;
-  }>;
-};
+export type UpdateEventTemplateMutationVariables = Exact<{
+  templateId: Scalars['ID'];
+  update: UpdateTemplateInput;
+}>;
+
+
+export type UpdateEventTemplateMutation = { __typename?: 'Mutation', updateTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantMail: string, participantText: string, comment: string, location: string, locationId: string }> };
+
+export type DeleteEventTemplateMutationVariables = Exact<{
+  templateId: Scalars['ID'];
+}>;
+
+
+export type DeleteEventTemplateMutation = { __typename?: 'Mutation', deleteTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string }> };
+
+export type DeleteTemplateMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteTemplateMutation = { __typename?: 'Mutation', deleteTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string }> };
+
+export type GetEventTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string }> };
 
 export type GetEventTemplateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type GetEventTemplateQuery = {
-  __typename?: 'Query';
-  eventTemplate?: Maybe<{
-    __typename?: 'EventTemplate';
-    id: string;
-    title: string;
-    icon: string;
-    duration: any;
-    description: string;
-    organizerText: string;
-  }>;
-};
 
-export type GetOrganizerOptionsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate?: Maybe<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantMail: string, participantText: string, comment: string, location: string, locationId: string }> };
 
-export type GetOrganizerOptionsQuery = {
-  __typename?: 'Query';
-  organizers: Array<{
-    __typename?: 'EventOrganizer';
-    id: string;
-    name: string;
-  }>;
-};
+export type GetOrganizerOptionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOrganizerOptionsQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
 
 export type LoadEventQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type LoadEventQuery = {
-  __typename?: 'Query';
-  event?: Maybe<{
-    __typename?: 'TumiEvent';
-    id: string;
-    title: string;
-    icon: string;
-    start: any;
-    end: any;
-    description: string;
-    organizerText: string;
-    organizerSignup: Array<MembershipStatus>;
-    participantSignup: Array<MembershipStatus>;
-    organizerRegistrationPossible?: Maybe<boolean>;
-    couldBeOrganizer?: Maybe<boolean>;
-    organizer: {
-      __typename?: 'EventOrganizer';
-      link?: Maybe<string>;
-      text: string;
-    };
-    organizers: Array<{ __typename?: 'User'; fullName: string }>;
-  }>;
-};
+
+export type LoadEventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, organizer: { __typename?: 'EventOrganizer', link?: Maybe<string>, text: string }, organizers: Array<{ __typename?: 'User', fullName: string }> }> };
 
 export type RegisterForEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
   type?: Maybe<RegistrationType>;
 }>;
 
-export type RegisterForEventMutation = {
-  __typename?: 'Mutation';
-  registerForEvent?: Maybe<{
-    __typename?: 'TumiEvent';
-    id: string;
-    organizerRegistrationPossible?: Maybe<boolean>;
-    participantRegistrationPossible?: Maybe<boolean>;
-    organizersRegistered?: Maybe<number>;
-    participantsRegistered?: Maybe<number>;
-    couldBeOrganizer?: Maybe<boolean>;
-    organizers: Array<{ __typename?: 'User'; fullName: string }>;
-  }>;
-};
 
-export type EventListQueryVariables = Exact<{ [key: string]: never }>;
+export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent?: Maybe<{ __typename?: 'TumiEvent', id: string, organizerRegistrationPossible?: Maybe<boolean>, participantRegistrationPossible?: Maybe<boolean>, organizersRegistered?: Maybe<number>, participantsRegistered?: Maybe<number>, couldBeOrganizer?: Maybe<boolean>, organizers: Array<{ __typename?: 'User', fullName: string }> }> };
 
-export type EventListQuery = {
-  __typename?: 'Query';
-  events: Array<{
-    __typename?: 'TumiEvent';
-    id: string;
-    title: string;
-    icon: string;
-    start: any;
-  }>;
-};
+export type EventListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any }> };
 
 export type RegisterUserMutationVariables = Exact<{
   userInput?: Maybe<CreateUserInput>;
 }>;
 
-export type RegisterUserMutation = {
-  __typename?: 'Mutation';
-  registerUser: { __typename?: 'User'; id: string };
-};
 
-export type UserProfileQueryVariables = Exact<{ [key: string]: never }>;
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', id: string } };
 
-export type UserProfileQuery = {
-  __typename?: 'Query';
-  currentUser?: Maybe<{
-    __typename?: 'User';
-    id: string;
-    fullName: string;
-    birthdate: any;
-    firstName: string;
-  }>;
-};
+export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: Maybe<{ __typename?: 'User', id: string, fullName: string, birthdate: any, firstName: string }> };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
 }>;
 
-export type CreateOrganizerMutation = {
-  __typename?: 'Mutation';
-  createEventOrganizer?: Maybe<{ __typename?: 'EventOrganizer'; id: string }>;
-};
 
-export type GetOrganizersQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateOrganizerMutation = { __typename?: 'Mutation', createEventOrganizer?: Maybe<{ __typename?: 'EventOrganizer', id: string }> };
 
-export type GetOrganizersQuery = {
-  __typename?: 'Query';
-  organizers: Array<{
-    __typename?: 'EventOrganizer';
-    id: string;
-    name: string;
-    text: string;
-  }>;
-};
+export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetUsersQuery = {
-  __typename?: 'Query';
-  users: Array<{
-    __typename?: 'User';
-    id: string;
-    firstName: string;
-    lastName: string;
-    currentTenant?: Maybe<{
-      __typename?: 'UsersOfTenants';
-      role: Role;
-      status: MembershipStatus;
-    }>;
-  }>;
-};
+export type GetOrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string, text: string }> };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role, status: MembershipStatus }> }> };
 
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -534,424 +467,428 @@ export type UpdateUserMutationVariables = Exact<{
   status: MembershipStatus;
 }>;
 
-export type UpdateUserMutation = {
-  __typename?: 'Mutation';
-  updateUserRole: {
-    __typename?: 'User';
-    id: string;
-    currentTenant?: Maybe<{ __typename?: 'UsersOfTenants'; role: Role }>;
-  };
-  updateUserStatus: {
-    __typename?: 'User';
-    id: string;
-    currentTenant?: Maybe<{
-      __typename?: 'UsersOfTenants';
-      status: MembershipStatus;
-    }>;
-  };
-};
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUserRole: { __typename?: 'User', id: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', role: Role }> }, updateUserStatus: { __typename?: 'User', id: string, currentTenant?: Maybe<{ __typename?: 'UsersOfTenants', status: MembershipStatus }> } };
 
 export const GetCurrentUserDocument = gql`
-  query getCurrentUser {
-    currentUser {
-      id
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetCurrentUserGQL extends Apollo.Query<
-  GetCurrentUserQuery,
-  GetCurrentUserQueryVariables
-> {
-  document = GetCurrentUserDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    query getCurrentUser {
+  currentUser {
+    id
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetCurrentUserGQL extends Apollo.Query<GetCurrentUserQuery, GetCurrentUserQueryVariables> {
+    document = GetCurrentUserDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UserRolesDocument = gql`
-  query userRoles {
-    currentUser {
-      id
-      fullName
-      currentTenant {
-        role
-        status
-      }
+    query userRoles {
+  currentUser {
+    id
+    fullName
+    currentTenant {
+      role
+      status
     }
   }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UserRolesGQL extends Apollo.Query<
-  UserRolesQuery,
-  UserRolesQueryVariables
-> {
-  document = UserRolesDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserRolesGQL extends Apollo.Query<UserRolesQuery, UserRolesQueryVariables> {
+    document = UserRolesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreateEventTemplateDocument = gql`
-  mutation createEventTemplate($input: CreateEventTemplateInput!) {
-    createEventTemplate(eventTemplateInput: $input) {
-      id
-      createdAt
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class CreateEventTemplateGQL extends Apollo.Mutation<
-  CreateEventTemplateMutation,
-  CreateEventTemplateMutationVariables
-> {
-  document = CreateEventTemplateDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    mutation createEventTemplate($input: CreateEventTemplateInput!) {
+  createEventTemplate(eventTemplateInput: $input) {
+    id
+    createdAt
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventTemplateGQL extends Apollo.Mutation<CreateEventTemplateMutation, CreateEventTemplateMutationVariables> {
+    document = CreateEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreateEventFromTemplateDocument = gql`
-  mutation createEventFromTemplate(
-    $templateId: ID!
-    $eventData: CreateEventFromTemplateInput!
+    mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTemplateInput!) {
+  createEventFromTemplate(
+    templateId: $templateId
+    createEventFromTemplateInput: $eventData
   ) {
-    createEventFromTemplate(
-      templateId: $templateId
-      createEventFromTemplateInput: $eventData
-    ) {
-      id
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class CreateEventFromTemplateGQL extends Apollo.Mutation<
-  CreateEventFromTemplateMutation,
-  CreateEventFromTemplateMutationVariables
-> {
-  document = CreateEventFromTemplateDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    id
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventFromTemplateGQL extends Apollo.Mutation<CreateEventFromTemplateMutation, CreateEventFromTemplateMutationVariables> {
+    document = CreateEventFromTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateEventTemplateDocument = gql`
+    mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
+  updateTemplate(id: $templateId, data: $update) {
+    id
+    title
+    icon
+    duration
+    description
+    organizerText
+    participantMail
+    participantText
+    comment
+    location
+    locationId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventTemplateGQL extends Apollo.Mutation<UpdateEventTemplateMutation, UpdateEventTemplateMutationVariables> {
+    document = UpdateEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteEventTemplateDocument = gql`
+    mutation deleteEventTemplate($templateId: ID!) {
+  deleteTemplate(id: $templateId) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventTemplateGQL extends Apollo.Mutation<DeleteEventTemplateMutation, DeleteEventTemplateMutationVariables> {
+    document = DeleteEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteTemplateDocument = gql`
+    mutation deleteTemplate($id: ID!) {
+  deleteTemplate(id: $id) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteTemplateGQL extends Apollo.Mutation<DeleteTemplateMutation, DeleteTemplateMutationVariables> {
+    document = DeleteTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetEventTemplatesDocument = gql`
-  query getEventTemplates {
-    eventTemplates {
-      id
-      title
-      icon
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetEventTemplatesGQL extends Apollo.Query<
-  GetEventTemplatesQuery,
-  GetEventTemplatesQueryVariables
-> {
-  document = GetEventTemplatesDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    query getEventTemplates {
+  eventTemplates {
+    id
+    title
+    icon
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventTemplatesGQL extends Apollo.Query<GetEventTemplatesQuery, GetEventTemplatesQueryVariables> {
+    document = GetEventTemplatesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetEventTemplateDocument = gql`
-  query getEventTemplate($id: ID!) {
-    eventTemplate(id: $id) {
-      id
-      title
-      icon
-      duration
-      description
-      organizerText
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetEventTemplateGQL extends Apollo.Query<
-  GetEventTemplateQuery,
-  GetEventTemplateQueryVariables
-> {
-  document = GetEventTemplateDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    query getEventTemplate($id: ID!) {
+  eventTemplate(id: $id) {
+    id
+    title
+    icon
+    duration
+    description
+    organizerText
+    participantMail
+    participantText
+    comment
+    location
+    locationId
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
+    document = GetEventTemplateDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetOrganizerOptionsDocument = gql`
-  query getOrganizerOptions {
-    organizers {
-      id
-      name
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetOrganizerOptionsGQL extends Apollo.Query<
-  GetOrganizerOptionsQuery,
-  GetOrganizerOptionsQueryVariables
-> {
-  document = GetOrganizerOptionsDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    query getOrganizerOptions {
+  organizers {
+    id
+    name
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetOrganizerOptionsGQL extends Apollo.Query<GetOrganizerOptionsQuery, GetOrganizerOptionsQueryVariables> {
+    document = GetOrganizerOptionsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const LoadEventDocument = gql`
-  query loadEvent($id: ID!) {
-    event(eventId: $id) {
-      id
-      title
-      icon
-      start
-      end
-      description
-      organizerText
-      organizer {
-        link
-        text
-      }
-      organizerSignup
-      participantSignup
-      organizerRegistrationPossible
-      couldBeOrganizer
-      organizers {
-        fullName
-      }
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class LoadEventGQL extends Apollo.Query<
-  LoadEventQuery,
-  LoadEventQueryVariables
-> {
-  document = LoadEventDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const RegisterForEventDocument = gql`
-  mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
-    registerForEvent(eventId: $eventId, registrationType: $type) {
-      id
-      organizerRegistrationPossible
-      participantRegistrationPossible
-      organizersRegistered
-      participantsRegistered
-      couldBeOrganizer
-      organizers {
-        fullName
-      }
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class RegisterForEventGQL extends Apollo.Mutation<
-  RegisterForEventMutation,
-  RegisterForEventMutationVariables
-> {
-  document = RegisterForEventDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const EventListDocument = gql`
-  query eventList {
-    events {
-      id
-      title
-      icon
-      start
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class EventListGQL extends Apollo.Query<
-  EventListQuery,
-  EventListQueryVariables
-> {
-  document = EventListDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const RegisterUserDocument = gql`
-  mutation RegisterUser($userInput: CreateUserInput) {
-    registerUser(userInput: $userInput) {
-      id
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class RegisterUserGQL extends Apollo.Mutation<
-  RegisterUserMutation,
-  RegisterUserMutationVariables
-> {
-  document = RegisterUserDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const UserProfileDocument = gql`
-  query userProfile {
-    currentUser {
-      id
-      fullName
-      birthdate
-      firstName
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UserProfileGQL extends Apollo.Query<
-  UserProfileQuery,
-  UserProfileQueryVariables
-> {
-  document = UserProfileDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const CreateOrganizerDocument = gql`
-  mutation createOrganizer($input: NewOrganizerInput!) {
-    createEventOrganizer(newOrganizerInput: $input) {
-      id
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class CreateOrganizerGQL extends Apollo.Mutation<
-  CreateOrganizerMutation,
-  CreateOrganizerMutationVariables
-> {
-  document = CreateOrganizerDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const GetOrganizersDocument = gql`
-  query getOrganizers {
-    organizers {
-      id
-      name
+    query loadEvent($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    icon
+    start
+    end
+    description
+    organizerText
+    organizer {
+      link
       text
     }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetOrganizersGQL extends Apollo.Query<
-  GetOrganizersQuery,
-  GetOrganizersQueryVariables
-> {
-  document = GetOrganizersDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    organizerSignup
+    participantSignup
+    organizerRegistrationPossible
+    couldBeOrganizer
+    organizers {
+      fullName
+    }
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventGQL extends Apollo.Query<LoadEventQuery, LoadEventQueryVariables> {
+    document = LoadEventDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RegisterForEventDocument = gql`
+    mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
+  registerForEvent(eventId: $eventId, registrationType: $type) {
+    id
+    organizerRegistrationPossible
+    participantRegistrationPossible
+    organizersRegistered
+    participantsRegistered
+    couldBeOrganizer
+    organizers {
+      fullName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterForEventGQL extends Apollo.Mutation<RegisterForEventMutation, RegisterForEventMutationVariables> {
+    document = RegisterForEventDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EventListDocument = gql`
+    query eventList {
+  events {
+    id
+    title
+    icon
+    start
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventListGQL extends Apollo.Query<EventListQuery, EventListQueryVariables> {
+    document = EventListDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RegisterUserDocument = gql`
+    mutation RegisterUser($userInput: CreateUserInput) {
+  registerUser(userInput: $userInput) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
+    document = RegisterUserDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserProfileDocument = gql`
+    query userProfile {
+  currentUser {
+    id
+    fullName
+    birthdate
+    firstName
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserProfileGQL extends Apollo.Query<UserProfileQuery, UserProfileQueryVariables> {
+    document = UserProfileDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateOrganizerDocument = gql`
+    mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateOrganizerGQL extends Apollo.Mutation<CreateOrganizerMutation, CreateOrganizerMutationVariables> {
+    document = CreateOrganizerDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetOrganizersDocument = gql`
+    query getOrganizers {
+  organizers {
+    id
+    name
+    text
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetOrganizersGQL extends Apollo.Query<GetOrganizersQuery, GetOrganizersQueryVariables> {
+    document = GetOrganizersDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetUsersDocument = gql`
-  query getUsers {
-    users {
-      id
-      firstName
-      lastName
-      currentTenant {
-        role
-        status
-      }
+    query getUsers {
+  users {
+    id
+    firstName
+    lastName
+    currentTenant {
+      role
+      status
     }
   }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GetUsersGQL extends Apollo.Query<
-  GetUsersQuery,
-  GetUsersQueryVariables
-> {
-  document = GetUsersDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetUsersGQL extends Apollo.Query<GetUsersQuery, GetUsersQueryVariables> {
+    document = GetUsersDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UpdateUserDocument = gql`
-  mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
-    updateUserRole(userId: $id, role: $role) {
-      id
-      currentTenant {
-        role
-      }
-    }
-    updateUserStatus(userId: $id, status: $status) {
-      id
-      currentTenant {
-        status
-      }
+    mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+  updateUserRole(userId: $id, role: $role) {
+    id
+    currentTenant {
+      role
     }
   }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UpdateUserGQL extends Apollo.Mutation<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
-> {
-  document = UpdateUserDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+  updateUserStatus(userId: $id, status: $status) {
+    id
+    currentTenant {
+      status
+    }
   }
 }
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }

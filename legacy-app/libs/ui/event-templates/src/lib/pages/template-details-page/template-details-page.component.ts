@@ -2,15 +2,18 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   CreateEventFromTemplateGQL,
+  DeleteEventTemplateGQL,
   GetEventTemplateGQL,
   GetEventTemplateQuery,
   GetOrganizerOptionsGQL,
+  UpdateEventTemplateGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEventDialogComponent } from '../../components/create-event-dialog/create-event-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventFormDialogComponent } from '../../components/event-form-dialog/event-form-dialog.component';
 
 @Component({
   selector: 'tumi-template-details-page',
@@ -27,7 +30,9 @@ export class TemplateDetailsPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private updateTemplate: UpdateEventTemplateGQL,
+    private deleteTemplateMutation: DeleteEventTemplateGQL
   ) {
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
@@ -65,6 +70,34 @@ export class TemplateDetailsPageComponent implements OnInit {
           ]);
         }
       }
+    }
+  }
+
+  async editTemplate() {
+    const template = await this.eventTemplate$.pipe(first()).toPromise();
+    const update = await this.dialog
+      .open(EventFormDialogComponent, { data: { template } })
+      .afterClosed()
+      .toPromise();
+    if (update && template) {
+      this.snackBar.open('Saving template ⏳', undefined, { duration: 0 });
+      await this.updateTemplate
+        .mutate({ templateId: template.id, update })
+        .toPromise();
+      this.snackBar.open('Template saved successfully ✔️');
+    }
+  }
+
+  async deleteTemplate() {
+    const template = await this.eventTemplate$.pipe(first()).toPromise();
+    const approve = confirm(
+      `Do you really want to delete '${template?.title}'?`
+    );
+    if (approve && template) {
+      await this.deleteTemplateMutation
+        .mutate({ templateId: template.id })
+        .toPromise();
+      await this.router.navigate(['event-templates']);
     }
   }
 }

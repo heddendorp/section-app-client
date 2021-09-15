@@ -8,6 +8,8 @@
   <button mat-stroked-button (click)="createEvent()">
     Create Event from this template
   </button>
-  <button mat-flat-button color="accent">Edit</button>
-  <button mat-flat-button color="warn">Delete</button>
+  <button mat-flat-button color="accent" (click)="editTemplate()">Edit</button>
+  <button mat-flat-button color="warn" (click)="deleteTemplate()">
+    Delete
+  </button>
 </div>

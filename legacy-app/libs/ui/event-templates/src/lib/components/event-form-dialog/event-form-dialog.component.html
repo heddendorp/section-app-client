@@ -1,46 +1,81 @@
 <h1 mat-dialog-title>Event Template Form</h1>
-<form [formGroup]='dialogForm' (ngSubmit)='onSubmit()'>
-<mat-dialog-content class='space-y-2'>
-    <mat-form-field class='w-full'>
-        <mat-label>Event title</mat-label>
-        <input matInput formControlName='title' type='text' required>
+<form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Event title</mat-label>
+      <input matInput formControlName="title" type="text" required />
       <mat-error>An event title is required</mat-error>
     </mat-form-field>
-    <mat-form-field  class='w-full'>
+    <mat-form-field class="w-full">
       <mat-label>Icon</mat-label>
-      <input matInput formControlName='icon' type='text' required>
-      <img [src]='iconFieldValue | async | iconURL' alt='icon' matSuffix width='24px' height='24px'>
+      <input matInput formControlName="icon" type="text" required />
+      <img
+        [src]="iconFieldValue | async | iconURL"
+        alt="icon"
+        matSuffix
+        width="24px"
+        height="24px"
+      />
       <mat-error>You have to define an icon</mat-error>
     </mat-form-field>
-    <mat-form-field  class='w-full'>
+    <mat-form-field class="w-full">
       <mat-label>Duration</mat-label>
-      <input matInput formControlName='duration' type='number' required>
+      <input matInput formControlName="duration" type="number" required />
       <span matSuffix>h</span>
       <mat-hint>The duration of this event in hours</mat-hint>
       <mat-error>You have to add the duration of this event</mat-error>
     </mat-form-field>
-    <mat-form-field  class='w-full'>
+    <mat-form-field class="w-full">
       <mat-label>Public event description</mat-label>
-      <textarea rows='5' matInput formControlName='description' required></textarea>
+      <textarea
+        rows="5"
+        matInput
+        formControlName="description"
+        required
+      ></textarea>
       <mat-hint>This description will be visible to anyone</mat-hint>
       <mat-error>You have to add an event description</mat-error>
     </mat-form-field>
-    <tumi-location-autocomplete formControlName='location'></tumi-location-autocomplete>
-    <mat-form-field  class='w-full'>
+    <tumi-location-autocomplete
+      formControlName="location"
+    ></tumi-location-autocomplete>
+    <mat-form-field class="w-full">
       <mat-label>Info for registered users</mat-label>
-      <textarea rows='5' matInput formControlName='participantText' required></textarea>
+      <textarea
+        rows="5"
+        matInput
+        formControlName="participantText"
+        required
+      ></textarea>
       <mat-hint>This text will be visible to signed up participants</mat-hint>
       <mat-error>You have to add infos for registered users</mat-error>
     </mat-form-field>
-    <mat-form-field  class='w-full'>
+    <mat-form-field class="w-full">
       <mat-label>Infos for organizers running the event</mat-label>
-      <textarea rows='5' matInput formControlName='organizerText' required></textarea>
+      <textarea
+        rows="5"
+        matInput
+        formControlName="organizerText"
+        required
+      ></textarea>
       <mat-hint>This text will be visible for section members</mat-hint>
       <mat-error>You have to add infos for event organizers</mat-error>
     </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions align='end'>
-  <button mat-button mat-dialog-close type='reset'>Cancel</button>
-  <button mat-button color='primary' type='submit'>Save</button>
-</mat-dialog-actions>
+
+    <mat-form-field class="w-full">
+      <mat-label>Internal comment for the template</mat-label>
+      <textarea
+        rows="5"
+        matInput
+        formControlName="organizerText"
+        required
+      ></textarea>
+      <mat-hint>This text is shown internally with the template</mat-hint>
+      <mat-error>You have to add a comment</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
 </form>

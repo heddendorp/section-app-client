@@ -7,6 +7,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
+import { GetEventTemplateQuery } from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-event-form-dialog',
@@ -21,13 +22,14 @@ export class EventFormDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialogRef<EventFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { dialog?: any }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { template?: GetEventTemplateQuery['eventTemplate'] }
   ) {
     this.dialogForm = this.fb.group({
       title: ['', Validators.required],
       icon: ['', Validators.required],
       description: ['', Validators.required],
-      comment: ['' /*, Validators.required*/],
+      comment: ['', Validators.required],
       location: [null, Validators.required],
       duration: ['', Validators.required],
       participantText: ['', Validators.required],
@@ -35,6 +37,9 @@ export class EventFormDialogComponent implements OnInit {
       organizerText: ['', Validators.required],
     });
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
+    if (this.data.template) {
+      this.dialogForm.patchValue(this.data.template, { emitEvent: true });
+    }
   }
 
   ngOnInit(): void {}
@@ -42,14 +47,23 @@ export class EventFormDialogComponent implements OnInit {
   onSubmit() {
     if (this.dialogForm.valid) {
       const templateValue = this.dialogForm.value;
-      this.dialog.close({
-        ...templateValue,
-        location:
+
+      if (!templateValue.location.id) {
+        if (this.data.template) {
+          templateValue.location = this.data.template.location;
+          templateValue.locationId = this.data.template.locationId;
+        } else {
+          console.error('Location resolve not possible');
+          return;
+        }
+      } else {
+        templateValue.locationId = templateValue.location.id;
+        templateValue.location =
           templateValue.location.type === 'POI'
             ? templateValue.location.poi.name
-            : templateValue.location.address.freeformAddress,
-        locationId: templateValue.location.id,
-      });
+            : templateValue.location.address.freeformAddress;
+      }
+      this.dialog.close(templateValue);
     } else {
       console.info('Cancelling form submission as it was not valid');
     }
