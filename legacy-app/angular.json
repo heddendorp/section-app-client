@@ -182,7 +182,7 @@
               "apps/tumi-app/src/assets"
             ],
             "styles": ["apps/tumi-app/src/styles.scss"],
-            "scripts": ["node_modules/marked/lib/marked.js","node_modules/emoji-toolkit/lib/js/joypixels.min.js"]
+            "scripts": ["node_modules/marked/lib/marked.js"]
           },
           "configurations": {
             "production": {

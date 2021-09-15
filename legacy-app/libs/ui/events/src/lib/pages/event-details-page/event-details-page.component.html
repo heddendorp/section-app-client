@@ -1,10 +1,9 @@
 <main *ngIf="event$ | async as event" class="bg-white">
   <tumi-event-header [event]="event"></tumi-event-header>
-  <div class="bg-gradient-to-b from-gray-700 py-8"></div>
+  <div class="bg-gray-700 py-8"></div>
   <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
     <markdown
       [data]="event.description"
-      emoji
       class="prose lg:prose-xl break-words"
     ></markdown>
   </div>
@@ -22,14 +21,13 @@
     <h3 class="mb-4">Information for organizing</h3>
     <markdown
       [data]="event.organizerText"
-      emoji
       class="prose lg:prose-xl break-words"
     ></markdown>
   </div>
 
   <div
     *ngIf="event.couldBeOrganizer"
-    class="p-6 lg:p-12 bg-gray-100 rounded-t-2xl shadow-inner"
+    class="p-6 lg:p-12 bg-gray-100 shadow-inner"
   >
     <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
     <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
