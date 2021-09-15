@@ -58,6 +58,13 @@ enum SubmissionTime {
 enum RegistrationType {
   ORGANIZER
   PARTICIPANT
+  CALENDAR
+}
+
+enum RegistrationMode {
+  STRIPE
+  ONLINE
+  EXTERNAL
 }
 
 /// One Tenant of the app, most likely an ESN section
@@ -149,6 +156,9 @@ model TumiEvent {
   organizerText     String
   participantLimit  Int
   organizerLimit    Int
+  price             Decimal?
+  registrationLink  String?
+  registrationMode  RegistrationMode
   publicationState  PublicationState      @default(DRAFT)
   participantSignup MembershipStatus[]
   organizerSignup   MembershipStatus[]
@@ -170,7 +180,7 @@ model CostItem {
   event     TumiEvent @relation(fields: [eventId], references: [id])
   eventId   String    @db.Uuid
   name      String
-  ammount   Int
+  ammount   Decimal
   receipts  Receipt[]
 }
 
@@ -202,6 +212,7 @@ model EventRegistration {
   userId    String           @db.Uuid
   event     TumiEvent        @relation(fields: [eventId], references: [id])
   eventId   String           @db.Uuid
+
   @@unique([userId, eventId])
 }
 

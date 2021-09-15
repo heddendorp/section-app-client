@@ -17,6 +17,9 @@ input CreateEventFromTemplateInput {
   organizerId: ID
   organizerLimit: Int!
   participantLimit: Int!
+  price: Decimal
+  registrationLink: String
+  registrationMode: RegistrationMode!
   start: DateTime!
 }
 
@@ -179,7 +182,14 @@ type Query {
   users: [User!]!
 }
 
+enum RegistrationMode {
+  EXTERNAL
+  ONLINE
+  STRIPE
+}
+
 enum RegistrationType {
+  CALENDAR
   ORGANIZER
   PARTICIPANT
 }
@@ -216,6 +226,9 @@ type Tenant {
 type TumiEvent {
   """Indicates whether the user could be an organizer for this event"""
   couldBeOrganizer: Boolean
+
+  """Indicates whether the user could be a participant for this event"""
+  couldBeParticipant: Boolean
   createdAt: DateTime!
   createdBy: User!
   description: String!
@@ -255,7 +268,10 @@ type TumiEvent {
   """Number of users registered as participant to this event"""
   participantsRegistered: Int
   photoShare: PhotoShare
+  price: Decimal
   publicationState: PublicationState!
+  registrationLink: String
+  registrationMode: RegistrationMode!
   registrations: [EventRegistration!]!
   start: DateTime!
   title: String!

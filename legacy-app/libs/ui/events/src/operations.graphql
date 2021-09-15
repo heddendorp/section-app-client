@@ -7,6 +7,9 @@ query loadEvent($id: ID!) {
     end
     description
     organizerText
+    registrationMode
+    registrationLink
+    price
 #    createdBy {
 #      id
 #      fullName
@@ -19,6 +22,7 @@ query loadEvent($id: ID!) {
     participantSignup
     organizerRegistrationPossible
     couldBeOrganizer
+    couldBeParticipant
     organizers{
       fullName
     }
@@ -45,5 +49,11 @@ query eventList{
     title
     icon
     start
+    participantLimit
+    participantsRegistered
+    organizerLimit
+    organizersRegistered
+    couldBeOrganizer
+    couldBeParticipant
   }
 }

@@ -142,6 +142,9 @@ exports.Prisma.TumiEventScalarFieldEnum = makeEnum({
   organizerText: 'organizerText',
   participantLimit: 'participantLimit',
   organizerLimit: 'organizerLimit',
+  price: 'price',
+  registrationLink: 'registrationLink',
+  registrationMode: 'registrationMode',
   publicationState: 'publicationState',
   participantSignup: 'participantSignup',
   organizerSignup: 'organizerSignup',
@@ -230,6 +233,12 @@ exports.MembershipStatus = makeEnum({
   ALUMNI: 'ALUMNI'
 });
 
+exports.RegistrationMode = makeEnum({
+  STRIPE: 'STRIPE',
+  ONLINE: 'ONLINE',
+  EXTERNAL: 'EXTERNAL'
+});
+
 exports.PublicationState = makeEnum({
   DRAFT: 'DRAFT',
   APPROVAL: 'APPROVAL',
@@ -238,7 +247,8 @@ exports.PublicationState = makeEnum({
 
 exports.RegistrationType = makeEnum({
   ORGANIZER: 'ORGANIZER',
-  PARTICIPANT: 'PARTICIPANT'
+  PARTICIPANT: 'PARTICIPANT',
+  CALENDAR: 'CALENDAR'
 });
 
 exports.SubmissionTime = makeEnum({

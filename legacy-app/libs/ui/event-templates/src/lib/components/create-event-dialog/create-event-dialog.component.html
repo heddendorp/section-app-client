@@ -16,6 +16,38 @@
       <mat-error>You have to specify when the event will end</mat-error>
     </mat-form-field>
     <mat-form-field class="w-full">
+      <mat-label>Registration Mode</mat-label>
+      <mat-select formControlName="registrationMode" required>
+        <mat-option [value]="RegistrationMode.External">{{
+          RegistrationMode.External | titlecase
+        }}</mat-option>
+        <mat-option [value]="RegistrationMode.Stripe">{{
+          RegistrationMode.Stripe | titlecase
+        }}</mat-option>
+        <mat-option [value]="RegistrationMode.Online">{{
+          RegistrationMode.Online | titlecase
+        }}</mat-option>
+      </mat-select>
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number" required />
+      <span matSuffix>€</span>
+      <mat-hint>The price users have to pay for this event</mat-hint>
+      <mat-error>
+        You have to specify a price or change the registration type
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Registration link</mat-label>
+      <input matInput formControlName="registrationLink" type="url" required />
+      <mat-hint>The link where users can register for this event</mat-hint>
+      <mat-error>
+        You have to specify a link or change the registration type
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
       <mat-label>Number of Organizers</mat-label>
       <input matInput formControlName="organizerLimit" type="number" />
       <mat-hint>The maximum number of organizers running this event</mat-hint>

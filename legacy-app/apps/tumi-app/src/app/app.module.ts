@@ -20,12 +20,12 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MarkdownModule } from 'ngx-markdown';
 import { onError } from '@apollo/client/link/error';
 import { CheckUserGuard } from './guards/check-user.guard';
-import { environment } from '../environments/environment';
 import {
   AngularPlugin,
   ApplicationinsightsAngularpluginErrorService,
 } from '@microsoft/applicationinsights-angularplugin-js';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],

@@ -36,6 +36,9 @@ export const eventType = objectType({
     t.field(TumiEvent.description);
     t.field(TumiEvent.locationId);
     t.field(TumiEvent.location);
+    t.field(TumiEvent.price);
+    t.field(TumiEvent.registrationLink);
+    t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.participantText);
     t.field(TumiEvent.participantMail);
     t.field(TumiEvent.organizerText);
@@ -84,6 +87,35 @@ export const eventType = objectType({
         if (!root.organizerSignup.includes(status)) {
           console.info(
             'Organizer signup not possible because of missing status ' + status
+          );
+          return false;
+        }
+        return true;
+      },
+    });
+    t.boolean('couldBeParticipant', {
+      description:
+        'Indicates whether the user could be a participant for this event',
+      resolve: async (root, args, context) => {
+        if (!context.user) {
+          console.info(
+            'Participant signup not possible because of missing user'
+          );
+          return false;
+        }
+        const { status } = await context.prisma.usersOfTenants.findUnique({
+          where: {
+            userId_tenantId: {
+              userId: context.user.id,
+              tenantId: context.tenant.id,
+            },
+          },
+          select: { status: true },
+        });
+        if (!root.participantSignup.includes(status)) {
+          console.info(
+            'Participant signup not possible because of missing status ' +
+              status
           );
           return false;
         }
@@ -194,6 +226,9 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.end);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
+    t.field(TumiEvent.price);
+    t.field(TumiEvent.registrationLink);
+    t.field(TumiEvent.registrationMode);
     t.id('organizerId');
   },
 });
@@ -263,6 +298,9 @@ export const createFromTemplateMutation = mutationField(
           end: createEventFromTemplateInput.end,
           participantLimit: createEventFromTemplateInput.participantLimit,
           organizerLimit: createEventFromTemplateInput.organizerLimit,
+          registrationLink: createEventFromTemplateInput.registrationLink,
+          registrationMode: createEventFromTemplateInput.registrationMode,
+          price: createEventFromTemplateInput.price,
           description: template.description,
           locationId: template.locationId,
           location: template.location,

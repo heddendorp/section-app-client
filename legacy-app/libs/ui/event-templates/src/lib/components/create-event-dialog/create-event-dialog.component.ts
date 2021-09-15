@@ -8,6 +8,7 @@ import {
 import {
   GetEventTemplateQuery,
   GetOrganizerOptionsQuery,
+  RegistrationMode,
 } from '@tumi/data-access';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +25,7 @@ import { DateTime } from 'luxon';
 export class CreateEventDialogComponent implements OnInit, OnDestroy {
   public eventDataForm: FormGroup;
   private destroyed$ = new Subject();
+  public RegistrationMode = RegistrationMode;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -36,6 +38,9 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required],
+      price: ['', Validators.required],
+      registrationLink: ['', Validators.required],
+      registrationMode: ['', Validators.required],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
       organizerId: ['', Validators.required],
@@ -55,6 +60,28 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
             .toISO({ includeOffset: false })
         )
       );
+    this.eventDataForm
+      .get('registrationMode')
+      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((mode) => {
+        switch (mode) {
+          case RegistrationMode.Stripe: {
+            this.eventDataForm.get('price')?.enable();
+            this.eventDataForm.get('registrationLink')?.disable();
+            break;
+          }
+          case RegistrationMode.Online: {
+            this.eventDataForm.get('price')?.disable();
+            this.eventDataForm.get('registrationLink')?.disable();
+            break;
+          }
+          case RegistrationMode.External: {
+            this.eventDataForm.get('price')?.disable();
+            this.eventDataForm.get('registrationLink')?.enable();
+            break;
+          }
+        }
+      });
   }
 
   onSubmit() {

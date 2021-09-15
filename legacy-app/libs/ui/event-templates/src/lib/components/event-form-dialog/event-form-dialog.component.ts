@@ -23,7 +23,7 @@ export class EventFormDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialogRef<EventFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { template?: GetEventTemplateQuery['eventTemplate'] }
+    public data?: { template?: GetEventTemplateQuery['eventTemplate'] }
   ) {
     this.dialogForm = this.fb.group({
       title: ['', Validators.required],
@@ -37,7 +37,7 @@ export class EventFormDialogComponent implements OnInit {
       organizerText: ['', Validators.required],
     });
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
-    if (this.data.template) {
+    if (this.data?.template) {
       this.dialogForm.patchValue(this.data.template, { emitEvent: true });
     }
   }
@@ -49,7 +49,7 @@ export class EventFormDialogComponent implements OnInit {
       const templateValue = this.dialogForm.value;
 
       if (!templateValue.location.id) {
-        if (this.data.template) {
+        if (this.data?.template) {
           templateValue.location = this.data.template.location;
           templateValue.locationId = this.data.template.locationId;
         } else {

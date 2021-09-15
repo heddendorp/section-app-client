@@ -92,6 +92,9 @@ Table TumiEvent {
   organizerText String [not null]
   participantLimit Int [not null]
   organizerLimit Int [not null]
+  price Decimal
+  registrationLink String
+  registrationMode RegistrationMode [not null]
   publicationState PublicationState [not null, default: 'DRAFT']
   participantSignup MembershipStatus [not null]
   organizerSignup MembershipStatus [not null]
@@ -115,7 +118,7 @@ Table CostItem {
   event TumiEvent [not null]
   eventId String [not null]
   name String [not null]
-  ammount Int [not null]
+  ammount Decimal [not null]
   receipts Receipt [not null]
 }
 
@@ -209,6 +212,13 @@ Enum SubmissionTime {
 Enum RegistrationType {
   ORGANIZER
   PARTICIPANT
+  CALENDAR
+}
+
+Enum RegistrationMode {
+  STRIPE
+  ONLINE
+  EXTERNAL
 }
 
 Ref: UsersOfTenants.userId > User.id

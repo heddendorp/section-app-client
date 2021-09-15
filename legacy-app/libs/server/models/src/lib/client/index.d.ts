@@ -1,189 +1,191 @@
+
 /**
  * Client
- **/
+**/
 
 import * as runtime from './runtime';
 
 declare const prisma: unique symbol;
-export type PrismaPromise<A> = Promise<A> & { [prisma]: true };
-type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P;
+export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
+type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}`
-    ? Tuple[K] extends PrismaPromise<infer X>
-      ? X
-      : UnwrapPromise<Tuple[K]>
-    : UnwrapPromise<Tuple[K]>;
+  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
 };
+
 
 /**
  * Model Tenant
  */
 
 export type Tenant = {
-  id: string;
-  createdAt: Date;
-  name: string;
-  shortName: string;
-};
+  id: string
+  createdAt: Date
+  name: string
+  shortName: string
+}
 
 /**
  * Model User
  */
 
 export type User = {
-  id: string;
-  createdAt: Date;
-  authId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthdate: Date;
-};
+  id: string
+  createdAt: Date
+  authId: string
+  firstName: string
+  lastName: string
+  email: string
+  birthdate: Date
+}
 
 /**
  * Model UsersOfTenants
  */
 
 export type UsersOfTenants = {
-  createdAt: Date;
-  userId: string;
-  tenantId: string;
-  role: Role;
-  status: MembershipStatus;
-};
+  createdAt: Date
+  userId: string
+  tenantId: string
+  role: Role
+  status: MembershipStatus
+}
 
 /**
  * Model EventOrganizer
  */
 
 export type EventOrganizer = {
-  id: string;
-  createdAt: Date;
-  tenantId: string;
-  name: string;
-  text: string;
-  link: string | null;
-};
+  id: string
+  createdAt: Date
+  tenantId: string
+  name: string
+  text: string
+  link: string | null
+}
 
 /**
  * Model EventTemplate
  */
 
 export type EventTemplate = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  description: string;
-  comment: string;
-  location: string;
-  locationId: string;
-  duration: Prisma.Decimal;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  finances: Prisma.JsonValue;
-  tenantId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  description: string
+  comment: string
+  location: string
+  locationId: string
+  duration: Prisma.Decimal
+  participantText: string
+  participantMail: string
+  organizerText: string
+  finances: Prisma.JsonValue
+  tenantId: string
+}
 
 /**
  * Model TumiEvent
  */
 
 export type TumiEvent = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  start: Date;
-  end: Date;
-  description: string;
-  location: string;
-  locationId: string;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  participantLimit: number;
-  organizerLimit: number;
-  publicationState: PublicationState;
-  participantSignup: MembershipStatus[];
-  organizerSignup: MembershipStatus[];
-  eventOrganizerId: string;
-  creatorId: string;
-  eventTemplateId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  start: Date
+  end: Date
+  description: string
+  location: string
+  locationId: string
+  participantText: string
+  participantMail: string
+  organizerText: string
+  participantLimit: number
+  organizerLimit: number
+  price: Prisma.Decimal | null
+  registrationLink: string | null
+  registrationMode: RegistrationMode
+  publicationState: PublicationState
+  participantSignup: MembershipStatus[]
+  organizerSignup: MembershipStatus[]
+  eventOrganizerId: string
+  creatorId: string
+  eventTemplateId: string
+}
 
 /**
  * Model CostItem
  */
 
 export type CostItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  name: string;
-  ammount: number;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  name: string
+  ammount: Prisma.Decimal
+}
 
 /**
  * Model Receipt
  */
 
 export type Receipt = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  costItemId: string;
-  covered: boolean;
-  amount: number;
-  date: Date;
-  amountCovered: number;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  costItemId: string
+  covered: boolean
+  amount: number
+  date: Date
+  amountCovered: number
+}
 
 /**
  * Model PhotoShare
  */
 
 export type PhotoShare = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+}
 
 /**
  * Model EventRegistration
  */
 
 export type EventRegistration = {
-  id: string;
-  createdAt: Date;
-  type: RegistrationType;
-  userId: string;
-  eventId: string;
-};
+  id: string
+  createdAt: Date
+  type: RegistrationType
+  userId: string
+  eventId: string
+}
 
 /**
  * Model EventSubmissionItem
  */
 
 export type EventSubmissionItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  required: boolean;
-  submissionTime: SubmissionTime;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  required: boolean
+  submissionTime: SubmissionTime
+}
 
 /**
  * Model EventSubmission
  */
 
 export type EventSubmission = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  submissionItemId: string;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  submissionItemId: string
+}
+
 
 /**
  * Enums
@@ -193,48 +195,60 @@ export type EventSubmission = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
 export const Role: {
-  USER: 'USER';
-  ADMIN: 'ADMIN';
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
-export type Role = typeof Role[keyof typeof Role];
+export type Role = (typeof Role)[keyof typeof Role]
+
 
 export const MembershipStatus: {
-  NONE: 'NONE';
-  TRIAL: 'TRIAL';
-  FULL: 'FULL';
-  SPONSOR: 'SPONSOR';
-  ALUMNI: 'ALUMNI';
+  NONE: 'NONE',
+  TRIAL: 'TRIAL',
+  FULL: 'FULL',
+  SPONSOR: 'SPONSOR',
+  ALUMNI: 'ALUMNI'
 };
 
-export type MembershipStatus =
-  typeof MembershipStatus[keyof typeof MembershipStatus];
+export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
+
+
+export const RegistrationMode: {
+  STRIPE: 'STRIPE',
+  ONLINE: 'ONLINE',
+  EXTERNAL: 'EXTERNAL'
+};
+
+export type RegistrationMode = (typeof RegistrationMode)[keyof typeof RegistrationMode]
+
 
 export const PublicationState: {
-  DRAFT: 'DRAFT';
-  APPROVAL: 'APPROVAL';
-  PUBLIC: 'PUBLIC';
+  DRAFT: 'DRAFT',
+  APPROVAL: 'APPROVAL',
+  PUBLIC: 'PUBLIC'
 };
 
-export type PublicationState =
-  typeof PublicationState[keyof typeof PublicationState];
+export type PublicationState = (typeof PublicationState)[keyof typeof PublicationState]
+
 
 export const RegistrationType: {
-  ORGANIZER: 'ORGANIZER';
-  PARTICIPANT: 'PARTICIPANT';
+  ORGANIZER: 'ORGANIZER',
+  PARTICIPANT: 'PARTICIPANT',
+  CALENDAR: 'CALENDAR'
 };
 
-export type RegistrationType =
-  typeof RegistrationType[keyof typeof RegistrationType];
+export type RegistrationType = (typeof RegistrationType)[keyof typeof RegistrationType]
+
 
 export const SubmissionTime: {
-  REGISTRATION: 'REGISTRATION';
-  BEFORE: 'BEFORE';
-  DURING: 'DURING';
-  AFTER: 'AFTER';
+  REGISTRATION: 'REGISTRATION',
+  BEFORE: 'BEFORE',
+  DURING: 'DURING',
+  AFTER: 'AFTER'
 };
 
-export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
+export type SubmissionTime = (typeof SubmissionTime)[keyof typeof SubmissionTime]
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -252,41 +266,37 @@ export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
  */
 export class PrismaClient<
   T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof T
-    ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
-      ? Prisma.GetEvents<T['log']>
-      : never
-    : never,
+  U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
   GlobalReject = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
     : false
-> {
-  /**
-   * @private
-   */
-  private fetcher;
-  /**
-   * @private
-   */
-  private readonly dmmf;
-  /**
-   * @private
-   */
-  private connectionPromise?;
-  /**
-   * @private
-   */
-  private disconnectionPromise?;
-  /**
-   * @private
-   */
-  private readonly engineConfig;
-  /**
-   * @private
-   */
-  private readonly measurePerformance;
+      > {
+      /**
+       * @private
+       */
+      private fetcher;
+      /**
+       * @private
+       */
+      private readonly dmmf;
+      /**
+       * @private
+       */
+      private connectionPromise?;
+      /**
+       * @private
+       */
+      private disconnectionPromise?;
+      /**
+       * @private
+       */
+      private readonly engineConfig;
+      /**
+       * @private
+       */
+      private readonly measurePerformance;
 
-  /**
+    /**
    * ##  Prisma Client ʲˢ
    *
    * Type-safe database client for TypeScript & Node.js
@@ -301,17 +311,8 @@ export class PrismaClient<
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
-  constructor(optionsArg?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
-  $on<V extends U | 'beforeExit'>(
-    eventType: V,
-    callback: (
-      event: V extends 'query'
-        ? Prisma.QueryEvent
-        : V extends 'beforeExit'
-        ? () => Promise<void>
-        : Prisma.LogEvent
-    ) => void
-  ): void;
+  constructor(optionsArg ?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
+  $on<V extends (U | 'beforeExit')>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : V extends 'beforeExit' ? () => Promise<void> : Prisma.LogEvent) => void): void;
 
   /**
    * Connect with the database
@@ -326,7 +327,7 @@ export class PrismaClient<
   /**
    * Add a middleware
    */
-  $use(cb: Prisma.Middleware): void;
+  $use(cb: Prisma.Middleware): void
 
   /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -337,10 +338,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -352,10 +350,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -366,10 +361,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -381,10 +373,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -399,128 +388,127 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(
-    arg: [...P]
-  ): Promise<UnwrapTuple<P>>;
+  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>;
 
-  /**
+
+      /**
    * `prisma.tenant`: Exposes CRUD operations for the **Tenant** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Tenants
-   * const tenants = await prisma.tenant.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tenants
+    * const tenants = await prisma.tenant.findMany()
+    * ```
+    */
   get tenant(): Prisma.TenantDelegate<GlobalReject>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
    * `prisma.usersOfTenants`: Exposes CRUD operations for the **UsersOfTenants** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more UsersOfTenants
-   * const usersOfTenants = await prisma.usersOfTenants.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UsersOfTenants
+    * const usersOfTenants = await prisma.usersOfTenants.findMany()
+    * ```
+    */
   get usersOfTenants(): Prisma.UsersOfTenantsDelegate<GlobalReject>;
 
   /**
    * `prisma.eventOrganizer`: Exposes CRUD operations for the **EventOrganizer** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventOrganizers
-   * const eventOrganizers = await prisma.eventOrganizer.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventOrganizers
+    * const eventOrganizers = await prisma.eventOrganizer.findMany()
+    * ```
+    */
   get eventOrganizer(): Prisma.EventOrganizerDelegate<GlobalReject>;
 
   /**
    * `prisma.eventTemplate`: Exposes CRUD operations for the **EventTemplate** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventTemplates
-   * const eventTemplates = await prisma.eventTemplate.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventTemplates
+    * const eventTemplates = await prisma.eventTemplate.findMany()
+    * ```
+    */
   get eventTemplate(): Prisma.EventTemplateDelegate<GlobalReject>;
 
   /**
    * `prisma.tumiEvent`: Exposes CRUD operations for the **TumiEvent** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more TumiEvents
-   * const tumiEvents = await prisma.tumiEvent.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TumiEvents
+    * const tumiEvents = await prisma.tumiEvent.findMany()
+    * ```
+    */
   get tumiEvent(): Prisma.TumiEventDelegate<GlobalReject>;
 
   /**
    * `prisma.costItem`: Exposes CRUD operations for the **CostItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more CostItems
-   * const costItems = await prisma.costItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostItems
+    * const costItems = await prisma.costItem.findMany()
+    * ```
+    */
   get costItem(): Prisma.CostItemDelegate<GlobalReject>;
 
   /**
    * `prisma.receipt`: Exposes CRUD operations for the **Receipt** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Receipts
-   * const receipts = await prisma.receipt.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Receipts
+    * const receipts = await prisma.receipt.findMany()
+    * ```
+    */
   get receipt(): Prisma.ReceiptDelegate<GlobalReject>;
 
   /**
    * `prisma.photoShare`: Exposes CRUD operations for the **PhotoShare** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more PhotoShares
-   * const photoShares = await prisma.photoShare.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhotoShares
+    * const photoShares = await prisma.photoShare.findMany()
+    * ```
+    */
   get photoShare(): Prisma.PhotoShareDelegate<GlobalReject>;
 
   /**
    * `prisma.eventRegistration`: Exposes CRUD operations for the **EventRegistration** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventRegistrations
-   * const eventRegistrations = await prisma.eventRegistration.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventRegistrations
+    * const eventRegistrations = await prisma.eventRegistration.findMany()
+    * ```
+    */
   get eventRegistration(): Prisma.EventRegistrationDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmissionItem`: Exposes CRUD operations for the **EventSubmissionItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissionItems
-   * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissionItems
+    * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
+    * ```
+    */
   get eventSubmissionItem(): Prisma.EventSubmissionItemDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmission`: Exposes CRUD operations for the **EventSubmission** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissions
-   * const eventSubmissions = await prisma.eventSubmission.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissions
+    * const eventSubmissions = await prisma.eventSubmission.findMany()
+    * ```
+    */
   get eventSubmission(): Prisma.EventSubmissionDelegate<GlobalReject>;
 }
 
@@ -6455,11 +6443,13 @@ export namespace Prisma {
   export type TumiEventAvgAggregateOutputType = {
     participantLimit: number | null;
     organizerLimit: number | null;
+    price: Decimal | null;
   };
 
   export type TumiEventSumAggregateOutputType = {
     participantLimit: number | null;
     organizerLimit: number | null;
+    price: Decimal | null;
   };
 
   export type TumiEventMinAggregateOutputType = {
@@ -6477,6 +6467,9 @@ export namespace Prisma {
     organizerText: string | null;
     participantLimit: number | null;
     organizerLimit: number | null;
+    price: Decimal | null;
+    registrationLink: string | null;
+    registrationMode: RegistrationMode | null;
     publicationState: PublicationState | null;
     eventOrganizerId: string | null;
     creatorId: string | null;
@@ -6498,6 +6491,9 @@ export namespace Prisma {
     organizerText: string | null;
     participantLimit: number | null;
     organizerLimit: number | null;
+    price: Decimal | null;
+    registrationLink: string | null;
+    registrationMode: RegistrationMode | null;
     publicationState: PublicationState | null;
     eventOrganizerId: string | null;
     creatorId: string | null;
@@ -6519,6 +6515,9 @@ export namespace Prisma {
     organizerText: number;
     participantLimit: number;
     organizerLimit: number;
+    price: number;
+    registrationLink: number;
+    registrationMode: number;
     publicationState: number;
     participantSignup: number;
     organizerSignup: number;
@@ -6531,11 +6530,13 @@ export namespace Prisma {
   export type TumiEventAvgAggregateInputType = {
     participantLimit?: true;
     organizerLimit?: true;
+    price?: true;
   };
 
   export type TumiEventSumAggregateInputType = {
     participantLimit?: true;
     organizerLimit?: true;
+    price?: true;
   };
 
   export type TumiEventMinAggregateInputType = {
@@ -6553,6 +6554,9 @@ export namespace Prisma {
     organizerText?: true;
     participantLimit?: true;
     organizerLimit?: true;
+    price?: true;
+    registrationLink?: true;
+    registrationMode?: true;
     publicationState?: true;
     eventOrganizerId?: true;
     creatorId?: true;
@@ -6574,6 +6578,9 @@ export namespace Prisma {
     organizerText?: true;
     participantLimit?: true;
     organizerLimit?: true;
+    price?: true;
+    registrationLink?: true;
+    registrationMode?: true;
     publicationState?: true;
     eventOrganizerId?: true;
     creatorId?: true;
@@ -6595,6 +6602,9 @@ export namespace Prisma {
     organizerText?: true;
     participantLimit?: true;
     organizerLimit?: true;
+    price?: true;
+    registrationLink?: true;
+    registrationMode?: true;
     publicationState?: true;
     participantSignup?: true;
     organizerSignup?: true;
@@ -6707,6 +6717,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price: Decimal | null;
+    registrationLink: string | null;
+    registrationMode: RegistrationMode;
     publicationState: PublicationState;
     participantSignup: MembershipStatus[];
     organizerSignup: MembershipStatus[];
@@ -6748,6 +6761,9 @@ export namespace Prisma {
     organizerText?: boolean;
     participantLimit?: boolean;
     organizerLimit?: boolean;
+    price?: boolean;
+    registrationLink?: boolean;
+    registrationMode?: boolean;
     publicationState?: boolean;
     participantSignup?: boolean;
     organizerSignup?: boolean;
@@ -7629,11 +7645,11 @@ export namespace Prisma {
   };
 
   export type CostItemAvgAggregateOutputType = {
-    ammount: number | null;
+    ammount: Decimal | null;
   };
 
   export type CostItemSumAggregateOutputType = {
-    ammount: number | null;
+    ammount: Decimal | null;
   };
 
   export type CostItemMinAggregateOutputType = {
@@ -7641,7 +7657,7 @@ export namespace Prisma {
     createdAt: Date | null;
     eventId: string | null;
     name: string | null;
-    ammount: number | null;
+    ammount: Decimal | null;
   };
 
   export type CostItemMaxAggregateOutputType = {
@@ -7649,7 +7665,7 @@ export namespace Prisma {
     createdAt: Date | null;
     eventId: string | null;
     name: string | null;
-    ammount: number | null;
+    ammount: Decimal | null;
   };
 
   export type CostItemCountAggregateOutputType = {
@@ -7787,7 +7803,7 @@ export namespace Prisma {
     createdAt: Date;
     eventId: string;
     name: string;
-    ammount: number;
+    ammount: Decimal;
     _count: CostItemCountAggregateOutputType | null;
     _avg: CostItemAvgAggregateOutputType | null;
     _sum: CostItemSumAggregateOutputType | null;
@@ -13531,6 +13547,9 @@ export namespace Prisma {
     organizerText: 'organizerText';
     participantLimit: 'participantLimit';
     organizerLimit: 'organizerLimit';
+    price: 'price';
+    registrationLink: 'registrationLink';
+    registrationMode: 'registrationMode';
     publicationState: 'publicationState';
     participantSignup: 'participantSignup';
     organizerSignup: 'organizerSignup';
@@ -13961,6 +13980,9 @@ export namespace Prisma {
     organizerText?: StringFilter | string;
     participantLimit?: IntFilter | number;
     organizerLimit?: IntFilter | number;
+    price?: DecimalNullableFilter | Decimal | number | string | null;
+    registrationLink?: StringNullableFilter | string | null;
+    registrationMode?: EnumRegistrationModeFilter | RegistrationMode;
     publicationState?: EnumPublicationStateFilter | PublicationState;
     participantSignup?: EnumMembershipStatusNullableListFilter;
     organizerSignup?: EnumMembershipStatusNullableListFilter;
@@ -13991,6 +14013,9 @@ export namespace Prisma {
     organizerText?: SortOrder;
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
+    registrationLink?: SortOrder;
+    registrationMode?: SortOrder;
     publicationState?: SortOrder;
     participantSignup?: SortOrder;
     organizerSignup?: SortOrder;
@@ -14025,6 +14050,9 @@ export namespace Prisma {
     organizerText?: SortOrder;
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
+    registrationLink?: SortOrder;
+    registrationMode?: SortOrder;
     publicationState?: SortOrder;
     participantSignup?: SortOrder;
     organizerSignup?: SortOrder;
@@ -14056,6 +14084,16 @@ export namespace Prisma {
     organizerText?: StringWithAggregatesFilter | string;
     participantLimit?: IntWithAggregatesFilter | number;
     organizerLimit?: IntWithAggregatesFilter | number;
+    price?:
+      | DecimalNullableWithAggregatesFilter
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: StringNullableWithAggregatesFilter | string | null;
+    registrationMode?:
+      | EnumRegistrationModeWithAggregatesFilter
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateWithAggregatesFilter
       | PublicationState;
@@ -14075,7 +14113,7 @@ export namespace Prisma {
     event?: XOR<TumiEventRelationFilter, TumiEventWhereInput>;
     eventId?: StringFilter | string;
     name?: StringFilter | string;
-    ammount?: IntFilter | number;
+    ammount?: DecimalFilter | Decimal | number | string;
     receipts?: ReceiptListRelationFilter;
   };
 
@@ -14114,7 +14152,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter | Date | string;
     eventId?: StringWithAggregatesFilter | string;
     name?: StringWithAggregatesFilter | string;
-    ammount?: IntWithAggregatesFilter | number;
+    ammount?: DecimalWithAggregatesFilter | Decimal | number | string;
   };
 
   export type ReceiptWhereInput = {
@@ -14774,6 +14812,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -14805,6 +14846,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -14836,6 +14880,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -14869,6 +14923,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -14902,6 +14966,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -14929,6 +14996,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -14955,6 +15032,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -14973,7 +15060,7 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
     event: TumiEventCreateNestedOneWithoutCostItemsInput;
     receipts?: ReceiptCreateNestedManyWithoutCostItemInput;
   };
@@ -14983,7 +15070,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     eventId: string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
     receipts?: ReceiptUncheckedCreateNestedManyWithoutCostItemInput;
   };
 
@@ -14991,7 +15078,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
     event?: TumiEventUpdateOneRequiredWithoutCostItemsInput;
     receipts?: ReceiptUpdateManyWithoutCostItemInput;
   };
@@ -15001,7 +15088,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     eventId?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
     receipts?: ReceiptUncheckedUpdateManyWithoutCostItemInput;
   };
 
@@ -15010,14 +15097,14 @@ export namespace Prisma {
     createdAt?: Date | string;
     eventId: string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
   };
 
   export type CostItemUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
   };
 
   export type CostItemUncheckedUpdateManyInput = {
@@ -15025,7 +15112,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     eventId?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
   };
 
   export type ReceiptCreateInput = {
@@ -15750,6 +15837,28 @@ export namespace Prisma {
     not?: NestedIntFilter | number;
   };
 
+  export type DecimalNullableFilter = {
+    equals?: Decimal | number | string | null;
+    in?: Enumerable<Decimal> | Enumerable<number> | Enumerable<string> | null;
+    notIn?:
+      | Enumerable<Decimal>
+      | Enumerable<number>
+      | Enumerable<string>
+      | null;
+    lt?: Decimal | number | string;
+    lte?: Decimal | number | string;
+    gt?: Decimal | number | string;
+    gte?: Decimal | number | string;
+    not?: NestedDecimalNullableFilter | Decimal | number | string | null;
+  };
+
+  export type EnumRegistrationModeFilter = {
+    equals?: RegistrationMode;
+    in?: Enumerable<RegistrationMode>;
+    notIn?: Enumerable<RegistrationMode>;
+    not?: NestedEnumRegistrationModeFilter | RegistrationMode;
+  };
+
   export type EnumPublicationStateFilter = {
     equals?: PublicationState;
     in?: Enumerable<PublicationState>;
@@ -15815,6 +15924,9 @@ export namespace Prisma {
     organizerText?: SortOrder;
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
+    registrationLink?: SortOrder;
+    registrationMode?: SortOrder;
     publicationState?: SortOrder;
     participantSignup?: SortOrder;
     organizerSignup?: SortOrder;
@@ -15826,6 +15938,7 @@ export namespace Prisma {
   export type TumiEventAvgOrderByAggregateInput = {
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
   };
 
   export type TumiEventMaxOrderByAggregateInput = {
@@ -15843,6 +15956,9 @@ export namespace Prisma {
     organizerText?: SortOrder;
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
+    registrationLink?: SortOrder;
+    registrationMode?: SortOrder;
     publicationState?: SortOrder;
     eventOrganizerId?: SortOrder;
     creatorId?: SortOrder;
@@ -15864,6 +15980,9 @@ export namespace Prisma {
     organizerText?: SortOrder;
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
+    registrationLink?: SortOrder;
+    registrationMode?: SortOrder;
     publicationState?: SortOrder;
     eventOrganizerId?: SortOrder;
     creatorId?: SortOrder;
@@ -15873,6 +15992,7 @@ export namespace Prisma {
   export type TumiEventSumOrderByAggregateInput = {
     participantLimit?: SortOrder;
     organizerLimit?: SortOrder;
+    price?: SortOrder;
   };
 
   export type IntWithAggregatesFilter = {
@@ -15889,6 +16009,41 @@ export namespace Prisma {
     _sum?: NestedIntFilter;
     _min?: NestedIntFilter;
     _max?: NestedIntFilter;
+  };
+
+  export type DecimalNullableWithAggregatesFilter = {
+    equals?: Decimal | number | string | null;
+    in?: Enumerable<Decimal> | Enumerable<number> | Enumerable<string> | null;
+    notIn?:
+      | Enumerable<Decimal>
+      | Enumerable<number>
+      | Enumerable<string>
+      | null;
+    lt?: Decimal | number | string;
+    lte?: Decimal | number | string;
+    gt?: Decimal | number | string;
+    gte?: Decimal | number | string;
+    not?:
+      | NestedDecimalNullableWithAggregatesFilter
+      | Decimal
+      | number
+      | string
+      | null;
+    _count?: NestedIntNullableFilter;
+    _avg?: NestedDecimalNullableFilter;
+    _sum?: NestedDecimalNullableFilter;
+    _min?: NestedDecimalNullableFilter;
+    _max?: NestedDecimalNullableFilter;
+  };
+
+  export type EnumRegistrationModeWithAggregatesFilter = {
+    equals?: RegistrationMode;
+    in?: Enumerable<RegistrationMode>;
+    notIn?: Enumerable<RegistrationMode>;
+    not?: NestedEnumRegistrationModeWithAggregatesFilter | RegistrationMode;
+    _count?: NestedIntFilter;
+    _min?: NestedEnumRegistrationModeFilter;
+    _max?: NestedEnumRegistrationModeFilter;
   };
 
   export type EnumPublicationStateWithAggregatesFilter = {
@@ -16911,6 +17066,18 @@ export namespace Prisma {
     divide?: number;
   };
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | number | string | null;
+    increment?: Decimal | number | string;
+    decrement?: Decimal | number | string;
+    multiply?: Decimal | number | string;
+    divide?: Decimal | number | string;
+  };
+
+  export type EnumRegistrationModeFieldUpdateOperationsInput = {
+    set?: RegistrationMode;
+  };
+
   export type EnumPublicationStateFieldUpdateOperationsInput = {
     set?: PublicationState;
   };
@@ -17621,6 +17788,28 @@ export namespace Prisma {
     not?: JsonNullValueFilter | InputJsonValue;
   };
 
+  export type NestedDecimalNullableFilter = {
+    equals?: Decimal | number | string | null;
+    in?: Enumerable<Decimal> | Enumerable<number> | Enumerable<string> | null;
+    notIn?:
+      | Enumerable<Decimal>
+      | Enumerable<number>
+      | Enumerable<string>
+      | null;
+    lt?: Decimal | number | string;
+    lte?: Decimal | number | string;
+    gt?: Decimal | number | string;
+    gte?: Decimal | number | string;
+    not?: NestedDecimalNullableFilter | Decimal | number | string | null;
+  };
+
+  export type NestedEnumRegistrationModeFilter = {
+    equals?: RegistrationMode;
+    in?: Enumerable<RegistrationMode>;
+    notIn?: Enumerable<RegistrationMode>;
+    not?: NestedEnumRegistrationModeFilter | RegistrationMode;
+  };
+
   export type NestedEnumPublicationStateFilter = {
     equals?: PublicationState;
     in?: Enumerable<PublicationState>;
@@ -17653,6 +17842,41 @@ export namespace Prisma {
     gt?: number;
     gte?: number;
     not?: NestedFloatFilter | number;
+  };
+
+  export type NestedDecimalNullableWithAggregatesFilter = {
+    equals?: Decimal | number | string | null;
+    in?: Enumerable<Decimal> | Enumerable<number> | Enumerable<string> | null;
+    notIn?:
+      | Enumerable<Decimal>
+      | Enumerable<number>
+      | Enumerable<string>
+      | null;
+    lt?: Decimal | number | string;
+    lte?: Decimal | number | string;
+    gt?: Decimal | number | string;
+    gte?: Decimal | number | string;
+    not?:
+      | NestedDecimalNullableWithAggregatesFilter
+      | Decimal
+      | number
+      | string
+      | null;
+    _count?: NestedIntNullableFilter;
+    _avg?: NestedDecimalNullableFilter;
+    _sum?: NestedDecimalNullableFilter;
+    _min?: NestedDecimalNullableFilter;
+    _max?: NestedDecimalNullableFilter;
+  };
+
+  export type NestedEnumRegistrationModeWithAggregatesFilter = {
+    equals?: RegistrationMode;
+    in?: Enumerable<RegistrationMode>;
+    notIn?: Enumerable<RegistrationMode>;
+    not?: NestedEnumRegistrationModeWithAggregatesFilter | RegistrationMode;
+    _count?: NestedIntFilter;
+    _min?: NestedEnumRegistrationModeFilter;
+    _max?: NestedEnumRegistrationModeFilter;
   };
 
   export type NestedEnumPublicationStateWithAggregatesFilter = {
@@ -18071,6 +18295,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -18101,6 +18328,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     eventTemplateId: string;
@@ -18322,6 +18552,9 @@ export namespace Prisma {
     organizerText?: StringFilter | string;
     participantLimit?: IntFilter | number;
     organizerLimit?: IntFilter | number;
+    price?: DecimalNullableFilter | Decimal | number | string | null;
+    registrationLink?: StringNullableFilter | string | null;
+    registrationMode?: EnumRegistrationModeFilter | RegistrationMode;
     publicationState?: EnumPublicationStateFilter | PublicationState;
     participantSignup?: EnumMembershipStatusNullableListFilter;
     organizerSignup?: EnumMembershipStatusNullableListFilter;
@@ -18501,6 +18734,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -18531,6 +18767,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     creatorId: string;
     eventTemplateId: string;
@@ -18631,6 +18870,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -18661,6 +18903,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -18832,7 +19077,7 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
     receipts?: ReceiptCreateNestedManyWithoutCostItemInput;
   };
 
@@ -18840,7 +19085,7 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
     receipts?: ReceiptUncheckedCreateNestedManyWithoutCostItemInput;
   };
 
@@ -19082,7 +19327,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string;
     eventId?: StringFilter | string;
     name?: StringFilter | string;
-    ammount?: IntFilter | number;
+    ammount?: DecimalFilter | Decimal | number | string;
   };
 
   export type PhotoShareUpsertWithoutEventInput = {
@@ -19234,6 +19479,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -19264,6 +19512,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -19346,6 +19597,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19378,6 +19639,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19463,7 +19734,7 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
     event: TumiEventCreateNestedOneWithoutCostItemsInput;
   };
 
@@ -19472,7 +19743,7 @@ export namespace Prisma {
     createdAt?: Date | string;
     eventId: string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
   };
 
   export type CostItemCreateOrConnectWithoutReceiptsInput = {
@@ -19537,7 +19808,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
     event?: TumiEventUpdateOneRequiredWithoutCostItemsInput;
   };
 
@@ -19546,7 +19817,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     eventId?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
   };
 
   export type TumiEventCreateWithoutPhotoShareInput = {
@@ -19564,6 +19835,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -19594,6 +19868,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -19643,6 +19920,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19675,6 +19962,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19743,6 +20040,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -19773,6 +20073,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -19861,6 +20164,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19893,6 +20206,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -19925,6 +20248,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     participantSignup?:
       | TumiEventCreateparticipantSignupInput
@@ -19955,6 +20281,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -20029,6 +20358,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20061,6 +20400,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20409,6 +20758,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     eventTemplateId: string;
@@ -20526,6 +20878,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20558,6 +20920,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20590,6 +20962,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20618,6 +21000,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     creatorId: string;
     eventTemplateId: string;
@@ -20644,6 +21029,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20676,6 +21071,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20708,6 +21113,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20736,6 +21151,9 @@ export namespace Prisma {
     organizerText: string;
     participantLimit: number;
     organizerLimit: number;
+    price?: Decimal | number | string | null;
+    registrationLink?: string | null;
+    registrationMode: RegistrationMode;
     publicationState?: PublicationState;
     eventOrganizerId: string;
     creatorId: string;
@@ -20762,6 +21180,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20794,6 +21222,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20826,6 +21264,16 @@ export namespace Prisma {
     organizerText?: StringFieldUpdateOperationsInput | string;
     participantLimit?: IntFieldUpdateOperationsInput | number;
     organizerLimit?: IntFieldUpdateOperationsInput | number;
+    price?:
+      | NullableDecimalFieldUpdateOperationsInput
+      | Decimal
+      | number
+      | string
+      | null;
+    registrationLink?: NullableStringFieldUpdateOperationsInput | string | null;
+    registrationMode?:
+      | EnumRegistrationModeFieldUpdateOperationsInput
+      | RegistrationMode;
     publicationState?:
       | EnumPublicationStateFieldUpdateOperationsInput
       | PublicationState;
@@ -20857,7 +21305,7 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     name: string;
-    ammount: number;
+    ammount: Decimal | number | string;
   };
 
   export type EventSubmissionItemUpdateWithoutEventInput = {
@@ -20915,7 +21363,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
     receipts?: ReceiptUpdateManyWithoutCostItemInput;
   };
 
@@ -20923,7 +21371,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
     receipts?: ReceiptUncheckedUpdateManyWithoutCostItemInput;
   };
 
@@ -20931,7 +21379,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     name?: StringFieldUpdateOperationsInput | string;
-    ammount?: IntFieldUpdateOperationsInput | number;
+    ammount?: DecimalFieldUpdateOperationsInput | Decimal | number | string;
   };
 
   export type ReceiptCreateManyCostItemInput = {
