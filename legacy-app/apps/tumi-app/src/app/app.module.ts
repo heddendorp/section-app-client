@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -13,13 +13,19 @@ import { UiAppShellModule } from '@tumi/ui-app-shell';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MarkdownModule } from 'ngx-markdown';
 import { onError } from '@apollo/client/link/error';
 import { CheckUserGuard } from './guards/check-user.guard';
+import { environment } from '../environments/environment';
+import {
+  AngularPlugin,
+  ApplicationinsightsAngularpluginErrorService,
+} from '@microsoft/applicationinsights-angularplugin-js';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 @NgModule({
   declarations: [AppComponent],
@@ -114,7 +120,32 @@ import { CheckUserGuard } from './guards/check-user.guard';
       useValue: { appearance: 'fill' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+    environment.production
+      ? [
+          {
+            provide: ErrorHandler,
+            useClass: ApplicationinsightsAngularpluginErrorService,
+          },
+        ]
+      : [],
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(router: Router) {
+    if (environment.production) {
+      const angularPlugin = new AngularPlugin();
+      const appInsights = new ApplicationInsights({
+        config: {
+          connectionString:
+            'InstrumentationKey=f366572f-cd84-482d-bd75-ba65076988c8;IngestionEndpoint=https://germanywestcentral-1.in.applicationinsights.azure.com/',
+          extensions: [angularPlugin],
+          extensionConfig: {
+            [angularPlugin.identifier]: { router },
+          },
+        },
+      });
+      appInsights.loadAppInsights();
+    }
+  }
+}

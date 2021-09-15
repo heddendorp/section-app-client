@@ -17,6 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { MatListModule } from '@angular/material/list';
     MarkdownModule.forChild(),
     UtilMaterialModule,
     MatListModule,
+    MatProgressBarModule,
   ],
   declarations: [
     EventListPageComponent,

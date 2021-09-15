@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="bg-white">
   <tumi-event-header [event]="event"></tumi-event-header>
   <div class="bg-gray-700 py-8"></div>

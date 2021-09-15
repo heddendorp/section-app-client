@@ -201,7 +201,8 @@ export const createEventFromTemplateInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  resolve: (source, args, context) => context.prisma.tumiEvent.findMany(),
+  resolve: (source, args, context) =>
+    context.prisma.tumiEvent.findMany({ orderBy: { start: 'asc' } }),
 });
 
 export const getOneEventQuery = queryField('event', {
