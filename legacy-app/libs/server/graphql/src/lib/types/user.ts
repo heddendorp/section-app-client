@@ -145,12 +145,15 @@ export const createUser = mutationField('registerUser', {
     userInput: createUserInputType,
   },
   resolve: async (source, args, context) => {
-    const { email } = await context.auth0.getUserInfo(context.token.sub);
-    console.log(context.tenant);
+    const { email, email_verified, picture } = await context.auth0.getUserInfo(
+      context.token.sub
+    );
     return context.prisma.user.create({
       data: {
         ...args.userInput,
         authId: context.token.sub,
+        email_verified,
+        picture,
         email,
         tenants: {
           create: [

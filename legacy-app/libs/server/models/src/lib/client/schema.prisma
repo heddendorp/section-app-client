@@ -88,6 +88,8 @@ model User {
   firstName          String
   lastName           String
   email              String
+  email_verified Boolean
+  picture String
   birthdate          DateTime
   // User relations
   tenants            UsersOfTenants[]

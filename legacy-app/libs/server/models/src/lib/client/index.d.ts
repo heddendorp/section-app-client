@@ -35,6 +35,8 @@ export type User = {
   firstName: string
   lastName: string
   email: string
+  email_verified: boolean
+  picture: string
   birthdate: Date
 }
 
@@ -2453,6 +2455,8 @@ export namespace Prisma {
     firstName: string | null;
     lastName: string | null;
     email: string | null;
+    email_verified: boolean | null;
+    picture: string | null;
     birthdate: Date | null;
   };
 
@@ -2463,6 +2467,8 @@ export namespace Prisma {
     firstName: string | null;
     lastName: string | null;
     email: string | null;
+    email_verified: boolean | null;
+    picture: string | null;
     birthdate: Date | null;
   };
 
@@ -2473,6 +2479,8 @@ export namespace Prisma {
     firstName: number;
     lastName: number;
     email: number;
+    email_verified: number;
+    picture: number;
     birthdate: number;
     _all: number;
   };
@@ -2484,6 +2492,8 @@ export namespace Prisma {
     firstName?: true;
     lastName?: true;
     email?: true;
+    email_verified?: true;
+    picture?: true;
     birthdate?: true;
   };
 
@@ -2494,6 +2504,8 @@ export namespace Prisma {
     firstName?: true;
     lastName?: true;
     email?: true;
+    email_verified?: true;
+    picture?: true;
     birthdate?: true;
   };
 
@@ -2504,6 +2516,8 @@ export namespace Prisma {
     firstName?: true;
     lastName?: true;
     email?: true;
+    email_verified?: true;
+    picture?: true;
     birthdate?: true;
     _all?: true;
   };
@@ -2589,6 +2603,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date;
     _count: UserCountAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
@@ -2615,6 +2631,8 @@ export namespace Prisma {
     firstName?: boolean;
     lastName?: boolean;
     email?: boolean;
+    email_verified?: boolean;
+    picture?: boolean;
     birthdate?: boolean;
     tenants?: boolean | UsersOfTenantsFindManyArgs;
     eventSubmissions?: boolean | EventSubmissionFindManyArgs;
@@ -13483,6 +13501,8 @@ export namespace Prisma {
     firstName: 'firstName';
     lastName: 'lastName';
     email: 'email';
+    email_verified: 'email_verified';
+    picture: 'picture';
     birthdate: 'birthdate';
   };
 
@@ -13719,6 +13739,8 @@ export namespace Prisma {
     firstName?: StringFilter | string;
     lastName?: StringFilter | string;
     email?: StringFilter | string;
+    email_verified?: BoolFilter | boolean;
+    picture?: StringFilter | string;
     birthdate?: DateTimeFilter | Date | string;
     tenants?: UsersOfTenantsListRelationFilter;
     eventSubmissions?: EventSubmissionListRelationFilter;
@@ -13734,6 +13756,8 @@ export namespace Prisma {
     firstName?: SortOrder;
     lastName?: SortOrder;
     email?: SortOrder;
+    email_verified?: SortOrder;
+    picture?: SortOrder;
     birthdate?: SortOrder;
     tenants?: UsersOfTenantsOrderByRelationAggregateInput;
     eventSubmissions?: EventSubmissionOrderByRelationAggregateInput;
@@ -13754,6 +13778,8 @@ export namespace Prisma {
     firstName?: SortOrder;
     lastName?: SortOrder;
     email?: SortOrder;
+    email_verified?: SortOrder;
+    picture?: SortOrder;
     birthdate?: SortOrder;
     _count?: UserCountOrderByAggregateInput;
     _max?: UserMaxOrderByAggregateInput;
@@ -13770,6 +13796,8 @@ export namespace Prisma {
     firstName?: StringWithAggregatesFilter | string;
     lastName?: StringWithAggregatesFilter | string;
     email?: StringWithAggregatesFilter | string;
+    email_verified?: BoolWithAggregatesFilter | boolean;
+    picture?: StringWithAggregatesFilter | string;
     birthdate?: DateTimeWithAggregatesFilter | Date | string;
   };
 
@@ -14472,6 +14500,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionCreateNestedManyWithoutUserInput;
@@ -14487,6 +14517,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsUncheckedCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedCreateNestedManyWithoutUserInput;
@@ -14502,6 +14534,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUpdateManyWithoutUserInput;
@@ -14517,6 +14551,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUncheckedUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedUpdateManyWithoutUserInput;
@@ -14532,6 +14568,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
   };
 
@@ -14542,6 +14580,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
@@ -14552,6 +14592,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
@@ -15508,6 +15550,11 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter;
   };
 
+  export type BoolFilter = {
+    equals?: boolean;
+    not?: NestedBoolFilter | boolean;
+  };
+
   export type EventSubmissionListRelationFilter = {
     every?: EventSubmissionWhereInput;
     some?: EventSubmissionWhereInput;
@@ -15555,6 +15602,8 @@ export namespace Prisma {
     firstName?: SortOrder;
     lastName?: SortOrder;
     email?: SortOrder;
+    email_verified?: SortOrder;
+    picture?: SortOrder;
     birthdate?: SortOrder;
   };
 
@@ -15565,6 +15614,8 @@ export namespace Prisma {
     firstName?: SortOrder;
     lastName?: SortOrder;
     email?: SortOrder;
+    email_verified?: SortOrder;
+    picture?: SortOrder;
     birthdate?: SortOrder;
   };
 
@@ -15575,7 +15626,17 @@ export namespace Prisma {
     firstName?: SortOrder;
     lastName?: SortOrder;
     email?: SortOrder;
+    email_verified?: SortOrder;
+    picture?: SortOrder;
     birthdate?: SortOrder;
+  };
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean;
+    not?: NestedBoolWithAggregatesFilter | boolean;
+    _count?: NestedIntFilter;
+    _min?: NestedBoolFilter;
+    _max?: NestedBoolFilter;
   };
 
   export type UserRelationFilter = {
@@ -16098,11 +16159,6 @@ export namespace Prisma {
     isNot?: CostItemWhereInput;
   };
 
-  export type BoolFilter = {
-    equals?: boolean;
-    not?: NestedBoolFilter | boolean;
-  };
-
   export type ReceiptCountOrderByAggregateInput = {
     id?: SortOrder;
     createdAt?: SortOrder;
@@ -16144,14 +16200,6 @@ export namespace Prisma {
   export type ReceiptSumOrderByAggregateInput = {
     amount?: SortOrder;
     amountCovered?: SortOrder;
-  };
-
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean;
-    not?: NestedBoolWithAggregatesFilter | boolean;
-    _count?: NestedIntFilter;
-    _min?: NestedBoolFilter;
-    _max?: NestedBoolFilter;
   };
 
   export type PhotoShareCountOrderByAggregateInput = {
@@ -16553,6 +16601,10 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<TumiEventCreateOrConnectWithoutCreatedByInput>;
     createMany?: TumiEventCreateManyCreatedByInputEnvelope;
     connect?: Enumerable<TumiEventWhereUniqueInput>;
+  };
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean;
   };
 
   export type UsersOfTenantsUpdateManyWithoutUserInput = {
@@ -17371,10 +17423,6 @@ export namespace Prisma {
     connect?: CostItemWhereUniqueInput;
   };
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean;
-  };
-
   export type UserUpdateOneRequiredWithoutReceiptsInput = {
     create?: XOR<
       UserCreateWithoutReceiptsInput,
@@ -17671,6 +17719,19 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter;
   };
 
+  export type NestedBoolFilter = {
+    equals?: boolean;
+    not?: NestedBoolFilter | boolean;
+  };
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean;
+    not?: NestedBoolWithAggregatesFilter | boolean;
+    _count?: NestedIntFilter;
+    _min?: NestedBoolFilter;
+    _max?: NestedBoolFilter;
+  };
+
   export type NestedEnumRoleFilter = {
     equals?: Role;
     in?: Enumerable<Role>;
@@ -17887,19 +17948,6 @@ export namespace Prisma {
     _count?: NestedIntFilter;
     _min?: NestedEnumPublicationStateFilter;
     _max?: NestedEnumPublicationStateFilter;
-  };
-
-  export type NestedBoolFilter = {
-    equals?: boolean;
-    not?: NestedBoolFilter | boolean;
-  };
-
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean;
-    not?: NestedBoolWithAggregatesFilter | boolean;
-    _count?: NestedIntFilter;
-    _min?: NestedBoolFilter;
-    _max?: NestedBoolFilter;
   };
 
   export type NestedEnumRegistrationTypeFilter = {
@@ -18570,6 +18618,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     eventSubmissions?: EventSubmissionCreateNestedManyWithoutUserInput;
     eventRegistrations?: EventRegistrationCreateNestedManyWithoutUserInput;
@@ -18584,6 +18634,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     eventSubmissions?: EventSubmissionUncheckedCreateNestedManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUncheckedCreateNestedManyWithoutUserInput;
@@ -18643,6 +18695,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     eventSubmissions?: EventSubmissionUpdateManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUpdateManyWithoutUserInput;
@@ -18657,6 +18711,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     eventSubmissions?: EventSubmissionUncheckedUpdateManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUncheckedUpdateManyWithoutUserInput;
@@ -19153,6 +19209,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionCreateNestedManyWithoutUserInput;
@@ -19167,6 +19225,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsUncheckedCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedCreateNestedManyWithoutUserInput;
@@ -19398,6 +19458,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUpdateManyWithoutUserInput;
@@ -19412,6 +19474,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUncheckedUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedUpdateManyWithoutUserInput;
@@ -19701,6 +19765,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionCreateNestedManyWithoutUserInput;
@@ -19715,6 +19781,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsUncheckedCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedCreateNestedManyWithoutUserInput;
@@ -19772,6 +19840,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUpdateManyWithoutUserInput;
@@ -19786,6 +19856,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUncheckedUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedUpdateManyWithoutUserInput;
@@ -19996,6 +20068,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionCreateNestedManyWithoutUserInput;
@@ -20010,6 +20084,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsUncheckedCreateNestedManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedCreateNestedManyWithoutUserInput;
@@ -20117,6 +20193,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUpdateManyWithoutUserInput;
@@ -20131,6 +20209,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUncheckedUpdateManyWithoutUserInput;
     eventSubmissions?: EventSubmissionUncheckedUpdateManyWithoutUserInput;
@@ -20462,6 +20542,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsCreateNestedManyWithoutUserInput;
     eventRegistrations?: EventRegistrationCreateNestedManyWithoutUserInput;
@@ -20476,6 +20558,8 @@ export namespace Prisma {
     firstName: string;
     lastName: string;
     email: string;
+    email_verified: boolean;
+    picture: string;
     birthdate: Date | string;
     tenants?: UsersOfTenantsUncheckedCreateNestedManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUncheckedCreateNestedManyWithoutUserInput;
@@ -20533,6 +20617,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUpdateManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUpdateManyWithoutUserInput;
@@ -20547,6 +20633,8 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string;
     lastName?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
+    email_verified?: BoolFieldUpdateOperationsInput | boolean;
+    picture?: StringFieldUpdateOperationsInput | string;
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
     tenants?: UsersOfTenantsUncheckedUpdateManyWithoutUserInput;
     eventRegistrations?: EventRegistrationUncheckedUpdateManyWithoutUserInput;

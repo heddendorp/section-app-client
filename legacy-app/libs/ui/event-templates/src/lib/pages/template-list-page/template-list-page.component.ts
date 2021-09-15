@@ -28,7 +28,10 @@ export class TemplateListPageComponent implements OnInit {
     private createTemplateMutation: CreateEventTemplateGQL,
     private loadTemplates: GetEventTemplatesGQL
   ) {
-    this.eventTemplateQuery = this.loadTemplates.watch();
+    this.eventTemplateQuery = this.loadTemplates.watch(
+      {},
+      { fetchPolicy: 'cache-and-network' }
+    );
     this.eventTemplates$ = this.eventTemplateQuery.valueChanges.pipe(
       map(({ data }) => data.eventTemplates)
     );
