@@ -121,6 +121,7 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
+  updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
 
   """Update an event template"""
   updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
@@ -177,6 +178,9 @@ type Query {
     """ID of the user"""
     id: ID!
   ): User
+
+  """Get all users with a status from the allowList"""
+  userWithStatus(allowList: [MembershipStatus!]!): [User!]!
 
   """returns a list of users"""
   users: [User!]!
@@ -273,6 +277,22 @@ type TumiEvent {
   registrationLink: String
   registrationMode: RegistrationMode!
   registrations: [EventRegistration!]!
+  start: DateTime!
+  title: String!
+}
+
+"""Additional inputs to create an event from a template"""
+input UpdateEventInput {
+  description: String!
+  end: DateTime!
+  eventOrganizerId: ID
+  icon: String!
+  organizerSignup: [MembershipStatus!]!
+  organizerText: String!
+  participantSignup: [MembershipStatus!]!
+  price: Decimal
+  registrationLink: String
+  registrationMode: RegistrationMode!
   start: DateTime!
   title: String!
 }

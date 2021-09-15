@@ -111,6 +111,20 @@ export interface NexusGenInputs {
     name: string; // String!
     text: string; // String!
   }
+  UpdateEventInput: { // input type
+    description: string; // String!
+    end: NexusGenScalars['DateTime']; // DateTime!
+    eventOrganizerId?: string | null; // ID
+    icon: string; // String!
+    organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
+    organizerText: string; // String!
+    participantSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
+    price?: NexusGenScalars['Decimal'] | null; // Decimal
+    registrationLink?: string | null; // String
+    registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
+    start: NexusGenScalars['DateTime']; // DateTime!
+    title: string; // String!
+  }
   UpdateTemplateInput: { // input type
     comment: string; // String!
     description: string; // String!
@@ -287,6 +301,7 @@ export interface NexusGenFieldTypes {
     deleteTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
+    updateEventGeneralInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     updateUserRole: NexusGenRootTypes['User']; // User!
     updateUserStatus: NexusGenRootTypes['User']; // User!
@@ -307,6 +322,7 @@ export interface NexusGenFieldTypes {
     organizers: NexusGenRootTypes['EventOrganizer'][]; // [EventOrganizer!]!
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
     userById: NexusGenRootTypes['User'] | null; // User
+    userWithStatus: NexusGenRootTypes['User'][]; // [User!]!
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Tenant: { // field return type
@@ -416,6 +432,7 @@ export interface NexusGenFieldTypeNames {
     deleteTemplate: 'EventTemplate'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    updateEventGeneralInfo: 'TumiEvent'
     updateTemplate: 'EventTemplate'
     updateUserRole: 'User'
     updateUserStatus: 'User'
@@ -436,6 +453,7 @@ export interface NexusGenFieldTypeNames {
     organizers: 'EventOrganizer'
     tenants: 'Tenant'
     userById: 'User'
+    userWithStatus: 'User'
     users: 'User'
   }
   Tenant: { // field return type name
@@ -523,6 +541,10 @@ export interface NexusGenArgTypes {
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
     }
+    updateEventGeneralInfo: { // args
+      data: NexusGenInputs['UpdateEventInput']; // UpdateEventInput!
+      id: string; // ID!
+    }
     updateTemplate: { // args
       data: NexusGenInputs['UpdateTemplateInput']; // UpdateTemplateInput!
       id: string; // ID!
@@ -545,6 +567,9 @@ export interface NexusGenArgTypes {
     }
     userById: { // args
       id: string; // ID!
+    }
+    userWithStatus: { // args
+      allowList: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     }
   }
 }

@@ -3,9 +3,14 @@
   class="p-4 lg:p-6 text-white bg-gray-700 dark"
   fxFlex="column"
 >
-  <a routerLink=".." mat-icon-button>
-    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
-  ></a>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
+    ></a>
+    <a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
+      <mat-icon svgIcon="icon-edit"></mat-icon
+    ></a>
+  </div>
   <img [src]="event.icon | iconURL" class="mx-auto" />
   <h1>{{ event.title }}</h1>
   <p>Starts {{ event.start | date: 'medium' }}</p>

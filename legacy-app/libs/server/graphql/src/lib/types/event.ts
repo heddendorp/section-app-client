@@ -233,6 +233,25 @@ export const createEventFromTemplateInput = inputObjectType({
   },
 });
 
+export const updateEventInput = inputObjectType({
+  name: 'UpdateEventInput',
+  description: 'Additional inputs to create an event from a template',
+  definition(t) {
+    t.field(TumiEvent.title);
+    t.field(TumiEvent.icon);
+    t.field(TumiEvent.start);
+    t.field(TumiEvent.end);
+    t.field(TumiEvent.description);
+    t.field(TumiEvent.organizerText);
+    t.field(TumiEvent.registrationMode);
+    t.field(TumiEvent.registrationLink);
+    t.field(TumiEvent.price);
+    t.field(TumiEvent.organizerSignup);
+    t.field(TumiEvent.participantSignup);
+    t.id('eventOrganizerId');
+  },
+});
+
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
@@ -265,6 +284,21 @@ export const registerForEvent = mutationField('registerForEvent', {
           create: { type: registrationType, userId: context.user.id },
         },
       },
+    }),
+});
+
+export const updateEventMutation = mutationField('updateEventGeneralInfo', {
+  type: nonNull(eventType),
+  args: {
+    id: nonNull(idArg()),
+    data: nonNull(updateEventInput),
+  },
+  resolve: (source, { id, data }, context) =>
+    context.prisma.tumiEvent.update({
+      where: {
+        id,
+      },
+      data,
     }),
 });
 

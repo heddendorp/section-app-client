@@ -10,11 +10,11 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     price
-#    createdBy {
-#      id
-#      fullName
-#    }
-    organizer{
+    #    createdBy {
+    #      id
+    #      fullName
+    #    }
+    organizer {
       link
       text
     }
@@ -23,28 +23,81 @@ query loadEvent($id: ID!) {
     organizerRegistrationPossible
     couldBeOrganizer
     couldBeParticipant
-    organizers{
+    organizers {
       fullName
     }
   }
 }
 
-mutation registerForEvent($eventId: ID!, $type: RegistrationType){
-  registerForEvent(eventId: $eventId, registrationType: $type){
+query loadEventForEdit($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    icon
+    start
+    end
+    description
+    organizerText
+    registrationMode
+    registrationLink
+    price
+    eventOrganizerId
+    organizerSignup
+    participantSignup
+    organizerRegistrationPossible
+    couldBeOrganizer
+    couldBeParticipant
+    organizers {
+      fullName
+      id
+    }
+  }
+  organizers {
+    id
+    name
+  }
+}
+
+mutation updateEvent($id: ID!, $data: UpdateEventInput!){
+  updateEventGeneralInfo(id: $id, data: $data){
+    title
+    icon
+    start
+    end
+    description
+    organizerText
+    registrationMode
+    registrationLink
+    price
+    eventOrganizerId
+    organizerSignup
+    participantSignup
+  }
+}
+
+query loadUsersByStatus($allowList: [MembershipStatus!]!) {
+  userWithStatus(allowList: $allowList) {
+    id
+    fullName
+  }
+}
+
+mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
+  registerForEvent(eventId: $eventId, registrationType: $type) {
     id
     organizerRegistrationPossible
     participantRegistrationPossible
     organizersRegistered
     participantsRegistered
     couldBeOrganizer
-    organizers{
+    organizers {
       fullName
     }
   }
 }
 
-query eventList{
-  events{
+query eventList {
+  events {
     id
     title
     icon

@@ -78,6 +78,25 @@ export const listUsersQuery = queryField('users', {
     }),
 });
 
+export const listUsersWithStatusQuery = queryField('userWithStatus', {
+  type: nonNull(list(nonNull(userType))),
+  description: 'Get all users with a status from the allowList',
+  args: {
+    allowList: nonNull(list(nonNull(membershipStatusEnum))),
+  },
+  resolve: (source, { allowList }, context) =>
+    context.prisma.user.findMany({
+      where: {
+        tenants: {
+          some: {
+            tenantId: context.tenant.id,
+            status: { in: allowList },
+          },
+        },
+      },
+    }),
+});
+
 export const updateUserStatusMutation = mutationField('updateUserStatus', {
   type: nonNull(userType),
   description: 'Change the status of s user on the current tenant',

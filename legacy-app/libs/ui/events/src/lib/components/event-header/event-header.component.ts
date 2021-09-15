@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { LoadEventQuery } from '@tumi/data-access';
+import { LoadEventQuery, Role } from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-event-header',
@@ -13,6 +13,7 @@ import { LoadEventQuery } from '@tumi/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventHeaderComponent implements OnInit {
+  public Role = Role;
   @Input() public event: LoadEventQuery['event'] | null = null;
   constructor() {}
 

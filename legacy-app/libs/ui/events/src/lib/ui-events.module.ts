@@ -18,6 +18,10 @@ import { UtilMaterialModule } from '@tumi/util/material';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { UiAuthModule } from '@tumi/ui-auth';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -38,6 +42,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ]),
     UtilPipesModule,
     UtilComponentsModule,
+    UiAuthModule,
     FlexLayoutModule,
     MatButtonModule,
     MatSnackBarModule,
@@ -45,6 +50,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     UtilMaterialModule,
     MatListModule,
     MatProgressBarModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   declarations: [
     EventListPageComponent,

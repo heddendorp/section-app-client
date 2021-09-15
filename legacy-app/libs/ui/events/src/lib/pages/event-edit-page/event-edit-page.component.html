@@ -1,1 +1,99 @@
-<p>event-edit-page works!</p>
+<main class="p-4">
+  <div fxLayout="row">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1>Edit event</h1>
+  </div>
+  <form [formGroup]="generalInformationForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-full">
+      <mat-label>Event Title</mat-label>
+      <input matInput formControlName="title" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Event Icon</mat-label>
+      <input matInput formControlName="icon" type="text" />
+      <img
+        [src]="iconValue | iconURL"
+        alt="icon"
+        matSuffix
+        width="24px"
+        height="24px"
+      />
+    </mat-form-field>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-form-field class="w-full">
+        <mat-label>Event Start</mat-label>
+        <input matInput formControlName="start" type="datetime-local" />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Event End</mat-label>
+        <input matInput formControlName="end" type="datetime-local" />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-full">
+      <mat-label>Event Description</mat-label>
+      <textarea matInput formControlName="description" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Organizer Help</mat-label>
+      <textarea matInput formControlName="organizerText" rows="10"></textarea>
+    </mat-form-field>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-form-field class="w-full">
+        <mat-label>Organizing Institution</mat-label>
+        <mat-select formControlName="eventOrganizerId">
+          <mat-option
+            *ngFor="let organizer of organizers$ | async"
+            [value]="organizer.id"
+            >{{ organizer.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Registration Mode</mat-label>
+        <mat-select formControlName="registrationMode" required>
+          <mat-option [value]="RegistrationMode.External">{{
+            RegistrationMode.External | titlecase
+          }}</mat-option>
+          <mat-option [value]="RegistrationMode.Stripe">{{
+            RegistrationMode.Stripe | titlecase
+          }}</mat-option>
+          <mat-option [value]="RegistrationMode.Online">{{
+            RegistrationMode.Online | titlecase
+          }}</mat-option>
+        </mat-select>
+        <mat-hint>Select how users will register for this event</mat-hint>
+      </mat-form-field>
+    </div>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-form-field class="w-full">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" type="number" required />
+        <span matSuffix>€</span>
+        <mat-hint>The price users have to pay for this event</mat-hint>
+        <mat-error>
+          You have to specify a price or change the registration type
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Registration link</mat-label>
+        <input
+          matInput
+          formControlName="registrationLink"
+          type="url"
+          required
+        />
+        <mat-hint>The link where users can register for this event</mat-hint>
+        <mat-error>
+          You have to specify a link or change the registration type
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mt-4">
+      <button type="submit" mat-flat-button color="primary">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</main>

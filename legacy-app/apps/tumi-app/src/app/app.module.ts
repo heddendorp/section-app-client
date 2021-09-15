@@ -88,7 +88,10 @@ import { environment } from '../environments/environment';
     {
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
-        const http = httpLink.create({ uri: '/graphql' });
+        const http = httpLink.create({
+          uri: '/graphql',
+          includeExtensions: true,
+        });
         const error = onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors)
             graphQLErrors.map(({ message, locations, path }) =>
@@ -97,7 +100,7 @@ import { environment } from '../environments/environment';
               )
             );
 
-          if (networkError) console.log(`[Network error]: ${networkError}`);
+          if (networkError) console.log(`[Network error]: `, event);
         });
 
         const link = error.concat(http);
