@@ -88,8 +88,8 @@ model User {
   firstName          String
   lastName           String
   email              String
-  email_verified Boolean
-  picture String
+  email_verified     Boolean
+  picture            String
   birthdate          DateTime
   // User relations
   tenants            UsersOfTenants[]
@@ -156,8 +156,8 @@ model TumiEvent {
   participantText   String
   participantMail   String
   organizerText     String
-  participantLimit  Int
-  organizerLimit    Int
+  participantLimit  Int                   @default(0)
+  organizerLimit    Int                   @default(0)
   price             Decimal?
   registrationLink  String?
   registrationMode  RegistrationMode

@@ -92,8 +92,8 @@ Table TumiEvent {
   participantText String [not null]
   participantMail String [not null]
   organizerText String [not null]
-  participantLimit Int [not null]
-  organizerLimit Int [not null]
+  participantLimit Int [not null, default: 0]
+  organizerLimit Int [not null, default: 0]
   price Decimal
   registrationLink String
   registrationMode RegistrationMode [not null]
