@@ -139,6 +139,9 @@ export class AppModule {
         config: {
           connectionString:
             'InstrumentationKey=f366572f-cd84-482d-bd75-ba65076988c8;IngestionEndpoint=https://germanywestcentral-1.in.applicationinsights.azure.com/',
+          disableFetchTracking: false,
+          enableRequestHeaderTracking: true,
+          enableResponseHeaderTracking: true,
           extensions: [angularPlugin],
           extensionConfig: {
             [angularPlugin.identifier]: { router },
