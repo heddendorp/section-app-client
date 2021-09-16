@@ -8,4 +8,25 @@
     *ngIf="events$ | async as events"
     [events]="events"
   ></tumi-event-list>
+  <div
+    *ngIf="(events$ | async)?.length === 0"
+    class="rounded-2xl bg-pink-200 p-4 max-w-md mx-auto"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-6"
+    >
+      <mat-icon
+        svgIcon="icon-overtime"
+        class="text-pink-500 bg-white card-icon"
+      ></mat-icon>
+      <h2 class="font-bold">No events right now</h2>
+    </div>
+    <p>
+      Right now there are no events to show you, but check back soon to see what
+      we are planning
+    </p>
+  </div>
 </main>

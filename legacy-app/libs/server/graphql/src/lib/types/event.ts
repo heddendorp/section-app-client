@@ -10,7 +10,12 @@ import {
 } from 'nexus';
 import { TumiEvent } from 'nexus-prisma';
 import { UserInputError } from 'apollo-server-core';
-import { MembershipStatus, RegistrationType } from '@tumi/server-models';
+import {
+  MembershipStatus,
+  PublicationState,
+  RegistrationType,
+  Role,
+} from '@tumi/server-models';
 import { registrationTypeEnum } from './enums';
 import { userType } from './user';
 
@@ -257,8 +262,49 @@ export const updateEventInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  resolve: (source, args, context) =>
-    context.prisma.tumiEvent.findMany({ orderBy: { start: 'asc' } }),
+  resolve: async (source, args, context) => {
+    if (!context.user) {
+      return context.prisma.tumiEvent.findMany({
+        orderBy: { start: 'asc' },
+        where: {
+          participantSignup: {
+            has: MembershipStatus.NONE,
+          },
+          publicationState: PublicationState.PUBLIC,
+        },
+      });
+    }
+    const { role, status } = await context.prisma.usersOfTenants.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: context.user.id,
+          tenantId: context.tenant.id,
+        },
+      },
+    });
+    if (role === Role.ADMIN) {
+      return context.prisma.tumiEvent.findMany({ orderBy: { start: 'asc' } });
+    }
+    return context.prisma.tumiEvent.findMany({
+      orderBy: { start: 'asc' },
+      where: {
+        OR: [
+          {
+            participantSignup: {
+              has: status,
+            },
+            publicationState: PublicationState.PUBLIC,
+          },
+          {
+            organizerSignup: { has: status },
+            publicationState: {
+              in: [PublicationState.PUBLIC, PublicationState.ORGANIZERS],
+            },
+          },
+        ],
+      },
+    });
+  },
 });
 
 export const getOneEventQuery = queryField('event', {

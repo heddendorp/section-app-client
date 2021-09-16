@@ -77,6 +77,9 @@ $tumi-dark-theme: mat.define-dark-theme(
   h3 {
     @apply text-lg;
   }
+  mat-icon.mat-icon.card-icon {
+    @apply w-8 lg:w-10 h-8 lg:h-10 p-1 rounded-lg;
+  }
   .dark-button {
     @include mat.button-theme($tumi-dark-theme);
   }
