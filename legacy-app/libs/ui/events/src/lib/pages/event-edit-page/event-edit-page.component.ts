@@ -5,11 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  AddOrganizerToEventGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
   LoadUsersByStatusQuery,
   RegistrationMode,
+  RemoveUserFromEventGQL,
   UpdateEventGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +19,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { DateTime } from 'luxon';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectOrganizerDialogComponent } from '../../components/select-organizer-dialog/select-organizer-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -36,6 +41,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private loadUsers: LoadUsersByStatusGQL,
     private updateEventMutation: UpdateEventGQL,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private addOrganizerMutation: AddOrganizerToEventGQL,
+    private removeUserMutation: RemoveUserFromEventGQL,
     private fb: FormBuilder
   ) {
     this.generalInformationForm = this.fb.group({
@@ -55,8 +64,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       organizerLimit: ['', Validators.required],
     });
     this.event$ = this.route.paramMap.pipe(
-      switchMap((params) =>
-        this.loadEventQuery.fetch({ id: params.get('eventId') ?? '' })
+      switchMap(
+        (params) =>
+          this.loadEventQuery.watch({ id: params.get('eventId') ?? '' })
+            .valueChanges
       ),
       map(({ data }) => data.event),
       shareReplay(1)
@@ -82,6 +93,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    const loader = this.snackBar.open('Loading data ⏳', undefined, {
+      duration: 0,
+    });
     this.generalInformationForm
       .get('registrationMode')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
@@ -119,6 +133,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         end: DateTime.fromISO(event.end).toISO({ includeOffset: false }),
       });
     }
+    loader.dismiss();
   }
 
   ngOnDestroy(): void {
@@ -126,7 +141,40 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  async addOrganizer() {
+    const loader = this.snackBar.open('Loading data ⏳', undefined, {
+      duration: 0,
+    });
+    const users = await this.users$.pipe(first()).toPromise();
+    const event = await this.event$.pipe(first()).toPromise();
+    const choices = users.filter(
+      (user) => !event?.organizers.some((organizer) => organizer.id === user.id)
+    );
+    loader.dismiss();
+    const userId = await this.dialog
+      .open(SelectOrganizerDialogComponent, { data: { choices } })
+      .afterClosed()
+      .toPromise();
+    this.snackBar.open('Adding user ⏳', undefined, { duration: 0 });
+    if (userId && event) {
+      await this.addOrganizerMutation
+        .mutate({ eventId: event.id, userId })
+        .toPromise();
+      this.snackBar.open('User added ✔️');
+    }
+  }
+
+  async removeUser(userId: string) {
+    this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
+    const event = await this.event$.pipe(first()).toPromise();
+    await this.removeUserMutation
+      .mutate({ eventId: event?.id ?? '', userId })
+      .toPromise();
+    this.snackBar.open('User removed ✔️');
+  }
+
   async onSubmit() {
+    this.snackBar.open('Saving event ⏳', undefined, { duration: 0 });
     const event = await this.event$.pipe(first()).toPromise();
     if (event && this.generalInformationForm.valid) {
       const update = this.generalInformationForm.value;
@@ -153,5 +201,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         });
       }
     }
+    this.snackBar.open('Event saved ✔️');
   }
 }

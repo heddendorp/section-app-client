@@ -236,9 +236,11 @@ export interface NexusGenObjects {
     authId: string; // String!
     birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email_verified: boolean; // Boolean!
     firstName: string; // String!
     id: string; // ID!
     lastName: string; // String!
+    picture: string; // String!
   }
   UsersOfTenants: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -297,12 +299,14 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Mutation: { // field return type
+    addOrganizerToEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventOrganizer: NexusGenRootTypes['EventOrganizer'] | null; // EventOrganizer
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     deleteTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
+    removeUserFromEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     updateEventGeneralInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     updateUserRole: NexusGenRootTypes['User']; // User!
@@ -374,10 +378,12 @@ export interface NexusGenFieldTypes {
     birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     currentTenant: NexusGenRootTypes['UsersOfTenants'] | null; // UsersOfTenants
+    email_verified: boolean; // Boolean!
     firstName: string; // String!
     fullName: string; // String!
     id: string; // ID!
     lastName: string; // String!
+    picture: string; // String!
   }
   UsersOfTenants: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -428,12 +434,14 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   Mutation: { // field return type name
+    addOrganizerToEvent: 'TumiEvent'
     createEventFromTemplate: 'TumiEvent'
     createEventOrganizer: 'EventOrganizer'
     createEventTemplate: 'EventTemplate'
     deleteTemplate: 'EventTemplate'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    removeUserFromEvent: 'TumiEvent'
     updateEventGeneralInfo: 'TumiEvent'
     updateTemplate: 'EventTemplate'
     updateUserRole: 'User'
@@ -505,10 +513,12 @@ export interface NexusGenFieldTypeNames {
     birthdate: 'DateTime'
     createdAt: 'DateTime'
     currentTenant: 'UsersOfTenants'
+    email_verified: 'Boolean'
     firstName: 'String'
     fullName: 'String'
     id: 'ID'
     lastName: 'String'
+    picture: 'String'
   }
   UsersOfTenants: { // field return type name
     createdAt: 'DateTime'
@@ -523,6 +533,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addOrganizerToEvent: { // args
+      eventId: string; // ID!
+      userId: string; // ID!
+    }
     createEventFromTemplate: { // args
       createEventFromTemplateInput: NexusGenInputs['CreateEventFromTemplateInput']; // CreateEventFromTemplateInput!
       templateId: string; // ID!
@@ -542,6 +556,10 @@ export interface NexusGenArgTypes {
     }
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
+    }
+    removeUserFromEvent: { // args
+      eventId: string; // ID!
+      userId: string; // ID!
     }
     updateEventGeneralInfo: { // args
       data: NexusGenInputs['UpdateEventInput']; // UpdateEventInput!

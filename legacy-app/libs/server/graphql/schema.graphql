@@ -108,6 +108,9 @@ enum MembershipStatus {
 }
 
 type Mutation {
+  """Adds the user with the supplied id to the event"""
+  addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent
+
   """Creates a new event from a given Template"""
   createEventFromTemplate(createEventFromTemplateInput: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent
 
@@ -121,6 +124,9 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
+
+  """Removes the user with the supplied id to the event"""
+  removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
 
   """Update an event template"""
@@ -320,12 +326,14 @@ type User {
   birthdate: DateTime!
   createdAt: DateTime!
   currentTenant: UsersOfTenants
+  email_verified: Boolean!
   firstName: String!
 
   """Concatenated name of the user"""
   fullName: String!
   id: ID!
   lastName: String!
+  picture: String!
 }
 
 type UsersOfTenants {

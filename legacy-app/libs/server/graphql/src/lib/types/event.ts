@@ -269,6 +269,52 @@ export const getOneEventQuery = queryField('event', {
     context.prisma.tumiEvent.findUnique({ where: { id: eventId } }),
 });
 
+export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
+  description: 'Adds the user with the supplied id to the event',
+  args: {
+    eventId: nonNull(idArg()),
+    userId: nonNull(idArg()),
+  },
+  type: eventType,
+  resolve: (source, { eventId, userId }, context) =>
+    context.prisma.tumiEvent.update({
+      where: { id: eventId },
+      data: {
+        registrations: {
+          create: {
+            type: RegistrationType.ORGANIZER,
+            user: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+        },
+      },
+    }),
+});
+
+export const removeUserFromEventMutation = mutationField(
+  'removeUserFromEvent',
+  {
+    description: 'Removes the user with the supplied id to the event',
+    args: {
+      eventId: nonNull(idArg()),
+      userId: nonNull(idArg()),
+    },
+    type: eventType,
+    resolve: (source, { userId, eventId }, context) =>
+      context.prisma.tumiEvent.update({
+        where: { id: eventId },
+        data: {
+          registrations: {
+            delete: { userId_eventId: { eventId, userId } },
+          },
+        },
+      }),
+  }
+);
+
 export const registerForEvent = mutationField('registerForEvent', {
   type: eventType,
   args: {

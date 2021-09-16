@@ -22,6 +22,9 @@ import { UiAuthModule } from '@tumi/ui-auth';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { SelectOrganizerDialogComponent } from './components/select-organizer-dialog/select-organizer-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -53,6 +56,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
+    MatAutocompleteModule,
   ],
   declarations: [
     EventListPageComponent,
@@ -62,6 +67,7 @@ import { MatSelectModule } from '@angular/material/select';
     EventHeaderComponent,
     EventListComponent,
     EventListItemComponent,
+    SelectOrganizerDialogComponent,
   ],
 })
 export class UiEventsModule {}

@@ -51,12 +51,35 @@ query loadEventForEdit($id: ID!) {
     organizerLimit
     organizers {
       fullName
+      picture
       id
     }
   }
   organizers {
     id
     name
+  }
+}
+
+mutation removeUserFromEvent($eventId: ID!, $userId: ID!){
+  removeUserFromEvent(eventId: $eventId, userId: $userId){
+    id
+    organizers{
+      id
+      fullName
+      picture
+    }
+  }
+}
+
+mutation addOrganizerToEvent($eventId: ID!, $userId: ID!){
+  addOrganizerToEvent(eventId: $eventId, userId: $userId){
+    id
+    organizers {
+      fullName
+      picture
+      id
+    }
   }
 }
 

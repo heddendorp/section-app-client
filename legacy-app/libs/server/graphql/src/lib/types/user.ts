@@ -22,6 +22,8 @@ export const userType = objectType({
     t.field(User.firstName);
     t.field(User.lastName);
     t.field(User.birthdate);
+    t.field(User.picture);
+    t.field(User.email_verified);
     t.field({
       name: 'currentTenant',
       type: userOfTenantType,

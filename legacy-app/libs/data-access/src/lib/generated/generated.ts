@@ -114,6 +114,8 @@ export enum MembershipStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Adds the user with the supplied id to the event */
+  addOrganizerToEvent?: Maybe<TumiEvent>;
   /** Creates a new event from a given Template */
   createEventFromTemplate?: Maybe<TumiEvent>;
   /** Create a new event organizer */
@@ -124,6 +126,8 @@ export type Mutation = {
   registerForEvent?: Maybe<TumiEvent>;
   /** Add a new user to the database */
   registerUser: User;
+  /** Removes the user with the supplied id to the event */
+  removeUserFromEvent?: Maybe<TumiEvent>;
   updateEventGeneralInfo: TumiEvent;
   /** Update an event template */
   updateTemplate?: Maybe<EventTemplate>;
@@ -131,6 +135,12 @@ export type Mutation = {
   updateUserRole: User;
   /** Change the status of s user on the current tenant */
   updateUserStatus: User;
+};
+
+
+export type MutationAddOrganizerToEventArgs = {
+  eventId: Scalars['ID'];
+  userId: Scalars['ID'];
 };
 
 
@@ -163,6 +173,12 @@ export type MutationRegisterForEventArgs = {
 
 export type MutationRegisterUserArgs = {
   userInput?: Maybe<CreateUserInput>;
+};
+
+
+export type MutationRemoveUserFromEventArgs = {
+  eventId: Scalars['ID'];
+  userId: Scalars['ID'];
 };
 
 
@@ -380,11 +396,13 @@ export type User = {
   birthdate: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   currentTenant?: Maybe<UsersOfTenants>;
+  email_verified: Scalars['Boolean'];
   firstName: Scalars['String'];
   /** Concatenated name of the user */
   fullName: Scalars['String'];
   id: Scalars['ID'];
   lastName: Scalars['String'];
+  picture: Scalars['String'];
 };
 
 export type UsersOfTenants = {
@@ -474,7 +492,23 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, couldBeParticipant?: Maybe<boolean>, participantLimit: number, organizerLimit: number, organizers: Array<{ __typename?: 'User', fullName: string, id: string }> }>, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, description: string, organizerText: string, registrationMode: RegistrationMode, registrationLink?: Maybe<string>, price?: Maybe<any>, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible?: Maybe<boolean>, couldBeOrganizer?: Maybe<boolean>, couldBeParticipant?: Maybe<boolean>, participantLimit: number, organizerLimit: number, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }>, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+
+export type RemoveUserFromEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  userId: Scalars['ID'];
+}>;
+
+
+export type RemoveUserFromEventMutation = { __typename?: 'Mutation', removeUserFromEvent?: Maybe<{ __typename?: 'TumiEvent', id: string, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> }> };
+
+export type AddOrganizerToEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  userId: Scalars['ID'];
+}>;
+
+
+export type AddOrganizerToEventMutation = { __typename?: 'Mutation', addOrganizerToEvent?: Maybe<{ __typename?: 'TumiEvent', id: string, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }> };
 
 export type UpdateEventMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -816,6 +850,7 @@ export const LoadEventForEditDocument = gql`
     organizerLimit
     organizers {
       fullName
+      picture
       id
     }
   }
@@ -831,6 +866,52 @@ export const LoadEventForEditDocument = gql`
   })
   export class LoadEventForEditGQL extends Apollo.Query<LoadEventForEditQuery, LoadEventForEditQueryVariables> {
     document = LoadEventForEditDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveUserFromEventDocument = gql`
+    mutation removeUserFromEvent($eventId: ID!, $userId: ID!) {
+  removeUserFromEvent(eventId: $eventId, userId: $userId) {
+    id
+    organizers {
+      id
+      fullName
+      picture
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveUserFromEventGQL extends Apollo.Mutation<RemoveUserFromEventMutation, RemoveUserFromEventMutationVariables> {
+    document = RemoveUserFromEventDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddOrganizerToEventDocument = gql`
+    mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
+  addOrganizerToEvent(eventId: $eventId, userId: $userId) {
+    id
+    organizers {
+      fullName
+      picture
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddOrganizerToEventGQL extends Apollo.Mutation<AddOrganizerToEventMutation, AddOrganizerToEventMutationVariables> {
+    document = AddOrganizerToEventDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
