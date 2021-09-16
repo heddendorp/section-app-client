@@ -1,0 +1,26 @@
+mutation RegisterUser($userInput: CreateUserInput) {
+  registerUser(userInput: $userInput) {
+    id
+  }
+}
+
+query userProfile {
+  currentUser {
+    id
+    fullName
+    picture
+    email_verified
+    email
+    birthdate
+    firstName
+    currentTenant{
+      status
+    }
+    organizedEvents {
+      id
+      title
+      icon
+      start
+    }
+  }
+}

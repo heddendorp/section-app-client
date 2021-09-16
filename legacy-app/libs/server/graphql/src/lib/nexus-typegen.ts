@@ -143,7 +143,7 @@ export interface NexusGenInputs {
 
 export interface NexusGenEnums {
   MembershipStatus: "ALUMNI" | "FULL" | "NONE" | "SPONSOR" | "TRIAL"
-  PublicationState: "APPROVAL" | "DRAFT" | "PUBLIC"
+  PublicationState: "APPROVAL" | "DRAFT" | "ORGANIZERS" | "PUBLIC"
   RegistrationMode: "EXTERNAL" | "ONLINE" | "STRIPE"
   RegistrationType: "CALENDAR" | "ORGANIZER" | "PARTICIPANT"
   Role: "ADMIN" | "USER"
@@ -236,6 +236,7 @@ export interface NexusGenObjects {
     authId: string; // String!
     birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string; // String!
     email_verified: boolean; // Boolean!
     firstName: string; // String!
     id: string; // ID!
@@ -378,11 +379,14 @@ export interface NexusGenFieldTypes {
     birthdate: NexusGenScalars['DateTime']; // DateTime!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     currentTenant: NexusGenRootTypes['UsersOfTenants'] | null; // UsersOfTenants
+    email: string; // String!
     email_verified: boolean; // Boolean!
     firstName: string; // String!
     fullName: string; // String!
     id: string; // ID!
     lastName: string; // String!
+    organizedEvents: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
+    participatedEvents: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     picture: string; // String!
   }
   UsersOfTenants: { // field return type
@@ -513,11 +517,14 @@ export interface NexusGenFieldTypeNames {
     birthdate: 'DateTime'
     createdAt: 'DateTime'
     currentTenant: 'UsersOfTenants'
+    email: 'String'
     email_verified: 'Boolean'
     firstName: 'String'
     fullName: 'String'
     id: 'ID'
     lastName: 'String'
+    organizedEvents: 'TumiEvent'
+    participatedEvents: 'TumiEvent'
     picture: 'String'
   }
   UsersOfTenants: { // field return type name

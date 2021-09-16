@@ -244,6 +244,7 @@ exports.RegistrationMode = makeEnum({
 exports.PublicationState = makeEnum({
   DRAFT: 'DRAFT',
   APPROVAL: 'APPROVAL',
+  ORGANIZERS: 'ORGANIZERS',
   PUBLIC: 'PUBLIC'
 });
 

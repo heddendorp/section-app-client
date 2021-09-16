@@ -11,6 +11,8 @@ import {
 import { User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
+import { eventType } from './event';
+import { RegistrationType } from '@tumi/server-models';
 
 export const userType = objectType({
   name: User.$name,
@@ -24,6 +26,7 @@ export const userType = objectType({
     t.field(User.birthdate);
     t.field(User.picture);
     t.field(User.email_verified);
+    t.field(User.email);
     t.field({
       name: 'currentTenant',
       type: userOfTenantType,
@@ -32,6 +35,41 @@ export const userType = objectType({
           where: {
             userId_tenantId: { userId: source.id, tenantId: context.tenant.id },
           },
+        }),
+    });
+    t.field({
+      name: 'organizedEvents',
+      type: nonNull(list(nonNull(eventType))),
+      description: 'List of events organized by the user',
+      resolve: (source, args, context) =>
+        context.prisma.tumiEvent.findMany({
+          where: {
+            registrations: {
+              some: {
+                user: { id: source.id },
+                type: RegistrationType.ORGANIZER,
+              },
+            },
+          },
+          orderBy: { start: 'desc' },
+        }),
+    });
+
+    t.field({
+      name: 'participatedEvents',
+      type: nonNull(list(nonNull(eventType))),
+      description: 'List of events attended by the user',
+      resolve: (source, args, context) =>
+        context.prisma.tumiEvent.findMany({
+          where: {
+            registrations: {
+              some: {
+                user: { id: source.id },
+                type: RegistrationType.PARTICIPANT,
+              },
+            },
+          },
+          orderBy: { start: 'desc' },
         }),
     });
     t.nonNull.string('fullName', {

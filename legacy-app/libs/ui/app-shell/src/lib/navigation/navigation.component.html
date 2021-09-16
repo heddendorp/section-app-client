@@ -9,20 +9,26 @@
   >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="events">Events</a>
+      <a mat-list-item routerLink="events" routerLinkActive="active">Events</a>
       <a
         mat-list-item
         routerLink="profile"
+        routerLinkActive="active"
         *tumiIfRole="[Role.User, Role.Admin]"
         >Profile</a
       >
       <a
         mat-list-item
         routerLink="event-templates"
+        routerLinkActive="active"
         *tumiIfStatus="[MembershipStatus.Full]"
         >Event templates</a
       >
-      <a mat-list-item routerLink="tenant" *tumiIfRole="[Role.Admin]"
+      <a
+        mat-list-item
+        routerLink="tenant"
+        routerLinkActive="active"
+        *tumiIfRole="[Role.Admin]"
         >Management</a
       >
     </mat-nav-list>

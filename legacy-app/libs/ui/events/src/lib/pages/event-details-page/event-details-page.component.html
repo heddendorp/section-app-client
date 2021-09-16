@@ -5,7 +5,17 @@
 <main *ngIf="event$ | async as event" class="bg-white">
   <tumi-event-header
     [event]="event"
-    class="p-4 lg:p-6 pb-20 lg:pb-24 text-white bg-gray-700 dark"
+    class="
+      p-4
+      lg:p-6
+      pb-20
+      lg:pb-24
+      text-white
+      bg-gradient-to-br
+      from-gray-600
+      to-gray-800
+      dark-button
+    "
   ></tumi-event-header>
   <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
     <markdown

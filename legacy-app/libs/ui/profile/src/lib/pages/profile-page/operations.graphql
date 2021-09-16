@@ -1,8 +1,0 @@
-query userProfile{
-  currentUser{
-    id
-    fullName
-    birthdate
-    firstName
-  }
-}

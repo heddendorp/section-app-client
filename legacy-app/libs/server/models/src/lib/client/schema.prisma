@@ -37,6 +37,7 @@ enum MembershipStatus {
 enum PublicationState {
   DRAFT
   APPROVAL
+  ORGANIZERS
   PUBLIC
 }
 

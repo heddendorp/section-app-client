@@ -1,3 +1,72 @@
-<main class='p-4'>
-  <pre>{{profile$ |async|json}}</pre>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(profile$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="profile$ | async as profile">
+  <div
+    class="p-8 lg:py-14 bg-gradient-to-br from-gray-600 to-gray-800 dark-button"
+    fxLayout="column"
+    fxLayoutAlign="space-evenly center"
+    fxLayoutGap="2rem"
+  >
+    <img [src]="profile.picture" class="rounded-lg shadow-lg" />
+    <div fxLayout="column" class="max-w-md">
+      <h2
+        class="
+          bg-clip-text
+          text-transparent text-3xl
+          font-bold
+          bg-gradient-to-br
+          from-blue-300
+          to-blue-500
+          mb-4
+        "
+      >
+        Hey {{ profile.firstName }} <span class="text-white">👋</span>
+      </h2>
+      <p class="text-blue-400">
+        We're excited to see you here. This is your profile, giving you an
+        overview of all things TUMi
+      </p>
+    </div>
+  </div>
+  <div
+    class="m-4"
+    gdAuto
+    gdColumns="1fr"
+    gdColumns.gt-sm="1fr 1fr"
+    gdGap="1rem"
+  >
+    <div class="rounded-2xl bg-blue-200 p-4">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-contact-card"
+          class="text-blue-500 bg-white card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Your Data</h2>
+      </div>
+      <p>Name: {{ profile.fullName }}</p>
+      <p>Mail: {{ profile.email }}</p>
+    </div>
+    <div class="rounded-2xl bg-green-200 p-4">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-conference"
+          class="text-green-500 bg-white card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Section membership</h2>
+      </div>
+      <p>Current status: {{ profile.currentTenant?.status | lowercase }}</p>
+    </div>
+  </div>
 </main>

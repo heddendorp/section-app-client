@@ -193,6 +193,7 @@ Enum MembershipStatus {
 Enum PublicationState {
   DRAFT
   APPROVAL
+  ORGANIZERS
   PUBLIC
 }
 

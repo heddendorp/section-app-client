@@ -156,6 +156,7 @@ type PhotoShare {
 enum PublicationState {
   APPROVAL
   DRAFT
+  ORGANIZERS
   PUBLIC
 }
 
@@ -326,6 +327,7 @@ type User {
   birthdate: DateTime!
   createdAt: DateTime!
   currentTenant: UsersOfTenants
+  email: String!
   email_verified: Boolean!
   firstName: String!
 
@@ -333,6 +335,12 @@ type User {
   fullName: String!
   id: ID!
   lastName: String!
+
+  """List of events organized by the user"""
+  organizedEvents: [TumiEvent!]!
+
+  """List of events attended by the user"""
+  participatedEvents: [TumiEvent!]!
   picture: String!
 }
 

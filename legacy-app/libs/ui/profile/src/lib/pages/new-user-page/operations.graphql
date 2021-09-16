@@ -1,5 +1,0 @@
-mutation RegisterUser($userInput: CreateUserInput) {
-registerUser(userInput: $userInput){
-  id
-}
-}

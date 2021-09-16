@@ -8,6 +8,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { UtilMaterialModule } from '@tumi/util/material';
 
 @NgModule({
   imports: [
@@ -21,6 +24,9 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
     MatDatepickerModule,
     MatLuxonDateModule,
     MatButtonModule,
+    MatProgressBarModule,
+    FlexLayoutModule,
+    UtilMaterialModule,
   ],
   declarations: [NewUserPageComponent, ProfilePageComponent],
 })
