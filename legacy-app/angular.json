@@ -179,6 +179,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/tumi-app/src/favicon.ico",
+              "apps/tumi-app/src/ngsw-worker.js",
               "apps/tumi-app/src/assets"
             ],
             "styles": ["apps/tumi-app/src/styles.scss"],
