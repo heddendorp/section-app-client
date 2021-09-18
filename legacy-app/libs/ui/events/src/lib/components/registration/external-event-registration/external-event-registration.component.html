@@ -1,0 +1,19 @@
+<div *ngIf="event" class="my-2">
+  <p class="pb-4">
+    You can't register for this event in the app. Please follow the provided
+    link
+  </p>
+  <a
+    [href]="event.registrationLink"
+    target="_blank"
+    mat-flat-button
+    color="primary"
+    >Register now</a
+  >
+  <br />
+  <small>
+    <a [href]="event.registrationLink" target="_blank">{{
+      event.registrationLink
+    }}</a>
+  </small>
+</div>

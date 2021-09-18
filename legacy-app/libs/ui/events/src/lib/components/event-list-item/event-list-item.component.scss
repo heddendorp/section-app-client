@@ -1,0 +1,5 @@
+div {
+  &.draft {
+    @apply bg-red-100;
+  }
+}

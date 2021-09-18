@@ -23,17 +23,24 @@
       class="prose lg:prose-xl break-words"
     ></markdown>
   </div>
-  <div class="my-4 p-6 lg:p-12 border-t border-b">
+  <div class="p-6 lg:p-12 border-t">
     <p>{{ event.organizer.text }}</p>
   </div>
-  <div class="p-4 lg:p-6 mx-2 lg:mx-6 rounded-2xl border-2 border-blue-500">
-    <h2 class="font-bold text-blue-600">Notice</h2>
-    <p>
-      Event registration for students will be opened soon, feel free to browse
-      for now
-    </p>
+  <div class="p-6 lg:p-12 bg-gray-100 shadow-inner">
+    <ng-template #noRegistration>
+      <h2>You can not sign up for this event</h2>
+    </ng-template>
+    <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
+      <h2 class="text-blue-600 mb-4 font-black">Registration</h2>
+      <ng-container [ngSwitch]="event.registrationMode">
+        <tumi-external-event-registration
+          *ngSwitchCase="RegistrationMode.External"
+          [event]="event"
+        ></tumi-external-event-registration
+      ></ng-container>
+    </ng-container>
   </div>
-  <div *ngIf="event.organizerRegistrationPossible" class="p-6 lg:p-12">
+  <div *ngIf="event.couldBeOrganizer" class="p-6 lg:p-12">
     <h3 class="mb-4">Information for organizing</h3>
     <markdown
       [data]="event.organizerText"
@@ -69,10 +76,4 @@
       </div>
     </div>
   </div>
-
-  <!--<markdown
-    [data]="event.organizerText"
-    emoji
-    class="prose lg:prose-xl"
-  ></markdown>-->
 </main>

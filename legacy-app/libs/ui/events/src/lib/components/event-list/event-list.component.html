@@ -1,4 +1,4 @@
-<tumi-grid>
+<tumi-grid minWidth="450px">
   <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
     <span
       *ngIf="
@@ -9,6 +9,9 @@
       gdColumn="-1/1"
       >{{ event.start | date: 'EEE d LLLL' }}</span
     >
-    <tumi-event-list-item [event]="event"></tumi-event-list-item>
+    <tumi-event-list-item
+      [event]="event"
+      class="h-full block"
+    ></tumi-event-list-item>
   </ng-container>
 </tumi-grid>

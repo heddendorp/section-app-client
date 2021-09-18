@@ -1,4 +1,4 @@
-<a *ngIf="event" fxLayout="row" [routerLink]="event.id">
+<a *ngIf="event" fxLayout="row" [routerLink]="event.id" class="h-full">
   <div
     class="
       bg-gray-100
@@ -7,7 +7,10 @@
       border border-gray-700
       rounded-l-2xl
       shadow-inner
+      {{ event.publicationState | lowercase }}
     "
+    fxLayout="column"
+    fxLayoutAlign="center"
   >
     <img [src]="event.icon | iconURL" alt="" class="w-28" />
   </div>
@@ -16,5 +19,11 @@
   >
     <h3>{{ event.title }}</h3>
     <p>Starts: {{ event.start | date: 'shortTime' }}</p>
+    <p *ngIf="event.registrationMode !== RegistrationMode.External">
+      Free spots:
+      {{
+        (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0)
+      }}
+    </p>
   </div>
 </a>

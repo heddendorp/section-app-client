@@ -10,6 +10,7 @@ import {
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
   LoadUsersByStatusQuery,
+  PublicationState,
   RegistrationMode,
   RemoveUserFromEventGQL,
   UpdateEventGQL,
@@ -31,7 +32,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EventEditPageComponent implements OnInit, OnDestroy {
   public RegistrationMode = RegistrationMode;
+  public PublicationState = PublicationState;
   public generalInformationForm: FormGroup;
+  public publicationForm: FormGroup;
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
@@ -47,6 +50,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private removeUserMutation: RemoveUserFromEventGQL,
     private fb: FormBuilder
   ) {
+    this.publicationForm = this.fb.group({
+      publicationState: ['', Validators.required],
+    });
     this.generalInformationForm = this.fb.group({
       title: ['', Validators.required],
       icon: ['', Validators.required],
@@ -132,6 +138,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         start: DateTime.fromISO(event.start).toISO({ includeOffset: false }),
         end: DateTime.fromISO(event.end).toISO({ includeOffset: false }),
       });
+      this.publicationForm.patchValue(event);
     }
     loader.dismiss();
   }
@@ -203,4 +210,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     }
     this.snackBar.open('Event saved ✔️');
   }
+
+  changePublication() {}
 }

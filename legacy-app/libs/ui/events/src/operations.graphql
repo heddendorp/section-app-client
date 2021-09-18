@@ -5,6 +5,7 @@ query loadEvent($id: ID!) {
     icon
     start
     end
+    publicationState
     description
     organizerText
     registrationMode
@@ -39,7 +40,6 @@ query loadEventForEdit($id: ID!) {
     description
     organizerText
     registrationMode
-    registrationLink
     price
     eventOrganizerId
     organizerSignup
@@ -49,6 +49,8 @@ query loadEventForEdit($id: ID!) {
     couldBeParticipant
     participantLimit
     organizerLimit
+    publicationState
+    registrationLink
     organizers {
       fullName
       picture
@@ -135,5 +137,7 @@ query eventList {
     organizersRegistered
     couldBeOrganizer
     couldBeParticipant
+    publicationState
+    registrationMode
   }
 }

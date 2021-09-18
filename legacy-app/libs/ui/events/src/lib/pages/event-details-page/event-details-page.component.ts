@@ -4,6 +4,7 @@ import {
   LoadEventGQL,
   LoadEventQuery,
   RegisterForEventGQL,
+  RegistrationMode,
   RegistrationType,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
@@ -18,6 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EventDetailsPageComponent implements OnInit {
   public event$: Observable<LoadEventQuery['event']>;
+  public RegistrationMode = RegistrationMode;
+
   constructor(
     private route: ActivatedRoute,
     private loadEvent: LoadEventGQL,

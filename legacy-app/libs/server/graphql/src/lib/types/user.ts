@@ -115,6 +115,7 @@ export const listUsersQuery = queryField('users', {
   resolve: (source, args, context) =>
     context.prisma.user.findMany({
       where: { tenants: { some: { tenantId: context.tenant.id } } },
+      orderBy: { lastName: 'asc' },
     }),
 });
 

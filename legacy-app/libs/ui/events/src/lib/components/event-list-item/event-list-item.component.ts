@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { EventListQuery } from '@tumi/data-access';
+import { EventListQuery, RegistrationMode } from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-event-list-item',
@@ -14,6 +14,7 @@ import { EventListQuery } from '@tumi/data-access';
 })
 export class EventListItemComponent implements OnInit {
   @Input() public event: EventListQuery['events'][0] | null = null;
+  public RegistrationMode = RegistrationMode;
   constructor() {}
 
   ngOnInit(): void {}
