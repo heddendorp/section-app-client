@@ -7,3 +7,4 @@ export * from './eventOrganizer';
 export * from './eventRegistration';
 export * from './enums';
 export * from './photoShare';
+export * from './stripeUserData';

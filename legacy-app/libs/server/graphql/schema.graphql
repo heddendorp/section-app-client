@@ -177,6 +177,7 @@ type Query {
 
   """Get a list of all events"""
   events: [TumiEvent!]!
+  getPaymentSetupSession: paymentSetupSession!
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!
@@ -208,6 +209,12 @@ enum RegistrationType {
 enum Role {
   ADMIN
   USER
+}
+
+type StripeUserData {
+  customerId: String!
+  id: ID!
+  paymentMethodId: String
 }
 
 enum SubmissionItemType {
@@ -348,8 +355,13 @@ type UsersOfTenants {
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
+  stripeData: StripeUserData
   tenant: Tenant!
   tenantId: String!
   user: User!
   userId: String!
+}
+
+type paymentSetupSession {
+  id: String!
 }

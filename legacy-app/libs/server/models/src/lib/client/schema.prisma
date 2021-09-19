@@ -100,14 +100,27 @@ model User {
   createdEvents      TumiEvent[]
 }
 
+model StripeUserData {
+  id                     String         @id @default(uuid()) @db.Uuid
+  createdAt              DateTime       @default(now())
+  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
+  usersOfTenantsUserId   String         @db.Uuid
+  usersOfTenantsTenantId String         @db.Uuid
+  customerId String
+  paymentMethodId String?
+
+  @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
+}
+
 model UsersOfTenants {
-  createdAt DateTime         @default(now())
-  user      User             @relation(fields: [userId], references: [id])
-  userId    String           @db.Uuid
-  tenant    Tenant           @relation(fields: [tenantId], references: [id])
-  tenantId  String           @db.Uuid
-  role      Role             @default(USER)
-  status    MembershipStatus @default(NONE)
+  createdAt  DateTime         @default(now())
+  user       User             @relation(fields: [userId], references: [id])
+  userId     String           @db.Uuid
+  tenant     Tenant           @relation(fields: [tenantId], references: [id])
+  tenantId   String           @db.Uuid
+  role       Role             @default(USER)
+  status     MembershipStatus @default(NONE)
+  stripeData StripeUserData?
 
   @@id([userId, tenantId])
 }

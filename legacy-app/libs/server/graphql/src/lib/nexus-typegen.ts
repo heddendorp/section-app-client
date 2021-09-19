@@ -202,6 +202,11 @@ export interface NexusGenObjects {
     id: string; // ID!
   }
   Query: {};
+  StripeUserData: { // root type
+    customerId: string; // String!
+    id: string; // ID!
+    paymentMethodId?: string | null; // String
+  }
   Tenant: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -249,6 +254,9 @@ export interface NexusGenObjects {
     status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
     tenantId: string; // String!
     userId: string; // String!
+  }
+  paymentSetupSession: { // root type
+    id: string; // String!
   }
 }
 
@@ -326,11 +334,17 @@ export interface NexusGenFieldTypes {
     eventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     eventTemplates: NexusGenRootTypes['EventTemplate'][]; // [EventTemplate!]!
     events: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
+    getPaymentSetupSession: NexusGenRootTypes['paymentSetupSession']; // paymentSetupSession!
     organizers: NexusGenRootTypes['EventOrganizer'][]; // [EventOrganizer!]!
     tenants: NexusGenRootTypes['Tenant'][]; // [Tenant!]!
     userById: NexusGenRootTypes['User'] | null; // User
     userWithStatus: NexusGenRootTypes['User'][]; // [User!]!
     users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  StripeUserData: { // field return type
+    customerId: string; // String!
+    id: string; // ID!
+    paymentMethodId: string | null; // String
   }
   Tenant: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -393,10 +407,14 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     role: NexusGenEnums['Role']; // Role!
     status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+    stripeData: NexusGenRootTypes['StripeUserData'] | null; // StripeUserData
     tenant: NexusGenRootTypes['Tenant']; // Tenant!
     tenantId: string; // String!
     user: NexusGenRootTypes['User']; // User!
     userId: string; // String!
+  }
+  paymentSetupSession: { // field return type
+    id: string; // String!
   }
 }
 
@@ -464,11 +482,17 @@ export interface NexusGenFieldTypeNames {
     eventTemplate: 'EventTemplate'
     eventTemplates: 'EventTemplate'
     events: 'TumiEvent'
+    getPaymentSetupSession: 'paymentSetupSession'
     organizers: 'EventOrganizer'
     tenants: 'Tenant'
     userById: 'User'
     userWithStatus: 'User'
     users: 'User'
+  }
+  StripeUserData: { // field return type name
+    customerId: 'String'
+    id: 'ID'
+    paymentMethodId: 'String'
   }
   Tenant: { // field return type name
     createdAt: 'DateTime'
@@ -531,10 +555,14 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     role: 'Role'
     status: 'MembershipStatus'
+    stripeData: 'StripeUserData'
     tenant: 'Tenant'
     tenantId: 'String'
     user: 'User'
     userId: 'String'
+  }
+  paymentSetupSession: { // field return type name
+    id: 'String'
   }
 }
 

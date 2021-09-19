@@ -12,5 +12,17 @@ export const userOfTenantType = objectType({
     t.field(UsersOfTenants.tenantId);
     t.field(UsersOfTenants.role);
     t.field(UsersOfTenants.status);
+    t.field({
+      ...UsersOfTenants.stripeData,
+      resolve: (source, args, context) =>
+        context.prisma.stripeUserData.findUnique({
+          where: {
+            usersOfTenantsUserId_usersOfTenantsTenantId: {
+              usersOfTenantsUserId: source.userId,
+              usersOfTenantsTenantId: source.tenantId,
+            },
+          },
+        }),
+    });
   },
 });

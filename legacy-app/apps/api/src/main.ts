@@ -8,6 +8,7 @@ import { schema } from '@tumi/server-graphql';
 import { checkJwt, getUser } from './app/auth';
 import { UiAuth0 } from './app/auth0';
 import { seedDB } from './app/seeding';
+import { webhookRouter } from './app/webhooks';
 
 const prisma = new PrismaClient();
 
@@ -20,6 +21,7 @@ seedDB(prisma).then(() => {
 const app = express();
 const httpServer = http.createServer(app);
 app.use('/', express.static(path.join(__dirname, '..', 'tumi-app', 'browser')));
+app.use('/webhooks', webhookRouter(prisma));
 app.use(checkJwt);
 app.use(getUser(prisma));
 

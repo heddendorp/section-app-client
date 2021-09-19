@@ -95,6 +95,15 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   birthdate: 'birthdate'
 });
 
+exports.Prisma.StripeUserDataScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  usersOfTenantsUserId: 'usersOfTenantsUserId',
+  usersOfTenantsTenantId: 'usersOfTenantsTenantId',
+  customerId: 'customerId',
+  paymentMethodId: 'paymentMethodId'
+});
+
 exports.Prisma.UsersOfTenantsScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   userId: 'userId',
@@ -264,6 +273,7 @@ exports.SubmissionTime = makeEnum({
 exports.Prisma.ModelName = makeEnum({
   Tenant: 'Tenant',
   User: 'User',
+  StripeUserData: 'StripeUserData',
   UsersOfTenants: 'UsersOfTenants',
   EventOrganizer: 'EventOrganizer',
   EventTemplate: 'EventTemplate',

@@ -1,194 +1,206 @@
+
 /**
  * Client
- **/
+**/
 
 import * as runtime from './runtime';
 
 declare const prisma: unique symbol;
-export type PrismaPromise<A> = Promise<A> & { [prisma]: true };
-type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P;
+export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
+type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}`
-    ? Tuple[K] extends PrismaPromise<infer X>
-      ? X
-      : UnwrapPromise<Tuple[K]>
-    : UnwrapPromise<Tuple[K]>;
+  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
 };
+
 
 /**
  * Model Tenant
  */
 
 export type Tenant = {
-  id: string;
-  createdAt: Date;
-  name: string;
-  shortName: string;
-};
+  id: string
+  createdAt: Date
+  name: string
+  shortName: string
+}
 
 /**
  * Model User
  */
 
 export type User = {
-  id: string;
-  createdAt: Date;
-  authId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  email_verified: boolean;
-  picture: string;
-  birthdate: Date;
-};
+  id: string
+  createdAt: Date
+  authId: string
+  firstName: string
+  lastName: string
+  email: string
+  email_verified: boolean
+  picture: string
+  birthdate: Date
+}
+
+/**
+ * Model StripeUserData
+ */
+
+export type StripeUserData = {
+  id: string
+  createdAt: Date
+  usersOfTenantsUserId: string
+  usersOfTenantsTenantId: string
+  customerId: string
+  paymentMethodId: string | null
+}
 
 /**
  * Model UsersOfTenants
  */
 
 export type UsersOfTenants = {
-  createdAt: Date;
-  userId: string;
-  tenantId: string;
-  role: Role;
-  status: MembershipStatus;
-};
+  createdAt: Date
+  userId: string
+  tenantId: string
+  role: Role
+  status: MembershipStatus
+}
 
 /**
  * Model EventOrganizer
  */
 
 export type EventOrganizer = {
-  id: string;
-  createdAt: Date;
-  tenantId: string;
-  name: string;
-  text: string;
-  link: string | null;
-};
+  id: string
+  createdAt: Date
+  tenantId: string
+  name: string
+  text: string
+  link: string | null
+}
 
 /**
  * Model EventTemplate
  */
 
 export type EventTemplate = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  description: string;
-  comment: string;
-  location: string;
-  locationId: string;
-  duration: Prisma.Decimal;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  finances: Prisma.JsonValue;
-  tenantId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  description: string
+  comment: string
+  location: string
+  locationId: string
+  duration: Prisma.Decimal
+  participantText: string
+  participantMail: string
+  organizerText: string
+  finances: Prisma.JsonValue
+  tenantId: string
+}
 
 /**
  * Model TumiEvent
  */
 
 export type TumiEvent = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  start: Date;
-  end: Date;
-  description: string;
-  location: string;
-  locationId: string;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  participantLimit: number;
-  organizerLimit: number;
-  price: Prisma.Decimal | null;
-  registrationLink: string | null;
-  registrationMode: RegistrationMode;
-  publicationState: PublicationState;
-  participantSignup: MembershipStatus[];
-  organizerSignup: MembershipStatus[];
-  eventOrganizerId: string;
-  creatorId: string;
-  eventTemplateId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  start: Date
+  end: Date
+  description: string
+  location: string
+  locationId: string
+  participantText: string
+  participantMail: string
+  organizerText: string
+  participantLimit: number
+  organizerLimit: number
+  price: Prisma.Decimal | null
+  registrationLink: string | null
+  registrationMode: RegistrationMode
+  publicationState: PublicationState
+  participantSignup: MembershipStatus[]
+  organizerSignup: MembershipStatus[]
+  eventOrganizerId: string
+  creatorId: string
+  eventTemplateId: string
+}
 
 /**
  * Model CostItem
  */
 
 export type CostItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  name: string;
-  ammount: Prisma.Decimal;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  name: string
+  ammount: Prisma.Decimal
+}
 
 /**
  * Model Receipt
  */
 
 export type Receipt = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  costItemId: string;
-  covered: boolean;
-  amount: number;
-  date: Date;
-  amountCovered: number;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  costItemId: string
+  covered: boolean
+  amount: number
+  date: Date
+  amountCovered: number
+}
 
 /**
  * Model PhotoShare
  */
 
 export type PhotoShare = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+}
 
 /**
  * Model EventRegistration
  */
 
 export type EventRegistration = {
-  id: string;
-  createdAt: Date;
-  type: RegistrationType;
-  userId: string;
-  eventId: string;
-};
+  id: string
+  createdAt: Date
+  type: RegistrationType
+  userId: string
+  eventId: string
+}
 
 /**
  * Model EventSubmissionItem
  */
 
 export type EventSubmissionItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  required: boolean;
-  submissionTime: SubmissionTime;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  required: boolean
+  submissionTime: SubmissionTime
+}
 
 /**
  * Model EventSubmission
  */
 
 export type EventSubmission = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  submissionItemId: string;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  submissionItemId: string
+}
+
 
 /**
  * Enums
@@ -198,59 +210,61 @@ export type EventSubmission = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
 export const Role: {
-  USER: 'USER';
-  ADMIN: 'ADMIN';
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
-export type Role = typeof Role[keyof typeof Role];
+export type Role = (typeof Role)[keyof typeof Role]
+
 
 export const MembershipStatus: {
-  NONE: 'NONE';
-  TRIAL: 'TRIAL';
-  FULL: 'FULL';
-  SPONSOR: 'SPONSOR';
-  ALUMNI: 'ALUMNI';
+  NONE: 'NONE',
+  TRIAL: 'TRIAL',
+  FULL: 'FULL',
+  SPONSOR: 'SPONSOR',
+  ALUMNI: 'ALUMNI'
 };
 
-export type MembershipStatus =
-  typeof MembershipStatus[keyof typeof MembershipStatus];
+export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
+
 
 export const RegistrationMode: {
-  STRIPE: 'STRIPE';
-  ONLINE: 'ONLINE';
-  EXTERNAL: 'EXTERNAL';
+  STRIPE: 'STRIPE',
+  ONLINE: 'ONLINE',
+  EXTERNAL: 'EXTERNAL'
 };
 
-export type RegistrationMode =
-  typeof RegistrationMode[keyof typeof RegistrationMode];
+export type RegistrationMode = (typeof RegistrationMode)[keyof typeof RegistrationMode]
+
 
 export const PublicationState: {
-  DRAFT: 'DRAFT';
-  APPROVAL: 'APPROVAL';
-  ORGANIZERS: 'ORGANIZERS';
-  PUBLIC: 'PUBLIC';
+  DRAFT: 'DRAFT',
+  APPROVAL: 'APPROVAL',
+  ORGANIZERS: 'ORGANIZERS',
+  PUBLIC: 'PUBLIC'
 };
 
-export type PublicationState =
-  typeof PublicationState[keyof typeof PublicationState];
+export type PublicationState = (typeof PublicationState)[keyof typeof PublicationState]
+
 
 export const RegistrationType: {
-  ORGANIZER: 'ORGANIZER';
-  PARTICIPANT: 'PARTICIPANT';
-  CALENDAR: 'CALENDAR';
+  ORGANIZER: 'ORGANIZER',
+  PARTICIPANT: 'PARTICIPANT',
+  CALENDAR: 'CALENDAR'
 };
 
-export type RegistrationType =
-  typeof RegistrationType[keyof typeof RegistrationType];
+export type RegistrationType = (typeof RegistrationType)[keyof typeof RegistrationType]
+
 
 export const SubmissionTime: {
-  REGISTRATION: 'REGISTRATION';
-  BEFORE: 'BEFORE';
-  DURING: 'DURING';
-  AFTER: 'AFTER';
+  REGISTRATION: 'REGISTRATION',
+  BEFORE: 'BEFORE',
+  DURING: 'DURING',
+  AFTER: 'AFTER'
 };
 
-export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
+export type SubmissionTime = (typeof SubmissionTime)[keyof typeof SubmissionTime]
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -268,41 +282,37 @@ export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
  */
 export class PrismaClient<
   T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof T
-    ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
-      ? Prisma.GetEvents<T['log']>
-      : never
-    : never,
+  U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
   GlobalReject = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
     : false
-> {
-  /**
-   * @private
-   */
-  private fetcher;
-  /**
-   * @private
-   */
-  private readonly dmmf;
-  /**
-   * @private
-   */
-  private connectionPromise?;
-  /**
-   * @private
-   */
-  private disconnectionPromise?;
-  /**
-   * @private
-   */
-  private readonly engineConfig;
-  /**
-   * @private
-   */
-  private readonly measurePerformance;
+      > {
+      /**
+       * @private
+       */
+      private fetcher;
+      /**
+       * @private
+       */
+      private readonly dmmf;
+      /**
+       * @private
+       */
+      private connectionPromise?;
+      /**
+       * @private
+       */
+      private disconnectionPromise?;
+      /**
+       * @private
+       */
+      private readonly engineConfig;
+      /**
+       * @private
+       */
+      private readonly measurePerformance;
 
-  /**
+    /**
    * ##  Prisma Client ʲˢ
    *
    * Type-safe database client for TypeScript & Node.js
@@ -317,17 +327,8 @@ export class PrismaClient<
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
-  constructor(optionsArg?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
-  $on<V extends U | 'beforeExit'>(
-    eventType: V,
-    callback: (
-      event: V extends 'query'
-        ? Prisma.QueryEvent
-        : V extends 'beforeExit'
-        ? () => Promise<void>
-        : Prisma.LogEvent
-    ) => void
-  ): void;
+  constructor(optionsArg ?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
+  $on<V extends (U | 'beforeExit')>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : V extends 'beforeExit' ? () => Promise<void> : Prisma.LogEvent) => void): void;
 
   /**
    * Connect with the database
@@ -342,7 +343,7 @@ export class PrismaClient<
   /**
    * Add a middleware
    */
-  $use(cb: Prisma.Middleware): void;
+  $use(cb: Prisma.Middleware): void
 
   /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -353,10 +354,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -368,10 +366,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -382,10 +377,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -397,10 +389,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -415,128 +404,137 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(
-    arg: [...P]
-  ): Promise<UnwrapTuple<P>>;
+  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>;
 
-  /**
+
+      /**
    * `prisma.tenant`: Exposes CRUD operations for the **Tenant** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Tenants
-   * const tenants = await prisma.tenant.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tenants
+    * const tenants = await prisma.tenant.findMany()
+    * ```
+    */
   get tenant(): Prisma.TenantDelegate<GlobalReject>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
+   * `prisma.stripeUserData`: Exposes CRUD operations for the **StripeUserData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StripeUserData
+    * const stripeUserData = await prisma.stripeUserData.findMany()
+    * ```
+    */
+  get stripeUserData(): Prisma.StripeUserDataDelegate<GlobalReject>;
+
+  /**
    * `prisma.usersOfTenants`: Exposes CRUD operations for the **UsersOfTenants** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more UsersOfTenants
-   * const usersOfTenants = await prisma.usersOfTenants.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UsersOfTenants
+    * const usersOfTenants = await prisma.usersOfTenants.findMany()
+    * ```
+    */
   get usersOfTenants(): Prisma.UsersOfTenantsDelegate<GlobalReject>;
 
   /**
    * `prisma.eventOrganizer`: Exposes CRUD operations for the **EventOrganizer** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventOrganizers
-   * const eventOrganizers = await prisma.eventOrganizer.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventOrganizers
+    * const eventOrganizers = await prisma.eventOrganizer.findMany()
+    * ```
+    */
   get eventOrganizer(): Prisma.EventOrganizerDelegate<GlobalReject>;
 
   /**
    * `prisma.eventTemplate`: Exposes CRUD operations for the **EventTemplate** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventTemplates
-   * const eventTemplates = await prisma.eventTemplate.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventTemplates
+    * const eventTemplates = await prisma.eventTemplate.findMany()
+    * ```
+    */
   get eventTemplate(): Prisma.EventTemplateDelegate<GlobalReject>;
 
   /**
    * `prisma.tumiEvent`: Exposes CRUD operations for the **TumiEvent** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more TumiEvents
-   * const tumiEvents = await prisma.tumiEvent.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TumiEvents
+    * const tumiEvents = await prisma.tumiEvent.findMany()
+    * ```
+    */
   get tumiEvent(): Prisma.TumiEventDelegate<GlobalReject>;
 
   /**
    * `prisma.costItem`: Exposes CRUD operations for the **CostItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more CostItems
-   * const costItems = await prisma.costItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostItems
+    * const costItems = await prisma.costItem.findMany()
+    * ```
+    */
   get costItem(): Prisma.CostItemDelegate<GlobalReject>;
 
   /**
    * `prisma.receipt`: Exposes CRUD operations for the **Receipt** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Receipts
-   * const receipts = await prisma.receipt.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Receipts
+    * const receipts = await prisma.receipt.findMany()
+    * ```
+    */
   get receipt(): Prisma.ReceiptDelegate<GlobalReject>;
 
   /**
    * `prisma.photoShare`: Exposes CRUD operations for the **PhotoShare** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more PhotoShares
-   * const photoShares = await prisma.photoShare.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhotoShares
+    * const photoShares = await prisma.photoShare.findMany()
+    * ```
+    */
   get photoShare(): Prisma.PhotoShareDelegate<GlobalReject>;
 
   /**
    * `prisma.eventRegistration`: Exposes CRUD operations for the **EventRegistration** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventRegistrations
-   * const eventRegistrations = await prisma.eventRegistration.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventRegistrations
+    * const eventRegistrations = await prisma.eventRegistration.findMany()
+    * ```
+    */
   get eventRegistration(): Prisma.EventRegistrationDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmissionItem`: Exposes CRUD operations for the **EventSubmissionItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissionItems
-   * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissionItems
+    * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
+    * ```
+    */
   get eventSubmissionItem(): Prisma.EventSubmissionItemDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmission`: Exposes CRUD operations for the **EventSubmission** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissions
-   * const eventSubmissions = await prisma.eventSubmission.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissions
+    * const eventSubmissions = await prisma.eventSubmission.findMany()
+    * ```
+    */
   get eventSubmission(): Prisma.EventSubmissionDelegate<GlobalReject>;
 }
 
@@ -986,6 +984,7 @@ export namespace Prisma {
   export const ModelName: {
     Tenant: 'Tenant';
     User: 'User';
+    StripeUserData: 'StripeUserData';
     UsersOfTenants: 'UsersOfTenants';
     EventOrganizer: 'EventOrganizer';
     EventTemplate: 'EventTemplate';
@@ -3489,6 +3488,954 @@ export namespace Prisma {
   };
 
   /**
+   * Model StripeUserData
+   */
+
+  export type AggregateStripeUserData = {
+    _count: StripeUserDataCountAggregateOutputType | null;
+    _min: StripeUserDataMinAggregateOutputType | null;
+    _max: StripeUserDataMaxAggregateOutputType | null;
+  };
+
+  export type StripeUserDataMinAggregateOutputType = {
+    id: string | null;
+    createdAt: Date | null;
+    usersOfTenantsUserId: string | null;
+    usersOfTenantsTenantId: string | null;
+    customerId: string | null;
+    paymentMethodId: string | null;
+  };
+
+  export type StripeUserDataMaxAggregateOutputType = {
+    id: string | null;
+    createdAt: Date | null;
+    usersOfTenantsUserId: string | null;
+    usersOfTenantsTenantId: string | null;
+    customerId: string | null;
+    paymentMethodId: string | null;
+  };
+
+  export type StripeUserDataCountAggregateOutputType = {
+    id: number;
+    createdAt: number;
+    usersOfTenantsUserId: number;
+    usersOfTenantsTenantId: number;
+    customerId: number;
+    paymentMethodId: number;
+    _all: number;
+  };
+
+  export type StripeUserDataMinAggregateInputType = {
+    id?: true;
+    createdAt?: true;
+    usersOfTenantsUserId?: true;
+    usersOfTenantsTenantId?: true;
+    customerId?: true;
+    paymentMethodId?: true;
+  };
+
+  export type StripeUserDataMaxAggregateInputType = {
+    id?: true;
+    createdAt?: true;
+    usersOfTenantsUserId?: true;
+    usersOfTenantsTenantId?: true;
+    customerId?: true;
+    paymentMethodId?: true;
+  };
+
+  export type StripeUserDataCountAggregateInputType = {
+    id?: true;
+    createdAt?: true;
+    usersOfTenantsUserId?: true;
+    usersOfTenantsTenantId?: true;
+    customerId?: true;
+    paymentMethodId?: true;
+    _all?: true;
+  };
+
+  export type StripeUserDataAggregateArgs = {
+    /**
+     * Filter which StripeUserData to aggregate.
+     *
+     **/
+    where?: StripeUserDataWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of StripeUserData to fetch.
+     *
+     **/
+    orderBy?: Enumerable<StripeUserDataOrderByWithRelationInput>;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     *
+     **/
+    cursor?: StripeUserDataWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` StripeUserData from the position of the cursor.
+     *
+     **/
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` StripeUserData.
+     *
+     **/
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned StripeUserData
+     **/
+    _count?: true | StripeUserDataCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: StripeUserDataMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: StripeUserDataMaxAggregateInputType;
+  };
+
+  export type GetStripeUserDataAggregateType<
+    T extends StripeUserDataAggregateArgs
+  > = {
+    [P in keyof T & keyof AggregateStripeUserData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStripeUserData[P]>
+      : GetScalarType<T[P], AggregateStripeUserData[P]>;
+  };
+
+  export type StripeUserDataGroupByArgs = {
+    where?: StripeUserDataWhereInput;
+    orderBy?: Enumerable<StripeUserDataOrderByWithAggregationInput>;
+    by: Array<StripeUserDataScalarFieldEnum>;
+    having?: StripeUserDataScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: StripeUserDataCountAggregateInputType | true;
+    _min?: StripeUserDataMinAggregateInputType;
+    _max?: StripeUserDataMaxAggregateInputType;
+  };
+
+  export type StripeUserDataGroupByOutputType = {
+    id: string;
+    createdAt: Date;
+    usersOfTenantsUserId: string;
+    usersOfTenantsTenantId: string;
+    customerId: string;
+    paymentMethodId: string | null;
+    _count: StripeUserDataCountAggregateOutputType | null;
+    _min: StripeUserDataMinAggregateOutputType | null;
+    _max: StripeUserDataMaxAggregateOutputType | null;
+  };
+
+  type GetStripeUserDataGroupByPayload<T extends StripeUserDataGroupByArgs> =
+    Promise<
+      Array<
+        PickArray<StripeUserDataGroupByOutputType, T['by']> &
+          {
+            [P in keyof T &
+              keyof StripeUserDataGroupByOutputType]: P extends '_count'
+              ? T[P] extends boolean
+                ? number
+                : GetScalarType<T[P], StripeUserDataGroupByOutputType[P]>
+              : GetScalarType<T[P], StripeUserDataGroupByOutputType[P]>;
+          }
+      >
+    >;
+
+  export type StripeUserDataSelect = {
+    id?: boolean;
+    createdAt?: boolean;
+    userOfTenant?: boolean | UsersOfTenantsArgs;
+    usersOfTenantsUserId?: boolean;
+    usersOfTenantsTenantId?: boolean;
+    customerId?: boolean;
+    paymentMethodId?: boolean;
+  };
+
+  export type StripeUserDataInclude = {
+    userOfTenant?: boolean | UsersOfTenantsArgs;
+  };
+
+  export type StripeUserDataGetPayload<
+    S extends boolean | null | undefined | StripeUserDataArgs,
+    U = keyof S
+  > = S extends true
+    ? StripeUserData
+    : S extends undefined
+    ? never
+    : S extends StripeUserDataArgs | StripeUserDataFindManyArgs
+    ? 'include' extends U
+      ? StripeUserData &
+          {
+            [P in TrueKeys<S['include']>]: P extends 'userOfTenant'
+              ? UsersOfTenantsGetPayload<S['include'][P]>
+              : never;
+          }
+      : 'select' extends U
+      ? {
+          [P in TrueKeys<S['select']>]: P extends keyof StripeUserData
+            ? StripeUserData[P]
+            : P extends 'userOfTenant'
+            ? UsersOfTenantsGetPayload<S['select'][P]>
+            : never;
+        }
+      : StripeUserData
+    : StripeUserData;
+
+  type StripeUserDataCountArgs = Merge<
+    Omit<StripeUserDataFindManyArgs, 'select' | 'include'> & {
+      select?: StripeUserDataCountAggregateInputType | true;
+    }
+  >;
+
+  export interface StripeUserDataDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one StripeUserData that matches the filter.
+     * @param {StripeUserDataFindUniqueArgs} args - Arguments to find a StripeUserData
+     * @example
+     * // Get one StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<
+      T extends StripeUserDataFindUniqueArgs,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args: SelectSubset<T, StripeUserDataFindUniqueArgs>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findUnique',
+      'StripeUserData'
+    > extends True
+      ? CheckSelect<
+          T,
+          Prisma__StripeUserDataClient<StripeUserData>,
+          Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+        >
+      : CheckSelect<
+          T,
+          Prisma__StripeUserDataClient<StripeUserData | null>,
+          Prisma__StripeUserDataClient<StripeUserDataGetPayload<T> | null>
+        >;
+
+    /**
+     * Find the first StripeUserData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataFindFirstArgs} args - Arguments to find a StripeUserData
+     * @example
+     * // Get one StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<
+      T extends StripeUserDataFindFirstArgs,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args?: SelectSubset<T, StripeUserDataFindFirstArgs>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findFirst',
+      'StripeUserData'
+    > extends True
+      ? CheckSelect<
+          T,
+          Prisma__StripeUserDataClient<StripeUserData>,
+          Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+        >
+      : CheckSelect<
+          T,
+          Prisma__StripeUserDataClient<StripeUserData | null>,
+          Prisma__StripeUserDataClient<StripeUserDataGetPayload<T> | null>
+        >;
+
+    /**
+     * Find zero or more StripeUserData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.findMany()
+     *
+     * // Get first 10 StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const stripeUserDataWithIdOnly = await prisma.stripeUserData.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends StripeUserDataFindManyArgs>(
+      args?: SelectSubset<T, StripeUserDataFindManyArgs>
+    ): CheckSelect<
+      T,
+      PrismaPromise<Array<StripeUserData>>,
+      PrismaPromise<Array<StripeUserDataGetPayload<T>>>
+    >;
+
+    /**
+     * Create a StripeUserData.
+     * @param {StripeUserDataCreateArgs} args - Arguments to create a StripeUserData.
+     * @example
+     * // Create one StripeUserData
+     * const StripeUserData = await prisma.stripeUserData.create({
+     *   data: {
+     *     // ... data to create a StripeUserData
+     *   }
+     * })
+     *
+     **/
+    create<T extends StripeUserDataCreateArgs>(
+      args: SelectSubset<T, StripeUserDataCreateArgs>
+    ): CheckSelect<
+      T,
+      Prisma__StripeUserDataClient<StripeUserData>,
+      Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+    >;
+
+    /**
+     * Create many StripeUserData.
+     *     @param {StripeUserDataCreateManyArgs} args - Arguments to create many StripeUserData.
+     *     @example
+     *     // Create many StripeUserData
+     *     const stripeUserData = await prisma.stripeUserData.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends StripeUserDataCreateManyArgs>(
+      args?: SelectSubset<T, StripeUserDataCreateManyArgs>
+    ): PrismaPromise<BatchPayload>;
+
+    /**
+     * Delete a StripeUserData.
+     * @param {StripeUserDataDeleteArgs} args - Arguments to delete one StripeUserData.
+     * @example
+     * // Delete one StripeUserData
+     * const StripeUserData = await prisma.stripeUserData.delete({
+     *   where: {
+     *     // ... filter to delete one StripeUserData
+     *   }
+     * })
+     *
+     **/
+    delete<T extends StripeUserDataDeleteArgs>(
+      args: SelectSubset<T, StripeUserDataDeleteArgs>
+    ): CheckSelect<
+      T,
+      Prisma__StripeUserDataClient<StripeUserData>,
+      Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+    >;
+
+    /**
+     * Update one StripeUserData.
+     * @param {StripeUserDataUpdateArgs} args - Arguments to update one StripeUserData.
+     * @example
+     * // Update one StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends StripeUserDataUpdateArgs>(
+      args: SelectSubset<T, StripeUserDataUpdateArgs>
+    ): CheckSelect<
+      T,
+      Prisma__StripeUserDataClient<StripeUserData>,
+      Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+    >;
+
+    /**
+     * Delete zero or more StripeUserData.
+     * @param {StripeUserDataDeleteManyArgs} args - Arguments to filter StripeUserData to delete.
+     * @example
+     * // Delete a few StripeUserData
+     * const { count } = await prisma.stripeUserData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends StripeUserDataDeleteManyArgs>(
+      args?: SelectSubset<T, StripeUserDataDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more StripeUserData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends StripeUserDataUpdateManyArgs>(
+      args: SelectSubset<T, StripeUserDataUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>;
+
+    /**
+     * Create or update one StripeUserData.
+     * @param {StripeUserDataUpsertArgs} args - Arguments to update or create a StripeUserData.
+     * @example
+     * // Update or create a StripeUserData
+     * const stripeUserData = await prisma.stripeUserData.upsert({
+     *   create: {
+     *     // ... data to create a StripeUserData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StripeUserData we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends StripeUserDataUpsertArgs>(
+      args: SelectSubset<T, StripeUserDataUpsertArgs>
+    ): CheckSelect<
+      T,
+      Prisma__StripeUserDataClient<StripeUserData>,
+      Prisma__StripeUserDataClient<StripeUserDataGetPayload<T>>
+    >;
+
+    /**
+     * Count the number of StripeUserData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataCountArgs} args - Arguments to filter StripeUserData to count.
+     * @example
+     * // Count the number of StripeUserData
+     * const count = await prisma.stripeUserData.count({
+     *   where: {
+     *     // ... the filter for the StripeUserData we want to count
+     *   }
+     * })
+     **/
+    count<T extends StripeUserDataCountArgs>(
+      args?: Subset<T, StripeUserDataCountArgs>
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StripeUserDataCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a StripeUserData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends StripeUserDataAggregateArgs>(
+      args: Subset<T, StripeUserDataAggregateArgs>
+    ): PrismaPromise<GetStripeUserDataAggregateType<T>>;
+
+    /**
+     * Group by StripeUserData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeUserDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends StripeUserDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StripeUserDataGroupByArgs['orderBy'] }
+        : { orderBy?: StripeUserDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T['orderBy']>>
+      >,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+              ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+              : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`
+                ];
+          }[HavingFields]
+        : 'take' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+              }[OrderFields]
+          : 'Error: If you provide "take", you also need to provide "orderBy"'
+        : 'skip' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+              }[OrderFields]
+          : 'Error: If you provide "skip", you also need to provide "orderBy"'
+        : ByValid extends True
+        ? {}
+        : {
+            [P in OrderFields]: P extends ByFields
+              ? never
+              : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+          }[OrderFields]
+    >(
+      args: SubsetIntersection<T, StripeUserDataGroupByArgs, OrderByArg> &
+        InputErrors
+    ): {} extends InputErrors
+      ? GetStripeUserDataGroupByPayload<T>
+      : Promise<InputErrors>;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StripeUserData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__StripeUserDataClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(
+      _dmmf: runtime.DMMFClass,
+      _fetcher: PrismaClientFetcher,
+      _queryType: 'query' | 'mutation',
+      _rootField: string,
+      _clientMethod: string,
+      _args: any,
+      _dataPath: string[],
+      _errorFormat: ErrorFormat,
+      _measurePerformance?: boolean | undefined,
+      _isList?: boolean
+    );
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    userOfTenant<T extends UsersOfTenantsArgs = {}>(
+      args?: Subset<T, UsersOfTenantsArgs>
+    ): CheckSelect<
+      T,
+      Prisma__UsersOfTenantsClient<UsersOfTenants | null>,
+      Prisma__UsersOfTenantsClient<UsersOfTenantsGetPayload<T> | null>
+    >;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null
+    ): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null
+    ): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * StripeUserData findUnique
+   */
+  export type StripeUserDataFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * Throw an Error if a StripeUserData can't be found
+     *
+     **/
+    rejectOnNotFound?: RejectOnNotFound;
+    /**
+     * Filter, which StripeUserData to fetch.
+     *
+     **/
+    where: StripeUserDataWhereUniqueInput;
+  };
+
+  /**
+   * StripeUserData findFirst
+   */
+  export type StripeUserDataFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * Throw an Error if a StripeUserData can't be found
+     *
+     **/
+    rejectOnNotFound?: RejectOnNotFound;
+    /**
+     * Filter, which StripeUserData to fetch.
+     *
+     **/
+    where?: StripeUserDataWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of StripeUserData to fetch.
+     *
+     **/
+    orderBy?: Enumerable<StripeUserDataOrderByWithRelationInput>;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for StripeUserData.
+     *
+     **/
+    cursor?: StripeUserDataWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` StripeUserData from the position of the cursor.
+     *
+     **/
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` StripeUserData.
+     *
+     **/
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of StripeUserData.
+     *
+     **/
+    distinct?: Enumerable<StripeUserDataScalarFieldEnum>;
+  };
+
+  /**
+   * StripeUserData findMany
+   */
+  export type StripeUserDataFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * Filter, which StripeUserData to fetch.
+     *
+     **/
+    where?: StripeUserDataWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of StripeUserData to fetch.
+     *
+     **/
+    orderBy?: Enumerable<StripeUserDataOrderByWithRelationInput>;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing StripeUserData.
+     *
+     **/
+    cursor?: StripeUserDataWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` StripeUserData from the position of the cursor.
+     *
+     **/
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` StripeUserData.
+     *
+     **/
+    skip?: number;
+    distinct?: Enumerable<StripeUserDataScalarFieldEnum>;
+  };
+
+  /**
+   * StripeUserData create
+   */
+  export type StripeUserDataCreateArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * The data needed to create a StripeUserData.
+     *
+     **/
+    data: XOR<StripeUserDataCreateInput, StripeUserDataUncheckedCreateInput>;
+  };
+
+  /**
+   * StripeUserData createMany
+   */
+  export type StripeUserDataCreateManyArgs = {
+    data: Enumerable<StripeUserDataCreateManyInput>;
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * StripeUserData update
+   */
+  export type StripeUserDataUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * The data needed to update a StripeUserData.
+     *
+     **/
+    data: XOR<StripeUserDataUpdateInput, StripeUserDataUncheckedUpdateInput>;
+    /**
+     * Choose, which StripeUserData to update.
+     *
+     **/
+    where: StripeUserDataWhereUniqueInput;
+  };
+
+  /**
+   * StripeUserData updateMany
+   */
+  export type StripeUserDataUpdateManyArgs = {
+    data: XOR<
+      StripeUserDataUpdateManyMutationInput,
+      StripeUserDataUncheckedUpdateManyInput
+    >;
+    where?: StripeUserDataWhereInput;
+  };
+
+  /**
+   * StripeUserData upsert
+   */
+  export type StripeUserDataUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * The filter to search for the StripeUserData to update in case it exists.
+     *
+     **/
+    where: StripeUserDataWhereUniqueInput;
+    /**
+     * In case the StripeUserData found by the `where` argument doesn't exist, create a new StripeUserData with this data.
+     *
+     **/
+    create: XOR<StripeUserDataCreateInput, StripeUserDataUncheckedCreateInput>;
+    /**
+     * In case the StripeUserData was found with the provided `where` argument, update it with this data.
+     *
+     **/
+    update: XOR<StripeUserDataUpdateInput, StripeUserDataUncheckedUpdateInput>;
+  };
+
+  /**
+   * StripeUserData delete
+   */
+  export type StripeUserDataDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+    /**
+     * Filter which StripeUserData to delete.
+     *
+     **/
+    where: StripeUserDataWhereUniqueInput;
+  };
+
+  /**
+   * StripeUserData deleteMany
+   */
+  export type StripeUserDataDeleteManyArgs = {
+    where?: StripeUserDataWhereInput;
+  };
+
+  /**
+   * StripeUserData without action
+   */
+  export type StripeUserDataArgs = {
+    /**
+     * Select specific fields to fetch from the StripeUserData
+     *
+     **/
+    select?: StripeUserDataSelect | null;
+    /**
+     * Choose, which related nodes to fetch as well.
+     *
+     **/
+    include?: StripeUserDataInclude | null;
+  };
+
+  /**
    * Model UsersOfTenants
    */
 
@@ -3658,11 +4605,13 @@ export namespace Prisma {
     tenantId?: boolean;
     role?: boolean;
     status?: boolean;
+    stripeData?: boolean | StripeUserDataArgs;
   };
 
   export type UsersOfTenantsInclude = {
     user?: boolean | UserArgs;
     tenant?: boolean | TenantArgs;
+    stripeData?: boolean | StripeUserDataArgs;
   };
 
   export type UsersOfTenantsGetPayload<
@@ -3680,6 +4629,8 @@ export namespace Prisma {
               ? UserGetPayload<S['include'][P]>
               : P extends 'tenant'
               ? TenantGetPayload<S['include'][P]>
+              : P extends 'stripeData'
+              ? StripeUserDataGetPayload<S['include'][P]> | null
               : never;
           }
       : 'select' extends U
@@ -3690,6 +4641,8 @@ export namespace Prisma {
             ? UserGetPayload<S['select'][P]>
             : P extends 'tenant'
             ? TenantGetPayload<S['select'][P]>
+            : P extends 'stripeData'
+            ? StripeUserDataGetPayload<S['select'][P]> | null
             : never;
         }
       : UsersOfTenants
@@ -4123,6 +5076,14 @@ export namespace Prisma {
       T,
       Prisma__TenantClient<Tenant | null>,
       Prisma__TenantClient<TenantGetPayload<T> | null>
+    >;
+
+    stripeData<T extends StripeUserDataArgs = {}>(
+      args?: Subset<T, StripeUserDataArgs>
+    ): CheckSelect<
+      T,
+      Prisma__StripeUserDataClient<StripeUserData | null>,
+      Prisma__StripeUserDataClient<StripeUserDataGetPayload<T> | null>
     >;
 
     private get _document();
@@ -13535,6 +14496,18 @@ export namespace Prisma {
   export type UserScalarFieldEnum =
     typeof UserScalarFieldEnum[keyof typeof UserScalarFieldEnum];
 
+  export const StripeUserDataScalarFieldEnum: {
+    id: 'id';
+    createdAt: 'createdAt';
+    usersOfTenantsUserId: 'usersOfTenantsUserId';
+    usersOfTenantsTenantId: 'usersOfTenantsTenantId';
+    customerId: 'customerId';
+    paymentMethodId: 'paymentMethodId';
+  };
+
+  export type StripeUserDataScalarFieldEnum =
+    typeof StripeUserDataScalarFieldEnum[keyof typeof StripeUserDataScalarFieldEnum];
+
   export const UsersOfTenantsScalarFieldEnum: {
     createdAt: 'createdAt';
     userId: 'userId';
@@ -13827,6 +14800,58 @@ export namespace Prisma {
     birthdate?: DateTimeWithAggregatesFilter | Date | string;
   };
 
+  export type StripeUserDataWhereInput = {
+    AND?: Enumerable<StripeUserDataWhereInput>;
+    OR?: Enumerable<StripeUserDataWhereInput>;
+    NOT?: Enumerable<StripeUserDataWhereInput>;
+    id?: StringFilter | string;
+    createdAt?: DateTimeFilter | Date | string;
+    userOfTenant?: XOR<UsersOfTenantsRelationFilter, UsersOfTenantsWhereInput>;
+    usersOfTenantsUserId?: StringFilter | string;
+    usersOfTenantsTenantId?: StringFilter | string;
+    customerId?: StringFilter | string;
+    paymentMethodId?: StringNullableFilter | string | null;
+  };
+
+  export type StripeUserDataOrderByWithRelationInput = {
+    id?: SortOrder;
+    createdAt?: SortOrder;
+    userOfTenant?: UsersOfTenantsOrderByWithRelationInput;
+    usersOfTenantsUserId?: SortOrder;
+    usersOfTenantsTenantId?: SortOrder;
+    customerId?: SortOrder;
+    paymentMethodId?: SortOrder;
+  };
+
+  export type StripeUserDataWhereUniqueInput = {
+    id?: string;
+    usersOfTenantsUserId_usersOfTenantsTenantId?: StripeUserDataUsersOfTenantsUserIdUsersOfTenantsTenantIdCompoundUniqueInput;
+  };
+
+  export type StripeUserDataOrderByWithAggregationInput = {
+    id?: SortOrder;
+    createdAt?: SortOrder;
+    usersOfTenantsUserId?: SortOrder;
+    usersOfTenantsTenantId?: SortOrder;
+    customerId?: SortOrder;
+    paymentMethodId?: SortOrder;
+    _count?: StripeUserDataCountOrderByAggregateInput;
+    _max?: StripeUserDataMaxOrderByAggregateInput;
+    _min?: StripeUserDataMinOrderByAggregateInput;
+  };
+
+  export type StripeUserDataScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<StripeUserDataScalarWhereWithAggregatesInput>;
+    OR?: Enumerable<StripeUserDataScalarWhereWithAggregatesInput>;
+    NOT?: Enumerable<StripeUserDataScalarWhereWithAggregatesInput>;
+    id?: StringWithAggregatesFilter | string;
+    createdAt?: DateTimeWithAggregatesFilter | Date | string;
+    usersOfTenantsUserId?: StringWithAggregatesFilter | string;
+    usersOfTenantsTenantId?: StringWithAggregatesFilter | string;
+    customerId?: StringWithAggregatesFilter | string;
+    paymentMethodId?: StringNullableWithAggregatesFilter | string | null;
+  };
+
   export type UsersOfTenantsWhereInput = {
     AND?: Enumerable<UsersOfTenantsWhereInput>;
     OR?: Enumerable<UsersOfTenantsWhereInput>;
@@ -13838,6 +14863,10 @@ export namespace Prisma {
     tenantId?: StringFilter | string;
     role?: EnumRoleFilter | Role;
     status?: EnumMembershipStatusFilter | MembershipStatus;
+    stripeData?: XOR<
+      StripeUserDataRelationFilter,
+      StripeUserDataWhereInput
+    > | null;
   };
 
   export type UsersOfTenantsOrderByWithRelationInput = {
@@ -13848,6 +14877,7 @@ export namespace Prisma {
     tenantId?: SortOrder;
     role?: SortOrder;
     status?: SortOrder;
+    stripeData?: StripeUserDataOrderByWithRelationInput;
   };
 
   export type UsersOfTenantsWhereUniqueInput = {
@@ -14623,12 +15653,72 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
+  export type StripeUserDataCreateInput = {
+    id?: string;
+    createdAt?: Date | string;
+    customerId: string;
+    paymentMethodId?: string | null;
+    userOfTenant: UsersOfTenantsCreateNestedOneWithoutStripeDataInput;
+  };
+
+  export type StripeUserDataUncheckedCreateInput = {
+    id?: string;
+    createdAt?: Date | string;
+    usersOfTenantsUserId: string;
+    usersOfTenantsTenantId: string;
+    customerId: string;
+    paymentMethodId?: string | null;
+  };
+
+  export type StripeUserDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    userOfTenant?: UsersOfTenantsUpdateOneRequiredWithoutStripeDataInput;
+  };
+
+  export type StripeUserDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    usersOfTenantsUserId?: StringFieldUpdateOperationsInput | string;
+    usersOfTenantsTenantId?: StringFieldUpdateOperationsInput | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type StripeUserDataCreateManyInput = {
+    id?: string;
+    createdAt?: Date | string;
+    usersOfTenantsUserId: string;
+    usersOfTenantsTenantId: string;
+    customerId: string;
+    paymentMethodId?: string | null;
+  };
+
+  export type StripeUserDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type StripeUserDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    usersOfTenantsUserId?: StringFieldUpdateOperationsInput | string;
+    usersOfTenantsTenantId?: StringFieldUpdateOperationsInput | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
   export type UsersOfTenantsCreateInput = {
     createdAt?: Date | string;
     role?: Role;
     status?: MembershipStatus;
     user: UserCreateNestedOneWithoutTenantsInput;
     tenant: TenantCreateNestedOneWithoutUsersInput;
+    stripeData?: StripeUserDataCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedCreateInput = {
@@ -14637,6 +15727,7 @@ export namespace Prisma {
     tenantId: string;
     role?: Role;
     status?: MembershipStatus;
+    stripeData?: StripeUserDataUncheckedCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUpdateInput = {
@@ -14645,6 +15736,7 @@ export namespace Prisma {
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
     user?: UserUpdateOneRequiredWithoutTenantsInput;
     tenant?: TenantUpdateOneRequiredWithoutUsersInput;
+    stripeData?: StripeUserDataUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedUpdateInput = {
@@ -14653,6 +15745,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string;
     role?: EnumRoleFieldUpdateOperationsInput | Role;
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
+    stripeData?: StripeUserDataUncheckedUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsCreateManyInput = {
@@ -15665,6 +16758,77 @@ export namespace Prisma {
     _max?: NestedBoolFilter;
   };
 
+  export type UsersOfTenantsRelationFilter = {
+    is?: UsersOfTenantsWhereInput;
+    isNot?: UsersOfTenantsWhereInput;
+  };
+
+  export type StringNullableFilter = {
+    equals?: string | null;
+    in?: Enumerable<string> | null;
+    notIn?: Enumerable<string> | null;
+    lt?: string;
+    lte?: string;
+    gt?: string;
+    gte?: string;
+    contains?: string;
+    startsWith?: string;
+    endsWith?: string;
+    mode?: QueryMode;
+    not?: NestedStringNullableFilter | string | null;
+  };
+
+  export type StripeUserDataUsersOfTenantsUserIdUsersOfTenantsTenantIdCompoundUniqueInput =
+    {
+      usersOfTenantsUserId: string;
+      usersOfTenantsTenantId: string;
+    };
+
+  export type StripeUserDataCountOrderByAggregateInput = {
+    id?: SortOrder;
+    createdAt?: SortOrder;
+    usersOfTenantsUserId?: SortOrder;
+    usersOfTenantsTenantId?: SortOrder;
+    customerId?: SortOrder;
+    paymentMethodId?: SortOrder;
+  };
+
+  export type StripeUserDataMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    createdAt?: SortOrder;
+    usersOfTenantsUserId?: SortOrder;
+    usersOfTenantsTenantId?: SortOrder;
+    customerId?: SortOrder;
+    paymentMethodId?: SortOrder;
+  };
+
+  export type StripeUserDataMinOrderByAggregateInput = {
+    id?: SortOrder;
+    createdAt?: SortOrder;
+    usersOfTenantsUserId?: SortOrder;
+    usersOfTenantsTenantId?: SortOrder;
+    customerId?: SortOrder;
+    paymentMethodId?: SortOrder;
+  };
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null;
+    in?: Enumerable<string> | null;
+    notIn?: Enumerable<string> | null;
+    lt?: string;
+    lte?: string;
+    gt?: string;
+    gte?: string;
+    contains?: string;
+    startsWith?: string;
+    endsWith?: string;
+    mode?: QueryMode;
+    not?: NestedStringNullableWithAggregatesFilter | string | null;
+    _count?: NestedIntNullableFilter;
+    _min?: NestedStringNullableFilter;
+    _max?: NestedStringNullableFilter;
+  };
+
   export type UserRelationFilter = {
     is?: UserWhereInput;
     isNot?: UserWhereInput;
@@ -15687,6 +16851,11 @@ export namespace Prisma {
     in?: Enumerable<MembershipStatus>;
     notIn?: Enumerable<MembershipStatus>;
     not?: NestedEnumMembershipStatusFilter | MembershipStatus;
+  };
+
+  export type StripeUserDataRelationFilter = {
+    is?: StripeUserDataWhereInput | null;
+    isNot?: StripeUserDataWhereInput | null;
   };
 
   export type UsersOfTenantsUserIdTenantIdCompoundUniqueInput = {
@@ -15738,21 +16907,6 @@ export namespace Prisma {
     _max?: NestedEnumMembershipStatusFilter;
   };
 
-  export type StringNullableFilter = {
-    equals?: string | null;
-    in?: Enumerable<string> | null;
-    notIn?: Enumerable<string> | null;
-    lt?: string;
-    lte?: string;
-    gt?: string;
-    gte?: string;
-    contains?: string;
-    startsWith?: string;
-    endsWith?: string;
-    mode?: QueryMode;
-    not?: NestedStringNullableFilter | string | null;
-  };
-
   export type EventOrganizerCountOrderByAggregateInput = {
     id?: SortOrder;
     createdAt?: SortOrder;
@@ -15778,24 +16932,6 @@ export namespace Prisma {
     name?: SortOrder;
     text?: SortOrder;
     link?: SortOrder;
-  };
-
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null;
-    in?: Enumerable<string> | null;
-    notIn?: Enumerable<string> | null;
-    lt?: string;
-    lte?: string;
-    gt?: string;
-    gte?: string;
-    contains?: string;
-    startsWith?: string;
-    endsWith?: string;
-    mode?: QueryMode;
-    not?: NestedStringNullableWithAggregatesFilter | string | null;
-    _count?: NestedIntNullableFilter;
-    _min?: NestedStringNullableFilter;
-    _max?: NestedStringNullableFilter;
   };
 
   export type DecimalFilter = {
@@ -16803,6 +17939,33 @@ export namespace Prisma {
     deleteMany?: Enumerable<TumiEventScalarWhereInput>;
   };
 
+  export type UsersOfTenantsCreateNestedOneWithoutStripeDataInput = {
+    create?: XOR<
+      UsersOfTenantsCreateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedCreateWithoutStripeDataInput
+    >;
+    connectOrCreate?: UsersOfTenantsCreateOrConnectWithoutStripeDataInput;
+    connect?: UsersOfTenantsWhereUniqueInput;
+  };
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null;
+  };
+
+  export type UsersOfTenantsUpdateOneRequiredWithoutStripeDataInput = {
+    create?: XOR<
+      UsersOfTenantsCreateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedCreateWithoutStripeDataInput
+    >;
+    connectOrCreate?: UsersOfTenantsCreateOrConnectWithoutStripeDataInput;
+    upsert?: UsersOfTenantsUpsertWithoutStripeDataInput;
+    connect?: UsersOfTenantsWhereUniqueInput;
+    update?: XOR<
+      UsersOfTenantsUpdateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedUpdateWithoutStripeDataInput
+    >;
+  };
+
   export type UserCreateNestedOneWithoutTenantsInput = {
     create?: XOR<
       UserCreateWithoutTenantsInput,
@@ -16819,6 +17982,24 @@ export namespace Prisma {
     >;
     connectOrCreate?: TenantCreateOrConnectWithoutUsersInput;
     connect?: TenantWhereUniqueInput;
+  };
+
+  export type StripeUserDataCreateNestedOneWithoutUserOfTenantInput = {
+    create?: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
+    >;
+    connectOrCreate?: StripeUserDataCreateOrConnectWithoutUserOfTenantInput;
+    connect?: StripeUserDataWhereUniqueInput;
+  };
+
+  export type StripeUserDataUncheckedCreateNestedOneWithoutUserOfTenantInput = {
+    create?: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
+    >;
+    connectOrCreate?: StripeUserDataCreateOrConnectWithoutUserOfTenantInput;
+    connect?: StripeUserDataWhereUniqueInput;
   };
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -16857,6 +18038,38 @@ export namespace Prisma {
     >;
   };
 
+  export type StripeUserDataUpdateOneWithoutUserOfTenantInput = {
+    create?: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
+    >;
+    connectOrCreate?: StripeUserDataCreateOrConnectWithoutUserOfTenantInput;
+    upsert?: StripeUserDataUpsertWithoutUserOfTenantInput;
+    connect?: StripeUserDataWhereUniqueInput;
+    disconnect?: boolean;
+    delete?: boolean;
+    update?: XOR<
+      StripeUserDataUpdateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedUpdateWithoutUserOfTenantInput
+    >;
+  };
+
+  export type StripeUserDataUncheckedUpdateOneWithoutUserOfTenantInput = {
+    create?: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
+    >;
+    connectOrCreate?: StripeUserDataCreateOrConnectWithoutUserOfTenantInput;
+    upsert?: StripeUserDataUpsertWithoutUserOfTenantInput;
+    connect?: StripeUserDataWhereUniqueInput;
+    disconnect?: boolean;
+    delete?: boolean;
+    update?: XOR<
+      StripeUserDataUpdateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedUpdateWithoutUserOfTenantInput
+    >;
+  };
+
   export type TenantCreateNestedOneWithoutOrganizersInput = {
     create?: XOR<
       TenantCreateWithoutOrganizersInput,
@@ -16884,10 +18097,6 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<TumiEventCreateOrConnectWithoutOrganizerInput>;
     createMany?: TumiEventCreateManyOrganizerInputEnvelope;
     connect?: Enumerable<TumiEventWhereUniqueInput>;
-  };
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null;
   };
 
   export type TenantUpdateOneRequiredWithoutOrganizersInput = {
@@ -17758,40 +18967,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter;
   };
 
-  export type NestedEnumRoleFilter = {
-    equals?: Role;
-    in?: Enumerable<Role>;
-    notIn?: Enumerable<Role>;
-    not?: NestedEnumRoleFilter | Role;
-  };
-
-  export type NestedEnumMembershipStatusFilter = {
-    equals?: MembershipStatus;
-    in?: Enumerable<MembershipStatus>;
-    notIn?: Enumerable<MembershipStatus>;
-    not?: NestedEnumMembershipStatusFilter | MembershipStatus;
-  };
-
-  export type NestedEnumRoleWithAggregatesFilter = {
-    equals?: Role;
-    in?: Enumerable<Role>;
-    notIn?: Enumerable<Role>;
-    not?: NestedEnumRoleWithAggregatesFilter | Role;
-    _count?: NestedIntFilter;
-    _min?: NestedEnumRoleFilter;
-    _max?: NestedEnumRoleFilter;
-  };
-
-  export type NestedEnumMembershipStatusWithAggregatesFilter = {
-    equals?: MembershipStatus;
-    in?: Enumerable<MembershipStatus>;
-    notIn?: Enumerable<MembershipStatus>;
-    not?: NestedEnumMembershipStatusWithAggregatesFilter | MembershipStatus;
-    _count?: NestedIntFilter;
-    _min?: NestedEnumMembershipStatusFilter;
-    _max?: NestedEnumMembershipStatusFilter;
-  };
-
   export type NestedStringNullableFilter = {
     equals?: string | null;
     in?: Enumerable<string> | null;
@@ -17832,6 +19007,40 @@ export namespace Prisma {
     gt?: number;
     gte?: number;
     not?: NestedIntNullableFilter | number | null;
+  };
+
+  export type NestedEnumRoleFilter = {
+    equals?: Role;
+    in?: Enumerable<Role>;
+    notIn?: Enumerable<Role>;
+    not?: NestedEnumRoleFilter | Role;
+  };
+
+  export type NestedEnumMembershipStatusFilter = {
+    equals?: MembershipStatus;
+    in?: Enumerable<MembershipStatus>;
+    notIn?: Enumerable<MembershipStatus>;
+    not?: NestedEnumMembershipStatusFilter | MembershipStatus;
+  };
+
+  export type NestedEnumRoleWithAggregatesFilter = {
+    equals?: Role;
+    in?: Enumerable<Role>;
+    notIn?: Enumerable<Role>;
+    not?: NestedEnumRoleWithAggregatesFilter | Role;
+    _count?: NestedIntFilter;
+    _min?: NestedEnumRoleFilter;
+    _max?: NestedEnumRoleFilter;
+  };
+
+  export type NestedEnumMembershipStatusWithAggregatesFilter = {
+    equals?: MembershipStatus;
+    in?: Enumerable<MembershipStatus>;
+    notIn?: Enumerable<MembershipStatus>;
+    not?: NestedEnumMembershipStatusWithAggregatesFilter | MembershipStatus;
+    _count?: NestedIntFilter;
+    _min?: NestedEnumMembershipStatusFilter;
+    _max?: NestedEnumMembershipStatusFilter;
   };
 
   export type NestedDecimalFilter = {
@@ -18015,6 +19224,7 @@ export namespace Prisma {
     role?: Role;
     status?: MembershipStatus;
     user: UserCreateNestedOneWithoutTenantsInput;
+    stripeData?: StripeUserDataCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedCreateWithoutTenantInput = {
@@ -18022,6 +19232,7 @@ export namespace Prisma {
     userId: string;
     role?: Role;
     status?: MembershipStatus;
+    stripeData?: StripeUserDataUncheckedCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsCreateOrConnectWithoutTenantInput = {
@@ -18247,6 +19458,7 @@ export namespace Prisma {
     role?: Role;
     status?: MembershipStatus;
     tenant: TenantCreateNestedOneWithoutUsersInput;
+    stripeData?: StripeUserDataCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedCreateWithoutUserInput = {
@@ -18254,6 +19466,7 @@ export namespace Prisma {
     tenantId: string;
     role?: Role;
     status?: MembershipStatus;
+    stripeData?: StripeUserDataUncheckedCreateNestedOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsCreateOrConnectWithoutUserInput = {
@@ -18637,6 +19850,57 @@ export namespace Prisma {
     eventTemplateId?: StringFilter | string;
   };
 
+  export type UsersOfTenantsCreateWithoutStripeDataInput = {
+    createdAt?: Date | string;
+    role?: Role;
+    status?: MembershipStatus;
+    user: UserCreateNestedOneWithoutTenantsInput;
+    tenant: TenantCreateNestedOneWithoutUsersInput;
+  };
+
+  export type UsersOfTenantsUncheckedCreateWithoutStripeDataInput = {
+    createdAt?: Date | string;
+    userId: string;
+    tenantId: string;
+    role?: Role;
+    status?: MembershipStatus;
+  };
+
+  export type UsersOfTenantsCreateOrConnectWithoutStripeDataInput = {
+    where: UsersOfTenantsWhereUniqueInput;
+    create: XOR<
+      UsersOfTenantsCreateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedCreateWithoutStripeDataInput
+    >;
+  };
+
+  export type UsersOfTenantsUpsertWithoutStripeDataInput = {
+    update: XOR<
+      UsersOfTenantsUpdateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedUpdateWithoutStripeDataInput
+    >;
+    create: XOR<
+      UsersOfTenantsCreateWithoutStripeDataInput,
+      UsersOfTenantsUncheckedCreateWithoutStripeDataInput
+    >;
+  };
+
+  export type UsersOfTenantsUpdateWithoutStripeDataInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    role?: EnumRoleFieldUpdateOperationsInput | Role;
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
+    user?: UserUpdateOneRequiredWithoutTenantsInput;
+    tenant?: TenantUpdateOneRequiredWithoutUsersInput;
+  };
+
+  export type UsersOfTenantsUncheckedUpdateWithoutStripeDataInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    tenantId?: StringFieldUpdateOperationsInput | string;
+    role?: EnumRoleFieldUpdateOperationsInput | Role;
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
+  };
+
   export type UserCreateWithoutTenantsInput = {
     id?: string;
     createdAt?: Date | string;
@@ -18700,6 +19964,28 @@ export namespace Prisma {
     create: XOR<
       TenantCreateWithoutUsersInput,
       TenantUncheckedCreateWithoutUsersInput
+    >;
+  };
+
+  export type StripeUserDataCreateWithoutUserOfTenantInput = {
+    id?: string;
+    createdAt?: Date | string;
+    customerId: string;
+    paymentMethodId?: string | null;
+  };
+
+  export type StripeUserDataUncheckedCreateWithoutUserOfTenantInput = {
+    id?: string;
+    createdAt?: Date | string;
+    customerId: string;
+    paymentMethodId?: string | null;
+  };
+
+  export type StripeUserDataCreateOrConnectWithoutUserOfTenantInput = {
+    where: StripeUserDataWhereUniqueInput;
+    create: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
     >;
   };
 
@@ -18773,6 +20059,31 @@ export namespace Prisma {
     shortName?: StringFieldUpdateOperationsInput | string;
     eventTemplates?: EventTemplateUncheckedUpdateManyWithoutTenantInput;
     organizers?: EventOrganizerUncheckedUpdateManyWithoutTenantInput;
+  };
+
+  export type StripeUserDataUpsertWithoutUserOfTenantInput = {
+    update: XOR<
+      StripeUserDataUpdateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedUpdateWithoutUserOfTenantInput
+    >;
+    create: XOR<
+      StripeUserDataCreateWithoutUserOfTenantInput,
+      StripeUserDataUncheckedCreateWithoutUserOfTenantInput
+    >;
+  };
+
+  export type StripeUserDataUpdateWithoutUserOfTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+  };
+
+  export type StripeUserDataUncheckedUpdateWithoutUserOfTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    customerId?: StringFieldUpdateOperationsInput | string;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type TenantCreateWithoutOrganizersInput = {
@@ -20735,6 +22046,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | Role;
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
     user?: UserUpdateOneRequiredWithoutTenantsInput;
+    stripeData?: StripeUserDataUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedUpdateWithoutTenantInput = {
@@ -20742,6 +22054,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string;
     role?: EnumRoleFieldUpdateOperationsInput | Role;
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
+    stripeData?: StripeUserDataUncheckedUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedUpdateManyWithoutUsersInput = {
@@ -20891,6 +22204,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | Role;
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
     tenant?: TenantUpdateOneRequiredWithoutUsersInput;
+    stripeData?: StripeUserDataUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedUpdateWithoutUserInput = {
@@ -20898,6 +22212,7 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string;
     role?: EnumRoleFieldUpdateOperationsInput | Role;
     status?: EnumMembershipStatusFieldUpdateOperationsInput | MembershipStatus;
+    stripeData?: StripeUserDataUncheckedUpdateOneWithoutUserOfTenantInput;
   };
 
   export type UsersOfTenantsUncheckedUpdateManyWithoutTenantsInput = {

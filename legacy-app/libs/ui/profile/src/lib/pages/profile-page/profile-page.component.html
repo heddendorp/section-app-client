@@ -53,6 +53,34 @@
       <p>Name: {{ profile.fullName }}</p>
       <p>Mail: {{ profile.email }}</p>
     </div>
+    <div class="rounded-2xl bg-pink-200 p-4">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-card-in-use"
+          class="text-pink-500 bg-white card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Payment Information</h2>
+      </div>
+      <p class="mb-4">
+        To register for paid events, you have to add a payment method here.
+      </p>
+      <ng-container *ngIf="profile.currentTenant?.stripeData?.paymentMethodId">
+        <p>✔️ All good, we have a payment method saved for you</p>
+        <p class="mb-4">
+          If you wish, you can go through the process again to change your
+          payment method
+        </p>
+      </ng-container>
+
+      <button mat-flat-button color="accent" (click)="setupStripePayment()">
+        Set payment method
+      </button>
+    </div>
     <div class="rounded-2xl bg-green-200 p-4">
       <div
         fxLayout="row"

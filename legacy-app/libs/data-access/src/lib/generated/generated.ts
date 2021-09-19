@@ -232,6 +232,7 @@ export type Query = {
   eventTemplates: Array<EventTemplate>;
   /** Get a list of all events */
   events: Array<TumiEvent>;
+  getPaymentSetupSession: PaymentSetupSession;
   /** Retrieve a list of all event organizers */
   organizers: Array<EventOrganizer>;
   tenants: Array<Tenant>;
@@ -274,6 +275,13 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
+
+export type StripeUserData = {
+  __typename?: 'StripeUserData';
+  customerId: Scalars['String'];
+  id: Scalars['ID'];
+  paymentMethodId?: Maybe<Scalars['String']>;
+};
 
 export enum SubmissionItemType {
   Date = 'DATE',
@@ -404,10 +412,16 @@ export type UsersOfTenants = {
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
+  stripeData?: Maybe<StripeUserData>;
   tenant: Tenant;
   tenantId: Scalars['String'];
   user: User;
   userId: Scalars['String'];
+};
+
+export type PaymentSetupSession = {
+  __typename?: 'paymentSetupSession';
+  id: Scalars['String'];
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -591,7 +605,6 @@ export type LoadEventForEditQuery = {
     description: string;
     organizerText: string;
     registrationMode: RegistrationMode;
-    registrationLink?: Maybe<string>;
     price?: Maybe<any>;
     eventOrganizerId: string;
     organizerSignup: Array<MembershipStatus>;
@@ -602,6 +615,7 @@ export type LoadEventForEditQuery = {
     participantLimit: number;
     organizerLimit: number;
     publicationState: PublicationState;
+    registrationLink?: Maybe<string>;
     organizers: Array<{
       __typename?: 'User';
       fullName: string;
@@ -738,6 +752,15 @@ export type RegisterUserMutation = {
   registerUser: { __typename?: 'User'; id: string };
 };
 
+export type GetPaymentSetupSessionQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetPaymentSetupSessionQuery = {
+  __typename?: 'Query';
+  getPaymentSetupSession: { __typename?: 'paymentSetupSession'; id: string };
+};
+
 export type UserProfileQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UserProfileQuery = {
@@ -754,6 +777,10 @@ export type UserProfileQuery = {
     currentTenant?: Maybe<{
       __typename?: 'UsersOfTenants';
       status: MembershipStatus;
+      stripeData?: Maybe<{
+        __typename?: 'StripeUserData';
+        paymentMethodId?: Maybe<string>;
+      }>;
     }>;
     organizedEvents: Array<{
       __typename?: 'TumiEvent';
@@ -1128,7 +1155,6 @@ export const LoadEventForEditDocument = gql`
       description
       organizerText
       registrationMode
-      registrationLink
       price
       eventOrganizerId
       organizerSignup
@@ -1356,6 +1382,27 @@ export class RegisterUserGQL extends Apollo.Mutation<
     super(apollo);
   }
 }
+export const GetPaymentSetupSessionDocument = gql`
+  query getPaymentSetupSession {
+    getPaymentSetupSession {
+      id
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetPaymentSetupSessionGQL extends Apollo.Query<
+  GetPaymentSetupSessionQuery,
+  GetPaymentSetupSessionQueryVariables
+> {
+  document = GetPaymentSetupSessionDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const UserProfileDocument = gql`
   query userProfile {
     currentUser {
@@ -1368,6 +1415,9 @@ export const UserProfileDocument = gql`
       firstName
       currentTenant {
         status
+        stripeData {
+          paymentMethodId
+        }
       }
       organizedEvents {
         id

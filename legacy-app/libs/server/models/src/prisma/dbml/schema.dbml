@@ -33,6 +33,20 @@ Table User {
   Note: 'One User of the app'
 }
 
+Table StripeUserData {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  userOfTenant UsersOfTenants [not null]
+  usersOfTenantsUserId String [not null]
+  usersOfTenantsTenantId String [not null]
+  customerId String [not null]
+  paymentMethodId String
+
+  indexes {
+    (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
+  }
+}
+
 Table UsersOfTenants {
   createdAt DateTime [default: `now()`, not null]
   user User [not null]
@@ -41,6 +55,7 @@ Table UsersOfTenants {
   tenantId String [not null]
   role Role [not null, default: 'USER']
   status MembershipStatus [not null, default: 'NONE']
+  stripeData StripeUserData
 
   indexes {
     (userId, tenantId) [pk]
@@ -223,6 +238,8 @@ Enum RegistrationMode {
   ONLINE
   EXTERNAL
 }
+
+Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: UsersOfTenants.userId > User.id
 

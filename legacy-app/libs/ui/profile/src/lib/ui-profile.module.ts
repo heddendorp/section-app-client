@@ -11,6 +11,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UtilMaterialModule } from '@tumi/util/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { UtilMaterialModule } from '@tumi/util/material';
     MatLuxonDateModule,
     MatButtonModule,
     MatProgressBarModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     UtilMaterialModule,
   ],

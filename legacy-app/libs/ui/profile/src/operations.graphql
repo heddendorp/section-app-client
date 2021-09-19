@@ -4,6 +4,12 @@ mutation RegisterUser($userInput: CreateUserInput) {
   }
 }
 
+query getPaymentSetupSession {
+  getPaymentSetupSession {
+    id
+  }
+}
+
 query userProfile {
   currentUser {
     id
@@ -13,8 +19,11 @@ query userProfile {
     email
     birthdate
     firstName
-    currentTenant{
+    currentTenant {
       status
+      stripeData{
+        paymentMethodId
+      }
     }
     organizedEvents {
       id
