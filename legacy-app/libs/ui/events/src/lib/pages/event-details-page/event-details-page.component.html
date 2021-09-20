@@ -29,6 +29,12 @@
   <div class="p-6 lg:p-12 bg-gray-100 shadow-inner">
     <ng-template #noRegistration>
       <h2>You can not sign up for this event</h2>
+      <ng-container *ngIf="(hasAccount$ | async) === false">
+        <p class="my-4">To sign up for events please create an account</p>
+        <a routerLink="/profile/new" mat-flat-button color="accent">
+          Create Account
+        </a>
+      </ng-container>
     </ng-template>
     <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
       <h2 class="text-blue-600 mb-4 font-black">Registration</h2>

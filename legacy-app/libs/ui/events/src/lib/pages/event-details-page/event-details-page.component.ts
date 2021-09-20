@@ -1,11 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
+  GetCurrentUserGQL,
   LoadEventGQL,
   LoadEventQuery,
   RegisterForEventGQL,
@@ -22,8 +18,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./event-details-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventDetailsPageComponent implements OnInit, OnDestroy {
+export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
+  public hasAccount$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
@@ -31,6 +28,7 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private loadEvent: LoadEventGQL,
+    private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
     private snackbar: MatSnackBar
   ) {
@@ -42,9 +40,10 @@ export class EventDetailsPageComponent implements OnInit, OnDestroy {
       map(({ data }) => data.event)
     );
     this.loadEventQueryRef.startPolling(5000);
+    this.hasAccount$ = this.loadCurrentUser
+      .watch()
+      .valueChanges.pipe(map(({ data }) => !!data.currentUser));
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy() {
     this.destroyed$.next(true);
