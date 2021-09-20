@@ -162,7 +162,12 @@
 
     <mat-list class="max-w-lg">
       <mat-list-item *ngFor="let user of (event$ | async)?.organizers">
-        <img [src]="user.picture" alt="Image" mat-list-avatar />
+        <img
+          [src]="user.picture"
+          alt="Image"
+          referrerpolicy="no-referrer"
+          mat-list-avatar
+        />
         <p mat-line>{{ user.fullName }}</p>
         <button mat-icon-button (click)="removeUser(user.id)">
           <mat-icon svgIcon="icon-delete-sign"></mat-icon>

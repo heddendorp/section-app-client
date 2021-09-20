@@ -9,7 +9,11 @@
     fxLayoutAlign="space-evenly center"
     fxLayoutGap="2rem"
   >
-    <img [src]="profile.picture" class="rounded-lg shadow-lg" />
+    <img
+      [src]="profile.picture"
+      class="rounded-lg shadow-lg"
+      referrerpolicy="no-referrer"
+    />
     <div fxLayout="column" class="max-w-md">
       <h2
         class="
@@ -134,7 +138,10 @@
         </a>
       </mat-list>
     </div>
-    <div class="rounded-2xl bg-green-200 p-4">
+    <div
+      class="rounded-2xl bg-green-200 p-4"
+      *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
+    >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"

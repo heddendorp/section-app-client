@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   GetPaymentSetupSessionGQL,
+  MembershipStatus,
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/data-access';
@@ -21,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
   public profileQueryRef;
+  public MembershipStatus = MembershipStatus;
   constructor(
     private profileQuery: UserProfileGQL,
     private getStripeSession: GetPaymentSetupSessionGQL,

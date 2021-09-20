@@ -15,22 +15,28 @@
         routerLink="profile"
         routerLinkActive="active"
         *tumiIfRole="[Role.User, Role.Admin]"
-        >Profile</a
       >
+        Profile
+      </a>
       <a
         mat-list-item
         routerLink="event-templates"
         routerLinkActive="active"
         *tumiIfStatus="[MembershipStatus.Full]"
-        >Event templates</a
       >
+        Event templates
+      </a>
       <a
         mat-list-item
         routerLink="tenant"
         routerLinkActive="active"
         *tumiIfRole="[Role.Admin]"
-        >Management</a
       >
+        Management
+      </a>
+      <a mat-list-item routerLink="feedback" routerLinkActive="active">
+        Give Feedback
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

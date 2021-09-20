@@ -65,6 +65,9 @@
     "ui-events": {
       "tags": []
     },
+    "ui-feedback": {
+      "tags": []
+    },
     "ui-profile": {
       "tags": []
     },

@@ -535,6 +535,31 @@
         }
       }
     },
+    "ui-feedback": {
+      "projectType": "library",
+      "root": "libs/ui/feedback",
+      "sourceRoot": "libs/ui/feedback/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/feedback"],
+          "options": {
+            "jestConfig": "libs/ui/feedback/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/feedback/src/**/*.ts",
+              "libs/ui/feedback/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ui-profile": {
       "projectType": "library",
       "root": "libs/ui/profile",

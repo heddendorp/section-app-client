@@ -62,6 +62,11 @@ import { environment } from '../environments/environment';
         loadChildren: () =>
           import('@tumi/ui/tenant').then((module) => module.UiTenantModule),
       },
+      {
+        path: 'feedback',
+        loadChildren: () =>
+          import('@tumi/ui/feedback').then((module) => module.UiFeedbackModule),
+      },
     ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
