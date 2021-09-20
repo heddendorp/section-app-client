@@ -36,8 +36,13 @@
         <tumi-external-event-registration
           *ngSwitchCase="RegistrationMode.External"
           [event]="event"
-        ></tumi-external-event-registration
-      ></ng-container>
+        >
+        </tumi-external-event-registration>
+        <tumi-stripe-registration
+          *ngSwitchCase="RegistrationMode.Stripe"
+          [event]="event"
+        ></tumi-stripe-registration>
+      </ng-container>
     </ng-container>
   </div>
   <div *ngIf="event.couldBeOrganizer" class="p-6 lg:p-12">

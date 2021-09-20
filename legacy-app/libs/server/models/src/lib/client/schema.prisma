@@ -228,6 +228,12 @@ model EventRegistration {
   userId    String           @db.Uuid
   event     TumiEvent        @relation(fields: [eventId], references: [id])
   eventId   String           @db.Uuid
+  paymentIntentId String?
+  chargeId String?
+  paymentStatus String?
+  stripeFee Int?
+  amountPaid Int?
+  netPaid Int?
 
   @@unique([userId, eventId])
 }

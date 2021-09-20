@@ -1,4 +1,4 @@
-import { nonNull, objectType, queryField } from 'nexus';
+import { idArg, mutationField, nonNull, objectType, queryField } from 'nexus';
 import { StripeUserData } from 'nexus-prisma';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -18,6 +18,15 @@ export const paymentSetupSessionType = objectType({
   name: 'paymentSetupSession',
   definition(t) {
     t.nonNull.string('id');
+  },
+});
+
+export const paymentIntentType = objectType({
+  name: 'paymentIntent',
+  definition(t) {
+    t.nonNull.string('id');
+    t.nonNull.string('status');
+    t.string('client_secret');
   },
 });
 
@@ -71,3 +80,38 @@ export const getPaymentSetupSessionQuery = queryField(
     },
   }
 );
+
+export const registerWithStripeMutation = mutationField('registerWithStripe', {
+  type: nonNull(paymentIntentType),
+  args: { id: nonNull(idArg()) },
+  resolve: async (source, { id, intentId }, context) => {
+    let paymentIntent;
+    const event = await context.prisma.tumiEvent.findUnique({
+      where: { id },
+    });
+    const stripeData = await context.prisma.stripeUserData.findUnique({
+      where: {
+        usersOfTenantsUserId_usersOfTenantsTenantId: {
+          usersOfTenantsTenantId: context.tenant.id,
+          usersOfTenantsUserId: context.user.id,
+        },
+      },
+    });
+    if (event) {
+      paymentIntent = await stripe.paymentIntents.create({
+        amount: event.price.toNumber() * 100,
+        currency: 'EUR',
+        confirm: true,
+        customer: stripeData.customerId,
+        payment_method: stripeData.paymentMethodId,
+        payment_method_types: ['card', 'sepa_debit'],
+        metadata: {
+          eventId: event.id,
+          userId: context.user.id,
+        },
+      });
+    }
+    console.log(paymentIntent);
+    return paymentIntent;
+  },
+});

@@ -26,6 +26,7 @@ import { SelectOrganizerDialogComponent } from './components/select-organizer-di
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ExternalEventRegistrationComponent } from './components/registration/external-event-registration/external-event-registration.component';
+import { StripeRegistrationComponent } from './components/registration/stripe-registration/stripe-registration.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { ExternalEventRegistrationComponent } from './components/registration/ex
     EventListItemComponent,
     SelectOrganizerDialogComponent,
     ExternalEventRegistrationComponent,
+    StripeRegistrationComponent,
   ],
 })
 export class UiEventsModule {}

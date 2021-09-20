@@ -1,0 +1,40 @@
+<div *ngIf="event" class="my-2">
+  <p class="mb-4">
+    Free spots:
+    {{ (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0) }}
+  </p>
+  <ng-container *ngIf="event.participantRegistrationPossible">
+    <p class="pb-4">
+      You can register for this event online by paying
+      {{ event.price | currency: 'EUR' }}
+    </p>
+    <ng-container *ngIf="userSetupForPayment$ | async; else notReady">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="register()"
+        [disabled]="processing | async"
+      >
+        Register now!
+      </button>
+      <mat-progress-bar
+        class="mt-4"
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="event.userRegistered">
+    <p>✔️ You are registered for this event.</p>
+  </ng-container>
+  <ng-template #notReady>
+    <h2 class="font-bold">⚠️ No payment method saved</h2>
+    <p class="mb-4">
+      To register for TUMi events you have to save a payment method to your
+      profile
+    </p>
+    <a routerLink="/profile" mat-flat-button color="primary">
+      Go to profile now
+    </a>
+  </ng-template>
+</div>

@@ -194,7 +194,13 @@ exports.Prisma.EventRegistrationScalarFieldEnum = makeEnum({
   createdAt: 'createdAt',
   type: 'type',
   userId: 'userId',
-  eventId: 'eventId'
+  eventId: 'eventId',
+  paymentIntentId: 'paymentIntentId',
+  chargeId: 'chargeId',
+  paymentStatus: 'paymentStatus',
+  stripeFee: 'stripeFee',
+  amountPaid: 'amountPaid',
+  netPaid: 'netPaid'
 });
 
 exports.Prisma.EventSubmissionItemScalarFieldEnum = makeEnum({

@@ -22,6 +22,10 @@ query loadEvent($id: ID!) {
     organizerSignup
     participantSignup
     organizerRegistrationPossible
+    participantRegistrationPossible
+    userRegistered
+    participantLimit
+    participantsRegistered
     couldBeOrganizer
     couldBeParticipant
     organizers {
@@ -63,10 +67,28 @@ query loadEventForEdit($id: ID!) {
   }
 }
 
-mutation removeUserFromEvent($eventId: ID!, $userId: ID!){
-  removeUserFromEvent(eventId: $eventId, userId: $userId){
+query GetUserPaymentStatus {
+  currentUser {
+    currentTenant {
+      stripeData {
+        paymentMethodId
+      }
+    }
+  }
+}
+
+mutation registerWithStripePayment($eventId: ID!) {
+  registerWithStripe(id: $eventId) {
     id
-    organizers{
+    status
+    client_secret
+  }
+}
+
+mutation removeUserFromEvent($eventId: ID!, $userId: ID!) {
+  removeUserFromEvent(eventId: $eventId, userId: $userId) {
+    id
+    organizers {
       id
       fullName
       picture
@@ -74,8 +96,8 @@ mutation removeUserFromEvent($eventId: ID!, $userId: ID!){
   }
 }
 
-mutation addOrganizerToEvent($eventId: ID!, $userId: ID!){
-  addOrganizerToEvent(eventId: $eventId, userId: $userId){
+mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
+  addOrganizerToEvent(eventId: $eventId, userId: $userId) {
     id
     organizers {
       fullName
@@ -85,8 +107,8 @@ mutation addOrganizerToEvent($eventId: ID!, $userId: ID!){
   }
 }
 
-mutation updateEvent($id: ID!, $data: UpdateEventInput!){
-  updateEventGeneralInfo(id: $id, data: $data){
+mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
+  updateEventGeneralInfo(id: $id, data: $data) {
     title
     icon
     start

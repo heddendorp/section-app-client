@@ -167,6 +167,12 @@ Table EventRegistration {
   userId String [not null]
   event TumiEvent [not null]
   eventId String [not null]
+  paymentIntentId String
+  chargeId String
+  paymentStatus String
+  stripeFee Int
+  amountPaid Int
+  netPaid Int
 
   indexes {
     (userId, eventId) [unique]

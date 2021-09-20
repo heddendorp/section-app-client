@@ -176,6 +176,12 @@ export type EventRegistration = {
   type: RegistrationType
   userId: string
   eventId: string
+  paymentIntentId: string | null
+  chargeId: string | null
+  paymentStatus: string | null
+  stripeFee: number | null
+  amountPaid: number | null
+  netPaid: number | null
 }
 
 /**
@@ -11560,8 +11566,22 @@ export namespace Prisma {
 
   export type AggregateEventRegistration = {
     _count: EventRegistrationCountAggregateOutputType | null;
+    _avg: EventRegistrationAvgAggregateOutputType | null;
+    _sum: EventRegistrationSumAggregateOutputType | null;
     _min: EventRegistrationMinAggregateOutputType | null;
     _max: EventRegistrationMaxAggregateOutputType | null;
+  };
+
+  export type EventRegistrationAvgAggregateOutputType = {
+    stripeFee: number | null;
+    amountPaid: number | null;
+    netPaid: number | null;
+  };
+
+  export type EventRegistrationSumAggregateOutputType = {
+    stripeFee: number | null;
+    amountPaid: number | null;
+    netPaid: number | null;
   };
 
   export type EventRegistrationMinAggregateOutputType = {
@@ -11570,6 +11590,12 @@ export namespace Prisma {
     type: RegistrationType | null;
     userId: string | null;
     eventId: string | null;
+    paymentIntentId: string | null;
+    chargeId: string | null;
+    paymentStatus: string | null;
+    stripeFee: number | null;
+    amountPaid: number | null;
+    netPaid: number | null;
   };
 
   export type EventRegistrationMaxAggregateOutputType = {
@@ -11578,6 +11604,12 @@ export namespace Prisma {
     type: RegistrationType | null;
     userId: string | null;
     eventId: string | null;
+    paymentIntentId: string | null;
+    chargeId: string | null;
+    paymentStatus: string | null;
+    stripeFee: number | null;
+    amountPaid: number | null;
+    netPaid: number | null;
   };
 
   export type EventRegistrationCountAggregateOutputType = {
@@ -11586,7 +11618,25 @@ export namespace Prisma {
     type: number;
     userId: number;
     eventId: number;
+    paymentIntentId: number;
+    chargeId: number;
+    paymentStatus: number;
+    stripeFee: number;
+    amountPaid: number;
+    netPaid: number;
     _all: number;
+  };
+
+  export type EventRegistrationAvgAggregateInputType = {
+    stripeFee?: true;
+    amountPaid?: true;
+    netPaid?: true;
+  };
+
+  export type EventRegistrationSumAggregateInputType = {
+    stripeFee?: true;
+    amountPaid?: true;
+    netPaid?: true;
   };
 
   export type EventRegistrationMinAggregateInputType = {
@@ -11595,6 +11645,12 @@ export namespace Prisma {
     type?: true;
     userId?: true;
     eventId?: true;
+    paymentIntentId?: true;
+    chargeId?: true;
+    paymentStatus?: true;
+    stripeFee?: true;
+    amountPaid?: true;
+    netPaid?: true;
   };
 
   export type EventRegistrationMaxAggregateInputType = {
@@ -11603,6 +11659,12 @@ export namespace Prisma {
     type?: true;
     userId?: true;
     eventId?: true;
+    paymentIntentId?: true;
+    chargeId?: true;
+    paymentStatus?: true;
+    stripeFee?: true;
+    amountPaid?: true;
+    netPaid?: true;
   };
 
   export type EventRegistrationCountAggregateInputType = {
@@ -11611,6 +11673,12 @@ export namespace Prisma {
     type?: true;
     userId?: true;
     eventId?: true;
+    paymentIntentId?: true;
+    chargeId?: true;
+    paymentStatus?: true;
+    stripeFee?: true;
+    amountPaid?: true;
+    netPaid?: true;
     _all?: true;
   };
 
@@ -11657,6 +11725,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+     **/
+    _avg?: EventRegistrationAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: EventRegistrationSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
      **/
     _min?: EventRegistrationMinAggregateInputType;
@@ -11688,6 +11768,8 @@ export namespace Prisma {
     take?: number;
     skip?: number;
     _count?: EventRegistrationCountAggregateInputType | true;
+    _avg?: EventRegistrationAvgAggregateInputType;
+    _sum?: EventRegistrationSumAggregateInputType;
     _min?: EventRegistrationMinAggregateInputType;
     _max?: EventRegistrationMaxAggregateInputType;
   };
@@ -11698,7 +11780,15 @@ export namespace Prisma {
     type: RegistrationType;
     userId: string;
     eventId: string;
+    paymentIntentId: string | null;
+    chargeId: string | null;
+    paymentStatus: string | null;
+    stripeFee: number | null;
+    amountPaid: number | null;
+    netPaid: number | null;
     _count: EventRegistrationCountAggregateOutputType | null;
+    _avg: EventRegistrationAvgAggregateOutputType | null;
+    _sum: EventRegistrationSumAggregateOutputType | null;
     _min: EventRegistrationMinAggregateOutputType | null;
     _max: EventRegistrationMaxAggregateOutputType | null;
   };
@@ -11727,6 +11817,12 @@ export namespace Prisma {
     userId?: boolean;
     event?: boolean | TumiEventArgs;
     eventId?: boolean;
+    paymentIntentId?: boolean;
+    chargeId?: boolean;
+    paymentStatus?: boolean;
+    stripeFee?: boolean;
+    amountPaid?: boolean;
+    netPaid?: boolean;
   };
 
   export type EventRegistrationInclude = {
@@ -14620,6 +14716,12 @@ export namespace Prisma {
     type: 'type';
     userId: 'userId';
     eventId: 'eventId';
+    paymentIntentId: 'paymentIntentId';
+    chargeId: 'chargeId';
+    paymentStatus: 'paymentStatus';
+    stripeFee: 'stripeFee';
+    amountPaid: 'amountPaid';
+    netPaid: 'netPaid';
   };
 
   export type EventRegistrationScalarFieldEnum =
@@ -15352,6 +15454,12 @@ export namespace Prisma {
     userId?: StringFilter | string;
     event?: XOR<TumiEventRelationFilter, TumiEventWhereInput>;
     eventId?: StringFilter | string;
+    paymentIntentId?: StringNullableFilter | string | null;
+    chargeId?: StringNullableFilter | string | null;
+    paymentStatus?: StringNullableFilter | string | null;
+    stripeFee?: IntNullableFilter | number | null;
+    amountPaid?: IntNullableFilter | number | null;
+    netPaid?: IntNullableFilter | number | null;
   };
 
   export type EventRegistrationOrderByWithRelationInput = {
@@ -15362,6 +15470,12 @@ export namespace Prisma {
     userId?: SortOrder;
     event?: TumiEventOrderByWithRelationInput;
     eventId?: SortOrder;
+    paymentIntentId?: SortOrder;
+    chargeId?: SortOrder;
+    paymentStatus?: SortOrder;
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
   };
 
   export type EventRegistrationWhereUniqueInput = {
@@ -15375,9 +15489,17 @@ export namespace Prisma {
     type?: SortOrder;
     userId?: SortOrder;
     eventId?: SortOrder;
+    paymentIntentId?: SortOrder;
+    chargeId?: SortOrder;
+    paymentStatus?: SortOrder;
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
     _count?: EventRegistrationCountOrderByAggregateInput;
+    _avg?: EventRegistrationAvgOrderByAggregateInput;
     _max?: EventRegistrationMaxOrderByAggregateInput;
     _min?: EventRegistrationMinOrderByAggregateInput;
+    _sum?: EventRegistrationSumOrderByAggregateInput;
   };
 
   export type EventRegistrationScalarWhereWithAggregatesInput = {
@@ -15389,6 +15511,12 @@ export namespace Prisma {
     type?: EnumRegistrationTypeWithAggregatesFilter | RegistrationType;
     userId?: StringWithAggregatesFilter | string;
     eventId?: StringWithAggregatesFilter | string;
+    paymentIntentId?: StringNullableWithAggregatesFilter | string | null;
+    chargeId?: StringNullableWithAggregatesFilter | string | null;
+    paymentStatus?: StringNullableWithAggregatesFilter | string | null;
+    stripeFee?: IntNullableWithAggregatesFilter | number | null;
+    amountPaid?: IntNullableWithAggregatesFilter | number | null;
+    netPaid?: IntNullableWithAggregatesFilter | number | null;
   };
 
   export type EventSubmissionItemWhereInput = {
@@ -16396,6 +16524,12 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     type?: RegistrationType;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
     user: UserCreateNestedOneWithoutEventRegistrationsInput;
     event: TumiEventCreateNestedOneWithoutRegistrationsInput;
   };
@@ -16406,12 +16540,24 @@ export namespace Prisma {
     type?: RegistrationType;
     userId: string;
     eventId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type EventRegistrationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
     user?: UserUpdateOneRequiredWithoutEventRegistrationsInput;
     event?: TumiEventUpdateOneRequiredWithoutRegistrationsInput;
   };
@@ -16422,6 +16568,12 @@ export namespace Prisma {
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
     userId?: StringFieldUpdateOperationsInput | string;
     eventId?: StringFieldUpdateOperationsInput | string;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type EventRegistrationCreateManyInput = {
@@ -16430,12 +16582,24 @@ export namespace Prisma {
     type?: RegistrationType;
     userId: string;
     eventId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type EventRegistrationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type EventRegistrationUncheckedUpdateManyInput = {
@@ -16444,6 +16608,12 @@ export namespace Prisma {
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
     userId?: StringFieldUpdateOperationsInput | string;
     eventId?: StringFieldUpdateOperationsInput | string;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type EventSubmissionItemCreateInput = {
@@ -17389,6 +17559,17 @@ export namespace Prisma {
     not?: NestedEnumRegistrationTypeFilter | RegistrationType;
   };
 
+  export type IntNullableFilter = {
+    equals?: number | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number;
+    lte?: number;
+    gt?: number;
+    gte?: number;
+    not?: NestedIntNullableFilter | number | null;
+  };
+
   export type EventRegistrationUserIdEventIdCompoundUniqueInput = {
     userId: string;
     eventId: string;
@@ -17400,6 +17581,18 @@ export namespace Prisma {
     type?: SortOrder;
     userId?: SortOrder;
     eventId?: SortOrder;
+    paymentIntentId?: SortOrder;
+    chargeId?: SortOrder;
+    paymentStatus?: SortOrder;
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
+  };
+
+  export type EventRegistrationAvgOrderByAggregateInput = {
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
   };
 
   export type EventRegistrationMaxOrderByAggregateInput = {
@@ -17408,6 +17601,12 @@ export namespace Prisma {
     type?: SortOrder;
     userId?: SortOrder;
     eventId?: SortOrder;
+    paymentIntentId?: SortOrder;
+    chargeId?: SortOrder;
+    paymentStatus?: SortOrder;
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
   };
 
   export type EventRegistrationMinOrderByAggregateInput = {
@@ -17416,6 +17615,18 @@ export namespace Prisma {
     type?: SortOrder;
     userId?: SortOrder;
     eventId?: SortOrder;
+    paymentIntentId?: SortOrder;
+    chargeId?: SortOrder;
+    paymentStatus?: SortOrder;
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
+  };
+
+  export type EventRegistrationSumOrderByAggregateInput = {
+    stripeFee?: SortOrder;
+    amountPaid?: SortOrder;
+    netPaid?: SortOrder;
   };
 
   export type EnumRegistrationTypeWithAggregatesFilter = {
@@ -17426,6 +17637,22 @@ export namespace Prisma {
     _count?: NestedIntFilter;
     _min?: NestedEnumRegistrationTypeFilter;
     _max?: NestedEnumRegistrationTypeFilter;
+  };
+
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number;
+    lte?: number;
+    gt?: number;
+    gte?: number;
+    not?: NestedIntNullableWithAggregatesFilter | number | null;
+    _count?: NestedIntNullableFilter;
+    _avg?: NestedFloatNullableFilter;
+    _sum?: NestedIntNullableFilter;
+    _min?: NestedIntNullableFilter;
+    _max?: NestedIntNullableFilter;
   };
 
   export type EnumSubmissionTimeFilter = {
@@ -18731,6 +18958,14 @@ export namespace Prisma {
     set?: RegistrationType;
   };
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+  };
+
   export type UserUpdateOneRequiredWithoutEventRegistrationsInput = {
     create?: XOR<
       UserCreateWithoutEventRegistrationsInput,
@@ -19202,6 +19437,33 @@ export namespace Prisma {
     _max?: NestedEnumRegistrationTypeFilter;
   };
 
+  export type NestedIntNullableWithAggregatesFilter = {
+    equals?: number | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number;
+    lte?: number;
+    gt?: number;
+    gte?: number;
+    not?: NestedIntNullableWithAggregatesFilter | number | null;
+    _count?: NestedIntNullableFilter;
+    _avg?: NestedFloatNullableFilter;
+    _sum?: NestedIntNullableFilter;
+    _min?: NestedIntNullableFilter;
+    _max?: NestedIntNullableFilter;
+  };
+
+  export type NestedFloatNullableFilter = {
+    equals?: number | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number;
+    lte?: number;
+    gt?: number;
+    gte?: number;
+    not?: NestedFloatNullableFilter | number | null;
+  };
+
   export type NestedEnumSubmissionTimeFilter = {
     equals?: SubmissionTime;
     in?: Enumerable<SubmissionTime>;
@@ -19511,6 +19773,12 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     type?: RegistrationType;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
     event: TumiEventCreateNestedOneWithoutRegistrationsInput;
   };
 
@@ -19519,6 +19787,12 @@ export namespace Prisma {
     createdAt?: Date | string;
     type?: RegistrationType;
     eventId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type EventRegistrationCreateOrConnectWithoutUserInput = {
@@ -19749,6 +20023,12 @@ export namespace Prisma {
     type?: EnumRegistrationTypeFilter | RegistrationType;
     userId?: StringFilter | string;
     eventId?: StringFilter | string;
+    paymentIntentId?: StringNullableFilter | string | null;
+    chargeId?: StringNullableFilter | string | null;
+    paymentStatus?: StringNullableFilter | string | null;
+    stripeFee?: IntNullableFilter | number | null;
+    amountPaid?: IntNullableFilter | number | null;
+    netPaid?: IntNullableFilter | number | null;
   };
 
   export type ReceiptUpsertWithWhereUniqueWithoutUserInput = {
@@ -20443,6 +20723,12 @@ export namespace Prisma {
     id?: string;
     createdAt?: Date | string;
     type?: RegistrationType;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
     user: UserCreateNestedOneWithoutEventRegistrationsInput;
   };
 
@@ -20451,6 +20737,12 @@ export namespace Prisma {
     createdAt?: Date | string;
     type?: RegistrationType;
     userId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type EventRegistrationCreateOrConnectWithoutEventInput = {
@@ -22158,6 +22450,12 @@ export namespace Prisma {
     createdAt?: Date | string;
     type?: RegistrationType;
     eventId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type ReceiptCreateManyUserInput = {
@@ -22244,6 +22542,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
     event?: TumiEventUpdateOneRequiredWithoutRegistrationsInput;
   };
 
@@ -22252,6 +22556,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
     eventId?: StringFieldUpdateOperationsInput | string;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type EventRegistrationUncheckedUpdateManyWithoutEventRegistrationsInput =
@@ -22260,6 +22570,15 @@ export namespace Prisma {
       createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
       type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
       eventId?: StringFieldUpdateOperationsInput | string;
+      paymentIntentId?:
+        | NullableStringFieldUpdateOperationsInput
+        | string
+        | null;
+      chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+      paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+      stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+      amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+      netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
     };
 
   export type ReceiptUpdateWithoutUserInput = {
@@ -22728,6 +23047,12 @@ export namespace Prisma {
     createdAt?: Date | string;
     type?: RegistrationType;
     userId: string;
+    paymentIntentId?: string | null;
+    chargeId?: string | null;
+    paymentStatus?: string | null;
+    stripeFee?: number | null;
+    amountPaid?: number | null;
+    netPaid?: number | null;
   };
 
   export type CostItemCreateManyEventInput = {
@@ -22771,6 +23096,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
     user?: UserUpdateOneRequiredWithoutEventRegistrationsInput;
   };
 
@@ -22779,6 +23110,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
     userId?: StringFieldUpdateOperationsInput | string;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type EventRegistrationUncheckedUpdateManyWithoutRegistrationsInput = {
@@ -22786,6 +23123,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     type?: EnumRegistrationTypeFieldUpdateOperationsInput | RegistrationType;
     userId?: StringFieldUpdateOperationsInput | string;
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null;
+    chargeId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null;
+    stripeFee?: NullableIntFieldUpdateOperationsInput | number | null;
+    amountPaid?: NullableIntFieldUpdateOperationsInput | number | null;
+    netPaid?: NullableIntFieldUpdateOperationsInput | number | null;
   };
 
   export type CostItemUpdateWithoutEventInput = {

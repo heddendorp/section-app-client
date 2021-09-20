@@ -255,6 +255,11 @@ export interface NexusGenObjects {
     tenantId: string; // String!
     userId: string; // String!
   }
+  paymentIntent: { // root type
+    client_secret?: string | null; // String
+    id: string; // String!
+    status: string; // String!
+  }
   paymentSetupSession: { // root type
     id: string; // String!
   }
@@ -315,6 +320,7 @@ export interface NexusGenFieldTypes {
     deleteTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     registerForEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerUser: NexusGenRootTypes['User']; // User!
+    registerWithStripe: NexusGenRootTypes['paymentIntent']; // paymentIntent!
     removeUserFromEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     updateEventGeneralInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
@@ -387,6 +393,7 @@ export interface NexusGenFieldTypes {
     registrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     start: NexusGenScalars['DateTime']; // DateTime!
     title: string; // String!
+    userRegistered: boolean; // Boolean!
   }
   User: { // field return type
     authId: string; // String!
@@ -412,6 +419,11 @@ export interface NexusGenFieldTypes {
     tenantId: string; // String!
     user: NexusGenRootTypes['User']; // User!
     userId: string; // String!
+  }
+  paymentIntent: { // field return type
+    client_secret: string | null; // String
+    id: string; // String!
+    status: string; // String!
   }
   paymentSetupSession: { // field return type
     id: string; // String!
@@ -463,6 +475,7 @@ export interface NexusGenFieldTypeNames {
     deleteTemplate: 'EventTemplate'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    registerWithStripe: 'paymentIntent'
     removeUserFromEvent: 'TumiEvent'
     updateEventGeneralInfo: 'TumiEvent'
     updateTemplate: 'EventTemplate'
@@ -535,6 +548,7 @@ export interface NexusGenFieldTypeNames {
     registrations: 'EventRegistration'
     start: 'DateTime'
     title: 'String'
+    userRegistered: 'Boolean'
   }
   User: { // field return type name
     authId: 'String'
@@ -560,6 +574,11 @@ export interface NexusGenFieldTypeNames {
     tenantId: 'String'
     user: 'User'
     userId: 'String'
+  }
+  paymentIntent: { // field return type name
+    client_secret: 'String'
+    id: 'String'
+    status: 'String'
   }
   paymentSetupSession: { // field return type name
     id: 'String'
@@ -591,6 +610,9 @@ export interface NexusGenArgTypes {
     }
     registerUser: { // args
       userInput?: NexusGenInputs['CreateUserInput'] | null; // CreateUserInput
+    }
+    registerWithStripe: { // args
+      id: string; // ID!
     }
     removeUserFromEvent: { // args
       eventId: string; // ID!

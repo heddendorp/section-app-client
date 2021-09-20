@@ -124,6 +124,7 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
+  registerWithStripe(id: ID!): paymentIntent!
 
   """Removes the user with the supplied id to the event"""
   removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
@@ -293,6 +294,9 @@ type TumiEvent {
   registrations: [EventRegistration!]!
   start: DateTime!
   title: String!
+
+  """Indicates if the current user is registered for the event"""
+  userRegistered: Boolean!
 }
 
 """Additional inputs to create an event from a template"""
@@ -360,6 +364,12 @@ type UsersOfTenants {
   tenantId: String!
   user: User!
   userId: String!
+}
+
+type paymentIntent {
+  client_secret: String
+  id: String!
+  status: String!
 }
 
 type paymentSetupSession {

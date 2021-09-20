@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as Stripe from 'stripe';
+import { RegistrationType } from '@tumi/server-models';
 
 const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2020-08-27',
@@ -45,8 +46,66 @@ export const webhookRouter = (prisma) => {
               });
             }
           }
+          break;
         }
+        case 'payment_intent.processing': {
+          const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
+          console.log('Processing event: payment_intent.processing');
+          const charge = paymentIntent.charges.data[0];
+          await prisma.eventRegistration.create({
+            data: {
+              type: RegistrationType.PARTICIPANT,
+              event: { connect: { id: paymentIntent.metadata.eventId } },
+              user: { connect: { id: paymentIntent.metadata.userId } },
+              paymentIntentId: paymentIntent.id,
+              chargeId: charge.id,
+              paymentStatus: paymentIntent.status,
+              amountPaid: charge.amount,
+            },
+          });
+          break;
+        }
+        case 'payment_intent.succeeded': {
+          const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
+          console.log('Processing event: payment_intent.succeeded');
+          const charge = paymentIntent.charges.data[0];
+          if (typeof charge?.balance_transaction === 'string') {
+            const balanceTransaction =
+              await stripe.balanceTransactions.retrieve(
+                charge.balance_transaction
+              );
+            await prisma.eventRegistration.upsert({
+              where: {
+                userId_eventId: {
+                  userId: paymentIntent.metadata.userId,
+                  eventId: paymentIntent.metadata.eventId,
+                },
+              },
+              create: {
+                type: RegistrationType.PARTICIPANT,
+                event: { connect: { id: paymentIntent.metadata.eventId } },
+                user: { connect: { id: paymentIntent.metadata.userId } },
+                paymentIntentId: paymentIntent.id,
+                chargeId: charge.id,
+                paymentStatus: 'succeeded',
+                amountPaid: balanceTransaction.amount,
+                netPaid: balanceTransaction.net,
+                stripeFee: balanceTransaction.fee,
+              },
+              update: {
+                amountPaid: balanceTransaction.amount,
+                netPaid: balanceTransaction.net,
+                stripeFee: balanceTransaction.fee,
+                paymentStatus: 'succeeded',
+              },
+            });
+          }
+          break;
+        }
+        default:
+          console.log(`Unhandled event type ${event.type}`);
       }
+      response.sendStatus(200);
     }
   );
   return router;

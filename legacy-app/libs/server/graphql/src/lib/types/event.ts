@@ -58,6 +58,15 @@ export const eventType = objectType({
     t.field(TumiEvent.photoShare);
     t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
+    t.nonNull.boolean('userRegistered', {
+      description: 'Indicates if the current user is registered for the event',
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration
+          .count({
+            where: { eventId: source.id, userId: context.user.id },
+          })
+          .then((number) => number !== 0),
+    });
     t.field('organizers', {
       description: 'Organizers alraedy on this event',
       type: nonNull(list(nonNull(userType))),
@@ -67,6 +76,7 @@ export const eventType = objectType({
             eventRegistrations: {
               some: {
                 eventId: source.id,
+                type: RegistrationType.ORGANIZER,
               },
             },
           },
@@ -141,7 +151,10 @@ export const eventType = objectType({
       description:
         'Indicates whether the current user can register to this event as participant',
       resolve: async (root, args, context) => {
-        if (!context.user) return false;
+        if (!context.user) {
+          console.info(`Can't register participant because user is missing`);
+          return false;
+        }
         const { status } = await context.prisma.usersOfTenants.findUnique({
           where: {
             userId_tenantId: {
@@ -151,12 +164,27 @@ export const eventType = objectType({
           },
           select: { status: true },
         });
-        if (!root.participantSignup.includes(status)) return false;
+        if (!root.participantSignup.includes(status)) {
+          console.info(
+            `Can't register participant because status is not allowed ${status}`
+          );
+          return false;
+        }
         const previousRegistration =
-          await context.prisma.eventRegistration.findFirst({
-            where: { user: { id: context.user.id } },
+          await context.prisma.eventRegistration.findUnique({
+            where: {
+              userId_eventId: {
+                userId: context.user.id,
+                eventId: root.id,
+              },
+            },
           });
-        if (!previousRegistration) return false;
+        if (previousRegistration) {
+          console.info(
+            `Can't register participant because there is a registration already`
+          );
+          return false;
+        }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
             where: { type: RegistrationType.PARTICIPANT },

@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import {
   LoadEventGQL,
   LoadEventQuery,
@@ -8,7 +13,7 @@ import {
   RegistrationType,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { first, map, switchMap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -17,9 +22,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./event-details-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventDetailsPageComponent implements OnInit {
+export class EventDetailsPageComponent implements OnInit, OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
   public RegistrationMode = RegistrationMode;
+  private loadEventQueryRef;
+  private destroyed$ = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -27,16 +34,23 @@ export class EventDetailsPageComponent implements OnInit {
     private registerForEvent: RegisterForEventGQL,
     private snackbar: MatSnackBar
   ) {
-    this.event$ = this.route.paramMap.pipe(
-      switchMap(
-        (params) =>
-          this.loadEvent.watch({ id: params.get('eventId') ?? '' }).valueChanges
-      ),
+    this.loadEventQueryRef = this.loadEvent.watch();
+    this.route.paramMap.subscribe((params) =>
+      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
+    );
+    this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event)
     );
+    this.loadEventQueryRef.startPolling(5000);
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+    this.loadEventQueryRef.stopPolling();
+  }
 
   async registerAsOrganizer() {
     const event = await this.event$.pipe(first()).toPromise();
