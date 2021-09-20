@@ -96,7 +96,7 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
         },
       },
     });
-    if (event) {
+    if (event && stripeData) {
       paymentIntent = await stripe.paymentIntents.create({
         amount: event.price.toNumber() * 100,
         currency: 'EUR',
@@ -104,6 +104,7 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
         customer: stripeData.customerId,
         payment_method: stripeData.paymentMethodId,
         payment_method_types: ['card', 'sepa_debit'],
+        description: `Participation fee for ${event.title}`,
         metadata: {
           eventId: event.id,
           userId: context.user.id,
