@@ -60,12 +60,14 @@ export const eventType = objectType({
     t.field(TumiEvent.eventTemplateId);
     t.nonNull.boolean('userRegistered', {
       description: 'Indicates if the current user is registered for the event',
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration
+      resolve: (source, args, context) => {
+        if (!context.user) return false;
+        return context.prisma.eventRegistration
           .count({
             where: { eventId: source.id, userId: context.user.id },
           })
-          .then((number) => number !== 0),
+          .then((number) => number !== 0);
+      },
     });
     t.field('organizers', {
       description: 'Organizers alraedy on this event',
