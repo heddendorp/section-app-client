@@ -81,6 +81,59 @@
         Set payment method
       </button>
     </div>
+    <div
+      class="rounded-2xl bg-purple-200 p-4"
+      *ngIf="profile.organizedEvents.length"
+    >
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-overtime"
+          class="text-purple-500 bg-white card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Organized Events</h2>
+      </div>
+      <mat-list>
+        <a
+          mat-list-item
+          *ngFor="let event of profile.organizedEvents"
+          routerLink="/events/{{ event.id }}"
+        >
+          <img [src]="event.icon | iconURL" mat-list-avatar />
+          <h3 mat-line>{{ event.title }}</h3>
+          <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
+        </a>
+      </mat-list>
+    </div>
+    <div class="rounded-2xl bg-yellow-200 p-4">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-overtime"
+          class="text-yellow-500 bg-white card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Your events</h2>
+      </div>
+      <mat-list>
+        <a
+          mat-list-item
+          *ngFor="let event of profile.participatedEvents"
+          routerLink="/events/{{ event.id }}"
+        >
+          <img [src]="event.icon | iconURL" mat-list-avatar />
+          <h3 mat-line>{{ event.title }}</h3>
+          <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
+        </a>
+      </mat-list>
+    </div>
     <div class="rounded-2xl bg-green-200 p-4">
       <div
         fxLayout="row"

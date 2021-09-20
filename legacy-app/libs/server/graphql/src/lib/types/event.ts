@@ -16,7 +16,7 @@ import {
   RegistrationType,
   Role,
 } from '@tumi/server-models';
-import { registrationTypeEnum } from './enums';
+import { publicationStateEnum, registrationTypeEnum } from './enums';
 import { userType } from './user';
 
 export const eventType = objectType({
@@ -367,6 +367,23 @@ export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
       },
     }),
 });
+
+export const changePublicationMutation = mutationField(
+  'changeEventPublication',
+  {
+    description: 'Change the publication state of an event',
+    type: eventType,
+    args: {
+      id: nonNull(idArg()),
+      state: nonNull(arg({ type: publicationStateEnum })),
+    },
+    resolve: (source, { id, state }, context) =>
+      context.prisma.tumiEvent.update({
+        where: { id },
+        data: { publicationState: state },
+      }),
+  }
+);
 
 export const removeUserFromEventMutation = mutationField(
   'removeUserFromEvent',

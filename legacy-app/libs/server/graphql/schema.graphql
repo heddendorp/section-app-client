@@ -111,6 +111,9 @@ type Mutation {
   """Adds the user with the supplied id to the event"""
   addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent
 
+  """Change the publication state of an event"""
+  changeEventPublication(id: ID!, state: PublicationState!): TumiEvent
+
   """Creates a new event from a given Template"""
   createEventFromTemplate(createEventFromTemplateInput: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent
 

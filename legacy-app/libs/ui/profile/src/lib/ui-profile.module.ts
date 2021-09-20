@@ -12,6 +12,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
+import { UtilPipesModule } from '@tumi/util/pipes';
 
 @NgModule({
   imports: [
@@ -29,6 +31,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
     FlexLayoutModule,
     UtilMaterialModule,
+    UtilPipesModule,
+    MatListModule,
   ],
   declarations: [NewUserPageComponent, ProfilePageComponent],
 })

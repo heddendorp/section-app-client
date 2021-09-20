@@ -75,7 +75,6 @@ export const getPaymentSetupSessionQuery = queryField(
         success_url: `${baseURL}profile?stripe=success`,
         cancel_url: `${baseURL}profile?stripe=fail`,
       });
-      console.log(session);
       return session;
     },
   }
@@ -84,7 +83,7 @@ export const getPaymentSetupSessionQuery = queryField(
 export const registerWithStripeMutation = mutationField('registerWithStripe', {
   type: nonNull(paymentIntentType),
   args: { id: nonNull(idArg()) },
-  resolve: async (source, { id, intentId }, context) => {
+  resolve: async (source, { id }, context) => {
     let paymentIntent;
     const event = await context.prisma.tumiEvent.findUnique({
       where: { id },
@@ -111,7 +110,6 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
         },
       });
     }
-    console.log(paymentIntent);
     return paymentIntent;
   },
 });

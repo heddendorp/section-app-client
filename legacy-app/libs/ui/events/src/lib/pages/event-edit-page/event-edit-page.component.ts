@@ -14,6 +14,7 @@ import {
   RegistrationMode,
   RemoveUserFromEventGQL,
   UpdateEventGQL,
+  UpdatePublicationGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -43,6 +44,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private loadEventQuery: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
     private updateEventMutation: UpdateEventGQL,
+    private updatePublicationMutation: UpdatePublicationGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -211,5 +213,17 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.snackBar.open('Event saved ✔️');
   }
 
-  changePublication() {}
+  async changePublication() {
+    this.snackBar.open('Saving event ⏳', undefined, {
+      duration: 0,
+    });
+    const event = await this.event$.pipe(first()).toPromise();
+    const state = this.publicationForm.get('publicationState')?.value;
+    if (state && event) {
+      await this.updatePublicationMutation
+        .mutate({ id: event.id, state })
+        .toPromise();
+    }
+    this.snackBar.open('Event saved ✔️');
+  }
 }

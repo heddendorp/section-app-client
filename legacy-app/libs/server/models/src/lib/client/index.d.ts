@@ -1,213 +1,212 @@
+
 /**
  * Client
- **/
+**/
 
 import * as runtime from './runtime';
 
 declare const prisma: unique symbol;
-export type PrismaPromise<A> = Promise<A> & { [prisma]: true };
-type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P;
+export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
+type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}`
-    ? Tuple[K] extends PrismaPromise<infer X>
-      ? X
-      : UnwrapPromise<Tuple[K]>
-    : UnwrapPromise<Tuple[K]>;
+  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
 };
+
 
 /**
  * Model Tenant
  */
 
 export type Tenant = {
-  id: string;
-  createdAt: Date;
-  name: string;
-  shortName: string;
-};
+  id: string
+  createdAt: Date
+  name: string
+  shortName: string
+}
 
 /**
  * Model User
  */
 
 export type User = {
-  id: string;
-  createdAt: Date;
-  authId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  email_verified: boolean;
-  picture: string;
-  birthdate: Date;
-};
+  id: string
+  createdAt: Date
+  authId: string
+  firstName: string
+  lastName: string
+  email: string
+  email_verified: boolean
+  picture: string
+  birthdate: Date
+}
 
 /**
  * Model StripeUserData
  */
 
 export type StripeUserData = {
-  id: string;
-  createdAt: Date;
-  usersOfTenantsUserId: string;
-  usersOfTenantsTenantId: string;
-  customerId: string;
-  paymentMethodId: string | null;
-};
+  id: string
+  createdAt: Date
+  usersOfTenantsUserId: string
+  usersOfTenantsTenantId: string
+  customerId: string
+  paymentMethodId: string | null
+}
 
 /**
  * Model UsersOfTenants
  */
 
 export type UsersOfTenants = {
-  createdAt: Date;
-  userId: string;
-  tenantId: string;
-  role: Role;
-  status: MembershipStatus;
-};
+  createdAt: Date
+  userId: string
+  tenantId: string
+  role: Role
+  status: MembershipStatus
+}
 
 /**
  * Model EventOrganizer
  */
 
 export type EventOrganizer = {
-  id: string;
-  createdAt: Date;
-  tenantId: string;
-  name: string;
-  text: string;
-  link: string | null;
-};
+  id: string
+  createdAt: Date
+  tenantId: string
+  name: string
+  text: string
+  link: string | null
+}
 
 /**
  * Model EventTemplate
  */
 
 export type EventTemplate = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  description: string;
-  comment: string;
-  location: string;
-  locationId: string;
-  duration: Prisma.Decimal;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  finances: Prisma.JsonValue;
-  tenantId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  description: string
+  comment: string
+  location: string
+  locationId: string
+  duration: Prisma.Decimal
+  participantText: string
+  participantMail: string
+  organizerText: string
+  finances: Prisma.JsonValue
+  tenantId: string
+}
 
 /**
  * Model TumiEvent
  */
 
 export type TumiEvent = {
-  id: string;
-  createdAt: Date;
-  title: string;
-  icon: string;
-  start: Date;
-  end: Date;
-  description: string;
-  location: string;
-  locationId: string;
-  participantText: string;
-  participantMail: string;
-  organizerText: string;
-  participantLimit: number;
-  organizerLimit: number;
-  price: Prisma.Decimal | null;
-  registrationLink: string | null;
-  registrationMode: RegistrationMode;
-  publicationState: PublicationState;
-  participantSignup: MembershipStatus[];
-  organizerSignup: MembershipStatus[];
-  eventOrganizerId: string;
-  creatorId: string;
-  eventTemplateId: string;
-};
+  id: string
+  createdAt: Date
+  title: string
+  icon: string
+  start: Date
+  end: Date
+  description: string
+  location: string
+  locationId: string
+  participantText: string
+  participantMail: string
+  organizerText: string
+  participantLimit: number
+  organizerLimit: number
+  price: Prisma.Decimal | null
+  registrationLink: string | null
+  registrationMode: RegistrationMode
+  publicationState: PublicationState
+  participantSignup: MembershipStatus[]
+  organizerSignup: MembershipStatus[]
+  eventOrganizerId: string
+  creatorId: string
+  eventTemplateId: string
+}
 
 /**
  * Model CostItem
  */
 
 export type CostItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  name: string;
-  ammount: Prisma.Decimal;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  name: string
+  ammount: Prisma.Decimal
+}
 
 /**
  * Model Receipt
  */
 
 export type Receipt = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  costItemId: string;
-  covered: boolean;
-  amount: number;
-  date: Date;
-  amountCovered: number;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  costItemId: string
+  covered: boolean
+  amount: number
+  date: Date
+  amountCovered: number
+}
 
 /**
  * Model PhotoShare
  */
 
 export type PhotoShare = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+}
 
 /**
  * Model EventRegistration
  */
 
 export type EventRegistration = {
-  id: string;
-  createdAt: Date;
-  type: RegistrationType;
-  userId: string;
-  eventId: string;
-  paymentIntentId: string | null;
-  chargeId: string | null;
-  paymentStatus: string | null;
-  stripeFee: number | null;
-  amountPaid: number | null;
-  netPaid: number | null;
-};
+  id: string
+  createdAt: Date
+  type: RegistrationType
+  userId: string
+  eventId: string
+  paymentIntentId: string | null
+  chargeId: string | null
+  paymentStatus: string | null
+  stripeFee: number | null
+  amountPaid: number | null
+  netPaid: number | null
+}
 
 /**
  * Model EventSubmissionItem
  */
 
 export type EventSubmissionItem = {
-  id: string;
-  createdAt: Date;
-  eventId: string;
-  required: boolean;
-  submissionTime: SubmissionTime;
-};
+  id: string
+  createdAt: Date
+  eventId: string
+  required: boolean
+  submissionTime: SubmissionTime
+}
 
 /**
  * Model EventSubmission
  */
 
 export type EventSubmission = {
-  id: string;
-  createdAt: Date;
-  userId: string;
-  submissionItemId: string;
-};
+  id: string
+  createdAt: Date
+  userId: string
+  submissionItemId: string
+}
+
 
 /**
  * Enums
@@ -217,59 +216,61 @@ export type EventSubmission = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
 export const Role: {
-  USER: 'USER';
-  ADMIN: 'ADMIN';
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
-export type Role = typeof Role[keyof typeof Role];
+export type Role = (typeof Role)[keyof typeof Role]
+
 
 export const MembershipStatus: {
-  NONE: 'NONE';
-  TRIAL: 'TRIAL';
-  FULL: 'FULL';
-  SPONSOR: 'SPONSOR';
-  ALUMNI: 'ALUMNI';
+  NONE: 'NONE',
+  TRIAL: 'TRIAL',
+  FULL: 'FULL',
+  SPONSOR: 'SPONSOR',
+  ALUMNI: 'ALUMNI'
 };
 
-export type MembershipStatus =
-  typeof MembershipStatus[keyof typeof MembershipStatus];
+export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
+
 
 export const RegistrationMode: {
-  STRIPE: 'STRIPE';
-  ONLINE: 'ONLINE';
-  EXTERNAL: 'EXTERNAL';
+  STRIPE: 'STRIPE',
+  ONLINE: 'ONLINE',
+  EXTERNAL: 'EXTERNAL'
 };
 
-export type RegistrationMode =
-  typeof RegistrationMode[keyof typeof RegistrationMode];
+export type RegistrationMode = (typeof RegistrationMode)[keyof typeof RegistrationMode]
+
 
 export const PublicationState: {
-  DRAFT: 'DRAFT';
-  APPROVAL: 'APPROVAL';
-  ORGANIZERS: 'ORGANIZERS';
-  PUBLIC: 'PUBLIC';
+  DRAFT: 'DRAFT',
+  APPROVAL: 'APPROVAL',
+  ORGANIZERS: 'ORGANIZERS',
+  PUBLIC: 'PUBLIC'
 };
 
-export type PublicationState =
-  typeof PublicationState[keyof typeof PublicationState];
+export type PublicationState = (typeof PublicationState)[keyof typeof PublicationState]
+
 
 export const RegistrationType: {
-  ORGANIZER: 'ORGANIZER';
-  PARTICIPANT: 'PARTICIPANT';
-  CALENDAR: 'CALENDAR';
+  ORGANIZER: 'ORGANIZER',
+  PARTICIPANT: 'PARTICIPANT',
+  CALENDAR: 'CALENDAR'
 };
 
-export type RegistrationType =
-  typeof RegistrationType[keyof typeof RegistrationType];
+export type RegistrationType = (typeof RegistrationType)[keyof typeof RegistrationType]
+
 
 export const SubmissionTime: {
-  REGISTRATION: 'REGISTRATION';
-  BEFORE: 'BEFORE';
-  DURING: 'DURING';
-  AFTER: 'AFTER';
+  REGISTRATION: 'REGISTRATION',
+  BEFORE: 'BEFORE',
+  DURING: 'DURING',
+  AFTER: 'AFTER'
 };
 
-export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
+export type SubmissionTime = (typeof SubmissionTime)[keyof typeof SubmissionTime]
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -287,41 +288,37 @@ export type SubmissionTime = typeof SubmissionTime[keyof typeof SubmissionTime];
  */
 export class PrismaClient<
   T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof T
-    ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
-      ? Prisma.GetEvents<T['log']>
-      : never
-    : never,
+  U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
   GlobalReject = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
     : false
-> {
-  /**
-   * @private
-   */
-  private fetcher;
-  /**
-   * @private
-   */
-  private readonly dmmf;
-  /**
-   * @private
-   */
-  private connectionPromise?;
-  /**
-   * @private
-   */
-  private disconnectionPromise?;
-  /**
-   * @private
-   */
-  private readonly engineConfig;
-  /**
-   * @private
-   */
-  private readonly measurePerformance;
+      > {
+      /**
+       * @private
+       */
+      private fetcher;
+      /**
+       * @private
+       */
+      private readonly dmmf;
+      /**
+       * @private
+       */
+      private connectionPromise?;
+      /**
+       * @private
+       */
+      private disconnectionPromise?;
+      /**
+       * @private
+       */
+      private readonly engineConfig;
+      /**
+       * @private
+       */
+      private readonly measurePerformance;
 
-  /**
+    /**
    * ##  Prisma Client ʲˢ
    *
    * Type-safe database client for TypeScript & Node.js
@@ -336,17 +333,8 @@ export class PrismaClient<
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
-  constructor(optionsArg?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
-  $on<V extends U | 'beforeExit'>(
-    eventType: V,
-    callback: (
-      event: V extends 'query'
-        ? Prisma.QueryEvent
-        : V extends 'beforeExit'
-        ? () => Promise<void>
-        : Prisma.LogEvent
-    ) => void
-  ): void;
+  constructor(optionsArg ?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
+  $on<V extends (U | 'beforeExit')>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : V extends 'beforeExit' ? () => Promise<void> : Prisma.LogEvent) => void): void;
 
   /**
    * Connect with the database
@@ -361,7 +349,7 @@ export class PrismaClient<
   /**
    * Add a middleware
    */
-  $use(cb: Prisma.Middleware): void;
+  $use(cb: Prisma.Middleware): void
 
   /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -372,10 +360,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Executes a raw query and returns the number of affected rows.
@@ -387,10 +372,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $executeRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<number>;
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
 
   /**
    * Performs a prepared raw query and returns the `SELECT` data.
@@ -401,10 +383,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Performs a raw query and returns the `SELECT` data.
@@ -416,10 +395,7 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
-  $queryRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): PrismaPromise<T>;
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -434,138 +410,137 @@ export class PrismaClient<
    *
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(
-    arg: [...P]
-  ): Promise<UnwrapTuple<P>>;
+  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>;
 
-  /**
+
+      /**
    * `prisma.tenant`: Exposes CRUD operations for the **Tenant** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Tenants
-   * const tenants = await prisma.tenant.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tenants
+    * const tenants = await prisma.tenant.findMany()
+    * ```
+    */
   get tenant(): Prisma.TenantDelegate<GlobalReject>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
    * `prisma.stripeUserData`: Exposes CRUD operations for the **StripeUserData** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more StripeUserData
-   * const stripeUserData = await prisma.stripeUserData.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StripeUserData
+    * const stripeUserData = await prisma.stripeUserData.findMany()
+    * ```
+    */
   get stripeUserData(): Prisma.StripeUserDataDelegate<GlobalReject>;
 
   /**
    * `prisma.usersOfTenants`: Exposes CRUD operations for the **UsersOfTenants** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more UsersOfTenants
-   * const usersOfTenants = await prisma.usersOfTenants.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UsersOfTenants
+    * const usersOfTenants = await prisma.usersOfTenants.findMany()
+    * ```
+    */
   get usersOfTenants(): Prisma.UsersOfTenantsDelegate<GlobalReject>;
 
   /**
    * `prisma.eventOrganizer`: Exposes CRUD operations for the **EventOrganizer** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventOrganizers
-   * const eventOrganizers = await prisma.eventOrganizer.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventOrganizers
+    * const eventOrganizers = await prisma.eventOrganizer.findMany()
+    * ```
+    */
   get eventOrganizer(): Prisma.EventOrganizerDelegate<GlobalReject>;
 
   /**
    * `prisma.eventTemplate`: Exposes CRUD operations for the **EventTemplate** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventTemplates
-   * const eventTemplates = await prisma.eventTemplate.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventTemplates
+    * const eventTemplates = await prisma.eventTemplate.findMany()
+    * ```
+    */
   get eventTemplate(): Prisma.EventTemplateDelegate<GlobalReject>;
 
   /**
    * `prisma.tumiEvent`: Exposes CRUD operations for the **TumiEvent** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more TumiEvents
-   * const tumiEvents = await prisma.tumiEvent.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TumiEvents
+    * const tumiEvents = await prisma.tumiEvent.findMany()
+    * ```
+    */
   get tumiEvent(): Prisma.TumiEventDelegate<GlobalReject>;
 
   /**
    * `prisma.costItem`: Exposes CRUD operations for the **CostItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more CostItems
-   * const costItems = await prisma.costItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostItems
+    * const costItems = await prisma.costItem.findMany()
+    * ```
+    */
   get costItem(): Prisma.CostItemDelegate<GlobalReject>;
 
   /**
    * `prisma.receipt`: Exposes CRUD operations for the **Receipt** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Receipts
-   * const receipts = await prisma.receipt.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Receipts
+    * const receipts = await prisma.receipt.findMany()
+    * ```
+    */
   get receipt(): Prisma.ReceiptDelegate<GlobalReject>;
 
   /**
    * `prisma.photoShare`: Exposes CRUD operations for the **PhotoShare** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more PhotoShares
-   * const photoShares = await prisma.photoShare.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhotoShares
+    * const photoShares = await prisma.photoShare.findMany()
+    * ```
+    */
   get photoShare(): Prisma.PhotoShareDelegate<GlobalReject>;
 
   /**
    * `prisma.eventRegistration`: Exposes CRUD operations for the **EventRegistration** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventRegistrations
-   * const eventRegistrations = await prisma.eventRegistration.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventRegistrations
+    * const eventRegistrations = await prisma.eventRegistration.findMany()
+    * ```
+    */
   get eventRegistration(): Prisma.EventRegistrationDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmissionItem`: Exposes CRUD operations for the **EventSubmissionItem** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissionItems
-   * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissionItems
+    * const eventSubmissionItems = await prisma.eventSubmissionItem.findMany()
+    * ```
+    */
   get eventSubmissionItem(): Prisma.EventSubmissionItemDelegate<GlobalReject>;
 
   /**
    * `prisma.eventSubmission`: Exposes CRUD operations for the **EventSubmission** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EventSubmissions
-   * const eventSubmissions = await prisma.eventSubmission.findMany()
-   * ```
-   */
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventSubmissions
+    * const eventSubmissions = await prisma.eventSubmission.findMany()
+    * ```
+    */
   get eventSubmission(): Prisma.EventSubmissionDelegate<GlobalReject>;
 }
 

@@ -126,6 +126,13 @@ mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
   }
 }
 
+mutation updatePublication($id: ID!, $state: PublicationState!) {
+  changeEventPublication(id: $id, state: $state) {
+    id
+    publicationState
+  }
+}
+
 query loadUsersByStatus($allowList: [MembershipStatus!]!) {
   userWithStatus(allowList: $allowList) {
     id

@@ -2,4 +2,7 @@ div {
   &.draft {
     @apply bg-red-100;
   }
+  &.organizers {
+    @apply bg-blue-100;
+  }
 }
