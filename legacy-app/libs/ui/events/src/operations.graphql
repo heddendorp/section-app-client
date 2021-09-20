@@ -141,6 +141,7 @@ mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
     organizersRegistered
     participantsRegistered
     couldBeOrganizer
+    userRegistered
     organizers {
       fullName
     }

@@ -42,6 +42,10 @@
           *ngSwitchCase="RegistrationMode.Stripe"
           [event]="event"
         ></tumi-stripe-registration>
+        <tumi-online-event-registration
+          [event]="event"
+          *ngSwitchCase="RegistrationMode.Online"
+        ></tumi-online-event-registration>
       </ng-container>
     </ng-container>
   </div>
