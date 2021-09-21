@@ -24,6 +24,17 @@
       ></mat-progress-bar>
     </ng-container>
   </ng-container>
+  <ng-container
+    *ngIf="
+      (event.participantLimit ?? 0) <= (event.participantsRegistered ?? 0) &&
+      !event.userRegistered
+    "
+  >
+    <p>
+      This event is currently full, feel free to check back later in case new
+      spots become available
+    </p>
+  </ng-container>
   <ng-container *ngIf="event.userRegistered">
     <p>✔️ You are registered for this event.</p>
   </ng-container>
