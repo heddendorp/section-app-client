@@ -3,6 +3,15 @@
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="bg-white">
+  <a
+    mat-fab
+    routerLink="run"
+    class="extended-fab"
+    *ngIf="event.userIsOrganizer"
+  >
+    <mat-icon svgIcon="icon-user-shield"></mat-icon>
+    <span class="label">Run Event</span>
+  </a>
   <tumi-event-header
     [event]="event"
     class="
@@ -64,7 +73,10 @@
   </div>
 
   <div
-    *ngIf="event.couldBeOrganizer"
+    *ngIf="
+      event.couldBeOrganizer &&
+      event.registrationMode !== RegistrationMode.External
+    "
     class="p-6 lg:p-12 bg-gray-100 shadow-inner"
   >
     <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
@@ -81,9 +93,9 @@
       <div fxFlex="50">
         <h3>Organizers already on this event</h3>
         <mat-list>
-          <mat-list-item *ngIf="event.organizers.length === 0"
-            >Nobody yet</mat-list-item
-          >
+          <mat-list-item *ngIf="event.organizers.length === 0">
+            Nobody yet
+          </mat-list-item>
           <mat-list-item *ngFor="let user of event.organizers">
             {{ user.fullName }}
           </mat-list-item>

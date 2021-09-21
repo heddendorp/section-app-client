@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-event-details-page',
@@ -26,12 +27,14 @@ export class EventDetailsPageComponent implements OnDestroy {
   private destroyed$ = new Subject();
 
   constructor(
+    private title: Title,
     private route: ActivatedRoute,
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
     private snackbar: MatSnackBar
   ) {
+    this.title.setTitle('TUMi - event');
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })

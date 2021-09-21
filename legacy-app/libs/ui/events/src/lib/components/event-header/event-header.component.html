@@ -1,10 +1,14 @@
 <div *ngIf="event" fxFlex="column">
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div fxLayout="row">
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
     ></a>
+    <div fxFlex="grow"></div>
     <a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
       <mat-icon svgIcon="icon-edit"></mat-icon
+    ></a>
+    <a routerLink="manage" mat-icon-button *tumiIfRole="[Role.Admin]">
+      <mat-icon svgIcon="icon-administrative-tools"></mat-icon
     ></a>
   </div>
   <img

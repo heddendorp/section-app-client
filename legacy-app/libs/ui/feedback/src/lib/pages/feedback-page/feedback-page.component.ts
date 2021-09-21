@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-feedback-page',
@@ -7,7 +8,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedbackPageComponent implements OnInit {
-  constructor() {}
+  constructor(private title: Title) {
+    this.title.setTitle('TUMi - feedback');
+  }
 
   ngOnInit(): void {}
 }

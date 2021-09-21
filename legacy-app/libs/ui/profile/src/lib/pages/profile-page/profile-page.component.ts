@@ -12,6 +12,7 @@ import { loadStripe } from '@stripe/stripe-js/pure';
 import { environment } from '../../../../../../../apps/tumi-app/src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-profile-page',
@@ -24,11 +25,13 @@ export class ProfilePageComponent implements OnDestroy {
   public profileQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
+    private title: Title,
     private profileQuery: UserProfileGQL,
     private getStripeSession: GetPaymentSetupSessionGQL,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
+    this.title.setTitle('TUMi - profile');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(5000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(

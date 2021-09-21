@@ -24,12 +24,49 @@ query loadEvent($id: ID!) {
     organizerRegistrationPossible
     participantRegistrationPossible
     userRegistered
+    userIsOrganizer
     participantLimit
     participantsRegistered
     couldBeOrganizer
     couldBeParticipant
     organizers {
       fullName
+    }
+  }
+}
+
+query loadEventForManagement($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    icon
+    start
+    #financial
+    amountCollected
+    netAmountCollected
+    feesPaid
+    #registrations
+    organizerRegistrations {
+      id
+      createdAt
+      paymentStatus
+      user {
+        id
+        fullName
+        picture
+        email
+      }
+    }
+    participantRegistrations {
+      id
+      createdAt
+      paymentStatus
+      user {
+        id
+        fullName
+        picture
+        email
+      }
     }
   }
 }

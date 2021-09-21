@@ -26,7 +26,14 @@ export const eventTemplateType = objectType({
     t.field(EventTemplate.participantMail);
     t.field(EventTemplate.organizerText);
     t.field(EventTemplate.finances);
-    t.field(EventTemplate.eventInstances);
+    t.field({
+      ...EventTemplate.eventInstances,
+      resolve: (source, args, context) =>
+        context.prisma.tumiEvent.findMany({
+          where: { eventTemplateId: source.id },
+          orderBy: { start: 'desc' },
+        }),
+    });
     t.field(EventTemplate.tenant);
   },
 });

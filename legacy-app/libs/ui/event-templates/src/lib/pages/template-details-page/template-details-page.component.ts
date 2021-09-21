@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateEventDialogComponent } from '../../components/create-event-dialog/create-event-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventFormDialogComponent } from '../../components/event-form-dialog/event-form-dialog.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-template-details-page',
@@ -24,6 +25,7 @@ import { EventFormDialogComponent } from '../../components/event-form-dialog/eve
 export class TemplateDetailsPageComponent implements OnInit {
   public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   constructor(
+    private title: Title,
     private getEventTemplate: GetEventTemplateGQL,
     private createEventMutation: CreateEventFromTemplateGQL,
     private getOrganizerOptions: GetOrganizerOptionsGQL,
@@ -34,6 +36,7 @@ export class TemplateDetailsPageComponent implements OnInit {
     private updateTemplate: UpdateEventTemplateGQL,
     private deleteTemplateMutation: DeleteEventTemplateGQL
   ) {
+    this.title.setTitle('TUMi - Event template');
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
         this.getEventTemplate

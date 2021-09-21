@@ -28,6 +28,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ExternalEventRegistrationComponent } from './components/registration/external-event-registration/external-event-registration.component';
 import { StripeRegistrationComponent } from './components/registration/stripe-registration/stripe-registration.component';
 import { OnlineEventRegistrationComponent } from './components/registration/online-event-registration/online-event-registration.component';
+import { EventManagePageComponent } from './pages/event-manage-page/event-manage-page.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,11 @@ import { OnlineEventRegistrationComponent } from './components/registration/onli
         path: ':eventId/run',
         canActivate: [AuthGuard],
         component: EventRunPageComponent,
+      },
+      {
+        path: ':eventId/manage',
+        canActivate: [AuthGuard],
+        component: EventManagePageComponent,
       },
     ]),
     UtilPipesModule,
@@ -74,6 +80,7 @@ import { OnlineEventRegistrationComponent } from './components/registration/onli
     ExternalEventRegistrationComponent,
     StripeRegistrationComponent,
     OnlineEventRegistrationComponent,
+    EventManagePageComponent,
   ],
 })
 export class UiEventsModule {}

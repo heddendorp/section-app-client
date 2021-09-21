@@ -4,6 +4,25 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
+query getRegistrations{
+registrations{
+  id
+  createdAt
+  type
+  event{
+    title
+    id
+  }
+  user{
+    id
+    fullName
+  }
+  amountPaid
+  stripeFee
+  paymentStatus
+}
+}
+
 query getOrganizers {
   organizers {
     id

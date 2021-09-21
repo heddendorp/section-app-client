@@ -64,10 +64,14 @@ type EventOrganizer {
 }
 
 type EventRegistration {
+  amountPaid: Int
   createdAt: DateTime!
   event: TumiEvent!
   eventId: String!
   id: ID!
+  netPaid: Int
+  paymentStatus: String
+  stripeFee: Int
   type: RegistrationType!
   user: User!
   userId: String!
@@ -185,6 +189,7 @@ type Query {
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!
+  registrations: [EventRegistration!]!
   tenants: [Tenant!]!
   userById(
     """ID of the user"""
@@ -246,6 +251,8 @@ type Tenant {
 
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
+  amountCollected: Int
+
   """Indicates whether the user could be an organizer for this event"""
   couldBeOrganizer: Boolean
 
@@ -258,10 +265,12 @@ type TumiEvent {
   eventOrganizerId: String!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
+  feesPaid: Int
   icon: String!
   id: ID!
   location: String!
   locationId: String!
+  netAmountCollected: Int
   organizer: EventOrganizer!
   organizerLimit: Int!
 
@@ -269,6 +278,7 @@ type TumiEvent {
   Indicates whether the current user can register to this event as Organizer
   """
   organizerRegistrationPossible: Boolean
+  organizerRegistrations: [EventRegistration!]!
   organizerSignup: [MembershipStatus!]!
   organizerText: String!
 
@@ -284,6 +294,7 @@ type TumiEvent {
   Indicates whether the current user can register to this event as participant
   """
   participantRegistrationPossible: Boolean
+  participantRegistrations: [EventRegistration!]!
   participantSignup: [MembershipStatus!]!
   participantText: String!
 
@@ -294,9 +305,11 @@ type TumiEvent {
   publicationState: PublicationState!
   registrationLink: String
   registrationMode: RegistrationMode!
-  registrations: [EventRegistration!]!
   start: DateTime!
   title: String!
+
+  """Indicates if the current user is organizer for the event"""
+  userIsOrganizer: Boolean!
 
   """Indicates if the current user is registered for the event"""
   userRegistered: Boolean!

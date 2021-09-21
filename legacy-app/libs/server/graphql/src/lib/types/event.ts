@@ -18,6 +18,7 @@ import {
 } from '@tumi/server-models';
 import { publicationStateEnum, registrationTypeEnum } from './enums';
 import { userType } from './user';
+import { eventRegistrationType } from './eventRegistration';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -53,11 +54,71 @@ export const eventType = objectType({
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
     // t.field(TumiEvent.submissionItems);
-    t.field(TumiEvent.registrations);
+    // t.field(TumiEvent.registrations);
     // t.field(TumiEvent.costItems);
     t.field(TumiEvent.photoShare);
     t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
+    t.field({
+      name: 'participantRegistrations',
+      type: nonNull(list(nonNull(eventRegistrationType))),
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration.findMany({
+          where: {
+            type: RegistrationType.PARTICIPANT,
+            event: { id: source.id },
+          },
+          orderBy: { createdAt: 'desc' },
+        }),
+    });
+    t.field({
+      name: 'organizerRegistrations',
+      type: nonNull(list(nonNull(eventRegistrationType))),
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration.findMany({
+          where: {
+            type: RegistrationType.ORGANIZER,
+            event: { id: source.id },
+          },
+          orderBy: { createdAt: 'desc' },
+        }),
+    });
+    t.int('amountCollected', {
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              amountPaid: { not: null },
+            },
+            _sum: { amountPaid: true },
+          })
+          .then((aggregations) => aggregations._sum.amountPaid),
+    });
+    t.int('netAmountCollected', {
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              netPaid: { not: null },
+            },
+            _sum: { netPaid: true },
+          })
+          .then((aggregations) => aggregations._sum.netPaid),
+    });
+    t.int('feesPaid', {
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              stripeFee: { not: null },
+            },
+            _sum: { stripeFee: true },
+          })
+          .then((aggregations) => aggregations._sum.stripeFee),
+    });
     t.nonNull.boolean('userRegistered', {
       description: 'Indicates if the current user is registered for the event',
       resolve: (source, args, context) => {
@@ -65,6 +126,21 @@ export const eventType = objectType({
         return context.prisma.eventRegistration
           .count({
             where: { eventId: source.id, userId: context.user.id },
+          })
+          .then((number) => number !== 0);
+      },
+    });
+    t.nonNull.boolean('userIsOrganizer', {
+      description: 'Indicates if the current user is organizer for the event',
+      resolve: (source, args, context) => {
+        if (!context.user) return false;
+        return context.prisma.eventRegistration
+          .count({
+            where: {
+              eventId: source.id,
+              userId: context.user.id,
+              type: RegistrationType.ORGANIZER,
+            },
           })
           .then((number) => number !== 0);
       },
@@ -189,9 +265,18 @@ export const eventType = objectType({
         }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
-            where: { type: RegistrationType.PARTICIPANT },
+            where: {
+              type: RegistrationType.PARTICIPANT,
+              event: { id: root.id },
+            },
           });
-        return currentRegistrationNum < root.participantLimit;
+        if (currentRegistrationNum >= root.participantLimit) {
+          console.info(
+            `Can't register because to many people are on event ${currentRegistrationNum} >= ${root.participantLimit}`
+          );
+          return false;
+        }
+        return true;
       },
     });
     t.int('organizersRegistered', {
@@ -245,7 +330,7 @@ export const eventType = objectType({
         }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
-            where: { type: RegistrationType.ORGANIZER },
+            where: { type: RegistrationType.ORGANIZER, event: { id: root.id } },
           });
         return currentRegistrationNum < root.organizerLimit;
       },

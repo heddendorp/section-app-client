@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-tenant-users-page',
@@ -21,10 +22,12 @@ export class TenantUsersPageComponent implements OnInit {
     'action',
   ];
   constructor(
+    private title: Title,
     private loadUsers: GetUsersGQL,
     private dialog: MatDialog,
     private updateMutation: UpdateUserGQL
   ) {
+    this.title.setTitle('TUMi - manage users');
     this.users$ = this.loadUsers
       .watch()
       .valueChanges.pipe(map(({ data }) => data.users));

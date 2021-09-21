@@ -6,7 +6,7 @@
   <ng-container *ngIf="event.participantRegistrationPossible">
     <p class="pb-4">
       You can register for this event online by paying
-      {{ event.price | currency: 'EUR' }}
+      <strong>{{ event.price | currency: 'EUR' }}</strong>
     </p>
     <ng-container *ngIf="userSetupForPayment$ | async; else notReady">
       <button
@@ -15,7 +15,7 @@
         (click)="register()"
         [disabled]="processing | async"
       >
-        Register now!
+        Pay and register
       </button>
       <mat-progress-bar
         class="mt-4"

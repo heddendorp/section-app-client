@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-template-list-page',
@@ -23,11 +24,13 @@ export class TemplateListPageComponent implements OnInit {
   private eventTemplateQuery;
 
   constructor(
+    private title: Title,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private createTemplateMutation: CreateEventTemplateGQL,
     private loadTemplates: GetEventTemplatesGQL
   ) {
+    this.title.setTitle('TUMi - Event templates');
     this.eventTemplateQuery = this.loadTemplates.watch(
       {},
       { fetchPolicy: 'cache-and-network' }

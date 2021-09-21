@@ -24,6 +24,7 @@ import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectOrganizerDialogComponent } from '../../components/select-organizer-dialog/select-organizer-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -41,6 +42,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
   private destroyed$ = new Subject();
   constructor(
+    private title: Title,
     private loadEventQuery: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
     private updateEventMutation: UpdateEventGQL,
@@ -52,6 +54,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private removeUserMutation: RemoveUserFromEventGQL,
     private fb: FormBuilder
   ) {
+    this.title.setTitle('TUMi - edit event');
     this.publicationForm = this.fb.group({
       publicationState: ['', Validators.required],
     });

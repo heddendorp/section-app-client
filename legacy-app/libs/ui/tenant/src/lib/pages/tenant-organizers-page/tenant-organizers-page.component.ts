@@ -8,6 +8,7 @@ import {
 } from '@tumi/data-access';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-tenant-organizers-page',
@@ -19,10 +20,12 @@ export class TenantOrganizersPageComponent implements OnInit {
   public organizers$: Observable<GetOrganizersQuery['organizers']>;
   private organizersQuery;
   constructor(
+    private title: Title,
     private dialog: MatDialog,
     private getOrganizers: GetOrganizersGQL,
     private createOrganizer: CreateOrganizerGQL
   ) {
+    this.title.setTitle('TUMi - manage organizers');
     this.organizersQuery = this.getOrganizers.watch();
     this.organizers$ = this.organizersQuery.valueChanges.pipe(
       map(({ data }) => data.organizers)
