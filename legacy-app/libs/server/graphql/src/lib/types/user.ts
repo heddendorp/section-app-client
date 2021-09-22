@@ -95,7 +95,7 @@ export const getById = queryField('userById', {
     id: nonNull(idArg({ description: 'ID of the user' })),
   },
   resolve: (parent, { id }, ctx) => {
-    return ctx.prisma.user.findFirst({
+    return ctx.prisma.user.findUnique({
       where: { id },
     });
   },

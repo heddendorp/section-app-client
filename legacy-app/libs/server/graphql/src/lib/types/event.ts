@@ -165,7 +165,11 @@ export const eventType = objectType({
         'Indicates whether the user could be an organizer for this event',
       resolve: async (root, args, context) => {
         if (!context.user) {
-          console.info('Organizer signup not possible because of missing user');
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing user'
+            );
+          }
           return false;
         }
         const { status } = await context.prisma.usersOfTenants.findUnique({
@@ -178,9 +182,12 @@ export const eventType = objectType({
           select: { status: true },
         });
         if (!root.organizerSignup.includes(status)) {
-          console.info(
-            'Organizer signup not possible because of missing status ' + status
-          );
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing status ' +
+                status
+            );
+          }
           return false;
         }
         return true;
@@ -191,9 +198,11 @@ export const eventType = objectType({
         'Indicates whether the user could be a participant for this event',
       resolve: async (root, args, context) => {
         if (!context.user) {
-          console.info(
-            'Participant signup not possible because of missing user'
-          );
+          if (process.env.DEV) {
+            console.info(
+              'Participant signup not possible because of missing user'
+            );
+          }
           return false;
         }
         const { status } = await context.prisma.usersOfTenants.findUnique({
@@ -206,10 +215,12 @@ export const eventType = objectType({
           select: { status: true },
         });
         if (!root.participantSignup.includes(status)) {
-          console.info(
-            'Participant signup not possible because of missing status ' +
-              status
-          );
+          if (process.env.DEV) {
+            console.info(
+              'Participant signup not possible because of missing status ' +
+                status
+            );
+          }
           return false;
         }
         return true;
@@ -230,7 +241,9 @@ export const eventType = objectType({
         'Indicates whether the current user can register to this event as participant',
       resolve: async (root, args, context) => {
         if (!context.user) {
-          console.info(`Can't register participant because user is missing`);
+          if (process.env.DEV) {
+            console.info(`Can't register participant because user is missing`);
+          }
           return false;
         }
         const { status } = await context.prisma.usersOfTenants.findUnique({
@@ -243,9 +256,11 @@ export const eventType = objectType({
           select: { status: true },
         });
         if (!root.participantSignup.includes(status)) {
-          console.info(
-            `Can't register participant because status is not allowed ${status}`
-          );
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because status is not allowed ${status}`
+            );
+          }
           return false;
         }
         const previousRegistration =
@@ -258,9 +273,11 @@ export const eventType = objectType({
             },
           });
         if (previousRegistration) {
-          console.info(
-            `Can't register participant because there is a registration already`
-          );
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because there is a registration already`
+            );
+          }
           return false;
         }
         const currentRegistrationNum =
@@ -271,9 +288,11 @@ export const eventType = objectType({
             },
           });
         if (currentRegistrationNum >= root.participantLimit) {
-          console.info(
-            `Can't register because to many people are on event ${currentRegistrationNum} >= ${root.participantLimit}`
-          );
+          if (process.env.DEV) {
+            console.info(
+              `Can't register because to many people are on event ${currentRegistrationNum} >= ${root.participantLimit}`
+            );
+          }
           return false;
         }
         return true;
@@ -294,7 +313,11 @@ export const eventType = objectType({
         'Indicates whether the current user can register to this event as Organizer',
       resolve: async (root, args, context) => {
         if (!context.user) {
-          console.info('Organizer signup not possible because of missing user');
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing user'
+            );
+          }
           return false;
         }
         const { status } = await context.prisma.usersOfTenants.findUnique({
@@ -307,9 +330,12 @@ export const eventType = objectType({
           select: { status: true },
         });
         if (!root.organizerSignup.includes(status)) {
-          console.info(
-            'Organizer signup not possible because of missing status ' + status
-          );
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing status ' +
+                status
+            );
+          }
           return false;
         }
         const previousRegistration =
@@ -322,10 +348,12 @@ export const eventType = objectType({
             },
           });
         if (previousRegistration) {
-          console.info(
-            'Organizer signup not possible because of already registered'
-          );
-          console.info(previousRegistration);
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of already registered'
+            );
+            console.info(previousRegistration);
+          }
           return false;
         }
         const currentRegistrationNum =

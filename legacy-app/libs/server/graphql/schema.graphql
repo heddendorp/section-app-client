@@ -65,11 +65,13 @@ type EventOrganizer {
 
 type EventRegistration {
   amountPaid: Int
+  chargeId: String
   createdAt: DateTime!
   event: TumiEvent!
   eventId: String!
   id: ID!
   netPaid: Int
+  paymentIntentId: String
   paymentStatus: String
   stripeFee: Int
   type: RegistrationType!

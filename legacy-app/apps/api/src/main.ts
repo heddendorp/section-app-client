@@ -22,6 +22,15 @@ const app = express();
 const httpServer = http.createServer(app);
 app.use('/', express.static(path.join(__dirname, '..', 'tumi-app', 'browser')));
 app.use('/webhooks', webhookRouter(prisma));
+app.get('/health', async (req, res) => {
+  try {
+    const tenant = await prisma.tenant.findFirst();
+    res.json(tenant);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
 app.use(checkJwt);
 app.use(getUser(prisma));
 

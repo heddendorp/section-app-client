@@ -24,6 +24,8 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.netPaid);
     t.field(EventRegistration.stripeFee);
     t.field(EventRegistration.paymentStatus);
+    t.field(EventRegistration.chargeId);
+    t.field(EventRegistration.paymentIntentId);
   },
 });
 

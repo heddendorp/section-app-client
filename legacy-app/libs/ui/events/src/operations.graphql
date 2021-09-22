@@ -61,6 +61,7 @@ query loadEventForManagement($id: ID!) {
       id
       createdAt
       paymentStatus
+      paymentIntentId
       user {
         id
         fullName
