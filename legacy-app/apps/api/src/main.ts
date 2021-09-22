@@ -9,6 +9,7 @@ import { checkJwt, getUser } from './app/auth';
 import { UiAuth0 } from './app/auth0';
 import { seedDB } from './app/seeding';
 import { webhookRouter } from './app/webhooks';
+import { calendarRouter } from './app/calendars';
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,7 @@ const app = express();
 const httpServer = http.createServer(app);
 app.use('/', express.static(path.join(__dirname, '..', 'tumi-app', 'browser')));
 app.use('/webhooks', webhookRouter(prisma));
+app.use('/cal', calendarRouter(prisma));
 app.get('/health', async (req, res) => {
   try {
     const tenant = await prisma.tenant.findFirst();
