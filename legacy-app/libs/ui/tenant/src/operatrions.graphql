@@ -4,23 +4,38 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
-query getRegistrations{
-registrations{
-  id
-  createdAt
-  type
-  event{
-    title
+query getRegistrations {
+  registrations {
     id
+    createdAt
+    type
+    event {
+      title
+      id
+    }
+    user {
+      id
+      fullName
+    }
+    amountPaid
+    stripeFee
+    paymentStatus
   }
-  user{
-    id
-    fullName
-  }
-  amountPaid
-  stripeFee
-  paymentStatus
 }
+
+query getRefunds {
+  refundedRegistrations {
+    id
+    createdAt
+    event {
+      title
+      id
+    }
+    user {
+      id
+      fullName
+    }
+  }
 }
 
 query getOrganizers {

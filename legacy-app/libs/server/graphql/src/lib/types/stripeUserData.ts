@@ -1,5 +1,8 @@
 import { idArg, mutationField, nonNull, objectType, queryField } from 'nexus';
 import { StripeUserData } from 'nexus-prisma';
+import { eventType } from './event';
+import { Role } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -76,6 +79,61 @@ export const getPaymentSetupSessionQuery = queryField(
         cancel_url: `${baseURL}profile?stripe=fail`,
       });
       return session;
+    },
+  }
+);
+
+export const deregisterUserWithRefundMutation = mutationField(
+  'deregisterUserWithRefund',
+  {
+    type: nonNull(eventType),
+    args: { eventId: nonNull(idArg()), userId: idArg() },
+    resolve: async (source, { eventId, userId }, context) => {
+      if (userId) {
+        const { role } = await context.prisma.usersOfTenants.findUnique({
+          where: {
+            userId_tenantId: {
+              userId: context.user.id,
+              tenantId: context.tenant.id,
+            },
+          },
+        });
+        if (role !== Role.ADMIN) {
+          throw new ApolloError('Only admins can deregister other users');
+        }
+      } else {
+        userId = context.user.id;
+      }
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id: eventId },
+      });
+      const registration = await context.prisma.eventRegistration.findUnique({
+        where: { userId_eventId: { eventId, userId } },
+      });
+      if (registration.paymentStatus !== 'succeeded') {
+        throw new ApolloError('Only succeeded payments can be refunded');
+      }
+      const refund = await stripe.refunds.create({
+        charge: registration.chargeId,
+        reason: 'requested_by_customer',
+        metadata: { eventId, userId, event: event.title },
+      });
+      await context.prisma.eventRegistration.delete({
+        where: { id: registration.id },
+      });
+      await context.prisma.refundedRegistration.create({
+        data: {
+          userId,
+          eventId,
+          registrationId: registration.id,
+          tenant: { connect: { id: context.tenant.id } },
+          chargeId: registration.chargeId,
+          refundId: refund.id,
+        },
+      });
+      return context.prisma.tumiEvent.findUnique({
+        where: { id: eventId },
+      });
     },
   }
 );

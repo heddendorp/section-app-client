@@ -1,10 +1,6 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import {
+  DeregisterWithRefundGQL,
   GetUserPaymentStatusGQL,
   LoadEventQuery,
   RegisterWithStripePaymentGQL,
@@ -14,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { environment } from '../../../../../../../../apps/tumi-app/src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'tumi-stripe-registration',
@@ -21,13 +18,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./stripe-registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StripeRegistrationComponent implements OnInit {
+export class StripeRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;
   public userSetupForPayment$: Observable<boolean>;
   public processing = new BehaviorSubject(false);
   constructor(
     private getUserPaymentStatus: GetUserPaymentStatusGQL,
     private registerWithStripe: RegisterWithStripePaymentGQL,
+    private deregisterWithRefund: DeregisterWithRefundGQL,
     private snackBar: MatSnackBar
   ) {
     this.userSetupForPayment$ = this.getUserPaymentStatus
@@ -41,7 +39,13 @@ export class StripeRegistrationComponent implements OnInit {
       );
   }
 
-  ngOnInit(): void {}
+  get lastDeregistration() {
+    return DateTime.fromISO(this.event?.start).minus({ days: 5 }).toJSDate();
+  }
+
+  get canDeregister() {
+    return this.lastDeregistration > new Date();
+  }
 
   async register() {
     this.processing.next(true);
@@ -78,6 +82,21 @@ export class StripeRegistrationComponent implements OnInit {
         );
       }
     }
+    this.processing.next(false);
+  }
+
+  async deregister() {
+    this.processing.next(true);
+    try {
+      await this.deregisterWithRefund
+        .mutate({ eventId: this.event?.id ?? '' })
+        .toPromise();
+    } catch (e) {
+      this.processing.next(false);
+      this.snackBar.open(`❗ There was an error: ${e.message}`);
+      return;
+    }
+    this.snackBar.open('✔️ Success: Refunds can take 5-8 days');
     this.processing.next(false);
   }
 }

@@ -10,6 +10,7 @@ Table Tenant {
   shortName String [unique, not null]
   eventTemplates EventTemplate [not null]
   organizers EventOrganizer [not null]
+  refundedRegistrations RefundedRegistration [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -45,6 +46,18 @@ Table StripeUserData {
   indexes {
     (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
   }
+}
+
+Table RefundedRegistration {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  eventId String [not null]
+  userId String [not null]
+  registrationId String [not null]
+  chargeId String [not null]
+  refundId String [not null]
+  tenant Tenant [not null]
+  tenantId String [not null]
 }
 
 Table UsersOfTenants {
@@ -246,6 +259,8 @@ Enum RegistrationMode {
 }
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
+
+Ref: RefundedRegistration.tenantId > Tenant.id
 
 Ref: UsersOfTenants.userId > User.id
 

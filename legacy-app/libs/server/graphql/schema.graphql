@@ -129,6 +129,7 @@ type Mutation {
 
   """Delete one template by id"""
   deleteTemplate(id: ID!): EventTemplate
+  deregisterUserWithRefund(eventId: ID!, userId: ID): TumiEvent!
   registerForEvent(eventId: ID!, registrationType: RegistrationType = PARTICIPANT): TumiEvent
 
   """Add a new user to the database"""
@@ -191,6 +192,7 @@ type Query {
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!
+  refundedRegistrations: [RefundedRegistration!]!
   registrations: [EventRegistration!]!
   tenants: [Tenant!]!
   userById(
@@ -203,6 +205,17 @@ type Query {
 
   """returns a list of users"""
   users: [User!]!
+}
+
+type RefundedRegistration {
+  chargeId: String!
+  createdAt: DateTime!
+  event: TumiEvent
+  eventId: String!
+  id: ID!
+  refundId: String!
+  user: User!
+  userId: String!
 }
 
 enum RegistrationMode {

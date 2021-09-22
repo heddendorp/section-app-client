@@ -70,13 +70,14 @@ enum RegistrationMode {
 
 /// One Tenant of the app, most likely an ESN section
 model Tenant {
-  id             String           @id @default(uuid()) @db.Uuid
-  createdAt      DateTime         @default(now())
-  users          UsersOfTenants[]
-  name           String
-  shortName      String           @unique
-  eventTemplates EventTemplate[]
-  organizers     EventOrganizer[]
+  id                    String                 @id @default(uuid()) @db.Uuid
+  createdAt             DateTime               @default(now())
+  users                 UsersOfTenants[]
+  name                  String
+  shortName             String                 @unique
+  eventTemplates        EventTemplate[]
+  organizers            EventOrganizer[]
+  refundedRegistrations RefundedRegistration[]
 }
 
 /// One User of the app
@@ -110,6 +111,18 @@ model StripeUserData {
   paymentMethodId        String?
 
   @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
+}
+
+model RefundedRegistration {
+  id             String   @id @default(uuid()) @db.Uuid
+  createdAt      DateTime @default(now())
+  eventId        String   @db.Uuid
+  userId         String   @db.Uuid
+  registrationId String   @db.Uuid
+  chargeId String
+  refundId String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId       String   @db.Uuid
 }
 
 model UsersOfTenants {

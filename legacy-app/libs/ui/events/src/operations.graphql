@@ -123,6 +123,17 @@ mutation registerWithStripePayment($eventId: ID!) {
   }
 }
 
+mutation deregisterWithRefund($eventId: ID!, $userId: ID){
+  deregisterUserWithRefund(userId: $userId, eventId: $eventId){
+    id
+    participantRegistrationPossible
+    userRegistered
+    participantLimit
+    participantsRegistered
+    couldBeParticipant
+  }
+}
+
 mutation removeUserFromEvent($eventId: ID!, $userId: ID!) {
   removeUserFromEvent(eventId: $eventId, userId: $userId) {
     id

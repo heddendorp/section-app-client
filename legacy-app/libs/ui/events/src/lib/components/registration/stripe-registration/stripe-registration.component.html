@@ -37,6 +37,25 @@
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
     <p>✔️ You are registered for this event.</p>
+    <ng-container *ngIf="canDeregister">
+      <p class="my-2">
+        You can deregister from this event before
+        {{ lastDeregistration | date }} and receive a refund
+      </p>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="processing | async"
+        (click)="deregister()"
+      >
+        Give up spot
+      </button>
+      <mat-progress-bar
+        class="mt-4"
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
+    </ng-container>
   </ng-container>
   <ng-template #notReady>
     <h2 class="font-bold">⚠️ No payment method saved</h2>

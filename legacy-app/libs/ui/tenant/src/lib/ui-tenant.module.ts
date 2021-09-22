@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { UpdateUserDialogComponent } from './components/update-user-dialog/update-user-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-page/tenant-registrations-page.component';
+import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-p
       { path: 'organizers', component: TenantOrganizersPageComponent },
       { path: 'users', component: TenantUsersPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
+      { path: 'refunds', component: TenantRefundsPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -39,6 +41,7 @@ import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-p
     TenantUsersPageComponent,
     UpdateUserDialogComponent,
     TenantRegistrationsPageComponent,
+    TenantRefundsPageComponent,
   ],
 })
 export class UiTenantModule {}
