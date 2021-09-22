@@ -18,7 +18,11 @@
         fxLayout="row"
         fxLayoutGap="1rem"
       >
-        <img [src]="registration.user.picture" class="max-h-16" />
+        <img
+          [src]="registration.user.picture"
+          class="max-h-16"
+          referrerpolicy="no-referrer"
+        />
         <div>
           <p>{{ registration.user.fullName }}</p>
           <p>{{ registration.user.email }}</p>

@@ -46,9 +46,17 @@ export class StripeRegistrationComponent implements OnInit {
   async register() {
     this.processing.next(true);
     if (this.event) {
-      const { data } = await this.registerWithStripe
-        .mutate({ eventId: this.event.id })
-        .toPromise();
+      let data;
+      try {
+        const res = await this.registerWithStripe
+          .mutate({ eventId: this.event.id })
+          .toPromise();
+        data = res.data;
+      } catch (e) {
+        this.processing.next(false);
+        this.snackBar.open(`❗ There was an error: ${e.message}`);
+        return;
+      }
       if (data?.registerWithStripe.status === 'succeeded') {
         this.snackBar.open('✔️ You registration was successful');
       } else if (
