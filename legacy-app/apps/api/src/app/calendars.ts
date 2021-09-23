@@ -9,7 +9,7 @@ export const calendarRouter = (prisma: PrismaClient) => {
     const events = await prisma.tumiEvent.findMany({
       where: { publicationState: PublicationState.PUBLIC },
     });
-    const calendar = ical({ name: 'TUMi public events' });
+    const calendar = ical({ name: 'TUMi public events', ttl: 60 * 60 * 2 });
     events.forEach((event) =>
       calendar.createEvent({
         start: event.start,
@@ -41,7 +41,10 @@ export const calendarRouter = (prisma: PrismaClient) => {
         registrations: { where: { user: { id: user.id } } },
       },
     });
-    const calendar = ical({ name: `TUMi events for ${user.firstName}` });
+    const calendar = ical({
+      name: `TUMi events for ${user.firstName}`,
+      ttl: 60 * 60 * 2,
+    });
     events.forEach((event) =>
       calendar.createEvent({
         start: event.start,
