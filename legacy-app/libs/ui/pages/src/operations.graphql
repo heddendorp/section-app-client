@@ -1,0 +1,10 @@
+query loadPages{
+  currentTenant{
+    id
+    name
+    imprintPage
+    privacyPolicyPage
+    faqPage
+    aboutPage
+  }
+}

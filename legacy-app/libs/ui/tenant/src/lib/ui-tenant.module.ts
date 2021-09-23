@@ -15,6 +15,7 @@ import { UpdateUserDialogComponent } from './components/update-user-dialog/updat
 import { MatSelectModule } from '@angular/material/select';
 import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-page/tenant-registrations-page.component';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
+import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-r
       { path: 'users', component: TenantUsersPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
+      { path: 'edit', component: TenantEditPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -42,6 +44,7 @@ import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-r
     UpdateUserDialogComponent,
     TenantRegistrationsPageComponent,
     TenantRefundsPageComponent,
+    TenantEditPageComponent,
   ],
 })
 export class UiTenantModule {}

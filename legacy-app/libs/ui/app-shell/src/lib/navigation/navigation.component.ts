@@ -2,7 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { MembershipStatus, Role } from '@tumi/data-access';
+import {
+  GetTenantInfoGQL,
+  GetTenantInfoQuery,
+  MembershipStatus,
+  Role,
+} from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-navigation',
@@ -13,6 +18,7 @@ import { MembershipStatus, Role } from '@tumi/data-access';
 export class NavigationComponent {
   public Role = Role;
   public MembershipStatus = MembershipStatus;
+  public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -20,5 +26,12 @@ export class NavigationComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private getTenantInfo: GetTenantInfoGQL
+  ) {
+    this.tenant$ = this.getTenantInfo
+      .watch()
+      .valueChanges.pipe(map(({ data }) => data.currentTenant));
+  }
 }

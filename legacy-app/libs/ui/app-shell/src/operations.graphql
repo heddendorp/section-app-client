@@ -1,0 +1,7 @@
+query getTenantInfo{
+  currentTenant{
+    id
+    name
+    faqPage
+  }
+}

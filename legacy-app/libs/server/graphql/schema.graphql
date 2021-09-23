@@ -142,6 +142,7 @@ type Mutation {
 
   """Update an event template"""
   updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
+  updateTenant(data: updateTenantInput!, id: ID!): Tenant
 
   """Change the role of s user on the current tenant"""
   updateUserRole(role: Role!, userId: ID!): User!
@@ -263,9 +264,13 @@ enum SubmissionTime {
 
 """One Tenant of the app, most likely an ESN section"""
 type Tenant {
+  aboutPage: String!
   createdAt: DateTime!
+  faqPage: String
   id: ID!
+  imprintPage: String!
   name: String!
+  privacyPolicyPage: String!
   shortName: String!
 }
 
@@ -411,4 +416,11 @@ type paymentIntent {
 
 type paymentSetupSession {
   id: String!
+}
+
+input updateTenantInput {
+  aboutPage: String!
+  faqPage: String
+  imprintPage: String!
+  privacyPolicyPage: String!
 }

@@ -1,0 +1,29 @@
+<main class="p-4">
+  <form [formGroup]="editForm">
+    <mat-form-field class="w-full">
+      <mat-label>About us Page</mat-label>
+      <textarea matInput formControlName="aboutPage" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Privacy Policy</mat-label>
+      <textarea
+        matInput
+        formControlName="privacyPolicyPage"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Imprint</mat-label>
+      <textarea matInput formControlName="imprintPage" rows="10"></textarea>
+    </mat-form-field>
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="editForm.invalid"
+      (click)="saveTenant()"
+    >
+      Save
+    </button>
+  </form>
+</main>

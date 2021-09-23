@@ -7,37 +7,49 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
   >
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="events" routerLinkActive="active">Events</a>
-      <a
-        mat-list-item
-        routerLink="profile"
-        routerLinkActive="active"
-        *tumiIfRole="[Role.User, Role.Admin]"
-      >
-        Profile
-      </a>
-      <a
-        mat-list-item
-        routerLink="event-templates"
-        routerLinkActive="active"
-        *tumiIfStatus="[MembershipStatus.Full]"
-      >
-        Event templates
-      </a>
-      <a
-        mat-list-item
-        routerLink="tenant"
-        routerLinkActive="active"
-        *tumiIfRole="[Role.Admin]"
-      >
-        Management
-      </a>
-      <a mat-list-item routerLink="feedback" routerLinkActive="active">
-        Give Feedback
-      </a>
-    </mat-nav-list>
+    <div class="h-full w-full" fxLayout="column">
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item routerLink="events" routerLinkActive="active">
+          Events
+        </a>
+        <a mat-list-item routerLink="page/about" routerLinkActive="active">
+          About us
+        </a>
+        <a
+          mat-list-item
+          routerLink="profile"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.User, Role.Admin]"
+        >
+          Profile
+        </a>
+        <a
+          mat-list-item
+          routerLink="event-templates"
+          routerLinkActive="active"
+          *tumiIfStatus="[MembershipStatus.Full]"
+        >
+          Event templates
+        </a>
+        <a
+          mat-list-item
+          routerLink="tenant"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.Admin]"
+        >
+          Management
+        </a>
+        <a mat-list-item routerLink="feedback" routerLinkActive="active">
+          Give Feedback
+        </a>
+      </mat-nav-list>
+      <div fxFlex="grow"></div>
+      <div class="mb-4 mx-auto">
+        <a routerLink="/page/imprint">Imprint</a> /
+        <a routerLink="/page/privacy">Privacy policy</a>
+      </div>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
@@ -53,7 +65,7 @@
           svgIcon="icon-menu"
         ></mat-icon>
       </button>
-      <span>TUMi app</span>
+      <span>{{ (tenant$ | async)?.name }}</span>
       <div fxFlex="grow"></div>
       <tumi-auth-button></tumi-auth-button>
     </mat-toolbar>

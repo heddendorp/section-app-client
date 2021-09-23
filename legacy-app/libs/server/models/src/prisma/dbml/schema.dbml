@@ -8,6 +8,10 @@ Table Tenant {
   users UsersOfTenants [not null]
   name String [not null]
   shortName String [unique, not null]
+  privacyPolicyPage String [not null, default: '']
+  imprintPage String [not null, default: '']
+  aboutPage String [not null, default: '']
+  faqPage String
   eventTemplates EventTemplate [not null]
   organizers EventOrganizer [not null]
   refundedRegistrations RefundedRegistration [not null]

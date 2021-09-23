@@ -38,6 +38,17 @@ query getRefunds {
   }
 }
 
+query getTenantForEdit{
+  currentTenant{
+    id
+    name
+    imprintPage
+    aboutPage
+    privacyPolicyPage
+    faqPage
+  }
+}
+
 query getOrganizers {
   organizers {
     id
@@ -66,6 +77,16 @@ query getUsers {
 #    }
 #  }
 #}
+
+mutation updateTenant($id: ID!, $update: updateTenantInput!){
+  updateTenant(id: $id, data: $update){
+    id
+    faqPage
+    imprintPage
+    privacyPolicyPage
+    aboutPage
+  }
+}
 
 mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
   updateUserRole(userId: $id, role: $role) {

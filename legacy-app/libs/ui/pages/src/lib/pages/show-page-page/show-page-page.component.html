@@ -1,0 +1,6 @@
+<main class="p-4">
+  <markdown
+    [data]="(pageContent$ | async) ?? '### loading...'"
+    class="prose lg:prose-lg"
+  ></markdown>
+</main>
