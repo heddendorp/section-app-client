@@ -15,8 +15,8 @@ export const calendarRouter = (prisma: PrismaClient) => {
         start: event.start,
         end: event.end,
         summary: event.title,
-        description: `More info at: https://esn.tumi.world/events/${event.id}`,
-        url: `https://esn.tumi.world/events/${event.id}`,
+        description: `More info at: https://tumi.esn.world/events/${event.id}`,
+        url: `https://tumi.esn.world/events/${event.id}`,
       })
     );
     // calendar.createEvent({
@@ -50,8 +50,8 @@ export const calendarRouter = (prisma: PrismaClient) => {
         description: `
         Event by: ${event.eventTemplate.tenant.name}
         You are registered for this events as ${event.registrations[0].type.toLocaleLowerCase()}.
-        More info at: https://esn.tumi.world/events/${event.id}`,
-        url: `https://esn.tumi.world/events/${event.id}`,
+        More info at: https://tumi.esn.world/events/${event.id}`,
+        url: `https://tumi.esn.world/events/${event.id}`,
       })
     );
     calendar.serve(res);
