@@ -5,6 +5,7 @@ import {
   Tenant,
 } from '@tumi/server-models';
 import { DateTime } from 'luxon';
+import { randomUUID } from 'crypto';
 
 export async function seedDB(prisma: PrismaClient) {
   const tenant = await prisma.tenant.upsert({
@@ -44,6 +45,20 @@ export async function seedDB(prisma: PrismaClient) {
       },
     },
   });
+  const users = await prisma.user.findMany({
+    where: { calendarToken: null },
+    // take: 50,
+  });
+  for (const user of users) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { calendarToken: randomUUID() },
+    });
+  }
+  // await prisma.user.updateMany({
+  //   where: { calendarToken: null },
+  //   data: { calendarToken: undefined },
+  // });
   // await transferEvents(prisma, tenant);
 }
 

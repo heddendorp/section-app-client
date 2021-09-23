@@ -39,4 +39,16 @@ export class UiAuth0 {
     });
     return body;
   }
+
+  public async verifyEmail(userId) {
+    await this.verifyToken();
+    const { body } = await got.post<{
+      status: string;
+    }>(`https://tumi.eu.auth0.com/api/v2/jobs/verification-email`, {
+      headers: { authorization: `Bearer ${this.token}` },
+      responseType: 'json',
+      json: { user_id: userId },
+    });
+    return body;
+  }
 }

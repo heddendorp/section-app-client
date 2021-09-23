@@ -27,6 +27,7 @@ export const userType = objectType({
     t.field(User.picture);
     t.field(User.email_verified);
     t.field(User.email);
+    t.field(User.calendarToken);
     t.field({
       name: 'currentTenant',
       type: userOfTenantType,
@@ -136,6 +137,21 @@ export const listUsersWithStatusQuery = queryField('userWithStatus', {
         },
       },
     }),
+});
+
+export const verifyUserEmailMutation = mutationField('verifyEmail', {
+  type: nonNull(userType),
+  description:
+    'Send a verification email to a user (to the current user if no id is provided)',
+  args: { userId: idArg() },
+  resolve: async (source, { userId }, context) => {
+    if (!userId) userId = context.user.id;
+    const user = await context.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    await context.auth0.verifyEmail(user.authId);
+    return user;
+  },
 });
 
 export const updateUserStatusMutation = mutationField('updateUserStatus', {

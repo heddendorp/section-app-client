@@ -25,6 +25,7 @@ Table User {
   email_verified Boolean [not null]
   picture String [not null]
   birthdate DateTime [not null]
+  calendarToken String [unique, not null]
   tenants UsersOfTenants [not null]
   eventSubmissions EventSubmission [not null]
   eventRegistrations EventRegistration [not null]

@@ -19,6 +19,7 @@ query userProfile {
     email
     birthdate
     firstName
+    calendarToken
     currentTenant {
       status
       stripeData{

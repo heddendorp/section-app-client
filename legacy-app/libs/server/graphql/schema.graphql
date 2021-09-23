@@ -148,6 +148,11 @@ type Mutation {
 
   """Change the status of s user on the current tenant"""
   updateUserStatus(status: MembershipStatus!, userId: ID!): User!
+
+  """
+  Send a verification email to a user (to the current user if no id is provided)
+  """
+  verifyEmail(userId: ID): User!
 }
 
 """Input to create a new Event Organizer"""
@@ -367,6 +372,7 @@ type User {
   """Id from auth0 for this user"""
   authId: String!
   birthdate: DateTime!
+  calendarToken: String!
   createdAt: DateTime!
   currentTenant: UsersOfTenants
   email: String!

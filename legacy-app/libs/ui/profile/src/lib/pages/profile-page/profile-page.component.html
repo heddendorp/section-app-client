@@ -52,10 +52,18 @@
           svgIcon="icon-contact-card"
           class="text-blue-500 bg-white card-icon"
         ></mat-icon>
-        <h2 class="font-bold">Your Data</h2>
+        <h2 class="font-bold">General Information</h2>
       </div>
       <p>Name: {{ profile.fullName }}</p>
       <p>Mail: {{ profile.email }}</p>
+      <h3 class="mt-2">Calendar integration</h3>
+      <pre class="select-all">
+https://tumi.esn.world/cal/private/{{ profile.calendarToken }}</pre
+      >
+      <p>
+        You can use this url to subscribe to a calendar feed of the events your
+        are registered for.
+      </p>
     </div>
     <div class="rounded-2xl bg-pink-200 p-4">
       <div

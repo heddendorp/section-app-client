@@ -156,7 +156,7 @@
           "builder": "@nrwl/workspace:run-commands",
           "outputs": [],
           "options": {
-            "command": "npx prisma db push --accept-data-loss"
+            "command": "npx prisma db push"
           }
         }
       }

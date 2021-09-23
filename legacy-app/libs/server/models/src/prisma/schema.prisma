@@ -93,6 +93,8 @@ model User {
   email_verified     Boolean
   picture            String
   birthdate          DateTime
+  // Calendar fucntionality
+  calendarToken      String              @default(uuid()) @db.Uuid @unique
   // User relations
   tenants            UsersOfTenants[]
   eventSubmissions   EventSubmission[]
@@ -119,8 +121,8 @@ model RefundedRegistration {
   eventId        String   @db.Uuid
   userId         String   @db.Uuid
   registrationId String   @db.Uuid
-  chargeId String
-  refundId String
+  chargeId       String
+  refundId       String
   tenant         Tenant   @relation(fields: [tenantId], references: [id])
   tenantId       String   @db.Uuid
 }
