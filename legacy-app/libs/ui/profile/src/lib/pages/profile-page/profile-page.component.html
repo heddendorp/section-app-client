@@ -51,15 +51,18 @@
         <mat-icon
           svgIcon="icon-contact-card"
           class="text-blue-500 bg-white card-icon"
-        ></mat-icon>
+        >
+        </mat-icon>
         <h2 class="font-bold">General Information</h2>
       </div>
       <p>Name: {{ profile.fullName }}</p>
       <p>Mail: {{ profile.email }}</p>
       <h3 class="mt-2">Calendar integration</h3>
-      <pre class="select-all break-words">
-https://tumi.esn.world/cal/private/{{ profile.calendarToken }}</pre
-      >
+
+      <p class="select-all break-words font-mono" style="max-width: 80vw">
+        https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+      </p>
+
       <p>
         You can use this url to subscribe to a calendar feed of the events you
         are registered for.
