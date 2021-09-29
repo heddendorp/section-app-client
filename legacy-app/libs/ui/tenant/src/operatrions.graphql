@@ -57,11 +57,12 @@ query getOrganizers {
   }
 }
 
-query getUsers {
-  users {
+query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
+  users(roleList: $roleList, statusList:$statusList) {
     id
     firstName
     lastName
+    email
     currentTenant {
       role
       status

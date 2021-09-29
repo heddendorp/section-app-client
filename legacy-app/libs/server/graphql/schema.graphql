@@ -210,7 +210,7 @@ type Query {
   userWithStatus(allowList: [MembershipStatus!]!): [User!]!
 
   """returns a list of users"""
-  users: [User!]!
+  users(roleList: [Role] = [USER, ADMIN], statusList: [MembershipStatus] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
 }
 
 type RefundedRegistration {

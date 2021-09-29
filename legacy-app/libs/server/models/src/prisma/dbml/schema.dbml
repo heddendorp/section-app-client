@@ -185,6 +185,7 @@ Table EventRegistration {
   userId String [not null]
   event TumiEvent [not null]
   eventId String [not null]
+  checkInTime DateTime
   paymentIntentId String
   chargeId String
   paymentStatus String

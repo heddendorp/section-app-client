@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { User } from 'nexus-prisma';
+import { MembershipStatus, Role, User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
@@ -113,11 +113,29 @@ export const getCurrent = queryField('currentUser', {
 export const listUsersQuery = queryField('users', {
   type: nonNull(list(nonNull(userType))),
   description: 'returns a list of users',
-  resolve: (source, args, context) =>
-    context.prisma.user.findMany({
-      where: { tenants: { some: { tenantId: context.tenant.id } } },
-      orderBy: { lastName: 'asc' },
+  args: {
+    statusList: arg({
+      type: list(membershipStatusEnum),
+      default: MembershipStatus.members,
     }),
+    roleList: arg({ type: list(roleEnum), default: Role.members }),
+  },
+  resolve: (source, { statusList, roleList }, context) => {
+    console.log(roleList);
+    console.log(statusList);
+    return context.prisma.user.findMany({
+      where: {
+        tenants: {
+          some: {
+            tenantId: context.tenant.id,
+            role: { in: roleList },
+            status: { in: statusList },
+          },
+        },
+      },
+      orderBy: { lastName: 'asc' },
+    });
+  },
 });
 
 export const listUsersWithStatusQuery = queryField('userWithStatus', {

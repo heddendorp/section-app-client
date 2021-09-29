@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-page/tenant-registrations-page.component';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
+import { FlexModule } from '@angular/flex-layout';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -35,6 +37,8 @@ import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-pa
     MatListModule,
     MatTableModule,
     MatSelectModule,
+    FlexModule,
+    ClipboardModule,
   ],
   declarations: [
     TenantLandingPageComponent,
