@@ -125,7 +125,11 @@ export const eventType = objectType({
         if (!context.user) return false;
         return context.prisma.eventRegistration
           .count({
-            where: { eventId: source.id, userId: context.user.id },
+            where: {
+              eventId: source.id,
+              userId: context.user.id,
+              type: RegistrationType.PARTICIPANT,
+            },
           })
           .then((number) => number !== 0);
       },

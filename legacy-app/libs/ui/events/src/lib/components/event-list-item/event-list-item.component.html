@@ -1,4 +1,32 @@
-<a *ngIf="event" fxLayout="row" [routerLink]="event.id" class="h-full">
+<a *ngIf="event" fxLayout="row" [routerLink]="event.id" class="h-full relative">
+  <div
+    class="
+      bg-green-500
+      text-sm text-white
+      px-2
+      rounded-bl rounded-tr-2xl
+      absolute
+      top-0
+      right-0
+    "
+    *ngIf="event.userRegistered"
+  >
+    registered
+  </div>
+  <div
+    class="
+      bg-blue-500
+      text-sm text-white
+      px-2
+      rounded-bl rounded-tr-2xl
+      absolute
+      top-0
+      right-0
+    "
+    *ngIf="event.userIsOrganizer"
+  >
+    organizer
+  </div>
   <div
     class="
       bg-gray-100

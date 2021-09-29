@@ -26,6 +26,10 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.paymentStatus);
     t.field(EventRegistration.chargeId);
     t.field(EventRegistration.paymentIntentId);
+    t.field(EventRegistration.checkInTime);
+    t.boolean('didAttend', {
+      resolve: (source) => !!source.checkInTime,
+    });
   },
 });
 

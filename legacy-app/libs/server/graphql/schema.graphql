@@ -66,7 +66,9 @@ type EventOrganizer {
 type EventRegistration {
   amountPaid: Int
   chargeId: String
+  checkInTime: DateTime
   createdAt: DateTime!
+  didAttend: Boolean
   event: TumiEvent!
   eventId: String!
   id: ID!

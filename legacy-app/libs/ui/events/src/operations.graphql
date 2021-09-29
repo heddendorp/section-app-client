@@ -218,5 +218,7 @@ query eventList {
     couldBeParticipant
     publicationState
     registrationMode
+    userRegistered
+    userIsOrganizer
   }
 }
