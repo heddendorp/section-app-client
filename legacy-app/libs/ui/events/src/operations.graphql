@@ -125,6 +125,7 @@ query loadEventForManagement($id: ID!) {
       createdAt
       paymentStatus
       paymentIntentId
+      netPaid
       user {
         id
         fullName

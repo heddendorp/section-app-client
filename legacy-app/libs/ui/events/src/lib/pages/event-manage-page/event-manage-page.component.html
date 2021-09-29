@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="border p-4 rounded-2xl my-4">
-    <h2>Participants</h2>
+    <h2 class="mb-4">Participants</h2>
     <div fxLayout="column" fxLayoutGap="1rem">
       <div
         *ngFor="let registration of event.participantRegistrations"
@@ -20,15 +20,18 @@
       >
         <img
           [src]="registration.user.picture"
-          class="max-h-16"
+          class="h-12 rounded"
           referrerpolicy="no-referrer"
         />
         <div>
           <p>{{ registration.user.fullName }}</p>
           <p>{{ registration.user.email }}</p>
-          <span class="px-1 rounded bg-gray-100 font-mono">
-            {{ registration.paymentIntentId }}
-          </span>
+          <p>
+            Paid:
+            <span class="px-1 rounded bg-gray-200 font-mono">
+              {{ (registration.netPaid ?? 0) / 100 | currency: 'EUR' }}
+            </span>
+          </p>
         </div>
       </div>
     </div>
