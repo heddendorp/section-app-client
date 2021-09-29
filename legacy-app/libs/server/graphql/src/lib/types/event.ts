@@ -533,6 +533,25 @@ export const removeUserFromEventMutation = mutationField(
   }
 );
 
+export const deregisterFromEventMutation = mutationField(
+  'deregisterFromEvent',
+  {
+    args: { id: nonNull(idArg()) },
+    type: eventType,
+    resolve: (source, { id }, context) =>
+      context.prisma.tumiEvent.update({
+        where: { id },
+        data: {
+          registrations: {
+            delete: {
+              userId_eventId: { eventId: id, userId: context.user.id },
+            },
+          },
+        },
+      }),
+  }
+);
+
 export const registerForEvent = mutationField('registerForEvent', {
   type: eventType,
   args: {

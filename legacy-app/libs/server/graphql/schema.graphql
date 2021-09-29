@@ -132,6 +132,7 @@ type Mutation {
 
   """Delete one template by id"""
   deleteTemplate(id: ID!): EventTemplate
+  deregisterFromEvent(id: ID!): TumiEvent
   deregisterUserWithRefund(eventId: ID!, userId: ID): TumiEvent!
   registerForEvent(eventId: ID!, registrationType: RegistrationType = PARTICIPANT): TumiEvent
 

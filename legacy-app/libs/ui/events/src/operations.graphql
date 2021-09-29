@@ -20,7 +20,7 @@ query loadEvent($id: ID!) {
       link
       text
     }
-    registration{
+    registration {
       id
     }
     organizerSignup
@@ -77,7 +77,7 @@ query getRegistration($id: ID!) {
     paymentStatus
     type
     didAttend
-    event{
+    event {
       id
       title
       icon
@@ -194,6 +194,17 @@ mutation deregisterWithRefund($eventId: ID!, $userId: ID) {
     participantLimit
     participantsRegistered
     couldBeParticipant
+  }
+}
+
+mutation deregisterFromEvent($eventId: ID!) {
+  deregisterFromEvent(id: $eventId) {
+    id
+    participantRegistrations {
+      id
+    }
+    participantsRegistered
+    userRegistered
   }
 }
 
