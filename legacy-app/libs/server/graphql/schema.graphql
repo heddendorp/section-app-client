@@ -121,6 +121,7 @@ type Mutation {
 
   """Change the publication state of an event"""
   changeEventPublication(id: ID!, state: PublicationState!): TumiEvent
+  checkInUser(id: ID!): EventRegistration
 
   """Creates a new event from a given Template"""
   createEventFromTemplate(createEventFromTemplateInput: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent
@@ -201,6 +202,7 @@ type Query {
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!
   refundedRegistrations: [RefundedRegistration!]!
+  registration(id: ID!): EventRegistration!
   registrations: [EventRegistration!]!
   tenants: [Tenant!]!
   userById(
@@ -330,6 +332,7 @@ type TumiEvent {
   photoShare: PhotoShare
   price: Decimal
   publicationState: PublicationState!
+  registration: EventRegistration
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!

@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { QrDisplayDialogComponent } from '../../components/qr-display-dialog/qr-display-dialog.component';
 
 @Component({
   selector: 'tumi-event-details-page',
@@ -32,6 +34,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
+    private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) {
     this.title.setTitle('TUMi - event');
@@ -65,6 +68,15 @@ export class EventDetailsPageComponent implements OnDestroy {
         })
         .toPromise();
       this.snackbar.open('Registration successful ✔️');
+    }
+  }
+
+  async showCode() {
+    const event = await this.event$.pipe(first()).toPromise();
+    if (event?.registration) {
+      this.dialog.open(QrDisplayDialogComponent, {
+        data: { id: event.registration.id },
+      });
     }
   }
 }

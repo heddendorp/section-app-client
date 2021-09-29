@@ -60,6 +60,14 @@ export const eventType = objectType({
     t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
     t.field({
+      name: 'registration',
+      type: eventRegistrationType,
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration.findFirst({
+          where: { event: { id: source.id }, user: { id: context.user.id } },
+        }),
+    });
+    t.field({
       name: 'participantRegistrations',
       type: nonNull(list(nonNull(eventRegistrationType))),
       resolve: (source, args, context) =>
@@ -68,7 +76,7 @@ export const eventType = objectType({
             type: RegistrationType.PARTICIPANT,
             event: { id: source.id },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: [{ checkInTime: 'desc' }, { user: { lastName: 'asc' } }],
         }),
     });
     t.field({

@@ -1,2 +1,45 @@
-<h1>Coming soon</h1>
-<a routerLink="..">Go back now</a>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="event$ | async as event" class="p-4">
+  <button mat-fab (click)="scanCode()">
+    <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+  </button>
+  <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
+    <a mat-icon-button routerLink="..">
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1>{{ event.title }}</h1>
+  </div>
+  <h2 class="mb-2">Participants</h2>
+  <div fxLayout="column" fxLayoutGap="1rem">
+    <div
+      *ngFor="let registration of event.participantRegistrations"
+      fxLayout="row"
+      fxLayoutGap="1rem"
+    >
+      <div class="relative">
+        <img
+          [src]="registration.user.picture"
+          referrerpolicy="no-referrer"
+          class="w-16 rounded"
+        />
+        <mat-icon
+          *ngIf="registration.checkInTime; else cross"
+          svgIcon="icon-checkmark"
+          class="absolute bottom-0 -right-3"
+        ></mat-icon>
+        <ng-template #cross>
+          <mat-icon
+            svgIcon="icon-delete-sign"
+            class="absolute bottom-0 -right-3"
+          ></mat-icon>
+        </ng-template>
+      </div>
+      <div>
+        <p>{{ registration.user.fullName }}</p>
+      </div>
+    </div>
+  </div>
+</main>

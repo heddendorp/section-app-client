@@ -29,6 +29,8 @@ import { ExternalEventRegistrationComponent } from './components/registration/ex
 import { StripeRegistrationComponent } from './components/registration/stripe-registration/stripe-registration.component';
 import { OnlineEventRegistrationComponent } from './components/registration/online-event-registration/online-event-registration.component';
 import { EventManagePageComponent } from './pages/event-manage-page/event-manage-page.component';
+import { ScanningDialogComponent } from './components/running/scanning-dialog/scanning-dialog.component';
+import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-display-dialog.component';
 
 @NgModule({
   imports: [
@@ -81,6 +83,8 @@ import { EventManagePageComponent } from './pages/event-manage-page/event-manage
     StripeRegistrationComponent,
     OnlineEventRegistrationComponent,
     EventManagePageComponent,
+    ScanningDialogComponent,
+    QrDisplayDialogComponent,
   ],
 })
 export class UiEventsModule {}

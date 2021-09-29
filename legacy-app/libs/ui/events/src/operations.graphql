@@ -16,8 +16,12 @@ query loadEvent($id: ID!) {
     #      fullName
     #    }
     organizer {
+      id
       link
       text
+    }
+    registration{
+      id
     }
     organizerSignup
     participantSignup
@@ -30,8 +34,67 @@ query loadEvent($id: ID!) {
     couldBeOrganizer
     couldBeParticipant
     organizers {
+      id
       fullName
     }
+  }
+}
+
+query loadEventForRunning($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    icon
+    start
+    end
+    organizerRegistrations {
+      id
+      checkInTime
+      user {
+        id
+        fullName
+        picture
+        email
+      }
+    }
+    participantRegistrations {
+      id
+      checkInTime
+      paymentStatus
+      user {
+        id
+        fullName
+        picture
+        email
+      }
+    }
+  }
+}
+
+query getRegistration($id: ID!) {
+  registration(id: $id) {
+    id
+    paymentStatus
+    type
+    didAttend
+    event{
+      id
+      title
+      icon
+    }
+    user {
+      id
+      fullName
+      picture
+    }
+  }
+}
+
+mutation checkInUser($id: ID!) {
+  checkInUser(id: $id) {
+    id
+    checkInTime
+    didAttend
   }
 }
 
@@ -123,8 +186,8 @@ mutation registerWithStripePayment($eventId: ID!) {
   }
 }
 
-mutation deregisterWithRefund($eventId: ID!, $userId: ID){
-  deregisterUserWithRefund(userId: $userId, eventId: $eventId){
+mutation deregisterWithRefund($eventId: ID!, $userId: ID) {
+  deregisterUserWithRefund(userId: $userId, eventId: $eventId) {
     id
     participantRegistrationPossible
     userRegistered

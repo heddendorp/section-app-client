@@ -48,7 +48,7 @@
     <h3>{{ event.title }}</h3>
     <p>Starts: {{ event.start | date: 'shortTime' }}</p>
     <p *ngIf="event.registrationMode !== RegistrationMode.External">
-      Free spots:
+      Available spots:
       {{
         (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0)
       }}

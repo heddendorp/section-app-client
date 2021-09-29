@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Scan participant</h1>
+<mat-dialog-content fxFlex="grow" fxLayout="column">
+  <video #scannerVideo [hidden]="hideScanner$ | async"></video>
+  <ng-container *ngIf="currentRegistration$ | async as registration">
+    <div class="bg-green-500 text-white font-bold text-lg w-full rounded px-2">
+      <p class="">Registration found!</p>
+    </div>
+    <div class="my-4">
+      <p class="text-lg">User</p>
+      <img
+        [src]="registration.user.picture"
+        referrerpolicy="no-referrer"
+        class="mx-auto w-24 rounded border-2"
+      />
+      <p class="">
+        {{ registration.user.fullName }}
+      </p>
+      <p *ngIf="registration.paymentStatus">
+        Payment status:
+        <span class="bg-gray-200 rounded px-2 font-mono">{{
+          registration.paymentStatus
+        }}</span>
+      </p>
+    </div>
+    <div>
+      <p class="text-lg">Event</p>
+      <p>
+        {{ registration.event.title }}
+      </p>
+    </div>
+    <div fxFlex="grow"></div>
+    <div
+      class="bg-red-700 text-white rounded py-2 px-4 font-bold"
+      *ngIf="registration.didAttend"
+    >
+      User is already checked in for this event!
+    </div>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions fxFlexAlign="end">
+  <button mat-flat-button color="warn" mat-dialog-close>Close</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="checkInUser()"
+    [disabled]="
+      (currentRegistration$ | async) === null ||
+      (currentRegistration$ | async)?.didAttend
+    "
+  >
+    Check in
+  </button>
+</mat-dialog-actions>

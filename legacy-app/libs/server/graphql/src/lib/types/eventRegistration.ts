@@ -1,4 +1,11 @@
-import { list, nonNull, objectType, queryField } from 'nexus';
+import {
+  idArg,
+  list,
+  mutationField,
+  nonNull,
+  objectType,
+  queryField,
+} from 'nexus';
 import { EventRegistration } from 'nexus-prisma';
 
 export const eventRegistrationType = objectType({
@@ -38,5 +45,24 @@ export const getRegistrationsQuery = queryField('registrations', {
   resolve: (source, args, context) =>
     context.prisma.eventRegistration.findMany({
       orderBy: { createdAt: 'desc' },
+    }),
+});
+
+export const getOneRegistrationQuery = queryField('registration', {
+  type: nonNull(eventRegistrationType),
+  args: { id: nonNull(idArg()) },
+  resolve: (source, { id }, context) =>
+    context.prisma.eventRegistration.findUnique({
+      where: { id },
+    }),
+});
+
+export const checkInUserMutation = mutationField('checkInUser', {
+  type: eventRegistrationType,
+  args: { id: nonNull(idArg()) },
+  resolve: (source, { id }, context) =>
+    context.prisma.eventRegistration.update({
+      where: { id },
+      data: { checkInTime: new Date() },
     }),
 });

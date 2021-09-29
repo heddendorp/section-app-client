@@ -12,6 +12,15 @@
     <mat-icon svgIcon="icon-user-shield"></mat-icon>
     <span class="label">Run Event</span>
   </a>
+  <button
+    mat-fab
+    (click)="showCode()"
+    class="extended-fab"
+    *ngIf="event.userRegistered"
+  >
+    <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
+    <span class="label">Check in</span>
+  </button>
   <tumi-event-header
     [event]="event"
     class="
