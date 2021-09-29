@@ -37,7 +37,7 @@ import { environment } from '../environments/environment';
     MarkdownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'events' },
-      { path: '/about', pathMatch: 'full', redirectTo: '/page/about' },
+      { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
       {
         path: 'profile',
         canActivate: [AuthGuard],
