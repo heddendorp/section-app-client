@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 })
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
-  public showFullEvents = new FormControl(false);
+  public showFullEvents = new FormControl(true);
   private loadEventsQueryRef;
 
   constructor(private loadEventsQuery: EventListGQL, private title: Title) {
@@ -24,14 +24,19 @@ export class EventListPageComponent implements OnDestroy {
     );
     this.events$ = combineLatest([
       events$,
-      this.showFullEvents.valueChanges.pipe(startWith(false)),
+      this.showFullEvents.valueChanges.pipe(
+        startWith(this.showFullEvents.value)
+      ),
     ]).pipe(
       map(([events, showFull]) => {
         if (showFull) {
           return events;
         }
         return events.filter(
-          (event) => event.participantLimit > event.participantsRegistered
+          (event) =>
+            event.userIsOrganizer ||
+            event.userRegistered ||
+            event.participantLimit > event.participantsRegistered
         );
       })
     );
