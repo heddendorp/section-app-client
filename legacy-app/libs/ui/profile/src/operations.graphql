@@ -37,6 +37,7 @@ query userProfile {
       title
       icon
       start
+      end
     }
   }
 }

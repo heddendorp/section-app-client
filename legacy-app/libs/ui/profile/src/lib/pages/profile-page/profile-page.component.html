@@ -137,7 +137,7 @@
         ></mat-icon>
         <h2 class="font-bold">Your events</h2>
       </div>
-      <mat-list>
+      <mat-nav-list>
         <a
           mat-list-item
           *ngFor="let event of profile.participatedEvents"
@@ -146,8 +146,9 @@
           <img [src]="event.icon | iconURL" mat-list-avatar />
           <h3 mat-line>{{ event.title }}</h3>
           <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
+          <p mat-line>Ends: {{ event.end | date: 'medium' }}</p>
         </a>
-      </mat-list>
+      </mat-nav-list>
     </div>
     <div
       class="rounded-2xl bg-green-200 p-4"
