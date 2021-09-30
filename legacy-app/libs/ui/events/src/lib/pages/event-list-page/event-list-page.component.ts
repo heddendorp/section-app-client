@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { EventListGQL, EventListQuery } from '@tumi/data-access';
-import { combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { EventListGQL, EventListQuery, Role } from '@tumi/data-access';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'tumi-event-list-page',
@@ -14,7 +15,12 @@ import { FormControl } from '@angular/forms';
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new FormControl(true);
+  public eventsAfter = new FormControl(
+    DateTime.local().toISO({ includeOffset: false })
+  );
+  public Role = Role;
   private loadEventsQueryRef;
+  private destroy$ = new Subject();
 
   constructor(private loadEventsQuery: EventListGQL, private title: Title) {
     this.title.setTitle('TUMi - events');
@@ -22,6 +28,9 @@ export class EventListPageComponent implements OnDestroy {
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events)
     );
+    this.eventsAfter.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => this.loadEventsQueryRef.refetch({ after: value }));
     this.events$ = combineLatest([
       events$,
       this.showFullEvents.valueChanges.pipe(
@@ -45,5 +54,7 @@ export class EventListPageComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.loadEventsQueryRef.stopPolling();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

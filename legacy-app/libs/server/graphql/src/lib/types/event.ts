@@ -20,6 +20,7 @@ import { publicationStateEnum, registrationTypeEnum } from './enums';
 import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
+import { DateTime } from 'nexus-prisma/scalars';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -418,7 +419,9 @@ export const updateEventInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  resolve: async (source, args, context) => {
+  args: { after: arg({ type: DateTime }) },
+  resolve: async (source, { after }, context) => {
+    after ??= new Date();
     if (!context.user) {
       return context.prisma.tumiEvent.findMany({
         orderBy: { start: 'asc' },
@@ -426,6 +429,7 @@ export const getAllEventsQuery = queryField('events', {
           participantSignup: {
             has: MembershipStatus.NONE,
           },
+          end: { gt: new Date() },
           publicationState: PublicationState.PUBLIC,
         },
       });
@@ -439,11 +443,15 @@ export const getAllEventsQuery = queryField('events', {
       },
     });
     if (role === Role.ADMIN) {
-      return context.prisma.tumiEvent.findMany({ orderBy: { start: 'asc' } });
+      return context.prisma.tumiEvent.findMany({
+        orderBy: { start: 'asc' },
+        where: { end: { gt: after } },
+      });
     }
     return context.prisma.tumiEvent.findMany({
       orderBy: { start: 'asc' },
       where: {
+        end: { gt: after },
         OR: [
           {
             participantSignup: {

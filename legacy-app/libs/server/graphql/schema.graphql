@@ -197,7 +197,7 @@ type Query {
   eventTemplates: [EventTemplate!]!
 
   """Get a list of all events"""
-  events: [TumiEvent!]!
+  events(after: DateTime): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
 
   """Retrieve a list of all event organizers"""

@@ -279,8 +279,8 @@ mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
   }
 }
 
-query eventList {
-  events {
+query eventList($after: DateTime) {
+  events(after: $after) {
     id
     title
     icon

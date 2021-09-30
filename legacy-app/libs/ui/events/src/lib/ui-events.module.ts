@@ -32,6 +32,8 @@ import { EventManagePageComponent } from './pages/event-manage-page/event-manage
 import { ScanningDialogComponent } from './components/running/scanning-dialog/scanning-dialog.component';
 import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-display-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 
 @NgModule({
   imports: [
@@ -71,6 +73,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDialogModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatLuxonDateModule,
   ],
   declarations: [
     EventListPageComponent,

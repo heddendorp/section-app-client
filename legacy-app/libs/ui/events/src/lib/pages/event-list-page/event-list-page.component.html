@@ -8,6 +8,12 @@
     <mat-checkbox [formControl]="showFullEvents">
       Include events without spots
     </mat-checkbox>
+    <mat-form-field *tumiIfRole="[Role.Admin]">
+      <mat-label>Show Events after</mat-label>
+      <input matInput [formControl]="eventsAfter" [matDatepicker]="picker" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
   </div>
   <tumi-event-list
     *ngIf="events$ | async as events"
