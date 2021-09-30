@@ -9,6 +9,7 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/client"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 generator nexusPrisma {
@@ -159,8 +160,8 @@ model EventOrganizer {
 
 /// Template that holds all information for an event that is needed to run it
 model EventTemplate {
-  id              String      @id @default(uuid()) @db.Uuid
-  createdAt       DateTime    @default(now())
+  id              String                @id @default(uuid()) @db.Uuid
+  createdAt       DateTime              @default(now())
   title           String
   icon            String
   description     String
@@ -173,8 +174,18 @@ model EventTemplate {
   organizerText   String
   finances        Json
   eventInstances  TumiEvent[]
-  tenant          Tenant      @relation(fields: [tenantId], references: [id])
-  tenantId        String      @db.Uuid
+  tenant          Tenant                @relation(fields: [tenantId], references: [id])
+  tenantId        String                @db.Uuid
+  category        EventTemplateCategory? @relation(fields: [categoryId], references: [id])
+  categoryId      String?                @db.Uuid
+}
+
+/// Category to keep an overview of event templates
+model EventTemplateCategory {
+  id        String          @id @default(uuid()) @db.Uuid
+  createdAt DateTime        @default(now())
+  name      String
+  templates EventTemplate[]
 }
 
 /// Actual instande of an TumiEventbased on a template
@@ -207,8 +218,27 @@ model TumiEvent {
   eventOrganizerId  String                @db.Uuid
   createdBy         User                  @relation(fields: [creatorId], references: [id])
   creatorId         String                @db.Uuid
-  eventTemplate     EventTemplate         @relation(fields: [eventTemplateId], references: [id])
-  eventTemplateId   String                @db.Uuid
+  eventTemplate     EventTemplate        @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId   String               @db.Uuid
+}
+
+model Product {
+  id           String             @id @default(uuid()) @db.Uuid
+  createdAt    DateTime           @default(now())
+  title        String
+  icon         String
+  description  String
+  availability MembershipStatus[]
+  prices       ProductPrice[]
+}
+
+model ProductPrice {
+  id           String             @id @default(uuid()) @db.Uuid
+  createdAt    DateTime           @default(now())
+  amount       Decimal
+  availability MembershipStatus[]
+  product      Product            @relation(fields: [productId], references: [id])
+  productId    String             @db.Uuid
 }
 
 model CostItem {
@@ -249,7 +279,7 @@ model EventRegistration {
   userId          String           @db.Uuid
   event           TumiEvent        @relation(fields: [eventId], references: [id])
   eventId         String           @db.Uuid
-  checkInTime DateTime?
+  checkInTime     DateTime?
   paymentIntentId String?
   chargeId        String?
   paymentStatus   String?

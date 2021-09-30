@@ -281,7 +281,7 @@ type Tenant {
 
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
-  amountCollected: Int!
+  amountCollected: Int
 
   """Indicates whether the user could be an organizer for this event"""
   couldBeOrganizer: Boolean!
@@ -295,12 +295,12 @@ type TumiEvent {
   eventOrganizerId: String!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
-  feesPaid: Int!
+  feesPaid: Int
   icon: String!
   id: ID!
   location: String!
   locationId: String!
-  netAmountCollected: Int!
+  netAmountCollected: Int
   organizer: EventOrganizer!
   organizerLimit: Int!
 

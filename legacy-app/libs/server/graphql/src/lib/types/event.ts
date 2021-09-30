@@ -19,6 +19,7 @@ import {
 import { publicationStateEnum, registrationTypeEnum } from './enums';
 import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
+import { ApolloError } from 'apollo-server-express';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -91,7 +92,7 @@ export const eventType = objectType({
           orderBy: { createdAt: 'desc' },
         }),
     });
-    t.nonNull.int('amountCollected', {
+    t.int('amountCollected', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -103,7 +104,7 @@ export const eventType = objectType({
           })
           .then((aggregations) => aggregations._sum.amountPaid),
     });
-    t.nonNull.int('netAmountCollected', {
+    t.int('netAmountCollected', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -115,7 +116,7 @@ export const eventType = objectType({
           })
           .then((aggregations) => aggregations._sum.netPaid),
     });
-    t.nonNull.int('feesPaid', {
+    t.int('feesPaid', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -562,13 +563,24 @@ export const registerForEvent = mutationField('registerForEvent', {
     eventId: nonNull(idArg()),
   },
   resolve: (source, { registrationType, eventId }, context) =>
-    context.prisma.tumiEvent.update({
-      where: { id: eventId },
-      data: {
-        registrations: {
-          create: { type: registrationType, userId: context.user.id },
+    context.prisma.$transaction(async (prisma) => {
+      const event = await prisma.tumiEvent.findUnique({
+        where: { id: eventId },
+      });
+      const registeredParticipants = await prisma.eventRegistration.count({
+        where: { eventId, type: RegistrationType.PARTICIPANT },
+      });
+      if (registeredParticipants >= event.participantLimit) {
+        throw new ApolloError('Event does not have an available spot!');
+      }
+      return context.prisma.tumiEvent.update({
+        where: { id: eventId },
+        data: {
+          registrations: {
+            create: { type: registrationType, userId: context.user.id },
+          },
         },
-      },
+      });
     }),
 });
 

@@ -33,9 +33,15 @@ export class OnlineEventRegistrationComponent {
 
   public async register() {
     this.processing.next(true);
-    await this.registerForEvent
-      .mutate({ eventId: this.event?.id ?? '' })
-      .toPromise();
+    try {
+      await this.registerForEvent
+        .mutate({ eventId: this.event?.id ?? '' })
+        .toPromise();
+    } catch (e) {
+      this.processing.next(false);
+      this.snackBar.open(`❗ There was an error: ${e.message}`);
+      return;
+    }
     this.processing.next(false);
   }
 

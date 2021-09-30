@@ -18,6 +18,7 @@ import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-r
 import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
 import { FlexModule } from '@angular/flex-layout';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
       { path: '', pathMatch: 'full', component: TenantLandingPageComponent },
       { path: 'organizers', component: TenantOrganizersPageComponent },
       { path: 'users', component: TenantUsersPageComponent },
+      { path: 'users/:userId', component: TenantUserInfoPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
       { path: 'edit', component: TenantEditPageComponent },
@@ -49,6 +51,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     TenantRegistrationsPageComponent,
     TenantRefundsPageComponent,
     TenantEditPageComponent,
+    TenantUserInfoPageComponent,
   ],
 })
 export class UiTenantModule {}

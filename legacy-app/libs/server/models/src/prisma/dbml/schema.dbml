@@ -108,8 +108,19 @@ Table EventTemplate {
   eventInstances TumiEvent [not null]
   tenant Tenant [not null]
   tenantId String [not null]
+  category EventTemplateCategory
+  categoryId String
 
   Note: 'Template that holds all information for an event that is needed to run it'
+}
+
+Table EventTemplateCategory {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  name String [not null]
+  templates EventTemplate [not null]
+
+  Note: 'Category to keep an overview of event templates'
 }
 
 Table TumiEvent {
@@ -145,6 +156,25 @@ Table TumiEvent {
   eventTemplateId String [not null]
 
   Note: 'Actual instande of an TumiEventbased on a template'
+}
+
+Table Product {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  title String [not null]
+  icon String [not null]
+  description String [not null]
+  availability MembershipStatus [not null]
+  prices ProductPrice [not null]
+}
+
+Table ProductPrice {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  amount Decimal [not null]
+  availability MembershipStatus [not null]
+  product Product [not null]
+  productId String [not null]
 }
 
 Table CostItem {
@@ -276,11 +306,15 @@ Ref: EventOrganizer.tenantId > Tenant.id
 
 Ref: EventTemplate.tenantId > Tenant.id
 
+Ref: EventTemplate.categoryId > EventTemplateCategory.id
+
 Ref: TumiEvent.eventOrganizerId > EventOrganizer.id
 
 Ref: TumiEvent.creatorId > User.id
 
 Ref: TumiEvent.eventTemplateId > EventTemplate.id
+
+Ref: ProductPrice.productId > Product.id
 
 Ref: CostItem.eventId > TumiEvent.id
 
