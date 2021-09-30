@@ -134,6 +134,7 @@ type Mutation {
   deleteTemplate(id: ID!): EventTemplate
   deregisterFromEvent(id: ID!): TumiEvent
   deregisterUserWithRefund(eventId: ID!, userId: ID): TumiEvent!
+  newProduct(input: newProductInput!): Product!
   registerForEvent(eventId: ID!, registrationType: RegistrationType = PARTICIPANT): TumiEvent
 
   """Add a new user to the database"""
@@ -174,6 +175,27 @@ type PhotoShare {
   id: ID!
 }
 
+type Product {
+  availability: [MembershipStatus!]!
+  createdAt: DateTime!
+  description: String!
+  icon: String!
+  id: ID!
+  prices: [ProductPrice!]!
+  tenant: Tenant!
+  tenantId: String!
+  title: String!
+}
+
+type ProductPrice {
+  amount: Decimal!
+  availability: [MembershipStatus!]!
+  createdAt: DateTime!
+  id: ID!
+  product: Product!
+  productId: String!
+}
+
 enum PublicationState {
   APPROVAL
   DRAFT
@@ -202,6 +224,7 @@ type Query {
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!
+  products: [Product!]!
   refundedRegistrations: [RefundedRegistration!]!
   registration(id: ID!): EventRegistration!
   registrations: [EventRegistration!]!
@@ -412,6 +435,13 @@ type UsersOfTenants {
   tenantId: String!
   user: User!
   userId: String!
+}
+
+input newProductInput {
+  availability: [MembershipStatus!]!
+  description: String!
+  icon: String!
+  title: String!
 }
 
 type paymentIntent {

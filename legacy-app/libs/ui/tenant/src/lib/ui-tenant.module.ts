@@ -19,6 +19,7 @@ import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-pa
 import { FlexModule } from '@angular/flex-layout';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
+import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant-products-page.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenan
     TenantRefundsPageComponent,
     TenantEditPageComponent,
     TenantUserInfoPageComponent,
+    TenantProductsPageComponent,
   ],
 })
 export class UiTenantModule {}

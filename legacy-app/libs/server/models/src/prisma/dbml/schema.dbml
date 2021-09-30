@@ -15,6 +15,7 @@ Table Tenant {
   eventTemplates EventTemplate [not null]
   organizers EventOrganizer [not null]
   refundedRegistrations RefundedRegistration [not null]
+  products Product [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -35,6 +36,7 @@ Table User {
   eventRegistrations EventRegistration [not null]
   receipts Receipt [not null]
   createdEvents TumiEvent [not null]
+  purchases ProductPurchase [not null]
 
   Note: 'One User of the app'
 }
@@ -166,6 +168,9 @@ Table Product {
   description String [not null]
   availability MembershipStatus [not null]
   prices ProductPrice [not null]
+  tenant Tenant [not null]
+  tenantId String [not null]
+  purchases ProductPurchase [not null]
 }
 
 Table ProductPrice {
@@ -175,6 +180,18 @@ Table ProductPrice {
   availability MembershipStatus [not null]
   product Product [not null]
   productId String [not null]
+  purchases ProductPurchase [not null]
+}
+
+Table ProductPurchase {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  product Product [not null]
+  user User [not null]
+  price ProductPrice [not null]
+  productId String [not null]
+  userId String [not null]
+  productPriceId String [not null]
 }
 
 Table CostItem {
@@ -314,7 +331,15 @@ Ref: TumiEvent.creatorId > User.id
 
 Ref: TumiEvent.eventTemplateId > EventTemplate.id
 
+Ref: Product.tenantId > Tenant.id
+
 Ref: ProductPrice.productId > Product.id
+
+Ref: ProductPurchase.productId > Product.id
+
+Ref: ProductPurchase.userId > User.id
+
+Ref: ProductPurchase.productPriceId > ProductPrice.id
 
 Ref: CostItem.eventId > TumiEvent.id
 

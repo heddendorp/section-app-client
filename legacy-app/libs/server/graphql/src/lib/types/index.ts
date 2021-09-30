@@ -8,4 +8,6 @@ export * from './eventRegistration';
 export * from './refundedRegistration';
 export * from './enums';
 export * from './photoShare';
+export * from './product';
+export * from './price';
 export * from './stripeUserData';

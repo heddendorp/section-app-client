@@ -73,6 +73,11 @@ import { environment } from '../environments/environment';
         loadChildren: () =>
           import('@tumi/ui/pages').then((module) => module.UiPagesModule),
       },
+      {
+        path: 'products',
+        loadChildren: () =>
+          import('@tumi/products').then((module) => module.ProductsModule),
+      },
     ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',

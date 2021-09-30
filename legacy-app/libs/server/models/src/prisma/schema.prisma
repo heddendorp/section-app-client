@@ -7,8 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/client"
+  provider        = "prisma-client-js"
+  output          = "../lib/client"
   previewFeatures = ["interactiveTransactions"]
 }
 
@@ -85,6 +85,7 @@ model Tenant {
   eventTemplates        EventTemplate[]
   organizers            EventOrganizer[]
   refundedRegistrations RefundedRegistration[]
+  products              Product[]
 }
 
 /// One User of the app
@@ -108,6 +109,7 @@ model User {
   eventRegistrations EventRegistration[]
   receipts           Receipt[]
   createdEvents      TumiEvent[]
+  purchases          ProductPurchase[]
 }
 
 model StripeUserData {
@@ -160,8 +162,8 @@ model EventOrganizer {
 
 /// Template that holds all information for an event that is needed to run it
 model EventTemplate {
-  id              String                @id @default(uuid()) @db.Uuid
-  createdAt       DateTime              @default(now())
+  id              String                 @id @default(uuid()) @db.Uuid
+  createdAt       DateTime               @default(now())
   title           String
   icon            String
   description     String
@@ -174,8 +176,8 @@ model EventTemplate {
   organizerText   String
   finances        Json
   eventInstances  TumiEvent[]
-  tenant          Tenant                @relation(fields: [tenantId], references: [id])
-  tenantId        String                @db.Uuid
+  tenant          Tenant                 @relation(fields: [tenantId], references: [id])
+  tenantId        String                 @db.Uuid
   category        EventTemplateCategory? @relation(fields: [categoryId], references: [id])
   categoryId      String?                @db.Uuid
 }
@@ -218,8 +220,8 @@ model TumiEvent {
   eventOrganizerId  String                @db.Uuid
   createdBy         User                  @relation(fields: [creatorId], references: [id])
   creatorId         String                @db.Uuid
-  eventTemplate     EventTemplate        @relation(fields: [eventTemplateId], references: [id])
-  eventTemplateId   String               @db.Uuid
+  eventTemplate     EventTemplate         @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId   String                @db.Uuid
 }
 
 model Product {
@@ -230,6 +232,9 @@ model Product {
   description  String
   availability MembershipStatus[]
   prices       ProductPrice[]
+  tenant       Tenant             @relation(fields: [tenantId], references: [id])
+  tenantId     String             @db.Uuid
+  purchases    ProductPurchase[]
 }
 
 model ProductPrice {
@@ -239,6 +244,18 @@ model ProductPrice {
   availability MembershipStatus[]
   product      Product            @relation(fields: [productId], references: [id])
   productId    String             @db.Uuid
+  purchases    ProductPurchase[]
+}
+
+model ProductPurchase {
+  id             String       @id @default(uuid()) @db.Uuid
+  createdAt      DateTime     @default(now())
+  product        Product      @relation(fields: [productId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+  price          ProductPrice @relation(fields: [productPriceId], references: [id])
+  productId      String       @db.Uuid
+  userId         String       @db.Uuid
+  productPriceId String       @db.Uuid
 }
 
 model CostItem {
