@@ -52,15 +52,25 @@ export const webhookRouter = (prisma) => {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.processing');
           const charge = paymentIntent.charges.data[0];
-          await prisma.eventRegistration.create({
-            data: {
+          await prisma.eventRegistration.upsert({
+            where: {
+              userId_eventId: {
+                userId: paymentIntent.metadata.userId,
+                eventId: paymentIntent.metadata.eventId,
+              },
+            },
+            update: {
+              paymentIntentId: paymentIntent.id,
+              chargeId: charge.id,
+              paymentStatus: paymentIntent.status,
+            },
+            create: {
               type: RegistrationType.PARTICIPANT,
               event: { connect: { id: paymentIntent.metadata.eventId } },
               user: { connect: { id: paymentIntent.metadata.userId } },
               paymentIntentId: paymentIntent.id,
               chargeId: charge.id,
               paymentStatus: paymentIntent.status,
-              amountPaid: charge.amount,
             },
           });
           break;
@@ -100,6 +110,19 @@ export const webhookRouter = (prisma) => {
               },
             });
           }
+          break;
+        }
+        case 'payment_intent.payment_failed': {
+          const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
+          console.log('Processing event: payment_intent.payment_failed');
+          await prisma.eventRegistration.delete({
+            where: {
+              userId_eventId: {
+                userId: paymentIntent.metadata.userId,
+                eventId: paymentIntent.metadata.eventId,
+              },
+            },
+          });
           break;
         }
         default:

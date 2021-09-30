@@ -1,7 +1,7 @@
 import { idArg, mutationField, nonNull, objectType, queryField } from 'nexus';
 import { StripeUserData } from 'nexus-prisma';
 import { eventType } from './event';
-import { Role } from '@tumi/server-models';
+import { RegistrationType, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -141,21 +141,32 @@ export const deregisterUserWithRefundMutation = mutationField(
 export const registerWithStripeMutation = mutationField('registerWithStripe', {
   type: nonNull(paymentIntentType),
   args: { id: nonNull(idArg()) },
-  resolve: async (source, { id }, context) => {
-    let paymentIntent;
-    const event = await context.prisma.tumiEvent.findUnique({
-      where: { id },
-    });
-    const stripeData = await context.prisma.stripeUserData.findUnique({
-      where: {
-        usersOfTenantsUserId_usersOfTenantsTenantId: {
-          usersOfTenantsTenantId: context.tenant.id,
-          usersOfTenantsUserId: context.user.id,
+  resolve: async (source, { id }, context) =>
+    context.prisma.$transaction(async (prisma) => {
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id },
+      });
+      if (!event) {
+        throw new ApolloError('Event could not be found!');
+      }
+      const registeredParticipants = await prisma.eventRegistration.count({
+        where: { event: { id }, type: RegistrationType.PARTICIPANT },
+      });
+      // if (registeredParticipants >= event.participantLimit) {
+      //   throw new ApolloError('Event does not have an available spot!');
+      // }
+      const stripeData = await context.prisma.stripeUserData.findUnique({
+        where: {
+          usersOfTenantsUserId_usersOfTenantsTenantId: {
+            usersOfTenantsTenantId: context.tenant.id,
+            usersOfTenantsUserId: context.user.id,
+          },
         },
-      },
-    });
-    if (event && stripeData) {
-      paymentIntent = await stripe.paymentIntents.create({
+      });
+      if (!stripeData) {
+        throw new ApolloError('User does not have payment data!');
+      }
+      const paymentIntent = await stripe.paymentIntents.create({
         amount: event.price.toNumber() * 100,
         currency: 'EUR',
         confirm: true,
@@ -168,7 +179,16 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
           userId: context.user.id,
         },
       });
-    }
-    return paymentIntent;
-  },
+      await context.prisma.eventRegistration.create({
+        data: {
+          type: RegistrationType.PARTICIPANT,
+          event: { connect: { id: paymentIntent.metadata.eventId } },
+          user: { connect: { id: paymentIntent.metadata.userId } },
+          paymentIntentId: paymentIntent.id,
+          paymentStatus: paymentIntent.status,
+          amountPaid: paymentIntent.amount,
+        },
+      });
+      return paymentIntent;
+    }),
 });
