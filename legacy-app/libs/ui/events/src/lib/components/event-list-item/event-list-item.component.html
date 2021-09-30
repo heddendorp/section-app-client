@@ -47,7 +47,7 @@
   >
     <h3>{{ event.title }}</h3>
     <p>Starts: {{ event.start | date: 'shortTime' }}</p>
-    <p *ngIf="event.registrationMode !== RegistrationMode.External">
+    <p *ngIf="event.registrationMode === RegistrationMode.Stripe">
       Available spots:
       {{
         (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0)
@@ -58,6 +58,12 @@
         }}
         orga)</ng-container
       >
+    </p>
+    <p *ngIf="event.registrationMode === RegistrationMode.Online">
+      <span *ngIf="event.participantLimit <= event.participantsRegistered">
+        no
+      </span>
+      spots available
     </p>
   </div>
 </a>

@@ -91,7 +91,7 @@ export const eventType = objectType({
           orderBy: { createdAt: 'desc' },
         }),
     });
-    t.int('amountCollected', {
+    t.nonNull.int('amountCollected', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -103,7 +103,7 @@ export const eventType = objectType({
           })
           .then((aggregations) => aggregations._sum.amountPaid),
     });
-    t.int('netAmountCollected', {
+    t.nonNull.int('netAmountCollected', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -115,7 +115,7 @@ export const eventType = objectType({
           })
           .then((aggregations) => aggregations._sum.netPaid),
     });
-    t.int('feesPaid', {
+    t.nonNull.int('feesPaid', {
       resolve: (source, args, context) =>
         context.prisma.eventRegistration
           .aggregate({
@@ -172,7 +172,7 @@ export const eventType = objectType({
           },
         }),
     });
-    t.boolean('couldBeOrganizer', {
+    t.nonNull.boolean('couldBeOrganizer', {
       description:
         'Indicates whether the user could be an organizer for this event',
       resolve: async (root, args, context) => {
@@ -205,7 +205,7 @@ export const eventType = objectType({
         return true;
       },
     });
-    t.boolean('couldBeParticipant', {
+    t.nonNull.boolean('couldBeParticipant', {
       description:
         'Indicates whether the user could be a participant for this event',
       resolve: async (root, args, context) => {
@@ -238,7 +238,7 @@ export const eventType = objectType({
         return true;
       },
     });
-    t.int('participantsRegistered', {
+    t.nonNull.int('participantsRegistered', {
       description: 'Number of users registered as participant to this event',
       resolve: async (root, args, context) =>
         context.prisma.eventRegistration.count({
@@ -248,7 +248,7 @@ export const eventType = objectType({
           },
         }),
     });
-    t.boolean('participantRegistrationPossible', {
+    t.nonNull.boolean('participantRegistrationPossible', {
       description:
         'Indicates whether the current user can register to this event as participant',
       resolve: async (root, args, context) => {
@@ -310,7 +310,7 @@ export const eventType = objectType({
         return true;
       },
     });
-    t.int('organizersRegistered', {
+    t.nonNull.int('organizersRegistered', {
       description: 'Number of users registered as organizer to this event',
       resolve: async (root, args, context) =>
         context.prisma.eventRegistration.count({
@@ -320,7 +320,7 @@ export const eventType = objectType({
           },
         }),
     });
-    t.boolean('organizerRegistrationPossible', {
+    t.nonNull.boolean('organizerRegistrationPossible', {
       description:
         'Indicates whether the current user can register to this event as Organizer',
       resolve: async (root, args, context) => {

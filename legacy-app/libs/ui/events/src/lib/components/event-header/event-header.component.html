@@ -15,6 +15,7 @@
     [src]="event.icon | iconURL"
     class="mx-auto mb-4 lg:mb-8 p-1 rounded-2xl bg-white border shadow-lg"
   />
-  <h1>{{ event.title }}</h1>
-  <p>Starts {{ event.start | date: 'medium' }}</p>
+  <h1 class="mb-2">{{ event.title }}</h1>
+  <p>Starts: {{ event.start | date: 'medium' }}</p>
+  <p>Ends: {{ event.end | date: 'medium' }}</p>
 </div>

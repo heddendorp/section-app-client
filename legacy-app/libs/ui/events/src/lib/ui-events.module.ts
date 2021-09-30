@@ -31,6 +31,7 @@ import { OnlineEventRegistrationComponent } from './components/registration/onli
 import { EventManagePageComponent } from './pages/event-manage-page/event-manage-page.component';
 import { ScanningDialogComponent } from './components/running/scanning-dialog/scanning-dialog.component';
 import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-display-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-disp
     MatSelectModule,
     MatDialogModule,
     MatAutocompleteModule,
+    MatCheckboxModule,
   ],
   declarations: [
     EventListPageComponent,
