@@ -19,14 +19,6 @@ export const calendarRouter = (prisma: PrismaClient) => {
         url: `https://tumi.esn.world/events/${event.id}`,
       })
     );
-    // calendar.createEvent({
-    //   start: DateTime.local(),
-    //   end: DateTime.local().plus({ hours: 1 }),
-    //   summary: 'Example Event',
-    //   description: 'It works ;)',
-    //   location: 'my room',
-    //   url: 'http://sebbo.net/',
-    // });
     calendar.serve(res);
   });
   router.get('/private/:token', async (req, res) => {

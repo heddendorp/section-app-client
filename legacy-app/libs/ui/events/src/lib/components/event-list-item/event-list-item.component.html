@@ -51,17 +51,19 @@
         (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0)
       }}
       <ng-container *ngIf="event?.couldBeOrganizer">
-        ({{
-          (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0)
-        }}
-        orga)</ng-container
-      >
+        ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
+        orga)
+      </ng-container>
     </p>
     <p *ngIf="event.registrationMode === RegistrationMode.Online">
       <span *ngIf="event.participantLimit <= event.participantsRegistered">
         no
       </span>
       spots available
+      <ng-container *ngIf="event?.couldBeOrganizer">
+        ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
+        orga)
+      </ng-container>
     </p>
   </div>
 </a>

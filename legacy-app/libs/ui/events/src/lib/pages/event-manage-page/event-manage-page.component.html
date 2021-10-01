@@ -28,8 +28,12 @@
           <p>{{ registration.user.email }}</p>
           <p>
             Paid:
-            <span class="px-1 rounded bg-gray-200 font-mono">
+            <span class="px-1 rounded bg-gray-200 font-mono mr-2">
               {{ (registration.netPaid ?? 0) / 100 | currency: 'EUR' }}
+            </span>
+            Registered:
+            <span class="px-1 rounded bg-gray-200 font-mono">
+              {{ registration.createdAt | date: 'medium' }}
             </span>
           </p>
         </div>
