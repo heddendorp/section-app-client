@@ -3,7 +3,7 @@
     Free spots:
     {{ (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0) }}
   </p>
-  <ng-container *ngIf="event.participantRegistrationPossible">
+  <ng-container *ngIf="event.participantRegistrationPossible.option">
     <p class="pb-4">
       You can register for this event online by paying
       <strong>{{ event.price | currency: 'EUR' }}</strong>
@@ -26,13 +26,11 @@
   </ng-container>
   <ng-container
     *ngIf="
-      (event.participantLimit ?? 0) <= (event.participantsRegistered ?? 0) &&
-      !event.userRegistered
+      !event.participantRegistrationPossible.option && !event.userRegistered
     "
   >
     <p>
-      This event is currently full, feel free to check back later in case new
-      spots become available
+      {{ event.participantRegistrationPossible.reason }}
     </p>
   </ng-container>
   <ng-container *ngIf="event.userRegistered">

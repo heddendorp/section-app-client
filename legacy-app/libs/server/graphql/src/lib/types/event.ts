@@ -13,6 +13,7 @@ import { UserInputError } from 'apollo-server-core';
 import {
   MembershipStatus,
   PublicationState,
+  RegistrationMode,
   RegistrationType,
   Role,
 } from '@tumi/server-models';
@@ -20,7 +21,7 @@ import { publicationStateEnum, registrationTypeEnum } from './enums';
 import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
-import { DateTime } from 'nexus-prisma/scalars';
+import { DateTime, Json } from 'nexus-prisma/scalars';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -250,15 +251,17 @@ export const eventType = objectType({
           },
         }),
     });
-    t.nonNull.boolean('participantRegistrationPossible', {
+    t.field({
+      name: 'participantRegistrationPossible',
       description:
         'Indicates whether the current user can register to this event as participant',
+      type: nonNull(Json),
       resolve: async (root, args, context) => {
         if (!context.user) {
           if (process.env.DEV) {
             console.info(`Can't register participant because user is missing`);
           }
-          return false;
+          return { option: false, reason: 'You have to log in to register!' };
         }
         const { status } = await context.prisma.usersOfTenants.findUnique({
           where: {
@@ -275,7 +278,10 @@ export const eventType = objectType({
               `Can't register participant because status is not allowed ${status}`
             );
           }
-          return false;
+          return {
+            option: false,
+            reason: 'You do not have the required status to sign up!',
+          };
         }
         const previousRegistration =
           await context.prisma.eventRegistration.findUnique({
@@ -292,7 +298,33 @@ export const eventType = objectType({
               `Can't register participant because there is a registration already`
             );
           }
-          return false;
+          return {
+            option: false,
+            reason: 'You are already registered for this event!',
+          };
+        }
+        const registrationsOfUser =
+          await context.prisma.eventRegistration.count({
+            where: {
+              event: {
+                start: { gt: new Date() },
+                registrationMode: RegistrationMode.STRIPE,
+              },
+              type: RegistrationType.PARTICIPANT,
+              user: { id: context.user.id },
+            },
+          });
+        console.log(registrationsOfUser);
+        if (registrationsOfUser >= 5) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because there are too many registrations ${registrationsOfUser}`
+            );
+          }
+          return {
+            option: false,
+            reason: `You are already signed up for ${registrationsOfUser} paid events that start in the future.\nTo make sure everyone has a chance to experience events you may only register for another event once you are registered for less then 5 paid events that start in the future.`,
+          };
         }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
@@ -307,9 +339,12 @@ export const eventType = objectType({
               `Can't register because to many people are on event ${currentRegistrationNum} >= ${root.participantLimit}`
             );
           }
-          return false;
+          return {
+            option: false,
+            reason: `This event is already at capacity!\nYou can check back at a later time in case spots become available.`,
+          };
         }
-        return true;
+        return { option: true };
       },
     });
     t.nonNull.int('organizersRegistered', {

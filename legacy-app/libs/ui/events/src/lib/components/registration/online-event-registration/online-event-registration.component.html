@@ -3,7 +3,7 @@
     Free spots:
     {{ (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0) }}
   </p>
-  <ng-container *ngIf="event.participantRegistrationPossible">
+  <ng-container *ngIf="event.participantRegistrationPossible.option">
     <p class="pb-4">You can register for this event online</p>
     <button
       mat-raised-button
@@ -18,6 +18,15 @@
       mode="indeterminate"
       *ngIf="processing | async"
     ></mat-progress-bar>
+  </ng-container>
+  <ng-container
+    *ngIf="
+      !event.participantRegistrationPossible.option && !event.userRegistered
+    "
+  >
+    <p class="whitespace-pre-wrap">
+      {{ event.participantRegistrationPossible.reason }}
+    </p>
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
     <p>✔️ You are registered for this event.</p>

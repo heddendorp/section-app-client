@@ -347,7 +347,7 @@ type TumiEvent {
   """
   Indicates whether the current user can register to this event as participant
   """
-  participantRegistrationPossible: Boolean!
+  participantRegistrationPossible: Json!
   participantRegistrations: [EventRegistration!]!
   participantSignup: [MembershipStatus!]!
   participantText: String!
