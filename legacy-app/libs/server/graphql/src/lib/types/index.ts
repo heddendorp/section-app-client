@@ -11,3 +11,4 @@ export * from './photoShare';
 export * from './product';
 export * from './price';
 export * from './stripeUserData';
+export * from './statistics';

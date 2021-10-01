@@ -1,0 +1,16 @@
+<main class="p-4" *ngIf="tenant$ | async as tenant">
+  <h1 class="font-mono font-black">Statistics HQ</h1>
+  <tumi-grid>
+    <div class="kpi">
+      <p>Registered Users</p>
+      <p>{{ tenant.statistics.registeredUsers }}</p>
+    </div>
+  </tumi-grid>
+  <div>
+    <ngx-charts-line-chart
+      [results]="tenant.statistics.userHistory"
+    ></ngx-charts-line-chart>
+  </div>
+  <br />
+  <!--  <pre>{{ tenant | json }}</pre>-->
+</main>

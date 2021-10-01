@@ -8,6 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
+import { statisticsType } from './statistics';
 
 export const tenantType = objectType({
   name: Tenant.$name,
@@ -21,6 +22,11 @@ export const tenantType = objectType({
     t.field(Tenant.privacyPolicyPage);
     t.field(Tenant.aboutPage);
     t.field(Tenant.faqPage);
+    t.field({
+      name: 'statistics',
+      type: nonNull(statisticsType),
+      resolve: (root) => root,
+    });
   },
 });
 

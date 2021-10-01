@@ -300,6 +300,7 @@ type Tenant {
   name: String!
   privacyPolicyPage: String!
   shortName: String!
+  statistics: statistics!
 }
 
 """Actual instande of an TumiEventbased on a template"""
@@ -437,6 +438,11 @@ type UsersOfTenants {
   userId: String!
 }
 
+type lineChartSeriesItem {
+  name: String!
+  value: Int!
+}
+
 input newProductInput {
   availability: [MembershipStatus!]!
   description: String!
@@ -454,9 +460,19 @@ type paymentSetupSession {
   id: String!
 }
 
+type statistics {
+  registeredUsers: Int!
+  userHistory: [Json!]!
+}
+
 input updateTenantInput {
   aboutPage: String!
   faqPage: String
   imprintPage: String!
   privacyPolicyPage: String!
+}
+
+type userHistoryItem {
+  name: String!
+  series: [lineChartSeriesItem!]!
 }

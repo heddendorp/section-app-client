@@ -53,9 +53,6 @@
       "tags": [],
       "implicitDependencies": ["tumi-app"]
     },
-    "tumi-functions": {
-      "tags": []
-    },
     "ui-app-shell": {
       "tags": ["scope:client"]
     },

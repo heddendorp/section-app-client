@@ -70,6 +70,17 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
   }
 }
 
+query getStatistics{
+  currentTenant{
+    id
+    name
+    statistics{
+      registeredUsers
+      userHistory
+    }
+  }
+}
+
 #mutation updateStatus($id: ID!, $status: MembershipStatus!) {
 #  updateUserStatus(userId: $id, status: $status) {
 #    id

@@ -20,6 +20,9 @@ import { FlexModule } from '@angular/flex-layout';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
 import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant-products-page.component';
+import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats-page.component';
+import { UtilComponentsModule } from '@tumi/util-components';
+import { LineChartModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
@@ -32,6 +35,7 @@ import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant
       { path: 'registrations', component: TenantRegistrationsPageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
       { path: 'edit', component: TenantEditPageComponent },
+      { path: 'stats', component: TenantStatsPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -42,6 +46,8 @@ import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant
     MatSelectModule,
     FlexModule,
     ClipboardModule,
+    UtilComponentsModule,
+    LineChartModule,
   ],
   declarations: [
     TenantLandingPageComponent,
@@ -54,6 +60,7 @@ import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant
     TenantEditPageComponent,
     TenantUserInfoPageComponent,
     TenantProductsPageComponent,
+    TenantStatsPageComponent,
   ],
 })
 export class UiTenantModule {}
