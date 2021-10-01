@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Update Profile</h1>
+<form [formGroup]="profileForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <mat-form-field class="w-full my-2">
+      <mat-label>First name</mat-label>
+      <input required matInput formControlName="firstName" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full my-2">
+      <mat-label>Last name</mat-label>
+      <input required matInput formControlName="lastName" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full my-2">
+      <mat-label>Phone number</mat-label>
+      <input matInput formControlName="phone" type="tel" />
+      <mat-hint>
+        Please use the international format
+        <span class="font-mono">+4912345678</span>
+      </mat-hint>
+    </mat-form-field>
+    <p class="mt-4">
+      Saving of your phone number is optional and would be used to reach you if
+      there are issues during an event.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+    <button mat-flat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="profileForm.invalid"
+      type="submit"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

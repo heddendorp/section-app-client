@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   GetPaymentSetupSessionGQL,
   MembershipStatus,
+  UpdateProfileGQL,
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/data-access';
@@ -13,6 +14,8 @@ import { environment } from '../../../../../../../apps/tumi-app/src/environments
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
 
 @Component({
   selector: 'tumi-profile-page',
@@ -28,7 +31,9 @@ export class ProfilePageComponent implements OnDestroy {
     private title: Title,
     private profileQuery: UserProfileGQL,
     private getStripeSession: GetPaymentSetupSessionGQL,
+    private updateProfileMutation: UpdateProfileGQL,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
     this.title.setTitle('TUMi - profile');
@@ -58,6 +63,17 @@ export class ProfilePageComponent implements OnDestroy {
       await stripe.redirectToCheckout({
         sessionId: data.getPaymentSetupSession.id,
       });
+    }
+  }
+
+  async updateProfile() {
+    const profile = await this.profile$.pipe(first()).toPromise();
+    const result = await this.dialog
+      .open(UpdateProfileDialogComponent, { data: { profile } })
+      .afterClosed()
+      .toPromise();
+    if (result && profile) {
+      await this.updateProfileMutation.mutate({ input: result }).toPromise();
     }
   }
 }

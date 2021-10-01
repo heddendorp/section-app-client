@@ -55,9 +55,18 @@
         </mat-icon>
         <h2 class="font-bold">General Information</h2>
       </div>
-      <p>Name: {{ profile.fullName }}</p>
-      <p>Mail: {{ profile.email }}</p>
-      <h3 class="mt-2">Calendar integration</h3>
+      <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mb-2">
+        <p>Name:</p>
+        <p>{{ profile.fullName }}</p>
+        <p>Mail:</p>
+        <p>{{ profile.email }}</p>
+        <p>Phone:</p>
+        <p>{{ profile.phone ?? 'not saved' }}</p>
+      </div>
+      <button mat-stroked-button class="w-full mt-2" (click)="updateProfile()">
+        Update data
+      </button>
+      <h3 class="mt-6">Calendar integration</h3>
 
       <p class="select-all break-words font-mono" style="max-width: 80vw">
         https://tumi.esn.world/cal/private/{{ profile.calendarToken }}

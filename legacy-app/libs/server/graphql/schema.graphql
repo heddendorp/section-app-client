@@ -144,6 +144,7 @@ type Mutation {
   """Removes the user with the supplied id to the event"""
   removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
+  updateProfile(input: UpdateProfileInput!): User
 
   """Update an event template"""
   updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
@@ -388,6 +389,13 @@ input UpdateEventInput {
   title: String!
 }
 
+"""Profile update input object"""
+input UpdateProfileInput {
+  firstName: String!
+  lastName: String!
+  phone: String
+}
+
 """Input to update an event template"""
 input UpdateTemplateInput {
   comment: String!
@@ -416,6 +424,7 @@ type User {
 
   """Concatenated name of the user"""
   fullName: String!
+  iban: String
   id: ID!
   lastName: String!
 
@@ -424,6 +433,8 @@ type User {
 
   """List of events attended by the user"""
   participatedEvents: [TumiEvent!]!
+  paypal: String
+  phone: String
   picture: String!
 }
 

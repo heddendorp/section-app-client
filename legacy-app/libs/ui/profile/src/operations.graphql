@@ -17,8 +17,12 @@ query userProfile {
     picture
     email_verified
     email
+    phone
+    iban
+    paypal
     birthdate
     firstName
+    lastName
     calendarToken
     currentTenant {
       status
@@ -39,5 +43,15 @@ query userProfile {
       start
       end
     }
+  }
+}
+
+mutation updateProfile($input: UpdateProfileInput!){
+  updateProfile(input: $input){
+    id
+    firstName
+    lastName
+    fullName
+    phone
   }
 }

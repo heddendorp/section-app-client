@@ -28,6 +28,9 @@ Table User {
   lastName String [not null]
   email String [not null]
   email_verified Boolean [not null]
+  phone String
+  paypal String
+  iban String
   picture String [not null]
   birthdate DateTime [not null]
   calendarToken String [unique, not null]

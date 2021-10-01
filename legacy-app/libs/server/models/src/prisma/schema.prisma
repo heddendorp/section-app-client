@@ -99,6 +99,9 @@ model User {
   lastName           String
   email              String
   email_verified     Boolean
+  phone              String?
+  paypal             String?
+  iban               String?
   picture            String
   birthdate          DateTime
   // Calendar fucntionality

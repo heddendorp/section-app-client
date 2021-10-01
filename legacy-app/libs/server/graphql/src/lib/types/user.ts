@@ -25,6 +25,9 @@ export const userType = objectType({
     t.field(User.lastName);
     t.field(User.birthdate);
     t.field(User.picture);
+    t.field(User.phone);
+    t.field(User.iban);
+    t.field(User.paypal);
     t.field(User.email_verified);
     t.field(User.email);
     t.field(User.calendarToken);
@@ -88,6 +91,23 @@ export const createUserInputType = inputObjectType({
     t.field(User.lastName);
     t.field(User.birthdate);
   },
+});
+
+export const updateProfileInputType = inputObjectType({
+  name: 'UpdateProfileInput',
+  description: 'Profile update input object',
+  definition(t) {
+    t.field(User.firstName);
+    t.field(User.lastName);
+    t.field(User.phone);
+  },
+});
+
+export const updateProfileMutation = mutationField('updateProfile', {
+  type: userType,
+  args: { input: nonNull(updateProfileInputType) },
+  resolve: (source, { input }, context) =>
+    context.prisma.user.update({ where: { id: context.user.id }, data: input }),
 });
 
 export const getById = queryField('userById', {

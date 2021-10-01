@@ -14,6 +14,8 @@ import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { UtilPipesModule } from '@tumi/util/pipes';
+import { UpdateProfileDialogComponent } from './components/update-profile-dialog/update-profile-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -33,7 +35,12 @@ import { UtilPipesModule } from '@tumi/util/pipes';
     UtilMaterialModule,
     UtilPipesModule,
     MatListModule,
+    MatDialogModule,
   ],
-  declarations: [NewUserPageComponent, ProfilePageComponent],
+  declarations: [
+    NewUserPageComponent,
+    ProfilePageComponent,
+    UpdateProfileDialogComponent,
+  ],
 })
 export class UiProfileModule {}

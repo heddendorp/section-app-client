@@ -316,6 +316,7 @@ export const eventType = objectType({
           });
         if (
           registrationsOfUser >= 5 &&
+          !root.title.includes('ESNcard') &&
           root.registrationMode === RegistrationMode.STRIPE
         ) {
           if (process.env.DEV) {
