@@ -314,8 +314,10 @@ export const eventType = objectType({
               user: { id: context.user.id },
             },
           });
-        console.log(registrationsOfUser);
-        if (registrationsOfUser >= 5) {
+        if (
+          registrationsOfUser >= 5 &&
+          root.registrationMode === RegistrationMode.STRIPE
+        ) {
           if (process.env.DEV) {
             console.info(
               `Can't register participant because there are too many registrations ${registrationsOfUser}`
