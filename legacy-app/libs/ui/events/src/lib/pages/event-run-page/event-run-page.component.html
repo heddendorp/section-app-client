@@ -12,7 +12,34 @@
     </a>
     <h1>{{ event.title }}</h1>
   </div>
-  <h2 class="mb-2">Participants</h2>
+  <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
+    <button mat-stroked-button (click)="copyOrganizerMails()">
+      Copy mails of organizers
+    </button>
+    <button mat-stroked-button (click)="copyParticipantMails()">
+      Copy mails of participants
+    </button>
+  </div>
+  <h2 class="mb-2">Organizers</h2>
+  <div fxLayout="column" fxLayoutGap="1rem">
+    <div
+      *ngFor="let registration of event.organizerRegistrations"
+      fxLayout="row"
+      fxLayoutGap="1rem"
+    >
+      <div class="relative">
+        <img
+          [src]="registration.user.picture"
+          referrerpolicy="no-referrer"
+          class="w-16 rounded"
+        />
+      </div>
+      <div>
+        <p>{{ registration.user.fullName }}</p>
+      </div>
+    </div>
+  </div>
+  <h2 class="mt-4 mb-2">Participants</h2>
   <div fxLayout="column" fxLayoutGap="1rem">
     <div
       *ngFor="let registration of event.participantRegistrations"

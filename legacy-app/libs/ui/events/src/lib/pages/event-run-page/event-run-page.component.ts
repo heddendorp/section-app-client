@@ -6,9 +6,10 @@ import {
   LoadEventForRunningQuery,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ScanningDialogComponent } from '../../components/running/scanning-dialog/scanning-dialog.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'tumi-event-run-page',
@@ -24,7 +25,8 @@ export class EventRunPageComponent implements OnDestroy {
     private title: Title,
     private loadEvent: LoadEventForRunningGQL,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private clipboard: Clipboard
   ) {
     this.title.setTitle('TUMi - run event');
     this.loadEventQueryRef = this.loadEvent.watch();
@@ -48,5 +50,45 @@ export class EventRunPageComponent implements OnDestroy {
       width: '95vw',
       height: '95vh',
     });
+  }
+  async copyOrganizerMails() {
+    const event = await this.event$.pipe(first()).toPromise();
+    if (!event) return;
+    const pending = this.clipboard.beginCopy(
+      event.organizerRegistrations
+        .map((registration) => registration.user.email)
+        .join(';')
+    );
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
+  }
+  async copyParticipantMails() {
+    const event = await this.event$.pipe(first()).toPromise();
+    if (!event) return;
+    const pending = this.clipboard.beginCopy(
+      event.participantRegistrations
+        .map((registration) => registration.user.email)
+        .join(';')
+    );
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
   }
 }
