@@ -35,13 +35,41 @@
       dark-button
     "
   ></tumi-event-header>
-  <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
-    <markdown
-      [data]="event.description"
-      class="prose lg:prose-xl break-words"
-    ></markdown>
+  <!--  TODO: get rid of the 10 character check here -->
+  <div class="p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
+    <mat-accordion displayMode="flat">
+      <mat-expansion-panel
+        [expanded]="!event.userRegistered || event.participantText.length < 10"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Description</mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown
+          [data]="event.description"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        *ngIf="event.participantText.length > 10 && event.userRegistered"
+        [expanded]="event.userRegistered"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Info for participants</mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown
+          [data]="event.participantText"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
-  <div class="p-6 lg:p-12 border-t">
+  <!--  <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">-->
+  <!--    <markdown-->
+  <!--      [data]="event.description"-->
+  <!--      class="prose lg:prose-xl break-words"-->
+  <!--    ></markdown>-->
+  <!--  </div>-->
+  <div class="p-6 lg:px-12">
     <p>{{ event.organizer.text }}</p>
   </div>
   <div class="p-6 lg:p-12 bg-gray-100 shadow-inner">

@@ -2,3 +2,10 @@ a.extended-fab,
 button.extended-fab {
   @apply right-4 lg:right-8 px-4 w-auto bottom-4 fixed z-20 rounded-xl;
 }
+.mat-accordion .mat-expansion-panel:first-of-type {
+  @apply rounded-t-2xl;
+}
+
+.mat-accordion .mat-expansion-panel:last-of-type {
+  @apply rounded-b-2xl;
+}

@@ -34,6 +34,7 @@ import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-disp
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -75,6 +76,7 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
     MatCheckboxModule,
     MatDatepickerModule,
     MatLuxonDateModule,
+    MatExpansionModule,
   ],
   declarations: [
     EventListPageComponent,

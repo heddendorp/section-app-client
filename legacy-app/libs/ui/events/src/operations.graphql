@@ -8,6 +8,7 @@ query loadEvent($id: ID!) {
     publicationState
     description
     organizerText
+    participantText
     registrationMode
     registrationLink
     price
