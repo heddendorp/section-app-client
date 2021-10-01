@@ -575,10 +575,32 @@ export const registerForEvent = mutationField('registerForEvent', {
       const event = await prisma.tumiEvent.findUnique({
         where: { id: eventId },
       });
-      const registeredParticipants = await prisma.eventRegistration.count({
-        where: { eventId, type: RegistrationType.PARTICIPANT },
+      const { status } = await context.prisma.usersOfTenants.findUnique({
+        where: {
+          userId_tenantId: {
+            userId: context.user.id,
+            tenantId: context.tenant.id,
+          },
+        },
+        select: { status: true },
       });
-      if (registeredParticipants >= event.participantLimit) {
+      const allowedStatus =
+        registrationType === RegistrationType.PARTICIPANT
+          ? event.participantSignup
+          : event.organizerSignup;
+      if (!allowedStatus.includes(status)) {
+        throw new ApolloError(
+          'User does not fulfill the requirements to sign up!'
+        );
+      }
+      const registeredUsers = await prisma.eventRegistration.count({
+        where: { eventId, type: registrationType },
+      });
+      const maxRegistrations =
+        registrationType === RegistrationType.PARTICIPANT
+          ? event.participantLimit
+          : event.organizerLimit;
+      if (registeredUsers >= maxRegistrations) {
         throw new ApolloError('Event does not have an available spot!');
       }
       return context.prisma.tumiEvent.update({

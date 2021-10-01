@@ -61,13 +61,17 @@ export class EventDetailsPageComponent implements OnDestroy {
     const event = await this.event$.pipe(first()).toPromise();
     if (event) {
       this.snackbar.open('Signing you up ⏳', undefined, { duration: 0 });
-      await this.registerForEvent
-        .mutate({
-          eventId: event.id,
-          type: RegistrationType.Organizer,
-        })
-        .toPromise();
-      this.snackbar.open('Registration successful ✔️');
+      try {
+        await this.registerForEvent
+          .mutate({
+            eventId: event.id,
+            type: RegistrationType.Organizer,
+          })
+          .toPromise();
+        this.snackbar.open('Registration successful ✔️');
+      } catch (e) {
+        this.snackbar.open('⚠️ ' + e);
+      }
     }
   }
 
