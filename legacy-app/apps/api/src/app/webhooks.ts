@@ -97,7 +97,7 @@ export const webhookRouter = (prisma) => {
                 user: { connect: { id: paymentIntent.metadata.userId } },
                 paymentIntentId: paymentIntent.id,
                 chargeId: charge.id,
-                paymentStatus: 'succeeded',
+                paymentStatus: paymentIntent.status,
                 amountPaid: balanceTransaction.amount,
                 netPaid: balanceTransaction.net,
                 stripeFee: balanceTransaction.fee,
@@ -106,7 +106,9 @@ export const webhookRouter = (prisma) => {
                 amountPaid: balanceTransaction.amount,
                 netPaid: balanceTransaction.net,
                 stripeFee: balanceTransaction.fee,
-                paymentStatus: 'succeeded',
+                paymentIntentId: paymentIntent.id,
+                chargeId: charge.id,
+                paymentStatus: paymentIntent.status,
               },
             });
           }
