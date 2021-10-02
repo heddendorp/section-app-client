@@ -33,6 +33,9 @@ export class ShowPagePageComponent implements OnInit {
           case 'privacy': {
             return tenant.privacyPolicyPage;
           }
+          case 'faq': {
+            return tenant.faqPage ?? `## Page not found`;
+          }
           default: {
             return `## Page not found`;
           }

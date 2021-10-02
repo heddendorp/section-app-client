@@ -107,6 +107,9 @@ export const deregisterUserWithRefundMutation = mutationField(
       const event = await context.prisma.tumiEvent.findUnique({
         where: { id: eventId },
       });
+      if (event.title.includes('ESNcard')) {
+        throw new ApolloError(`No refunds on ESNcard possible`);
+      }
       const registration = await context.prisma.eventRegistration.findUnique({
         where: { userId_eventId: { eventId, userId } },
       });
@@ -152,9 +155,19 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
       const registeredParticipants = await prisma.eventRegistration.count({
         where: { event: { id }, type: RegistrationType.PARTICIPANT },
       });
-      // if (registeredParticipants >= event.participantLimit) {
-      //   throw new ApolloError('Event does not have an available spot!');
-      // }
+      if (registeredParticipants >= event.participantLimit) {
+        throw new ApolloError('Event does not have an available spot!');
+      }
+      const hasRegistration = await context.prisma.eventRegistration.findUnique(
+        {
+          where: {
+            userId_eventId: { userId: context.user.id, eventId: event.id },
+          },
+        }
+      );
+      if (hasRegistration) {
+        throw new ApolloError('You are already registered for this event!');
+      }
       const stripeData = await context.prisma.stripeUserData.findUnique({
         where: {
           usersOfTenantsUserId_usersOfTenantsTenantId: {

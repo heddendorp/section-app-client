@@ -25,12 +25,7 @@ export class UpdateProfileDialogComponent implements OnInit {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: [
-        '',
-        Validators.pattern(
-          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,7}$/
-        ),
-      ],
+      phone: ['', Validators.pattern(/^[+][0-9]+$/)],
     });
     this.profileForm.patchValue({ ...this.data.profile });
   }

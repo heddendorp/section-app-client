@@ -41,13 +41,12 @@ export class TenantEditPageComponent implements OnInit {
 
   async saveTenant() {
     const tenant = await this.tenant$.pipe(first()).toPromise();
+    const formValue = this.editForm.value;
     if (tenant) {
-      console.log(tenant);
-      console.log(this.editForm.value);
       await this.updateTenant
         .mutate({
           id: tenant.id,
-          update: this.editForm.value,
+          update: { ...formValue, faqPage: formValue.faqPage || null },
         })
         .toPromise();
     } else {

@@ -43,6 +43,14 @@
         <a mat-list-item routerLink="feedback" routerLinkActive="active">
           Give Feedback
         </a>
+        <a
+          mat-list-item
+          routerLink="/page/faq"
+          *ngIf="(tenant$ | async)?.faqPage"
+          routerLinkActive="active"
+        >
+          FAQ
+        </a>
       </mat-nav-list>
       <div fxFlex="grow"></div>
       <div class="mb-4 mx-auto">
