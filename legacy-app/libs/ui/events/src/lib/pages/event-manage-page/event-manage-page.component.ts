@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  DeregisterWithRefundGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
 } from '@tumi/data-access';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -21,6 +22,7 @@ export class EventManagePageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
+    private removeUserWithRefund: DeregisterWithRefundGQL,
     private route: ActivatedRoute
   ) {
     this.title.setTitle('TUMi - manage event');
@@ -38,5 +40,19 @@ export class EventManagePageComponent implements OnDestroy {
     this.destroyed$.next(true);
     this.destroyed$.complete();
     this.loadEventQueryRef.stopPolling();
+  }
+
+  async kickWithRefund(userId: string) {
+    const event = await this.event$.pipe(first()).toPromise();
+    const proceed = confirm('Are you sure you want to remove this user?');
+    if (event && proceed) {
+      try {
+        await this.removeUserWithRefund
+          .mutate({ eventId: event.id, userId })
+          .toPromise();
+      } catch (e) {
+        alert(e.message);
+      }
+    }
   }
 }

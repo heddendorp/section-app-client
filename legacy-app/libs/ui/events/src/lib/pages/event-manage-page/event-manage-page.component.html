@@ -15,6 +15,7 @@
     <div fxLayout="column" fxLayoutGap="1rem">
       <div
         *ngFor="let registration of event.participantRegistrations"
+        class="border-t"
         fxLayout="row"
         fxLayoutGap="1rem"
       >
@@ -36,6 +37,15 @@
               {{ registration.createdAt | date: 'medium' }}
             </span>
           </p>
+        </div>
+        <div>
+          <button
+            mat-flat-button
+            (click)="kickWithRefund(registration.user.id)"
+            [disabled]="(registration.netPaid ?? 0) === 0"
+          >
+            Kick with refund
+          </button>
         </div>
       </div>
     </div>
