@@ -54,6 +54,7 @@ query loadEventForRunning($id: ID!) {
       user {
         id
         fullName
+        phone
         picture
         email
       }
@@ -65,6 +66,7 @@ query loadEventForRunning($id: ID!) {
       user {
         id
         fullName
+        phone
         picture
         email
       }
@@ -146,6 +148,7 @@ query loadEventForEdit($id: ID!) {
     end
     description
     organizerText
+    participantText
     registrationMode
     price
     eventOrganizerId
@@ -240,6 +243,7 @@ mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
     end
     description
     organizerText
+    participantText
     registrationMode
     registrationLink
     price

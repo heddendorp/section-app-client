@@ -443,6 +443,7 @@ export const updateEventInput = inputObjectType({
     t.field(TumiEvent.end);
     t.field(TumiEvent.description);
     t.field(TumiEvent.organizerText);
+    t.field(TumiEvent.participantText);
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.price);

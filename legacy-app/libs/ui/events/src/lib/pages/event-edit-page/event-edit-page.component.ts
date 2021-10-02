@@ -65,6 +65,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       end: ['', Validators.required],
       description: ['', Validators.required],
       organizerText: ['', Validators.required],
+      participantText: ['', Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
       price: ['', Validators.required],

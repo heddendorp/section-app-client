@@ -382,6 +382,7 @@ input UpdateEventInput {
   organizerText: String!
   participantLimit: Int!
   participantSignup: [MembershipStatus!]!
+  participantText: String!
   price: Decimal
   registrationLink: String
   registrationMode: RegistrationMode!

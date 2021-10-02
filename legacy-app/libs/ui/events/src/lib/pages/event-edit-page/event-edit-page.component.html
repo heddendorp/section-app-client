@@ -65,6 +65,16 @@
       <mat-form-field class="w-full">
         <mat-label>Organizer Help</mat-label>
         <textarea matInput formControlName="organizerText" rows="10"></textarea>
+        <mat-hint>This text is visible to potential organizers</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Info for Participants</mat-label>
+        <textarea
+          matInput
+          formControlName="participantText"
+          rows="10"
+        ></textarea>
+        <mat-hint>This text is only visible to registered Users</mat-hint>
       </mat-form-field>
       <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
         <mat-form-field class="w-full">
