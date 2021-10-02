@@ -76,7 +76,10 @@ query getStatistics{
     name
     statistics{
       registeredUsers
+      registrations
       userHistory
+      registrationHistory
+      refundHistory
     }
   }
 }

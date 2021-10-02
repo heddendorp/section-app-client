@@ -472,7 +472,10 @@ type paymentSetupSession {
 }
 
 type statistics {
+  refundHistory: [Json!]!
   registeredUsers: Int!
+  registrationHistory: [Json!]!
+  registrations: Int!
   userHistory: [Json!]!
 }
 

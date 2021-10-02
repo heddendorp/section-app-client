@@ -2,13 +2,45 @@
   <h1 class="font-mono font-black">Statistics HQ</h1>
   <tumi-grid>
     <div class="kpi">
-      <p>Registered Users</p>
-      <p>{{ tenant.statistics.registeredUsers }}</p>
+      <p class="title">Registered Users</p>
+      <p class="value">{{ tenant.statistics.registeredUsers }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Registrations</p>
+      <p class="value">{{ tenant.statistics.registrations }}</p>
     </div>
   </tumi-grid>
-  <div>
+  <div class="my-4 relative">
     <ngx-charts-line-chart
       [results]="tenant.statistics.userHistory"
+      [legend]="true"
+      [yAxis]="true"
+      [xAxis]="true"
+      [view]="[700, 300]"
+      [legendPosition]="legendPosition"
+      title="Users"
+    ></ngx-charts-line-chart>
+  </div>
+  <div class="my-4 relative">
+    <ngx-charts-line-chart
+      [results]="tenant.statistics.registrationHistory"
+      [legend]="true"
+      [yAxis]="true"
+      [xAxis]="true"
+      [view]="[700, 300]"
+      [legendPosition]="legendPosition"
+      title="Registrations"
+    ></ngx-charts-line-chart>
+  </div>
+  <div class="my-4 relative">
+    <ngx-charts-line-chart
+      [results]="tenant.statistics.refundHistory"
+      [legend]="true"
+      [yAxis]="true"
+      [xAxis]="true"
+      [view]="[700, 300]"
+      [legendPosition]="legendPosition"
+      title="Refunds"
     ></ngx-charts-line-chart>
   </div>
   <br />
