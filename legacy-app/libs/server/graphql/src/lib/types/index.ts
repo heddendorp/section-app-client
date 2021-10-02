@@ -12,3 +12,6 @@ export * from './product';
 export * from './price';
 export * from './stripeUserData';
 export * from './statistics';
+export * from './moveOrder';
+export * from './activityLog';
+export * from './activityLog';

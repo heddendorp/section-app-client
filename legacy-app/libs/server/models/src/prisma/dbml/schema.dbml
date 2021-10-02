@@ -242,10 +242,22 @@ Table EventRegistration {
   stripeFee Int
   amountPaid Int
   netPaid Int
+  moveOrders EventRegistrationMoveOrder [not null]
 
   indexes {
     (userId, eventId) [unique]
   }
+}
+
+Table EventRegistrationMoveOrder {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  createdBy String [not null]
+  failed Boolean [not null, default: false]
+  usedBy String
+  usedAt DateTime
+  registration EventRegistration [not null]
+  eventRegistrationId String [not null]
 }
 
 Table EventSubmissionItem {
@@ -265,6 +277,16 @@ Table EventSubmission {
   userId String [not null]
   submissionItem EventSubmissionItem [not null]
   submissionItemId String [not null]
+}
+
+Table ActivityLog {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  message String [not null]
+  data Json
+  oldData Json
+  involvedUser String
+  severity LogSeverity [not null]
 }
 
 Enum Role {
@@ -314,6 +336,14 @@ Enum RegistrationMode {
   EXTERNAL
 }
 
+Enum LogSeverity {
+  SILLY
+  DEBUG
+  INFO
+  WARNING
+  ERROR
+}
+
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: RefundedRegistration.tenantId > Tenant.id
@@ -355,6 +385,8 @@ Ref: PhotoShare.eventId - TumiEvent.id
 Ref: EventRegistration.userId > User.id
 
 Ref: EventRegistration.eventId > TumiEvent.id
+
+Ref: EventRegistrationMoveOrder.eventRegistrationId > EventRegistration.id
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
 

@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
+import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 
 @Component({
   selector: 'tumi-profile-page',
@@ -75,5 +76,9 @@ export class ProfilePageComponent implements OnDestroy {
     if (result && profile) {
       await this.updateProfileMutation.mutate({ input: result }).toPromise();
     }
+  }
+
+  claimEvent() {
+    this.dialog.open(ClaimEventDialogComponent);
   }
 }

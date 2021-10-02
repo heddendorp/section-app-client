@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as Stripe from 'stripe';
-import { RegistrationType } from '@tumi/server-models';
+import { LogSeverity, RegistrationType } from '@tumi/server-models';
 
 const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2020-08-27',
@@ -52,27 +52,101 @@ export const webhookRouter = (prisma) => {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.processing');
           const charge = paymentIntent.charges.data[0];
-          await prisma.eventRegistration.upsert({
-            where: {
-              userId_eventId: {
-                userId: paymentIntent.metadata.userId,
-                eventId: paymentIntent.metadata.eventId,
+          if (!paymentIntent.metadata.isMove) {
+            await prisma.eventRegistration.upsert({
+              where: {
+                userId_eventId: {
+                  userId: paymentIntent.metadata.userId,
+                  eventId: paymentIntent.metadata.eventId,
+                },
               },
-            },
-            update: {
-              paymentIntentId: paymentIntent.id,
-              chargeId: charge.id,
-              paymentStatus: paymentIntent.status,
-            },
-            create: {
-              type: RegistrationType.PARTICIPANT,
-              event: { connect: { id: paymentIntent.metadata.eventId } },
-              user: { connect: { id: paymentIntent.metadata.userId } },
-              paymentIntentId: paymentIntent.id,
-              chargeId: charge.id,
-              paymentStatus: paymentIntent.status,
-            },
-          });
+              update: {
+                paymentIntentId: paymentIntent.id,
+                chargeId: charge.id,
+                paymentStatus: paymentIntent.status,
+              },
+              create: {
+                type: RegistrationType.PARTICIPANT,
+                event: { connect: { id: paymentIntent.metadata.eventId } },
+                user: { connect: { id: paymentIntent.metadata.userId } },
+                paymentIntentId: paymentIntent.id,
+                chargeId: charge.id,
+                paymentStatus: paymentIntent.status,
+              },
+            });
+          } else {
+            const registration = await prisma.eventRegistration.findUnique({
+              where: { id: paymentIntent.metadata.registrationId },
+              include: { event: true, user: true },
+            });
+            if (!registration) {
+              await prisma.activityLog.create({
+                data: {
+                  message: `Registration move failed because registration was not found`,
+                  data: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                },
+              });
+              throw new Error(
+                'Could not process event registration move because of missing registration'
+              );
+            }
+            const moveOrder =
+              await prisma.eventRegistrationMoveOrder.findUnique({
+                where: { id: paymentIntent.metadata.moveOrderId },
+              });
+            if (!moveOrder) {
+              await prisma.activityLog.create({
+                data: {
+                  message: `Registration move failed because move order was not found`,
+                  data: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                },
+              });
+              throw new Error(
+                'Could not process event registration move because of missing order'
+              );
+            }
+            try {
+              await stripe.refunds.create({
+                payment_intent: registration.paymentIntentId,
+                reason: 'requested_by_customer',
+                metadata: {
+                  eventId: registration.event.id,
+                  userId: registration.user.id,
+                  event: event.title,
+                },
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  message: `Refund failed during registration move`,
+                  data: e,
+                  oldData: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                },
+              });
+            }
+            await prisma.eventRegistrationMoveOrder.update({
+              where: { id: moveOrder.id },
+              data: {
+                usedBy: paymentIntent.metadata.userId,
+                usedAt: new Date(),
+              },
+            });
+            await prisma.eventRegistration.update({
+              where: { id: registration.id },
+              data: {
+                user: { connect: { id: paymentIntent.metadata.userId } },
+                paymentIntentId: paymentIntent.id,
+                chargeId: charge.id,
+                paymentStatus: paymentIntent.status,
+                amountPaid: paymentIntent.amount,
+                netPaid: null,
+                stripeFee: null,
+              },
+            });
+          }
           break;
         }
         case 'payment_intent.succeeded': {
@@ -84,47 +158,139 @@ export const webhookRouter = (prisma) => {
               await stripe.balanceTransactions.retrieve(
                 charge.balance_transaction
               );
-            await prisma.eventRegistration.upsert({
-              where: {
-                userId_eventId: {
-                  userId: paymentIntent.metadata.userId,
-                  eventId: paymentIntent.metadata.eventId,
+            if (!paymentIntent.metadata.isMove) {
+              await prisma.eventRegistration.upsert({
+                where: {
+                  userId_eventId: {
+                    userId: paymentIntent.metadata.userId,
+                    eventId: paymentIntent.metadata.eventId,
+                  },
                 },
-              },
-              create: {
-                type: RegistrationType.PARTICIPANT,
-                event: { connect: { id: paymentIntent.metadata.eventId } },
-                user: { connect: { id: paymentIntent.metadata.userId } },
-                paymentIntentId: paymentIntent.id,
-                chargeId: charge.id,
-                paymentStatus: paymentIntent.status,
-                amountPaid: balanceTransaction.amount,
-                netPaid: balanceTransaction.net,
-                stripeFee: balanceTransaction.fee,
-              },
-              update: {
-                amountPaid: balanceTransaction.amount,
-                netPaid: balanceTransaction.net,
-                stripeFee: balanceTransaction.fee,
-                paymentIntentId: paymentIntent.id,
-                chargeId: charge.id,
-                paymentStatus: paymentIntent.status,
-              },
-            });
+                create: {
+                  type: RegistrationType.PARTICIPANT,
+                  event: { connect: { id: paymentIntent.metadata.eventId } },
+                  user: { connect: { id: paymentIntent.metadata.userId } },
+                  paymentIntentId: paymentIntent.id,
+                  chargeId: charge.id,
+                  paymentStatus: paymentIntent.status,
+                  amountPaid: balanceTransaction.amount,
+                  netPaid: balanceTransaction.net,
+                  stripeFee: balanceTransaction.fee,
+                },
+                update: {
+                  amountPaid: balanceTransaction.amount,
+                  netPaid: balanceTransaction.net,
+                  stripeFee: balanceTransaction.fee,
+                  paymentIntentId: paymentIntent.id,
+                  chargeId: charge.id,
+                  paymentStatus: paymentIntent.status,
+                },
+              });
+            } else {
+              const registration = await prisma.eventRegistration.findUnique({
+                where: { id: paymentIntent.metadata.registrationId },
+                include: { event: true, user: true },
+              });
+              if (!registration) {
+                await prisma.activityLog.create({
+                  data: {
+                    message: `Registration move failed because registration was not found`,
+                    data: paymentIntent,
+                    severity: LogSeverity.ERROR,
+                  },
+                });
+                throw new Error(
+                  'Could not process event registration move because of missing registration'
+                );
+              }
+              const moveOrder =
+                await prisma.eventRegistrationMoveOrder.findUnique({
+                  where: { id: paymentIntent.metadata.moveOrderId },
+                });
+              if (!moveOrder) {
+                await prisma.activityLog.create({
+                  data: {
+                    message: `Registration move failed because move order was not found`,
+                    data: paymentIntent,
+                    severity: LogSeverity.ERROR,
+                  },
+                });
+                throw new Error(
+                  'Could not process event registration move because of missing order'
+                );
+              }
+              if (registration.paymentStaus !== 'processing') {
+                try {
+                  await stripe.refunds.create({
+                    payment_intent: registration.paymentIntentId,
+                    reason: 'requested_by_customer',
+                    metadata: {
+                      eventId: registration.event.id,
+                      userId: registration.user.id,
+                      event: event.title,
+                    },
+                  });
+                } catch (e) {
+                  await prisma.activityLog.create({
+                    data: {
+                      message: `Refund failed during registration move`,
+                      data: e,
+                      oldData: paymentIntent,
+                      severity: LogSeverity.ERROR,
+                    },
+                  });
+                }
+                await prisma.eventRegistrationMoveOrder.update({
+                  where: { id: moveOrder.id },
+                  data: {
+                    usedBy: paymentIntent.metadata.userId,
+                    usedAt: new Date(),
+                  },
+                });
+              }
+              await prisma.eventRegistration.update({
+                where: { id: registration.id },
+                data: {
+                  user: { connect: { id: paymentIntent.metadata.userId } },
+                  amountPaid: balanceTransaction.amount,
+                  netPaid: balanceTransaction.net,
+                  stripeFee: balanceTransaction.fee,
+                  paymentIntentId: paymentIntent.id,
+                  chargeId: charge.id,
+                  paymentStatus: paymentIntent.status,
+                },
+              });
+            }
           }
           break;
         }
         case 'payment_intent.payment_failed': {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.payment_failed');
-          await prisma.eventRegistration.delete({
-            where: {
-              userId_eventId: {
-                userId: paymentIntent.metadata.userId,
-                eventId: paymentIntent.metadata.eventId,
+          if (!paymentIntent.metadata.isMove) {
+            await prisma.eventRegistration.delete({
+              where: {
+                userId_eventId: {
+                  userId: paymentIntent.metadata.userId,
+                  eventId: paymentIntent.metadata.eventId,
+                },
               },
-            },
-          });
+            });
+          } else {
+            await prisma.eventRegistrationMoveOrder.delete({
+              where: { id: paymentIntent.metadata.moveOrderId },
+            });
+            await prisma.eventRegistration.delete({
+              where: { id: paymentIntent.metadata.registrationId },
+            });
+            await prisma.activityLog.create({
+              data: {
+                message: `Event move was aborted due to failed payment`,
+                data: paymentIntent,
+                severity: LogSeverity.WARNING,
+              },
+            });
+          }
           break;
         }
         default:

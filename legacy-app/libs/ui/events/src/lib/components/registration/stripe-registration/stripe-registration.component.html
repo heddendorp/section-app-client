@@ -35,6 +35,10 @@
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
     <p>✔️ You are registered for this event.</p>
+    <div class="my-2" *ngIf="canMove">
+      <p class="mb-2">You can give this registration to another person</p>
+      <button mat-flat-button (click)="moveEvent()">Send event</button>
+    </div>
     <ng-container *ngIf="canDeregister">
       <p class="my-2">
         You can deregister from this event before

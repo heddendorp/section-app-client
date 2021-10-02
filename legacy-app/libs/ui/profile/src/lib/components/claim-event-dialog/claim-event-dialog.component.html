@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Claim event with transfer code</h1>
+<mat-dialog-content>
+  <p class="leading-normal">
+    You can claim an event here if you have received a code to do so. <br />
+    When claiming the event we will charge you with the participation fee and
+    return it to the user that signed up for this event initially.
+  </p>
+  <p class="my-2 py-2 px-4 text-red-500 bg-gray-200 rounded font-bold">
+    If you paid to receive the event code please contact us at
+    <a href="mailto:president@esn-tumi.de">president@esn-tumi.de</a> and provide
+    us with details about this situation
+  </p>
+  <mat-form-field class="w-full my-2">
+    <mat-label>Event code</mat-label>
+    <input
+      matInput
+      type="text"
+      [pattern]="idTest"
+      [formControl]="codeControl"
+    />
+    <mat-hint>Paste your event code here</mat-hint>
+  </mat-form-field>
+  <ng-container *ngIf="moveOrder$ | async as order">
+    <h2>Claim {{ order.registration.event.title }}</h2>
+    <p>
+      You can claim your registration to this event by paying the participation
+      fee of {{ order.registration.event.price | currency: 'EUR' }}
+    </p>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="processing$ | async"
+      (click)="tryClaim()"
+      class="w-full"
+    >
+      Claim this event
+    </button>
+  </ng-container>
+  <div
+    *ngIf="error$ | async as error"
+    class="my-2 py-2 px-4 bg-gray-200 rounded"
+  >
+    <p class="mb-2 font-bold text-red-500">Error</p>
+    <p>{{ error }}</p>
+  </div>
+</mat-dialog-content>

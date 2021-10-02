@@ -36,6 +36,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MoveEventDialogComponent } from './components/move-event-dialog/move-event-dialog.component';
 
 @NgModule({
   imports: [
@@ -95,6 +96,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     EventManagePageComponent,
     ScanningDialogComponent,
     QrDisplayDialogComponent,
+    MoveEventDialogComponent,
   ],
 })
 export class UiEventsModule {}

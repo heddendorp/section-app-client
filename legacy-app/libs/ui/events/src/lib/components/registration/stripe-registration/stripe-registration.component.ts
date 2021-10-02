@@ -11,6 +11,8 @@ import { loadStripe } from '@stripe/stripe-js/pure';
 import { environment } from '../../../../../../../../apps/tumi-app/src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
+import { MatDialog } from '@angular/material/dialog';
+import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 
 @Component({
   selector: 'tumi-stripe-registration',
@@ -26,6 +28,7 @@ export class StripeRegistrationComponent {
     private getUserPaymentStatus: GetUserPaymentStatusGQL,
     private registerWithStripe: RegisterWithStripePaymentGQL,
     private deregisterWithRefund: DeregisterWithRefundGQL,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
     this.userSetupForPayment$ = this.getUserPaymentStatus
@@ -45,6 +48,13 @@ export class StripeRegistrationComponent {
 
   get canDeregister() {
     return this.lastDeregistration > new Date();
+  }
+
+  get canMove() {
+    return (
+      DateTime.fromISO(this.event?.start).minus({ days: 1 }).toJSDate() >
+      new Date()
+    );
   }
 
   async register() {
@@ -98,5 +108,9 @@ export class StripeRegistrationComponent {
     }
     this.snackBar.open('✔️ Success: Refunds can take 5-8 days');
     this.processing.next(false);
+  }
+
+  moveEvent() {
+    this.dialog.open(MoveEventDialogComponent, { data: { event: this.event } });
   }
 }

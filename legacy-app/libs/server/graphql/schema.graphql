@@ -2,6 +2,16 @@
 ### Do not make changes to this file directly
 
 
+type ActivityLog {
+  createdAt: DateTime!
+  data: Json
+  id: ID!
+  involvedUser: String
+  message: String!
+  oldData: Json
+  severity: LogSeverity!
+}
+
 """
 The `BigInt` scalar type represents non-fractional signed whole numeric values.
 @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
@@ -68,17 +78,29 @@ type EventRegistration {
   chargeId: String
   checkInTime: DateTime
   createdAt: DateTime!
-  didAttend: Boolean
+  didAttend: Boolean!
   event: TumiEvent!
   eventId: String!
   id: ID!
+  moveOrders: [EventRegistrationMoveOrder!]!
   netPaid: Int
+  openMoveOrders: [EventRegistrationMoveOrder!]!
   paymentIntentId: String
   paymentStatus: String
   stripeFee: Int
   type: RegistrationType!
   user: User!
   userId: String!
+}
+
+type EventRegistrationMoveOrder {
+  createdAt: DateTime!
+  createdBy: String!
+  eventRegistrationId: String!
+  id: ID!
+  registration: EventRegistration!
+  usedAt: DateTime
+  usedBy: String
 }
 
 """
@@ -107,6 +129,14 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar Json @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
+enum LogSeverity {
+  DEBUG
+  ERROR
+  INFO
+  SILLY
+  WARNING
+}
+
 enum MembershipStatus {
   ALUMNI
   FULL
@@ -129,6 +159,7 @@ type Mutation {
   """Create a new event organizer"""
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
+  createRegistrationMoveOrder(id: ID!): EventRegistration!
 
   """Delete one template by id"""
   deleteTemplate(id: ID!): EventTemplate
@@ -155,6 +186,7 @@ type Mutation {
 
   """Change the status of s user on the current tenant"""
   updateUserStatus(status: MembershipStatus!, userId: ID!): User!
+  useMoveOrder(id: ID!): paymentIntent!
 
   """
   Send a verification email to a user (to the current user if no id is provided)
@@ -222,6 +254,7 @@ type Query {
   """Get a list of all events"""
   events(after: DateTime): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
+  moveOrder(id: ID!): EventRegistrationMoveOrder
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!

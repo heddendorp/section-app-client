@@ -117,7 +117,7 @@ export const deregisterUserWithRefundMutation = mutationField(
         throw new ApolloError('Only succeeded payments can be refunded');
       }
       const refund = await stripe.refunds.create({
-        paymentIntent: registration.paymentIntentId,
+        payment_intent: registration.paymentIntentId,
         reason: 'requested_by_customer',
         metadata: { eventId, userId, event: event.title },
       });

@@ -23,6 +23,9 @@ query loadEvent($id: ID!) {
     }
     registration {
       id
+      openMoveOrders{
+        id
+      }
     }
     organizerSignup
     participantSignup
@@ -37,6 +40,28 @@ query loadEvent($id: ID!) {
     organizers {
       id
       fullName
+    }
+  }
+}
+
+mutation createMoveOrder($eventId: ID!){
+  createRegistrationMoveOrder(id: $eventId){
+    id
+    openMoveOrders{
+      id
+    }
+  }
+}
+
+query getMoveOrder($orderId: ID!){
+  moveOrder(id: $orderId){
+    id
+    registration{
+      id
+      event{
+        title
+        price
+      }
     }
   }
 }

@@ -46,6 +46,14 @@ query userProfile {
   }
 }
 
+mutation claimEvent($id: ID!){
+  useMoveOrder(id: $id){
+    id
+    client_secret
+    status
+  }
+}
+
 mutation updateProfile($input: UpdateProfileInput!){
   updateProfile(input: $input){
     id

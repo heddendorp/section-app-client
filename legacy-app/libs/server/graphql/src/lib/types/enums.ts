@@ -1,5 +1,6 @@
 import { enumType } from 'nexus';
 import {
+  LogSeverity,
   MembershipStatus,
   PublicationState,
   RegistrationMode,
@@ -16,3 +17,4 @@ export const submissionItemTypeEnum = enumType(SubmissionItemType);
 export const submissionTimeEnum = enumType(SubmissionTime);
 export const registrationTypeEnum = enumType(RegistrationType);
 export const registrationModeEnum = enumType(RegistrationMode);
+export const logSeverityEnum = enumType(LogSeverity);

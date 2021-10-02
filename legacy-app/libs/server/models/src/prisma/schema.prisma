@@ -69,6 +69,14 @@ enum RegistrationMode {
   EXTERNAL
 }
 
+enum LogSeverity {
+  SILLY
+  DEBUG
+  INFO
+  WARNING
+  ERROR
+}
+
 /// One Tenant of the app, most likely an ESN section
 model Tenant {
   id                    String                 @id @default(uuid()) @db.Uuid
@@ -292,13 +300,13 @@ model PhotoShare {
 }
 
 model EventRegistration {
-  id              String           @id @default(uuid()) @db.Uuid
-  createdAt       DateTime         @default(now())
-  type            RegistrationType @default(PARTICIPANT)
-  user            User             @relation(fields: [userId], references: [id])
-  userId          String           @db.Uuid
-  event           TumiEvent        @relation(fields: [eventId], references: [id])
-  eventId         String           @db.Uuid
+  id              String                       @id @default(uuid()) @db.Uuid
+  createdAt       DateTime                     @default(now())
+  type            RegistrationType             @default(PARTICIPANT)
+  user            User                         @relation(fields: [userId], references: [id])
+  userId          String                       @db.Uuid
+  event           TumiEvent                    @relation(fields: [eventId], references: [id])
+  eventId         String                       @db.Uuid
   checkInTime     DateTime?
   paymentIntentId String?
   chargeId        String?
@@ -306,8 +314,20 @@ model EventRegistration {
   stripeFee       Int?
   amountPaid      Int?
   netPaid         Int?
+  moveOrders      EventRegistrationMoveOrder[]
 
   @@unique([userId, eventId])
+}
+
+model EventRegistrationMoveOrder {
+  id                  String            @id @default(uuid()) @db.Uuid
+  createdAt           DateTime          @default(now())
+  createdBy           String            @db.Uuid
+  failed              Boolean           @default(false)
+  usedBy              String?           @db.Uuid
+  usedAt              DateTime?
+  registration        EventRegistration @relation(fields: [eventRegistrationId], references: [id], onDelete: Cascade)
+  eventRegistrationId String            @db.Uuid
 }
 
 model EventSubmissionItem {
@@ -327,4 +347,14 @@ model EventSubmission {
   userId           String              @db.Uuid
   submissionItem   EventSubmissionItem @relation(fields: [submissionItemId], references: [id])
   submissionItemId String              @db.Uuid
+}
+
+model ActivityLog {
+  id           String      @id @default(uuid()) @db.Uuid
+  createdAt    DateTime    @default(now())
+  message      String
+  data         Json?
+  oldData      Json?
+  involvedUser String?     @db.Uuid
+  severity     LogSeverity
 }

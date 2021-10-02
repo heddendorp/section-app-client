@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { UtilPipesModule } from '@tumi/util/pipes';
 import { UpdateProfileDialogComponent } from './components/update-profile-dialog/update-profile-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ClaimEventDialogComponent } from './components/claim-event-dialog/claim-event-dialog.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NewUserPageComponent,
     ProfilePageComponent,
     UpdateProfileDialogComponent,
+    ClaimEventDialogComponent,
   ],
 })
 export class UiProfileModule {}

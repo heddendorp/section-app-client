@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Give away your spot</h1>
+<mat-dialog-content *ngIf="event$ | async as event">
+  <h2 class="mb-2">You are about to send away your event spot</h2>
+  <p class="leading-normal mb-4">
+    Please read the following information: <br />
+    To give away this event registration you can generate a special code that
+    will allow another person to claim your registration in their profile. This
+    process cannot be undone. <br />
+    During the transfer, we will refund your participation fee after collecting
+    it from the person taking over your registration. <br />
+    <span class="font-bold">Watch out</span> <br />
+    The transfer is only complete after the recipient has paid the event fee,
+    this is also the time when you will receive a refund of your fee. Just
+    creating the transfer request is not enough, only if someone uses you code
+    the transfer will be completed.
+  </p>
+  <ng-container *ngIf="event.registration?.openMoveOrders?.length; else noCode">
+    <p class="mb-2">
+      You have created a transfer code, copy it below to send it somewhere else
+    </p>
+    <p class="font-mono select-all bg-gray-200 rounded px-3 py-1">
+      {{ (event.registration?.openMoveOrders ?? [{}])[0]?.id }}
+    </p>
+  </ng-container>
+  <ng-template #noCode>
+    <button
+      mat-stroked-button
+      class="w-full"
+      [disabled]="buttonDisabled | async"
+      (click)="createOrder()"
+    >
+      I understood and want to create a code
+    </button>
+  </ng-template>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

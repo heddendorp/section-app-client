@@ -158,6 +158,9 @@
           <p mat-line>Ends: {{ event.end | date: 'medium' }}</p>
         </a>
       </mat-nav-list>
+      <button class="mt-2 w-full" mat-stroked-button (click)="claimEvent()">
+        Claim event with code
+      </button>
     </div>
     <div
       class="rounded-2xl bg-green-200 p-4"

@@ -34,7 +34,22 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.chargeId);
     t.field(EventRegistration.paymentIntentId);
     t.field(EventRegistration.checkInTime);
-    t.boolean('didAttend', {
+    t.field({
+      ...EventRegistration.moveOrders,
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistrationMoveOrder.findMany({
+          where: { registration: { id: source.id } },
+        }),
+    });
+    t.field({
+      ...EventRegistration.moveOrders,
+      name: 'openMoveOrders',
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistrationMoveOrder.findMany({
+          where: { registration: { id: source.id }, usedBy: null },
+        }),
+    });
+    t.nonNull.boolean('didAttend', {
       resolve: (source) => !!source.checkInTime,
     });
   },
