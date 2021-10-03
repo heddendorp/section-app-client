@@ -1,5 +1,6 @@
 import {
   arg,
+  booleanArg,
   idArg,
   inputObjectType,
   list,
@@ -58,9 +59,13 @@ export const eventType = objectType({
     t.field(TumiEvent.publicationState);
     t.field({
       ...TumiEvent.costItems,
-      resolve: (source, args, context) =>
+      args: { hideOnInvoice: booleanArg({ default: false }) },
+      resolve: (source, { hideOnInvoice }, context) =>
         context.prisma.costItem.findMany({
-          where: { event: { id: source.id } },
+          where: {
+            event: { id: source.id },
+            ...(hideOnInvoice ? { onInvoice: false } : {}),
+          },
         }),
     });
     t.field(TumiEvent.photoShare);

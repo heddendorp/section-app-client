@@ -84,6 +84,16 @@ query loadEventForRunning($id: ID!) {
         email
       }
     }
+    costItems(hideOnInvoice: true){
+      id
+      amount
+      actualAmount
+      submittedAmount
+      name
+      receipts{
+        id
+      }
+    }
     participantRegistrations {
       id
       checkInTime
@@ -95,6 +105,43 @@ query loadEventForRunning($id: ID!) {
         picture
         email
       }
+    }
+  }
+}
+
+query getCostItem($id: ID!){
+costItem(id: $id){
+  id
+  name
+  amount
+  submittedAmount
+  event{
+    id
+    title
+  }
+  receipts{
+    id
+    amount
+    url
+    user{
+      id
+      fullName
+    }
+  }
+}
+}
+
+mutation getBlobToken{
+  blobUploadKey
+}
+
+mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!){
+  addReceiptToCostItem(costItemId: $costItemId,receiptInput: $receiptInput){
+    id
+    receipts{
+      id
+      amount
+      url
     }
   }
 }

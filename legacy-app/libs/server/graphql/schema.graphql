@@ -31,9 +31,12 @@ type CostItem {
   event: TumiEvent!
   eventId: String!
   id: ID!
+  moneySent: Boolean!
+  moneySentTo: String
   name: String!
   onInvoice: Boolean!
   receipts: [Receipt!]!
+  submittedAmount: Decimal!
 }
 
 """Additional inputs to create an event from a template"""
@@ -60,6 +63,12 @@ input CreateEventTemplateInput {
   participantMail: String!
   participantText: String!
   title: String!
+}
+
+input CreateReceiptInput {
+  amount: Decimal!
+  blob: String!
+  container: String!
 }
 
 """New user input object"""
@@ -165,6 +174,8 @@ enum MembershipStatus {
 type Mutation {
   """Adds the user with the supplied id to the event"""
   addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent
+  addReceiptToCostItem(costItemId: ID!, receiptInput: CreateReceiptInput!): CostItem
+  blobUploadKey: String!
 
   """Change the publication state of an event"""
   changeEventPublication(id: ID!, state: PublicationState!): TumiEvent
@@ -257,6 +268,7 @@ enum PublicationState {
 }
 
 type Query {
+  costItem(id: ID!): CostItem!
   costItemsForEvent(eventId: ID!): [CostItem!]!
   currentTenant: Tenant
 
@@ -299,10 +311,13 @@ type Query {
 
 type Receipt {
   amount: Decimal!
+  blob: String!
+  container: String!
   costItem: CostItem!
   costItemId: String!
   createdAt: DateTime!
   id: ID!
+  url: String!
   user: User!
   userId: String!
 }
@@ -372,7 +387,7 @@ type Tenant {
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
   amountCollected: Int
-  costItems: [CostItem!]!
+  costItems(hideOnInvoice: Boolean = false): [CostItem!]!
 
   """Indicates whether the user could be an organizer for this event"""
   couldBeOrganizer: Boolean!

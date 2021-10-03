@@ -1,4 +1,4 @@
-import { objectType } from 'nexus';
+import { inputObjectType, objectType } from 'nexus';
 import { Receipt } from 'nexus-prisma';
 
 export const receiptType = objectType({
@@ -22,5 +22,23 @@ export const receiptType = objectType({
     });
     t.field(Receipt.costItemId);
     t.field(Receipt.amount);
+    t.field(Receipt.container);
+    t.field(Receipt.blob);
+    t.nonNull.string('url', {
+      resolve: (receipt) =>
+        `https://storetumi.blob.core.windows.net/tumi/${encodeURIComponent(
+          receipt.container
+        )}/${encodeURIComponent(receipt.blob)}`,
+    });
+  },
+});
+
+export const createReceiptInputType = inputObjectType({
+  name: 'CreateReceiptInput',
+  definition(t) {
+    // t.field(Receipt.costItemId);
+    t.field(Receipt.amount);
+    t.field(Receipt.container);
+    t.field(Receipt.blob);
   },
 });

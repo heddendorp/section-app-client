@@ -38,6 +38,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MoveEventDialogComponent } from './components/move-event-dialog/move-event-dialog.component';
 import { ManageEventFinancesComponent } from './components/management/manage-event-finances/manage-event-finances.component';
+import { EventRunReceiptsPageComponent } from './pages/event-run-receipts-page/event-run-receipts-page.component';
+import { AddReceiptDialogComponent } from './components/running/add-receipt-dialog/add-receipt-dialog.component';
 
 @NgModule({
   imports: [
@@ -54,6 +56,11 @@ import { ManageEventFinancesComponent } from './components/management/manage-eve
         path: ':eventId/run',
         canActivate: [AuthGuard],
         component: EventRunPageComponent,
+      },
+      {
+        path: ':eventId/run/receipts/:costItemId',
+        canActivate: [AuthGuard],
+        component: EventRunReceiptsPageComponent,
       },
       {
         path: ':eventId/manage',
@@ -99,6 +106,8 @@ import { ManageEventFinancesComponent } from './components/management/manage-eve
     QrDisplayDialogComponent,
     MoveEventDialogComponent,
     ManageEventFinancesComponent,
+    EventRunReceiptsPageComponent,
+    AddReceiptDialogComponent,
   ],
 })
 export class UiEventsModule {}

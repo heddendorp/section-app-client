@@ -1,0 +1,24 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(costItem$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="costItem$ | async as costItem" class="p-4">
+  <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
+    <a mat-icon-button routerLink="../..">
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1>{{ costItem.name }} ({{ costItem.event.title }})</h1>
+  </div>
+  <button mat-raised-button (click)="addReceipt()" class="mb-4">
+    Add receipt
+  </button>
+  <tumi-grid>
+    <div *ngFor="let receipt of costItem.receipts">
+      <img [src]="receipt.url" />
+      <p class="mt-2">
+        <span class="font-bold">{{ receipt.amount | currency: 'EUR' }}</span>
+        <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
+      </p>
+    </div>
+  </tumi-grid>
+</main>

@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Add receipt</h1>
+<mat-dialog-content>
+  <form [formGroup]="uploadForm">
+    <input
+      type="file"
+      accept="image/*"
+      (change)="showPreview($event)"
+      capture="environment"
+      hidden
+      #fileInput
+    />
+
+    <!-- Image Preview -->
+    <div class="w-full my-2" *ngIf="previewURL$ | async as url">
+      <img [src]="url" class="max-h-full" />
+    </div>
+    <mat-progress-bar
+      *ngIf="uploadProgress$ | async"
+      mode="determinate"
+      [value]="uploadProgress$ | async"
+    ></mat-progress-bar>
+
+    <mat-form-field class="w-full">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close mat-flat-button>Close</button>
+  <button mat-raised-button color="primary" (click)="fileInput.click()">
+    Take photo 📸
+  </button>
+  <button
+    mat-flat-button
+    color="accent"
+    [disabled]="uploadForm.invalid || (processing$ | async)"
+    (click)="save()"
+  >
+    Save Receipt
+  </button>
+</mat-dialog-actions>

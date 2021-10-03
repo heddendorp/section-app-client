@@ -208,6 +208,8 @@ Table CostItem {
   amount Decimal [not null]
   actualAmount Decimal
   onInvoice Boolean [not null]
+  moneySent Boolean [not null, default: false]
+  moneySentTo String
   confirmed Boolean [not null, default: false]
   receipts Receipt [not null]
 }
@@ -219,6 +221,8 @@ Table Receipt {
   userId String [not null]
   costItem CostItem [not null]
   costItemId String [not null]
+  container String [not null]
+  blob String [not null]
   amount Decimal [not null]
 }
 

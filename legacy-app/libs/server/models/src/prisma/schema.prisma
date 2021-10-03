@@ -293,6 +293,8 @@ model Receipt {
   userId     String   @db.Uuid
   costItem   CostItem @relation(fields: [costItemId], references: [id])
   costItemId String   @db.Uuid
+  container  String
+  blob       String
   amount     Decimal
 }
 

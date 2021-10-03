@@ -6,11 +6,41 @@
   <button mat-fab (click)="scanCode()">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
   </button>
-  <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
+  <div fxLayout="row" fxLayoutGap="1rem" class="mb-4">
     <a mat-icon-button routerLink="..">
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <h1>{{ event.title }}</h1>
+  </div>
+  <div *ngIf="event.costItems.length" class="border-2 rounded p-2 mb-8">
+    <h2 class="font-bold">Required receipts</h2>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let costItem of event.costItems"
+        routerLink="receipts/{{ costItem.id }}"
+      >
+        <mat-icon svgIcon="icon-cash-receipt" mat-list-icon></mat-icon>
+        <h1 mat-line>
+          {{ costItem.name }}
+        </h1>
+        <p mat-line>
+          for {{ costItem.amount | currency: 'EUR' }} (
+          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
+          with receipts)
+        </p>
+      </a>
+    </mat-nav-list>
+    <p class="mt-2">Click an entry to see and add receipts</p>
+    <p class="mb-2">
+      You can upload multiple photos of receipts for each entry, please make
+      sure to add all receipts with their data to make sure we can pay you back.
+    </p>
+    <p class="text-red-500 font-bold">
+      KEEP ALL ORIGINAL RECEIPTS! <br />
+      TUMi is not yet fully digital so make sure to collect any tickets at the
+      end of the event
+    </p>
   </div>
   <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
     <button mat-stroked-button (click)="copyOrganizerMails()">
