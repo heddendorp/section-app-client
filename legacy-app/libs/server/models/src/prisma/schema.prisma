@@ -270,26 +270,30 @@ model ProductPurchase {
 }
 
 model CostItem {
-  id        String    @id @default(uuid()) @db.Uuid
-  createdAt DateTime  @default(now())
-  event     TumiEvent @relation(fields: [eventId], references: [id])
-  eventId   String    @db.Uuid
-  name      String
-  ammount   Decimal
-  receipts  Receipt[]
+  id              String    @id @default(uuid()) @db.Uuid
+  createdAt       DateTime  @default(now())
+  event           TumiEvent @relation(fields: [eventId], references: [id])
+  eventId         String    @db.Uuid
+  name            String
+  calculationInfo String
+  details         String?
+  amount          Decimal
+  actualAmount    Decimal?
+  onInvoice       Boolean
+  moneySent       Boolean   @default(false)
+  moneySentTo     String?   @db.Uuid
+  confirmed       Boolean   @default(false)
+  receipts        Receipt[]
 }
 
 model Receipt {
-  id            String   @id @default(uuid()) @db.Uuid
-  createdAt     DateTime @default(now())
-  user          User     @relation(fields: [userId], references: [id])
-  userId        String   @db.Uuid
-  costItem      CostItem @relation(fields: [costItemId], references: [id])
-  costItemId    String   @db.Uuid
-  covered       Boolean  @default(false)
-  amount        Int
-  date          DateTime
-  amountCovered Int
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @db.Uuid
+  costItem   CostItem @relation(fields: [costItemId], references: [id])
+  costItemId String   @db.Uuid
+  amount     Decimal
 }
 
 model PhotoShare {

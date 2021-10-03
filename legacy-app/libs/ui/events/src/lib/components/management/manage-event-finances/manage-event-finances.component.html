@@ -1,0 +1,20 @@
+<div *ngIf="data$ | async as data" class="my-4">
+  <div
+    *ngFor="let costItem of data.costItemsForEvent"
+    fxLayout="row"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="start start"
+  >
+    <p>{{ costItem.amount | currency: 'EUR' }}</p>
+    <div>
+      <p>{{ costItem.name }}</p>
+      <p>{{ costItem.calculationInfo }}</p>
+    </div>
+    <p *ngIf="costItem.onInvoice" class="bg-green-500 px-2 rounded text-white">
+      on invoice
+    </p>
+  </div>
+</div>
+<button mat-raised-button (click)="getFromTemplate()">
+  Update from Template
+</button>

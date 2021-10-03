@@ -56,11 +56,21 @@ export const eventType = objectType({
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
-    // t.field(TumiEvent.submissionItems);
-    // t.field(TumiEvent.registrations);
-    // t.field(TumiEvent.costItems);
+    t.field({
+      ...TumiEvent.costItems,
+      resolve: (source, args, context) =>
+        context.prisma.costItem.findMany({
+          where: { event: { id: source.id } },
+        }),
+    });
     t.field(TumiEvent.photoShare);
-    t.field(TumiEvent.eventTemplate);
+    t.field({
+      ...TumiEvent.eventTemplate,
+      resolve: (source, args, context) =>
+        context.prisma.eventTemplate.findUnique({
+          where: { id: source.eventTemplateId },
+        }),
+    });
     t.field(TumiEvent.eventTemplateId);
     t.field({
       name: 'registration',
@@ -417,6 +427,72 @@ export const eventType = objectType({
     });
   },
 });
+
+export const updateCostItemsFromTemplateMutation = mutationField(
+  'updateCostItemsFromTemplate',
+  {
+    type: eventType,
+    args: { eventId: nonNull(idArg()) },
+    resolve: (source, { eventId }, context) =>
+      context.prisma.$transaction(async (prisma) => {
+        const event = await prisma.tumiEvent.findUnique({
+          where: { id: eventId },
+        });
+        const template = await prisma.eventTemplate.findUnique({
+          where: { id: event.eventTemplateId },
+        });
+        if (
+          typeof template.finances !== 'object' ||
+          Array.isArray(template.finances) ||
+          !Array.isArray(template.finances.items)
+        ) {
+          throw new ApolloError('No items found in template finances');
+        }
+        await prisma.costItem.deleteMany({ where: { event: { id: eventId } } });
+        const items = template.finances.items as {
+          description: string;
+          value: number;
+          type: string;
+          prepaid: boolean;
+          details: string;
+          scale?: number;
+        }[];
+        await prisma.costItem.createMany({
+          data: items.map((item) => {
+            let amount;
+            let calculationInfo;
+            const allParticipants =
+              event.participantLimit + event.organizerLimit;
+            switch (item.type) {
+              case 'event':
+                amount = item.value;
+                calculationInfo = `${item.value}€ per event`;
+                break;
+              case 'participant':
+                amount = item.value * allParticipants;
+                calculationInfo = `${allParticipants} x ${item.value}€ per participant`;
+                break;
+              default:
+                amount =
+                  item.value * Math.ceil(allParticipants / (item.scale ?? 1));
+                calculationInfo = `${Math.ceil(
+                  allParticipants / (item.scale ?? 1)
+                )} x ${item.value}€ per ${item.scale ?? 1} participants`;
+            }
+            return {
+              eventId,
+              onInvoice: item.prepaid,
+              amount: amount,
+              calculationInfo,
+              details: item.details,
+              name: item.description,
+            };
+          }),
+        });
+        return event;
+      }),
+  }
+);
 
 export const createEventFromTemplateInput = inputObjectType({
   name: 'CreateEventFromTemplateInput',

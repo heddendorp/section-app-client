@@ -203,7 +203,12 @@ Table CostItem {
   event TumiEvent [not null]
   eventId String [not null]
   name String [not null]
-  ammount Decimal [not null]
+  calculationInfo String [not null]
+  details String
+  amount Decimal [not null]
+  actualAmount Decimal
+  onInvoice Boolean [not null]
+  confirmed Boolean [not null, default: false]
   receipts Receipt [not null]
 }
 
@@ -214,10 +219,7 @@ Table Receipt {
   userId String [not null]
   costItem CostItem [not null]
   costItemId String [not null]
-  covered Boolean [not null, default: false]
-  amount Int [not null]
-  date DateTime [not null]
-  amountCovered Int [not null]
+  amount Decimal [not null]
 }
 
 Table PhotoShare {

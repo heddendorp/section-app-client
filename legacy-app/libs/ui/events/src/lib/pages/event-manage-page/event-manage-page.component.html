@@ -1,14 +1,15 @@
 <main *ngIf="event$ | async as event" class="p-4">
   <h1>Manage {{ event.title }}</h1>
   <div class="border p-4 rounded-2xl my-4">
-    <h2>Facts</h2>
-    <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem">
-      <div>
-        {{ (event?.amountCollected ?? 0) / 100 | currency: 'EUR' }}-{{
-          (event?.feesPaid ?? 0) / 100 | currency: 'EUR'
-        }}={{ (event?.netAmountCollected ?? 0) / 100 | currency: 'EUR' }}
-      </div>
+    <h2>Finances</h2>
+    <div>
+      {{ (event?.amountCollected ?? 0) / 100 | currency: 'EUR' }}-{{
+        (event?.feesPaid ?? 0) / 100 | currency: 'EUR'
+      }}={{ (event?.netAmountCollected ?? 0) / 100 | currency: 'EUR' }}
     </div>
+    <tumi-manage-event-finances
+      [eventId]="event.id"
+    ></tumi-manage-event-finances>
   </div>
   <div class="border p-4 rounded-2xl my-4">
     <h2 class="mb-4">Participants</h2>

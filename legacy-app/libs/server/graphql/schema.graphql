@@ -21,6 +21,21 @@ scalar BigInt
 """The `Byte` scalar type represents byte value as a Buffer"""
 scalar Bytes
 
+type CostItem {
+  actualAmount: Decimal
+  amount: Decimal!
+  calculationInfo: String!
+  confirmed: Boolean!
+  createdAt: DateTime!
+  details: String
+  event: TumiEvent!
+  eventId: String!
+  id: ID!
+  name: String!
+  onInvoice: Boolean!
+  receipts: [Receipt!]!
+}
+
 """Additional inputs to create an event from a template"""
 input CreateEventFromTemplateInput {
   end: DateTime!
@@ -162,6 +177,7 @@ type Mutation {
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
   createRegistrationMoveOrder(id: ID!): EventRegistration!
+  deleteCostItem(id: ID!): TumiEvent
 
   """Delete one template by id"""
   deleteTemplate(id: ID!): EventTemplate
@@ -176,6 +192,7 @@ type Mutation {
 
   """Removes the user with the supplied id to the event"""
   removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
+  updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
   updateProfile(input: UpdateProfileInput!): User
 
@@ -240,6 +257,7 @@ enum PublicationState {
 }
 
 type Query {
+  costItemsForEvent(eventId: ID!): [CostItem!]!
   currentTenant: Tenant
 
   """Returns the logged in user if found or null"""
@@ -277,6 +295,16 @@ type Query {
 
   """returns a list of users"""
   users(roleList: [Role] = [USER, ADMIN], statusList: [MembershipStatus] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
+}
+
+type Receipt {
+  amount: Decimal!
+  costItem: CostItem!
+  costItemId: String!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+  userId: String!
 }
 
 type RefundedRegistration {
@@ -344,6 +372,7 @@ type Tenant {
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
   amountCollected: Int
+  costItems: [CostItem!]!
 
   """Indicates whether the user could be an organizer for this event"""
   couldBeOrganizer: Boolean!

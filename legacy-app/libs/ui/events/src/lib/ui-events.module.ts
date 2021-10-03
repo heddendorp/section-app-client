@@ -37,6 +37,7 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MoveEventDialogComponent } from './components/move-event-dialog/move-event-dialog.component';
+import { ManageEventFinancesComponent } from './components/management/manage-event-finances/manage-event-finances.component';
 
 @NgModule({
   imports: [
@@ -97,6 +98,7 @@ import { MoveEventDialogComponent } from './components/move-event-dialog/move-ev
     ScanningDialogComponent,
     QrDisplayDialogComponent,
     MoveEventDialogComponent,
+    ManageEventFinancesComponent,
   ],
 })
 export class UiEventsModule {}
