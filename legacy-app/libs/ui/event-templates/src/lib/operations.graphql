@@ -60,6 +60,19 @@ query getEventTemplate($id: ID!){
     comment
     location
     locationId
+    finances
+    eventInstances{
+      id
+      title
+      start
+    }
+  }
+}
+
+mutation updateFinances($id: ID!, $finances: Json!){
+  updateTemplateFinances(id: $id,finances: $finances){
+    id
+    finances
   }
 }
 

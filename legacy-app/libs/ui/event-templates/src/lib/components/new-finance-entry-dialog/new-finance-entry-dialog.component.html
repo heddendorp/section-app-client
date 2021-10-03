@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>New Expense</h1>
+<mat-dialog-content>
+  <form [formGroup]="expenseForm" fxLayout="column" fxLayoutGap="1rem">
+    <mat-form-field class="w-full">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" type="text" required />
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap=".5rem">
+      <mat-form-field>
+        <mat-label>Cost</mat-label>
+        <input matInput formControlName="value" type="number" required />
+        <span matSuffix>€</span>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select required formControlName="type">
+          <mat-option value="event">per event</mat-option>
+          <mat-option value="participant">per participant</mat-option>
+          <mat-option value="scaled">per X participants</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>X</mat-label>
+        <input
+          matInput
+          formControlName="scale"
+          type="number"
+          required
+          min="2"
+        />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-full">
+      <mat-label>Additional Info</mat-label>
+      <input matInput formControlName="details" type="text" />
+    </mat-form-field>
+    <mat-checkbox formControlName="prepaid" class="mb-4">
+      Paid by TUMi in advance
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close mat-flat-button>Cancel</button>
+  <button
+    [mat-dialog-close]="expenseForm.value"
+    mat-flat-button
+    color="primary"
+    [disabled]="expenseForm.invalid"
+  >
+    Add item
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,78 @@
+<table
+  *ngIf="items$ | async as items"
+  mat-table
+  [dataSource]="items"
+  class="w-full mb-4"
+>
+  <!-- Position Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef>Cost</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.value | currency: 'EUR' }}
+    </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="scale">
+    <th mat-header-cell *matHeaderCellDef>Scale</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container [ngSwitch]="element.type">
+        <span *ngSwitchCase="'event'">per Event</span>
+        <span *ngSwitchCase="'participant'">per Participant</span>
+        <span *ngSwitchCase="'scaled'">
+          per {{ element.scale }} participants
+        </span>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="prepaid">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.prepaid ? 'prepaid by TUMi' : '' }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<div fxLayout="row" fxLayoutGap="1rem">
+  <button mat-stroked-button (click)="addItem()">Add item</button>
+  <button mat-stroked-button (click)="saveFinances()" color="primary">
+    Save finances
+  </button>
+</div>
+<h3 class="mt-6 mb-4">Plan costs</h3>
+<form
+  [formGroup]="forecastForm"
+  fxLayout="column"
+  fxLayout.gt-sm="row"
+  fxLayoutGap="1rem"
+>
+  <mat-form-field>
+    <mat-label>Participants</mat-label>
+    <input matInput formControlName="participants" type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Organizers</mat-label>
+    <input matInput formControlName="organizers" type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Days</mat-label>
+    <input matInput formControlName="days" type="number" />
+  </mat-form-field>
+</form>
+<div *ngIf="forecastResult$ | async as result">
+  <p>Total cost: {{ result.totalCost | currency: 'EUR' }}</p>
+  <p>Maximum STIBET: {{ result.maxSubsidies | currency: 'EUR' }}</p>
+  <p>Minimal price: {{ result.minPrice | currency: 'EUR' }}</p>
+  <p>Recommended price: {{ result.recommendedPrice | currency: 'EUR' }}</p>
+  <p>Expected stripe fees: {{ result.expectedFee | currency: 'EUR' }}</p>
+</div>

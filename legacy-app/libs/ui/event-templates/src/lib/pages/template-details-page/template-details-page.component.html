@@ -1,15 +1,38 @@
-<div *ngIf="eventTemplate$ | async as template">
-  <img [src]="template.icon | iconURL" alt="" />
-  <h1>{{ template.title }}</h1>
-  <h2>Description</h2>
-  <markdown [data]="template.description"></markdown>
-  <h2>Running notes</h2>
-  <markdown [data]="template.organizerText"></markdown>
-  <button mat-stroked-button (click)="createEvent()">
-    Create Event from this template
-  </button>
-  <button mat-flat-button color="accent" (click)="editTemplate()">Edit</button>
-  <button mat-flat-button color="warn" (click)="deleteTemplate()">
-    Delete
-  </button>
-</div>
+<main class="p-4" *ngIf="eventTemplate$ | async as template">
+  <div class="border-2 rounded my-4 p-2">
+    <img [src]="template.icon | iconURL" class="w-16" />
+    <h1>{{ template.title }}</h1>
+    <h2>Description</h2>
+    <markdown class="prose" [data]="template.description"></markdown>
+    <h2>Running notes</h2>
+    <markdown class="prose" [data]="template.organizerText"></markdown>
+    <div class="my-2" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+      <button mat-stroked-button (click)="createEvent()">
+        Create Event from this template
+      </button>
+      <button mat-flat-button color="accent" (click)="editTemplate()">
+        Edit
+      </button>
+      <button mat-flat-button color="warn" (click)="deleteTemplate()">
+        Delete
+      </button>
+    </div>
+  </div>
+  <div class="border-2 rounded my-4 p-2">
+    <h2>Events</h2>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLink="/events/{{ event.id }}"
+        *ngFor="let event of template.eventInstances"
+      >
+        <h3 mat-line>{{ event.title }}</h3>
+        <p mat-line>{{ event.start | date: 'medium' }}</p>
+      </a>
+    </mat-nav-list>
+  </div>
+  <div class="border-2 rounded my-4 p-2">
+    <h2>Finances</h2>
+    <tumi-finance-planner [template]="template"></tumi-finance-planner>
+  </div>
+</main>

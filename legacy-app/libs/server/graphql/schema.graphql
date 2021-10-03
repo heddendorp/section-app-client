@@ -181,6 +181,7 @@ type Mutation {
 
   """Update an event template"""
   updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
+  updateTemplateFinances(finances: Json!, id: ID!): EventTemplate!
   updateTenant(data: updateTenantInput!, id: ID!): Tenant
 
   """Change the role of s user on the current tenant"""

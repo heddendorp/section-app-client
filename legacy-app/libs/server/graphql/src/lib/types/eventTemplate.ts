@@ -1,4 +1,5 @@
 import {
+  arg,
   idArg,
   inputObjectType,
   list,
@@ -118,6 +119,22 @@ export const updateTemplateMutation = mutationField('updateTemplate', {
   resolve: (source, { id, data }, context) =>
     context.prisma.eventTemplate.update({ where: { id }, data }),
 });
+
+export const updateTemplateFinancesMutation = mutationField(
+  'updateTemplateFinances',
+  {
+    type: nonNull(eventTemplateType),
+    args: {
+      id: nonNull(idArg()),
+      finances: nonNull(arg(EventTemplate.finances)),
+    },
+    resolve: (source, { id, finances }, context) =>
+      context.prisma.eventTemplate.update({
+        where: { id },
+        data: { finances },
+      }),
+  }
+);
 
 export const deleteTemplateMutation = mutationField('deleteTemplate', {
   type: eventTemplateType,

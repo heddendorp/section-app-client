@@ -17,6 +17,11 @@ import { CreateEventDialogComponent } from './components/create-event-dialog/cre
 import { MatSelectModule } from '@angular/material/select';
 import { UiAuthModule } from '@tumi/ui-auth';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatListModule } from '@angular/material/list';
+import { FinancePlannerComponent } from './components/finance-planner/finance-planner.component';
+import { NewFinanceEntryDialogComponent } from './components/new-finance-entry-dialog/new-finance-entry-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -36,6 +41,9 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSnackBarModule,
     MatSelectModule,
     MarkdownModule.forChild(),
+    MatListModule,
+    MatCheckboxModule,
+    MatTableModule,
   ],
   declarations: [
     TemplateListPageComponent,
@@ -43,6 +51,8 @@ import { MarkdownModule } from 'ngx-markdown';
     TemplateListEntryComponent,
     TemplateDetailsPageComponent,
     CreateEventDialogComponent,
+    FinancePlannerComponent,
+    NewFinanceEntryDialogComponent,
   ],
 })
 export class UiEventTemplatesModule {}

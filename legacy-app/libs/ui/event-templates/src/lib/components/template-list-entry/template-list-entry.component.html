@@ -1,7 +1,12 @@
-<div *ngIf="template" fxLayout="row">
+<a
+  *ngIf="template"
+  fxLayout="row"
+  fxLayoutGap="1rem"
+  [routerLink]="template.id"
+  class="my-2 border rounded hover:border-black p-2"
+>
   <img [src]="template.icon | iconURL" alt="" class="w-20" />
   <div fxLayout="column">
-    <h1>{{ template.title }}</h1>
-    <a mat-flat-button [routerLink]="template.id">Open</a>
+    <h2>{{ template.title }}</h2>
   </div>
-</div>
+</a>

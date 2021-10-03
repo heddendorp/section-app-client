@@ -31,6 +31,24 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     this.registrations$ = this.registrationsQueryRef.valueChanges.pipe(
       map(({ data }) => data.registrations)
     );
+    // this.registrations$.subscribe((registrations) => {
+    //   const feeRegistrations = registrations.filter((reg) => reg.stripeFee);
+    //   const totalPaid = feeRegistrations.reduce(
+    //     (previousValue, currentValue) =>
+    //       previousValue + (currentValue.amountPaid ?? 0) - 25,
+    //     0
+    //   );
+    //   const totalFees = feeRegistrations.reduce(
+    //     (previousValue, currentValue) =>
+    //       previousValue + (currentValue.stripeFee ?? 0) - 25,
+    //     0
+    //   );
+    //   console.log(feeRegistrations.length);
+    //   console.log(totalPaid / 100);
+    //   console.log(totalFees / 100);
+    //   console.log((totalFees / totalPaid) * 100);
+    //   console.log((25 * feeRegistrations.length) / 100);
+    // });
   }
 
   ngOnDestroy() {

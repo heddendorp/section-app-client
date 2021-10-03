@@ -37,9 +37,12 @@
   ></tumi-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
-    <mat-accordion displayMode="flat">
+    <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
       <mat-expansion-panel
-        [expanded]="!event.userRegistered || event.participantText.length < 10"
+        [expanded]="
+          (!event.userRegistered && !event.userIsOrganizer) ||
+          event.participantText.length < 10
+        "
       >
         <mat-expansion-panel-header>
           <mat-panel-title>Description</mat-panel-title>
@@ -49,9 +52,21 @@
           class="prose lg:prose-xl break-words"
         ></markdown>
       </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="event.couldBeOrganizer" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Information for organizing</mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown
+          [data]="event.organizerText"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
       <mat-expansion-panel
-        *ngIf="event.participantText.length > 10 && event.userRegistered"
-        [expanded]="event.userRegistered"
+        *ngIf="
+          event.participantText.length > 10 &&
+          (event.userRegistered || event.userIsOrganizer)
+        "
+        [expanded]="event.userRegistered || event.userIsOrganizer"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
@@ -101,20 +116,12 @@
       </ng-container>
     </ng-container>
   </div>
-  <div *ngIf="event.couldBeOrganizer" class="p-6 lg:p-12">
-    <h3 class="mb-4">Information for organizing</h3>
-    <markdown
-      [data]="event.organizerText"
-      class="prose lg:prose-xl break-words"
-    ></markdown>
-  </div>
-
   <div
     *ngIf="
       event.couldBeOrganizer &&
       event.registrationMode !== RegistrationMode.External
     "
-    class="p-6 lg:p-12 bg-gray-100 shadow-inner"
+    class="p-6 lg:p-12 bg-gray-100 border-t-2"
   >
     <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
     <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
