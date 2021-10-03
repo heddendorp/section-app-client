@@ -1,4 +1,11 @@
-import { idArg, list, mutationField, nonNull, objectType, queryField } from 'nexus';
+import {
+  idArg,
+  list,
+  mutationField,
+  nonNull,
+  objectType,
+  queryField,
+} from 'nexus';
 import { EventRegistrationMoveOrder } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
 import { paymentIntentType } from './stripeUserData';

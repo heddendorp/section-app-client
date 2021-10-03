@@ -51,7 +51,7 @@ export class FinancePlannerComponent implements OnChanges {
         const totalCost = this.getTotalCost([items, info]);
         const maxSubsidies =
           info.participants *
-          Math.min(totalCost / info.participants / 3, 20 * info.days);
+          Math.min((totalCost / info.participants) * 0.75, 20 * info.days);
         const minPrice = (totalCost - maxSubsidies) / info.participants;
         const recommendedPrice = Math.ceil(minPrice * 1.04);
         const expectedFee =
@@ -102,7 +102,7 @@ export class FinancePlannerComponent implements OnChanges {
       .toPromise();
     if (newItem) {
       const items = await this.items$.pipe(first()).toPromise();
-      this.items$.next([...items, newItem]);
+      this.items$.next([...(items ?? []), newItem]);
     }
   }
 
