@@ -70,6 +70,30 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
   }
 }
 
+query getMoveOrders{
+  moveOrders{
+    id
+    createdAt
+    usedAt
+    creator{
+      id
+      fullName
+    }
+    receiver{
+      id
+      fullName
+    }
+    registration{
+      id
+      paymentStatus
+      event{
+        id
+        title
+      }
+    }
+  }
+}
+
 query getStatistics{
   currentTenant{
     id

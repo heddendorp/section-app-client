@@ -96,8 +96,10 @@ type EventRegistration {
 type EventRegistrationMoveOrder {
   createdAt: DateTime!
   createdBy: String!
+  creator: User!
   eventRegistrationId: String!
   id: ID!
+  receiver: User
   registration: EventRegistration!
   usedAt: DateTime
   usedBy: String
@@ -255,6 +257,7 @@ type Query {
   events(after: DateTime): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
   moveOrder(id: ID!): EventRegistrationMoveOrder
+  moveOrders: [EventRegistrationMoveOrder!]!
 
   """Retrieve a list of all event organizers"""
   organizers: [EventOrganizer!]!

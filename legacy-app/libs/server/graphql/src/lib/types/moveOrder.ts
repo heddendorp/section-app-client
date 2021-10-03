@@ -1,8 +1,9 @@
-import { idArg, mutationField, nonNull, objectType, queryField } from 'nexus';
+import { idArg, list, mutationField, nonNull, objectType, queryField } from 'nexus';
 import { EventRegistrationMoveOrder } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
 import { paymentIntentType } from './stripeUserData';
 import { eventRegistrationType } from './eventRegistration';
+import { userType } from './user';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -24,6 +25,20 @@ export const moveOrderType = objectType({
         }),
     });
     t.field(EventRegistrationMoveOrder.eventRegistrationId);
+    t.field({
+      type: nonNull(userType),
+      name: 'creator',
+      resolve: (source, args, context) =>
+        context.prisma.user.findUnique({ where: { id: source.createdBy } }),
+    });
+    t.field({
+      type: userType,
+      name: 'receiver',
+      resolve: (source, args, context) =>
+        source.usedBy
+          ? context.prisma.user.findUnique({ where: { id: source.usedBy } })
+          : null,
+    });
   },
 });
 
@@ -51,6 +66,14 @@ export const getMoveOrder = queryField('moveOrder', {
   type: moveOrderType,
   resolve: (source, { id }, context) =>
     context.prisma.eventRegistrationMoveOrder.findUnique({ where: { id } }),
+});
+
+export const getMoveOrders = queryField('moveOrders', {
+  type: nonNull(list(nonNull(moveOrderType))),
+  resolve: (source, args, context) =>
+    context.prisma.eventRegistrationMoveOrder.findMany({
+      orderBy: { createdAt: 'desc' },
+    }),
 });
 
 export const useMoveOrderMutation = mutationField('useMoveOrder', {

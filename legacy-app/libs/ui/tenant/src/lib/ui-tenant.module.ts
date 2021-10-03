@@ -23,6 +23,7 @@ import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant
 import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats-page.component';
 import { UtilComponentsModule } from '@tumi/util-components';
 import { LineChartModule } from '@swimlane/ngx-charts';
+import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/tenant-move-orders-page.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { LineChartModule } from '@swimlane/ngx-charts';
       { path: 'users', component: TenantUsersPageComponent },
       { path: 'users/:userId', component: TenantUserInfoPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
+      { path: 'moves', component: TenantMoveOrdersPageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
       { path: 'edit', component: TenantEditPageComponent },
       { path: 'stats', component: TenantStatsPageComponent },
@@ -61,6 +63,7 @@ import { LineChartModule } from '@swimlane/ngx-charts';
     TenantUserInfoPageComponent,
     TenantProductsPageComponent,
     TenantStatsPageComponent,
+    TenantMoveOrdersPageComponent,
   ],
 })
 export class UiTenantModule {}
