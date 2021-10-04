@@ -8,5 +8,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QrDisplayDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { id: string }) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: { id: string; event: string; user: string }
+  ) {}
 }

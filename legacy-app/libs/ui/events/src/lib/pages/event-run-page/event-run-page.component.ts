@@ -45,11 +45,15 @@ export class EventRunPageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
-  scanCode() {
-    this.dialog.open(ScanningDialogComponent, {
-      width: '95vw',
-      height: '95vh',
-    });
+  async scanCode() {
+    const event = await this.event$.pipe(first()).toPromise();
+    if (event) {
+      this.dialog.open(ScanningDialogComponent, {
+        minWidth: '95vw',
+        minHeight: '95vh',
+        data: { id: event.id },
+      });
+    }
   }
   async copyOrganizerMails() {
     const event = await this.event$.pipe(first()).toPromise();

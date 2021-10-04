@@ -26,6 +26,10 @@ query loadEvent($id: ID!) {
       openMoveOrders{
         id
       }
+      user{
+        id
+        fullName
+      }
     }
     organizerSignup
     participantSignup

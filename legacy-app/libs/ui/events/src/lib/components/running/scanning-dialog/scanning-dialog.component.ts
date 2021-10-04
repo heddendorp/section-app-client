@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
@@ -14,6 +15,7 @@ import {
   GetRegistrationQuery,
 } from '@tumi/data-access';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'tumi-scanning-dialog',
@@ -29,6 +31,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
   private scanner: QrScanner | undefined;
   @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { id: string },
     private loadRegistration: GetRegistrationGQL,
     private checkInMutation: CheckInUserGQL,
     private snackBar: MatSnackBar

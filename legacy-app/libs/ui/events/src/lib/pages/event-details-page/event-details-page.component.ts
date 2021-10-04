@@ -79,7 +79,11 @@ export class EventDetailsPageComponent implements OnDestroy {
     const event = await this.event$.pipe(first()).toPromise();
     if (event?.registration) {
       this.dialog.open(QrDisplayDialogComponent, {
-        data: { id: event.registration.id },
+        data: {
+          id: event.registration.id,
+          event: event.title,
+          user: event.registration.user.fullName,
+        },
       });
     }
   }

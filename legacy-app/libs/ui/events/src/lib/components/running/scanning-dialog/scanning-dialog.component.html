@@ -35,6 +35,12 @@
     >
       User is already checked in for this event!
     </div>
+    <div
+      class="bg-red-700 text-white rounded py-2 px-4 font-bold"
+      *ngIf="registration.event.id !== data.id"
+    >
+      Ticket is for the wrong event!
+    </div>
   </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions fxFlexAlign="end">
@@ -45,7 +51,8 @@
     (click)="checkInUser()"
     [disabled]="
       (currentRegistration$ | async) === null ||
-      (currentRegistration$ | async)?.didAttend
+      (currentRegistration$ | async)?.didAttend ||
+      (currentRegistration$ | async)?.event?.id !== data.id
     "
   >
     Check in
