@@ -205,6 +205,7 @@ query loadEventForManagement($id: ID!) {
       paymentStatus
       paymentIntentId
       netPaid
+      checkInTime
       user {
         id
         fullName

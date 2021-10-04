@@ -5,6 +5,7 @@ query getCostItemsForEvent($eventId: ID!){
     calculationInfo
     amount
     onInvoice
+    submittedAmount
   }
   event(eventId: $eventId){
     id

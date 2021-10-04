@@ -13,6 +13,12 @@
     <p *ngIf="costItem.onInvoice" class="bg-green-500 px-2 rounded text-white">
       on invoice
     </p>
+    <p
+      *ngIf="costItem.submittedAmount"
+      class="bg-yellow-500 px-2 rounded text-white"
+    >
+      already submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
+    </p>
   </div>
 </div>
 <button mat-raised-button (click)="getFromTemplate()">
