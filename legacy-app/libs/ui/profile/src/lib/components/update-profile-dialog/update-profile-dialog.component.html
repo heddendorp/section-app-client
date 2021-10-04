@@ -11,13 +11,7 @@
     </mat-form-field>
     <mat-form-field class="w-full my-2">
       <mat-label>Phone number</mat-label>
-      <input
-        matInput
-        formControlName="phone"
-        type="tel"
-        pattern="/^[+][0-9]+$/"
-        minlength="5"
-      />
+      <input matInput formControlName="phone" type="tel" minlength="5" />
       <mat-hint>
         Please use the international format
         <span class="font-mono">+4912345678</span>
