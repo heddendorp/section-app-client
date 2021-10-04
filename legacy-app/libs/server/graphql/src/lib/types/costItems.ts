@@ -36,7 +36,9 @@ export const costItemType = objectType({
     t.field(CostItem.onInvoice);
     t.field(CostItem.moneySent);
     t.field(CostItem.moneySentTo);
-    t.nonNull.decimal('submittedAmount', {
+    t.field({
+      name: 'submittedAmount',
+      type: nonNull('Decimal'),
       resolve: (source, args, context) =>
         context.prisma.receipt
           .aggregate({
