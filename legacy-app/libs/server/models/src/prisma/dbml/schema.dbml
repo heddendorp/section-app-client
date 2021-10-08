@@ -230,7 +230,7 @@ Table PhotoShare {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   event TumiEvent [not null]
-  eventId String [not null]
+  eventId String [unique, not null]
 }
 
 Table EventRegistration {
@@ -392,7 +392,7 @@ Ref: EventRegistration.userId > User.id
 
 Ref: EventRegistration.eventId > TumiEvent.id
 
-Ref: EventRegistrationMoveOrder.eventRegistrationId > EventRegistration.id
+Ref: EventRegistrationMoveOrder.eventRegistrationId > EventRegistration.id [delete: Cascade]
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
 
