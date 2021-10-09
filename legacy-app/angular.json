@@ -107,10 +107,10 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "externalDependencies": ["_http_common"],
-            "outputPath": "dist/apps/functions/convertPdf",
+            "outputPath": "dist/apps/functions",
             "main": "apps/functions/src/main.ts",
             "tsConfig": "apps/functions/tsconfig.app.json",
-            "assets": ["apps/functions/src/assets","apps/functions/src/function.json"]
+            "assets": ["apps/functions/src/assets","apps/functions/src/function.json","apps/functions/src/Dockerfile"]
           },
           "configurations": {
             "production": {

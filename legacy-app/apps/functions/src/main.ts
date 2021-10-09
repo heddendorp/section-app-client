@@ -5,7 +5,6 @@ import 'tslib';
 
 export const run = async (context, inputBlob) => {
   // context.log(inputBlob);
-  context.log(inputBlob.length);
   context.log(context);
   const response = (await fromBuffer(inputBlob)(1, true)) as ToBase64Response;
   context.log(response);
