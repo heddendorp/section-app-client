@@ -6,12 +6,13 @@ import 'tslib';
 export const run = async (context, inputBlob) => {
   // context.log(inputBlob);
   context.log(context);
+  console.log(context);
   const response = (await fromBuffer(inputBlob)(1, true)) as ToBase64Response;
   context.log(response);
+  console.log(response);
   // const prisma = new PrismaClient();
   const imageBuffer = decodeBase64Image(response.base64);
-  context.imageBlob = imageBuffer.data;
-  context.done();
+  context.bindings.imageBlob = imageBuffer.data;
 };
 
 function decodeBase64Image(dataString: string) {
