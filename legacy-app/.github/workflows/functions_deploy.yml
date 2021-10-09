@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  NODE_VERSION: '14.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x)
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -20,6 +23,19 @@ jobs:
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
+      
+    - name: Setup Node ${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: 'Yarn isntall'
+      run: |
+        yarn    
+    
+    - name: 'Build'
+      run: |
+        yarn nx run functions:build:production
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
