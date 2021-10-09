@@ -3,7 +3,8 @@ import { Buffer } from 'buffer';
 import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import 'tslib';
 
-module.exports = async (context, inputBlob) => {
+export const run = async (context, inputBlob) => {
   const response = (await fromBuffer(inputBlob)(1, true)) as ToBase64Response;
   context.bindings.imageBlob = Buffer.from(response.base64, 'base64');
+  // const prisma = new PrismaClient();
 };
