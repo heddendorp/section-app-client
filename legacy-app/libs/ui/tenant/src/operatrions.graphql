@@ -4,6 +4,36 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
+query loadUser($id: ID!){
+  userById(id: $id){
+    id
+    firstName
+    lastName
+    fullName
+    email
+    birthdate
+    phone
+    currentTenant(userId: $id){
+      role
+      status
+    }
+    eventRegistrations{
+      id
+      createdAt
+      checkInTime
+      paymentStatus
+      type
+      netPaid
+      event{
+        id
+        title
+        start
+        end
+      }
+    }
+  }
+}
+
 query getRegistrations {
   registrations {
     id
@@ -130,13 +160,13 @@ mutation updateTenant($id: ID!, $update: updateTenantInput!){
 mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
   updateUserRole(userId: $id, role: $role) {
     id
-    currentTenant {
+    currentTenant(userId: $id) {
       role
     }
   }
   updateUserStatus(userId: $id, status: $status) {
     id
-    currentTenant {
+    currentTenant(userId: $id) {
       status
     }
   }

@@ -499,9 +499,10 @@ type User {
   birthdate: DateTime!
   calendarToken: String!
   createdAt: DateTime!
-  currentTenant: UsersOfTenants
+  currentTenant(userId: ID): UsersOfTenants
   email: String!
   email_verified: Boolean!
+  eventRegistrations: [EventRegistration!]!
   firstName: String!
 
   """Concatenated name of the user"""

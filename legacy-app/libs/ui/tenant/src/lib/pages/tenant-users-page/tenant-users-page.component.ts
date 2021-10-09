@@ -36,6 +36,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public displayedColumns = [
     'firstName',
     'lastName',
+    'email',
     'status',
     'role',
     'action',

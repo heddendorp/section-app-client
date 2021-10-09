@@ -43,12 +43,20 @@ app.use(getUser(prisma));
 const server = new ApolloServer({
   schema,
   async context({ req }) {
+    const tenant = await prisma.tenant.findFirst();
     return {
       prisma,
       user: req.user,
       token: req.token,
       auth0: new UiAuth0(),
-      tenant: await prisma.tenant.findFirst(),
+      tenant,
+      assignment: req.user
+        ? await prisma.usersOfTenants.findUnique({
+            where: {
+              userId_tenantId: { userId: req.user.id, tenantId: tenant.id },
+            },
+          })
+        : null,
     };
   },
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],

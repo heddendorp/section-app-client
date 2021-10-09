@@ -13,6 +13,7 @@ import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
 import { RegistrationType } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 export const userType = objectType({
   name: User.$name,
@@ -32,14 +33,26 @@ export const userType = objectType({
     t.field(User.email);
     t.field(User.calendarToken);
     t.field({
+      ...User.eventRegistrations,
+      resolve: (source, args, context) =>
+        context.prisma.eventRegistration.findMany({
+          where: { user: { id: source.id } },
+        }),
+    });
+    t.field({
       name: 'currentTenant',
       type: userOfTenantType,
-      resolve: (source, args, context) =>
-        context.prisma.usersOfTenants.findUnique({
+      args: { userId: idArg() },
+      resolve: (source, { userId }, context) => {
+        if (!userId) {
+          userId = source.id;
+        }
+        return context.prisma.usersOfTenants.findUnique({
           where: {
-            userId_tenantId: { userId: source.id, tenantId: context.tenant.id },
+            userId_tenantId: { userId, tenantId: context.tenant.id },
           },
-        }),
+        });
+      },
     });
     t.field({
       name: 'organizedEvents',
@@ -116,6 +129,9 @@ export const getById = queryField('userById', {
     id: nonNull(idArg({ description: 'ID of the user' })),
   },
   resolve: (parent, { id }, ctx) => {
+    if (id !== ctx.user.id && ctx.assignment.role !== 'ADMIN') {
+      throw new ApolloError('Only admins can read the info of users');
+    }
     return ctx.prisma.user.findUnique({
       where: { id },
     });

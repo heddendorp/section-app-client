@@ -1,1 +1,41 @@
-<p>tenant-user-info-page works!</p>
+<main class="p-4" *ngIf="user$ | async as user">
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1 class="font-bold">{{ user.fullName }}</h1>
+    <div fxFlex="noshrink"></div>
+    <button mat-stroked-button (click)="updateUser(user)">Update Role</button>
+  </div>
+  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem">
+    <p>First name:</p>
+    <p>{{ user.firstName }}</p>
+    <p>Last Name:</p>
+    <p>{{ user.lastName }}</p>
+    <p>Role:</p>
+    <p>{{ user.currentTenant?.role | titlecase }}</p>
+    <p>Status:</p>
+    <p>{{ user.currentTenant?.status | titlecase }}</p>
+    <p>email:</p>
+    <p>{{ user.email }}</p>
+    <p>Birthday:</p>
+    <p>{{ user.birthdate | date: 'medium' }}</p>
+    <p>Phone:</p>
+    <p>{{ user.phone }}</p>
+    <h2 gdColumn="-1/1" class="my-2">Registrations</h2>
+    <ng-container *ngFor="let registration of user.eventRegistrations">
+      <p class="font-bold mt-2" gdColumn="-1/1">
+        {{ registration.event.title }}
+      </p>
+      <p>Type:</p>
+      <p>{{ registration.type | titlecase }}</p>
+      <p>Registration date:</p>
+      <p>{{ registration.createdAt | date: 'medium' }}</p>
+      <p>Event start:</p>
+      <p>{{ registration.event.start | date: 'medium' }}</p>
+      <p>Checkin date:</p>
+      <p>{{ registration.checkInTime | date: 'medium' }}</p>
+    </ng-container>
+  </div>
+</main>
+<pre>{{ user$ | async | json }}</pre>

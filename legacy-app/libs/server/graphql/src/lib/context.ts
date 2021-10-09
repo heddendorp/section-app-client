@@ -1,4 +1,9 @@
-import { PrismaClient, Tenant, User } from '@tumi/server-models';
+import {
+  PrismaClient,
+  Tenant,
+  User,
+  UsersOfTenants,
+} from '@tumi/server-models';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { UiAuth0 } from '../../../../../apps/api/src/app/auth0';
 
@@ -7,6 +12,7 @@ export interface Context {
   auth0: UiAuth0;
   tenant: Tenant;
   user?: User;
+  assignment?: UsersOfTenants;
   token?: {
     iss: string;
     sub: string;

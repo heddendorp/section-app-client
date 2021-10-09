@@ -16,7 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-page/tenant-registrations-page.component';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
-import { FlexModule } from '@angular/flex-layout';
+import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
 import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant-products-page.component';
@@ -24,6 +24,7 @@ import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats
 import { UtilComponentsModule } from '@tumi/util-components';
 import { LineChartModule } from '@swimlane/ngx-charts';
 import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/tenant-move-orders-page.component';
+import { UtilMaterialModule } from '@tumi/util/material';
 
 @NgModule({
   imports: [
@@ -50,6 +51,8 @@ import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/t
     ClipboardModule,
     UtilComponentsModule,
     LineChartModule,
+    FlexLayoutModule,
+    UtilMaterialModule,
   ],
   declarations: [
     TenantLandingPageComponent,
