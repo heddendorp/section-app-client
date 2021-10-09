@@ -10,12 +10,12 @@ export const run = async (context, inputBlob) => {
   const response = (await fromBuffer(inputBlob)(1, true)) as ToBase64Response;
   context.log(response);
   // const prisma = new PrismaClient();
-  const imageBuffer = decodeBase64Image(Buffer.from(response.base64, 'base64'));
+  const imageBuffer = decodeBase64Image(response.base64);
   context.imageBlob = imageBuffer.data;
   context.done();
 };
 
-function decodeBase64Image(dataString) {
+function decodeBase64Image(dataString: string) {
   const matches = dataString.match(/^data:([A-Za-z-+/]+);base64,(.+)$/),
     response = { type: undefined, data: undefined };
 
