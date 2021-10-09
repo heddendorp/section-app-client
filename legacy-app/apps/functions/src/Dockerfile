@@ -8,10 +8,12 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y ghostscript graphicsmagick
 
+COPY . /home/site/wwwroot
+
 COPY package.json /home/site/wwwroot
-RUN mkdir /home/site/wwwroot/converter
+RUN mkdir -p /home/site/wwwroot/converter
 COPY function.json /home/site/wwwroot/converter
 COPY main.js /home/site/wwwroot/converter
 
 RUN cd /home/site/wwwroot && \
-    yarn
+    npm install
