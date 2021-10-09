@@ -106,7 +106,7 @@
           "builder": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/functions",
+            "outputPath": "dist/apps/functions/convertPdf",
             "main": "apps/functions/src/main.ts",
             "tsConfig": "apps/functions/tsconfig.app.json",
             "assets": ["apps/functions/src/assets","apps/functions/src/function.json"]
