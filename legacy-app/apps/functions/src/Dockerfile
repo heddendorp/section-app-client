@@ -9,6 +9,7 @@ RUN apt-get update && \
     apt-get install -y ghostscript graphicsmagick
 
 COPY package.json /home/site/wwwroot
+RUN mkdir /home/site/wwwroot/converter
 COPY function.json /home/site/wwwroot/converter
 COPY main.js /home/site/wwwroot/converter
 
