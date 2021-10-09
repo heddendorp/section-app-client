@@ -12,7 +12,8 @@ export const run = async (context, inputBlob) => {
   console.log(response);
   // const prisma = new PrismaClient();
   const imageBuffer = decodeBase64Image(response.base64);
-  context.bindings.imageBlob = imageBuffer.data;
+  console.log(imageBuffer);
+  return imageBuffer.data;
 };
 
 function decodeBase64Image(dataString: string) {
