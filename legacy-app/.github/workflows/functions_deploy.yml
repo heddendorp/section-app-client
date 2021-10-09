@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Node.js project to Azure Function App
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the refactor/nx branch
+  push:
+    branches: [ refactor/nx ]
+#  pull_request:
+#    branches: [ refactor/nx ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+env:
+  AZURE_FUNCTIONAPP_NAME: tumi-functions    # set this to your application's name
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'dist/apps/functions'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '14.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: Setup Node ${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: 'Yarn isntall'
+      run: |
+        yarn    
+    
+    - name: 'Build'
+      run: |
+        yarn nx run functions:build:production
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
