@@ -37,6 +37,11 @@ jobs:
     - name: 'Build'
       run: |
         yarn nx run functions:build:production
+        
+    - name: 'Install for deploy'
+      working-directory: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/convertPdf
+      run: |
+        yarn nx run functions:build:production
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
