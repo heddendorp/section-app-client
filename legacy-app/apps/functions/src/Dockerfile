@@ -11,6 +11,7 @@ RUN apt-get update && \
 COPY . /home/site/wwwroot
 
 COPY package.json /home/site/wwwroot
+RUN mkdir -p /home/site/wwwroot/converter
 COPY function.json /home/site/wwwroot/converter
 COPY main.js /home/site/wwwroot/converter
 
