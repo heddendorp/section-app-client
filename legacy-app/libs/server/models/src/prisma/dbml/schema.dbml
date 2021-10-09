@@ -223,6 +223,9 @@ Table Receipt {
   costItemId String [not null]
   container String [not null]
   blob String [not null]
+  md5 String
+  preview String
+  type String
   amount Decimal [not null]
 }
 

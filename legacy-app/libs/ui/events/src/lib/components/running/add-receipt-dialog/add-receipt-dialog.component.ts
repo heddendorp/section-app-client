@@ -54,6 +54,7 @@ export class AddReceiptDialogComponent {
   }
 
   async save() {
+    this.processing$.next(true);
     const { data } = await this.createBlobToken.mutate().toPromise();
     const file = this.uploadForm.get('file')?.value;
     const amount = this.uploadForm.get('amount')?.value;
@@ -65,10 +66,13 @@ export class AddReceiptDialogComponent {
         this.randomId() + '|' + this.data.costItem.name + '|' + file.name;
       const containerClient = blobServiceClient.getContainerClient(container);
       const blockBlobClient = containerClient.getBlockBlobClient(blob);
-      await blockBlobClient.uploadBrowserData(this.uploadForm.value.file, {
-        onProgress: (event) =>
-          this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
-      });
+      const res = await blockBlobClient.uploadBrowserData(
+        this.uploadForm.value.file,
+        {
+          onProgress: (event) =>
+            this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
+        }
+      );
       await this.addReceipt
         .mutate({
           costItemId: this.data.costItem.id,
@@ -76,11 +80,14 @@ export class AddReceiptDialogComponent {
             amount,
             blob,
             container,
+            type: file.type,
+            md5: res.contentMD5?.toString(),
           },
         })
         .toPromise();
       this.dialog.close();
     }
+    this.processing$.next(false);
   }
   private randomId(): string {
     const uint32 = crypto.getRandomValues(new Uint32Array(1))[0];

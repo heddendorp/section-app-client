@@ -295,6 +295,9 @@ model Receipt {
   costItemId String   @db.Uuid
   container  String
   blob       String
+  md5        String?
+  preview    String?
+  type       String?
   amount     Decimal
 }
 
@@ -302,7 +305,7 @@ model PhotoShare {
   id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now())
   event     TumiEvent @relation(fields: [eventId], references: [id])
-  eventId   String    @db.Uuid
+  eventId   String    @db.Uuid@unique
 }
 
 model EventRegistration {

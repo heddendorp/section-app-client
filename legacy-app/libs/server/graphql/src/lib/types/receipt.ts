@@ -24,6 +24,9 @@ export const receiptType = objectType({
     t.field(Receipt.amount);
     t.field(Receipt.container);
     t.field(Receipt.blob);
+    t.field(Receipt.preview);
+    t.field(Receipt.type);
+    t.field(Receipt.md5);
     t.nonNull.string('url', {
       resolve: (receipt) =>
         `https://storetumi.blob.core.windows.net/tumi/${encodeURIComponent(
@@ -40,5 +43,7 @@ export const createReceiptInputType = inputObjectType({
     t.field(Receipt.amount);
     t.field(Receipt.container);
     t.field(Receipt.blob);
+    t.field(Receipt.type);
+    t.field(Receipt.md5);
   },
 });

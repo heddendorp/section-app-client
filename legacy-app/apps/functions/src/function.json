@@ -1,0 +1,20 @@
+{
+  "disabled":false,
+  "scriptFile": "./main.js",
+  "bindings": [
+    {
+      "name": "inputBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "tumi/{event}/{receipt}.pdf",
+      "connection": "storetumi_STORAGE"
+    },
+    {
+      "name": "imageBlob",
+      "type": "blob",
+      "direction": "out",
+      "path": "tumi/{event}/{receipt}.png",
+      "connection": "storetumi_STORAGE"
+    }
+  ]
+}

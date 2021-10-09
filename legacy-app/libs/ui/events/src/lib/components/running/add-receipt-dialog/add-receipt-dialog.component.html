@@ -3,9 +3,8 @@
   <form [formGroup]="uploadForm">
     <input
       type="file"
-      accept="image/*"
+      accept="image/*,application/pdf"
       (change)="showPreview($event)"
-      capture="environment"
       hidden
       #fileInput
     />
@@ -29,7 +28,7 @@
 <mat-dialog-actions align="end">
   <button mat-dialog-close mat-flat-button>Close</button>
   <button mat-raised-button color="primary" (click)="fileInput.click()">
-    Take photo 📸
+    Upload receipt
   </button>
   <button
     mat-flat-button

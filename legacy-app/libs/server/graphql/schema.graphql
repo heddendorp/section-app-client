@@ -69,6 +69,8 @@ input CreateReceiptInput {
   amount: Decimal!
   blob: String!
   container: String!
+  md5: String
+  type: String
 }
 
 """New user input object"""
@@ -317,6 +319,9 @@ type Receipt {
   costItemId: String!
   createdAt: DateTime!
   id: ID!
+  md5: String
+  preview: String
+  type: String
   url: String!
   user: User!
   userId: String!
