@@ -110,6 +110,7 @@ type EventRegistration {
   event: TumiEvent!
   eventId: String!
   id: ID!
+  manualCheckin: Boolean!
   moveOrders: [EventRegistrationMoveOrder!]!
   netPaid: Int
   openMoveOrders: [EventRegistrationMoveOrder!]!
@@ -183,7 +184,7 @@ type Mutation {
 
   """Change the publication state of an event"""
   changeEventPublication(id: ID!, state: PublicationState!): TumiEvent
-  checkInUser(id: ID!): EventRegistration
+  checkInUser(id: ID!, manualCheckin: Boolean = false): EventRegistration
 
   """Creates a new event from a given Template"""
   createEventFromTemplate(createEventFromTemplateInput: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent

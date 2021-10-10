@@ -1,4 +1,5 @@
 import {
+  booleanArg,
   idArg,
   list,
   mutationField,
@@ -34,6 +35,7 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.chargeId);
     t.field(EventRegistration.paymentIntentId);
     t.field(EventRegistration.checkInTime);
+    t.field(EventRegistration.manualCheckin);
     t.field({
       ...EventRegistration.moveOrders,
       resolve: (source, args, context) =>
@@ -74,10 +76,13 @@ export const getOneRegistrationQuery = queryField('registration', {
 
 export const checkInUserMutation = mutationField('checkInUser', {
   type: eventRegistrationType,
-  args: { id: nonNull(idArg()) },
-  resolve: (source, { id }, context) =>
+  args: {
+    id: nonNull(idArg()),
+    manualCheckin: booleanArg({ default: false }),
+  },
+  resolve: (source, { id, manualCheckin }, context) =>
     context.prisma.eventRegistration.update({
       where: { id },
-      data: { checkInTime: new Date() },
+      data: { checkInTime: new Date(), manualCheckin },
     }),
 });

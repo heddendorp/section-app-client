@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  CheckInUserGQL,
   DeregisterFromEventGQL,
   DeregisterWithRefundGQL,
   LoadEventForManagementGQL,
@@ -25,6 +26,7 @@ export class EventManagePageComponent implements OnDestroy {
     private loadEvent: LoadEventForManagementGQL,
     private removeUserWithRefund: DeregisterWithRefundGQL,
     private removeUser: DeregisterFromEventGQL,
+    private checkInMutation: CheckInUserGQL,
     private route: ActivatedRoute
   ) {
     this.title.setTitle('TUMi - manage event');
@@ -68,5 +70,9 @@ export class EventManagePageComponent implements OnDestroy {
         alert(e.message);
       }
     }
+  }
+
+  async checkin(id: string) {
+    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
   }
 }

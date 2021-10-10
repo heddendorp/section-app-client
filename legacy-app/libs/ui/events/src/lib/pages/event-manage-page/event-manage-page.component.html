@@ -66,6 +66,13 @@
           >
             Kick without refund
           </button>
+          <button
+            mat-flat-button
+            (click)="checkin(registration.id)"
+            [disabled]="registration.checkInTime"
+          >
+            Manually check in user
+          </button>
         </div>
       </div>
     </div>

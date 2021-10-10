@@ -175,8 +175,8 @@ query getRegistration($id: ID!) {
   }
 }
 
-mutation checkInUser($id: ID!) {
-  checkInUser(id: $id) {
+mutation checkInUser($id: ID!, $manual: Boolean) {
+  checkInUser(id: $id, manualCheckin: $manual) {
     id
     checkInTime
     didAttend

@@ -248,6 +248,7 @@ Table EventRegistration {
   event TumiEvent [not null]
   eventId String [not null]
   checkInTime DateTime
+  manualCheckin Boolean [not null, default: false]
   paymentIntentId String
   chargeId String
   paymentStatus String
