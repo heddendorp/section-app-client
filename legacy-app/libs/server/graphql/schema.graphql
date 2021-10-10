@@ -194,6 +194,7 @@ type Mutation {
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
   createRegistrationMoveOrder(id: ID!): EventRegistration!
   deleteCostItem(id: ID!): TumiEvent
+  deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
 
   """Delete one template by id"""
   deleteTemplate(id: ID!): EventTemplate

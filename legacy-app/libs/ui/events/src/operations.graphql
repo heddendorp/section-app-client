@@ -156,6 +156,15 @@ mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!){
   }
 }
 
+mutation deleteReceipt($costItemId: ID!, $receiptId: ID!){
+  deleteReceipt(costItemId: $costItemId, receiptId: $receiptId){
+    id
+    receipts{
+      id
+    }
+  }
+}
+
 query getRegistration($id: ID!) {
   registration(id: $id) {
     id

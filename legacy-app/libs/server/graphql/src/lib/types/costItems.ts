@@ -99,6 +99,16 @@ export const addReceiptToCostItemMutation = mutationField(
   }
 );
 
+export const deleteReceiptMutation = mutationField('deleteReceipt', {
+  type: nonNull(costItemType),
+  args: { costItemId: nonNull(idArg()), receiptId: nonNull(idArg()) },
+  resolve: (source, { costItemId, receiptId }, context) =>
+    context.prisma.costItem.update({
+      where: { id: costItemId },
+      data: { receipts: { delete: { id: receiptId } } },
+    }),
+});
+
 export const deleteCostItemMutation = mutationField('deleteCostItem', {
   type: eventType,
   args: { id: nonNull(idArg()) },

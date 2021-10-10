@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
+  DeleteReceiptGQL,
   GetCostItemGQL,
   GetCostItemQuery,
   GetCostItemQueryVariables,
@@ -28,6 +29,7 @@ export class EventRunReceiptsPageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private loadCostItem: GetCostItemGQL,
+    private removeReceiptMutation: DeleteReceiptGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
@@ -54,6 +56,15 @@ export class EventRunReceiptsPageComponent implements OnDestroy {
       await this.dialog
         .open(AddReceiptDialogComponent, { data: { costItem } })
         .afterClosed();
+    }
+  }
+
+  async deleteReceipt(receipt: GetCostItemQuery['costItem']['receipts'][0]) {
+    const costItem = await this.costItem$.pipe(first()).toPromise();
+    if (costItem) {
+      await this.removeReceiptMutation
+        .mutate({ receiptId: receipt.id, costItemId: costItem.id })
+        .toPromise();
     }
   }
 }
