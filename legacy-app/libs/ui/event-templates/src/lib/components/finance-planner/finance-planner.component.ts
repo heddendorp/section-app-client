@@ -29,7 +29,13 @@ interface CostItem {
 })
 export class FinancePlannerComponent implements OnChanges {
   @Input() public template: GetEventTemplateQuery['eventTemplate'] | undefined;
-  public displayedColumns = ['description', 'value', 'scale', 'prepaid'];
+  public displayedColumns = [
+    'description',
+    'value',
+    'scale',
+    'prepaid',
+    'action',
+  ];
   public items$ = new ReplaySubject<CostItem[]>(1);
   public forecastForm: FormGroup;
   public forecastResult$: Observable<any>;
@@ -119,5 +125,12 @@ export class FinancePlannerComponent implements OnChanges {
         this.items$.next(data.updateTemplateFinances.finances.items);
       }
     }
+  }
+
+  async removeItem(element: CostItem) {
+    const items = await this.items$.pipe(first()).toPromise();
+    this.items$.next(
+      items.filter((item) => item.description !== element.description)
+    );
   }
 }

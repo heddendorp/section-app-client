@@ -19,6 +19,12 @@
     >
       already submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
     </p>
+    <a
+      mat-stroked-button
+      routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
+    >
+      See receipts
+    </a>
   </div>
 </div>
 <button mat-raised-button (click)="getFromTemplate()">
