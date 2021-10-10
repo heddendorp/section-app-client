@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  DeregisterFromEventGQL,
   DeregisterWithRefundGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
@@ -23,6 +24,7 @@ export class EventManagePageComponent implements OnDestroy {
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
     private removeUserWithRefund: DeregisterWithRefundGQL,
+    private removeUser: DeregisterFromEventGQL,
     private route: ActivatedRoute
   ) {
     this.title.setTitle('TUMi - manage event');
@@ -50,6 +52,18 @@ export class EventManagePageComponent implements OnDestroy {
         await this.removeUserWithRefund
           .mutate({ eventId: event.id, userId })
           .toPromise();
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+  }
+
+  async kick(userId: string) {
+    const event = await this.event$.pipe(first()).toPromise();
+    const proceed = confirm('Are you sure you want to remove this user?');
+    if (event && proceed) {
+      try {
+        await this.removeUser.mutate({ eventId: event.id, userId }).toPromise();
       } catch (e) {
         alert(e.message);
       }

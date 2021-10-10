@@ -287,8 +287,8 @@ mutation deregisterWithRefund($eventId: ID!, $userId: ID) {
   }
 }
 
-mutation deregisterFromEvent($eventId: ID!) {
-  deregisterFromEvent(id: $eventId) {
+mutation deregisterFromEvent($eventId: ID!, $userId: ID) {
+  deregisterFromEvent(id: $eventId, userId: $userId) {
     id
     participantRegistrations {
       id

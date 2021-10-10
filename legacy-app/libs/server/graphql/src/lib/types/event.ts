@@ -669,19 +669,23 @@ export const removeUserFromEventMutation = mutationField(
 export const deregisterFromEventMutation = mutationField(
   'deregisterFromEvent',
   {
-    args: { id: nonNull(idArg()) },
+    args: { id: nonNull(idArg()), userId: idArg() },
     type: eventType,
-    resolve: (source, { id }, context) =>
-      context.prisma.tumiEvent.update({
+    resolve: (source, { id, userId }, context) => {
+      if (!userId) userId = context.user.id;
+      if (userId !== context.user.id && context.assignment.role !== 'ADMIN')
+        throw new ApolloError('Only admins can deregister other users');
+      return context.prisma.tumiEvent.update({
         where: { id },
         data: {
           registrations: {
             delete: {
-              userId_eventId: { eventId: id, userId: context.user.id },
+              userId_eventId: { eventId: id, userId },
             },
           },
         },
-      }),
+      });
+    },
   }
 );
 

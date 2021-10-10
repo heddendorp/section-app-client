@@ -58,6 +58,14 @@
           >
             Kick with refund
           </button>
+          <button
+            mat-flat-button
+            (click)="kick(registration.user.id)"
+            [disabled]="registration.checkInTime"
+            color="{{ (registration.netPaid ?? 0) === 0 ? '' : 'warn' }}"
+          >
+            Kick without refund
+          </button>
         </div>
       </div>
     </div>
