@@ -208,6 +208,7 @@ type Mutation {
   """Removes the user with the supplied id to the event"""
   removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
+  updateESNcard(esnCardOverride: Boolean!, id: ID!): User
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
   updateProfile(input: UpdateProfileInput!): User
 

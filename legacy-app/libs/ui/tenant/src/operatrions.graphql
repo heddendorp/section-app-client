@@ -13,6 +13,8 @@ query loadUser($id: ID!){
     email
     birthdate
     phone
+    hasESNcard
+    esnCardOverride
     currentTenant(userId: $id){
       role
       status
@@ -154,6 +156,14 @@ mutation updateTenant($id: ID!, $update: updateTenantInput!){
     imprintPage
     privacyPolicyPage
     aboutPage
+  }
+}
+
+mutation updateESNcard($userId: ID!, $override: Boolean!){
+  updateESNcard(id: $userId,esnCardOverride: $override){
+    id
+    esnCardOverride
+    hasESNcard
   }
 }
 

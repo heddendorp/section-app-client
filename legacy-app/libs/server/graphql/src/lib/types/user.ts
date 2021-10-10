@@ -1,5 +1,6 @@
 import {
   arg,
+  booleanArg,
   idArg,
   inputObjectType,
   list,
@@ -138,6 +139,20 @@ export const updateProfileMutation = mutationField('updateProfile', {
   args: { input: nonNull(updateProfileInputType) },
   resolve: (source, { input }, context) =>
     context.prisma.user.update({ where: { id: context.user.id }, data: input }),
+});
+
+export const updateEsnCardMutation = mutationField('updateESNcard', {
+  type: userType,
+  args: { esnCardOverride: nonNull(booleanArg()), id: nonNull(idArg()) },
+  resolve: (source, { esnCardOverride, id }, context) => {
+    if (context.assignment.role !== 'ADMIN') {
+      throw new ApolloError('Only admins can change this setting');
+    }
+    return context.prisma.user.update({
+      where: { id },
+      data: { esnCardOverride },
+    });
+  },
 });
 
 export const getById = queryField('userById', {

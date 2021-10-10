@@ -25,6 +25,8 @@ import { UtilComponentsModule } from '@tumi/util-components';
 import { LineChartModule } from '@swimlane/ngx-charts';
 import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/tenant-move-orders-page.component';
 import { UtilMaterialModule } from '@tumi/util/material';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -53,6 +55,8 @@ import { UtilMaterialModule } from '@tumi/util/material';
     LineChartModule,
     FlexLayoutModule,
     UtilMaterialModule,
+    MatSliderModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     TenantLandingPageComponent,

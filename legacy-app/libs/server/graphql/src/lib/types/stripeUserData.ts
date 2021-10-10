@@ -179,8 +179,26 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
       if (!stripeData) {
         throw new ApolloError('User does not have payment data!');
       }
+
+      let amount = event.price.toNumber() * 100;
+      if (event.esnDiscount) {
+        const cardBought = !!(await context.prisma.eventRegistration.count({
+          where: {
+            user: { id: context.user.id },
+            event: { title: { contains: 'ESNcard' } },
+            type: RegistrationType.PARTICIPANT,
+          },
+        }));
+        const { esnCardOverride } = await context.prisma.user.findUnique({
+          where: { id: context.user.id },
+          select: { esnCardOverride: true },
+        });
+        if (esnCardOverride || cardBought) {
+          amount = event.discountedPrice.toNumber() * 100;
+        }
+      }
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: event.price.toNumber() * 100,
+        amount,
         currency: 'EUR',
         confirm: true,
         customer: stripeData.customerId,
