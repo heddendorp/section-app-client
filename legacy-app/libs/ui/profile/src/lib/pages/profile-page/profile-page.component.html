@@ -62,17 +62,21 @@
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
+        <p gdColumn="-1/1">
+          You have {{ profile.hasESNcard ? 'an' : 'no' }} ESNcard registered in
+          the app
+        </p>
       </div>
       <button mat-stroked-button class="w-full mt-2" (click)="updateProfile()">
         Update data
       </button>
-      <h3 class="mt-6">Calendar integration</h3>
+      <h3 class="mt-6 font-bold">Calendar integration</h3>
 
       <p class="select-all break-words font-mono" style="max-width: 80vw">
         https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
       </p>
 
-      <p>
+      <p class="text-sm">
         You can use this url to subscribe to a calendar feed of the events you
         are registered for.
       </p>

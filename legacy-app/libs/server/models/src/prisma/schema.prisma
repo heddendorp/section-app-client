@@ -320,7 +320,7 @@ model EventRegistration {
   event           TumiEvent                    @relation(fields: [eventId], references: [id])
   eventId         String                       @db.Uuid
   checkInTime     DateTime?
-  manualCheckin Boolean @default(false)
+  manualCheckin   Boolean                      @default(false)
   paymentIntentId String?
   chargeId        String?
   paymentStatus   String?

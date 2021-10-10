@@ -24,6 +24,7 @@ query userProfile {
     firstName
     lastName
     calendarToken
+    hasESNcard
     currentTenant {
       status
       stripeData{
