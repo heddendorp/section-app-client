@@ -111,6 +111,16 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       duration: 0,
     });
     this.generalInformationForm
+      .get('esnDiscount')
+      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((discount) => {
+        if (discount) {
+          this.generalInformationForm.get('discountedPrice')?.enable();
+        } else {
+          this.generalInformationForm.get('discountedPrice')?.disable();
+        }
+      });
+    this.generalInformationForm
       .get('registrationMode')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((mode) => {
