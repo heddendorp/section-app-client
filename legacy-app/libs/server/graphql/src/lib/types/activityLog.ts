@@ -1,4 +1,4 @@
-import { objectType } from 'nexus';
+import { list, nonNull, objectType, queryField } from 'nexus';
 import { ActivityLog } from 'nexus-prisma';
 
 export const activityLogType = objectType({
@@ -13,4 +13,10 @@ export const activityLogType = objectType({
     t.field(ActivityLog.involvedUser);
     t.field(ActivityLog.severity);
   },
+});
+
+export const getLogsQuery = queryField('logs', {
+  type: nonNull(list(nonNull(activityLogType))),
+  resolve: (source, args, context) =>
+    context.prisma.activityLog.findMany({ orderBy: { createdAt: 'desc' } }),
 });

@@ -294,6 +294,7 @@ type Query {
   """Get a list of all events"""
   events(after: DateTime): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
+  logs: [ActivityLog!]!
   moveOrder(id: ID!): EventRegistrationMoveOrder
   moveOrders: [EventRegistrationMoveOrder!]!
 

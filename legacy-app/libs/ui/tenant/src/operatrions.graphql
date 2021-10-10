@@ -140,6 +140,15 @@ query getStatistics{
   }
 }
 
+query getLogs {
+  logs{
+    id
+    createdAt
+    message
+    severity
+  }
+}
+
 #mutation updateStatus($id: ID!, $status: MembershipStatus!) {
 #  updateUserStatus(userId: $id, status: $status) {
 #    id

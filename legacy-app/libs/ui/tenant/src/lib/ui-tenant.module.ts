@@ -27,6 +27,7 @@ import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/t
 import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page/tenant-activity-log-page.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       { path: 'refunds', component: TenantRefundsPageComponent },
       { path: 'edit', component: TenantEditPageComponent },
       { path: 'stats', component: TenantStatsPageComponent },
+      { path: 'logs', component: TenantActivityLogPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -71,6 +73,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TenantProductsPageComponent,
     TenantStatsPageComponent,
     TenantMoveOrdersPageComponent,
+    TenantActivityLogPageComponent,
   ],
 })
 export class UiTenantModule {}
