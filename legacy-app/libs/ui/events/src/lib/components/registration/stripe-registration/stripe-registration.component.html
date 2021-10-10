@@ -46,11 +46,17 @@
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
     <p>✔️ You are registered for this event.</p>
-    <div class="my-2" *ngIf="canMove">
+    <div class="my-2" *ngIf="!event.registration?.didAttend">
       <p class="mb-2">You can give this registration to another person</p>
       <button mat-flat-button (click)="moveEvent()">Send event</button>
     </div>
-    <ng-container *ngIf="canDeregister">
+    <ng-container
+      *ngIf="
+        canDeregister &&
+        !event.title.includes('ESNcard') &&
+        !event.title.includes('Party')
+      "
+    >
       <p class="my-2">
         You can deregister from this event before
         {{ lastDeregistration | date }} and receive a refund

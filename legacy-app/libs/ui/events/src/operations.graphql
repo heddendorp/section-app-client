@@ -28,6 +28,7 @@ query loadEvent($id: ID!) {
     }
     registration {
       id
+      didAttend
       openMoveOrders{
         id
       }
