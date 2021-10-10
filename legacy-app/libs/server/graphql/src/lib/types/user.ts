@@ -32,12 +32,29 @@ export const userType = objectType({
     t.field(User.email_verified);
     t.field(User.email);
     t.field(User.calendarToken);
+    t.field(User.esnCardOverride);
     t.field({
       ...User.eventRegistrations,
       resolve: (source, args, context) =>
         context.prisma.eventRegistration.findMany({
           where: { user: { id: source.id } },
         }),
+    });
+    t.nonNull.boolean('hasESNcard', {
+      resolve: async (source, args, context) => {
+        if (source.esnCardOverride) {
+          return true;
+        }
+
+        const cardBought = await context.prisma.eventRegistration.count({
+          where: {
+            user: { id: source.id },
+            event: { title: { contains: 'ESNcard' } },
+            type: RegistrationType.PARTICIPANT,
+          },
+        });
+        return !!cardBought;
+      },
     });
     t.field({
       name: 'currentTenant',

@@ -41,7 +41,9 @@ type CostItem {
 
 """Additional inputs to create an event from a template"""
 input CreateEventFromTemplateInput {
+  discountedPrice: Decimal
   end: DateTime!
+  esnDiscount: Boolean!
   organizerId: ID
   organizerLimit: Int!
   participantLimit: Int!
@@ -54,11 +56,11 @@ input CreateEventFromTemplateInput {
 """Input needed to create a new event template"""
 input CreateEventTemplateInput {
   comment: String!
+  coordinates: Json
   description: String!
   duration: Decimal!
   icon: String!
   location: String!
-  locationId: String!
   organizerText: String!
   participantMail: String!
   participantText: String!
@@ -136,6 +138,7 @@ Template that holds all information for an event that is needed to run it
 """
 type EventTemplate {
   comment: String!
+  coordinates: Json
   createdAt: DateTime!
   description: String!
   duration: Decimal!
@@ -144,7 +147,6 @@ type EventTemplate {
   icon: String!
   id: ID!
   location: String!
-  locationId: String!
   organizerText: String!
   participantMail: String!
   participantText: String!
@@ -392,6 +394,7 @@ type Tenant {
 """Actual instande of an TumiEventbased on a template"""
 type TumiEvent {
   amountCollected: Int
+  coordinates: Json
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
 
   """Indicates whether the user could be an organizer for this event"""
@@ -402,7 +405,9 @@ type TumiEvent {
   createdAt: DateTime!
   createdBy: User!
   description: String!
+  discountedPrice: Decimal
   end: DateTime!
+  esnDiscount: Boolean!
   eventOrganizerId: String!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
@@ -410,7 +415,6 @@ type TumiEvent {
   icon: String!
   id: ID!
   location: String!
-  locationId: String!
   netAmountCollected: Int
   organizer: EventOrganizer!
   organizerLimit: Int!
@@ -489,8 +493,6 @@ input UpdateTemplateInput {
   description: String!
   duration: Decimal!
   icon: String!
-  location: String!
-  locationId: String!
   organizerText: String!
   participantMail: String!
   participantText: String!
@@ -507,11 +509,13 @@ type User {
   currentTenant(userId: ID): UsersOfTenants
   email: String!
   email_verified: Boolean!
+  esnCardOverride: Boolean!
   eventRegistrations: [EventRegistration!]!
   firstName: String!
 
   """Concatenated name of the user"""
   fullName: String!
+  hasESNcard: Boolean!
   iban: String
   id: ID!
   lastName: String!

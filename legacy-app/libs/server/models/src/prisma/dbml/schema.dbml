@@ -33,6 +33,7 @@ Table User {
   iban String
   picture String [not null]
   birthdate DateTime [not null]
+  esnCardOverride Boolean [not null, default: false]
   calendarToken String [unique, not null]
   tenants UsersOfTenants [not null]
   eventSubmissions EventSubmission [not null]
@@ -104,7 +105,7 @@ Table EventTemplate {
   description String [not null]
   comment String [not null]
   location String [not null]
-  locationId String [not null]
+  coordinates Json
   duration Decimal [not null]
   participantText String [not null]
   participantMail String [not null]
@@ -137,13 +138,15 @@ Table TumiEvent {
   end DateTime [not null]
   description String [not null]
   location String [not null]
-  locationId String [not null]
+  coordinates Json
   participantText String [not null]
   participantMail String [not null]
   organizerText String [not null]
   participantLimit Int [not null, default: 0]
   organizerLimit Int [not null, default: 0]
   price Decimal
+  discountedPrice Decimal
+  esnDiscount Boolean [not null, default: false]
   registrationLink String
   registrationMode RegistrationMode [not null]
   publicationState PublicationState [not null, default: 'DRAFT']

@@ -22,6 +22,7 @@ import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dia
 })
 export class StripeRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;
+  @Input() public user: LoadEventQuery['currentUser'] | null = null;
   public userSetupForPayment$: Observable<boolean>;
   public processing = new BehaviorSubject(false);
   constructor(

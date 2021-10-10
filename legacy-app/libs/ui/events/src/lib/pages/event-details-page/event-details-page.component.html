@@ -108,6 +108,7 @@
         <tumi-stripe-registration
           *ngSwitchCase="RegistrationMode.Stripe"
           [event]="event"
+          [user]="user$ | async"
         ></tumi-stripe-registration>
         <tumi-online-event-registration
           [event]="event"

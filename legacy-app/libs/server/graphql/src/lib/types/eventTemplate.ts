@@ -21,7 +21,7 @@ export const eventTemplateType = objectType({
     t.field(EventTemplate.description);
     t.field(EventTemplate.comment);
     t.field(EventTemplate.location);
-    t.field(EventTemplate.locationId);
+    t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
     t.field(EventTemplate.participantMail);
@@ -48,7 +48,7 @@ export const createEventTemplateInput = inputObjectType({
     t.field(EventTemplate.description);
     t.field(EventTemplate.comment);
     t.field(EventTemplate.location);
-    t.field(EventTemplate.locationId);
+    t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
     t.field(EventTemplate.participantMail);
@@ -64,8 +64,8 @@ export const updateTemplateInputType = inputObjectType({
     t.field(EventTemplate.icon);
     t.field(EventTemplate.description);
     t.field(EventTemplate.comment);
-    t.field(EventTemplate.location);
-    t.field(EventTemplate.locationId);
+    // t.field(EventTemplate.location);
+    // t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
     t.field(EventTemplate.participantMail);

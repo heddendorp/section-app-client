@@ -112,6 +112,7 @@ model User {
   iban               String?
   picture            String
   birthdate          DateTime
+  esnCardOverride    Boolean             @default(false)
   // Calendar fucntionality
   calendarToken      String              @unique @default(uuid()) @db.Uuid
   // User relations
@@ -180,7 +181,7 @@ model EventTemplate {
   description     String
   comment         String
   location        String
-  locationId      String
+  coordinates     Json?
   duration        Decimal
   participantText String
   participantMail String
@@ -211,13 +212,15 @@ model TumiEvent {
   end               DateTime
   description       String
   location          String
-  locationId        String
+  coordinates       Json?
   participantText   String
   participantMail   String
   organizerText     String
   participantLimit  Int                   @default(0)
   organizerLimit    Int                   @default(0)
   price             Decimal?
+  discountedPrice   Decimal?
+  esnDiscount       Boolean               @default(false)
   registrationLink  String?
   registrationMode  RegistrationMode
   publicationState  PublicationState      @default(DRAFT)
@@ -305,7 +308,7 @@ model PhotoShare {
   id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now())
   event     TumiEvent @relation(fields: [eventId], references: [id])
-  eventId   String    @db.Uuid@unique
+  eventId   String    @unique @db.Uuid
 }
 
 model EventRegistration {

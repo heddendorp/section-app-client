@@ -40,6 +40,26 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="w-full">
+      <mat-label>Discounted Price</mat-label>
+      <input
+        matInput
+        formControlName="discountedPrice"
+        type="number"
+        required
+      />
+      <span matSuffix>€</span>
+      <mat-hint
+        >The price users have to pay for this event if they get the
+        discount</mat-hint
+      >
+      <mat-error>
+        You have to specify a price or change the registration type
+      </mat-error>
+    </mat-form-field>
+    <mat-checkbox formControlName="esnDiscount"
+      >Has ESNcard discount</mat-checkbox
+    >
+    <mat-form-field class="w-full">
       <mat-label>Registration link</mat-label>
       <input matInput formControlName="registrationLink" type="url" required />
       <mat-hint>The link where users can register for this event</mat-hint>

@@ -23,6 +23,7 @@ import { QrDisplayDialogComponent } from '../../components/qr-display-dialog/qr-
 })
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
+  public user$: Observable<LoadEventQuery['currentUser']>;
   public hasAccount$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
@@ -44,6 +45,9 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event)
+    );
+    this.user$ = this.loadEventQueryRef.valueChanges.pipe(
+      map(({ data }) => data.currentUser)
     );
     this.loadEventQueryRef.startPolling(5000);
     this.hasAccount$ = this.loadCurrentUser

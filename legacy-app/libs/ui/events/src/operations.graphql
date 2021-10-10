@@ -1,4 +1,7 @@
 query loadEvent($id: ID!) {
+  currentUser{
+    hasESNcard
+  }
   event(eventId: $id) {
     id
     title
@@ -12,6 +15,8 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     price
+    discountedPrice
+    esnDiscount
     #    createdBy {
     #      id
     #      fullName
@@ -228,6 +233,8 @@ query loadEventForEdit($id: ID!) {
     participantText
     registrationMode
     price
+    discountedPrice
+    esnDiscount
     eventOrganizerId
     organizerSignup
     participantSignup

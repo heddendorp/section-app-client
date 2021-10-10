@@ -69,6 +69,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
       price: ['', Validators.required],
+      discountedPrice: ['', Validators.required],
+      esnDiscount: ['', Validators.required],
       eventOrganizerId: ['', Validators.required],
       organizerSignup: ['', Validators.required],
       participantSignup: ['', Validators.required],
@@ -115,6 +117,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         switch (mode) {
           case RegistrationMode.Stripe: {
             this.generalInformationForm.get('price')?.enable();
+            this.generalInformationForm.get('discountedPrice')?.enable();
+            this.generalInformationForm.get('esnDiscount')?.enable();
             this.generalInformationForm.get('registrationLink')?.disable();
             this.generalInformationForm.get('participantLimit')?.enable();
             this.generalInformationForm.get('organizerLimit')?.enable();
@@ -122,6 +126,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }
           case RegistrationMode.Online: {
             this.generalInformationForm.get('price')?.disable();
+            this.generalInformationForm.get('discountedPrice')?.disable();
+            this.generalInformationForm.get('esnDiscount')?.disable();
             this.generalInformationForm.get('registrationLink')?.disable();
             this.generalInformationForm.get('participantLimit')?.enable();
             this.generalInformationForm.get('organizerLimit')?.enable();
@@ -129,8 +135,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }
           case RegistrationMode.External: {
             this.generalInformationForm.get('price')?.disable();
+            this.generalInformationForm.get('discountedPrice')?.disable();
+            this.generalInformationForm.get('esnDiscount')?.disable();
             this.generalInformationForm.get('registrationLink')?.enable();
-
             this.generalInformationForm.get('participantLimit')?.disable();
             this.generalInformationForm.get('organizerLimit')?.disable();
             break;

@@ -4,9 +4,20 @@
     {{ (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0) }}
   </p>
   <ng-container *ngIf="event.participantRegistrationPossible.option">
+    <p
+      *ngIf="user?.hasESNcard && event.discountedPrice"
+      class="bg-green-600 text-white font-bold py-1 px-3 rounded mb-2"
+    >
+      Your ESNcard discount was applied!
+    </p>
     <p class="pb-4">
       You can register for this event online by paying
-      <strong>{{ event.price | currency: 'EUR' }}</strong>
+      <strong *ngIf="!user?.hasESNcard || !event.discountedPrice">
+        {{ event.price | currency: 'EUR' }}
+      </strong>
+      <strong *ngIf="user?.hasESNcard && event.discountedPrice">
+        {{ event.discountedPrice | currency: 'EUR' }}
+      </strong>
     </p>
     <ng-container *ngIf="userSetupForPayment$ | async; else notReady">
       <button

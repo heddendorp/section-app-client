@@ -23,7 +23,7 @@ mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!){
     participantText
     comment
     location
-    locationId
+    coordinates
   }
 }
 
@@ -59,7 +59,7 @@ query getEventTemplate($id: ID!){
     participantText
     comment
     location
-    locationId
+    coordinates
     finances
     eventInstances{
       id

@@ -44,9 +44,11 @@ export const eventType = objectType({
     t.field(TumiEvent.start);
     t.field(TumiEvent.end);
     t.field(TumiEvent.description);
-    t.field(TumiEvent.locationId);
+    t.field(TumiEvent.coordinates);
     t.field(TumiEvent.location);
     t.field(TumiEvent.price);
+    t.field(TumiEvent.discountedPrice);
+    t.field(TumiEvent.esnDiscount);
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.participantText);
@@ -508,6 +510,8 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.price);
+    t.field(TumiEvent.discountedPrice);
+    t.field(TumiEvent.esnDiscount);
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.id('organizerId');
@@ -782,8 +786,10 @@ export const createFromTemplateMutation = mutationField(
           registrationLink: createEventFromTemplateInput.registrationLink,
           registrationMode: createEventFromTemplateInput.registrationMode,
           price: createEventFromTemplateInput.price,
+          discountedPrice: createEventFromTemplateInput.discountedPrice,
+          esnDiscount: createEventFromTemplateInput.esnDiscount,
           description: template.description,
-          locationId: template.locationId,
+          coordinates: template.coordinates,
           location: template.location,
           participantText: template.participantText,
           participantMail: template.participantMail,

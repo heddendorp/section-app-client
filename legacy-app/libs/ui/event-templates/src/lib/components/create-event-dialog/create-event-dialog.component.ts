@@ -39,6 +39,8 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       start: ['', Validators.required],
       end: ['', Validators.required],
       price: ['', Validators.required],
+      discountedPrice: ['', Validators.required],
+      esnDiscount: ['', Validators.required],
       registrationLink: ['', Validators.required],
       registrationMode: ['', Validators.required],
       participantLimit: ['', Validators.required],
@@ -67,16 +69,22 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
         switch (mode) {
           case RegistrationMode.Stripe: {
             this.eventDataForm.get('price')?.enable();
+            this.eventDataForm.get('discountedPrice')?.enable();
+            this.eventDataForm.get('esnDiscount')?.enable();
             this.eventDataForm.get('registrationLink')?.disable();
             break;
           }
           case RegistrationMode.Online: {
             this.eventDataForm.get('price')?.disable();
+            this.eventDataForm.get('discountedPrice')?.disable();
+            this.eventDataForm.get('esnDiscount')?.disable();
             this.eventDataForm.get('registrationLink')?.disable();
             break;
           }
           case RegistrationMode.External: {
             this.eventDataForm.get('price')?.disable();
+            this.eventDataForm.get('discountedPrice')?.disable();
+            this.eventDataForm.get('esnDiscount')?.disable();
             this.eventDataForm.get('registrationLink')?.enable();
             break;
           }
