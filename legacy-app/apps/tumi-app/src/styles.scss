@@ -80,6 +80,11 @@ $tumi-dark-theme: mat.define-dark-theme(
   mat-icon.mat-icon.card-icon {
     @apply w-8 lg:w-10 h-8 lg:h-10 p-1 rounded-lg;
   }
+  markdown {
+    img {
+      @apply xl:max-w-2xl xl:float-right xl:ml-4;
+    }
+  }
   .dark-button {
     @include mat.button-theme($tumi-dark-theme);
   }
