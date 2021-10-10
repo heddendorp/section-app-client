@@ -466,7 +466,9 @@ type TumiEvent {
 """Additional inputs to create an event from a template"""
 input UpdateEventInput {
   description: String!
+  discountedPrice: Decimal
   end: DateTime!
+  esnDiscount: Boolean!
   eventOrganizerId: ID
   icon: String!
   organizerLimit: Int!

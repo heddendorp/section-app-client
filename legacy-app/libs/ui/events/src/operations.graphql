@@ -332,6 +332,8 @@ mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
     registrationMode
     registrationLink
     price
+    discountedPrice
+    esnDiscount
     eventOrganizerId
     organizerSignup
     participantSignup
