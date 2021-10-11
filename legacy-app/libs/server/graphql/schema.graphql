@@ -255,6 +255,9 @@ type Mutation {
   """Update an event template"""
   updateTemplate(data: UpdateTemplateInput!, id: ID!): EventTemplate
   updateTemplateFinances(finances: Json!, id: ID!): EventTemplate!
+
+  """Update an event template"""
+  updateTemplateLocation(data: UpdateLocationInput!, id: ID!): EventTemplate
   updateTenant(data: updateTenantInput!, id: ID!): Tenant
 
   """Change the role of s user on the current tenant"""
@@ -524,6 +527,12 @@ input UpdateEventInput {
   registrationMode: RegistrationMode!
   start: DateTime!
   title: String!
+}
+
+"""Input to update an event location"""
+input UpdateLocationInput {
+  coordinates: Json
+  location: String!
 }
 
 """Profile update input object"""

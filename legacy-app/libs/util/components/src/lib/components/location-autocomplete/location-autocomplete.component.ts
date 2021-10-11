@@ -54,7 +54,8 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
     ).pipe(map((response) => response.results ?? []));
   }
 
-  public optionDisplay(option: atlas.Models.SearchFuzzyResult) {
+  public optionDisplay(option: atlas.Models.SearchFuzzyResult | string) {
+    if (typeof option === 'string') return option;
     return (
       (option?.type === 'POI'
         ? option?.poi?.name

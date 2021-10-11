@@ -7,6 +7,7 @@ import {
   GetEventTemplateQuery,
   GetOrganizerOptionsGQL,
   UpdateEventTemplateGQL,
+  UpdateTemplateLocationGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -15,6 +16,7 @@ import { CreateEventDialogComponent } from '../../components/create-event-dialog
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventFormDialogComponent } from '../../components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
+import { SelectLocationDialogComponent } from '../../components/select-location-dialog/select-location-dialog.component';
 
 @Component({
   selector: 'tumi-template-details-page',
@@ -34,6 +36,7 @@ export class TemplateDetailsPageComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private updateTemplate: UpdateEventTemplateGQL,
+    private updateLocationMutation: UpdateTemplateLocationGQL,
     private deleteTemplateMutation: DeleteEventTemplateGQL
   ) {
     this.title.setTitle('TUMi - Event template');
@@ -101,6 +104,29 @@ export class TemplateDetailsPageComponent implements OnInit {
         .mutate({ templateId: template.id })
         .toPromise();
       await this.router.navigate(['event-templates']);
+    }
+  }
+
+  async updateLocation() {
+    const template = await this.eventTemplate$.pipe(first()).toPromise();
+    const location = await this.dialog
+      .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+      .afterClosed()
+      .toPromise();
+    if (location && template) {
+      console.log(location);
+      await this.updateLocationMutation
+        .mutate({
+          templateId: template.id,
+          update: {
+            coordinates: location.position,
+            location:
+              location.type === 'POI'
+                ? location.poi.name
+                : location.address.freeformAddress,
+          },
+        })
+        .toPromise();
     }
   }
 }

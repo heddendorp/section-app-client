@@ -11,6 +11,14 @@ mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTe
   }
 }
 
+mutation updateTemplateLocation($templateId: ID!, $update: UpdateLocationInput!){
+  updateTemplateLocation(id: $templateId,data: $update){
+    id
+    location
+    coordinates
+  }
+}
+
 mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!){
   updateTemplate(id: $templateId, data: $update){
     id

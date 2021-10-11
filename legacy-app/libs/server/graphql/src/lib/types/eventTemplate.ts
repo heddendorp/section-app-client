@@ -73,6 +73,15 @@ export const updateTemplateInputType = inputObjectType({
   },
 });
 
+export const updateLocationInputType = inputObjectType({
+  name: 'UpdateLocationInput',
+  description: 'Input to update an event location',
+  definition(t) {
+    t.field(EventTemplate.location);
+    t.field(EventTemplate.coordinates);
+  },
+});
+
 export const listEventTemplatesQuery = queryField('eventTemplates', {
   description: 'Query event templates for the current tenant',
   type: nonNull(list(nonNull(eventTemplateType))),
@@ -119,6 +128,17 @@ export const updateTemplateMutation = mutationField('updateTemplate', {
   resolve: (source, { id, data }, context) =>
     context.prisma.eventTemplate.update({ where: { id }, data }),
 });
+
+export const updateTemplateLocationMutation = mutationField(
+  'updateTemplateLocation',
+  {
+    type: eventTemplateType,
+    description: 'Update an event template',
+    args: { id: nonNull(idArg()), data: nonNull(updateLocationInputType) },
+    resolve: (source, { id, data }, context) =>
+      context.prisma.eventTemplate.update({ where: { id }, data }),
+  }
+);
 
 export const updateTemplateFinancesMutation = mutationField(
   'updateTemplateFinances',

@@ -39,6 +39,7 @@ export class EventFormDialogComponent implements OnInit {
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
     if (this.data?.template) {
       this.dialogForm.patchValue(this.data.template, { emitEvent: true });
+      this.dialogForm.get('location')?.disable();
     }
   }
 

@@ -2,6 +2,9 @@
   <div class="border-2 rounded my-4 p-2">
     <img [src]="template.icon | iconURL" class="w-16" />
     <h1>{{ template.title }}</h1>
+    <h2>Location</h2>
+    <p>{{ template.location }}</p>
+    <p>{{ template.coordinates | json }}</p>
     <h2>Description</h2>
     <markdown class="prose" [data]="template.description"></markdown>
     <h2>Running notes</h2>
@@ -12,6 +15,9 @@
       </button>
       <button mat-flat-button color="accent" (click)="editTemplate()">
         Edit
+      </button>
+      <button mat-flat-button color="accent" (click)="updateLocation()">
+        Update location
       </button>
       <button mat-flat-button color="warn" (click)="deleteTemplate()">
         Delete
