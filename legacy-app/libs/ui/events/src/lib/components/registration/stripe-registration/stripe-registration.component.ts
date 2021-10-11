@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import {
   DeregisterWithRefundGQL,
   GetUserPaymentStatusGQL,
   LoadEventQuery,
   RegisterWithStripePaymentGQL,
+  SubmissionItemType,
+  SubmissionTime,
 } from '@tumi/data-access';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'tumi-stripe-registration',
@@ -20,16 +29,20 @@ import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dia
   styleUrls: ['./stripe-registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StripeRegistrationComponent {
+export class StripeRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
   @Input() public user: LoadEventQuery['currentUser'] | null = null;
+  public infoForm: FormGroup | undefined;
   public userSetupForPayment$: Observable<boolean>;
   public processing = new BehaviorSubject(false);
+  public infoCollected$ = new BehaviorSubject(false);
+  public SubmissionItemType = SubmissionItemType;
   constructor(
     private getUserPaymentStatus: GetUserPaymentStatusGQL,
     private registerWithStripe: RegisterWithStripePaymentGQL,
     private deregisterWithRefund: DeregisterWithRefundGQL,
     private dialog: MatDialog,
+    private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {
     this.userSetupForPayment$ = this.getUserPaymentStatus
@@ -41,6 +54,30 @@ export class StripeRegistrationComponent {
             false
         )
       );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.event) {
+      const event = changes.event.currentValue as LoadEventQuery['event'];
+      if (event?.submissionItems?.length) {
+        this.infoCollected$.next(false);
+        this.infoForm = this.fb.group(
+          event.submissionItems
+            .filter(
+              (item) => item.submissionTime === SubmissionTime.Registration
+            )
+            .reduce(
+              (previousValue, currentValue) => ({
+                ...previousValue,
+                [currentValue.name]: ['', Validators.required],
+              }),
+              {}
+            )
+        );
+      } else {
+        this.infoCollected$.next(true);
+      }
+    }
   }
 
   get lastDeregistration() {
@@ -64,7 +101,7 @@ export class StripeRegistrationComponent {
       let data;
       try {
         const res = await this.registerWithStripe
-          .mutate({ eventId: this.event.id })
+          .mutate({ eventId: this.event.id, submissions: this.infoForm?.value })
           .toPromise();
         data = res.data;
       } catch (e) {

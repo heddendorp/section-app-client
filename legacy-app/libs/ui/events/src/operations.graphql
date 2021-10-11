@@ -21,6 +21,14 @@ query loadEvent($id: ID!) {
     #      id
     #      fullName
     #    }
+    submissionItems{
+      id
+      name
+      submissionTime
+      instruction
+      required
+      type
+    }
     organizer {
       id
       link
@@ -221,6 +229,14 @@ query loadEventForManagement($id: ID!) {
       paymentIntentId
       netPaid
       checkInTime
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
+      }
       user {
         id
         fullName
@@ -228,42 +244,6 @@ query loadEventForManagement($id: ID!) {
         email
       }
     }
-  }
-}
-
-query loadEventForEdit($id: ID!) {
-  event(eventId: $id) {
-    id
-    title
-    icon
-    start
-    end
-    description
-    organizerText
-    participantText
-    registrationMode
-    price
-    discountedPrice
-    esnDiscount
-    eventOrganizerId
-    organizerSignup
-    participantSignup
-    organizerRegistrationPossible
-    couldBeOrganizer
-    couldBeParticipant
-    participantLimit
-    organizerLimit
-    publicationState
-    registrationLink
-    organizers {
-      fullName
-      picture
-      id
-    }
-  }
-  organizers {
-    id
-    name
   }
 }
 
@@ -277,8 +257,8 @@ query GetUserPaymentStatus {
   }
 }
 
-mutation registerWithStripePayment($eventId: ID!) {
-  registerWithStripe(id: $eventId) {
+mutation registerWithStripePayment($eventId: ID!, $submissions: Json) {
+  registerWithStripe(id: $eventId, submissions: $submissions) {
     id
     status
     client_secret

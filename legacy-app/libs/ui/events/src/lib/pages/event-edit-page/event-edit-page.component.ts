@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   AddOrganizerToEventGQL,
+  AddSubmissionToEventGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
@@ -25,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectOrganizerDialogComponent } from '../../components/select-organizer-dialog/select-organizer-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { EventSubmissionDialogComponent } from '../../components/editing/event-submission-dialog/event-submission-dialog.component';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -52,6 +54,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private addOrganizerMutation: AddOrganizerToEventGQL,
     private removeUserMutation: RemoveUserFromEventGQL,
+    private addSubmissionMutation: AddSubmissionToEventGQL,
     private fb: FormBuilder
   ) {
     this.title.setTitle('TUMi - edit event');
@@ -246,5 +249,23 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         .toPromise();
     }
     this.snackBar.open('Event saved ✔️');
+  }
+
+  async addSubmission() {
+    const event = await this.event$.pipe(first()).toPromise();
+    const res = await this.dialog
+      .open(EventSubmissionDialogComponent)
+      .afterClosed()
+      .toPromise();
+    if (event && res) {
+      try {
+        await this.addSubmissionMutation
+          .mutate({ submissionItem: res, eventId: event.id })
+          .toPromise();
+        this.snackBar.open('✔️ Submission item saved');
+      } catch (e) {
+        this.snackBar.open(e);
+      }
+    }
   }
 }

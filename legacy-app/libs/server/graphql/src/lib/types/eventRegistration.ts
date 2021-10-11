@@ -51,6 +51,13 @@ export const eventRegistrationType = objectType({
           where: { registration: { id: source.id }, usedBy: null },
         }),
     });
+    t.field({
+      ...EventRegistration.submissions,
+      resolve: (source, args, context) =>
+        context.prisma.eventSubmission.findMany({
+          where: { registration: { id: source.id } },
+        }),
+    });
     t.nonNull.boolean('didAttend', {
       resolve: (source) => !!source.checkInTime,
     });

@@ -1,8 +1,16 @@
-import { idArg, mutationField, nonNull, objectType, queryField } from 'nexus';
+import {
+  arg,
+  idArg,
+  mutationField,
+  nonNull,
+  objectType,
+  queryField,
+} from 'nexus';
 import { StripeUserData } from 'nexus-prisma';
 import { eventType } from './event';
 import { RegistrationType, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
+import { Json } from 'nexus-prisma/scalars';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -143,15 +151,20 @@ export const deregisterUserWithRefundMutation = mutationField(
 
 export const registerWithStripeMutation = mutationField('registerWithStripe', {
   type: nonNull(paymentIntentType),
-  args: { id: nonNull(idArg()) },
-  resolve: async (source, { id }, context) =>
+  args: { id: nonNull(idArg()), submissions: arg({ type: Json }) },
+  resolve: async (source, { id, submissions }, context) =>
     context.prisma.$transaction(async (prisma) => {
       const event = await context.prisma.tumiEvent.findUnique({
         where: { id },
+        include: { submissionItems: true },
       });
       if (!event) {
         throw new ApolloError('Event could not be found!');
       }
+      if (event.submissionItems.some((item) => !submissions[item.name])) {
+        throw new ApolloError('Missing info for signup!');
+      }
+
       const registeredParticipants = await prisma.eventRegistration.count({
         where: { event: { id }, type: RegistrationType.PARTICIPANT },
       });
@@ -218,6 +231,12 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
           paymentIntentId: paymentIntent.id,
           paymentStatus: paymentIntent.status,
           amountPaid: paymentIntent.amount,
+          submissions: {
+            create: event.submissionItems.map((item) => ({
+              submissionItem: { connect: { id: item.id } },
+              data: { value: submissions[item.name] },
+            })),
+          },
         },
       });
       return paymentIntent;

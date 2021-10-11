@@ -46,6 +46,7 @@ enum SubmissionItemType {
   FILE
   NUMBER
   TEXT
+  LONGTEXT
   DATE
   RATING
 }
@@ -117,7 +118,6 @@ model User {
   calendarToken      String              @unique @default(uuid()) @db.Uuid
   // User relations
   tenants            UsersOfTenants[]
-  eventSubmissions   EventSubmission[]
   eventRegistrations EventRegistration[]
   receipts           Receipt[]
   createdEvents      TumiEvent[]
@@ -328,6 +328,7 @@ model EventRegistration {
   amountPaid      Int?
   netPaid         Int?
   moveOrders      EventRegistrationMoveOrder[]
+  submissions     EventSubmission[]
 
   @@unique([userId, eventId])
 }
@@ -344,22 +345,26 @@ model EventRegistrationMoveOrder {
 }
 
 model EventSubmissionItem {
-  id             String            @id @default(uuid()) @db.Uuid
-  createdAt      DateTime          @default(now())
-  event          TumiEvent         @relation(fields: [eventId], references: [id])
-  eventId        String            @db.Uuid
+  id             String             @id @default(uuid()) @db.Uuid
+  createdAt      DateTime           @default(now())
+  event          TumiEvent          @relation(fields: [eventId], references: [id])
+  eventId        String             @db.Uuid
   required       Boolean
+  name           String
+  instruction    String
   submissionTime SubmissionTime
+  type           SubmissionItemType
   submissions    EventSubmission[]
 }
 
 model EventSubmission {
-  id               String              @id @default(uuid()) @db.Uuid
-  createdAt        DateTime            @default(now())
-  user             User                @relation(fields: [userId], references: [id])
-  userId           String              @db.Uuid
-  submissionItem   EventSubmissionItem @relation(fields: [submissionItemId], references: [id])
-  submissionItemId String              @db.Uuid
+  id                  String              @id @default(uuid()) @db.Uuid
+  createdAt           DateTime            @default(now())
+  registration        EventRegistration   @relation(fields: [eventRegistrationId], references: [id], onDelete: Cascade)
+  eventRegistrationId String              @db.Uuid
+  submissionItem      EventSubmissionItem @relation(fields: [submissionItemId], references: [id])
+  submissionItemId    String              @db.Uuid
+  data                Json
 }
 
 model ActivityLog {

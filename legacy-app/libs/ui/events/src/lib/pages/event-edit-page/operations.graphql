@@ -1,0 +1,59 @@
+query loadEventForEdit($id: ID!) {
+  event(eventId: $id) {
+    id
+    title
+    icon
+    start
+    end
+    description
+    organizerText
+    participantText
+    registrationMode
+    price
+    discountedPrice
+    esnDiscount
+    eventOrganizerId
+    organizerSignup
+    participantSignup
+    organizerRegistrationPossible
+    couldBeOrganizer
+    couldBeParticipant
+    participantLimit
+    organizerLimit
+    publicationState
+    registrationLink
+    submissionItems{
+      id
+      createdAt
+      required
+      submissionTime
+      type
+      instruction
+      name
+    }
+    organizers {
+      fullName
+      picture
+      id
+    }
+  }
+  organizers {
+    id
+    name
+  }
+}
+
+mutation addSubmissionToEvent($eventId: ID!, $submissionItem: CreateSubmissionItemInput!){
+  createSubmissionOnEvent(id: $eventId,data: $submissionItem){
+    id
+    submissionItems{
+      id
+      createdAt
+      required
+      submissionTime
+      type
+      instruction
+      name
+    }
+  }
+}

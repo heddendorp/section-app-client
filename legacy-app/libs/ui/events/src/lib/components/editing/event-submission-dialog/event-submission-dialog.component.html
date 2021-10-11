@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>New Event Submission</h1>
+<mat-dialog-content>
+  <form [formGroup]="newItemForm">
+    <mat-form-field class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Instruction</mat-label>
+      <input matInput formControlName="instruction" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Submission Time</mat-label>
+      <mat-select formControlName="submissionTime">
+        <mat-option [value]="SubmissionTime.Registration">
+          During Registration
+        </mat-option>
+        <mat-option [value]="SubmissionTime.After">
+          After the event
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Submission Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option [value]="SubmissionItemType.Text">Text</mat-option>
+        <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>
+        <mat-option [value]="SubmissionItemType.Rating">Rating</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="mb-2">
+      <mat-checkbox formControlName="required">Is required</mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [mat-dialog-close]="newItemForm.value"
+    [disabled]="newItemForm.invalid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

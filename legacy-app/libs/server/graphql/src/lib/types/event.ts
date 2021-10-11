@@ -60,6 +60,13 @@ export const eventType = objectType({
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
     t.field({
+      ...TumiEvent.submissionItems,
+      resolve: (source, args, context) =>
+        context.prisma.eventSubmissionItem.findMany({
+          where: { event: { id: source.id } },
+        }),
+    });
+    t.field({
       ...TumiEvent.costItems,
       args: { hideOnInvoice: booleanArg({ default: false }) },
       resolve: (source, { hideOnInvoice }, context) =>

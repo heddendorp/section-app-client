@@ -40,6 +40,7 @@ import { MoveEventDialogComponent } from './components/move-event-dialog/move-ev
 import { ManageEventFinancesComponent } from './components/management/manage-event-finances/manage-event-finances.component';
 import { EventRunReceiptsPageComponent } from './pages/event-run-receipts-page/event-run-receipts-page.component';
 import { AddReceiptDialogComponent } from './components/running/add-receipt-dialog/add-receipt-dialog.component';
+import { EventSubmissionDialogComponent } from './components/editing/event-submission-dialog/event-submission-dialog.component';
 
 @NgModule({
   imports: [
@@ -108,6 +109,7 @@ import { AddReceiptDialogComponent } from './components/running/add-receipt-dial
     ManageEventFinancesComponent,
     EventRunReceiptsPageComponent,
     AddReceiptDialogComponent,
+    EventSubmissionDialogComponent,
   ],
 })
 export class UiEventsModule {}

@@ -36,7 +36,6 @@ Table User {
   esnCardOverride Boolean [not null, default: false]
   calendarToken String [unique, not null]
   tenants UsersOfTenants [not null]
-  eventSubmissions EventSubmission [not null]
   eventRegistrations EventRegistration [not null]
   receipts Receipt [not null]
   createdEvents TumiEvent [not null]
@@ -256,6 +255,7 @@ Table EventRegistration {
   amountPaid Int
   netPaid Int
   moveOrders EventRegistrationMoveOrder [not null]
+  submissions EventSubmission [not null]
 
   indexes {
     (userId, eventId) [unique]
@@ -279,17 +279,21 @@ Table EventSubmissionItem {
   event TumiEvent [not null]
   eventId String [not null]
   required Boolean [not null]
+  name String [not null]
+  instruction String [not null]
   submissionTime SubmissionTime [not null]
+  type SubmissionItemType [not null]
   submissions EventSubmission [not null]
 }
 
 Table EventSubmission {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  user User [not null]
-  userId String [not null]
+  registration EventRegistration [not null]
+  eventRegistrationId String [not null]
   submissionItem EventSubmissionItem [not null]
   submissionItemId String [not null]
+  data Json [not null]
 }
 
 Table ActivityLog {
@@ -326,6 +330,7 @@ Enum SubmissionItemType {
   FILE
   NUMBER
   TEXT
+  LONGTEXT
   DATE
   RATING
 }
@@ -403,6 +408,6 @@ Ref: EventRegistrationMoveOrder.eventRegistrationId > EventRegistration.id [dele
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
 
-Ref: EventSubmission.userId > User.id
+Ref: EventSubmission.eventRegistrationId > EventRegistration.id [delete: Cascade]
 
 Ref: EventSubmission.submissionItemId > EventSubmissionItem.id

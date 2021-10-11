@@ -6,7 +6,7 @@
     <h1>Edit event</h1>
   </div>
 
-  <div class="my-8 py-4">
+  <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">Publication management</h2>
     <form [formGroup]="publicationForm" (ngSubmit)="changePublication()">
       <mat-form-field class="w-full">
@@ -30,7 +30,7 @@
       </div>
     </form>
   </div>
-  <div class="my-8 py-4">
+  <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">General information</h2>
     <form [formGroup]="generalInformationForm" (ngSubmit)="onSubmit()">
       <mat-form-field class="w-full">
@@ -184,9 +184,36 @@
       </div>
     </form>
   </div>
-  <div class="my-8 py-4">
-    <div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center">
-      <h2 class="mb-2">Assigned Organizers</h2>
+  <div
+    class="my-8 py-4 px-4 border-2 rounded-lg"
+    *ngIf="event$ | async as event"
+  >
+    <div
+      fxLayoutGap="1rem"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="mb-2"
+    >
+      <h2>Additional userdata</h2>
+      <button mat-icon-button>
+        <mat-icon svgIcon="icon-add" (click)="addSubmission()"></mat-icon>
+      </button>
+    </div>
+    <mat-list>
+      <mat-list-item *ngFor="let item of event.submissionItems">
+        <h3 mat-line>{{ item.name }}</h3>
+        <p mat-line>{{ item.type }} | {{ item.submissionTime }}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="my-8 py-4 px-4 border-2 rounded-lg">
+    <div
+      fxLayoutGap="1rem"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="mb-2"
+    >
+      <h2>Assigned Organizers</h2>
       <button mat-icon-button>
         <mat-icon svgIcon="icon-add" (click)="addOrganizer()"></mat-icon>
       </button>

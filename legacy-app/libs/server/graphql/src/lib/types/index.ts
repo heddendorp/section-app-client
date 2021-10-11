@@ -5,6 +5,8 @@ export * from './eventTemplate';
 export * from './event';
 export * from './eventOrganizer';
 export * from './eventRegistration';
+export * from './eventSubmissionItem';
+export * from './eventSubmission';
 export * from './refundedRegistration';
 export * from './enums';
 export * from './photoShare';

@@ -19,20 +19,61 @@
         {{ event.discountedPrice | currency: 'EUR' }}
       </strong>
     </p>
-    <ng-container *ngIf="userSetupForPayment$ | async; else notReady">
+    <ng-container *ngIf="(infoCollected$ | async) === false && infoForm">
+      <p class="mb-2">
+        To register for this event, additional information is needed.
+      </p>
+      <form [formGroup]="infoForm" class="block mb-4">
+        <mat-form-field
+          class="w-full"
+          *ngFor="let item of event.submissionItems"
+        >
+          <mat-label>{{ item.name }}</mat-label>
+          <ng-container [ngSwitch]="item.type">
+            <textarea
+              *ngSwitchCase="SubmissionItemType.Longtext"
+              rows="3"
+              matInput
+              [formControlName]="item.name"
+              [required]="item.required"
+            ></textarea>
+            <input
+              *ngSwitchCase="SubmissionItemType.Text"
+              matInput
+              [formControlName]="item.name"
+              [required]="item.required"
+              type="text"
+            />
+          </ng-container>
+          <mat-hint>{{ item.instruction }}</mat-hint>
+        </mat-form-field>
+      </form>
       <button
-        mat-raised-button
+        class="w-full mt-4"
+        mat-flat-button
         color="primary"
-        (click)="register()"
-        [disabled]="processing | async"
+        [disabled]="infoForm?.invalid ?? true"
+        (click)="infoCollected$.next(true)"
       >
-        Pay and register
+        Continue
       </button>
-      <mat-progress-bar
-        class="mt-4"
-        mode="indeterminate"
-        *ngIf="processing | async"
-      ></mat-progress-bar>
+    </ng-container>
+    <ng-container *ngIf="infoCollected$ | async">
+      <ng-container *ngIf="userSetupForPayment$ | async; else notReady">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="register()"
+          [disabled]="processing | async"
+        >
+          Pay and register
+        </button>
+        <mat-progress-bar
+          class="mt-4"
+          mode="indeterminate"
+          *ngIf="processing | async"
+        ></mat-progress-bar>
+      </ng-container>
     </ng-container>
   </ng-container>
   <ng-container

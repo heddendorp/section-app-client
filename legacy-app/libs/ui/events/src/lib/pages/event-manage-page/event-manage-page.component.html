@@ -39,6 +39,13 @@
             </span>
           </p>
         </div>
+        <div *ngIf="registration.submissions.length">
+          <p>Additional Data</p>
+          <div *ngFor="let submission of registration.submissions">
+            <p>{{ submission.submissionItem.name }}:</p>
+            <p class="whitespace-pre-line">{{ submission.data.value }}</p>
+          </div>
+        </div>
         <div>
           <p>During event</p>
           <p>

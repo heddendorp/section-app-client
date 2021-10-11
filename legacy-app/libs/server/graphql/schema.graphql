@@ -75,6 +75,14 @@ input CreateReceiptInput {
   type: String
 }
 
+input CreateSubmissionItemInput {
+  instruction: String!
+  name: String!
+  required: Boolean!
+  submissionTime: SubmissionTime!
+  type: SubmissionItemType!
+}
+
 """New user input object"""
 input CreateUserInput {
   birthdate: DateTime!
@@ -117,6 +125,7 @@ type EventRegistration {
   paymentIntentId: String
   paymentStatus: String
   stripeFee: Int
+  submissions: [EventSubmission!]!
   type: RegistrationType!
   user: User!
   userId: String!
@@ -132,6 +141,29 @@ type EventRegistrationMoveOrder {
   registration: EventRegistration!
   usedAt: DateTime
   usedBy: String
+}
+
+type EventSubmission {
+  createdAt: DateTime!
+  data: Json!
+  eventRegistrationId: String!
+  id: ID!
+  registration: EventRegistration!
+  submissionItem: EventSubmissionItem!
+  submissionItemId: String!
+}
+
+type EventSubmissionItem {
+  createdAt: DateTime!
+  event: TumiEvent!
+  eventId: String!
+  id: ID!
+  instruction: String!
+  name: String!
+  required: Boolean!
+  submissionTime: SubmissionTime!
+  submissions: [EventSubmission!]!
+  type: SubmissionItemType!
 }
 
 """
@@ -193,6 +225,12 @@ type Mutation {
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer
   createEventTemplate(eventTemplateInput: CreateEventTemplateInput!): EventTemplate
   createRegistrationMoveOrder(id: ID!): EventRegistration!
+  createSubmissionOnEvent(
+    data: CreateSubmissionItemInput!
+
+    """ID of the targeted event"""
+    id: ID!
+  ): TumiEvent!
   deleteCostItem(id: ID!): TumiEvent
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
 
@@ -205,7 +243,7 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput): User!
-  registerWithStripe(id: ID!): paymentIntent!
+  registerWithStripe(id: ID!, submissions: Json): paymentIntent!
 
   """Removes the user with the supplied id to the event"""
   removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
@@ -370,6 +408,7 @@ type StripeUserData {
 enum SubmissionItemType {
   DATE
   FILE
+  LONGTEXT
   NUMBER
   RATING
   TEXT
@@ -456,6 +495,7 @@ type TumiEvent {
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
+  submissionItems: [EventSubmissionItem!]!
   title: String!
 
   """Indicates if the current user is organizer for the event"""
