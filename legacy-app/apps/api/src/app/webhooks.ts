@@ -9,7 +9,11 @@ const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
 
 export const webhookRouter = (prisma) => {
   const router = express.Router();
-
+  router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500);
+    res.send(err);
+  });
   router.post(
     '/stripe',
     bodyParser.raw({ type: 'application/json' }),
