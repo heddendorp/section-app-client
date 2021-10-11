@@ -510,7 +510,7 @@ input UpdateEventInput {
   description: String!
   discountedPrice: Decimal
   end: DateTime!
-  esnDiscount: Boolean!
+  esnDiscount: Boolean! = false
   eventOrganizerId: ID
   icon: String!
   organizerLimit: Int!
