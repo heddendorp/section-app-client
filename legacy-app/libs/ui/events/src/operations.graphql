@@ -210,6 +210,9 @@ query loadEventForManagement($id: ID!) {
     amountCollected
     netAmountCollected
     feesPaid
+    participantLimit
+    participantsRegistered
+    participantsAttended
     #registrations
     organizerRegistrations {
       id

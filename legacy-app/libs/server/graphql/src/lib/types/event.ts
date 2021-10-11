@@ -275,6 +275,17 @@ export const eventType = objectType({
           },
         }),
     });
+    t.nonNull.int('participantsAttended', {
+      description: 'Number of users that are checked in on the event',
+      resolve: async (root, args, context) =>
+        context.prisma.eventRegistration.count({
+          where: {
+            eventId: root.id,
+            type: RegistrationType.PARTICIPANT,
+            checkInTime: { not: null },
+          },
+        }),
+    });
     t.field({
       name: 'participantRegistrationPossible',
       description:

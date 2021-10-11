@@ -12,12 +12,22 @@
     ></tumi-manage-event-finances>
   </div>
   <div class="border p-4 rounded-2xl my-4">
-    <h2 class="mb-4">Participants</h2>
+    <h2 class="mb-2">Participants</h2>
+    <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
+      <p>Users Checked in</p>
+      <p>{{ event.participantsAttended }}</p>
+      <p>Users registered</p>
+      <p>{{ event.participantsRegistered }}</p>
+      <p>Maximum participants</p>
+      <p>{{ event.participantLimit }}</p>
+    </div>
     <div fxLayout="column" fxLayoutGap="1rem">
       <div
         *ngFor="let registration of event.participantRegistrations"
         class="border-t"
-        fxLayout="row"
+        fxLayout="column"
+        fxLayout.gt-md="row"
+        fxLayoutAlign="start start"
         fxLayoutGap="1rem"
       >
         <img

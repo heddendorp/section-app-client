@@ -489,6 +489,9 @@ type TumiEvent {
   participantSignup: [MembershipStatus!]!
   participantText: String!
 
+  """Number of users that are checked in on the event"""
+  participantsAttended: Int!
+
   """Number of users registered as participant to this event"""
   participantsRegistered: Int!
   photoShare: PhotoShare

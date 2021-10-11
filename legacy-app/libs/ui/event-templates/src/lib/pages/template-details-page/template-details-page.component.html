@@ -5,6 +5,15 @@
     <h2>Location</h2>
     <p>{{ template.location }}</p>
     <p>{{ template.coordinates | json }}</p>
+    <a
+      mat-stroked-button
+      href="http://www.google.com/maps/place/{{ template.coordinates.lat }},{{
+        template.coordinates.lon
+      }}"
+      target="_blank"
+    >
+      Open in maps
+    </a>
     <h2>Description</h2>
     <markdown class="prose" [data]="template.description"></markdown>
     <h2>Running notes</h2>
