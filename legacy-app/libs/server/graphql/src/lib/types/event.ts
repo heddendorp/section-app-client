@@ -540,7 +540,7 @@ export const updateEventInput = inputObjectType({
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.price);
     t.field(TumiEvent.discountedPrice);
-    t.field(TumiEvent.esnDiscount);
+    t.field({ ...TumiEvent.esnDiscount, default: false });
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.participantLimit);

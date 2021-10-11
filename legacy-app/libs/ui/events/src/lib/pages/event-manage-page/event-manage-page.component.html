@@ -84,4 +84,27 @@
       </div>
     </div>
   </div>
+  <div
+    class="border p-4 rounded-2xl my-4"
+    *ngIf="event.title.includes('ESNcard')"
+  >
+    <h2 class="mb-4">For Thomas with ❤️</h2>
+
+    <table class="select-all">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let registration of getTable(event.participantRegistrations)"
+        >
+          <td>{{ registration.user.fullName }}</td>
+          <td class="whitespace-pre-line">{{ registration.address }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </main>

@@ -75,4 +75,41 @@ export class EventManagePageComponent implements OnDestroy {
   async checkin(id: string) {
     throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
   }
+
+  getTable(
+    participantRegistrations: Array<{
+      __typename?: 'EventRegistration';
+      id: string;
+      createdAt: any;
+      paymentStatus?: string | null | undefined;
+      paymentIntentId?: string | null | undefined;
+      netPaid?: number | null | undefined;
+      checkInTime?: any;
+      submissions: Array<{
+        __typename?: 'EventSubmission';
+        id: string;
+        data: any;
+        submissionItem: {
+          __typename?: 'EventSubmissionItem';
+          id: string;
+          name: string;
+        };
+      }>;
+      user: {
+        __typename?: 'User';
+        id: string;
+        fullName: string;
+        picture: string;
+        email: string;
+      };
+    }>
+  ) {
+    return participantRegistrations
+      .filter((r) => !r.checkInTime && r.submissions.length)
+      .map((r) => ({
+        ...r,
+        address: r.submissions.find((s) => s.submissionItem.name === 'Address')
+          ?.data?.value,
+      }));
+  }
 }
