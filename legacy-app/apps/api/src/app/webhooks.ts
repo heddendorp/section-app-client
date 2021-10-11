@@ -13,7 +13,7 @@ export const webhookRouter = (prisma) => {
   router.post(
     '/stripe',
     bodyParser.raw({ type: 'application/json' }),
-    async (request, response) => {
+    async (request, response, next) => {
       const sig = request.headers['stripe-signature'];
 
       let event;
@@ -85,6 +85,8 @@ export const webhookRouter = (prisma) => {
                     'Failed to upsert event registration after processing payment on registration!',
                 },
               });
+              response.status(500).send(e);
+              return;
             }
           } else {
             const registration = await prisma.eventRegistration.findUnique({
@@ -209,6 +211,8 @@ export const webhookRouter = (prisma) => {
                       'Failed to upsert event registration after succeeded payment on registration!',
                   },
                 });
+                response.status(500).send(e);
+                return;
               }
             } else {
               const registration = await prisma.eventRegistration.findUnique({
@@ -311,6 +315,8 @@ export const webhookRouter = (prisma) => {
                     'Failed to remove event registration after failed payment on registration!',
                 },
               });
+              response.status(500).send(e);
+              return;
             }
           } else {
             await prisma.eventRegistrationMoveOrder.delete({
@@ -330,6 +336,8 @@ export const webhookRouter = (prisma) => {
                     'Failed to remove event registration after failed payment on move!',
                 },
               });
+              response.status(500).send(e);
+              return;
             }
             await prisma.activityLog.create({
               data: {
