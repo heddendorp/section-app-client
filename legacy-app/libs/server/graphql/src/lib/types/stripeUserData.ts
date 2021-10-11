@@ -8,7 +8,7 @@ import {
 } from 'nexus';
 import { StripeUserData } from 'nexus-prisma';
 import { eventType } from './event';
-import { RegistrationType, Role } from '@tumi/server-models';
+import { LogSeverity, RegistrationType, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 import { Json } from 'nexus-prisma/scalars';
 
@@ -129,9 +129,21 @@ export const deregisterUserWithRefundMutation = mutationField(
         reason: 'requested_by_customer',
         metadata: { eventId, userId, event: event.title },
       });
-      await context.prisma.eventRegistration.delete({
-        where: { id: registration.id },
-      });
+      try {
+        await context.prisma.eventRegistration.delete({
+          where: { id: registration.id },
+        });
+      } catch (e) {
+        await context.prisma.activityLog.create({
+          data: {
+            data: e,
+            oldData: JSON.parse(JSON.stringify(registration)),
+            severity: LogSeverity.ERROR,
+            message:
+              'Failed to remove event registration after requested refund!',
+          },
+        });
+      }
       await context.prisma.refundedRegistration.create({
         data: {
           userId,

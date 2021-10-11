@@ -268,21 +268,45 @@ export const webhookRouter = (prisma) => {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.payment_failed');
           if (!paymentIntent.metadata.isMove) {
-            await prisma.eventRegistration.delete({
-              where: {
-                userId_eventId: {
-                  userId: paymentIntent.metadata.userId,
-                  eventId: paymentIntent.metadata.eventId,
+            try {
+              await prisma.eventRegistration.delete({
+                where: {
+                  userId_eventId: {
+                    userId: paymentIntent.metadata.userId,
+                    eventId: paymentIntent.metadata.eventId,
+                  },
                 },
-              },
-            });
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  data: e,
+                  oldData: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                  message:
+                    'Failed to remove event registration after failed payment on registration!',
+                },
+              });
+            }
           } else {
             await prisma.eventRegistrationMoveOrder.delete({
               where: { id: paymentIntent.metadata.moveOrderId },
             });
-            await prisma.eventRegistration.delete({
-              where: { id: paymentIntent.metadata.registrationId },
-            });
+            try {
+              await prisma.eventRegistration.delete({
+                where: { id: paymentIntent.metadata.registrationId },
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  data: e,
+                  oldData: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                  message:
+                    'Failed to remove event registration after failed payment on move!',
+                },
+              });
+            }
             await prisma.activityLog.create({
               data: {
                 message: `Event move was aborted due to failed payment`,
