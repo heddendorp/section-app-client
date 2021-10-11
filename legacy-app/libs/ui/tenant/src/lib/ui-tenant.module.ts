@@ -28,6 +28,7 @@ import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page/tenant-activity-log-page.component';
+import { ShowDataDialogComponent } from './components/show-data-dialog/show-data-dialog.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page
     TenantStatsPageComponent,
     TenantMoveOrdersPageComponent,
     TenantActivityLogPageComponent,
+    ShowDataDialogComponent,
   ],
 })
 export class UiTenantModule {}

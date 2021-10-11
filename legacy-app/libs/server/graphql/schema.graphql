@@ -12,6 +12,11 @@ type ActivityLog {
   severity: LogSeverity!
 }
 
+type ActivityLogStat {
+  count: Int!
+  message: String!
+}
+
 """
 The `BigInt` scalar type represents non-fractional signed whole numeric values.
 @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
@@ -335,6 +340,7 @@ type Query {
   """Get a list of all events"""
   events(after: DateTime): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
+  logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   moveOrder(id: ID!): EventRegistrationMoveOrder
   moveOrders: [EventRegistrationMoveOrder!]!

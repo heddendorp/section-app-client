@@ -147,6 +147,12 @@ query getLogs {
     createdAt
     message
     severity
+    data
+    oldData
+  }
+  logStats{
+    count
+    message
   }
 }
 

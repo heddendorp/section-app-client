@@ -1,0 +1,8 @@
+<h1>{{ data.message }}</h1>
+<mat-dialog-content>
+  <p class="mb-2">Created: {{ data.createdAt | date }}</p>
+  <p class="mb-2">Data 1</p>
+  <pre class="mb-2">{{ data.data | json }}</pre>
+  <p class="mb-2">Data 2</p>
+  <pre class="mb-2">{{ data.oldData | json }}</pre>
+</mat-dialog-content>
