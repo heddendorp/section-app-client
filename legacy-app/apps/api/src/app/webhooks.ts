@@ -53,27 +53,39 @@ export const webhookRouter = (prisma) => {
           console.log('Processing event: payment_intent.processing');
           const charge = paymentIntent.charges.data[0];
           if (!paymentIntent.metadata.isMove) {
-            await prisma.eventRegistration.upsert({
-              where: {
-                userId_eventId: {
-                  userId: paymentIntent.metadata.userId,
-                  eventId: paymentIntent.metadata.eventId,
+            try {
+              await prisma.eventRegistration.upsert({
+                where: {
+                  userId_eventId: {
+                    userId: paymentIntent.metadata.userId,
+                    eventId: paymentIntent.metadata.eventId,
+                  },
                 },
-              },
-              update: {
-                paymentIntentId: paymentIntent.id,
-                chargeId: charge.id,
-                paymentStatus: paymentIntent.status,
-              },
-              create: {
-                type: RegistrationType.PARTICIPANT,
-                event: { connect: { id: paymentIntent.metadata.eventId } },
-                user: { connect: { id: paymentIntent.metadata.userId } },
-                paymentIntentId: paymentIntent.id,
-                chargeId: charge.id,
-                paymentStatus: paymentIntent.status,
-              },
-            });
+                update: {
+                  paymentIntentId: paymentIntent.id,
+                  chargeId: charge.id,
+                  paymentStatus: paymentIntent.status,
+                },
+                create: {
+                  type: RegistrationType.PARTICIPANT,
+                  event: { connect: { id: paymentIntent.metadata.eventId } },
+                  user: { connect: { id: paymentIntent.metadata.userId } },
+                  paymentIntentId: paymentIntent.id,
+                  chargeId: charge.id,
+                  paymentStatus: paymentIntent.status,
+                },
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  data: e,
+                  oldData: paymentIntent,
+                  severity: LogSeverity.ERROR,
+                  message:
+                    'Failed to upsert event registration after processing payment on registration!',
+                },
+              });
+            }
           } else {
             const registration = await prisma.eventRegistration.findUnique({
               where: { id: paymentIntent.metadata.registrationId },
@@ -159,33 +171,45 @@ export const webhookRouter = (prisma) => {
                 charge.balance_transaction
               );
             if (!paymentIntent.metadata.isMove) {
-              await prisma.eventRegistration.upsert({
-                where: {
-                  userId_eventId: {
-                    userId: paymentIntent.metadata.userId,
-                    eventId: paymentIntent.metadata.eventId,
+              try {
+                await prisma.eventRegistration.upsert({
+                  where: {
+                    userId_eventId: {
+                      userId: paymentIntent.metadata.userId,
+                      eventId: paymentIntent.metadata.eventId,
+                    },
                   },
-                },
-                create: {
-                  type: RegistrationType.PARTICIPANT,
-                  event: { connect: { id: paymentIntent.metadata.eventId } },
-                  user: { connect: { id: paymentIntent.metadata.userId } },
-                  paymentIntentId: paymentIntent.id,
-                  chargeId: charge.id,
-                  paymentStatus: paymentIntent.status,
-                  amountPaid: balanceTransaction.amount,
-                  netPaid: balanceTransaction.net,
-                  stripeFee: balanceTransaction.fee,
-                },
-                update: {
-                  amountPaid: balanceTransaction.amount,
-                  netPaid: balanceTransaction.net,
-                  stripeFee: balanceTransaction.fee,
-                  paymentIntentId: paymentIntent.id,
-                  chargeId: charge.id,
-                  paymentStatus: paymentIntent.status,
-                },
-              });
+                  create: {
+                    type: RegistrationType.PARTICIPANT,
+                    event: { connect: { id: paymentIntent.metadata.eventId } },
+                    user: { connect: { id: paymentIntent.metadata.userId } },
+                    paymentIntentId: paymentIntent.id,
+                    chargeId: charge.id,
+                    paymentStatus: paymentIntent.status,
+                    amountPaid: balanceTransaction.amount,
+                    netPaid: balanceTransaction.net,
+                    stripeFee: balanceTransaction.fee,
+                  },
+                  update: {
+                    amountPaid: balanceTransaction.amount,
+                    netPaid: balanceTransaction.net,
+                    stripeFee: balanceTransaction.fee,
+                    paymentIntentId: paymentIntent.id,
+                    chargeId: charge.id,
+                    paymentStatus: paymentIntent.status,
+                  },
+                });
+              } catch (e) {
+                await prisma.activityLog.create({
+                  data: {
+                    data: e,
+                    oldData: paymentIntent,
+                    severity: LogSeverity.ERROR,
+                    message:
+                      'Failed to upsert event registration after succeeded payment on registration!',
+                  },
+                });
+              }
             } else {
               const registration = await prisma.eventRegistration.findUnique({
                 where: { id: paymentIntent.metadata.registrationId },
