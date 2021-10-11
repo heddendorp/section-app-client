@@ -94,7 +94,10 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Address</th>
+          <th>Zeile 1</th>
+          <th>Zeile 2</th>
+          <th>Zeile 3</th>
+          <th>Zeile 4</th>
         </tr>
       </thead>
       <tbody>
@@ -102,7 +105,9 @@
           *ngFor="let registration of getTable(event.participantRegistrations)"
         >
           <td>{{ registration.user.fullName }}</td>
-          <td class="whitespace-pre-line">{{ registration.address }}</td>
+          <td *ngFor="let part of registration.address">
+            {{ part }}
+          </td>
         </tr>
       </tbody>
     </table>

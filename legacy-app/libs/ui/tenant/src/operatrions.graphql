@@ -7,6 +7,7 @@ mutation createOrganizer($input: NewOrganizerInput!) {
 query loadUser($id: ID!){
   userById(id: $id){
     id
+    authId
     firstName
     lastName
     fullName

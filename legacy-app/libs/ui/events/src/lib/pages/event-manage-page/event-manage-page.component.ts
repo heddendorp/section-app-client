@@ -108,8 +108,9 @@ export class EventManagePageComponent implements OnDestroy {
       .filter((r) => !r.checkInTime && r.submissions.length)
       .map((r) => ({
         ...r,
-        address: r.submissions.find((s) => s.submissionItem.name === 'Address')
-          ?.data?.value,
+        address: r.submissions
+          .find((s) => s.submissionItem.name === 'Address')
+          ?.data?.value?.split('\n'),
       }));
   }
 }
