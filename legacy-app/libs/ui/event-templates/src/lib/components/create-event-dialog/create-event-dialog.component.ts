@@ -47,6 +47,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       organizerLimit: ['', Validators.required],
       organizerId: ['', Validators.required],
     });
+    this.eventDataForm.get('discountedPrice')?.disable();
   }
 
   ngOnInit(): void {
@@ -62,6 +63,16 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
             .toISO({ includeOffset: false })
         )
       );
+    this.eventDataForm
+      .get('esnDiscount')
+      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((value) => {
+        if (value) {
+          this.eventDataForm.get('discountedPrice')?.enable();
+        } else {
+          this.eventDataForm.get('discountedPrice')?.disable();
+        }
+      });
     this.eventDataForm
       .get('registrationMode')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
