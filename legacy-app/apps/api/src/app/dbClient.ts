@@ -12,6 +12,11 @@ const queryDuration = io.metric({
   id: 'app/realtime/queryDuration',
 });
 
+const cacheHits = io.meter({
+  name: 'cache/sec',
+  id: 'app/cache/hits',
+});
+
 const queryCache = new LRU(100);
 
 const loggingMiddleware = async (params, next) => {
@@ -39,6 +44,8 @@ const cachingMiddleware = async (params, next) => {
     if (result === undefined) {
       result = await next(params);
       queryCache.set(cacheKey, result, 5000);
+    } else {
+      cacheHits.mark();
     }
   } else {
     result = await next(params);
