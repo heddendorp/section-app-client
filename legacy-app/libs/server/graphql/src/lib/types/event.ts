@@ -535,7 +535,7 @@ export const getAllEventsQuery = queryField('events', {
   resolve: async (source, { after }, context) => {
     let where;
     after ??= new Date();
-    const { role, status } = context.assignment;
+    const { role, status } = context.assignment ?? {};
     if (!context.user) {
       where = {
         participantSignup: {
