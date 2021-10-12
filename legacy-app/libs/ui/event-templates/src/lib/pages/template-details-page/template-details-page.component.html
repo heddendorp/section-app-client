@@ -7,8 +7,8 @@
     <p>{{ template.coordinates | json }}</p>
     <a
       mat-stroked-button
-      href="http://www.google.com/maps/place/{{ template.coordinates.lat }},{{
-        template.coordinates.lon
+      href="http://www.google.com/maps/place/{{ template.coordinates?.lat }},{{
+        template.coordinates?.lon
       }}"
       target="_blank"
     >
