@@ -44,4 +44,5 @@ export const schema = makeSchema({
     ),
     export: 'Context',
   },
+  prettierConfig: join(__dirname, '..', '..', '..', '.prettierrc'),
 });

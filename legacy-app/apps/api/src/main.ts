@@ -3,7 +3,6 @@ import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import * as express from 'express';
 import * as http from 'http';
 import * as path from 'path';
-import { PrismaClient } from '@tumi/server-models';
 import { schema } from '@tumi/server-graphql';
 import { checkJwt, getUser } from './app/auth';
 import { UiAuth0 } from './app/auth0';
@@ -12,8 +11,9 @@ import { webhookRouter } from './app/webhooks';
 import { calendarRouter } from './app/calendars';
 import { qrRouter } from './app/qrCode';
 import { shortRouter } from './app/shortRouter';
+import DBClient from './app/dbClient';
 
-const prisma = new PrismaClient();
+const prisma = DBClient.getInstance().prisma;
 
 // Make sure our db has one tenant
 seedDB(prisma).then(() => {

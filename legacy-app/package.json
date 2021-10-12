@@ -68,6 +68,7 @@
     "@ngneat/tailwind": "7.0.3",
     "@nguniversal/express-engine": "12.1.0",
     "@nrwl/devkit": "12.10.0",
+    "@pm2/io": "^5.0.0",
     "@prisma/client": "^3.2.1",
     "@stripe/stripe-js": "^1.19.1",
     "@swimlane/ngx-charts": "^19.0.1",
