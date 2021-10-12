@@ -16,7 +16,7 @@ import { CreateEventDialogComponent } from '../../components/create-event-dialog
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventFormDialogComponent } from '../../components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
-import { SelectLocationDialogComponent } from '../../components/select-location-dialog/select-location-dialog.component';
+import { SelectLocationDialogComponent } from '@tumi/util-components';
 
 @Component({
   selector: 'tumi-template-details-page',

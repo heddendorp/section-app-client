@@ -294,6 +294,11 @@ type Mutation {
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
+
+  """
+  Update an event template
+  """
+  updateEventLocation(data: UpdateLocationInput!, id: ID!): TumiEvent
   updateProfile(input: UpdateProfileInput!): User
 
   """

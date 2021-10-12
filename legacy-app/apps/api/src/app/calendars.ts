@@ -37,7 +37,21 @@ export const calendarRouter = (prisma: PrismaClient) => {
       name: `TUMi events for ${user.firstName}`,
       ttl: 60 * 60 * 2,
     });
-    events.forEach((event) =>
+
+    events.forEach((event) => {
+      let addon = {};
+      if (
+        typeof event.coordinates === 'object' &&
+        !Array.isArray(event.coordinates) &&
+        event.coordinates.lat
+      ) {
+        addon = {
+          location: {
+            title: event.location,
+            geo: { lat: event.coordinates.lat, lon: event.coordinates.lon },
+          },
+        };
+      }
       calendar.createEvent({
         start: event.start,
         end: event.end,
@@ -47,8 +61,9 @@ export const calendarRouter = (prisma: PrismaClient) => {
         You are registered for this events as ${event.registrations[0].type.toLocaleLowerCase()}.
         More info at: https://tumi.esn.world/events/${event.id}`,
         url: `https://tumi.esn.world/events/${event.id}`,
-      })
-    );
+        ...addon,
+      });
+    });
     calendar.serve(res);
   });
   return router;

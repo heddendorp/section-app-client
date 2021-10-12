@@ -6,6 +6,8 @@ query loadEventForEdit($id: ID!) {
     start
     end
     description
+    location
+    coordinates
     organizerText
     participantText
     registrationMode
@@ -40,6 +42,15 @@ query loadEventForEdit($id: ID!) {
   organizers {
     id
     name
+  }
+}
+
+
+mutation updateEventLocation($eventId: ID!, $update: UpdateLocationInput!){
+  updateEventLocation(id: $eventId,data: $update){
+    id
+    location
+    coordinates
   }
 }
 

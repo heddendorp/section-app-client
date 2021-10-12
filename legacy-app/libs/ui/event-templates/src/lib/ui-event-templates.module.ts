@@ -22,7 +22,6 @@ import { FinancePlannerComponent } from './components/finance-planner/finance-pl
 import { NewFinanceEntryDialogComponent } from './components/new-finance-entry-dialog/new-finance-entry-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
-import { SelectLocationDialogComponent } from './components/select-location-dialog/select-location-dialog.component';
 
 @NgModule({
   imports: [
@@ -54,7 +53,6 @@ import { SelectLocationDialogComponent } from './components/select-location-dial
     CreateEventDialogComponent,
     FinancePlannerComponent,
     NewFinanceEntryDialogComponent,
-    SelectLocationDialogComponent,
   ],
 })
 export class UiEventTemplatesModule {}

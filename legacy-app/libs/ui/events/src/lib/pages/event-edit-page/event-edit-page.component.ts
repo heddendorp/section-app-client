@@ -15,6 +15,7 @@ import {
   RegistrationMode,
   RemoveUserFromEventGQL,
   UpdateEventGQL,
+  UpdateEventLocationGQL,
   UpdatePublicationGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
@@ -27,6 +28,7 @@ import { SelectOrganizerDialogComponent } from '../../components/select-organize
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { EventSubmissionDialogComponent } from '../../components/editing/event-submission-dialog/event-submission-dialog.component';
+import { SelectLocationDialogComponent } from '@tumi/util-components';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -55,6 +57,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private addOrganizerMutation: AddOrganizerToEventGQL,
     private removeUserMutation: RemoveUserFromEventGQL,
     private addSubmissionMutation: AddSubmissionToEventGQL,
+    private updateLocationMutation: UpdateEventLocationGQL,
     private fb: FormBuilder
   ) {
     this.title.setTitle('TUMi - edit event');
@@ -235,6 +238,29 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       }
     }
     this.snackBar.open('Event saved ✔️');
+  }
+
+  async updateLocation() {
+    const event = await this.event$.pipe(first()).toPromise();
+    const location = await this.dialog
+      .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+      .afterClosed()
+      .toPromise();
+    if (location && event) {
+      console.log(location);
+      await this.updateLocationMutation
+        .mutate({
+          eventId: event.id,
+          update: {
+            coordinates: location.position,
+            location:
+              location.type === 'POI'
+                ? location.poi.name
+                : location.address.freeformAddress,
+          },
+        })
+        .toPromise();
+    }
   }
 
   async changePublication() {

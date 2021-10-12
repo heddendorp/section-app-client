@@ -71,10 +71,44 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
         </mat-expansion-panel-header>
+        <p class="lg:text-lg mb-2" *ngIf="event.location">
+          Meeting point: {{ event.location }} on
+          {{ event.start | date: 'medium' }}
+        </p>
+        <div *ngIf="event.coordinates?.lat" class="mb-2">
+          <a
+            mat-stroked-button
+            href="http://www.google.com/maps/place/{{
+              event.coordinates?.lat
+            }},{{ event.coordinates?.lon }}"
+            target="_blank"
+          >
+            Open in google maps
+          </a>
+        </div>
         <markdown
           [data]="event.participantText"
-          class="prose lg:prose-xl break-words"
+          class="prose lg:prose-xl break-words mb-4"
         ></markdown>
+        <p class="lg:text-lg mb-2 mt-2 font-bold">
+          Your organizers on this event:
+        </p>
+        <ul class="list-disc list-inside lg:text-lg">
+          <li *ngFor="let organizer of event.organizers">
+            {{ organizer.fullName }}
+            <span *ngIf="organizer.phone">
+              (<a
+                class="text-blue-600 underline"
+                href="tel:{{ organizer.phone }}"
+                >{{ organizer.phone }}</a
+              >)
+            </span>
+          </li>
+        </ul>
+        <p class="lg:text-lg mb-2 mt-2">
+          Contact them in case of any issues. <br />We're looking forward to
+          seeing you soon
+        </p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

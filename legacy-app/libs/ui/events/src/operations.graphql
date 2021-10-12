@@ -17,6 +17,8 @@ query loadEvent($id: ID!) {
     price
     discountedPrice
     esnDiscount
+    location
+    coordinates
     #    createdBy {
     #      id
     #      fullName
@@ -58,6 +60,7 @@ query loadEvent($id: ID!) {
     organizers {
       id
       fullName
+      phone
     }
   }
 }

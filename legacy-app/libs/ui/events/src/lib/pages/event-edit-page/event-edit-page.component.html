@@ -30,6 +30,26 @@
       </div>
     </form>
   </div>
+  <div
+    class="my-8 py-4 px-4 border-2 rounded-lg"
+    *ngIf="event$ | async as event"
+  >
+    <h2 class="mb-2">Event location</h2>
+    <p>{{ event.location }}</p>
+    <p>{{ event.coordinates | json }}</p>
+    <a
+      mat-stroked-button
+      href="http://www.google.com/maps/place/{{ event.coordinates?.lat }},{{
+        event.coordinates?.lon
+      }}"
+      target="_blank"
+    >
+      Open in maps
+    </a>
+    <button mat-flat-button color="primary" (click)="updateLocation()">
+      Update Location
+    </button>
+  </div>
   <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">General information</h2>
     <form [formGroup]="generalInformationForm" (ngSubmit)="onSubmit()">

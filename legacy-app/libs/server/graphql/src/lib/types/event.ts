@@ -23,6 +23,7 @@ import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
 import { DateTime, Json } from 'nexus-prisma/scalars';
+import { updateLocationInputType } from './eventTemplate';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -579,6 +580,17 @@ export const getOneEventQuery = queryField('event', {
   resolve: (source, { eventId }, context) =>
     context.prisma.tumiEvent.findUnique({ where: { id: eventId } }),
 });
+
+export const updateEventLocationMutation = mutationField(
+  'updateEventLocation',
+  {
+    type: eventType,
+    description: 'Update an event template',
+    args: { id: nonNull(idArg()), data: nonNull(updateLocationInputType) },
+    resolve: (source, { id, data }, context) =>
+      context.prisma.tumiEvent.update({ where: { id }, data }),
+  }
+);
 
 export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
   description: 'Adds the user with the supplied id to the event',
