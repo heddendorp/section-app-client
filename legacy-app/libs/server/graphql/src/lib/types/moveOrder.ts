@@ -101,6 +101,15 @@ export const useMoveOrderMutation = mutationField('useMoveOrder', {
       if (moveOrder.createdBy === context.user.id) {
         throw new ApolloError("You can't use your own code");
       }
+      const registrations = await context.prisma.eventRegistration.count({
+        where: {
+          eventId: moveOrder.registration.eventId,
+          userId: context.user.id,
+        },
+      });
+      if (registrations) {
+        throw new ApolloError('You may not register for the same event twice');
+      }
       const event = await prisma.tumiEvent.findUnique({
         where: { id: moveOrder.registration.eventId },
       });
