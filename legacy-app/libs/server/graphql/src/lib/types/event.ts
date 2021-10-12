@@ -13,6 +13,7 @@ import { TumiEvent } from 'nexus-prisma';
 import { UserInputError } from 'apollo-server-core';
 import {
   MembershipStatus,
+  Prisma,
   PublicationState,
   RegistrationMode,
   RegistrationType,
@@ -24,6 +25,7 @@ import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
 import { DateTime, Json } from 'nexus-prisma/scalars';
 import { updateLocationInputType } from './eventTemplate';
+import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -534,7 +536,7 @@ export const getAllEventsQuery = queryField('events', {
   type: nonNull(list(nonNull(eventType))),
   args: { after: arg({ type: DateTime }) },
   resolve: async (source, { after }, context) => {
-    let where;
+    let where: TumiEventWhereInput;
     after ??= new Date();
     const { role, status } = context.assignment ?? {};
     if (!context.user) {
@@ -556,6 +558,9 @@ export const getAllEventsQuery = queryField('events', {
               has: status,
             },
             publicationState: PublicationState.PUBLIC,
+          },
+          {
+            createdBy: { id: context.user.id },
           },
           {
             organizerSignup: { has: status },
