@@ -86,6 +86,7 @@
     "ical-generator": "^3.0.1",
     "jwks-rsa": "^2.0.4",
     "lodash": "^4.17.21",
+    "lru-cache": "^6.0.0",
     "luxon": "^2.0.2",
     "nexus": "^1.1.0",
     "nexus-prisma": "0.34.0",
