@@ -318,13 +318,11 @@ export const webhookRouter = (prisma) => {
                 data: {
                   data: e,
                   oldData: paymentIntent,
-                  severity: LogSeverity.ERROR,
+                  severity: LogSeverity.INFO,
                   message:
                     'Failed to remove event registration after failed payment on registration!',
                 },
               });
-              response.status(500).send(e);
-              return;
             }
           } else {
             await prisma.eventRegistrationMoveOrder.delete({

@@ -48,7 +48,7 @@ type CostItem {
 input CreateEventFromTemplateInput {
   discountedPrice: Decimal
   end: DateTime!
-  esnDiscount: Boolean!
+  esnDiscount: Boolean! = false
   organizerId: ID
   organizerLimit: Int!
   participantLimit: Int!
