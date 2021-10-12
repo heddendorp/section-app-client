@@ -211,15 +211,7 @@ export const eventType = objectType({
           }
           return false;
         }
-        const { status } = await context.prisma.usersOfTenants.findUnique({
-          where: {
-            userId_tenantId: {
-              userId: context.user.id,
-              tenantId: context.tenant.id,
-            },
-          },
-          select: { status: true },
-        });
+        const { status } = context.assignment;
         if (!root.organizerSignup.includes(status)) {
           if (process.env.DEV) {
             console.info(
@@ -244,15 +236,7 @@ export const eventType = objectType({
           }
           return false;
         }
-        const { status } = await context.prisma.usersOfTenants.findUnique({
-          where: {
-            userId_tenantId: {
-              userId: context.user.id,
-              tenantId: context.tenant.id,
-            },
-          },
-          select: { status: true },
-        });
+        const { status } = context.assignment;
         if (!root.participantSignup.includes(status)) {
           if (process.env.DEV) {
             console.info(
@@ -298,15 +282,7 @@ export const eventType = objectType({
           }
           return { option: false, reason: 'You have to log in to register!' };
         }
-        const { status } = await context.prisma.usersOfTenants.findUnique({
-          where: {
-            userId_tenantId: {
-              userId: context.user.id,
-              tenantId: context.tenant.id,
-            },
-          },
-          select: { status: true },
-        });
+        const { status } = context.assignment;
         if (!root.participantSignup.includes(status)) {
           if (process.env.DEV) {
             console.info(
@@ -407,15 +383,7 @@ export const eventType = objectType({
           }
           return false;
         }
-        const { status } = await context.prisma.usersOfTenants.findUnique({
-          where: {
-            userId_tenantId: {
-              userId: context.user.id,
-              tenantId: context.tenant.id,
-            },
-          },
-          select: { status: true },
-        });
+        const { status } = context.assignment;
         if (!root.organizerSignup.includes(status)) {
           if (process.env.DEV) {
             console.info(
@@ -565,36 +533,21 @@ export const getAllEventsQuery = queryField('events', {
   type: nonNull(list(nonNull(eventType))),
   args: { after: arg({ type: DateTime }) },
   resolve: async (source, { after }, context) => {
+    let where;
     after ??= new Date();
+    const { role, status } = context.assignment;
     if (!context.user) {
-      return context.prisma.tumiEvent.findMany({
-        orderBy: { start: 'asc' },
-        where: {
-          participantSignup: {
-            has: MembershipStatus.NONE,
-          },
-          end: { gt: new Date() },
-          publicationState: PublicationState.PUBLIC,
+      where = {
+        participantSignup: {
+          has: MembershipStatus.NONE,
         },
-      });
-    }
-    const { role, status } = await context.prisma.usersOfTenants.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: context.user.id,
-          tenantId: context.tenant.id,
-        },
-      },
-    });
-    if (role === Role.ADMIN) {
-      return context.prisma.tumiEvent.findMany({
-        orderBy: { start: 'asc' },
-        where: { end: { gt: after } },
-      });
-    }
-    return context.prisma.tumiEvent.findMany({
-      orderBy: { start: 'asc' },
-      where: {
+        end: { gt: new Date() },
+        publicationState: PublicationState.PUBLIC,
+      };
+    } else if (role === Role.ADMIN) {
+      where = { end: { gt: after } };
+    } else {
+      where = {
         end: { gt: after },
         OR: [
           {
@@ -610,7 +563,11 @@ export const getAllEventsQuery = queryField('events', {
             },
           },
         ],
-      },
+      };
+    }
+    return context.prisma.tumiEvent.findMany({
+      orderBy: { start: 'asc' },
+      where,
     });
   },
 });
@@ -723,15 +680,7 @@ export const registerForEvent = mutationField('registerForEvent', {
       const event = await prisma.tumiEvent.findUnique({
         where: { id: eventId },
       });
-      const { status } = await context.prisma.usersOfTenants.findUnique({
-        where: {
-          userId_tenantId: {
-            userId: context.user.id,
-            tenantId: context.tenant.id,
-          },
-        },
-        select: { status: true },
-      });
+      const { status } = context.assignment;
       const allowedStatus =
         registrationType === RegistrationType.PARTICIPANT
           ? event.participantSignup
