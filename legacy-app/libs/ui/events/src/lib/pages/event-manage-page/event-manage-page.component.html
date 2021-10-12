@@ -48,6 +48,12 @@
               {{ registration.createdAt | date: 'medium' }}
             </span>
           </p>
+          <p>
+            Payment intent:
+            <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
+              registration.paymentIntentId
+            }}</span>
+          </p>
         </div>
         <div *ngIf="registration.submissions.length">
           <p>Additional Data</p>
