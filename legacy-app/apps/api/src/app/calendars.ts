@@ -43,12 +43,12 @@ export const calendarRouter = (prisma: PrismaClient) => {
       if (
         typeof event.coordinates === 'object' &&
         !Array.isArray(event.coordinates) &&
-        event.coordinates.lat
+        event.coordinates?.lat
       ) {
         addon = {
           location: {
             title: event.location,
-            geo: { lat: event.coordinates.lat, lon: event.coordinates.lon },
+            geo: { lat: event.coordinates?.lat, lon: event.coordinates?.lon },
           },
         };
       }
