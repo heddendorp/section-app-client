@@ -529,7 +529,7 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.price);
     t.field(TumiEvent.discountedPrice);
-    t.field(TumiEvent.esnDiscount);
+    t.field({ ...TumiEvent.esnDiscount, default: false });
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.id('organizerId');
