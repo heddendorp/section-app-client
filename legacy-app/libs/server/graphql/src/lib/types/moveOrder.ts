@@ -98,9 +98,15 @@ export const useMoveOrderMutation = mutationField('useMoveOrder', {
       if (moveOrder.usedBy) {
         throw new ApolloError('Code was already used');
       }
+      if (moveOrder.createdBy === context.user.id) {
+        throw new ApolloError("You can't use your own code");
+      }
       const event = await prisma.tumiEvent.findUnique({
         where: { id: moveOrder.registration.eventId },
       });
+      if (event.title.includes('ESNcard')) {
+        throw new ApolloError('You cannot move ESNcards!');
+      }
       const stripeData = await prisma.stripeUserData.findUnique({
         where: {
           usersOfTenantsUserId_usersOfTenantsTenantId: {
