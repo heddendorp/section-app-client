@@ -592,8 +592,18 @@ export const updateEventLocationMutation = mutationField(
     type: eventType,
     description: 'Update an event template',
     args: { id: nonNull(idArg()), data: nonNull(updateLocationInputType) },
-    resolve: (source, { id, data }, context) =>
-      context.prisma.tumiEvent.update({ where: { id }, data }),
+    resolve: async (source, { id, data }, context) => {
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id },
+      });
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN && context.user.id !== event.creatorId) {
+        throw new ApolloError(
+          'Only Admins can change events they did not create'
+        );
+      }
+      return context.prisma.tumiEvent.update({ where: { id }, data });
+    },
   }
 );
 
@@ -604,8 +614,17 @@ export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
     userId: nonNull(idArg()),
   },
   type: eventType,
-  resolve: (source, { eventId, userId }, context) =>
-    context.prisma.tumiEvent.update({
+  resolve: async (source, { eventId, userId }, context) => {
+    const event = await context.prisma.tumiEvent.findUnique({
+      where: { id: eventId },
+    });
+    const { role } = context.assignment;
+    if (role !== Role.ADMIN && context.user.id !== event.creatorId) {
+      throw new ApolloError(
+        'Only Admins can change events they did not create'
+      );
+    }
+    return context.prisma.tumiEvent.update({
       where: { id: eventId },
       data: {
         registrations: {
@@ -619,7 +638,8 @@ export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
           },
         },
       },
-    }),
+    });
+  },
 });
 
 export const changePublicationMutation = mutationField(
@@ -631,11 +651,21 @@ export const changePublicationMutation = mutationField(
       id: nonNull(idArg()),
       state: nonNull(arg({ type: publicationStateEnum })),
     },
-    resolve: (source, { id, state }, context) =>
-      context.prisma.tumiEvent.update({
+    resolve: async (source, { id, state }, context) => {
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id },
+      });
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN && context.user.id !== event.creatorId) {
+        throw new ApolloError(
+          'Only Admins can change events they did not create'
+        );
+      }
+      return context.prisma.tumiEvent.update({
         where: { id },
         data: { publicationState: state },
-      }),
+      });
+    },
   }
 );
 
@@ -648,15 +678,20 @@ export const removeUserFromEventMutation = mutationField(
       userId: nonNull(idArg()),
     },
     type: eventType,
-    resolve: (source, { userId, eventId }, context) =>
-      context.prisma.tumiEvent.update({
+    resolve: (source, { userId, eventId }, context) => {
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN) {
+        throw new ApolloError('Only Admins can remove users from the event');
+      }
+      return context.prisma.tumiEvent.update({
         where: { id: eventId },
         data: {
           registrations: {
             delete: { userId_eventId: { eventId, userId } },
           },
         },
-      }),
+      });
+    },
   }
 );
 
@@ -665,10 +700,20 @@ export const deregisterFromEventMutation = mutationField(
   {
     args: { id: nonNull(idArg()), userId: idArg() },
     type: eventType,
-    resolve: (source, { id, userId }, context) => {
+    resolve: async (source, { id, userId }, context) => {
       if (!userId) userId = context.user.id;
-      if (userId !== context.user.id && context.assignment.role !== 'ADMIN')
+      if (userId !== context.user.id && context.assignment.role !== 'ADMIN') {
         throw new ApolloError('Only admins can deregister other users');
+      }
+      if (userId !== context.user.id) {
+        await context.prisma.activityLog.create({
+          data: {
+            severity: 'INFO',
+            message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
+            data: { event: id, userId },
+          },
+        });
+      }
       return context.prisma.tumiEvent.update({
         where: { id },
         data: {
@@ -734,13 +779,21 @@ export const updateEventMutation = mutationField('updateEventGeneralInfo', {
     id: nonNull(idArg()),
     data: nonNull(updateEventInput),
   },
-  resolve: (source, { id, data }, context) =>
-    context.prisma.tumiEvent.update({
+  resolve: async (source, { id, data }, context) => {
+    const event = await context.prisma.tumiEvent.findUnique({ where: { id } });
+    const { role } = context.assignment;
+    if (role !== Role.ADMIN && event.creatorId !== context.user.id) {
+      throw new ApolloError(
+        'Only Admins can update events that are not their own'
+      );
+    }
+    return context.prisma.tumiEvent.update({
       where: {
         id,
       },
       data,
-    }),
+    });
+  },
 });
 
 export const createFromTemplateMutation = mutationField(

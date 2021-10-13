@@ -98,17 +98,17 @@ export const deregisterUserWithRefundMutation = mutationField(
     args: { eventId: nonNull(idArg()), userId: idArg() },
     resolve: async (source, { eventId, userId }, context) => {
       if (userId) {
-        const { role } = await context.prisma.usersOfTenants.findUnique({
-          where: {
-            userId_tenantId: {
-              userId: context.user.id,
-              tenantId: context.tenant.id,
-            },
-          },
-        });
+        const { role } = context.assignment;
         if (role !== Role.ADMIN) {
           throw new ApolloError('Only admins can deregister other users');
         }
+        await context.prisma.activityLog.create({
+          data: {
+            severity: 'INFO',
+            message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
+            data: { eventId, userId },
+          },
+        });
       } else {
         userId = context.user.id;
       }

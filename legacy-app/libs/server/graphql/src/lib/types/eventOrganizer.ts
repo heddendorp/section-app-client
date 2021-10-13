@@ -7,6 +7,8 @@ import {
   queryField,
 } from 'nexus';
 import { EventOrganizer } from 'nexus-prisma';
+import { Role } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 export const organizerType = objectType({
   name: EventOrganizer.$name,
@@ -39,13 +41,18 @@ export const createOrganizerMutation = mutationField('createEventOrganizer', {
   args: {
     newOrganizerInput: nonNull(newOrganizerInputType),
   },
-  resolve: (source, { newOrganizerInput }, context) =>
-    context.prisma.eventOrganizer.create({
+  resolve: (source, { newOrganizerInput }, context) => {
+    const { role } = context.assignment;
+    if (role !== Role.ADMIN) {
+      throw new ApolloError('Only Admins can create event organizers');
+    }
+    return context.prisma.eventOrganizer.create({
       data: {
         ...newOrganizerInput,
         tenant: { connect: { id: context.tenant.id } },
       },
-    }),
+    });
+  },
 });
 
 export const getEventOrganizersQuery = queryField('organizers', {

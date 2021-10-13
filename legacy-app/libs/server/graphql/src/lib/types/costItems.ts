@@ -10,6 +10,8 @@ import { CostItem } from 'nexus-prisma';
 import { eventType } from './event';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { createReceiptInputType } from './receipt';
+import { Role } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(
   process.env.STORAGE_CONNECTION_STRING
@@ -102,11 +104,21 @@ export const addReceiptToCostItemMutation = mutationField(
 export const deleteReceiptMutation = mutationField('deleteReceipt', {
   type: nonNull(costItemType),
   args: { costItemId: nonNull(idArg()), receiptId: nonNull(idArg()) },
-  resolve: (source, { costItemId, receiptId }, context) =>
-    context.prisma.costItem.update({
+  resolve: async (source, { costItemId, receiptId }, context) => {
+    const { role } = context.assignment;
+    const receipt = await context.prisma.receipt.findUnique({
+      where: { id: receiptId },
+    });
+    if (role !== Role.ADMIN && receipt.userId !== context.user.id) {
+      throw new ApolloError(
+        'Only Admins can delete receipts not added by them.'
+      );
+    }
+    return context.prisma.costItem.update({
       where: { id: costItemId },
       data: { receipts: { delete: { id: receiptId } } },
-    }),
+    });
+  },
 });
 
 export const deleteCostItemMutation = mutationField('deleteCostItem', {
@@ -114,6 +126,10 @@ export const deleteCostItemMutation = mutationField('deleteCostItem', {
   args: { id: nonNull(idArg()) },
   resolve: (source, { id }, context) =>
     context.prisma.$transaction(async (prisma) => {
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN) {
+        throw new ApolloError('Only Admins can delete cost items');
+      }
       const item = await prisma.costItem.delete({ where: { id } });
       return prisma.tumiEvent.findUnique({ where: { id: item.eventId } });
     }),

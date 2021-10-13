@@ -247,8 +247,12 @@ export const updateUserStatusMutation = mutationField('updateUserStatus', {
     userId: nonNull(idArg()),
     status: nonNull(arg({ type: membershipStatusEnum })),
   },
-  resolve: (source, { userId, status }, context) =>
-    context.prisma.user.update({
+  resolve: (source, { userId, status }, context) => {
+    const { role } = context.assignment;
+    if (role !== 'ADMIN') {
+      throw new ApolloError('Only Admins can change the status');
+    }
+    return context.prisma.user.update({
       where: {
         id: userId,
       },
@@ -267,7 +271,8 @@ export const updateUserStatusMutation = mutationField('updateUserStatus', {
           },
         },
       },
-    }),
+    });
+  },
 });
 
 export const updateUserRoleMutation = mutationField('updateUserRole', {

@@ -7,6 +7,8 @@ import {
 } from 'nexus';
 import { EventSubmissionItem } from 'nexus-prisma';
 import { eventType } from './event';
+import { Role } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 export const eventSubmissionItemType = objectType({
   name: EventSubmissionItem.$name,
@@ -54,10 +56,20 @@ export const createSubmissionItemOnEventMutation = mutationField(
       id: nonNull(idArg({ description: 'ID of the targeted event' })),
       data: nonNull(createSubmissionItemInputType),
     },
-    resolve: (source, { id, data }, context) =>
-      context.prisma.tumiEvent.update({
+    resolve: async (source, { id, data }, context) => {
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id },
+      });
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN && event.creatorId !== context.user.id) {
+        throw new ApolloError(
+          'Only Admins can update events that they did not create'
+        );
+      }
+      return context.prisma.tumiEvent.update({
         where: { id },
         data: { submissionItems: { create: data } },
-      }),
+      });
+    },
   }
 );

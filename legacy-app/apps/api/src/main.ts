@@ -1,5 +1,8 @@
 import { ApolloServer } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import {
+  ApolloServerPluginDrainHttpServer,
+  GraphQLRequestContext,
+} from 'apollo-server-core';
 import * as express from 'express';
 import * as http from 'http';
 import * as path from 'path';
@@ -40,6 +43,21 @@ app.get('/health', async (req, res) => {
 app.use(checkJwt);
 app.use(getUser(prisma));
 
+const measurementPlugin = {
+  async requestDidStart(requestContext: GraphQLRequestContext) {
+    console.log('\n');
+    const before = Date.now();
+    return {
+      async willSendResponse(requestContext: GraphQLRequestContext) {
+        const after = Date.now();
+        console.log(
+          `Operation ${requestContext.operationName} took ${after - before}ms`
+        );
+      },
+    };
+  },
+};
+
 const server = new ApolloServer({
   schema,
   async context({ req }) {
@@ -56,10 +74,13 @@ const server = new ApolloServer({
               userId_tenantId: { userId: req.user.id, tenantId: tenant.id },
             },
           })
-        : null,
+        : {},
     };
   },
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    measurementPlugin,
+  ],
 });
 
 server.start().then(() => {

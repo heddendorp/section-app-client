@@ -1,5 +1,7 @@
 import { list, nonNull, objectType, queryField } from 'nexus';
 import { ActivityLog } from 'nexus-prisma';
+import { Role } from '@tumi/server-models';
+import { ApolloError } from 'apollo-server-express';
 
 export const activityLogType = objectType({
   name: ActivityLog.$name,
@@ -25,8 +27,15 @@ export const activityLogStatType = objectType({
 
 export const getLogsQuery = queryField('logs', {
   type: nonNull(list(nonNull(activityLogType))),
-  resolve: (source, args, context) =>
-    context.prisma.activityLog.findMany({ orderBy: { createdAt: 'desc' } }),
+  resolve: (source, args, context) => {
+    const { role } = context.assignment;
+    if (role !== Role.ADMIN) {
+      throw new ApolloError('Only Admins can read the logs.');
+    }
+    return context.prisma.activityLog.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  },
 });
 
 export const getLogStatsQuery = queryField('logStats', {

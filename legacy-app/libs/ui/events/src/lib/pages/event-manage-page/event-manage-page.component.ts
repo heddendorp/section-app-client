@@ -37,7 +37,7 @@ export class EventManagePageComponent implements OnDestroy {
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event)
     );
-    this.loadEventQueryRef.startPolling(5000);
+    // this.loadEventQueryRef.startPolling(5000);
   }
 
   ngOnDestroy() {
@@ -62,7 +62,9 @@ export class EventManagePageComponent implements OnDestroy {
 
   async kick(userId: string) {
     const event = await this.event$.pipe(first()).toPromise();
-    const proceed = confirm('Are you sure you want to remove this user?');
+    const proceed = confirm(
+      'Are you sure you want to remove this user without refund?'
+    );
     if (event && proceed) {
       try {
         await this.removeUser.mutate({ eventId: event.id, userId }).toPromise();

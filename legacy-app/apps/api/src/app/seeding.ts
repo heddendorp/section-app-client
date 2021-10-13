@@ -44,6 +44,32 @@ export async function seedDB(prisma: PrismaClient) {
       },
     },
   });
+  // const events = await prisma.tumiEvent.findMany();
+  // const ages = await Promise.all(
+  //   events.map((event) =>
+  //     prisma.user
+  //       .findMany({
+  //         where: { eventRegistrations: { some: { eventId: event.id } } },
+  //       })
+  //       .then(
+  //         (users) =>
+  //           users.reduce(
+  //             (previousValue, currentValue) =>
+  //               previousValue +
+  //               DateTime.local()
+  //                 .diff(DateTime.fromJSDate(currentValue.birthdate), 'years')
+  //                 .toObject().years,
+  //             0
+  //           ) / users.length
+  //       )
+  //       .then((avgAge) => ({
+  //         title: event.title,
+  //         avgAge: Math.round(avgAge),
+  //         id: event.id,
+  //       }))
+  //   )
+  // );
+  // console.log(JSON.stringify(ages));
   // const users = await prisma.user.findMany({
   //   where: { calendarToken: null },
   //   // take: 50,

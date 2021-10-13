@@ -53,10 +53,12 @@ export const eventRegistrationType = objectType({
     });
     t.field({
       ...EventRegistration.submissions,
-      resolve: (source, args, context) =>
-        context.prisma.eventSubmission.findMany({
-          where: { registration: { id: source.id } },
-        }),
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({ maxAge: 60 * 60 });
+        return context.prisma.eventRegistration
+          .findUnique({ where: { id: source.id } })
+          .submissions();
+      },
     });
     t.nonNull.boolean('didAttend', {
       resolve: (source) => !!source.checkInTime,
