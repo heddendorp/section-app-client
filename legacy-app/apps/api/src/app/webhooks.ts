@@ -355,6 +355,16 @@ export const webhookRouter = (prisma) => {
           }
           break;
         }
+        case 'charge.dispute.created': {
+          await prisma.activityLog.create({
+            data: {
+              message: 'SEPA dispute created',
+              data: event.data.object,
+              severity: LogSeverity.WARNING,
+            },
+          });
+          break;
+        }
         default:
           console.log(`Unhandled event type ${event.type}`);
       }
