@@ -182,6 +182,7 @@ query getRegistration($id: ID!) {
     paymentStatus
     type
     didAttend
+    checkInTime
     event {
       id
       title
