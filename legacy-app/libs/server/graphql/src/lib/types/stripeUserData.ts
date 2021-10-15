@@ -102,13 +102,6 @@ export const deregisterUserWithRefundMutation = mutationField(
         if (role !== Role.ADMIN) {
           throw new ApolloError('Only admins can deregister other users');
         }
-        await context.prisma.activityLog.create({
-          data: {
-            severity: 'INFO',
-            message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
-            data: { eventId, userId },
-          },
-        });
       } else {
         userId = context.user.id;
       }
@@ -120,7 +113,21 @@ export const deregisterUserWithRefundMutation = mutationField(
       }
       const registration = await context.prisma.eventRegistration.findUnique({
         where: { userId_eventId: { eventId, userId } },
+        include: { user: true },
       });
+      if (userId !== context.user.id) {
+        await context.prisma.activityLog.create({
+          data: {
+            severity: 'INFO',
+            message: `User was removed with refund by ${context.user.firstName} ${context.user.lastName}`,
+            data: { eventId, userId },
+            oldData: {
+              user: JSON.parse(JSON.stringify(registration.user)),
+              event: JSON.parse(JSON.stringify(event)),
+            },
+          },
+        });
+      }
       if (registration.paymentStatus !== 'succeeded') {
         throw new ApolloError('Only succeeded payments can be refunded');
       }

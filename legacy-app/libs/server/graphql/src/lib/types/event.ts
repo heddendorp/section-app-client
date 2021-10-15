@@ -706,11 +706,21 @@ export const deregisterFromEventMutation = mutationField(
         throw new ApolloError('Only admins can deregister other users');
       }
       if (userId !== context.user.id) {
+        const user = await context.prisma.user.findUnique({
+          where: { id: userId },
+        });
+        const event = await context.prisma.tumiEvent.findUnique({
+          where: { id },
+        });
         await context.prisma.activityLog.create({
           data: {
             severity: 'INFO',
             message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
-            data: { event: id, userId },
+            data: { eventId: id, userId },
+            oldData: {
+              user: JSON.parse(JSON.stringify(user)),
+              event: JSON.parse(JSON.stringify(event)),
+            },
           },
         });
       }
