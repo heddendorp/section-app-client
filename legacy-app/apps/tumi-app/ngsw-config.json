@@ -48,6 +48,24 @@
       }
     },
     {
+      "name": "photoShares",
+      "urls": ["https://storetumi.blob.core.windows.net/tumi-photos/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 80,
+        "maxAge": "14d"
+      }
+    },
+    {
+      "name": "receipts",
+      "urls": ["https://storetumi.blob.core.windows.net/tumi/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 80,
+        "maxAge": "14d"
+      }
+    },
+    {
       "name": "codes",
       "urls": ["/qr/**"],
       "cacheConfig": {
