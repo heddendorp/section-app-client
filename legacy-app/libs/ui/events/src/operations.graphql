@@ -1,5 +1,6 @@
 query loadEvent($id: ID!) {
-  currentUser{
+  currentUser {
+    id
     hasESNcard
   }
   event(eventId: $id) {
@@ -23,7 +24,7 @@ query loadEvent($id: ID!) {
     #      id
     #      fullName
     #    }
-    submissionItems{
+    submissionItems {
       id
       name
       submissionTime
@@ -39,10 +40,10 @@ query loadEvent($id: ID!) {
     registration {
       id
       didAttend
-      openMoveOrders{
+      openMoveOrders {
         id
       }
-      user{
+      user {
         id
         fullName
       }
@@ -65,21 +66,21 @@ query loadEvent($id: ID!) {
   }
 }
 
-mutation createMoveOrder($eventId: ID!){
-  createRegistrationMoveOrder(id: $eventId){
+mutation createMoveOrder($eventId: ID!) {
+  createRegistrationMoveOrder(id: $eventId) {
     id
-    openMoveOrders{
+    openMoveOrders {
       id
     }
   }
 }
 
-query getMoveOrder($orderId: ID!){
-  moveOrder(id: $orderId){
+query getMoveOrder($orderId: ID!) {
+  moveOrder(id: $orderId) {
     id
-    registration{
+    registration {
       id
-      event{
+      event {
         title
         price
       }
@@ -105,13 +106,13 @@ query loadEventForRunning($id: ID!) {
         email
       }
     }
-    costItems(hideOnInvoice: true){
+    costItems(hideOnInvoice: true) {
       id
       amount
       actualAmount
       submittedAmount
       name
-      receipts{
+      receipts {
         id
       }
     }
@@ -130,36 +131,36 @@ query loadEventForRunning($id: ID!) {
   }
 }
 
-query getCostItem($id: ID!){
-costItem(id: $id){
-  id
-  name
-  amount
-  submittedAmount
-  event{
+query getCostItem($id: ID!) {
+  costItem(id: $id) {
     id
-    title
-  }
-  receipts{
-    id
+    name
     amount
-    url
-    user{
+    submittedAmount
+    event {
       id
-      fullName
+      title
+    }
+    receipts {
+      id
+      amount
+      url
+      user {
+        id
+        fullName
+      }
     }
   }
 }
-}
 
-mutation getBlobToken{
+mutation getBlobToken {
   blobUploadKey
 }
 
-mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!){
-  addReceiptToCostItem(costItemId: $costItemId,receiptInput: $receiptInput){
+mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!) {
+  addReceiptToCostItem(costItemId: $costItemId, receiptInput: $receiptInput) {
     id
-    receipts{
+    receipts {
       id
       amount
       url
@@ -167,10 +168,10 @@ mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!){
   }
 }
 
-mutation deleteReceipt($costItemId: ID!, $receiptId: ID!){
-  deleteReceipt(costItemId: $costItemId, receiptId: $receiptId){
+mutation deleteReceipt($costItemId: ID!, $receiptId: ID!) {
+  deleteReceipt(costItemId: $costItemId, receiptId: $receiptId) {
     id
-    receipts{
+    receipts {
       id
     }
   }
@@ -236,10 +237,10 @@ query loadEventForManagement($id: ID!) {
       paymentIntentId
       netPaid
       checkInTime
-      submissions{
+      submissions {
         id
         data
-        submissionItem{
+        submissionItem {
           id
           name
         }
@@ -256,8 +257,12 @@ query loadEventForManagement($id: ID!) {
 
 query GetUserPaymentStatus {
   currentUser {
+    id
     currentTenant {
+      userId
+      tenantId
       stripeData {
+        id
         paymentMethodId
       }
     }

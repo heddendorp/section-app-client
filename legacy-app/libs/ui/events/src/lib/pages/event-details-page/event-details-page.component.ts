@@ -9,7 +9,7 @@ import {
   RegistrationType,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { first, map } from 'rxjs/operators';
+import { first, map, shareReplay } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,15 +44,18 @@ export class EventDetailsPageComponent implements OnDestroy {
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.event)
+      map(({ data }) => data.event),
+      shareReplay(1)
     );
     this.user$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentUser)
+      map(({ data }) => data.currentUser),
+      shareReplay(1)
     );
     this.loadEventQueryRef.startPolling(5000);
-    this.hasAccount$ = this.loadCurrentUser
-      .watch()
-      .valueChanges.pipe(map(({ data }) => !!data.currentUser));
+    this.hasAccount$ = this.loadCurrentUser.watch().valueChanges.pipe(
+      map(({ data }) => !!data.currentUser),
+      shareReplay(1)
+    );
   }
 
   ngOnDestroy() {

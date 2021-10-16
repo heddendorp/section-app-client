@@ -43,6 +43,7 @@ import {
   IconToastComponent,
   UtilComponentsModule,
 } from '@tumi/util-components';
+import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
 @NgModule({
   declarations: [AppComponent],
@@ -142,17 +143,21 @@ import {
               )
             );
 
-          if (networkError) console.log(`[Network error]: `, event);
+          if (networkError) console.log(`[Network error]: `, networkError);
         });
 
         const link = error.concat(http);
 
-        const cache = new InMemoryCache();
-        // persistCache({
-        //   cache,
-        //   storage: new LocalStorageWrapper(window.localStorage),
-        //   debug: !environment.production,
-        // });
+        const cache = new InMemoryCache({
+          typePolicies: {
+            UsersOfTenants: { keyFields: ['userId', 'tenantId'] },
+          },
+        });
+        persistCache({
+          cache,
+          storage: new LocalStorageWrapper(window.localStorage),
+          debug: !environment.production,
+        });
 
         return {
           link,

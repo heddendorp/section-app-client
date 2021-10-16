@@ -1,8 +1,10 @@
-query userRoles{
-  currentUser{
+query userRoles {
+  currentUser {
     id
     fullName
-    currentTenant{
+    currentTenant {
+      userId
+      tenantId
       role
       status
     }

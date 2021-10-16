@@ -4,8 +4,8 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
-query loadUser($id: ID!){
-  userById(id: $id){
+query loadUser($id: ID!) {
+  userById(id: $id) {
     id
     authId
     firstName
@@ -16,18 +16,20 @@ query loadUser($id: ID!){
     phone
     hasESNcard
     esnCardOverride
-    currentTenant(userId: $id){
+    currentTenant(userId: $id) {
+      userId
+      tenantId
       role
       status
     }
-    eventRegistrations{
+    eventRegistrations {
       id
       createdAt
       checkInTime
       paymentStatus
       type
       netPaid
-      event{
+      event {
         id
         title
         start
@@ -71,8 +73,8 @@ query getRefunds {
   }
 }
 
-query getTenantForEdit{
-  currentTenant{
+query getTenantForEdit {
+  currentTenant {
     id
     name
     imprintPage
@@ -91,35 +93,37 @@ query getOrganizers {
 }
 
 query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
-  users(roleList: $roleList, statusList:$statusList) {
+  users(roleList: $roleList, statusList: $statusList) {
     id
     firstName
     lastName
     email
     currentTenant {
+      userId
+      tenantId
       role
       status
     }
   }
 }
 
-query getMoveOrders{
-  moveOrders{
+query getMoveOrders {
+  moveOrders {
     id
     createdAt
     usedAt
-    creator{
+    creator {
       id
       fullName
     }
-    receiver{
+    receiver {
       id
       fullName
     }
-    registration{
+    registration {
       id
       paymentStatus
-      event{
+      event {
         id
         title
       }
@@ -127,11 +131,11 @@ query getMoveOrders{
   }
 }
 
-query getStatistics{
-  currentTenant{
+query getStatistics {
+  currentTenant {
     id
     name
-    statistics{
+    statistics {
       registeredUsers
       registrations
       userHistory
@@ -142,7 +146,7 @@ query getStatistics{
 }
 
 query getLogs {
-  logs{
+  logs {
     id
     createdAt
     message
@@ -150,7 +154,7 @@ query getLogs {
     data
     oldData
   }
-  logStats{
+  logStats {
     count
     message
   }
@@ -165,8 +169,8 @@ query getLogs {
 #  }
 #}
 
-mutation updateTenant($id: ID!, $update: updateTenantInput!){
-  updateTenant(id: $id, data: $update){
+mutation updateTenant($id: ID!, $update: updateTenantInput!) {
+  updateTenant(id: $id, data: $update) {
     id
     faqPage
     imprintPage
@@ -175,8 +179,8 @@ mutation updateTenant($id: ID!, $update: updateTenantInput!){
   }
 }
 
-mutation updateESNcard($userId: ID!, $override: Boolean!){
-  updateESNcard(id: $userId,esnCardOverride: $override){
+mutation updateESNcard($userId: ID!, $override: Boolean!) {
+  updateESNcard(id: $userId, esnCardOverride: $override) {
     id
     esnCardOverride
     hasESNcard
@@ -187,12 +191,16 @@ mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
   updateUserRole(userId: $id, role: $role) {
     id
     currentTenant(userId: $id) {
+      userId
+      tenantId
       role
     }
   }
   updateUserStatus(userId: $id, status: $status) {
     id
     currentTenant(userId: $id) {
+      userId
+      tenantId
       status
     }
   }
