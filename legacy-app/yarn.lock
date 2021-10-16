@@ -330,6 +330,13 @@
   dependencies:
     tslib "^2.2.0"
 
+"@angular/service-worker@12.2.10":
+  version "12.2.10"
+  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-12.2.10.tgz#ac7599bdaf9d448a6942a4eb03c7b60c907bd57d"
+  integrity sha512-zgpaAwj7V/AgO13nKL4axY8EVtUxoMW0QCJ6fgQOULTqeDfWIGYE6p2THQFrlF81q6icBgoT4SLDLFWMOebcNg==
+  dependencies:
+    tslib "^2.2.0"
+
 "@apollo/client@^3.4.16":
   version "3.4.16"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.16.tgz#67090d5655aa843fa64d26f1913315e384a5fa0f"
@@ -4754,6 +4761,11 @@ apollo-server-types@^3.3.0:
     apollo-reporting-protobuf "^3.1.0"
     apollo-server-caching "^3.2.0"
     apollo-server-env "^4.1.0"
+
+apollo3-cache-persist@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/apollo3-cache-persist/-/apollo3-cache-persist-0.13.0.tgz#64712f2a3e288326bf3bf657a6be19552e6f1c0c"
+  integrity sha512-3+npt3tyUvONliiZuO7dWhYd5JoxiKOzLfDzPJoIA/Tjexk19WCi9sgfjvhvvJVDyPNHiids5zS6xzW47gfJEA==
 
 applicationinsights@^2.1.8:
   version "2.1.8"

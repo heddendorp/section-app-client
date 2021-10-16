@@ -1,6 +1,11 @@
 {
   "name": "ESN TUMi app",
   "short_name": "TUMi app",
+  "theme_color": "#3B82F6",
+  "background_color": "#3B82F6",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
   "icons": [
     {
       "src": "/assets/favicon/android-chrome-192x192.png",
@@ -13,20 +18,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "theme_color": "#3B82F6",
-  "background_color": "#3B82F6",
-  "display": "standalone",
-  "scope": "./",
-  "start_url": "./?source=pwa",
-  "shortcuts": [
-    {
-      "name": "Open Upcoming Events",
-      "short_name": "Events",
-      "description": "View the list of events coming up",
-      "url": "/events?source=pwa",
-      "icons": [{ "src": "/assets/favicon/events-icon.png", "sizes": "192x192" }]
     }
   ]
 }

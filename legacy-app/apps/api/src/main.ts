@@ -44,7 +44,7 @@ app.use(checkJwt);
 app.use(getUser(prisma));
 
 const measurementPlugin = {
-  async requestDidStart(requestContext: GraphQLRequestContext) {
+  async requestDidStart() {
     console.log('\n');
     const before = Date.now();
     return {
@@ -85,7 +85,7 @@ const server = new ApolloServer({
 
 server.start().then(() => {
   server.applyMiddleware({ app });
-  app.get('ngsw.json', (req, res) => res.sendStatus(404));
+  // app.get('ngsw.json', (req, res) => res.sendStatus(404));
   app.get('*', function (request, response) {
     response.sendFile(
       path.resolve(__dirname, '..', 'tumi-app', 'browser', 'index.html')

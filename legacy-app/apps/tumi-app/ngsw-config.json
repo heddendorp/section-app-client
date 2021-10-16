@@ -1,0 +1,61 @@
+{
+  "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "navigationUrls": ["/**", "!/go/**", "!/qr/**", "!/cal/**", "!/health/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**"],
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "countries",
+      "urls": ["https://restcountries.eu/rest/v2/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 20,
+        "maxAge": "14d"
+      }
+    },
+    {
+      "name": "icons",
+      "urls": ["https://img.icons8.com/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 80,
+        "maxAge": "14d"
+      }
+    },
+    {
+      "name": "codes",
+      "urls": ["/qr/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxSize": 40,
+        "maxAge": "14d"
+      }
+    }
+  ]
+}

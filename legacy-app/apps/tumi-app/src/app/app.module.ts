@@ -1,4 +1,10 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import {
+  ApplicationRef,
+  ErrorHandler,
+  Inject,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -16,7 +22,11 @@ import { InMemoryCache } from '@apollo/client/core';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { MarkdownModule } from 'ngx-markdown';
 import { onError } from '@apollo/client/link/error';
 import { CheckUserGuard } from './guards/check-user.guard';
@@ -26,6 +36,13 @@ import {
 } from '@microsoft/applicationinsights-angularplugin-js';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { concat, first, interval } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  IconToastComponent,
+  UtilComponentsModule,
+} from '@tumi/util-components';
 
 @NgModule({
   declarations: [AppComponent],
@@ -94,6 +111,14 @@ import { environment } from '../environments/environment';
     }),
     FlexLayoutModule,
     UiAppShellModule,
+    UtilComponentsModule,
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     Title,
@@ -122,9 +147,16 @@ import { environment } from '../environments/environment';
 
         const link = error.concat(http);
 
+        const cache = new InMemoryCache();
+        // persistCache({
+        //   cache,
+        //   storage: new LocalStorageWrapper(window.localStorage),
+        //   debug: !environment.production,
+        // });
+
         return {
           link,
-          cache: new InMemoryCache(),
+          cache,
         };
         // return {
         //   cache: new InMemoryCache(),
@@ -152,7 +184,13 @@ import { environment } from '../environments/environment';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(router: Router) {
+  constructor(
+    router: Router,
+    appRef: ApplicationRef,
+    updates: SwUpdate,
+    snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) platform: any
+  ) {
     if (environment.production) {
       const angularPlugin = new AngularPlugin();
       const appInsights = new ApplicationInsights({
@@ -170,5 +208,26 @@ export class AppModule {
       });
       appInsights.loadAppInsights();
     }
+    const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
+    const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
+    const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
+    if (environment.production && isPlatformBrowser(platform)) {
+      updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
+    }
+    updates.available.subscribe((event) => {
+      snackBar
+        .openFromComponent(IconToastComponent, {
+          duration: 0,
+          data: {
+            message: 'A new version of this app is available!',
+            action: 'Activate now',
+            icon: 'icon-available-updates',
+          },
+        })
+        .onAction()
+        .subscribe(() =>
+          updates.activateUpdate().then(() => document.location.reload())
+        );
+    });
   }
 }

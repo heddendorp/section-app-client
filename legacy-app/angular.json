@@ -206,16 +206,18 @@
             "assets": [
               "apps/tumi-app/src/favicon.ico",
               "apps/tumi-app/src/manifest.webmanifest",
-              "apps/tumi-app/src/ngsw-worker.js",
               {
                 "glob": "qr-scanner-worker.min.js",
                 "input": "node_modules/qr-scanner/",
                 "output": "assets/"
               },
-              "apps/tumi-app/src/assets"
+              "apps/tumi-app/src/assets",
+              "apps/tumi-app/src/manifest.webmanifest"
             ],
             "styles": ["apps/tumi-app/src/styles.scss"],
-            "scripts": ["node_modules/marked/lib/marked.js"]
+            "scripts": ["node_modules/marked/lib/marked.js"],
+            "serviceWorker": true,
+            "ngswConfigPath": "apps/tumi-app/ngsw-config.json"
           },
           "configurations": {
             "production": {
