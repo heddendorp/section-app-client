@@ -1,5 +1,24 @@
-<h1 mat-dialog-title>Scan participant</h1>
+<h1 mat-dialog-title>User check in</h1>
 <mat-dialog-content fxFlex="grow" fxLayout="column">
+  <div
+    fxLayout="row"
+    fxLayoutGap=".5rem"
+    *ngIf="event$ | async as event"
+    class="mb-2"
+  >
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="start center">
+      <p class="text-lg font-bold">{{ event.participantLimit }}</p>
+      <p>spots</p>
+    </div>
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="start center">
+      <p class="text-lg font-bold">{{ event.participantsRegistered }}</p>
+      <p>registered</p>
+    </div>
+    <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start center">
+      <p class="text-lg font-bold">{{ event.participantsAttended }}</p>
+      <p>checked</p>
+    </div>
+  </div>
   <video #scannerVideo [hidden]="hideScanner$ | async"></video>
   <ng-container *ngIf="currentRegistration$ | async as registration">
     <div class="bg-green-500 text-white font-bold text-lg w-full rounded px-2">

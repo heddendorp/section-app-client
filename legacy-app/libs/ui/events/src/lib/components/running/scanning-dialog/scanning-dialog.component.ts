@@ -8,14 +8,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import QrScanner from 'qr-scanner';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   CheckInUserGQL,
   GetRegistrationGQL,
   GetRegistrationQuery,
+  LoadEventForRunningGQL,
+  LoadEventForRunningQuery,
 } from '@tumi/data-access';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'tumi-scanning-dialog',
@@ -28,14 +31,23 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
   public currentRegistration$ = new BehaviorSubject<
     GetRegistrationQuery['registration'] | null
   >(null);
+  public event$: Observable<LoadEventForRunningQuery['event']>;
+  private loadEventQueryRef;
   private scanner: QrScanner | undefined;
   @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: string },
+    private loadEvent: LoadEventForRunningGQL,
     private loadRegistration: GetRegistrationGQL,
     private checkInMutation: CheckInUserGQL,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.loadEventQueryRef = this.loadEvent.watch({ id: this.data.id });
+    this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      map(({ data }) => data.event)
+    );
+    this.loadEventQueryRef.startPolling(5000);
+  }
 
   async ngAfterViewInit() {
     const idTest = new RegExp(
@@ -67,6 +79,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.scanner?.stop();
     this.scanner?.destroy();
+    this.loadEventQueryRef.stopPolling();
   }
 
   async checkInUser() {

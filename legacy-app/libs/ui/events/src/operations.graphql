@@ -95,6 +95,9 @@ query loadEventForRunning($id: ID!) {
     icon
     start
     end
+    participantLimit
+    participantsRegistered
+    participantsAttended
     organizerRegistrations {
       id
       checkInTime
