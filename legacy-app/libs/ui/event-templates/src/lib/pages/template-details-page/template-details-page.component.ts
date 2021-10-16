@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import {
   CreateEventFromTemplateGQL,
   DeleteEventTemplateGQL,
@@ -24,7 +24,7 @@ import { SelectLocationDialogComponent } from '@tumi/util-components';
   styleUrls: ['./template-details-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TemplateDetailsPageComponent implements OnInit {
+export class TemplateDetailsPageComponent {
   public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   constructor(
     private title: Title,
@@ -49,11 +49,9 @@ export class TemplateDetailsPageComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
-
   async createEvent() {
-    const template = await this.eventTemplate$.pipe(first()).toPromise();
-    const { data } = await this.getOrganizerOptions.fetch().toPromise();
+    const template = await firstValueFrom(this.eventTemplate$);
+    const { data } = await firstValueFrom(this.getOrganizerOptions.fetch());
     if (template?.id) {
       const eventData = await this.dialog
         .open(CreateEventDialogComponent, {
@@ -63,9 +61,12 @@ export class TemplateDetailsPageComponent implements OnInit {
         .toPromise();
       if (eventData) {
         this.snackBar.open('Saving event', undefined, { duration: 0 });
-        const { data } = await this.createEventMutation
-          .mutate({ templateId: template.id, eventData })
-          .toPromise();
+        const { data } = await firstValueFrom(
+          this.createEventMutation.mutate({
+            templateId: template.id,
+            eventData,
+          })
+        );
         this.snackBar.open('Event saved successfully');
         if (data) {
           await this.router.navigate([

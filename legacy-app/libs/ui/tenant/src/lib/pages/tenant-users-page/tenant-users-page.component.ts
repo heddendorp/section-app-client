@@ -11,14 +11,8 @@ import {
   Role,
   UpdateUserGQL,
 } from '@tumi/data-access';
-import { Observable, Subject } from 'rxjs';
-import {
-  debounceTime,
-  first,
-  map,
-  shareReplay,
-  takeUntil,
-} from 'rxjs/operators';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
+import { debounceTime, map, shareReplay, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component';
 import { Title } from '@angular/platform-browser';
@@ -89,7 +83,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   }
 
   async copyMails() {
-    const users = await this.users$.pipe(first()).toPromise();
+    const users = await firstValueFrom(this.users$);
     const pending = this.clipboard.beginCopy(
       users.map((user) => user.email).join(';')
     );

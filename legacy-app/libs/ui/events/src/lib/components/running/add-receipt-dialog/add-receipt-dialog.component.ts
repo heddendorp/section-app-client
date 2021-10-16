@@ -6,7 +6,7 @@ import {
 } from '@tumi/data-access';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
 import { BlobServiceClient } from '@azure/storage-blob';
 
 @Component({
@@ -55,7 +55,7 @@ export class AddReceiptDialogComponent {
 
   async save() {
     this.processing$.next(true);
-    const { data } = await this.createBlobToken.mutate().toPromise();
+    const { data } = await firstValueFrom(this.createBlobToken.mutate());
     const file = this.uploadForm.get('file')?.value;
     const amount = this.uploadForm.get('amount')?.value;
     if (data && file && amount) {

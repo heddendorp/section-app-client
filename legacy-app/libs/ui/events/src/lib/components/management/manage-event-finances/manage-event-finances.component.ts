@@ -5,13 +5,13 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import {
   GetCostItemsForEventGQL,
   GetCostItemsForEventQuery,
   UpdateCostItemsFromTemplateGQL,
 } from '@tumi/data-access';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -42,7 +42,7 @@ export class ManageEventFinancesComponent implements OnChanges {
   }
 
   async getFromTemplate() {
-    const { event } = await this.data$.pipe(first()).toPromise();
+    const { event } = await firstValueFrom(this.data$);
     if (event) {
       try {
         await this.updateCostItems.mutate({ eventId: event.id }).toPromise();

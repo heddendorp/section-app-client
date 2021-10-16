@@ -13,7 +13,7 @@ import {
   SubmissionItemType,
   SubmissionTime,
 } from '@tumi/data-access';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import { environment } from '../../../../../../../../apps/tumi-app/src/environments/environment';
@@ -100,9 +100,12 @@ export class StripeRegistrationComponent implements OnChanges {
     if (this.event) {
       let data;
       try {
-        const res = await this.registerWithStripe
-          .mutate({ eventId: this.event.id, submissions: this.infoForm?.value })
-          .toPromise();
+        const res = await firstValueFrom(
+          this.registerWithStripe.mutate({
+            eventId: this.event.id,
+            submissions: this.infoForm?.value,
+          })
+        );
         data = res.data;
       } catch (e) {
         this.processing.next(false);

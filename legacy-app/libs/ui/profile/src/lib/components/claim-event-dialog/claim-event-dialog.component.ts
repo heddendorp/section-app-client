@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import {
   ClaimEventGQL,
   GetMoveOrderGQL,
@@ -41,9 +41,9 @@ export class ClaimEventDialogComponent implements OnInit {
     this.processing$.next(true);
     this.error$.next('');
     try {
-      const { data } = await this.claimCode
-        .mutate({ id: this.codeControl.value })
-        .toPromise();
+      const { data } = await firstValueFrom(
+        this.claimCode.mutate({ id: this.codeControl.value })
+      );
       if (
         data?.useMoveOrder.status === 'requires_action' &&
         data?.useMoveOrder.client_secret

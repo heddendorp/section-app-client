@@ -21,7 +21,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectOrganizerDialogComponent } from '../../components/select-organizer-dialog/select-organizer-dialog.component';
@@ -181,8 +181,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const loader = this.snackBar.open('Loading data ⏳', undefined, {
       duration: 0,
     });
-    const users = await this.users$.pipe(first()).toPromise();
-    const event = await this.event$.pipe(first()).toPromise();
+    const users = await firstValueFrom(this.users$);
+    const event = await firstValueFrom(this.event$);
     const choices = users.filter(
       (user) => !event?.organizers.some((organizer) => organizer.id === user.id)
     );
@@ -214,8 +214,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await this.event$.pipe(first()).toPromise();
     if (event && this.generalInformationForm.valid) {
       const update = this.generalInformationForm.value;
-      const { data } = await this.updateEventMutation
-        .mutate({
+      const { data } = await firstValueFrom(
+        this.updateEventMutation.mutate({
           id: event.id,
           data: {
             ...update,
@@ -223,7 +223,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             end: DateTime.fromISO(update.end).toJSDate(),
           },
         })
-        .toPromise();
+      );
       if (data) {
         delete data.updateEventGeneralInfo.__typename;
         this.generalInformationForm.setValue({

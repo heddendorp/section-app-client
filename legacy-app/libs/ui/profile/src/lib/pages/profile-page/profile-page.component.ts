@@ -7,7 +7,7 @@ import {
   UserProfileQuery,
 } from '@tumi/data-access';
 import { first, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { loadStripe } from '@stripe/stripe-js/pure';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from '../../../../../../../apps/tumi-app/src/environments/environment';
@@ -58,7 +58,7 @@ export class ProfilePageComponent implements OnDestroy {
   }
 
   async setupStripePayment() {
-    const { data } = await this.getStripeSession.fetch().toPromise();
+    const { data } = await firstValueFrom(this.getStripeSession.fetch());
     const stripe = await loadStripe(environment.stripeKey);
     if (stripe) {
       await stripe.redirectToCheckout({

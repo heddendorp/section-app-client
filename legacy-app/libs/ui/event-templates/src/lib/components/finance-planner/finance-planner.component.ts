@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewFinanceEntryDialogComponent } from '../new-finance-entry-dialog/new-finance-entry-dialog.component';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, firstValueFrom, Observable, ReplaySubject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, map } from 'rxjs/operators';
 import { GetEventTemplateQuery, UpdateFinancesGQL } from '@tumi/data-access';
@@ -39,6 +39,7 @@ export class FinancePlannerComponent implements OnChanges {
   public items$ = new ReplaySubject<CostItem[]>(1);
   public forecastForm: FormGroup;
   public forecastResult$: Observable<any>;
+
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -79,6 +80,39 @@ export class FinancePlannerComponent implements OnChanges {
     }
   }
 
+  async addItem() {
+    const newItem = await this.dialog
+      .open(NewFinanceEntryDialogComponent)
+      .afterClosed()
+      .toPromise();
+    if (newItem) {
+      const items = await this.items$.pipe(first()).toPromise();
+      this.items$.next([...(items ?? []), newItem]);
+    }
+  }
+
+  async saveFinances() {
+    const items = await this.items$.pipe(first()).toPromise();
+    if (this.template) {
+      const { data } = await firstValueFrom(
+        this.updateFinances.mutate({
+          id: this.template.id,
+          finances: { items },
+        })
+      );
+      if (data?.updateTemplateFinances?.finances) {
+        this.items$.next(data.updateTemplateFinances.finances.items);
+      }
+    }
+  }
+
+  async removeItem(element: CostItem) {
+    const items = await firstValueFrom(this.items$);
+    this.items$.next(
+      items.filter((item) => item.description !== element.description)
+    );
+  }
+
   private getTotalCost([items, info]: [
     CostItem[],
     { participants: number; organizers: number }
@@ -100,37 +134,5 @@ export class FinancePlannerComponent implements OnChanges {
         }
       })
       .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-  }
-  async addItem() {
-    const newItem = await this.dialog
-      .open(NewFinanceEntryDialogComponent)
-      .afterClosed()
-      .toPromise();
-    if (newItem) {
-      const items = await this.items$.pipe(first()).toPromise();
-      this.items$.next([...(items ?? []), newItem]);
-    }
-  }
-
-  async saveFinances() {
-    const items = await this.items$.pipe(first()).toPromise();
-    if (this.template) {
-      const { data } = await this.updateFinances
-        .mutate({
-          id: this.template.id,
-          finances: { items },
-        })
-        .toPromise();
-      if (data?.updateTemplateFinances?.finances) {
-        this.items$.next(data.updateTemplateFinances.finances.items);
-      }
-    }
-  }
-
-  async removeItem(element: CostItem) {
-    const items = await this.items$.pipe(first()).toPromise();
-    this.items$.next(
-      items.filter((item) => item.description !== element.description)
-    );
   }
 }
