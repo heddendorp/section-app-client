@@ -5,7 +5,7 @@ import {
   GetPhotosOfEventGQL,
   GetPhotosOfEventQuery,
 } from '@tumi/data-access';
-import { firstValueFrom, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { BlobServiceClient } from '@azure/storage-blob';
@@ -20,6 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EventPhotoPageComponent implements OnDestroy {
   public photos$: Observable<GetPhotosOfEventQuery['photosOfEvent']>;
   public event$: Observable<GetPhotosOfEventQuery['event']>;
+  public uploadProgress$ = new BehaviorSubject(0);
   private loadPhotosRef;
   private destroyed$ = new Subject();
   constructor(
@@ -68,7 +69,10 @@ export class EventPhotoPageComponent implements OnDestroy {
           const containerClient =
             blobServiceClient.getContainerClient(container);
           const blockBlobClient = containerClient.getBlockBlobClient(blob);
-          await blockBlobClient.uploadBrowserData(file);
+          await blockBlobClient.uploadBrowserData(file, {
+            onProgress: (event) =>
+              this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
+          });
           await firstValueFrom(
             this.createPhotoShare.mutate({
               eventId: event.id,
@@ -76,6 +80,7 @@ export class EventPhotoPageComponent implements OnDestroy {
             })
           );
           this.snackbar.open('✔️ Photo uploaded');
+          this.uploadProgress$.next(0);
           this.loadPhotosRef.refetch();
         };
         image.src = reader.result as string;

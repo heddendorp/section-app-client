@@ -2,6 +2,11 @@
   mode="indeterminate"
   *ngIf="(photos$ | async) === null"
 ></mat-progress-bar>
+<mat-progress-bar
+  *ngIf="uploadProgress$ | async"
+  mode="determinate"
+  [value]="uploadProgress$ | async"
+></mat-progress-bar>
 <main *ngIf="photos$ | async as photos" class="p-4">
   <input
     type="file"
