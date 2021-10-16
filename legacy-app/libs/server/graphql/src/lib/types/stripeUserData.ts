@@ -79,7 +79,7 @@ export const getPaymentSetupSessionQuery = queryField(
         ? 'http://localhost:4200/'
         : 'https://tumi.esn.world/';
       const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card', 'sepa_debit'],
+        payment_method_types: ['card'],
         mode: 'setup',
         customer: stripeData.customerId,
         client_reference_id: stripeData.id,
