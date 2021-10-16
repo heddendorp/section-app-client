@@ -122,6 +122,7 @@ model User {
   receipts           Receipt[]
   createdEvents      TumiEvent[]
   purchases          ProductPurchase[]
+  PhotoShare         PhotoShare[]
 }
 
 model StripeUserData {
@@ -229,7 +230,7 @@ model TumiEvent {
   submissionItems   EventSubmissionItem[]
   registrations     EventRegistration[]
   costItems         CostItem[]
-  photoShare        PhotoShare?
+  photoShares       PhotoShare[]
   organizer         EventOrganizer        @relation(fields: [eventOrganizerId], references: [id])
   eventOrganizerId  String                @db.Uuid
   createdBy         User                  @relation(fields: [creatorId], references: [id])
@@ -305,10 +306,17 @@ model Receipt {
 }
 
 model PhotoShare {
-  id        String    @id @default(uuid()) @db.Uuid
-  createdAt DateTime  @default(now())
-  event     TumiEvent @relation(fields: [eventId], references: [id])
-  eventId   String    @unique @db.Uuid
+  id           String    @id @default(uuid()) @db.Uuid
+  createdAt    DateTime  @default(now())
+  container    String
+  originalBlob String
+  previewBlob  String?
+  cols         Int       @default(2)
+  rows         Int       @default(1)
+  creator      User      @relation(fields: [creatorId], references: [id])
+  event        TumiEvent @relation(fields: [eventId], references: [id])
+  eventId      String    @db.Uuid
+  creatorId    String    @db.Uuid
 }
 
 model EventRegistration {

@@ -29,6 +29,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page/tenant-activity-log-page.component';
 import { ShowDataDialogComponent } from './components/show-data-dialog/show-data-dialog.component';
+import { TenantPhotosPageComponent } from './pages/tenant-photos-page/tenant-photos-page.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -44,6 +46,7 @@ import { ShowDataDialogComponent } from './components/show-data-dialog/show-data
       { path: 'edit', component: TenantEditPageComponent },
       { path: 'stats', component: TenantStatsPageComponent },
       { path: 'logs', component: TenantActivityLogPageComponent },
+      { path: 'photos', component: TenantPhotosPageComponent },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -60,6 +63,7 @@ import { ShowDataDialogComponent } from './components/show-data-dialog/show-data
     UtilMaterialModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatProgressBarModule,
   ],
   declarations: [
     TenantLandingPageComponent,
@@ -76,6 +80,7 @@ import { ShowDataDialogComponent } from './components/show-data-dialog/show-data
     TenantMoveOrdersPageComponent,
     TenantActivityLogPageComponent,
     ShowDataDialogComponent,
+    TenantPhotosPageComponent,
   ],
 })
 export class UiTenantModule {}

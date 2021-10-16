@@ -80,7 +80,7 @@ export const eventType = objectType({
           },
         }),
     });
-    t.field(TumiEvent.photoShare);
+    t.field(TumiEvent.photoShares);
     t.field({
       ...TumiEvent.eventTemplate,
       resolve: (source, args, context) =>

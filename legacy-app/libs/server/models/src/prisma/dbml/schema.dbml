@@ -40,6 +40,7 @@ Table User {
   receipts Receipt [not null]
   createdEvents TumiEvent [not null]
   purchases ProductPurchase [not null]
+  PhotoShare PhotoShare [not null]
 
   Note: 'One User of the app'
 }
@@ -154,7 +155,7 @@ Table TumiEvent {
   submissionItems EventSubmissionItem [not null]
   registrations EventRegistration [not null]
   costItems CostItem [not null]
-  photoShare PhotoShare
+  photoShares PhotoShare [not null]
   organizer EventOrganizer [not null]
   eventOrganizerId String [not null]
   createdBy User [not null]
@@ -234,8 +235,15 @@ Table Receipt {
 Table PhotoShare {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
+  container String [not null]
+  originalBlob String [not null]
+  previewBlob String
+  cols Int [not null, default: 2]
+  rows Int [not null, default: 1]
+  creator User [not null]
   event TumiEvent [not null]
-  eventId String [unique, not null]
+  eventId String [not null]
+  creatorId String [not null]
 }
 
 Table EventRegistration {
@@ -398,7 +406,9 @@ Ref: Receipt.userId > User.id
 
 Ref: Receipt.costItemId > CostItem.id
 
-Ref: PhotoShare.eventId - TumiEvent.id
+Ref: PhotoShare.creatorId > User.id
+
+Ref: PhotoShare.eventId > TumiEvent.id
 
 Ref: EventRegistration.userId > User.id
 

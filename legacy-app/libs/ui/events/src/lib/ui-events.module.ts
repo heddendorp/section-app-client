@@ -41,6 +41,7 @@ import { ManageEventFinancesComponent } from './components/management/manage-eve
 import { EventRunReceiptsPageComponent } from './pages/event-run-receipts-page/event-run-receipts-page.component';
 import { AddReceiptDialogComponent } from './components/running/add-receipt-dialog/add-receipt-dialog.component';
 import { EventSubmissionDialogComponent } from './components/editing/event-submission-dialog/event-submission-dialog.component';
+import { EventPhotoPageComponent } from './pages/event-photo-page/event-photo-page.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,11 @@ import { EventSubmissionDialogComponent } from './components/editing/event-submi
         path: ':eventId/run',
         canActivate: [AuthGuard],
         component: EventRunPageComponent,
+      },
+      {
+        path: ':eventId/photos',
+        canActivate: [AuthGuard],
+        component: EventPhotoPageComponent,
       },
       {
         path: ':eventId/run/receipts/:costItemId',
@@ -110,6 +116,7 @@ import { EventSubmissionDialogComponent } from './components/editing/event-submi
     EventRunReceiptsPageComponent,
     AddReceiptDialogComponent,
     EventSubmissionDialogComponent,
+    EventPhotoPageComponent,
   ],
 })
 export class UiEventsModule {}

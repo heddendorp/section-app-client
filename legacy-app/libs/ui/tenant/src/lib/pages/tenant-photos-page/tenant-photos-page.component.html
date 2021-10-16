@@ -1,0 +1,26 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(photos$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="photos$ | async as photos" class="p-4">
+  <h1 class="font-bold mb-4">All Photos</h1>
+  <div
+    class="w-full"
+    gdAuto="dense"
+    gdAlignColumns="stretch"
+    gdAlignRows="stretch"
+    gdGap="1rem"
+    gdColumns="repeat(2, 1fr)"
+    gdColumns.gt-sm="repeat(3, 1fr)"
+    gdColumns.gt-md="repeat(4, 1fr)"
+    *ngIf="photos$ | async as photos"
+  >
+    <img
+      *ngFor="let photo of photos"
+      [src]="photo.src"
+      class="object-cover w-full h-full"
+      gdColumn="span {{ photo.cols }}"
+      gdRow="span {{ photo.rows }}"
+    />
+  </div>
+</main>

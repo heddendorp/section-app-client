@@ -16,7 +16,10 @@
     mat-fab
     (click)="showCode()"
     class="extended-fab"
-    *ngIf="event.userRegistered"
+    *ngIf="
+      event.userRegistered &&
+      !((eventOver$ | async) && event.registration?.didAttend)
+    "
   >
     <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
     <span class="label">Check in</span>
@@ -71,6 +74,16 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
         </mat-expansion-panel-header>
+        <div class="mb-4" *ngIf="eventStarted$ | async">
+          <a
+            routerLink="./photos"
+            mat-flat-button
+            color="primary"
+            class="w-full"
+          >
+            Photos for this event
+          </a>
+        </div>
         <p class="lg:text-lg mb-2" *ngIf="event.location">
           Meeting point: {{ event.location }} on
           {{ event.start | date: 'medium' }}
