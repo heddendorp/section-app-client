@@ -16,7 +16,11 @@ export const photoShareType = objectType({
   definition(t) {
     t.field(PhotoShare.id);
     t.field(PhotoShare.createdAt);
-    t.field(PhotoShare.event);
+    t.field({
+      ...PhotoShare.event,
+      resolve: (source, args, context) =>
+        context.prisma.tumiEvent.findUnique({ where: { id: source.eventId } }),
+    });
     t.field(PhotoShare.eventId);
     t.field(PhotoShare.cols);
     t.field(PhotoShare.rows);

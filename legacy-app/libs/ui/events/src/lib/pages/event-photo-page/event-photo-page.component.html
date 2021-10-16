@@ -26,12 +26,27 @@
     gdColumns.gt-md="repeat(4, 1fr)"
     *ngIf="photos$ | async as photos"
   >
-    <img
+    <div
       *ngFor="let photo of photos"
-      [src]="photo.src"
-      class="object-cover w-full h-full"
       gdColumn="span {{ photo.cols }}"
       gdRow="span {{ photo.rows }}"
-    />
+      class="relative"
+    >
+      <p
+        class="
+          absolute
+          bottom-0
+          left-0
+          right-0
+          p-2
+          bg-white
+          rounded-t
+          bg-opacity-80
+        "
+      >
+        {{ photo.creator.fullName }}
+      </p>
+      <img [src]="photo.src" class="object-cover w-full h-full" />
+    </div>
   </div>
 </main>

@@ -4,17 +4,21 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
-query loadAllPhotos{
-    photos{
-        id
-        cols
-        rows
-        src
-        creator{
-            id
-            fullName
-        }
+query loadAllPhotos {
+  photos {
+    id
+    cols
+    rows
+    src
+    event {
+      id
+      title
     }
+    creator {
+      id
+      fullName
+    }
+  }
 }
 
 query loadUser($id: ID!) {
