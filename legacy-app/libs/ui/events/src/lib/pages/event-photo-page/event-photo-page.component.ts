@@ -8,10 +8,11 @@ import {
 import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { BlobServiceClient } from '@azure/storage-blob';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoDetailsDialogComponent } from '@tumi/util-components';
+import { ProgressBarMode } from '@angular/material/progress-bar';
+import { BlobServiceClient } from '@azure/storage-blob';
 
 @Component({
   selector: 'tumi-event-photo-page',
@@ -23,6 +24,8 @@ export class EventPhotoPageComponent implements OnDestroy {
   public photos$: Observable<GetPhotosOfEventQuery['photosOfEvent']>;
   public event$: Observable<GetPhotosOfEventQuery['event']>;
   public uploadProgress$ = new BehaviorSubject(0);
+  public uploadMode$ = new BehaviorSubject<ProgressBarMode>('indeterminate');
+  public uploading$ = new BehaviorSubject(false);
   private loadPhotosRef;
   private destroyed$ = new Subject();
   constructor(
@@ -52,20 +55,43 @@ export class EventPhotoPageComponent implements OnDestroy {
   }
 
   async addFile(fileEvent: Event) {
+    this.uploading$.next(true);
+    this.uploadMode$.next('indeterminate');
     const target = fileEvent.target as HTMLInputElement;
     const event = await firstValueFrom(this.event$);
     if (target && target.files && event) {
-      const file = target.files[0];
-
-      // File Preview
-      const reader = new FileReader();
-      const image = new Image();
-      reader.onload = async () => {
-        image.onload = async () => {
+      const files = Array.from(target.files).filter((file) =>
+        file.type.startsWith('image/')
+      );
+      console.log(files);
+      const { data } = await firstValueFrom(this.getShareKey.fetch());
+      const uploads = new BehaviorSubject(files.map(() => 0));
+      uploads.subscribe((progress) => {
+        const totalProgress =
+          progress.reduce(
+            (previousValue, currentValue) => previousValue + currentValue,
+            0
+          ) / progress.length;
+        if (totalProgress > 0) {
+          this.uploadMode$.next('determinate');
+          this.uploadProgress$.next(totalProgress);
+        }
+      });
+      await Promise.all(
+        files.map(async (file, index) => {
+          const reader = new FileReader();
+          const image = new Image();
+          const imagePromise = new Promise<void>((resolve) => {
+            reader.onload = () => {
+              image.onload = () => resolve();
+              image.src = reader.result as string;
+            };
+          });
+          reader.readAsDataURL(file);
+          await imagePromise;
           const ratio = image.width / image.height;
           const cols = ratio > 1.25 ? 2 : 1;
           const rows = ratio < 0.75 ? 2 : 1;
-          const { data } = await firstValueFrom(this.getShareKey.fetch());
           const blobServiceClient = new BlobServiceClient(data.photoShareKey);
           const container = event.id + '|' + event.title;
           const blob = this.randomId() + '|' + file.name;
@@ -73,8 +99,11 @@ export class EventPhotoPageComponent implements OnDestroy {
             blobServiceClient.getContainerClient(container);
           const blockBlobClient = containerClient.getBlockBlobClient(blob);
           await blockBlobClient.uploadBrowserData(file, {
-            onProgress: (event) =>
-              this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
+            onProgress: (event) => {
+              const newUploads = [...uploads.value];
+              newUploads[index] = (event.loadedBytes / file.size) * 100;
+              uploads.next(newUploads);
+            },
           });
           await firstValueFrom(
             this.createPhotoShare.mutate({
@@ -82,13 +111,13 @@ export class EventPhotoPageComponent implements OnDestroy {
               data: { cols, rows, container, originalBlob: blob },
             })
           );
-          this.snackbar.open('✔️ Photo uploaded');
-          this.uploadProgress$.next(0);
-          this.loadPhotosRef.refetch();
-        };
-        image.src = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+        })
+      );
+      uploads.complete();
+      this.snackbar.open(`✔️ ${files.length} Photos uploaded`);
+      this.uploadProgress$.next(0);
+      this.uploading$.next(false);
+      this.loadPhotosRef.refetch();
     }
   }
 

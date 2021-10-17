@@ -3,8 +3,8 @@
   *ngIf="(photos$ | async) === null"
 ></mat-progress-bar>
 <mat-progress-bar
-  *ngIf="uploadProgress$ | async"
-  mode="determinate"
+  *ngIf="uploading$ | async"
+  [mode]="(uploadMode$ | async) ?? 'indeterminate'"
   [value]="uploadProgress$ | async"
 ></mat-progress-bar>
 <main *ngIf="photos$ | async as photos" class="p-4">
@@ -13,11 +13,12 @@
     hidden
     #fileInput
     accept="image/*"
+    multiple
     (change)="addFile($event)"
   />
   <button mat-fab class="extended-fab" (click)="fileInput.click()">
     <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
-    <span class="label">Add Image</span>
+    <span class="label">Add Images</span>
   </button>
   <h1 class="font-bold mb-4">Photos for {{ (event$ | async)?.title }}</h1>
   <div
