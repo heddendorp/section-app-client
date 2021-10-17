@@ -49,7 +49,7 @@
     },
     {
       "name": "photoShares",
-      "urls": ["https://storetumi.blob.core.windows.net/tumi-photos/**"],
+      "urls": ["/storage/tumi-photos/**"],
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 80,

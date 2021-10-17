@@ -38,7 +38,7 @@ export const photoShare = objectType({
       type: nonNull('String'),
       resolve: (source) => {
         const lastDot = source.originalBlob.lastIndexOf('.');
-        return `https://storetumi.blob.core.windows.net/tumi-photos/${encodeURIComponent(
+        return `/storage/tumi-photos/${encodeURIComponent(
           source.container
         )}/${encodeURIComponent(
           `${source.originalBlob.substr(0, lastDot)}-preview.jpg`
@@ -49,7 +49,7 @@ export const photoShare = objectType({
       name: 'original',
       type: nonNull('String'),
       resolve: (source) =>
-        `https://storetumi.blob.core.windows.net/tumi-photos/${encodeURIComponent(
+        `/storage/tumi-photos/${encodeURIComponent(
           source.container
         )}/${encodeURIComponent(source.originalBlob)}`,
     });

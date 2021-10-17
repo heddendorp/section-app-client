@@ -1,1 +1,15 @@
-<img [src]="data.photo.original" class="max-w-full max-h-full" alt="" />
+<div class="relative">
+  <img [src]="data.photo.original" class="max-w-full max-h-full" />
+  <div
+    class="absolute bottom-2 right-2 dark-button"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <button (click)="shareImage()" mat-fab *ngIf="canShareImage">
+      <mat-icon svgIcon="icon-share-3"></mat-icon>
+    </button>
+    <a [href]="data.photo.original" mat-fab target="_blank" download>
+      <mat-icon svgIcon="icon-download"></mat-icon>
+    </a>
+  </div>
+</div>

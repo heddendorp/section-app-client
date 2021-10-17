@@ -6,5 +6,10 @@
   "/qr/*": {
     "target": "http://localhost:3333",
     "secure": false
+  },
+  "/storage/*": {
+    "target": "https://tumi.esn.world",
+    "secure": false,
+    "changeOrigin": true
   }
 }

@@ -5,10 +5,15 @@ query getPhotosOfEvent($eventId: ID!) {
       id
       fullName
     }
+    event{
+      id
+      title
+    }
     cols
     rows
     src
     original
+    originalBlob
   }
   event(eventId: $eventId) {
     id
