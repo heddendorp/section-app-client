@@ -1,8 +1,24 @@
 <h1>{{ data.message }}</h1>
-<mat-dialog-content>
-  <p class="mb-2">Created: {{ data.createdAt | date }}</p>
-  <p class="mb-2">Data 1</p>
-  <pre class="mb-2">{{ data.data | json }}</pre>
-  <p class="mb-2">Data 2</p>
-  <pre class="mb-2">{{ data.oldData | json }}</pre>
+<mat-dialog-content fxLayout="column" fxLayoutGap="1rem">
+  <p class="mb-2 mt-4">Created: {{ data.createdAt | date }}</p>
+  <p class="mb-2 font-bold">Data 1</p>
+  <a *ngIf="customer1" [href]="customer1" target="_blank">
+    Go to customer on stripe
+  </a>
+  <a *ngIf="payment1" [href]="payment1" target="_blank">
+    Go to payment on stripe
+  </a>
+  <a *ngIf="event1" [href]="event1" target="_blank"> Go to event </a>
+  <a *ngIf="user1" [href]="user1" target="_blank"> Go to user </a>
+  <pre class="mb-2 break-all">{{ data.data | json }}</pre>
+  <p class="mb-2 font-bold">Data 2</p>
+  <a *ngIf="customer2" [href]="customer2" target="_blank">
+    Go to customer on stripe
+  </a>
+  <a *ngIf="payment2" [href]="payment2" target="_blank">
+    Go to payment on stripe
+  </a>
+  <a *ngIf="event2" [href]="event2" target="_blank"> Go to event </a>
+  <a *ngIf="user2" [href]="user2" target="_blank"> Go to user </a>
+  <pre class="mb-2 break-all">{{ data.oldData | json }}</pre>
 </mat-dialog-content>

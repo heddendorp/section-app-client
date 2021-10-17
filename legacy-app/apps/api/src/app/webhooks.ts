@@ -55,6 +55,10 @@ export const webhookRouter = (prisma) => {
         case 'payment_intent.processing': {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.processing');
+          if (paymentIntent.invoice) {
+            console.log('Skipping upsert for invoice success');
+            break;
+          }
           const charge = paymentIntent.charges.data[0];
           if (!paymentIntent.metadata.isMove) {
             try {
@@ -172,7 +176,7 @@ export const webhookRouter = (prisma) => {
           console.log('Processing event: payment_intent.succeeded');
           if (paymentIntent.invoice) {
             console.log('Skipping upsert for invoice success');
-            return;
+            break;
           }
           const charge = paymentIntent.charges.data[0];
           if (typeof charge?.balance_transaction === 'string') {
