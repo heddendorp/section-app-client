@@ -108,7 +108,13 @@ export class EventPhotoPageComponent implements OnDestroy {
           await firstValueFrom(
             this.createPhotoShare.mutate({
               eventId: event.id,
-              data: { cols, rows, container, originalBlob: blob },
+              data: {
+                cols,
+                rows,
+                container,
+                originalBlob: blob,
+                type: file.type,
+              },
             })
           );
         })

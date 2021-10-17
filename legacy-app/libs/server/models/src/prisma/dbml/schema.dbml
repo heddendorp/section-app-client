@@ -238,6 +238,7 @@ Table PhotoShare {
   container String [not null]
   originalBlob String [not null]
   previewBlob String
+  type String [not null]
   cols Int [not null, default: 2]
   rows Int [not null, default: 1]
   creator User [not null]

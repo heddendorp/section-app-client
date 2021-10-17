@@ -82,6 +82,7 @@ input CreatePhotoShareInput {
   container: String!
   originalBlob: String!
   rows: Int!
+  type: String!
 }
 
 input CreateReceiptInput {
@@ -361,6 +362,7 @@ type PhotoShare {
   previewBlob: String
   rows: Int!
   src: String!
+  type: String!
 }
 
 type Product {

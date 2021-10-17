@@ -311,6 +311,7 @@ model PhotoShare {
   container    String
   originalBlob String
   previewBlob  String?
+  type         String
   cols         Int       @default(2)
   rows         Int       @default(1)
   creator      User      @relation(fields: [creatorId], references: [id])

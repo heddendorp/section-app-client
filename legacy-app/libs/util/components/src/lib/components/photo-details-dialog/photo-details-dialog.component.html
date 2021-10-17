@@ -5,9 +5,9 @@
     fxLayout="column"
     fxLayoutGap="1rem"
   >
-    <!--<button (click)="shareImage()" mat-fab *ngIf="canShareImage">
+    <button (click)="shareImage()" mat-fab *ngIf="canShareImage">
       <mat-icon svgIcon="icon-share-3"></mat-icon>
-    </button>-->
+    </button>
     <a [href]="data.photo.original" mat-fab target="_blank" download>
       <mat-icon svgIcon="icon-download"></mat-icon>
     </a>

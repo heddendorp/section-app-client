@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoDetailsDialogComponent {
+  private imageFile: File | undefined;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { photo: PhotoShare },
     private http: HttpClient
@@ -26,7 +27,9 @@ export class PhotoDetailsDialogComponent {
     const image = await firstValueFrom(
       this.http.get(this.data.photo.original, { responseType: 'blob' })
     );
-    const file = new File([image], this.data.photo.originalBlob);
+    const file = new File([image], this.data.photo.originalBlob, {
+      type: this.data.photo.type,
+    });
     console.log(file);
     console.log(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -28,6 +28,7 @@ export const photoShare = objectType({
     t.field(PhotoShare.originalBlob);
     t.field(PhotoShare.previewBlob);
     t.field(PhotoShare.creatorId);
+    t.field(PhotoShare.type);
     t.field({
       ...PhotoShare.creator,
       resolve: (source, args, context) =>
@@ -63,6 +64,7 @@ export const createPhotoShareInputType = inputObjectType({
     t.field(PhotoShare.rows);
     t.field(PhotoShare.container);
     t.field(PhotoShare.originalBlob);
+    t.field(PhotoShare.type);
   },
 });
 
