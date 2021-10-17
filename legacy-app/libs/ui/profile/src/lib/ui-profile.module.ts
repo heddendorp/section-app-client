@@ -17,12 +17,14 @@ import { UtilPipesModule } from '@tumi/util/pipes';
 import { UpdateProfileDialogComponent } from './components/update-profile-dialog/update-profile-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ClaimEventDialogComponent } from './components/claim-event-dialog/claim-event-dialog.component';
+import { PhotoJourneyPageComponent } from './pages/photo-journey-page/photo-journey-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'exact', component: ProfilePageComponent },
+      { path: 'journey', component: PhotoJourneyPageComponent },
       { path: 'new', component: NewUserPageComponent },
     ]),
     ReactiveFormsModule,
@@ -43,6 +45,7 @@ import { ClaimEventDialogComponent } from './components/claim-event-dialog/claim
     ProfilePageComponent,
     UpdateProfileDialogComponent,
     ClaimEventDialogComponent,
+    PhotoJourneyPageComponent,
   ],
 })
 export class UiProfileModule {}

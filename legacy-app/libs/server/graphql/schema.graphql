@@ -421,7 +421,7 @@ type Query {
   """
   Get a list of all events
   """
-  events(after: DateTime): [TumiEvent!]!
+  events(after: DateTime, userId: ID): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!

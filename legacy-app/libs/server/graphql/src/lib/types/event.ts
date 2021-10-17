@@ -81,7 +81,11 @@ export const eventType = objectType({
           },
         }),
     });
-    t.field(TumiEvent.photoShares);
+    t.field({
+      ...TumiEvent.photoShares,
+      resolve: (source, args, { prisma }) =>
+        prisma.tumiEvent.findUnique({ where: { id: source.id } }).photoShares(),
+    });
     t.field({
       ...TumiEvent.eventTemplate,
       resolve: (source, args, context) =>
@@ -546,8 +550,8 @@ export const updateEventInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  args: { after: arg({ type: DateTime }) },
-  resolve: async (source, { after }, context) => {
+  args: { after: arg({ type: DateTime }), userId: idArg() },
+  resolve: async (source, { after, userId }, context) => {
     let where: TumiEventWhereInput;
     after ??= new Date();
     const { role, status } = context.assignment ?? {};
@@ -582,6 +586,9 @@ export const getAllEventsQuery = queryField('events', {
           },
         ],
       };
+    }
+    if (userId) {
+      // where.registrations.some.user.id = userId;
     }
     return context.prisma.tumiEvent.findMany({
       orderBy: { start: 'asc' },

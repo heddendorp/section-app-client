@@ -39,6 +39,7 @@ export const userType = objectType({
       resolve: (source, args, context) =>
         context.prisma.eventRegistration.findMany({
           where: { user: { id: source.id } },
+          orderBy: { event: { start: 'asc' } },
         }),
     });
     t.nonNull.boolean('hasESNcard', {

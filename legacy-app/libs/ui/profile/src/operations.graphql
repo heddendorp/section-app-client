@@ -10,6 +10,31 @@ query getPaymentSetupSession {
   }
 }
 
+query getPhotoJourney {
+  currentUser{
+    eventRegistrations{
+      id
+      event{
+        id
+        title
+        icon
+        location
+        start
+        photoShares {
+          id
+          type
+          src
+          original
+          originalBlob
+          container
+          cols
+          rows
+        }
+      }
+    }
+  }
+}
+
 query userProfile {
   currentUser {
     id
