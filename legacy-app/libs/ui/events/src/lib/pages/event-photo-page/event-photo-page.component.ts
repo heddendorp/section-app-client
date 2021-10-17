@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PhotoDetailsDialogComponent } from '@tumi/util-components';
 import { ProgressBarMode } from '@angular/material/progress-bar';
 import { BlobServiceClient } from '@azure/storage-blob';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'tumi-event-photo-page',
@@ -34,7 +35,8 @@ export class EventPhotoPageComponent implements OnDestroy {
     private createPhotoShare: CreatePhotoShareGQL,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {
     this.loadPhotosRef = this.loadPhotos.watch();
     this.photos$ = this.loadPhotosRef.valueChanges.pipe(
@@ -52,6 +54,38 @@ export class EventPhotoPageComponent implements OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+  get canShareImage() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return !!navigator.canShare;
+  }
+
+  async sharePhotos() {
+    this.uploading$.next(true);
+    this.uploadMode$.next('query');
+    const photos = await firstValueFrom(this.photos$);
+    const event = await firstValueFrom(this.event$);
+    const files = await Promise.all(
+      photos.map((photo) =>
+        firstValueFrom(
+          this.http.get(photo.original, { responseType: 'blob' })
+        ).then(
+          (blob) => new File([blob], photo.originalBlob, { type: photo.type })
+        )
+      )
+    );
+    try {
+      await navigator.share({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        files: files,
+        title: event?.title,
+      });
+    } catch (e) {
+      this.snackbar.open('Sharing failed ' + e);
+    }
+    this.uploading$.next(false);
   }
 
   async addFile(fileEvent: Event) {

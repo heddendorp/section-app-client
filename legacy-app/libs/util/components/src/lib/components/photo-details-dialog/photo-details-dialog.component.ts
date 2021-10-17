@@ -11,7 +11,6 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoDetailsDialogComponent {
-  private imageFile: File | undefined;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { photo: PhotoShare },
     private http: HttpClient

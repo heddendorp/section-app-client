@@ -16,10 +16,31 @@
     multiple
     (change)="addFile($event)"
   />
-  <button mat-fab class="extended-fab" (click)="fileInput.click()">
-    <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
-    <span class="label">Add Images</span>
-  </button>
+  <div
+    class="right-4 lg:right-8 bottom-4 fixed z-20"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <!--<button
+      [disabled]="uploading$ | async"
+      mat-fab
+      class="extended-fab"
+      (click)="sharePhotos()"
+      *ngIf="canShareImage"
+    >
+      <mat-icon svgIcon="icon-share-3" class="mr-2"></mat-icon>
+      <span class="label">Send Images</span>
+    </button>-->
+    <button
+      [disabled]="uploading$ | async"
+      mat-fab
+      class="extended-fab"
+      (click)="fileInput.click()"
+    >
+      <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
+      <span class="label">Add Images</span>
+    </button>
+  </div>
   <h1 class="font-bold mb-4">Photos for {{ (event$ | async)?.title }}</h1>
   <div
     class="w-full"
