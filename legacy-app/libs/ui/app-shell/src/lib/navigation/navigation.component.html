@@ -8,7 +8,7 @@
     [opened]="(isHandset$ | async) === false"
   >
     <div class="h-full w-full" fxLayout="column">
-      <mat-toolbar>Menu</mat-toolbar>
+      <mat-toolbar fxFlex="noshrink">Menu</mat-toolbar>
       <mat-nav-list (click)="closeSidenav(drawer)">
         <a mat-list-item routerLink="events" routerLinkActive="active">
           Events
