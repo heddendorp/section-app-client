@@ -24,6 +24,7 @@ import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
 import { DateTime, Json } from 'nexus-prisma/scalars';
+import { DateTime as Luxon } from 'luxon';
 import { updateLocationInputType } from './eventTemplate';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
@@ -323,14 +324,25 @@ export const eventType = objectType({
               event: {
                 start: { gt: new Date() },
                 registrationMode: RegistrationMode.STRIPE,
+                id: {
+                  notIn: [
+                    'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                    '998851e2-17af-482c-99cb-99a29b543d60',
+                  ],
+                },
               },
               type: RegistrationType.PARTICIPANT,
               user: { id: context.user.id },
             },
           });
+        const { hours } = Luxon.fromJSDate(root.start)
+          .diff(Luxon.local(), 'hours')
+          .toObject();
         if (
           registrationsOfUser >= 5 &&
           !root.title.includes('ESNcard') &&
+          !root.title.includes('Party') &&
+          hours > 30 &&
           root.registrationMode === RegistrationMode.STRIPE
         ) {
           if (process.env.DEV) {
