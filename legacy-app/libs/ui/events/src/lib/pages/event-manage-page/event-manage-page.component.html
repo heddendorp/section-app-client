@@ -128,4 +128,56 @@
       </tbody>
     </table>
   </div>
+  <div class="border p-4 rounded-2xl my-4">
+    <h2 class="mb-2">Event Table</h2>
+    <div class="overflow-x-auto max-w-full block">
+      <table class="select-all">
+        <tbody>
+          <tr>
+            <td colspan="2">Event Name:</td>
+            <td colspan="3">{{ event.title }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Date:</td>
+            <td colspan="3">{{ event.start | date }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Tutors:</td>
+            <td colspan="3">
+              {{ joinOrganizers(event.organizerRegistrations) }}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">Participants (including tutors):</td>
+            <td colspan="3">
+              {{
+                event.participantsRegistered +
+                  event.organizerRegistrations.length
+              }}
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>Check in</th>
+          </tr>
+          <tr
+            *ngFor="
+              let registration of event.participantRegistrations;
+              let i = index
+            "
+            class="table-row"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ registration.user.fullName }}</td>
+            <td>{{ registration.user.email }}</td>
+            <td>{{ registration.user.phone }}</td>
+            <td>{{ registration.checkInTime | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </main>

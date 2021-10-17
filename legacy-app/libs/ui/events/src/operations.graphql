@@ -253,6 +253,7 @@ query loadEventForManagement($id: ID!) {
         fullName
         picture
         email
+        phone
       }
     }
   }

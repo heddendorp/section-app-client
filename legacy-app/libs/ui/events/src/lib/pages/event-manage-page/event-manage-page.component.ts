@@ -115,4 +115,22 @@ export class EventManagePageComponent implements OnDestroy {
           ?.data?.value?.split('\n'),
       }));
   }
+
+  joinOrganizers(
+    organizerRegistrations: Array<{
+      __typename?: 'EventRegistration';
+      id: string;
+      createdAt: any;
+      paymentStatus?: string | null | undefined;
+      user: {
+        __typename?: 'User';
+        id: string;
+        fullName: string;
+        picture: string;
+        email: string;
+      };
+    }>
+  ) {
+    return organizerRegistrations.map((r) => r.user.fullName).join(', ');
+  }
 }
