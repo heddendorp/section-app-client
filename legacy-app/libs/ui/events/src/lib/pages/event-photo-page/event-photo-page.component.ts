@@ -60,8 +60,8 @@ export class EventPhotoPageComponent implements OnDestroy {
       reader.onload = async () => {
         image.onload = async () => {
           const ratio = image.width / image.height;
-          const cols = ratio >= 1.25 ? 2 : 1;
-          const rows = ratio <= 0.75 ? 2 : 1;
+          const cols = ratio > 1.25 ? 2 : 1;
+          const rows = ratio < 0.75 ? 2 : 1;
           const { data } = await firstValueFrom(this.getShareKey.fetch());
           const blobServiceClient = new BlobServiceClient(data.photoShareKey);
           const container = event.id + '|' + event.title;
