@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { IconToastComponent } from './components/icon-toast/icon-toast.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UtilMaterialModule } from '@tumi/util/material';
+import { PhotoDetailsDialogComponent } from './components/photo-details-dialog/photo-details-dialog.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UtilMaterialModule } from '@tumi/util/material';
     GridComponent,
     SelectLocationDialogComponent,
     IconToastComponent,
+    PhotoDetailsDialogComponent,
   ],
   exports: [
     LocationAutocompleteComponent,

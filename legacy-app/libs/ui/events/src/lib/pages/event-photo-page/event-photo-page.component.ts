@@ -10,6 +10,8 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { PhotoDetailsDialogComponent } from '@tumi/util-components';
 
 @Component({
   selector: 'tumi-event-photo-page',
@@ -28,6 +30,7 @@ export class EventPhotoPageComponent implements OnDestroy {
     private getShareKey: GetPhotoShareKeyGQL,
     private createPhotoShare: CreatePhotoShareGQL,
     private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     private route: ActivatedRoute
   ) {
     this.loadPhotosRef = this.loadPhotos.watch();
@@ -88,6 +91,16 @@ export class EventPhotoPageComponent implements OnDestroy {
       reader.readAsDataURL(file);
     }
   }
+
+  openPhoto(photo: unknown) {
+    this.dialog.open(PhotoDetailsDialogComponent, {
+      data: { photo },
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      panelClass: 'photo-view',
+    });
+  }
+
   private randomId(): string {
     const uint32 = crypto.getRandomValues(new Uint32Array(1))[0];
     return uint32.toString(16);

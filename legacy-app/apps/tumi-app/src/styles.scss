@@ -88,4 +88,9 @@ $tumi-dark-theme: mat.define-dark-theme(
   .dark-button {
     @include mat.button-theme($tumi-dark-theme);
   }
+  .photo-view {
+    mat-dialog-container {
+      padding: 0;
+    }
+  }
 }

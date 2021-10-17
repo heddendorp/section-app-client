@@ -356,6 +356,7 @@ type PhotoShare {
   event: TumiEvent!
   eventId: String!
   id: ID!
+  original: String!
   originalBlob: String!
   previewBlob: String
   rows: Int!

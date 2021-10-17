@@ -10,7 +10,7 @@ import {
 import { PhotoShare } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
 
-export const photoShareType = objectType({
+export const photoShare = objectType({
   name: PhotoShare.$name,
   description: PhotoShare.$description,
   definition(t) {
@@ -43,6 +43,14 @@ export const photoShareType = objectType({
         )}/${encodeURIComponent(`${name}-preview.jpg`)}`;
       },
     });
+    t.field({
+      name: 'original',
+      type: nonNull('String'),
+      resolve: (source) =>
+        `https://storetumi.blob.core.windows.net/tumi-photos/${encodeURIComponent(
+          source.container
+        )}/${encodeURIComponent(source.originalBlob)}`,
+    });
   },
 });
 
@@ -67,7 +75,7 @@ export const getPhotoShareKey = queryField('photoShareKey', {
 });
 
 export const getPhotosQuery = queryField('photos', {
-  type: nonNull(list(nonNull(photoShareType))),
+  type: nonNull(list(nonNull(photoShare))),
   resolve: (source, args, context) => {
     if (!context.assignment || context.assignment.role !== 'ADMIN') {
       throw new ApolloError('Only admins can load this list!');
@@ -77,14 +85,14 @@ export const getPhotosQuery = queryField('photos', {
 });
 
 export const getPhotosOfEventQuery = queryField('photosOfEvent', {
-  type: nonNull(list(nonNull(photoShareType))),
+  type: nonNull(list(nonNull(photoShare))),
   args: { id: nonNull(idArg()) },
   resolve: (source, { id }, context) =>
     context.prisma.tumiEvent.findUnique({ where: { id } }).photoShares(),
 });
 
 export const createPhotoShareMutation = mutationField('createPhotoShare', {
-  type: photoShareType,
+  type: photoShare,
   args: { data: nonNull(createPhotoShareInputType), eventId: nonNull(idArg()) },
   resolve: (source, { data, eventId }, context) =>
     context.prisma.photoShare.create({

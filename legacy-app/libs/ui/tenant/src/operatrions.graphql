@@ -10,6 +10,7 @@ query loadAllPhotos {
     cols
     rows
     src
+    original
     event {
       id
       title

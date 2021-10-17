@@ -9,7 +9,7 @@ export * from './eventSubmissionItem';
 export * from './eventSubmission';
 export * from './refundedRegistration';
 export * from './enums';
-export * from './photoShareType';
+export * from './photoShare';
 export * from './costItems';
 export * from './receipt';
 export * from './product';

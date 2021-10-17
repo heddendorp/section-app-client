@@ -1,26 +1,27 @@
-query getPhotosOfEvent($eventId: ID!){
-    photosOfEvent(id: $eventId){
-        id
-        creator{
-            id
-            fullName
-        }
-        cols
-        rows
-        src
+query getPhotosOfEvent($eventId: ID!) {
+  photosOfEvent(id: $eventId) {
+    id
+    creator {
+      id
+      fullName
     }
-    event(eventId: $eventId){
-        id
-        title
-    }
+    cols
+    rows
+    src
+    original
+  }
+  event(eventId: $eventId) {
+    id
+    title
+  }
 }
 
-query getPhotoShareKey{
-    photoShareKey
+query getPhotoShareKey {
+  photoShareKey
 }
 
-mutation createPhotoShare($data: CreatePhotoShareInput!, $eventId: ID!){
-    createPhotoShare(data: $data, eventId: $eventId){
-        id
-    }
+mutation createPhotoShare($data: CreatePhotoShareInput!, $eventId: ID!) {
+  createPhotoShare(data: $data, eventId: $eventId) {
+    id
+  }
 }
