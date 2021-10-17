@@ -110,14 +110,14 @@
       </button>
     </div>
     <div
-      class="rounded-2xl bg-purple-200 lg:p-4 p-2"
+      class="rounded-2xl bg-purple-200 md:p-4"
       *ngIf="profile.organizedEvents.length"
     >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
         fxLayoutGap="1rem"
-        class="mb-6"
+        class="mb-2 lg:mb-6 p-2"
       >
         <mat-icon
           svgIcon="icon-overtime"
@@ -125,10 +125,9 @@
         ></mat-icon>
         <h2 class="font-bold">Organized Events</h2>
       </div>
-      <mat-list>
+      <mat-nav-list>
         <a
           mat-list-item
-          class="max-w-full"
           *ngFor="let event of profile.organizedEvents"
           routerLink="/events/{{ event.id }}"
         >
@@ -136,14 +135,14 @@
           <h3 mat-line>{{ event.title }}</h3>
           <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
         </a>
-      </mat-list>
+      </mat-nav-list>
     </div>
-    <div class="rounded-2xl bg-yellow-200 p-4">
+    <div class="rounded-2xl bg-yellow-200 md:p-4">
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
         fxLayoutGap="1rem"
-        class="mb-6"
+        class="mb-2 lg:mb-6 p-2"
       >
         <mat-icon
           svgIcon="icon-overtime"
@@ -163,9 +162,11 @@
           <p mat-line>Ends: {{ event.end | date: 'medium' }}</p>
         </a>
       </mat-nav-list>
-      <button class="mt-2 w-full" mat-stroked-button (click)="claimEvent()">
-        Claim event with code
-      </button>
+      <div class="m-4 mt-2">
+        <button class="w-full" mat-stroked-button (click)="claimEvent()">
+          Claim event with code
+        </button>
+      </div>
     </div>
     <div
       class="rounded-2xl bg-green-200 p-4"
