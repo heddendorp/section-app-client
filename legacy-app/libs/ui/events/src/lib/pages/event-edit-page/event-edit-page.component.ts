@@ -85,7 +85,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
     });
-    this.generalInformationForm.valueChanges.subscribe(console.info);
     this.event$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>
