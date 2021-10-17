@@ -42,6 +42,7 @@ import { EventRunReceiptsPageComponent } from './pages/event-run-receipts-page/e
 import { AddReceiptDialogComponent } from './components/running/add-receipt-dialog/add-receipt-dialog.component';
 import { EventSubmissionDialogComponent } from './components/editing/event-submission-dialog/event-submission-dialog.component';
 import { EventPhotoPageComponent } from './pages/event-photo-page/event-photo-page.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   imports: [
@@ -95,6 +96,7 @@ import { EventPhotoPageComponent } from './pages/event-photo-page/event-photo-pa
     MatLuxonDateModule,
     MatExpansionModule,
     ClipboardModule,
+    MatButtonToggleModule,
   ],
   declarations: [
     EventListPageComponent,

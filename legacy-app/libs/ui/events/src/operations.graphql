@@ -314,46 +314,6 @@ mutation removeUserFromEvent($eventId: ID!, $userId: ID!) {
   }
 }
 
-mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
-  addOrganizerToEvent(eventId: $eventId, userId: $userId) {
-    id
-    organizers {
-      fullName
-      picture
-      id
-    }
-  }
-}
-
-mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
-  updateEventGeneralInfo(id: $id, data: $data) {
-    title
-    icon
-    start
-    end
-    description
-    organizerText
-    participantText
-    registrationMode
-    registrationLink
-    price
-    discountedPrice
-    esnDiscount
-    eventOrganizerId
-    organizerSignup
-    participantSignup
-    participantLimit
-    organizerLimit
-  }
-}
-
-mutation updatePublication($id: ID!, $state: PublicationState!) {
-  changeEventPublication(id: $id, state: $state) {
-    id
-    publicationState
-  }
-}
-
 query loadUsersByStatus($allowList: [MembershipStatus!]!) {
   userWithStatus(allowList: $allowList) {
     id

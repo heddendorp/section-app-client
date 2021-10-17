@@ -11,6 +11,7 @@ import {
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
   LoadUsersByStatusQuery,
+  MembershipStatus,
   PublicationState,
   RegistrationMode,
   RemoveUserFromEventGQL,
@@ -39,6 +40,7 @@ import { SelectLocationDialogComponent } from '@tumi/util-components';
 export class EventEditPageComponent implements OnInit, OnDestroy {
   public RegistrationMode = RegistrationMode;
   public PublicationState = PublicationState;
+  public MembershipStatus = MembershipStatus;
   public generalInformationForm: FormGroup;
   public publicationForm: FormGroup;
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
@@ -78,11 +80,12 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       discountedPrice: ['', Validators.required],
       esnDiscount: ['', Validators.required],
       eventOrganizerId: ['', Validators.required],
-      organizerSignup: ['', Validators.required],
-      participantSignup: ['', Validators.required],
+      organizerSignup: [[], Validators.required],
+      participantSignup: [[], Validators.required],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
     });
+    this.generalInformationForm.valueChanges.subscribe(console.info);
     this.event$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>
@@ -177,6 +180,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  get statusOptions() {
+    return Object.values(this.MembershipStatus);
+  }
+
   async addOrganizer() {
     const loader = this.snackBar.open('Loading data ⏳', undefined, {
       duration: 0,
@@ -226,7 +233,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       );
       if (data) {
         delete data.updateEventGeneralInfo.__typename;
-        this.generalInformationForm.setValue({
+        this.generalInformationForm.patchValue({
           ...data.updateEventGeneralInfo,
           start: DateTime.fromISO(data.updateEventGeneralInfo.start).toISO({
             includeOffset: false,

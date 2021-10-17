@@ -52,7 +52,12 @@
   </div>
   <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">General information</h2>
-    <form [formGroup]="generalInformationForm" (ngSubmit)="onSubmit()">
+    <form
+      [formGroup]="generalInformationForm"
+      (ngSubmit)="onSubmit()"
+      fxLayout="column"
+      fxLayoutGap="1rem"
+    >
       <mat-form-field class="w-full">
         <mat-label>Event Title</mat-label>
         <input matInput formControlName="title" type="text" />
@@ -96,6 +101,30 @@
         ></textarea>
         <mat-hint>This text is only visible to registered Users</mat-hint>
       </mat-form-field>
+      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+        <div fxFlex="50">
+          <h3>Possible Organizers</h3>
+          <mat-button-toggle-group multiple formControlName="organizerSignup">
+            <mat-button-toggle
+              *ngFor="let status of statusOptions"
+              [value]="status"
+            >
+              {{ status | titlecase }}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div fxFlex="50">
+          <h3>Possible Participants</h3>
+          <mat-button-toggle-group multiple formControlName="participantSignup">
+            <mat-button-toggle
+              *ngFor="let status of statusOptions"
+              [value]="status"
+            >
+              {{ status | titlecase }}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
       <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
         <mat-form-field class="w-full">
           <mat-label>Organizing Institution</mat-label>
