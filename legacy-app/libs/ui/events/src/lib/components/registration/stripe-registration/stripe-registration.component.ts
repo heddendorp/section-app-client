@@ -109,7 +109,9 @@ export class StripeRegistrationComponent implements OnChanges {
         data = res.data;
       } catch (e) {
         this.processing.next(false);
-        this.snackBar.open(`❗ There was an error: ${e.message}`);
+        this.snackBar.open(`❗ There was an error: ${e.message}`, undefined, {
+          duration: 10000,
+        });
         return;
       }
       if (data?.registerWithStripe.status === 'succeeded') {

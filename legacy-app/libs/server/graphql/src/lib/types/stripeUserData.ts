@@ -235,7 +235,7 @@ export const registerWithStripeMutation = mutationField('registerWithStripe', {
         confirm: true,
         customer: stripeData.customerId,
         payment_method: stripeData.paymentMethodId,
-        payment_method_types: ['card', 'sepa_debit'],
+        payment_method_types: ['card'],
         description: `Participation fee for ${event.title}`,
         metadata: {
           eventId: event.id,
