@@ -48,15 +48,7 @@ export class EventFormDialogComponent implements OnInit {
   onSubmit() {
     if (this.dialogForm.valid) {
       const templateValue = this.dialogForm.value;
-      if (!templateValue.location?.id) {
-        if (this.data?.template) {
-          templateValue.location = this.data.template.location;
-          templateValue.coordinates = this.data.template.coordinates;
-        } else {
-          console.error('Location resolve not possible');
-          return;
-        }
-      } else {
+      if (templateValue.location?.id) {
         templateValue.coordinates = templateValue.location.position;
         templateValue.location =
           templateValue.location.type === 'POI'
