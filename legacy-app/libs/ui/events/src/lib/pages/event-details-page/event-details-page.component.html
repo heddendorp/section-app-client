@@ -59,6 +59,10 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Information for organizing</mat-panel-title>
         </mat-expansion-panel-header>
+        <p class="my-2">
+          This event was created by {{ event.createdBy.fullName }} they can
+          answer any questions
+        </p>
         <markdown
           [data]="event.organizerText"
           class="prose lg:prose-xl break-words"

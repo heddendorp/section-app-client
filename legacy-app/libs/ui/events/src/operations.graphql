@@ -20,10 +20,10 @@ query loadEvent($id: ID!) {
     esnDiscount
     location
     coordinates
-    #    createdBy {
-    #      id
-    #      fullName
-    #    }
+    createdBy {
+      id
+      fullName
+    }
     submissionItems {
       id
       name

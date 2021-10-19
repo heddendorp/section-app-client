@@ -15,14 +15,22 @@ import {
   PublicationState,
   RegistrationMode,
   RemoveUserFromEventGQL,
+  Role,
   UpdateEventGQL,
   UpdateEventLocationGQL,
   UpdatePublicationGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { firstValueFrom, Observable, Subject } from 'rxjs';
+import {
+  first,
+  map,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import { combineLatest, firstValueFrom, Observable, Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectOrganizerDialogComponent } from '../../components/select-organizer-dialog/select-organizer-dialog.component';
@@ -30,6 +38,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { EventSubmissionDialogComponent } from '../../components/editing/event-submission-dialog/event-submission-dialog.component';
 import { SelectLocationDialogComponent } from '@tumi/util-components';
+import { PermissionsService } from '../../../../../auth/src/lib/services/permissions.service';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -41,12 +50,14 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public RegistrationMode = RegistrationMode;
   public PublicationState = PublicationState;
   public MembershipStatus = MembershipStatus;
+  public Role = Role;
   public generalInformationForm: FormGroup;
   public publicationForm: FormGroup;
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
   private destroyed$ = new Subject();
+  public editingProhibited$: Observable<boolean>;
   constructor(
     private title: Title,
     private loadEventQuery: LoadEventForEditGQL,
@@ -60,7 +71,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private removeUserMutation: RemoveUserFromEventGQL,
     private addSubmissionMutation: AddSubmissionToEventGQL,
     private updateLocationMutation: UpdateEventLocationGQL,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public permission: PermissionsService
   ) {
     this.title.setTitle('TUMi - edit event');
     this.publicationForm = this.fb.group({
@@ -107,6 +119,22 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       ),
       map(({ data }) => data.userWithStatus),
       shareReplay(1)
+    );
+    this.editingProhibited$ = combineLatest([
+      this.permission.hasRole([Role.Admin]),
+      this.event$,
+    ]).pipe(
+      map(
+        ([permission, event]) =>
+          !(permission || event?.publicationState === PublicationState.Draft)
+      ),
+      tap((prohibited) => {
+        if (prohibited) {
+          this.generalInformationForm.disable();
+        } else {
+          this.generalInformationForm.enable();
+        }
+      })
     );
   }
 

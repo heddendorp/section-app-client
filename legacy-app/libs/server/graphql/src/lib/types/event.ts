@@ -34,7 +34,12 @@ export const eventType = objectType({
   definition(t) {
     t.field(TumiEvent.id);
     t.field(TumiEvent.createdAt);
-    t.field(TumiEvent.createdBy);
+    t.field(TumiEvent.creatorId);
+    t.field({
+      ...TumiEvent.createdBy,
+      resolve: (source, args, { prisma }) =>
+        prisma.user.findUnique({ where: { id: source.creatorId } }),
+    });
     t.field(TumiEvent.eventOrganizerId);
     t.field({
       ...TumiEvent.organizer,
@@ -675,6 +680,13 @@ export const changePublicationMutation = mutationField(
         where: { id },
       });
       const { role } = context.assignment;
+      if (
+        (state === PublicationState.PUBLIC ||
+          state === PublicationState.ORGANIZERS) &&
+        role !== Role.ADMIN
+      ) {
+        throw new ApolloError('Only admins can publish events!');
+      }
       if (role !== Role.ADMIN && context.user.id !== event.creatorId) {
         throw new ApolloError(
           'Only Admins can change events they did not create'
@@ -815,6 +827,12 @@ export const updateEventMutation = mutationField('updateEventGeneralInfo', {
       throw new ApolloError(
         'Only Admins can update events that are not their own'
       );
+    }
+    if (
+      event.publicationState !== PublicationState.DRAFT &&
+      role !== Role.ADMIN
+    ) {
+      throw new ApolloError('Only admins can edit published Events');
     }
     return context.prisma.tumiEvent.update({
       where: {

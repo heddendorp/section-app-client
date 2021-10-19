@@ -561,6 +561,7 @@ type TumiEvent {
   couldBeParticipant: Boolean!
   createdAt: DateTime!
   createdBy: User!
+  creatorId: String!
   description: String!
   discountedPrice: Decimal
   end: DateTime!

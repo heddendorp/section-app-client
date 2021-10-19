@@ -13,13 +13,20 @@
         <mat-label>Publication state</mat-label>
         <mat-select formControlName="publicationState">
           <mat-option [value]="PublicationState.Draft">Draft</mat-option>
-          <mat-option [value]="PublicationState.Approval" disabled
-            >Ready for approval</mat-option
+          <mat-option [value]="PublicationState.Approval">
+            Ready for approval
+          </mat-option>
+          <mat-option
+            [value]="PublicationState.Organizers"
+            *tumiIfRole="[Role.Admin]"
           >
-          <mat-option [value]="PublicationState.Organizers"
-            >Visible to Organizers</mat-option
+            Visible to Organizers
+          </mat-option>
+          <mat-option
+            [value]="PublicationState.Public"
+            *tumiIfRole="[Role.Admin]"
+            >Public</mat-option
           >
-          <mat-option [value]="PublicationState.Public">Public</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -52,6 +59,9 @@
   </div>
   <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">General information</h2>
+    <p *ngIf="editingProhibited$ | async" class="my-2">
+      Only events that are Drafts can be edited
+    </p>
     <form
       [formGroup]="generalInformationForm"
       (ngSubmit)="onSubmit()"
@@ -227,7 +237,12 @@
         </mat-form-field>
       </div>
       <div class="mt-4">
-        <button type="submit" mat-flat-button color="primary">
+        <button
+          type="submit"
+          mat-flat-button
+          color="primary"
+          [disabled]="editingProhibited$ | async"
+        >
           Save Changes
         </button>
       </div>
@@ -244,8 +259,12 @@
       class="mb-2"
     >
       <h2>Additional userdata</h2>
-      <button mat-icon-button>
-        <mat-icon svgIcon="icon-add" (click)="addSubmission()"></mat-icon>
+      <button
+        mat-icon-button
+        [disabled]="editingProhibited$ | async"
+        (click)="addSubmission()"
+      >
+        <mat-icon svgIcon="icon-add"></mat-icon>
       </button>
     </div>
     <mat-list>
@@ -263,8 +282,12 @@
       class="mb-2"
     >
       <h2>Assigned Organizers</h2>
-      <button mat-icon-button>
-        <mat-icon svgIcon="icon-add" (click)="addOrganizer()"></mat-icon>
+      <button
+        mat-icon-button
+        [disabled]="editingProhibited$ | async"
+        (click)="addOrganizer()"
+      >
+        <mat-icon svgIcon="icon-add"></mat-icon>
       </button>
     </div>
 
@@ -277,7 +300,11 @@
           mat-list-avatar
         />
         <p mat-line>{{ user.fullName }}</p>
-        <button mat-icon-button (click)="removeUser(user.id)">
+        <button
+          mat-icon-button
+          (click)="removeUser(user.id)"
+          [disabled]="editingProhibited$ | async"
+        >
           <mat-icon svgIcon="icon-delete-sign"></mat-icon>
         </button>
       </mat-list-item>
