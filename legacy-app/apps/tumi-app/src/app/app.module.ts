@@ -44,6 +44,8 @@ import {
   UtilComponentsModule,
 } from '@tumi/util-components';
 import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
+import { sha256 } from 'crypto-hash';
+import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
 
 @NgModule({
   declarations: [AppComponent],
@@ -145,8 +147,14 @@ import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
           if (networkError) console.log(`[Network error]: `, networkError);
         });
-
-        const link = error.concat(http);
+        const link = error
+          .concat(
+            createPersistedQueryLink({
+              sha256,
+              useGETForHashedQueries: true,
+            })
+          )
+          .concat(http);
 
         const cache = new InMemoryCache({
           typePolicies: {

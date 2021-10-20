@@ -1,10 +1,9 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { EventListQuery, RegistrationMode } from '@tumi/data-access';
+  EventListQuery,
+  MembershipStatus,
+  RegistrationMode,
+} from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-event-list-item',
@@ -12,10 +11,8 @@ import { EventListQuery, RegistrationMode } from '@tumi/data-access';
   styleUrls: ['./event-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventListItemComponent implements OnInit {
+export class EventListItemComponent {
   @Input() public event: EventListQuery['events'][0] | null = null;
   public RegistrationMode = RegistrationMode;
-  constructor() {}
-
-  ngOnInit(): void {}
+  public MembershipStatus = MembershipStatus;
 }

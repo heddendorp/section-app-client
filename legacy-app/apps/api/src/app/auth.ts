@@ -29,7 +29,7 @@ export const getUser = (prisma) => (req, res, next) => {
   req.token = req.user;
   delete req.user;
   prisma.user
-    .findFirst({
+    .findUnique({
       where: {
         authId: req.token.sub,
       },

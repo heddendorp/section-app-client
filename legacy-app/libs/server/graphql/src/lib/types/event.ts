@@ -26,6 +26,7 @@ import { ApolloError } from 'apollo-server-express';
 import { DateTime, Json } from 'nexus-prisma/scalars';
 import { DateTime as Luxon } from 'luxon';
 import { updateLocationInputType } from './eventTemplate';
+import { CacheScope } from 'apollo-server-types';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
 export const eventType = objectType({
@@ -37,16 +38,20 @@ export const eventType = objectType({
     t.field(TumiEvent.creatorId);
     t.field({
       ...TumiEvent.createdBy,
-      resolve: (source, args, { prisma }) =>
-        prisma.user.findUnique({ where: { id: source.creatorId } }),
+      resolve: (source, args, { prisma }, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return prisma.user.findUnique({ where: { id: source.creatorId } });
+      },
     });
     t.field(TumiEvent.eventOrganizerId);
     t.field({
       ...TumiEvent.organizer,
-      resolve: (source, args, context) =>
-        context.prisma.eventOrganizer.findUnique({
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return context.prisma.eventOrganizer.findUnique({
           where: { id: source.eventOrganizerId },
-        }),
+        });
+      },
     });
     t.field(TumiEvent.title);
     t.field(TumiEvent.icon);
@@ -70,70 +75,84 @@ export const eventType = objectType({
     t.field(TumiEvent.publicationState);
     t.field({
       ...TumiEvent.submissionItems,
-      resolve: (source, args, context) =>
-        context.prisma.eventSubmissionItem.findMany({
-          where: { event: { id: source.id } },
-        }),
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .submissionItems();
+      },
     });
     t.field({
       ...TumiEvent.costItems,
       args: { hideOnInvoice: booleanArg({ default: false }) },
-      resolve: (source, { hideOnInvoice }, context) =>
-        context.prisma.costItem.findMany({
-          where: {
-            event: { id: source.id },
-            ...(hideOnInvoice ? { onInvoice: false } : {}),
-          },
-        }),
+      resolve: (source, { hideOnInvoice }, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .costItems({
+            where: { ...(hideOnInvoice ? { onInvoice: false } : {}) },
+          });
+      },
     });
     t.field({
       ...TumiEvent.photoShares,
-      resolve: (source, args, { prisma }) =>
-        prisma.tumiEvent.findUnique({ where: { id: source.id } }).photoShares(),
+      resolve: (source, args, { prisma }, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .photoShares();
+      },
     });
     t.field({
       ...TumiEvent.eventTemplate,
-      resolve: (source, args, context) =>
-        context.prisma.eventTemplate.findUnique({
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+        return context.prisma.eventTemplate.findUnique({
           where: { id: source.eventTemplateId },
-        }),
+        });
+      },
     });
     t.field(TumiEvent.eventTemplateId);
     t.field({
       name: 'registration',
       type: eventRegistrationType,
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration.findFirst({
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
+        return context.prisma.eventRegistration.findFirst({
           where: { event: { id: source.id }, user: { id: context.user.id } },
-        }),
+        });
+      },
     });
     t.field({
       name: 'participantRegistrations',
       type: nonNull(list(nonNull(eventRegistrationType))),
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration.findMany({
-          where: {
-            type: RegistrationType.PARTICIPANT,
-            event: { id: source.id },
-          },
-          orderBy: [{ checkInTime: 'desc' }, { user: { lastName: 'asc' } }],
-        }),
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: { type: RegistrationType.PARTICIPANT },
+            orderBy: [{ checkInTime: 'desc' }, { user: { lastName: 'asc' } }],
+          });
+      },
     });
     t.field({
       name: 'organizerRegistrations',
       type: nonNull(list(nonNull(eventRegistrationType))),
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration.findMany({
-          where: {
-            type: RegistrationType.ORGANIZER,
-            event: { id: source.id },
-          },
-          orderBy: { createdAt: 'desc' },
-        }),
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: { type: RegistrationType.ORGANIZER },
+            orderBy: [{ user: { lastName: 'asc' } }],
+          });
+      },
     });
     t.int('amountCollected', {
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration
           .aggregate({
             where: {
               event: { id: source.id },
@@ -141,11 +160,13 @@ export const eventType = objectType({
             },
             _sum: { amountPaid: true },
           })
-          .then((aggregations) => aggregations._sum.amountPaid),
+          .then((aggregations) => aggregations._sum.amountPaid);
+      },
     });
     t.int('netAmountCollected', {
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration
           .aggregate({
             where: {
               event: { id: source.id },
@@ -153,11 +174,13 @@ export const eventType = objectType({
             },
             _sum: { netPaid: true },
           })
-          .then((aggregations) => aggregations._sum.netPaid),
+          .then((aggregations) => aggregations._sum.netPaid);
+      },
     });
     t.int('feesPaid', {
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistration
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration
           .aggregate({
             where: {
               event: { id: source.id },
@@ -165,11 +188,13 @@ export const eventType = objectType({
             },
             _sum: { stripeFee: true },
           })
-          .then((aggregations) => aggregations._sum.stripeFee),
+          .then((aggregations) => aggregations._sum.stripeFee);
+      },
     });
     t.nonNull.boolean('userRegistered', {
       description: 'Indicates if the current user is registered for the event',
-      resolve: (source, args, context) => {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
         return context.prisma.eventRegistration
           .count({
@@ -184,7 +209,8 @@ export const eventType = objectType({
     });
     t.nonNull.boolean('userIsOrganizer', {
       description: 'Indicates if the current user is organizer for the event',
-      resolve: (source, args, context) => {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
         return context.prisma.eventRegistration
           .count({
@@ -200,8 +226,9 @@ export const eventType = objectType({
     t.field('organizers', {
       description: 'Organizers alraedy on this event',
       type: nonNull(list(nonNull(userType))),
-      resolve: (source, args, context) =>
-        context.prisma.user.findMany({
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.user.findMany({
           where: {
             eventRegistrations: {
               some: {
@@ -210,12 +237,14 @@ export const eventType = objectType({
               },
             },
           },
-        }),
+        });
+      },
     });
     t.nonNull.boolean('couldBeOrganizer', {
       description:
         'Indicates whether the user could be an organizer for this event',
-      resolve: async (root, args, context) => {
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Private });
         if (!context.user) {
           if (process.env.DEV) {
             console.info(
@@ -240,7 +269,8 @@ export const eventType = objectType({
     t.nonNull.boolean('couldBeParticipant', {
       description:
         'Indicates whether the user could be a participant for this event',
-      resolve: async (root, args, context) => {
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Private });
         if (!context.user) {
           if (process.env.DEV) {
             console.info(
@@ -264,31 +294,36 @@ export const eventType = objectType({
     });
     t.nonNull.int('participantsRegistered', {
       description: 'Number of users registered as participant to this event',
-      resolve: async (root, args, context) =>
-        context.prisma.eventRegistration.count({
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration.count({
           where: {
             eventId: root.id,
             type: RegistrationType.PARTICIPANT,
           },
-        }),
+        });
+      },
     });
     t.nonNull.int('participantsAttended', {
       description: 'Number of users that are checked in on the event',
-      resolve: async (root, args, context) =>
-        context.prisma.eventRegistration.count({
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration.count({
           where: {
             eventId: root.id,
             type: RegistrationType.PARTICIPANT,
             checkInTime: { not: null },
           },
-        }),
+        });
+      },
     });
     t.field({
       name: 'participantRegistrationPossible',
       description:
         'Indicates whether the current user can register to this event as participant',
       type: nonNull(Json),
-      resolve: async (root, args, context) => {
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) {
           if (process.env.DEV) {
             console.info(`Can't register participant because user is missing`);
@@ -387,18 +422,21 @@ export const eventType = objectType({
     });
     t.nonNull.int('organizersRegistered', {
       description: 'Number of users registered as organizer to this event',
-      resolve: async (root, args, context) =>
-        context.prisma.eventRegistration.count({
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration.count({
           where: {
             eventId: root.id,
             type: RegistrationType.ORGANIZER,
           },
-        }),
+        });
+      },
     });
     t.nonNull.boolean('organizerRegistrationPossible', {
       description:
         'Indicates whether the current user can register to this event as Organizer',
-      resolve: async (root, args, context) => {
+      resolve: async (root, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) {
           if (process.env.DEV) {
             console.info(
@@ -556,7 +594,8 @@ export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
   args: { after: arg({ type: DateTime }), userId: idArg() },
-  resolve: async (source, { after, userId }, context) => {
+  resolve: async (source, { after, userId }, context, { cacheControl }) => {
+    cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
     let where: TumiEventWhereInput;
     after ??= new Date();
     const { role, status } = context.assignment ?? {};
@@ -606,8 +645,10 @@ export const getOneEventQuery = queryField('event', {
   description: 'Get one event by ID',
   type: eventType,
   args: { eventId: nonNull(idArg()) },
-  resolve: (source, { eventId }, context) =>
-    context.prisma.tumiEvent.findUnique({ where: { id: eventId } }),
+  resolve: (source, { eventId }, context, { cacheControl }) => {
+    cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+    return context.prisma.tumiEvent.findUnique({ where: { id: eventId } });
+  },
 });
 
 export const updateEventLocationMutation = mutationField(

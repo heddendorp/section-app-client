@@ -36,15 +36,26 @@ const loggingMiddleware = async (params, next) => {
 
 const cachingMiddleware = async (params, next) => {
   let result;
-  if (params.model === 'EventRegistration' && params.action === 'aggregate') {
+  if (
+    (params.model === 'EventRegistration' && params.action === 'aggregate') ||
+    (['User', 'UsersOfTenants'].includes(params.model) &&
+      params.action === 'findUnique') ||
+    (params.model === 'Tenant' && params.action === 'findFirst')
+  ) {
     const args = JSON.stringify(params.args);
     const cacheKey = `${params.model}_${params.action}_${args}`;
     result = queryCache.get(cacheKey);
 
     if (result === undefined) {
       result = await next(params);
-      queryCache.set(cacheKey, result, 5000);
+      const ttl = params.model === 'EventRegistration' ? 5000 : 20000;
+      queryCache.set(cacheKey, result, ttl);
     } else {
+      if (process.env.DEV) {
+        console.log(
+          `Cache hit for ${params.model}.${params.action}: ${cacheKey}`
+        );
+      }
       cacheHits.mark();
     }
   } else {

@@ -347,7 +347,6 @@ query eventList($after: DateTime) {
     organizerLimit
     organizersRegistered
     couldBeOrganizer
-    couldBeParticipant
     publicationState
     registrationMode
     userRegistered

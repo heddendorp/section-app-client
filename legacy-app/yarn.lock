@@ -6680,6 +6680,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-hash@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/crypto-hash/-/crypto-hash-2.0.0.tgz#5cd5ac64c8504ad30e4ba03aacbd283b6160945c"
+  integrity sha512-uua9EnThQk7vkDCm6Ltab/7QR6XzPiV2bSdLdvbwdZKb4lot94kHkherQt6uw1hNntXjDA7lNHj2vFm1JaYt0g==
+
 crypto-random-string@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
