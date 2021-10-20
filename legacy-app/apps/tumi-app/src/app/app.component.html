@@ -1,1 +1,34 @@
-<tumi-navigation></tumi-navigation>
+<tumi-navigation
+  *ngIf="(appState | async) === 'ok'; else info"
+></tumi-navigation>
+<ng-template #info>
+  <div fxFill fxLayout="column" fxLayoutAlign="center center" class="p-4">
+    <div
+      class="
+        rounded-xl
+        border-4 border-blue-800
+        bg-blue-100
+        p-4
+        lg:p-8
+        space-y-2
+      "
+    >
+      <h1 class="font-bold">Not available</h1>
+      <p>The TUMi app is not available right now!</p>
+      <p *ngIf="(appState | async) === 'maintenance'; else unexpected">
+        We are currently upgrading the TUMi app so this is nothing to be worried
+        about, we hope it is back shortly
+      </p>
+      <ng-template #unexpected>
+        <p>
+          This is not planned downtime, there could be an issue with our systems
+          such as to many requests. You can check again in a few minutes to see
+          if the situation has improved
+        </p>
+      </ng-template>
+      <p>
+        If you have very pressing issues, reach out to questions@esn-tumi.de
+      </p>
+    </div>
+  </div>
+</ng-template>

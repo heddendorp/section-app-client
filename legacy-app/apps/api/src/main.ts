@@ -27,6 +27,12 @@ seedDB(prisma).then(() => {
 // Required logic for integrating with Express
 const app = express();
 const httpServer = http.createServer(app);
+if (process.env.DOWN) {
+  app.use('/health', (req, res) => res.status(503).send({ maintenance: true }));
+  app.use('*', (req, res) =>
+    res.status(503).sendfile(path.join(__dirname, 'assets', 'down.html'))
+  );
+}
 app.use('/', express.static(path.join(__dirname, '..', 'tumi-app', 'browser')));
 app.use('/webhooks', webhookRouter(prisma));
 app.use('/cal', calendarRouter(prisma));
