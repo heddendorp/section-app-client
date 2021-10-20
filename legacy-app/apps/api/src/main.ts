@@ -1,6 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
 import {
-  ApolloServerPluginCacheControl,
   ApolloServerPluginDrainHttpServer,
   GraphQLRequestContext,
 } from 'apollo-server-core';
@@ -86,7 +85,7 @@ const server = new ApolloServer({
   },
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
-    ApolloServerPluginCacheControl(),
+    // ApolloServerPluginCacheControl(),
     measurementPlugin,
   ],
 });
