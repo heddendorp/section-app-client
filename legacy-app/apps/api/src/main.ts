@@ -86,7 +86,7 @@ const server = new ApolloServer({
   },
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
-    ApolloServerPluginCacheControl({ defaultMaxAge: 5 }),
+    ApolloServerPluginCacheControl(),
     measurementPlugin,
   ],
 });
