@@ -43,7 +43,6 @@ import {
   IconToastComponent,
   UtilComponentsModule,
 } from '@tumi/util-components';
-import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import { sha256 } from 'crypto-hash';
 import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
 
@@ -161,11 +160,11 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
             UsersOfTenants: { keyFields: ['userId', 'tenantId'] },
           },
         });
-        persistCache({
-          cache,
-          storage: new LocalStorageWrapper(window.localStorage),
-          debug: !environment.production,
-        });
+        // persistCache({
+        //   cache,
+        //   storage: new LocalStorageWrapper(window.localStorage),
+        //   debug: !environment.production,
+        // });
 
         return {
           link,
