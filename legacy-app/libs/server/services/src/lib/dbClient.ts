@@ -64,7 +64,7 @@ const cachingMiddleware = async (params, next) => {
   return result;
 };
 
-class DBClient {
+export class DBClient {
   public prisma: PrismaClient;
   private static instance: DBClient;
   private constructor() {
@@ -80,5 +80,3 @@ class DBClient {
     return DBClient.instance;
   };
 }
-
-export default DBClient;
