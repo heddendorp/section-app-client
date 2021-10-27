@@ -9,19 +9,19 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 [comment]: <> (1. Ensure any install or build dependencies are removed before the end of the layer when doing a)
 
-[comment]: <> (   build.)
+[comment]: <> ( build.)
 
 [comment]: <> (2. Update the README.md with details of changes to the interface, this includes new environment)
 
-[comment]: <> (   variables, exposed ports, useful file locations and container parameters.)
+[comment]: <> ( variables, exposed ports, useful file locations and container parameters.)
 
 [comment]: <> (3. Increase the version numbers in any examples files and the README.md to the new version that this)
 
-[comment]: <> (   Pull Request would represent. The versioning scheme we use is [SemVer]&#40;http://semver.org/&#41;.)
+[comment]: <> ( Pull Request would represent. The versioning scheme we use is [SemVer]&#40;http://semver.org/&#41;.)
 
 [comment]: <> (4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you)
 
-[comment]: <> (   do not have permission to do that, you may request the second reviewer to merge it for you.)
+[comment]: <> ( do not have permission to do that, you may request the second reviewer to merge it for you.)
 
 ## Code of Conduct
 
@@ -39,21 +39,21 @@ orientation.
 Examples of behavior that contributes to creating a positive environment
 include:
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
+- The use of sexualized language or imagery and unwelcome sexual attention or
   advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic
   address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
+- Other conduct which could reasonably be considered inappropriate in a
   professional setting
 
 ### Our Responsibilities

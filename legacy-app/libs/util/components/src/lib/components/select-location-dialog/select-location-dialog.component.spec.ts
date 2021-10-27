@@ -8,9 +8,8 @@ describe('SelectLocationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectLocationDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SelectLocationDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

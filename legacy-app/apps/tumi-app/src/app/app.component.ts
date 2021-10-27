@@ -20,7 +20,10 @@ export class AppComponent {
   constructor(private http: HttpClient) {
     this.appState = interval(5000).pipe(
       switchMap(() => this.http.get<{ maintenance: boolean }>('/health')),
-      catchError(() => of({ maintenance: false })),
+      catchError((e) => {
+        console.log(e);
+        return of({ maintenance: false });
+      }),
       map((status) => {
         if (status.maintenance === true) {
           return 'maintenance';

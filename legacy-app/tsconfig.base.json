@@ -19,6 +19,8 @@
       "@tumi/products": ["libs/products/src/index.ts"],
       "@tumi/server-graphql": ["libs/server/graphql/src/index.ts"],
       "@tumi/server-models": ["libs/server/models/src/index.ts"],
+      "@tumi/server/services": ["libs/server/services/src/index.ts"],
+      "@tumi/shared/data-types": ["libs/shared/data-types/src/index.ts"],
       "@tumi/ui-app-shell": ["libs/ui/app-shell/src/index.ts"],
       "@tumi/ui-auth": ["libs/ui/auth/src/index.ts"],
       "@tumi/ui/event-templates": ["libs/ui/event-templates/src/index.ts"],

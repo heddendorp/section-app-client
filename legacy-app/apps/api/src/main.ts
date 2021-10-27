@@ -14,7 +14,7 @@ import { webhookRouter } from './app/webhooks';
 import { calendarRouter } from './app/calendars';
 import { qrRouter } from './app/qrCode';
 import { shortRouter } from './app/shortRouter';
-import DBClient from './app/dbClient';
+import { DBClient } from '@tumi/server/services';
 
 const prisma = DBClient.getInstance().prisma;
 

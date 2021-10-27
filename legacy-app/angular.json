@@ -187,6 +187,50 @@
         }
       }
     },
+    "server-services": {
+      "root": "libs/server/services",
+      "sourceRoot": "libs/server/services/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/server/services/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/server/services"],
+          "options": {
+            "jestConfig": "libs/server/services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-data-types": {
+      "root": "libs/shared/data-types",
+      "sourceRoot": "libs/shared/data-types/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/shared/data-types/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/data-types"],
+          "options": {
+            "jestConfig": "libs/shared/data-types/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "tumi-app": {
       "projectType": "application",
       "root": "apps/tumi-app",

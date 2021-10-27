@@ -46,6 +46,12 @@
     "server-models": {
       "tags": ["scope:server"]
     },
+    "server-services": {
+      "tags": []
+    },
+    "shared-data-types": {
+      "tags": []
+    },
     "tumi-app": {
       "tags": []
     },
