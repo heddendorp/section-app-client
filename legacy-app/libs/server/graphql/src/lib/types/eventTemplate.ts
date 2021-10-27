@@ -24,16 +24,14 @@ export const eventTemplateType = objectType({
     t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
-    t.field(EventTemplate.participantMail);
     t.field(EventTemplate.organizerText);
     t.field(EventTemplate.finances);
     t.field({
       ...EventTemplate.eventInstances,
       resolve: (source, args, context) =>
-        context.prisma.tumiEvent.findMany({
-          where: { eventTemplateId: source.id },
-          orderBy: { start: 'desc' },
-        }),
+        context.prisma.eventTemplate
+          .findUnique({ where: { id: source.id } })
+          .eventInstances({ orderBy: { start: 'desc' } }),
     });
     t.field(EventTemplate.tenant);
   },
@@ -51,7 +49,6 @@ export const createEventTemplateInput = inputObjectType({
     t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
-    t.field(EventTemplate.participantMail);
     t.field(EventTemplate.organizerText);
   },
 });
@@ -68,7 +65,6 @@ export const updateTemplateInputType = inputObjectType({
     // t.field(EventTemplate.coordinates);
     t.field(EventTemplate.duration);
     t.field(EventTemplate.participantText);
-    t.field(EventTemplate.participantMail);
     t.field(EventTemplate.organizerText);
   },
 });

@@ -8,14 +8,9 @@ import {
 } from 'nexus';
 import { CostItem } from 'nexus-prisma';
 import { eventType } from './event';
-import { BlobServiceClient } from '@azure/storage-blob';
 import { createReceiptInputType } from './receipt';
 import { Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
-
-const blobServiceClient = BlobServiceClient.fromConnectionString(
-  process.env.STORAGE_CONNECTION_STRING
-);
 
 export const costItemType = objectType({
   name: CostItem.$name,
@@ -73,9 +68,9 @@ export const getCostItemQuery = queryField('costItem', {
     context.prisma.costItem.findUnique({ where: { id } }),
 });
 
-export const getUploadKeyQuery = mutationField('blobUploadKey', {
+export const getUploadKeyQuery = queryField('blobUploadKey', {
   type: nonNull('String'),
-  resolve: (source, args, context) => process.env.BLOB_SAS_TOKEN,
+  resolve: () => process.env.BLOB_SAS_TOKEN,
 });
 
 export const addReceiptToCostItemMutation = mutationField(

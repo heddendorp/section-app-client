@@ -16,6 +16,7 @@ import {
   Prisma,
   PublicationState,
   RegistrationMode,
+  RegistrationStatus,
   RegistrationType,
   Role,
 } from '@tumi/server-models';
@@ -60,19 +61,44 @@ export const eventType = objectType({
     t.field(TumiEvent.description);
     t.field(TumiEvent.coordinates);
     t.field(TumiEvent.location);
-    t.field(TumiEvent.price);
-    t.field(TumiEvent.discountedPrice);
-    t.field(TumiEvent.esnDiscount);
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.participantText);
-    t.field(TumiEvent.participantMail);
     t.field(TumiEvent.organizerText);
+    t.field(TumiEvent.prices);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
+    t.nonNull.string('freeParticipantSpots', {
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventRegistration
+          .count({
+            where: {
+              eventId: source.id,
+              type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((registrations) => {
+            const quota = registrations / source.participantLimit;
+            if (quota < 0.5) {
+              return 'Many free spots';
+            } else if (quota < 0.8) {
+              return 'Some spots left';
+            } else if (quota < 1) {
+              return 'Few spots left';
+            } else {
+              return 'Event is full';
+            }
+          });
+      },
+    });
     t.field({
       ...TumiEvent.submissionItems,
       resolve: (source, args, context, { cacheControl }) => {
@@ -114,24 +140,52 @@ export const eventType = objectType({
     });
     t.field(TumiEvent.eventTemplateId);
     t.field({
-      name: 'registration',
+      name: 'activeRegistration',
       type: eventRegistrationType,
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
         return context.prisma.eventRegistration.findFirst({
-          where: { event: { id: source.id }, user: { id: context.user.id } },
+          where: {
+            event: { id: source.id },
+            user: { id: context.user.id },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
         });
+      },
+    });
+    t.field({
+      name: 'ownRegistrations',
+      type: nonNull(list(nonNull(eventRegistrationType))),
+      args: { includeCancelled: booleanArg({ default: false }) },
+      resolve: (source, { includeCancelled }, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              user: { id: context.user.id },
+              ...(includeCancelled
+                ? { status: { not: RegistrationStatus.CANCELLED } }
+                : {}),
+            },
+          });
       },
     });
     t.field({
       name: 'participantRegistrations',
       type: nonNull(list(nonNull(eventRegistrationType))),
-      resolve: (source, args, context, { cacheControl }) => {
+      args: { includeCancelled: booleanArg({ default: false }) },
+      resolve: (source, { includeCancelled }, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.tumiEvent
           .findUnique({ where: { id: source.id } })
           .registrations({
-            where: { type: RegistrationType.PARTICIPANT },
+            where: {
+              type: RegistrationType.PARTICIPANT,
+              ...(includeCancelled
+                ? { status: { not: RegistrationStatus.CANCELLED } }
+                : {}),
+            },
             orderBy: [{ checkInTime: 'desc' }, { user: { lastName: 'asc' } }],
           });
       },
@@ -149,48 +203,48 @@ export const eventType = objectType({
           });
       },
     });
-    t.int('amountCollected', {
-      resolve: (source, args, context, { cacheControl }) => {
-        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.eventRegistration
-          .aggregate({
-            where: {
-              event: { id: source.id },
-              amountPaid: { not: null },
-            },
-            _sum: { amountPaid: true },
-          })
-          .then((aggregations) => aggregations._sum.amountPaid);
-      },
-    });
-    t.int('netAmountCollected', {
-      resolve: (source, args, context, { cacheControl }) => {
-        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.eventRegistration
-          .aggregate({
-            where: {
-              event: { id: source.id },
-              netPaid: { not: null },
-            },
-            _sum: { netPaid: true },
-          })
-          .then((aggregations) => aggregations._sum.netPaid);
-      },
-    });
-    t.int('feesPaid', {
-      resolve: (source, args, context, { cacheControl }) => {
-        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.eventRegistration
-          .aggregate({
-            where: {
-              event: { id: source.id },
-              stripeFee: { not: null },
-            },
-            _sum: { stripeFee: true },
-          })
-          .then((aggregations) => aggregations._sum.stripeFee);
-      },
-    });
+    // t.int('amountCollected', {
+    //   resolve: (source, args, context, { cacheControl }) => {
+    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+    //     return context.prisma.eventRegistration
+    //       .aggregate({
+    //         where: {
+    //           event: { id: source.id },
+    //           amountPaid: { not: null },
+    //         },
+    //         _sum: { amountPaid: true },
+    //       })
+    //       .then((aggregations) => aggregations._sum.amountPaid);
+    //   },
+    // });
+    // t.int('netAmountCollected', {
+    //   resolve: (source, args, context, { cacheControl }) => {
+    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+    //     return context.prisma.eventRegistration
+    //       .aggregate({
+    //         where: {
+    //           event: { id: source.id },
+    //           netPaid: { not: null },
+    //         },
+    //         _sum: { netPaid: true },
+    //       })
+    //       .then((aggregations) => aggregations._sum.netPaid);
+    //   },
+    // });
+    // t.int('feesPaid', {
+    //   resolve: (source, args, context, { cacheControl }) => {
+    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+    //     return context.prisma.eventRegistration
+    //       .aggregate({
+    //         where: {
+    //           event: { id: source.id },
+    //           stripeFee: { not: null },
+    //         },
+    //         _sum: { stripeFee: true },
+    //       })
+    //       .then((aggregations) => aggregations._sum.stripeFee);
+    //   },
+    // });
     t.nonNull.boolean('userRegistered', {
       description: 'Indicates if the current user is registered for the event',
       resolve: (source, args, context, { cacheControl }) => {
@@ -202,6 +256,7 @@ export const eventType = objectType({
               eventId: source.id,
               userId: context.user.id,
               type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
             },
           })
           .then((number) => number !== 0);
@@ -218,13 +273,14 @@ export const eventType = objectType({
               eventId: source.id,
               userId: context.user.id,
               type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
             },
           })
           .then((number) => number !== 0);
       },
     });
     t.field('organizers', {
-      description: 'Organizers alraedy on this event',
+      description: 'Organizers already on this event',
       type: nonNull(list(nonNull(userType))),
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
@@ -234,6 +290,7 @@ export const eventType = objectType({
               some: {
                 eventId: source.id,
                 type: RegistrationType.ORGANIZER,
+                status: { not: RegistrationStatus.CANCELLED },
               },
             },
           },
@@ -300,6 +357,7 @@ export const eventType = objectType({
           where: {
             eventId: root.id,
             type: RegistrationType.PARTICIPANT,
+            status: { not: RegistrationStatus.CANCELLED },
           },
         });
       },
@@ -312,6 +370,7 @@ export const eventType = objectType({
           where: {
             eventId: root.id,
             type: RegistrationType.PARTICIPANT,
+            status: { not: RegistrationStatus.CANCELLED },
             checkInTime: { not: null },
           },
         });
@@ -343,12 +402,11 @@ export const eventType = objectType({
           };
         }
         const previousRegistration =
-          await context.prisma.eventRegistration.findUnique({
+          await context.prisma.eventRegistration.findFirst({
             where: {
-              userId_eventId: {
-                userId: context.user.id,
-                eventId: root.id,
-              },
+              userId: context.user.id,
+              eventId: root.id,
+              status: { not: RegistrationStatus.CANCELLED },
             },
           });
         if (previousRegistration) {
@@ -376,6 +434,7 @@ export const eventType = objectType({
                 },
               },
               type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
               user: { id: context.user.id },
             },
           });
@@ -403,6 +462,7 @@ export const eventType = objectType({
           await context.prisma.eventRegistration.count({
             where: {
               type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
               event: { id: root.id },
             },
           });
@@ -427,6 +487,7 @@ export const eventType = objectType({
         return context.prisma.eventRegistration.count({
           where: {
             eventId: root.id,
+            status: { not: RegistrationStatus.CANCELLED },
             type: RegistrationType.ORGANIZER,
           },
         });
@@ -456,12 +517,11 @@ export const eventType = objectType({
           return false;
         }
         const previousRegistration =
-          await context.prisma.eventRegistration.findUnique({
+          await context.prisma.eventRegistration.findFirst({
             where: {
-              userId_eventId: {
-                userId: context.user.id,
-                eventId: root.id,
-              },
+              userId: context.user.id,
+              eventId: root.id,
+              status: { not: RegistrationStatus.CANCELLED },
             },
           });
         if (previousRegistration) {
@@ -557,12 +617,10 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.end);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
-    t.field(TumiEvent.price);
-    t.field(TumiEvent.discountedPrice);
-    t.field({ ...TumiEvent.esnDiscount, default: false });
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
-    t.id('organizerId');
+    t.nonNull.id('organizerId');
+    t.int('price');
   },
 });
 
@@ -579,13 +637,11 @@ export const updateEventInput = inputObjectType({
     t.field(TumiEvent.participantText);
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.registrationLink);
-    t.field(TumiEvent.price);
-    t.field(TumiEvent.discountedPrice);
-    t.field({ ...TumiEvent.esnDiscount, default: false });
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
+    t.field(TumiEvent.prices);
     t.id('eventOrganizerId');
   },
 });
@@ -741,54 +797,34 @@ export const changePublicationMutation = mutationField(
   }
 );
 
-export const removeUserFromEventMutation = mutationField(
-  'removeUserFromEvent',
-  {
-    description: 'Removes the user with the supplied id to the event',
-    args: {
-      eventId: nonNull(idArg()),
-      userId: nonNull(idArg()),
-    },
-    type: eventType,
-    resolve: (source, { userId, eventId }, context) => {
-      const { role } = context.assignment;
-      if (role !== Role.ADMIN) {
-        throw new ApolloError('Only Admins can remove users from the event');
-      }
-      return context.prisma.tumiEvent.update({
-        where: { id: eventId },
-        data: {
-          registrations: {
-            delete: { userId_eventId: { eventId, userId } },
-          },
-        },
-      });
-    },
-  }
-);
-
 export const deregisterFromEventMutation = mutationField(
   'deregisterFromEvent',
   {
-    args: { id: nonNull(idArg()), userId: idArg() },
+    args: { registrationId: nonNull(idArg()) },
     type: eventType,
-    resolve: async (source, { id, userId }, context) => {
-      if (!userId) userId = context.user.id;
-      if (userId !== context.user.id && context.assignment.role !== 'ADMIN') {
+    resolve: async (source, { registrationId }, context) => {
+      const registration = await context.prisma.eventRegistration.findUnique({
+        where: { id: registrationId },
+      });
+      if (
+        registration.userId !== context.user.id &&
+        context.assignment.role !== 'ADMIN'
+      ) {
         throw new ApolloError('Only admins can deregister other users');
       }
-      if (userId !== context.user.id) {
+      if (registration.userId !== context.user.id) {
         const user = await context.prisma.user.findUnique({
-          where: { id: userId },
+          where: { id: registration.userId },
         });
         const event = await context.prisma.tumiEvent.findUnique({
-          where: { id },
+          where: { id: registration.eventId },
         });
         await context.prisma.activityLog.create({
           data: {
             severity: 'INFO',
+            category: 'event-kick',
             message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
-            data: { eventId: id, userId },
+            data: JSON.parse(JSON.stringify(registration)),
             oldData: {
               user: JSON.parse(JSON.stringify(user)),
               event: JSON.parse(JSON.stringify(event)),
@@ -797,11 +833,17 @@ export const deregisterFromEventMutation = mutationField(
         });
       }
       return context.prisma.tumiEvent.update({
-        where: { id },
+        where: { id: registration.eventId },
         data: {
           registrations: {
-            delete: {
-              userId_eventId: { eventId: id, userId },
+            update: {
+              where: { id: registration.id },
+              data: {
+                status: RegistrationStatus.CANCELLED,
+                cancellationReason: `Registration cancelled by ${
+                  context.user.id === registration.userId ? 'user' : 'admin'
+                } (${context.user.email}).`,
+              },
             },
           },
         },
@@ -824,6 +866,11 @@ export const registerForEvent = mutationField('registerForEvent', {
       const event = await prisma.tumiEvent.findUnique({
         where: { id: eventId },
       });
+      if (event.registrationMode === RegistrationMode.STRIPE) {
+        throw new ApolloError(
+          'To register for stripe events you need to use a different mutation!'
+        );
+      }
       const { status } = context.assignment;
       const allowedStatus =
         registrationType === RegistrationType.PARTICIPANT
@@ -835,7 +882,11 @@ export const registerForEvent = mutationField('registerForEvent', {
         );
       }
       const registeredUsers = await prisma.eventRegistration.count({
-        where: { eventId, type: registrationType },
+        where: {
+          eventId,
+          type: registrationType,
+          status: { not: RegistrationStatus.CANCELLED },
+        },
       });
       const maxRegistrations =
         registrationType === RegistrationType.PARTICIPANT
@@ -848,7 +899,11 @@ export const registerForEvent = mutationField('registerForEvent', {
         where: { id: eventId },
         data: {
           registrations: {
-            create: { type: registrationType, userId: context.user.id },
+            create: {
+              type: registrationType,
+              userId: context.user.id,
+              status: RegistrationStatus.SUCCESSFUL,
+            },
           },
         },
       });
@@ -916,15 +971,25 @@ export const createFromTemplateMutation = mutationField(
           organizerLimit: createEventFromTemplateInput.organizerLimit,
           registrationLink: createEventFromTemplateInput.registrationLink,
           registrationMode: createEventFromTemplateInput.registrationMode,
-          price: createEventFromTemplateInput.price,
-          discountedPrice: createEventFromTemplateInput.discountedPrice,
-          esnDiscount: createEventFromTemplateInput.esnDiscount,
           description: template.description,
           coordinates: template.coordinates,
           location: template.location,
           participantText: template.participantText,
-          participantMail: template.participantMail,
           organizerText: template.organizerText,
+          prices: [
+            {
+              amount: createEventFromTemplateInput.price,
+              defaultPrice: true,
+              esnCardRequired: false,
+              allowedStatusList: [
+                MembershipStatus.NONE,
+                MembershipStatus.TRIAL,
+                MembershipStatus.FULL,
+                MembershipStatus.SPONSOR,
+                MembershipStatus.ALUMNI,
+              ],
+            },
+          ],
           createdBy: { connect: { id: context.user.id } },
           participantSignup: [
             MembershipStatus.NONE,

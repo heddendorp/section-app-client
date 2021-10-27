@@ -4,6 +4,7 @@ import {
   MembershipStatus,
   PublicationState,
   RegistrationMode,
+  RegistrationStatus,
   RegistrationType,
   Role,
   SubmissionItemType,
@@ -18,3 +19,4 @@ export const submissionTimeEnum = enumType(SubmissionTime);
 export const registrationTypeEnum = enumType(RegistrationType);
 export const registrationModeEnum = enumType(RegistrationMode);
 export const logSeverityEnum = enumType(LogSeverity);
+export const registrationStatusEnum = enumType(RegistrationStatus);

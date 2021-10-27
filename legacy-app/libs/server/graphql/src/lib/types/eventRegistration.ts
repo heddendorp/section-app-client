@@ -1,4 +1,5 @@
 import {
+  arg,
   booleanArg,
   idArg,
   list,
@@ -8,6 +9,10 @@ import {
   queryField,
 } from 'nexus';
 import { EventRegistration } from 'nexus-prisma';
+import { RegistrationStatus } from '@tumi/server-models';
+import { registrationStatusEnum } from './enums';
+import { eventRegistrationCodeType } from './eventRegistrationCode';
+import { CacheScope } from 'apollo-server-types';
 
 export const eventRegistrationType = objectType({
   name: EventRegistration.$name,
@@ -28,29 +33,12 @@ export const eventRegistrationType = objectType({
         context.prisma.tumiEvent.findUnique({ where: { id: source.eventId } }),
     });
     t.field(EventRegistration.eventId);
-    t.field(EventRegistration.amountPaid);
-    t.field(EventRegistration.netPaid);
-    t.field(EventRegistration.stripeFee);
-    t.field(EventRegistration.paymentStatus);
-    t.field(EventRegistration.chargeId);
-    t.field(EventRegistration.paymentIntentId);
+    t.field(EventRegistration.payment);
+    t.field(EventRegistration.paymentId);
     t.field(EventRegistration.checkInTime);
     t.field(EventRegistration.manualCheckin);
-    t.field({
-      ...EventRegistration.moveOrders,
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistrationMoveOrder.findMany({
-          where: { registration: { id: source.id } },
-        }),
-    });
-    t.field({
-      ...EventRegistration.moveOrders,
-      name: 'openMoveOrders',
-      resolve: (source, args, context) =>
-        context.prisma.eventRegistrationMoveOrder.findMany({
-          where: { registration: { id: source.id }, usedBy: null },
-        }),
-    });
+    t.field(EventRegistration.status);
+    t.field(EventRegistration.cancellationReason);
     t.field({
       ...EventRegistration.submissions,
       resolve: (source, args, context, info) => {
@@ -58,6 +46,19 @@ export const eventRegistrationType = objectType({
         return context.prisma.eventRegistration
           .findUnique({ where: { id: source.id } })
           .submissions();
+      },
+    });
+    t.field({
+      name: 'deletingCode',
+      type: eventRegistrationCodeType,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventRegistrationCode.findUnique({
+          where: { registrationToRemoveId: source.id },
+        });
       },
     });
     t.nonNull.boolean('didAttend', {
@@ -68,9 +69,16 @@ export const eventRegistrationType = objectType({
 
 export const getRegistrationsQuery = queryField('registrations', {
   type: nonNull(list(nonNull(eventRegistrationType))),
-  resolve: (source, args, context) =>
+  args: {
+    statusList: arg({
+      type: list(registrationStatusEnum),
+      default: [RegistrationStatus.PENDING, RegistrationStatus.SUCCESSFUL],
+    }),
+  },
+  resolve: (source, { statusList }, context) =>
     context.prisma.eventRegistration.findMany({
       orderBy: { createdAt: 'desc' },
+      where: { status: { in: statusList } },
     }),
 });
 

@@ -41,6 +41,15 @@ export const paymentIntentType = objectType({
   },
 });
 
+export const checkoutSessionType = objectType({
+  name: 'checkoutSession',
+  definition(t) {
+    t.nonNull.string('id');
+    t.nonNull.string('status');
+    t.string('client_secret');
+  },
+});
+
 export const getPaymentSetupSessionQuery = queryField(
   'getPaymentSetupSession',
   {

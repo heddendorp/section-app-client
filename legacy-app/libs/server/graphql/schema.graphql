@@ -49,13 +49,11 @@ type CostItem {
 Additional inputs to create an event from a template
 """
 input CreateEventFromTemplateInput {
-  discountedPrice: Decimal
   end: DateTime!
-  esnDiscount: Boolean! = false
-  organizerId: ID
+  organizerId: ID!
   organizerLimit: Int!
   participantLimit: Int!
-  price: Decimal
+  price: Int
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
@@ -72,7 +70,6 @@ input CreateEventTemplateInput {
   icon: String!
   location: String!
   organizerText: String!
-  participantMail: String!
   participantText: String!
   title: String!
 }
@@ -132,37 +129,34 @@ type EventOrganizer {
 }
 
 type EventRegistration {
-  amountPaid: Int
-  chargeId: String
+  cancellationReason: String
   checkInTime: DateTime
   createdAt: DateTime!
+  deletingCode: EventRegistrationCode
   didAttend: Boolean!
   event: TumiEvent!
   eventId: String!
   id: ID!
   manualCheckin: Boolean!
-  moveOrders: [EventRegistrationMoveOrder!]!
-  netPaid: Int
-  openMoveOrders: [EventRegistrationMoveOrder!]!
-  paymentIntentId: String
-  paymentStatus: String
-  stripeFee: Int
+  payment: StripePayment
+  paymentId: String
+  status: RegistrationStatus!
   submissions: [EventSubmission!]!
   type: RegistrationType!
   user: User!
   userId: String!
 }
 
-type EventRegistrationMoveOrder {
+type EventRegistrationCode {
   createdAt: DateTime!
-  createdBy: String!
-  creator: User!
-  eventRegistrationId: String!
+  createdById: String!
+  eventId: String!
   id: ID!
-  receiver: User
-  registration: EventRegistration!
-  usedAt: DateTime
-  usedBy: String
+  isPublic: Boolean!
+  registrationCreatedId: String
+  registrationToRemoveId: String
+  status: RegistrationStatus!
+  targetEvent: TumiEvent!
 }
 
 type EventSubmission {
@@ -203,10 +197,17 @@ type EventTemplate {
   id: ID!
   location: String!
   organizerText: String!
-  participantMail: String!
   participantText: String!
   tenant: Tenant!
   title: String!
+}
+
+type EventTemplateCategory {
+  createdAt: DateTime!
+  icon: String!
+  id: ID!
+  name: String!
+  templates: [EventTemplate!]!
 }
 
 """
@@ -242,7 +243,6 @@ type Mutation {
     costItemId: ID!
     receiptInput: CreateReceiptInput!
   ): CostItem
-  blobUploadKey: String!
 
   """
   Change the publication state of an event
@@ -266,7 +266,11 @@ type Mutation {
     eventTemplateInput: CreateEventTemplateInput!
   ): EventTemplate
   createPhotoShare(data: CreatePhotoShareInput!, eventId: ID!): PhotoShare
-  createRegistrationMoveOrder(id: ID!): EventRegistration!
+  createRegistrationCode(
+    eventId: ID!
+    isPublic: Boolean = false
+    registrationId: ID
+  ): EventRegistrationCode!
   createSubmissionOnEvent(
     data: CreateSubmissionItemInput!
 
@@ -282,7 +286,7 @@ type Mutation {
   Delete one template by id
   """
   deleteTemplate(id: ID!): EventTemplate
-  deregisterFromEvent(id: ID!, userId: ID): TumiEvent
+  deregisterFromEvent(registrationId: ID!): TumiEvent
   deregisterUserWithRefund(eventId: ID!, userId: ID): TumiEvent!
   newProduct(input: newProductInput!): Product!
   registerForEvent(
@@ -295,11 +299,6 @@ type Mutation {
   """
   registerUser(userInput: CreateUserInput): User!
   registerWithStripe(id: ID!, submissions: Json): paymentIntent!
-
-  """
-  Removes the user with the supplied id to the event
-  """
-  removeUserFromEvent(eventId: ID!, userId: ID!): TumiEvent
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
   updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
@@ -331,7 +330,7 @@ type Mutation {
   Change the status of s user on the current tenant
   """
   updateUserStatus(status: MembershipStatus!, userId: ID!): User!
-  useMoveOrder(id: ID!): paymentIntent!
+  useRegistrationCode(id: ID!, price: Json): EventRegistrationCode!
 
   """
   Send a verification email to a user (to the current user if no id is provided)
@@ -371,19 +370,22 @@ type Product {
   description: String!
   icon: String!
   id: ID!
-  prices: [ProductPrice!]!
+  prices: Json!
   tenant: Tenant!
   tenantId: String!
   title: String!
 }
 
-type ProductPrice {
-  amount: Decimal!
-  availability: [MembershipStatus!]!
+type ProductPurchase {
   createdAt: DateTime!
   id: ID!
+  payment: StripePayment
+  paymentId: String
+  price: Json!
   product: Product!
   productId: String!
+  user: User!
+  userId: String!
 }
 
 enum PublicationState {
@@ -394,6 +396,7 @@ enum PublicationState {
 }
 
 type Query {
+  blobUploadKey: String!
   costItem(id: ID!): CostItem!
   costItemsForEvent(eventId: ID!): [CostItem!]!
   currentTenant: Tenant
@@ -407,6 +410,10 @@ type Query {
   Get one event by ID
   """
   event(eventId: ID!): TumiEvent
+  eventRegistrationCode(id: ID!): EventRegistrationCode
+  eventRegistrationCodes(
+    includePrivate: Boolean = false
+  ): [EventRegistrationCode!]!
 
   """
   Get one event template by ID
@@ -425,8 +432,6 @@ type Query {
   getPaymentSetupSession: paymentSetupSession!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
-  moveOrder(id: ID!): EventRegistrationMoveOrder
-  moveOrders: [EventRegistrationMoveOrder!]!
 
   """
   Retrieve a list of all event organizers
@@ -436,9 +441,12 @@ type Query {
   photos: [PhotoShare!]!
   photosOfEvent(id: ID!): [PhotoShare!]!
   products: [Product!]!
-  refundedRegistrations: [RefundedRegistration!]!
   registration(id: ID!): EventRegistration!
-  registrations: [EventRegistration!]!
+  registrations(
+    statusList: [RegistrationStatus] = [PENDING, SUCCESSFUL]
+  ): [EventRegistration!]!
+  templateCategories: [EventTemplateCategory!]!
+  templateCategory(id: ID!): EventTemplateCategory
   tenants: [Tenant!]!
   userById(
     """
@@ -477,21 +485,16 @@ type Receipt {
   userId: String!
 }
 
-type RefundedRegistration {
-  chargeId: String!
-  createdAt: DateTime!
-  event: TumiEvent
-  eventId: String!
-  id: ID!
-  refundId: String!
-  user: User!
-  userId: String!
-}
-
 enum RegistrationMode {
   EXTERNAL
   ONLINE
   STRIPE
+}
+
+enum RegistrationStatus {
+  CANCELLED
+  PENDING
+  SUCCESSFUL
 }
 
 enum RegistrationType {
@@ -503,6 +506,28 @@ enum RegistrationType {
 enum Role {
   ADMIN
   USER
+}
+
+type StripePayment {
+  amount: Decimal!
+  createdAt: DateTime!
+  eventRegistration: EventRegistration
+
+  """
+  Array of events with their timestamps
+  """
+  events: Json!
+  feeAmount: Decimal
+  id: ID!
+  netAmount: Decimal
+  paymentIntent: String!
+  paymentMethod: String
+  paymentMethodType: String
+  productPurchase: ProductPurchase
+  purchaseId: String
+  refundedAmount: Decimal
+  registrationId: String
+  status: String!
 }
 
 type StripeUserData {
@@ -546,7 +571,7 @@ type Tenant {
 Actual instande of an TumiEventbased on a template
 """
 type TumiEvent {
-  amountCollected: Int
+  activeRegistration: EventRegistration
   coordinates: Json
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
 
@@ -563,17 +588,14 @@ type TumiEvent {
   createdBy: User!
   creatorId: String!
   description: String!
-  discountedPrice: Decimal
   end: DateTime!
-  esnDiscount: Boolean!
   eventOrganizerId: String!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
-  feesPaid: Int
+  freeParticipantSpots: String!
   icon: String!
   id: ID!
   location: String!
-  netAmountCollected: Int
   organizer: EventOrganizer!
   organizerLimit: Int!
 
@@ -586,7 +608,7 @@ type TumiEvent {
   organizerText: String!
 
   """
-  Organizers alraedy on this event
+  Organizers already on this event
   """
   organizers: [User!]!
 
@@ -594,14 +616,16 @@ type TumiEvent {
   Number of users registered as organizer to this event
   """
   organizersRegistered: Int!
+  ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
-  participantMail: String!
 
   """
   Indicates whether the current user can register to this event as participant
   """
   participantRegistrationPossible: Json!
-  participantRegistrations: [EventRegistration!]!
+  participantRegistrations(
+    includeCancelled: Boolean = false
+  ): [EventRegistration!]!
   participantSignup: [MembershipStatus!]!
   participantText: String!
 
@@ -615,9 +639,8 @@ type TumiEvent {
   """
   participantsRegistered: Int!
   photoShares: [PhotoShare!]!
-  price: Decimal
+  prices: Json
   publicationState: PublicationState!
-  registration: EventRegistration
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
@@ -640,9 +663,7 @@ Additional inputs to create an event from a template
 """
 input UpdateEventInput {
   description: String!
-  discountedPrice: Decimal
   end: DateTime!
-  esnDiscount: Boolean! = false
   eventOrganizerId: ID
   icon: String!
   organizerLimit: Int!
@@ -651,7 +672,7 @@ input UpdateEventInput {
   participantLimit: Int!
   participantSignup: [MembershipStatus!]!
   participantText: String!
-  price: Decimal
+  prices: Json
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
@@ -684,7 +705,6 @@ input UpdateTemplateInput {
   duration: Decimal!
   icon: String!
   organizerText: String!
-  participantMail: String!
   participantText: String!
   title: String!
 }
@@ -741,6 +761,12 @@ type UsersOfTenants {
   userId: String!
 }
 
+type checkoutSession {
+  client_secret: String
+  id: String!
+  status: String!
+}
+
 type lineChartSeriesItem {
   name: String!
   value: Int!
@@ -750,6 +776,7 @@ input newProductInput {
   availability: [MembershipStatus!]!
   description: String!
   icon: String!
+  prices: Json!
   title: String!
 }
 

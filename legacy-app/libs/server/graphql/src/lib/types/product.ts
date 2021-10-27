@@ -18,13 +18,7 @@ export const productType = objectType({
     t.field(Product.icon);
     t.field(Product.description);
     t.field(Product.availability);
-    t.field({
-      ...Product.prices,
-      resolve: (source, args, context) =>
-        context.prisma.productPrice.findMany({
-          where: { product: { id: source.id } },
-        }),
-    });
+    t.field(Product.prices);
     t.field(Product.tenantId);
     t.field({
       ...Product.tenant,
@@ -41,6 +35,7 @@ export const newProductInputType = inputObjectType({
     t.field(Product.icon);
     t.field(Product.description);
     t.field(Product.availability);
+    t.field(Product.prices);
   },
 });
 
