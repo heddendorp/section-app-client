@@ -1,75 +1,83 @@
 mutation createEventTemplate($input: CreateEventTemplateInput!) {
-  createEventTemplate(eventTemplateInput: $input){
+  createEventTemplate(eventTemplateInput: $input) {
     id
     createdAt
   }
 }
 
-mutation createEventFromTemplate($templateId: ID!, $eventData: CreateEventFromTemplateInput!){
-  createEventFromTemplate(templateId: $templateId, createEventFromTemplateInput: $eventData){
+mutation createEventFromTemplate(
+  $templateId: ID!
+  $eventData: CreateEventFromTemplateInput!
+) {
+  createEventFromTemplate(
+    templateId: $templateId
+    createEventFromTemplateInput: $eventData
+  ) {
     id
   }
 }
 
-mutation updateTemplateLocation($templateId: ID!, $update: UpdateLocationInput!){
-  updateTemplateLocation(id: $templateId,data: $update){
+mutation updateTemplateLocation(
+  $templateId: ID!
+  $update: UpdateLocationInput!
+) {
+  updateTemplateLocation(id: $templateId, data: $update) {
     id
     location
     coordinates
   }
 }
 
-mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!){
-  updateTemplate(id: $templateId, data: $update){
+mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
+  updateTemplate(id: $templateId, data: $update) {
     id
     title
     icon
     duration
     description
     organizerText
-    participantMail
     participantText
     comment
     location
     coordinates
+    comment
   }
 }
 
-mutation deleteEventTemplate($templateId: ID!){
-  deleteTemplate(id: $templateId){
+mutation deleteEventTemplate($templateId: ID!) {
+  deleteTemplate(id: $templateId) {
     id
   }
 }
 
-mutation deleteTemplate($id: ID!){
-  deleteTemplate(id: $id){
+mutation deleteTemplate($id: ID!) {
+  deleteTemplate(id: $id) {
     id
   }
 }
 
-query getEventTemplates{
-  eventTemplates{
+query getEventTemplates {
+  eventTemplates {
     id
     title
     icon
   }
 }
 
-query getEventTemplate($id: ID!){
-  eventTemplate(id: $id){
+query getEventTemplate($id: ID!) {
+  eventTemplate(id: $id) {
     id
     title
     icon
     duration
     description
     organizerText
-    participantMail
     participantText
     comment
     location
     coordinates
     finances
-    eventInstances{
+    eventInstances {
       id
       title
       start
@@ -77,15 +85,15 @@ query getEventTemplate($id: ID!){
   }
 }
 
-mutation updateFinances($id: ID!, $finances: Json!){
-  updateTemplateFinances(id: $id,finances: $finances){
+mutation updateFinances($id: ID!, $finances: Json!) {
+  updateTemplateFinances(id: $id, finances: $finances) {
     id
     finances
   }
 }
 
-query getOrganizerOptions{
-  organizers{
+query getOrganizerOptions {
+  organizers {
     id
     name
   }

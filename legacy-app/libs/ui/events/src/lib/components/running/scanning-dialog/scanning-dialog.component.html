@@ -34,10 +34,10 @@
       <p class="">
         {{ registration.user.fullName }}
       </p>
-      <p *ngIf="registration.paymentStatus">
+      <p *ngIf="registration.payment">
         Payment status:
         <span class="bg-gray-200 rounded px-2 font-mono">{{
-          registration.paymentStatus
+          registration.payment.status
         }}</span>
       </p>
     </div>

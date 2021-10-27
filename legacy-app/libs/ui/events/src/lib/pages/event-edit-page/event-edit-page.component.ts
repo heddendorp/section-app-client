@@ -7,6 +7,7 @@ import {
 import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
+  DeregisterFromEventGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
@@ -14,7 +15,6 @@ import {
   MembershipStatus,
   PublicationState,
   RegistrationMode,
-  RemoveUserFromEventGQL,
   Role,
   UpdateEventGQL,
   UpdateEventLocationGQL,
@@ -68,10 +68,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private addOrganizerMutation: AddOrganizerToEventGQL,
-    private removeUserMutation: RemoveUserFromEventGQL,
     private addSubmissionMutation: AddSubmissionToEventGQL,
     private updateLocationMutation: UpdateEventLocationGQL,
     private fb: FormBuilder,
+    private deregisterFromEventGQL: DeregisterFromEventGQL,
     public permission: PermissionsService
   ) {
     this.title.setTitle('TUMi - edit event');
@@ -191,11 +191,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         }
       });
     const event = await this.event$.pipe(first()).toPromise();
+    //TODO: check dates
+    console.log(event);
     if (event) {
       this.generalInformationForm.patchValue({
         ...event,
-        start: DateTime.fromISO(event.start).toISO({ includeOffset: false }),
-        end: DateTime.fromISO(event.end).toISO({ includeOffset: false }),
+        start: DateTime.fromJSDate(event.start).toISO({ includeOffset: false }),
+        end: DateTime.fromJSDate(event.end).toISO({ includeOffset: false }),
       });
       this.publicationForm.patchValue(event);
     }
@@ -234,12 +236,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async removeUser(userId: string) {
+  async removeUser(registrationId: string) {
     this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
-    const event = await this.event$.pipe(first()).toPromise();
-    await this.removeUserMutation
-      .mutate({ eventId: event?.id ?? '', userId })
-      .toPromise();
+    await firstValueFrom(
+      this.deregisterFromEventGQL.mutate({ registrationId })
+    );
     this.snackBar.open('User removed ✔️');
   }
 
@@ -262,10 +263,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         delete data.updateEventGeneralInfo.__typename;
         this.generalInformationForm.patchValue({
           ...data.updateEventGeneralInfo,
-          start: DateTime.fromISO(data.updateEventGeneralInfo.start).toISO({
+          start: DateTime.fromJSDate(data.updateEventGeneralInfo.start).toISO({
             includeOffset: false,
           }),
-          end: DateTime.fromISO(data.updateEventGeneralInfo.end).toISO({
+          end: DateTime.fromJSDate(data.updateEventGeneralInfo.end).toISO({
             includeOffset: false,
           }),
         });

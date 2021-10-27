@@ -38,16 +38,13 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required],
-      price: ['', Validators.required],
-      discountedPrice: ['', Validators.required],
-      esnDiscount: [false, Validators.required],
+      defaultPrice: ['', Validators.required],
       registrationLink: ['', Validators.required],
       registrationMode: ['', Validators.required],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
       organizerId: ['', Validators.required],
     });
-    this.eventDataForm.get('discountedPrice')?.disable();
   }
 
   ngOnInit(): void {
@@ -64,38 +61,22 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
         )
       );
     this.eventDataForm
-      .get('esnDiscount')
-      ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe((value) => {
-        if (value) {
-          this.eventDataForm.get('discountedPrice')?.enable();
-        } else {
-          this.eventDataForm.get('discountedPrice')?.disable();
-        }
-      });
-    this.eventDataForm
       .get('registrationMode')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((mode) => {
         switch (mode) {
           case RegistrationMode.Stripe: {
             this.eventDataForm.get('price')?.enable();
-            this.eventDataForm.get('discountedPrice')?.enable();
-            this.eventDataForm.get('esnDiscount')?.enable();
             this.eventDataForm.get('registrationLink')?.disable();
             break;
           }
           case RegistrationMode.Online: {
             this.eventDataForm.get('price')?.disable();
-            this.eventDataForm.get('discountedPrice')?.disable();
-            this.eventDataForm.get('esnDiscount')?.disable();
             this.eventDataForm.get('registrationLink')?.disable();
             break;
           }
           case RegistrationMode.External: {
             this.eventDataForm.get('price')?.disable();
-            this.eventDataForm.get('discountedPrice')?.disable();
-            this.eventDataForm.get('esnDiscount')?.disable();
             this.eventDataForm.get('registrationLink')?.enable();
             break;
           }

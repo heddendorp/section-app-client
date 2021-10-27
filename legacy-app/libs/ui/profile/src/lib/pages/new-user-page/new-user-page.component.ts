@@ -39,6 +39,6 @@ export class NewUserPageComponent implements OnInit {
     if (this.welcomeForm.invalid) return;
     this.registerUser
       .mutate({ userInput: this.welcomeForm.value })
-      .subscribe((res) => this.router.navigate(['/', 'profile']));
+      .subscribe(() => this.router.navigate(['/', 'profile']));
   }
 }

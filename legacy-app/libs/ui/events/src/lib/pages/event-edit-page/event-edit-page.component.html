@@ -25,8 +25,9 @@
           <mat-option
             [value]="PublicationState.Public"
             *tumiIfRole="[Role.Admin]"
-            >Public</mat-option
           >
+            Public
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -163,28 +164,6 @@
         </mat-form-field>
       </div>
       <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <mat-checkbox formControlName="esnDiscount">
-          Has ESNcard discount
-        </mat-checkbox>
-        <mat-form-field class="w-full">
-          <mat-label>Discounted Price</mat-label>
-          <input
-            matInput
-            formControlName="discountedPrice"
-            type="number"
-            required
-          />
-          <span matSuffix>€</span>
-          <mat-hint
-            >The price users have to pay for this event if they get the
-            discount</mat-hint
-          >
-          <mat-error>
-            You have to specify a price or change the registration type
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
         <mat-form-field class="w-full">
           <mat-label>Price</mat-label>
           <input matInput formControlName="price" type="number" required />
@@ -292,17 +271,19 @@
     </div>
 
     <mat-list class="max-w-lg">
-      <mat-list-item *ngFor="let user of (event$ | async)?.organizers">
+      <mat-list-item
+        *ngFor="let registration of (event$ | async)?.organizerRegistrations"
+      >
         <img
-          [src]="user.picture"
+          [src]="registration.user.picture"
           alt="Image"
           referrerpolicy="no-referrer"
           mat-list-avatar
         />
-        <p mat-line>{{ user.fullName }}</p>
+        <p mat-line>{{ registration.user.fullName }}</p>
         <button
           mat-icon-button
-          (click)="removeUser(user.id)"
+          (click)="removeUser(registration.id)"
           [disabled]="editingProhibited$ | async"
         >
           <mat-icon svgIcon="icon-delete-sign"></mat-icon>

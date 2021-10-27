@@ -1,6 +1,6 @@
 <main class="p-4">
   <table
-    *ngIf="orders$ | async as orders"
+    *ngIf="codes$ | async as orders"
     mat-table
     [dataSource]="orders"
     class="w-full"

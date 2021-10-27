@@ -6,7 +6,7 @@ import {
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
 } from '@tumi/data-access';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -60,14 +60,14 @@ export class EventManagePageComponent implements OnDestroy {
     }
   }
 
-  async kick(userId: string) {
-    const event = await this.event$.pipe(first()).toPromise();
+  async kick(registrationId: string) {
+    const event = await firstValueFrom(this.event$);
     const proceed = confirm(
       'Are you sure you want to remove this user without refund?'
     );
     if (event && proceed) {
       try {
-        await this.removeUser.mutate({ eventId: event.id, userId }).toPromise();
+        await this.removeUser.mutate({ registrationId }).toPromise();
       } catch (e) {
         alert(e.message);
       }

@@ -45,21 +45,8 @@
   <div class="bg-white rounded-2xl p-4 -ml-16 w-full border border-gray-700">
     <p class="font-bold mb-2">{{ event.title }}</p>
     <p>Starts: {{ event.start | date: 'shortTime' }}</p>
-    <p *ngIf="event.registrationMode === RegistrationMode.Stripe">
-      Available spots:
-      {{
-        (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0)
-      }}
-      <ng-container *ngIf="event?.couldBeOrganizer">
-        ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
-        orga)
-      </ng-container>
-    </p>
-    <p *ngIf="event.registrationMode === RegistrationMode.Online">
-      <span *ngIf="event.participantLimit <= event.participantsRegistered">
-        no
-      </span>
-      spots available
+    <p *ngIf="RegistrationMode.External !== event.registrationMode">
+      {{ event.freeParticipantSpots }}
       <ng-container *ngIf="event?.couldBeOrganizer">
         ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
         orga)

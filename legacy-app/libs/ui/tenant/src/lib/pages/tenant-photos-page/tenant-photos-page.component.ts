@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoadAllPhotosGQL, LoadAllPhotosQuery } from '@tumi/data-access';
 import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 import { PhotoDetailsDialogComponent } from '@tumi/util-components';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadAllPhotosGQL, LoadAllPhotosQuery } from '@tumi/data-access';
 
 @Component({
   selector: 'tumi-tenant-photos-page',

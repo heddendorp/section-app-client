@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { EventListQuery } from '@tumi/data-access';
 
 @Component({
@@ -12,11 +7,8 @@ import { EventListQuery } from '@tumi/data-access';
   styleUrls: ['./event-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventListComponent implements OnInit {
+export class EventListComponent {
   @Input() events: EventListQuery['events'] = [];
-  constructor() {}
-
-  ngOnInit(): void {}
 
   public getId(index: number, event: EventListQuery['events'][0]): string {
     return event.id;

@@ -1,5 +1,5 @@
-query loadPages{
-  currentTenant{
+query loadPages {
+  currentTenant {
     id
     name
     imprintPage

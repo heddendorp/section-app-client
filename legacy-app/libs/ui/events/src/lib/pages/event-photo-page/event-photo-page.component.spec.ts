@@ -8,9 +8,8 @@ describe('EventPhotoPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventPhotoPageComponent ]
-    })
-    .compileComponents();
+      declarations: [EventPhotoPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

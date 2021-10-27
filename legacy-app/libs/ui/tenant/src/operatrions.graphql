@@ -46,9 +46,9 @@ query loadUser($id: ID!) {
       id
       createdAt
       checkInTime
-      paymentStatus
+#      paymentStatus
       type
-      netPaid
+#      netPaid
       event {
         id
         title
@@ -72,16 +72,17 @@ query getRegistrations {
       id
       fullName
     }
-    amountPaid
-    stripeFee
-    paymentStatus
+#    amountPaid
+#    stripeFee
+#    paymentStatus
   }
 }
 
-query getRefunds {
-  refundedRegistrations {
+query getCancelledRegistrations {
+  registrations(statusList: [CANCELLED]) {
     id
     createdAt
+    cancellationReason
     event {
       title
       id
@@ -127,29 +128,37 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
   }
 }
 
-query getMoveOrders {
-  moveOrders {
-    id
-    createdAt
-    usedAt
-    creator {
-      id
-      fullName
-    }
-    receiver {
-      id
-      fullName
-    }
-    registration {
-      id
-      paymentStatus
-      event {
-        id
-        title
-      }
-    }
-  }
+query getEventRegistrationCodes{
+eventRegistrationCodes(includePrivate: true){
+  id
+  isPublic
+  status
 }
+}
+
+#query getMoveOrders {
+#  moveOrders {
+#    id
+#    createdAt
+#    usedAt
+#    creator {
+#      id
+#      fullName
+#    }
+#    receiver {
+#      id
+#      fullName
+#    }
+#    registration {
+#      id
+#      paymentStatus
+#      event {
+#        id
+#        title
+#      }
+#    }
+#  }
+#}
 
 query getStatistics {
   currentTenant {

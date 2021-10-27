@@ -11,9 +11,9 @@ query loadEventForEdit($id: ID!) {
     organizerText
     participantText
     registrationMode
-    price
-    discountedPrice
-    esnDiscount
+#    price
+#    discountedPrice
+#    esnDiscount
     eventOrganizerId
     organizerSignup
     participantSignup
@@ -24,7 +24,7 @@ query loadEventForEdit($id: ID!) {
     organizerLimit
     publicationState
     registrationLink
-    submissionItems{
+    submissionItems {
       id
       createdAt
       required
@@ -32,6 +32,13 @@ query loadEventForEdit($id: ID!) {
       type
       instruction
       name
+    }
+    organizerRegistrations{
+      id
+      user{
+        picture
+        fullName
+      }
     }
     organizers {
       fullName
@@ -68,9 +75,9 @@ mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
     participantText
     registrationMode
     registrationLink
-    price
-    discountedPrice
-    esnDiscount
+#    price
+#    discountedPrice
+#    esnDiscount
     eventOrganizerId
     organizerSignup
     participantSignup
@@ -86,19 +93,21 @@ mutation updatePublication($id: ID!, $state: PublicationState!) {
   }
 }
 
-
-mutation updateEventLocation($eventId: ID!, $update: UpdateLocationInput!){
-  updateEventLocation(id: $eventId,data: $update){
+mutation updateEventLocation($eventId: ID!, $update: UpdateLocationInput!) {
+  updateEventLocation(id: $eventId, data: $update) {
     id
     location
     coordinates
   }
 }
 
-mutation addSubmissionToEvent($eventId: ID!, $submissionItem: CreateSubmissionItemInput!){
-  createSubmissionOnEvent(id: $eventId,data: $submissionItem){
+mutation addSubmissionToEvent(
+  $eventId: ID!
+  $submissionItem: CreateSubmissionItemInput!
+) {
+  createSubmissionOnEvent(id: $eventId, data: $submissionItem) {
     id
-    submissionItems{
+    submissionItems {
       id
       createdAt
       required

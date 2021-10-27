@@ -18,7 +18,7 @@
     class="extended-fab"
     *ngIf="
       event.userRegistered &&
-      !((eventOver$ | async) && event.registration?.didAttend)
+      !((eventOver$ | async) && event.activeRegistration?.didAttend)
     "
   >
     <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>

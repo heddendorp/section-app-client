@@ -8,9 +8,8 @@ describe('EventSubmissionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventSubmissionDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [EventSubmissionDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

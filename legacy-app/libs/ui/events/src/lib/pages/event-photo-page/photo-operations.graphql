@@ -5,7 +5,7 @@ query getPhotosOfEvent($eventId: ID!) {
       id
       fullName
     }
-    event{
+    event {
       id
       title
     }

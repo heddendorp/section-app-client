@@ -1,5 +1,5 @@
-query getCostItemsForEvent($eventId: ID!){
-  costItemsForEvent(eventId: $eventId){
+query getCostItemsForEvent($eventId: ID!) {
+  costItemsForEvent(eventId: $eventId) {
     id
     name
     calculationInfo
@@ -7,19 +7,19 @@ query getCostItemsForEvent($eventId: ID!){
     onInvoice
     submittedAmount
   }
-  event(eventId: $eventId){
+  event(eventId: $eventId) {
     id
-    eventTemplate{
+    eventTemplate {
       id
       finances
     }
   }
 }
 
-mutation updateCostItemsFromTemplate($eventId: ID!){
-  updateCostItemsFromTemplate(eventId: $eventId){
+mutation updateCostItemsFromTemplate($eventId: ID!) {
+  updateCostItemsFromTemplate(eventId: $eventId) {
     id
-    costItems{
+    costItems {
       id
       name
       calculationInfo

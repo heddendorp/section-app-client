@@ -15,9 +15,10 @@ query loadEvent($id: ID!) {
     participantText
     registrationMode
     registrationLink
-    price
-    discountedPrice
-    esnDiscount
+    freeParticipantSpots
+#    price
+#    discountedPrice
+#    esnDiscount
     location
     coordinates
     createdBy {
@@ -37,12 +38,12 @@ query loadEvent($id: ID!) {
       link
       text
     }
-    registration {
+    activeRegistration {
       id
       didAttend
-      openMoveOrders {
-        id
-      }
+#      openMoveOrders {
+#        id
+#      }
       user {
         id
         fullName
@@ -66,27 +67,43 @@ query loadEvent($id: ID!) {
   }
 }
 
-mutation createMoveOrder($eventId: ID!) {
-  createRegistrationMoveOrder(id: $eventId) {
+query loadRegistrationForMove($registrationId: ID!){
+  registration(id: $registrationId){
     id
-    openMoveOrders {
+    eventId
+    deletingCode{
       id
     }
   }
 }
 
-query getMoveOrder($orderId: ID!) {
-  moveOrder(id: $orderId) {
+mutation createEventRegistrationCode($eventId: ID!, $registrationId: ID, $isPublic: Boolean){
+  createRegistrationCode(eventId: $eventId,registrationId: $registrationId,isPublic: $isPublic){
     id
-    registration {
-      id
-      event {
-        title
-        price
-      }
-    }
   }
 }
+
+#mutation createMoveOrder($eventId: ID!) {
+#  createRegistrationMoveOrder(id: $eventId) {
+#    id
+#    openMoveOrders {
+#      id
+#    }
+#  }
+#}
+
+#query getMoveOrder($orderId: ID!) {
+#  moveOrder(id: $orderId) {
+#    id
+#    registration {
+#      id
+#      event {
+#        title
+#        price
+#      }
+#    }
+#  }
+#}
 
 query loadEventForRunning($id: ID!) {
   event(eventId: $id) {
@@ -122,7 +139,10 @@ query loadEventForRunning($id: ID!) {
     participantRegistrations {
       id
       checkInTime
-      paymentStatus
+payment{
+  id
+  status
+}
       user {
         id
         fullName
@@ -156,7 +176,7 @@ query getCostItem($id: ID!) {
   }
 }
 
-mutation getBlobToken {
+query getBlobToken {
   blobUploadKey
 }
 
@@ -183,7 +203,10 @@ mutation deleteReceipt($costItemId: ID!, $receiptId: ID!) {
 query getRegistration($id: ID!) {
   registration(id: $id) {
     id
-    paymentStatus
+payment{
+  id
+  status
+}
     type
     didAttend
     checkInTime
@@ -215,9 +238,9 @@ query loadEventForManagement($id: ID!) {
     icon
     start
     #financial
-    amountCollected
-    netAmountCollected
-    feesPaid
+#    amountCollected
+#    netAmountCollected
+#    feesPaid
     participantLimit
     participantsRegistered
     participantsAttended
@@ -225,7 +248,7 @@ query loadEventForManagement($id: ID!) {
     organizerRegistrations {
       id
       createdAt
-      paymentStatus
+#      paymentStatus
       user {
         id
         fullName
@@ -236,10 +259,17 @@ query loadEventForManagement($id: ID!) {
     participantRegistrations {
       id
       createdAt
-      paymentStatus
-      paymentIntentId
-      netPaid
+#      paymentStatus
+#      paymentIntentId
+#      netPaid
+      payment{
+        id
+        status
+        paymentMethodType
+        netAmount
+      }
       checkInTime
+      didAttend
       submissions {
         id
         data
@@ -292,25 +322,19 @@ mutation deregisterWithRefund($eventId: ID!, $userId: ID) {
   }
 }
 
-mutation deregisterFromEvent($eventId: ID!, $userId: ID) {
-  deregisterFromEvent(id: $eventId, userId: $userId) {
+mutation deregisterFromEvent($registrationId: ID!) {
+  deregisterFromEvent(registrationId: $registrationId) {
     id
     participantRegistrations {
       id
     }
-    participantsRegistered
-    userRegistered
-  }
-}
-
-mutation removeUserFromEvent($eventId: ID!, $userId: ID!) {
-  removeUserFromEvent(eventId: $eventId, userId: $userId) {
-    id
     organizers {
       id
       fullName
       picture
     }
+    participantsRegistered
+    userRegistered
   }
 }
 
@@ -342,8 +366,7 @@ query eventList($after: DateTime) {
     title
     icon
     start
-    participantLimit
-    participantsRegistered
+    freeParticipantSpots
     organizerLimit
     organizersRegistered
     couldBeOrganizer

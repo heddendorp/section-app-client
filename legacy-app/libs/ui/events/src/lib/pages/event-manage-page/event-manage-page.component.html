@@ -2,11 +2,12 @@
   <h1>Manage {{ event.title }}</h1>
   <div class="border p-4 rounded-2xl my-4">
     <h2>Finances</h2>
-    <div>
+
+    <!--<div>
       {{ (event?.amountCollected ?? 0) / 100 | currency: 'EUR' }}-{{
         (event?.feesPaid ?? 0) / 100 | currency: 'EUR'
       }}={{ (event?.netAmountCollected ?? 0) / 100 | currency: 'EUR' }}
-    </div>
+    </div>-->
     <tumi-manage-event-finances
       [eventId]="event.id"
     ></tumi-manage-event-finances>
@@ -41,7 +42,9 @@
           <p>
             Paid:
             <span class="px-1 rounded bg-gray-200 font-mono mr-2">
-              {{ (registration.netPaid ?? 0) / 100 | currency: 'EUR' }}
+              {{
+                (registration.payment?.netAmount ?? 0) / 100 | currency: 'EUR'
+              }}
             </span>
             Registered:
             <span class="px-1 rounded bg-gray-200 font-mono">
@@ -49,9 +52,9 @@
             </span>
           </p>
           <p>
-            Payment intent:
+            Payment method:
             <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
-              registration.paymentIntentId
+              registration.payment?.paymentMethodType
             }}</span>
           </p>
         </div>
@@ -76,23 +79,26 @@
             mat-flat-button
             (click)="kickWithRefund(registration.user.id)"
             [disabled]="
-              (registration.netPaid ?? 0) === 0 || registration.checkInTime
+              (registration.payment?.netAmount ?? 0) === 0 ||
+              registration.didAttend
             "
           >
             Kick with refund
           </button>
           <button
             mat-flat-button
-            (click)="kick(registration.user.id)"
-            [disabled]="registration.checkInTime"
-            color="{{ (registration.netPaid ?? 0) === 0 ? '' : 'warn' }}"
+            (click)="kick(registration.id)"
+            [disabled]="registration.didAttend"
+            color="{{
+              (registration.payment?.netAmount ?? 0) === 0 ? '' : 'warn'
+            }}"
           >
             Kick without refund
           </button>
           <button
             mat-flat-button
             (click)="checkin(registration.id)"
-            [disabled]="registration.checkInTime"
+            [disabled]="registration.didAttend"
           >
             Manually check in user
           </button>

@@ -4,7 +4,7 @@ import {
   LoadEventQuery,
   RegisterForEventGQL,
 } from '@tumi/data-access';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { DateTime } from 'luxon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -24,7 +24,9 @@ export class OnlineEventRegistrationComponent {
   ) {}
 
   get lastDeregistration() {
-    return DateTime.fromISO(this.event?.start).minus({ days: 3 }).toJSDate();
+    return DateTime.fromJSDate(this.event?.start ?? new Date())
+      .minus({ days: 3 })
+      .toJSDate();
   }
 
   get canDeregister() {
@@ -34,9 +36,9 @@ export class OnlineEventRegistrationComponent {
   public async register() {
     this.processing.next(true);
     try {
-      await this.registerForEvent
-        .mutate({ eventId: this.event?.id ?? '' })
-        .toPromise();
+      await firstValueFrom(
+        this.registerForEvent.mutate({ eventId: this.event?.id ?? '' })
+      );
     } catch (e) {
       this.processing.next(false);
       this.snackBar.open(`❗ There was an error: ${e.message}`);
@@ -48,9 +50,11 @@ export class OnlineEventRegistrationComponent {
   async deregister() {
     this.processing.next(true);
     try {
-      await this.deregistrationMutation
-        .mutate({ eventId: this.event?.id ?? '' })
-        .toPromise();
+      await firstValueFrom(
+        this.deregistrationMutation.mutate({
+          registrationId: this.event?.activeRegistration?.id ?? '',
+        })
+      );
     } catch (e) {
       this.processing.next(false);
       this.snackBar.open(`❗ There was an error: ${e.message}`);

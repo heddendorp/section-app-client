@@ -8,9 +8,8 @@ describe('PhotoJourneyPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PhotoJourneyPageComponent ]
-    })
-    .compileComponents();
+      declarations: [PhotoJourneyPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

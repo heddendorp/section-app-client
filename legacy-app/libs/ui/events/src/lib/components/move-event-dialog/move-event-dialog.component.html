@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Give away your spot</h1>
-<mat-dialog-content *ngIf="event$ | async as event">
+<mat-dialog-content *ngIf="registration$ | async as registration">
   <h2 class="mb-2">You are about to send away your event spot</h2>
   <p class="leading-normal mb-4">
     Please read the following information: <br />
@@ -14,12 +14,12 @@
     creating the transfer request is not enough, only if someone uses you code
     the transfer will be completed.
   </p>
-  <ng-container *ngIf="event.registration?.openMoveOrders?.length; else noCode">
+  <ng-container *ngIf="registration.deletingCode; else noCode">
     <p class="mb-2">
       You have created a transfer code, copy it below to send it somewhere else
     </p>
     <p class="font-mono select-all bg-gray-200 rounded px-3 py-1">
-      {{ (event.registration?.openMoveOrders ?? [{}])[0]?.id }}
+      {{ registration.deletingCode.id }}
     </p>
   </ng-container>
   <ng-template #noCode>

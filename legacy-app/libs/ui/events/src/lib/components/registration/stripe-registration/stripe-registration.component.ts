@@ -81,7 +81,10 @@ export class StripeRegistrationComponent implements OnChanges {
   }
 
   get lastDeregistration() {
-    return DateTime.fromISO(this.event?.start).minus({ days: 5 }).toJSDate();
+    if (!this.event?.start) {
+      return new Date();
+    }
+    return DateTime.fromJSDate(this.event?.start).minus({ days: 5 }).toJSDate();
   }
 
   get canDeregister() {
@@ -89,8 +92,11 @@ export class StripeRegistrationComponent implements OnChanges {
   }
 
   get canMove() {
+    if (!this.event?.start) {
+      return new Date();
+    }
     return (
-      DateTime.fromISO(this.event?.start).minus({ days: 1 }).toJSDate() >
+      DateTime.fromJSDate(this.event?.start).minus({ days: 1 }).toJSDate() >
       new Date()
     );
   }

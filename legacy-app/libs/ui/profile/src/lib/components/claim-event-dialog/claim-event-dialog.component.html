@@ -20,11 +20,11 @@
     />
     <mat-hint>Paste your event code here</mat-hint>
   </mat-form-field>
-  <ng-container *ngIf="moveOrder$ | async as order">
-    <h2>Claim {{ order.registration.event.title }}</h2>
+  <ng-container *ngIf="registrationCode$ | async as code">
+    <h2>Claim {{ code.targetEvent.title }}</h2>
     <p>
       You can claim your registration to this event by paying the participation
-      fee of {{ order.registration.event.price | currency: 'EUR' }}
+      fee of {{ 3 | currency: 'EUR' }}
     </p>
     <button
       mat-flat-button

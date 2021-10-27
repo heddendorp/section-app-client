@@ -51,6 +51,10 @@ export class ProfilePageComponent implements OnDestroy {
       if (status === 'fail') {
         this.snackBar.open('❌ The process was cancelled');
       }
+      const claimCode = queryMap.get('code');
+      if (claimCode) {
+        this.claimEvent(claimCode);
+      }
     });
   }
   ngOnDestroy() {
@@ -68,7 +72,7 @@ export class ProfilePageComponent implements OnDestroy {
   }
 
   async updateProfile() {
-    const profile = await this.profile$.pipe(first()).toPromise();
+    const profile = await firstValueFrom(this.profile$);
     const result = await this.dialog
       .open(UpdateProfileDialogComponent, { data: { profile } })
       .afterClosed()
@@ -78,7 +82,7 @@ export class ProfilePageComponent implements OnDestroy {
     }
   }
 
-  claimEvent() {
-    this.dialog.open(ClaimEventDialogComponent);
+  claimEvent(code?: string) {
+    this.dialog.open(ClaimEventDialogComponent, { data: { code } });
   }
 }

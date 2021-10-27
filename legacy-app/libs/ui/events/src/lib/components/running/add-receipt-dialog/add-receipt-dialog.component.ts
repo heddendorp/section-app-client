@@ -23,8 +23,8 @@ export class AddReceiptDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { costItem: GetCostItemQuery['costItem'] },
-    private createBlobToken: GetBlobTokenGQL,
-    private addReceipt: AddReceiptGQL,
+    private getBlobTokenGQL: GetBlobTokenGQL,
+    private addReceiptGQL: AddReceiptGQL,
     private dialog: MatDialogRef<AddReceiptDialogComponent>,
     private fb: FormBuilder
   ) {
@@ -55,7 +55,7 @@ export class AddReceiptDialogComponent {
 
   async save() {
     this.processing$.next(true);
-    const { data } = await firstValueFrom(this.createBlobToken.mutate());
+    const { data } = await firstValueFrom(this.getBlobTokenGQL.fetch());
     const file = this.uploadForm.get('file')?.value;
     const amount = this.uploadForm.get('amount')?.value;
     if (data && file && amount) {
@@ -73,7 +73,7 @@ export class AddReceiptDialogComponent {
             this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
         }
       );
-      await this.addReceipt
+      await this.addReceiptGQL
         .mutate({
           costItemId: this.data.costItem.id,
           receiptInput: {

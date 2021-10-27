@@ -1,17 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
-  CreateMoveOrderGQL,
-  LoadEventGQL,
+  CreateEventRegistrationCodeGQL,
   LoadEventQuery,
+  LoadRegistrationForMoveGQL,
+  LoadRegistrationForMoveQuery,
 } from '@tumi/data-access';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'tumi-move-event-dialog',
@@ -19,28 +15,37 @@ import { first, map } from 'rxjs/operators';
   styleUrls: ['./move-event-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoveEventDialogComponent implements OnInit {
-  public event$: Observable<LoadEventQuery['event']>;
+export class MoveEventDialogComponent {
+  public registration$: Observable<
+    LoadRegistrationForMoveQuery['registration']
+  >;
   public buttonDisabled = new BehaviorSubject(false);
+  private registrationQueryRef;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { event: LoadEventQuery['event'] },
-    private moveOrderGQL: CreateMoveOrderGQL,
-    private loadEvent: LoadEventGQL
+    private registrationForMoveGQL: LoadRegistrationForMoveGQL,
+    private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL
   ) {
-    this.event$ = this.loadEvent
-      .watch({ id: this.data.event?.id ?? '' })
-      .valueChanges.pipe(map(({ data }) => data.event));
+    this.registrationQueryRef = this.registrationForMoveGQL.watch();
+    this.registration$ = this.registrationQueryRef.valueChanges.pipe(
+      map(({ data }) => data.registration)
+    );
+    this.registrationQueryRef.refetch({
+      registrationId: this.data.event?.activeRegistration?.id ?? '',
+    });
   }
-
-  ngOnInit(): void {}
 
   async createOrder() {
     this.buttonDisabled.next(true);
-    const event = await this.event$.pipe(first()).toPromise();
-    if (event) {
-      await this.moveOrderGQL
-        .mutate({ eventId: event.registration?.id ?? '' })
-        .toPromise();
+    const registration = await firstValueFrom(this.registration$);
+    if (registration) {
+      await firstValueFrom(
+        this.createEventRegistrationCodeGQL.mutate({
+          registrationId: registration.id,
+          eventId: registration.eventId,
+        })
+      );
+      this.registrationQueryRef.refetch();
     }
     this.buttonDisabled.next(false);
   }

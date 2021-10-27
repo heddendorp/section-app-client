@@ -8,9 +8,8 @@ describe('ManageEventFinancesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageEventFinancesComponent ]
-    })
-    .compileComponents();
+      declarations: [ManageEventFinancesComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

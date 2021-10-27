@@ -45,7 +45,7 @@ export class EventListPageComponent implements OnDestroy {
           (event) =>
             event.userIsOrganizer ||
             event.userRegistered ||
-            event.participantLimit > event.participantsRegistered
+            event.freeParticipantSpots !== 'Event is full'
         );
       })
     );

@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import {
-  ClaimEventGQL,
-  GetMoveOrderGQL,
-  GetMoveOrderQuery,
-} from '@tumi/data-access';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
 import { FormControl, Validators } from '@angular/forms';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { environment } from '../../../../../../../apps/tumi-app/src/environments/environment';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  GetRegistrationCodeInfoGQL,
+  GetRegistrationCodeInfoQuery,
+} from '@tumi/data-access';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'tumi-claim-event-dialog',
@@ -16,48 +14,54 @@ import { environment } from '../../../../../../../apps/tumi-app/src/environments
   styleUrls: ['./claim-event-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClaimEventDialogComponent implements OnInit {
+export class ClaimEventDialogComponent {
   public idTest = new RegExp(
     /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
   );
-  public moveOrder$: Observable<GetMoveOrderQuery['moveOrder']>;
+  public registrationCode$: Observable<
+    GetRegistrationCodeInfoQuery['eventRegistrationCode']
+  >;
   public codeControl = new FormControl('', Validators.pattern(this.idTest));
   public processing$ = new BehaviorSubject(false);
   public error$ = new BehaviorSubject('');
   constructor(
-    private getMoveOrder: GetMoveOrderGQL,
-    private claimCode: ClaimEventGQL
+    @Inject(MAT_DIALOG_DATA) public data: { code?: string },
+    private registrationCodeInfoGQL: GetRegistrationCodeInfoGQL
   ) {
-    this.moveOrder$ = this.codeControl.valueChanges.pipe(
+    // private claimCode: ClaimEventGQL
+    this.registrationCode$ = this.codeControl.valueChanges.pipe(
       filter((value) => this.idTest.test(value)),
-      switchMap((id) => this.getMoveOrder.watch({ orderId: id }).valueChanges),
-      map(({ data }) => data.moveOrder)
+      switchMap(
+        (id) => this.registrationCodeInfoGQL.watch({ code: id }).valueChanges
+      ),
+      map(({ data }) => data.eventRegistrationCode)
     );
+    if (this.data.code) {
+      this.codeControl.patchValue(this.data.code, { emitEvent: true });
+    }
   }
-
-  ngOnInit(): void {}
 
   async tryClaim() {
     this.processing$.next(true);
     this.error$.next('');
-    try {
-      const { data } = await firstValueFrom(
-        this.claimCode.mutate({ id: this.codeControl.value })
-      );
-      if (
-        data?.useMoveOrder.status === 'requires_action' &&
-        data?.useMoveOrder.client_secret
-      ) {
-        this.error$.next('⚠️ Additional information needed, please wait');
-        const stripe = await loadStripe(environment.stripeKey);
-        if (stripe) {
-          await stripe.confirmCardPayment(data?.useMoveOrder.client_secret);
-        }
-        this.error$.next('');
-      }
-    } catch (e) {
-      this.error$.next(e.message);
-    }
+    // try {
+    //   const { data } = await firstValueFrom(
+    //     this.claimCode.mutate({ id: this.codeControl.value })
+    //   );
+    //   if (
+    //     data?.useMoveOrder.status === 'requires_action' &&
+    //     data?.useMoveOrder.client_secret
+    //   ) {
+    //     this.error$.next('⚠️ Additional information needed, please wait');
+    //     const stripe = await loadStripe(environment.stripeKey);
+    //     if (stripe) {
+    //       await stripe.confirmCardPayment(data?.useMoveOrder.client_secret);
+    //     }
+    //     this.error$.next('');
+    //   }
+    // } catch (e) {
+    //   this.error$.next(e.message);
+    // }
     this.processing$.next(false);
   }
 }

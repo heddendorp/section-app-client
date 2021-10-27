@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import {
   GetCurrentUserGQL,
   LoadEventGQL,
@@ -54,12 +54,10 @@ export class EventDetailsPageComponent implements OnDestroy {
       shareReplay(1)
     );
     this.eventOver$ = this.event$.pipe(
-      map((event) => (event?.end ? Date.parse(event.end) < Date.now() : false))
+      map((event) => (event?.end ? event.end < new Date() : false))
     );
     this.eventStarted$ = this.event$.pipe(
-      map((event) =>
-        event?.start ? Date.parse(event.start) < Date.now() : false
-      )
+      map((event) => (event?.start ? event.start < new Date() : false))
     );
     this.loadEventQueryRef.startPolling(5000);
     this.hasAccount$ = this.loadCurrentUser.watch().valueChanges.pipe(
@@ -93,13 +91,13 @@ export class EventDetailsPageComponent implements OnDestroy {
   }
 
   async showCode() {
-    const event = await this.event$.pipe(first()).toPromise();
-    if (event?.registration) {
+    const event = await firstValueFrom(this.event$);
+    if (event?.activeRegistration) {
       this.dialog.open(QrDisplayDialogComponent, {
         data: {
-          id: event.registration.id,
+          id: event.activeRegistration.id,
           event: event.title,
-          user: event.registration.user.fullName,
+          user: event.activeRegistration.user.fullName,
         },
       });
     }

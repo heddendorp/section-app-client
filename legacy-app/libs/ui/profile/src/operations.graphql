@@ -11,10 +11,10 @@ query getPaymentSetupSession {
 }
 
 query getPhotoJourney {
-  currentUser{
-    eventRegistrations{
+  currentUser {
+    eventRegistrations {
       id
-      event{
+      event {
         id
         title
         icon
@@ -74,11 +74,23 @@ query userProfile {
   }
 }
 
-mutation claimEvent($id: ID!) {
-  useMoveOrder(id: $id) {
+mutation useRegistrationCode($registrationCodeId: ID!, $price: Json) {
+  useRegistrationCode(id: $registrationCodeId, price: $price) {
     id
-    client_secret
+  }
+}
+
+query getRegistrationCodeInfo($code: ID!) {
+  eventRegistrationCode(id: $code) {
+    id
     status
+    targetEvent {
+      id
+      registrationMode
+      title
+      start
+      prices
+    }
   }
 }
 
