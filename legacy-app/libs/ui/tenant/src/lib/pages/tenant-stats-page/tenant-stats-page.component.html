@@ -1,6 +1,6 @@
 <main class="p-4" *ngIf="tenant$ | async as tenant">
-  <h1 class="font-mono font-black">Statistics HQ</h1>
-  <tumi-grid>
+  <h1 class="font-mono font-black mb-4">Statistics HQ</h1>
+  <tumi-grid class="mb-4">
     <div class="kpi">
       <p class="title">Registered Users</p>
       <p class="value">{{ tenant.statistics.registeredUsers }}</p>
@@ -8,6 +8,18 @@
     <div class="kpi">
       <p class="title">Registrations</p>
       <p class="value">{{ tenant.statistics.registrations }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Users who registered for Events</p>
+      <p class="value">{{ tenant.statistics.usersRegisteredEvents }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Users who registered for free Events</p>
+      <p class="value">{{ tenant.statistics.usersRegisteredFreeEvents }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Users who registered for paid Events</p>
+      <p class="value">{{ tenant.statistics.usersRegisteredPaidEvents }}</p>
     </div>
   </tumi-grid>
   <div class="my-4 relative">
@@ -18,7 +30,8 @@
       [xAxis]="true"
       [view]="[700, 300]"
       [legendPosition]="legendPosition"
-      title="Users"
+      legendTitle="Users"
+      class="relative"
     ></ngx-charts-line-chart>
   </div>
   <div class="my-4 relative">
@@ -29,7 +42,8 @@
       [xAxis]="true"
       [view]="[700, 300]"
       [legendPosition]="legendPosition"
-      title="Registrations"
+      legendTitle="Registrations"
+      class="relative"
     ></ngx-charts-line-chart>
   </div>
   <div class="my-4 relative">
@@ -40,8 +54,19 @@
       [xAxis]="true"
       [view]="[700, 300]"
       [legendPosition]="legendPosition"
-      title="Refunds"
+      legendTitle="Refunds"
+      class="relative"
     ></ngx-charts-line-chart>
+  </div>
+  <div class="my-4 relative">
+    <ngx-charts-pie-chart
+      [results]="tenant.statistics.userEventDistribution"
+      [legend]="true"
+      [view]="[700, 300]"
+      [legendPosition]="legendPosition"
+      legendTitle="Event registrations"
+      class="relative"
+    ></ngx-charts-pie-chart>
   </div>
   <br />
   <!--  <pre>{{ tenant | json }}</pre>-->

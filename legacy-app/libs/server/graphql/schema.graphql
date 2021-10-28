@@ -795,7 +795,11 @@ type statistics {
   registeredUsers: Int!
   registrationHistory: [Json!]!
   registrations: Int!
+  userEventDistribution: [Json!]!
   userHistory: [Json!]!
+  usersRegisteredEvents: Int!
+  usersRegisteredFreeEvents: Int!
+  usersRegisteredPaidEvents: Int!
 }
 
 input updateTenantInput {

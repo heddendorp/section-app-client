@@ -1,8 +1,9 @@
 import { list, nonNull, objectType } from 'nexus';
-import { Tenant } from '@tumi/server-models';
+import { RegistrationMode, Tenant } from '@tumi/server-models';
 import { DateTime } from 'luxon';
-import { groupBy, range } from 'lodash';
+import { countBy, groupBy, range, transform } from 'lodash';
 import { Json } from 'nexus-prisma/scalars';
+import { CacheScope } from 'apollo-server-types';
 
 function convertToSeries(growthName) {
   return (connections) => {
@@ -25,7 +26,6 @@ function convertToSeries(growthName) {
         ),
       });
     });
-    console.log(growthSeries);
     return [
       { name: growthName, series: growthSeries },
       { name: 'Total', series: totalSeries },
@@ -45,8 +45,153 @@ export const statisticsType = objectType({
     t.nonNull.int('registrations', {
       resolve: (root: Tenant, args, context) =>
         context.prisma.eventRegistration.count({
-          where: { event: { eventTemplate: { tenant: { id: root.id } } } },
+          where: {
+            event: {
+              eventTemplate: { tenant: { id: root.id } },
+              id: {
+                notIn: [
+                  'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                  '998851e2-17af-482c-99cb-99a29b543d60',
+                ],
+              },
+            },
+          },
         }),
+    });
+    t.nonNull.int('usersRegisteredEvents', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.user.count({
+          where: {
+            eventRegistrations: {
+              some: {
+                event: {
+                  id: {
+                    notIn: [
+                      'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                      '998851e2-17af-482c-99cb-99a29b543d60',
+                    ],
+                  },
+                  eventTemplate: {
+                    tenant: { id: context.tenant.id },
+                  },
+                },
+              },
+            },
+          },
+        });
+      },
+    });
+    t.nonNull.int('usersRegisteredFreeEvents', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.user.count({
+          where: {
+            eventRegistrations: {
+              some: {
+                event: {
+                  registrationMode: RegistrationMode.ONLINE,
+                  id: {
+                    notIn: [
+                      'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                      '998851e2-17af-482c-99cb-99a29b543d60',
+                    ],
+                  },
+                  eventTemplate: {
+                    tenant: { id: context.tenant.id },
+                  },
+                },
+              },
+            },
+          },
+        });
+      },
+    });
+    t.nonNull.int('usersRegisteredPaidEvents', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.user.count({
+          where: {
+            eventRegistrations: {
+              some: {
+                event: {
+                  registrationMode: RegistrationMode.STRIPE,
+                  id: {
+                    notIn: [
+                      'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                      '998851e2-17af-482c-99cb-99a29b543d60',
+                    ],
+                  },
+                  eventTemplate: {
+                    tenant: { id: context.tenant.id },
+                  },
+                },
+              },
+            },
+          },
+        });
+      },
+    });
+    t.field({
+      name: 'userEventDistribution',
+      type: nonNull(list(nonNull(Json))),
+      resolve: (root: Tenant, args, context) =>
+        context.prisma.user
+          .findMany({
+            where: {
+              tenants: { some: { tenantId: context.tenant.id } },
+              eventRegistrations: {
+                some: {
+                  event: {
+                    eventTemplate: { tenantId: context.tenant.id },
+                    registrationMode: RegistrationMode.STRIPE,
+                    id: {
+                      notIn: [
+                        'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                        '998851e2-17af-482c-99cb-99a29b543d60',
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            include: {
+              eventRegistrations: {
+                where: {
+                  event: {
+                    eventTemplate: { tenantId: context.tenant.id },
+                    registrationMode: RegistrationMode.STRIPE,
+                    id: {
+                      notIn: [
+                        'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                        '998851e2-17af-482c-99cb-99a29b543d60',
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          })
+          .then((res) => {
+            return countBy(res, (user) => user.eventRegistrations.length);
+          })
+          .then((res) => {
+            return transform(
+              res,
+              (result, value, events) =>
+                result.push({ name: `${events} events`, value }),
+              []
+            );
+          }),
     });
     t.field({
       name: 'userHistory',

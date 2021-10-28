@@ -170,6 +170,10 @@ query getStatistics {
       userHistory
       registrationHistory
       refundHistory
+      userEventDistribution
+      usersRegisteredEvents
+      usersRegisteredFreeEvents
+      usersRegisteredPaidEvents
     }
   }
 }

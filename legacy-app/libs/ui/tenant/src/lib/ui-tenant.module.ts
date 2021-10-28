@@ -22,7 +22,7 @@ import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenan
 import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant-products-page.component';
 import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats-page.component';
 import { UtilComponentsModule } from '@tumi/util-components';
-import { LineChartModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/tenant-move-orders-page.component';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSliderModule } from '@angular/material/slider';
@@ -58,12 +58,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     FlexModule,
     ClipboardModule,
     UtilComponentsModule,
-    LineChartModule,
     FlexLayoutModule,
     UtilMaterialModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatProgressBarModule,
+    NgxChartsModule,
   ],
   declarations: [
     TenantLandingPageComponent,
