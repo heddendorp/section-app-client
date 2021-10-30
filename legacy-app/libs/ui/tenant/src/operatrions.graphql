@@ -165,7 +165,9 @@ query getStatistics {
     id
     name
     statistics {
-      registeredUsers
+      usersRegistered
+      usersWithCustomer
+      usersWithPaymentMethod
       registrations
       userHistory
       registrationHistory
@@ -174,6 +176,12 @@ query getStatistics {
       usersRegisteredEvents
       usersRegisteredFreeEvents
       usersRegisteredPaidEvents
+      checkins
+      paidRegistrations
+      totalNetPayments
+      totalEvents
+      paidEvents
+      averageEventCost
     }
   }
 }

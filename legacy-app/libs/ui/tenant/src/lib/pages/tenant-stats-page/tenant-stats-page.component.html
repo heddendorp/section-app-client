@@ -3,11 +3,48 @@
   <tumi-grid class="mb-4">
     <div class="kpi">
       <p class="title">Registered Users</p>
-      <p class="value">{{ tenant.statistics.registeredUsers }}</p>
+      <p class="value">{{ tenant.statistics.usersRegistered }}</p>
     </div>
+    <div class="kpi">
+      <p class="title">Users with stripe customer</p>
+      <p class="value">{{ tenant.statistics.usersWithCustomer }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Users with payment method</p>
+      <p class="value">{{ tenant.statistics.usersWithPaymentMethod }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Events</p>
+      <p class="value">{{ tenant.statistics.totalEvents }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Paid Events</p>
+      <p class="value">{{ tenant.statistics.paidEvents }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Average events price</p>
+      <p class="value">
+        {{ tenant.statistics.averageEventCost | currency: 'EUR' }}
+      </p>
+    </div>
+
     <div class="kpi">
       <p class="title">Registrations</p>
       <p class="value">{{ tenant.statistics.registrations }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Paid registrations</p>
+      <p class="value">{{ tenant.statistics.paidRegistrations }}</p>
+    </div>
+    <div class="kpi">
+      <p class="title">Total net payments</p>
+      <p class="value">
+        {{ tenant.statistics.totalNetPayments | currency: 'EUR' }}
+      </p>
+    </div>
+    <div class="kpi">
+      <p class="title">Check ins</p>
+      <p class="value">{{ tenant.statistics.checkins }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users who registered for Events</p>

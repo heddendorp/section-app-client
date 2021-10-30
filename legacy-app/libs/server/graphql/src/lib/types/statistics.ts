@@ -36,10 +36,28 @@ function convertToSeries(growthName) {
 export const statisticsType = objectType({
   name: 'statistics',
   definition(t) {
-    t.nonNull.int('registeredUsers', {
+    t.nonNull.int('usersRegistered', {
       resolve: (root: Tenant, args, context) =>
         context.prisma.usersOfTenants.count({
           where: { tenant: { id: root.id } },
+        }),
+    });
+    t.nonNull.int('usersWithCustomer', {
+      resolve: (root: Tenant, args, context) =>
+        context.prisma.usersOfTenants.count({
+          where: {
+            tenant: { id: root.id },
+            stripeData: { isNot: null },
+          },
+        }),
+    });
+    t.nonNull.int('usersWithPaymentMethod', {
+      resolve: (root: Tenant, args, context) =>
+        context.prisma.usersOfTenants.count({
+          where: {
+            tenant: { id: root.id },
+            stripeData: { paymentMethodId: { not: null } },
+          },
         }),
     });
     t.nonNull.int('registrations', {
@@ -139,6 +157,120 @@ export const statisticsType = objectType({
             },
           },
         });
+      },
+    });
+    t.nonNull.int('paidRegistrations', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.eventRegistration.count({
+          where: {
+            event: {
+              registrationMode: RegistrationMode.STRIPE,
+              id: {
+                notIn: [
+                  'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                  '998851e2-17af-482c-99cb-99a29b543d60',
+                ],
+              },
+              eventTemplate: {
+                tenant: { id: context.tenant.id },
+              },
+            },
+          },
+        });
+      },
+    });
+    t.nonNull.float('totalNetPayments', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              netPaid: { not: null },
+              event: {
+                registrationMode: RegistrationMode.STRIPE,
+                id: {
+                  notIn: [
+                    'c486c0ad-c07f-48cd-a330-203ed8b59740',
+                    '998851e2-17af-482c-99cb-99a29b543d60',
+                  ],
+                },
+                eventTemplate: {
+                  tenant: { id: context.tenant.id },
+                },
+              },
+            },
+            _sum: { netPaid: true },
+          })
+          .then(
+            ({ _sum: { netPaid } }) =>
+              Math.round(netPaid + Number.EPSILON) / 100
+          );
+      },
+    });
+    t.nonNull.int('checkins', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.eventRegistration.count({
+          where: {
+            checkInTime: { not: null },
+          },
+        });
+      },
+    });
+    t.nonNull.int('totalEvents', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.tumiEvent.count({
+          where: {
+            registrationMode: { not: RegistrationMode.EXTERNAL },
+          },
+        });
+      },
+    });
+    t.nonNull.int('paidEvents', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.tumiEvent.count({
+          where: {
+            registrationMode: RegistrationMode.STRIPE,
+          },
+        });
+      },
+    });
+    t.nonNull.float('averageEventCost', {
+      resolve: (root, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 120,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.tumiEvent
+          .aggregate({
+            where: {
+              registrationMode: RegistrationMode.STRIPE,
+            },
+            _avg: { price: true },
+          })
+          .then(({ _avg: { price } }) => {
+            return (
+              Math.round((price.toNumber() + Number.EPSILON) * 100) / 100 ?? 0
+            );
+          });
       },
     });
     t.field({

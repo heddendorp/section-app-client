@@ -791,15 +791,23 @@ type paymentSetupSession {
 }
 
 type statistics {
+  averageEventCost: Float!
+  checkins: Int!
+  paidEvents: Int!
+  paidRegistrations: Int!
   refundHistory: [Json!]!
-  registeredUsers: Int!
   registrationHistory: [Json!]!
   registrations: Int!
+  totalEvents: Int!
+  totalNetPayments: Float!
   userEventDistribution: [Json!]!
   userHistory: [Json!]!
+  usersRegistered: Int!
   usersRegisteredEvents: Int!
   usersRegisteredFreeEvents: Int!
   usersRegisteredPaidEvents: Int!
+  usersWithCustomer: Int!
+  usersWithPaymentMethod: Int!
 }
 
 input updateTenantInput {
