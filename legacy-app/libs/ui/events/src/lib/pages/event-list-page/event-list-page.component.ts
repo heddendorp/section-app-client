@@ -30,7 +30,7 @@ export class EventListPageComponent implements OnDestroy {
     );
     this.eventsAfter.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => this.loadEventsQueryRef.refetch({ after: value }));
+      .subscribe((value) => this.loadEventsQueryRef.refetch({ after: value.toJSDate() }));
     this.events$ = combineLatest([
       events$,
       this.showFullEvents.valueChanges.pipe(
