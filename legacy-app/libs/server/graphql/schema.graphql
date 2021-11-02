@@ -301,7 +301,8 @@ type Mutation {
   registerWithStripe(id: ID!, submissions: Json): paymentIntent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
-  updateEventGeneralInfo(data: UpdateEventInput!, id: ID!): TumiEvent!
+  updateEventCoreInfo(data: UpdateCoreEventInput!, id: ID!): TumiEvent!
+  updateEventGeneralInfo(data: UpdateGeneralEventInput!, id: ID!): TumiEvent!
 
   """
   Update an event template
@@ -639,10 +640,11 @@ type TumiEvent {
   """
   participantsRegistered: Int!
   photoShares: [PhotoShare!]!
-  prices: Json
+  prices: [Json!]!
   publicationState: PublicationState!
   registrationLink: String
   registrationMode: RegistrationMode!
+  registrationStart: DateTime!
   start: DateTime!
   submissionItems: [EventSubmissionItem!]!
   title: String!
@@ -661,22 +663,29 @@ type TumiEvent {
 """
 Additional inputs to create an event from a template
 """
-input UpdateEventInput {
-  description: String!
+input UpdateCoreEventInput {
   end: DateTime!
   eventOrganizerId: ID
   icon: String!
   organizerLimit: Int!
   organizerSignup: [MembershipStatus!]!
-  organizerText: String!
   participantLimit: Int!
   participantSignup: [MembershipStatus!]!
-  participantText: String!
-  prices: Json
+  prices: [Json!]!
   registrationLink: String
   registrationMode: RegistrationMode!
+  registrationStart: DateTime!
   start: DateTime!
   title: String!
+}
+
+"""
+Additional inputs to create an event from a template
+"""
+input UpdateGeneralEventInput {
+  description: String!
+  organizerText: String!
+  participantText: String!
 }
 
 """

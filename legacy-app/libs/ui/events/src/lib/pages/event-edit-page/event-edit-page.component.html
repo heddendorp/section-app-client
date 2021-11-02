@@ -60,12 +60,45 @@
   </div>
   <div class="my-8 py-4 px-4 border-2 rounded-lg">
     <h2 class="mb-2">General information</h2>
+    <form
+      [formGroup]="generalInformationForm"
+      (ngSubmit)="onSubmit()"
+      fxLayout="column"
+      fxLayoutGap="1rem"
+    >
+      <mat-form-field class="w-full">
+        <mat-label>Event Description</mat-label>
+        <textarea matInput formControlName="description" rows="10"></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Organizer Help</mat-label>
+        <textarea matInput formControlName="organizerText" rows="10"></textarea>
+        <mat-hint>This text is visible to potential organizers</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Info for Participants</mat-label>
+        <textarea
+          matInput
+          formControlName="participantText"
+          rows="10"
+        ></textarea>
+        <mat-hint>This text is only visible to registered Users</mat-hint>
+      </mat-form-field>
+      <div class="mt-4">
+        <button type="submit" mat-flat-button color="primary">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="my-8 py-4 px-4 border-2 rounded-lg">
+    <h2 class="mb-2">Event specification</h2>
     <p *ngIf="editingProhibited$ | async" class="my-2">
       Only events that are Drafts can be edited
     </p>
     <form
-      [formGroup]="generalInformationForm"
-      (ngSubmit)="onSubmit()"
+      [formGroup]="coreInformationForm"
+      (ngSubmit)="onCoreSubmit()"
       fxLayout="column"
       fxLayoutGap="1rem"
     >
@@ -95,22 +128,13 @@
         </mat-form-field>
       </div>
       <mat-form-field class="w-full">
-        <mat-label>Event Description</mat-label>
-        <textarea matInput formControlName="description" rows="10"></textarea>
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Organizer Help</mat-label>
-        <textarea matInput formControlName="organizerText" rows="10"></textarea>
-        <mat-hint>This text is visible to potential organizers</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Info for Participants</mat-label>
-        <textarea
+        <mat-label>Registration Start</mat-label>
+        <input
           matInput
-          formControlName="participantText"
-          rows="10"
-        ></textarea>
-        <mat-hint>This text is only visible to registered Users</mat-hint>
+          formControlName="registrationStart"
+          type="datetime-local"
+        />
+        <mat-hint>Define the opening of event registration</mat-hint>
       </mat-form-field>
       <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
         <div fxFlex="50">
@@ -163,30 +187,72 @@
           <mat-hint>Select how users will register for this event</mat-hint>
         </mat-form-field>
       </div>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <mat-form-field class="w-full">
-          <mat-label>Price</mat-label>
-          <input matInput formControlName="price" type="number" required />
-          <span matSuffix>€</span>
-          <mat-hint>The price users have to pay for this event</mat-hint>
-          <mat-error>
-            You have to specify a price or change the registration type
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full">
-          <mat-label>Registration link</mat-label>
-          <input
-            matInput
-            formControlName="registrationLink"
-            type="url"
-            required
-          />
-          <mat-hint>The link where users can register for this event</mat-hint>
-          <mat-error>
-            You have to specify a link or change the registration type
-          </mat-error>
-        </mat-form-field>
+      <div formArrayName="prices" fxLayoutGap="2rem" fxLayout="column">
+        <h3 class="mb-4 font-bold">Prices</h3>
+        <div
+          *ngFor="let price of prices.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+            <mat-form-field fxFlex="50">
+              <mat-label>Price</mat-label>
+              <input matInput formControlName="amount" type="number" />
+            </mat-form-field>
+            <mat-checkbox formControlName="defaultPrice">
+              Is default price
+            </mat-checkbox>
+          </div>
+          <div
+            fxLayout="column"
+            fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start center"
+            fxLayoutGap="1rem"
+          >
+            <div fxFlex="50">
+              <h3>Required Status</h3>
+              <mat-button-toggle-group
+                multiple
+                formControlName="allowedStatusList"
+              >
+                <mat-button-toggle
+                  *ngFor="let status of statusOptions"
+                  [value]="status"
+                >
+                  {{ status | titlecase }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <mat-checkbox formControlName="esnCardRequired">
+              Only with ESNcard
+            </mat-checkbox>
+            <button
+              mat-flat-button
+              color="warn"
+              [disabled]="i === 0"
+              (click)="removePrice(i)"
+              type="button"
+            >
+              Remove this price
+            </button>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addPrice()" type="button">
+          Add Price
+        </button>
       </div>
+      <mat-form-field class="w-full">
+        <mat-label>Registration link</mat-label>
+        <input
+          matInput
+          formControlName="registrationLink"
+          type="url"
+          required
+        />
+        <mat-hint>The link where users can register for this event</mat-hint>
+        <mat-error>
+          You have to specify a link or change the registration type
+        </mat-error>
+      </mat-form-field>
       <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
         <mat-form-field class="w-full">
           <mat-label>Number of organizers</mat-label>

@@ -16,16 +16,18 @@ import {
   PublicationState,
   RegistrationMode,
   Role,
-  UpdateEventGQL,
+  UpdateCoreEventGQL,
   UpdateEventLocationGQL,
+  UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   first,
   map,
   shareReplay,
+  startWith,
   switchMap,
   takeUntil,
   tap,
@@ -52,17 +54,20 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public MembershipStatus = MembershipStatus;
   public Role = Role;
   public generalInformationForm: FormGroup;
+  public coreInformationForm: FormGroup;
   public publicationForm: FormGroup;
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
   private destroyed$ = new Subject();
   public editingProhibited$: Observable<boolean>;
+
   constructor(
     private title: Title,
     private loadEventQuery: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
-    private updateEventMutation: UpdateEventGQL,
+    private updateGeneralEventGQL: UpdateGeneralEventGQL,
+    private updateCoreEventGQL: UpdateCoreEventGQL,
     private updatePublicationMutation: UpdatePublicationGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -79,18 +84,19 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       publicationState: ['', Validators.required],
     });
     this.generalInformationForm = this.fb.group({
+      description: ['', Validators.required],
+      organizerText: ['', Validators.required],
+      participantText: ['', Validators.required],
+    });
+    this.coreInformationForm = this.fb.group({
       title: ['', Validators.required],
       icon: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
-      description: ['', Validators.required],
-      organizerText: ['', Validators.required],
-      participantText: ['', Validators.required],
+      registrationStart: ['', Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
-      price: ['', Validators.required],
-      discountedPrice: ['', Validators.required],
-      esnDiscount: ['', Validators.required],
+      prices: this.fb.array([], Validators.required),
       eventOrganizerId: ['', Validators.required],
       organizerSignup: [[], Validators.required],
       participantSignup: [[], Validators.required],
@@ -130,9 +136,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       ),
       tap((prohibited) => {
         if (prohibited) {
-          this.generalInformationForm.disable();
-        } else {
-          this.generalInformationForm.enable();
+          this.coreInformationForm.disable();
         }
       })
     );
@@ -142,65 +146,85 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     return this.generalInformationForm.get('icon')?.value ?? '';
   }
 
+  get prices() {
+    return this.coreInformationForm.get('prices') as FormArray;
+  }
+
+  addPrice() {
+    this.prices.push(
+      this.fb.group({
+        amount: ['', Validators.required],
+        esnCardRequired: [false, Validators.required],
+        allowedStatusList: [[]],
+        defaultPrice: [false, Validators.required],
+      })
+    );
+  }
+
+  removePrice(index: number) {
+    const priceToRemove = this.prices.at(index);
+    if (priceToRemove?.get('defaultPrice')?.value) {
+      return;
+    }
+    this.prices.removeAt(index);
+  }
+
   async ngOnInit() {
     const loader = this.snackBar.open('Loading data ⏳', undefined, {
       duration: 0,
     });
-    this.generalInformationForm
-      .get('esnDiscount')
-      ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe((discount) => {
-        if (discount) {
-          this.generalInformationForm.get('discountedPrice')?.enable();
-        } else {
-          this.generalInformationForm.get('discountedPrice')?.disable();
-        }
-      });
-    this.generalInformationForm
+    const event = await firstValueFrom(this.event$);
+    if (event?.prices?.length) {
+      for (let i = 0; i < event.prices.length; i++) {
+        this.addPrice();
+      }
+    }
+    if (event) {
+      this.generalInformationForm.patchValue(event, { emitEvent: true });
+      this.coreInformationForm.patchValue(
+        {
+          ...event,
+          start: DateTime.fromISO(event.start).toISO({ includeOffset: false }),
+          end: DateTime.fromISO(event.end).toISO({ includeOffset: false }),
+          registrationStart: DateTime.fromISO(event.registrationStart).toISO({
+            includeOffset: false,
+          }),
+        },
+        { emitEvent: true }
+      );
+      this.publicationForm.patchValue(event);
+    }
+    this.coreInformationForm
       .get('registrationMode')
-      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      ?.valueChanges.pipe(
+        startWith(this.coreInformationForm.get('registrationMode')?.value),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((mode) => {
         switch (mode) {
           case RegistrationMode.Stripe: {
-            this.generalInformationForm.get('price')?.enable();
-            this.generalInformationForm.get('discountedPrice')?.enable();
-            this.generalInformationForm.get('esnDiscount')?.enable();
-            this.generalInformationForm.get('registrationLink')?.disable();
-            this.generalInformationForm.get('participantLimit')?.enable();
-            this.generalInformationForm.get('organizerLimit')?.enable();
+            this.coreInformationForm.get('prices')?.enable();
+            this.coreInformationForm.get('registrationLink')?.disable();
+            this.coreInformationForm.get('participantLimit')?.enable();
+            this.coreInformationForm.get('organizerLimit')?.enable();
             break;
           }
           case RegistrationMode.Online: {
-            this.generalInformationForm.get('price')?.disable();
-            this.generalInformationForm.get('discountedPrice')?.disable();
-            this.generalInformationForm.get('esnDiscount')?.disable();
-            this.generalInformationForm.get('registrationLink')?.disable();
-            this.generalInformationForm.get('participantLimit')?.enable();
-            this.generalInformationForm.get('organizerLimit')?.enable();
+            this.coreInformationForm.get('prices')?.disable();
+            this.coreInformationForm.get('registrationLink')?.disable();
+            this.coreInformationForm.get('participantLimit')?.enable();
+            this.coreInformationForm.get('organizerLimit')?.enable();
             break;
           }
           case RegistrationMode.External: {
-            this.generalInformationForm.get('price')?.disable();
-            this.generalInformationForm.get('discountedPrice')?.disable();
-            this.generalInformationForm.get('esnDiscount')?.disable();
-            this.generalInformationForm.get('registrationLink')?.enable();
-            this.generalInformationForm.get('participantLimit')?.disable();
-            this.generalInformationForm.get('organizerLimit')?.disable();
+            this.coreInformationForm.get('prices')?.disable();
+            this.coreInformationForm.get('registrationLink')?.enable();
+            this.coreInformationForm.get('participantLimit')?.disable();
+            this.coreInformationForm.get('organizerLimit')?.disable();
             break;
           }
         }
       });
-    const event = await this.event$.pipe(first()).toPromise();
-    //TODO: check dates
-    console.log(event);
-    if (event) {
-      this.generalInformationForm.patchValue({
-        ...event,
-        start: DateTime.fromJSDate(event.start).toISO({ includeOffset: false }),
-        end: DateTime.fromJSDate(event.end).toISO({ includeOffset: false }),
-      });
-      this.publicationForm.patchValue(event);
-    }
     loader.dismiss();
   }
 
@@ -244,37 +268,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.snackBar.open('User removed ✔️');
   }
 
-  async onSubmit() {
-    this.snackBar.open('Saving event ⏳', undefined, { duration: 0 });
-    const event = await this.event$.pipe(first()).toPromise();
-    if (event && this.generalInformationForm.valid) {
-      const update = this.generalInformationForm.value;
-      const { data } = await firstValueFrom(
-        this.updateEventMutation.mutate({
-          id: event.id,
-          data: {
-            ...update,
-            start: DateTime.fromISO(update.start).toJSDate(),
-            end: DateTime.fromISO(update.end).toJSDate(),
-          },
-        })
-      );
-      if (data) {
-        delete data.updateEventGeneralInfo.__typename;
-        this.generalInformationForm.patchValue({
-          ...data.updateEventGeneralInfo,
-          start: DateTime.fromJSDate(data.updateEventGeneralInfo.start).toISO({
-            includeOffset: false,
-          }),
-          end: DateTime.fromJSDate(data.updateEventGeneralInfo.end).toISO({
-            includeOffset: false,
-          }),
-        });
-      }
-    }
-    this.snackBar.open('Event saved ✔️');
-  }
-
   async updateLocation() {
     const event = await this.event$.pipe(first()).toPromise();
     const location = await this.dialog
@@ -282,7 +275,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       .afterClosed()
       .toPromise();
     if (location && event) {
-      console.log(location);
       await this.updateLocationMutation
         .mutate({
           eventId: event.id,
@@ -302,7 +294,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.snackBar.open('Saving event ⏳', undefined, {
       duration: 0,
     });
-    const event = await this.event$.pipe(first()).toPromise();
+    const event = await firstValueFrom(this.event$);
     const state = this.publicationForm.get('publicationState')?.value;
     if (state && event) {
       await this.updatePublicationMutation
@@ -313,7 +305,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   async addSubmission() {
-    const event = await this.event$.pipe(first()).toPromise();
+    const event = await firstValueFrom(this.event$);
     const res = await this.dialog
       .open(EventSubmissionDialogComponent)
       .afterClosed()
@@ -328,5 +320,58 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         this.snackBar.open(e);
       }
     }
+  }
+
+  async onSubmit() {
+    this.snackBar.open('Saving event ⏳', undefined, { duration: 0 });
+    const event = await firstValueFrom(this.event$);
+    if (event && this.generalInformationForm.valid) {
+      const update = this.generalInformationForm.value;
+      const { data } = await firstValueFrom(
+        this.updateGeneralEventGQL.mutate({
+          id: event.id,
+          data: update,
+        })
+      );
+      if (data) {
+        delete data.updateEventGeneralInfo.__typename;
+        this.generalInformationForm.patchValue(data.updateEventGeneralInfo);
+      }
+    }
+    this.snackBar.open('Event saved ✔️');
+  }
+
+  async onCoreSubmit() {
+    this.snackBar.open('Saving event ⏳', undefined, { duration: 0 });
+    const event = await firstValueFrom(this.event$);
+    if (event && this.coreInformationForm.valid) {
+      const update = this.coreInformationForm.value;
+      const { data } = await firstValueFrom(
+        this.updateCoreEventGQL.mutate({
+          id: event.id,
+          data: {
+            ...update,
+            start: DateTime.fromISO(update.start).toJSDate(),
+            end: DateTime.fromISO(update.end).toJSDate(),
+            registrationStart: DateTime.fromISO(
+              update.registrationStart
+            ).toJSDate(),
+          },
+        })
+      );
+      if (data) {
+        delete data.updateEventCoreInfo.__typename;
+        this.coreInformationForm.patchValue({
+          ...data.updateEventCoreInfo,
+          start: DateTime.fromISO(data.updateEventCoreInfo.start).toISO({
+            includeOffset: false,
+          }),
+          end: DateTime.fromISO(data.updateEventCoreInfo.end).toISO({
+            includeOffset: false,
+          }),
+        });
+      }
+    }
+    this.snackBar.open('Event saved ✔️');
   }
 }

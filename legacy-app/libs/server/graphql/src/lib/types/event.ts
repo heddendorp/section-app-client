@@ -58,6 +58,7 @@ export const eventType = objectType({
     t.field(TumiEvent.icon);
     t.field(TumiEvent.start);
     t.field(TumiEvent.end);
+    t.field(TumiEvent.registrationStart);
     t.field(TumiEvent.description);
     t.field(TumiEvent.coordinates);
     t.field(TumiEvent.location);
@@ -65,7 +66,7 @@ export const eventType = objectType({
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.participantText);
     t.field(TumiEvent.organizerText);
-    t.field(TumiEvent.prices);
+    t.field({ ...TumiEvent.prices, type: nonNull(list(nonNull(Json))) });
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.organizerSignup);
@@ -624,24 +625,31 @@ export const createEventFromTemplateInput = inputObjectType({
   },
 });
 
-export const updateEventInput = inputObjectType({
-  name: 'UpdateEventInput',
+export const updateGeneralEventInput = inputObjectType({
+  name: 'UpdateGeneralEventInput',
+  description: 'Additional inputs to create an event from a template',
+  definition(t) {
+    t.field(TumiEvent.description);
+    t.field(TumiEvent.organizerText);
+    t.field(TumiEvent.participantText);
+  },
+});
+export const updateCoreEventInput = inputObjectType({
+  name: 'UpdateCoreEventInput',
   description: 'Additional inputs to create an event from a template',
   definition(t) {
     t.field(TumiEvent.title);
     t.field(TumiEvent.icon);
     t.field(TumiEvent.start);
     t.field(TumiEvent.end);
-    t.field(TumiEvent.description);
-    t.field(TumiEvent.organizerText);
-    t.field(TumiEvent.participantText);
+    t.field(TumiEvent.registrationStart);
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
-    t.field(TumiEvent.prices);
+    t.field({ ...TumiEvent.prices, type: nonNull(list(nonNull(Json))) });
     t.id('eventOrganizerId');
   },
 });
@@ -910,11 +918,38 @@ export const registerForEvent = mutationField('registerForEvent', {
     }),
 });
 
-export const updateEventMutation = mutationField('updateEventGeneralInfo', {
+export const updateGeneralEventMutation = mutationField(
+  'updateEventGeneralInfo',
+  {
+    type: nonNull(eventType),
+    args: {
+      id: nonNull(idArg()),
+      data: nonNull(updateGeneralEventInput),
+    },
+    resolve: async (source, { id, data }, context) => {
+      const event = await context.prisma.tumiEvent.findUnique({
+        where: { id },
+      });
+      const { role } = context.assignment;
+      if (role !== Role.ADMIN && event.creatorId !== context.user.id) {
+        throw new ApolloError(
+          'Only Admins can update events that are not their own'
+        );
+      }
+      return context.prisma.tumiEvent.update({
+        where: {
+          id,
+        },
+        data,
+      });
+    },
+  }
+);
+export const updateCoreEventMutation = mutationField('updateEventCoreInfo', {
   type: nonNull(eventType),
   args: {
     id: nonNull(idArg()),
-    data: nonNull(updateEventInput),
+    data: nonNull(updateCoreEventInput),
   },
   resolve: async (source, { id, data }, context) => {
     const event = await context.prisma.tumiEvent.findUnique({ where: { id } });

@@ -5,15 +5,14 @@ query loadEventForEdit($id: ID!) {
     icon
     start
     end
+    registrationStart
     description
     location
     coordinates
     organizerText
     participantText
     registrationMode
-#    price
-#    discountedPrice
-#    esnDiscount
+    prices
     eventOrganizerId
     organizerSignup
     participantSignup
@@ -33,9 +32,9 @@ query loadEventForEdit($id: ID!) {
       instruction
       name
     }
-    organizerRegistrations{
+    organizerRegistrations {
       id
-      user{
+      user {
         picture
         fullName
       }
@@ -44,6 +43,15 @@ query loadEventForEdit($id: ID!) {
       fullName
       picture
       id
+    }
+  }
+  currentUser {
+    id
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
     }
   }
   organizers {
@@ -63,21 +71,26 @@ mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
   }
 }
 
-mutation updateEvent($id: ID!, $data: UpdateEventInput!) {
+mutation updateGeneralEvent($id: ID!, $data: UpdateGeneralEventInput!) {
   updateEventGeneralInfo(id: $id, data: $data) {
+    id
+    description
+    organizerText
+    participantText
+  }
+}
+
+mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
+  updateEventCoreInfo(id: $id, data: $data) {
     id
     title
     icon
     start
     end
-    description
-    organizerText
-    participantText
+    registrationStart
+    prices
     registrationMode
     registrationLink
-#    price
-#    discountedPrice
-#    esnDiscount
     eventOrganizerId
     organizerSignup
     participantSignup
