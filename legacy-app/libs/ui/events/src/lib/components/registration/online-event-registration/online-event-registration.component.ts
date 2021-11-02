@@ -24,7 +24,7 @@ export class OnlineEventRegistrationComponent {
   ) {}
 
   get lastDeregistration() {
-    return DateTime.fromJSDate(this.event?.start ?? new Date())
+    return DateTime.fromISO(this.event?.start ?? new Date())
       .minus({ days: 3 })
       .toJSDate();
   }

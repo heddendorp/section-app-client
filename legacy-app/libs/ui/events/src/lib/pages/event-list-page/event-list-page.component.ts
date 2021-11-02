@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { EventListGQL, EventListQuery, Role } from '@tumi/data-access';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -29,8 +29,12 @@ export class EventListPageComponent implements OnDestroy {
       map(({ data }) => data.events)
     );
     this.eventsAfter.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => this.loadEventsQueryRef.refetch({ after: value }));
+      .pipe(takeUntil(this.destroy$), tap(console.log))
+      .subscribe((value) =>
+        this.loadEventsQueryRef.refetch({
+          after: value.toJSDate(),
+        })
+      );
     this.events$ = combineLatest([
       events$,
       this.showFullEvents.valueChanges.pipe(

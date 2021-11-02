@@ -5,4 +5,7 @@ div {
   &.organizers {
     @apply bg-blue-100;
   }
+  &.approval {
+    @apply bg-yellow-100;
+  }
 }

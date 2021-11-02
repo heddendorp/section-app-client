@@ -10,9 +10,6 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-apollo-angular'
-    config:
-      scalars:
-        DateTime: Date
 hooks:
   afterAllFileWrite:
     - eslint --fix
