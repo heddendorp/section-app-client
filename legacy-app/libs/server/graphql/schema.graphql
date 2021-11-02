@@ -640,7 +640,7 @@ type TumiEvent {
   """
   participantsRegistered: Int!
   photoShares: [PhotoShare!]!
-  prices: [Json!]!
+  prices: Json
   publicationState: PublicationState!
   registrationLink: String
   registrationMode: RegistrationMode!

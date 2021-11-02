@@ -66,7 +66,7 @@ export const eventType = objectType({
     t.field(TumiEvent.registrationMode);
     t.field(TumiEvent.participantText);
     t.field(TumiEvent.organizerText);
-    t.field({ ...TumiEvent.prices, type: nonNull(list(nonNull(Json))) });
+    t.field(TumiEvent.prices);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.organizerSignup);
@@ -1011,20 +1011,22 @@ export const createFromTemplateMutation = mutationField(
           location: template.location,
           participantText: template.participantText,
           organizerText: template.organizerText,
-          prices: [
-            {
-              amount: createEventFromTemplateInput.price,
-              defaultPrice: true,
-              esnCardRequired: false,
-              allowedStatusList: [
-                MembershipStatus.NONE,
-                MembershipStatus.TRIAL,
-                MembershipStatus.FULL,
-                MembershipStatus.SPONSOR,
-                MembershipStatus.ALUMNI,
-              ],
-            },
-          ],
+          prices: {
+            options: [
+              {
+                amount: createEventFromTemplateInput.price,
+                defaultPrice: true,
+                esnCardRequired: false,
+                allowedStatusList: [
+                  MembershipStatus.NONE,
+                  MembershipStatus.TRIAL,
+                  MembershipStatus.FULL,
+                  MembershipStatus.SPONSOR,
+                  MembershipStatus.ALUMNI,
+                ],
+              },
+            ],
+          },
           createdBy: { connect: { id: context.user.id } },
           participantSignup: [
             MembershipStatus.NONE,

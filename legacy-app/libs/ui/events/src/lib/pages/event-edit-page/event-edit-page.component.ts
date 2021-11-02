@@ -96,7 +96,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       registrationStart: ['', Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
-      prices: this.fb.array([], Validators.required),
+      prices: this.fb.group({
+        options: this.fb.array([], Validators.required),
+      }),
       eventOrganizerId: ['', Validators.required],
       organizerSignup: [[], Validators.required],
       participantSignup: [[], Validators.required],
@@ -147,7 +149,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   get prices() {
-    return this.coreInformationForm.get('prices') as FormArray;
+    return this.coreInformationForm.get('prices')?.get('options') as FormArray;
   }
 
   addPrice() {
@@ -155,7 +157,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       this.fb.group({
         amount: ['', Validators.required],
         esnCardRequired: [false, Validators.required],
-        allowedStatusList: [[]],
+        allowedStatusList: [this.statusOptions, Validators.required],
         defaultPrice: [false, Validators.required],
       })
     );
@@ -174,11 +176,12 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       duration: 0,
     });
     const event = await firstValueFrom(this.event$);
-    if (event?.prices?.length) {
-      for (let i = 0; i < event.prices.length; i++) {
+    if (event?.prices?.options?.length) {
+      for (let i = 0; i < event.prices.options.length; i++) {
         this.addPrice();
       }
     }
+    console.log(event);
     if (event) {
       this.generalInformationForm.patchValue(event, { emitEvent: true });
       this.coreInformationForm.patchValue(

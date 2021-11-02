@@ -95,7 +95,13 @@ async function migrateEvents(prisma: PrismaClient) {
   for (const event of eventsWithPrice) {
     const defaultPrice = {
       defaultPrice: true,
-      allowedStatusList: [],
+      allowedStatusList: [
+        MembershipStatus.NONE,
+        MembershipStatus.TRIAL,
+        MembershipStatus.FULL,
+        MembershipStatus.SPONSOR,
+        MembershipStatus.ALUMNI,
+      ],
       esnCardRequired: false,
       amount: event.price.toNumber(),
     };
@@ -104,14 +110,20 @@ async function migrateEvents(prisma: PrismaClient) {
     if (event.esnDiscount) {
       prices.push({
         defaultPrice: false,
-        allowedStatusList: [],
+        allowedStatusList: [
+          MembershipStatus.NONE,
+          MembershipStatus.TRIAL,
+          MembershipStatus.FULL,
+          MembershipStatus.SPONSOR,
+          MembershipStatus.ALUMNI,
+        ],
         esnCardRequired: true,
         amount: event.discountedPrice.toNumber(),
       });
     }
     await prisma.tumiEvent.update({
       where: { id: event.id },
-      data: { prices },
+      data: { prices: { options: prices } },
     });
   }
 }
