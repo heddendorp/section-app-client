@@ -9,6 +9,7 @@ query loadEvent($id: ID!) {
     icon
     start
     end
+    registrationStart
     publicationState
     description
     organizerText
@@ -16,9 +17,7 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     freeParticipantSpots
-#    price
-#    discountedPrice
-#    esnDiscount
+    prices
     location
     coordinates
     createdBy {
@@ -41,9 +40,9 @@ query loadEvent($id: ID!) {
     activeRegistration {
       id
       didAttend
-#      openMoveOrders {
-#        id
-#      }
+      #      openMoveOrders {
+      #        id
+      #      }
       user {
         id
         fullName
@@ -67,18 +66,26 @@ query loadEvent($id: ID!) {
   }
 }
 
-query loadRegistrationForMove($registrationId: ID!){
-  registration(id: $registrationId){
+query loadRegistrationForMove($registrationId: ID!) {
+  registration(id: $registrationId) {
     id
     eventId
-    deletingCode{
+    deletingCode {
       id
     }
   }
 }
 
-mutation createEventRegistrationCode($eventId: ID!, $registrationId: ID, $isPublic: Boolean){
-  createRegistrationCode(eventId: $eventId,registrationId: $registrationId,isPublic: $isPublic){
+mutation createEventRegistrationCode(
+  $eventId: ID!
+  $registrationId: ID
+  $isPublic: Boolean
+) {
+  createRegistrationCode(
+    eventId: $eventId
+    registrationId: $registrationId
+    isPublic: $isPublic
+  ) {
     id
   }
 }
@@ -139,10 +146,10 @@ query loadEventForRunning($id: ID!) {
     participantRegistrations {
       id
       checkInTime
-payment{
-  id
-  status
-}
+      payment {
+        id
+        status
+      }
       user {
         id
         fullName
@@ -203,10 +210,10 @@ mutation deleteReceipt($costItemId: ID!, $receiptId: ID!) {
 query getRegistration($id: ID!) {
   registration(id: $id) {
     id
-payment{
-  id
-  status
-}
+    payment {
+      id
+      status
+    }
     type
     didAttend
     checkInTime
@@ -238,9 +245,9 @@ query loadEventForManagement($id: ID!) {
     icon
     start
     #financial
-#    amountCollected
-#    netAmountCollected
-#    feesPaid
+    #    amountCollected
+    #    netAmountCollected
+    #    feesPaid
     participantLimit
     participantsRegistered
     participantsAttended
@@ -248,7 +255,7 @@ query loadEventForManagement($id: ID!) {
     organizerRegistrations {
       id
       createdAt
-#      paymentStatus
+      #      paymentStatus
       user {
         id
         fullName
@@ -259,10 +266,10 @@ query loadEventForManagement($id: ID!) {
     participantRegistrations {
       id
       createdAt
-#      paymentStatus
-#      paymentIntentId
-#      netPaid
-      payment{
+      #      paymentStatus
+      #      paymentIntentId
+      #      netPaid
+      payment {
         id
         status
         paymentMethodType

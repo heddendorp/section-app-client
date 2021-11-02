@@ -129,12 +129,6 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <!--  <div class="bg-white rounded-2xl p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">-->
-  <!--    <markdown-->
-  <!--      [data]="event.description"-->
-  <!--      class="prose lg:prose-xl break-words"-->
-  <!--    ></markdown>-->
-  <!--  </div>-->
   <div class="p-6 lg:px-12">
     <p>{{ event.organizer.text }}</p>
   </div>
@@ -150,22 +144,26 @@
     </ng-template>
     <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
       <h2 class="text-blue-600 mb-4 font-black">Registration</h2>
-      <ng-container [ngSwitch]="event.registrationMode">
-        <tumi-external-event-registration
-          *ngSwitchCase="RegistrationMode.External"
-          [event]="event"
-        >
-        </tumi-external-event-registration>
-        <tumi-stripe-registration
-          *ngSwitchCase="RegistrationMode.Stripe"
-          [event]="event"
-          [user]="user$ | async"
-        ></tumi-stripe-registration>
-        <tumi-online-event-registration
-          [event]="event"
-          *ngSwitchCase="RegistrationMode.Online"
-        ></tumi-online-event-registration>
-      </ng-container>
+      <tumi-check-registration-time [event]="event">
+        <tumi-check-additional-data [event]="event">
+          <ng-container [ngSwitch]="event.registrationMode">
+            <tumi-external-event-registration
+              *ngSwitchCase="RegistrationMode.External"
+              [event]="event"
+            >
+            </tumi-external-event-registration>
+            <tumi-stripe-registration
+              *ngSwitchCase="RegistrationMode.Stripe"
+              [event]="event"
+              [user]="user$ | async"
+            ></tumi-stripe-registration>
+            <tumi-online-event-registration
+              [event]="event"
+              *ngSwitchCase="RegistrationMode.Online"
+            ></tumi-online-event-registration>
+          </ng-container>
+        </tumi-check-additional-data>
+      </tumi-check-registration-time>
     </ng-container>
   </div>
   <div

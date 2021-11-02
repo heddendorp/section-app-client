@@ -43,6 +43,8 @@ import { AddReceiptDialogComponent } from './components/running/add-receipt-dial
 import { EventSubmissionDialogComponent } from './components/editing/event-submission-dialog/event-submission-dialog.component';
 import { EventPhotoPageComponent } from './pages/event-photo-page/event-photo-page.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { CheckRegistrationTimeComponent } from './components/registration/check-registration-time/check-registration-time.component';
+import { CheckAdditionalDataComponent } from './components/registration/check-additional-data/check-additional-data.component';
 
 @NgModule({
   imports: [
@@ -119,6 +121,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     AddReceiptDialogComponent,
     EventSubmissionDialogComponent,
     EventPhotoPageComponent,
+    CheckRegistrationTimeComponent,
+    CheckAdditionalDataComponent,
   ],
 })
 export class UiEventsModule {}
