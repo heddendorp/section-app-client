@@ -1,11 +1,12 @@
 import {
-  MembershipStatus,
+  MembershipStatus, Prisma,
   PrismaClient,
   RegistrationStatus,
-  Role,
+  Role
 } from '@tumi/server-models';
 import * as Stripe from 'stripe';
 import { randomUUID } from 'crypto';
+import InputJsonArray = Prisma.InputJsonArray;
 
 const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2020-08-27',
