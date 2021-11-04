@@ -1,13 +1,11 @@
 import {
   MembershipStatus,
-  Prisma,
   PrismaClient,
   RegistrationStatus,
   Role,
 } from '@tumi/server-models';
 import * as Stripe from 'stripe';
 import { randomUUID } from 'crypto';
-import InputJsonArray = Prisma.InputJsonArray;
 
 const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2020-08-27',
@@ -133,11 +131,11 @@ async function migratePayments(prisma: PrismaClient) {
             checkoutSession: randomUUID(),
             feeAmount:
               typeof charge.balance_transaction === 'object'
-                ? charge.balance_transaction.fee
+                ? charge.balance_transaction?.fee ?? null
                 : null,
             netAmount:
               typeof charge.balance_transaction === 'object'
-                ? charge.balance_transaction.net
+                ? charge.balance_transaction?.net ?? null
                 : null,
           },
         },
