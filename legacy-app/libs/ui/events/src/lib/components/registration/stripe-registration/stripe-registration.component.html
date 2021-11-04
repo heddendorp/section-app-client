@@ -1,7 +1,39 @@
 <div *ngIf="event" class="my-2">
-  <p class="mb-4">
+  <p class="mb-4 text-lg font-bold">
     {{ event.freeParticipantSpots }}
   </p>
+  <tumi-check-additional-data
+    [event]="event"
+    (dataSubmission)="registerAdditionalData($event)"
+  >
+    <ng-container *ngIf="event.participantRegistrationPossible.option">
+      <p class="font-bold">You can register for this event</p>
+      <p class="mb-2">
+        We are showing all prices that you can choose from depending on the
+        event and your account.
+      </p>
+      <mat-form-field class="mb-4">
+        <mat-label>Price</mat-label>
+        <mat-select [formControl]="priceControl">
+          <mat-option
+            *ngFor="let price of availablePrices$ | async"
+            [value]="price"
+          >
+            {{ price.amount | currency: 'EUR' }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="priceControl.invalid"
+        (click)="register()"
+      >
+        Start payment and register
+      </button>
+    </ng-container>
+  </tumi-check-additional-data>
   <!--  <ng-container *ngIf="event.participantRegistrationPossible.option">-->
   <!--    <p-->
   <!--      *ngIf="user?.hasESNcard && event.discountedPrice"-->
@@ -85,14 +117,49 @@
     </p>
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
-    <p>✔️ You are registered for this event.</p>
-    <div class="my-2" *ngIf="!event.activeRegistration?.didAttend">
+    <pre>{{ event.activeRegistration | json }}</pre>
+    <p>✔️ You have a spot on this event.</p>
+    <ng-container
+      *ngIf="event.activeRegistration?.payment?.status === 'incomplete'"
+    >
+      <p class="text-lg font-bold">Your payment is not complete yet</p>
+      <p>
+        Please make sure to complete you payment by
+        {{ lasPayment | date: 'mediumTime' }} or we will have to cancel your
+        registration
+      </p>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="
+          openPaymentSession(event.activeRegistration?.payment?.checkoutSession)
+        "
+      >
+        Finalize event payment
+      </button>
+    </ng-container>
+    <ng-container
+      *ngIf="event.activeRegistration?.payment?.status === 'processing'"
+    >
+      <p>
+        Your payment is currently processing, once it was successful you can
+        give the event away or give up you spot.
+      </p>
+    </ng-container>
+    <div
+      class="my-2"
+      *ngIf="
+        !event.activeRegistration?.didAttend &&
+        event.activeRegistration?.status === 'SUCCESSFUL'
+      "
+    >
       <p class="mb-2">You can give this registration to another person</p>
       <button mat-flat-button (click)="moveEvent()">Send event</button>
     </div>
     <ng-container
       *ngIf="
         canDeregister &&
+        event.activeRegistration?.status === 'SUCCESSFUL' &&
         !event.title.includes('ESNcard') &&
         !event.title.includes('Party')
       "

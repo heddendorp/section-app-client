@@ -2,6 +2,7 @@ query userRoles {
   currentUser {
     id
     fullName
+    hasESNcard
     currentTenant {
       userId
       tenantId

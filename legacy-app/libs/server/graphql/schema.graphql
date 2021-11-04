@@ -129,6 +129,7 @@ type EventOrganizer {
 }
 
 type EventRegistration {
+  belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
   createdAt: DateTime!
@@ -153,7 +154,9 @@ type EventRegistrationCode {
   eventId: String!
   id: ID!
   isPublic: Boolean!
+  registrationCreated: EventRegistration
   registrationCreatedId: String
+  registrationToRemove: EventRegistration
   registrationToRemoveId: String
   status: RegistrationStatus!
   targetEvent: TumiEvent!
@@ -176,6 +179,7 @@ type EventSubmissionItem {
   id: ID!
   instruction: String!
   name: String!
+  ownSubmissions: [EventSubmission!]!
   required: Boolean!
   submissionTime: SubmissionTime!
   submissions: [EventSubmission!]!
@@ -287,18 +291,18 @@ type Mutation {
   """
   deleteTemplate(id: ID!): EventTemplate
   deregisterFromEvent(registrationId: ID!): TumiEvent
-  deregisterUserWithRefund(eventId: ID!, userId: ID): TumiEvent!
   newProduct(input: newProductInput!): Product!
   registerForEvent(
     eventId: ID!
+    price: Json
     registrationType: RegistrationType = PARTICIPANT
-  ): TumiEvent
+    submissions: Json
+  ): TumiEvent!
 
   """
   Add a new user to the database
   """
   registerUser(userInput: CreateUserInput): User!
-  registerWithStripe(id: ID!, submissions: Json): paymentIntent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
   updateEventCoreInfo(data: UpdateCoreEventInput!, id: ID!): TumiEvent!
@@ -410,7 +414,7 @@ type Query {
   """
   Get one event by ID
   """
-  event(eventId: ID!): TumiEvent
+  event(eventId: ID!): TumiEvent!
   eventRegistrationCode(id: ID!): EventRegistrationCode
   eventRegistrationCodes(
     includePrivate: Boolean = false
@@ -511,6 +515,7 @@ enum Role {
 
 type StripePayment {
   amount: Decimal!
+  checkoutSession: String!
   createdAt: DateTime!
   eventRegistration: EventRegistration
 
@@ -527,7 +532,6 @@ type StripePayment {
   productPurchase: ProductPurchase
   purchaseId: String
   refundedAmount: Decimal
-  registrationId: String
   status: String!
 }
 
@@ -591,6 +595,7 @@ type TumiEvent {
   description: String!
   end: DateTime!
   eventOrganizerId: String!
+  eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
   freeParticipantSpots: String!

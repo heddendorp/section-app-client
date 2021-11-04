@@ -1,0 +1,28 @@
+mutation registerForEvent($eventId: ID!, $type: RegistrationType, $submissions: Json, $price: Json) {
+  registerForEvent(eventId: $eventId, registrationType: $type, submissions: $submissions, price: $price) {
+    id
+    organizerRegistrationPossible
+    participantRegistrationPossible
+    organizersRegistered
+    participantsRegistered
+    couldBeOrganizer
+    userRegistered
+    activeRegistration {
+      id
+      type
+      status
+      cancellationReason
+      payment{
+        id
+        createdAt
+        amount
+        status
+        checkoutSession
+        paymentIntent
+      }
+    }
+    organizers {
+      fullName
+    }
+  }
+}

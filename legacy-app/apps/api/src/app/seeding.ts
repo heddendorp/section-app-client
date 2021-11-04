@@ -2,10 +2,16 @@ import {
   MembershipStatus,
   Prisma,
   PrismaClient,
+  RegistrationStatus,
   Role,
 } from '@tumi/server-models';
+import * as Stripe from 'stripe';
+import { randomUUID } from 'crypto';
 import InputJsonArray = Prisma.InputJsonArray;
 
+const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
+  apiVersion: '2020-08-27',
+});
 export async function seedDB(prisma: PrismaClient) {
   const tenant = await prisma.tenant.upsert({
     where: {
@@ -45,6 +51,7 @@ export async function seedDB(prisma: PrismaClient) {
     },
   });
   await migrateEvents(prisma);
+  await migratePayments(prisma);
   // const events = await prisma.tumiEvent.findMany();
   // const ages = await Promise.all(
   //   events.map((event) =>
@@ -86,6 +93,57 @@ export async function seedDB(prisma: PrismaClient) {
   //   data: { calendarToken: undefined },
   // });
   // await transferEvents(prisma, tenant);
+}
+
+async function migratePayments(prisma: PrismaClient) {
+  const registrations = await prisma.eventRegistration.findMany({
+    where: { chargeId: { not: null } },
+  });
+  for (const registration of registrations) {
+    console.log('processing registration');
+    await prisma.eventRegistration.update({
+      where: { id: registration.id },
+      data: {
+        status:
+          registration.paymentStatus === 'succeeded'
+            ? RegistrationStatus.SUCCESSFUL
+            : RegistrationStatus.PENDING,
+      },
+    });
+    if (registration.paymentId) continue;
+    console.log('processing stripe payment');
+    const charge = await stripe.charges.retrieve(registration.chargeId, {
+      expand: ['balance_transaction'],
+    });
+    await prisma.eventRegistration.update({
+      where: { id: registration.id },
+      data: {
+        payment: {
+          create: {
+            status: charge.status,
+            paymentIntent:
+              typeof charge.payment_intent === 'string'
+                ? charge.payment_intent
+                : charge.payment_intent.id,
+            amount: charge.amount,
+            paymentMethod: charge.payment_method,
+            paymentMethodType: charge.payment_method_details.type,
+            user: { connect: { id: registration.userId } },
+            events: [],
+            checkoutSession: randomUUID(),
+            feeAmount:
+              typeof charge.balance_transaction === 'object'
+                ? charge.balance_transaction.fee
+                : null,
+            netAmount:
+              typeof charge.balance_transaction === 'object'
+                ? charge.balance_transaction.net
+                : null,
+          },
+        },
+      },
+    });
+  }
 }
 
 async function migrateEvents(prisma: PrismaClient) {

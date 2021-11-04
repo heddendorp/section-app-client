@@ -77,7 +77,6 @@ Table StripePayment {
   productPurchase ProductPurchase
   purchaseId String
   refundedAmount Decimal
-  registrationId String
   status String [not null]
   user User [not null]
   userId String [not null]

@@ -26,7 +26,7 @@ const loggingMiddleware = async (params, next) => {
   const after = Date.now();
   queryDuration.set(after - before);
   currentQueries.dec();
-  if (process.env.DEV) {
+  if (process.env.LOG_QUERY_TIMES) {
     console.log(
       `Query ${params.model}.${params.action} took ${after - before}ms`
     );
@@ -51,7 +51,7 @@ const cachingMiddleware = async (params, next) => {
       const ttl = params.model === 'EventRegistration' ? 5000 : 20000;
       queryCache.set(cacheKey, result, ttl);
     } else {
-      if (process.env.DEV) {
+      if (process.env.LOG_CACHE) {
         console.log(
           `Cache hit for ${params.model}.${params.action}: ${cacheKey}`
         );

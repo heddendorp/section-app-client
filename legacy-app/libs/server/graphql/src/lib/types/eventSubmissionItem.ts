@@ -1,6 +1,7 @@
 import {
   idArg,
   inputObjectType,
+  list,
   mutationField,
   nonNull,
   objectType,
@@ -9,6 +10,7 @@ import { EventSubmissionItem } from 'nexus-prisma';
 import { eventType } from './event';
 import { Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
+import { eventSubmissionType } from './eventSubmission';
 
 export const eventSubmissionItemType = objectType({
   name: EventSubmissionItem.$name,
@@ -33,6 +35,19 @@ export const eventSubmissionItemType = objectType({
         context.prisma.eventSubmission.findMany({
           where: { submissionItem: { id: source.id } },
         }),
+    });
+    t.field({
+      name: 'ownSubmissions',
+      type: nonNull(list(nonNull(eventSubmissionType))),
+      resolve: (source, args, context) => {
+        return context.prisma.eventSubmissionItem
+          .findUnique({
+            where: { id: source.id },
+          })
+          .submissions({
+            where: { registration: { user: { id: context.user.id } } },
+          });
+      },
     });
   },
 });

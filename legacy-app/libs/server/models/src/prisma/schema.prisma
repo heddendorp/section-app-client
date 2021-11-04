@@ -167,7 +167,6 @@ model StripePayment {
   productPurchase       ProductPurchase?
   purchaseId            String?                @db.Uuid
   refundedAmount        Decimal?
-  registrationId        String?                @db.Uuid
   status                String
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String                 @db.Uuid

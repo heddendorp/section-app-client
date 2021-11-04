@@ -1,1 +1,35 @@
-<ng-content></ng-content>
+<ng-container *ngIf="needsInput$ | async; else next">
+  <p class="font-bold mb-2">
+    We need some more information before you can register
+  </p>
+  <form
+    fxLayout="column"
+    fxLayoutGap="1rem"
+    *ngIf="incompleteItems$ | async as items"
+    [formGroup]="inputForm"
+    (ngSubmit)="submitData()"
+  >
+    <ng-container *ngFor="let item of items" [ngSwitch]="item.type">
+      <ng-container *ngSwitchCase="SubmissionItemType.Text">
+        <mat-form-field>
+          <mat-label>{{ item.name }}</mat-label>
+          <input matInput [formControlName]="item.id" type="text" />
+          <mat-hint>{{ item.instruction }}</mat-hint>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="SubmissionItemType.Longtext">
+        <mat-form-field>
+          <mat-label>{{ item.name }}</mat-label>
+          <textarea matInput rows="3" [formControlName]="item.id"></textarea>
+          <mat-hint>{{ item.instruction }}</mat-hint>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+    <button mat-flat-button color="primary" [disabled]="inputForm.invalid">
+      Submit data
+    </button>
+  </form>
+</ng-container>
+<ng-template #next>
+  <ng-content></ng-content>
+</ng-template>

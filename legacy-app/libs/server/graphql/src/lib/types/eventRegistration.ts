@@ -33,7 +33,19 @@ export const eventRegistrationType = objectType({
         context.prisma.tumiEvent.findUnique({ where: { id: source.eventId } }),
     });
     t.field(EventRegistration.eventId);
-    t.field(EventRegistration.payment);
+    t.field({
+      ...EventRegistration.payment,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        if (!source.paymentId) return null;
+        return context.prisma.stripePayment.findUnique({
+          where: { id: source.paymentId },
+        });
+      },
+    });
     t.field(EventRegistration.paymentId);
     t.field(EventRegistration.checkInTime);
     t.field(EventRegistration.manualCheckin);
@@ -63,6 +75,9 @@ export const eventRegistrationType = objectType({
     });
     t.nonNull.boolean('didAttend', {
       resolve: (source) => !!source.checkInTime,
+    });
+    t.nonNull.boolean('belongsToCurrentUser', {
+      resolve: (source, args, context) => source.userId === context.user.id,
     });
   },
 });

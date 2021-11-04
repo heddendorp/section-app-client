@@ -28,6 +28,7 @@ import { DateTime, Json } from 'nexus-prisma/scalars';
 import { DateTime as Luxon } from 'luxon';
 import { updateLocationInputType } from './eventTemplate';
 import { CacheScope } from 'apollo-server-types';
+import { RegistrationService } from '@tumi/server/services';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
 export const eventType = objectType({
@@ -72,6 +73,18 @@ export const eventType = objectType({
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
+    t.field({
+      ...TumiEvent.eventRegistrationCodes,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .eventRegistrationCodes();
+      },
+    });
     t.nonNull.string('freeParticipantSpots', {
       resolve: (source, args, context, info) => {
         info.cacheControl.setCacheHint({
@@ -187,7 +200,11 @@ export const eventType = objectType({
                 ? { status: { not: RegistrationStatus.CANCELLED } }
                 : {}),
             },
-            orderBy: [{ checkInTime: 'desc' }, { user: { lastName: 'asc' } }],
+            orderBy: [
+              { status: 'desc' },
+              { checkInTime: 'desc' },
+              { user: { lastName: 'asc' } },
+            ],
           });
       },
     });
@@ -707,7 +724,7 @@ export const getAllEventsQuery = queryField('events', {
 
 export const getOneEventQuery = queryField('event', {
   description: 'Get one event by ID',
-  type: eventType,
+  type: nonNull(eventType),
   args: { eventId: nonNull(idArg()) },
   resolve: (source, { eventId }, context, { cacheControl }) => {
     cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
@@ -840,45 +857,31 @@ export const deregisterFromEventMutation = mutationField(
           },
         });
       }
-      return context.prisma.tumiEvent.update({
-        where: { id: registration.eventId },
-        data: {
-          registrations: {
-            update: {
-              where: { id: registration.id },
-              data: {
-                status: RegistrationStatus.CANCELLED,
-                cancellationReason: `Registration cancelled by ${
-                  context.user.id === registration.userId ? 'user' : 'admin'
-                } (${context.user.email}).`,
-              },
-            },
-          },
-        },
-      });
+      return RegistrationService.cancelRegistration(registrationId, context);
     },
   }
 );
 
 export const registerForEvent = mutationField('registerForEvent', {
-  type: eventType,
+  type: nonNull(eventType),
   args: {
     registrationType: arg({
       type: registrationTypeEnum,
       default: RegistrationType.PARTICIPANT,
     }),
+    submissions: arg({ type: Json }),
+    price: arg({ type: Json }),
     eventId: nonNull(idArg()),
   },
-  resolve: (source, { registrationType, eventId }, context) =>
+  resolve: (
+    source,
+    { registrationType, eventId, submissions, price },
+    context
+  ) =>
     context.prisma.$transaction(async (prisma) => {
       const event = await prisma.tumiEvent.findUnique({
         where: { id: eventId },
       });
-      if (event.registrationMode === RegistrationMode.STRIPE) {
-        throw new ApolloError(
-          'To register for stripe events you need to use a different mutation!'
-        );
-      }
       const { status } = context.assignment;
       const allowedStatus =
         registrationType === RegistrationType.PARTICIPANT
@@ -903,18 +906,21 @@ export const registerForEvent = mutationField('registerForEvent', {
       if (registeredUsers >= maxRegistrations) {
         throw new ApolloError('Event does not have an available spot!');
       }
-      return context.prisma.tumiEvent.update({
-        where: { id: eventId },
-        data: {
-          registrations: {
-            create: {
-              type: registrationType,
-              userId: context.user.id,
-              status: RegistrationStatus.SUCCESSFUL,
-            },
-          },
-        },
-      });
+      const baseUrl = process.env.DEV
+        ? `http://localhost:4200/events/${eventId}`
+        : 'https://tumi.esn.world/events/${eventId}';
+      const res = await RegistrationService.registerOnEvent(
+        context,
+        prisma,
+        eventId,
+        context.user.id,
+        registrationType,
+        submissions,
+        price,
+        `${baseUrl}?cancel=true`,
+        `${baseUrl}?success=true`
+      );
+      return res;
     }),
 });
 

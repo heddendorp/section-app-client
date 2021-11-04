@@ -1,0 +1,5 @@
+<ng-content *ngIf="registrationOpen$ | async; else countdown"></ng-content>
+<ng-template #countdown>
+  <p class="font-bold">This event is not open for registration yet</p>
+  <p>Registration opens {{ remainingTime$ | async }}</p>
+</ng-template>

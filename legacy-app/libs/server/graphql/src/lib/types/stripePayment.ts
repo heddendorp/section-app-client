@@ -1,5 +1,6 @@
 import { objectType } from 'nexus';
 import { StripePayment } from 'nexus-prisma';
+import { CacheScope } from 'apollo-server-types';
 
 export const stripePaymentType = objectType({
   name: StripePayment.$name,
@@ -12,13 +13,35 @@ export const stripePaymentType = objectType({
     t.field(StripePayment.paymentMethodType);
     t.field(StripePayment.status);
     t.field(StripePayment.events);
-    t.field(StripePayment.registrationId);
     t.field(StripePayment.purchaseId);
     t.field(StripePayment.amount);
     t.field(StripePayment.feeAmount);
     t.field(StripePayment.netAmount);
     t.field(StripePayment.refundedAmount);
-    t.field(StripePayment.productPurchase);
-    t.field(StripePayment.eventRegistration);
+    t.field({
+      ...StripePayment.productPurchase,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.stripePayment
+          .findUnique({ where: { id: source.id } })
+          .productPurchase();
+      },
+    });
+    t.field({
+      ...StripePayment.eventRegistration,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.stripePayment
+          .findUnique({ where: { id: source.id } })
+          .eventRegistration();
+      },
+    });
+    t.field(StripePayment.checkoutSession);
   },
 });

@@ -14,6 +14,7 @@ import { RegistrationMode, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 import { RegistrationService, ValidationService } from '@tumi/server/services';
 import { Json } from 'nexus-prisma/scalars';
+import { eventRegistrationType } from './eventRegistration';
 
 export const eventRegistrationCodeType = objectType({
   name: EventRegistrationCode.$name,
@@ -23,10 +24,48 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.createdById);
     t.field(EventRegistrationCode.registrationToRemoveId);
     t.field(EventRegistrationCode.registrationCreatedId);
-    t.field(EventRegistrationCode.targetEvent);
+    t.field({
+      ...EventRegistrationCode.targetEvent,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.tumiEvent.findUnique({
+          where: { id: source.eventId },
+        });
+      },
+    });
     t.field(EventRegistrationCode.isPublic);
     t.field(EventRegistrationCode.eventId);
     t.field(EventRegistrationCode.status);
+    t.field({
+      name: 'registrationToRemove',
+      type: eventRegistrationType,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventRegistration.findUnique({
+          where: { id: source.registrationToRemoveId },
+        });
+      },
+    });
+    t.field({
+      name: 'registrationCreated',
+      type: eventRegistrationType,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        if (!source.registrationCreatedId) return null;
+        return context.prisma.eventRegistration.findUnique({
+          where: { id: source.registrationCreatedId },
+        });
+      },
+    });
   },
 });
 

@@ -56,9 +56,11 @@ const measurementPlugin = {
     return {
       async willSendResponse(requestContext: GraphQLRequestContext) {
         const after = Date.now();
-        console.log(
-          `Operation ${requestContext.operationName} took ${after - before}ms`
-        );
+        if (process.env.LOG_OPERATION_TIMES) {
+          console.log(
+            `Operation ${requestContext.operationName} took ${after - before}ms`
+          );
+        }
       },
     };
   },

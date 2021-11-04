@@ -74,16 +74,42 @@ query userProfile {
   }
 }
 
-mutation useRegistrationCode($registrationCodeId: ID!, $price: Json) {
-  useRegistrationCode(id: $registrationCodeId, price: $price) {
-    id
-  }
-}
-
 query getRegistrationCodeInfo($code: ID!) {
   eventRegistrationCode(id: $code) {
     id
     status
+    registrationCreated{
+      id
+      belongsToCurrentUser
+      payment{
+        id
+        status
+        checkoutSession
+      }
+    }
+    targetEvent {
+      id
+      registrationMode
+      title
+      start
+      prices
+    }
+  }
+}
+
+mutation useRegistrationCode($id: ID!, $price: Json) {
+  useRegistrationCode(id: $id,price: $price){
+    id
+    status
+    registrationCreated{
+      id
+      belongsToCurrentUser
+      payment{
+        id
+        status
+        checkoutSession
+      }
+    }
     targetEvent {
       id
       registrationMode

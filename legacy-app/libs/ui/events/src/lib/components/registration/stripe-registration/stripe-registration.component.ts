@@ -6,22 +6,33 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  DeregisterWithRefundGQL,
+  DeregisterFromEventGQL,
   GetUserPaymentStatusGQL,
   LoadEventQuery,
-  RegisterWithStripePaymentGQL,
+  RegisterForEventGQL,
   SubmissionItemType,
-  SubmissionTime,
 } from '@tumi/data-access';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  ReplaySubject,
+} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { environment } from '../../../../../../../../apps/tumi-app/src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { PermissionsService } from '../../../../../../auth/src/lib/services/permissions.service';
+import { Price } from '@tumi/shared/data-types';
+import { loadStripe } from '@stripe/stripe-js/pure';
+import { environment } from '../../../../../../../../apps/tumi-app/src/environments/environment';
 
 @Component({
   selector: 'tumi-stripe-registration',
@@ -34,16 +45,19 @@ export class StripeRegistrationComponent implements OnChanges {
   @Input() public user: LoadEventQuery['currentUser'] | null = null;
   public infoForm: FormGroup | undefined;
   public userSetupForPayment$: Observable<boolean>;
+  public availablePrices$ = new ReplaySubject<Price[]>(1);
+  public priceControl = new FormControl(null, Validators.required);
   public processing = new BehaviorSubject(false);
-  public infoCollected$ = new BehaviorSubject(false);
+  public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   public SubmissionItemType = SubmissionItemType;
   constructor(
     private getUserPaymentStatus: GetUserPaymentStatusGQL,
-    private registerWithStripe: RegisterWithStripePaymentGQL,
-    private deregisterWithRefund: DeregisterWithRefundGQL,
+    private registerForEventGQL: RegisterForEventGQL,
+    private deregisterFromEventGQL: DeregisterFromEventGQL,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private permissions: PermissionsService
   ) {
     this.userSetupForPayment$ = this.getUserPaymentStatus
       .watch()
@@ -56,27 +70,18 @@ export class StripeRegistrationComponent implements OnChanges {
       );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.event) {
-      const event = changes.event.currentValue as LoadEventQuery['event'];
-      if (event?.submissionItems?.length) {
-        this.infoCollected$.next(false);
-        this.infoForm = this.fb.group(
-          event.submissionItems
-            .filter(
-              (item) => item.submissionTime === SubmissionTime.Registration
-            )
-            .reduce(
-              (previousValue, currentValue) => ({
-                ...previousValue,
-                [currentValue.name]: ['', Validators.required],
-              }),
-              {}
-            )
-        );
-      } else {
-        this.infoCollected$.next(true);
+      const prices = await firstValueFrom(
+        this.permissions.getPricesForUser(
+          changes.event.currentValue.prices.options
+        )
+      );
+      const defaultPrice = prices.find((p) => p.defaultPrice);
+      if (defaultPrice) {
+        this.priceControl.setValue(defaultPrice);
       }
+      this.availablePrices$.next(prices);
     }
   }
 
@@ -87,13 +92,22 @@ export class StripeRegistrationComponent implements OnChanges {
     return DateTime.fromISO(this.event?.start).minus({ days: 5 }).toJSDate();
   }
 
+  get lasPayment() {
+    if (!this.event?.activeRegistration?.payment?.createdAt) {
+      return new Date();
+    }
+    return DateTime.fromISO(this.event?.activeRegistration?.payment?.createdAt)
+      .plus({ hours: 1 })
+      .toJSDate();
+  }
+
   get canDeregister() {
     return this.lastDeregistration > new Date();
   }
 
   get canMove() {
     if (!this.event?.start) {
-      return new Date();
+      return false;
     }
     return (
       DateTime.fromISO(this.event?.start).minus({ days: 1 }).toJSDate() >
@@ -103,42 +117,28 @@ export class StripeRegistrationComponent implements OnChanges {
 
   async register() {
     this.processing.next(true);
+    console.log(this.infoCollected$.value);
     if (this.event) {
       let data;
       try {
         const res = await firstValueFrom(
-          this.registerWithStripe.mutate({
+          this.registerForEventGQL.mutate({
             eventId: this.event.id,
-            submissions: this.infoForm?.value,
+            price: this.priceControl.value,
+            submissions: this.infoCollected$.value,
           })
         );
         data = res.data;
+        console.log(data);
+        this.openPaymentSession(
+          data?.registerForEvent.activeRegistration?.payment?.checkoutSession
+        );
       } catch (e) {
         this.processing.next(false);
         this.snackBar.open(`❗ There was an error: ${e.message}`, undefined, {
           duration: 10000,
         });
         return;
-      }
-      if (data?.registerWithStripe.status === 'succeeded') {
-        this.snackBar.open('✔️ You registration was successful');
-      } else if (
-        data?.registerWithStripe.status === 'requires_action' &&
-        data?.registerWithStripe.client_secret
-      ) {
-        this.snackBar.open('⚠️ Additional information needed, please wait');
-        const stripe = await loadStripe(environment.stripeKey);
-        if (stripe) {
-          await stripe.confirmCardPayment(
-            data?.registerWithStripe.client_secret
-          );
-        }
-      } else if (data?.registerWithStripe.status === 'processing') {
-        this.snackBar.open('✔️ You registration was successful');
-      } else {
-        this.snackBar.open(
-          '⚠️ There has been an error, we could not process your payment'
-        );
       }
     }
     this.processing.next(false);
@@ -147,19 +147,32 @@ export class StripeRegistrationComponent implements OnChanges {
   async deregister() {
     this.processing.next(true);
     try {
-      await this.deregisterWithRefund
-        .mutate({ eventId: this.event?.id ?? '' })
-        .toPromise();
+      await firstValueFrom(
+        this.deregisterFromEventGQL.mutate({
+          registrationId: this.event?.activeRegistration?.id ?? '',
+        })
+      );
     } catch (e) {
       this.processing.next(false);
       this.snackBar.open(`❗ There was an error: ${e.message}`);
       return;
     }
-    this.snackBar.open('✔️ Success: Refunds can take 5-8 days');
+    this.snackBar.open('✔️ Success: Refunds can take 5-10 business days');
     this.processing.next(false);
   }
 
   moveEvent() {
     this.dialog.open(MoveEventDialogComponent, { data: { event: this.event } });
+  }
+
+  registerAdditionalData($event: unknown) {
+    this.infoCollected$.next($event);
+  }
+
+  async openPaymentSession(checkoutSession: string = '') {
+    const stripe = await loadStripe(environment.stripeKey);
+    if (stripe) {
+      await stripe.redirectToCheckout({ sessionId: checkoutSession });
+    }
   }
 }

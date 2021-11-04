@@ -34,10 +34,11 @@ export class RegistrationService {
         context,
         [
           {
-            amount: price.amount,
+            amount: price.amount * 100,
             currency: 'EUR',
+            quantity: 1,
             name: registrationCode.targetEvent.title,
-            description: 'Registration fee for event',
+            description: 'Registration code fee for event',
           },
         ],
         'book',
@@ -45,7 +46,22 @@ export class RegistrationService {
         successUrl,
         userId
       );
-      return registrationCode;
+      const registration = await this.prisma.eventRegistration.create({
+        data: {
+          event: { connect: { id: registrationCode.targetEvent.id } },
+          user: { connect: { id: userId } },
+          payment: { connect: { id: payment.id } },
+          status: RegistrationStatus.PENDING,
+          type: RegistrationType.PARTICIPANT,
+        },
+      });
+      return this.prisma.eventRegistrationCode.update({
+        where: { id: registrationCodeId },
+        data: {
+          registrationCreatedId: registration.id,
+          paymentId: payment.id,
+        },
+      });
     } else if (
       registrationCode.targetEvent.registrationMode === RegistrationMode.ONLINE
     ) {
@@ -119,7 +135,7 @@ export class RegistrationService {
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
-      expires_at: DateTime.now().plus({ hours: 1 }).toSeconds(),
+      expires_at: Math.round(DateTime.now().plus({ hours: 1 }).toSeconds()),
     });
     const payment = this.prisma.stripePayment.create({
       data: {
@@ -130,10 +146,116 @@ export class RegistrationService {
             ? session.payment_intent
             : session.payment_intent.id,
         checkoutSession: session.id,
-        status: '',
-        events: [],
+        status: 'incomplete',
+        events: [
+          { type: 'payment_intent.created', name: 'created', date: Date.now() },
+        ],
       },
     });
     return payment;
+  }
+
+  static async registerOnEvent(
+    context: GetGen<'context'>,
+    prisma,
+    eventId: string,
+    userId: string,
+    registrationType: RegistrationType,
+    submissions,
+    price?: Price,
+    cancelUrl?: string,
+    successUrl?: string
+  ) {
+    const event = await prisma.tumiEvent.findUnique({ where: { id: eventId } });
+    if (event.registrationMode === RegistrationMode.STRIPE) {
+      const payment = await this.createPayment(
+        context,
+        [
+          {
+            amount: price.amount * 100,
+            quantity: 1,
+            currency: 'EUR',
+            name: event.title,
+            description: 'Registration fee for event',
+          },
+        ],
+        'book',
+        cancelUrl,
+        successUrl,
+        userId
+      );
+      const submissionArray = [];
+      if (submissions) {
+        Object.entries(submissions).forEach(([key, value]) => {
+          submissionArray.push({
+            submissionItem: { connect: { id: key } },
+            data: { value },
+          });
+        });
+      }
+      await prisma.eventRegistration.create({
+        data: {
+          user: { connect: { id: userId } },
+          event: { connect: { id: eventId } },
+          status: RegistrationStatus.PENDING,
+          type: registrationType,
+          payment: { connect: { id: payment.id } },
+          submissions: {
+            create: submissionArray,
+          },
+        },
+      });
+      return event;
+    } else if (event.registrationMode === RegistrationMode.ONLINE) {
+      await prisma.eventRegistration.create({
+        data: {
+          user: { connect: { id: userId } },
+          event: { connect: { id: eventId } },
+          status: RegistrationStatus.SUCCESSFUL,
+          type: registrationType,
+        },
+      });
+      return event;
+    } else {
+      throw new Error('Registration mode not supported');
+    }
+  }
+
+  static async cancelRegistration(
+    registrationId: string,
+    context: GetGen<'context'>
+  ) {
+    const registration = await context.prisma.eventRegistration.findUnique({
+      where: { id: registrationId },
+      include: { event: true },
+    });
+    if (registration.event.registrationMode === RegistrationMode.STRIPE) {
+      const payment = await context.prisma.stripePayment.findUnique({
+        where: { id: registration.paymentId },
+      });
+      await this.stripe.refunds.create({
+        payment_intent: payment.paymentIntent,
+      });
+      await context.prisma.eventRegistration.update({
+        where: { id: registrationId },
+        data: {
+          status: RegistrationStatus.CANCELLED,
+          cancellationReason: 'Spot given up by user',
+        },
+      });
+    } else if (
+      registration.event.registrationMode === RegistrationMode.ONLINE
+    ) {
+      await context.prisma.eventRegistration.update({
+        where: { id: registrationId },
+        data: {
+          status: RegistrationStatus.CANCELLED,
+          cancellationReason: 'Spot given up by user',
+        },
+      });
+    } else {
+      throw new Error('Registration mode not supported');
+    }
+    return registration.event;
   }
 }

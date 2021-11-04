@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CheckInUserGQL,
+  CreateEventRegistrationCodeGQL,
   DeregisterFromEventGQL,
-  DeregisterWithRefundGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
 } from '@tumi/data-access';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -24,9 +24,9 @@ export class EventManagePageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
-    private removeUserWithRefund: DeregisterWithRefundGQL,
     private removeUser: DeregisterFromEventGQL,
     private checkInMutation: CheckInUserGQL,
+    private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute
   ) {
     this.title.setTitle('TUMi - manage event');
@@ -47,31 +47,31 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   async kickWithRefund(userId: string) {
-    const event = await this.event$.pipe(first()).toPromise();
-    const proceed = confirm('Are you sure you want to remove this user?');
-    if (event && proceed) {
-      try {
-        await this.removeUserWithRefund
-          .mutate({ eventId: event.id, userId })
-          .toPromise();
-      } catch (e) {
-        alert(e.message);
-      }
-    }
+    // const event = await this.event$.pipe(first()).toPromise();
+    // const proceed = confirm('Are you sure you want to remove this user?');
+    // if (event && proceed) {
+    //   try {
+    //     await this.removeUserWithRefund
+    //       .mutate({ eventId: event.id, userId })
+    //       .toPromise();
+    //   } catch (e) {
+    //     alert(e.message);
+    //   }
+    // }
   }
 
   async kick(registrationId: string) {
-    const event = await firstValueFrom(this.event$);
-    const proceed = confirm(
-      'Are you sure you want to remove this user without refund?'
-    );
-    if (event && proceed) {
-      try {
-        await this.removeUser.mutate({ registrationId }).toPromise();
-      } catch (e) {
-        alert(e.message);
-      }
-    }
+    // const event = await firstValueFrom(this.event$);
+    // const proceed = confirm(
+    //   'Are you sure you want to remove this user without refund?'
+    // );
+    // if (event && proceed) {
+    //   try {
+    //     await this.removeUser.mutate({ registrationId }).toPromise();
+    //   } catch (e) {
+    //     alert(e.message);
+    //   }
+    // }
   }
 
   async checkin(id: string) {
@@ -132,5 +132,16 @@ export class EventManagePageComponent implements OnDestroy {
     }>
   ) {
     return organizerRegistrations.map((r) => r.user.fullName).join(', ');
+  }
+
+  async createRegistrationCode() {
+    const event = await firstValueFrom(this.event$);
+    await firstValueFrom(
+      this.createEventRegistrationCodeGQL.mutate({
+        eventId: event.id,
+        isPublic: false,
+      })
+    );
+    this.loadEventQueryRef.refetch();
   }
 }

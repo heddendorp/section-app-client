@@ -22,19 +22,62 @@
   </mat-form-field>
   <ng-container *ngIf="registrationCode$ | async as code">
     <h2>Claim {{ code.targetEvent.title }}</h2>
-    <p>
-      You can claim your registration to this event by paying the participation
-      fee of {{ 3 | currency: 'EUR' }}
-    </p>
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="processing$ | async"
-      (click)="tryClaim()"
-      class="w-full"
-    >
-      Claim this event
-    </button>
+    <ng-container *ngIf="!code.registrationCreated">
+      <p>
+        You can claim your registration to this event by paying the
+        participation fee, please select from the available prices below.
+      </p>
+      <mat-form-field class="mb-4">
+        <mat-label>Price</mat-label>
+        <mat-select [formControl]="priceControl">
+          <mat-option
+            *ngFor="let price of availablePrices$ | async"
+            [value]="price"
+          >
+            {{ price.amount | currency: 'EUR' }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="processing$ | async"
+        (click)="tryClaim()"
+        class="w-full"
+      >
+        Claim this event
+      </button>
+    </ng-container>
+    <ng-container *ngIf="code.registrationCreated">
+      <ng-container
+        *ngIf="code.registrationCreated.belongsToCurrentUser; else codeClaimed"
+      >
+        <p>You claimed this code already ✅</p>
+        <ng-container
+          *ngIf="code.registrationCreated?.payment?.status === 'incomplete'"
+        >
+          <p>
+            Payment for this event is still missing, please finalize your
+            registration by paying now
+          </p>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="
+              openCheckout(code?.registrationCreated?.payment?.checkoutSession)
+            "
+          >
+            Pay for registration
+          </button>
+        </ng-container>
+      </ng-container>
+      <ng-template #codeClaimed>
+        <p>
+          This code was already claimed, it may become available again within
+          the next hour
+        </p>
+      </ng-template>
+    </ng-container>
   </ng-container>
   <div
     *ngIf="error$ | async as error"

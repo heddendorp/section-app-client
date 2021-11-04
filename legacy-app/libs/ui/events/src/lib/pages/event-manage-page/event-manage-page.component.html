@@ -13,6 +13,22 @@
     ></tumi-manage-event-finances>
   </div>
   <div class="border p-4 rounded-2xl my-4">
+    <h2>Extra tickets</h2>
+    <button mat-flat-button color="accent" (click)="createRegistrationCode()">
+      Create registration code
+    </button>
+    <mat-list>
+      <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
+        <h3 mat-line class="select-all">{{ code.id }}</h3>
+        <p mat-line>
+          {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
+            code.status
+          }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="border p-4 rounded-2xl my-4">
     <h2 class="mb-2">Participants</h2>
     <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
       <p>Users Checked in</p>
@@ -36,9 +52,10 @@
           class="h-12 rounded"
           referrerpolicy="no-referrer"
         />
-        <div>
+        <div fxLayout="column">
           <p>{{ registration.user.fullName }}</p>
           <p>{{ registration.user.email }}</p>
+          <p>Status: {{ registration.status }}</p>
           <p>
             Paid:
             <span class="px-1 rounded bg-gray-200 font-mono mr-2">
@@ -46,16 +63,24 @@
                 (registration.payment?.netAmount ?? 0) / 100 | currency: 'EUR'
               }}
             </span>
-            Registered:
-            <span class="px-1 rounded bg-gray-200 font-mono">
-              {{ registration.createdAt | date: 'medium' }}
-            </span>
+          </p>
+          <p>
+            Payment status:
+            <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
+              registration.payment?.status
+            }}</span>
           </p>
           <p>
             Payment method:
             <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
               registration.payment?.paymentMethodType
             }}</span>
+          </p>
+          <p>
+            Registered:
+            <span class="px-1 rounded bg-gray-200 font-mono">
+              {{ registration.createdAt | date: 'medium' }}
+            </span>
           </p>
         </div>
         <div *ngIf="registration.submissions.length">

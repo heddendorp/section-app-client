@@ -31,6 +31,10 @@ query loadEvent($id: ID!) {
       instruction
       required
       type
+      ownSubmissions{
+        id
+        data
+      }
     }
     organizer {
       id
@@ -40,9 +44,19 @@ query loadEvent($id: ID!) {
     activeRegistration {
       id
       didAttend
+      status
       #      openMoveOrders {
       #        id
       #      }
+      paymentId
+      payment{
+        id
+        createdAt
+        amount
+        status
+        paymentIntent
+        checkoutSession
+      }
       user {
         id
         fullName
@@ -89,28 +103,6 @@ mutation createEventRegistrationCode(
     id
   }
 }
-
-#mutation createMoveOrder($eventId: ID!) {
-#  createRegistrationMoveOrder(id: $eventId) {
-#    id
-#    openMoveOrders {
-#      id
-#    }
-#  }
-#}
-
-#query getMoveOrder($orderId: ID!) {
-#  moveOrder(id: $orderId) {
-#    id
-#    registration {
-#      id
-#      event {
-#        title
-#        price
-#      }
-#    }
-#  }
-#}
 
 query loadEventForRunning($id: ID!) {
   event(eventId: $id) {
@@ -252,6 +244,13 @@ query loadEventForManagement($id: ID!) {
     participantsRegistered
     participantsAttended
     #registrations
+    eventRegistrationCodes{
+      id
+      isPublic
+      status
+      registrationToRemoveId
+      registrationCreatedId
+    }
     organizerRegistrations {
       id
       createdAt
@@ -266,6 +265,7 @@ query loadEventForManagement($id: ID!) {
     participantRegistrations {
       id
       createdAt
+      status
       #      paymentStatus
       #      paymentIntentId
       #      netPaid
@@ -310,29 +310,13 @@ query GetUserPaymentStatus {
   }
 }
 
-mutation registerWithStripePayment($eventId: ID!, $submissions: Json) {
-  registerWithStripe(id: $eventId, submissions: $submissions) {
-    id
-    status
-    client_secret
-  }
-}
-
-mutation deregisterWithRefund($eventId: ID!, $userId: ID) {
-  deregisterUserWithRefund(userId: $userId, eventId: $eventId) {
-    id
-    participantRegistrationPossible
-    userRegistered
-    participantLimit
-    participantsRegistered
-    couldBeParticipant
-  }
-}
-
 mutation deregisterFromEvent($registrationId: ID!) {
   deregisterFromEvent(registrationId: $registrationId) {
     id
     participantRegistrations {
+      id
+    }
+    activeRegistration {
       id
     }
     organizers {
@@ -349,21 +333,6 @@ query loadUsersByStatus($allowList: [MembershipStatus!]!) {
   userWithStatus(allowList: $allowList) {
     id
     fullName
-  }
-}
-
-mutation registerForEvent($eventId: ID!, $type: RegistrationType) {
-  registerForEvent(eventId: $eventId, registrationType: $type) {
-    id
-    organizerRegistrationPossible
-    participantRegistrationPossible
-    organizersRegistered
-    participantsRegistered
-    couldBeOrganizer
-    userRegistered
-    organizers {
-      fullName
-    }
   }
 }
 

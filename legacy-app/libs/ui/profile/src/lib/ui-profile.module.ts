@@ -18,6 +18,7 @@ import { UpdateProfileDialogComponent } from './components/update-profile-dialog
 import { MatDialogModule } from '@angular/material/dialog';
 import { ClaimEventDialogComponent } from './components/claim-event-dialog/claim-event-dialog.component';
 import { PhotoJourneyPageComponent } from './pages/photo-journey-page/photo-journey-page.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { PhotoJourneyPageComponent } from './pages/photo-journey-page/photo-jour
     UtilPipesModule,
     MatListModule,
     MatDialogModule,
+    MatSelectModule,
   ],
   declarations: [
     NewUserPageComponent,
