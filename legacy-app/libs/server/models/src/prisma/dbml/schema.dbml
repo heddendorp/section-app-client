@@ -164,9 +164,7 @@ Table TumiEvent {
   createdBy User [not null]
   creatorId String [not null]
   description String [not null]
-  discountedPrice Decimal [note: '@deprecated should be removed soon']
   end DateTime [not null]
-  esnDiscount Boolean [not null, default: false, note: '@deprecated should be removed soon']
   eventOrganizerId String [not null]
   eventRegistrationCodes EventRegistrationCode [not null]
   eventTemplate EventTemplate [not null]
@@ -181,7 +179,6 @@ Table TumiEvent {
   participantSignup MembershipStatus [not null]
   participantText String [not null]
   photoShares PhotoShare [not null]
-  price Decimal [note: '@deprecated should be removed soon']
   prices Json
   publicationState PublicationState [not null, default: 'DRAFT']
   registrationLink String
@@ -274,38 +271,18 @@ Table PhotoShare {
 Table EventRegistration {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  amountPaid Int [note: '@deprecated should be deleted soon']
   cancellationReason String
-  chargeId String [note: '@deprecated should be deleted soon']
   checkInTime DateTime
   event TumiEvent [not null]
   eventId String [not null]
   manualCheckin Boolean [not null, default: false]
-  moveOrders EventRegistrationMoveOrder [not null]
-  netPaid Int [note: '@deprecated should be deleted soon']
   payment StripePayment
   paymentId String [unique]
-  paymentIntentId String [note: '@deprecated should be deleted soon']
-  paymentStatus String [note: '@deprecated should be deleted soon']
   status RegistrationStatus [not null, default: 'SUCCESSFUL']
-  stripeFee Int [note: '@deprecated should be deleted soon']
   submissions EventSubmission [not null]
   type RegistrationType [not null, default: 'PARTICIPANT']
   user User [not null]
   userId String [not null]
-}
-
-Table EventRegistrationMoveOrder {
-  id String [pk, note: '@deprecated should be deleted soon']
-  createdAt DateTime [default: `now()`, not null, note: '@deprecated should be deleted soon']
-  createdBy String [not null, note: '@deprecated should be deleted soon']
-  failed Boolean [not null, default: false, note: '@deprecated should be deleted soon']
-  usedBy String [note: '@deprecated should be deleted soon']
-  usedAt DateTime [note: '@deprecated should be deleted soon']
-  registration EventRegistration [not null, note: '@deprecated should be deleted soon']
-  eventRegistrationId String [not null, note: '@deprecated should be deleted soon']
-
-  Note: '@deprecated should be deleted soon'
 }
 
 Table EventRegistrationCode {
@@ -471,8 +448,6 @@ Ref: EventRegistration.eventId > TumiEvent.id
 Ref: EventRegistration.paymentId - StripePayment.id
 
 Ref: EventRegistration.userId > User.id
-
-Ref: EventRegistrationMoveOrder.eventRegistrationId > EventRegistration.id [delete: Cascade]
 
 Ref: EventRegistrationCode.eventId > TumiEvent.id
 

@@ -250,9 +250,7 @@ model TumiEvent {
   createdBy             User                    @relation(fields: [creatorId], references: [id])
   creatorId             String                  @db.Uuid
   description           String
-  discountedPrice       Decimal? /// @deprecated should be removed soon
   end                   DateTime
-  esnDiscount           Boolean                 @default(false) /// @deprecated should be removed soon
   eventOrganizerId      String                  @db.Uuid
   eventRegistrationCodes EventRegistrationCode[]
   eventTemplate         EventTemplate           @relation(fields: [eventTemplateId], references: [id])
@@ -267,7 +265,6 @@ model TumiEvent {
   participantSignup     MembershipStatus[]
   participantText       String
   photoShares           PhotoShare[]
-  price                 Decimal? /// @deprecated should be removed soon
   prices                Json?
   publicationState      PublicationState        @default(DRAFT)
   registrationLink      String?
@@ -358,37 +355,18 @@ model PhotoShare {
 model EventRegistration {
   id                 String                       @id @default(uuid()) @db.Uuid
   createdAt          DateTime                     @default(now())
-  amountPaid         Int? ///@deprecated should be deleted soon
   cancellationReason String?
-  chargeId           String? ///@deprecated should be deleted soon
   checkInTime        DateTime?
   event              TumiEvent                    @relation(fields: [eventId], references: [id])
   eventId            String                       @db.Uuid
   manualCheckin      Boolean                      @default(false)
-  moveOrders         EventRegistrationMoveOrder[] //@deprecated should be deleted soon
-  netPaid            Int? ///@deprecated should be deleted soon
   payment            StripePayment?               @relation(fields: [paymentId], references: [id])
   paymentId          String?                      @unique @db.Uuid
-  paymentIntentId    String? ///@deprecated should be deleted soon
-  paymentStatus      String? ///@deprecated should be deleted soon
   status             RegistrationStatus           @default(SUCCESSFUL)
-  stripeFee          Int? ///@deprecated should be deleted soon
   submissions        EventSubmission[]
   type               RegistrationType             @default(PARTICIPANT)
   user               User                         @relation(fields: [userId], references: [id])
   userId             String                       @db.Uuid
-}
-
-/// @deprecated should be deleted soon
-model EventRegistrationMoveOrder {
-  id                  String            @id @default(uuid()) @db.Uuid /// @deprecated should be deleted soon
-  createdAt           DateTime          @default(now()) /// @deprecated should be deleted soon
-  createdBy           String            @db.Uuid /// @deprecated should be deleted soon
-  failed              Boolean           @default(false) /// @deprecated should be deleted soon
-  usedBy              String?           @db.Uuid /// @deprecated should be deleted soon
-  usedAt              DateTime? /// @deprecated should be deleted soon
-  registration        EventRegistration @relation(fields: [eventRegistrationId], references: [id], onDelete: Cascade) /// @deprecated should be deleted soon
-  eventRegistrationId String            @db.Uuid /// @deprecated should be deleted soon
 }
 
 model EventRegistrationCode {
