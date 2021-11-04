@@ -320,7 +320,7 @@ export const statisticsType = objectType({
             return transform(
               res,
               (result, value, events) =>
-                result.push({ name: `${events} events`, value }),
+                result.push({ name: `${String(events)} events`, value }),
               []
             );
           }),
