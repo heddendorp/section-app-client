@@ -371,6 +371,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           end: DateTime.fromISO(data.updateEventCoreInfo.end).toISO({
             includeOffset: false,
           }),
+          registrationStart: DateTime.fromISO(
+            data.updateEventCoreInfo.registrationStart
+          ).toISO({
+            includeOffset: false,
+          }),
         });
       }
     }
