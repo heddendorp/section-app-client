@@ -131,7 +131,7 @@ export class RegistrationService {
       mode: 'payment',
       customer: customerId,
       line_items: items,
-      payment_method_types: ['card', 'klarna', 'sofort', 'giropay', 'ideal'],
+      payment_method_types: ['card', 'sofort', 'giropay', 'ideal'],
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
