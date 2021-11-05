@@ -360,6 +360,7 @@ Enum SubmissionItemType {
   LONGTEXT
   DATE
   RATING
+  BOOLEAN
 }
 
 Enum SubmissionTime {

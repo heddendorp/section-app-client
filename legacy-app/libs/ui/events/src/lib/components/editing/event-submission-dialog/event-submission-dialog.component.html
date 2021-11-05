@@ -25,7 +25,12 @@
       <mat-select formControlName="type">
         <mat-option [value]="SubmissionItemType.Text">Text</mat-option>
         <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>
-        <mat-option [value]="SubmissionItemType.Rating">Rating</mat-option>
+        <mat-option [value]="SubmissionItemType.Rating" disabled>
+          Rating
+        </mat-option>
+        <mat-option [value]="SubmissionItemType.Boolean" disabled
+          >Checkbox</mat-option
+        >
       </mat-select>
     </mat-form-field>
     <div class="mb-2">

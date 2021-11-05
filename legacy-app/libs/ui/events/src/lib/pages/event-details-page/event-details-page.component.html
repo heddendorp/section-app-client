@@ -172,27 +172,29 @@
     class="p-6 lg:p-12 bg-gray-100 border-t-2"
   >
     <h2 class="text-blue-600 mb-4">Sign up as organizer</h2>
-    <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
-      <button
-        mat-raised-button
-        color="accent"
-        class="w-full"
-        [disabled]="!event.organizerRegistrationPossible"
-        (click)="registerAsOrganizer()"
-      >
-        Sign up now
-      </button>
-      <div fxFlex="50">
-        <h3>Organizers already on this event</h3>
-        <mat-list>
-          <mat-list-item *ngIf="event.organizers.length === 0">
-            Nobody yet
-          </mat-list-item>
-          <mat-list-item *ngFor="let user of event.organizers">
-            {{ user.fullName }}
-          </mat-list-item>
-        </mat-list>
+    <tumi-check-registration-time [event]="event">
+      <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+        <button
+          mat-raised-button
+          color="accent"
+          class="w-full"
+          [disabled]="!event.organizerRegistrationPossible"
+          (click)="registerAsOrganizer()"
+        >
+          Sign up now
+        </button>
+        <div fxFlex="50">
+          <h3>Organizers already on this event</h3>
+          <mat-list>
+            <mat-list-item *ngIf="event.organizers.length === 0">
+              Nobody yet
+            </mat-list-item>
+            <mat-list-item *ngFor="let user of event.organizers">
+              {{ user.fullName }}
+            </mat-list-item>
+          </mat-list>
+        </div>
       </div>
-    </div>
+    </tumi-check-registration-time>
   </div>
 </main>

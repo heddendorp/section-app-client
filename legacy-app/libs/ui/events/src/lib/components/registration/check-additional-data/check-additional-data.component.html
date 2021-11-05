@@ -10,20 +10,24 @@
     (ngSubmit)="submitData()"
   >
     <ng-container *ngFor="let item of items" [ngSwitch]="item.type">
-      <ng-container *ngSwitchCase="SubmissionItemType.Text">
-        <mat-form-field>
+      <div *ngSwitchCase="SubmissionItemType.Text">
+        <mat-form-field class="w-full">
           <mat-label>{{ item.name }}</mat-label>
           <input matInput [formControlName]="item.id" type="text" />
-          <mat-hint>{{ item.instruction }}</mat-hint>
         </mat-form-field>
-      </ng-container>
-      <ng-container *ngSwitchCase="SubmissionItemType.Longtext">
-        <mat-form-field>
+        <p>{{ item.instruction }}</p>
+      </div>
+      <div *ngSwitchCase="SubmissionItemType.Longtext">
+        <mat-form-field class="w-full">
           <mat-label>{{ item.name }}</mat-label>
           <textarea matInput rows="3" [formControlName]="item.id"></textarea>
-          <mat-hint>{{ item.instruction }}</mat-hint>
         </mat-form-field>
-      </ng-container>
+        <p>{{ item.instruction }}</p>
+      </div>
+      <div *ngSwitchCase="SubmissionItemType.Boolean">
+        <mat-checkbox [formControlName]="item.id">{{ item.name }}</mat-checkbox>
+        <p>{{ item.instruction }}</p>
+      </div>
     </ng-container>
     <button mat-flat-button color="primary" [disabled]="inputForm.invalid">
       Submit data

@@ -24,7 +24,7 @@ query loadEvent($id: ID!) {
       id
       fullName
     }
-    submissionItems {
+    submissionItems(submissionTime: REGISTRATION) {
       id
       name
       submissionTime
@@ -135,12 +135,20 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
-    participantRegistrations {
+    participantRegistrations(includeCancelled: false) {
       id
       checkInTime
       payment {
         id
         status
+      }
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
       }
       user {
         id

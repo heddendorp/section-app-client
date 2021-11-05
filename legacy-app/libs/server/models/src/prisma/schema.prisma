@@ -49,6 +49,7 @@ enum SubmissionItemType {
   LONGTEXT
   DATE
   RATING
+  BOOLEAN
 }
 
 enum SubmissionTime {

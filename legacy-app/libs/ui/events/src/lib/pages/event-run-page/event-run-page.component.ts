@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import {
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ScanningDialogComponent } from '../../components/running/scanning-dialog/scanning-dialog.component';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -46,7 +46,7 @@ export class EventRunPageComponent implements OnDestroy {
   }
 
   async scanCode() {
-    const event = await this.event$.pipe(first()).toPromise();
+    const event = await firstValueFrom(this.event$);
     if (event) {
       this.dialog.open(ScanningDialogComponent, {
         minWidth: '95vw',
@@ -56,7 +56,7 @@ export class EventRunPageComponent implements OnDestroy {
     }
   }
   async copyOrganizerMails() {
-    const event = await this.event$.pipe(first()).toPromise();
+    const event = await firstValueFrom(this.event$);
     if (!event) return;
     const pending = this.clipboard.beginCopy(
       event.organizerRegistrations
@@ -76,7 +76,7 @@ export class EventRunPageComponent implements OnDestroy {
     attempt();
   }
   async copyParticipantMails() {
-    const event = await this.event$.pipe(first()).toPromise();
+    const event = await firstValueFrom(this.event$);
     if (!event) return;
     const pending = this.clipboard.beginCopy(
       event.participantRegistrations

@@ -71,33 +71,44 @@
     </div>
   </div>
   <h2 class="mt-4 mb-2">Participants</h2>
-  <div fxLayout="column" fxLayoutGap="1rem">
+  <div fxLayout="column" fxLayoutGap="2rem">
     <div
       *ngFor="let registration of event.participantRegistrations"
-      fxLayout="row"
+      fxLayout="column"
+      fxLayout.gt-sm="row"
       fxLayoutGap="1rem"
     >
-      <div class="relative">
-        <img
-          [src]="registration.user.picture"
-          referrerpolicy="no-referrer"
-          class="w-16 rounded"
-        />
-        <mat-icon
-          *ngIf="registration.checkInTime; else cross"
-          svgIcon="icon-checkmark"
-          class="absolute bottom-0 -right-3"
-        ></mat-icon>
-        <ng-template #cross>
+      <div fxLayout="row" fxLayoutGap="1rem">
+        <div class="relative">
+          <img
+            [src]="registration.user.picture"
+            referrerpolicy="no-referrer"
+            class="w-16 rounded"
+          />
           <mat-icon
-            svgIcon="icon-delete-sign"
+            *ngIf="registration.checkInTime; else cross"
+            svgIcon="icon-checkmark"
             class="absolute bottom-0 -right-3"
           ></mat-icon>
-        </ng-template>
+          <ng-template #cross>
+            <mat-icon
+              svgIcon="icon-delete-sign"
+              class="absolute bottom-0 -right-3"
+            ></mat-icon>
+          </ng-template>
+        </div>
+        <div>
+          <p>{{ registration.user.fullName }}</p>
+          <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+        </div>
       </div>
-      <div>
-        <p>{{ registration.user.fullName }}</p>
-        <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+        <div>
+          <div *ngFor="let submission of registration.submissions">
+            <p class="font-bold">{{ submission.submissionItem.name }}</p>
+            <p>{{ submission.data.value }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

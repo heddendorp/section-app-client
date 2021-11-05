@@ -542,6 +542,7 @@ type StripeUserData {
 }
 
 enum SubmissionItemType {
+  BOOLEAN
   DATE
   FILE
   LONGTEXT
@@ -651,7 +652,7 @@ type TumiEvent {
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
   start: DateTime!
-  submissionItems: [EventSubmissionItem!]!
+  submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   title: String!
 
   """

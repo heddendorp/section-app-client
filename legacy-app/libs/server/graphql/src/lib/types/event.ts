@@ -20,7 +20,11 @@ import {
   RegistrationType,
   Role,
 } from '@tumi/server-models';
-import { publicationStateEnum, registrationTypeEnum } from './enums';
+import {
+  publicationStateEnum,
+  registrationTypeEnum,
+  submissionTimeEnum,
+} from './enums';
 import { userType } from './user';
 import { eventRegistrationType } from './eventRegistration';
 import { ApolloError } from 'apollo-server-express';
@@ -115,11 +119,18 @@ export const eventType = objectType({
     });
     t.field({
       ...TumiEvent.submissionItems,
-      resolve: (source, args, context, { cacheControl }) => {
+      args: { submissionTime: arg({ type: submissionTimeEnum }) },
+      resolve: (source, { submissionTime }, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
         return context.prisma.tumiEvent
-          .findUnique({ where: { id: source.id } })
-          .submissionItems();
+          .findUnique({
+            where: {
+              id: source.id,
+            },
+          })
+          .submissionItems({
+            where: { ...(submissionTime ? { submissionTime } : {}) },
+          });
       },
     });
     t.field({
