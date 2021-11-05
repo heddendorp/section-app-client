@@ -908,7 +908,7 @@ export const registerForEvent = mutationField('registerForEvent', {
       }
       const baseUrl = process.env.DEV
         ? `http://localhost:4200/events/${eventId}`
-        : 'https://tumi.esn.world/events/${eventId}';
+        : `https://tumi.esn.world/events/${eventId}`;
       const res = await RegistrationService.registerOnEvent(
         context,
         prisma,
