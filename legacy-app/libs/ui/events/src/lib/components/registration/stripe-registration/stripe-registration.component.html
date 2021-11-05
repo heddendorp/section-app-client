@@ -117,7 +117,7 @@
     </p>
   </ng-container>
   <ng-container *ngIf="event.userRegistered">
-    <pre>{{ event.activeRegistration | json }}</pre>
+    <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
     <p>✔️ You have a spot on this event.</p>
     <ng-container
       *ngIf="event.activeRegistration?.payment?.status === 'incomplete'"
