@@ -59,7 +59,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:server"],
+      "implicitDependencies": ["tumi-app"]
     },
     "data-access": {
       "projectType": "library",
@@ -95,7 +97,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": []
     },
     "products": {
       "projectType": "library",
@@ -120,7 +123,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "server-graphql": {
       "root": "libs/server/graphql",
@@ -142,7 +146,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "server-models": {
       "root": "libs/server/models",
@@ -185,7 +190,8 @@
             "command": "npx prisma db push"
           }
         }
-      }
+      },
+      "tags": ["scope:server"]
     },
     "server-services": {
       "root": "libs/server/services",
@@ -207,7 +213,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-data-types": {
       "root": "libs/shared/data-types",
@@ -229,7 +236,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "tumi-app": {
       "projectType": "application",
@@ -414,7 +422,8 @@
             "ssr": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "tumi-app-e2e": {
       "root": "apps/tumi-app-e2e",
@@ -441,7 +450,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["tumi-app"]
     },
     "ui-app-shell": {
       "projectType": "library",
@@ -467,7 +478,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["scope:client"]
     },
     "ui-auth": {
       "projectType": "library",
@@ -493,7 +505,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["scope:client"]
     },
     "ui-event-templates": {
       "projectType": "library",
@@ -518,7 +531,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "ui-events": {
       "projectType": "library",
@@ -543,7 +557,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "ui-feedback": {
       "projectType": "library",
@@ -568,7 +583,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "ui-pages": {
       "projectType": "library",
@@ -593,7 +609,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "ui-profile": {
       "projectType": "library",
@@ -619,7 +636,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": []
     },
     "ui-tenant": {
       "projectType": "library",
@@ -644,7 +662,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "util-components": {
       "projectType": "library",
@@ -669,7 +688,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "util-material": {
       "projectType": "library",
@@ -695,7 +715,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": []
     },
     "util-pipes": {
       "projectType": "library",
@@ -720,47 +741,8 @@
             ]
           }
         }
-      }
-    }
-  },
-  "cli": {
-    "analytics": "8ea22110-bc58-4100-8592-7bed9e3111ba",
-    "defaultCollection": "@nrwl/angular",
-    "packageManager": "yarn"
-  },
-  "schematics": {
-    "@schematics/angular": {
-      "component": {
-        "changeDetection": "OnPush",
-        "style": "scss"
-      }
-    },
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
       },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss",
-      "changeDetection": "OnPush"
+      "tags": []
     }
-  },
-  "defaultProject": "tumi-app"
+  }
 }

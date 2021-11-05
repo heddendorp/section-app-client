@@ -1,5 +1,15 @@
-mutation registerForEvent($eventId: ID!, $type: RegistrationType, $submissions: Json, $price: Json) {
-  registerForEvent(eventId: $eventId, registrationType: $type, submissions: $submissions, price: $price) {
+mutation registerForEvent(
+  $eventId: ID!
+  $type: RegistrationType
+  $submissions: Json
+  $price: Json
+) {
+  registerForEvent(
+    eventId: $eventId
+    registrationType: $type
+    submissions: $submissions
+    price: $price
+  ) {
     id
     organizerRegistrationPossible
     participantRegistrationPossible
@@ -12,7 +22,7 @@ mutation registerForEvent($eventId: ID!, $type: RegistrationType, $submissions: 
       type
       status
       cancellationReason
-      payment{
+      payment {
         id
         createdAt
         amount

@@ -78,10 +78,10 @@ query getRegistrationCodeInfo($code: ID!) {
   eventRegistrationCode(id: $code) {
     id
     status
-    registrationCreated{
+    registrationCreated {
       id
       belongsToCurrentUser
-      payment{
+      payment {
         id
         status
         checkoutSession
@@ -98,13 +98,13 @@ query getRegistrationCodeInfo($code: ID!) {
 }
 
 mutation useRegistrationCode($id: ID!, $price: Json) {
-  useRegistrationCode(id: $id,price: $price){
+  useRegistrationCode(id: $id, price: $price) {
     id
     status
-    registrationCreated{
+    registrationCreated {
       id
       belongsToCurrentUser
-      payment{
+      payment {
         id
         status
         checkoutSession

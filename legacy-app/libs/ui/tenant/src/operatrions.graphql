@@ -46,9 +46,9 @@ query loadUser($id: ID!) {
       id
       createdAt
       checkInTime
-#      paymentStatus
+      #      paymentStatus
       type
-#      netPaid
+      #      netPaid
       event {
         id
         title
@@ -72,9 +72,9 @@ query getRegistrations {
       id
       fullName
     }
-#    amountPaid
-#    stripeFee
-#    paymentStatus
+    #    amountPaid
+    #    stripeFee
+    #    paymentStatus
   }
 }
 
@@ -128,12 +128,12 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
   }
 }
 
-query getEventRegistrationCodes{
-eventRegistrationCodes(includePrivate: true){
-  id
-  isPublic
-  status
-}
+query getEventRegistrationCodes {
+  eventRegistrationCodes(includePrivate: true) {
+    id
+    isPublic
+    status
+  }
 }
 
 #query getMoveOrders {

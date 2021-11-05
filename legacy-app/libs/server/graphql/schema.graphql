@@ -676,7 +676,7 @@ input UpdateCoreEventInput {
   organizerSignup: [MembershipStatus!]!
   participantLimit: Int!
   participantSignup: [MembershipStatus!]!
-  prices: [Json!]!
+  prices: Json
   registrationLink: String
   registrationMode: RegistrationMode!
   registrationStart: DateTime!

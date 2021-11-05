@@ -29,68 +29,44 @@
       }
     ]
   },
-  "projects": {
-    "api": {
-      "tags": ["scope:server"],
-      "implicitDependencies": ["tumi-app"]
+  "cli": {
+    "analytics": "8ea22110-bc58-4100-8592-7bed9e3111ba",
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "yarn"
+  },
+  "generators": {
+    "@schematics/angular": {
+      "component": {
+        "changeDetection": "OnPush",
+        "style": "scss"
+      }
     },
-    "data-access": {
-      "tags": []
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
     },
-    "products": {
-      "tags": []
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
-    "server-graphql": {
-      "tags": []
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
     },
-    "server-models": {
-      "tags": ["scope:server"]
-    },
-    "server-services": {
-      "tags": []
-    },
-    "shared-data-types": {
-      "tags": []
-    },
-    "tumi-app": {
-      "tags": []
-    },
-    "tumi-app-e2e": {
-      "tags": [],
-      "implicitDependencies": ["tumi-app"]
-    },
-    "ui-app-shell": {
-      "tags": ["scope:client"]
-    },
-    "ui-auth": {
-      "tags": ["scope:client"]
-    },
-    "ui-event-templates": {
-      "tags": []
-    },
-    "ui-events": {
-      "tags": []
-    },
-    "ui-feedback": {
-      "tags": []
-    },
-    "ui-pages": {
-      "tags": []
-    },
-    "ui-profile": {
-      "tags": []
-    },
-    "ui-tenant": {
-      "tags": []
-    },
-    "util-components": {
-      "tags": []
-    },
-    "util-material": {
-      "tags": []
-    },
-    "util-pipes": {
-      "tags": []
+    "@nrwl/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush"
     }
-  }
+  },
+  "defaultProject": "tumi-app"
 }

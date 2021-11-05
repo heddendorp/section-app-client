@@ -14,17 +14,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: azure/docker-login@v1
-      with:
+      - uses: azure/docker-login@v1
+        with:
           login-server: esntumi.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    - run: |
-        docker build . -t esntumi.azurecr.io/tumiapp:${{ github.sha }}
-        docker push esntumi.azurecr.io/tumiapp:${{ github.sha }}
+      - run: |
+          docker build . -t esntumi.azurecr.io/tumiapp:${{ github.sha }}
+          docker push esntumi.azurecr.io/tumiapp:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -34,11 +34,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: 'Deploy to Azure Web App'
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'esn-tumi'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_95e5f091805c4c79b63cae42d6496088 }}
-        images: 'esntumi.azurecr.io/tumiapp:${{ github.sha }}'
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'esn-tumi'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_95e5f091805c4c79b63cae42d6496088 }}
+          images: 'esntumi.azurecr.io/tumiapp:${{ github.sha }}'

@@ -666,7 +666,7 @@ export const updateCoreEventInput = inputObjectType({
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.participantLimit);
     t.field(TumiEvent.organizerLimit);
-    t.field({ ...TumiEvent.prices, type: nonNull(list(nonNull(Json))) });
+    t.field(TumiEvent.prices);
     t.id('eventOrganizerId');
   },
 });

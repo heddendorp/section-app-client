@@ -181,7 +181,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         this.addPrice();
       }
     }
-    console.log(event);
     if (event) {
       this.generalInformationForm.patchValue(event, { emitEvent: true });
       this.coreInformationForm.patchValue(

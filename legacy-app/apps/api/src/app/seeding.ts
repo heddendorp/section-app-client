@@ -1,14 +1,10 @@
-import {
-  MembershipStatus,
-  Prisma,
-  PrismaClient,
-  Role,
-} from '@tumi/server-models';
+import { MembershipStatus, PrismaClient, Role } from '@tumi/server-models';
 import * as Stripe from 'stripe';
 
 const stripe = new Stripe.default.Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2020-08-27',
 });
+
 export async function seedDB(prisma: PrismaClient) {
   const tenant = await prisma.tenant.upsert({
     where: {
@@ -47,6 +43,7 @@ export async function seedDB(prisma: PrismaClient) {
       },
     },
   });
+  // await fixPrices(prisma);
   // await migrateEvents(prisma);
   // await migratePayments(prisma);
   // const events = await prisma.tumiEvent.findMany();

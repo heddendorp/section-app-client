@@ -31,7 +31,7 @@ query loadEvent($id: ID!) {
       instruction
       required
       type
-      ownSubmissions{
+      ownSubmissions {
         id
         data
       }
@@ -49,7 +49,7 @@ query loadEvent($id: ID!) {
       #        id
       #      }
       paymentId
-      payment{
+      payment {
         id
         createdAt
         amount
@@ -244,7 +244,7 @@ query loadEventForManagement($id: ID!) {
     participantsRegistered
     participantsAttended
     #registrations
-    eventRegistrationCodes{
+    eventRegistrationCodes {
       id
       isPublic
       status
