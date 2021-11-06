@@ -51,6 +51,13 @@
         >
           FAQ
         </a>
+        <button
+          mat-list-item
+          *ngIf="installEvent$ | async as event"
+          (click)="event.prompt()"
+        >
+          Install the TUMi app
+        </button>
       </mat-nav-list>
       <div fxFlex="grow"></div>
       <div class="mb-4 mx-auto">

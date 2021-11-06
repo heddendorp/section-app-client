@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { first, map, shareReplay } from 'rxjs/operators';
 import {
   GetTenantInfoGQL,
@@ -9,6 +9,7 @@ import {
   Role,
 } from '@tumi/data-access';
 import { MatSidenav } from '@angular/material/sidenav';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'tumi-navigation',
@@ -20,6 +21,9 @@ export class NavigationComponent {
   public Role = Role;
   public MembershipStatus = MembershipStatus;
   public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
+  public installEvent$ = new ReplaySubject<
+    Event & { prompt: () => Promise<void> }
+  >(1);
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -29,11 +33,19 @@ export class NavigationComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private getTenantInfo: GetTenantInfoGQL
+    private getTenantInfo: GetTenantInfoGQL,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.tenant$ = this.getTenantInfo
       .watch()
       .valueChanges.pipe(map(({ data }) => data.currentTenant));
+    const { defaultView } = document;
+    if (defaultView) {
+      defaultView.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        this.installEvent$.next(e as Event & { prompt: () => Promise<void> });
+      });
+    }
   }
 
   async closeSidenav(drawer: MatSidenav): Promise<void> {
