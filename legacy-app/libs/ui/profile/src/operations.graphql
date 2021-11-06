@@ -64,7 +64,7 @@ query userProfile {
       icon
       start
     }
-    participatedEvents {
+    participatedEvents(hideCancelled: true) {
       id
       title
       icon

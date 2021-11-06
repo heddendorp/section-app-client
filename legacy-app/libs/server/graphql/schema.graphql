@@ -759,7 +759,7 @@ type User {
   """
   List of events attended by the user
   """
-  participatedEvents: [TumiEvent!]!
+  participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   paypal: String
   phone: String
   picture: String!

@@ -13,7 +13,7 @@ import { MembershipStatus, Role, User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
-import { RegistrationType } from '@tumi/server-models';
+import { RegistrationStatus, RegistrationType } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 
 export const userType = objectType({
@@ -94,14 +94,18 @@ export const userType = objectType({
     t.field({
       name: 'participatedEvents',
       type: nonNull(list(nonNull(eventType))),
+      args: { hideCancelled: booleanArg({ default: false }) },
       description: 'List of events attended by the user',
-      resolve: (source, args, context) =>
+      resolve: (source, { hideCancelled }, context) =>
         context.prisma.tumiEvent.findMany({
           where: {
             registrations: {
               some: {
                 user: { id: source.id },
                 type: RegistrationType.PARTICIPANT,
+                ...(hideCancelled
+                  ? { status: { not: RegistrationStatus.CANCELLED } }
+                  : {}),
               },
             },
           },
