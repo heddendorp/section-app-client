@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
@@ -15,7 +10,7 @@ import { GetEventTemplateQuery } from '@tumi/data-access';
   styleUrls: ['./event-form-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventFormDialogComponent implements OnInit {
+export class EventFormDialogComponent {
   public dialogForm: FormGroup;
   public iconFieldValue: Observable<string>;
 
@@ -33,7 +28,6 @@ export class EventFormDialogComponent implements OnInit {
       location: [null, Validators.required],
       duration: ['', Validators.required],
       participantText: ['', Validators.required],
-      participantMail: ['' /*, Validators.required*/],
       organizerText: ['', Validators.required],
     });
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
@@ -42,8 +36,6 @@ export class EventFormDialogComponent implements OnInit {
       this.dialogForm.get('location')?.disable();
     }
   }
-
-  ngOnInit(): void {}
 
   onSubmit() {
     if (this.dialogForm.valid) {
