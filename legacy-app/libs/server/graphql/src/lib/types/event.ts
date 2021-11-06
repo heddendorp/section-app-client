@@ -1028,22 +1028,27 @@ export const createFromTemplateMutation = mutationField(
           location: template.location,
           participantText: template.participantText,
           organizerText: template.organizerText,
-          prices: {
-            options: [
-              {
-                amount: createEventFromTemplateInput.price,
-                defaultPrice: true,
-                esnCardRequired: false,
-                allowedStatusList: [
-                  MembershipStatus.NONE,
-                  MembershipStatus.TRIAL,
-                  MembershipStatus.FULL,
-                  MembershipStatus.SPONSOR,
-                  MembershipStatus.ALUMNI,
-                ],
-              },
-            ],
-          },
+          ...(createEventFromTemplateInput.registrationMode ===
+          RegistrationMode.STRIPE
+            ? {
+                prices: {
+                  options: [
+                    {
+                      amount: createEventFromTemplateInput.price,
+                      defaultPrice: true,
+                      esnCardRequired: false,
+                      allowedStatusList: [
+                        MembershipStatus.NONE,
+                        MembershipStatus.TRIAL,
+                        MembershipStatus.FULL,
+                        MembershipStatus.SPONSOR,
+                        MembershipStatus.ALUMNI,
+                      ],
+                    },
+                  ],
+                },
+              }
+            : {}),
           createdBy: { connect: { id: context.user.id } },
           participantSignup: [
             MembershipStatus.NONE,

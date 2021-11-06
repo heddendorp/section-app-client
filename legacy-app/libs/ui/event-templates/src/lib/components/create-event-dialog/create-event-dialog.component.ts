@@ -38,7 +38,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required],
-      defaultPrice: ['', Validators.required],
+      price: ['', Validators.required],
       registrationLink: ['', Validators.required],
       registrationMode: ['', Validators.required],
       participantLimit: ['', Validators.required],
