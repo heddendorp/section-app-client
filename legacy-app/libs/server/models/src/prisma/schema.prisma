@@ -9,7 +9,7 @@ datasource db {
 generator client {
   provider        = "prisma-client-js"
   output          = "../lib/client"
-  previewFeatures = ["interactiveTransactions"]
+  previewFeatures = ["interactiveTransactions","fullTextSearch"]
 }
 
 generator nexusPrisma {

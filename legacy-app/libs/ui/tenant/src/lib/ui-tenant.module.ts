@@ -31,6 +31,7 @@ import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page
 import { ShowDataDialogComponent } from './components/show-data-dialog/show-data-dialog.component';
 import { TenantPhotosPageComponent } from './pages/tenant-photos-page/tenant-photos-page.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSlideToggleModule,
     MatProgressBarModule,
     NgxChartsModule,
+    MatPaginatorModule,
   ],
   declarations: [
     TenantLandingPageComponent,

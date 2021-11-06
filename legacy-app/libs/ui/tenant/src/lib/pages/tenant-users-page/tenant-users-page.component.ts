@@ -14,10 +14,10 @@ import {
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { debounceTime, map, shareReplay, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'tumi-tenant-users-page',
@@ -27,6 +27,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public users$: Observable<GetUsersQuery['users']>;
+  public userNum$: Observable<GetUsersQuery['userSearchResultNum']>;
   public displayedColumns = [
     'firstName',
     'lastName',
@@ -49,14 +50,22 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     private clipboard: Clipboard
   ) {
     this.title.setTitle('TUMi - manage users');
-    this.loadUsersReference = this.loadUsers.watch();
+    this.loadUsersReference = this.loadUsers.watch({
+      pageLength: 20,
+      pageIndex: 0,
+    });
     this.users$ = this.loadUsersReference.valueChanges.pipe(
       map(({ data }) => data.users),
+      shareReplay(1)
+    );
+    this.userNum$ = this.loadUsersReference.valueChanges.pipe(
+      map(({ data }) => data.userSearchResultNum),
       shareReplay(1)
     );
     this.filterForm = this.fb.group({
       statusList: [Object.values(MembershipStatus)],
       roleList: [Object.values(Role)],
+      search: [''],
     });
   }
 
@@ -68,18 +77,6 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
-  }
-
-  async updateUser(user: GetUsersQuery['users'][0]) {
-    const newUser = await this.dialog
-      .open(UpdateUserDialogComponent, { data: { user } })
-      .afterClosed()
-      .toPromise();
-    if (newUser) {
-      await this.updateMutation
-        .mutate({ id: user.id, role: newUser.role, status: newUser.status })
-        .toPromise();
-    }
   }
 
   async copyMails() {
@@ -98,5 +95,12 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
       }
     };
     attempt();
+  }
+
+  updatePage($event: PageEvent) {
+    this.loadUsersReference.refetch({
+      pageIndex: $event.pageIndex,
+      pageLength: $event.pageSize,
+    });
   }
 }

@@ -113,8 +113,8 @@ query getOrganizers {
   }
 }
 
-query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
-  users(roleList: $roleList, statusList: $statusList) {
+query getUsers($roleList: [Role], $statusList: [MembershipStatus], $search:String, $pageIndex: Int, $pageLength:Int) {
+  users(roleList: $roleList, statusList: $statusList, search: $search, pageIndex: $pageIndex, pageLength: $pageLength) {
     id
     firstName
     lastName
@@ -126,6 +126,7 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus]) {
       status
     }
   }
+  userSearchResultNum(roleList: $roleList, statusList: $statusList, search: $search)
 }
 
 query getEventRegistrationCodes {

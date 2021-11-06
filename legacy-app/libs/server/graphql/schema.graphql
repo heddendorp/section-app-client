@@ -459,6 +459,11 @@ type Query {
     """
     id: ID!
   ): User
+  userSearchResultNum(
+    roleList: [Role] = [USER, ADMIN]
+    search: String
+    statusList: [MembershipStatus] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]
+  ): Int!
 
   """
   Get all users with a status from the allowList
@@ -469,7 +474,10 @@ type Query {
   returns a list of users
   """
   users(
+    pageIndex: Int
+    pageLength: Int
     roleList: [Role] = [USER, ADMIN]
+    search: String
     statusList: [MembershipStatus] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]
   ): [User!]!
 }

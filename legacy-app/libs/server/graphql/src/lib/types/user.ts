@@ -3,11 +3,13 @@ import {
   booleanArg,
   idArg,
   inputObjectType,
+  intArg,
   list,
   mutationField,
   nonNull,
   objectType,
   queryField,
+  stringArg,
 } from 'nexus';
 import { MembershipStatus, Role, User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
@@ -192,12 +194,29 @@ export const listUsersQuery = queryField('users', {
       default: MembershipStatus.members,
     }),
     roleList: arg({ type: list(roleEnum), default: Role.members }),
+    search: stringArg(),
+    pageLength: intArg(),
+    pageIndex: intArg(),
   },
-  resolve: (source, { statusList, roleList }, context) => {
-    console.log(roleList);
-    console.log(statusList);
+  resolve: (
+    source,
+    { statusList, roleList, search, pageLength, pageIndex },
+    context
+  ) => {
+    const OR = [];
+    let page = {};
+    if (typeof pageIndex === 'number' && typeof pageLength === 'number') {
+      page = { skip: pageIndex * pageLength, take: pageLength };
+    }
+    if (search) {
+      OR.push({ firstName: { contains: search } });
+      OR.push({ lastName: { contains: search } });
+      OR.push({ email: { contains: search } });
+    }
+    console.log(OR);
     return context.prisma.user.findMany({
       where: {
+        ...(search ? { OR } : {}),
         tenants: {
           some: {
             tenantId: context.tenant.id,
@@ -207,6 +226,39 @@ export const listUsersQuery = queryField('users', {
         },
       },
       orderBy: { lastName: 'asc' },
+      ...page,
+    });
+  },
+});
+
+export const userSearchResultNumQuery = queryField('userSearchResultNum', {
+  type: nonNull('Int'),
+  args: {
+    search: stringArg(),
+    statusList: arg({
+      type: list(membershipStatusEnum),
+      default: MembershipStatus.members,
+    }),
+    roleList: arg({ type: list(roleEnum), default: Role.members }),
+  },
+  resolve: (source, { statusList, roleList, search }, context, info) => {
+    const OR = [];
+    if (search) {
+      OR.push({ firstName: { search } });
+      OR.push({ lastName: { search } });
+      OR.push({ email: { search } });
+    }
+    return context.prisma.user.count({
+      where: {
+        ...(search ? { OR } : {}),
+        tenants: {
+          some: {
+            tenantId: context.tenant.id,
+            role: { in: roleList },
+            status: { in: statusList },
+          },
+        },
+      },
     });
   },
 });
