@@ -9,6 +9,7 @@ import {
 } from 'nexus';
 import { PhotoShare } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
+import { RegistrationStatus, Role } from '@tumi/server-models';
 
 export const photoShare = objectType({
   name: PhotoShare.$name,
@@ -91,8 +92,21 @@ export const getPhotosQuery = queryField('photos', {
 export const getPhotosOfEventQuery = queryField('photosOfEvent', {
   type: nonNull(list(nonNull(photoShare))),
   args: { id: nonNull(idArg()) },
-  resolve: (source, { id }, context) =>
-    context.prisma.tumiEvent.findUnique({ where: { id } }).photoShares(),
+  resolve: (source, { id }, context) => {
+    const registrations = context.prisma.eventRegistration.count({
+      where: {
+        event: { id },
+        user: { id: context.user.id },
+        status: { not: RegistrationStatus.CANCELLED },
+      },
+    });
+    if (registrations === 0 && context.assignment.role !== Role.ADMIN) {
+      throw new ApolloError(
+        'You can only see photos of events your are registered for!'
+      );
+    }
+    return context.prisma.tumiEvent.findUnique({ where: { id } }).photoShares();
+  },
 });
 
 export const createPhotoShareMutation = mutationField('createPhotoShare', {

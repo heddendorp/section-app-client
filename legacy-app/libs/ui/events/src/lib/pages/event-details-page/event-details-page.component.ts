@@ -54,10 +54,12 @@ export class EventDetailsPageComponent implements OnDestroy {
       shareReplay(1)
     );
     this.eventOver$ = this.event$.pipe(
-      map((event) => (event?.end ? event.end < new Date() : false))
+      map((event) => (event?.end ? new Date(event.end) < new Date() : false))
     );
     this.eventStarted$ = this.event$.pipe(
-      map((event) => (event?.start ? event.start < new Date() : false))
+      map((event) =>
+        event?.start ? new Date(event.start) < new Date() : false
+      )
     );
     this.loadEventQueryRef.startPolling(5000);
     this.hasAccount$ = this.loadCurrentUser.watch().valueChanges.pipe(
