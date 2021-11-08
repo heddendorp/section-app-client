@@ -53,7 +53,7 @@ export class RegistrationService {
           payment: { connect: { id: payment.id } },
           status: RegistrationStatus.PENDING,
           type: RegistrationType.PARTICIPANT,
-          registrationCodeId: registrationCode.id,
+          eventRegistrationCode: { connect: { id: registrationCode.id } },
         },
       });
       return this.prisma.eventRegistrationCode.update({
