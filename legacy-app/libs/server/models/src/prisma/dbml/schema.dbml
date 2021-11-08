@@ -283,6 +283,7 @@ Table EventRegistration {
   type RegistrationType [not null, default: 'PARTICIPANT']
   user User [not null]
   userId String [not null]
+  registrationCodeId String
 }
 
 Table EventRegistrationCode {
