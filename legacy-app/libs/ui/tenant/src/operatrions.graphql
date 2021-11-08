@@ -132,34 +132,30 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus], $search:Strin
 query getEventRegistrationCodes {
   eventRegistrationCodes(includePrivate: true) {
     id
+    createdAt
     isPublic
     status
+    targetEvent{
+      id
+      title
+    }
+    creator{
+      id
+      fullName
+    }
+    registrationToRemove{
+      id
+    }
+    registrationCreated{
+      id
+      createdAt
+      user{
+        id
+        fullName
+      }
+    }
   }
 }
-
-#query getMoveOrders {
-#  moveOrders {
-#    id
-#    createdAt
-#    usedAt
-#    creator {
-#      id
-#      fullName
-#    }
-#    receiver {
-#      id
-#      fullName
-#    }
-#    registration {
-#      id
-#      paymentStatus
-#      event {
-#        id
-#        title
-#      }
-#    }
-#  }
-#}
 
 query getStatistics {
   currentTenant {
@@ -201,15 +197,6 @@ query getLogs {
     message
   }
 }
-
-#mutation updateStatus($id: ID!, $status: MembershipStatus!) {
-#  updateUserStatus(userId: $id, status: $status) {
-#    id
-#    currentTenant {
-#      status
-#    }
-#  }
-#}
 
 mutation updateTenant($id: ID!, $update: updateTenantInput!) {
   updateTenant(id: $id, data: $update) {

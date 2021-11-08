@@ -151,6 +151,7 @@ type EventRegistration {
 type EventRegistrationCode {
   createdAt: DateTime!
   createdById: String!
+  creator: User!
   eventId: String!
   id: ID!
   isPublic: Boolean!

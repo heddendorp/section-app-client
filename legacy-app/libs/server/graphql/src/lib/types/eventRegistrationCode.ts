@@ -15,6 +15,7 @@ import { ApolloError } from 'apollo-server-express';
 import { RegistrationService, ValidationService } from '@tumi/server/services';
 import { Json } from 'nexus-prisma/scalars';
 import { eventRegistrationType } from './eventRegistration';
+import { userType } from './user';
 
 export const eventRegistrationCodeType = objectType({
   name: EventRegistrationCode.$name,
@@ -47,6 +48,7 @@ export const eventRegistrationCodeType = objectType({
           maxAge: 10,
           scope: CacheScope.Public,
         });
+        if (!source.registrationToRemoveId) return null;
         return context.prisma.eventRegistration.findUnique({
           where: { id: source.registrationToRemoveId },
         });
@@ -63,6 +65,19 @@ export const eventRegistrationCodeType = objectType({
         if (!source.registrationCreatedId) return null;
         return context.prisma.eventRegistration.findUnique({
           where: { id: source.registrationCreatedId },
+        });
+      },
+    });
+    t.field({
+      name: 'creator',
+      type: nonNull(userType),
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.user.findUnique({
+          where: { id: source.createdById },
         });
       },
     });
