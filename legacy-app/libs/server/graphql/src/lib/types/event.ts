@@ -331,12 +331,17 @@ export const eventType = objectType({
           .then((number) => number !== 0);
       },
     });
+    t.nonNull.boolean('userIsCreator', {
+      resolve: (source, args, context) => {
+        if (context.assignment.role === Role.ADMIN) return true;
+        return source.creatorId === context.user.id;
+      },
+    });
     t.nonNull.boolean('userIsOrganizer', {
       description: 'Indicates if the current user is organizer for the event',
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
-        if (source.creatorId === context.user.id) return true;
         return context.prisma.eventRegistration
           .count({
             where: {

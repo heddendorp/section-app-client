@@ -673,6 +673,7 @@ type TumiEvent {
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   submittedSpend: Decimal
   title: String!
+  userIsCreator: Boolean!
 
   """
   Indicates if the current user is organizer for the event

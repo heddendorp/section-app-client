@@ -4,7 +4,7 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
     ></a>
     <div fxFlex="grow"></div>
-    <a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
+    <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator">
       <mat-icon svgIcon="icon-edit"></mat-icon
     ></a>
     <a routerLink="manage" mat-icon-button *tumiIfRole="[Role.Admin]">

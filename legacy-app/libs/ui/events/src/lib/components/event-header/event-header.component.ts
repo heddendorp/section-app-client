@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LoadEventQuery, Role } from '@tumi/data-access';
 
 @Component({
@@ -12,10 +7,7 @@ import { LoadEventQuery, Role } from '@tumi/data-access';
   styleUrls: ['./event-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventHeaderComponent implements OnInit {
+export class EventHeaderComponent {
   public Role = Role;
   @Input() public event: LoadEventQuery['event'] | null = null;
-  constructor() {}
-
-  ngOnInit(): void {}
 }

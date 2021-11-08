@@ -68,6 +68,7 @@ query loadEvent($id: ID!) {
     participantRegistrationPossible
     userRegistered
     userIsOrganizer
+    userIsCreator
     participantLimit
     participantsRegistered
     couldBeOrganizer
