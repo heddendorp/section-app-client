@@ -296,6 +296,7 @@ export const eventType = objectType({
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
+        if (source.creatorId === context.user.id) return true;
         return context.prisma.eventRegistration
           .count({
             where: {
@@ -920,7 +921,7 @@ export const registerForEvent = mutationField('registerForEvent', {
       const baseUrl = process.env.DEV
         ? `http://localhost:4200/events/${eventId}`
         : `https://tumi.esn.world/events/${eventId}`;
-      const res = await RegistrationService.registerOnEvent(
+      return await RegistrationService.registerOnEvent(
         context,
         prisma,
         eventId,
@@ -931,7 +932,6 @@ export const registerForEvent = mutationField('registerForEvent', {
         `${baseUrl}?cancel=true`,
         `${baseUrl}?success=true`
       );
-      return res;
     }),
 });
 
