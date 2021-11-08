@@ -1,6 +1,7 @@
-import { objectType } from 'nexus';
+import { list, nonNull, objectType } from 'nexus';
 import { StripePayment } from 'nexus-prisma';
 import { CacheScope } from 'apollo-server-types';
+import { Json } from 'nexus-prisma/scalars';
 
 export const stripePaymentType = objectType({
   name: StripePayment.$name,
@@ -12,7 +13,13 @@ export const stripePaymentType = objectType({
     t.field(StripePayment.paymentMethod);
     t.field(StripePayment.paymentMethodType);
     t.field(StripePayment.status);
-    t.field(StripePayment.events);
+    t.field({
+      ...StripePayment.events,
+      type: nonNull(list(Json)),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      resolve: (payment) => payment.events ?? [],
+    });
     t.field(StripePayment.purchaseId);
     t.field(StripePayment.amount);
     t.field(StripePayment.feeAmount);

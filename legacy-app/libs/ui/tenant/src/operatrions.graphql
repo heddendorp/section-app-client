@@ -46,9 +46,21 @@ query loadUser($id: ID!) {
       id
       createdAt
       checkInTime
-      #      paymentStatus
       type
-      #      netPaid
+      status
+      deletingCode{
+        id
+        createdAt
+      }
+      creatingCode{
+        id
+        createdAt
+      }
+      payment{
+        id
+        status
+        events
+      }
       event {
         id
         title

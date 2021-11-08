@@ -73,6 +73,19 @@ export const eventRegistrationType = objectType({
         });
       },
     });
+    t.field({
+      name: 'creatingCode',
+      type: eventRegistrationCodeType,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventRegistration
+          .findUnique({ where: { id: source.id } })
+          .eventRegistrationCode();
+      },
+    });
     t.nonNull.boolean('didAttend', {
       resolve: (source) => !!source.checkInTime,
     });

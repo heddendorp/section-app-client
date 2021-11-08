@@ -133,6 +133,7 @@ type EventRegistration {
   cancellationReason: String
   checkInTime: DateTime
   createdAt: DateTime!
+  creatingCode: EventRegistrationCode
   deletingCode: EventRegistrationCode
   didAttend: Boolean!
   event: TumiEvent!
@@ -535,7 +536,7 @@ type StripePayment {
   """
   Array of events with their timestamps
   """
-  events: Json!
+  events: [Json]!
   feeAmount: Decimal
   id: ID!
   netAmount: Decimal
