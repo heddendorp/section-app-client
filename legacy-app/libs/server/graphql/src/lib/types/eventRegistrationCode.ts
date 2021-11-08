@@ -93,6 +93,7 @@ export const getListQuery = queryField('eventRegistrationCodes', {
       where: {
         ...(includePrivate ? {} : { isPublic: true }),
       },
+      orderBy: { createdAt: 'desc' },
     });
   },
 });
