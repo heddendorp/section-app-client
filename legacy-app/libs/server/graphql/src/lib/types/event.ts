@@ -208,8 +208,8 @@ export const eventType = objectType({
             where: {
               type: RegistrationType.PARTICIPANT,
               ...(includeCancelled
-                ? { status: { not: RegistrationStatus.CANCELLED } }
-                : {}),
+                ? {}
+                : { status: { not: RegistrationStatus.CANCELLED } }),
             },
             orderBy: [
               { status: 'desc' },

@@ -135,7 +135,7 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
-    participantRegistrations(includeCancelled: false) {
+    participantRegistrations {
       id
       checkInTime
       payment {
@@ -270,7 +270,7 @@ query loadEventForManagement($id: ID!) {
         email
       }
     }
-    participantRegistrations {
+    participantRegistrations(includeCancelled: true) {
       id
       createdAt
       status
@@ -321,7 +321,7 @@ query GetUserPaymentStatus {
 mutation deregisterFromEvent($registrationId: ID!) {
   deregisterFromEvent(registrationId: $registrationId) {
     id
-    participantRegistrations {
+    participantRegistrations(includeCancelled: true) {
       id
     }
     activeRegistration {
