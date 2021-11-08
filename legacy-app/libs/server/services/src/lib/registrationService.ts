@@ -139,6 +139,9 @@ export class RegistrationService {
         'p24',
         'bancontact',
       ],
+      payment_intent_data: {
+        description: `Fee for: ${items.map((item) => item.name).join(',')}`,
+      },
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
