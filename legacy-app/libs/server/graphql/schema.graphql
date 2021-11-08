@@ -290,7 +290,10 @@ type Mutation {
   Delete one template by id
   """
   deleteTemplate(id: ID!): EventTemplate
-  deregisterFromEvent(registrationId: ID!): TumiEvent
+  deregisterFromEvent(
+    registrationId: ID!
+    withRefund: Boolean = true
+  ): TumiEvent
   newProduct(input: newProductInput!): Product!
   registerForEvent(
     eventId: ID!

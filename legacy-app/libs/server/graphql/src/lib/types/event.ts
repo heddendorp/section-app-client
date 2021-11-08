@@ -227,7 +227,10 @@ export const eventType = objectType({
         return context.prisma.tumiEvent
           .findUnique({ where: { id: source.id } })
           .registrations({
-            where: { type: RegistrationType.ORGANIZER },
+            where: {
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
             orderBy: [{ user: { lastName: 'asc' } }],
           });
       },
@@ -837,9 +840,13 @@ export const changePublicationMutation = mutationField(
 export const deregisterFromEventMutation = mutationField(
   'deregisterFromEvent',
   {
-    args: { registrationId: nonNull(idArg()) },
+    args: {
+      registrationId: nonNull(idArg()),
+      withRefund: booleanArg({ default: true }),
+    },
     type: eventType,
-    resolve: async (source, { registrationId }, context) => {
+    resolve: async (source, { registrationId, withRefund }, context) => {
+      let isKick = false;
       const registration = await context.prisma.eventRegistration.findUnique({
         where: { id: registrationId },
       });
@@ -856,11 +863,18 @@ export const deregisterFromEventMutation = mutationField(
         const event = await context.prisma.tumiEvent.findUnique({
           where: { id: registration.eventId },
         });
+        isKick = true;
         await context.prisma.activityLog.create({
           data: {
             severity: 'INFO',
             category: 'event-kick',
-            message: `User was removed without refund by ${context.user.firstName} ${context.user.lastName}`,
+            message: `${
+              registration.type === RegistrationType.PARTICIPANT
+                ? 'Participant'
+                : 'Organizer'
+            } was removed ${withRefund ? 'with' : 'without'} refund by ${
+              context.user.firstName
+            } ${context.user.lastName}`,
             data: JSON.parse(JSON.stringify(registration)),
             oldData: {
               user: JSON.parse(JSON.stringify(user)),
@@ -869,7 +883,12 @@ export const deregisterFromEventMutation = mutationField(
           },
         });
       }
-      return RegistrationService.cancelRegistration(registrationId, context);
+      return RegistrationService.cancelRegistration(
+        registrationId,
+        withRefund,
+        isKick,
+        context
+      );
     },
   }
 );

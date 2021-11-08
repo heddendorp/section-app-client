@@ -251,6 +251,8 @@ export class RegistrationService {
 
   static async cancelRegistration(
     registrationId: string,
+    withRefund: boolean,
+    isKick: boolean,
     context: GetGen<'context'>
   ) {
     const registration = await context.prisma.eventRegistration.findUnique({
@@ -258,17 +260,21 @@ export class RegistrationService {
       include: { event: true },
     });
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
-      const payment = await context.prisma.stripePayment.findUnique({
-        where: { id: registration.paymentId },
-      });
-      await this.stripe.refunds.create({
-        payment_intent: payment.paymentIntent,
-      });
+      if (withRefund) {
+        const payment = await context.prisma.stripePayment.findUnique({
+          where: { id: registration.paymentId },
+        });
+        await this.stripe.refunds.create({
+          payment_intent: payment.paymentIntent,
+        });
+      }
       await context.prisma.eventRegistration.update({
         where: { id: registrationId },
         data: {
           status: RegistrationStatus.CANCELLED,
-          cancellationReason: 'Spot given up by user',
+          cancellationReason: isKick
+            ? 'Cancelled by admin'
+            : 'Spot given up by user',
         },
       });
     } else if (

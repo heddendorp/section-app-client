@@ -142,10 +142,10 @@ query loadEventForRunning($id: ID!) {
         id
         status
       }
-      submissions{
+      submissions {
         id
         data
-        submissionItem{
+        submissionItem {
           id
           name
         }
@@ -318,8 +318,11 @@ query GetUserPaymentStatus {
   }
 }
 
-mutation deregisterFromEvent($registrationId: ID!) {
-  deregisterFromEvent(registrationId: $registrationId) {
+mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean) {
+  deregisterFromEvent(
+    registrationId: $registrationId
+    withRefund: $withRefund
+  ) {
     id
     participantRegistrations(includeCancelled: true) {
       id

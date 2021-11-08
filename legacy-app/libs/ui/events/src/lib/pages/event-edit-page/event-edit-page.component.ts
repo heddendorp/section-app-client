@@ -265,7 +265,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   async removeUser(registrationId: string) {
     this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
     await firstValueFrom(
-      this.deregisterFromEventGQL.mutate({ registrationId })
+      this.deregisterFromEventGQL.mutate({ registrationId, withRefund: false })
     );
     this.snackBar.open('User removed ✔️');
   }
