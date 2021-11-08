@@ -41,6 +41,18 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.eventId);
     t.field(EventRegistrationCode.status);
     t.field({
+      ...EventRegistrationCode.connectedRegistrations,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventRegistrationCode
+          .findUnique({ where: { id: source.id } })
+          .connectedRegistrations();
+      },
+    });
+    t.field({
       name: 'registrationToRemove',
       type: eventRegistrationType,
       resolve: (source, args, context, info) => {

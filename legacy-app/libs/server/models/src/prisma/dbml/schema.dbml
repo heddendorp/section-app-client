@@ -284,6 +284,7 @@ Table EventRegistration {
   user User [not null]
   userId String [not null]
   registrationCodeId String
+  eventRegistrationCode EventRegistrationCode
 }
 
 Table EventRegistrationCode {
@@ -298,6 +299,7 @@ Table EventRegistrationCode {
   status RegistrationStatus [not null, default: 'PENDING']
   payment StripePayment
   paymentId String [unique]
+  connectedRegistrations EventRegistration [not null]
 }
 
 Table EventSubmissionItem {
@@ -450,6 +452,8 @@ Ref: EventRegistration.eventId > TumiEvent.id
 Ref: EventRegistration.paymentId - StripePayment.id
 
 Ref: EventRegistration.userId > User.id
+
+Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
 
 Ref: EventRegistrationCode.eventId > TumiEvent.id
 

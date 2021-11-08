@@ -149,6 +149,7 @@ type EventRegistration {
 }
 
 type EventRegistrationCode {
+  connectedRegistrations: [EventRegistration!]!
   createdAt: DateTime!
   createdById: String!
   creator: User!
