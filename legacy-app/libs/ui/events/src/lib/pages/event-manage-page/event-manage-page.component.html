@@ -11,6 +11,54 @@
     <tumi-manage-event-finances
       [eventId]="event.id"
     ></tumi-manage-event-finances>
+
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Item</th>
+          <th>Cost</th>
+          <th>Participation fees</th>
+          <th>Subsidies</th>
+          <th>Loss</th>
+          <th>Wins</th>
+        </tr>
+      </thead>
+      <tbody class="select-all">
+        <tr *ngFor="let costItem of event.costItems; let i = index">
+          <ng-container *ngIf="i === 0">
+            <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
+            <td>{{ event.title }}</td>
+          </ng-container>
+          <ng-container *ngIf="i !== 0">
+            <td></td>
+            <td></td>
+          </ng-container>
+          <td>{{ costItem.name }}</td>
+          <td>{{ costItem.submittedAmount | currency: 'EUR' }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{ event.netAmountCollected | currency: 'EUR' }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            {{
+              event.submittedSpend - event.netAmountCollected | currency: 'EUR'
+            }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="border p-4 rounded-2xl my-4">
     <h2>Extra tickets</h2>

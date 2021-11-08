@@ -245,13 +245,21 @@ query loadEventForManagement($id: ID!) {
     icon
     start
     #financial
-    #    amountCollected
-    #    netAmountCollected
-    #    feesPaid
+    amountCollected
+    netAmountCollected
+    feesPaid
+    plannedSpend
+    submittedSpend
     participantLimit
     participantsRegistered
     participantsAttended
     #registrations
+    costItems{
+      id
+      name
+      submittedAmount
+      amount
+    }
     eventRegistrationCodes {
       id
       isPublic

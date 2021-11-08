@@ -235,48 +235,85 @@ export const eventType = objectType({
           });
       },
     });
-    // t.int('amountCollected', {
-    //   resolve: (source, args, context, { cacheControl }) => {
-    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-    //     return context.prisma.eventRegistration
-    //       .aggregate({
-    //         where: {
-    //           event: { id: source.id },
-    //           amountPaid: { not: null },
-    //         },
-    //         _sum: { amountPaid: true },
-    //       })
-    //       .then((aggregations) => aggregations._sum.amountPaid);
-    //   },
-    // });
-    // t.int('netAmountCollected', {
-    //   resolve: (source, args, context, { cacheControl }) => {
-    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-    //     return context.prisma.eventRegistration
-    //       .aggregate({
-    //         where: {
-    //           event: { id: source.id },
-    //           netPaid: { not: null },
-    //         },
-    //         _sum: { netPaid: true },
-    //       })
-    //       .then((aggregations) => aggregations._sum.netPaid);
-    //   },
-    // });
-    // t.int('feesPaid', {
-    //   resolve: (source, args, context, { cacheControl }) => {
-    //     cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-    //     return context.prisma.eventRegistration
-    //       .aggregate({
-    //         where: {
-    //           event: { id: source.id },
-    //           stripeFee: { not: null },
-    //         },
-    //         _sum: { stripeFee: true },
-    //       })
-    //       .then((aggregations) => aggregations._sum.stripeFee);
-    //   },
-    // });
+    t.nonNull.decimal('amountCollected', {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.stripePayment
+          .aggregate({
+            where: {
+              eventRegistration: {
+                event: { id: source.id },
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+              amount: { not: undefined },
+            },
+            _sum: { amount: true },
+          })
+          .then((aggregations) => aggregations._sum.amount.toNumber() / 100);
+      },
+    });
+    t.nonNull.decimal('netAmountCollected', {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.stripePayment
+          .aggregate({
+            where: {
+              eventRegistration: {
+                event: { id: source.id },
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+              netAmount: { not: undefined },
+            },
+            _sum: { netAmount: true },
+          })
+          .then((aggregations) => aggregations._sum.netAmount.toNumber() / 100);
+      },
+    });
+    t.nonNull.decimal('feesPaid', {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.stripePayment
+          .aggregate({
+            where: {
+              eventRegistration: {
+                event: { id: source.id },
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+              feeAmount: { not: undefined },
+            },
+            _sum: { feeAmount: true },
+          })
+          .then((aggregations) => aggregations._sum.feeAmount.toNumber() / 100);
+      },
+    });
+    t.decimal('plannedSpend', {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.costItem
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              amount: { not: undefined },
+            },
+            _sum: { amount: true },
+          })
+          .then((aggregations) => aggregations._sum.amount);
+      },
+    });
+    t.decimal('submittedSpend', {
+      resolve: (source, args, context, { cacheControl }) => {
+        cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.receipt
+          .aggregate({
+            where: {
+              costItem: { event: { id: source.id } },
+              amount: { not: undefined },
+            },
+            _sum: { amount: true },
+          })
+          .then((aggregations) => aggregations._sum.amount);
+      },
+    });
     t.nonNull.boolean('userRegistered', {
       description: 'Indicates if the current user is registered for the event',
       resolve: (source, args, context, { cacheControl }) => {

@@ -589,6 +589,7 @@ Actual instande of an TumiEventbased on a template
 """
 type TumiEvent {
   activeRegistration: EventRegistration
+  amountCollected: Decimal!
   coordinates: Json
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
 
@@ -610,10 +611,12 @@ type TumiEvent {
   eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: String!
+  feesPaid: Decimal!
   freeParticipantSpots: String!
   icon: String!
   id: ID!
   location: String!
+  netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
 
@@ -657,6 +660,7 @@ type TumiEvent {
   """
   participantsRegistered: Int!
   photoShares: [PhotoShare!]!
+  plannedSpend: Decimal
   prices: Json
   publicationState: PublicationState!
   registrationLink: String
@@ -664,6 +668,7 @@ type TumiEvent {
   registrationStart: DateTime!
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
+  submittedSpend: Decimal
   title: String!
 
   """
