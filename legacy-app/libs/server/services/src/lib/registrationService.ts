@@ -174,7 +174,10 @@ export class RegistrationService {
     successUrl?: string
   ) {
     const event = await prisma.tumiEvent.findUnique({ where: { id: eventId } });
-    if (event.registrationMode === RegistrationMode.STRIPE) {
+    if (
+      event.registrationMode === RegistrationMode.STRIPE &&
+      registrationType === RegistrationType.PARTICIPANT
+    ) {
       const payment = await this.createPayment(
         context,
         [
@@ -213,13 +216,28 @@ export class RegistrationService {
         },
       });
       return event;
-    } else if (event.registrationMode === RegistrationMode.ONLINE) {
+    } else if (
+      event.registrationMode === RegistrationMode.ONLINE ||
+      registrationType === RegistrationType.ORGANIZER
+    ) {
+      const submissionArray = [];
+      if (submissions) {
+        Object.entries(submissions).forEach(([key, value]) => {
+          submissionArray.push({
+            submissionItem: { connect: { id: key } },
+            data: { value },
+          });
+        });
+      }
       await prisma.eventRegistration.create({
         data: {
           user: { connect: { id: userId } },
           event: { connect: { id: eventId } },
           status: RegistrationStatus.SUCCESSFUL,
           type: registrationType,
+          submissions: {
+            create: submissionArray,
+          },
         },
       });
       return event;
