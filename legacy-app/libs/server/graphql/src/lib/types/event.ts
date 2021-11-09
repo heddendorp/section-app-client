@@ -620,7 +620,11 @@ export const eventType = objectType({
         }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
-            where: { type: RegistrationType.ORGANIZER, event: { id: root.id } },
+            where: {
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
+              event: { id: root.id },
+            },
           });
         return currentRegistrationNum < root.organizerLimit;
       },
