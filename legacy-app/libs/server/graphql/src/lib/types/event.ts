@@ -965,6 +965,16 @@ export const registerForEvent = mutationField('registerForEvent', {
           'User does not fulfill the requirements to sign up!'
         );
       }
+      const ownRegistration = await prisma.eventRegistration.findFirst({
+        where: {
+          userId: context.user.id,
+          eventId,
+          status: { not: RegistrationStatus.CANCELLED },
+        },
+      });
+      if (ownRegistration) {
+        throw new ApolloError('You are already registered for this event!');
+      }
       const registeredUsers = await prisma.eventRegistration.count({
         where: {
           eventId,
