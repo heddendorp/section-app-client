@@ -161,6 +161,7 @@ type EventRegistrationCode {
   registrationCreatedId: String
   registrationToRemove: EventRegistration
   registrationToRemoveId: String
+  sepaAllowed: Boolean!
   status: RegistrationStatus!
   targetEvent: TumiEvent!
 }

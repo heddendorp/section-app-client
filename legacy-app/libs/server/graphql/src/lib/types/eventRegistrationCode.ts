@@ -40,6 +40,7 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.isPublic);
     t.field(EventRegistrationCode.eventId);
     t.field(EventRegistrationCode.status);
+    t.field(EventRegistrationCode.sepaAllowed);
     t.field({
       ...EventRegistrationCode.connectedRegistrations,
       resolve: (source, args, context, info) => {

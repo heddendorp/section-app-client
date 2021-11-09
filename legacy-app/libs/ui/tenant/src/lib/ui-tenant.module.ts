@@ -13,7 +13,7 @@ import { TenantUsersPageComponent } from './pages/tenant-users-page/tenant-users
 import { MatTableModule } from '@angular/material/table';
 import { UpdateUserDialogComponent } from './components/update-user-dialog/update-user-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { TenantRegistrationsPageComponent } from './pages/tenant-registrations-page/tenant-registrations-page.component';
+import { TenantRegistrationsPageComponent } from './pages/registrations/tenant-registrations-page/tenant-registrations-page.component';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
@@ -23,7 +23,7 @@ import { TenantProductsPageComponent } from './pages/tenant-products-page/tenant
 import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats-page.component';
 import { UtilComponentsModule } from '@tumi/util-components';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { TenantMoveOrdersPageComponent } from './pages/tenant-move-orders-page/tenant-move-orders-page.component';
+import { TenantMoveOrdersPageComponent } from './pages/registrations/tenant-move-orders-page/tenant-move-orders-page.component';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -32,6 +32,7 @@ import { ShowDataDialogComponent } from './components/show-data-dialog/show-data
 import { TenantPhotosPageComponent } from './pages/tenant-photos-page/tenant-photos-page.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { TenantRegistrationCodePageComponent } from './pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       { path: 'users', component: TenantUsersPageComponent },
       { path: 'users/:userId', component: TenantUserInfoPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
-      { path: 'moves', component: TenantMoveOrdersPageComponent },
+      { path: 'codes', component: TenantMoveOrdersPageComponent },
+      { path: 'codes/:codeId', component: TenantRegistrationCodePageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
       { path: 'edit', component: TenantEditPageComponent },
       { path: 'stats', component: TenantStatsPageComponent },
@@ -83,6 +85,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     TenantActivityLogPageComponent,
     ShowDataDialogComponent,
     TenantPhotosPageComponent,
+    TenantRegistrationCodePageComponent,
   ],
 })
 export class UiTenantModule {}

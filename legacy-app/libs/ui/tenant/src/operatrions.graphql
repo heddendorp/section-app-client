@@ -71,41 +71,6 @@ query loadUser($id: ID!) {
   }
 }
 
-query getRegistrations {
-  registrations {
-    id
-    createdAt
-    type
-    event {
-      title
-      id
-    }
-    user {
-      id
-      fullName
-    }
-    #    amountPaid
-    #    stripeFee
-    #    paymentStatus
-  }
-}
-
-query getCancelledRegistrations {
-  registrations(statusList: [CANCELLED]) {
-    id
-    createdAt
-    cancellationReason
-    event {
-      title
-      id
-    }
-    user {
-      id
-      fullName
-    }
-  }
-}
-
 query getTenantForEdit {
   currentTenant {
     id
@@ -139,34 +104,6 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus], $search:Strin
     }
   }
   userSearchResultNum(roleList: $roleList, statusList: $statusList, search: $search)
-}
-
-query getEventRegistrationCodes {
-  eventRegistrationCodes(includePrivate: true) {
-    id
-    createdAt
-    isPublic
-    status
-    targetEvent{
-      id
-      title
-    }
-    creator{
-      id
-      fullName
-    }
-    registrationToRemove{
-      id
-    }
-    registrationCreated{
-      id
-      createdAt
-      user{
-        id
-        fullName
-      }
-    }
-  }
 }
 
 query getStatistics {

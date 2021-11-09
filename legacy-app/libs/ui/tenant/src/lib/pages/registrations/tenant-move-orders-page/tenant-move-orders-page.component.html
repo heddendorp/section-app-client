@@ -8,9 +8,7 @@
     <ng-container matColumnDef="event">
       <th mat-header-cell *matHeaderCellDef>Event</th>
       <td mat-cell *matCellDef="let element">
-        <a routerLink="/events/{{ element.targetEvent.id }}/manage">{{
-          element.targetEvent.title
-        }}</a>
+        {{ element.targetEvent.title }}
       </td>
     </ng-container>
 
@@ -48,6 +46,11 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="hover:bg-gray-100 cursor-pointer"
+      [routerLink]="['.', row.id]"
+    ></tr>
   </table>
 </main>

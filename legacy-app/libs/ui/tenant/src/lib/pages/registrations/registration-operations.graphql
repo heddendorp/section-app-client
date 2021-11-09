@@ -1,0 +1,128 @@
+query getRegistrations {
+  registrations {
+    id
+    createdAt
+    type
+    event {
+      title
+      id
+    }
+    user {
+      id
+      fullName
+    }
+    #    amountPaid
+    #    stripeFee
+    #    paymentStatus
+  }
+}
+
+query getCancelledRegistrations {
+  registrations(statusList: [CANCELLED]) {
+    id
+    createdAt
+    cancellationReason
+    event {
+      title
+      id
+    }
+    user {
+      id
+      fullName
+    }
+  }
+}
+
+query getEventRegistrationCodes {
+  eventRegistrationCodes(includePrivate: true) {
+    id
+    createdAt
+    isPublic
+    status
+    targetEvent {
+      id
+      title
+    }
+    creator {
+      id
+      fullName
+    }
+    registrationToRemove {
+      id
+    }
+    registrationCreated {
+      id
+      createdAt
+      user {
+        id
+        fullName
+      }
+    }
+  }
+}
+
+query getEventRegistrationCode($registrationId: ID!) {
+  eventRegistrationCode(id: $registrationId) {
+    id
+    createdAt
+    isPublic
+    status
+    sepaAllowed
+    targetEvent {
+      id
+      title
+      start
+      end
+    }
+    creator {
+      id
+      email
+      fullName
+    }
+    connectedRegistrations {
+      id
+      createdAt
+      user {
+        id
+        fullName
+      }
+      payment {
+        id
+        status
+        paymentMethodType
+        paymentIntent
+        events
+      }
+    }
+    registrationToRemove {
+      id
+      createdAt
+      user {
+        id
+        fullName
+      }
+      payment {
+        id
+        status
+        paymentMethodType
+        paymentIntent
+        events
+      }
+    }
+    registrationCreated {
+      id
+      createdAt
+      user {
+        id
+        fullName
+      }
+      payment {
+        id
+        status
+        paymentIntent
+        paymentMethodType
+        events
+      }
+    }
+  }
+}
