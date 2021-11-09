@@ -190,15 +190,37 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (payment.eventRegistrationCode) {
             if (payment.eventRegistrationCode.registrationToRemoveId) {
-              await prisma.eventRegistration.update({
-                where: {
-                  id: payment.eventRegistrationCode.registrationToRemoveId,
-                },
-                data: {
-                  status: RegistrationStatus.CANCELLED,
-                  cancellationReason: 'Event was moved to another person',
-                },
-              });
+              const removedRegistration = await prisma.eventRegistration.update(
+                {
+                  where: {
+                    id: payment.eventRegistrationCode.registrationToRemoveId,
+                  },
+                  data: {
+                    status: RegistrationStatus.CANCELLED,
+                    cancellationReason: 'Event was moved to another person',
+                  },
+                  include: {
+                    payment: true,
+                  },
+                }
+              );
+              if (removedRegistration.payment) {
+                try {
+                  await stripe.refunds.create({
+                    payment_intent: removedRegistration.payment.paymentIntent,
+                  });
+                } catch (e) {
+                  await prisma.activityLog.create({
+                    data: {
+                      message: `Refund failed during registration move`,
+                      category: 'webhook',
+                      data: e,
+                      oldData: JSON.parse(JSON.stringify(removedRegistration)),
+                      severity: LogSeverity.ERROR,
+                    },
+                  });
+                }
+              }
             }
 
             if (payment.eventRegistrationCode.registrationCreatedId) {
