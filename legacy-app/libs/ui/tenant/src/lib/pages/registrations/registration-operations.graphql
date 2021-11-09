@@ -82,6 +82,8 @@ query getEventRegistrationCode($registrationId: ID!) {
     connectedRegistrations {
       id
       createdAt
+      status
+      cancellationReason
       user {
         id
         fullName
@@ -97,6 +99,8 @@ query getEventRegistrationCode($registrationId: ID!) {
     registrationToRemove {
       id
       createdAt
+      status
+      cancellationReason
       user {
         id
         fullName
@@ -112,6 +116,8 @@ query getEventRegistrationCode($registrationId: ID!) {
     registrationCreated {
       id
       createdAt
+      status
+      cancellationReason
       user {
         id
         fullName

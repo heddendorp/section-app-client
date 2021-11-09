@@ -50,7 +50,7 @@ export const eventRegistrationCodeType = objectType({
         });
         return context.prisma.eventRegistrationCode
           .findUnique({ where: { id: source.id } })
-          .connectedRegistrations();
+          .connectedRegistrations({ orderBy: { createdAt: 'desc' } });
       },
     });
     t.field({

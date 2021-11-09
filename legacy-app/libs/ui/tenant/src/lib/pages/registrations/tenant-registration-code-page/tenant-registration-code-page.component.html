@@ -62,6 +62,26 @@
         </tr>
 
         <tr>
+          <ng-container *ngIf="code.registrationToRemove">
+            <td>
+              Status:
+              {{ code.registrationToRemove.status | lowercase }}
+            </td>
+            <td>{{ code.registrationToRemove.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove">
+            <td colspan="2"></td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated">
+            <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
+            <td>{{ code.registrationCreated.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated">
+            <td colspan="2"></td>
+          </ng-container>
+        </tr>
+
+        <tr>
           <ng-container *ngIf="code.registrationToRemove?.payment">
             <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
               <span> Payment status: </span>
@@ -121,6 +141,27 @@
             <td colspan="2">No payment for this registration</td>
           </ng-container>
         </tr>
+        <ng-container *ngIf="code.connectedRegistrations.length">
+          <tr>
+            <th colspan="4">All connected registrations</th>
+          </tr>
+          <tr *ngFor="let registration of code.connectedRegistrations">
+            <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+            <td>{{ registration.user.fullName }}</td>
+            <td>
+              Status: {{ registration.status }} ({{
+                registration.cancellationReason
+              }})
+            </td>
+            <td>
+              <p>
+                Payment: {{ registration.payment?.status }} ({{
+                  registration.payment?.paymentMethodType
+                }})
+              </p>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
