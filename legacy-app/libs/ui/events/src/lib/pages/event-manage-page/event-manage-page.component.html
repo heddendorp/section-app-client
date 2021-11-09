@@ -65,6 +65,13 @@
     <button mat-flat-button color="accent" (click)="createRegistrationCode()">
       Create registration code
     </button>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="createRegistrationCode(true)"
+    >
+      Create SEPA registration code
+    </button>
     <mat-list>
       <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
         <h3 mat-line class="select-all">{{ code.id }}</h3>

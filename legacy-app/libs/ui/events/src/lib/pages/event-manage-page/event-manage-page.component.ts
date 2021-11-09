@@ -24,7 +24,7 @@ export class EventManagePageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
-    private removeUser: DeregisterFromEventGQL,
+    private deregisterFromEventGQL: DeregisterFromEventGQL,
     private checkInMutation: CheckInUserGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute
@@ -46,7 +46,7 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
-  async kickWithRefund(userId: string) {
+  async kickWithRefund(registrationId: string) {
     // const event = await this.event$.pipe(first()).toPromise();
     // const proceed = confirm('Are you sure you want to remove this user?');
     // if (event && proceed) {
@@ -134,12 +134,13 @@ export class EventManagePageComponent implements OnDestroy {
     return organizerRegistrations.map((r) => r.user.fullName).join(', ');
   }
 
-  async createRegistrationCode() {
+  async createRegistrationCode(sepaAllowed = false) {
     const event = await firstValueFrom(this.event$);
     await firstValueFrom(
       this.createEventRegistrationCodeGQL.mutate({
         eventId: event.id,
         isPublic: false,
+        sepaAllowed,
       })
     );
     this.loadEventQueryRef.refetch();

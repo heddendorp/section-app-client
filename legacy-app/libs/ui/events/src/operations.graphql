@@ -95,11 +95,13 @@ mutation createEventRegistrationCode(
   $eventId: ID!
   $registrationId: ID
   $isPublic: Boolean
+  $sepaAllowed: Boolean
 ) {
   createRegistrationCode(
     eventId: $eventId
     registrationId: $registrationId
     isPublic: $isPublic
+    sepaAllowed: $sepaAllowed
   ) {
     id
   }

@@ -277,6 +277,7 @@ type Mutation {
     eventId: ID!
     isPublic: Boolean = false
     registrationId: ID
+    sepaAllowed: Boolean = false
   ): EventRegistrationCode!
   createSubmissionOnEvent(
     data: CreateSubmissionItemInput!

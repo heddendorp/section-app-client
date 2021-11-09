@@ -295,6 +295,7 @@ Table EventRegistrationCode {
   registrationCreatedId String
   targetEvent TumiEvent [not null]
   isPublic Boolean [not null, default: false]
+  sepaAllowed Boolean [not null, default: false]
   eventId String [not null]
   status RegistrationStatus [not null, default: 'PENDING']
   payment StripePayment

@@ -127,10 +127,20 @@ export const createRegistrationCodeMutation = mutationField(
       registrationId: idArg(),
       eventId: nonNull(idArg()),
       isPublic: booleanArg({ default: false }),
+      sepaAllowed: booleanArg({ default: false }),
     },
-    resolve: async (source, { registrationId, eventId, isPublic }, context) => {
+    resolve: async (
+      source,
+      { registrationId, eventId, isPublic, sepaAllowed },
+      context
+    ) => {
       const { role } = context.assignment;
       let registrationCode;
+      if (sepaAllowed && role !== Role.ADMIN) {
+        throw new ApolloError(
+          'Only Admins can generate registration codes with SEPA payments!'
+        );
+      }
       if (!registrationId && role !== Role.ADMIN) {
         throw new ApolloError(
           'Only Admins can generate registration codes for new registrations!'
@@ -148,6 +158,7 @@ export const createRegistrationCodeMutation = mutationField(
           data: {
             registrationToRemoveId: registrationId,
             isPublic,
+            sepaAllowed,
             targetEvent: { connect: { id: eventId } },
             createdById: context.user.id,
           },
@@ -158,6 +169,7 @@ export const createRegistrationCodeMutation = mutationField(
             isPublic,
             targetEvent: { connect: { id: eventId } },
             createdById: context.user.id,
+            sepaAllowed,
           },
         });
       }

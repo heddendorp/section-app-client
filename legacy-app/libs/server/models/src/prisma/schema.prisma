@@ -380,6 +380,7 @@ model EventRegistrationCode {
   registrationCreatedId  String?             @db.Uuid
   targetEvent            TumiEvent           @relation(fields: [eventId], references: [id])
   isPublic               Boolean             @default(false)
+  sepaAllowed            Boolean             @default(false)
   eventId                String              @db.Uuid
   status                 RegistrationStatus  @default(PENDING)
   payment                StripePayment?      @relation(fields: [paymentId], references: [id])

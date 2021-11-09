@@ -44,7 +44,8 @@ export class RegistrationService {
         'book',
         cancelUrl,
         successUrl,
-        userId
+        userId,
+        registrationCode.sepaAllowed
       );
       const registration = await this.prisma.eventRegistration.create({
         data: {
@@ -99,7 +100,8 @@ export class RegistrationService {
     submitType: stripe.Stripe.Checkout.SessionCreateParams.SubmitType,
     cancelUrl: string,
     successUrl: string,
-    userId: string
+    userId: string,
+    allowSepa = false
   ) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -128,18 +130,23 @@ export class RegistrationService {
     } else {
       customerId = user.tenants[0].stripeData.customerId;
     }
-    const session = await this.stripe.checkout.sessions.create({
-      mode: 'payment',
-      customer: customerId,
-      line_items: items,
-      payment_method_types: [
+    const payment_method_types: stripe.Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
+      [
         'card',
-        'sofort',
+        // 'sofort',
         'giropay',
         'ideal',
         'p24',
         'bancontact',
-      ],
+      ];
+    if (allowSepa) {
+      payment_method_types.push('sepa_debit');
+    }
+    const session = await this.stripe.checkout.sessions.create({
+      mode: 'payment',
+      customer: customerId,
+      line_items: items,
+      payment_method_types,
       payment_intent_data: {
         description: `Fee for: ${items.map((item) => item.name).join(',')}`,
       },
