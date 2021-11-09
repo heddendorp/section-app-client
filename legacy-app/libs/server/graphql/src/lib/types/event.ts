@@ -235,7 +235,9 @@ export const eventType = objectType({
           });
       },
     });
-    t.nonNull.decimal('amountCollected', {
+    t.field({
+      name: 'amountCollected',
+      type: nonNull('Decimal'),
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.stripePayment
@@ -252,7 +254,9 @@ export const eventType = objectType({
           .then((aggregations) => aggregations._sum.amount.toNumber() / 100);
       },
     });
-    t.nonNull.decimal('netAmountCollected', {
+    t.field({
+      name: 'netAmountCollected',
+      type: nonNull('Decimal'),
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.stripePayment
@@ -269,7 +273,9 @@ export const eventType = objectType({
           .then((aggregations) => aggregations._sum.netAmount.toNumber() / 100);
       },
     });
-    t.nonNull.decimal('feesPaid', {
+    t.field({
+      name: 'feesPaid',
+      type: nonNull('Decimal'),
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.stripePayment
@@ -286,7 +292,9 @@ export const eventType = objectType({
           .then((aggregations) => aggregations._sum.feeAmount.toNumber() / 100);
       },
     });
-    t.decimal('plannedSpend', {
+    t.field({
+      name: 'plannedSpend',
+      type: 'Decimal',
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.costItem
@@ -300,7 +308,9 @@ export const eventType = objectType({
           .then((aggregations) => aggregations._sum.amount);
       },
     });
-    t.decimal('submittedSpend', {
+    t.field({
+      name: 'submittedSpend',
+      type: 'Decimal',
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return context.prisma.receipt
