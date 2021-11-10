@@ -11,6 +11,7 @@ import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../../../../../../apps/tumi-app/src/environments/environment';
 
 @Component({
   selector: 'tumi-event-manage-page',
@@ -22,6 +23,7 @@ export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
+  public environment = environment;
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,

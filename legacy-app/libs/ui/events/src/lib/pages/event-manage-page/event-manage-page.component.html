@@ -80,11 +80,21 @@
     </button>
     <mat-list>
       <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
-        <h3 mat-line class="select-all">{{ code.id }}</h3>
+        <h3 mat-line>Registration code</h3>
         <p mat-line>
           {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
             code.status
           }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
+        </p>
+        <p mat-line>
+          Link for registration:
+          <span class="select-all font-mono"
+            >{{
+              environment.production
+                ? 'https://tumi.esn.world/'
+                : 'localhost:4200/'
+            }}profile?code={{ code.id }}</span
+          >
         </p>
       </mat-list-item>
     </mat-list>
