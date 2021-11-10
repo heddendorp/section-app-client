@@ -8,13 +8,18 @@
     [opened]="(isHandset$ | async) === false"
   >
     <div class="h-full w-full" fxLayout="column">
-      <mat-toolbar fxFlex="noshrink">Menu</mat-toolbar>
+      <!--      <p class="font-bold text-lg ml-4" fxFlex="noshrink">Menu</p>-->
       <mat-nav-list (click)="closeSidenav(drawer)">
         <a mat-list-item routerLink="events" routerLinkActive="active">
-          Events
+          <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+        </a>
+        <a mat-list-item routerLink="shop" routerLinkActive="active">
+          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>
+          <span>The TUMi shop</span>
         </a>
         <a mat-list-item routerLink="page/about" routerLinkActive="active">
-          About us
+          <mat-icon svgIcon="icon-information"></mat-icon>
+          <span>About us</span>
         </a>
         <a
           mat-list-item
@@ -22,7 +27,8 @@
           routerLinkActive="active"
           *tumiIfRole="[Role.User, Role.Admin]"
         >
-          Profile
+          <mat-icon svgIcon="icon-contact-card"></mat-icon>
+          <span>Profile</span>
         </a>
         <a
           mat-list-item
@@ -30,7 +36,8 @@
           routerLinkActive="active"
           *tumiIfStatus="[MembershipStatus.Full]"
         >
-          Event templates
+          <mat-icon svgIcon="icon-template"></mat-icon>
+          <span>Event templates</span>
         </a>
         <a
           mat-list-item
@@ -38,10 +45,12 @@
           routerLinkActive="active"
           *tumiIfRole="[Role.Admin]"
         >
-          Management
+          <mat-icon svgIcon="icon-maintenance"></mat-icon>
+          <span>Management</span>
         </a>
         <a mat-list-item routerLink="feedback" routerLinkActive="active">
-          Give Feedback
+          <mat-icon svgIcon="icon-feedback"></mat-icon>
+          <span>Give Feedback</span>
         </a>
         <a
           mat-list-item
@@ -49,14 +58,16 @@
           *ngIf="(tenant$ | async)?.faqPage"
           routerLinkActive="active"
         >
-          FAQ
+          <mat-icon svgIcon="icon-faq"></mat-icon>
+          <span>FAQ</span>
         </a>
         <button
           mat-list-item
           *ngIf="installEvent$ | async as event"
           (click)="event.prompt()"
         >
-          Install the TUMi app
+          <mat-icon svgIcon="icon-software-installer"></mat-icon>
+          <span>Install the TUMi app</span>
         </button>
       </mat-nav-list>
       <div fxFlex="grow"></div>

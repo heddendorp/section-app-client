@@ -13,14 +13,115 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$primary-palette: (
+  50: #e3f2fd,
+  100: theme('colors.primary.container'),
+  200: #90caf9,
+  300: #64b5f6,
+  400: #42a5f5,
+  500: theme('colors.primary.default'),
+  600: #1e88e5,
+  700: #1976d2,
+  800: #1565c0,
+  900: #0d47a1,
+  A100: #82b1ff,
+  A200: #448aff,
+  A400: #2979ff,
+  A700: #2962ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: theme('colors.primary.onContainer'),
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: theme('colors.primary.on'),
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$secondary-palette: (
+  50: #fce4ec,
+  100: theme('colors.secondary.container'),
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: theme('colors.secondary.default'),
+  600: #d81b60,
+  700: #c2185b,
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: $dark-primary-text,
+    100: theme('colors.secondary.onContainer'),
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: theme('colors.secondary.on'),
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+$error-palette: (
+  50: #ffebee,
+  100: theme('colors.error.container'),
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: theme('colors.error.default'),
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  A100: #ff8a80,
+  A200: #ff5252,
+  A400: #ff1744,
+  A700: #d50000,
+  contrast: (
+    50: $dark-primary-text,
+    100: theme('colors.error.onContainer'),
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: theme('colors.error.on'),
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tumi-app-primary: mat.define-palette(mat.$blue-palette);
-$tumi-app-accent: mat.define-palette(mat.$pink-palette);
+$tumi-app-primary: mat.define-palette($primary-palette);
+$tumi-app-accent: mat.define-palette($secondary-palette);
 
 // The warn palette is optional (defaults to red).
-$tumi-app-warn: mat.define-palette(mat.$red-palette);
+$tumi-app-warn: mat.define-palette($error-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".

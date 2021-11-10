@@ -3,7 +3,8 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 360px;
+  @apply p-4 bg-surface-default text-variant-on;
 }
 
 .sidenav .mat-toolbar {
@@ -18,6 +19,16 @@
 
 mat-nav-list {
   .active {
-    @apply bg-blue-200 text-blue-600;
+    @apply bg-secondary-container text-secondary-onContainer;
+  }
+  a,
+  button {
+    @apply rounded-full overflow-hidden font-medium text-variant-on;
+    .mat-list-item-content {
+      @apply p-4;
+    }
+    mat-icon {
+      @apply w-6 h-6 mr-3;
+    }
   }
 }
