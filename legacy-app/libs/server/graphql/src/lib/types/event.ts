@@ -169,6 +169,7 @@ export const eventType = objectType({
       type: eventRegistrationType,
       resolve: (source, args, context, { cacheControl }) => {
         cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
+        if (!context.user) return null;
         return context.prisma.eventRegistration.findFirst({
           where: {
             event: { id: source.id },
@@ -352,6 +353,7 @@ export const eventType = objectType({
     t.nonNull.boolean('userIsCreator', {
       resolve: (source, args, context) => {
         if (context.assignment.role === Role.ADMIN) return true;
+        if (!context.user) return null;
         return source.creatorId === context.user.id;
       },
     });
