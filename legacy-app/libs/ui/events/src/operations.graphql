@@ -312,6 +312,7 @@ query loadEventForManagement($id: ID!) {
         picture
         email
         phone
+        university
       }
     }
   }
