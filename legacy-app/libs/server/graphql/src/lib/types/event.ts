@@ -353,7 +353,7 @@ export const eventType = objectType({
     t.nonNull.boolean('userIsCreator', {
       resolve: (source, args, context) => {
         if (context.assignment.role === Role.ADMIN) return true;
-        if (!context.user) return null;
+        if (!context.user) return false;
         return source.creatorId === context.user.id;
       },
     });
