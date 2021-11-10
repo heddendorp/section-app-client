@@ -3,7 +3,7 @@
   *ngIf="(product$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <h1 class="mb-2">Edit Product</h1>
+  <h1 class="mb-2">Edit product data</h1>
   <form
     [formGroup]="editForm"
     fxLayout="column"
@@ -96,4 +96,58 @@
       </button>
     </ng-container>
   </form>
+  <h1 class="mt-8 mb-2">Product imagery</h1>
+  <ng-container *ngIf="product$ | async as product">
+    <h2 class="mb-2">Lead image</h2>
+    <img
+      *ngIf="product.leadImage"
+      [src]="product.leadImage.src"
+      class="max-h-64 w-auto"
+      width="800"
+      height="800"
+    />
+    <h2 class="mb-2 mt-6">Product images</h2>
+    <div fxLayout="row wrap" fxLayoutGap="1rem">
+      <div *ngFor="let image of product.images; let i = index" class="mb-4">
+        <img
+          [src]="image.src"
+          class="max-h-64 w-auto mb-2"
+          width="800"
+          height="800"
+        />
+        <button
+          mat-flat-button
+          color="accent"
+          (click)="makeLeadImage(image.id)"
+          type="button"
+        >
+          Make lead Image
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="deleteImage(image.id)"
+          type="button"
+          [disabled]="image.id === product.leadImage?.id"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="leadImageSelect.click()"
+      [disabled]="uploading$ | async"
+    >
+      Add image
+    </button>
+    <input
+      type="file"
+      (change)="addImage($event)"
+      accept="image/*"
+      hidden
+      #leadImageSelect
+    />
+  </ng-container>
 </main>

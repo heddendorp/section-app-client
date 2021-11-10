@@ -8,6 +8,7 @@ import {
 } from 'nexus';
 import { ProductImage } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
+import { Role } from '@tumi/server-models';
 
 export const productImageType = objectType({
   name: ProductImage.$name,
@@ -36,7 +37,7 @@ export const productImageType = objectType({
       type: nonNull('String'),
       resolve: (source) => {
         const lastDot = source.originalBlob.lastIndexOf('.');
-        return `/storage/tumi-photos/${encodeURIComponent(
+        return `/storage/tumi-products/${encodeURIComponent(
           source.container
         )}/${encodeURIComponent(
           `${source.originalBlob.substr(0, lastDot)}-preview.jpg`
@@ -47,7 +48,7 @@ export const productImageType = objectType({
       name: 'original',
       type: nonNull('String'),
       resolve: (source) =>
-        `/storage/tumi-photos/${encodeURIComponent(
+        `/storage/tumi-products/${encodeURIComponent(
           source.container
         )}/${encodeURIComponent(source.originalBlob)}`,
     });
@@ -66,10 +67,25 @@ export const createProductImageInputType = inputObjectType({
 export const getProductImageKey = queryField('productImageKey', {
   type: nonNull('String'),
   resolve: (source, args, context) => {
-    if (!context.assignment) {
-      throw new ApolloError('Only logged in users may retrieve the key');
+    if (context.assignment?.role !== Role.ADMIN) {
+      throw new ApolloError('Only admins may retrieve the key');
     }
-    return process.env.PHOTO_SAS_TOKEN;
+    return process.env.PRODUCT_SAS_TOKEN;
+  },
+});
+
+export const deleteProductImageMutation = mutationField('deleteProductImage', {
+  type: 'ProductImage',
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: (source, { id }, context) => {
+    if (context.assignment?.role !== Role.ADMIN) {
+      throw new ApolloError('Only admins may delete product images');
+    }
+    return context.prisma.productImage.delete({
+      where: { id },
+    });
   },
 });
 

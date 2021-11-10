@@ -300,6 +300,7 @@ type Mutation {
     id: ID!
   ): TumiEvent!
   deleteCostItem(id: ID!): TumiEvent
+  deleteProductImage(id: ID!): ProductImage
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
 
   """
@@ -330,6 +331,7 @@ type Mutation {
   Update an event template
   """
   updateEventLocation(data: UpdateLocationInput!, id: ID!): TumiEvent
+  updateLeadImage(id: ID!, leadImageId: ID!): Product!
   updateProduct(data: UpdateProductInput!, id: ID!): Product!
   updateProfile(input: UpdateProfileInput!): User
 

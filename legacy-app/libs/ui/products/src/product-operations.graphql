@@ -6,6 +6,10 @@ query getProductList{
   }
 }
 
+query getProductImageKey{
+  productImageKey
+}
+
 query loadProduct($id: ID!){
  product(id: $id){
    id
@@ -27,6 +31,29 @@ query loadProduct($id: ID!){
 
 mutation createProduct{
   createProduct{
+    id
+  }
+}
+
+mutation createProductImage($productId: ID!, $image: CreateProductImageInput!){
+  createProductImage(productId: $productId, data: $image){
+    id
+  }
+}
+
+mutation updateLeadImage($productId: ID!, $imageId: ID!){
+  updateLeadImage(id: $productId, leadImageId: $imageId){
+    id
+    leadImageId
+    leadImage{
+      id
+      src
+    }
+  }
+}
+
+mutation deleteProductImage($imageId: ID!){
+  deleteProductImage(id: $imageId){
     id
   }
 }

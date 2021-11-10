@@ -113,6 +113,22 @@ export const getProductQuery = queryField('product', {
     }),
 });
 
+export const updateLeadImageMutation = mutationField('updateLeadImage', {
+  type: nonNull(productType),
+  args: {
+    id: nonNull(idArg()),
+    leadImageId: nonNull(idArg()),
+  },
+  resolve: (source, { id, leadImageId }, context) => {
+    return context.prisma.product.update({
+      where: { id },
+      data: {
+        leadImageId,
+      },
+    });
+  },
+});
+
 export const newProductMutation = mutationField('createProduct', {
   type: nonNull(productType),
   resolve: (source, args, context) =>
