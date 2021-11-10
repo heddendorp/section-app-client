@@ -2,7 +2,7 @@
   mode="indeterminate"
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
-<main class="p-4">
+<main class="p-4 text-surface-on">
   <h1 class="mb-4">Upcoming Events</h1>
   <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem" class="mb-6">
     <mat-checkbox [formControl]="showFullEvents">

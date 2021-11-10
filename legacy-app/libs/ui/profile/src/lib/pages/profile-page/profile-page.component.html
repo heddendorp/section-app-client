@@ -4,7 +4,7 @@
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
   <div
-    class="p-8 lg:py-14 bg-gradient-to-br from-gray-600 to-gray-800 dark-button"
+    class="p-8 lg:py-14 bg-tertiary-containerDark text-tertiary-onContainerDark"
     fxLayout="column"
     fxLayoutAlign="space-evenly center"
     fxLayoutGap="2rem"
@@ -15,20 +15,10 @@
       referrerpolicy="no-referrer"
     />
     <div fxLayout="column" class="max-w-md">
-      <h2
-        class="
-          bg-clip-text
-          text-transparent text-3xl
-          font-bold
-          bg-gradient-to-br
-          from-blue-300
-          to-blue-500
-          mb-4
-        "
-      >
+      <h2 class="text-3xl font-bold mb-4">
         Hey {{ profile.firstName }} <span class="text-white">👋</span>
       </h2>
-      <p class="text-blue-400">
+      <p>
         We're excited to see you here. This is your profile, giving you an
         overview of all things TUMi
       </p>
@@ -41,7 +31,9 @@
     gdColumns.gt-sm="1fr 1fr"
     gdGap="1rem"
   >
-    <div class="rounded-2xl bg-blue-200 p-4">
+    <div
+      class="rounded-2xl bg-secondary-container text-secondary-onContainer p-4"
+    >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -50,7 +42,7 @@
       >
         <mat-icon
           svgIcon="icon-contact-card"
-          class="text-blue-500 bg-white card-icon"
+          class="text-secondary-default bg-secondary-on card-icon"
         >
         </mat-icon>
         <h2 class="font-bold">General Information</h2>
@@ -81,7 +73,9 @@
         are registered for.
       </p>
     </div>
-    <div class="rounded-2xl bg-pink-200 p-4">
+    <div
+      class="rounded-2xl bg-secondary-container text-secondary-onContainer p-4"
+    >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -90,7 +84,7 @@
       >
         <mat-icon
           svgIcon="icon-card-in-use"
-          class="text-pink-500 bg-white card-icon"
+          class="text-secondary-default bg-secondary-on card-icon"
         ></mat-icon>
         <h2 class="font-bold">Payment Information</h2>
       </div>
@@ -110,7 +104,12 @@
       </button>
     </div>
     <div
-      class="rounded-2xl bg-purple-200 md:p-4"
+      class="
+        rounded-2xl
+        bg-secondary-container
+        text-secondary-onContainer
+        md:p-4
+      "
       *ngIf="profile.organizedEvents.length"
     >
       <div
@@ -121,7 +120,7 @@
       >
         <mat-icon
           svgIcon="icon-overtime"
-          class="text-purple-500 bg-white card-icon"
+          class="text-secondary-default bg-secondary-on card-icon"
         ></mat-icon>
         <h2 class="font-bold">Organized Events</h2>
       </div>
@@ -137,7 +136,14 @@
         </a>
       </mat-nav-list>
     </div>
-    <div class="rounded-2xl bg-yellow-200 md:p-4">
+    <div
+      class="
+        rounded-2xl
+        bg-secondary-container
+        text-secondary-onContainer
+        md:p-4
+      "
+    >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -146,7 +152,7 @@
       >
         <mat-icon
           svgIcon="icon-overtime"
-          class="text-yellow-500 bg-white card-icon"
+          class="text-secondary-default bg-secondary-on card-icon"
         ></mat-icon>
         <h2 class="font-bold">Your events</h2>
       </div>
@@ -169,7 +175,7 @@
       </div>
     </div>
     <div
-      class="rounded-2xl bg-green-200 p-4"
+      class="rounded-2xl bg-primary-container text-primary-onContainer p-4"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
       <div
@@ -180,7 +186,7 @@
       >
         <mat-icon
           svgIcon="icon-conference"
-          class="text-green-500 bg-white card-icon"
+          class="text-primary-default bg-white card-icon"
         ></mat-icon>
         <h2 class="font-bold">Section membership</h2>
       </div>
