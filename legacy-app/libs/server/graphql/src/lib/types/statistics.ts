@@ -183,37 +183,37 @@ export const statisticsType = objectType({
         });
       },
     });
-    t.nonNull.float('totalNetPayments', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
-        return context.prisma.eventRegistration
-          .aggregate({
-            where: {
-              netPaid: { not: null },
-              event: {
-                registrationMode: RegistrationMode.STRIPE,
-                id: {
-                  notIn: [
-                    'c486c0ad-c07f-48cd-a330-203ed8b59740',
-                    '998851e2-17af-482c-99cb-99a29b543d60',
-                  ],
-                },
-                eventTemplate: {
-                  tenant: { id: context.tenant.id },
-                },
-              },
-            },
-            _sum: { netPaid: true },
-          })
-          .then(
-            ({ _sum: { netPaid } }) =>
-              Math.round(netPaid + Number.EPSILON) / 100
-          );
-      },
-    });
+    // t.nonNull.float('totalNetPayments', {
+    //   resolve: (root, args, context, info) => {
+    //     info.cacheControl.setCacheHint({
+    //       maxAge: 120,
+    //       scope: CacheScope.Private,
+    //     });
+    //     return context.prisma.eventRegistration
+    //       .aggregate({
+    //         where: {
+    //           netPaid: { not: null },
+    //           event: {
+    //             registrationMode: RegistrationMode.STRIPE,
+    //             id: {
+    //               notIn: [
+    //                 'c486c0ad-c07f-48cd-a330-203ed8b59740',
+    //                 '998851e2-17af-482c-99cb-99a29b543d60',
+    //               ],
+    //             },
+    //             eventTemplate: {
+    //               tenant: { id: context.tenant.id },
+    //             },
+    //           },
+    //         },
+    //         _sum: { netPaid: true },
+    //       })
+    //       .then(
+    //         ({ _sum: { netPaid } }) =>
+    //           Math.round(netPaid + Number.EPSILON) / 100
+    //       );
+    //   },
+    // });
     t.nonNull.int('checkins', {
       resolve: (root, args, context, info) => {
         info.cacheControl.setCacheHint({
@@ -253,26 +253,26 @@ export const statisticsType = objectType({
         });
       },
     });
-    t.nonNull.float('averageEventCost', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
-        return context.prisma.tumiEvent
-          .aggregate({
-            where: {
-              registrationMode: RegistrationMode.STRIPE,
-            },
-            _avg: { price: true },
-          })
-          .then(({ _avg: { price } }) => {
-            return (
-              Math.round((price.toNumber() + Number.EPSILON) * 100) / 100 ?? 0
-            );
-          });
-      },
-    });
+    // t.nonNull.float('averageEventCost', {
+    //   resolve: (root, args, context, info) => {
+    //     info.cacheControl.setCacheHint({
+    //       maxAge: 120,
+    //       scope: CacheScope.Private,
+    //     });
+    //     return context.prisma.tumiEvent
+    //       .aggregate({
+    //         where: {
+    //           registrationMode: RegistrationMode.STRIPE,
+    //         },
+    //         _avg: { price: true },
+    //       })
+    //       .then(({ _avg: { price } }) => {
+    //         return (
+    //           Math.round((price.toNumber() + Number.EPSILON) * 100) / 100 ?? 0
+    //         );
+    //       });
+    //   },
+    // });
     t.field({
       name: 'userEventDistribution',
       type: nonNull(list(nonNull(Json))),
@@ -324,6 +324,25 @@ export const statisticsType = objectType({
               []
             );
           }),
+    });
+    t.field({
+      name: 'userUniversityDistribution',
+      type: nonNull(list(nonNull(Json))),
+      resolve: (root: Tenant, args, context) =>
+        context.prisma.user
+          .groupBy({
+            where: {
+              tenants: { some: { tenantId: context.tenant.id } },
+            },
+            by: ['university'],
+            _count: { university: true },
+          })
+          .then((res) =>
+            res.map((entry) => ({
+              uni: entry.university,
+              count: entry._count.university,
+            }))
+          ),
     });
     t.field({
       name: 'userHistory',

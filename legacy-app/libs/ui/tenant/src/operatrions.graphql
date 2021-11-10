@@ -124,10 +124,11 @@ query getStatistics {
       usersRegisteredPaidEvents
       checkins
       paidRegistrations
-      totalNetPayments
+#      totalNetPayments
       totalEvents
       paidEvents
-      averageEventCost
+#      averageEventCost
+      userUniversityDistribution
     }
   }
 }

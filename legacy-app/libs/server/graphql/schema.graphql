@@ -865,7 +865,6 @@ type paymentSetupSession {
 }
 
 type statistics {
-  averageEventCost: Float!
   checkins: Int!
   paidEvents: Int!
   paidRegistrations: Int!
@@ -873,9 +872,9 @@ type statistics {
   registrationHistory: [Json!]!
   registrations: Int!
   totalEvents: Int!
-  totalNetPayments: Float!
   userEventDistribution: [Json!]!
   userHistory: [Json!]!
+  userUniversityDistribution: [Json!]!
   usersRegistered: Int!
   usersRegisteredEvents: Int!
   usersRegisteredFreeEvents: Int!

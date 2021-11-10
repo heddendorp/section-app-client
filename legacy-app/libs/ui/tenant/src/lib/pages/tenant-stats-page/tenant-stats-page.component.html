@@ -21,12 +21,12 @@
       <p class="title">Paid Events</p>
       <p class="value">{{ tenant.statistics.paidEvents }}</p>
     </div>
-    <div class="kpi">
-      <p class="title">Average events price</p>
-      <p class="value">
-        {{ tenant.statistics.averageEventCost | currency: 'EUR' }}
-      </p>
-    </div>
+    <!--    <div class="kpi">-->
+    <!--      <p class="title">Average events price</p>-->
+    <!--      <p class="value">-->
+    <!--        {{ tenant.statistics.averageEventCost | currency: 'EUR' }}-->
+    <!--      </p>-->
+    <!--    </div>-->
 
     <div class="kpi">
       <p class="title">Registrations</p>
@@ -36,12 +36,12 @@
       <p class="title">Paid registrations</p>
       <p class="value">{{ tenant.statistics.paidRegistrations }}</p>
     </div>
-    <div class="kpi">
-      <p class="title">Total net payments</p>
-      <p class="value">
-        {{ tenant.statistics.totalNetPayments | currency: 'EUR' }}
-      </p>
-    </div>
+    <!--    <div class="kpi">-->
+    <!--      <p class="title">Total net payments</p>-->
+    <!--      <p class="value">-->
+    <!--        {{ tenant.statistics.totalNetPayments | currency: 'EUR' }}-->
+    <!--      </p>-->
+    <!--    </div>-->
     <div class="kpi">
       <p class="title">Check ins</p>
       <p class="value">{{ tenant.statistics.checkins }}</p>
@@ -59,6 +59,15 @@
       <p class="value">{{ tenant.statistics.usersRegisteredPaidEvents }}</p>
     </div>
   </tumi-grid>
+  <h2>University distribution</h2>
+  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
+    <ng-container
+      *ngFor="let entry of tenant.statistics.userUniversityDistribution"
+    >
+      <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
+      <p>{{ entry.count }}</p>
+    </ng-container>
+  </div>
   <div class="my-4 relative">
     <ngx-charts-line-chart
       [results]="tenant.statistics.userHistory"
