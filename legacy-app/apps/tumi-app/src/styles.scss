@@ -183,7 +183,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   markdown {
     img {
-      @apply xl:max-w-2xl xl:float-right xl:ml-4;
+      @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
     }
   }
   .dark-button {
