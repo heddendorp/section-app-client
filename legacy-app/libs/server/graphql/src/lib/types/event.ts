@@ -251,7 +251,9 @@ export const eventType = objectType({
             },
             _sum: { amount: true },
           })
-          .then((aggregations) => aggregations._sum.amount.toNumber() / 100);
+          .then(
+            (aggregations) => (aggregations._sum.amount?.toNumber() ?? 0) / 100
+          );
       },
     });
     t.field({
@@ -270,7 +272,10 @@ export const eventType = objectType({
             },
             _sum: { netAmount: true },
           })
-          .then((aggregations) => aggregations._sum.netAmount.toNumber() / 100);
+          .then(
+            (aggregations) =>
+              (aggregations._sum.netAmount?.toNumber() ?? 0) / 100
+          );
       },
     });
     t.field({
@@ -289,7 +294,10 @@ export const eventType = objectType({
             },
             _sum: { feeAmount: true },
           })
-          .then((aggregations) => aggregations._sum.feeAmount.toNumber() / 100);
+          .then(
+            (aggregations) =>
+              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+          );
       },
     });
     t.field({

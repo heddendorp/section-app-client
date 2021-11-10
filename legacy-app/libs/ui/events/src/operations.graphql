@@ -273,6 +273,7 @@ query loadEventForManagement($id: ID!) {
     organizerRegistrations {
       id
       createdAt
+      status
       #      paymentStatus
       user {
         id

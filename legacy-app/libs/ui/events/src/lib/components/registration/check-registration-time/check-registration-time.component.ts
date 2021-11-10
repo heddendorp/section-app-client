@@ -42,11 +42,7 @@ export class CheckRegistrationTimeComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes.event) {
-      console.log(
-        DateTime.fromISO(changes.event.currentValue.registrationStart)
-      );
       this.registrationStart$.next(
         DateTime.fromISO(changes.event.currentValue.registrationStart)
       );

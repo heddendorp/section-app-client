@@ -5,6 +5,7 @@ import {
   DeregisterFromEventGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
+  RegistrationStatus,
 } from '@tumi/data-access';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -79,35 +80,11 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   getTable(
-    participantRegistrations: Array<{
-      __typename?: 'EventRegistration';
-      id: string;
-      createdAt: any;
-      paymentStatus?: string | null | undefined;
-      paymentIntentId?: string | null | undefined;
-      netPaid?: number | null | undefined;
-      checkInTime?: any;
-      submissions: Array<{
-        __typename?: 'EventSubmission';
-        id: string;
-        data: any;
-        submissionItem: {
-          __typename?: 'EventSubmissionItem';
-          id: string;
-          name: string;
-        };
-      }>;
-      user: {
-        __typename?: 'User';
-        id: string;
-        fullName: string;
-        picture: string;
-        email: string;
-      };
-    }>
+    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations']
   ) {
     return participantRegistrations
       .filter((r) => !r.checkInTime && r.submissions.length)
+      .filter((r) => r.status !== RegistrationStatus.Cancelled)
       .map((r) => ({
         ...r,
         address: r.submissions
@@ -116,20 +93,16 @@ export class EventManagePageComponent implements OnDestroy {
       }));
   }
 
+  filterRegistrations(
+    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations']
+  ) {
+    return participantRegistrations.filter(
+      (r) => r.status !== RegistrationStatus.Cancelled
+    );
+  }
+
   joinOrganizers(
-    organizerRegistrations: Array<{
-      __typename?: 'EventRegistration';
-      id: string;
-      createdAt: any;
-      paymentStatus?: string | null | undefined;
-      user: {
-        __typename?: 'User';
-        id: string;
-        fullName: string;
-        picture: string;
-        email: string;
-      };
-    }>
+    organizerRegistrations: LoadEventForManagementQuery['event']['organizerRegistrations']
   ) {
     return organizerRegistrations.map((r) => r.user.fullName).join(', ');
   }

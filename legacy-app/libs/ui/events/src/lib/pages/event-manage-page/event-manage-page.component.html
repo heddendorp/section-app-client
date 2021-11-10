@@ -38,6 +38,12 @@
           <td>{{ costItem.name }}</td>
           <td>{{ costItem.submittedAmount | currency: 'EUR' }}</td>
         </tr>
+        <tr *ngIf="event.costItems.length === 0">
+          <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ event.title }}</td>
+          <td></td>
+          <td></td>
+        </tr>
         <tr>
           <td></td>
           <td></td>
@@ -251,7 +257,9 @@
           </tr>
           <tr
             *ngFor="
-              let registration of event.participantRegistrations;
+              let registration of filterRegistrations(
+                event.participantRegistrations
+              );
               let i = index
             "
             class="table-row"
