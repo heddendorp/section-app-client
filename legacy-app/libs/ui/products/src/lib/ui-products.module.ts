@@ -15,6 +15,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { UtilComponentsModule } from '@tumi/util-components';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     UiAuthModule,
     UtilMaterialModule,
+    UtilComponentsModule,
     MatButtonModule,
     FlexModule,
     MatProgressBarModule,
@@ -35,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatCheckboxModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatCardModule,
   ],
   declarations: [
     ProductListComponent,

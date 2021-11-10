@@ -2,7 +2,11 @@ query getProductList{
   products{
     id
     title
-
+    description
+    leadImage{
+      id
+      src
+    }
   }
 }
 

@@ -3,7 +3,7 @@
   *ngIf="(products$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <h1 class="text-tertiary-default">TUMi products</h1>
+  <h1 class="text-secondary-default mb-4">TUMi products</h1>
   <button
     mat-fab
     *tumiIfRole="[Role.Admin]"
@@ -27,15 +27,15 @@
         </p>
       </div>
     </div>
-    <div
-      *ngIf="products.length > 0"
-      fxLayout="row wrap"
-      fxLayoutAlign="start start"
-      class="h-full"
-    >
-      <div *ngFor="let product of products">
-        <a routerLink="{{ product.id }}">{{ product.title }}</a>
-      </div>
-    </div>
+    <tumi-grid *ngIf="products.length > 0" minWidth="200px" maxWidth="400px">
+      <a
+        *ngFor="let product of products"
+        class="card"
+        routerLink="{{ product.id }}"
+      >
+        <img [src]="product.leadImage?.src" height="800" width="800" />
+        <h2>{{ product.title }}</h2>
+      </a>
+    </tumi-grid>
   </div>
 </main>

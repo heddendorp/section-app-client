@@ -2,3 +2,12 @@ a.extended-fab,
 button.extended-fab {
   @apply right-4 lg:right-8 px-4 w-auto bottom-4 fixed z-20 rounded-xl;
 }
+.card {
+  @apply bg-variant-default text-variant-on rounded-xl border-outline-default overflow-hidden border;
+  img {
+    @apply overflow-hidden rounded-xl;
+  }
+  h2 {
+    @apply font-bold text-xl m-3;
+  }
+}
