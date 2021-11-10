@@ -10,4 +10,4 @@ import { RouterModule } from '@angular/router';
     ]),
   ],
 })
-export class ProductsModule {}
+export class UiProductsModule {}

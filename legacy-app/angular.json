@@ -1,7 +1,4 @@
 {
-  "cli": {
-    "analytics": "de62891d-dc79-48a8-94d8-316bbe4fecd7"
-  },
   "version": 1,
   "projects": {
     "api": {
@@ -99,32 +96,6 @@
             ]
           },
           "outputs": ["{options.outputFile}"]
-        }
-      },
-      "tags": []
-    },
-    "products": {
-      "projectType": "library",
-      "root": "libs/products",
-      "sourceRoot": "libs/products/src",
-      "prefix": "tumi",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/products"],
-          "options": {
-            "jestConfig": "libs/products/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/products/src/**/*.ts",
-              "libs/products/src/**/*.html"
-            ]
-          }
         }
       },
       "tags": []
@@ -609,6 +580,32 @@
             "lintFilePatterns": [
               "libs/ui/pages/src/**/*.ts",
               "libs/ui/pages/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-products": {
+      "projectType": "library",
+      "root": "libs/ui/products",
+      "sourceRoot": "libs/ui/products/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/products"],
+          "options": {
+            "jestConfig": "libs/ui/products/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/products/src/**/*.ts",
+              "libs/ui/products/src/**/*.html"
             ]
           }
         }

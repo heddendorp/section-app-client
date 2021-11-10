@@ -27,6 +27,7 @@
       "@tumi/ui/events": ["libs/ui/events/src/index.ts"],
       "@tumi/ui/feedback": ["libs/ui/feedback/src/index.ts"],
       "@tumi/ui/pages": ["libs/ui/pages/src/index.ts"],
+      "@tumi/ui/products": ["libs/ui/products/src/index.ts"],
       "@tumi/ui/profile": ["libs/ui/profile/src/index.ts"],
       "@tumi/ui/tenant": ["libs/ui/tenant/src/index.ts"],
       "@tumi/util-components": ["libs/util/components/src/index.ts"],
