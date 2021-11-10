@@ -2,6 +2,7 @@ query loadEvent($id: ID!) {
   currentUser {
     id
     hasESNcard
+    university
   }
   event(eventId: $id) {
     id

@@ -30,6 +30,7 @@ export const userType = objectType({
     t.field(User.birthdate);
     t.field(User.picture);
     t.field(User.phone);
+    t.field(User.university);
     t.field(User.iban);
     t.field(User.paypal);
     t.field(User.email_verified);
@@ -127,7 +128,9 @@ export const createUserInputType = inputObjectType({
   definition(t) {
     t.field(User.firstName);
     t.field(User.lastName);
+    t.field(User.university);
     t.field(User.birthdate);
+    t.field(User.phone);
   },
 });
 
@@ -137,6 +140,7 @@ export const updateProfileInputType = inputObjectType({
   definition(t) {
     t.field(User.firstName);
     t.field(User.lastName);
+    t.field(User.university);
     t.field(User.phone);
   },
 });

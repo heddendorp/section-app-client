@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserProfileQuery } from '@tumi/data-access';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -14,7 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./update-profile-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateProfileDialogComponent implements OnInit {
+export class UpdateProfileDialogComponent {
   public profileForm: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -25,12 +20,11 @@ export class UpdateProfileDialogComponent implements OnInit {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      university: ['', Validators.required],
       phone: ['', Validators.pattern(/[+][0-9]+/)],
     });
     this.profileForm.patchValue({ ...this.data.profile });
   }
-
-  ngOnInit(): void {}
 
   submit() {
     if (this.profileForm.valid) {

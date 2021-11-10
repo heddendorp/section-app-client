@@ -7,18 +7,11 @@ import {
 } from '@angular/core';
 import {
   DeregisterFromEventGQL,
-  GetUserPaymentStatusGQL,
   LoadEventQuery,
   RegisterForEventGQL,
   SubmissionItemType,
 } from '@tumi/data-access';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  Observable,
-  ReplaySubject,
-} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,46 +37,20 @@ export class StripeRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
   @Input() public user: LoadEventQuery['currentUser'] | null = null;
   public infoForm: FormGroup | undefined;
-  public userSetupForPayment$: Observable<boolean>;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
   public priceControl = new FormControl(null, Validators.required);
   public processing = new BehaviorSubject(false);
   public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   public SubmissionItemType = SubmissionItemType;
+
   constructor(
-    private getUserPaymentStatus: GetUserPaymentStatusGQL,
     private registerForEventGQL: RegisterForEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private permissions: PermissionsService
-  ) {
-    this.userSetupForPayment$ = this.getUserPaymentStatus
-      .watch()
-      .valueChanges.pipe(
-        map(
-          ({ data }) =>
-            !!data.currentUser?.currentTenant?.stripeData?.paymentMethodId ??
-            false
-        )
-      );
-  }
-
-  async ngOnChanges(changes: SimpleChanges) {
-    if (changes.event) {
-      const prices = await firstValueFrom(
-        this.permissions.getPricesForUser(
-          changes.event.currentValue.prices.options
-        )
-      );
-      const defaultPrice = prices.find((p) => p.defaultPrice);
-      if (defaultPrice) {
-        this.priceControl.setValue(defaultPrice);
-      }
-      this.availablePrices$.next(prices);
-    }
-  }
+  ) {}
 
   get lastDeregistration() {
     if (!this.event?.start) {
@@ -113,6 +80,21 @@ export class StripeRegistrationComponent implements OnChanges {
       DateTime.fromISO(this.event?.start).minus({ days: 1 }).toJSDate() >
       new Date()
     );
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes.event) {
+      const prices = await firstValueFrom(
+        this.permissions.getPricesForUser(
+          changes.event.currentValue.prices.options
+        )
+      );
+      const defaultPrice = prices.find((p) => p.defaultPrice);
+      if (defaultPrice) {
+        this.priceControl.setValue(defaultPrice);
+      }
+      this.availablePrices$.next(prices);
+    }
   }
 
   async register() {

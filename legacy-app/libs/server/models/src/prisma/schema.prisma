@@ -128,6 +128,7 @@ model User {
   paypal             String?
   phone              String?
   picture            String
+  university         String?
   // Calendar fucntionality
   calendarToken      String              @unique @default(uuid()) @db.Uuid
   // User relations

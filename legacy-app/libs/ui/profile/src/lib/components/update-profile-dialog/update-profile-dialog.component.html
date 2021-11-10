@@ -10,6 +10,17 @@
       <input required matInput formControlName="lastName" type="text" />
     </mat-form-field>
     <mat-form-field class="w-full my-2">
+      <mat-label>University</mat-label>
+      <mat-select formControlName="university" required>
+        <mat-option value="tum">TUM</mat-option>
+        <mat-option value="lmu">LMU</mat-option>
+        <mat-option value="hm">HM</mat-option>
+        <mat-option value="otherUni">other university</mat-option>
+        <mat-option value="other">not a student</mat-option>
+      </mat-select>
+      <mat-error>Your university is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full my-2">
       <mat-label>Phone number</mat-label>
       <input matInput formControlName="phone" type="tel" minlength="5" />
       <mat-hint>

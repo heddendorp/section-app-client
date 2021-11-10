@@ -43,6 +43,7 @@ query userProfile {
     email_verified
     email
     phone
+    university
     iban
     paypal
     birthdate
@@ -126,6 +127,7 @@ mutation updateProfile($input: UpdateProfileInput!) {
     firstName
     lastName
     fullName
+    university
     phone
   }
 }

@@ -144,7 +144,10 @@
     </ng-template>
     <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
       <h2 class="mb-4 font-bold">Registration</h2>
-      <tumi-check-registration-time [event]="event">
+      <tumi-check-registration-time
+        [event]="event"
+        *ngIf="(user$ | async)?.university; else noUni"
+      >
         <ng-container [ngSwitch]="event.registrationMode">
           <tumi-external-event-registration
             *ngSwitchCase="RegistrationMode.External"
@@ -162,6 +165,13 @@
           ></tumi-online-event-registration>
         </ng-container>
       </tumi-check-registration-time>
+      <ng-template #noUni>
+        <p class="my-4">
+          You need to add your university to your profile to register for
+          events!
+        </p>
+        <a routerLink="/profile" mat-stroked-button>Open Profile</a>
+      </ng-template>
     </ng-container>
   </div>
   <div

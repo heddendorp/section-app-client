@@ -111,6 +111,8 @@ input CreateUserInput {
   birthdate: DateTime!
   firstName: String!
   lastName: String!
+  phone: String
+  university: String
 }
 
 """
@@ -772,6 +774,7 @@ input UpdateProfileInput {
   firstName: String!
   lastName: String!
   phone: String
+  university: String
 }
 
 """
@@ -826,6 +829,7 @@ type User {
   paypal: String
   phone: String
   picture: String!
+  university: String
 }
 
 type UsersOfTenants {

@@ -3,6 +3,7 @@ import { GetCurrentUserGQL, RegisterUserGQL } from '@tumi/data-access';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'tumi-new-user-page',
@@ -12,6 +13,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class NewUserPageComponent implements OnInit {
   public welcomeForm: FormGroup;
+  startDate = DateTime.local().minus({ years: 20 }).toJSDate();
   constructor(
     private title: Title,
     private registerUser: RegisterUserGQL,
@@ -23,7 +25,9 @@ export class NewUserPageComponent implements OnInit {
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      university: ['', Validators.required],
       birthdate: [null, Validators.required],
+      phone: ['', Validators.pattern(/[+][0-9]+/)],
     });
   }
 

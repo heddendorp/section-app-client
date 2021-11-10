@@ -35,6 +35,7 @@ Table User {
   paypal String
   phone String
   picture String [not null]
+  university String
   calendarToken String [unique, not null]
   PhotoShare PhotoShare [not null]
   StripePayment StripePayment [not null]
