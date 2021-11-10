@@ -30,9 +30,24 @@
     <tumi-grid *ngIf="products.length > 0" minWidth="200px" maxWidth="400px">
       <a
         *ngFor="let product of products"
-        class="card"
+        class="card relative"
         routerLink="{{ product.id }}"
       >
+        <span
+          *ngIf="product.publicationState !== 'PUBLIC'"
+          class="
+            absolute
+            top-2
+            right-2
+            rounded-full
+            text-sm
+            px-2
+            bg-tertiary-containerDark
+            text-tertiary-onContainerDark
+          "
+        >
+          {{ product.publicationState | titlecase }}
+        </span>
         <img [src]="product.leadImage?.src" height="800" width="800" />
         <h2>{{ product.title }}</h2>
       </a>

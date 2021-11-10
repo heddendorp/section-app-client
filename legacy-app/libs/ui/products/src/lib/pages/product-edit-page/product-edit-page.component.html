@@ -115,23 +115,25 @@
           width="800"
           height="800"
         />
-        <button
-          mat-flat-button
-          color="accent"
-          (click)="makeLeadImage(image.id)"
-          type="button"
-        >
-          Make lead Image
-        </button>
-        <button
-          mat-flat-button
-          color="warn"
-          (click)="deleteImage(image.id)"
-          type="button"
-          [disabled]="image.id === product.leadImage?.id"
-        >
-          Delete
-        </button>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="makeLeadImage(image.id)"
+            type="button"
+          >
+            Make lead Image
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="deleteImage(image.id)"
+            type="button"
+            [disabled]="image.id === product.leadImage?.id"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
     <button

@@ -3,6 +3,7 @@ query getProductList{
     id
     title
     description
+    publicationState
     leadImage{
       id
       src

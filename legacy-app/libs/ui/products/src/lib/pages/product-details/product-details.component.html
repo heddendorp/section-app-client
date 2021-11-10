@@ -2,8 +2,44 @@
   mode="indeterminate"
   *ngIf="(product$ | async) === null"
 ></mat-progress-bar>
-<p>product-details works!</p>
-
-<a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
-  <mat-icon svgIcon="icon-edit"></mat-icon
-></a>
+<ng-container *ngIf="product$ | async as product">
+  <div
+    class="
+      dark-button
+      p-4
+      bg-secondary-containerDark
+      text-secondary-onContainerDark
+    "
+    fxLayout="column"
+    fxLayoutGap="2rem"
+  >
+    <div fxLayout="row" class="mb-6">
+      <a routerLink=".." mat-icon-button>
+        <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
+      ></a>
+      <div fxFlex="grow"></div>
+      <a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-edit"></mat-icon
+      ></a>
+    </div>
+    <div>
+      <img
+        [src]="product.leadImage?.src"
+        class="rounded-lg overflow-hidden w-64 mx-auto"
+      />
+    </div>
+    <h1>{{ product.title }}</h1>
+  </div>
+  <main class="p-4">
+    <markdown [data]="product.description" class="prose lg:prose-lg"></markdown>
+    <div class="mt-6">
+      <tumi-grid maxWidth="400px" minWidth="200px">
+        <img
+          *ngFor="let image of product.images"
+          [src]="image.src"
+          class="rounded-lg"
+        />
+      </tumi-grid>
+    </div>
+  </main>
+</ng-container>

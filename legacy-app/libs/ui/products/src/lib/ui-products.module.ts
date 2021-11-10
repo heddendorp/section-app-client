@@ -17,6 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { UtilComponentsModule } from '@tumi/util-components';
 import { MatCardModule } from '@angular/material/card';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSnackBarModule,
     MatSelectModule,
     MatCardModule,
+    MarkdownModule,
   ],
   declarations: [
     ProductListComponent,
