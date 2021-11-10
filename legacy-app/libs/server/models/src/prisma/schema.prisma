@@ -138,6 +138,7 @@ model User {
   purchases          ProductPurchase[]
   receipts           Receipt[]
   tenants            UsersOfTenants[]
+  productImages      ProductImage[]
 }
 
 model StripeUserData {
@@ -278,17 +279,32 @@ model TumiEvent {
 }
 
 model Product {
-  id           String             @id @default(uuid()) @db.Uuid
-  createdAt    DateTime           @default(now())
-  availability MembershipStatus[]
-  description  String
-  icon         String
-  isESNcard    Boolean            @default(false)
-  prices       Json
-  purchases    ProductPurchase[]
-  tenant       Tenant             @relation(fields: [tenantId], references: [id])
-  tenantId     String             @db.Uuid
-  title        String
+  id               String             @id @default(uuid()) @db.Uuid
+  createdAt        DateTime           @default(now())
+  availability     MembershipStatus[]
+  description      String
+  isESNcard        Boolean            @default(false)
+  prices           Json
+  purchases        ProductPurchase[]
+  publicationState PublicationState   @default(DRAFT)
+  tenant           Tenant             @relation(fields: [tenantId], references: [id])
+  tenantId         String             @db.Uuid
+  title            String
+  leadImageId      String?            @db.Uuid
+  images           ProductImage[]
+}
+
+model ProductImage {
+  id           String   @id @default(uuid()) @db.Uuid
+  createdAt    DateTime @default(now())
+  container    String
+  creator      User     @relation(fields: [creatorId], references: [id])
+  creatorId    String   @db.Uuid
+  originalBlob String
+  previewBlob  String?
+  type         String
+  product      Product  @relation(fields: [productId], references: [id])
+  productId    String   @db.Uuid
 }
 
 model ProductPurchase {

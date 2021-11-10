@@ -43,6 +43,7 @@ Table User {
   purchases ProductPurchase [not null]
   receipts Receipt [not null]
   tenants UsersOfTenants [not null]
+  productImages ProductImage [not null]
 
   Note: 'One User of the app'
 }
@@ -197,13 +198,28 @@ Table Product {
   createdAt DateTime [default: `now()`, not null]
   availability MembershipStatus [not null]
   description String [not null]
-  icon String [not null]
   isESNcard Boolean [not null, default: false]
   prices Json [not null]
   purchases ProductPurchase [not null]
+  publicationState PublicationState [not null, default: 'DRAFT']
   tenant Tenant [not null]
   tenantId String [not null]
   title String [not null]
+  leadImageId String
+  images ProductImage [not null]
+}
+
+Table ProductImage {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  container String [not null]
+  creator User [not null]
+  creatorId String [not null]
+  originalBlob String [not null]
+  previewBlob String
+  type String [not null]
+  product Product [not null]
+  productId String [not null]
 }
 
 Table ProductPurchase {
@@ -431,6 +447,10 @@ Ref: TumiEvent.eventTemplateId > EventTemplate.id
 Ref: TumiEvent.eventOrganizerId > EventOrganizer.id
 
 Ref: Product.tenantId > Tenant.id
+
+Ref: ProductImage.creatorId > User.id
+
+Ref: ProductImage.productId > Product.id
 
 Ref: ProductPurchase.paymentId - StripePayment.id
 

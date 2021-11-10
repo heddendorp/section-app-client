@@ -1,0 +1,9 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(product$ | async) === null"
+></mat-progress-bar>
+<p>product-details works!</p>
+
+<a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
+  <mat-icon svgIcon="icon-edit"></mat-icon
+></a>

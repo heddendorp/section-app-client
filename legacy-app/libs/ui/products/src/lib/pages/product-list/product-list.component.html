@@ -1,0 +1,41 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(products$ | async) === null"
+></mat-progress-bar>
+<main class="p-4">
+  <h1 class="text-tertiary-default">TUMi products</h1>
+  <button
+    mat-fab
+    *tumiIfRole="[Role.Admin]"
+    class="extended-fab"
+    (click)="createProduct()"
+  >
+    <mat-icon svgIcon="icon-plus-2-math" class="mr-2"></mat-icon>
+    <span class="label">Create Product</span>
+  </button>
+  <div *ngIf="products$ | async as products">
+    <div
+      *ngIf="products.length === 0"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      class="h-full"
+    >
+      <div class="m-4" fxLayout="column" fxLayoutAlign="start center">
+        <img src="/assets/images/shop/empty.svg" class="max-h-60" />
+        <p class="w-full">
+          Currently there are no products available, check back at another time
+        </p>
+      </div>
+    </div>
+    <div
+      *ngIf="products.length > 0"
+      fxLayout="row wrap"
+      fxLayoutAlign="start start"
+      class="h-full"
+    >
+      <div *ngFor="let product of products">
+        <a routerLink="{{ product.id }}">{{ product.title }}</a>
+      </div>
+    </div>
+  </div>
+</main>

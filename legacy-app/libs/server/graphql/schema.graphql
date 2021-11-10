@@ -82,6 +82,12 @@ input CreatePhotoShareInput {
   type: String!
 }
 
+input CreateProductImageInput {
+  container: String!
+  originalBlob: String!
+  type: String!
+}
+
 input CreateReceiptInput {
   amount: Decimal!
   blob: String!
@@ -274,6 +280,11 @@ type Mutation {
     eventTemplateInput: CreateEventTemplateInput!
   ): EventTemplate
   createPhotoShare(data: CreatePhotoShareInput!, eventId: ID!): PhotoShare
+  createProduct: Product!
+  createProductImage(
+    data: CreateProductImageInput!
+    productId: ID!
+  ): ProductImage
   createRegistrationCode(
     eventId: ID!
     isPublic: Boolean = false
@@ -299,7 +310,6 @@ type Mutation {
     registrationId: ID!
     withRefund: Boolean = true
   ): TumiEvent
-  newProduct(input: newProductInput!): Product!
   registerForEvent(
     eventId: ID!
     price: Json
@@ -320,6 +330,7 @@ type Mutation {
   Update an event template
   """
   updateEventLocation(data: UpdateLocationInput!, id: ID!): TumiEvent
+  updateProduct(data: UpdateProductInput!, id: ID!): Product!
   updateProfile(input: UpdateProfileInput!): User
 
   """
@@ -381,12 +392,30 @@ type Product {
   availability: [MembershipStatus!]!
   createdAt: DateTime!
   description: String!
-  icon: String!
   id: ID!
+  images: [ProductImage!]!
+  leadImage: ProductImage
+  leadImageId: String
   prices: Json!
+  publicationState: PublicationState!
   tenant: Tenant!
   tenantId: String!
   title: String!
+}
+
+type ProductImage {
+  container: String!
+  createdAt: DateTime!
+  creator: User!
+  creatorId: String!
+  id: ID!
+  original: String!
+  originalBlob: String!
+  previewBlob: String
+  product: Product!
+  productId: String!
+  src: String!
+  type: String!
 }
 
 type ProductPurchase {
@@ -453,6 +482,8 @@ type Query {
   photoShareKey: String!
   photos: [PhotoShare!]!
   photosOfEvent(id: ID!): [PhotoShare!]!
+  product(id: ID!): Product!
+  productImageKey: String!
   products: [Product!]!
   registration(id: ID!): EventRegistration!
   registrations(
@@ -724,6 +755,14 @@ input UpdateLocationInput {
   location: String!
 }
 
+input UpdateProductInput {
+  availability: [MembershipStatus!]!
+  description: String!
+  prices: Json!
+  publicationState: PublicationState!
+  title: String!
+}
+
 """
 Profile update input object
 """
@@ -807,14 +846,6 @@ type checkoutSession {
 type lineChartSeriesItem {
   name: String!
   value: Int!
-}
-
-input newProductInput {
-  availability: [MembershipStatus!]!
-  description: String!
-  icon: String!
-  prices: Json!
-  title: String!
 }
 
 type paymentIntent {

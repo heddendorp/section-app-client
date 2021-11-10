@@ -1,0 +1,43 @@
+query getProductList{
+  products{
+    id
+    title
+
+  }
+}
+
+query loadProduct($id: ID!){
+ product(id: $id){
+   id
+   title
+   description
+   prices
+   availability
+   publicationState
+   images{
+     id
+     src
+   }
+   leadImage{
+     id
+     src
+   }
+ }
+}
+
+mutation createProduct{
+  createProduct{
+    id
+  }
+}
+
+mutation updateProduct($id: ID!, $update: UpdateProductInput!){
+  updateProduct(id: $id, data: $update){
+    id
+    title
+    description
+    prices
+    availability
+    publicationState
+  }
+}

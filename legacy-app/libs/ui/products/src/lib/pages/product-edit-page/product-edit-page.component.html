@@ -1,0 +1,99 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(product$ | async) === null"
+></mat-progress-bar>
+<main class="p-4">
+  <h1 class="mb-2">Edit Product</h1>
+  <form
+    [formGroup]="editForm"
+    fxLayout="column"
+    class="w-full"
+    fxLayoutGap="1rem"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Publication state</mat-label>
+      <mat-select formControlName="publicationState">
+        <mat-option [value]="PublicationState.Draft">Draft</mat-option>
+        <mat-option [value]="PublicationState.Public">Public</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <h3>Product Availability</h3>
+      <mat-button-toggle-group multiple formControlName="availability">
+        <mat-button-toggle
+          *ngFor="let status of statusOptions"
+          [value]="status"
+        >
+          {{ status | titlecase }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <ng-container formGroupName="prices">
+      <div formArrayName="options" fxLayoutGap="2rem" fxLayout="column">
+        <h3 class="mb-4 font-bold">Prices</h3>
+        <div
+          *ngFor="let price of prices.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+            <mat-form-field fxFlex="50">
+              <mat-label>Price</mat-label>
+              <input matInput formControlName="amount" type="number" />
+            </mat-form-field>
+            <mat-checkbox formControlName="defaultPrice">
+              Is default price
+            </mat-checkbox>
+          </div>
+          <div
+            fxLayout="column"
+            fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start center"
+            fxLayoutGap="1rem"
+          >
+            <div fxFlex="50">
+              <h3>Allowed Status</h3>
+              <mat-button-toggle-group
+                multiple
+                formControlName="allowedStatusList"
+              >
+                <mat-button-toggle
+                  *ngFor="let status of statusOptions"
+                  [value]="status"
+                >
+                  {{ status | titlecase }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <mat-checkbox formControlName="esnCardRequired">
+              Only with ESNcard
+            </mat-checkbox>
+            <button
+              mat-flat-button
+              color="warn"
+              [disabled]="i === 0"
+              (click)="removePrice(i)"
+              type="button"
+            >
+              Remove this price
+            </button>
+          </div>
+        </div>
+        <button mat-stroked-button (click)="addPrice()" type="button">
+          Add Price
+        </button>
+      </div>
+      <button mat-flat-button color="primary" [disabled]="editForm.invalid">
+        Save product
+      </button>
+    </ng-container>
+  </form>
+</main>
