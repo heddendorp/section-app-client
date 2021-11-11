@@ -27,11 +27,15 @@
       <button
         mat-raised-button
         color="primary"
-        [disabled]="priceControl.invalid"
+        [disabled]="priceControl.invalid || (processing | async)"
         (click)="register()"
       >
         Start payment and register
       </button>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
     </ng-container>
   </tumi-check-additional-data>
   <!--  <ng-container *ngIf="event.participantRegistrationPossible.option">-->
