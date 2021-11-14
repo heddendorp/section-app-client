@@ -1,0 +1,87 @@
+query loadUserBasket{
+  currentUser{
+    id
+    currentTenant{
+      tenantId
+      userId
+      cart{
+        id
+        items{
+          id
+          cost
+          quantity
+          submissions{
+            id
+            data
+            submissionItem{
+              id
+              name
+            }
+          }
+          product{
+            id
+            title
+            description
+            leadImage{
+              id
+              src
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation createPurchaseFromCart{
+  createPurchaseFromCart{
+    id
+    payment{
+      id
+      status
+      checkoutSession
+    }
+    items{
+      id
+      cost
+      quantity
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
+      }
+      product{
+        id
+        title
+        description
+        leadImage{
+          id
+          src
+        }
+      }
+    }
+  }
+}
+
+mutation increaseItemQuantity($id: ID!){
+increaseLineItemQuantity(id: $id){
+  id
+  quantity
+}
+}
+
+mutation decreaseItemQuantity($id: ID!){
+  decreaseLineItemQuantity(id: $id){
+  id
+  quantity
+}
+}
+
+mutation deleteLineItem($id: ID!){
+  deleteLineItem(id: $id){
+  id
+}
+}

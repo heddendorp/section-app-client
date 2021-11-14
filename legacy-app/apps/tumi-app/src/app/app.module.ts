@@ -97,6 +97,13 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
         loadChildren: () =>
           import('@tumi/ui/products').then((module) => module.UiProductsModule),
       },
+      {
+        path: 'basket',
+        loadChildren: () =>
+          import('@tumi/ui/shopping-basket').then(
+            (module) => module.UiShoppingBasketModule
+          ),
+      },
     ]),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',

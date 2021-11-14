@@ -13,6 +13,7 @@
     "../../libs/ui/tenant/src/index.ts",
     "../../libs/ui/feedback/src/index.ts",
     "../../libs/ui/pages/src/index.ts",
-    "../../libs/ui/products/src/index.ts"
+    "../../libs/ui/products/src/index.ts",
+    "../../libs/ui/shopping-basket/src/index.ts"
   ]
 }

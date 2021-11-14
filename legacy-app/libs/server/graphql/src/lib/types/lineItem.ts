@@ -1,11 +1,13 @@
 import {
   arg,
+  idArg,
   inputObjectType,
   mutationField,
   nonNull,
   objectType,
 } from 'nexus';
 import { LineItem } from 'nexus-prisma';
+import { CacheScope } from 'apollo-server-types';
 
 export const lineItemType = objectType({
   name: LineItem.$name,
@@ -16,13 +18,41 @@ export const lineItemType = objectType({
     t.field(LineItem.cart);
     t.field(LineItem.cost);
     t.field(LineItem.pickupTime);
-    t.field(LineItem.product);
+    t.field({
+      ...LineItem.product,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.product.findUnique({
+          where: {
+            id: source.productId,
+          },
+        });
+      },
+    });
     t.field(LineItem.productId);
     t.field(LineItem.purchase);
     t.field(LineItem.purchaseId);
     t.field(LineItem.quantity);
     t.field(LineItem.shoppingCartId);
-    t.field(LineItem.submissions);
+    t.field({
+      ...LineItem.submissions,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.lineItem
+          .findUnique({
+            where: {
+              id: source.id,
+            },
+          })
+          .submissions();
+      },
+    });
   },
 });
 
@@ -33,6 +63,63 @@ export const addLineItemToBasketInputType = inputObjectType({
     t.field({ type: 'Json', name: 'submissions' });
     t.nonNull.string('productId');
     t.int('quantity', { default: 1 });
+  },
+});
+
+// increase quantity of line item
+export const increaseLineItemQuantityMutation = mutationField(
+  'increaseLineItemQuantity',
+  {
+    type: lineItemType,
+    args: {
+      id: nonNull(idArg()),
+    },
+    resolve: async (parent, { id }, context) => {
+      return context.prisma.lineItem.update({
+        where: {
+          id,
+        },
+        data: {
+          quantity: { increment: 1 },
+        },
+      });
+    },
+  }
+);
+
+// Decrease quantity of line item
+export const decreaseLineItemQuantityMutation = mutationField(
+  'decreaseLineItemQuantity',
+  {
+    type: lineItemType,
+    args: {
+      id: nonNull(idArg()),
+    },
+    resolve: async (parent, { id }, context) => {
+      return context.prisma.lineItem.update({
+        where: {
+          id,
+        },
+        data: {
+          quantity: { decrement: 1 },
+        },
+      });
+    },
+  }
+);
+
+// Remove line item
+export const removeLineItemMutation = mutationField('deleteLineItem', {
+  type: lineItemType,
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: async (parent, { id }, context) => {
+    return context.prisma.lineItem.delete({
+      where: {
+        id,
+      },
+    });
   },
 });
 
@@ -75,15 +162,6 @@ export const addLineItemToBasketMutation = mutationField(
           });
         });
       }
-      console.log(input.submissions);
-      console.log(submissionArray);
-      console.log({
-        cart: { connect: { id: cart.id } },
-        product: { connect: { id: input.productId } },
-        submissions: { create: submissionArray },
-        quantity: input.quantity,
-        cost: input.price.amount,
-      });
       return context.prisma.lineItem.create({
         data: {
           cart: { connect: { id: cart.id } },

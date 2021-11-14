@@ -85,5 +85,11 @@ mutation updateProduct($id: ID!, $update: UpdateProductInput!) {
 mutation addProductToCart($data: AddLineItemToBasketInput!){
   addLineItemToBasket(input: $data){
     id
+    cart{
+      id
+      items{
+        id
+      }
+    }
   }
 }

@@ -314,6 +314,7 @@ type Mutation {
     data: CreateProductImageInput!
     productId: ID!
   ): ProductImage
+  createPurchaseFromCart: Purchase!
   createRegistrationCode(
     eventId: ID!
     isPublic: Boolean = false
@@ -337,7 +338,9 @@ type Mutation {
     """
     id: ID!
   ): TumiEvent!
+  decreaseLineItemQuantity(id: ID!): LineItem
   deleteCostItem(id: ID!): TumiEvent
+  deleteLineItem(id: ID!): LineItem
   deleteProductImage(id: ID!): ProductImage
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
   deleteSubmissionItem(
@@ -355,6 +358,7 @@ type Mutation {
     registrationId: ID!
     withRefund: Boolean = true
   ): TumiEvent
+  increaseLineItemQuantity(id: ID!): LineItem
   registerForEvent(
     eventId: ID!
     price: Json
@@ -861,7 +865,7 @@ type User {
   birthdate: DateTime!
   calendarToken: String!
   createdAt: DateTime!
-  currentTenant(userId: ID): UsersOfTenants
+  currentTenant(userId: ID): UsersOfTenants!
   email: String!
   email_verified: Boolean!
   esnCardOverride: Boolean!
@@ -893,6 +897,7 @@ type User {
 }
 
 type UsersOfTenants {
+  cart: ShoppingCart
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!

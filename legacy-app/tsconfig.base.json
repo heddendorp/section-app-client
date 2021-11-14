@@ -29,6 +29,7 @@
       "@tumi/ui/pages": ["libs/ui/pages/src/index.ts"],
       "@tumi/ui/products": ["libs/ui/products/src/index.ts"],
       "@tumi/ui/profile": ["libs/ui/profile/src/index.ts"],
+      "@tumi/ui/shopping-basket": ["libs/ui/shopping-basket/src/index.ts"],
       "@tumi/ui/tenant": ["libs/ui/tenant/src/index.ts"],
       "@tumi/util-components": ["libs/util/components/src/index.ts"],
       "@tumi/util-environment": ["libs/util/environment/src/index.ts"],

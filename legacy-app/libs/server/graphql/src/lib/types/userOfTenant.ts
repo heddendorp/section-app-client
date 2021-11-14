@@ -24,5 +24,17 @@ export const userOfTenantType = objectType({
           },
         }),
     });
+    t.field({
+      ...UsersOfTenants.cart,
+      resolve: (source, args, context) =>
+        context.prisma.shoppingCart.findUnique({
+          where: {
+            usersOfTenantsUserId_usersOfTenantsTenantId: {
+              usersOfTenantsUserId: source.userId,
+              usersOfTenantsTenantId: source.tenantId,
+            },
+          },
+        }),
+    });
   },
 });

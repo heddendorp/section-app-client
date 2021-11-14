@@ -117,7 +117,7 @@ export class RegistrationService {
       const customer = await this.stripe.customers.create({
         name: `${user.firstName} ${user.lastName}`,
         email: user.email,
-        metadata: { userId: user.id },
+        metadata: { userId: user.id, tenantId: context.tenant.id },
       });
       await this.prisma.stripeUserData.create({
         data: {

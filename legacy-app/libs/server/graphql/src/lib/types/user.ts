@@ -63,7 +63,7 @@ export const userType = objectType({
     });
     t.field({
       name: 'currentTenant',
-      type: userOfTenantType,
+      type: nonNull(userOfTenantType),
       args: { userId: idArg() },
       resolve: (source, { userId }, context) => {
         if (!userId) {

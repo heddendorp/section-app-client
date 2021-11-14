@@ -1,0 +1,113 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(basket$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="basket$ | async as user" class="p-4">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1 class="mb-4">Your basket</h1>
+    <a routerLink="purchases" mat-stroked-button>See purchases</a>
+  </div>
+  <div fxLayout="column" fxLayoutGap="2rem" class="mb-8">
+    <div *ngIf="(user.currentTenant?.cart?.items?.length ?? 0) === 0">
+      <p>Your shopping basket is empty.</p>
+      <a routerLink="/shop" mat-raised-button class="my-2">Go to TUMi shop</a>
+    </div>
+    <div
+      *ngFor="let item of user.currentTenant?.cart?.items"
+      fxLayout="column"
+      fxLayoutGap=".5rem"
+    >
+      <div
+        fxLayout="row"
+        fxLayoutGap="1rem"
+        fxLayoutGap.gt-md="1rem"
+        fxLayoutAlign="start start"
+      >
+        <img [src]="item.product.leadImage?.src" class="max-h-16" />
+        <div>
+          <h3>{{ item.product.title }}</h3>
+          <p>
+            <span>{{ item.cost | currency: 'EUR' }}</span>
+          </p>
+          <p *ngFor="let submissions of item.submissions">
+            <span class="font-bold">
+              {{ submissions.submissionItem.name }}:&nbsp;
+            </span>
+            {{ submissions.data.value }}
+          </p>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <ng-container *ngIf="item.quantity > 1; else delete">
+          <div
+            (click)="decreaseQuantity(item.id)"
+            class="
+              px-4
+              py-1
+              cursor-pointer
+              border border-outline-default
+              bg-variant-default
+              text-variant-on
+              rounded-l-full
+            "
+          >
+            -
+          </div>
+        </ng-container>
+        <ng-template #delete>
+          <div
+            (click)="removeItem(item.id)"
+            class="
+              px-4
+              py-1
+              cursor-pointer
+              border border-outline-default
+              bg-variant-default
+              text-variant-on
+              rounded-l-full
+            "
+          >
+            ❌
+          </div>
+        </ng-template>
+        <div
+          class="
+            px-4
+            py-1
+            border-t border-b border-outline-default
+            bg-surface-default
+            text-surface-on
+          "
+        >
+          {{ item.quantity }}
+        </div>
+        <div
+          (click)="increaseQuantity(item.id)"
+          class="
+            px-4
+            py-1
+            cursor-pointer
+            border border-outline-default
+            bg-variant-default
+            text-variant-on
+            rounded-r-full
+          "
+        >
+          +
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="font-bold mb-4">
+    Total cost: {{ totalCost$ | async | currency: 'EUR' }}
+  </h2>
+  <button
+    mat-raised-button
+    class="modern"
+    color="primary"
+    [disabled]="(processing$ | async) || (totalCost$ | async) === 0"
+    (click)="createPurchase()"
+  >
+    <mat-icon svgIcon="icon-pay-2"></mat-icon><span>Order and pay now</span>
+  </button>
+</main>

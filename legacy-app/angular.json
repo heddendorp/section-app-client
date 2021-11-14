@@ -1,6 +1,6 @@
 {
   "cli": {
-    "analytics": "d700c00f-d702-47f7-8361-0f549ba978ab"
+    "analytics": "34e35c5b-91b9-429f-aa47-381ca7176f48"
   },
   "version": 1,
   "projects": {
@@ -638,6 +638,32 @@
             ]
           },
           "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": []
+    },
+    "ui-shopping-basket": {
+      "projectType": "library",
+      "root": "libs/ui/shopping-basket",
+      "sourceRoot": "libs/ui/shopping-basket/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/shopping-basket"],
+          "options": {
+            "jestConfig": "libs/ui/shopping-basket/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/shopping-basket/src/**/*.ts",
+              "libs/ui/shopping-basket/src/**/*.html"
+            ]
+          }
         }
       },
       "tags": []
