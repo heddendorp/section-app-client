@@ -1,0 +1,27 @@
+<mat-progress-bar *ngIf="(purchases$ | async) === null"></mat-progress-bar>
+<main *ngIf="purchases$ | async as purchases" class="p-4">
+  <h1 class="font-bold">Your purchases</h1>
+  <div
+    fxLayout="column"
+    fxLayoutGap="1rem"
+    *ngIf="purchases.length !== 0; else empty"
+  >
+    <div *ngFor="let purchase of purchases">
+      <h3>Purchase from {{ purchase.createdAt | date: 'medium' }}</h3>
+      <p>Status: {{ purchase.status | titlecase }}</p>
+      <p>Payment status: {{ purchase.payment.status | titlecase }}</p>
+      <button
+        *ngIf="purchase.payment.status === 'incomplete'"
+        mat-flat-button
+        color="primary"
+        (click)="openPaymentSession(purchase.payment.checkoutSession)"
+      >
+        Complete payment
+      </button>
+    </div>
+  </div>
+  <ng-template #empty>
+    <h2 class="mb-2">You have no purchases</h2>
+    <a routerLink="/shop" mat-stroked-button>Go to TUMi shop</a>
+  </ng-template>
+</main>

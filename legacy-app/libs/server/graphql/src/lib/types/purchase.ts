@@ -1,4 +1,11 @@
-import { mutationField, nonNull, objectType } from 'nexus';
+import {
+  booleanArg,
+  list,
+  mutationField,
+  nonNull,
+  objectType,
+  queryField,
+} from 'nexus';
 import { Purchase } from 'nexus-prisma';
 import { ApolloError } from 'apollo-server-express';
 import * as stripe from 'stripe';
@@ -53,6 +60,34 @@ export const purchaseType = objectType({
       },
     });
     t.field(Purchase.paymentId);
+  },
+});
+
+export const purchasesQuery = queryField('purchases', {
+  type: nonNull(list(nonNull(purchaseType))),
+  args: { limitToOwn: booleanArg({ default: true }) },
+  resolve: async (parent, { limitToOwn }, context, info) => {
+    info.cacheControl.setCacheHint({
+      maxAge: 10,
+      scope: CacheScope.Public,
+    });
+    if (limitToOwn && context.assignment?.role !== 'ADMIN') {
+      throw new ApolloError(
+        'You are not allowed to view other users purchases'
+      );
+    }
+    let where = {};
+    if (limitToOwn) {
+      where = {
+        user: {
+          id: context.user.id,
+        },
+      };
+    }
+    return context.prisma.purchase.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+    });
   },
 });
 

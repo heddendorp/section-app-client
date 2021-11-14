@@ -7,12 +7,14 @@ import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { MatButtonModule } from '@angular/material/button';
+import { PurchasesPageComponent } from './pages/purchases-page/purchases-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: BasketOverviewPageComponent },
+      { path: 'purchases', component: PurchasesPageComponent },
     ]),
     MatProgressBarModule,
     MatListModule,
@@ -20,6 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
     UtilMaterialModule,
     MatButtonModule,
   ],
-  declarations: [BasketOverviewPageComponent],
+  declarations: [BasketOverviewPageComponent, PurchasesPageComponent],
 })
 export class UiShoppingBasketModule {}

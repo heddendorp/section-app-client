@@ -543,6 +543,7 @@ type Query {
   product(id: ID!): Product!
   productImageKey: String!
   products: [Product!]!
+  purchases(limitToOwn: Boolean = true): [Purchase!]!
   registration(id: ID!): EventRegistration!
   registrations(
     statusList: [RegistrationStatus] = [PENDING, SUCCESSFUL]

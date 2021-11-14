@@ -33,6 +33,19 @@ query loadUserBasket{
   }
 }
 
+query loadPurchases{
+  purchases{
+    id
+    createdAt
+    status
+    payment{
+      id
+      status
+      checkoutSession
+    }
+  }
+}
+
 mutation createPurchaseFromCart{
   createPurchaseFromCart{
     id
