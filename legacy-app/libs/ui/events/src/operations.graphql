@@ -258,7 +258,7 @@ query loadEventForManagement($id: ID!) {
     participantsRegistered
     participantsAttended
     #registrations
-    costItems{
+    costItems {
       id
       name
       submittedAmount

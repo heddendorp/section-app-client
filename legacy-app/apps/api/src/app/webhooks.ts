@@ -96,7 +96,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
               include: {
                 eventRegistration: true,
-                productPurchase: true,
+                purchase: true,
                 eventRegistrationCode: true,
               },
             });
@@ -160,7 +160,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
               include: {
                 eventRegistration: true,
-                productPurchase: true,
+                purchase: true,
                 eventRegistrationCode: true,
               },
             });
@@ -182,8 +182,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
               data: { status: RegistrationStatus.SUCCESSFUL },
             });
           }
-          if (payment.productPurchase) {
-            await prisma.productPurchase.update({
+          if (payment.purchase) {
+            await prisma.purchase.update({
               where: { id: payment.productPurchase.id },
               data: { status: PurchaseStatus.SUCCESSFUL },
             });
@@ -277,7 +277,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 ],
               },
               include: {
-                productPurchase: true,
+                purchase: true,
                 eventRegistrationCode: true,
                 eventRegistration: true,
               },
@@ -303,8 +303,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
             });
           }
-          if (payment.productPurchase) {
-            await prisma.productPurchase.update({
+          if (payment.purchase) {
+            await prisma.purchase.update({
               where: { id: payment.productPurchase.id },
               data: {
                 status: PurchaseStatus.CANCELLED,
@@ -379,7 +379,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 ],
               },
               include: {
-                productPurchase: true,
+                purchase: true,
                 eventRegistrationCode: true,
                 eventRegistration: true,
               },
@@ -405,8 +405,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
             });
           }
-          if (payment.productPurchase) {
-            await prisma.productPurchase.update({
+          if (payment.purchase) {
+            await prisma.purchase.update({
               where: { id: payment.productPurchase.id },
               data: {
                 status: PurchaseStatus.CANCELLED,
@@ -485,7 +485,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 ],
               },
               include: {
-                productPurchase: true,
+                purchase: true,
                 eventRegistrationCode: true,
                 eventRegistration: true,
               },

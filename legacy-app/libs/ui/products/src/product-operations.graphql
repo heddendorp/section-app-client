@@ -1,70 +1,70 @@
-query getProductList{
-  products{
+query getProductList {
+  products {
     id
     title
     description
     publicationState
-    leadImage{
+    leadImage {
       id
       src
     }
   }
 }
 
-query getProductImageKey{
+query getProductImageKey {
   productImageKey
 }
 
-query loadProduct($id: ID!){
- product(id: $id){
-   id
-   title
-   description
-   prices
-   availability
-   publicationState
-   images{
-     id
-     src
-   }
-   leadImage{
-     id
-     src
-   }
- }
-}
-
-mutation createProduct{
-  createProduct{
+query loadProduct($id: ID!) {
+  product(id: $id) {
     id
-  }
-}
-
-mutation createProductImage($productId: ID!, $image: CreateProductImageInput!){
-  createProductImage(productId: $productId, data: $image){
-    id
-  }
-}
-
-mutation updateLeadImage($productId: ID!, $imageId: ID!){
-  updateLeadImage(id: $productId, leadImageId: $imageId){
-    id
-    leadImageId
-    leadImage{
+    title
+    description
+    prices
+    availability
+    publicationState
+    images {
+      id
+      src
+    }
+    leadImage {
       id
       src
     }
   }
 }
 
-mutation deleteProductImage($imageId: ID!){
-  deleteProductImage(id: $imageId){
+mutation createProduct {
+  createProduct {
     id
   }
 }
 
-mutation updateProduct($id: ID!, $update: UpdateProductInput!){
-  updateProduct(id: $id, data: $update){
+mutation createProductImage($productId: ID!, $image: CreateProductImageInput!) {
+  createProductImage(productId: $productId, data: $image) {
+    id
+  }
+}
+
+mutation updateLeadImage($productId: ID!, $imageId: ID!) {
+  updateLeadImage(id: $productId, leadImageId: $imageId) {
+    id
+    leadImageId
+    leadImage {
+      id
+      src
+    }
+  }
+}
+
+mutation deleteProductImage($imageId: ID!) {
+  deleteProductImage(id: $imageId) {
+    id
+  }
+}
+
+mutation updateProduct($id: ID!, $update: UpdateProductInput!) {
+  updateProduct(id: $id, data: $update) {
     id
     title
     description

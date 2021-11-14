@@ -3,6 +3,7 @@ import {
   LogSeverity,
   MembershipStatus,
   PublicationState,
+  PurchaseStatus,
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
@@ -20,3 +21,4 @@ export const registrationTypeEnum = enumType(RegistrationType);
 export const registrationModeEnum = enumType(RegistrationMode);
 export const logSeverityEnum = enumType(LogSeverity);
 export const registrationStatusEnum = enumType(RegistrationStatus);
+export const purchaseStatusEnum = enumType(PurchaseStatus);

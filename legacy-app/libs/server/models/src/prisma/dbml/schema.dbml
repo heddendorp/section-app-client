@@ -37,14 +37,14 @@ Table User {
   picture String [not null]
   university String
   calendarToken String [unique, not null]
-  PhotoShare PhotoShare [not null]
-  StripePayment StripePayment [not null]
   createdEvents TumiEvent [not null]
   eventRegistrations EventRegistration [not null]
-  purchases ProductPurchase [not null]
+  payments StripePayment [not null]
+  photos PhotoShare [not null]
+  productImages ProductImage [not null]
+  purchases Purchase [not null]
   receipts Receipt [not null]
   tenants UsersOfTenants [not null]
-  productImages ProductImage [not null]
 
   Note: 'One User of the app'
 }
@@ -76,8 +76,7 @@ Table StripePayment {
   paymentIntent String [unique, not null]
   paymentMethod String
   paymentMethodType String
-  productPurchase ProductPurchase
-  purchaseId String
+  purchase Purchase
   refundedAmount Decimal
   status String [not null]
   user User [not null]
@@ -199,15 +198,15 @@ Table Product {
   createdAt DateTime [default: `now()`, not null]
   availability MembershipStatus [not null]
   description String [not null]
+  images ProductImage [not null]
   isESNcard Boolean [not null, default: false]
+  leadImageId String
+  lineItems LineItem [not null]
   prices Json [not null]
-  purchases ProductPurchase [not null]
   publicationState PublicationState [not null, default: 'DRAFT']
   tenant Tenant [not null]
   tenantId String [not null]
   title String [not null]
-  leadImageId String
-  images ProductImage [not null]
 }
 
 Table ProductImage {
@@ -223,19 +222,30 @@ Table ProductImage {
   productId String [not null]
 }
 
-Table ProductPurchase {
+Table Purchase {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   cancellationReason String
-  payment StripePayment
-  paymentId String [unique]
-  pickupTime DateTime
-  price Json [not null]
-  product Product [not null]
-  productId String [not null]
+  items LineItem [not null]
+  payment StripePayment [not null]
   status PurchaseStatus [not null, default: 'PENDING']
+  paymentId String [unique, not null]
   user User [not null]
   userId String [not null]
+}
+
+Table LineItem {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  cancellationReason String
+  cost Decimal [not null]
+  additionalData Json
+  quantity Int [not null, default: 1]
+  pickupTime DateTime
+  product Product [not null]
+  productId String [not null]
+  purchase Purchase [not null]
+  purchaseId String [not null]
 }
 
 Table CostItem {
@@ -453,11 +463,13 @@ Ref: ProductImage.creatorId > User.id
 
 Ref: ProductImage.productId > Product.id
 
-Ref: ProductPurchase.paymentId - StripePayment.id
+Ref: Purchase.paymentId - StripePayment.id
 
-Ref: ProductPurchase.productId > Product.id
+Ref: Purchase.userId > User.id
 
-Ref: ProductPurchase.userId > User.id
+Ref: LineItem.productId > Product.id
+
+Ref: LineItem.purchaseId > Purchase.id
 
 Ref: CostItem.eventId > TumiEvent.id
 

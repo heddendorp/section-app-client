@@ -20,13 +20,12 @@ export const stripePaymentType = objectType({
       // @ts-ignore
       resolve: (payment) => payment.events ?? [],
     });
-    t.field(StripePayment.purchaseId);
     t.field(StripePayment.amount);
     t.field(StripePayment.feeAmount);
     t.field(StripePayment.netAmount);
     t.field(StripePayment.refundedAmount);
     t.field({
-      ...StripePayment.productPurchase,
+      ...StripePayment.purchase,
       resolve: (source, args, context, info) => {
         info.cacheControl.setCacheHint({
           maxAge: 10,
@@ -34,7 +33,7 @@ export const stripePaymentType = objectType({
         });
         return context.prisma.stripePayment
           .findUnique({ where: { id: source.id } })
-          .productPurchase();
+          .purchase();
       },
     });
     t.field({

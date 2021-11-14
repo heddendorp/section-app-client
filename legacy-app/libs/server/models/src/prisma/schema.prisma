@@ -132,14 +132,14 @@ model User {
   // Calendar fucntionality
   calendarToken      String              @unique @default(uuid()) @db.Uuid
   // User relations
-  PhotoShare         PhotoShare[]
-  StripePayment      StripePayment[]
   createdEvents      TumiEvent[]
   eventRegistrations EventRegistration[]
-  purchases          ProductPurchase[]
+  payments           StripePayment[]
+  photos             PhotoShare[]
+  productImages      ProductImage[]
+  purchases          Purchase[]
   receipts           Receipt[]
   tenants            UsersOfTenants[]
-  productImages      ProductImage[]
 }
 
 model StripeUserData {
@@ -167,8 +167,7 @@ model StripePayment {
   paymentIntent         String                 @unique
   paymentMethod         String?
   paymentMethodType     String?
-  productPurchase       ProductPurchase?
-  purchaseId            String?                @db.Uuid
+  purchase              Purchase?
   refundedAmount        Decimal?
   status                String
   user                  User                   @relation(fields: [userId], references: [id])
@@ -284,15 +283,15 @@ model Product {
   createdAt        DateTime           @default(now())
   availability     MembershipStatus[]
   description      String
+  images           ProductImage[]
   isESNcard        Boolean            @default(false)
+  leadImageId      String?            @db.Uuid
+  lineItems        LineItem[]
   prices           Json
-  purchases        ProductPurchase[]
   publicationState PublicationState   @default(DRAFT)
   tenant           Tenant             @relation(fields: [tenantId], references: [id])
   tenantId         String             @db.Uuid
   title            String
-  leadImageId      String?            @db.Uuid
-  images           ProductImage[]
 }
 
 model ProductImage {
@@ -308,19 +307,30 @@ model ProductImage {
   productId    String   @db.Uuid
 }
 
-model ProductPurchase {
+model Purchase {
   id                 String         @id @default(uuid()) @db.Uuid
   createdAt          DateTime       @default(now())
   cancellationReason String?
-  payment            StripePayment? @relation(fields: [paymentId], references: [id])
-  paymentId          String?        @unique @db.Uuid
-  pickupTime         DateTime?
-  price              Json
-  product            Product        @relation(fields: [productId], references: [id])
-  productId          String         @db.Uuid
+  items              LineItem[]
+  payment            StripePayment  @relation(fields: [paymentId], references: [id])
   status             PurchaseStatus @default(PENDING)
+  paymentId          String         @unique @db.Uuid
   user               User           @relation(fields: [userId], references: [id])
   userId             String         @db.Uuid
+}
+
+model LineItem {
+  id                 String    @id @default(uuid()) @db.Uuid
+  createdAt          DateTime  @default(now())
+  cancellationReason String?
+  cost               Decimal
+  additionalData     Json?
+  quantity           Int       @default(1)
+  pickupTime         DateTime?
+  product            Product   @relation(fields: [productId], references: [id])
+  productId          String    @db.Uuid
+  purchase           Purchase  @relation(fields: [purchaseId], references: [id])
+  purchaseId         String    @db.Uuid
 }
 
 model CostItem {

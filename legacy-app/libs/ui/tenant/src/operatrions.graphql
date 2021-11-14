@@ -48,15 +48,15 @@ query loadUser($id: ID!) {
       checkInTime
       type
       status
-      deletingCode{
+      deletingCode {
         id
         createdAt
       }
-      creatingCode{
+      creatingCode {
         id
         createdAt
       }
-      payment{
+      payment {
         id
         status
         events
@@ -90,8 +90,20 @@ query getOrganizers {
   }
 }
 
-query getUsers($roleList: [Role], $statusList: [MembershipStatus], $search:String, $pageIndex: Int, $pageLength:Int) {
-  users(roleList: $roleList, statusList: $statusList, search: $search, pageIndex: $pageIndex, pageLength: $pageLength) {
+query getUsers(
+  $roleList: [Role]
+  $statusList: [MembershipStatus]
+  $search: String
+  $pageIndex: Int
+  $pageLength: Int
+) {
+  users(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+    pageIndex: $pageIndex
+    pageLength: $pageLength
+  ) {
     id
     firstName
     lastName
@@ -103,7 +115,11 @@ query getUsers($roleList: [Role], $statusList: [MembershipStatus], $search:Strin
       status
     }
   }
-  userSearchResultNum(roleList: $roleList, statusList: $statusList, search: $search)
+  userSearchResultNum(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+  )
 }
 
 query getStatistics {
@@ -124,10 +140,10 @@ query getStatistics {
       usersRegisteredPaidEvents
       checkins
       paidRegistrations
-#      totalNetPayments
+      #      totalNetPayments
       totalEvents
       paidEvents
-#      averageEventCost
+      #      averageEventCost
       userUniversityDistribution
     }
   }

@@ -1,4 +1,3 @@
-// export * from './refundedRegistration';
 export * from './activityLog';
 export * from './activityLog';
 export * from './costItems';
@@ -11,10 +10,11 @@ export * from './eventSubmission';
 export * from './eventSubmissionItem';
 export * from './eventTemplate';
 export * from './eventTemplateCategory';
+export * from './lineItem';
 export * from './photoShare';
 export * from './product';
 export * from './productImage';
-export * from './productPurchase';
+export * from './purchase';
 export * from './receipt';
 export * from './statistics';
 export * from './stripePayment';

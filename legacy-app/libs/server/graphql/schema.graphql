@@ -234,6 +234,10 @@ scalar Json
     url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
   )
 
+type LineItem {
+  id: ID!
+}
+
 enum LogSeverity {
   DEBUG
   ERROR
@@ -422,23 +426,28 @@ type ProductImage {
   type: String!
 }
 
-type ProductPurchase {
-  createdAt: DateTime!
-  id: ID!
-  payment: StripePayment
-  paymentId: String
-  price: Json!
-  product: Product!
-  productId: String!
-  user: User!
-  userId: String!
-}
-
 enum PublicationState {
   APPROVAL
   DRAFT
   ORGANIZERS
   PUBLIC
+}
+
+type Purchase {
+  createdAt: DateTime!
+  id: ID!
+  items: [LineItem!]!
+  payment: StripePayment!
+  paymentId: String!
+  status: PurchaseStatus!
+  user: User!
+  userId: String!
+}
+
+enum PurchaseStatus {
+  CANCELLED
+  PENDING
+  SUCCESSFUL
 }
 
 type Query {
@@ -580,8 +589,7 @@ type StripePayment {
   paymentIntent: String!
   paymentMethod: String
   paymentMethodType: String
-  productPurchase: ProductPurchase
-  purchaseId: String
+  purchase: Purchase
   refundedAmount: Decimal
   status: String!
 }
