@@ -52,11 +52,24 @@ Table User {
 Table StripeUserData {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  userOfTenant UsersOfTenants [not null]
-  usersOfTenantsUserId String [not null]
-  usersOfTenantsTenantId String [not null]
   customerId String [not null]
   paymentMethodId String
+  userOfTenant UsersOfTenants [not null]
+  usersOfTenantsTenantId String [not null]
+  usersOfTenantsUserId String [not null]
+
+  indexes {
+    (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
+  }
+}
+
+Table ShoppingCart {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  items LineItem [not null]
+  userOfTenant UsersOfTenants [not null]
+  usersOfTenantsTenantId String [not null]
+  usersOfTenantsUserId String [not null]
 
   indexes {
     (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
@@ -99,13 +112,14 @@ Table RefundedRegistration {
 
 Table UsersOfTenants {
   createdAt DateTime [default: `now()`, not null]
-  user User [not null]
-  userId String [not null]
-  tenant Tenant [not null]
-  tenantId String [not null]
+  cart ShoppingCart
   role Role [not null, default: 'USER']
   status MembershipStatus [not null, default: 'NONE']
   stripeData StripeUserData
+  tenant Tenant [not null]
+  tenantId String [not null]
+  user User [not null]
+  userId String [not null]
 
   indexes {
     (userId, tenantId) [pk]
@@ -237,15 +251,17 @@ Table Purchase {
 Table LineItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  cancellationReason String
-  cost Decimal [not null]
   additionalData Json
-  quantity Int [not null, default: 1]
+  cancellationReason String
+  cart ShoppingCart
+  cost Decimal [not null]
   pickupTime DateTime
   product Product [not null]
   productId String [not null]
   purchase Purchase [not null]
   purchaseId String [not null]
+  quantity Int [not null, default: 1]
+  shoppingCartId String
 }
 
 Table CostItem {
@@ -435,13 +451,15 @@ Enum LogSeverity {
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
+Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
+
 Ref: StripePayment.userId > User.id
 
 Ref: RefundedRegistration.tenantId > Tenant.id
 
-Ref: UsersOfTenants.userId > User.id
-
 Ref: UsersOfTenants.tenantId > Tenant.id
+
+Ref: UsersOfTenants.userId > User.id
 
 Ref: EventOrganizer.tenantId > Tenant.id
 
@@ -466,6 +484,8 @@ Ref: ProductImage.productId > Product.id
 Ref: Purchase.paymentId - StripePayment.id
 
 Ref: Purchase.userId > User.id
+
+Ref: LineItem.shoppingCartId > ShoppingCart.id
 
 Ref: LineItem.productId > Product.id
 

@@ -145,11 +145,22 @@ model User {
 model StripeUserData {
   id                     String         @id @default(uuid()) @db.Uuid
   createdAt              DateTime       @default(now())
-  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
-  usersOfTenantsUserId   String         @db.Uuid
-  usersOfTenantsTenantId String         @db.Uuid
   customerId             String
   paymentMethodId        String?
+  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
+  usersOfTenantsTenantId String         @db.Uuid
+  usersOfTenantsUserId   String         @db.Uuid
+
+  @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
+}
+
+model ShoppingCart {
+  id                     String         @id @default(uuid()) @db.Uuid
+  createdAt              DateTime       @default(now())
+  items                  LineItem[]
+  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
+  usersOfTenantsTenantId String         @db.Uuid
+  usersOfTenantsUserId   String         @db.Uuid
 
   @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
 }
@@ -189,13 +200,14 @@ model RefundedRegistration {
 
 model UsersOfTenants {
   createdAt  DateTime         @default(now())
-  user       User             @relation(fields: [userId], references: [id])
-  userId     String           @db.Uuid
-  tenant     Tenant           @relation(fields: [tenantId], references: [id])
-  tenantId   String           @db.Uuid
+  cart       ShoppingCart?
   role       Role             @default(USER)
   status     MembershipStatus @default(NONE)
   stripeData StripeUserData?
+  tenant     Tenant           @relation(fields: [tenantId], references: [id])
+  tenantId   String           @db.Uuid
+  user       User             @relation(fields: [userId], references: [id])
+  userId     String           @db.Uuid
 
   @@id([userId, tenantId])
 }
@@ -320,17 +332,19 @@ model Purchase {
 }
 
 model LineItem {
-  id                 String    @id @default(uuid()) @db.Uuid
-  createdAt          DateTime  @default(now())
-  cancellationReason String?
-  cost               Decimal
+  id                 String        @id @default(uuid()) @db.Uuid
+  createdAt          DateTime      @default(now())
   additionalData     Json?
-  quantity           Int       @default(1)
+  cancellationReason String?
+  cart               ShoppingCart? @relation(fields: [shoppingCartId], references: [id])
+  cost               Decimal
   pickupTime         DateTime?
-  product            Product   @relation(fields: [productId], references: [id])
-  productId          String    @db.Uuid
-  purchase           Purchase  @relation(fields: [purchaseId], references: [id])
-  purchaseId         String    @db.Uuid
+  product            Product       @relation(fields: [productId], references: [id])
+  productId          String        @db.Uuid
+  purchase           Purchase      @relation(fields: [purchaseId], references: [id])
+  purchaseId         String        @db.Uuid
+  quantity           Int           @default(1)
+  shoppingCartId     String?       @db.Uuid
 }
 
 model CostItem {

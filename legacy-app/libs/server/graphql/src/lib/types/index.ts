@@ -16,6 +16,7 @@ export * from './product';
 export * from './productImage';
 export * from './purchase';
 export * from './receipt';
+export * from './shoppingCart';
 export * from './statistics';
 export * from './stripePayment';
 export * from './stripeUserData';

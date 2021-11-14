@@ -573,6 +573,15 @@ enum Role {
   USER
 }
 
+type ShoppingCart {
+  createdAt: DateTime!
+  id: ID!
+  items: [LineItem!]!
+  userOfTenant: UsersOfTenants!
+  usersOfTenantsTenantId: String!
+  usersOfTenantsUserId: String!
+}
+
 type StripePayment {
   amount: Decimal!
   checkoutSession: String!
