@@ -402,8 +402,10 @@ type Product {
   description: String!
   id: ID!
   images: [ProductImage!]!
+  isESNcard: Boolean!
   leadImage: ProductImage
   leadImageId: String
+  needsShippingAddress: Boolean!
   prices: Json!
   publicationState: PublicationState!
   tenant: Tenant!
@@ -780,6 +782,7 @@ input UpdateLocationInput {
 input UpdateProductInput {
   availability: [MembershipStatus!]!
   description: String!
+  needsShippingAddress: Boolean!
   prices: Json!
   publicationState: PublicationState!
   title: String!

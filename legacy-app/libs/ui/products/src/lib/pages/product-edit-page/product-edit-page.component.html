@@ -19,13 +19,23 @@
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" rows="10"></textarea>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Publication state</mat-label>
-      <mat-select formControlName="publicationState">
-        <mat-option [value]="PublicationState.Draft">Draft</mat-option>
-        <mat-option [value]="PublicationState.Public">Public</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutGap="1rem"
+      fxLayoutAlign.gt-sm="start center"
+    >
+      <mat-form-field fxFlex="grow">
+        <mat-label>Publication state</mat-label>
+        <mat-select formControlName="publicationState">
+          <mat-option [value]="PublicationState.Draft">Draft</mat-option>
+          <mat-option [value]="PublicationState.Public">Public</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox formControlName="needsShippingAddress">
+        Needs shipping address
+      </mat-checkbox>
+    </div>
     <div>
       <h3>Product Availability</h3>
       <mat-button-toggle-group multiple formControlName="availability">

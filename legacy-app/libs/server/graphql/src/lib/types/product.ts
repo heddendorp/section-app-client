@@ -29,6 +29,8 @@ export const productType = objectType({
     t.field(Product.availability);
     t.field(Product.prices);
     t.field(Product.publicationState);
+    t.field(Product.isESNcard);
+    t.field(Product.needsShippingAddress);
     t.field(Product.leadImageId);
     t.field({
       ...Product.images,
@@ -69,6 +71,7 @@ export const updateProductInputType = inputObjectType({
     t.field(Product.availability);
     t.field(Product.prices);
     t.field(Product.publicationState);
+    t.field(Product.needsShippingAddress);
   },
 });
 
