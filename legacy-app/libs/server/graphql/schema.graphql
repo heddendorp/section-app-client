@@ -177,17 +177,17 @@ type EventRegistrationCode {
 type EventSubmission {
   createdAt: DateTime!
   data: Json!
-  eventRegistrationId: String!
+  eventRegistrationId: String
   id: ID!
-  registration: EventRegistration!
+  registration: EventRegistration
   submissionItem: EventSubmissionItem!
   submissionItemId: String!
 }
 
 type EventSubmissionItem {
   createdAt: DateTime!
-  event: TumiEvent!
-  eventId: String!
+  event: TumiEvent
+  eventId: String
   id: ID!
   instruction: String!
   name: String!
@@ -616,6 +616,7 @@ enum SubmissionItemType {
   LONGTEXT
   NUMBER
   RATING
+  SELECT
   TEXT
 }
 

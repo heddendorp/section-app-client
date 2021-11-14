@@ -91,6 +91,7 @@ Table StripePayment {
   paymentMethodType String
   purchase Purchase
   refundedAmount Decimal
+  shipping Json
   status String [not null]
   user User [not null]
   userId String [not null]
@@ -216,8 +217,10 @@ Table Product {
   isESNcard Boolean [not null, default: false]
   leadImageId String
   lineItems LineItem [not null]
+  needsShippingAddress Boolean [not null, default: false]
   prices Json [not null]
   publicationState PublicationState [not null, default: 'DRAFT']
+  submissionItems EventSubmissionItem [not null]
   tenant Tenant [not null]
   tenantId String [not null]
   title String [not null]
@@ -262,6 +265,7 @@ Table LineItem {
   purchaseId String [not null]
   quantity Int [not null, default: 1]
   shoppingCartId String
+  submissions EventSubmission [not null]
 }
 
 Table CostItem {
@@ -349,24 +353,29 @@ Table EventRegistrationCode {
 Table EventSubmissionItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  event TumiEvent [not null]
-  eventId String [not null]
-  required Boolean [not null]
-  name String [not null]
+  data Json
+  event TumiEvent
+  eventId String
   instruction String [not null]
+  name String [not null]
+  product Product
+  productId String
+  required Boolean [not null]
   submissionTime SubmissionTime [not null]
-  type SubmissionItemType [not null]
   submissions EventSubmission [not null]
+  type SubmissionItemType [not null]
 }
 
 Table EventSubmission {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  registration EventRegistration [not null]
-  eventRegistrationId String [not null]
+  data Json [not null]
+  eventRegistrationId String
+  lineItem LineItem
+  lineItemId String
+  registration EventRegistration
   submissionItem EventSubmissionItem [not null]
   submissionItemId String [not null]
-  data Json [not null]
 }
 
 Table ActivityLog {
@@ -408,6 +417,7 @@ Enum SubmissionItemType {
   DATE
   RATING
   BOOLEAN
+  SELECT
 }
 
 Enum SubmissionTime {
@@ -514,6 +524,10 @@ Ref: EventRegistrationCode.eventId > TumiEvent.id
 Ref: EventRegistrationCode.paymentId - StripePayment.id
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
+
+Ref: EventSubmissionItem.productId > Product.id
+
+Ref: EventSubmission.lineItemId > LineItem.id
 
 Ref: EventSubmission.eventRegistrationId > EventRegistration.id [delete: Cascade]
 
