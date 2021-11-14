@@ -17,6 +17,15 @@
           <mat-icon svgIcon="icon-online-shop-2"></mat-icon>
           <span>The TUMi shop</span>
         </a>
+        <a
+          mat-list-item
+          routerLink="cart"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.User, Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
+          <span>Shopping basket</span>
+        </a>
         <a mat-list-item routerLink="page/about" routerLinkActive="active">
           <mat-icon svgIcon="icon-information"></mat-icon>
           <span>About us</span>

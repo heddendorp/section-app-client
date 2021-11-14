@@ -338,15 +338,14 @@ model Purchase {
 model LineItem {
   id                 String            @id @default(uuid()) @db.Uuid
   createdAt          DateTime          @default(now())
-  additionalData     Json?
   cancellationReason String?
   cart               ShoppingCart?     @relation(fields: [shoppingCartId], references: [id])
   cost               Decimal
   pickupTime         DateTime?
   product            Product           @relation(fields: [productId], references: [id])
   productId          String            @db.Uuid
-  purchase           Purchase          @relation(fields: [purchaseId], references: [id])
-  purchaseId         String            @db.Uuid
+  purchase           Purchase?         @relation(fields: [purchaseId], references: [id])
+  purchaseId         String?           @db.Uuid
   quantity           Int               @default(1)
   shoppingCartId     String?           @db.Uuid
   submissions        EventSubmission[]

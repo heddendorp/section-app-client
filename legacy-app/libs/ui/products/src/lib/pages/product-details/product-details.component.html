@@ -30,16 +30,24 @@
     </div>
     <h1>{{ product.title }}</h1>
   </div>
-  <main class="p-4">
-    <markdown [data]="product.description" class="prose lg:prose-lg"></markdown>
-    <div class="mt-6">
-      <tumi-grid maxWidth="400px" minWidth="200px">
-        <img
-          *ngFor="let image of product.images"
-          [src]="image.src"
-          class="rounded-lg"
-        />
-      </tumi-grid>
-    </div>
-  </main>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <main class="p-4" fxFlex.gt-md="grow">
+      <markdown
+        [data]="product.description"
+        class="prose lg:prose-lg"
+      ></markdown>
+      <div class="mt-6">
+        <tumi-grid maxWidth="400px" minWidth="200px">
+          <img
+            *ngFor="let image of product.images"
+            [src]="image.src"
+            class="rounded-lg"
+          />
+        </tumi-grid>
+      </div>
+    </main>
+    <aside fxFlex.gt-md="33" class="p-4">
+      <tumi-order-product [product]="product"></tumi-order-product>
+    </aside>
+  </div>
 </ng-container>

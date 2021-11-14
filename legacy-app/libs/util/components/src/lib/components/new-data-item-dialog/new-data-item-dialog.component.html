@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>New Data item</h1>
+<mat-dialog-content>
+  <form [formGroup]="form" fxLayout="column" fxLayoutGap="1rem">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Instructions</mat-label>
+      <textarea
+        formControlName="instruction"
+        matInput
+        rows="3"
+        required
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select required formControlName="type">
+        <mat-option [value]="SubmissionItemType.Text">Text</mat-option>
+        <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>
+        <mat-option [value]="SubmissionItemType.Select">Select</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Time</mat-label>
+      <mat-select required formControlName="submissionTime">
+        <mat-option [value]="SubmissionTime.Registration">{{
+          data.mode === 'product' ? 'at purchase' : 'at registration'
+        }}</mat-option>
+        <!--        <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>-->
+        <!--        <mat-option [value]="SubmissionItemType.Select">Select</mat-option>-->
+      </mat-select>
+    </mat-form-field>
+    <h3>Choices for select</h3>
+    <ng-container formGroupName="data">
+      <ng-container formArrayName="choices">
+        <div
+          *ngFor="let choice of choices.controls; let i = index"
+          fxLayout="row"
+          fxLayoutGap=".5rem"
+        >
+          <mat-form-field>
+            <mat-label>Choice {{ i + 1 }}</mat-label>
+            <input matInput [formControlName]="i" type="text" required />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            [disabled]="i < 2"
+            (click)="removeChoice(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button mat-flat-button (click)="addChoice()">Add option</button>
+      </ng-container>
+    </ng-container>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [mat-dialog-close]="form.value"
+    [disabled]="form.invalid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

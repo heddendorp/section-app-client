@@ -2,7 +2,7 @@
   mode="indeterminate"
   *ngIf="(product$ | async) === null"
 ></mat-progress-bar>
-<main class="p-4">
+<main class="p-4" *ngIf="product$ | async as product">
   <h1 class="mb-2">Edit product data</h1>
   <form
     [formGroup]="editForm"
@@ -106,7 +106,14 @@
       </button>
     </ng-container>
   </form>
-  <h1 class="mt-8 mb-2">Product imagery</h1>
+  <h1 class="mt-16 mb-2">Additional Data</h1>
+  <tumi-data-items-manager
+    mode="product"
+    [parentId]="product.id"
+    [items]="product.submissionItems"
+    (reloadParent)="reloadProduct()"
+  ></tumi-data-items-manager>
+  <h1 class="mt-16 mb-2">Product imagery</h1>
   <ng-container *ngIf="product$ | async as product">
     <h2 class="mb-2">Lead image</h2>
     <img

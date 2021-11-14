@@ -254,15 +254,14 @@ Table Purchase {
 Table LineItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  additionalData Json
   cancellationReason String
   cart ShoppingCart
   cost Decimal [not null]
   pickupTime DateTime
   product Product [not null]
   productId String [not null]
-  purchase Purchase [not null]
-  purchaseId String [not null]
+  purchase Purchase
+  purchaseId String
   quantity Int [not null, default: 1]
   shoppingCartId String
   submissions EventSubmission [not null]

@@ -16,6 +16,13 @@ type ActivityLogStat {
   message: String!
 }
 
+input AddLineItemToBasketInput {
+  price: Json!
+  productId: String!
+  quantity: Int = 1
+  submissions: Json
+}
+
 """
 The `BigInt` scalar type represents non-fractional signed whole numeric values.
 @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
@@ -97,6 +104,7 @@ input CreateReceiptInput {
 }
 
 input CreateSubmissionItemInput {
+  data: Json
   instruction: String!
   name: String!
   required: Boolean!
@@ -186,6 +194,7 @@ type EventSubmission {
 
 type EventSubmissionItem {
   createdAt: DateTime!
+  data: Json
   event: TumiEvent
   eventId: String
   id: ID!
@@ -235,7 +244,19 @@ scalar Json
   )
 
 type LineItem {
+  cancellationReason: String
+  cart: ShoppingCart
+  cost: Decimal!
+  createdAt: DateTime!
   id: ID!
+  pickupTime: DateTime
+  product: Product!
+  productId: String!
+  purchase: Purchase
+  purchaseId: String
+  quantity: Int!
+  shoppingCartId: String
+  submissions: [EventSubmission!]!
 }
 
 enum LogSeverity {
@@ -255,6 +276,8 @@ enum MembershipStatus {
 }
 
 type Mutation {
+  addLineItemToBasket(input: AddLineItemToBasketInput!): LineItem
+
   """
   Adds the user with the supplied id to the event
   """
@@ -297,6 +320,15 @@ type Mutation {
     registrationId: ID
     sepaAllowed: Boolean = false
   ): EventRegistrationCode!
+  createSubmissionItem(
+    data: CreateSubmissionItemInput!
+
+    """
+    ID of the targeted event
+    """
+    id: ID!
+    target: String = "event"
+  ): EventSubmissionItem!
   createSubmissionOnEvent(
     data: CreateSubmissionItemInput!
 
@@ -308,6 +340,12 @@ type Mutation {
   deleteCostItem(id: ID!): TumiEvent
   deleteProductImage(id: ID!): ProductImage
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
+  deleteSubmissionItem(
+    """
+    ID of the item to delete
+    """
+    id: ID!
+  ): EventSubmissionItem!
 
   """
   Delete one template by id
@@ -408,6 +446,7 @@ type Product {
   needsShippingAddress: Boolean!
   prices: Json!
   publicationState: PublicationState!
+  submissionItems: [EventSubmissionItem!]!
   tenant: Tenant!
   tenantId: String!
   title: String!

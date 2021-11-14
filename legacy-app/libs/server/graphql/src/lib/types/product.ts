@@ -51,6 +51,18 @@ export const productType = objectType({
         context.prisma.tenant.findUnique({ where: { id: source.tenantId } }),
     });
     t.field({
+      ...Product.submissionItems,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.product
+          .findUnique({ where: { id: source.id } })
+          .submissionItems();
+      },
+    });
+    t.field({
       name: 'leadImage',
       type: productImageType,
       resolve: (source, args, context) => {

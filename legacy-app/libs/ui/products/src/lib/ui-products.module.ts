@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UiAuthModule } from '@tumi/ui-auth';
 import { UtilMaterialModule } from '@tumi/util/material';
 import { ProductEditPageComponent } from './pages/product-edit-page/product-edit-page.component';
-import { FlexModule } from '@angular/flex-layout';
+import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { UtilComponentsModule } from '@tumi/util-components';
 import { MatCardModule } from '@angular/material/card';
 import { MarkdownModule } from 'ngx-markdown';
+import { OrderProductComponent } from './components/order-product/order-product.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -41,11 +43,14 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSelectModule,
     MatCardModule,
     MarkdownModule,
+    FlexLayoutModule,
+    MatListModule,
   ],
   declarations: [
     ProductListComponent,
     ProductDetailsComponent,
     ProductEditPageComponent,
+    OrderProductComponent,
   ],
 })
 export class UiProductsModule {}

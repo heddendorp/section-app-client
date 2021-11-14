@@ -194,4 +194,37 @@ $tumi-dark-theme: mat.define-dark-theme(
       padding: 0;
     }
   }
+  .cdk-overlay-pane.modern {
+    mat-dialog-container {
+      @apply rounded-3xl p-6 bg-surface-default text-surface-on;
+    }
+  }
+  .mat-flat-button.modern {
+    @apply rounded-full;
+    &.mat-primary {
+      @apply bg-primary-default text-primary-on;
+    }
+    .mat-button-wrapper {
+      mat-icon {
+        @apply mr-2 ml-0;
+      }
+      span {
+        @apply mr-2;
+      }
+    }
+  }
+  .mat-raised-button.modern {
+    @apply rounded-full;
+    &.mat-primary {
+      @apply bg-primary-default text-primary-on;
+    }
+    .mat-button-wrapper {
+      mat-icon {
+        @apply mr-2 ml-0;
+      }
+      span {
+        @apply mr-2;
+      }
+    }
+  }
 }

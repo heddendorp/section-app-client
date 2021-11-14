@@ -1,0 +1,18 @@
+<button mat-flat-button color="primary" (click)="addItem()" class="modern">
+  <mat-icon svgIcon="icon-plus-2-math"></mat-icon> <span>Add item</span>
+</button>
+<div
+  *ngFor="let item of items"
+  fxLayoutGap="1rem"
+  fxLayout="row"
+  fxLayoutAlign="space-between start"
+>
+  <div>
+    <p>{{ item.name }}</p>
+    <span>{{ item.type }} {{ item.submissionTime }}</span>
+  </div>
+  <p>{{ item.data | json }}</p>
+  <button mat-icon-button color="warn" (click)="removeItem(item.id)">
+    <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+  </button>
+</div>

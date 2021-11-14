@@ -23,6 +23,14 @@ query loadProduct($id: ID!) {
     prices
     availability
     publicationState
+    submissionItems{
+      id
+      name
+      instruction
+      data
+      submissionTime
+      type
+    }
     images {
       id
       src
@@ -71,5 +79,11 @@ mutation updateProduct($id: ID!, $update: UpdateProductInput!) {
     prices
     availability
     publicationState
+  }
+}
+
+mutation addProductToCart($data: AddLineItemToBasketInput!){
+  addLineItemToBasket(input: $data){
+    id
   }
 }

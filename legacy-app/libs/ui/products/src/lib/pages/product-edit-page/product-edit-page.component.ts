@@ -186,4 +186,8 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
     );
     this.loadProductRef.refetch();
   }
+
+  reloadProduct() {
+    this.loadProductRef.refetch();
+  }
 }

@@ -1,4 +1,7 @@
 {
+  "cli": {
+    "analytics": "d700c00f-d702-47f7-8361-0f549ba978ab"
+  },
   "version": 1,
   "projects": {
     "api": {
