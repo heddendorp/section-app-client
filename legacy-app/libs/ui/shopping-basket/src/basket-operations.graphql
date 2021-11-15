@@ -38,6 +38,28 @@ query loadPurchases{
     id
     createdAt
     status
+    items{
+      id
+      cost
+      quantity
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
+      }
+      product{
+        id
+        title
+        description
+        leadImage{
+          id
+          src
+        }
+      }
+    }
     payment{
       id
       status

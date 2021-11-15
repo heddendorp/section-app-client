@@ -544,6 +544,7 @@ type Query {
   product(id: ID!): Product!
   productImageKey: String!
   products: [Product!]!
+  purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean = true): [Purchase!]!
   registration(id: ID!): EventRegistration!
   registrations(
@@ -647,6 +648,7 @@ type StripePayment {
   paymentMethodType: String
   purchase: Purchase
   refundedAmount: Decimal
+  shipping: Json
   status: String!
 }
 

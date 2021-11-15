@@ -13,6 +13,7 @@ export const stripePaymentType = objectType({
     t.field(StripePayment.paymentMethod);
     t.field(StripePayment.paymentMethodType);
     t.field(StripePayment.status);
+    t.field(StripePayment.shipping);
     t.field({
       ...StripePayment.events,
       type: nonNull(list(Json)),

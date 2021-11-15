@@ -18,6 +18,16 @@
       >
         Complete payment
       </button>
+      <h3>Items</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let item of purchase.items">
+          <img [src]="item.product.leadImage?.src" mat-list-avatar />
+          <h3 mat-line>{{ item.product.title }} x {{ item.quantity }}</h3>
+          <p mat-line *ngFor="let submission of item.submissions">
+            {{ submission.submissionItem.name }}: {{ submission.data.value }}
+          </p>
+        </mat-list-item>
+      </mat-list>
     </div>
   </div>
   <ng-template #empty>

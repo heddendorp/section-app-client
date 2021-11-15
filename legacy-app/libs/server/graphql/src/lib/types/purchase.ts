@@ -1,5 +1,6 @@
 import {
   booleanArg,
+  idArg,
   list,
   mutationField,
   nonNull,
@@ -87,6 +88,22 @@ export const purchasesQuery = queryField('purchases', {
     return context.prisma.purchase.findMany({
       where,
       orderBy: { createdAt: 'desc' },
+    });
+  },
+});
+
+export const purchaseQuery = queryField('purchase', {
+  type: nonNull(purchaseType),
+  args: { id: nonNull(idArg()) },
+  resolve: async (parent, { id }, context, info) => {
+    info.cacheControl.setCacheHint({
+      maxAge: 10,
+      scope: CacheScope.Public,
+    });
+    return context.prisma.purchase.findUnique({
+      where: {
+        id,
+      },
     });
   },
 });
