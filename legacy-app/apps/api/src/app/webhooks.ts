@@ -144,32 +144,44 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           let payment;
           if (Array.isArray(stripePayment.events)) {
-            payment = await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntent.id },
-              data: {
-                status: paymentIntent.status,
-                shipping: paymentIntent.shipping
-                  ? JSON.parse(JSON.stringify(paymentIntent.shipping))
-                  : null,
-                paymentMethod: charge.payment_method,
-                paymentMethodType: charge.payment_method_details.type,
-                feeAmount: balanceTransaction.fee,
-                netAmount: balanceTransaction.net,
-                events: [
-                  ...stripePayment.events,
-                  {
-                    type: 'payment_intent.succeeded',
-                    name: 'succeeded',
-                    date: Date.now(),
-                  },
-                ],
-              },
-              include: {
-                eventRegistration: true,
-                purchase: true,
-                eventRegistrationCode: true,
-              },
-            });
+            try {
+              payment = await prisma.stripePayment.update({
+                where: { paymentIntent: paymentIntent.id },
+                data: {
+                  status: paymentIntent.status,
+                  shipping: paymentIntent.shipping
+                    ? JSON.parse(JSON.stringify(paymentIntent.shipping))
+                    : null,
+                  paymentMethod: charge.payment_method,
+                  paymentMethodType: charge.payment_method_details.type,
+                  feeAmount: balanceTransaction.fee,
+                  netAmount: balanceTransaction.net,
+                  events: [
+                    ...stripePayment.events,
+                    {
+                      type: 'payment_intent.succeeded',
+                      name: 'succeeded',
+                      date: Date.now(),
+                    },
+                  ],
+                },
+                include: {
+                  eventRegistration: true,
+                  purchase: true,
+                  eventRegistrationCode: true,
+                },
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  data: JSON.parse(JSON.stringify(paymentIntent)),
+                  oldData: e,
+                  message: 'Error updating payment in webhook',
+                  severity: 'ERROR',
+                  category: 'webhook',
+                },
+              });
+            }
           } else {
             await prisma.activityLog.create({
               data: {

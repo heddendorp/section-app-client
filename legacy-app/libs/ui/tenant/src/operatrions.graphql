@@ -34,6 +34,7 @@ query loadUser($id: ID!) {
     email
     birthdate
     phone
+    university
     hasESNcard
     esnCardOverride
     currentTenant(userId: $id) {
