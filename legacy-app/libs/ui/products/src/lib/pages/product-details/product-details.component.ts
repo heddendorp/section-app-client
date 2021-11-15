@@ -3,6 +3,8 @@ import { LoadProductGQL, LoadProductQuery, Role } from '@tumi/data-access';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { PhotoDetailsDialogComponent } from '@tumi/util-components';
 
 @Component({
   selector: 'tumi-product-details',
@@ -18,7 +20,8 @@ export class ProductDetailsComponent implements OnDestroy {
   private destroyed$ = new Subject();
   constructor(
     private route: ActivatedRoute,
-    private loadProductGQL: LoadProductGQL
+    private loadProductGQL: LoadProductGQL,
+    private dialog: MatDialog
   ) {
     this.loadProductRef = this.loadProductGQL.watch();
     this.product$ = this.loadProductRef.valueChanges.pipe(
@@ -29,6 +32,14 @@ export class ProductDetailsComponent implements OnDestroy {
     );
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       this.loadProductRef.refetch({ id: params.get('productId') ?? '' });
+    });
+  }
+  openPhoto(photo: unknown) {
+    this.dialog.open(PhotoDetailsDialogComponent, {
+      data: { photo },
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      panelClass: 'photo-view',
     });
   }
   ngOnDestroy() {

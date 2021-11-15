@@ -54,8 +54,9 @@
         <tumi-grid maxWidth="400px" minWidth="200px">
           <img
             *ngFor="let image of product.images"
+            (click)="openPhoto(image)"
             [src]="image.src"
-            class="rounded-lg"
+            class="rounded-lg cursor-pointer"
           />
         </tumi-grid>
       </div>

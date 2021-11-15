@@ -39,6 +39,7 @@ query loadProduct($id: ID!) {
     images {
       id
       src
+      original
     }
     leadImage {
       id

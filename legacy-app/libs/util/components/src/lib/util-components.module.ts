@@ -18,6 +18,7 @@ import { NewDataItemDialogComponent } from './components/new-data-item-dialog/ne
 import { DataItemsCollectorComponent } from './components/data-items-collector/data-items-collector.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     UtilMaterialModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     LocationAutocompleteComponent,
