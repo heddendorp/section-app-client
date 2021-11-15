@@ -85,7 +85,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 status: paymentIntent.status,
                 shipping: paymentIntent.shipping
                   ? JSON.parse(JSON.stringify(paymentIntent.shipping))
-                  : null,
+                  : undefined,
                 paymentMethod: charge.payment_method,
                 paymentMethodType: charge.payment_method_details.type,
                 events: [
@@ -151,7 +151,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                   status: paymentIntent.status,
                   shipping: paymentIntent.shipping
                     ? JSON.parse(JSON.stringify(paymentIntent.shipping))
-                    : null,
+                    : undefined,
                   paymentMethod: charge.payment_method,
                   paymentMethodType: charge.payment_method_details.type,
                   feeAmount: balanceTransaction.fee,
@@ -287,7 +287,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 status: paymentIntent.status,
                 shipping: paymentIntent.shipping
                   ? JSON.parse(JSON.stringify(paymentIntent.shipping))
-                  : null,
+                  : undefined,
                 events: [
                   ...stripePayment.events,
                   {
