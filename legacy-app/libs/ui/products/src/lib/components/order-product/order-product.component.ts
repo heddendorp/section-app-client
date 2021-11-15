@@ -48,9 +48,10 @@ export class OrderProductComponent implements OnChanges {
           changes.product.currentValue.prices.options
         )
       );
-      const defaultPrice = prices.find((p) => p.defaultPrice);
-      if (defaultPrice) {
-        this.priceControl.setValue(defaultPrice);
+      const lowestPrice = Math.min(...prices.map((p) => p.amount));
+      const selectedPrice = prices.find((p) => lowestPrice === p.amount);
+      if (selectedPrice) {
+        this.priceControl.setValue(selectedPrice);
       }
       this.availablePrices$.next(prices);
     }
