@@ -34,7 +34,7 @@ query loadUserBasket{
 }
 
 query loadPurchases{
-  purchases{
+  purchases(limitToOwn: true){
     id
     createdAt
     status

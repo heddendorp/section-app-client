@@ -180,6 +180,52 @@ query getTenantPurchases{
     payment{
       id
       status
+      amount
+    }
+  }
+}
+
+query getPurchase($id: ID!){
+  purchase(id: $id){
+    id
+    status
+    createdAt
+    status
+    user{
+      id
+      email
+      fullName
+      university
+    }
+    payment{
+      id
+      status
+      paymentMethodType
+      events
+      shipping
+      amount
+      netAmount
+      feeAmount
+    }
+    items{
+      id
+      quantity
+      product{
+        id
+        title
+        leadImage{
+          id
+          src
+        }
+      }
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
+      }
     }
   }
 }

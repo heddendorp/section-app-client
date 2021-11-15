@@ -19,7 +19,7 @@ export class TenantPurchasesPageComponent implements OnDestroy {
     'created',
     'user',
     'payment',
-    // 'used',
+    'cost',
     'status',
   ];
   private loadPurchasesRef;

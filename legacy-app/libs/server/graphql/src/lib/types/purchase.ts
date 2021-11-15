@@ -72,7 +72,7 @@ export const purchasesQuery = queryField('purchases', {
       maxAge: 10,
       scope: CacheScope.Public,
     });
-    if (limitToOwn && context.assignment?.role !== 'ADMIN') {
+    if (!limitToOwn && context.assignment?.role !== 'ADMIN') {
       throw new ApolloError(
         'You are not allowed to view other users purchases'
       );

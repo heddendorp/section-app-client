@@ -34,6 +34,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { TenantRegistrationCodePageComponent } from './pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
 import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tenant-purchases-page.component';
+import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-details-page/tenant-purchase-details-page.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,10 @@ import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tena
       { path: 'logs', component: TenantActivityLogPageComponent },
       { path: 'photos', component: TenantPhotosPageComponent },
       { path: 'purchases', component: TenantPurchasesPageComponent },
+      {
+        path: 'purchases/:purchaseId',
+        component: TenantPurchaseDetailsPageComponent,
+      },
     ]),
     MatButtonModule,
     MatDialogModule,
@@ -89,6 +94,7 @@ import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tena
     TenantPhotosPageComponent,
     TenantRegistrationCodePageComponent,
     TenantPurchasesPageComponent,
+    TenantPurchaseDetailsPageComponent,
   ],
 })
 export class UiTenantModule {}
