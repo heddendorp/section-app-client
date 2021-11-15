@@ -15,7 +15,19 @@ export const lineItemType = objectType({
     t.field(LineItem.id);
     t.field(LineItem.createdAt);
     t.field(LineItem.cancellationReason);
-    t.field(LineItem.cart);
+    t.field({
+      ...LineItem.cart,
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Private,
+        });
+        if (!source.shoppingCartId) return null;
+        return context.prisma.shoppingCart.findUnique({
+          where: { id: source.shoppingCartId },
+        });
+      },
+    });
     t.field(LineItem.cost);
     t.field(LineItem.pickupTime);
     t.field({
