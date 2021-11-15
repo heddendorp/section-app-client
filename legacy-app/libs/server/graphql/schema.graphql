@@ -687,6 +687,7 @@ type Tenant {
   privacyPolicyPage: String!
   shortName: String!
   statistics: statistics!
+  tacPage: String
 }
 
 """
@@ -955,6 +956,7 @@ input updateTenantInput {
   faqPage: String
   imprintPage: String!
   privacyPolicyPage: String!
+  tacPage: String
 }
 
 type userHistoryItem {

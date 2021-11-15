@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   GetTenantForEditGQL,
@@ -6,7 +6,7 @@ import {
   UpdateTenantGQL,
 } from '@tumi/data-access';
 import { first, map, shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Component({
   selector: 'tumi-tenant-edit-page',
@@ -14,9 +14,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./tenant-edit-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TenantEditPageComponent implements OnInit {
+export class TenantEditPageComponent {
   public editForm: FormGroup;
   public tenant$: Observable<GetTenantForEditQuery['currentTenant']>;
+
   constructor(
     private fb: FormBuilder,
     private updateTenant: UpdateTenantGQL,
@@ -27,6 +28,7 @@ export class TenantEditPageComponent implements OnInit {
       privacyPolicyPage: ['', Validators.required],
       aboutPage: ['', Validators.required],
       faqPage: [''],
+      tacPage: [''],
     });
     this.tenant$ = this.loadTenant.fetch().pipe(
       map(({ data }) => data.currentTenant),
@@ -37,16 +39,18 @@ export class TenantEditPageComponent implements OnInit {
       .subscribe((tenant) => this.editForm.patchValue(tenant ?? {}));
   }
 
-  ngOnInit(): void {}
-
   async saveTenant() {
-    const tenant = await this.tenant$.pipe(first()).toPromise();
+    const tenant = await firstValueFrom(this.tenant$);
     const formValue = this.editForm.value;
     if (tenant) {
       await this.updateTenant
         .mutate({
           id: tenant.id,
-          update: { ...formValue, faqPage: formValue.faqPage || null },
+          update: {
+            ...formValue,
+            faqPage: formValue.faqPage || null,
+            tacPage: formValue.tacPage || null,
+          },
         })
         .toPromise();
     } else {

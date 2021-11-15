@@ -23,6 +23,7 @@ export const tenantType = objectType({
     t.field(Tenant.privacyPolicyPage);
     t.field(Tenant.aboutPage);
     t.field(Tenant.faqPage);
+    t.field(Tenant.tacPage);
     t.field({
       name: 'statistics',
       type: nonNull(statisticsType),
@@ -38,6 +39,7 @@ export const updateTenantInputType = inputObjectType({
     t.field(Tenant.privacyPolicyPage);
     t.field(Tenant.aboutPage);
     t.field(Tenant.faqPage);
+    t.field(Tenant.tacPage);
   },
 });
 

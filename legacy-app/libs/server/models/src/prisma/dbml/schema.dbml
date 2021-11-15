@@ -12,6 +12,7 @@ Table Tenant {
   imprintPage String [not null, default: '']
   aboutPage String [not null, default: '']
   faqPage String
+  tacPage String
   eventTemplates EventTemplate [not null]
   organizers EventOrganizer [not null]
   refundedRegistrations RefundedRegistration [not null]

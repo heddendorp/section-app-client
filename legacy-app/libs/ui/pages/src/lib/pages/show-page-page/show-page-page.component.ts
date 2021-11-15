@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadPagesGQL } from '@tumi/data-access';
 import { combineLatest, Observable } from 'rxjs';
@@ -10,8 +10,9 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./show-page-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShowPagePageComponent implements OnInit {
+export class ShowPagePageComponent {
   public pageContent$: Observable<string>;
+
   constructor(private route: ActivatedRoute, private loadPages: LoadPagesGQL) {
     this.pageContent$ = combineLatest([
       this.route.paramMap,
@@ -19,6 +20,8 @@ export class ShowPagePageComponent implements OnInit {
     ]).pipe(
       map(([params, res]) => {
         const page = params.get('page');
+        console.log(page);
+        console.log(res.data.currentTenant);
         if (!page || !res.data.currentTenant) {
           return `## Page not found`;
         }
@@ -36,6 +39,9 @@ export class ShowPagePageComponent implements OnInit {
           case 'faq': {
             return tenant.faqPage ?? `## Page not found`;
           }
+          case 'tac': {
+            return tenant.tacPage ?? `## Page not found`;
+          }
           default: {
             return `## Page not found`;
           }
@@ -43,6 +49,4 @@ export class ShowPagePageComponent implements OnInit {
       })
     );
   }
-
-  ngOnInit(): void {}
 }

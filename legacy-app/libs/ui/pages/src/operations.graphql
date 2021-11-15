@@ -6,5 +6,6 @@ query loadPages {
     privacyPolicyPage
     faqPage
     aboutPage
+    tacPage
   }
 }

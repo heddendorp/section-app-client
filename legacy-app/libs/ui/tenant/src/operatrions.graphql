@@ -80,6 +80,7 @@ query getTenantForEdit {
     aboutPage
     privacyPolicyPage
     faqPage
+    tacPage
   }
 }
 
@@ -172,6 +173,7 @@ mutation updateTenant($id: ID!, $update: updateTenantInput!) {
     imprintPage
     privacyPolicyPage
     aboutPage
+    tacPage
   }
 }
 
