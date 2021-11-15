@@ -201,10 +201,22 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
           }
           if (payment.purchase) {
-            await prisma.purchase.update({
-              where: { id: payment.pruchase.id },
-              data: { status: PurchaseStatus.PAID },
-            });
+            try {
+              await prisma.purchase.update({
+                where: { id: payment.pruchase.id },
+                data: { status: PurchaseStatus.PAID },
+              });
+            } catch (e) {
+              await prisma.activityLog.create({
+                data: {
+                  data: JSON.parse(JSON.stringify(e)),
+                  oldData: JSON.parse(JSON.stringify(payment)),
+                  message: 'Could not update the purchase',
+                  severity: 'WARNING',
+                  category: 'webhook',
+                },
+              });
+            }
           }
           if (payment.eventRegistrationCode) {
             if (payment.eventRegistrationCode.registrationToRemoveId) {
