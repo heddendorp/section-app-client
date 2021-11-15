@@ -491,8 +491,9 @@ type Purchase {
 
 enum PurchaseStatus {
   CANCELLED
+  PAID
   PENDING
-  SUCCESSFUL
+  SENT
 }
 
 type Query {

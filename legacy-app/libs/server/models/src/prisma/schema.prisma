@@ -74,7 +74,8 @@ enum RegistrationStatus {
 
 enum PurchaseStatus {
   PENDING
-  SUCCESSFUL
+  PAID
+  SENT
   CANCELLED
 }
 
