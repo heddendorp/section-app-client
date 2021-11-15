@@ -202,7 +202,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (payment.purchase) {
             await prisma.purchase.update({
-              where: { id: payment.productPurchase.id },
+              where: { id: payment.pruchase.id },
               data: { status: PurchaseStatus.PAID },
             });
           }
@@ -326,7 +326,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (payment.purchase) {
             await prisma.purchase.update({
-              where: { id: payment.productPurchase.id },
+              where: { id: payment.purchase.id },
               data: {
                 status: PurchaseStatus.CANCELLED,
                 cancellationReason: 'Payment failed',
@@ -428,7 +428,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (payment.purchase) {
             await prisma.purchase.update({
-              where: { id: payment.productPurchase.id },
+              where: { id: payment.purchase.id },
               data: {
                 status: PurchaseStatus.CANCELLED,
                 cancellationReason: 'Payment intent timed out',
