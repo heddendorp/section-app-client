@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'tumi-product-list',
@@ -22,8 +23,10 @@ export class ProductListComponent {
   constructor(
     private router: Router,
     private getProductListGQL: GetProductListGQL,
-    private createProductGQL: CreateProductGQL
+    private createProductGQL: CreateProductGQL,
+    private title: Title
   ) {
+    this.title.setTitle('TUMi - shop');
     this.productListRef = this.getProductListGQL.watch();
     this.products$ = this.productListRef.valueChanges.pipe(
       map(({ data }) => data.products)

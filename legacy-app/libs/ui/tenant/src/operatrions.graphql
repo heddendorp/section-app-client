@@ -166,6 +166,24 @@ query getLogs {
   }
 }
 
+query getTenantPurchases{
+  purchases(limitToOwn: false){
+    id
+    createdAt
+    status
+    user{
+      id
+      email
+      fullName
+      university
+    }
+    payment{
+      id
+      status
+    }
+  }
+}
+
 mutation updateTenant($id: ID!, $update: updateTenantInput!) {
   updateTenant(id: $id, data: $update) {
     id
