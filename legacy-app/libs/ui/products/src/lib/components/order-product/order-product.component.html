@@ -10,57 +10,75 @@
   fxLayout="column"
   fxLayoutGap="1rem"
 >
-  <ng-container *ngIf="ordered$ | async; else newOrder">
-    <h2 class="text-xl font-bold mb-4">Placed in basket</h2>
-    <a routerLink="/basket" mat-raised-button color="accent">
-      Go to shopping basket
-    </a>
+  <ng-container *ngIf="!user; else checkUni">
+    <h2 class="text-xl font-bold mb-4">You are not logged in!</h2>
+    <p>Please log in to continue ordering</p>
   </ng-container>
-  <ng-template #newOrder>
-    <h2 class="text-xl font-bold mb-4">Order</h2>
-    <div
-      class="my-2"
-      *ngIf="
-        (additionalData$ | async) === null && product.submissionItems.length
-      "
-    >
-      <h2 class="mb-2">Additional selections</h2>
-      <tumi-data-items-collector
-        mode="product"
-        [items]="product.submissionItems"
-        (dataSubmission)="saveData($event)"
-      ></tumi-data-items-collector>
-    </div>
-    <mat-form-field class="mb-4">
-      <mat-label>Price</mat-label>
-      <mat-select [formControl]="priceControl" required>
-        <mat-option
-          *ngFor="let price of availablePrices$ | async"
-          [value]="price"
-        >
-          {{ price.amount | currency: 'EUR' }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Quantity</mat-label>
-      <input matInput [formControl]="quantityControl" type="number" required />
-    </mat-form-field>
-    <button
-      mat-raised-button
-      color="primary"
-      class="modern"
-      (click)="placeOrder()"
-      [disabled]="
-        priceControl.invalid ||
-        (processing$ | async) ||
-        quantityControl.invalid ||
-        ((additionalData$ | async) === null &&
-          product.submissionItems.length !== 0)
-      "
-    >
-      <mat-icon svgIcon="icon-add-to-basket"></mat-icon>
-      <span>Add to shopping basket</span>
-    </button>
+  <ng-template #checkUni>
+    <ng-container *ngIf="!user?.university">
+      <h2 class="text-xl font-bold mb-4">You did not set you university!</h2>
+      <p class="mv-2">Please set your university in the profile</p>
+      <a routerLink="profile" mat-stroked-button>Go to profile</a>
+    </ng-container>
   </ng-template>
+  <ng-container *ngIf="user && user.university">
+    <ng-container *ngIf="ordered$ | async; else newOrder">
+      <h2 class="text-xl font-bold mb-4">Placed in basket</h2>
+      <a routerLink="/basket" mat-raised-button color="accent">
+        Go to shopping basket
+      </a>
+    </ng-container>
+    <ng-template #newOrder>
+      <h2 class="text-xl font-bold mb-4">Order</h2>
+      <div
+        class="my-2"
+        *ngIf="
+          (additionalData$ | async) === null && product.submissionItems.length
+        "
+      >
+        <h2 class="mb-2">Additional selections</h2>
+        <tumi-data-items-collector
+          mode="product"
+          [items]="product.submissionItems"
+          (dataSubmission)="saveData($event)"
+        ></tumi-data-items-collector>
+      </div>
+      <mat-form-field class="mb-4">
+        <mat-label>Price</mat-label>
+        <mat-select [formControl]="priceControl" required>
+          <mat-option
+            *ngFor="let price of availablePrices$ | async"
+            [value]="price"
+          >
+            {{ price.amount | currency: 'EUR' }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Quantity</mat-label>
+        <input
+          matInput
+          [formControl]="quantityControl"
+          type="number"
+          required
+        />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        class="modern"
+        (click)="placeOrder()"
+        [disabled]="
+          priceControl.invalid ||
+          (processing$ | async) ||
+          quantityControl.invalid ||
+          ((additionalData$ | async) === null &&
+            product.submissionItems.length !== 0)
+        "
+      >
+        <mat-icon svgIcon="icon-add-to-basket"></mat-icon>
+        <span>Add to shopping basket</span>
+      </button>
+    </ng-template>
+  </ng-container>
 </div>

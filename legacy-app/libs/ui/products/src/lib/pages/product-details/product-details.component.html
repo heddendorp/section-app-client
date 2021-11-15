@@ -47,7 +47,10 @@
       </div>
     </main>
     <aside fxFlex.gt-md="33" class="p-4">
-      <tumi-order-product [product]="product"></tumi-order-product>
+      <tumi-order-product
+        [product]="product"
+        [user]="user$ | async"
+      ></tumi-order-product>
     </aside>
   </div>
 </ng-container>

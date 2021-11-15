@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 })
 export class OrderProductComponent implements OnChanges {
   @Input() public product: LoadProductQuery['product'] | null = null;
+  @Input() public user: LoadProductQuery['currentUser'] | null = null;
   public additionalData$ = new ReplaySubject(1);
   public availablePrices$ = new ReplaySubject<Price[]>(1);
   public priceControl = new FormControl(null, Validators.required);

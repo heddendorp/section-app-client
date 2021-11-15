@@ -16,6 +16,11 @@ query getProductImageKey {
 }
 
 query loadProduct($id: ID!) {
+  currentUser {
+    id
+    hasESNcard
+    university
+  }
   product(id: $id) {
     id
     title

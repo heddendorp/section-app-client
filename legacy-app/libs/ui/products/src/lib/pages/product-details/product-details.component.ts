@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
 export class ProductDetailsComponent implements OnDestroy {
   public Role = Role;
   public product$: Observable<LoadProductQuery['product']>;
+  public user$: Observable<LoadProductQuery['currentUser']>;
   private loadProductRef;
   private destroyed$ = new Subject();
   constructor(
@@ -22,6 +23,9 @@ export class ProductDetailsComponent implements OnDestroy {
     this.loadProductRef = this.loadProductGQL.watch();
     this.product$ = this.loadProductRef.valueChanges.pipe(
       map(({ data }) => data.product)
+    );
+    this.user$ = this.loadProductRef.valueChanges.pipe(
+      map(({ data }) => data.currentUser)
     );
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       this.loadProductRef.refetch({ id: params.get('productId') ?? '' });
