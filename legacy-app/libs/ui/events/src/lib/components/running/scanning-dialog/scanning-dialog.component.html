@@ -20,6 +20,14 @@
     </div>
   </div>
   <video #scannerVideo [hidden]="hideScanner$ | async"></video>
+  <mat-form-field class="w-full my-2">
+    <mat-label>Camera</mat-label>
+    <mat-select [formControl]="cameraControl">
+      <mat-option *ngFor="let camera of cameras$ | async" [value]="camera.id">
+        {{ camera.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <ng-container *ngIf="currentRegistration$ | async as registration">
     <div class="bg-green-500 text-white font-bold text-lg w-full rounded px-2">
       <p class="">Registration found!</p>

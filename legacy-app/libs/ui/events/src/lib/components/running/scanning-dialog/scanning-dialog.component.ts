@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import QrScanner from 'qr-scanner';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   CheckInUserGQL,
   GetRegistrationGQL,
@@ -18,7 +18,8 @@ import {
 } from '@tumi/data-access';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'tumi-scanning-dialog',
@@ -28,11 +29,14 @@ import { map } from 'rxjs/operators';
 })
 export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
   public hideScanner$ = new BehaviorSubject(false);
+  public cameras$ = new BehaviorSubject<QrScanner.Camera[]>([]);
+  public cameraControl = new FormControl();
   public currentRegistration$ = new BehaviorSubject<
     GetRegistrationQuery['registration'] | null
   >(null);
   public event$: Observable<LoadEventForRunningQuery['event']>;
   private loadEventQueryRef;
+  private destroyed$ = new Subject();
   private scanner: QrScanner | undefined;
   @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
   constructor(
@@ -74,12 +78,20 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
       console.log(this.video);
     }
     this.scanner?.start();
-    QrScanner.listCameras(false).then(console.log);
+    const cameras = await QrScanner.listCameras(true);
+    this.cameras$.next(cameras);
+    this.cameraControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((camera) => {
+        this.scanner?.setCamera(camera);
+      });
   }
   ngOnDestroy() {
     this.scanner?.stop();
     this.scanner?.destroy();
     this.loadEventQueryRef.stopPolling();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   async checkInUser() {
