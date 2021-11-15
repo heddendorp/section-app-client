@@ -101,6 +101,15 @@
   <h2 class="font-bold mb-4">
     Total cost: {{ totalCost$ | async | currency: 'EUR' }}
   </h2>
+  <div class="border border-outline-default p-4 rounded-2xl mb-4">
+    <h3 class="font-bold mb-2">Information</h3>
+    <p>
+      By ordering from TUMi you are accepting the
+      <a href="/page/toc" target="_blank" class="font-bold underline"
+        >TUMi Terms and Conditions</a
+      >.
+    </p>
+  </div>
   <button
     mat-raised-button
     class="modern"
