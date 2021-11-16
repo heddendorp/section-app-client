@@ -209,7 +209,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
             } catch (e) {
               await prisma.activityLog.create({
                 data: {
-                  data: JSON.parse(JSON.stringify(e)),
+                  data: e,
                   oldData: JSON.parse(JSON.stringify(payment)),
                   message: 'Could not update the purchase',
                   severity: 'WARNING',
