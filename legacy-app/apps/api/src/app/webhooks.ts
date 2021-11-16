@@ -203,7 +203,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           if (payment.purchase) {
             try {
               await prisma.purchase.update({
-                where: { id: payment.pruchase.id },
+                where: { paymentId: payment.id },
                 data: { status: PurchaseStatus.PAID },
               });
             } catch (e) {

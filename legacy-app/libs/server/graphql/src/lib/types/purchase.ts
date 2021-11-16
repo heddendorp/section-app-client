@@ -125,7 +125,8 @@ export const createPurchaseFromCartMutation = mutationField(
       if (!cart) {
         throw new ApolloError('Cart not found for current User');
       }
-      let { customerId } = await context.prisma.stripeUserData.findUnique({
+      let customerId;
+      const userdata = await context.prisma.stripeUserData.findUnique({
         where: {
           usersOfTenantsUserId_usersOfTenantsTenantId: {
             usersOfTenantsTenantId: context.tenant.id,
@@ -133,6 +134,9 @@ export const createPurchaseFromCartMutation = mutationField(
           },
         },
       });
+      if (userdata) {
+        customerId = userdata.customerId;
+      }
       if (!customerId) {
         const customer = await stripeClient.customers.create({
           name: `${context.user.firstName} ${context.user.lastName}`,

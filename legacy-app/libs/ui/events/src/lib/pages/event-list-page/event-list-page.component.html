@@ -3,17 +3,45 @@
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4 text-surface-on">
-  <h1 class="mb-4">Upcoming Events</h1>
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem" class="mb-6">
-    <mat-checkbox [formControl]="showFullEvents">
-      Include events without spot
-    </mat-checkbox>
-    <mat-form-field *tumiIfRole="[Role.Admin]">
-      <mat-label>Show Events after</mat-label>
-      <input matInput [formControl]="eventsAfter" [matDatepicker]="picker" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem" class="mb-6">
+    <div fxFlex="noshrink">
+      <h1 class="mb-4">Upcoming Events</h1>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+        <mat-checkbox [formControl]="showFullEvents">
+          Include events without spot
+        </mat-checkbox>
+        <mat-form-field *tumiIfRole="[Role.Admin]">
+          <mat-label>Show Events after</mat-label>
+          <input
+            matInput
+            [formControl]="eventsAfter"
+            [matDatepicker]="picker"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxFlex="grow"
+      class="
+        border-2 border-outline-default
+        rounded-2xl
+        p-4
+        bg-primary-container
+        text-primary-onContainer
+      "
+    >
+      <h1 class="font-bold mb-2">The ESN shop is here!</h1>
+      <p class="mb-4">
+        Take the ESN spirit with you in the form of many awesome products now
+        available until the 27th of November
+      </p>
+      <a mat-flat-button class="w-full" routerLink="/shop">Take me there</a>
+    </div>
   </div>
   <tumi-event-list
     *ngIf="events$ | async as events"
