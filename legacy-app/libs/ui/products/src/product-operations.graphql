@@ -57,7 +57,7 @@ query loadOrderInfo {
     submissionItems{
       id
       name
-      responses
+      responses(onlyWithPurchase: true)
     }
     leadImage {
       id
