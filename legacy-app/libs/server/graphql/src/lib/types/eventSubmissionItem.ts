@@ -1,4 +1,5 @@
 import {
+  booleanArg,
   idArg,
   inputObjectType,
   list,
@@ -8,10 +9,12 @@ import {
   stringArg,
 } from 'nexus';
 import { EventSubmissionItem } from 'nexus-prisma';
-import { Role } from '@tumi/server-models';
+import { PurchaseStatus, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 import { eventSubmissionType } from './eventSubmission';
 import { eventType } from './event';
+import { CacheScope } from 'apollo-server-types';
+import { countBy, toPairs } from 'lodash';
 
 export const eventSubmissionItemType = objectType({
   name: EventSubmissionItem.$name,
@@ -49,6 +52,37 @@ export const eventSubmissionItemType = objectType({
           .submissions({
             where: { registration: { user: { id: context.user.id } } },
           });
+      },
+    });
+    t.field({
+      name: 'responses',
+      type: nonNull(list(nonNull('Json'))),
+      args: { onlyWithPurchase: booleanArg({ default: false }) },
+      resolve: (source, { onlyWithPurchase }, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.eventSubmission
+          .findMany({
+            where: {
+              submissionItemId: source.id,
+              ...(onlyWithPurchase
+                ? {
+                    lineItem: {
+                      purchase: { status: { not: PurchaseStatus.CANCELLED } },
+                    },
+                  }
+                : {}),
+            },
+          })
+          .then((submissions) =>
+            toPairs(
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              countBy(submissions.map((submission) => submission.data.value))
+            ).map(([value, count]) => ({ value, count }))
+          );
       },
     });
   },

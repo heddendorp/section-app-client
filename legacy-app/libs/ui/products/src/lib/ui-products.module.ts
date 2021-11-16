@@ -20,12 +20,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MarkdownModule } from 'ngx-markdown';
 import { OrderProductComponent } from './components/order-product/order-product.component';
 import { MatListModule } from '@angular/material/list';
+import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: ProductListComponent },
+      { path: 'orders', component: OrdersPageComponent },
       { path: ':productId', component: ProductDetailsComponent },
       { path: ':productId/edit', component: ProductEditPageComponent },
     ]),
@@ -51,6 +53,7 @@ import { MatListModule } from '@angular/material/list';
     ProductDetailsComponent,
     ProductEditPageComponent,
     OrderProductComponent,
+    OrdersPageComponent,
   ],
 })
 export class UiProductsModule {}

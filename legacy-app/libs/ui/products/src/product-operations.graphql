@@ -28,7 +28,7 @@ query loadProduct($id: ID!) {
     prices
     availability
     publicationState
-    submissionItems{
+    submissionItems {
       id
       name
       instruction
@@ -44,6 +44,37 @@ query loadProduct($id: ID!) {
     leadImage {
       id
       src
+    }
+  }
+}
+
+query loadOrderInfo {
+  products(onlyWithOrders: true) {
+    id
+    title
+    orderQuantity
+    uniSplit
+    submissionItems{
+      id
+      name
+      responses
+    }
+    leadImage {
+      id
+      src
+    }
+    lineItems {
+      id
+      cost
+      quantity
+      submissions {
+        id
+        data
+        submissionItem {
+          id
+          name
+        }
+      }
     }
   }
 }
@@ -88,12 +119,12 @@ mutation updateProduct($id: ID!, $update: UpdateProductInput!) {
   }
 }
 
-mutation addProductToCart($data: AddLineItemToBasketInput!){
-  addLineItemToBasket(input: $data){
+mutation addProductToCart($data: AddLineItemToBasketInput!) {
+  addLineItemToBasket(input: $data) {
     id
-    cart{
+    cart {
       id
-      items{
+      items {
         id
       }
     }

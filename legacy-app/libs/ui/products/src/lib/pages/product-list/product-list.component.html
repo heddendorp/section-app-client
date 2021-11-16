@@ -3,7 +3,17 @@
   *ngIf="(products$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <h1 class="text-secondary-default mb-4">TUMi products</h1>
+  <div
+    fxLayout="row"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="space-between center"
+    class="mb-4"
+  >
+    <h1 class="text-secondary-default">TUMi products</h1>
+    <a routerLink="orders" mat-stroked-button *tumiIfRole="[Role.Admin]">
+      Go to orders
+    </a>
+  </div>
   <button
     mat-fab
     *tumiIfRole="[Role.Admin]"

@@ -1,0 +1,26 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(products$ | async) === null"
+></mat-progress-bar>
+<main class="p-4">
+  <ng-container *ngIf="products$ | async as products">
+    <h1>Ordered Products</h1>
+    <mat-list>
+      <mat-list-item *ngFor="let product of products">
+        <img [src]="product.leadImage?.src" mat-list-avatar />
+        <h3 mat-line>{{ product.title }} x {{ product.orderQuantity }}</h3>
+        <p mat-line>
+          <span *ngFor="let item of product.uniSplit" class="mr-2">
+            {{ item.uni }} x {{ item.count }}
+          </span>
+        </p>
+        <p mat-line *ngFor="let submission of product.submissionItems">
+          {{ submission.name }} :
+          <span *ngFor="let response of submission.responses" class="mr-2">
+            {{ response.value }} x {{ response.count }}
+          </span>
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+</main>

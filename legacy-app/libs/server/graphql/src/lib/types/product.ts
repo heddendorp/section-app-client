@@ -1,4 +1,5 @@
 import {
+  booleanArg,
   idArg,
   inputObjectType,
   list,
@@ -12,10 +13,12 @@ import {
   MembershipStatus,
   Prisma,
   PublicationState,
+  PurchaseStatus,
   Role,
 } from '@tumi/server-models';
 import { CacheScope } from 'apollo-server-types';
 import { productImageType } from './productImage';
+import { constant, countBy, flatten, times, toPairs } from 'lodash';
 import ProductWhereInput = Prisma.ProductWhereInput;
 
 export const productType = objectType({
@@ -63,6 +66,27 @@ export const productType = objectType({
       },
     });
     t.field({
+      ...Product.lineItems,
+      args: { onlyWithPurchase: booleanArg({ default: false }) },
+      resolve: (source, { onlyWithPurchase }, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 10,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.product
+          .findUnique({ where: { id: source.id } })
+          .lineItems(
+            onlyWithPurchase
+              ? {
+                  where: {
+                    purchase: { status: { not: PurchaseStatus.CANCELLED } },
+                  },
+                }
+              : undefined
+          );
+      },
+    });
+    t.field({
       name: 'leadImage',
       type: productImageType,
       resolve: (source, args, context) => {
@@ -70,6 +94,69 @@ export const productType = objectType({
         return context.prisma.productImage.findUnique({
           where: { id: source.leadImageId },
         });
+      },
+    });
+    t.field({
+      name: 'orderQuantity',
+      type: nonNull('Int'),
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.lineItem
+          .aggregate({
+            where: {
+              purchase: {
+                status: {
+                  not: PurchaseStatus.CANCELLED,
+                },
+              },
+              productId: source.id,
+            },
+            _sum: { quantity: true },
+          })
+          .then((result) => result._sum.quantity ?? 0);
+      },
+    });
+    t.field({
+      name: 'uniSplit',
+      type: nonNull(list(nonNull('Json'))),
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.lineItem
+          .findMany({
+            where: {
+              purchase: {
+                status: {
+                  not: PurchaseStatus.CANCELLED,
+                },
+              },
+              productId: source.id,
+            },
+            include: {
+              purchase: {
+                include: { user: { select: { university: true } } },
+              },
+            },
+          })
+          .then((items) =>
+            toPairs(
+              countBy(
+                flatten(
+                  items.map((item) =>
+                    times(
+                      item.quantity,
+                      constant(item.purchase.user.university)
+                    )
+                  )
+                )
+              )
+            ).map(([uni, count]) => ({ uni, count }))
+          );
       },
     });
   },
@@ -89,7 +176,8 @@ export const updateProductInputType = inputObjectType({
 
 export const getProductsQuery = queryField('products', {
   type: nonNull(list(nonNull(productType))),
-  resolve: (source, args, context, info) => {
+  args: { onlyWithOrders: booleanArg({ default: false }) },
+  resolve: (source, { onlyWithOrders }, context, info) => {
     info.cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
     let where: ProductWhereInput;
     const { role, status } = context.assignment ?? {};
@@ -108,6 +196,15 @@ export const getProductsQuery = queryField('products', {
           has: status,
         },
         publicationState: PublicationState.PUBLIC,
+      };
+    }
+    if (onlyWithOrders) {
+      where.lineItems = {
+        some: {
+          purchase: {
+            status: { not: PurchaseStatus.CANCELLED },
+          },
+        },
       };
     }
     return context.prisma.product.findMany({

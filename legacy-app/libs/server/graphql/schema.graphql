@@ -202,6 +202,7 @@ type EventSubmissionItem {
   name: String!
   ownSubmissions: [EventSubmission!]!
   required: Boolean!
+  responses(onlyWithPurchase: Boolean = false): [Json!]!
   submissionTime: SubmissionTime!
   submissions: [EventSubmission!]!
   type: SubmissionItemType!
@@ -447,13 +448,16 @@ type Product {
   isESNcard: Boolean!
   leadImage: ProductImage
   leadImageId: String
+  lineItems(onlyWithPurchase: Boolean = false): [LineItem!]!
   needsShippingAddress: Boolean!
+  orderQuantity: Int!
   prices: Json!
   publicationState: PublicationState!
   submissionItems: [EventSubmissionItem!]!
   tenant: Tenant!
   tenantId: String!
   title: String!
+  uniSplit: [Json!]!
 }
 
 type ProductImage {
@@ -543,7 +547,7 @@ type Query {
   photosOfEvent(id: ID!): [PhotoShare!]!
   product(id: ID!): Product!
   productImageKey: String!
-  products: [Product!]!
+  products(onlyWithOrders: Boolean = false): [Product!]!
   purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean = true): [Purchase!]!
   registration(id: ID!): EventRegistration!
