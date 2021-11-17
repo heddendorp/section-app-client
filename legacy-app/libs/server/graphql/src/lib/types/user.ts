@@ -15,8 +15,13 @@ import { MembershipStatus, Role, User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
-import { RegistrationStatus, RegistrationType } from '@tumi/server-models';
+import {
+  PurchaseStatus,
+  RegistrationStatus,
+  RegistrationType,
+} from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
+import { CacheScope } from 'apollo-server-types';
 
 export const userType = objectType({
   name: User.$name,
@@ -40,10 +45,30 @@ export const userType = objectType({
     t.field({
       ...User.eventRegistrations,
       resolve: (source, args, context) =>
-        context.prisma.eventRegistration.findMany({
-          where: { user: { id: source.id } },
-          orderBy: { event: { start: 'desc' } },
-        }),
+        context.prisma.user
+          .findUnique({
+            where: { id: source.id },
+          })
+          .eventRegistrations({ orderBy: { event: { start: 'desc' } } }),
+    });
+    t.field({
+      ...User.purchases,
+      args: { skipCancelled: booleanArg({ default: false }) },
+      resolve: (source, { skipCancelled }, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Private,
+        });
+        return context.prisma.user
+          .findUnique({
+            where: { id: source.id },
+          })
+          .purchases({
+            ...(skipCancelled
+              ? { where: { status: { not: PurchaseStatus.CANCELLED } } }
+              : {}),
+          });
+      },
     });
     t.nonNull.boolean('hasESNcard', {
       resolve: async (source, args, context) => {
@@ -201,10 +226,11 @@ export const listUsersQuery = queryField('users', {
     search: stringArg(),
     pageLength: intArg(),
     pageIndex: intArg(),
+    onlyWithPurchase: booleanArg({ default: false }),
   },
   resolve: (
     source,
-    { statusList, roleList, search, pageLength, pageIndex },
+    { statusList, roleList, search, pageLength, pageIndex, onlyWithPurchase },
     context
   ) => {
     const OR = [];
@@ -221,6 +247,13 @@ export const listUsersQuery = queryField('users', {
     return context.prisma.user.findMany({
       where: {
         ...(search ? { OR } : {}),
+        ...(onlyWithPurchase
+          ? {
+              purchases: {
+                some: { status: { not: PurchaseStatus.CANCELLED } },
+              },
+            }
+          : {}),
         tenants: {
           some: {
             tenantId: context.tenant.id,

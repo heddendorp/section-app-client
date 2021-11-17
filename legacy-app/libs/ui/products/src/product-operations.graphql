@@ -63,16 +63,54 @@ query loadOrderInfo {
       id
       src
     }
-    lineItems {
+#    lineItems {
+#      id
+#      cost
+#      quantity
+#      submissions {
+#        id
+#        data
+#        submissionItem {
+#          id
+#          name
+#        }
+#      }
+#    }
+  }
+  users(onlyWithPurchase: true){
+    id
+    fullName
+    email
+    university
+    currentTenant{
+      userId
+      tenantId
+      status
+    }
+    purchases(skipCancelled: true){
       id
-      cost
-      quantity
-      submissions {
+      createdAt
+      status
+      payment{
         id
-        data
-        submissionItem {
+        shipping
+        status
+      }
+      items{
+        id
+        quantity
+        cost
+        product{
           id
-          name
+          title
+        }
+        submissions{
+          id
+          data
+          submissionItem{
+            id
+            name
+          }
         }
       }
     }

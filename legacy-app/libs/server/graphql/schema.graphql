@@ -578,6 +578,7 @@ type Query {
   returns a list of users
   """
   users(
+    onlyWithPurchase: Boolean = false
     pageIndex: Int
     pageLength: Int
     roleList: [Role] = [USER, ADMIN]
@@ -902,6 +903,7 @@ type User {
   paypal: String
   phone: String
   picture: String!
+  purchases(skipCancelled: Boolean = false): [Purchase!]!
   university: String
 }
 

@@ -23,4 +23,34 @@
       </mat-list-item>
     </mat-list>
   </ng-container>
+  <ng-container *ngIf="users$ | async as users">
+    <h1>Purchases by User ({{ users.length }})</h1>
+    <div fxLayout="column" fxLayoutGap="2rem">
+      <div *ngFor="let user of users" fxLayout="column" fxLayoutGap="1rem">
+        <h3>{{ user.fullName }} ({{ user.email }})</h3>
+        <div
+          *ngFor="let purchase of user.purchases"
+          fxLayout="column"
+          fxLayoutGap="1rem"
+        >
+          <h3>
+            Purchase on {{ purchase.createdAt | date }} ({{ purchase.status }})
+          </h3>
+          <p>
+            Shipping: <br />
+            {{ purchase.payment.shipping?.name }} <br />
+            {{ purchase.payment.shipping?.address?.line1 }} <br />
+            {{ purchase.payment.shipping?.address?.line2 }} <br />
+            {{ purchase.payment.shipping?.address?.city }} <br />
+            {{ purchase.payment.shipping?.address?.postal_code }} <br />
+            {{ purchase.payment.shipping?.address?.country }} <br />
+          </p>
+          <h3>Items</h3>
+          <div *ngFor="let item of purchase.items">
+            <p>{{ item.product.title }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </main>

@@ -11,11 +11,15 @@ import { map } from 'rxjs/operators';
 })
 export class OrdersPageComponent {
   public products$: Observable<LoadOrderInfoQuery['products']>;
+  public users$: Observable<LoadOrderInfoQuery['users']>;
   private loadOrdersRef;
   constructor(private loadOrderInfoGQL: LoadOrderInfoGQL) {
     this.loadOrdersRef = this.loadOrderInfoGQL.watch();
     this.products$ = this.loadOrdersRef.valueChanges.pipe(
       map(({ data }) => data.products)
+    );
+    this.users$ = this.loadOrdersRef.valueChanges.pipe(
+      map(({ data }) => data.users)
     );
   }
 }
