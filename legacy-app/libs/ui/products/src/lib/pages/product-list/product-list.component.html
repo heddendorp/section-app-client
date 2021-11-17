@@ -59,7 +59,10 @@
           {{ product.publicationState | titlecase }}
         </span>
         <img [src]="product.leadImage?.src" height="800" width="800" />
-        <h2>{{ product.title }}</h2>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <h2>{{ product.title }}</h2>
+          <h2>{{ product.defaultPrice | currency: 'EUR' }}</h2>
+        </div>
       </a>
     </tumi-grid>
   </div>

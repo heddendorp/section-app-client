@@ -442,6 +442,7 @@ type PhotoShare {
 type Product {
   availability: [MembershipStatus!]!
   createdAt: DateTime!
+  defaultPrice: Decimal
   description: String!
   id: ID!
   images: [ProductImage!]!

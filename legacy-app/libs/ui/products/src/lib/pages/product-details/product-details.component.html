@@ -28,7 +28,7 @@
         class="rounded-lg overflow-hidden w-64 mx-auto"
       />
     </div>
-    <h1>{{ product.title }}</h1>
+    <h1>{{ product.title }} ({{ product.defaultPrice | currency: 'EUR' }})</h1>
   </div>
   <div fxLayout="column" fxLayout.gt-md="row">
     <main class="p-4" fxFlex.gt-md="grow">

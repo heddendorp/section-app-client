@@ -97,6 +97,13 @@ export const productType = objectType({
       },
     });
     t.field({
+      name: 'defaultPrice',
+      type: 'Decimal',
+      resolve: (source) => {
+        return source.prices.options.find((p) => p.defaultPrice).amount;
+      },
+    });
+    t.field({
       name: 'orderQuantity',
       type: nonNull('Int'),
       resolve: (source, args, context, info) => {
