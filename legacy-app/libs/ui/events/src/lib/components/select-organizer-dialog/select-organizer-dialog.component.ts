@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LoadUsersByStatusQuery } from '@tumi/data-access';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
@@ -21,6 +21,9 @@ export class SelectOrganizerDialogComponent implements OnDestroy {
   public nameControl = new FormControl();
   public filteredChoices$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   private destroyed$ = new Subject();
+  private idTest = new RegExp(
+    /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+  );
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { choices: LoadUsersByStatusQuery['userWithStatus'] },
@@ -28,6 +31,11 @@ export class SelectOrganizerDialogComponent implements OnDestroy {
   ) {
     this.filteredChoices$ = this.nameControl.valueChanges.pipe(
       startWith(''),
+      tap((search) => {
+        if (this.idTest.test(search)) {
+          this.dialog.close(search);
+        }
+      }),
       map((search: string) => {
         if (!search) {
           return this.data.choices;

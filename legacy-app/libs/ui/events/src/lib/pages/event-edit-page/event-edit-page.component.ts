@@ -8,6 +8,7 @@ import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
   DeregisterFromEventGQL,
+  Exact,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
@@ -41,6 +42,7 @@ import { Title } from '@angular/platform-browser';
 import { EventSubmissionDialogComponent } from '../../components/editing/event-submission-dialog/event-submission-dialog.component';
 import { SelectLocationDialogComponent } from '@tumi/util-components';
 import { PermissionsService } from '../../../../../auth/src/lib/services/permissions.service';
+import { QueryRef } from 'apollo-angular';
 
 @Component({
   selector: 'tumi-event-edit-page',
@@ -61,6 +63,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
   private destroyed$ = new Subject();
   public editingProhibited$: Observable<boolean>;
+  private loadEventRef:
+    | QueryRef<LoadEventForEditQuery, Exact<{ id: string }>>
+    | undefined;
 
   constructor(
     private title: Title,
@@ -106,11 +111,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       organizerLimit: ['', Validators.required],
     });
     this.event$ = this.route.paramMap.pipe(
-      switchMap(
-        (params) =>
-          this.loadEventQuery.watch({ id: params.get('eventId') ?? '' })
-            .valueChanges
+      map((params) =>
+        this.loadEventQuery.watch({ id: params.get('eventId') ?? '' })
       ),
+      tap((ref) => (this.loadEventRef = ref)),
+      switchMap((ref) => ref.valueChanges),
       map(({ data }) => data.event),
       shareReplay(1)
     );
@@ -258,6 +263,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       await this.addOrganizerMutation
         .mutate({ eventId: event.id, userId })
         .toPromise();
+      if (this.loadEventRef) {
+        await this.loadEventRef.refetch();
+      }
       this.snackBar.open('User added ✔️');
     }
   }
@@ -267,6 +275,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     await firstValueFrom(
       this.deregisterFromEventGQL.mutate({ registrationId, withRefund: false })
     );
+    if (this.loadEventRef) {
+      await this.loadEventRef.refetch();
+    }
     this.snackBar.open('User removed ✔️');
   }
 
