@@ -7,6 +7,21 @@
   @apply p-4 bg-surface-default text-variant-on;
 }
 
+@media print {
+  .sidenav {
+    display: none;
+  }
+  mat-toolbar {
+    display: none;
+  }
+  button {
+    display: none;
+  }
+  div {
+    display: none;
+  }
+}
+
 .sidenav .mat-toolbar {
   background: inherit;
 }

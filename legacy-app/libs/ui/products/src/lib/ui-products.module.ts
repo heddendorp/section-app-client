@@ -21,6 +21,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { OrderProductComponent } from './components/order-product/order-product.component';
 import { MatListModule } from '@angular/material/list';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
+import { ShippingLabelsPageComponent } from './pages/shipping-labels-page/shipping-labels-page.component';
+import { PrintReceiptsPageComponent } from './pages/print-receipts-page/print-receipts-page.component';
 
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: ProductListComponent },
       { path: 'orders', component: OrdersPageComponent },
+      { path: 'orders/labels', component: ShippingLabelsPageComponent },
+      { path: 'orders/receipts', component: PrintReceiptsPageComponent },
       { path: ':productId', component: ProductDetailsComponent },
       { path: ':productId/edit', component: ProductEditPageComponent },
     ]),
@@ -54,6 +58,8 @@ import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
     ProductEditPageComponent,
     OrderProductComponent,
     OrdersPageComponent,
+    ShippingLabelsPageComponent,
+    PrintReceiptsPageComponent,
   ],
 })
 export class UiProductsModule {}

@@ -3,54 +3,124 @@
   *ngIf="(products$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <ng-container *ngIf="products$ | async as products">
-    <h1>Ordered Products</h1>
-    <mat-list>
-      <mat-list-item *ngFor="let product of products">
-        <img [src]="product.leadImage?.src" mat-list-avatar />
-        <h3 mat-line>{{ product.title }} x {{ product.orderQuantity }}</h3>
-        <p mat-line>
-          <span *ngFor="let item of product.uniSplit" class="mr-2">
-            {{ item.uni }} x {{ item.count }}
-          </span>
-        </p>
-        <p mat-line *ngFor="let submission of product.submissionItems">
-          {{ submission.name }} :
-          <span *ngFor="let response of submission.responses" class="mr-2">
-            {{ response.value }} x {{ response.count }}
-          </span>
-        </p>
-      </mat-list-item>
-    </mat-list>
-  </ng-container>
-  <ng-container *ngIf="users$ | async as users">
-    <h1>Purchases by User ({{ users.length }})</h1>
-    <div fxLayout="column" fxLayoutGap="2rem">
-      <div *ngFor="let user of users" fxLayout="column" fxLayoutGap="1rem">
-        <h3>{{ user.fullName }} ({{ user.email }})</h3>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="1rem"
+    class="mb-4"
+  >
+    <a mat-icon-button routerLink="..">
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1 class="text-3xl font-bold">Orders</h1>
+    <div fxFlex="noshrink"></div>
+    <a routerLink="receipts" target="_blank" mat-stroked-button>
+      Print package receipts
+    </a>
+    <a routerLink="labels" target="_blank" mat-stroked-button>
+      Print shipping labels
+    </a>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row-reverse" fxLayoutGap="2rem">
+    <div *ngIf="products$ | async as products">
+      <h1>Ordered Products</h1>
+      <mat-list class="mb-6">
+        <mat-list-item *ngFor="let product of products">
+          <img [src]="product.leadImage?.src" mat-list-avatar />
+          <h3 mat-line>{{ product.title }} x {{ product.orderQuantity }}</h3>
+          <p mat-line>
+            <span *ngFor="let item of product.uniSplit" class="mr-2">
+              {{ item.uni }} x {{ item.count }}
+            </span>
+          </p>
+          <p mat-line *ngFor="let submission of product.submissionItems">
+            {{ submission.name }} :
+            <span *ngFor="let response of submission.responses" class="mr-2">
+              {{ response.value }} x {{ response.count }}
+            </span>
+          </p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div *ngIf="users$ | async as users" fxFlex="noshrink">
+      <h1 class="mb-2">Purchases by User ({{ users.length }})</h1>
+      <div fxLayout="column" fxLayoutGap="1rem">
         <div
-          *ngFor="let purchase of user.purchases"
+          *ngFor="let user of users"
           fxLayout="column"
           fxLayoutGap="1rem"
+          class="
+            relative
+            bg-surface-default
+            text-surface-on
+            border border-outline-default
+            rounded-2xl
+            p-4
+          "
         >
-          <h3>
-            Purchase on {{ purchase.createdAt | date }} ({{ purchase.status }})
-          </h3>
-          <p>
-            Shipping: <br />
-            {{ purchase.payment.shipping?.name }} <br />
-            {{ purchase.payment.shipping?.address?.line1 }} <br />
-            {{ purchase.payment.shipping?.address?.line2 }} <br />
-            {{ purchase.payment.shipping?.address?.city }} <br />
-            {{ purchase.payment.shipping?.address?.postal_code }} <br />
-            {{ purchase.payment.shipping?.address?.country }} <br />
-          </p>
-          <h3>Items</h3>
-          <div *ngFor="let item of purchase.items">
-            <p>{{ item.product.title }}</p>
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <img src="/assets/images/shop/package.svg" class="h-16" />
+            <div>
+              <h3 class="mb-2 font-bold">
+                {{ user.fullName }} ({{ user.email }})
+              </h3>
+              <div
+                *ngFor="let purchase of user.purchases"
+                fxLayout="column"
+                fxLayout.gt-md="row"
+                fxLayoutGap="1rem"
+              >
+                <div>
+                  <h3>
+                    Purchase on {{ purchase.createdAt | date }} ({{
+                      purchase.status
+                    }})
+                  </h3>
+                  <p
+                    class="
+                      font-mono
+                      bg-variant-default
+                      text-variant-on
+                      select-all
+                      p-2
+                    "
+                  >
+                    {{ purchase.payment.shipping?.name }} <br />
+                    {{ purchase.payment.shipping?.address?.line1 }} <br />
+                    <ng-container
+                      *ngIf="purchase.payment.shipping?.address?.line2"
+                    >
+                      {{ purchase.payment.shipping?.address?.line2 }} <br />
+                    </ng-container>
+                    {{ purchase.payment.shipping?.address?.city }} <br />
+                    {{ purchase.payment.shipping?.address?.postal_code }} <br />
+                  </p>
+                </div>
+                <div>
+                  <h3>Items</h3>
+                  <mat-list>
+                    <mat-list-item *ngFor="let item of purchase.items">
+                      <img
+                        [src]="item.product.leadImage?.src"
+                        mat-list-avatar
+                      />
+                      <h3 mat-line>
+                        {{ item.product.title }} ({{
+                          item.cost | currency: 'EUR'
+                        }})
+                      </h3>
+                      <p mat-line *ngFor="let submission of item.submissions">
+                        {{ submission.submissionItem.name }}:
+                        {{ submission.data.value }}
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
 </main>

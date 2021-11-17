@@ -95,6 +95,7 @@ query loadOrderInfo {
         id
         shipping
         status
+        amount
       }
       items{
         id
@@ -103,6 +104,10 @@ query loadOrderInfo {
         product{
           id
           title
+          leadImage{
+            id
+            src
+          }
         }
         submissions{
           id

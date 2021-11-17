@@ -1,0 +1,41 @@
+<div class="receipt w-full" *ngFor="let user of users$ | async">
+  <p>
+    {{ user.purchases[0].payment.shipping?.name }}
+  </p>
+  <p>
+    {{ user.purchases[0].payment.shipping?.address?.line1 }} <br />
+    <ng-container *ngIf="user.purchases[0].payment.shipping?.address?.line2">
+      {{ user.purchases[0].payment.shipping?.address?.line2 }} <br />
+    </ng-container>
+    {{ user.purchases[0].payment.shipping?.address?.city }} <br />
+    {{ user.purchases[0].payment.shipping?.address?.postal_code }} <br />
+  </p>
+  <h1 class="mt-16 mb-8">Receipt</h1>
+  <table style="width: 50vw">
+    <ng-container *ngFor="let purchase of user.purchases">
+      <ng-container *ngFor="let item of purchase.items">
+        <tr>
+          <td>{{ item.product.title }}</td>
+          <td class="pl-2 font-mono text-right">
+            {{ item.cost | currency: 'EUR' }}
+          </td>
+        </tr>
+        <tr *ngIf="item.submissions.length">
+          <td class="pl-4">
+            <span class="mr-2" *ngFor="let submission of item.submissions">
+              {{ submission.submissionItem.name }}:
+              {{ submission.data.value }}
+            </span>
+          </td>
+          <td></td>
+        </tr>
+      </ng-container>
+    </ng-container>
+    <tr class="border-t">
+      <td class="font-bold">Total</td>
+      <td class="pl-2 font-mono text-right">
+        {{ getTotal(user.purchases) | currency: 'EUR' }}
+      </td>
+    </tr>
+  </table>
+</div>

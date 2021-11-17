@@ -1,0 +1,5 @@
+@media print {
+  div.receipt {
+    page-break-after: always;
+  }
+}

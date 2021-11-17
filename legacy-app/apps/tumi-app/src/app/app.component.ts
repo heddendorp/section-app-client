@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 import {
+  BehaviorSubject,
   catchError,
   interval,
   Observable,
@@ -17,7 +19,17 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent {
   public appState: Observable<'ok' | 'down' | 'maintenance' | string>;
-  constructor(private http: HttpClient) {
+  public showNavigation$ = new BehaviorSubject(true);
+  constructor(private http: HttpClient, private location: Location) {
+    this.location.onUrlChange((url) => {
+      if (url.includes('orders/labels')) {
+        this.showNavigation$.next(false);
+      } else if (url.includes('orders/receipts')) {
+        this.showNavigation$.next(false);
+      } else {
+        this.showNavigation$.next(true);
+      }
+    });
     this.appState = interval(5000).pipe(
       switchMap(() => this.http.get<{ maintenance: boolean }>('/health')),
       catchError((e) => {

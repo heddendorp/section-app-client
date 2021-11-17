@@ -1,6 +1,5 @@
-<tumi-navigation
-  *ngIf="(appState | async) === 'ok'; else info"
-></tumi-navigation>
+<tumi-navigation *ngIf="showNavigation$ | async"></tumi-navigation>
+<router-outlet *ngIf="(showNavigation$ | async) === false"></router-outlet>
 <ng-template #info>
   <div fxFill fxLayout="column" fxLayoutAlign="center center" class="p-4">
     <div

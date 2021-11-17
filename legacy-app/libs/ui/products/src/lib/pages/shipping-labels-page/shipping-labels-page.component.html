@@ -1,0 +1,15 @@
+<div gdAuto gdColumns="1fr 1fr">
+  <div *ngFor="let user of users$ | async" class="m-12 label">
+    <p class="font-bold">
+      {{ user.purchases[0].payment.shipping?.name }}
+    </p>
+    <p>
+      {{ user.purchases[0].payment.shipping?.address?.line1 }} <br />
+      <ng-container *ngIf="user.purchases[0].payment.shipping?.address?.line2">
+        {{ user.purchases[0].payment.shipping?.address?.line2 }} <br />
+      </ng-container>
+      {{ user.purchases[0].payment.shipping?.address?.city }} <br />
+      {{ user.purchases[0].payment.shipping?.address?.postal_code }} <br />
+    </p>
+  </div>
+</div>
