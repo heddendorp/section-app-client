@@ -115,11 +115,13 @@ export class StripeRegistrationComponent implements OnChanges {
         this.openPaymentSession(
           data?.registerForEvent.activeRegistration?.payment?.checkoutSession
         );
-      } catch (e) {
+      } catch (e: unknown) {
         this.processing.next(false);
-        this.snackBar.open(`❗ There was an error: ${e.message}`, undefined, {
-          duration: 10000,
-        });
+        if (e instanceof Error) {
+          this.snackBar.open(`❗ There was an error: ${e.message}`, undefined, {
+            duration: 10000,
+          });
+        }
         return;
       }
     }
@@ -134,9 +136,11 @@ export class StripeRegistrationComponent implements OnChanges {
           registrationId: this.event?.activeRegistration?.id ?? '',
         })
       );
-    } catch (e) {
+    } catch (e: unknown) {
       this.processing.next(false);
-      this.snackBar.open(`❗ There was an error: ${e.message}`);
+      if (e instanceof Error) {
+        this.snackBar.open(`❗ There was an error: ${e.message}`);
+      }
       return;
     }
     this.snackBar.open('✔️ Success: Refunds can take 5-10 business days');

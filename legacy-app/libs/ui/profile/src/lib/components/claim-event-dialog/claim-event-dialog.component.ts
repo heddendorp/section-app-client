@@ -93,27 +93,13 @@ export class ClaimEventDialogComponent {
               ?.checkoutSession ?? '',
         });
       }
-    } catch (e) {
-      this.error$.next(e.message);
+    } catch (e: unknown) {
+      console.log(e);
+      if (e instanceof Error) {
+        this.error$.next(e.message);
+      }
     }
-    // try {
-    //   const { data } = await firstValueFrom(
-    //     this.claimCode.mutate({ id: this.codeControl.value })
-    //   );
-    //   if (
-    //     data?.useMoveOrder.status === 'requires_action' &&
-    //     data?.useMoveOrder.client_secret
-    //   ) {
-    //     this.error$.next('⚠️ Additional information needed, please wait');
-    //     const stripe = await loadStripe(environment.stripeKey);
-    //     if (stripe) {
-    //       await stripe.confirmCardPayment(data?.useMoveOrder.client_secret);
-    //     }
-    //     this.error$.next('');
-    //   }
-    // } catch (e) {
-    //   this.error$.next(e.message);
-    // }
+
     this.processing$.next(false);
   }
 

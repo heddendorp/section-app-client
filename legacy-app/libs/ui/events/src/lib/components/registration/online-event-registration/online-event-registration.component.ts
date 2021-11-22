@@ -41,7 +41,9 @@ export class OnlineEventRegistrationComponent {
       );
     } catch (e) {
       this.processing.next(false);
-      this.snackBar.open(`❗ There was an error: ${e.message}`);
+      if (e instanceof Error) {
+        this.snackBar.open(`❗ There was an error: ${e.message}`);
+      }
       return;
     }
     this.processing.next(false);
@@ -55,9 +57,11 @@ export class OnlineEventRegistrationComponent {
           registrationId: this.event?.activeRegistration?.id ?? '',
         })
       );
-    } catch (e) {
+    } catch (e: unknown) {
       this.processing.next(false);
-      this.snackBar.open(`❗ There was an error: ${e.message}`);
+      if (e instanceof Error) {
+        this.snackBar.open(`❗ There was an error: ${e.message}`);
+      }
       return;
     }
     this.snackBar.open('✔️ Success');

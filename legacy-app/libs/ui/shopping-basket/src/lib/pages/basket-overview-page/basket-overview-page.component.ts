@@ -59,9 +59,11 @@ export class BasketOverviewPageComponent {
         }
         this.loadBasketRef.refetch();
       }
-    } catch (e) {
-      console.error(e);
-      this.snackBar.open(e.message, 'OK', { duration: 5000 });
+    } catch (e: unknown) {
+      console.log(e);
+      if (e instanceof Error) {
+        this.snackBar.open(e.message, 'OK', { duration: 5000 });
+      }
     }
     this.processing$.next(false);
   }

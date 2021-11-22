@@ -47,9 +47,11 @@ export class ManageEventFinancesComponent implements OnChanges {
       try {
         await this.updateCostItems.mutate({ eventId: event.id }).toPromise();
         await this.getDataQueryRef.refetch();
-      } catch (e) {
+      } catch (e: unknown) {
         console.log(e);
-        this.snackbar.open(e);
+        if (e instanceof Error) {
+          this.snackbar.open(e.message, 'OK', { duration: 5000 });
+        }
       }
     }
   }

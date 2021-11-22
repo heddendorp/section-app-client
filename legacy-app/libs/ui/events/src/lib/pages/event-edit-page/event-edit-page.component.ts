@@ -329,8 +329,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           .mutate({ submissionItem: res, eventId: event.id })
           .toPromise();
         this.snackBar.open('✔️ Submission item saved');
-      } catch (e) {
-        this.snackBar.open(e);
+      } catch (e: unknown) {
+        console.log(e);
+        if (e instanceof Error) {
+          this.snackBar.open(e.message, 'OK', { duration: 5000 });
+        }
       }
     }
   }

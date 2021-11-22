@@ -81,8 +81,11 @@ export class OrderProductComponent implements OnChanges {
           .subscribe(() => {
             this.router.navigate(['/basket']);
           });
-      } catch (error) {
-        this.snackBar.open(error.message, 'OK', { duration: 5000 });
+      } catch (e: unknown) {
+        console.log(e);
+        if (e instanceof Error) {
+          this.snackBar.open(e.message, 'OK', { duration: 5000 });
+        }
       }
     }
     this.processing$.next(false);
