@@ -287,9 +287,7 @@ query loadEventForManagement($id: ID!) {
       id
       createdAt
       status
-      #      paymentStatus
-      #      paymentIntentId
-      #      netPaid
+      cancellationReason
       payment {
         id
         status

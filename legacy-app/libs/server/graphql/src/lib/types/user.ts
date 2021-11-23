@@ -233,6 +233,9 @@ export const listUsersQuery = queryField('users', {
     { statusList, roleList, search, pageLength, pageIndex, onlyWithPurchase },
     context
   ) => {
+    if (context.assignment.role != 'ADMIN') {
+      throw new ApolloError('Only admins can read the list of users');
+    }
     const OR = [];
     let page = {};
     if (typeof pageIndex === 'number' && typeof pageLength === 'number') {
