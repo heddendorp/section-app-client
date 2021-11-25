@@ -213,6 +213,20 @@ $tumi-dark-theme: mat.define-dark-theme(
       }
     }
   }
+  .mat-stroked-button.modern {
+    @apply rounded-full;
+    &.mat-primary {
+      @apply border-primary-default text-primary-default;
+    }
+    .mat-button-wrapper {
+      mat-icon {
+        @apply mr-2 ml-0;
+      }
+      span {
+        @apply mr-2;
+      }
+    }
+  }
   .mat-raised-button.modern {
     @apply rounded-full;
     &.mat-primary {

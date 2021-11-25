@@ -45,6 +45,7 @@ import { EventPhotoPageComponent } from './pages/event-photo-page/event-photo-pa
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CheckRegistrationTimeComponent } from './components/registration/check-registration-time/check-registration-time.component';
 import { CheckAdditionalDataComponent } from './components/registration/check-additional-data/check-additional-data.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { CheckAdditionalDataComponent } from './components/registration/check-ad
     MatExpansionModule,
     ClipboardModule,
     MatButtonToggleModule,
+    MatMenuModule,
   ],
   declarations: [
     EventListPageComponent,

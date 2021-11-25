@@ -49,32 +49,46 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
-  async kickWithRefund(registrationId: string) {
-    // const event = await this.event$.pipe(first()).toPromise();
-    // const proceed = confirm('Are you sure you want to remove this user?');
-    // if (event && proceed) {
-    //   try {
-    //     await this.removeUserWithRefund
-    //       .mutate({ eventId: event.id, userId })
-    //       .toPromise();
-    //   } catch (e) {
-    //     alert(e.message);
-    //   }
-    // }
+  async kickWithRefund(registrationId: string, covid = false) {
+    const event = await firstValueFrom(this.event$);
+    const proceed = confirm('Are you sure you want to remove this user?');
+    if (event && proceed) {
+      try {
+        await this.deregisterFromEventGQL.mutate({
+          withRefund: true,
+          registrationId,
+        });
+        //     await this.removeUserWithRefund
+        //       .mutate({ eventId: event.id, userId })
+        //       .toPromise();
+      } catch (e) {
+        console.error(e);
+        if (e instanceof Error) {
+          alert(e.message);
+        }
+      }
+    }
   }
 
   async kick(registrationId: string) {
-    // const event = await firstValueFrom(this.event$);
-    // const proceed = confirm(
-    //   'Are you sure you want to remove this user without refund?'
-    // );
-    // if (event && proceed) {
-    //   try {
-    //     await this.removeUser.mutate({ registrationId }).toPromise();
-    //   } catch (e) {
-    //     alert(e.message);
-    //   }
-    // }
+    const event = await firstValueFrom(this.event$);
+    const proceed = confirm(
+      'Are you sure you want to remove this user without refund?'
+    );
+    if (event && proceed) {
+      try {
+        await this.deregisterFromEventGQL.mutate({
+          withRefund: false,
+          registrationId,
+        });
+        //     await this.removeUser.mutate({ registrationId }).toPromise();
+      } catch (e) {
+        console.error(e);
+        if (e instanceof Error) {
+          alert(e.message);
+        }
+      }
+    }
   }
 
   async checkin(id: string) {

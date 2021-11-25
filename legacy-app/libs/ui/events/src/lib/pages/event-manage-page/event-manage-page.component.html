@@ -61,17 +61,27 @@
     </table>
   </div>
   <div class="border p-4 rounded-2xl my-4">
-    <h2>Extra tickets</h2>
-    <button mat-flat-button color="accent" (click)="createRegistrationCode()">
-      Create registration code
-    </button>
-    <button
-      mat-flat-button
-      color="accent"
-      (click)="createRegistrationCode(true)"
-    >
-      Create SEPA registration code
-    </button>
+    <h2 class="mb-2">Extra tickets</h2>
+    <div class="space-x-2">
+      <button
+        class="modern"
+        mat-flat-button
+        color="accent"
+        (click)="createRegistrationCode()"
+      >
+        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+        <span>Create registration code</span>
+      </button>
+      <button
+        class="modern"
+        mat-flat-button
+        color="accent"
+        (click)="createRegistrationCode(true)"
+      >
+        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+        <span>Create SEPA registration code</span>
+      </button>
+    </div>
     <mat-list>
       <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
         <h3 mat-line>Registration code</h3>
@@ -176,34 +186,39 @@
             </span>
           </p>
         </div>
-        <div>
+        <div fxLayout="column" fxLayoutGap="1rem">
           <button
-            mat-flat-button
-            (click)="kickWithRefund(registration.user.id)"
-            [disabled]="
-              (registration.payment?.netAmount ?? 0) === 0 ||
-              registration.didAttend
-            "
-          >
-            Kick with refund
-          </button>
-          <button
-            mat-flat-button
-            (click)="kick(registration.id)"
-            [disabled]="registration.didAttend"
-            color="{{
-              (registration.payment?.netAmount ?? 0) === 0 ? '' : 'warn'
-            }}"
-          >
-            Kick without refund
-          </button>
-          <button
-            mat-flat-button
+            mat-stroked-button
+            class="modern"
             (click)="checkin(registration.id)"
             [disabled]="registration.didAttend"
           >
-            Manually check in user
+            <mat-icon svgIcon="icon-checked"></mat-icon>
+            <span>Manually check in user</span>
           </button>
+          <button mat-stroked-button class="modern" [matMenuTriggerFor]="menu">
+            <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
+            <span>Remove user</span>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button
+              mat-menu-item
+              [disabled]="
+                (registration.payment?.netAmount ?? 0) === 0 ||
+                registration.didAttend
+              "
+              (click)="kickWithRefund(registration.user.id)"
+            >
+              Cancel with refund
+            </button>
+            <button
+              mat-menu-item
+              [disabled]="registration.didAttend"
+              (click)="kick(registration.id)"
+            >
+              Cancel without refund
+            </button>
+          </mat-menu>
         </div>
       </div>
     </div>
