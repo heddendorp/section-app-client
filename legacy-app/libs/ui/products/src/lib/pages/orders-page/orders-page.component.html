@@ -49,14 +49,7 @@
           *ngFor="let user of users"
           fxLayout="column"
           fxLayoutGap="1rem"
-          class="
-            relative
-            bg-surface-default
-            text-surface-on
-            border border-outline-default
-            rounded-2xl
-            p-4
-          "
+          class="relative bg-surface-default text-surface-on border border-outline-default rounded-2xl p-4"
         >
           <div fxLayout="row" fxLayoutGap="1rem">
             <img src="/assets/images/shop/package.svg" class="h-16" />
@@ -77,13 +70,7 @@
                     }})
                   </h3>
                   <p
-                    class="
-                      font-mono
-                      bg-variant-default
-                      text-variant-on
-                      select-all
-                      p-2
-                    "
+                    class="font-mono bg-variant-default text-variant-on select-all p-2"
                   >
                     {{ purchase.payment.shipping?.name }} <br />
                     {{ purchase.payment.shipping?.address?.line1 }} <br />
@@ -107,7 +94,7 @@
                       <h3 mat-line>
                         {{ item.product.title }} ({{
                           item.cost | currency: 'EUR'
-                        }})
+                        }}) x {{ item.quantity }}
                       </h3>
                       <p mat-line *ngFor="let submission of item.submissions">
                         {{ submission.submissionItem.name }}:

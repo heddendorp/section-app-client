@@ -11,12 +11,13 @@
     {{ user.purchases[0].payment.shipping?.address?.postal_code }} <br />
   </p>
   <h1 class="mt-16 mb-8">Receipt</h1>
-  <table style="width: 50vw">
+  <table style="width: 50vw" class="table-fixed">
     <ng-container *ngFor="let purchase of user.purchases">
       <ng-container *ngFor="let item of purchase.items">
         <tr>
-          <td>{{ item.product.title }}</td>
-          <td class="pl-2 font-mono text-right">
+          <td class="w-full">{{ item.product.title }}</td>
+          <td class="font-mono">{{ item.quantity }}x</td>
+          <td class="pl-4 font-mono text-right">
             {{ item.cost | currency: 'EUR' }}
           </td>
         </tr>
@@ -28,11 +29,13 @@
             </span>
           </td>
           <td></td>
+          <td></td>
         </tr>
       </ng-container>
     </ng-container>
     <tr class="border-t">
       <td class="font-bold">Total</td>
+      <td></td>
       <td class="pl-2 font-mono text-right">
         {{ getTotal(user.purchases) | currency: 'EUR' }}
       </td>
