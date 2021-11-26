@@ -66,6 +66,7 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
       description: ['', Validators.required],
       publicationState: ['', Validators.required],
       needsShippingAddress: [false, Validators.required],
+      isActive: [false, Validators.required],
       prices: this.fb.group({
         options: this.fb.array([], Validators.required),
       }),

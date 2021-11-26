@@ -10,4 +10,11 @@ button.extended-fab {
   h2 {
     @apply font-bold text-xl m-3;
   }
+  .tag {
+    transform: rotate(45deg) translate(4rem, -0.5rem);
+    padding-left: 4rem;
+    padding-right: 4rem;
+    right: 0;
+    top: 0;
+  }
 }

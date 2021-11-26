@@ -1,27 +1,27 @@
 <div
   *ngIf="product"
-  class="
-    border border-outline-default
-    bg-surface-default
-    text-surface-on
-    p-4
-    rounded-2xl
-  "
+  class="border border-outline-default bg-surface-default text-surface-on p-4 rounded-2xl"
   fxLayout="column"
   fxLayoutGap="1rem"
 >
-  <ng-container *ngIf="!user; else checkUni">
+  <ng-container *ngIf="!user && product.isActive; else checkUni">
     <h2 class="text-xl font-bold mb-4">You are not logged in!</h2>
     <p>Please log in to continue ordering</p>
   </ng-container>
   <ng-template #checkUni>
-    <ng-container *ngIf="!user?.university">
+    <ng-container *ngIf="!user?.university && product.isActive">
       <h2 class="text-xl font-bold mb-4">You did not set your university!</h2>
       <p class="mv-2">Please set your university in the profile</p>
       <a routerLink="/profile" mat-stroked-button>Go to profile</a>
     </ng-container>
+    <ng-container *ngIf="!product.isActive">
+      <h2 class="text-xl font-bold mb-4">
+        The orders for this product have closed!
+      </h2>
+      <p class="mv-2">You can't order this product right now</p>
+    </ng-container>
   </ng-template>
-  <ng-container *ngIf="user && user.university">
+  <ng-container *ngIf="user && user.university && product.isActive">
     <ng-container *ngIf="ordered$ | async; else newOrder">
       <h2 class="text-xl font-bold mb-4">Placed in basket</h2>
       <a routerLink="/basket" mat-raised-button color="accent">

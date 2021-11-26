@@ -45,18 +45,15 @@
       >
         <span
           *ngIf="product.publicationState !== 'PUBLIC'"
-          class="
-            absolute
-            top-2
-            right-2
-            rounded-full
-            text-sm
-            px-2
-            bg-tertiary-containerDark
-            text-tertiary-onContainerDark
-          "
+          class="absolute top-2 right-2 rounded-full text-sm px-2 bg-tertiary-containerDark text-tertiary-onContainerDark"
         >
           {{ product.publicationState | titlecase }}
+        </span>
+        <span
+          *ngIf="!product.isActive"
+          class="absolute bg-tertiary-containerDark text-tertiary-onContainerDark tag"
+        >
+          Orders closed
         </span>
         <img [src]="product.leadImage?.src" height="800" width="800" />
         <div fxLayout="row" fxLayoutAlign="space-between">

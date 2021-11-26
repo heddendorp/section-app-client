@@ -304,6 +304,7 @@ model Product {
   leadImageId          String?               @db.Uuid
   lineItems            LineItem[]
   needsShippingAddress Boolean               @default(false)
+  isActive             Boolean               @default(true)
   prices               Json
   publicationState     PublicationState      @default(DRAFT)
   submissionItems      EventSubmissionItem[]

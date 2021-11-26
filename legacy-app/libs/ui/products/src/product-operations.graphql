@@ -5,6 +5,7 @@ query getProductList {
     description
     publicationState
     defaultPrice
+      isActive
     leadImage {
       id
       src
@@ -30,6 +31,7 @@ query loadProduct($id: ID!) {
     availability
     publicationState
     defaultPrice
+      isActive
     submissionItems {
       id
       name

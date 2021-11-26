@@ -219,6 +219,7 @@ Table Product {
   leadImageId String
   lineItems LineItem [not null]
   needsShippingAddress Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
   prices Json [not null]
   publicationState PublicationState [not null, default: 'DRAFT']
   submissionItems EventSubmissionItem [not null]
