@@ -54,10 +54,12 @@ export class EventManagePageComponent implements OnDestroy {
     const proceed = confirm('Are you sure you want to remove this user?');
     if (event && proceed) {
       try {
-        await this.deregisterFromEventGQL.mutate({
-          withRefund: true,
-          registrationId,
-        });
+        await firstValueFrom(
+          this.deregisterFromEventGQL.mutate({
+            withRefund: true,
+            registrationId,
+          })
+        );
         //     await this.removeUserWithRefund
         //       .mutate({ eventId: event.id, userId })
         //       .toPromise();
@@ -77,10 +79,12 @@ export class EventManagePageComponent implements OnDestroy {
     );
     if (event && proceed) {
       try {
-        await this.deregisterFromEventGQL.mutate({
-          withRefund: false,
-          registrationId,
-        });
+        await firstValueFrom(
+          this.deregisterFromEventGQL.mutate({
+            withRefund: false,
+            registrationId,
+          })
+        );
         //     await this.removeUser.mutate({ registrationId }).toPromise();
       } catch (e) {
         console.error(e);

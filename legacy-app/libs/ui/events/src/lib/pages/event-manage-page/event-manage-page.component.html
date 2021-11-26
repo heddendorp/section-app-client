@@ -6,7 +6,7 @@
       [eventId]="event.id"
     ></tumi-manage-event-finances>
 
-    <table class="table-auto">
+    <table class="table-auto mt-4">
       <thead>
         <tr>
           <th>Date</th>
@@ -207,7 +207,7 @@
                 (registration.payment?.netAmount ?? 0) === 0 ||
                 registration.didAttend
               "
-              (click)="kickWithRefund(registration.user.id)"
+              (click)="kickWithRefund(registration.id)"
             >
               Cancel with refund
             </button>
