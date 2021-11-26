@@ -27,20 +27,16 @@
     </div>
     <div
       fxFlex="grow"
-      class="
-        border-2 border-outline-default
-        rounded-2xl
-        p-4
-        bg-primary-container
-        text-primary-onContainer
-      "
+      class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
     >
-      <h1 class="font-bold mb-2">The ESN shop is here!</h1>
+      <h1 class="font-bold mb-2">
+        Only {{ timeRemaining$ | async }} remaining!
+      </h1>
       <p class="mb-4">
-        Take the ESN spirit with you in the form of many awesome products now
-        available until the 27th of November
+        Join the well dressed erasmus generation with us ✨ Hoodie orders are
+        closing soon!
       </p>
-      <a mat-flat-button class="w-full" routerLink="/shop">Take me there</a>
+      <a mat-flat-button class="w-full" routerLink="/shop">Get them now</a>
     </div>
   </div>
   <tumi-event-list
