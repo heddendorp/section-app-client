@@ -43,11 +43,17 @@
     </p>
   </div>
   <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem" class="mb-8">
-    <button mat-stroked-button (click)="copyOrganizerMails()">
-      Copy mails of organizers
+    <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of organizers</span>
     </button>
-    <button mat-stroked-button (click)="copyParticipantMails()">
-      Copy mails of participants
+    <button mat-stroked-button (click)="copyParticipantMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of participants</span>
+    </button>
+    <button mat-stroked-button (click)="copyCheckedInMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of checked in users</span>
     </button>
   </div>
   <h2 class="mb-2">Organizers</h2>
