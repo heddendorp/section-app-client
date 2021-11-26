@@ -456,6 +456,7 @@ type Product {
   prices: Json!
   publicationState: PublicationState!
   submissionItems: [EventSubmissionItem!]!
+  submissionOverview: [Json!]
   tenant: Tenant!
   tenantId: String!
   title: String!

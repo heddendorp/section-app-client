@@ -58,6 +58,7 @@ query loadOrderInfo {
     title
     orderQuantity
     uniSplit
+      submissionOverview
     submissionItems{
       id
       name

@@ -167,6 +167,56 @@ export const productType = objectType({
           );
       },
     });
+    t.field({
+      name: 'submissionOverview',
+      type: list(nonNull('Json')),
+      resolve: (source, args, context, info) => {
+        info.cacheControl.setCacheHint({
+          maxAge: 60,
+          scope: CacheScope.Public,
+        });
+        return context.prisma.lineItem
+          .findMany({
+            where: {
+              purchase: {
+                status: {
+                  not: PurchaseStatus.CANCELLED,
+                },
+              },
+              productId: source.id,
+            },
+            include: {
+              purchase: {
+                include: { user: { select: { university: true } } },
+              },
+              submissions: {
+                include: { submissionItem: { select: { name: true } } },
+              },
+            },
+          })
+          .then((items) =>
+            toPairs(
+              countBy(
+                flatten(
+                  items.map((item) =>
+                    times(
+                      item.quantity,
+                      constant(
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        item.submissions.map((s) => s.data.value).join(' - ')
+                      )
+                    )
+                  )
+                )
+              )
+            )
+              .filter(([version]) => version)
+              .map(([version, count]) => ({ version, count }))
+          )
+          .then((versions) => (versions.length > 0 ? versions : null));
+      },
+    });
   },
 });
 
