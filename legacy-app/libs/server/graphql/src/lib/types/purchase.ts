@@ -12,6 +12,7 @@ import { ApolloError } from 'apollo-server-express';
 import * as stripe from 'stripe';
 import { DateTime } from 'luxon';
 import { CacheScope } from 'apollo-server-types';
+import { MembershipStatus } from '@tumi/server-models';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripeClient: stripe.Stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -87,6 +88,33 @@ export const purchasesQuery = queryField('purchases', {
     }
     return context.prisma.purchase.findMany({
       where,
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+});
+
+export const lmuPurchasesQuery = queryField('lmuPurchases', {
+  type: nonNull(list(nonNull(purchaseType))),
+  resolve: async (parent, args, context, info) => {
+    info.cacheControl.setCacheHint({
+      maxAge: 10,
+      scope: CacheScope.Public,
+    });
+    if (context.assignment?.role !== 'ADMIN') {
+      throw new ApolloError('You are not allowed to view these purchases');
+    }
+    return context.prisma.purchase.findMany({
+      where: {
+        user: {
+          university: 'lmu',
+          tenants: {
+            some: {
+              tenantId: context.tenant.id,
+              status: MembershipStatus.NONE,
+            },
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   },

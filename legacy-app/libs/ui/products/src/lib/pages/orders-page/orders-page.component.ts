@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class OrdersPageComponent {
   public products$: Observable<LoadOrderInfoQuery['products']>;
+  public lmu$: Observable<LoadOrderInfoQuery['lmuPurchases']>;
   public users$: Observable<LoadOrderInfoQuery['users']>;
   private loadOrdersRef;
   constructor(private loadOrderInfoGQL: LoadOrderInfoGQL) {
@@ -20,6 +21,9 @@ export class OrdersPageComponent {
     );
     this.users$ = this.loadOrdersRef.valueChanges.pipe(
       map(({ data }) => data.users)
+    );
+    this.lmu$ = this.loadOrdersRef.valueChanges.pipe(
+      map(({ data }) => data.lmuPurchases)
     );
   }
 }

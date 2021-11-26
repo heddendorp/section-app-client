@@ -538,6 +538,7 @@ type Query {
   """
   events(after: DateTime, userId: ID): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
+  lmuPurchases: [Purchase!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
 

@@ -5,7 +5,7 @@ query getProductList {
     description
     publicationState
     defaultPrice
-      isActive
+    isActive
     leadImage {
       id
       src
@@ -31,7 +31,7 @@ query loadProduct($id: ID!) {
     availability
     publicationState
     defaultPrice
-      isActive
+    isActive
     submissionItems {
       id
       name
@@ -53,13 +53,32 @@ query loadProduct($id: ID!) {
 }
 
 query loadOrderInfo {
+  lmuPurchases {
+    id
+    user {
+      id
+      fullName
+    }
+    items {
+      id
+      quantity
+      product {
+        id
+        title
+        leadImage {
+          id
+          src
+        }
+      }
+    }
+  }
   products(onlyWithOrders: true) {
     id
     title
     orderQuantity
     uniSplit
-      submissionOverview
-    submissionItems{
+    submissionOverview
+    submissionItems {
       id
       name
       responses(onlyWithPurchase: true)
@@ -68,56 +87,56 @@ query loadOrderInfo {
       id
       src
     }
-#    lineItems {
-#      id
-#      cost
-#      quantity
-#      submissions {
-#        id
-#        data
-#        submissionItem {
-#          id
-#          name
-#        }
-#      }
-#    }
+    #    lineItems {
+    #      id
+    #      cost
+    #      quantity
+    #      submissions {
+    #        id
+    #        data
+    #        submissionItem {
+    #          id
+    #          name
+    #        }
+    #      }
+    #    }
   }
-  users(onlyWithPurchase: true){
+  users(onlyWithPurchase: true) {
     id
     fullName
     email
     university
-    currentTenant{
+    currentTenant {
       userId
       tenantId
       status
     }
-    purchases(skipCancelled: true){
+    purchases(skipCancelled: true) {
       id
       createdAt
       status
-      payment{
+      payment {
         id
         shipping
         status
         amount
       }
-      items{
+      items {
         id
         quantity
         cost
-        product{
+        product {
           id
           title
-          leadImage{
+          leadImage {
             id
             src
           }
         }
-        submissions{
+        submissions {
           id
           data
-          submissionItem{
+          submissionItem {
             id
             name
           }

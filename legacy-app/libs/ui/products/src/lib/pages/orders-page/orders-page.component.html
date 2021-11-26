@@ -22,38 +22,61 @@
     </a>
   </div>
   <div fxLayout="column" fxLayout.gt-md="row-reverse" fxLayoutGap="2rem">
-    <div *ngIf="products$ | async as products">
-      <h1>Ordered Products</h1>
-      <div class="mb-6" fxLayout="column" fxLayoutGap="2rem">
-        <div
-          *ngFor="let product of products"
-          fxLayout="column"
-          fxLayout.gt-md="row"
-          fxLayoutGap="1rem"
-          fxLayoutAlign.gt-md="start start"
-        >
-          <img [src]="product.leadImage?.src" class="w-16 rounded-full" />
-          <div fxLayout="column" fxLayoutGap=".5rem">
-            <h3>{{ product.title }} x {{ product.orderQuantity }}</h3>
-            <p>
-              <span *ngFor="let item of product.uniSplit" class="mr-2">
-                {{ item.uni }} x {{ item.count }}
-              </span>
-            </p>
-            <p *ngFor="let submission of product.submissionItems">
-              {{ submission.name }} :
-              <span *ngFor="let response of submission.responses" class="mr-2">
-                {{ response.value }} x {{ response.count }}
-              </span>
-            </p>
-            <div fxLayout="row wrap" *ngIf="product.submissionOverview">
-              <span
-                *ngFor="let item of product.submissionOverview"
-                class="mr-2 mb-2 px-2 border rounded"
-              >
-                {{ item.version | lowercase }} x {{ item.count }}
-              </span>
+    <div>
+      <div *ngIf="products$ | async as products">
+        <h1 class="mb-4">Ordered Products</h1>
+        <div class="mb-6" fxLayout="column" fxLayoutGap="2rem">
+          <div
+            *ngFor="let product of products"
+            fxLayout="column"
+            fxLayout.gt-md="row"
+            fxLayoutGap="1rem"
+            fxLayoutAlign.gt-md="start start"
+          >
+            <img [src]="product.leadImage?.src" class="w-16 rounded-full" />
+            <div fxLayout="column" fxLayoutGap=".5rem">
+              <h3>{{ product.title }} x {{ product.orderQuantity }}</h3>
+              <p>
+                <span *ngFor="let item of product.uniSplit" class="mr-2">
+                  {{ item.uni }} x {{ item.count }}
+                </span>
+              </p>
+              <p *ngFor="let submission of product.submissionItems">
+                {{ submission.name }} :
+                <span
+                  *ngFor="let response of submission.responses"
+                  class="mr-2"
+                >
+                  {{ response.value }} x {{ response.count }}
+                </span>
+              </p>
+              <div fxLayout="row wrap" *ngIf="product.submissionOverview">
+                <span
+                  *ngFor="let item of product.submissionOverview"
+                  class="mr-2 mb-2 px-2 border rounded"
+                >
+                  {{ item.version | lowercase }} x {{ item.count }}
+                </span>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="lmu$ | async as purchases">
+        <h1>LMU Purchases ({{ purchases.length }})</h1>
+        <div class="mb-6" fxLayout="column" fxLayoutGap="2rem">
+          <div
+            fxLayout="column"
+            fxLayoutGap=".5rem"
+            *ngFor="let purchase of purchases"
+          >
+            <h3>Purchase by {{ purchase.user.fullName }}</h3>
+            <mat-list dense>
+              <mat-list-item *ngFor="let item of purchase.items">
+                <img [src]="item.product.leadImage?.src" mat-list-avatar />
+                <h3 mat-line>{{ item.product.title }} x {{ item.quantity }}</h3>
+              </mat-list-item>
+            </mat-list>
           </div>
         </div>
       </div>
