@@ -23,6 +23,7 @@ import { MatListModule } from '@angular/material/list';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 import { ShippingLabelsPageComponent } from './pages/shipping-labels-page/shipping-labels-page.component';
 import { PrintReceiptsPageComponent } from './pages/print-receipts-page/print-receipts-page.component';
+import { AddressChangeDialogComponent } from './components/address-change-dialog/address-change-dialog.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { PrintReceiptsPageComponent } from './pages/print-receipts-page/print-re
     OrdersPageComponent,
     ShippingLabelsPageComponent,
     PrintReceiptsPageComponent,
+    AddressChangeDialogComponent,
   ],
 })
 export class UiProductsModule {}
