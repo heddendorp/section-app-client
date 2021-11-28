@@ -17,8 +17,8 @@
         <tr>
           <td class="w-full">{{ item.product.title }}</td>
           <td class="font-mono">{{ item.quantity }}x</td>
-          <td class="pl-4 font-mono text-right">
-            {{ item.cost | currency: 'EUR' }}
+          <td class="font-mono text-right">
+            <span class="ml-4">{{ item.cost | currency: 'EUR' }}</span>
           </td>
         </tr>
         <tr *ngIf="item.submissions.length">
