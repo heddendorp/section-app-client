@@ -108,19 +108,37 @@
                       purchase.status
                     }})
                   </h3>
-                  <p
-                    class="font-mono bg-variant-default text-variant-on select-all p-2"
+                  <div
+                    class="font-mono bg-variant-default text-variant-on select-all p-2 mb-2"
                   >
-                    {{ purchase.payment.shipping?.name }} <br />
-                    {{ purchase.payment.shipping?.address?.line1 }} <br />
-                    <ng-container
-                      *ngIf="purchase.payment.shipping?.address?.line2"
-                    >
-                      {{ purchase.payment.shipping?.address?.line2 }} <br />
-                    </ng-container>
-                    {{ purchase.payment.shipping?.address?.city }} <br />
-                    {{ purchase.payment.shipping?.address?.postal_code }} <br />
-                  </p>
+                    <p>
+                      {{ purchase.payment.shipping?.name }} <br />
+                      {{ purchase.payment.shipping?.address?.line1 }} <br />
+                      <ng-container
+                        *ngIf="purchase.payment.shipping?.address?.line2"
+                      >
+                        {{ purchase.payment.shipping?.address?.line2 }} <br />
+                      </ng-container>
+                      {{ purchase.payment.shipping?.address?.postal_code }}
+                      {{ purchase.payment.shipping?.address?.city }}
+                      {{ purchase.payment.shipping?.address?.country }}
+                    </p>
+                  </div>
+                  <button
+                    disabled
+                    mat-flat-button
+                    color="accent"
+                    class="modern"
+                    (click)="
+                      changeAddress(
+                        purchase.payment.shipping?.address,
+                        purchase.id
+                      )
+                    "
+                  >
+                    <mat-icon svgIcon="icon-edit-product"></mat-icon>
+                    <span>Change Address</span>
+                  </button>
                 </div>
                 <div>
                   <h3>Items</h3>

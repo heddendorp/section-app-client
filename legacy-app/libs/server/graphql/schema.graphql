@@ -371,6 +371,7 @@ type Mutation {
   Add a new user to the database
   """
   registerUser(userInput: CreateUserInput): User!
+  updateAddress(address: Json!, id: ID!): Purchase!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
   updateEventCoreInfo(data: UpdateCoreEventInput!, id: ID!): TumiEvent!

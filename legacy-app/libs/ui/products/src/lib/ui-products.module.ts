@@ -24,6 +24,7 @@ import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 import { ShippingLabelsPageComponent } from './pages/shipping-labels-page/shipping-labels-page.component';
 import { PrintReceiptsPageComponent } from './pages/print-receipts-page/print-receipts-page.component';
 import { AddressChangeDialogComponent } from './components/address-change-dialog/address-change-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { AddressChangeDialogComponent } from './components/address-change-dialog
     MarkdownModule,
     FlexLayoutModule,
     MatListModule,
+    MatDialogModule,
   ],
   declarations: [
     ProductListComponent,

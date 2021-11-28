@@ -1,5 +1,5 @@
-<div gdAuto gdColumns="1fr 1fr">
-  <div *ngFor="let user of users$ | async" class="m-12 label">
+<div class="label mb-8" *ngFor="let pair of users$ | async" fxLayout="row">
+  <div *ngFor="let user of pair" fxFlex="50">
     <p class="font-bold">
       {{ user.purchases[0].payment.shipping?.name }}
     </p>
@@ -8,8 +8,9 @@
       <ng-container *ngIf="user.purchases[0].payment.shipping?.address?.line2">
         {{ user.purchases[0].payment.shipping?.address?.line2 }} <br />
       </ng-container>
-      {{ user.purchases[0].payment.shipping?.address?.city }} <br />
-      {{ user.purchases[0].payment.shipping?.address?.postal_code }} <br />
+      {{ user.purchases[0].payment.shipping?.address?.postal_code }}
+      {{ user.purchases[0].payment.shipping?.address?.city }}
+      {{ user.purchases[0].payment.shipping?.address?.country }}
     </p>
   </div>
 </div>

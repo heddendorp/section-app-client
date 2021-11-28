@@ -1,4 +1,5 @@
 import {
+  arg,
   booleanArg,
   idArg,
   list,
@@ -131,6 +132,43 @@ export const purchaseQuery = queryField('purchase', {
     return context.prisma.purchase.findUnique({
       where: {
         id,
+      },
+    });
+  },
+});
+
+export const updateAddressMutation = mutationField('updateAddress', {
+  type: nonNull(purchaseType),
+  args: {
+    id: nonNull(idArg()),
+    address: nonNull(arg({ type: 'Json' })),
+  },
+  resolve: async (source, { id, address }, context, info) => {
+    const purchase = await context.prisma.purchase.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        payment: true,
+      },
+    });
+    const oldShipping = purchase.payment
+      ?.shipping as unknown as stripe.Stripe.PaymentIntentUpdateParams.Shipping;
+    const shipping = { ...oldShipping, ...{ address } };
+    console.log(shipping);
+    try {
+      await stripeClient.paymentIntents.update(purchase.payment.paymentIntent, {
+        shipping,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    return context.prisma.purchase.update({
+      where: { id },
+      data: {
+        payment: {
+          update: { shipping },
+        },
       },
     });
   },

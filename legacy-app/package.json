@@ -90,6 +90,7 @@
     "ical-generator": "^3.1.0",
     "jwks-rsa": "^2.0.5",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "lru-cache": "^6.0.0",
     "luxon": "^2.1.1",
     "nexus": "^1.1.0",
@@ -135,6 +136,7 @@
     "@types/express-jwt": "^6.0.2",
     "@types/jest": "27.0.2",
     "@types/lodash": "^4.14.177",
+    "@types/lodash-es": "^4.17.5",
     "@types/luxon": "^2.0.7",
     "@types/node": "^14.17.32",
     "@types/qrcode": "^1.4.1",
@@ -175,4 +177,3 @@
     "schema": "./libs/server/models/src/prisma/schema.prisma"
   }
 }
-

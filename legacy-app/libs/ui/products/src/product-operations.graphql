@@ -152,6 +152,16 @@ mutation createProduct {
   }
 }
 
+mutation updateAddress($id: ID!, $address: Json!) {
+  updateAddress(id: $id, address: $address) {
+    id
+    payment {
+      id
+      shipping
+    }
+  }
+}
+
 mutation createProductImage($productId: ID!, $image: CreateProductImageInput!) {
   createProductImage(productId: $productId, data: $image) {
     id
