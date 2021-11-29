@@ -120,12 +120,11 @@
                         {{ purchase.payment.shipping?.address?.line2 }} <br />
                       </ng-container>
                       {{ purchase.payment.shipping?.address?.postal_code }}
-                      {{ purchase.payment.shipping?.address?.city }}
+                      {{ purchase.payment.shipping?.address?.city }} <br />
                       {{ purchase.payment.shipping?.address?.country }}
                     </p>
                   </div>
                   <button
-                    disabled
                     mat-flat-button
                     color="accent"
                     class="modern"

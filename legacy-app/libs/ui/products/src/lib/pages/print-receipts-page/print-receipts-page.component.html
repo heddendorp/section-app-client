@@ -1,44 +1,62 @@
 <div class="receipt w-full" *ngFor="let user of users$ | async">
-  <p>
-    {{ user.purchases[0].payment.shipping?.name }}
-  </p>
-  <p>
-    {{ user.purchases[0].payment.shipping?.address?.line1 }} <br />
-    <ng-container *ngIf="user.purchases[0].payment.shipping?.address?.line2">
-      {{ user.purchases[0].payment.shipping?.address?.line2 }} <br />
-    </ng-container>
-    {{ user.purchases[0].payment.shipping?.address?.city }} <br />
-    {{ user.purchases[0].payment.shipping?.address?.postal_code }} <br />
-  </p>
-  <h1 class="mt-16 mb-8">Receipt</h1>
-  <table style="width: 50vw" class="table-fixed">
-    <ng-container *ngFor="let purchase of user.purchases">
-      <ng-container *ngFor="let item of purchase.items">
-        <tr>
-          <td class="w-full">{{ item.product.title }}</td>
-          <td class="font-mono">{{ item.quantity }}x</td>
-          <td class="font-mono text-right">
-            <span class="ml-4">{{ item.cost | currency: 'EUR' }}</span>
-          </td>
-        </tr>
-        <tr *ngIf="item.submissions.length">
-          <td class="pl-4">
-            <span class="mr-2" *ngFor="let submission of item.submissions">
-              {{ submission.submissionItem.name }}:
-              {{ submission.data.value }}
-            </span>
-          </td>
-          <td></td>
-          <td></td>
-        </tr>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div>
+      <p>
+        {{ user.purchases[0].payment.shipping?.name }}
+      </p>
+      <p>
+        {{ user.purchases[0].payment.shipping?.address?.line1 }} <br />
+        <ng-container
+          *ngIf="user.purchases[0].payment.shipping?.address?.line2"
+        >
+          {{ user.purchases[0].payment.shipping?.address?.line2 }} <br />
+        </ng-container>
+        {{ user.purchases[0].payment.shipping?.address?.postal_code }}
+        {{ user.purchases[0].payment.shipping?.address?.city }} <br />
+        {{ user.purchases[0].payment.shipping?.address?.country }}
+      </p>
+    </div>
+    <img src="/assets/images/logo.svg" class="h-16" />
+  </div>
+  <h1 class="mt-16 mb-8">Package Receipt</h1>
+  <table style="width: 50vw" class="mb-8">
+    <tbody>
+      <ng-container *ngFor="let purchase of user.purchases">
+        <ng-container *ngFor="let item of purchase.items">
+          <tr>
+            <td class="w-full">{{ item.product.title }}</td>
+            <td class="font-mono">{{ item.quantity }}x</td>
+            <td class="font-mono text-right">
+              <span class="ml-4">{{ item.cost | currency: 'EUR' }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="item.submissions.length">
+            <td class="pl-4">
+              <span class="mr-2" *ngFor="let submission of item.submissions">
+                {{ submission.submissionItem.name }}:
+                {{ submission.data.value }}
+              </span>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </ng-container>
       </ng-container>
-    </ng-container>
-    <tr class="border-t">
-      <td class="font-bold">Total</td>
-      <td></td>
-      <td class="pl-2 font-mono text-right">
-        {{ getTotal(user.purchases) | currency: 'EUR' }}
-      </td>
-    </tr>
+      <tr class="border-t">
+        <td class="font-bold">Total</td>
+        <td></td>
+        <td class="pl-2 font-mono text-right">
+          {{ getTotal(user.purchases) | currency: 'EUR' }}
+        </td>
+      </tr>
+    </tbody>
   </table>
+  <p>
+    Thank you for you order! <br />
+    In case there are any issues with you order please reach out to
+    <span class="font-bold">questions@esn-tumi.de</span> and we will do our best
+    to resolve the issue. <br /><br />
+    <span class="font-bold">Best regards and happy holidays,</span><br />
+    Your TUMi Team
+  </p>
 </div>
