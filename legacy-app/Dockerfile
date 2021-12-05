@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:16-alpine
 
 ENV HOST 0.0.0.0
 ENV PORT 8080
