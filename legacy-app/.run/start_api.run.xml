@@ -6,7 +6,9 @@
       <script value="start:api" />
     </scripts>
     <node-interpreter value="project" />
-    <envs />
+    <envs>
+      <env name="PEER_DEPENDENCY_CHECK" value="false" />
+    </envs>
     <method v="2" />
   </configuration>
 </component>
