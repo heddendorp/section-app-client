@@ -970,25 +970,26 @@ export const registerForEvent = mutationField('registerForEvent', {
     price: arg({ type: Json }),
     eventId: nonNull(idArg()),
   },
-  resolve: (
+  resolve: async (
     source,
     { registrationType, eventId, submissions, price },
     context
-  ) =>
-    context.prisma.$transaction(async (prisma) => {
-      const event = await prisma.tumiEvent.findUnique({
-        where: { id: eventId },
-      });
-      const { status } = context.assignment;
-      const allowedStatus =
-        registrationType === RegistrationType.PARTICIPANT
-          ? event.participantSignup
-          : event.organizerSignup;
-      if (!allowedStatus.includes(status)) {
-        throw new ApolloError(
-          'User does not fulfill the requirements to sign up!'
-        );
-      }
+  ) => {
+    const event = await context.prisma.tumiEvent.findUnique({
+      where: { id: eventId },
+    });
+    const { status } = context.assignment;
+    const allowedStatus =
+      registrationType === RegistrationType.PARTICIPANT
+        ? event.participantSignup
+        : event.organizerSignup;
+    if (!allowedStatus.includes(status)) {
+      throw new ApolloError(
+        'User does not fulfill the requirements to sign up!'
+      );
+    }
+    let registration;
+    await context.prisma.$transaction(async (prisma) => {
       const ownRegistration = await prisma.eventRegistration.findFirst({
         where: {
           userId: context.user.id,
@@ -997,7 +998,7 @@ export const registerForEvent = mutationField('registerForEvent', {
         },
       });
       if (ownRegistration) {
-        throw new ApolloError('You are already registered for this event!');
+        throw new Error('You are already registered for this event!');
       }
       const registeredUsers = await prisma.eventRegistration.count({
         where: {
@@ -1011,23 +1012,100 @@ export const registerForEvent = mutationField('registerForEvent', {
           ? event.participantLimit
           : event.organizerLimit;
       if (registeredUsers >= maxRegistrations) {
-        throw new ApolloError('Event does not have an available spot!');
+        throw new Error('Event does not have an available spot!');
       }
+      const submissionArray = [];
+      if (submissions) {
+        Object.entries(submissions).forEach(([key, value]) => {
+          submissionArray.push({
+            submissionItem: { connect: { id: key } },
+            data: { value },
+          });
+        });
+      }
+      if (
+        event.registrationMode === RegistrationMode.STRIPE &&
+        registrationType === RegistrationType.PARTICIPANT
+      ) {
+        registration = await prisma.eventRegistration.create({
+          data: {
+            user: { connect: { id: context.user.id } },
+            event: { connect: { id: eventId } },
+            status: RegistrationStatus.PENDING,
+            type: registrationType,
+            // payment: { connect: { id: payment.id } },
+            submissions: {
+              create: submissionArray,
+            },
+          },
+        });
+      } else if (
+        event.registrationMode === RegistrationMode.ONLINE ||
+        registrationType === RegistrationType.ORGANIZER
+      ) {
+        await prisma.eventRegistration.create({
+          data: {
+            user: { connect: { id: context.user.id } },
+            event: { connect: { id: eventId } },
+            status: RegistrationStatus.SUCCESSFUL,
+            type: registrationType,
+            submissions: {
+              create: submissionArray,
+            },
+          },
+        });
+      } else {
+        throw new Error('Registration mode not supported');
+      }
+    });
+    if (
+      event.registrationMode === RegistrationMode.STRIPE &&
+      registrationType === RegistrationType.PARTICIPANT &&
+      registration
+    ) {
       const baseUrl = process.env.DEV
         ? `http://localhost:4200/events/${eventId}`
         : `https://tumi.esn.world/events/${eventId}`;
-      return await RegistrationService.registerOnEvent(
-        context,
-        prisma,
-        eventId,
-        context.user.id,
-        registrationType,
-        submissions,
-        price,
-        `${baseUrl}?cancel=true`,
-        `${baseUrl}?success=true`
-      );
-    }),
+      try {
+        const payment = await RegistrationService.createPayment(
+          context,
+          [
+            {
+              amount: price.amount * 100,
+              quantity: 1,
+              currency: 'EUR',
+              name: event.title,
+              description: 'Registration fee for event',
+            },
+          ],
+          'book',
+          `${baseUrl}?cancel=true`,
+          `${baseUrl}?success=true`,
+          context.user.id
+        );
+        await context.prisma.eventRegistration.update({
+          where: {
+            id: registration.id,
+          },
+          data: {
+            payment: { connect: { id: payment.id } },
+          },
+        });
+      } catch (e) {
+        console.log(e);
+        await context.prisma.eventRegistration.update({
+          where: {
+            id: registration.id,
+          },
+          data: {
+            status: RegistrationStatus.CANCELLED,
+            cancellationReason: 'Payment creation failed',
+          },
+        });
+      }
+    }
+    return event;
+  },
 });
 
 export const updateGeneralEventMutation = mutationField(

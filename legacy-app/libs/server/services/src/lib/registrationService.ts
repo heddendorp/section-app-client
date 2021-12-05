@@ -94,7 +94,7 @@ export class RegistrationService {
     }
   }
 
-  private static async createPayment(
+  public static async createPayment(
     context: GetGen<'context'>,
     items: Array<stripe.Stripe.Checkout.SessionCreateParams.LineItem>,
     submitType: stripe.Stripe.Checkout.SessionCreateParams.SubmitType,
@@ -205,27 +205,27 @@ export class RegistrationService {
         successUrl,
         userId
       );
-      const submissionArray = [];
-      if (submissions) {
-        Object.entries(submissions).forEach(([key, value]) => {
-          submissionArray.push({
-            submissionItem: { connect: { id: key } },
-            data: { value },
-          });
-        });
-      }
-      await prisma.eventRegistration.create({
-        data: {
-          user: { connect: { id: userId } },
-          event: { connect: { id: eventId } },
-          status: RegistrationStatus.PENDING,
-          type: registrationType,
-          payment: { connect: { id: payment.id } },
-          submissions: {
-            create: submissionArray,
-          },
-        },
-      });
+      // const submissionArray = [];
+      // if (submissions) {
+      //   Object.entries(submissions).forEach(([key, value]) => {
+      //     submissionArray.push({
+      //       submissionItem: { connect: { id: key } },
+      //       data: { value },
+      //     });
+      //   });
+      // }
+      // await prisma.eventRegistration.create({
+      //   data: {
+      //     user: { connect: { id: userId } },
+      //     event: { connect: { id: eventId } },
+      //     status: RegistrationStatus.PENDING,
+      //     type: registrationType,
+      //     payment: { connect: { id: payment.id } },
+      //     submissions: {
+      //       create: submissionArray,
+      //     },
+      //   },
+      // });
       return event;
     } else if (
       event.registrationMode === RegistrationMode.ONLINE ||
