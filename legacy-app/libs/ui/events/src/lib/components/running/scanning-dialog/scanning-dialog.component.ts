@@ -105,7 +105,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
                     `Certificate scanned: ${data.verifyDCC.status}`
                   );
                   this.certificatePayload$.next(data.verifyDCC.payload);
-                  console.log(data.verifyDCC.payload);
+                  this.hideScanner$.next(true);
                 } else {
                   this.snackBar.open('Certificate not verified');
                 }
@@ -146,6 +146,11 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     this.loadEventQueryRef.stopPolling();
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  showScanner() {
+    this.hideScanner$.next(false);
+    this.certificatePayload$.next(null);
   }
 
   async checkInUser() {
