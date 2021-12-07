@@ -407,6 +407,7 @@ type Mutation {
   """
   updateUserStatus(status: MembershipStatus!, userId: ID!): User!
   useRegistrationCode(id: ID!, price: Json): EventRegistrationCode!
+  verifyDCC(certificate: String!): Json
 
   """
   Send a verification email to a user (to the current user if no id is provided)

@@ -1,6 +1,7 @@
 export * from './activityLog';
 export * from './activityLog';
 export * from './costItems';
+export * from './dcc';
 export * from './enums';
 export * from './event';
 export * from './eventOrganizer';

@@ -70,6 +70,51 @@
       Ticket is for the wrong event!
     </div>
   </ng-container>
+  <ng-container *ngIf="certificatePayload$ | async as certificate">
+    <div class="bg-green-500 text-white font-bold text-lg w-full rounded px-2">
+      <p class="">Certificate found!</p>
+    </div>
+    <div class="my-4 space-y-4">
+      <p class="text-lg">{{certificate.name}}</p>
+      <ng-container *ngIf="certificate.vaccination">
+        <p class="text-lg">Vaccination</p>
+        <p>
+          Dose {{ certificate.vaccination.doseNumber }} of
+          {{ certificate.vaccination.series }}
+        </p>
+        <p>
+          Received {{ certificate.vaccination.relativeDate }} on
+          {{ certificate.vaccination.date | date: 'mediumDate' }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="certificate.test">
+        <p class="text-lg">Test</p>
+        <p>
+          Type of test: {{ certificate.test.type }} ({{
+            certificate.test.result
+          }})
+        </p>
+        <p>
+          Sample taken {{ certificate.test.relativeDate }} ({{
+            certificate.test.hours
+          }}
+          hours)
+        </p>
+      </ng-container>
+      <ng-container *ngIf="certificate.recovery">
+        <p class="text-lg">Recovered</p>
+        <p>
+          Positive test taken {{ certificate.recovery.relativeDate }} on
+          {{ certificate.recovery.date | date: 'mediumDate' }}
+        </p>
+        <p>
+          Valid from
+          {{ certificate.recovery.validFrom | date: 'mediumDate' }} to
+          {{ certificate.recovery.validUntil | date: 'mediumDate' }}
+        </p>
+      </ng-container>
+    </div>
+  </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions fxFlexAlign="end">
   <button mat-flat-button color="warn" mat-dialog-close>Close</button>

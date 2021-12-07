@@ -92,6 +92,10 @@ query loadRegistrationForMove($registrationId: ID!) {
   }
 }
 
+mutation verifyCertificate($cert: String!) {
+verifyDCC(certificate: $cert)
+}
+
 mutation createEventRegistrationCode(
   $eventId: ID!
   $registrationId: ID

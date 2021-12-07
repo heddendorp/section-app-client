@@ -8,18 +8,20 @@ import {
   ViewChild,
 } from '@angular/core';
 import QrScanner from 'qr-scanner';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   CheckInUserGQL,
   GetRegistrationGQL,
   GetRegistrationQuery,
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
+  VerifyCertificateGQL,
 } from '@tumi/data-access';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { addWarning } from '@angular-devkit/build-angular/src/utils/webpack-diagnostics';
 
 @Component({
   selector: 'tumi-scanning-dialog',
@@ -35,6 +37,33 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     GetRegistrationQuery['registration'] | null
   >(null);
   public event$: Observable<LoadEventForRunningQuery['event']>;
+  public certificatePayload$ = new BehaviorSubject<{
+    name: string;
+    test?: {
+      type: string;
+      country: string;
+      result: 'Positive' | 'Negative';
+      hours: number;
+      date: string;
+      relativeDate: string;
+    };
+    vaccination?: {
+      doseNumber: number;
+      series: number;
+      date: string;
+      country: string;
+      relativeDate: string;
+    };
+    recovery?: {
+      date: string;
+      validFrom: string;
+      validUntil: string;
+      country: string;
+      relativeDate: string;
+      relativeUntil: string;
+      relativeFrom: string;
+    };
+  } | null>(null);
   private loadEventQueryRef;
   private destroyed$ = new Subject();
   private scanner: QrScanner | undefined;
@@ -44,6 +73,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     private loadEvent: LoadEventForRunningGQL,
     private loadRegistration: GetRegistrationGQL,
     private checkInMutation: CheckInUserGQL,
+    private verifyCertificateGQL: VerifyCertificateGQL,
     private snackBar: MatSnackBar
   ) {
     this.loadEventQueryRef = this.loadEvent.watch({ id: this.data.id });
@@ -62,6 +92,30 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
       this.scanner = new QrScanner(this.video?.nativeElement, (result) => {
         console.log('decoded qr code:', result);
         const isID = idTest.test(result);
+        if (result.includes('HC1')) {
+          // DCC.unpackAndVerify(result);
+          this.verifyCertificateGQL
+            .mutate({
+              cert: result,
+            })
+            .subscribe({
+              next: ({ data }) => {
+                if (data) {
+                  this.snackBar.open(
+                    `Certificate scanned: ${data.verifyDCC.status}`
+                  );
+                  this.certificatePayload$.next(data.verifyDCC.payload);
+                  console.log(data.verifyDCC.payload);
+                } else {
+                  this.snackBar.open('Certificate not verified');
+                }
+              },
+              error: (err) => {
+                console.log(err);
+                this.snackBar.open('Error processing certificate');
+              },
+            });
+        }
         if (isID) {
           this.scanner?.stop();
           this.hideScanner$.next(true);
