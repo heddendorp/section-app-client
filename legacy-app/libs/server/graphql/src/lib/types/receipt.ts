@@ -33,6 +33,12 @@ export const receiptType = objectType({
           receipt.container
         )}/${encodeURIComponent(receipt.blob).replace('.pdf', '.png')}`,
     });
+    t.nonNull.string('originalUrl', {
+      resolve: (receipt) =>
+        `/storage/tumi/${encodeURIComponent(
+          receipt.container
+        )}/${encodeURIComponent(receipt.blob)}`,
+    });
   },
 });
 

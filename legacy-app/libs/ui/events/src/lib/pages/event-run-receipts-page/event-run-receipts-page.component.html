@@ -18,10 +18,17 @@
       <p class="mt-2">
         <span class="font-bold">{{ receipt.amount | currency: 'EUR' }}</span>
         <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
-        <button mat-button color="warn" (click)="deleteReceipt(receipt)">
-          Delete
-        </button>
       </p>
+      <div fxLayoutAlign="space-between" fxLayout="row" fxLayoutGap=".5rem" class="mt-2">
+        <a [href]="receipt.originalUrl" mat-flat-button color="accent" class="modern" download target="_blank">
+          <mat-icon svgIcon="icon-download"></mat-icon>
+          <span>Download original</span>
+        </a>
+        <button mat-flat-button color="warn" (click)="deleteReceipt(receipt)" class="modern">
+          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          <span>Delete</span>
+        </button>
+      </div>
     </div>
   </tumi-grid>
 </main>

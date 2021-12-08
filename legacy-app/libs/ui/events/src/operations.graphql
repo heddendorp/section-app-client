@@ -183,6 +183,7 @@ query getCostItem($id: ID!) {
       id
       amount
       url
+      originalUrl
       user {
         id
         fullName

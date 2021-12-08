@@ -603,6 +603,7 @@ type Receipt {
   createdAt: DateTime!
   id: ID!
   md5: String
+  originalUrl: String!
   preview: String
   type: String
   url: String!
