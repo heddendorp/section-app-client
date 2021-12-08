@@ -82,7 +82,24 @@
       </div>
     </div>
     <div *ngIf="users$ | async as users" fxFlex="noshrink">
-      <h1 class="mb-2">Purchases by User ({{ users.length }})</h1>
+      <div fxLayout="row" fxLayoutAlign="space-between" class="mb-2">
+        <div>
+          <h1 class="mb-1">Purchases by User ({{ users.length }})</h1>
+          <mat-form-field class="w-full">
+              <mat-label>Name Search</mat-label>
+              <input matInput [formControl]="nameSearchControl" type="text">
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+            <mat-label>Status filter</mat-label>
+            <mat-select [formControl]="filter">
+              <mat-option value="">All</mat-option>
+              <mat-option [value]="PurchaseStatus.Sent">Sent</mat-option>
+              <mat-option [value]="PurchaseStatus.Paid">Paid</mat-option>
+              <mat-option value="not-sent">Not Sent</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
       <div fxLayout="column" fxLayoutGap="1rem">
         <div
           *ngFor="let user of users"
@@ -91,7 +108,7 @@
           class="relative bg-surface-default text-surface-on border border-outline-default rounded-2xl p-4"
         >
           <div fxLayout="row" fxLayoutGap="1rem">
-            <img src="/assets/images/shop/package.svg" class="h-16" />
+            <img src="/assets/images/shop/{{ user.purchases[0].status === PurchaseStatus.Sent? 'shipped':'package'}}.svg" class="h-16" />
             <div>
               <h3 class="mb-2 font-bold">
                 {{ user.fullName }} ({{ user.email }})

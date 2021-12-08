@@ -6,12 +6,13 @@ import {
   UpdateAddressGQL,
   UpdatePurchaseStatusGQL,
 } from '@tumi/data-access';
-import { firstValueFrom, Observable } from 'rxjs';
+import { combineLatest, firstValueFrom, Observable, startWith } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressChangeDialogComponent } from '../../components/address-change-dialog/address-change-dialog.component';
 import { mapValues } from 'lodash-es';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'tumi-orders-page',
@@ -23,6 +24,9 @@ export class OrdersPageComponent {
   public products$: Observable<LoadOrderInfoQuery['products']>;
   public lmu$: Observable<LoadOrderInfoQuery['lmuPurchases']>;
   public users$: Observable<LoadOrderInfoQuery['users']>;
+  public filter = new FormControl('');
+  public nameSearchControl = new FormControl('');
+  public PurchaseStatus = PurchaseStatus;
   private loadOrdersRef;
   constructor(
     private loadOrderInfoGQL: LoadOrderInfoGQL,
@@ -35,8 +39,36 @@ export class OrdersPageComponent {
     this.products$ = this.loadOrdersRef.valueChanges.pipe(
       map(({ data }) => data.products)
     );
-    this.users$ = this.loadOrdersRef.valueChanges.pipe(
-      map(({ data }) => data.users)
+    this.users$ = combineLatest([
+      this.loadOrdersRef.valueChanges.pipe(map(({ data }) => data.users)),
+      this.filter.valueChanges.pipe(startWith('')),
+      this.nameSearchControl.valueChanges.pipe(startWith('')),
+    ]).pipe(
+      map(([users, filter, nameSearch]) => {
+        let returnedUsers = users;
+        if (filter == 'not-sent') {
+          returnedUsers = returnedUsers.filter((user) =>
+            user.purchases.some(
+              (purchase) =>
+                ![PurchaseStatus.Cancelled, PurchaseStatus.Sent].includes(
+                  purchase.status
+                )
+            )
+          );
+        } else if (filter) {
+          returnedUsers = returnedUsers.filter((user) =>
+            user.purchases.some((purchase) => purchase.status === filter)
+          );
+        }
+        if (nameSearch) {
+          returnedUsers = returnedUsers.filter((user) =>
+            user.fullName
+              .toLocaleLowerCase()
+              .includes(nameSearch.toLocaleLowerCase())
+          );
+        }
+        return returnedUsers;
+      })
     );
     this.lmu$ = this.loadOrdersRef.valueChanges.pipe(
       map(({ data }) => data.lmuPurchases)
