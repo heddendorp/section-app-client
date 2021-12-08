@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadOrderInfoGQL,
   LoadOrderInfoQuery,
+  PurchaseStatus,
   UpdateAddressGQL,
+  UpdatePurchaseStatusGQL,
 } from '@tumi/data-access';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressChangeDialogComponent } from '../../components/address-change-dialog/address-change-dialog.component';
 import { mapValues } from 'lodash-es';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tumi-orders-page',
@@ -24,6 +27,8 @@ export class OrdersPageComponent {
   constructor(
     private loadOrderInfoGQL: LoadOrderInfoGQL,
     private updateAddressGQL: UpdateAddressGQL,
+    private updatePurchaseStatusGQL: UpdatePurchaseStatusGQL,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {
     this.loadOrdersRef = this.loadOrderInfoGQL.watch();
@@ -49,5 +54,19 @@ export class OrdersPageComponent {
       await firstValueFrom(this.updateAddressGQL.mutate({ address, id: id }));
       // this.loadOrdersRef.refetch();
     }
+  }
+
+  async markShipped(id: string) {
+    try {
+      await firstValueFrom(
+        this.updatePurchaseStatusGQL.mutate({ id, status: PurchaseStatus.Sent })
+      );
+    } catch (e) {
+      console.error(e);
+      if (e instanceof Error) {
+        this.snackBar.open(e.message, 'OK', { duration: 5000 });
+      }
+    }
+    this.snackBar.open('Order marked as shipped', 'OK', { duration: 5000 });
   }
 }

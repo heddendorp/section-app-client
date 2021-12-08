@@ -124,20 +124,35 @@
                       {{ purchase.payment.shipping?.address?.country }}
                     </p>
                   </div>
-                  <button
-                    mat-flat-button
-                    color="accent"
-                    class="modern"
-                    (click)="
+                  <div fxLayout="row" fxLayoutGap=".5rem">
+                    <button
+                      mat-flat-button
+                      color="accent"
+                      class="modern"
+                      (click)="
                       changeAddress(
                         purchase.payment.shipping?.address,
                         purchase.id
                       )
                     "
-                  >
-                    <mat-icon svgIcon="icon-edit-product"></mat-icon>
-                    <span>Change Address</span>
-                  </button>
+                    >
+                      <mat-icon svgIcon="icon-edit-product"></mat-icon>
+                      <span>Change Address</span>
+                    </button>
+                    <button
+                      mat-flat-button
+                      color="accent"
+                      class="modern"
+                      (click)="
+                      markShipped(
+                        purchase.id
+                      )
+                    "
+                    >
+                      <mat-icon svgIcon="icon-shipped"></mat-icon>
+                      <span>Mark as shipped</span>
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <h3>Items</h3>

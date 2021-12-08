@@ -14,6 +14,7 @@ import * as stripe from 'stripe';
 import { DateTime } from 'luxon';
 import { CacheScope } from 'apollo-server-types';
 import { MembershipStatus } from '@tumi/server-models';
+import { purchaseStatusEnum } from './enums';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripeClient: stripe.Stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -173,6 +174,26 @@ export const updateAddressMutation = mutationField('updateAddress', {
     });
   },
 });
+
+export const updatePurchaseStatusMutation = mutationField(
+  'updatePurchaseStatus',
+  {
+    type: nonNull(purchaseType),
+    args: {
+      id: nonNull(idArg()),
+      status: nonNull(arg({ type: purchaseStatusEnum })),
+    },
+    resolve: async (source, { id, status }, context, info) => {
+      info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
+      return context.prisma.purchase.update({
+        where: { id },
+        data: {
+          status,
+        },
+      });
+    },
+  }
+);
 
 export const createPurchaseFromCartMutation = mutationField(
   'createPurchaseFromCart',

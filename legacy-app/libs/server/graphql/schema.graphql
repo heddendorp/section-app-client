@@ -384,6 +384,7 @@ type Mutation {
   updateLeadImage(id: ID!, leadImageId: ID!): Product!
   updateProduct(data: UpdateProductInput!, id: ID!): Product!
   updateProfile(input: UpdateProfileInput!): User
+  updatePurchaseStatus(id: ID!, status: PurchaseStatus!): Purchase!
 
   """
   Update an event template
