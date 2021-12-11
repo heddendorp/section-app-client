@@ -6,6 +6,15 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "shortcuts": [
+    {
+      "name": "Open Events",
+      "short_name": "TUMi events",
+      "description": "See all upcoming events",
+      "url": "/events?utm_source=homescreen",
+      "icons": [{ "src": "/assets/icons/schedule.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     {
       "src": "/assets/favicon/android-chrome-192x192.png",

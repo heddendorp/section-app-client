@@ -1,4 +1,7 @@
 <header class="relative">
+  <div class="absolute right-0 top-2 md:top-6 p-2 rounded-l-2xl backdrop-blur-lg backdrop-saturate-150 bg-gray-800/50 border border-gray-600 border-r-0">
+    <img src="/assets/logos/full_light.svg" alt="ESN TUMi Logo" class="h-12 md:h-24">
+  </div>
   <img
     src="/assets/images/home/tutors.jpg"
     alt="Picture of TUMI tutors at night"
@@ -34,9 +37,10 @@
           culture and the fostering of international understanding.
         </span>
       </p>
-      <div fxLayout="column" fxLayoutGap=".5rem" class="md:w-64 mt-4">
+      <div fxLayout="row" fxLayoutGap=".5rem" class="max-w-md mt-4">
         <div
-          class="rounded border border-gray-500 bg-gray-700 p-2"
+          fxFlex="noshrink"
+          class="rounded border border-gray-500 bg-gray-700 p-2 cursor-pointer hover:bg-gray-600"
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
@@ -46,14 +50,15 @@
         </div>
         <div
           *ngIf="loggedIn$ | async"
-          class="rounded border border-gray-500 bg-gray-700 p-2"
+          fxFlex="noshrink"
+          class="rounded border border-gray-500 bg-gray-700 p-2 cursor-pointer hover:bg-gray-600"
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
           routerLink="profile"
         >
           <mat-icon svgIcon="icon-contact-card"></mat-icon>
-          <span>Go to profile</span>
+          <span>Open profile</span>
         </div>
       </div>
       <h2 class="text-2xl font-bold mt-8">Upcoming events</h2>
@@ -87,7 +92,7 @@
         <div
           *ngFor="let event of events$ | async"
           routerLink="/events/{{ event.id }}"
-          class="rounded-2xl border bg-gray-600 p-4 cursor-pointer"
+          class="rounded-2xl border bg-gray-600 p-4 cursor-pointer hover:bg-gray-700"
           fxLayout="column"
           fxLayoutAlign="start center"
         >

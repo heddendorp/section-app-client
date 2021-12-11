@@ -241,4 +241,7 @@ $tumi-dark-theme: mat.define-dark-theme(
       }
     }
   }
+  .bg-blur{
+    backdrop-filter: blur(16px) saturate(180%);
+  }
 }
