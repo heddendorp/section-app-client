@@ -38,28 +38,29 @@
         </span>
       </p>
       <div fxLayout="row" fxLayoutGap=".5rem" class="max-w-md mt-4">
-        <div
+        <a
           fxFlex="noshrink"
           class="rounded border border-gray-500 bg-gray-700 p-2 cursor-pointer hover:bg-gray-600"
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
+          routerLink="/events"
         >
           <mat-icon svgIcon="icon-overtime"></mat-icon>
           <span>See all events</span>
-        </div>
-        <div
+        </a>
+        <a
           *ngIf="loggedIn$ | async"
           fxFlex="noshrink"
           class="rounded border border-gray-500 bg-gray-700 p-2 cursor-pointer hover:bg-gray-600"
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
-          routerLink="profile"
+          routerLink="/profile"
         >
           <mat-icon svgIcon="icon-contact-card"></mat-icon>
           <span>Open profile</span>
-        </div>
+        </a>
       </div>
       <h2 class="text-2xl font-bold mt-8">Upcoming events</h2>
     </div>
