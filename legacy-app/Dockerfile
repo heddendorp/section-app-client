@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN yarn
-RUN ["export", "NODE_OPTIONS=\"--max_old_space_size=4096\""]
+ENV NODE_OPTIONS --max_old_space_size=4096
 RUN ["yarn", "build:api"]
 
 EXPOSE 8080
