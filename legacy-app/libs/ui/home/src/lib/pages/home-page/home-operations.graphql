@@ -1,0 +1,8 @@
+query getHomePageData{
+  events(limit: 10){
+    id
+    title
+    icon
+    start
+  }
+}

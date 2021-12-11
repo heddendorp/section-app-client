@@ -560,6 +560,32 @@
       },
       "tags": []
     },
+    "ui-home": {
+      "projectType": "library",
+      "root": "libs/ui/home",
+      "sourceRoot": "libs/ui/home/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/home"],
+          "options": {
+            "jestConfig": "libs/ui/home/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/home/src/**/*.ts",
+              "libs/ui/home/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "ui-pages": {
       "projectType": "library",
       "root": "libs/ui/pages",

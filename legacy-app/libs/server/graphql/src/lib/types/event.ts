@@ -3,6 +3,7 @@ import {
   booleanArg,
   idArg,
   inputObjectType,
+  intArg,
   list,
   mutationField,
   nonNull,
@@ -755,8 +756,13 @@ export const updateCoreEventInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  args: { after: arg({ type: DateTime }), userId: idArg() },
-  resolve: async (source, { after, userId }, context, { cacheControl }) => {
+  args: { after: arg({ type: DateTime }), userId: idArg(), limit: intArg() },
+  resolve: async (
+    source,
+    { after, userId, limit },
+    context,
+    { cacheControl }
+  ) => {
     cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
     let where: TumiEventWhereInput;
     after ??= new Date();
@@ -798,6 +804,7 @@ export const getAllEventsQuery = queryField('events', {
     }
     return context.prisma.tumiEvent.findMany({
       orderBy: { start: 'asc' },
+      ...(limit ? { take: limit } : {}),
       where,
     });
   },

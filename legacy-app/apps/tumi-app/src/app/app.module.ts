@@ -55,7 +55,7 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
     ReactiveFormsModule,
     MarkdownModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'events' },
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
       {
         path: 'profile',
@@ -103,6 +103,11 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
           import('@tumi/ui/shopping-basket').then(
             (module) => module.UiShoppingBasketModule
           ),
+      },
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('@tumi/ui/home').then((module) => module.UiHomeModule),
       },
     ]),
     AuthModule.forRoot({

@@ -1,0 +1,105 @@
+<header class="relative">
+  <img
+    src="/assets/images/home/tutors.jpg"
+    alt="Picture of TUMI tutors at night"
+    class="cover-image"
+  />
+  <div class="custom-shape-divider-bottom-1612976657">
+    <svg
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 120"
+      preserveAspectRatio="none"
+    >
+      <path d="M1200 0L0 0 892.25 114.72 1200 0z" class="shape-fill"></path>
+    </svg>
+  </div>
+</header>
+<main>
+  <div class="bg-gray-800 text-gray-50">
+    <div class="p-4">
+      <h1
+        class="mt-4 md:mt-0 mb-4 font-bold text-6xl leading-snug text-transparent bg-clip-text bg-gradient-to-br from-blue-300 to-blue-500"
+      >
+        Exchange, better!
+      </h1>
+      <p class="leading-normal text-white md:text-lg max-w-5xl">
+        TUMi is here to make your international experience better. No matter if
+        you are an incoming student, doing your international mobility or a local
+        student wanting to broaden your horizon. <br />
+        We are a registered Association (Verein) with close connections to our
+        friends in the TUM Global & Alumni Office. Our focus is
+        <span class="font-bold">
+        the promotion of international spirit, tolerance in all facets of
+        culture and the fostering of international understanding.
+      </span>
+      </p>
+      <h2 class="text-2xl font-bold mt-8">
+        Upcoming events
+      </h2>
+    </div>
+    <div class="w-full flex gap-12 snap-x overflow-x-auto pb-8 pt-4" fxHide.gt-xs>
+      <div *ngFor="let event of events | async" routerLink="/events/{{event.id}}" class="snap-start cursor-pointer scroll-ml-6 shrink-0 relative first:pl-6 last:pr-[calc(100%-21.5rem)]">
+        <div class="rounded-2xl border bg-gray-600 p-4" fxLayout="column" fxLayoutAlign="start center">
+          <img src="{{event.icon | iconURL}}" alt="{{event.icon}}" class="w-16">
+          <h3>{{event.title}}</h3>
+          <p>{{event.start | date:'mediumDate'}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-full p-4" fxHide.xs >
+      <tumi-grid minWidth="300px">
+        <div *ngFor="let event of events | async" routerLink="/events/{{event.id}}" class="rounded-2xl border bg-gray-600 p-4 cursor-pointer" fxLayout="column" fxLayoutAlign="start center">
+          <img src="{{event.icon | iconURL}}" alt="{{event.icon}}" class="w-16">
+          <h3>{{event.title}}</h3>
+          <p>{{event.start | date:'mediumDate'}}</p>
+        </div>
+      </tumi-grid>
+    </div>
+  </div>
+</main>
+<footer class="relative bg-gray-200 pt-12 p-4 md:p-8">
+  <div class="custom-shape-divider-top-1613324121">
+    <svg
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 120"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M1200 120L0 16.48 0 0 1200 0 1200 120z"
+        class="shape-fill"
+      ></path>
+    </svg>
+  </div>
+  <h1
+    class="my-8 font-bold text-4xl md:text-6xl leading-normal text-transparent bg-clip-text bg-gradient-to-tr from-fuchsia-600 to-fuchsia-800"
+  >
+    With friends
+  </h1>
+  <div
+    gdAuto
+    gdGap="2rem"
+    gdColumns="repeat(auto-fit, minmax(min(100%, 150px), 1fr))"
+    gdAlignRows="center"
+    gdAlignColumns="center"
+    style="max-width: 2000px"
+  >
+    <img src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
+    <img src="/assets/logos/esn_dark.svg" alt="ESN Logo" />
+    <img src="/assets/logos/supporters/lei.png" alt="LEI Logo" />
+    <img src="/assets/logos/supporters/daad.svg" alt="DAAD Logo" />
+    <div>
+      <span class="text-sm mx-auto">Supported by</span>
+      <img src="/assets/logos/supporters/BMBF.svg" alt="BMBF Logo" />
+    </div>
+    <div>
+      <span class="text-sm mx-auto">Supported by</span>
+      <img src="/assets/logos/supporters/AA.svg" alt="AA Logo" />
+    </div>
+  </div>
+  <p class="mt-8 md:text-lg max-w-5xl leading-normal">
+    We are only able to do what we do because of amazing support from public
+    institutions, student associations and our university.
+  </p>
+</footer>

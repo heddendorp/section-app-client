@@ -10,6 +10,9 @@
     <div class="h-full w-full" fxLayout="column">
       <!--      <p class="font-bold text-lg ml-4" fxFlex="noshrink">Menu</p>-->
       <mat-nav-list (click)="closeSidenav(drawer)">
+        <a mat-list-item routerLink="home" routerLinkActive="active">
+          <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
+        </a>
         <a mat-list-item routerLink="events" routerLinkActive="active">
           <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
         </a>
@@ -26,10 +29,10 @@
           <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
           <span>Shopping basket</span>
         </a>
-        <a mat-list-item routerLink="page/about" routerLinkActive="active">
-          <mat-icon svgIcon="icon-information"></mat-icon>
-          <span>About us</span>
-        </a>
+<!--        <a mat-list-item routerLink="page/about" routerLinkActive="active">-->
+<!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
+<!--          <span>About us</span>-->
+<!--        </a>-->
         <a
           mat-list-item
           routerLink="profile"
@@ -107,11 +110,11 @@
       <div fxFlex="grow"></div>
       <tumi-auth-button></tumi-auth-button>
     </mat-toolbar>
-    <div class="border-b p-2 lg:p-4 bg-gray-100">
-      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-        <img src="/assets/images/general/virus.svg" class="h-6" />
-        <p class="">Please note: most TUMi events require 2G!</p>
-      </div>
+<!--    <div class="border-b p-2 lg:p-4 bg-gray-100">-->
+<!--      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">-->
+<!--        <img src="/assets/images/general/virus.svg" class="h-6" />-->
+<!--        <p class="">Please note: most TUMi events require 2G!</p>-->
+<!--      </div>-->
       <!--      <div>-->
       <!--        <p class="mb-2">-->
       <!--          Starting on the 9th of november, Corona measures in bavaria are-->
@@ -127,7 +130,7 @@
       <!--          </a>-->
       <!--        </p>-->
       <!--      </div>-->
-    </div>
+<!--    </div>-->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
