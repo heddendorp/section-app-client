@@ -5,7 +5,7 @@
   "background_color": "#3B82F6",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./events",
   "shortcuts": [
     {
       "name": "Open Events",
