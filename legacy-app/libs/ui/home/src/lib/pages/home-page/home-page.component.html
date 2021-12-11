@@ -19,40 +19,85 @@
   <div class="bg-gray-800 text-gray-50">
     <div class="p-4">
       <h1
-        class="mt-4 md:mt-0 mb-4 font-bold text-6xl leading-snug text-transparent bg-clip-text bg-gradient-to-br from-blue-300 to-blue-500"
+        class="mt-4 md:mt-0 mb-4 font-bold text-3xl md:text-6xl leading-snug text-transparent bg-clip-text bg-gradient-to-br from-blue-300 to-blue-500"
       >
         Exchange, better!
       </h1>
       <p class="leading-normal text-white md:text-lg max-w-5xl">
         TUMi is here to make your international experience better. No matter if
-        you are an incoming student, doing your international mobility or a local
-        student wanting to broaden your horizon. <br />
+        you are an incoming student, doing your international mobility or a
+        local student wanting to broaden your horizon. <br />
         We are a registered Association (Verein) with close connections to our
         friends in the TUM Global & Alumni Office. Our focus is
         <span class="font-bold">
-        the promotion of international spirit, tolerance in all facets of
-        culture and the fostering of international understanding.
-      </span>
+          the promotion of international spirit, tolerance in all facets of
+          culture and the fostering of international understanding.
+        </span>
       </p>
-      <h2 class="text-2xl font-bold mt-8">
-        Upcoming events
-      </h2>
+      <div fxLayout="column" fxLayoutGap=".5rem" class="md:w-64 mt-4">
+        <div
+          class="rounded border border-gray-500 bg-gray-700 p-2"
+          fxLayout="row"
+          fxLayoutGap="1rem"
+          fxLayoutAlign="start center"
+        >
+          <mat-icon svgIcon="icon-overtime"></mat-icon>
+          <span>See all events</span>
+        </div>
+        <div
+          *ngIf="loggedIn$ | async"
+          class="rounded border border-gray-500 bg-gray-700 p-2"
+          fxLayout="row"
+          fxLayoutGap="1rem"
+          fxLayoutAlign="start center"
+          routerLink="profile"
+        >
+          <mat-icon svgIcon="icon-contact-card"></mat-icon>
+          <span>Go to profile</span>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold mt-8">Upcoming events</h2>
     </div>
-    <div class="w-full flex gap-12 snap-x overflow-x-auto pb-8 pt-4" fxHide.gt-xs>
-      <div *ngFor="let event of events | async" routerLink="/events/{{event.id}}" class="snap-start cursor-pointer scroll-ml-6 shrink-0 relative first:pl-6 last:pr-[calc(100%-21.5rem)]">
-        <div class="rounded-2xl border bg-gray-600 p-4" fxLayout="column" fxLayoutAlign="start center">
-          <img src="{{event.icon | iconURL}}" alt="{{event.icon}}" class="w-16">
-          <h3>{{event.title}}</h3>
-          <p>{{event.start | date:'mediumDate'}}</p>
+    <div
+      class="w-full flex gap-12 snap-x overflow-x-auto pb-8 pt-4"
+      fxHide.gt-xs
+    >
+      <div
+        *ngFor="let event of events$ | async"
+        routerLink="/events/{{ event.id }}"
+        class="snap-start cursor-pointer scroll-ml-6 shrink-0 relative first:pl-6 last:pr-[calc(100%-21.5rem)]"
+      >
+        <div
+          class="rounded-2xl border bg-gray-600 p-4"
+          fxLayout="column"
+          fxLayoutAlign="start center"
+        >
+          <img
+            src="{{ event.icon | iconURL }}"
+            alt="{{ event.icon }}"
+            class="w-16"
+          />
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
       </div>
     </div>
-    <div class="w-full p-4" fxHide.xs >
+    <div class="w-full p-4" fxHide.xs>
       <tumi-grid minWidth="300px">
-        <div *ngFor="let event of events | async" routerLink="/events/{{event.id}}" class="rounded-2xl border bg-gray-600 p-4 cursor-pointer" fxLayout="column" fxLayoutAlign="start center">
-          <img src="{{event.icon | iconURL}}" alt="{{event.icon}}" class="w-16">
-          <h3>{{event.title}}</h3>
-          <p>{{event.start | date:'mediumDate'}}</p>
+        <div
+          *ngFor="let event of events$ | async"
+          routerLink="/events/{{ event.id }}"
+          class="rounded-2xl border bg-gray-600 p-4 cursor-pointer"
+          fxLayout="column"
+          fxLayoutAlign="start center"
+        >
+          <img
+            src="{{ event.icon | iconURL }}"
+            alt="{{ event.icon }}"
+            class="w-16"
+          />
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
       </tumi-grid>
     </div>
@@ -73,7 +118,7 @@
     </svg>
   </div>
   <h1
-    class="my-8 font-bold text-4xl md:text-6xl leading-normal text-transparent bg-clip-text bg-gradient-to-tr from-fuchsia-600 to-fuchsia-800"
+    class="my-8 font-bold text-4xl md:text-6xl leading-normal text-transparent bg-clip-text bg-gradient-to-br from-fuchsia-600 to-fuchsia-800"
   >
     With friends
   </h1>

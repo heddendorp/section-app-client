@@ -5,4 +5,7 @@ query getHomePageData{
     icon
     start
   }
+  currentUser{
+    id
+  }
 }

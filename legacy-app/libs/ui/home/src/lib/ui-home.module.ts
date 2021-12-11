@@ -5,6 +5,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UtilPipesModule } from '@tumi/util/pipes';
 import { UtilComponentsModule } from '@tumi/util-components';
+import { UtilMaterialModule } from '@tumi/util/material';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { UtilComponentsModule } from '@tumi/util-components';
     FlexLayoutModule,
     UtilPipesModule,
     UtilComponentsModule,
+    UtilMaterialModule,
   ],
   declarations: [HomePageComponent],
 })

@@ -9,10 +9,14 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent {
-  public events: Observable<GetHomePageDataQuery['events']>;
+  public events$: Observable<GetHomePageDataQuery['events']>;
+  public loggedIn$: Observable<boolean>;
   constructor(private q: GetHomePageDataGQL) {
-    this.events = this.q
+    this.events$ = this.q
       .watch()
       .valueChanges.pipe(map(({ data }) => data.events));
+    this.loggedIn$ = this.q
+      .watch()
+      .valueChanges.pipe(map(({ data }) => !!data.currentUser?.id));
   }
 }
