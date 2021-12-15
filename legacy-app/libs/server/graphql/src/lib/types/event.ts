@@ -10,7 +10,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { TumiEvent } from 'nexus-prisma';
+import { TumiEvent } from '../nexus';
 import { UserInputError } from 'apollo-server-core';
 import {
   MembershipStatus,

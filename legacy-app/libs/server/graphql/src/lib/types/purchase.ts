@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { Purchase } from 'nexus-prisma';
+import { Purchase } from '../nexus';
 import { ApolloError } from 'apollo-server-express';
 import * as stripe from 'stripe';
 import { DateTime } from 'luxon';

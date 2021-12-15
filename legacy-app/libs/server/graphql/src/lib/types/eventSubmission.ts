@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { EventSubmission } from 'nexus-prisma';
+import { EventSubmission } from '../nexus';
 
 export const eventSubmissionType = objectType({
   name: EventSubmission.$name,

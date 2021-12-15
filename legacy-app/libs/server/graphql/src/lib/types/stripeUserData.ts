@@ -1,5 +1,5 @@
 import { nonNull, objectType, queryField } from 'nexus';
-import { StripeUserData } from 'nexus-prisma';
+import { StripeUserData } from '../nexus';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(process.env.STRIPE_KEY);

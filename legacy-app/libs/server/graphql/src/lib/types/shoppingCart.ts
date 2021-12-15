@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { ShoppingCart } from 'nexus-prisma';
+import { ShoppingCart } from '../nexus';
 import { CacheScope } from 'apollo-server-types';
 
 export const shoppingCartType = objectType({

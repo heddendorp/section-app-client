@@ -1,5 +1,5 @@
 import { idArg, list, nonNull, objectType, queryField } from 'nexus';
-import { EventTemplateCategory } from 'nexus-prisma';
+import { EventTemplateCategory } from '../nexus';
 import { CacheScope } from 'apollo-server-types';
 
 export const eventTemplateCategoryType = objectType({

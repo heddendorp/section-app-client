@@ -11,7 +11,7 @@ import {
   queryField,
   stringArg,
 } from 'nexus';
-import { MembershipStatus, Role, User } from 'nexus-prisma';
+import { MembershipStatus, Role, User } from '../nexus';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';

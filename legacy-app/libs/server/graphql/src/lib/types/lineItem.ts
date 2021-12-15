@@ -6,7 +6,7 @@ import {
   nonNull,
   objectType,
 } from 'nexus';
-import { LineItem } from 'nexus-prisma';
+import { LineItem } from '../nexus';
 import { CacheScope } from 'apollo-server-types';
 
 export const lineItemType = objectType({

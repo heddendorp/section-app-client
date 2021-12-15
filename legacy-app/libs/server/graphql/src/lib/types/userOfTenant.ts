@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { UsersOfTenants } from 'nexus-prisma';
+import { UsersOfTenants } from '../nexus';
 
 export const userOfTenantType = objectType({
   name: UsersOfTenants.$name,

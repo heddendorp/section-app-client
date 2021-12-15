@@ -8,7 +8,7 @@ import {
   objectType,
   stringArg,
 } from 'nexus';
-import { EventSubmissionItem } from 'nexus-prisma';
+import { EventSubmissionItem } from '../nexus';
 import { PurchaseStatus, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 import { eventSubmissionType } from './eventSubmission';

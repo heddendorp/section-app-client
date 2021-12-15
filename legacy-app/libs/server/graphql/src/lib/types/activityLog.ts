@@ -1,5 +1,5 @@
 import { list, nonNull, objectType, queryField } from 'nexus';
-import { ActivityLog } from 'nexus-prisma';
+import { ActivityLog } from '../nexus';
 import { Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 

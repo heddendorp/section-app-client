@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventRegistrationCode } from 'nexus-prisma';
+import { EventRegistrationCode } from '../nexus';
 import { CacheScope } from 'apollo-server-types';
 import { RegistrationMode, Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';

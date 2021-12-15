@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventRegistration } from 'nexus-prisma';
+import { EventRegistration } from '../nexus';
 import { RegistrationStatus } from '@tumi/server-models';
 import { registrationStatusEnum } from './enums';
 import { eventRegistrationCodeType } from './eventRegistrationCode';

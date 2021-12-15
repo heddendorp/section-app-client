@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { Product } from 'nexus-prisma';
+import { Product } from '../nexus';
 import {
   MembershipStatus,
   Prisma,

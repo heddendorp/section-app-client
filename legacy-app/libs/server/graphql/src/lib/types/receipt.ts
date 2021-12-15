@@ -1,5 +1,5 @@
 import { inputObjectType, objectType } from 'nexus';
-import { Receipt } from 'nexus-prisma';
+import { Receipt } from '../nexus';
 
 export const receiptType = objectType({
   name: Receipt.$name,

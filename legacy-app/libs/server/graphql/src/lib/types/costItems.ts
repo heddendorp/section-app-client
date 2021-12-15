@@ -6,7 +6,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { CostItem } from 'nexus-prisma';
+import { CostItem } from '../nexus';
 import { eventType } from './event';
 import { createReceiptInputType } from './receipt';
 import { Role } from '@tumi/server-models';

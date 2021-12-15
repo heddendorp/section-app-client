@@ -10,7 +10,7 @@ import {
   Role,
   SubmissionItemType,
   SubmissionTime,
-} from 'nexus-prisma';
+} from '../nexus';
 
 export const roleEnum = enumType(Role);
 export const membershipStatusEnum = enumType(MembershipStatus);

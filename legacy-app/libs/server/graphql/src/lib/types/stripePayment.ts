@@ -1,5 +1,5 @@
 import { list, nonNull, objectType } from 'nexus';
-import { StripePayment } from 'nexus-prisma';
+import { StripePayment } from '../nexus';
 import { CacheScope } from 'apollo-server-types';
 import { Json } from 'nexus-prisma/scalars';
 

@@ -8,7 +8,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventTemplate } from 'nexus-prisma';
+import { EventTemplate } from '../nexus';
 
 export const eventTemplateType = objectType({
   name: EventTemplate.$name,

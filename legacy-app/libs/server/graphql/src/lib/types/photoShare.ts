@@ -7,7 +7,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { PhotoShare } from 'nexus-prisma';
+import { PhotoShare } from '../nexus';
 import { ApolloError } from 'apollo-server-express';
 import { RegistrationStatus, Role } from '@tumi/server-models';
 

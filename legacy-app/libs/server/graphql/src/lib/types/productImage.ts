@@ -6,7 +6,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { ProductImage } from 'nexus-prisma';
+import { ProductImage } from '../nexus';
 import { ApolloError } from 'apollo-server-express';
 import { Role } from '@tumi/server-models';
 

@@ -6,7 +6,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventRegistrationMoveOrder } from 'nexus-prisma';
+import { EventRegistrationMoveOrder } from '../nexus';
 import { ApolloError } from 'apollo-server-express';
 import { paymentIntentType } from './stripeUserData';
 import { eventRegistrationType } from './eventRegistration';

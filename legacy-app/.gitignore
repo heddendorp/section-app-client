@@ -4,9 +4,6 @@
 /dist
 /tmp
 /out-tsc
-/libs/models/src/lib/client
-/libs/models/src/lib/nexus
-/libs/models/src/prisma/dbml
 
 # dependencies
 /node_modules
@@ -48,6 +45,7 @@ Thumbs.db
 # generated code
 /libs/data-access/src/lib/generated/*
 /libs/server/graphql/src/lib/nexus-typegen.ts
+/libs/server/graphql/src/lib/nexus/*
 /libs/server/models/src/lib/client/*
 
 .angular

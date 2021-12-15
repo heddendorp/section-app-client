@@ -6,7 +6,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventOrganizer } from 'nexus-prisma';
+import { EventOrganizer } from '../nexus';
 import { Role } from '@tumi/server-models';
 import { ApolloError } from 'apollo-server-express';
 
