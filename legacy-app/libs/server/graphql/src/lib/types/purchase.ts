@@ -250,6 +250,7 @@ export const createPurchaseFromCartMutation = mutationField(
           quantity: item.quantity,
           name: item.product.title,
           currency: 'EUR',
+          tax_rates: ['txr_1KFJdx4EBOHRwndEtSV4mPKa'],
         })),
         payment_method_types: [
           'card',
