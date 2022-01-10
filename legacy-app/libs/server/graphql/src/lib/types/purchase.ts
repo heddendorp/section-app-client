@@ -156,7 +156,6 @@ export const updateAddressMutation = mutationField('updateAddress', {
     const oldShipping = purchase.payment
       ?.shipping as unknown as stripe.Stripe.PaymentIntentUpdateParams.Shipping;
     const shipping = { ...oldShipping, ...{ address } };
-    console.log(shipping);
     try {
       await stripeClient.paymentIntents.update(purchase.payment.paymentIntent, {
         shipping,

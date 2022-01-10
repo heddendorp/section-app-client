@@ -246,7 +246,6 @@ export const listUsersQuery = queryField('users', {
       OR.push({ lastName: { contains: search } });
       OR.push({ email: { contains: search } });
     }
-    console.log(OR);
     return context.prisma.user.findMany({
       where: {
         ...(search ? { OR } : {}),
