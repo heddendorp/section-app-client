@@ -1083,6 +1083,7 @@ export const registerForEvent = mutationField('registerForEvent', {
               currency: 'EUR',
               name: event.title,
               description: 'Registration fee for event',
+              tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
             },
           ],
           'book',
