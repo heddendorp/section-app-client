@@ -113,6 +113,8 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
+      cacheLocation: 'localstorage',
+      useRefreshTokens: true,
       audience: 'esn.events',
       httpInterceptor: {
         allowedList: [
