@@ -93,8 +93,8 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
         end: new Date(data.end),
       });
     } else {
-      console.info('Cancelling form submission as it was not valid');
-      console.log(this.eventDataForm);
+      
+      
     }
   }
 

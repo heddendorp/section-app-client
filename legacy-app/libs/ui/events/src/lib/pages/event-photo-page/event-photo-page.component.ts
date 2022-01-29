@@ -97,7 +97,7 @@ export class EventPhotoPageComponent implements OnDestroy {
       const files = Array.from(target.files).filter((file) =>
         file.type.startsWith('image/')
       );
-      console.log(files);
+      
       const { data } = await firstValueFrom(this.getShareKey.fetch());
       const uploads = new BehaviorSubject(files.map(() => 0));
       uploads.subscribe((progress) => {

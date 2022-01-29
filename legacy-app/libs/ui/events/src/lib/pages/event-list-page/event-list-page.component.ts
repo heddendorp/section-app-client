@@ -35,7 +35,7 @@ export class EventListPageComponent implements OnDestroy {
       map(({ data }) => data.events)
     );
     this.eventsAfter.valueChanges
-      .pipe(takeUntil(this.destroy$), tap(console.log))
+      .pipe(takeUntil(this.destroy$), )
       .subscribe((value) =>
         this.loadEventsQueryRef.refetch({
           after: value.toJSDate(),

@@ -99,7 +99,7 @@ export class StripeRegistrationComponent implements OnChanges {
 
   async register() {
     this.processing.next(true);
-    console.log(this.infoCollected$.value);
+    
     if (this.event) {
       let data;
       try {
@@ -111,7 +111,7 @@ export class StripeRegistrationComponent implements OnChanges {
           })
         );
         data = res.data;
-        console.log(data);
+        
         this.openPaymentSession(
           data?.registerForEvent.activeRegistration?.payment?.checkoutSession
         );

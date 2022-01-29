@@ -31,8 +31,8 @@ export class UpdateUserDialogComponent implements OnInit {
       role: this.data.user.currentTenant?.role,
       status: this.data.user.currentTenant?.status,
     });
-    console.log(this.data.user);
-    console.log(Role);
+    
+    
   }
 
   ngOnInit(): void {}

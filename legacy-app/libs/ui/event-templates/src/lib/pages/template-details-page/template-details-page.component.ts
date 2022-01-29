@@ -115,7 +115,7 @@ export class TemplateDetailsPageComponent {
       .afterClosed()
       .toPromise();
     if (location && template) {
-      console.log(location);
+      
       await this.updateLocationMutation
         .mutate({
           templateId: template.id,

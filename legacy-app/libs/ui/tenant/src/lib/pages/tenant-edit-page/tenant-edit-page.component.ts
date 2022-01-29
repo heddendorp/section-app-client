@@ -54,7 +54,7 @@ export class TenantEditPageComponent {
         })
         .toPromise();
     } else {
-      console.warn('no tenant', tenant);
+      
     }
   }
 }

@@ -49,7 +49,7 @@ export class EventFormDialogComponent {
       }
       this.dialog.close(templateValue);
     } else {
-      console.info('Cancelling form submission as it was not valid');
+      
     }
   }
 }

@@ -90,7 +90,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     QrScanner.WORKER_PATH = 'assets/qr-scanner-worker.min.js';
     if (this.video?.nativeElement) {
       this.scanner = new QrScanner(this.video?.nativeElement, (result) => {
-        console.log('decoded qr code:', result);
+        
         const isID = idTest.test(result);
         if (result.includes('HC1')) {
           // DCC.unpackAndVerify(result);
@@ -111,7 +111,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
                 }
               },
               error: (err) => {
-                console.log(err);
+                
                 this.snackBar.open('Error processing certificate');
               },
             });
@@ -128,8 +128,8 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
       });
       await this.scanner.setCamera('environment');
     } else {
-      console.log('no video');
-      console.log(this.video);
+      
+      
     }
     this.scanner?.start();
     const cameras = await QrScanner.listCameras(true);
