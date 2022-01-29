@@ -25,5 +25,5 @@ export class PhotoJourneyPageComponent {
     original: string;
     originalBlob: string;
     container: string;
-  }) {}
+  }): void  {}
 }

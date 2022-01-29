@@ -37,7 +37,7 @@ export class EventFormDialogComponent {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void  {
     if (this.dialogForm.valid) {
       const templateValue = this.dialogForm.value;
       if (templateValue.location?.id) {

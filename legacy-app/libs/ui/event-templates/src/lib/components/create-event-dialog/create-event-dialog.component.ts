@@ -84,7 +84,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSubmit() {
+  onSubmit(): void  {
     if (this.eventDataForm.valid) {
       const data = this.eventDataForm.value;
       this.dialog.close({

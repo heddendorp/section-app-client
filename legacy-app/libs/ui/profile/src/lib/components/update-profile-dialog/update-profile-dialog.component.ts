@@ -26,7 +26,7 @@ export class UpdateProfileDialogComponent {
     this.profileForm.patchValue({ ...this.data.profile });
   }
 
-  submit() {
+  submit(): void  {
     if (this.profileForm.valid) {
       this.dialog.close({
         ...this.profileForm.value,

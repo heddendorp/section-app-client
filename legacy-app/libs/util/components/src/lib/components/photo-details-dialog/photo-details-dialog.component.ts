@@ -39,7 +39,7 @@ export class PhotoDetailsDialogComponent {
     });
   }
 
-  imageLoad($event: Event) {
+  imageLoad($event: Event): void  {
     this.imageLoaded$.next(true);
   }
 }

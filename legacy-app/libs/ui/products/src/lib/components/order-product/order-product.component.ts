@@ -37,7 +37,7 @@ export class OrderProductComponent implements OnChanges {
     this.additionalData$.next(null);
   }
 
-  saveData($event: unknown) {
+  saveData($event: unknown): void  {
     this.additionalData$.next($event);
   }
 

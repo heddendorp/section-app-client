@@ -74,7 +74,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$), debounceTime(500))
       .subscribe((value) => this.loadUsersReference.refetch(value));
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
@@ -97,7 +97,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     attempt();
   }
 
-  updatePage($event: PageEvent) {
+  updatePage($event: PageEvent): void  {
     this.loadUsersReference.refetch({
       pageIndex: $event.pageIndex,
       pageLength: $event.pageSize,

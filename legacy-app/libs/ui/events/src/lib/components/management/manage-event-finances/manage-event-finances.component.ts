@@ -35,7 +35,7 @@ export class ManageEventFinancesComponent implements OnChanges {
     );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void  {
     if (changes.eventId) {
       this.getDataQueryRef.refetch({ eventId: changes.eventId.currentValue });
     }

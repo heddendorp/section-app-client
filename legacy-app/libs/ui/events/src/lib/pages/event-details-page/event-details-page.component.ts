@@ -68,7 +68,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
     this.loadEventQueryRef.stopPolling();

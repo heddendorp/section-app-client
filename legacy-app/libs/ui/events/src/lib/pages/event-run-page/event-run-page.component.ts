@@ -39,7 +39,7 @@ export class EventRunPageComponent implements OnDestroy {
     this.loadEventQueryRef.startPolling(5000);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
     this.loadEventQueryRef.stopPolling();

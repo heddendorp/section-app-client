@@ -33,11 +33,11 @@ export class TenantActivityLogPageComponent implements OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.logsQueryRef.stopPolling();
   }
 
-  showDetails(log: GetLogsQuery['logs'][0]) {
+  showDetails(log: GetLogsQuery['logs'][0]): void  {
     this.dialog.open(ShowDataDialogComponent, { data: log });
   }
 }

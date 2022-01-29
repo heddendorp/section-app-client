@@ -82,7 +82,7 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
     return this.editForm.get('prices')?.get('options') as FormArray;
   }
 
-  addPrice() {
+  addPrice(): void  {
     this.prices.push(
       this.fb.group({
         amount: ['', Validators.required],
@@ -93,7 +93,7 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePrice(index: number) {
+  removePrice(index: number): void  {
     const priceToRemove = this.prices.at(index);
     if (priceToRemove?.get('defaultPrice')?.value) {
       return;
@@ -131,7 +131,7 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
@@ -188,7 +188,7 @@ export class ProductEditPageComponent implements OnInit, OnDestroy {
     this.loadProductRef.refetch();
   }
 
-  reloadProduct() {
+  reloadProduct(): void  {
     this.loadProductRef.refetch();
   }
 }

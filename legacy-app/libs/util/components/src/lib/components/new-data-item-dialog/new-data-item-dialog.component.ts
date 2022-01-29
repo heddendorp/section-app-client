@@ -54,15 +54,15 @@ export class NewDataItemDialogComponent implements OnDestroy {
     return this.form.get('data')?.get('choices') as FormArray;
   }
 
-  addChoice() {
+  addChoice(): void  {
     this.choices.push(this.fb.control('', Validators.required));
   }
 
-  removeChoice(index: number) {
+  removeChoice(index: number): void  {
     this.choices.removeAt(index);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }

@@ -31,7 +31,7 @@ export class NewUserPageComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void  {
     this.currentUser.fetch().subscribe(({ data }) => {
       if (data.currentUser) {
         this.router.navigate(['/', 'profile']);
@@ -39,7 +39,7 @@ export class NewUserPageComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  public onSubmit(): void  {
     if (this.welcomeForm.invalid) return;
     this.registerUser
       .mutate({ userInput: this.welcomeForm.value })

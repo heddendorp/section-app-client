@@ -62,7 +62,7 @@ export class EventListPageComponent implements OnDestroy {
     this.loadEventsQueryRef.startPolling(10000);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.loadEventsQueryRef.stopPolling();
     this.destroy$.next(true);
     this.destroy$.complete();

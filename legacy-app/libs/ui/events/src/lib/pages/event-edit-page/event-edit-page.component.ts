@@ -157,7 +157,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     return this.coreInformationForm.get('prices')?.get('options') as FormArray;
   }
 
-  addPrice() {
+  addPrice(): void  {
     this.prices.push(
       this.fb.group({
         amount: ['', Validators.required],
@@ -168,7 +168,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePrice(index: number) {
+  removePrice(index: number): void  {
     const priceToRemove = this.prices.at(index);
     if (priceToRemove?.get('defaultPrice')?.value) {
       return;

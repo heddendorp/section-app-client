@@ -140,7 +140,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
         this.scanner?.setCamera(camera);
       });
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.scanner?.stop();
     this.scanner?.destroy();
     this.loadEventQueryRef.stopPolling();
@@ -148,7 +148,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  showScanner() {
+  showScanner(): void  {
     this.hideScanner$.next(false);
     this.certificatePayload$.next(null);
   }

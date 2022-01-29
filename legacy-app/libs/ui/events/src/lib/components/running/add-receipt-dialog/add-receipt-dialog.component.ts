@@ -35,7 +35,7 @@ export class AddReceiptDialogComponent {
   }
 
   // Image Preview
-  showPreview(event: Event) {
+  showPreview(event: Event): void  {
     const target = event.target as HTMLInputElement;
     if (target && target.files) {
       const file = target.files[0];

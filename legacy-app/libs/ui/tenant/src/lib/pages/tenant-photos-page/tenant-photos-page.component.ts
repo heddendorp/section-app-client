@@ -29,7 +29,7 @@ export class TenantPhotosPageComponent implements OnDestroy {
     this.photosQueryRef.startPolling(5000);
   }
 
-  openPhoto(photo: unknown) {
+  openPhoto(photo: unknown): void  {
     this.dialog.open(PhotoDetailsDialogComponent, {
       data: { photo },
       maxHeight: '95vh',
@@ -38,7 +38,7 @@ export class TenantPhotosPageComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.photosQueryRef.stopPolling();
   }
 }

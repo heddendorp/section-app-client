@@ -29,7 +29,7 @@ export class CheckAdditionalDataComponent implements OnChanges {
   public SubmissionItemType = SubmissionItemType;
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void  {
     if (changes.event) {
       const event = changes.event.currentValue as LoadEventQuery['event'];
       if (event.activeRegistration) {

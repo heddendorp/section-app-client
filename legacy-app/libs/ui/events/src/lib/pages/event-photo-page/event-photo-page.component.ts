@@ -51,7 +51,7 @@ export class EventPhotoPageComponent implements OnDestroy {
         this.loadPhotosRef.refetch({ eventId: params.get('eventId') ?? '' })
       );
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
@@ -161,7 +161,7 @@ export class EventPhotoPageComponent implements OnDestroy {
     }
   }
 
-  openPhoto(photo: unknown) {
+  openPhoto(photo: unknown): void  {
     this.dialog.open(PhotoDetailsDialogComponent, {
       data: { photo },
       maxHeight: '95vh',

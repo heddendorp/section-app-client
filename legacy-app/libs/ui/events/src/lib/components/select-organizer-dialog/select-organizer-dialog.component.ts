@@ -47,12 +47,12 @@ export class SelectOrganizerDialogComponent implements OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
 
-  selectUser(ev: MatAutocompleteSelectedEvent) {
+  selectUser(ev: MatAutocompleteSelectedEvent): void  {
     this.dialog.close(ev.option.value);
   }
 }

@@ -51,7 +51,7 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     // });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.registrationsQueryRef.stopPolling();
   }
 }

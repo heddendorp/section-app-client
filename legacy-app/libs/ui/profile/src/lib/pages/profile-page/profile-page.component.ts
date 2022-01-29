@@ -57,7 +57,7 @@ export class ProfilePageComponent implements OnDestroy {
       }
     });
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.profileQueryRef.stopPolling();
   }
 
@@ -82,7 +82,7 @@ export class ProfilePageComponent implements OnDestroy {
     }
   }
 
-  claimEvent(code?: string) {
+  claimEvent(code?: string): void  {
     this.dialog.open(ClaimEventDialogComponent, { data: { code } });
   }
 }

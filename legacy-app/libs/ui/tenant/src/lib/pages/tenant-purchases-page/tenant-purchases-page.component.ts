@@ -31,7 +31,7 @@ export class TenantPurchasesPageComponent implements OnDestroy {
     this.loadPurchasesRef.startPolling(10000);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.loadPurchasesRef.stopPolling();
   }
 }

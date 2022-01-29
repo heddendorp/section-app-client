@@ -147,11 +147,11 @@ export class StripeRegistrationComponent implements OnChanges {
     this.processing.next(false);
   }
 
-  moveEvent() {
+  moveEvent(): void  {
     this.dialog.open(MoveEventDialogComponent, { data: { event: this.event } });
   }
 
-  registerAdditionalData($event: unknown) {
+  registerAdditionalData($event: unknown): void  {
     this.infoCollected$.next($event);
   }
 
