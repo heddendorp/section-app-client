@@ -103,7 +103,7 @@ export class ClaimEventDialogComponent {
     this.processing$.next(false);
   }
 
-  async openCheckout(checkoutSession: string = '') {
+  async openCheckout(checkoutSession = '') {
     const stripe = await loadStripe(environment.stripeKey);
     if (stripe) {
       stripe.redirectToCheckout({

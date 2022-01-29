@@ -20,7 +20,7 @@ export class PurchasesPageComponent {
     );
   }
 
-  async openPaymentSession(checkoutSession: string = '') {
+  async openPaymentSession(checkoutSession = '') {
     const stripe = await loadStripe(environment.stripeKey);
     if (stripe) {
       await stripe.redirectToCheckout({ sessionId: checkoutSession });
