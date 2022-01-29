@@ -151,7 +151,7 @@ export const createRegistrationCodeMutation = mutationField(
           where: { id: registrationId },
         });
         if (!registration) {
-          new ApolloError(
+          throw new ApolloError(
             'Registration could not be found for id ' + registrationId
           );
         }
