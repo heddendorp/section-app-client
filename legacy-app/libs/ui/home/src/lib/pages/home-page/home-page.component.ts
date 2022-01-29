@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GetHomePageDataGQL, GetHomePageDataQuery } from '@tumi/data-access';
 import { map, Observable } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { map, Observable } from 'rxjs';
 export class HomePageComponent {
   public events$: Observable<GetHomePageDataQuery['events']>;
   public loggedIn$: Observable<boolean>;
+
   constructor(private q: GetHomePageDataGQL) {
     this.events$ = this.q
       .watch()

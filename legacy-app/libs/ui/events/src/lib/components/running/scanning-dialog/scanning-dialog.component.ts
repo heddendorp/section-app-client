@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import QrScanner from 'qr-scanner';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   CheckInUserGQL,
   GetRegistrationGQL,
@@ -21,7 +21,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { addWarning } from '@angular-devkit/build-angular/src/utils/webpack-diagnostics';
 
 @Component({
   selector: 'tumi-scanning-dialog',
@@ -64,10 +63,11 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
       relativeFrom: string;
     };
   } | null>(null);
+  @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
   private scanner: QrScanner | undefined;
-  @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: string },
     private loadEvent: LoadEventForRunningGQL,
@@ -140,7 +140,8 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
         this.scanner?.setCamera(camera);
       });
   }
-  ngOnDestroy(): void  {
+
+  ngOnDestroy(): void {
     this.scanner?.stop();
     this.scanner?.destroy();
     this.loadEventQueryRef.stopPolling();
@@ -148,7 +149,7 @@ export class ScanningDialogComponent implements AfterViewInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  showScanner(): void  {
+  showScanner(): void {
     this.hideScanner$.next(false);
     this.certificatePayload$.next(null);
   }
