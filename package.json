@@ -1,0 +1,11 @@
+{
+  "name": "tumi",
+  "license": "MIT",
+  "private": true,
+  "version": "4.0.0",
+  "workspaces":[
+    "events",
+    "server",
+    "shared/*"
+  ]
+}
