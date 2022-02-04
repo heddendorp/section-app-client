@@ -35,7 +35,7 @@ jobs:
         with:
           push: true
           tags: esntumi.azurecr.io/events:${{ github.sha }}
-          file: events/Dockerfile
+          context: events
 
 
   deploy:
