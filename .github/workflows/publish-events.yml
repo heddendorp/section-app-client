@@ -1,4 +1,4 @@
-name: Docker
+name: Build Docker for Events
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -12,8 +12,12 @@ on:
     branches: [ main ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
+    paths:
+      - 'events/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'events/**'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -74,7 +78,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
+          context: events
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
