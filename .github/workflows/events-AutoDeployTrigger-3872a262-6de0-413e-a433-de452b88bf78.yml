@@ -1,4 +1,4 @@
-name: Trigger auto deployment for containerapps
+name: Trigger events deployment for containerapps
 
 # When this action will be executed
 on:
@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
-        with:
-          path: main
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
