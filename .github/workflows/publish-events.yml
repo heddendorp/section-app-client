@@ -6,6 +6,7 @@ name: Build Docker for Events
 # documentation.
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '43 11 * * *'
   push:
