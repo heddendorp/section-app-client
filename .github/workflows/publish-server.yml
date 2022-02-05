@@ -1,4 +1,4 @@
-name: Build Docker for Events
+name: Build Docker for Server
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -75,6 +75,12 @@ jobs:
 
       - name: Copy yarn.lock
         run: cp yarn.lock server/yarn.lock
+
+      - name: Copy .yarnrc.yml
+        run: cp .yarnrc.yml server/.yarnrc.yml
+
+      - name: Copy .yarn
+        run: cp -r .yarn server/.yarn
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
