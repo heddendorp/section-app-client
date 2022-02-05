@@ -4,7 +4,8 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package.json yarn.lock .yarnrc.yml .yarn ./
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn/
 
 RUN yarn
 RUN yarn global add @angular/cli
