@@ -3,9 +3,10 @@
   "license": "MIT",
   "private": true,
   "version": "4.0.0",
-  "workspaces":[
+  "workspaces": [
     "events",
     "server",
     "shared/*"
-  ]
+  ],
+  "packageManager": "yarn@3.1.1"
 }

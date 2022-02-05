@@ -2,5 +2,48 @@
   "name": "@tumi/server",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "start": "node dist/server",
+    "clean": "rimraf dist",
+    "build": "yarn clean && yarn generate && tsc",
+    "generate": "yarn generate:prisma && yarn generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema"
+  },
+  "dependencies": {
+    "@pathcheck/dcc-sdk": "^0.0.27",
+    "@prisma/client": "^3.9.1",
+    "apollo-server-core": "^3.6.2",
+    "apollo-server-express": "^3.6.2",
+    "express": "^4.17.2",
+    "express-jwt": "^6.1.0",
+    "got": "^12.0.1",
+    "graphql": "^15.8.0",
+    "graphql-scalars": "^1.14.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.5",
+    "lodash": "^4.17.21",
+    "luxon": "^2.3.0",
+    "nexus": "^1.2.0",
+    "nexus-prisma": "^0.35.0",
+    "node-fetch": "^3.2.0",
+    "stripe": "^8.202.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4",
+    "@types/express-jwt": "^6",
+    "@types/jsonwebtoken": "^8",
+    "@types/lodash": "^4",
+    "@types/luxon": "^2",
+    "@types/prettier": "^2",
+    "@types/rimraf": "^3",
+    "prettier": "^2.5.1",
+    "prisma": "^3.9.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
+  }
 }

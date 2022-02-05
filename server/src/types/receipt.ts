@@ -1,0 +1,70 @@
+import { inputObjectType, objectType } from 'nexus';
+import { Receipt } from 'nexus-prisma';
+import { ApolloError } from 'apollo-server-express';
+
+export const receiptType = objectType({
+  name: Receipt.$name,
+  description: Receipt.$description,
+  definition(t) {
+    t.field(Receipt.id);
+    t.field(Receipt.createdAt);
+    t.field({
+      ...Receipt.user,
+      resolve: (source, args, context) =>
+        context.prisma.user
+          .findUnique({ where: { id: source.userId } })
+          .then((res) => {
+            if (!res) {
+              throw new ApolloError('User not found');
+            }
+            return res;
+          }),
+    });
+    t.field(Receipt.userId);
+    t.field({
+      ...Receipt.costItem,
+      resolve: (source, args, context) =>
+        context.prisma.costItem
+          .findUnique({
+            where: { id: source.costItemId },
+          })
+          .then((res) => {
+            if (!res) {
+              throw new ApolloError('CostItem not found');
+            }
+            return res;
+          }),
+    });
+    t.field(Receipt.costItemId);
+    t.field(Receipt.amount);
+    t.field(Receipt.container);
+    t.field(Receipt.blob);
+    t.field(Receipt.preview);
+    t.field(Receipt.type);
+    t.field(Receipt.md5);
+    t.nonNull.string('url', {
+      resolve: (receipt) =>
+        `https://storetumi.blob.core.windows.net/tumi/${encodeURIComponent(
+          receipt.container
+        )}/${encodeURIComponent(receipt.blob).replace('.pdf', '.png')}`,
+    });
+    t.nonNull.string('originalUrl', {
+      resolve: (receipt) =>
+        `/storage/tumi/${encodeURIComponent(
+          receipt.container
+        )}/${encodeURIComponent(receipt.blob)}`,
+    });
+  },
+});
+
+export const createReceiptInputType = inputObjectType({
+  name: 'CreateReceiptInput',
+  definition(t) {
+    // t.field(Receipt.costItemId);
+    t.field(Receipt.amount);
+    t.field(Receipt.container);
+    t.field(Receipt.blob);
+    t.field(Receipt.type);
+    t.field(Receipt.md5);
+  },
+});
