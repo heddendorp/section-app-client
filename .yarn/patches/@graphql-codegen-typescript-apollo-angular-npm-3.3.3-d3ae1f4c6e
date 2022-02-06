@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index 914288ca81d9a30edf9b35ab9f728772c6bad27f..530fb4be6b667ba73b5f8ff9b3db149c6761b05a 100644
+--- a/index.js
++++ b/index.js
+@@ -210,7 +210,7 @@ class ApolloAngularVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
+     providedIn: ${this._providedIn(node)}
+   })
+   export class ${serviceName} extends Apollo.${operationType}<${operationResultType}, ${operationVariablesTypes}> {
+-    document = ${this._getDocumentNodeVariable(node, documentVariableName)};
++    override document = ${this._getDocumentNodeVariable(node, documentVariableName)};
+     ${this._namedClient(node)}
+     constructor(${this.dependencyInjections}) {
+       super(${this.dependencyInjectionArgs});

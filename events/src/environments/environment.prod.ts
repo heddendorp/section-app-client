@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  server:
+    'https://server.livelyflower-6110fd8c.westeurope.azurecontainerapps.io',
 };
