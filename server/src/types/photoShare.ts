@@ -8,9 +8,8 @@ import {
   queryField,
 } from 'nexus';
 import { PhotoShare } from 'nexus-prisma';
-import { ApolloError } from 'apollo-server-express';
 import { RegistrationStatus, Role } from '@prisma/client';
-import { assertWrappingType } from 'graphql';
+import { EnvelopError } from '@envelop/core';
 
 export const photoShare = objectType({
   name: PhotoShare.$name,
@@ -25,7 +24,7 @@ export const photoShare = objectType({
           .findUnique({ where: { id: source.eventId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Event not found', '404');
+              throw new EnvelopError('Event not found');
             }
             return res;
           }),
@@ -45,7 +44,7 @@ export const photoShare = objectType({
           .findUnique({ where: { id: source.creatorId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found', '404');
+              throw new EnvelopError('User not found');
             }
             return res;
           }),
@@ -88,7 +87,7 @@ export const getPhotoShareKey = queryField('photoShareKey', {
   type: nonNull('String'),
   resolve: (source, args, context) => {
     if (!context.assignment) {
-      throw new ApolloError('Only logged in users may retrieve the key');
+      throw new EnvelopError('Only logged in users may retrieve the key');
     }
     return process.env.PHOTO_SAS_TOKEN ?? '';
   },
@@ -98,7 +97,7 @@ export const getPhotosQuery = queryField('photos', {
   type: nonNull(list(nonNull(photoShare))),
   resolve: (source, args, context) => {
     if (!context.assignment || context.assignment.role !== 'ADMIN') {
-      throw new ApolloError('Only admins can load this list!');
+      throw new EnvelopError('Only admins can load this list!');
     }
     return context.prisma.photoShare.findMany();
   },
@@ -116,7 +115,7 @@ export const getPhotosOfEventQuery = queryField('photosOfEvent', {
       },
     });
     if (registrations === 0 && context.assignment?.role !== Role.ADMIN) {
-      throw new ApolloError(
+      throw new EnvelopError(
         'You can only see photos of events your are registered for!'
       );
     }

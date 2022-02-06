@@ -9,8 +9,8 @@ import {
 import { CostItem } from 'nexus-prisma';
 import { eventType } from './event';
 import { createReceiptInputType } from './receipt';
-import { PrismaClient, Role } from '@prisma/client';
-import { ApolloError } from 'apollo-server-express';
+import { Role } from '@prisma/client';
+import { EnvelopError } from '@envelop/core';
 
 export const costItemType = objectType({
   name: CostItem.$name,
@@ -67,7 +67,7 @@ export const getCostItemQuery = queryField('costItem', {
   resolve: (source, { id }, context) =>
     context.prisma.costItem.findUnique({ where: { id } }).then((res) => {
       if (!res) {
-        throw new ApolloError('Cost item not found');
+        throw new EnvelopError('Cost item not found');
       }
       return res;
     }),
@@ -110,7 +110,7 @@ export const deleteReceiptMutation = mutationField('deleteReceipt', {
       where: { id: receiptId },
     });
     if (role !== Role.ADMIN && receipt?.userId !== context.user?.id) {
-      throw new ApolloError(
+      throw new EnvelopError(
         'Only Admins can delete receipts not added by them.'
       );
     }
@@ -127,14 +127,14 @@ export const deleteCostItemMutation = mutationField('deleteCostItem', {
   resolve: async (source, { id }, context) => {
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN) {
-      throw new ApolloError('Only Admins can delete cost items');
+      throw new EnvelopError('Only Admins can delete cost items');
     }
     const item = await context.prisma.costItem.delete({ where: { id } });
     return context.prisma.tumiEvent
       .findUnique({ where: { id: item.eventId } })
       .then((res) => {
         if (!res) {
-          throw new ApolloError('Cost item not found');
+          throw new EnvelopError('Cost item not found');
         }
         return res;
       });

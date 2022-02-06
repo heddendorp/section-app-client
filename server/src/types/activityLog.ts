@@ -1,8 +1,8 @@
 import { list, nonNull, objectType, queryField } from 'nexus';
 
-import { ApolloError } from 'apollo-server-express';
 import { ActivityLog } from 'nexus-prisma';
 import { Role } from '@prisma/client';
+import { EnvelopError } from '@envelop/core';
 
 export const activityLogType = objectType({
   name: ActivityLog.$name,
@@ -31,7 +31,7 @@ export const getLogsQuery = queryField('logs', {
   resolve: (source, args, context) => {
     const role = context.assignment?.role ?? null;
     if (role !== Role.ADMIN) {
-      throw new ApolloError('Only Admins can read the logs.');
+      throw new EnvelopError('Only Admins can read the logs.');
     }
     return context.prisma.activityLog.findMany({
       orderBy: { createdAt: 'desc' },

@@ -10,11 +10,10 @@ import {
 } from 'nexus';
 import { EventSubmissionItem } from 'nexus-prisma';
 import { PurchaseStatus, Role } from '@prisma/client';
-import { ApolloError } from 'apollo-server-express';
 import { eventSubmissionType } from './eventSubmission';
 import { eventType } from './event';
-import { CacheScope } from 'apollo-server-types';
 import { countBy, toPairs } from 'lodash';
+import { EnvelopError } from '@envelop/core';
 
 export const eventSubmissionItemType = objectType({
   name: EventSubmissionItem.$name,
@@ -60,11 +59,11 @@ export const eventSubmissionItemType = objectType({
       name: 'responses',
       type: nonNull(list(nonNull('Json'))),
       args: { onlyWithPurchase: booleanArg({ default: false }) },
-      resolve: (source, { onlyWithPurchase }, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, { onlyWithPurchase }, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.eventSubmission
           .findMany({
             where: {
@@ -119,7 +118,7 @@ export const createSubmissionItemMutation = mutationField(
           });
           const { role } = context.assignment ?? {};
           if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-            throw new ApolloError(
+            throw new EnvelopError(
               'Only Admins can update events that they did not create'
             );
           }
@@ -133,7 +132,7 @@ export const createSubmissionItemMutation = mutationField(
         case 'product': {
           const { role } = context.assignment ?? {};
           if (role !== Role.ADMIN) {
-            throw new ApolloError('Only Admins can update products');
+            throw new EnvelopError('Only Admins can update products');
           }
           return context.prisma.eventSubmissionItem.create({
             data: {
@@ -143,7 +142,7 @@ export const createSubmissionItemMutation = mutationField(
           });
         }
         default:
-          throw new ApolloError('Invalid target');
+          throw new EnvelopError('Invalid target');
       }
     },
   }
@@ -159,7 +158,7 @@ export const removeSubmissionItemMutation = mutationField(
     resolve: async (source, { id }, context) => {
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN) {
-        throw new ApolloError('Only Admins can delete submission items');
+        throw new EnvelopError('Only Admins can delete submission items');
       }
       return context.prisma.eventSubmissionItem.delete({
         where: { id },
@@ -182,7 +181,7 @@ export const createSubmissionItemOnEventMutation = mutationField(
       });
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-        throw new ApolloError(
+        throw new EnvelopError(
           'Only Admins can update events that they did not create'
         );
       }

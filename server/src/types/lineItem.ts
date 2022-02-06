@@ -7,8 +7,7 @@ import {
   objectType,
 } from 'nexus';
 import { LineItem } from 'nexus-prisma';
-import { CacheScope } from 'apollo-server-types';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 export const lineItemType = objectType({
   name: LineItem.$name,
@@ -18,11 +17,11 @@ export const lineItemType = objectType({
     t.field(LineItem.cancellationReason);
     t.field({
       ...LineItem.cart,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Private,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Private,
+        // });
         if (!source.shoppingCartId) return null;
         return context.prisma.shoppingCart.findUnique({
           where: { id: source.shoppingCartId },
@@ -33,11 +32,11 @@ export const lineItemType = objectType({
     t.field(LineItem.pickupTime);
     t.field({
       ...LineItem.product,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.product
           .findUnique({
             where: {
@@ -46,7 +45,7 @@ export const lineItemType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Product not found', '404');
+              throw new EnvelopError('Product not found');
             }
             return res;
           });
@@ -59,11 +58,11 @@ export const lineItemType = objectType({
     t.field(LineItem.shoppingCartId);
     t.field({
       ...LineItem.submissions,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.lineItem
           .findUnique({
             where: {

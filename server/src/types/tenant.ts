@@ -9,7 +9,6 @@ import {
   queryField,
 } from 'nexus';
 import { statisticsType } from './statistics';
-import { CacheScope } from 'apollo-server-types';
 
 export const tenantType = objectType({
   name: Tenant.$name,
@@ -57,8 +56,8 @@ export const tenantQuery = extendType({
 
 export const currentTenantQuery = queryField('currentTenant', {
   type: tenantType,
-  resolve: (source, args, context, info) => {
-    info.cacheControl.setCacheHint({ maxAge: 300, scope: CacheScope.Public });
+  resolve: (source, args, context) => {
+    // info.cacheControl.setCacheHint({ maxAge: 300, scope: CacheScope.Public });
     return context.tenant;
   },
 });

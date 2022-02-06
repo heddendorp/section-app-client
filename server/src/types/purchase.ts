@@ -9,12 +9,11 @@ import {
   queryField,
 } from 'nexus';
 import { Purchase } from 'nexus-prisma';
-import { ApolloError } from 'apollo-server-express';
 import * as stripe from 'stripe';
 import { DateTime } from 'luxon';
-import { CacheScope } from 'apollo-server-types';
 import { MembershipStatus } from '@prisma/client';
 import { purchaseStatusEnum } from './enums';
+import { EnvelopError } from '@envelop/core';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripeClient: stripe.Stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -26,11 +25,11 @@ export const purchaseType = objectType({
     t.field(Purchase.createdAt);
     t.field({
       ...Purchase.items,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.purchase
           .findUnique({ where: { id: source.id } })
           .items();
@@ -38,17 +37,17 @@ export const purchaseType = objectType({
     });
     t.field({
       ...Purchase.user,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.purchase
           .findUnique({ where: { id: source.id } })
           .user()
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found');
+              throw new EnvelopError('User not found');
             }
             return res;
           });
@@ -59,17 +58,17 @@ export const purchaseType = objectType({
     t.field(Purchase.userId);
     t.field({
       ...Purchase.payment,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.purchase
           .findUnique({ where: { id: source.id } })
           .payment()
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Payment not found');
+              throw new EnvelopError('Payment not found');
             }
             return res;
           });
@@ -82,13 +81,13 @@ export const purchaseType = objectType({
 export const purchasesQuery = queryField('purchases', {
   type: nonNull(list(nonNull(purchaseType))),
   args: { limitToOwn: booleanArg({ default: true }) },
-  resolve: async (parent, { limitToOwn }, context, info) => {
-    info.cacheControl.setCacheHint({
-      maxAge: 10,
-      scope: CacheScope.Public,
-    });
+  resolve: async (parent, { limitToOwn }, context) => {
+    // info.cacheControl.setCacheHint({
+    //   maxAge: 10,
+    //   scope: CacheScope.Public,
+    // });
     if (!limitToOwn && context.assignment?.role !== 'ADMIN') {
-      throw new ApolloError(
+      throw new EnvelopError(
         'You are not allowed to view other users purchases'
       );
     }
@@ -109,13 +108,13 @@ export const purchasesQuery = queryField('purchases', {
 
 export const lmuPurchasesQuery = queryField('lmuPurchases', {
   type: nonNull(list(nonNull(purchaseType))),
-  resolve: async (parent, args, context, info) => {
-    info.cacheControl.setCacheHint({
-      maxAge: 10,
-      scope: CacheScope.Public,
-    });
+  resolve: async (parent, args, context) => {
+    // info.cacheControl.setCacheHint({
+    //   maxAge: 10,
+    //   scope: CacheScope.Public,
+    // });
     if (context.assignment?.role !== 'ADMIN') {
-      throw new ApolloError('You are not allowed to view these purchases');
+      throw new EnvelopError('You are not allowed to view these purchases');
     }
     return context.prisma.purchase.findMany({
       where: {
@@ -137,11 +136,11 @@ export const lmuPurchasesQuery = queryField('lmuPurchases', {
 export const purchaseQuery = queryField('purchase', {
   type: nonNull(purchaseType),
   args: { id: nonNull(idArg()) },
-  resolve: async (parent, { id }, context, info) => {
-    info.cacheControl.setCacheHint({
-      maxAge: 10,
-      scope: CacheScope.Public,
-    });
+  resolve: async (parent, { id }, context) => {
+    // info.cacheControl.setCacheHint({
+    //   maxAge: 10,
+    //   scope: CacheScope.Public,
+    // });
     return context.prisma.purchase
       .findUnique({
         where: {
@@ -150,7 +149,7 @@ export const purchaseQuery = queryField('purchase', {
       })
       .then((res) => {
         if (!res) {
-          throw new ApolloError('Purchase not found');
+          throw new EnvelopError('Purchase not found');
         }
         return res;
       });
@@ -204,8 +203,8 @@ export const updatePurchaseStatusMutation = mutationField(
       id: nonNull(idArg()),
       status: nonNull(arg({ type: purchaseStatusEnum })),
     },
-    resolve: async (source, { id, status }, context, info) => {
-      info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
+    resolve: async (source, { id, status }, context) => {
+      // info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
       return context.prisma.purchase.update({
         where: { id },
         data: {
@@ -231,7 +230,7 @@ export const createPurchaseFromCartMutation = mutationField(
         include: { items: { include: { product: true } } },
       });
       if (!cart) {
-        throw new ApolloError('Cart not found for current User');
+        throw new EnvelopError('Cart not found for current User');
       }
       let customerId;
       const userdata = await context.prisma.stripeUserData.findUnique({

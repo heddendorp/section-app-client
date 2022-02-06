@@ -12,8 +12,7 @@ import { EventRegistration } from 'nexus-prisma';
 import { RegistrationStatus } from '@prisma/client';
 import { registrationStatusEnum } from './enums';
 import { eventRegistrationCodeType } from './eventRegistrationCode';
-import { CacheScope } from 'apollo-server-types';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 export const eventRegistrationType = objectType({
   name: EventRegistration.$name,
@@ -29,7 +28,9 @@ export const eventRegistrationType = objectType({
           .findUnique({ where: { id: source.userId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found', '404');
+              throw new EnvelopError('User not found', {
+                code: 404,
+              });
             }
             return res;
           }),
@@ -42,7 +43,7 @@ export const eventRegistrationType = objectType({
           .findUnique({ where: { id: source.eventId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Event not found', '404');
+              throw new EnvelopError('Event not found');
             }
             return res;
           }),
@@ -50,11 +51,11 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.eventId);
     t.field({
       ...EventRegistration.payment,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         if (!source.paymentId) return null;
         return context.prisma.stripePayment.findUnique({
           where: { id: source.paymentId },
@@ -68,8 +69,8 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.cancellationReason);
     t.field({
       ...EventRegistration.submissions,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({ maxAge: 60 * 60 });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({ maxAge: 60 * 60 });
         return context.prisma.eventRegistration
           .findUnique({ where: { id: source.id } })
           .submissions();
@@ -78,11 +79,11 @@ export const eventRegistrationType = objectType({
     t.field({
       name: 'deletingCode',
       type: eventRegistrationCodeType,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.eventRegistrationCode.findUnique({
           where: { registrationToRemoveId: source.id },
         });
@@ -91,11 +92,11 @@ export const eventRegistrationType = objectType({
     t.field({
       name: 'creatingCode',
       type: eventRegistrationCodeType,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.eventRegistration
           .findUnique({ where: { id: source.id } })
           .eventRegistrationCode();
@@ -135,7 +136,9 @@ export const getOneRegistrationQuery = queryField('registration', {
       })
       .then((res) => {
         if (!res) {
-          throw new ApolloError('Registration not found', '404');
+          throw new EnvelopError('Registration not found', {
+            status: 404,
+          });
         }
         return res;
       }),

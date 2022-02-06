@@ -16,11 +16,10 @@ import {
   PurchaseStatus,
   Role,
 } from '@prisma/client';
-import { CacheScope } from 'apollo-server-types';
 import { productImageType } from './productImage';
 import { constant, countBy, flatten, times, toPairs } from 'lodash';
+import { EnvelopError } from '@envelop/core';
 import ProductWhereInput = Prisma.ProductWhereInput;
-import { ApolloError } from 'apollo-server-express';
 
 export const productType = objectType({
   name: Product.$name,
@@ -39,11 +38,11 @@ export const productType = objectType({
     t.field(Product.leadImageId);
     t.field({
       ...Product.images,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.product
           .findUnique({ where: { id: source.id } })
           .images();
@@ -57,18 +56,18 @@ export const productType = objectType({
           .findUnique({ where: { id: source.tenantId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Tenant not found', '404');
+              throw new EnvelopError('Tenant not found');
             }
             return res;
           }),
     });
     t.field({
       ...Product.submissionItems,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.product
           .findUnique({ where: { id: source.id } })
           .submissionItems();
@@ -77,11 +76,11 @@ export const productType = objectType({
     t.field({
       ...Product.lineItems,
       args: { onlyWithPurchase: booleanArg({ default: false }) },
-      resolve: (source, { onlyWithPurchase }, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, { onlyWithPurchase }, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.product
           .findUnique({ where: { id: source.id } })
           .lineItems(
@@ -115,11 +114,11 @@ export const productType = objectType({
     t.field({
       name: 'orderQuantity',
       type: nonNull('Int'),
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.lineItem
           .aggregate({
             where: {
@@ -138,11 +137,11 @@ export const productType = objectType({
     t.field({
       name: 'uniSplit',
       type: nonNull(list(nonNull('Json'))),
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.lineItem
           .findMany({
             where: {
@@ -178,11 +177,11 @@ export const productType = objectType({
     t.field({
       name: 'submissionOverview',
       type: list(nonNull('Json')),
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.lineItem
           .findMany({
             where: {
@@ -244,8 +243,8 @@ export const updateProductInputType = inputObjectType({
 export const getProductsQuery = queryField('products', {
   type: nonNull(list(nonNull(productType))),
   args: { onlyWithOrders: booleanArg({ default: false }) },
-  resolve: (source, { onlyWithOrders }, context, info) => {
-    info.cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
+  resolve: (source, { onlyWithOrders }, context) => {
+    // info.cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
     let where: ProductWhereInput;
     const { role, status } = context.assignment ?? {};
     if (!context.user) {
@@ -293,7 +292,7 @@ export const getProductQuery = queryField('product', {
       })
       .then((res) => {
         if (!res) {
-          throw new ApolloError('Product not found', '404');
+          throw new EnvelopError('Product not found');
         }
         return res;
       }),

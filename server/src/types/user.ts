@@ -11,7 +11,7 @@ import {
   queryField,
   stringArg,
 } from 'nexus';
-import { EventRegistration, MembershipStatus, Role, User } from 'nexus-prisma';
+import { MembershipStatus, Role, User } from 'nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
@@ -20,9 +20,7 @@ import {
   RegistrationStatus,
   RegistrationType,
 } from '@prisma/client';
-import { ApolloError } from 'apollo-server-express';
-import { CacheScope } from 'apollo-server-types';
-import { eventRegistrationCodeType } from './eventRegistrationCode';
+import { EnvelopError } from '@envelop/core';
 
 export const userType = objectType({
   name: User.$name,
@@ -56,11 +54,11 @@ export const userType = objectType({
     t.field({
       ...User.purchases,
       args: { skipCancelled: booleanArg({ default: false }) },
-      resolve: (source, { skipCancelled }, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Private,
-        });
+      resolve: (source, { skipCancelled }, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.user
           .findUnique({
             where: { id: source.id },
@@ -104,7 +102,7 @@ export const userType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found in tenant', 'NOT_FOUND');
+              throw new EnvelopError('User not found in tenant');
             }
             return res;
           });
@@ -194,7 +192,7 @@ export const updateEsnCardMutation = mutationField('updateESNcard', {
   args: { esnCardOverride: nonNull(booleanArg()), id: nonNull(idArg()) },
   resolve: (source, { esnCardOverride, id }, context) => {
     if (context.assignment?.role !== 'ADMIN') {
-      throw new ApolloError('Only admins can change this setting');
+      throw new EnvelopError('Only admins can change this setting');
     }
     return context.prisma.user.update({
       where: { id },
@@ -210,7 +208,7 @@ export const getById = queryField('userById', {
   },
   resolve: (parent, { id }, ctx) => {
     if (id !== ctx.user?.id && ctx.assignment?.role !== 'ADMIN') {
-      throw new ApolloError('Only admins can read the info of users');
+      throw new EnvelopError('Only admins can read the info of users');
     }
     return ctx.prisma.user.findUnique({
       where: { id },
@@ -223,7 +221,7 @@ export const getCurrent = queryField('currentUser', {
   description: 'Returns the logged in user if found or null',
   resolve: async (source, args, context) => {
     if (!context.user) {
-      throw new ApolloError('Not logged in');
+      throw new EnvelopError('Not logged in');
     }
     return context.user;
   },
@@ -249,7 +247,7 @@ export const listUsersQuery = queryField('users', {
     context
   ) => {
     if (context.assignment?.role != 'ADMIN') {
-      throw new ApolloError('Only admins can read the list of users');
+      throw new EnvelopError('Only admins can read the list of users');
     }
     const OR: any[] = [];
     let page = {};
@@ -351,7 +349,7 @@ export const verifyUserEmailMutation = mutationField('verifyEmail', {
       where: { id: userId },
     });
     if (!user) {
-      throw new ApolloError('User not found');
+      throw new EnvelopError('User not found');
     }
     // await context.auth0.verifyEmail(user.authId);
     return user;
@@ -368,7 +366,7 @@ export const updateUserStatusMutation = mutationField('updateUserStatus', {
   resolve: (source, { userId, status }, context) => {
     const { role } = context.assignment ?? {};
     if (role !== 'ADMIN') {
-      throw new ApolloError('Only Admins can change the status');
+      throw new EnvelopError('Only Admins can change the status');
     }
     return context.prisma.user.update({
       where: {

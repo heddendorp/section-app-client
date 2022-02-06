@@ -9,12 +9,11 @@ import {
   queryField,
 } from 'nexus';
 import { EventRegistrationCode } from 'nexus-prisma';
-import { CacheScope } from 'apollo-server-types';
 import { RegistrationMode, Role } from '@prisma/client';
-import { ApolloError } from 'apollo-server-express';
 import { RegistrationService } from '../helpers/registrationService';
 import { eventRegistrationType } from './eventRegistration';
 import { userType } from './user';
+import { EnvelopError } from '@envelop/core';
 
 export const eventRegistrationCodeType = objectType({
   name: EventRegistrationCode.$name,
@@ -26,17 +25,17 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.registrationCreatedId);
     t.field({
       ...EventRegistrationCode.targetEvent,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.tumiEvent
           .findUnique({
             where: { id: source.eventId },
           })
           .then((res) => {
-            if (!res) throw new ApolloError('Event not found');
+            if (!res) throw new EnvelopError('Event not found');
             return res;
           });
       },
@@ -47,11 +46,11 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.sepaAllowed);
     t.field({
       ...EventRegistrationCode.connectedRegistrations,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.eventRegistrationCode
           .findUnique({ where: { id: source.id } })
           .connectedRegistrations({ orderBy: { createdAt: 'desc' } });
@@ -60,11 +59,11 @@ export const eventRegistrationCodeType = objectType({
     t.field({
       name: 'registrationToRemove',
       type: eventRegistrationType,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         if (!source.registrationToRemoveId) return null;
         return context.prisma.eventRegistration.findUnique({
           where: { id: source.registrationToRemoveId },
@@ -74,11 +73,11 @@ export const eventRegistrationCodeType = objectType({
     t.field({
       name: 'registrationCreated',
       type: eventRegistrationType,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Public,
+        // });
         if (!source.registrationCreatedId) return null;
         return context.prisma.eventRegistration.findUnique({
           where: { id: source.registrationCreatedId },
@@ -88,17 +87,17 @@ export const eventRegistrationCodeType = objectType({
     t.field({
       name: 'creator',
       type: nonNull(userType),
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 60,
-          scope: CacheScope.Public,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 60,
+        //   scope: CacheScope.Public,
+        // });
         return context.prisma.user
           .findUnique({
             where: { id: source.createdById },
           })
           .then((res) => {
-            if (!res) throw new ApolloError('User not found');
+            if (!res) throw new EnvelopError('User not found');
             return res;
           });
       },
@@ -109,8 +108,8 @@ export const eventRegistrationCodeType = objectType({
 export const getListQuery = queryField('eventRegistrationCodes', {
   type: nonNull(list(nonNull(eventRegistrationCodeType))),
   args: { includePrivate: booleanArg({ default: false }) },
-  resolve: (source, { includePrivate }, context, info) => {
-    info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+  resolve: (source, { includePrivate }, context) => {
+    // info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
     return context.prisma.eventRegistrationCode.findMany({
       where: {
         ...(includePrivate ? {} : { isPublic: true }),
@@ -123,8 +122,8 @@ export const getListQuery = queryField('eventRegistrationCodes', {
 export const getOneQuery = queryField('eventRegistrationCode', {
   type: eventRegistrationCodeType,
   args: { id: nonNull(idArg()) },
-  resolve: (source, { id }, context, info) => {
-    info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+  resolve: (source, { id }, context) => {
+    // info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
     return context.prisma.eventRegistrationCode.findUnique({ where: { id } });
   },
 });
@@ -147,12 +146,12 @@ export const createRegistrationCodeMutation = mutationField(
       const { role } = context.assignment ?? {};
       let registrationCode;
       if (sepaAllowed && role !== Role.ADMIN) {
-        throw new ApolloError(
+        throw new EnvelopError(
           'Only Admins can generate registration codes with SEPA payments!'
         );
       }
       if (!registrationId && role !== Role.ADMIN) {
-        throw new ApolloError(
+        throw new EnvelopError(
           'Only Admins can generate registration codes for new registrations!'
         );
       } else if (registrationId) {
@@ -160,7 +159,7 @@ export const createRegistrationCodeMutation = mutationField(
           where: { id: registrationId },
         });
         if (!registration) {
-          throw new ApolloError(
+          throw new EnvelopError(
             'Registration could not be found for id ' + registrationId
           );
         }
@@ -200,7 +199,7 @@ export const useRegistrationCodeMutation = mutationField(
           include: { targetEvent: true },
         });
       if (!registrationCode) {
-        throw new ApolloError(
+        throw new EnvelopError(
           'Registration code could not be found for: ' + id
         );
       }
@@ -215,7 +214,7 @@ export const useRegistrationCodeMutation = mutationField(
         // );
         const priceAllowed = true;
         if (!priceAllowed) {
-          throw new ApolloError('Price received is not valid in this context');
+          throw new EnvelopError('Price received is not valid in this context');
         }
       }
       const baseUrl = process.env.DEV

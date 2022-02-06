@@ -7,8 +7,8 @@ import {
   queryField,
 } from 'nexus';
 import { ProductImage } from 'nexus-prisma';
-import { ApolloError } from 'apollo-server-express';
 import { Role } from '@prisma/client';
+import { EnvelopError } from '@envelop/core';
 
 export const productImageType = objectType({
   name: ProductImage.$name,
@@ -23,7 +23,7 @@ export const productImageType = objectType({
           .findUnique({ where: { id: source.productId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Product not found', '404');
+              throw new EnvelopError('Product not found');
             }
             return res;
           }),
@@ -41,7 +41,7 @@ export const productImageType = objectType({
           .findUnique({ where: { id: source.creatorId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found', '404');
+              throw new EnvelopError('User not found');
             }
             return res;
           }),
@@ -82,7 +82,7 @@ export const getProductImageKey = queryField('productImageKey', {
   type: nonNull('String'),
   resolve: (source, args, context) => {
     if (context.assignment?.role !== Role.ADMIN) {
-      throw new ApolloError('Only admins may retrieve the key');
+      throw new EnvelopError('Only admins may retrieve the key');
     }
     return process.env.PRODUCT_SAS_TOKEN ?? '';
   },
@@ -95,7 +95,7 @@ export const deleteProductImageMutation = mutationField('deleteProductImage', {
   },
   resolve: (source, { id }, context) => {
     if (context.assignment?.role !== Role.ADMIN) {
-      throw new ApolloError('Only admins may delete product images');
+      throw new EnvelopError('Only admins may delete product images');
     }
     return context.prisma.productImage.delete({
       where: { id },

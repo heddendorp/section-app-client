@@ -8,7 +8,7 @@ import {
 } from 'nexus';
 import { EventOrganizer } from 'nexus-prisma';
 import { Role } from '@prisma/client';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 export const organizerType = objectType({
   name: EventOrganizer.$name,
@@ -44,7 +44,7 @@ export const createOrganizerMutation = mutationField('createEventOrganizer', {
   resolve: (source, { newOrganizerInput }, context) => {
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN) {
-      throw new ApolloError('Only Admins can create event organizers');
+      throw new EnvelopError('Only Admins can create event organizers');
     }
     return context.prisma.eventOrganizer.create({
       data: {

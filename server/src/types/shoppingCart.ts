@@ -1,6 +1,5 @@
 import { objectType } from 'nexus';
 import { ShoppingCart } from 'nexus-prisma';
-import { CacheScope } from 'apollo-server-types';
 
 export const shoppingCartType = objectType({
   name: ShoppingCart.$name,
@@ -9,11 +8,11 @@ export const shoppingCartType = objectType({
     t.field(ShoppingCart.createdAt);
     t.field({
       ...ShoppingCart.items,
-      resolve: (source, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Private,
-        });
+      resolve: (source, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 10,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.shoppingCart
           .findUnique({
             where: {

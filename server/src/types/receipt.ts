@@ -1,6 +1,6 @@
 import { inputObjectType, objectType } from 'nexus';
 import { Receipt } from 'nexus-prisma';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 export const receiptType = objectType({
   name: Receipt.$name,
@@ -15,7 +15,7 @@ export const receiptType = objectType({
           .findUnique({ where: { id: source.userId } })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('User not found');
+              throw new EnvelopError('User not found');
             }
             return res;
           }),
@@ -30,7 +30,7 @@ export const receiptType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('CostItem not found');
+              throw new EnvelopError('CostItem not found');
             }
             return res;
           }),

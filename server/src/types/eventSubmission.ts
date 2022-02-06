@@ -1,6 +1,6 @@
 import { objectType } from 'nexus';
 import { EventSubmission } from 'nexus-prisma';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 export const eventSubmissionType = objectType({
   name: EventSubmission.$name,
@@ -25,7 +25,7 @@ export const eventSubmissionType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('Submission item not found');
+              throw new EnvelopError('Submission item not found');
             }
             return res;
           }),

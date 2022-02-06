@@ -2,8 +2,7 @@ import { list, nonNull, objectType } from 'nexus';
 import { RegistrationMode, Tenant } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { countBy, groupBy, range, transform } from 'lodash';
-import { CacheScope } from 'apollo-server-types';
-import { ApolloError } from 'apollo-server-express';
+import { EnvelopError } from '@envelop/core';
 
 function convertToSeries(growthName) {
   return (connections) => {
@@ -45,7 +44,7 @@ export const statisticsType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new ApolloError('No users registered');
+              throw new EnvelopError('No users registered');
             }
             return res;
           }),
@@ -88,11 +87,11 @@ export const statisticsType = objectType({
         }),
     });
     t.nonNull.int('usersRegisteredEvents', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.user.count({
           where: {
             eventRegistrations: {
@@ -115,11 +114,11 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('usersRegisteredFreeEvents', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.user.count({
           where: {
             eventRegistrations: {
@@ -143,11 +142,11 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('usersRegisteredPaidEvents', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.user.count({
           where: {
             eventRegistrations: {
@@ -171,11 +170,11 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('paidRegistrations', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.eventRegistration.count({
           where: {
             event: {
@@ -226,11 +225,11 @@ export const statisticsType = objectType({
     //   },
     // });
     t.nonNull.int('checkins', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.eventRegistration.count({
           where: {
             checkInTime: { not: null },
@@ -239,11 +238,11 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('totalEvents', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.tumiEvent.count({
           where: {
             registrationMode: { not: RegistrationMode.EXTERNAL },
@@ -252,11 +251,11 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('paidEvents', {
-      resolve: (root, args, context, info) => {
-        info.cacheControl.setCacheHint({
-          maxAge: 120,
-          scope: CacheScope.Private,
-        });
+      resolve: (root, args, context) => {
+        // info.cacheControl.setCacheHint({
+        //   maxAge: 120,
+        //   scope: CacheScope.Private,
+        // });
         return context.prisma.tumiEvent.count({
           where: {
             registrationMode: RegistrationMode.STRIPE,
