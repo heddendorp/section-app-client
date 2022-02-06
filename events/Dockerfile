@@ -8,12 +8,11 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn/
 
 RUN yarn
-RUN yarn global add @angular/cli
 COPY . ./
 # If you are building your code for production
 # RUN npm ci --only=production
-RUN ng build
-RUN ng run tumi-events:server
+RUN yarn dlx @angular/cli build
+RUN yarn dlx @angular/cli run tumi-events:server
 
 FROM node:16
 WORKDIR /root/

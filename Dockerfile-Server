@@ -4,15 +4,15 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY server/package.json package.json yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn/
 
-RUN yarn
+RUN yarn workspace @tumi/server install
 RUN #yarn global add @angular/cli
-COPY . ./
+COPY server server/
 # If you are building your code for production
 # RUN npm ci --only=production
-RUN yarn build
+RUN yarn workspace @tumi/server build
 RUN #ng run tumi-events:server
 
 #FROM node:16
@@ -20,4 +20,4 @@ RUN #ng run tumi-events:server
 # Bundle app source
 #COPY --from=builder /usr/src/app/dist dist
 EXPOSE 3333
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "workspace", "@tumi/server", "start" ]
