@@ -83,6 +83,7 @@ prisma.$use(async (params, next) => {
 
 Sentry.init({
   dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
+  environment: process.env.NODE_ENV ?? 'development',
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),

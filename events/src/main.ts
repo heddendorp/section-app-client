@@ -11,6 +11,7 @@ if (environment.production) {
 
 Sentry.init({
   dsn: 'https://9ca284182b304514a87e6a8d1e9c23d2@o541164.ingest.sentry.io/6188986',
+  environment: environment.production ? 'production' : 'development',
   integrations: [
     new BrowserTracing({
       tracingOrigins: ['localhost', environment.server],
