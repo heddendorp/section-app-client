@@ -22,4 +22,3 @@ RUN yarn workspace @tumi/server build
 #COPY --from=builder /usr/src/app/dist dist
 EXPOSE 3333
 CMD [ "yarn", "workspace", "@tumi/server", "start" ]
-s
