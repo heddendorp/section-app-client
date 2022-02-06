@@ -1,6 +1,5 @@
 import * as DCC from '@pathcheck/dcc-sdk';
 import { mutationField, nonNull, stringArg } from 'nexus';
-import { CacheScope } from 'apollo-server-types';
 import { DateTime } from 'luxon';
 
 const CWT_ISSUER = 1;
@@ -13,8 +12,8 @@ const CWT_ISSUED_AT = 6;
 export const verifyDCCMutation = mutationField('verifyDCC', {
   type: 'Json',
   args: { certificate: nonNull(stringArg()) },
-  resolve: async (source, { certificate }, context, info) => {
-    info.cacheControl.setCacheHint({ maxAge: 600, scope: CacheScope.Private });
+  resolve: async (source, { certificate }) => {
+    // info.cacheControl.setCacheHint({ maxAge: 600, scope: CacheScope.Private });
 
     const cwt = await DCC.unpackAndVerify(certificate);
 
