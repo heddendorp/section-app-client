@@ -19,6 +19,7 @@ import { useSentry } from '@envelop/sentry';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import { PrismaClient } from '@prisma/client';
+import { getCurrentHub } from '@sentry/node';
 
 declare global {
   namespace Express {
@@ -48,6 +49,36 @@ declare global {
 
 const app = express();
 const prisma = new PrismaClient();
+prisma.$use(async (params, next) => {
+  const { model, action, runInTransaction, args } = params;
+  const description = [model, action].filter(Boolean).join('.');
+  const data = {
+    model,
+    action,
+    runInTransaction,
+    args,
+  };
+
+  const scope = getCurrentHub().getScope();
+  const parentSpan = scope?.getSpan();
+  const span = parentSpan?.startChild({
+    op: 'db',
+    description,
+    data,
+  });
+
+  // optional but nice
+  scope?.addBreadcrumb({
+    category: 'db',
+    message: description,
+    data,
+  });
+
+  const result = await next(params);
+  span?.finish();
+
+  return result;
+});
 
 Sentry.init({
   dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
@@ -83,12 +114,14 @@ const getEnveloped = envelop({
     }),
     useExtendContext(async (context) => {
       if (context.token) {
+        const user = await context.prisma.user.findUnique({
+          where: {
+            authId: context.token.sub,
+          },
+        });
+        Sentry.setUser({ email: user.email, id: user.id });
         return {
-          user: context.prisma.user.findUnique({
-            where: {
-              authId: context.token.sub,
-            },
-          }),
+          user,
         };
       }
     }),
