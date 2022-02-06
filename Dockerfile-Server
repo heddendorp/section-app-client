@@ -13,7 +13,7 @@ RUN #yarn global add @angular/cli
 COPY server server/
 # If you are building your code for production
 # RUN npm ci --only=production
-RUN DATABASE_URL=${DATABASE_URL}
+ARG DATABASE_URL=${DATABASE_URL:-""}
 RUN yarn workspace @tumi/server build
 #RUN ng run tumi-events:server
 
