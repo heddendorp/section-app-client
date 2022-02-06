@@ -20,6 +20,7 @@ import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import { PrismaClient } from '@prisma/client';
 import { getCurrentHub } from '@sentry/node';
+import cors from 'cors';
 
 declare global {
   namespace Express {
@@ -94,13 +95,14 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });
+app.use(cors());
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 const getEnveloped = envelop({
   plugins: [
     useSchema(schema),
     // useLogger(),
-    useTiming(),
+    // useTiming(),
     useSentry(),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
