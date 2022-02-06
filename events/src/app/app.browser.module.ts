@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import * as Sentry from '@sentry/angular';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { UniversalModule } from '@ng-web-apis/universal';
 import { AuthModule } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -26,5 +27,25 @@ import { AuthModule } from '@auth0/auth0-angular';
     }),
   ],
   bootstrap: [AppComponent],
+  providers: [
+    environment.production
+      ? {
+          provide: ErrorHandler,
+          useValue: Sentry.createErrorHandler({
+            showDialog: true,
+          }),
+        }
+      : [],
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+  ],
 })
 export class AppBrowserModuleModule {}

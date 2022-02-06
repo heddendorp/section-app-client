@@ -3014,6 +3014,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/angular@npm:^6.17.4":
+  version: 6.17.4
+  resolution: "@sentry/angular@npm:6.17.4"
+  dependencies:
+    "@sentry/browser": 6.17.4
+    "@sentry/types": 6.17.4
+    "@sentry/utils": 6.17.4
+    rxjs: ^6.6.0
+    tslib: ^1.9.3
+  peerDependencies:
+    "@angular/common": 10.x || 11.x || 12.x || 13.x
+    "@angular/core": 10.x || 11.x || 12.x || 13.x
+    "@angular/router": 10.x || 11.x || 12.x || 13.x
+  checksum: fd54ea3f31547760d303c5080bd37642714b9d3bb76ab2967e396efe5ee4a2fce37943832dd4be7c4bb2041e86629aa16e406fd2933f3239f1fbaee0035b6a47
+  languageName: node
+  linkType: hard
+
+"@sentry/browser@npm:6.17.4":
+  version: 6.17.4
+  resolution: "@sentry/browser@npm:6.17.4"
+  dependencies:
+    "@sentry/core": 6.17.4
+    "@sentry/types": 6.17.4
+    "@sentry/utils": 6.17.4
+    tslib: ^1.9.3
+  checksum: cbc780efc5c897854f40911b8bd79e66f33ec604d08600def8100e621e2354f4786d7e18411a752ce58dcaa83345965f60f8776a364e5c086f12fda171618f07
+  languageName: node
+  linkType: hard
+
 "@sentry/core@npm:6.17.4":
   version: 6.17.4
   resolution: "@sentry/core@npm:6.17.4"
@@ -3210,6 +3239,8 @@ __metadata:
     "@ng-web-apis/universal": ^2.0.0
     "@nguniversal/builders": ^13.0.2
     "@nguniversal/express-engine": 13.0.2
+    "@sentry/angular": ^6.17.4
+    "@sentry/tracing": ^6.17.4
     "@types/express": ^4.17.0
     "@types/jasmine": ~3.10.0
     "@types/node": ^12.11.1
@@ -12769,7 +12800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:6.6.7, rxjs@npm:^6.3.3, rxjs@npm:^6.5.4, rxjs@npm:^6.5.5, rxjs@npm:^6.6.3":
+"rxjs@npm:6.6.7, rxjs@npm:^6.3.3, rxjs@npm:^6.5.4, rxjs@npm:^6.5.5, rxjs@npm:^6.6.0, rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
