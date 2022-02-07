@@ -1,0 +1,16 @@
+version = 1
+
+test_patterns = ["events/**/*.spec.ts"]
+
+exclude_patterns = ["events/app/generated/**"]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["angular"]
+
+[[transformers]]
+name = "prettier"
+enabled = true
