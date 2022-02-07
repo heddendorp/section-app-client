@@ -17,8 +17,16 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
-  { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule) },
-  { path: 'members', loadChildren: () => import('./modules/members/members.module').then(m => m.MembersModule) },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'members',
+    loadChildren: () =>
+      import('./modules/members/members.module').then((m) => m.MembersModule),
+  },
 ];
 
 @NgModule({
