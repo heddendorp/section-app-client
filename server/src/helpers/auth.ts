@@ -1,6 +1,6 @@
-import jwt from "express-jwt";
-import * as jwksRsa from "jwks-rsa";
-import { PrismaClient, User } from "@prisma/client";
+import jwt from 'express-jwt';
+import * as jwksRsa from 'jwks-rsa';
+import { PrismaClient, User } from '@prisma/client';
 
 // UiAuthorization middleware. When used, the
 // Access Token must exist and be verified against
@@ -17,11 +17,11 @@ export const checkJwt = jwt({
   }),
 
   // Validate the audience and the issuer.
-  audience: "esn.events",
+  audience: 'esn.events',
   issuer: [`https://tumi.eu.auth0.com/`],
-  algorithms: ["RS256"],
+  algorithms: ['RS256'],
   credentialsRequired: false,
-  property: "token",
+  property: 'token',
 });
 
 export const getUser =

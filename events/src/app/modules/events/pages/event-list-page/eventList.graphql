@@ -1,4 +1,4 @@
-query getEventList{
+query getEventList {
   events {
     id
     title
