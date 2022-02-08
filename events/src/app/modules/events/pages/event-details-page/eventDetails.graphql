@@ -1,0 +1,9 @@
+query getEventDetails($id: ID!) {
+  event(eventId: $id){
+    id
+    title
+    description
+    location
+    icon
+  }
+}

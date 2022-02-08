@@ -40,10 +40,17 @@ $tumi-events-theme: mat.define-light-theme(
 // that you are using.
 @include mat.all-component-themes($tumi-events-theme);
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+  }
+  markdown {
+    img {
+      @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
+    }
+  }
 }

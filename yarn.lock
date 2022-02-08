@@ -3246,6 +3246,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tailwindcss/typography@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@tailwindcss/typography@npm:0.5.1"
+  dependencies:
+    lodash.castarray: ^4.4.0
+    lodash.isplainobject: ^4.0.6
+    lodash.merge: ^4.6.2
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: 894bab9a14a5bc4071573618ca9fd6b5bbe53e3c26af8aa1de440b8be59a63cf105f9fb1b12611bf446b4b054c6a48e8ff5c7c85ff233c5f78d70ffb7e53b5d9
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -3325,6 +3338,7 @@ __metadata:
     "@sentry/angular": ^6.17.4
     "@sentry/node": ^6.17.5
     "@sentry/tracing": ^6.17.5
+    "@tailwindcss/typography": ^0.5.1
     "@types/compression": ^1
     "@types/express": ^4.17.0
     "@types/jasmine": ~3.10.0
@@ -3345,6 +3359,7 @@ __metadata:
     karma-coverage: ~2.1.0
     karma-jasmine: ~4.0.0
     karma-jasmine-html-reporter: ~1.7.0
+    ngx-markdown: ^13.1.0
     postcss: ^8.4.6
     prettier: ^2.5.1
     prettier-plugin-tailwindcss: ^0.1.5
@@ -3667,6 +3682,13 @@ __metadata:
   version: 2.0.9
   resolution: "@types/luxon@npm:2.0.9"
   checksum: 6c99741e1735aca5b784981ecec3a6ad9497b8e46cc3dd0ba625901bb5b34af4c7b1bf33e32b3e8468312ce2850b31f553f712283a8301a0ee1aacb633276738
+  languageName: node
+  linkType: hard
+
+"@types/marked@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@types/marked@npm:4.0.2"
+  checksum: 61d7f47b2b9924a63600f975ae0417894d0b5e009d8d75d165ace563ec3b0e56205e66df08bc68017a530315289b491f2626e3e0b8e33ac08aec474b1944f0e8
   languageName: node
   linkType: hard
 
@@ -5619,6 +5641,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^8.0.0":
+  version: 8.3.0
+  resolution: "commander@npm:8.3.0"
+  checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
+  languageName: node
+  linkType: hard
+
 "common-tags@npm:1.8.2, common-tags@npm:^1.8.0":
   version: 1.8.2
   resolution: "common-tags@npm:1.8.2"
@@ -6694,6 +6723,13 @@ __metadata:
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
   checksum: d4c5c39d5a9868b5fa152f00cada8a936868fd3367f33f71be515ecee4c803132d11b31a6222b2571b1e5f7e13890156a94880345594d0ce7e3c9895f560f192
+  languageName: node
+  linkType: hard
+
+"emoji-toolkit@npm:^6.6.0":
+  version: 6.6.0
+  resolution: "emoji-toolkit@npm:6.6.0"
+  checksum: 8f7a7216626d5d5cdb0505906dfd44cbe65cee76c8a9a15a3dfc20736fe98f457db23874376ec6e643da93fcb83a6c9dbc58cae76d24fb77e76dd87f06991ce2
   languageName: node
   linkType: hard
 
@@ -9686,6 +9722,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"katex@npm:^0.15.1":
+  version: 0.15.2
+  resolution: "katex@npm:0.15.2"
+  dependencies:
+    commander: ^8.0.0
+  bin:
+    katex: cli.js
+  checksum: fbbe88a024aa26880cc4bba66ec1dbf9d2c895c568e05e3c8f7b8e4ffda5b69d86b0ee09d355bbe766207056dbf564e02e291260fba038fe3b622326c1a8acac
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^3.0.0":
   version: 3.1.0
   resolution: "keyv@npm:3.1.0"
@@ -9965,6 +10012,13 @@ __metadata:
   dependencies:
     p-locate: ^5.0.0
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash.castarray@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.castarray@npm:4.4.0"
+  checksum: fca8c7047e0ae2738b0b2503fb00157ae0ff6d8a1b716f87ed715b22560e09de438c75b65e01a7e44ceb41c5b31dce2eb576e46db04beb9c699c498e03cbd00f
   languageName: node
   linkType: hard
 
@@ -10296,6 +10350,15 @@ __metadata:
   version: 0.2.2
   resolution: "map-cache@npm:0.2.2"
   checksum: 3067cea54285c43848bb4539f978a15dedc63c03022abeec6ef05c8cb6829f920f13b94bcaf04142fc6a088318e564c4785704072910d120d55dbc2e0c421969
+  languageName: node
+  linkType: hard
+
+"marked@npm:^4.0.10":
+  version: 4.0.12
+  resolution: "marked@npm:4.0.12"
+  bin:
+    marked: bin/marked.js
+  checksum: 7575117f85a8986652f3ac8b8a7b95056c4c5fce01a1fc76dc4c7960412cb4c9bd9da8133487159b6b3ff84f52b543dfe9a36f826a5f358892b5ec4b6824f192
   languageName: node
   linkType: hard
 
@@ -10716,6 +10779,26 @@ __metadata:
   peerDependencies:
     graphql: ^14.5.8 || 15.x
   checksum: 0daae381c6db2410359e68d6d3d6141467625d3757c20954f435c66c28e7bd800f65631ff2fd52598b6a01ce1fa98cb0663d736139140fef8d93bd8b1fa73d0b
+  languageName: node
+  linkType: hard
+
+"ngx-markdown@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "ngx-markdown@npm:13.1.0"
+  dependencies:
+    "@types/marked": ^4.0.2
+    emoji-toolkit: ^6.6.0
+    katex: ^0.15.1
+    marked: ^4.0.10
+    prismjs: ^1.25.0
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^13.0.0
+    "@angular/core": ^13.0.0
+    "@angular/platform-browser": ^13.0.0
+    rxjs: ^6.5.3 || ^7.4.0
+    zone.js: ^0.11.4
+  checksum: b70e3aaa7c88ffdc4e2bd6721b95ceb2f4c05e50bc71d4a764fa13bb044ae963993db17a97e9fb15ac5770ea65b49c6af02645b3bb510ffb42187581d71cf1a1
   languageName: node
   linkType: hard
 
@@ -12224,6 +12307,13 @@ __metadata:
     prisma: build/index.js
     prisma2: build/index.js
   checksum: c6feb7d0eb21bbf92d411dac0c39b7dd416840b305c180a1cf3a3699b0887160a4e9ca4a50bb4e5e255e80707b5f03643cc4a91590dc4852200b8e6e6570b5fd
+  languageName: node
+  linkType: hard
+
+"prismjs@npm:^1.25.0":
+  version: 1.26.0
+  resolution: "prismjs@npm:1.26.0"
+  checksum: 6de058930ce767d44d60322e625bbc255f5107c7bf82c441ade19a289358e01e35040cea0c17adf8f7b829f17aa48e2d84b40866b5b3f8c75a12c6b3f0ead231
   languageName: node
   linkType: hard
 

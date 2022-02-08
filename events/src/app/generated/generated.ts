@@ -1148,6 +1148,22 @@ export type UserHistoryItem = {
   series: Array<LineChartSeriesItem>;
 };
 
+export type GetEventDetailsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetEventDetailsQuery = {
+  __typename?: 'Query';
+  event: {
+    __typename?: 'TumiEvent';
+    id: string;
+    title: string;
+    description: string;
+    location: string;
+    icon: string;
+  };
+};
+
 export type GetEventListQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetEventListQuery = {
@@ -1161,6 +1177,31 @@ export type GetEventListQuery = {
   }>;
 };
 
+export const GetEventDetailsDocument = gql`
+  query getEventDetails($id: ID!) {
+    event(eventId: $id) {
+      id
+      title
+      description
+      location
+      icon
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetEventDetailsGQL extends Apollo.Query<
+  GetEventDetailsQuery,
+  GetEventDetailsQueryVariables
+> {
+  override document = GetEventDetailsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const GetEventListDocument = gql`
   query getEventList {
     events {

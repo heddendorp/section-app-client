@@ -9,6 +9,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './modules/shared/shared.module';
 import { TransferHttpCacheModule } from '@nguniversal/common';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [AppComponent, AuthButtonComponent],
@@ -19,6 +20,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
     BrowserAnimationsModule,
     GraphQLModule,
     HttpClientModule,
+    MarkdownModule.forRoot(),
     SharedModule,
   ],
   providers: [],

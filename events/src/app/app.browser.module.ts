@@ -3,9 +3,10 @@ import * as Sentry from '@sentry/angular';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { environment } from '../environments/environment';
       httpInterceptor: {
         allowedList: [
           {
-            uri: '/graphql',
+            uriMatcher: (uri) => uri.includes('/graphql'),
             allowAnonymous: true,
           },
         ],
@@ -46,6 +47,7 @@ import { environment } from '../environments/environment';
       deps: [Sentry.TraceService],
       multi: true,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
   ],
 })
 export class AppBrowserModuleModule {}

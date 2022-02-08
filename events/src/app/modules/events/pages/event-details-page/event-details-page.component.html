@@ -1,0 +1,10 @@
+<main class="mt-6">
+  <section class="mx-auto max-w-7xl px-4 sm:px-6">
+    <h1
+      class="mb-6 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-6xl"
+    >
+      {{ (event | async)?.title }}
+    </h1>
+    <app-event-header [event]="event | async"></app-event-header>
+  </section>
+</main>
