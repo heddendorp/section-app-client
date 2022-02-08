@@ -50,7 +50,7 @@ jobs:
 
       - name: Set outputs
         id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
