@@ -1,5 +1,5 @@
 query getEventDetails($id: ID!) {
-  event(eventId: $id){
+  event(eventId: $id) {
     id
     title
     description
