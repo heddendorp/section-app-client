@@ -37,6 +37,10 @@ export class EventDetailsPageComponent {
           content: `https://tumi.esn.world/events/${event.id}`,
         });
         this.metaService.updateTag({
+          name: 'image',
+          content: environment.server + '/social/event/' + event.id,
+        });
+        this.metaService.updateTag({
           name: 'og:image',
           content: environment.server + '/social/event/' + event.id,
         });
