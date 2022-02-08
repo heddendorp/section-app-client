@@ -29,7 +29,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,6 +36,8 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
+    outputs:
+      sha_short: ${{ steps.vars.outputs.sha_short }}
 
     steps:
       - name: Cancel Previous Runs
@@ -46,6 +47,10 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -117,12 +122,8 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Set outputs
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-
       - name: Check outputs
-        run: echo ${{ steps.vars.outputs.sha_short }}
+        run: echo ${{ needs.build.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
@@ -131,4 +132,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n events -g tumi-container -i ghcr.io/heddendorp/tumi/events:${{ steps.vars.outputs.sha_short }} --debug -v "NODE_ENV=production" --cpu 1 --memory 1.0Gi --revisions-mode single -n ${{ steps.vars.outputs.sha_short }}
+            az containerapp update -n events -g tumi-container -i ghcr.io/heddendorp/tumi/events:${{ needs.build.outputs.sha_short }} --debug -v "NODE_ENV=production" --cpu 1 --memory 1.0Gi --revisions-mode single -n ${{ steps.vars.outputs.sha_short }}
