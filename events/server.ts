@@ -2,6 +2,7 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import * as compression from 'compression';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import { join } from 'path';
@@ -14,6 +15,7 @@ import { environment } from './src/environments/environment';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  server.use(compression());
 
   Sentry.init({
     dsn: 'https://fbfdbd63bc624775a8c233bdf8bbe8d1@o541164.ingest.sentry.io/6192758',

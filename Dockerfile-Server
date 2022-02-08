@@ -9,12 +9,12 @@ COPY server/package.json server/
 COPY .yarn .yarn/
 
 RUN yarn workspace @tumi/server install
-RUN #yarn global add @angular/cli
 COPY server server/
 # If you are building your code for production
 # RUN npm ci --only=production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 RUN yarn workspace @tumi/server build
+RUN yarn global add pm2
 #RUN ng run tumi-events:server
 
 #FROM node:16
@@ -22,4 +22,4 @@ RUN yarn workspace @tumi/server build
 # Bundle app source
 #COPY --from=builder /usr/src/app/dist dist
 EXPOSE 3333
-CMD [ "yarn", "workspace", "@tumi/server", "start" ]
+CMD [ "pm2-runtime", "server/dist/server.js" ]

@@ -114,4 +114,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n events -g tumi-container -i ghcr.io/heddendorp/tumi/events:main --debug
+            az containerapp update -n events -g tumi-container -i ghcr.io/heddendorp/tumi/events:main --debug --environment-variables "NODE_ENV=production" --cpu 0.5 --memory 1.0Gi

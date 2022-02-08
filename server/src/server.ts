@@ -7,20 +7,15 @@ import {
   sendResult,
   shouldRenderGraphiQL,
 } from 'graphql-helix';
-import {
-  envelop,
-  useExtendContext,
-  useLogger,
-  useSchema,
-  useTiming,
-} from '@envelop/core';
+import { envelop, useExtendContext, useSchema } from '@envelop/core';
 import { useAuth0 } from '@envelop/auth0';
 import { useSentry } from '@envelop/sentry';
 import * as Sentry from '@sentry/node';
+import { getCurrentHub } from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import { PrismaClient } from '@prisma/client';
-import { getCurrentHub } from '@sentry/node';
 import cors from 'cors';
+import compression from 'compression';
 
 declare global {
   namespace Express {
@@ -49,6 +44,7 @@ declare global {
 // context: createContext,
 
 const app = express();
+app.use(compression());
 const prisma = new PrismaClient();
 prisma.$use(async (params, next) => {
   const { model, action, runInTransaction, args } = params;
