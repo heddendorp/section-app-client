@@ -44,6 +44,13 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -120,6 +127,9 @@ jobs:
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
