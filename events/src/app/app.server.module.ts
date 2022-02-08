@@ -15,7 +15,7 @@ import { AuthShim } from './shims/authShim';
     AppModule,
     ServerModule,
     ServerTransferStateModule,
-    UniversalModule,
+    // UniversalModule,
   ],
   bootstrap: [AppComponent],
   providers: [{ provide: AuthService, useClass: AuthShim }],

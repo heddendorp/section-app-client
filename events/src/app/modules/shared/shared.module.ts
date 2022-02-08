@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
+import { Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconUrlPipe } from './pipes/icon-url.pipe';
-import {
-  MatIcon,
-  MatIconModule,
-  MatIconRegistry,
-} from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LOCATION } from '@ng-web-apis/common';
 
 @NgModule({
   declarations: [IconUrlPipe],
@@ -14,9 +11,15 @@ import { DomSanitizer } from '@angular/platform-browser';
   exports: [IconUrlPipe, MatIconModule],
 })
 export class SharedModule {
-  constructor(registry: MatIconRegistry, san: DomSanitizer) {
+  constructor(
+    @Inject(LOCATION) readonly location: Location,
+    registry: MatIconRegistry,
+    san: DomSanitizer
+  ) {
     registry.addSvgIconSet(
-      san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg')
+      san.bypassSecurityTrustResourceUrl(
+        `${location.protocol}//${location.host}/assets/icons/tumi.min.svg`
+      )
     );
   }
 }
