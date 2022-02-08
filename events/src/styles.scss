@@ -5,7 +5,9 @@
 @tailwind utilities;
 // Plus imports for other components in your app.
 
-$tumi-typography: mat.define-typography-config($font-family: theme('fontFamily.sans'));
+$tumi-typography: mat.define-typography-config(
+  $font-family: theme('fontFamily.sans'),
+);
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -23,20 +25,25 @@ $tumi-events-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$tumi-events-theme: mat.define-light-theme((
-  color: (
-    primary: $tumi-events-primary,
-    accent: $tumi-events-accent,
-    warn: $tumi-events-warn,
+$tumi-events-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $tumi-events-primary,
+      accent: $tumi-events-accent,
+      warn: $tumi-events-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($tumi-events-theme);
 
-
-
-html, body { height: 100%; }
-body { margin: 0 }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
