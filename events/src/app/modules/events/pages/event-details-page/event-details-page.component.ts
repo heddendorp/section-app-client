@@ -28,22 +28,34 @@ export class EventDetailsPageComponent {
       }),
       tap((event) => {
         this.titleService.setTitle(`${event.title} - TUMi Events`);
-        this.metaService.updateTag({
-          name: 'og:title',
-          content: `${event.title} - TUMi Events`,
-        });
-        this.metaService.updateTag({
-          name: 'og:url',
-          content: `https://tumi.esn.world/events/${event.id}`,
-        });
-        this.metaService.updateTag({
-          name: 'image',
-          content: environment.server + '/social/event/' + event.id,
-        });
-        this.metaService.updateTag({
-          name: 'og:image',
-          content: environment.server + '/social/event/' + event.id,
-        });
+        this.metaService.updateTag(
+          {
+            name: 'og:title',
+            content: `${event.title} - TUMi Events`,
+          },
+          'name="og:title"'
+        );
+        this.metaService.updateTag(
+          {
+            name: 'og:url',
+            content: `https://tumi.esn.world/events/${event.id}`,
+          },
+          'name="og:url"'
+        );
+        this.metaService.updateTag(
+          {
+            name: 'image',
+            content: environment.server + '/social/event/' + event.id,
+          },
+          'name="image"'
+        );
+        this.metaService.updateTag(
+          {
+            name: 'og:image',
+            content: environment.server + '/social/event/' + event.id,
+          },
+          'name="og:image"'
+        );
       })
     );
   }
