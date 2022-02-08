@@ -19,7 +19,7 @@ RUN yarn workspace @tumi/events build
 
 FROM node:16
 WORKDIR /root/
-RUN yarn global add pm2
+RUN npm install pm2 -g
 # Bundle app source
 COPY --from=builder /usr/src/app/events/dist dist
 EXPOSE 4000

@@ -14,7 +14,7 @@ COPY server server/
 # RUN npm ci --only=production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 RUN yarn workspace @tumi/server build
-RUN yarn global add pm2
+RUN npm install pm2 -g
 #RUN ng run tumi-events:server
 
 #FROM node:16
