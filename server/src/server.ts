@@ -17,6 +17,7 @@ import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
+import { useHive } from '@graphql-hive/client';
 
 declare global {
   namespace Express {
@@ -101,6 +102,17 @@ const getEnveloped = envelop({
     useSchema(schema),
     // useLogger(),
     // useTiming(),
+    useHive({
+      enabled: true,
+      debug: process.env.NODE_ENV !== 'production', // or false
+      token: process.env.HIVE_TOKEN ?? '',
+      reporting: {
+        // feel free to set dummy values here
+        author: 'Author of the schema version',
+        commit: 'git sha or any identifier',
+      },
+      usage: true,
+    }),
     useSentry(),
     useAuth0({
       domain: 'tumi.eu.auth0.com',

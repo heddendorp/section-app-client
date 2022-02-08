@@ -16,6 +16,7 @@
     "@envelop/auth0": "^3.0.0",
     "@envelop/core": "^2.0.0",
     "@envelop/sentry": "^3.0.0",
+    "@graphql-hive/client": "^0.13.0",
     "@pathcheck/dcc-sdk": "^0.0.27",
     "@prisma/client": "^3.9.1",
     "@sentry/node": "^6.17.4",
