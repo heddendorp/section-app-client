@@ -8,11 +8,13 @@ import { AuthButtonComponent } from './components/auth-button/auth-button.compon
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './modules/shared/shared.module';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 
 @NgModule({
   declarations: [AppComponent, AuthButtonComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     GraphQLModule,

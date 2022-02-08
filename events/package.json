@@ -32,6 +32,7 @@
     "@auth0/auth0-angular": "^1.8.2",
     "@ng-web-apis/common": "^2.0.0",
     "@ng-web-apis/universal": "^2.0.0",
+    "@nguniversal/common": "^13.0.2",
     "@nguniversal/express-engine": "13.0.2",
     "@sentry/angular": "^6.17.4",
     "@sentry/node": "^6.17.5",

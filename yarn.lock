@@ -2673,7 +2673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nguniversal/common@npm:13.0.2":
+"@nguniversal/common@npm:13.0.2, @nguniversal/common@npm:^13.0.2":
   version: 13.0.2
   resolution: "@nguniversal/common@npm:13.0.2"
   dependencies:
@@ -3320,6 +3320,7 @@ __metadata:
     "@ng-web-apis/common": ^2.0.0
     "@ng-web-apis/universal": ^2.0.0
     "@nguniversal/builders": ^13.0.2
+    "@nguniversal/common": ^13.0.2
     "@nguniversal/express-engine": 13.0.2
     "@sentry/angular": ^6.17.4
     "@sentry/node": ^6.17.5
