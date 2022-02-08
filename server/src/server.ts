@@ -16,6 +16,7 @@ import * as Tracing from '@sentry/tracing';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import compression from 'compression';
+import { socialRouter } from './helpers/socialImage';
 
 declare global {
   namespace Express {
@@ -185,6 +186,7 @@ app.use('/graphql', async (req, res) => {
     await sendResult(result, res);
   }
 });
+app.use(socialRouter);
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 

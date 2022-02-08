@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Meta, Title } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,7 +23,7 @@ import { MarkdownModule } from 'ngx-markdown';
     MarkdownModule.forRoot(),
     SharedModule,
   ],
-  providers: [],
+  providers: [Meta, Title],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
