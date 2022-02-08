@@ -137,4 +137,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n server -g tumi-container -i ghcr.io/heddendorp/tumi/server:${{ needs.build.outputs.sha_short }} --debug -v "DATABASE_URL=secretref:database-url,HIVE_TOKEN=secretref:hive-token,NODE_ENV=production" --cpu 1 --memory 1.0Gi --revisions-mode single -n ${{ steps.vars.outputs.sha_short }}
+            az containerapp update -n server -g tumi-container -i ghcr.io/heddendorp/tumi/server:${{ needs.build.outputs.sha_short }} --debug -v "DATABASE_URL=secretref:database-url,HIVE_TOKEN=secretref:hive-token,NODE_ENV=production" --cpu 1 --memory 1.0Gi --revisions-mode single -n ${{ needs.build.outputs.sha_short }}
