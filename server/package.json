@@ -48,6 +48,7 @@
     "@types/luxon": "^2",
     "@types/prettier": "^2",
     "@types/rimraf": "^3",
+    "apollo-server-plugin-base": "^3.5.1",
     "prettier": "^2.5.1",
     "prisma": "^3.9.1",
     "rimraf": "^3.0.2",
