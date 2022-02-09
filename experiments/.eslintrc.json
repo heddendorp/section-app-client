@@ -3,14 +3,6 @@
   "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": ["*.graphql"],
-      "parser": "@graphql-eslint/eslint-plugin",
-      "plugins": ["@graphql-eslint", "prettier"],
-      "rules": {
-        "@graphql-eslint/known-type-names": "error"
-      }
-    },
-    {
       "files": ["*.ts"],
       "parserOptions": {
         "project": ["tsconfig.json"],

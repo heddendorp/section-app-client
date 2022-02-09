@@ -41,6 +41,7 @@
   "devDependencies": {
     "@types/compression": "^1",
     "@types/cors": "^2",
+    "@types/eslint": "^8",
     "@types/express": "^4",
     "@types/express-jwt": "^6",
     "@types/jsonwebtoken": "^8",
@@ -48,7 +49,10 @@
     "@types/luxon": "^2",
     "@types/prettier": "^2",
     "@types/rimraf": "^3",
+    "@typescript-eslint/parser": "^5.11.0",
     "apollo-server-plugin-base": "^3.5.1",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1",
     "prisma": "^3.9.1",
     "rimraf": "^3.0.2",
