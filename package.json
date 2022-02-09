@@ -12,6 +12,7 @@
   "scripts": {
     "events": "yarn workspace @tumi/events dev",
     "server": "yarn workspace @tumi/server dev",
+    "experiments": "yarn workspace @tumi/experiments dev",
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\""
   },
   "packageManager": "yarn@3.1.1",

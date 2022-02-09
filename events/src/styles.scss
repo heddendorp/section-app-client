@@ -50,7 +50,7 @@ $tumi-events-theme: mat.define-light-theme(
   }
   markdown {
     img {
-      @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
+      @apply  lg:float-right lg:ml-4 lg:max-w-lg;
     }
   }
 }
