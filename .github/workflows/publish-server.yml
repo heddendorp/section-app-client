@@ -167,7 +167,9 @@ jobs:
       - name: Install dependencies
         run: yarn workspace @tumi/server install
 
-      - name: Build browser bundle
+      - name: Build Server
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: yarn workspace @tumi/server build --sourcemap
 
       - name: Create Sentry release
