@@ -57,7 +57,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
         with:
           environment: production
-          ignoreEmpty: true
+          ignore_empty: true
           projects: tumi-server
 
       - name: Set outputs

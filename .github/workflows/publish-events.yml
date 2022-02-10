@@ -49,17 +49,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: events, events-ssr
-        with:
-          environment: production
-          ignoreEmpty: true
-          projects: events, events-ssr
-
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
@@ -146,3 +135,38 @@ jobs:
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
             az containerapp update -n events -g tumi-container -i ghcr.io/heddendorp/tumi/events:${{ needs.build.outputs.sha_short }} --debug -v "NODE_ENV=production" --cpu 1 --memory 2.0Gi --revisions-mode single
+
+  release:
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Prepare yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn workspace @tumi/events install
+
+      - name: Build browser bundle
+        run: yarn workspace @tumi/events ng build --source-map
+
+      - name: Build server bundle
+        run: yarn workspace @tumi/events run tumi-events:server --source-map
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: events, events-ssr
+        with:
+          environment: production
+          ignore_empty: true
+          projects: events, events-ssr
+          sourcemaps: events/dist
