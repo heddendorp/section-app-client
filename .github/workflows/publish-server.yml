@@ -168,7 +168,7 @@ jobs:
         run: yarn workspace @tumi/server install
 
       - name: Build browser bundle
-        run: yarn workspace @tumi/server ng build --sourcemap
+        run: yarn workspace @tumi/server build --sourcemap
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
