@@ -58,6 +58,7 @@ jobs:
         with:
           environment: production
           ignoreEmpty: true
+          projects: events, events-ssr
 
       - name: Set outputs
         id: vars
