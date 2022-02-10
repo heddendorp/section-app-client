@@ -1,14 +1,14 @@
 <main class="mt-6">
   <section class="mx-auto max-w-7xl px-4 sm:px-6">
     <h1
-      class="mb-6 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-6xl"
+      class="mb-6 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl md:text-4xl lg:text-6xl"
     >
       {{ (event | async)?.title }}
     </h1>
     <div class="flex flex-col-reverse md:flex-row md:space-x-6">
       <div class="grow">
         <markdown
-          class="prose lg:prose-xl"
+          class="prose dark:prose-invert lg:prose-xl"
           [data]="(event | async)?.description"
         ></markdown>
       </div>
