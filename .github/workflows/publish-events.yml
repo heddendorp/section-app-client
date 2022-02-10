@@ -49,6 +49,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: events
+        with:
+          environment: production
+
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
