@@ -167,5 +167,5 @@ jobs:
         with:
           environment: production
           ignore_empty: true
-          projects: events, events-ssr
+          projects: events events-ssr
           sourcemaps: events/dist
