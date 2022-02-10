@@ -1,2 +1,3 @@
 events/src/app/generated/
 server/schema.graphql
+server/src/generated/

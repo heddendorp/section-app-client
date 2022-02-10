@@ -157,14 +157,13 @@ jobs:
         run: yarn workspace @tumi/events ng build --source-map
 
       - name: Build server bundle
-        run: yarn workspace @tumi/events run tumi-events:server --source-map
+        run: yarn workspace @tumi/events ng run tumi-events:server --source-map
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: events, events-ssr
         with:
           environment: production
           ignore_empty: true

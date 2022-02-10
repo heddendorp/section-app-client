@@ -149,3 +149,34 @@ jobs:
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
             az containerapp update -n server -g tumi-container -i ghcr.io/heddendorp/tumi/server:${{ needs.build.outputs.sha_short }} --debug -v "DATABASE_URL=secretref:database-url,HIVE_TOKEN=secretref:hive-token,NODE_ENV=production" --cpu 1 --memory 2.0Gi --revisions-mode single
+
+  release:
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Prepare yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn workspace @tumi/server install
+
+      - name: Build browser bundle
+        run: yarn workspace @tumi/server ng build --sourcemap
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        with:
+          environment: production
+          ignore_empty: true
+          projects: tumi-server
+          sourcemaps: server/dist
