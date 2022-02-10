@@ -54,9 +54,10 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: events
+          SENTRY_PROJECT: events, events-ssr
         with:
           environment: production
+          ignoreEmpty: true
 
       - name: Set outputs
         id: vars

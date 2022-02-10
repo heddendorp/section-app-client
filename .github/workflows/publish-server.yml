@@ -58,6 +58,7 @@ jobs:
           SENTRY_PROJECT: tumi-server
         with:
           environment: production
+          ignoreEmpty: true
 
       - name: Set outputs
         id: vars
