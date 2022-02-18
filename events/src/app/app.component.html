@@ -103,17 +103,15 @@
                 Join
               </a>-->
               <a
-                *ngIf="
-                  permissions.hasStatus('Trial', 'Full', 'Sponsor') | async
-                "
-                routerLink="/member"
+                *ngIf="isMember$ | async"
+                routerLink="/members"
                 routerLinkActive="text-slate-700 dark:text-slate-400 underline"
                 class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
               >
                 Members
               </a>
               <a
-                *ngIf="permissions.hasRole('Admin') | async"
+                *ngIf="isAdmin$ | async"
                 routerLink="/admin"
                 routerLinkActive="text-slate-700 dark:text-slate-400 underline"
                 class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"

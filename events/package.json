@@ -9,6 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "codegen": "yarn graphql-codegen",
+    "codegen:watch": "yarn graphql-codegen --watch",
     "dev:ssr": "ng run tumi-events:serve-ssr",
     "serve:ssr": "node dist/tumi-events/server/main.js",
     "build:ssr": "ng build && ng run tumi-events:server",
