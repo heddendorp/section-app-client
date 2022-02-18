@@ -1177,6 +1177,25 @@ export type GetEventListQuery = {
   }>;
 };
 
+export type GetPermissionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPermissionsQuery = {
+  __typename?: 'Query';
+  currentUser?: {
+    __typename?: 'User';
+    id: string;
+    email: string;
+    email_verified: boolean;
+    currentTenant: {
+      __typename?: 'UsersOfTenants';
+      role: Role;
+      status: MembershipStatus;
+      userId: string;
+      tenantId: string;
+    };
+  } | null;
+};
+
 export const GetEventDetailsDocument = gql`
   query getEventDetails($id: ID!) {
     event(eventId: $id) {
@@ -1221,6 +1240,35 @@ export class GetEventListGQL extends Apollo.Query<
   GetEventListQueryVariables
 > {
   override document = GetEventListDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetPermissionsDocument = gql`
+  query getPermissions {
+    currentUser {
+      id
+      email
+      email_verified
+      currentTenant {
+        role
+        status
+        userId
+        tenantId
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetPermissionsGQL extends Apollo.Query<
+  GetPermissionsQuery,
+  GetPermissionsQueryVariables
+> {
+  override document = GetPermissionsDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

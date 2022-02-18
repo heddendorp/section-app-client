@@ -7,7 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
       <button
         (click)="auth.logout()"
-        class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-gray-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-gray-700"
+        class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-slate-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-slate-700"
       >
         Log out
       </button>

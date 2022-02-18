@@ -1,0 +1,13 @@
+query getPermissions {
+  currentUser {
+    id
+    email
+    email_verified
+    currentTenant {
+      role
+      status
+      userId
+      tenantId
+    }
+  }
+}

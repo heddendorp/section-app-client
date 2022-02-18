@@ -49,7 +49,7 @@
             <div class="-my-2 -mr-2 md:hidden">
               <button
                 type="button"
-                class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:bg-slate-700 hover:dark:bg-slate-500"
+                class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:bg-slate-700 hover:dark:bg-slate-500"
                 aria-expanded="false"
                 (click)="sidenav.open()"
               >
@@ -77,34 +77,54 @@
                 routerLink="/home"
                 routerLinkActive="text-slate-700 dark:text-slate-400 underline"
                 [routerLinkActiveOptions]="{ exact: true }"
-                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-gray-900 dark:text-slate-50 dark:hover:text-slate-300"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
               >
                 Home
               </a>
               <a
                 routerLink="/events"
                 routerLinkActive="text-slate-700 dark:text-slate-400 underline"
-                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-gray-900 dark:text-slate-50 dark:hover:text-slate-300"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
               >
                 Events
               </a>
               <a
+                *ngIf="auth.isAuthenticated$ | async"
+                routerLink="/profile"
+                routerLinkActive="text-slate-700 dark:text-slate-400 underline"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
+              >
+                Profile
+              </a>
+              <!--<a
                 href="#"
-                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-gray-900 dark:text-slate-50 dark:hover:text-slate-300"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
               >
                 Join
-              </a>
+              </a>-->
               <a
-                href="#"
-                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-gray-900 dark:text-slate-50 dark:hover:text-slate-300"
+                *ngIf="
+                  permissions.hasStatus('Trial', 'Full', 'Sponsor') | async
+                "
+                routerLink="/member"
+                routerLinkActive="text-slate-700 dark:text-slate-400 underline"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
               >
                 Members
+              </a>
+              <a
+                *ngIf="permissions.hasRole('Admin') | async"
+                routerLink="/admin"
+                routerLinkActive="text-slate-700 dark:text-slate-400 underline"
+                class="underline-offset-3 text-base font-medium text-slate-500 decoration-indigo-500 decoration-4 hover:text-slate-900 dark:text-slate-50 dark:hover:text-slate-300"
+              >
+                Admin
               </a>
             </nav>
             <div
               class="hidden items-center justify-end md:flex md:flex-1 lg:w-0"
             >
-              <!--        <a href="#" class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">-->
+              <!--        <a href="#" class="whitespace-nowrap text-base font-medium text-slate-500 hover:text-slate-900">-->
               <!--          Sign in-->
               <!--        </a>-->
               <app-auth-button></app-auth-button>
@@ -114,13 +134,13 @@
       </div>
       <router-outlet></router-outlet>
       <div class="grow"></div>
-      <div class="relative mt-8 flex-shrink-0 bg-gray-800">
+      <div class="relative mt-8 flex-shrink-0 bg-slate-800">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
           <div
             class="flex items-center justify-between py-6 md:justify-start md:space-x-10"
           >
             <div class="flex justify-start lg:w-0 lg:flex-1">
-              <p class="text-gray-100">©️ 2022 ESN TUMi e.V.</p>
+              <p class="text-slate-100">©️ 2022 ESN TUMi e.V.</p>
             </div>
             <!--      <nav class="hidden space-x-10 md:flex"></nav>-->
             <div
@@ -129,21 +149,21 @@
               <a
                 href="https://www.instagram.com/tumi.esn/"
                 target="_blank"
-                class="text-base text-gray-300 hover:text-gray-100"
+                class="text-base text-slate-300 hover:text-slate-100"
               >
                 <mat-icon svgIcon="icon-instagram-new"></mat-icon>
               </a>
               <a
                 href="https://www.facebook.com/esntumi.munchen"
                 target="_blank"
-                class="text-base text-gray-300 hover:text-gray-100"
+                class="text-base text-slate-300 hover:text-slate-100"
               >
                 <mat-icon svgIcon="icon-facebook-new-2"></mat-icon>
               </a>
               <a
                 href="https://github.com/heddendorp/tumi"
                 target="_blank"
-                class="text-base text-gray-300 hover:text-gray-100"
+                class="text-base text-slate-300 hover:text-slate-100"
               >
                 <mat-icon svgIcon="icon-github"></mat-icon>
               </a>
