@@ -18,6 +18,7 @@ Table Tenant {
   refundedRegistrations RefundedRegistration [not null]
   products Product [not null]
   eventTemplateCategories EventTemplateCategory [not null]
+  Transaction Transaction [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -46,6 +47,7 @@ Table User {
   purchases Purchase [not null]
   receipts Receipt [not null]
   tenants UsersOfTenants [not null]
+  Transaction Transaction [not null]
 
   Note: 'One User of the app'
 }
@@ -96,6 +98,22 @@ Table StripePayment {
   status String [not null]
   user User [not null]
   userId String [not null]
+  Transaction Transaction [not null]
+}
+
+Table Transaction {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  payment StripePayment [not null]
+  subject String [not null]
+  user User
+  event TumiEvent
+  tenant Tenant
+  isMembershipFee Boolean [not null]
+  stripePaymentId String [not null]
+  userId String
+  tumiEventId String
+  tenantId String
 }
 
 Table RefundedRegistration {
@@ -205,6 +223,7 @@ Table TumiEvent {
   start DateTime [not null]
   submissionItems EventSubmissionItem [not null]
   title String [not null]
+  Transaction Transaction [not null]
 
   Note: 'Actual instande of an TumiEventbased on a template'
 }
@@ -466,6 +485,14 @@ Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTena
 Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: StripePayment.userId > User.id
+
+Ref: Transaction.stripePaymentId > StripePayment.id
+
+Ref: Transaction.userId > User.id
+
+Ref: Transaction.tumiEventId > TumiEvent.id
+
+Ref: Transaction.tenantId > Tenant.id
 
 Ref: RefundedRegistration.tenantId > Tenant.id
 

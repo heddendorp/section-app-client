@@ -55,7 +55,7 @@ import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
     ReactiveFormsModule,
     MarkdownModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      { path: '', pathMatch: 'full', redirectTo: 'events' },
       { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
       {
         path: 'profile',
