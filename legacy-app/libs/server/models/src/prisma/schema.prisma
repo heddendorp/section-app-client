@@ -112,7 +112,7 @@ model Tenant {
   refundedRegistrations   RefundedRegistration[]
   products                Product[]
   eventTemplateCategories EventTemplateCategory[]
-  Transaction             Transaction[]
+  transactions             Transaction[]
 }
 
 /// One User of the app
@@ -144,7 +144,7 @@ model User {
   purchases          Purchase[]
   receipts           Receipt[]
   tenants            UsersOfTenants[]
-  Transaction        Transaction[]
+  transactions        Transaction[]
 }
 
 model StripeUserData {
@@ -189,7 +189,7 @@ model StripePayment {
   status                String
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String                 @db.Uuid
-  Transaction           Transaction[]
+  transactions           Transaction[]
 }
 
 model Transaction {
@@ -310,7 +310,7 @@ model TumiEvent {
   start                  DateTime
   submissionItems        EventSubmissionItem[]
   title                  String
-  Transaction            Transaction[]
+  transactions            Transaction[]
 }
 
 model Product {
