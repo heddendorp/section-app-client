@@ -8,6 +8,19 @@ A modern PWA to manage the events and members of an ESN secion
 https://tumi.esn.world/events is the running and used instance of this project for the events organized by the ESN TUMi e.V.
 
 
+## Tech Stack
+
+**Client:** Angular, Angular components, Apollo-Angular, TailwindCSS
+
+**Server:** Node, Express, Apollo Server, Prisma, Nexus, Nexus-Prisma
+
+
+## Roadmap
+
+You can find some planned things [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6dvGfRChCsMUanV8lBoxLgCg6EPqy9Zf3gIWjTV4_Jen2F6Qady9G_w-xqHul_WXnHvUaheFD5_nK/pubhtml?gid=0&single=true)
+
+
+
 ## Contributing
 
 Contributions are always welcome!
