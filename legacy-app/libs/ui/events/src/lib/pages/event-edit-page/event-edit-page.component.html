@@ -7,214 +7,147 @@
   </div>
 
   <div class="my-8 py-4 px-4 border-2 rounded-lg">
-    <h2 class="mb-2">Publication management</h2>
-    <form [formGroup]="publicationForm" (ngSubmit)="changePublication()">
-      <mat-form-field class="w-full">
-        <mat-label>Publication state</mat-label>
-        <mat-select formControlName="publicationState">
-          <mat-option [value]="PublicationState.Draft">Draft</mat-option>
-          <mat-option [value]="PublicationState.Approval">
-            Ready for approval
-          </mat-option>
-          <mat-option
-            [value]="PublicationState.Organizers"
-            *tumiIfRole="[Role.Admin]"
-          >
-            Visible to Organizers
-          </mat-option>
-          <mat-option
-            [value]="PublicationState.Public"
-            *tumiIfRole="[Role.Admin]"
-          >
-            Public
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div class="mt-4">
-        <button type="submit" mat-flat-button color="primary">
-          Save Changes
-        </button>
-      </div>
-    </form>
-  </div>
-  <div
-    class="my-8 py-4 px-4 border-2 rounded-lg"
-    *ngIf="event$ | async as event"
-  >
-    <h2 class="mb-2">Event location</h2>
-    <p>{{ event.location }}</p>
-    <p>{{ event.coordinates | json }}</p>
-    <a
-      mat-stroked-button
-      href="http://www.google.com/maps/place/{{ event.coordinates?.lat }},{{
-        event.coordinates?.lon
-      }}"
-      target="_blank"
-    >
-      Open in maps
-    </a>
-    <button mat-flat-button color="primary" (click)="updateLocation()">
-      Update Location
-    </button>
-  </div>
-  <div class="my-8 py-4 px-4 border-2 rounded-lg">
-    <h2 class="mb-2">General information</h2>
-    <form
-      [formGroup]="generalInformationForm"
-      (ngSubmit)="onSubmit()"
-      fxLayout="column"
-      fxLayoutGap="1rem"
-    >
-      <mat-form-field class="w-full">
-        <mat-label>Event Description</mat-label>
-        <textarea matInput formControlName="description" rows="10"></textarea>
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Organizer Help</mat-label>
-        <textarea matInput formControlName="organizerText" rows="10"></textarea>
-        <mat-hint>This text is visible to potential organizers</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Info for Participants</mat-label>
-        <textarea
-          matInput
-          formControlName="participantText"
-          rows="10"
-        ></textarea>
-        <mat-hint>This text is only visible to registered Users</mat-hint>
-      </mat-form-field>
-      <div class="mt-4">
-        <button type="submit" mat-flat-button color="primary">
-          Save Changes
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="my-8 py-4 px-4 border-2 rounded-lg">
-    <h2 class="mb-2">Event specification</h2>
-    <p *ngIf="editingProhibited$ | async" class="my-2">
-      Only events that are Drafts can be edited
-    </p>
-    <form
-      [formGroup]="coreInformationForm"
-      (ngSubmit)="onCoreSubmit()"
-      fxLayout="column"
-      fxLayoutGap="1rem"
-    >
-      <mat-form-field class="w-full">
-        <mat-label>Event Title</mat-label>
-        <input matInput formControlName="title" type="text" />
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Event Icon</mat-label>
-        <input matInput formControlName="icon" type="text" />
-        <img
-          [src]="iconValue | iconURL"
-          alt="icon"
-          matSuffix
-          width="24px"
-          height="24px"
-        />
-      </mat-form-field>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <mat-form-field class="w-full">
-          <mat-label>Event Start</mat-label>
-          <input matInput formControlName="start" type="datetime-local" />
-        </mat-form-field>
-        <mat-form-field class="w-full">
-          <mat-label>Event End</mat-label>
-          <input matInput formControlName="end" type="datetime-local" />
-        </mat-form-field>
-      </div>
-      <mat-form-field class="w-full">
-        <mat-label>Registration Start</mat-label>
-        <input
-          matInput
-          formControlName="registrationStart"
-          type="datetime-local"
-        />
-        <mat-hint>Define the opening of event registration</mat-hint>
-      </mat-form-field>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <div fxFlex="50">
-          <h3>Possible Organizers</h3>
-          <mat-button-toggle-group multiple formControlName="organizerSignup">
-            <mat-button-toggle
-              *ngFor="let status of statusOptions"
-              [value]="status"
-            >
-              {{ status | titlecase }}
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-        <div fxFlex="50">
-          <h3>Possible Participants</h3>
-          <mat-button-toggle-group multiple formControlName="participantSignup">
-            <mat-button-toggle
-              *ngFor="let status of statusOptions"
-              [value]="status"
-            >
-              {{ status | titlecase }}
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-      </div>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <mat-form-field class="w-full">
-          <mat-label>Organizing Institution</mat-label>
-          <mat-select formControlName="eventOrganizerId">
-            <mat-option
-              *ngFor="let organizer of organizers$ | async"
-              [value]="organizer.id"
-              >{{ organizer.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="w-full">
-          <mat-label>Registration Mode</mat-label>
-          <mat-select formControlName="registrationMode" required>
-            <mat-option [value]="RegistrationMode.External">{{
-              RegistrationMode.External | titlecase
-            }}</mat-option>
-            <mat-option [value]="RegistrationMode.Stripe">{{
-              RegistrationMode.Stripe | titlecase
-            }}</mat-option>
-            <mat-option [value]="RegistrationMode.Online">{{
-              RegistrationMode.Online | titlecase
-            }}</mat-option>
-          </mat-select>
-          <mat-hint>Select how users will register for this event</mat-hint>
-        </mat-form-field>
-      </div>
-      <ng-container formGroupName="prices">
-        <div formArrayName="options" fxLayoutGap="2rem" fxLayout="column">
-          <h3 class="mb-4 font-bold">Prices</h3>
-          <div
-            *ngFor="let price of prices.controls; let i = index"
-            [formGroupName]="i"
-          >
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
-              <mat-form-field fxFlex="50">
-                <mat-label>Price</mat-label>
-                <input matInput formControlName="amount" type="number" />
-              </mat-form-field>
-              <mat-checkbox formControlName="defaultPrice">
-                Is default price
-              </mat-checkbox>
-            </div>
-            <div
-              fxLayout="column"
-              fxLayout.gt-sm="row"
-              fxLayoutAlign.gt-sm="start center"
-              fxLayoutGap="1rem"
-            >
-              <div fxFlex="50">
-                <h3>Allowed Status</h3>
-                <mat-button-toggle-group
-                  multiple
-                  formControlName="allowedStatusList"
+    <mat-tab-group mat-stretch-tabs animationDuration="300ms" class="example-stretched-tabs">
+      <mat-tab label="Publication">
+        <div class="p-4">
+          <form [formGroup]="publicationForm" (ngSubmit)="changePublication()">
+            <mat-form-field class="w-full">
+              <mat-label>Publication state</mat-label>
+              <mat-select formControlName="publicationState">
+                <mat-option [value]="PublicationState.Draft">Draft</mat-option>
+                <mat-option [value]="PublicationState.Approval">
+                  Ready for approval
+                </mat-option>
+                <mat-option
+                  [value]="PublicationState.Organizers"
+                  *tumiIfRole="[Role.Admin]"
                 >
+                  Visible to Organizers
+                </mat-option>
+                <mat-option
+                  [value]="PublicationState.Public"
+                  *tumiIfRole="[Role.Admin]"
+                >
+                  Public
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      
+            <div class="mt-4">
+              <button type="submit" mat-flat-button color="primary">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab label="General">
+        <div class="p-4">
+          <div
+            class="p-4 mb-4 flex justify-between border-2 rounded-md"
+            *ngIf="event$ | async as event"
+          >
+            <div>
+              <p>{{ event.location }}</p>
+              <p>{{ event.coordinates | json }}</p>
+            </div>
+            <div class="my-auto flex">
+              <div class="mr-4"><a
+                mat-stroked-button
+                href="http://www.google.com/maps/place/{{ event.coordinates?.lat }},{{
+                  event.coordinates?.lon
+                }}"
+                target="_blank"
+              >
+                Open in maps
+              </a></div>
+              <button mat-flat-button color="primary" (click)="updateLocation()">
+                Update Location
+              </button>
+            </div>
+          </div>
+
+          <form
+            [formGroup]="generalInformationForm"
+            (ngSubmit)="onSubmit()"
+            fxLayout="column"
+            fxLayoutGap="1rem"
+          >
+            <mat-form-field class="w-full">
+              <mat-label>Event Description</mat-label>
+              <textarea matInput formControlName="description" rows="10"></textarea>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Organizer Help</mat-label>
+              <textarea matInput formControlName="organizerText" rows="10"></textarea>
+              <mat-hint>This text is visible to potential organizers</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Info for Participants</mat-label>
+              <textarea
+                matInput
+                formControlName="participantText"
+                rows="10"
+              ></textarea>
+              <mat-hint>This text is only visible to registered Users</mat-hint>
+            </mat-form-field>
+            <div class="mt-4">
+              <button type="submit" mat-flat-button color="primary">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab label="Specification">
+        <div class="p-4">
+          <p *ngIf="editingProhibited$ | async" class="my-2">
+            Only events that are Drafts can be edited
+          </p>
+          <form
+            [formGroup]="coreInformationForm"
+            (ngSubmit)="onCoreSubmit()"
+            fxLayout="column"
+            fxLayoutGap="1rem"
+          >
+            <mat-form-field class="w-full">
+              <mat-label>Event Title</mat-label>
+              <input matInput formControlName="title" type="text" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Event Icon</mat-label>
+              <input matInput formControlName="icon" type="text" />
+              <img
+                [src]="iconValue | iconURL"
+                alt="icon"
+                matSuffix
+                width="24px"
+                height="24px"
+              />
+            </mat-form-field>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <mat-form-field class="w-full">
+                <mat-label>Event Start</mat-label>
+                <input matInput formControlName="start" type="datetime-local" />
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Event End</mat-label>
+                <input matInput formControlName="end" type="datetime-local" />
+              </mat-form-field>
+            </div>
+            <mat-form-field class="w-full">
+              <mat-label>Registration Start</mat-label>
+              <input
+                matInput
+                formControlName="registrationStart"
+                type="datetime-local"
+              />
+              <mat-hint>Define the opening of event registration</mat-hint>
+            </mat-form-field>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <div fxFlex="50">
+                <h3>Possible Organizers</h3>
+                <mat-button-toggle-group multiple formControlName="organizerSignup">
                   <mat-button-toggle
                     *ngFor="let status of statusOptions"
                     [value]="status"
@@ -223,140 +156,223 @@
                   </mat-button-toggle>
                 </mat-button-toggle-group>
               </div>
-              <mat-checkbox formControlName="esnCardRequired">
-                Only with ESNcard
-              </mat-checkbox>
+              <div fxFlex="50">
+                <h3>Possible Participants</h3>
+                <mat-button-toggle-group multiple formControlName="participantSignup">
+                  <mat-button-toggle
+                    *ngFor="let status of statusOptions"
+                    [value]="status"
+                  >
+                    {{ status | titlecase }}
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+            </div>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <mat-form-field class="w-full">
+                <mat-label>Organizing Institution</mat-label>
+                <mat-select formControlName="eventOrganizerId">
+                  <mat-option
+                    *ngFor="let organizer of organizers$ | async"
+                    [value]="organizer.id"
+                    >{{ organizer.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Registration Mode</mat-label>
+                <mat-select formControlName="registrationMode" required>
+                  <mat-option [value]="RegistrationMode.External">{{
+                    RegistrationMode.External | titlecase
+                  }}</mat-option>
+                  <mat-option [value]="RegistrationMode.Stripe">{{
+                    RegistrationMode.Stripe | titlecase
+                  }}</mat-option>
+                  <mat-option [value]="RegistrationMode.Online">{{
+                    RegistrationMode.Online | titlecase
+                  }}</mat-option>
+                </mat-select>
+                <mat-hint>Select how users will register for this event</mat-hint>
+              </mat-form-field>
+            </div>
+            <ng-container formGroupName="prices">
+              <div formArrayName="options" fxLayoutGap="2rem" fxLayout="column">
+                <h3 class="mb-4 font-bold">Prices</h3>
+                <div
+                  *ngFor="let price of prices.controls; let i = index"
+                  [formGroupName]="i"
+                >
+                  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+                    <mat-form-field fxFlex="50">
+                      <mat-label>Price</mat-label>
+                      <input matInput formControlName="amount" type="number" />
+                    </mat-form-field>
+                    <mat-checkbox formControlName="defaultPrice">
+                      Is default price
+                    </mat-checkbox>
+                  </div>
+                  <div
+                    fxLayout="column"
+                    fxLayout.gt-sm="row"
+                    fxLayoutAlign.gt-sm="start center"
+                    fxLayoutGap="1rem"
+                  >
+                    <div fxFlex="50">
+                      <h3>Allowed Status</h3>
+                      <mat-button-toggle-group
+                        multiple
+                        formControlName="allowedStatusList"
+                      >
+                        <mat-button-toggle
+                          *ngFor="let status of statusOptions"
+                          [value]="status"
+                        >
+                          {{ status | titlecase }}
+                        </mat-button-toggle>
+                      </mat-button-toggle-group>
+                    </div>
+                    <mat-checkbox formControlName="esnCardRequired">
+                      Only with ESNcard
+                    </mat-checkbox>
+                    <button
+                      mat-flat-button
+                      color="warn"
+                      [disabled]="i === 0"
+                      (click)="removePrice(i)"
+                      type="button"
+                    >
+                      Remove this price
+                    </button>
+                  </div>
+                </div>
+                <button mat-stroked-button (click)="addPrice()" type="button">
+                  Add Price
+                </button>
+              </div>
+            </ng-container>
+            <mat-form-field class="w-full">
+              <mat-label>Registration link</mat-label>
+              <input
+                matInput
+                formControlName="registrationLink"
+                type="url"
+                required
+              />
+              <mat-hint>The link where users can register for this event</mat-hint>
+              <mat-error>
+                You have to specify a link or change the registration type
+              </mat-error>
+            </mat-form-field>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <mat-form-field class="w-full">
+                <mat-label>Number of organizers</mat-label>
+                <input
+                  matInput
+                  formControlName="organizerLimit"
+                  type="number"
+                  required
+                />
+                <mat-hint>Maximum number of students that can sign up</mat-hint>
+                <mat-error>
+                  You have to set the maximum number of participants
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Number of participants</mat-label>
+                <input
+                  matInput
+                  formControlName="participantLimit"
+                  type="number"
+                  required
+                />
+                <mat-hint>Maximum number of organizers that can sign up</mat-hint>
+                <mat-error>
+                  You have to set the maximum number of organizers
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="mt-4">
               <button
+                type="submit"
                 mat-flat-button
-                color="warn"
-                [disabled]="i === 0"
-                (click)="removePrice(i)"
-                type="button"
+                color="primary"
+                [disabled]="editingProhibited$ | async"
               >
-                Remove this price
+                Save Changes
               </button>
             </div>
-          </div>
-          <button mat-stroked-button (click)="addPrice()" type="button">
-            Add Price
-          </button>
+          </form>
         </div>
-      </ng-container>
-      <mat-form-field class="w-full">
-        <mat-label>Registration link</mat-label>
-        <input
-          matInput
-          formControlName="registrationLink"
-          type="url"
-          required
-        />
-        <mat-hint>The link where users can register for this event</mat-hint>
-        <mat-error>
-          You have to specify a link or change the registration type
-        </mat-error>
-      </mat-form-field>
-      <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-        <mat-form-field class="w-full">
-          <mat-label>Number of organizers</mat-label>
-          <input
-            matInput
-            formControlName="organizerLimit"
-            type="number"
-            required
-          />
-          <mat-hint>Maximum number of students that can sign up</mat-hint>
-          <mat-error>
-            You have to set the maximum number of participants
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full">
-          <mat-label>Number of participants</mat-label>
-          <input
-            matInput
-            formControlName="participantLimit"
-            type="number"
-            required
-          />
-          <mat-hint>Maximum number of organizers that can sign up</mat-hint>
-          <mat-error>
-            You have to set the maximum number of organizers
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="mt-4">
-        <button
-          type="submit"
-          mat-flat-button
-          color="primary"
-          [disabled]="editingProhibited$ | async"
+      </mat-tab>
+      <mat-tab label="Userdata" *tumiIfRole="[Role.Admin]">
+        <div
+          class="p-4"
+          *ngIf="event$ | async as event"
         >
-          Save Changes
-        </button>
-      </div>
-    </form>
-  </div>
-  <div
-    class="my-8 py-4 px-4 border-2 rounded-lg"
-    *ngIf="event$ | async as event"
-  >
-    <div
-      fxLayoutGap="1rem"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      class="mb-2"
-    >
-      <h2>Additional userdata</h2>
-      <button
-        mat-icon-button
-        [disabled]="editingProhibited$ | async"
-        (click)="addSubmission()"
-      >
-        <mat-icon svgIcon="icon-add"></mat-icon>
-      </button>
-    </div>
-    <mat-list>
-      <mat-list-item *ngFor="let item of event.submissionItems">
-        <h3 mat-line>{{ item.name }}</h3>
-        <p mat-line>{{ item.type }} | {{ item.submissionTime }}</p>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div class="my-8 py-4 px-4 border-2 rounded-lg">
-    <div
-      fxLayoutGap="1rem"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      class="mb-2"
-    >
-      <h2>Assigned Organizers</h2>
-      <button
-        mat-icon-button
-        [disabled]="editingProhibited$ | async"
-        (click)="addOrganizer()"
-      >
-        <mat-icon svgIcon="icon-add"></mat-icon>
-      </button>
-    </div>
-
-    <mat-list class="max-w-lg">
-      <mat-list-item
-        *ngFor="let registration of (event$ | async)?.organizerRegistrations"
-      >
-        <img
-          [src]="registration.user.picture"
-          alt="Image"
-          referrerpolicy="no-referrer"
-          mat-list-avatar
-        />
-        <p mat-line>{{ registration.user.fullName }}</p>
-        <button
-          mat-icon-button
-          (click)="removeUser(registration.id)"
-          [disabled]="editingProhibited$ | async"
-        >
-          <mat-icon svgIcon="icon-delete-sign"></mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list>
-  </div>
+          <div
+            fxLayoutGap="1rem"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            class="mb-2"
+          >
+            <h2>Additional Userdata</h2>
+            <button
+              mat-icon-button
+              [disabled]="editingProhibited$ | async"
+              (click)="addSubmission()"
+            >
+              <mat-icon svgIcon="icon-add"></mat-icon>
+            </button>
+          </div>
+          <mat-list>
+            <mat-list-item *ngFor="let item of event.submissionItems">
+              <h3 mat-line>{{ item.name }}</h3>
+              <p mat-line>{{ item.type }} | {{ item.submissionTime }}</p>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-tab>
+      <mat-tab label="Organizers">
+        <div class="p-4">
+          <div
+            fxLayoutGap="1rem"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            class="mb-2"
+          >
+            <h2>Assigned Organizers</h2>
+            <button
+              mat-icon-button
+              [disabled]="editingProhibited$ | async"
+              (click)="addOrganizer()"
+            >
+              <mat-icon svgIcon="icon-add"></mat-icon>
+            </button>
+          </div>
+      
+          <mat-list class="max-w-lg">
+            <mat-list-item
+              *ngFor="let registration of (event$ | async)?.organizerRegistrations"
+            >
+              <img
+                [src]="registration.user.picture"
+                alt="Image"
+                referrerpolicy="no-referrer"
+                mat-list-avatar
+              />
+              <p mat-line>{{ registration.user.fullName }}</p>
+              <button
+                mat-icon-button
+                (click)="removeUser(registration.id)"
+                [disabled]="editingProhibited$ | async"
+              >
+                <mat-icon svgIcon="icon-delete-sign"></mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div> 
+  
 </main>
