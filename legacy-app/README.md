@@ -1,98 +1,69 @@
-# Tumi
+# ESN (TUMi) App
 
-This project was generated using [Nx](https://nx.dev).
+A modern PWA to manage the events and members of an ESN secion
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Demo
 
-🔎 **Smart, Extensible Build Framework**
+https://tumi.esn.world/events is the running and used instance of this project for the events organized by the ESN TUMi e.V.
 
-## Quick Start & Documentation
+## Tech Stack
 
-[Nx Documentation](https://nx.dev/angular)
+**Client:** Angular, Angular components, Apollo-Angular, TailwindCSS
 
-[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
+**Server:** Node, Express, Apollo Server, Prisma, Nexus, Nexus-Prisma
 
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
+## Roadmap
 
-## Adding capabilities to your workspace
+You can find some planned things [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6dvGfRChCsMUanV8lBoxLgCg6EPqy9Zf3gIWjTV4_Jen2F6Qady9G_w-xqHul_WXnHvUaheFD5_nK/pubhtml?gid=0&single=true)
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+## Contributing
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+Contributions are always welcome!
 
-Below are our core plugins:
+You can reach me at president@esn-tumi.de if you want to know more about TUMi, this project or what could be done.
+Contributions in forms of issues opened here are also very welcome to improve the project.
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+## Run Locally
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+Clone the project
 
-## Generate an application
+```bash
+  git clone https://github.com/heddendorp/tumi-app.git
+```
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+Go to the project directory
 
-> You can use any of the plugins above to generate applications as well.
+```bash
+  cd tumi-app
+```
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Install dependencies
 
-## Generate a library
+```bash
+  yarn install
+```
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+Start the server
 
-> You can also use any of the plugins above to generate libraries as well.
+```bash
+  yarn run start:app
+  yarn run start:api
+```
 
-Libraries are shareable across libraries and applications. They can be imported from `@tumi/mylib`.
+## Environment Variables
 
-## Development server
+To run this project, you will need to add the following environment variables to your .env file
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+`BLOB_SAS_TOKEN`
 
-## Code scaffolding
+`PRODUCT_SAS_TOKEN`
 
-Run `ng g component my-component --project=my-app` to generate a new component.
+`STORAGE_CONNECTION_STRING`
 
-## Build
+`STRIPE_WH_SECRET`
 
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`DATABASE_URL`
 
-## Running unit tests
+`STRIPE_KEY`
 
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Of course these can't be published, but if they are needed for development, sandbox keys will do.
