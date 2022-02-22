@@ -7,6 +7,6 @@ import { ExtendDatePipe } from './extend-date-pipe';
   imports: [CommonModule],
   declarations: [IconURLPipe, ExtendDatePipe],
   exports: [IconURLPipe, ExtendDatePipe],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class UtilPipesModule {}

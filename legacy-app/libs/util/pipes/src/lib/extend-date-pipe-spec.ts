@@ -1,4 +1,4 @@
-import { ExtendDatePipe } from "./extend-date-pipe";
+import { ExtendDatePipe } from './extend-date-pipe';
 
 describe('ExtendDatePipe', () => {
   it('create an instance', () => {

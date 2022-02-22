@@ -9,7 +9,7 @@ export class ExtendDatePipe implements PipeTransform {
     medium: 'EEEE, d MMM y, HH:mm',
     shortTime: 'HH:mm',
     mediumTime: 'HH:mm',
-    longDate: 'EEEE, d LLLL'
+    longDate: 'EEEE, d LLLL',
   };
 
   constructor(private datePipe: DatePipe) {}
