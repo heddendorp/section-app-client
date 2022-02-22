@@ -45,6 +45,7 @@ import {
 } from '@tumi/util-components';
 import { sha256 } from 'crypto-hash';
 import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
+import { Settings } from 'luxon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -217,6 +218,9 @@ export class AppModule {
     snackBar: MatSnackBar,
     @Inject(PLATFORM_ID) platform: any
   ) {
+    // set default Luxon locale
+    Settings.defaultLocale = 'en';
+
     if (environment.production) {
       const angularPlugin = new AngularPlugin();
       const appInsights = new ApplicationInsights({
