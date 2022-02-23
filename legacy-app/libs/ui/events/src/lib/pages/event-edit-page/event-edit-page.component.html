@@ -12,39 +12,6 @@
       animationDuration="300ms"
       class="example-stretched-tabs"
     >
-      <mat-tab label="Publication">
-        <div class="p-4">
-          <form [formGroup]="publicationForm" (ngSubmit)="changePublication()">
-            <mat-form-field class="w-full">
-              <mat-label>Publication state</mat-label>
-              <mat-select formControlName="publicationState">
-                <mat-option [value]="PublicationState.Draft">Draft</mat-option>
-                <mat-option [value]="PublicationState.Approval">
-                  Ready for approval
-                </mat-option>
-                <mat-option
-                  [value]="PublicationState.Organizers"
-                  *tumiIfRole="[Role.Admin]"
-                >
-                  Visible to Organizers
-                </mat-option>
-                <mat-option
-                  [value]="PublicationState.Public"
-                  *tumiIfRole="[Role.Admin]"
-                >
-                  Public
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <div class="mt-4">
-              <button type="submit" mat-flat-button color="primary">
-                Save Changes
-              </button>
-            </div>
-          </form>
-        </div>
-      </mat-tab>
       <mat-tab label="General">
         <div class="p-4">
           <div
@@ -403,6 +370,39 @@
               </button>
             </mat-list-item>
           </mat-list>
+        </div>
+      </mat-tab>
+      <mat-tab label="Publication">
+        <div class="p-4">
+          <form [formGroup]="publicationForm" (ngSubmit)="changePublication()">
+            <mat-form-field class="w-full">
+              <mat-label>Publication state</mat-label>
+              <mat-select formControlName="publicationState">
+                <mat-option [value]="PublicationState.Draft">Draft</mat-option>
+                <mat-option [value]="PublicationState.Approval">
+                  Ready for approval
+                </mat-option>
+                <mat-option
+                  [value]="PublicationState.Organizers"
+                  *tumiIfRole="[Role.Admin]"
+                >
+                  Visible to Organizers
+                </mat-option>
+                <mat-option
+                  [value]="PublicationState.Public"
+                  *tumiIfRole="[Role.Admin]"
+                >
+                  Public
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="mt-4">
+              <button type="submit" mat-flat-button color="primary">
+                Save Changes
+              </button>
+            </div>
+          </form>
         </div>
       </mat-tab>
     </mat-tab-group>
