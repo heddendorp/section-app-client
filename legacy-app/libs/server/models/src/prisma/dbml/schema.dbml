@@ -18,7 +18,7 @@ Table Tenant {
   refundedRegistrations RefundedRegistration [not null]
   products Product [not null]
   eventTemplateCategories EventTemplateCategory [not null]
-  Transaction Transaction [not null]
+  transactions Transaction [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -47,7 +47,7 @@ Table User {
   purchases Purchase [not null]
   receipts Receipt [not null]
   tenants UsersOfTenants [not null]
-  Transaction Transaction [not null]
+  transactions Transaction [not null]
 
   Note: 'One User of the app'
 }
@@ -98,7 +98,7 @@ Table StripePayment {
   status String [not null]
   user User [not null]
   userId String [not null]
-  Transaction Transaction [not null]
+  transactions Transaction [not null]
 }
 
 Table Transaction {
@@ -223,7 +223,7 @@ Table TumiEvent {
   start DateTime [not null]
   submissionItems EventSubmissionItem [not null]
   title String [not null]
-  Transaction Transaction [not null]
+  transactions Transaction [not null]
 
   Note: 'Actual instande of an TumiEventbased on a template'
 }

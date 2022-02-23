@@ -45,6 +45,9 @@ export const eventSubmissionItemType = objectType({
       name: 'ownSubmissions',
       type: nonNull(list(nonNull(eventSubmissionType))),
       resolve: (source, args, context) => {
+        if (!context.user) {
+          return [];
+        }
         return context.prisma.eventSubmissionItem
           .findUnique({
             where: { id: source.id },
