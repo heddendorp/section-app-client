@@ -8,17 +8,13 @@
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
             "generatePackageJson": true,
-            "externalDependencies": [
-              "_http_common"
-            ],
+            "externalDependencies": ["_http_common"],
             "assets": [
               "apps/api/src/assets",
               {
@@ -51,31 +47,21 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/api/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/api/**/*.ts"]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api"
-          ],
+          "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           }
         }
       },
-      "tags": [
-        "scope:server"
-      ],
-      "implicitDependencies": [
-        "tumi-app"
-      ]
+      "tags": ["scope:server"],
+      "implicitDependencies": ["tumi-app"]
     },
     "data-access": {
       "projectType": "library",
@@ -85,9 +71,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/data-access"
-          ],
+          "outputs": ["coverage/libs/data-access"],
           "options": {
             "jestConfig": "libs/data-access/jest.config.js",
             "passWithNoTests": true
@@ -111,9 +95,7 @@
               "libs/data-access/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
       "tags": []
@@ -126,19 +108,13 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/server/graphql/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/server/graphql/**/*.ts"]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/server/graphql"
-          ],
+          "outputs": ["coverage/libs/server/graphql"],
           "options": {
             "jestConfig": "libs/server/graphql/jest.config.js",
             "passWithNoTests": true
@@ -155,19 +131,13 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/server/models/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/server/models/**/*.ts"]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/server/models"
-          ],
+          "outputs": ["coverage/libs/server/models"],
           "options": {
             "jestConfig": "libs/server/models/jest.config.js",
             "passWithNoTests": true
@@ -195,9 +165,7 @@
           }
         }
       },
-      "tags": [
-        "scope:server"
-      ]
+      "tags": ["scope:server"]
     },
     "server-services": {
       "root": "libs/server/services",
@@ -206,20 +174,14 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/server/services/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/server/services/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/server/services"
-          ],
+          "outputs": ["coverage/libs/server/services"],
           "options": {
             "jestConfig": "libs/server/services/jest.config.js",
             "passWithNoTests": true
@@ -235,20 +197,14 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/shared/data-types/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/shared/data-types/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/shared/data-types"
-          ],
+          "outputs": ["coverage/libs/shared/data-types"],
           "options": {
             "jestConfig": "libs/shared/data-types/jest.config.js",
             "passWithNoTests": true
@@ -265,9 +221,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/tumi-app/browser",
             "index": "apps/tumi-app/src/index.html",
@@ -286,12 +240,8 @@
               "apps/tumi-app/src/assets",
               "apps/tumi-app/src/manifest.webmanifest"
             ],
-            "styles": [
-              "apps/tumi-app/src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/marked/lib/marked.js"
-            ],
+            "styles": ["apps/tumi-app/src/styles.scss"],
+            "scripts": ["node_modules/marked/marked.min.js"],
             "serviceWorker": true,
             "ngswConfigPath": "apps/tumi-app/ngsw-config.json"
           },
@@ -357,15 +307,11 @@
               "apps/tumi-app/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/tumi-app"
-          ],
+          "outputs": ["coverage/apps/tumi-app"],
           "options": {
             "jestConfig": "apps/tumi-app/jest.config.js",
             "passWithNoTests": true
@@ -430,9 +376,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {
@@ -476,19 +420,13 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/tumi-app-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/tumi-app-e2e/**/*.{js,ts}"]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
       "tags": [],
-      "implicitDependencies": [
-        "tumi-app"
-      ]
+      "implicitDependencies": ["tumi-app"]
     },
     "ui-app-shell": {
       "projectType": "library",
@@ -498,9 +436,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/app-shell"
-          ],
+          "outputs": ["coverage/libs/ui/app-shell"],
           "options": {
             "jestConfig": "libs/ui/app-shell/jest.config.js",
             "passWithNoTests": true
@@ -514,14 +450,10 @@
               "libs/ui/app-shell/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
-      "tags": [
-        "scope:client"
-      ]
+      "tags": ["scope:client"]
     },
     "ui-auth": {
       "projectType": "library",
@@ -531,9 +463,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/auth"
-          ],
+          "outputs": ["coverage/libs/ui/auth"],
           "options": {
             "jestConfig": "libs/ui/auth/jest.config.js",
             "passWithNoTests": true
@@ -547,14 +477,10 @@
               "libs/ui/auth/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
-      "tags": [
-        "scope:client"
-      ]
+      "tags": ["scope:client"]
     },
     "ui-event-templates": {
       "projectType": "library",
@@ -564,9 +490,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/event-templates"
-          ],
+          "outputs": ["coverage/libs/ui/event-templates"],
           "options": {
             "jestConfig": "libs/ui/event-templates/jest.config.js",
             "passWithNoTests": true
@@ -592,9 +516,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/events"
-          ],
+          "outputs": ["coverage/libs/ui/events"],
           "options": {
             "jestConfig": "libs/ui/events/jest.config.js",
             "passWithNoTests": true
@@ -620,9 +542,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/feedback"
-          ],
+          "outputs": ["coverage/libs/ui/feedback"],
           "options": {
             "jestConfig": "libs/ui/feedback/jest.config.js",
             "passWithNoTests": true
@@ -648,9 +568,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/home"
-          ],
+          "outputs": ["coverage/libs/ui/home"],
           "options": {
             "jestConfig": "libs/ui/home/jest.config.js",
             "passWithNoTests": true
@@ -676,9 +594,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/pages"
-          ],
+          "outputs": ["coverage/libs/ui/pages"],
           "options": {
             "jestConfig": "libs/ui/pages/jest.config.js",
             "passWithNoTests": true
@@ -704,9 +620,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/products"
-          ],
+          "outputs": ["coverage/libs/ui/products"],
           "options": {
             "jestConfig": "libs/ui/products/jest.config.js",
             "passWithNoTests": true
@@ -732,9 +646,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/profile"
-          ],
+          "outputs": ["coverage/libs/ui/profile"],
           "options": {
             "jestConfig": "libs/ui/profile/jest.config.js",
             "passWithNoTests": true
@@ -748,9 +660,7 @@
               "libs/ui/profile/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
       "tags": []
@@ -763,9 +673,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/shopping-basket"
-          ],
+          "outputs": ["coverage/libs/ui/shopping-basket"],
           "options": {
             "jestConfig": "libs/ui/shopping-basket/jest.config.js",
             "passWithNoTests": true
@@ -791,9 +699,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui/tenant"
-          ],
+          "outputs": ["coverage/libs/ui/tenant"],
           "options": {
             "jestConfig": "libs/ui/tenant/jest.config.js",
             "passWithNoTests": true
@@ -819,9 +725,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/util/components"
-          ],
+          "outputs": ["coverage/libs/util/components"],
           "options": {
             "jestConfig": "libs/util/components/jest.config.js",
             "passWithNoTests": true
@@ -847,9 +751,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/util/material"
-          ],
+          "outputs": ["coverage/libs/util/material"],
           "options": {
             "jestConfig": "libs/util/material/jest.config.js",
             "passWithNoTests": true
@@ -863,9 +765,7 @@
               "libs/util/material/src/**/*.html"
             ]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         }
       },
       "tags": []
@@ -878,9 +778,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/util/pipes"
-          ],
+          "outputs": ["coverage/libs/util/pipes"],
           "options": {
             "jestConfig": "libs/util/pipes/jest.config.js",
             "passWithNoTests": true

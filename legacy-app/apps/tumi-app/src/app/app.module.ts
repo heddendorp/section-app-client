@@ -16,7 +16,7 @@ import {
 } from '@auth0/auth0-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UiAppShellModule } from '@tumi/ui-app-shell';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
 import { Router, RouterModule } from '@angular/router';
@@ -55,6 +55,7 @@ import { Settings } from 'luxon';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MarkdownModule.forRoot(),
+    ApolloModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'events' },
       { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },

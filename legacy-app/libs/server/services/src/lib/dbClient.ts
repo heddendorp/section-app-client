@@ -17,7 +17,7 @@ const cacheHits = io.meter({
   id: 'app/cache/hits',
 });
 
-const queryCache = new LRU(100);
+const queryCache = new LRU({ max: 100 });
 
 const loggingMiddleware = async (params, next) => {
   currentQueries.inc();
