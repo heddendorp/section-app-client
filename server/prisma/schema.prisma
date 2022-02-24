@@ -111,6 +111,7 @@ model Tenant {
   refundedRegistrations   RefundedRegistration[]
   products                Product[]
   eventTemplateCategories EventTemplateCategory[]
+  transactions             Transaction[]
 }
 
 /// One User of the app
@@ -142,6 +143,7 @@ model User {
   purchases          Purchase[]
   receipts           Receipt[]
   tenants            UsersOfTenants[]
+  transactions        Transaction[]
 }
 
 model StripeUserData {
@@ -186,6 +188,22 @@ model StripePayment {
   status                String
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String                 @db.Uuid
+  transactions           Transaction[]
+}
+
+model Transaction {
+  id              String        @id @default(uuid()) @db.Uuid
+  createdAt       DateTime      @default(now())
+  payment         StripePayment @relation(fields: [stripePaymentId], references: [id])
+  subject         String
+  user            User?         @relation(fields: [userId], references: [id])
+  event           TumiEvent?    @relation(fields: [tumiEventId], references: [id])
+  tenant          Tenant?       @relation(fields: [tenantId], references: [id])
+  isMembershipFee Boolean
+  stripePaymentId String        @db.Uuid
+  userId          String?       @db.Uuid
+  tumiEventId     String?       @db.Uuid
+  tenantId        String?       @db.Uuid
 }
 
 /// To be removed soon
@@ -291,6 +309,7 @@ model TumiEvent {
   start                  DateTime
   submissionItems        EventSubmissionItem[]
   title                  String
+  transactions            Transaction[]
 }
 
 model Product {
