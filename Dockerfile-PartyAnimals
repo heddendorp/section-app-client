@@ -1,0 +1,24 @@
+FROM node:16
+# Create app directory
+WORKDIR /usr/src/app
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY party-animals/package.json package.json yarn.lock .yarnrc.yml ./
+COPY party-animals/package.json party-animals/
+COPY .yarn .yarn/
+
+RUN yarn workspace @tumi/party-animals install
+COPY party-animals party-animals/
+# If you are building your code for production
+# RUN npm ci --only=production
+ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/animals
+RUN yarn workspace @tumi/party-animals build
+#RUN ng run tumi-events:server
+
+#FROM node:16
+#WORKDIR /root/
+# Bundle app source
+#COPY --from=builder /usr/src/app/dist dist
+EXPOSE 3000
+CMD [ "yarn", "workspace", "@tumi/party-animals", "start" ]

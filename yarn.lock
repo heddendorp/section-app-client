@@ -3028,6 +3028,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "@prisma/client@npm:3.10.0"
+  dependencies:
+    "@prisma/engines-version": 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: c9fe863abfbcecff6b26c2fc4c93de77fd11c8209e91b8e2cba13ba3f0866d228eb5e92fac43e1f75497b652db54cb5e309320c3d51e603a4ecb4125dbf3a872
+  languageName: node
+  linkType: hard
+
 "@prisma/client@npm:^3.9.2":
   version: 3.9.2
   resolution: "@prisma/client@npm:3.9.2"
@@ -3053,10 +3067,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines-version@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
+  version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+  resolution: "@prisma/engines-version@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
+  checksum: ddcb3bfdab61ac74e2df9e57562ccc7f0eb863955c8cf711f52f45572168f65e030e5070dfc9fc2e37d916b97b236576006b5cd56c813257a96b825c598e79fa
+  languageName: node
+  linkType: hard
+
 "@prisma/engines-version@npm:3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009":
   version: 3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009
   resolution: "@prisma/engines-version@npm:3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009"
   checksum: 413d478fc1980604de1f46a0d53ae6c752965283a7d8c51d8fb3881c371b4a71ab4aa10002dba411d961286caf1141871c3c85d209a316421cdf1e1fdac71b4e
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
+  version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+  resolution: "@prisma/engines@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
+  checksum: 7faa8659dd72e70f9b24be291e3660d086d5b2ee1b6557bf783100a2efaf4f7087882196191c845f96c3953a55ea8bcb03110af98a18e803b90084c0c2211444
   languageName: node
   linkType: hard
 
@@ -12802,6 +12830,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "nanoid@npm:3.3.1"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 4ef0969e1bbe866fc223eb32276cbccb0961900bfe79104fa5abe34361979dead8d0e061410a5c03bc3d47455685adf32c09d6f27790f4a6898fb51f7df7ec86
+  languageName: node
+  linkType: hard
+
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
@@ -14424,6 +14461,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss@npm:^8.4.7":
+  version: 8.4.7
+  resolution: "postcss@npm:8.4.7"
+  dependencies:
+    nanoid: ^3.3.1
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: a515ed36622edbee1d3ba153298d3b62ae9826dfa6de19204c2a6f975c8d3ad36808423b5119a9d82b78efd486de3ce35a1faf882a36ac8aa09492be4fbb7fe1
+  languageName: node
+  linkType: hard
+
 "prelude-ls@npm:^1.2.1":
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
@@ -14476,6 +14524,18 @@ __metadata:
   dependencies:
     parse-ms: ^2.1.0
   checksum: d76c4920283b48be91f1d3797a2ce4bd51187d58d2a609ae993c028f73c92d16439449d857af57ccad91ae3a38b30c87307f5589749a056102ebb494c686957e
+  languageName: node
+  linkType: hard
+
+"prisma@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "prisma@npm:3.10.0"
+  dependencies:
+    "@prisma/engines": 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: da693ebd69ec5f5a8132a86f1c6e300033a5ea869016e19364f514fdda6143f0d6236982a26b431313f06fecfaa2d1bd82eac3ebbf5b58082271f1a65c8a683d
   languageName: node
   linkType: hard
 
@@ -15076,15 +15136,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "remix-app-template@workspace:party-animals"
   dependencies:
+    "@prisma/client": ^3.10.0
     "@remix-run/dev": ^1.2.2
     "@remix-run/react": ^1.2.2
     "@remix-run/serve": ^1.2.2
     "@types/react": ^17.0.24
     "@types/react-dom": ^17.0.9
+    autoprefixer: ^10.4.2
+    concurrently: ^7.0.0
     cross-env: ^7.0.3
+    postcss: ^8.4.7
+    prisma: ^3.10.0
     react: ^17.0.2
     react-dom: ^17.0.2
     remix: ^1.2.2
+    tailwindcss: ^3.0.23
     typescript: ^4.5.5
   languageName: unknown
   linkType: soft
