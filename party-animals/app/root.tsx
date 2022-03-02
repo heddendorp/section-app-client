@@ -10,7 +10,14 @@ import type { MetaFunction } from 'remix';
 import styles from './styles/app.css';
 
 export const meta: MetaFunction = () => {
-  return { title: 'Party Animals' };
+  return {
+    title: 'Party Animals',
+    description:
+      'Party Animals is the best way to start your exchange in munich',
+    'og:description':
+      'Party Animals is the best way to start your exchange in munich',
+    'og:image': '/social-logo.png',
+  };
 };
 
 export function links() {
