@@ -1,25 +1,26 @@
 .pa-start {
-    height: 800px;
-    width: 100%;
-    background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
+  height: 800px;
+  width: 100%;
+  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
     url('/images/starter.jpg') center no-repeat;
-    background-size: cover;
-    background-blend-mode: multiply;
-    position: relative;
+  background-size: cover;
+  background-blend-mode: multiply;
+  position: relative;
 }
 .pa-schedule {
-    background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%), linear-gradient(#91959e 0, #424242 250px);
-    background-blend-mode: multiply;
-    color: white;
+  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
+    linear-gradient(#91959e 0, #424242 250px);
+  background-blend-mode: multiply;
+  color: white;
 }
 .pa-end {
-    height: 400px;
-    width: 100%;
-    background: linear-gradient(0deg, #0d47a1 10%, white 50%),
+  height: 400px;
+  width: 100%;
+  background: linear-gradient(0deg, #0d47a1 10%, white 50%),
     url('/images/end.jpg') center no-repeat;
-    background-size: cover;
-    background-blend-mode: multiply;
-    padding: 2rem;
-    position: relative;
-    /*cursor: pointer;*/
+  background-size: cover;
+  background-blend-mode: multiply;
+  padding: 2rem;
+  position: relative;
+  /*cursor: pointer;*/
 }
