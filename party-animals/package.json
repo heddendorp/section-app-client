@@ -8,7 +8,7 @@
     "build": "yarn build:css && remix build",
     "build:css": "tailwindcss -m -i app/styles/app.css -o app/styles/app.css",
     "dev": "concurrently \"yarn dev:css\" \"remix dev\"",
-    "dev:css": "tailwindcss -w -i app/styles/app.css -o app/styles/app.css",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build"
   },
