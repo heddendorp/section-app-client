@@ -3483,6 +3483,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tailwindcss/forms@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@tailwindcss/forms@npm:0.4.0"
+  dependencies:
+    mini-svg-data-uri: ^1.2.3
+  peerDependencies:
+    tailwindcss: ">=3.0.0 || >= 3.0.0-alpha.1"
+  checksum: 881a80b136f22b3da68323166ddfbcd844841f711d75ce4d64479302ae523ac7c1fe8a3bb57370216e6da69303640d70d543ecdb3ec2086f1ddf428a6c13566f
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/typography@npm:^0.5.2":
   version: 0.5.2
   resolution: "@tailwindcss/typography@npm:0.5.2"
@@ -3656,6 +3667,7 @@ __metadata:
     "@remix-run/dev": ^1.2.2
     "@remix-run/react": ^1.2.2
     "@remix-run/serve": ^1.2.2
+    "@tailwindcss/forms": ^0.4.0
     "@types/react": ^17.0.24
     "@types/react-dom": ^17.0.9
     autoprefixer: ^10.4.2
@@ -3666,6 +3678,8 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     remix: ^1.2.2
+    remix-auth: ^3.2.1
+    remix-auth-auth0: ^1.3.2
     tailwindcss: ^3.0.23
     typescript: ^4.5.5
   languageName: unknown
@@ -12619,6 +12633,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mini-svg-data-uri@npm:^1.2.3":
+  version: 1.4.3
+  resolution: "mini-svg-data-uri@npm:1.4.3"
+  bin:
+    mini-svg-data-uri: cli.js
+  checksum: bd1789c34907a36ae9157897b7c7f6ad700e71c8cb6d725bb2810ce6211abcaa3717333ca17408f6f8b2a44055e571cd5b78d478688e1864513cb7f8e023ae3f
+  languageName: node
+  linkType: hard
+
 "minimalistic-assert@npm:^1.0.0":
   version: 1.0.1
   resolution: "minimalistic-assert@npm:1.0.1"
@@ -15163,6 +15186,58 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remix-auth-auth0@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "remix-auth-auth0@npm:1.3.2"
+  dependencies:
+    remix-auth-oauth2: ^1.2.0
+  peerDependencies:
+    "@remix-run/server-runtime": ^1.1.1
+    remix-auth: ^3.1.0
+  checksum: 49af558bfe2a80f98d06c98758ddeac8bb5b05ed42948e180c35ed7128721b9adfde1b6c6fe5d93a77d7bdef70b76c6e13e40162abcac559311bb22d8bf01034
+  languageName: node
+  linkType: hard
+
+"remix-auth-oauth2@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "remix-auth-oauth2@npm:1.2.0"
+  dependencies:
+    debug: ^4.3.3
+    remix-auth: ^3.1.0
+    uuid: ^8.3.2
+  peerDependencies:
+    "@remix-run/server-runtime": ^1.0.0
+  checksum: 2ff53df3bb045222b0156ddb84fbb987eed84da6b0788b55e77999c162af953f9ddc94692ac9a3ce0020f5ef4aaea4a9e8de1521776c9fdf89e8a882e2750b38
+  languageName: node
+  linkType: hard
+
+"remix-auth@npm:^3.1.0, remix-auth@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "remix-auth@npm:3.2.1"
+  dependencies:
+    remix-utils: ^2.2.0
+    uuid: ^8.3.2
+  peerDependencies:
+    "@remix-run/react": ^1.0.0
+    "@remix-run/server-runtime": ^1.0.0
+  checksum: ffa1cfe125d86066004e98dbf3ba844e34114c2d4eab660ff03cd1f178de20d50111e071f7ac570bf23420bc7056da69132917fe259a84406ea97338cc765be3
+  languageName: node
+  linkType: hard
+
+"remix-utils@npm:^2.2.0":
+  version: 2.5.0
+  resolution: "remix-utils@npm:2.5.0"
+  dependencies:
+    type-fest: ^2.5.2
+    uuid: ^8.3.2
+  peerDependencies:
+    "@remix-run/react": ^1.1.1
+    "@remix-run/server-runtime": ^1.1.1
+    react: ^17.0.2
+  checksum: 83f95affbfad837efd97272eb4300a46df3d6c6133ac3df2744d990d49cfddbc345e5b349a6087b60734ae101c6999ab3c4b06e51f7fe8f674086b5f5e6878c0
+  languageName: node
+  linkType: hard
+
 "remix@npm:^1.2.2":
   version: 1.2.2
   resolution: "remix@npm:1.2.2"
@@ -17077,6 +17152,13 @@ __metadata:
   version: 0.8.1
   resolution: "type-fest@npm:0.8.1"
   checksum: d61c4b2eba24009033ae4500d7d818a94fd6d1b481a8111612ee141400d5f1db46f199c014766b9fa9b31a6a7374d96fc748c6d688a78a3ce5a33123839becb7
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^2.5.2":
+  version: 2.12.0
+  resolution: "type-fest@npm:2.12.0"
+  checksum: 3ebe6529db84c7ceb579a0c693b92c4bf83fa5a78b5d6a1d3c2138696ad69e0a1ebc7e1b707ee0a2a6bd5aef71bf2bf4fc6fc81a6c752330e10faf0deea80f05
   languageName: node
   linkType: hard
 

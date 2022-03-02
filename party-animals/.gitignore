@@ -5,4 +5,5 @@ node_modules
 /public/build
 .env
 
+app/generated/*
 app/styles/app.css
