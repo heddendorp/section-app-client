@@ -3703,7 +3703,7 @@ __metadata:
     express: ^4.17.2
     express-jwt: ^6.1.0
     got: ^12.0.1
-    graphql: ^16.3.0
+    graphql: ^15.8.0
     graphql-helix: ^1.11.0
     jsonwebtoken: ^8.5.1
     jwks-rsa: ^2.0.5
@@ -9560,6 +9560,13 @@ __metadata:
   peerDependencies:
     graphql: ">=0.11 <=16"
   checksum: bdb77b3e44be53d2d8d0c395066e62e74efe1123d9b5be7cc69b60d28229974e32abc79c5997095d038d169d4135cb2bcb98f0e666aa8cfeb3bb9857b960d803
+  languageName: node
+  linkType: hard
+
+"graphql@npm:^15.8.0":
+  version: 15.8.0
+  resolution: "graphql@npm:15.8.0"
+  checksum: 423325271db8858428641b9aca01699283d1fe5b40ef6d4ac622569ecca927019fce8196208b91dd1d8eb8114f00263fe661d241d0eb40c10e5bfd650f86ec5e
   languageName: node
   linkType: hard
 
