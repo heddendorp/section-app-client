@@ -83,7 +83,7 @@ export default function Index() {
             <strong>How do you select who gets in?</strong>
             <p>
               Selection is mainly done by registration order, we do however try
-              to keep the groups diverse a balanced.
+              to keep the groups diverse and balanced.
             </p>
           </div>
           <div>
