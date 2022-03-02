@@ -16,6 +16,7 @@ export const meta: MetaFunction = () => {
       'Party Animals is the best way to start your exchange in munich',
     'og:description':
       'Party Animals is the best way to start your exchange in munich',
+    image: '/social-logo.png',
     'og:image': '/social-logo.png',
   };
 };

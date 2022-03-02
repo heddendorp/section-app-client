@@ -16,7 +16,7 @@ export default function Index() {
   return (
     <main>
       <section className="pa-start">
-        <div className="absolute bottom-6 left-6 right-6 text-white">
+        <div className="absolute bottom-4 left-4 right-4 text-white sm:bottom-8 sm:left-8 sm:right-8">
           <h1 className="mb-4 text-4xl font-black md:text-6xl">Welcome!</h1>
           <p className="mb-4 md:text-lg">
             Some years ago the TUMi secret council sat together and developed
@@ -39,7 +39,7 @@ export default function Index() {
           </Link>
         </div>
       </section>
-      <section className="pa-schedule">
+      <section className="pa-schedule p-4 py-8 sm:p-8">
         <h2 className="mb-4 text-2xl font-black md:text-4xl">Schedule</h2>
         <p className="mb-4 md:text-lg">
           We have planned this preliminary schedule for you. This is mainly a
@@ -48,7 +48,7 @@ export default function Index() {
           Changes to this program can happen if our plans don't work out as
           hoped
         </p>
-        <div className="grid grid-flow-row grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-4">
+        <div className="grid grid-flow-row grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
               src={itemURL('handshake:nolan')}
@@ -61,7 +61,7 @@ export default function Index() {
               <p>Noon and evening</p>
             </div>
           </div>
-          <div className="col-span-2 flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2 sm:col-span-2">
             <img
               src={itemURL('castle:nolan')}
               alt="handshake:nolan"
@@ -182,9 +182,9 @@ export default function Index() {
           </div>
         </div>
       </section>
-      <section className="bg-slate-800 p-8">
-        <div className="grid grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <div className="col-span-2 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+      <section className="bg-slate-800 p-4 sm:p-8">
+        <div className="grid grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -236,7 +236,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="col-span-2 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -309,7 +309,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="col-span-2 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -415,7 +415,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="col-span-2 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
