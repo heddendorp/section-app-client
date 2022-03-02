@@ -520,6 +520,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.25rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
 .block {
   display: block;
 }
@@ -600,6 +608,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -803,10 +815,48 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(226 232 240 / var(--tw-text-opacity));
 }
 
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
+
+.text-blue-300 {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity));
+}
+
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity));
+}
+
+.text-slate-300 {
+  --tw-text-opacity: 1;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+}
+
+.text-slate-400 {
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
+}
+
+.underline {
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
 .shadow-xl {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.visited\:text-purple-600:visited {
+  color: rgb(147 51 234 );
+}
+
+.visited\:text-purple-300:visited {
+  color: rgb(216 180 254 );
 }
 
 .hover\:bg-transparent:hover {
@@ -816,6 +866,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.hover\:text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
+
+.hover\:text-blue-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .focus\:outline-none:focus {
