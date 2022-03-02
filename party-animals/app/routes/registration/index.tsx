@@ -1,8 +1,9 @@
 import styles from '~/styles/registration.css';
-import { Form, Link, useLoaderData } from '@remix-run/react';
-import { LoaderFunction } from 'remix';
+import { Form, Link, useActionData, useLoaderData } from '@remix-run/react';
+import { ActionFunction, LoaderFunction } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import { itemURL } from '~/utils';
+import { createRegistration } from '~/services/registrations.server';
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }];
@@ -16,8 +17,18 @@ export let loader: LoaderFunction = async ({ request }) => {
   return Promise.all([countries, user]);
 };
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const [errors, registration] = await createRegistration(formData);
+  if (errors) {
+    const values = Object.fromEntries(formData);
+    return { errors, values };
+  }
+};
+
 export default function Registration() {
   let [countries, user] = useLoaderData();
+  const actionData = useActionData();
   // console.log(user);
   // console.log(countries);
   return (
