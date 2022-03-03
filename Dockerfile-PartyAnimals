@@ -14,7 +14,8 @@ COPY party-animals party-animals/
 # RUN npm ci --only=production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/animals
 RUN yarn workspace @tumi/party-animals build
-#RUN ng run tumi-events:server
+
+COPY party-animals/prisma/schema.prisma ./party-animals/build/schema.prisma
 
 #FROM node:16
 #WORKDIR /root/
