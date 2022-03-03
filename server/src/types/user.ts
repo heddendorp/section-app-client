@@ -221,7 +221,7 @@ export const getCurrent = queryField('currentUser', {
   description: 'Returns the logged in user if found or null',
   resolve: async (source, args, context) => {
     if (!context.user) {
-      throw new EnvelopError('Not logged in');
+      return null;
     }
     return context.user;
   },
