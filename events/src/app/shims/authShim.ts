@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 
 export class AuthShim {
   public loginWithRedirect() {}
-  public isAuthenticated$() {
+  public get isAuthenticated$() {
     return of(false);
   }
 }

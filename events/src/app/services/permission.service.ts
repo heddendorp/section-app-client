@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import {
   GetPermissionsGQL,
@@ -12,6 +12,7 @@ import { map, Observable, share } from 'rxjs';
 })
 export class PermissionService {
   private permissionRef;
+
   constructor(
     private auth: AuthService,
     private getPermissionsGQL: GetPermissionsGQL
