@@ -27,11 +27,16 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const [errors, registration] = await createRegistration(formData);
+  const user = await authenticator.isAuthenticated(request);
+  if (!user) {
+    throw new Error('User not authenticated');
+  }
+  const [errors, registration] = await createRegistration(formData, user);
   if (errors) {
     const values = Object.fromEntries(formData);
     return { errors, values };
   }
+  return { registration };
 };
 
 export default function Registration() {
@@ -173,6 +178,7 @@ export default function Registration() {
                 name="firstName"
                 type="text"
                 placeholder="First Name"
+                required
                 defaultValue={actionData?.values?.firstName ?? user.firstName}
               />
               <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -195,6 +201,7 @@ export default function Registration() {
                 name="lastName"
                 type="text"
                 placeholder="Last Name"
+                required
                 defaultValue={actionData?.values?.lastName ?? user.lastName}
               />
               <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -217,6 +224,7 @@ export default function Registration() {
                 name="callBy"
                 type="text"
                 placeholder="Call By"
+                required
                 defaultValue={actionData?.values?.callBy ?? user.firstName}
               />
               <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -237,6 +245,7 @@ export default function Registration() {
                 name="gender"
                 id="gender"
                 placeholder="Gender"
+                required
                 className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
                 defaultValue={actionData?.values?.gender}
               >
@@ -266,6 +275,7 @@ export default function Registration() {
                 name="email"
                 type="email"
                 placeholder="Email"
+                required
                 defaultValue={actionData?.values?.email ?? user.email}
               />
               <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -286,8 +296,9 @@ export default function Registration() {
                 className="peer w-full border-none bg-transparent px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
                 id="phone"
                 name="phone"
-                type="text"
+                type="tel"
                 placeholder="Phone"
+                required
                 defaultValue={actionData?.values?.phone}
               />
               <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -309,6 +320,7 @@ export default function Registration() {
                 id="country"
                 placeholder="Country"
                 defaultValue={actionData?.values?.country}
+                required
                 className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
               >
                 <option>Select your home country</option>
@@ -339,6 +351,7 @@ export default function Registration() {
                 id="university"
                 name="university"
                 type="text"
+                required
                 defaultValue={actionData?.values?.university}
                 placeholder="University"
               />
@@ -359,6 +372,7 @@ export default function Registration() {
               <select
                 name="status"
                 id="status"
+                required
                 defaultValue={actionData?.values?.status}
                 className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
               >
@@ -388,6 +402,7 @@ export default function Registration() {
               <select
                 name="size"
                 id="size"
+                required
                 defaultValue={actionData?.values?.size}
                 className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
               >
@@ -414,6 +429,7 @@ export default function Registration() {
               <select
                 name="oldie"
                 id="oldie"
+                required
                 defaultValue={actionData?.values?.oldie}
                 className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
               >
@@ -440,6 +456,7 @@ export default function Registration() {
                 id="expectations"
                 name="expectations"
                 rows={4}
+                required
                 defaultValue={actionData?.values?.expectations}
                 placeholder="Expectations"
               />
@@ -484,6 +501,7 @@ export default function Registration() {
                   type="checkbox"
                   name="pay"
                   id="pay"
+                  required
                   defaultValue={actionData?.values?.pay}
                   className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
                 />
@@ -507,6 +525,7 @@ export default function Registration() {
                   type="checkbox"
                   name="friends"
                   id="friends"
+                  required
                   defaultValue={actionData?.values?.friends}
                   className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
                 />

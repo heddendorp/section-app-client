@@ -1,11 +1,9 @@
-import { PrismaClient, Registration } from '~/generated/prisma';
+import { PrismaClient, Registration, User } from '~/generated/prisma';
 import v8n from 'v8n';
 
 const prisma = new PrismaClient();
 
-export async function createRegistration(
-  data: FormData
-): Promise<[{ [key: string]: string }, Registration | null]> {
+function validateRegistration(data: FormData): { [key: string]: string } {
   const errors: { [key: string]: string } = {};
   if (!v8n().string().minLength(3).maxLength(50).test(data.get('firstName'))) {
     errors.firstName = 'The first name must be at least 3 characters long';
@@ -36,7 +34,7 @@ export async function createRegistration(
   if (
     !v8n()
       .string()
-      .not.includes('@')
+      .includes('@')
       .minLength(3)
       .maxLength(50)
       .test(data.get('email'))
@@ -72,8 +70,7 @@ export async function createRegistration(
   if (
     !v8n()
       .string()
-      .length(1)
-      .pattern(/s|m|l|xl/)
+      .pattern(/s|m|l|(?:xl)/)
       .test(data.get('size'))
   ) {
     errors.size = 'Please select a valid size from the list';
@@ -98,14 +95,42 @@ export async function createRegistration(
   ) {
     errors.requests = 'Please type 10 to 300 characters';
   }
-  if (!v8n().string().equal('on').test(data.get('pay'))) {
+  if (!v8n().not.null().test(data.get('pay'))) {
     errors.pay = 'Please accept this statement';
   }
-  if (!v8n().string().equal('on').test(data.get('friends'))) {
+  if (!v8n().not.null().test(data.get('friends'))) {
     errors.friends = 'Please accept this statement';
   }
+  return errors;
+}
+
+export async function createRegistration(
+  data: FormData,
+  user: User
+): Promise<[{ [key: string]: string }, Registration | null]> {
+  const errors = validateRegistration(data);
   if (Object.keys(errors).length > 0) {
     return [errors, null];
   }
-  return [{}, null];
+  const values = Object.fromEntries(data);
+  const registration = await prisma.registration.create({
+    data: {
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+      callBy: values.callBy.toString(),
+      gender: values.gender.toString(),
+      phone: values.phone.toString(),
+      country: values.country.toString(),
+      university: values.university.toString(),
+      status: values.status.toString(),
+      size: values.size.toString(),
+      oldie: values.oldie.toString() === 'true',
+      expectations: values.expectations.toString(),
+      requests: values.requests.toString(),
+    },
+  });
+  return [{}, registration];
 }

@@ -24,10 +24,10 @@ export default function Index() {
             whole selection of single events you can check out
           </p>
           <Link
-            className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+            className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             to="/registration"
           >
-            <span className="block rounded-full bg-slate-800 px-8 py-3 text-sm font-medium hover:bg-transparent">
+            <span className="block rounded-full bg-slate-800 px-8 py-3 text-lg font-bold hover:bg-transparent">
               Sign up now!
             </span>
           </Link>
