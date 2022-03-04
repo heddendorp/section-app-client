@@ -21,8 +21,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function RegistrationStatus() {
   const registration = useLoaderData<Registration>();
   return (
-    <h2 className="text-2xl font-bold md:col-span-2 md:text-4xl">
-      Status: {registration.registrationStatus}
-    </h2>
+    <div>
+      <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
+        You registered!
+      </h2>
+      <p className="lg:text-lg">We will be in contact about further steps.</p>
+    </div>
   );
 }
