@@ -13,7 +13,7 @@ COPY party-animals party-animals/
 # If you are building your code for production
 # RUN npm ci --only=production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/animals
-ARG PRISMA_CLIENT_ENGINE_TYPE=dataproxy
+#ARG PRISMA_CLIENT_ENGINE_TYPE=dataproxy
 RUN yarn workspace @tumi/party-animals build
 
 COPY party-animals/prisma/schema.prisma ./party-animals/build/schema.prisma
