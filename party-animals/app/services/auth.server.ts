@@ -26,9 +26,9 @@ authenticator.use(
         return prisma.user.create({
           data: {
             authId: profile.id,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
-            email: profile.emails[0].value,
+            firstName: profile.name.givenName ?? '',
+            lastName: profile.name.familyName ?? '',
+            email: profile.emails[0]?.value ?? '',
           },
         });
       }
