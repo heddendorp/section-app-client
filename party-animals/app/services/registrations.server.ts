@@ -104,6 +104,9 @@ function validateRegistration(data: FormData): { [key: string]: string } {
   if (!v8n().not.null().test(data.get('covid'))) {
     errors.covid = 'Please accept this statement';
   }
+  if (!v8n().not.null().test(data.get('vax'))) {
+    errors.vax = 'Please confirm this statement';
+  }
   return errors;
 }
 
