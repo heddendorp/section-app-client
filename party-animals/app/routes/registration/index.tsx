@@ -18,6 +18,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     }
     return redirect('registration/form');
   }
+  return null;
 };
 
 export default function RegistrationLogin() {

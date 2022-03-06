@@ -1,18 +1,5 @@
 import styles from '~/styles/registration.css';
-import {
-  Form,
-  Link,
-  Outlet,
-  useActionData,
-  useLoaderData,
-  useTransition,
-} from '@remix-run/react';
-import { ActionFunction, LoaderFunction } from 'remix';
-import { authenticator } from '~/services/auth.server';
-import { itemURL } from '~/utils';
-import { createRegistration } from '~/services/registrations.server';
-import { ValidationMessage } from '~/components/ValidationMessage';
-import { act } from 'react-dom/test-utils';
+import { Link, Outlet } from '@remix-run/react';
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }];
