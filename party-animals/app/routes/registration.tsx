@@ -1,5 +1,6 @@
 import styles from '~/styles/registration.css';
 import { Link, Outlet } from '@remix-run/react';
+import { itemURL } from '~/utils';
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }];
@@ -47,15 +48,15 @@ export default function Registration() {
         <h1 className="mb-4 mt-6 text-2xl font-black md:text-4xl">
           Frequently asked questions
         </h1>
-        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div>
+        <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Can I be in a group with my friends?</strong>
             <p>
               No. You can't decide what group you are in and the spirit of party
               animals is finding new friends along the way.
             </p>
           </div>
-          <div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>What if I'm not that much of a party-person?</strong>
             <p>
               If partying and the accompanying alcohol are not really your jam,
@@ -63,7 +64,7 @@ export default function Registration() {
               prepared for you.
             </p>
           </div>
-          <div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>What if I can only attend some events?</strong>
             <p>
               Please refer to the schedule to make sure that you can attend as
@@ -72,6 +73,20 @@ export default function Registration() {
               the other events we have prepared for you in the first weeks.
             </p>
           </div>
+          <div className="flex flex-col items-center space-y-4 rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4 md:col-span-2 md:flex-row md:space-x-4 md:space-y-0">
+            <img src={itemURL('coronavirus:nolan')} className="w-16" />
+            <div>
+              <strong>What about the pandemic?</strong>
+              <p>
+                Party Animals is a program with a lot of contact which we
+                believe is crucial for making friends. Thus, we require you to{' '}
+                <strong>comply with the european 2G norm</strong>. <br />
+                In case of new regulations parts of the program could be moved,
+                substituted or canceled. We do our best to replace it as
+                appropriately as possible, but can't guarantee it.
+              </p>
+            </div>
+          </div>
           {/*<div>
             <strong>Can I cancel after I signed up?</strong>
             <p>
@@ -79,14 +94,22 @@ export default function Registration() {
               please put some thought into it before you sign up.
             </p>
           </div>*/}
-          <div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>How do you select who gets in?</strong>
             <p>
               Selection is mainly done by registration order, we do however try
               to keep the groups diverse and balanced.
             </p>
           </div>
-          <div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+            <strong>Are you worried?</strong>
+            <p>
+              We would not have brought back Party Animals if we did not think
+              that it would work and be great. We are confident that it will not
+              be impacted by the pandemic.
+            </p>
+          </div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Where can I find out more?</strong>
             <p>
               To find out more about Party Animals go to the info site we have

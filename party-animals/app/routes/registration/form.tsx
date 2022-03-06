@@ -420,6 +420,28 @@ export default function RegistrationForm() {
           />
         ) : null}
       </label>
+      <label htmlFor="covid">
+        <div className="flex flex-row space-x-4">
+          <input
+            type="checkbox"
+            name="covid"
+            id="covid"
+            required
+            defaultValue={actionData?.values?.covid}
+            className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
+          />
+          <span>
+            I understand, that there could be cancellations on short notice and
+            maybe not all participation fees could be refunded.
+          </span>
+        </div>
+        {actionData?.errors.covid ? (
+          <ValidationMessage
+            isSubmitting={transition.state === 'submitting'}
+            error={actionData?.errors?.covid}
+          />
+        ) : null}
+      </label>
       <button className="mt-4 inline-block rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-[3px] hover:text-white focus:outline-none focus:ring active:text-opacity-75 md:col-span-2">
         <span className="block rounded-full bg-slate-800 px-8 py-3 font-medium hover:bg-transparent">
           {transition.state === 'submitting'
