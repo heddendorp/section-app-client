@@ -59,7 +59,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript-apollo-angular": "3.4.2",
     "@graphql-codegen/typescript-operations": "^2.3.2",
-    "@graphql-eslint/eslint-plugin": "^3.8.0",
+    "@graphql-eslint/eslint-plugin": "^3.9.0",
     "@nguniversal/builders": "^13.0.2",
     "@tailwindcss/typography": "^0.5.2",
     "@types/compression": "^1.7.2",

@@ -85,13 +85,13 @@ export default function Registration() {
               the other events we have prepared for you in the first weeks.
             </p>
           </div>
-          <div>
+          {/*<div>
             <strong>Can I cancel after I signed up?</strong>
             <p>
               Yes. There will be a period for cancelling your registration, but
               please put some thought into it before you sign up.
             </p>
-          </div>
+          </div>*/}
           <div>
             <strong>How do you select who gets in?</strong>
             <p>

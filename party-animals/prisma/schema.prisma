@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["dataProxy"]
+//  previewFeatures = ["dataProxy"]
   output          = "../app/generated/prisma"
 }
 
