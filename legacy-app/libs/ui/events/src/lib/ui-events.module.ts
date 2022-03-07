@@ -47,6 +47,7 @@ import { CheckRegistrationTimeComponent } from './components/registration/check-
 import { CheckAdditionalDataComponent } from './components/registration/check-additional-data/check-additional-data.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ManageEventVotingComponent } from './components/management/manage-event-voting/manage-event-voting.component';
 
 @NgModule({
   imports: [
@@ -127,6 +128,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     EventPhotoPageComponent,
     CheckRegistrationTimeComponent,
     CheckAdditionalDataComponent,
+    ManageEventVotingComponent,
   ],
 })
 export class UiEventsModule {}

@@ -286,6 +286,11 @@ query loadEventForManagement($id: ID!) {
         fullName
         picture
         email
+        currentTenant{
+          userId
+          tenantId
+          status
+        }
       }
     }
     participantRegistrations(includeCancelled: true) {
@@ -316,6 +321,11 @@ query loadEventForManagement($id: ID!) {
         email
         phone
         university
+        currentTenant{
+          userId
+          tenantId
+          status
+        }
       }
     }
   }
