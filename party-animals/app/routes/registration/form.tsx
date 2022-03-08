@@ -245,7 +245,7 @@ export default function RegistrationForm() {
       </label>
       <label
         className="relative block rounded-lg border-2 border-gray-200 p-3"
-        htmlFor="gender"
+        htmlFor="status"
       >
         <select
           name="status"
@@ -267,6 +267,31 @@ export default function RegistrationForm() {
           <ValidationMessage
             isSubmitting={transition.state === 'submitting'}
             error={actionData?.errors?.status}
+          />
+        ) : null}
+      </label>
+      <label
+        className="relative block rounded-lg border-2 border-gray-200 p-3"
+        htmlFor="diet"
+      >
+        <select
+          name="diet"
+          id="diet"
+          required
+          defaultValue={actionData?.values?.diet}
+          className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+        >
+          <option value="none">No restrictions</option>
+          <option value="vegetarian">I am vegetarian</option>
+          <option value="vegan">I am vegan</option>
+        </select>
+        <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
+          Dietary restrictions
+        </span>
+        {actionData?.errors.diet ? (
+          <ValidationMessage
+            isSubmitting={transition.state === 'submitting'}
+            error={actionData?.errors?.diet}
           />
         ) : null}
       </label>
@@ -408,9 +433,9 @@ export default function RegistrationForm() {
             className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
           />
           <span>
-            I understand, that we will create the groups. You cannot influence
-            in which group you will end up, or who will be your mates (this is
-            to ensure cultural diversity)
+            I understand, that TUMi will create the groups. And I cannot
+            influence in which group you will end up, or who will be my mates
+            (this is to ensure diversity)
           </span>
         </div>
         {actionData?.errors.friends ? (
@@ -453,8 +478,9 @@ export default function RegistrationForm() {
             className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
           />
           <span>
-            I confirm that I am either recovered from COVID-19 or I have been
-            vaccinated with a vaccine recognized by the EU.
+            I confirm that I am either recovered from COVID-19 in the last 4
+            months or I have been vaccinated with a vaccine recognized by the
+            EU.
           </span>
         </div>
         {actionData?.errors.vax ? (

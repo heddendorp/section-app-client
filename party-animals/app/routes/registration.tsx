@@ -112,9 +112,35 @@ export default function Registration() {
           <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Where can I find out more?</strong>
             <p>
-              To find out more about Party Animals go to the info site we have
-              made for you.
+              To find out more about the program go to the overview or reach us
+              on instagram, facebook and telegram
             </p>
+            <div className="mt-2 flex space-x-2">
+              <a href="https://www.instagram.com/tumi.esn/" target="_blank">
+                <img
+                  src={itemURL('instagram-new:fluency')}
+                  className="w-8"
+                  alt=""
+                />
+              </a>
+              <a
+                href="https://www.facebook.com/esntumi.munchen"
+                target="_blank"
+              >
+                <img
+                  src={itemURL('facebook-new:fluency')}
+                  className="w-8"
+                  alt=""
+                />
+              </a>
+              <a href="https://t.me/+HBTPL-NHXXZiYWQy" target="_blank">
+                <img
+                  src={itemURL('telegram-app:fluency')}
+                  className="w-8"
+                  alt=""
+                />
+              </a>
+            </div>
           </div>
         </div>
         <Link

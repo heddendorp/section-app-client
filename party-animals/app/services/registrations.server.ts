@@ -67,6 +67,9 @@ function validateRegistration(data: FormData): { [key: string]: string } {
   ) {
     errors.status = 'Please select a valid status from the list';
   }
+  if (!v8n().string().test(data.get('diet'))) {
+    errors.status = 'Please provide a valid diet from the list';
+  }
   if (
     !v8n()
       .string()
@@ -132,6 +135,7 @@ export async function createRegistration(
       country: values.country.toString(),
       university: values.university.toString(),
       status: values.status.toString(),
+      diet: values.diet.toString(),
       size: values.size.toString(),
       oldie: values.oldie.toString() === 'true',
       expectations: values.expectations.toString(),
