@@ -40,6 +40,19 @@ $tumi-events-theme: mat.define-light-theme(
 // that you are using.
 @include mat.all-component-themes($tumi-events-theme);
 
+@media (prefers-color-scheme: dark) {
+  $tumi-events-theme: mat.define-dark-theme(
+    (
+      color: (
+        primary: $tumi-events-primary,
+        accent: $tumi-events-accent,
+        warn: $tumi-events-warn,
+      ),
+    )
+  );
+  @include mat.all-component-colors($tumi-events-theme);
+}
+
 @layer base {
   html,
   body {

@@ -10,6 +10,7 @@ export * from './eventSubmission';
 export * from './eventSubmissionItem';
 export * from './eventTemplate';
 export * from './eventTemplateCategory';
+export * from './invite';
 export * from './lineItem';
 export * from './photoShare';
 export * from './product';

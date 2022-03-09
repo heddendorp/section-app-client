@@ -3426,6 +3426,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sendgrid/client@npm:^7.6.1":
+  version: 7.6.1
+  resolution: "@sendgrid/client@npm:7.6.1"
+  dependencies:
+    "@sendgrid/helpers": ^7.6.0
+    axios: ^0.21.4
+  checksum: f108bd0d8dcbf05377a1fb38c0055595f8e2446b2709fd2c4dff96cd5c5f62947b117f968e5d31b9405af188e9693b2050be1d76b97ed13281c3aa21d863940e
+  languageName: node
+  linkType: hard
+
+"@sendgrid/helpers@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "@sendgrid/helpers@npm:7.6.0"
+  dependencies:
+    deepmerge: ^4.2.2
+  checksum: 8a5166a3072d518e0b805ebf25bddaf3a605526ba2d16d9b65679271593e901f4d398857bf7c3e31f258403e430055114f5ed7b0e4f15459dfff7ae1cfe5a9d7
+  languageName: node
+  linkType: hard
+
+"@sendgrid/mail@npm:^7.6.1":
+  version: 7.6.1
+  resolution: "@sendgrid/mail@npm:7.6.1"
+  dependencies:
+    "@sendgrid/client": ^7.6.1
+    "@sendgrid/helpers": ^7.6.0
+  checksum: 95018037a28a525e99022aa9bb227b1ed476326acb9f26f48f6ac24f0efbb36f1d34dfb1dbc6e97cf522804e903335a6d4644cfe41941e622b0ce60cbc45963e
+  languageName: node
+  linkType: hard
+
 "@sentry/angular@npm:^6.18.1":
   version: 6.18.1
   resolution: "@sentry/angular@npm:6.18.1"
@@ -3799,6 +3828,7 @@ __metadata:
     "@graphql-hive/client": ^0.14.2
     "@pathcheck/dcc-sdk": ^0.0.27
     "@prisma/client": ^3.10.0
+    "@sendgrid/mail": ^7.6.1
     "@sentry/node": ^6.18.1
     "@sentry/tracing": ^6.18.1
     "@types/compression": ^1.7.2
@@ -5488,7 +5518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.21.4":
+"axios@npm:0.21.4, axios@npm:^0.21.4":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
   dependencies:
@@ -7292,6 +7322,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: edb65dd0d7d1b9c40b2f50219aef30e116cedd6fc79290e740972c132c09106d2e80aa0bc8826673dd5a00222d4179c84b36a790eef63a4c4bca75a37ef90804
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "deepmerge@npm:4.2.2"
+  checksum: a8c43a1ed8d6d1ed2b5bf569fa4c8eb9f0924034baf75d5d406e47e157a451075c4db353efea7b6bcc56ec48116a8ce72fccf867b6e078e7c561904b5897530b
   languageName: node
   linkType: hard
 

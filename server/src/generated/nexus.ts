@@ -309,6 +309,16 @@ export interface NexusGenObjects {
     id: string; // ID!
     name: string; // String!
   }
+  Invite: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    creatorId: string; // String!
+    email: string; // String!
+    id: string; // ID!
+    redeemedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    redeemerId?: string | null; // String
+    status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+    tenantId: string; // String!
+  }
   LineItem: { // root type
     cancellationReason?: string | null; // String
     cost: NexusGenScalars['Decimal']; // Decimal!
@@ -620,6 +630,19 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     templates: NexusGenRootTypes['EventTemplate'][]; // [EventTemplate!]!
   }
+  Invite: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    creator: NexusGenRootTypes['User']; // User!
+    creatorId: string; // String!
+    email: string; // String!
+    id: string; // ID!
+    redeemedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    redeemedBy: NexusGenRootTypes['User'] | null; // User
+    redeemerId: string | null; // String
+    status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
+    tenant: NexusGenRootTypes['Tenant']; // Tenant!
+    tenantId: string; // String!
+  }
   LineItem: { // field return type
     cancellationReason: string | null; // String
     cart: NexusGenRootTypes['ShoppingCart'] | null; // ShoppingCart
@@ -644,6 +667,7 @@ export interface NexusGenFieldTypes {
     createEventFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     createEventOrganizer: NexusGenRootTypes['EventOrganizer'] | null; // EventOrganizer
     createEventTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
+    createInvites: Array<NexusGenRootTypes['Invite'] | null> | null; // [Invite]
     createPhotoShare: NexusGenRootTypes['PhotoShare'] | null; // PhotoShare
     createProduct: NexusGenRootTypes['Product']; // Product!
     createProductImage: NexusGenRootTypes['ProductImage'] | null; // ProductImage
@@ -757,6 +781,7 @@ export interface NexusGenFieldTypes {
     eventTemplates: NexusGenRootTypes['EventTemplate'][]; // [EventTemplate!]!
     events: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     getPaymentSetupSession: NexusGenRootTypes['paymentSetupSession']; // paymentSetupSession!
+    invites: Array<NexusGenRootTypes['Invite'] | null> | null; // [Invite]
     lmuPurchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
     logStats: NexusGenRootTypes['ActivityLogStat'][]; // [ActivityLogStat!]!
     logs: NexusGenRootTypes['ActivityLog'][]; // [ActivityLog!]!
@@ -1090,6 +1115,19 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     templates: 'EventTemplate'
   }
+  Invite: { // field return type name
+    createdAt: 'DateTime'
+    creator: 'User'
+    creatorId: 'String'
+    email: 'String'
+    id: 'ID'
+    redeemedAt: 'DateTime'
+    redeemedBy: 'User'
+    redeemerId: 'String'
+    status: 'MembershipStatus'
+    tenant: 'Tenant'
+    tenantId: 'String'
+  }
   LineItem: { // field return type name
     cancellationReason: 'String'
     cart: 'ShoppingCart'
@@ -1114,6 +1152,7 @@ export interface NexusGenFieldTypeNames {
     createEventFromTemplate: 'TumiEvent'
     createEventOrganizer: 'EventOrganizer'
     createEventTemplate: 'EventTemplate'
+    createInvites: 'Invite'
     createPhotoShare: 'PhotoShare'
     createProduct: 'Product'
     createProductImage: 'ProductImage'
@@ -1227,6 +1266,7 @@ export interface NexusGenFieldTypeNames {
     eventTemplates: 'EventTemplate'
     events: 'TumiEvent'
     getPaymentSetupSession: 'paymentSetupSession'
+    invites: 'Invite'
     lmuPurchases: 'Purchase'
     logStats: 'ActivityLogStat'
     logs: 'ActivityLog'
@@ -1471,6 +1511,10 @@ export interface NexusGenArgTypes {
     }
     createEventTemplate: { // args
       eventTemplateInput: NexusGenInputs['CreateEventTemplateInput']; // CreateEventTemplateInput!
+    }
+    createInvites: { // args
+      emails: string[]; // [String!]!
+      status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
     }
     createPhotoShare: { // args
       data: NexusGenInputs['CreatePhotoShareInput']; // CreatePhotoShareInput!

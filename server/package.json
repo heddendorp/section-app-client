@@ -19,6 +19,7 @@
     "@graphql-hive/client": "^0.14.2",
     "@pathcheck/dcc-sdk": "^0.0.27",
     "@prisma/client": "^3.10.0",
+    "@sendgrid/mail": "^7.6.1",
     "@sentry/node": "^6.18.1",
     "@sentry/tracing": "^6.18.1",
     "canvas": "^2.9.0",

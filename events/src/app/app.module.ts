@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import * as Sentry from '@sentry/angular';
 import { Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent, AuthButtonComponent],
@@ -31,6 +32,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   providers: [
     Meta,
     Title,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
     environment.production
       ? [
           {

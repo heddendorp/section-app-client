@@ -254,6 +254,21 @@ export type EventTemplateCategory = {
   templates: Array<EventTemplate>;
 };
 
+export type Invite = {
+  __typename?: 'Invite';
+  createdAt: Scalars['DateTime'];
+  creator: User;
+  creatorId: Scalars['String'];
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  redeemedAt?: Maybe<Scalars['DateTime']>;
+  redeemedBy?: Maybe<User>;
+  redeemerId: Scalars['String'];
+  status: MembershipStatus;
+  tenant: Tenant;
+  tenantId: Scalars['String'];
+};
+
 export type LineItem = {
   __typename?: 'LineItem';
   cancellationReason?: Maybe<Scalars['String']>;
@@ -301,6 +316,7 @@ export type Mutation = {
   /** Create a new event organizer */
   createEventOrganizer?: Maybe<EventOrganizer>;
   createEventTemplate?: Maybe<EventTemplate>;
+  createInvites?: Maybe<Array<Maybe<Invite>>>;
   createPhotoShare?: Maybe<PhotoShare>;
   createProduct: Product;
   createProductImage?: Maybe<ProductImage>;
@@ -382,6 +398,11 @@ export type MutationCreateEventOrganizerArgs = {
 
 export type MutationCreateEventTemplateArgs = {
   eventTemplateInput: CreateEventTemplateInput;
+};
+
+export type MutationCreateInvitesArgs = {
+  emails: Array<Scalars['String']>;
+  status: MembershipStatus;
 };
 
 export type MutationCreatePhotoShareArgs = {
@@ -663,6 +684,7 @@ export type Query = {
   /** Get a list of all events */
   events: Array<TumiEvent>;
   getPaymentSetupSession: PaymentSetupSession;
+  invites?: Maybe<Array<Maybe<Invite>>>;
   lmuPurchases: Array<Purchase>;
   logStats: Array<ActivityLogStat>;
   logs: Array<ActivityLog>;
@@ -1148,6 +1170,22 @@ export type UserHistoryItem = {
   series: Array<LineChartSeriesItem>;
 };
 
+export type CreateInvitesMutationVariables = Exact<{
+  emails: Array<Scalars['String']> | Scalars['String'];
+  status: MembershipStatus;
+}>;
+
+export type CreateInvitesMutation = {
+  __typename?: 'Mutation';
+  createInvites?: Array<{
+    __typename?: 'Invite';
+    id: string;
+    email: string;
+    status: MembershipStatus;
+    createdAt: any;
+  } | null> | null;
+};
+
 export type GetEventDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1196,6 +1234,30 @@ export type GetPermissionsQuery = {
   } | null;
 };
 
+export const CreateInvitesDocument = gql`
+  mutation CreateInvites($emails: [String!]!, $status: MembershipStatus!) {
+    createInvites(emails: $emails, status: $status) {
+      id
+      email
+      status
+      createdAt
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CreateInvitesGQL extends Apollo.Mutation<
+  CreateInvitesMutation,
+  CreateInvitesMutationVariables
+> {
+  override document = CreateInvitesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const GetEventDetailsDocument = gql`
   query getEventDetails($id: ID!) {
     event(eventId: $id) {
