@@ -11,9 +11,6 @@ function validateRegistration(data: FormData): { [key: string]: string } {
   if (!v8n().string().minLength(3).maxLength(50).test(data.get('lastName'))) {
     errors.lastName = 'The last name must be at least 3 characters long';
   }
-  if (!v8n().string().minLength(3).maxLength(50).test(data.get('lastName'))) {
-    errors.lastName = 'The last name must be at least 3 characters long';
-  }
   if (
     !v8n()
       .optional(v8n().string().minLength(3).maxLength(50))
@@ -96,13 +93,6 @@ function validateRegistration(data: FormData): { [key: string]: string } {
   ) {
     errors.expectations = 'Please type 10 to 300 characters';
   }
-  if (
-    !v8n()
-      .optional(v8n().string().minLength(10).maxLength(300))
-      .test(data.get('requests'))
-  ) {
-    errors.requests = 'Please type 10 to 300 characters';
-  }
   if (!v8n().not.null().test(data.get('pay'))) {
     errors.pay = 'Please accept this statement';
   }
@@ -127,6 +117,14 @@ export async function createRegistration(
     return [errors, null];
   }
   const values = Object.fromEntries(data);
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      firstName: values.firstName.toString(),
+      lastName: values.lastName.toString(),
+      email: values.email.toString(),
+    },
+  });
   const registration = await prisma.registration.create({
     data: {
       user: {

@@ -234,7 +234,7 @@ export default function RegistrationForm() {
           placeholder="University"
         />
         <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
-          University
+          Home University
         </span>
         {actionData?.errors.university ? (
           <ValidationMessage

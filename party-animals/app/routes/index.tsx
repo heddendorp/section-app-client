@@ -175,6 +175,10 @@ export default function Index() {
             </div>
           </div>
         </div>
+        <p className="mt-4 md:text-lg">
+          You can sign up for the entire program to experience it with you group
+          of party animals!
+        </p>
       </section>
       <section className="bg-slate-800 p-4 sm:p-8">
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

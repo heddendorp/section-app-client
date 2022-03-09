@@ -21,9 +21,11 @@ export default function Registration() {
           be awesome having you on board.
           <br />
           The cost of party animals is 65 EUR per person, payable after we offer
-          you a spot.
+          you a spot. This includes the cost of all activities and travels. We
+          cannot cover additional drinks and food that you may want during the
+          events though.
         </p>
-        <p className="text-slate-300 ">
+        {/*<p className="text-slate-300 ">
           If you still have questions about TUMi or Party Animals ypu can find
           us on facebook at&nbsp;
           <a
@@ -33,13 +35,13 @@ export default function Registration() {
             facebook.com/esntumi.munchen
           </a>
           .
-        </p>
+        </p>*/}
         <p className="text-slate-300 ">
           If you encounter technical trouble while signing up please
           contact&nbsp;
           <a
             className="text-blue-300 underline visited:text-purple-300 hover:text-blue-500"
-            href="mailto:questions@esn-tumi.de?subject=[TUMi app] PA signup"
+            href="mailto:questions@esn-tumi.de?subject=[Party Animals] Technical trouble"
           >
             questions@esn-tumi.de
           </a>
@@ -113,7 +115,8 @@ export default function Registration() {
             <strong>Where can I find out more?</strong>
             <p>
               To find out more about the program go to the overview or reach us
-              on instagram, facebook and telegram
+              on instagram, facebook and vial mail. You can also join our
+              telegram group for this semester.
             </p>
             <div className="mt-2 flex space-x-2">
               <a href="https://www.instagram.com/tumi.esn/" target="_blank">
@@ -140,6 +143,16 @@ export default function Registration() {
                   alt=""
                 />
               </a>
+              <a
+                href="mailto:questions@esn-tumi.de?subject=[Party Animals] "
+                target="_blank"
+              >
+                <img
+                  src={itemURL('email-sign:fluency')}
+                  className="w-8"
+                  alt=""
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -153,7 +166,15 @@ export default function Registration() {
         </Link>
       </section>
       <section className="bg-slate-800 p-4 text-white md:p-8">
-        <h2 className="mb-8 text-2xl font-black md:text-4xl">Registration</h2>
+        <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
+        <p className="mt-4 mb-8 md:text-lg">
+          Register here to join party animals. The registration includes the
+          entire program outlined in the overview. You will be assigned to one
+          of the eight groups of party animals and stay with them for the whole
+          program. <br />
+          We believe this is the best way to get to know each other and to start
+          well in munich.
+        </p>
         <Outlet />
       </section>
     </main>
