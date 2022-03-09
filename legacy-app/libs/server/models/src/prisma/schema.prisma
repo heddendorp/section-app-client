@@ -112,7 +112,8 @@ model Tenant {
   refundedRegistrations   RefundedRegistration[]
   products                Product[]
   eventTemplateCategories EventTemplateCategory[]
-  transactions             Transaction[]
+  transactions            Transaction[]
+  Invite                  Invite[]
 }
 
 /// One User of the app
@@ -144,7 +145,23 @@ model User {
   purchases          Purchase[]
   receipts           Receipt[]
   tenants            UsersOfTenants[]
-  transactions        Transaction[]
+  transactions       Transaction[]
+  createdInvites     Invite[]            @relation("InviteCreator")
+  redeemedInvites    Invite[]
+}
+
+model Invite {
+  id         String           @id @default(uuid()) @db.Uuid
+  createdAt  DateTime         @default(now())
+  email      String
+  status     MembershipStatus @default(NONE)
+  tenant     Tenant           @relation(fields: [tenantId], references: [id])
+  creator    User             @relation(name: "InviteCreator", fields: [creatorId], references: [id])
+  redeemedAt DateTime?
+  redeemedBy User?            @relation(fields: [redeemerId], references: [id])
+  tenantId   String           @db.Uuid
+  creatorId  String           @db.Uuid
+  redeemerId String?          @db.Uuid
 }
 
 model StripeUserData {
@@ -189,7 +206,7 @@ model StripePayment {
   status                String
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String                 @db.Uuid
-  transactions           Transaction[]
+  transactions          Transaction[]
 }
 
 model Transaction {
@@ -310,7 +327,7 @@ model TumiEvent {
   start                  DateTime
   submissionItems        EventSubmissionItem[]
   title                  String
-  transactions            Transaction[]
+  transactions           Transaction[]
 }
 
 model Product {
