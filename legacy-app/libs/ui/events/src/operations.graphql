@@ -93,7 +93,7 @@ query loadRegistrationForMove($registrationId: ID!) {
 }
 
 mutation verifyCertificate($cert: String!) {
-verifyDCC(certificate: $cert)
+  verifyDCC(certificate: $cert)
 }
 
 mutation createEventRegistrationCode(
@@ -286,7 +286,7 @@ query loadEventForManagement($id: ID!) {
         fullName
         picture
         email
-        currentTenant{
+        currentTenant {
           userId
           tenantId
           status
@@ -321,7 +321,7 @@ query loadEventForManagement($id: ID!) {
         email
         phone
         university
-        currentTenant{
+        currentTenant {
           userId
           tenantId
           status
