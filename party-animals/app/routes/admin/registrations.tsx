@@ -18,12 +18,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function AdminRegistrations() {
   const registrations = useLoaderData<(Registration & { user: User })[]>();
-  console.log(registrations);
   return (
     <main className="text-white">
       {registrations.map((registration) => (
         <div key={registration.id}>
-          <span>{registration.user.firstName}</span>
+          <span>
+            {registration.user.firstName} {registration.user.lastName} (
+            {registration.user.email})
+          </span>
         </div>
       ))}
     </main>

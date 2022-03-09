@@ -51,6 +51,7 @@ model Registration {
   status             String
   diet               String
   // PA data
+  dinner             String
   size               String
   oldie              Boolean
   expectations       String

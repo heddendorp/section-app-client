@@ -129,7 +129,7 @@ export default function RegistrationForm() {
           className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
           defaultValue={actionData?.values?.gender}
         >
-          <option>Select your gender</option>
+          <option value="">Select your gender</option>
           <option value="f">Female</option>
           <option value="m">Male</option>
           <option value="d">Other</option>
@@ -203,7 +203,7 @@ export default function RegistrationForm() {
           required
           className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
         >
-          <option>Select your home country</option>
+          <option value="">Select your home country</option>
           {countries.map((country: { alpha2Code: string; name: string }) => (
             <option key={country.alpha2Code} value={country.alpha2Code}>
               {country.name}
@@ -254,7 +254,7 @@ export default function RegistrationForm() {
           defaultValue={actionData?.values?.status}
           className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
         >
-          <option>Select your status</option>
+          <option value="">Select your status</option>
           <option value="l">Local Student</option>
           <option value="i">International degree student</option>
           <option value="o">Exchange Student (2nd semester)</option>
@@ -295,6 +295,34 @@ export default function RegistrationForm() {
           />
         ) : null}
       </label>
+      <label
+        className="relative block rounded-lg border-2 border-gray-200 p-3 md:col-span-2"
+        htmlFor="dinner"
+      >
+        <select
+          name="dinner"
+          id="dinner"
+          required
+          defaultValue={actionData?.values?.dinner}
+          className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+        >
+          <option value="">Select your food option</option>
+          <option value="meat">German meat dish with beef</option>
+          <option value="asparagus">Asparagus and potatoes</option>
+          <option value="spatzle">
+            Traditional "Käsespätzle" (Cheese noodles)
+          </option>
+        </select>
+        <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
+          Dinner food selection
+        </span>
+        {actionData?.errors.dinner ? (
+          <ValidationMessage
+            isSubmitting={transition.state === 'submitting'}
+            error={actionData?.errors?.dinner}
+          />
+        ) : null}
+      </label>
       <h2 className="mt-4 text-2xl font-bold md:col-span-2 md:text-4xl">
         What's your Party Animal?
       </h2>
@@ -309,7 +337,7 @@ export default function RegistrationForm() {
           defaultValue={actionData?.values?.size}
           className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
         >
-          <option>Select your shirt size</option>
+          <option value="">Select your shirt size</option>
           <option value="s">S</option>
           <option value="m">M</option>
           <option value="l">L</option>
@@ -336,7 +364,7 @@ export default function RegistrationForm() {
           defaultValue={actionData?.values?.oldie}
           className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
         >
-          <option>Select</option>
+          <option value="">Select</option>
           <option value="true">Yes! And I need more</option>
           <option value="false">No, can't wait to become one</option>
         </select>

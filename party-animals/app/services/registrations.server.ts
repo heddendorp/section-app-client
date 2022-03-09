@@ -68,7 +68,12 @@ function validateRegistration(data: FormData): { [key: string]: string } {
     errors.status = 'Please select a valid status from the list';
   }
   if (!v8n().string().test(data.get('diet'))) {
-    errors.status = 'Please provide a valid diet from the list';
+    errors.diet = 'Please provide a valid diet from the list';
+  }
+  console.log(v8n().string().minLength(3).test(data.get('dinner')));
+  console.log(data.get('dinner'));
+  if (!v8n().string().minLength(3).test(data.get('dinner'))) {
+    errors.dinner = 'Please select your meal for the kickoff dinner';
   }
   if (
     !v8n()
@@ -136,6 +141,7 @@ export async function createRegistration(
       university: values.university.toString(),
       status: values.status.toString(),
       diet: values.diet.toString(),
+      dinner: values.dinner.toString(),
       size: values.size.toString(),
       oldie: values.oldie.toString() === 'true',
       expectations: values.expectations.toString(),
