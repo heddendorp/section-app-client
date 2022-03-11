@@ -1,4 +1,4 @@
-query RootInfo{
+query RootInfo {
   currentUser {
     id
     profileComplete
