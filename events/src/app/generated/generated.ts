@@ -263,7 +263,7 @@ export type Invite = {
   id: Scalars['ID'];
   redeemedAt?: Maybe<Scalars['DateTime']>;
   redeemedBy?: Maybe<User>;
-  redeemerId: Scalars['String'];
+  redeemerId?: Maybe<Scalars['String']>;
   status: MembershipStatus;
   tenant: Tenant;
   tenantId: Scalars['String'];
@@ -358,6 +358,7 @@ export type Mutation = {
   updateUserRole: User;
   /** Change the status of s user on the current tenant */
   updateUserStatus: User;
+  useInvite: Invite;
   useRegistrationCode: EventRegistrationCode;
   /** Send a verification email to a user (to the current user if no id is provided) */
   verifyEmail: User;
@@ -560,6 +561,10 @@ export type MutationUpdateUserStatusArgs = {
   userId: Scalars['ID'];
 };
 
+export type MutationUseInviteArgs = {
+  id: Scalars['ID'];
+};
+
 export type MutationUseRegistrationCodeArgs = {
   id: Scalars['ID'];
   price?: InputMaybe<Scalars['Json']>;
@@ -684,6 +689,7 @@ export type Query = {
   /** Get a list of all events */
   events: Array<TumiEvent>;
   getPaymentSetupSession: PaymentSetupSession;
+  invite?: Maybe<Invite>;
   invites?: Maybe<Array<Maybe<Invite>>>;
   lmuPurchases: Array<Purchase>;
   logStats: Array<ActivityLogStat>;
@@ -739,6 +745,10 @@ export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   limit?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['ID']>;
+};
+
+export type QueryInviteArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryPhotosOfEventArgs = {
@@ -1215,6 +1225,38 @@ export type GetEventListQuery = {
   }>;
 };
 
+export type GetInviteQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetInviteQuery = {
+  __typename?: 'Query';
+  invite?: {
+    __typename?: 'Invite';
+    id: string;
+    email: string;
+    status: MembershipStatus;
+    createdAt: any;
+    redeemedAt?: any | null;
+    creator: { __typename?: 'User'; id: string; fullName: string };
+    tenant: { __typename?: 'Tenant'; id: string; name: string };
+  } | null;
+};
+
+export type UseInviteMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type UseInviteMutation = {
+  __typename?: 'Mutation';
+  useInvite: {
+    __typename?: 'Invite';
+    id: string;
+    status: MembershipStatus;
+    redeemedAt?: any | null;
+  };
+};
+
 export type GetPermissionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetPermissionsQuery = {
@@ -1302,6 +1344,62 @@ export class GetEventListGQL extends Apollo.Query<
   GetEventListQueryVariables
 > {
   override document = GetEventListDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetInviteDocument = gql`
+  query GetInvite($id: ID!) {
+    invite(id: $id) {
+      id
+      email
+      status
+      createdAt
+      redeemedAt
+      creator {
+        id
+        fullName
+      }
+      tenant {
+        id
+        name
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetInviteGQL extends Apollo.Query<
+  GetInviteQuery,
+  GetInviteQueryVariables
+> {
+  override document = GetInviteDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UseInviteDocument = gql`
+  mutation useInvite($id: ID!) {
+    useInvite(id: $id) {
+      id
+      status
+      redeemedAt
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UseInviteGQL extends Apollo.Mutation<
+  UseInviteMutation,
+  UseInviteMutationVariables
+> {
+  override document = UseInviteDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

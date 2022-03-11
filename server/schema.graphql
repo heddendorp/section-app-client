@@ -358,6 +358,10 @@ type Mutation {
 
   """Change the status of s user on the current tenant"""
   updateUserStatus(status: MembershipStatus!, userId: ID!): User!
+  useInvite(
+    """The ID of the invite"""
+    id: ID!
+  ): Invite!
   useRegistrationCode(id: ID!, price: Json): EventRegistrationCode!
 
   """
@@ -477,6 +481,10 @@ type Query {
   """Get a list of all events"""
   events(after: DateTime, limit: Int, userId: ID): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
+  invite(
+    """The ID of the invite"""
+    id: ID!
+  ): Invite
   invites: [Invite]
   lmuPurchases: [Purchase!]!
   logStats: [ActivityLogStat!]!

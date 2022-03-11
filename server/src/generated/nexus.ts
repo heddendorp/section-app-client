@@ -702,6 +702,7 @@ export interface NexusGenFieldTypes {
     updateTenant: NexusGenRootTypes['Tenant'] | null; // Tenant
     updateUserRole: NexusGenRootTypes['User']; // User!
     updateUserStatus: NexusGenRootTypes['User']; // User!
+    useInvite: NexusGenRootTypes['Invite']; // Invite!
     useRegistrationCode: NexusGenRootTypes['EventRegistrationCode']; // EventRegistrationCode!
     verifyEmail: NexusGenRootTypes['User']; // User!
   }
@@ -781,6 +782,7 @@ export interface NexusGenFieldTypes {
     eventTemplates: NexusGenRootTypes['EventTemplate'][]; // [EventTemplate!]!
     events: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     getPaymentSetupSession: NexusGenRootTypes['paymentSetupSession']; // paymentSetupSession!
+    invite: NexusGenRootTypes['Invite'] | null; // Invite
     invites: Array<NexusGenRootTypes['Invite'] | null> | null; // [Invite]
     lmuPurchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
     logStats: NexusGenRootTypes['ActivityLogStat'][]; // [ActivityLogStat!]!
@@ -1187,6 +1189,7 @@ export interface NexusGenFieldTypeNames {
     updateTenant: 'Tenant'
     updateUserRole: 'User'
     updateUserStatus: 'User'
+    useInvite: 'Invite'
     useRegistrationCode: 'EventRegistrationCode'
     verifyEmail: 'User'
   }
@@ -1266,6 +1269,7 @@ export interface NexusGenFieldTypeNames {
     eventTemplates: 'EventTemplate'
     events: 'TumiEvent'
     getPaymentSetupSession: 'paymentSetupSession'
+    invite: 'Invite'
     invites: 'Invite'
     lmuPurchases: 'Purchase'
     logStats: 'ActivityLogStat'
@@ -1639,6 +1643,9 @@ export interface NexusGenArgTypes {
       status: NexusGenEnums['MembershipStatus']; // MembershipStatus!
       userId: string; // ID!
     }
+    useInvite: { // args
+      id: string; // ID!
+    }
     useRegistrationCode: { // args
       id: string; // ID!
       price?: NexusGenScalars['Json'] | null; // Json
@@ -1675,6 +1682,9 @@ export interface NexusGenArgTypes {
       after?: NexusGenScalars['DateTime'] | null; // DateTime
       limit?: number | null; // Int
       userId?: string | null; // ID
+    }
+    invite: { // args
+      id: string; // ID!
     }
     photosOfEvent: { // args
       id: string; // ID!

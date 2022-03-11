@@ -1,5 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Inject,
+} from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-auth-button',
@@ -14,7 +20,7 @@ import { AuthService } from '@auth0/auth0-angular';
     </ng-container>
     <ng-template #loggedOut>
       <button
-        (click)="auth.loginWithRedirect()"
+        (click)="startLogin()"
         class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
       >
         Log in
@@ -25,5 +31,17 @@ import { AuthService } from '@auth0/auth0-angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthButtonComponent {
-  constructor(public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
+  startLogin() {
+    const redirectPath = this.document.location.pathname
+      ? this.document.location.pathname
+      : '/';
+    console.log(redirectPath);
+    this.auth.loginWithRedirect({
+      appState: { target: redirectPath },
+    });
+  }
 }
