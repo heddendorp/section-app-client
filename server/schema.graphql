@@ -485,7 +485,7 @@ type Query {
     """The ID of the invite"""
     id: ID!
   ): Invite
-  invites: [Invite]
+  invites: [Invite!]!
   lmuPurchases: [Purchase!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!

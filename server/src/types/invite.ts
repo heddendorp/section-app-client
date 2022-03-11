@@ -32,7 +32,7 @@ export const inviteType = objectType({
 });
 
 export const listInvitesQuery = queryField('invites', {
-  type: list(inviteType),
+  type: nonNull(list(nonNull(inviteType))),
   resolve: async (root, args, ctx) => {
     return ctx.prisma.invite.findMany();
   },

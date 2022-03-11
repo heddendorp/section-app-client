@@ -10,6 +10,47 @@
     >
       Invites
     </h1>
-    <a routerLink="create">Create invites</a>
+    <a routerLink="create" mat-flat-button class="my-2">Create invites</a>
+    <div class="mt-4 overflow-x-auto">
+      <table class="min-w-full divide-y-2 text-sm">
+        <thead>
+          <tr>
+            <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
+              Email
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
+              Creator
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
+              Status
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
+              Redeemer
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
+              Redeemed at
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          <tr *ngFor="let invite of invites$ | async">
+            <td class="whitespace-nowrap px-4 py-2 font-medium">
+              {{ invite.email }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-2">
+              {{ invite.creator.fullName }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-2">{{ invite.status }}</td>
+            <td class="whitespace-nowrap px-4 py-2">
+              {{ invite.redeemedBy?.fullName ?? 'not redeemed' }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-2">
+              {{ invite.redeemedAt | date: 'short' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </main>

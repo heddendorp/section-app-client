@@ -690,7 +690,7 @@ export type Query = {
   events: Array<TumiEvent>;
   getPaymentSetupSession: PaymentSetupSession;
   invite?: Maybe<Invite>;
-  invites?: Maybe<Array<Maybe<Invite>>>;
+  invites: Array<Invite>;
   lmuPurchases: Array<Purchase>;
   logStats: Array<ActivityLogStat>;
   logs: Array<ActivityLog>;
@@ -1196,6 +1196,21 @@ export type CreateInvitesMutation = {
   } | null> | null;
 };
 
+export type GetInvitesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetInvitesQuery = {
+  __typename?: 'Query';
+  invites: Array<{
+    __typename?: 'Invite';
+    id: string;
+    email: string;
+    status: MembershipStatus;
+    redeemedAt?: any | null;
+    creator: { __typename?: 'User'; id: string; fullName: string };
+    redeemedBy?: { __typename?: 'User'; id: string; fullName: string } | null;
+  }>;
+};
+
 export type GetEventDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1295,6 +1310,38 @@ export class CreateInvitesGQL extends Apollo.Mutation<
   CreateInvitesMutationVariables
 > {
   override document = CreateInvitesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetInvitesDocument = gql`
+  query GetInvites {
+    invites {
+      id
+      email
+      status
+      redeemedAt
+      creator {
+        id
+        fullName
+      }
+      redeemedBy {
+        id
+        fullName
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetInvitesGQL extends Apollo.Query<
+  GetInvitesQuery,
+  GetInvitesQueryVariables
+> {
+  override document = GetInvitesDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

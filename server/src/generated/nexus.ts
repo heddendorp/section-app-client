@@ -783,7 +783,7 @@ export interface NexusGenFieldTypes {
     events: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     getPaymentSetupSession: NexusGenRootTypes['paymentSetupSession']; // paymentSetupSession!
     invite: NexusGenRootTypes['Invite'] | null; // Invite
-    invites: Array<NexusGenRootTypes['Invite'] | null> | null; // [Invite]
+    invites: NexusGenRootTypes['Invite'][]; // [Invite!]!
     lmuPurchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
     logStats: NexusGenRootTypes['ActivityLogStat'][]; // [ActivityLogStat!]!
     logs: NexusGenRootTypes['ActivityLog'][]; // [ActivityLog!]!

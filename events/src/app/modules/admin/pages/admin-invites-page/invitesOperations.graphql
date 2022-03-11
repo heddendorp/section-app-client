@@ -1,0 +1,16 @@
+query GetInvites{
+  invites {
+    id
+    email
+    status
+    redeemedAt
+    creator {
+      id
+      fullName
+    }
+    redeemedBy {
+      id
+      fullName
+    }
+  }
+}
