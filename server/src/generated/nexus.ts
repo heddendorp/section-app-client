@@ -450,7 +450,7 @@ export interface NexusGenObjects {
   }
   User: { // root type
     authId: string; // String!
-    birthdate: NexusGenScalars['DateTime']; // DateTime!
+    birthdate?: NexusGenScalars['DateTime'] | null; // DateTime
     calendarToken: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
@@ -919,7 +919,7 @@ export interface NexusGenFieldTypes {
   }
   User: { // field return type
     authId: string; // String!
-    birthdate: NexusGenScalars['DateTime']; // DateTime!
+    birthdate: NexusGenScalars['DateTime'] | null; // DateTime
     calendarToken: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     currentTenant: NexusGenRootTypes['UsersOfTenants']; // UsersOfTenants!

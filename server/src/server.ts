@@ -124,13 +124,25 @@ const getEnveloped = envelop({
         tenant: await context.prisma.tenant.findFirst(),
       };
     }),
-    useExtendContext(async (context) => {
+    useExtendContext(async (context: { token: any; prisma: PrismaClient }) => {
       if (context.token) {
-        const user = await context.prisma.user.findUnique({
+        let user = await context.prisma.user.findUnique({
           where: {
             authId: context.token.sub,
           },
         });
+        if (!user) {
+          user = await context.prisma.user.create({
+            data: {
+              authId: context.token.sub,
+              email: '',
+              firstName: '',
+              lastName: '',
+              email_verified: false,
+              picture: '',
+            },
+          });
+        }
         Sentry.setUser({ email: user.email, id: user.id });
         return {
           user,

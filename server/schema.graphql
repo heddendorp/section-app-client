@@ -767,7 +767,7 @@ input UpdateTemplateInput {
 type User {
   """Id from auth0 for this user"""
   authId: String!
-  birthdate: DateTime!
+  birthdate: DateTime
   calendarToken: String!
   createdAt: DateTime!
   currentTenant(userId: ID): UsersOfTenants!
