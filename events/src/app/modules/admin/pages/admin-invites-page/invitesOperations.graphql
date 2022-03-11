@@ -1,4 +1,4 @@
-query GetInvites{
+query GetInvites {
   invites {
     id
     email
