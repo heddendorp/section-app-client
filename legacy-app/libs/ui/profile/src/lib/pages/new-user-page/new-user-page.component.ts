@@ -33,7 +33,7 @@ export class NewUserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser.fetch().subscribe(({ data }) => {
-      if (data.currentUser && !data.currentUser.profileComplete) {
+      if (data.currentUser && data.currentUser.profileComplete) {
         this.router.navigate(['/', 'profile']);
       }
     });
