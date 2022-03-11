@@ -1067,7 +1067,7 @@ export type User = {
   __typename?: 'User';
   /** Id from auth0 for this user */
   authId: Scalars['String'];
-  birthdate: Scalars['DateTime'];
+  birthdate?: Maybe<Scalars['DateTime']>;
   calendarToken: Scalars['String'];
   createdAt: Scalars['DateTime'];
   currentTenant: UsersOfTenants;
@@ -1089,6 +1089,7 @@ export type User = {
   paypal?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   picture: Scalars['String'];
+  profileComplete: Scalars['Boolean'];
   purchases: Array<Purchase>;
   university?: Maybe<Scalars['String']>;
 };
@@ -1272,6 +1273,17 @@ export type UseInviteMutation = {
   };
 };
 
+export type RootInfoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type RootInfoQuery = {
+  __typename?: 'Query';
+  currentUser?: {
+    __typename?: 'User';
+    id: string;
+    profileComplete: boolean;
+  } | null;
+};
+
 export type GetPermissionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetPermissionsQuery = {
@@ -1447,6 +1459,28 @@ export class UseInviteGQL extends Apollo.Mutation<
   UseInviteMutationVariables
 > {
   override document = UseInviteDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const RootInfoDocument = gql`
+  query RootInfo {
+    currentUser {
+      id
+      profileComplete
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RootInfoGQL extends Apollo.Query<
+  RootInfoQuery,
+  RootInfoQueryVariables
+> {
+  override document = RootInfoDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

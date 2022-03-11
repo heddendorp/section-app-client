@@ -13,7 +13,7 @@ import { useSentry } from '@envelop/sentry';
 import * as Sentry from '@sentry/node';
 import { getCurrentHub } from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Tenant, User } from '@prisma/client';
 import cors from 'cors';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
@@ -149,20 +149,35 @@ const getEnveloped = envelop({
         };
       }
     }),
-    useExtendContext(async (context) => {
-      if (context.user) {
-        return {
-          assignment: await context.prisma.usersOfTenants.findUnique({
+    useExtendContext(
+      async (context: {
+        user?: User;
+        prisma: PrismaClient;
+        tenant: Tenant;
+      }) => {
+        if (context.user) {
+          let assignment = await context.prisma.usersOfTenants.findUnique({
             where: {
               userId_tenantId: {
                 userId: context.user.id,
                 tenantId: context.tenant.id,
               },
             },
-          }),
-        };
+          });
+          if (!assignment) {
+            assignment = await context.prisma.usersOfTenants.create({
+              data: {
+                user: { connect: { id: context.user.id } },
+                tenant: { connect: { id: context.tenant.id } },
+              },
+            });
+          }
+          return {
+            assignment,
+          };
+        }
       }
-    }),
+    ),
   ],
 });
 

@@ -792,6 +792,7 @@ type User {
   paypal: String
   phone: String
   picture: String!
+  profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
   university: String
 }

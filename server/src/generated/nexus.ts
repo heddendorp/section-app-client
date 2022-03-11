@@ -938,6 +938,7 @@ export interface NexusGenFieldTypes {
     paypal: string | null; // String
     phone: string | null; // String
     picture: string; // String!
+    profileComplete: boolean; // Boolean!
     purchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
     university: string | null; // String
   }
@@ -1425,6 +1426,7 @@ export interface NexusGenFieldTypeNames {
     paypal: 'String'
     phone: 'String'
     picture: 'String'
+    profileComplete: 'Boolean'
     purchases: 'Purchase'
     university: 'String'
   }
