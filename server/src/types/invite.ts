@@ -66,14 +66,27 @@ export const useInviteMutation = mutationField('useInvite', {
     if (invite.redeemedAt) {
       throw new Error('Invite already redeemed');
     }
-    await ctx.prisma.usersOfTenants.update({
+    await ctx.prisma.usersOfTenants.upsert({
       where: {
         userId_tenantId: {
           userId: ctx.user?.id ?? '',
           tenantId: invite.tenantId,
         },
       },
-      data: {
+      update: {
+        status: invite.status,
+      },
+      create: {
+        tenant: {
+          connect: {
+            id: invite.tenantId,
+          },
+        },
+        user: {
+          connect: {
+            id: ctx.user?.id ?? '',
+          },
+        },
         status: invite.status,
       },
     });
