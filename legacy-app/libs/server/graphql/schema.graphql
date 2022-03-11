@@ -368,7 +368,7 @@ type Mutation {
   ): TumiEvent!
 
   """
-  Add a new user to the database
+  Add a new user to the database or update existing
   """
   registerUser(userInput: CreateUserInput): User!
   updateAddress(address: Json!, id: ID!): Purchase!
@@ -912,6 +912,7 @@ type User {
   paypal: String
   phone: String
   picture: String!
+  profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
   university: String
 }

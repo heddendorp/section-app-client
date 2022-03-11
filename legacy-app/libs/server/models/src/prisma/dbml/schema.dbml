@@ -19,6 +19,7 @@ Table Tenant {
   products Product [not null]
   eventTemplateCategories EventTemplateCategory [not null]
   transactions Transaction [not null]
+  Invite Invite [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -48,8 +49,24 @@ Table User {
   receipts Receipt [not null]
   tenants UsersOfTenants [not null]
   transactions Transaction [not null]
+  createdInvites Invite [not null]
+  redeemedInvites Invite [not null]
 
   Note: 'One User of the app'
+}
+
+Table Invite {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  email String [not null]
+  status MembershipStatus [not null, default: 'NONE']
+  tenant Tenant [not null]
+  creator User [not null]
+  redeemedAt DateTime
+  redeemedBy User
+  tenantId String [not null]
+  creatorId String [not null]
+  redeemerId String
 }
 
 Table StripeUserData {
@@ -479,6 +496,12 @@ Enum LogSeverity {
   WARNING
   ERROR
 }
+
+Ref: Invite.tenantId > Tenant.id
+
+Ref: Invite.creatorId > User.id
+
+Ref: Invite.redeemerId > User.id
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 

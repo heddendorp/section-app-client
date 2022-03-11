@@ -19,7 +19,7 @@ export class AuthButtonComponent {
   ) {
     auth.isAuthenticated$.pipe(filter((auth) => auth)).subscribe(() => {
       getUser.fetch().subscribe((user) => {
-        if (!user.data.currentUser) {
+        if (!user.data.currentUser || !user.data.currentUser.profileComplete) {
           router.navigate(['/', 'profile', 'new']);
         }
       });

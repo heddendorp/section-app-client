@@ -70,6 +70,14 @@ export const userType = objectType({
           });
       },
     });
+    t.nonNull.boolean('profileComplete', {
+      resolve: (source) =>
+        source.firstName &&
+        source.lastName &&
+        source.birthdate &&
+        source.picture &&
+        source.university,
+    });
     t.nonNull.boolean('hasESNcard', {
       resolve: async (source, args, context) => {
         if (source.esnCardOverride) {
@@ -403,7 +411,7 @@ export const updateUserRoleMutation = mutationField('updateUserRole', {
 
 export const createUser = mutationField('registerUser', {
   type: nonNull(userType),
-  description: 'Add a new user to the database',
+  description: 'Add a new user to the database or update existing',
   args: {
     userInput: createUserInputType,
   },
@@ -411,8 +419,17 @@ export const createUser = mutationField('registerUser', {
     const { email, email_verified, picture } = await context.auth0.getUserInfo(
       context.token.sub
     );
-    return context.prisma.user.create({
-      data: {
+    return context.prisma.user.upsert({
+      where: {
+        authId: context.token.sub,
+      },
+      update: {
+        email,
+        email_verified,
+        picture,
+        ...args.userInput,
+      },
+      create: {
         ...args.userInput,
         authId: context.token.sub,
         email_verified,

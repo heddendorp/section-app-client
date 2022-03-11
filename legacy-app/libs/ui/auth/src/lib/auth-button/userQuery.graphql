@@ -1,5 +1,6 @@
 query getCurrentUser {
   currentUser {
     id
+    profileComplete
   }
 }
