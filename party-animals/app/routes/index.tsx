@@ -63,8 +63,8 @@ export default function Index() {
             />
             <div>
               <strong>Sat 02.04.</strong>
-              <p>Kick-off</p>
-              <p>Evening</p>
+              <p>Dinner</p>
+              <p>Food and a drink on us!</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2 sm:col-span-2">
