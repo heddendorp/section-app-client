@@ -72,11 +72,13 @@ export const userType = objectType({
     });
     t.nonNull.boolean('profileComplete', {
       resolve: (source) =>
-        source.firstName &&
-        source.lastName &&
-        source.birthdate &&
-        source.picture &&
-        source.university,
+        !!(
+          source.firstName &&
+          source.lastName &&
+          source.birthdate &&
+          source.picture &&
+          source.university
+        ),
     });
     t.nonNull.boolean('hasESNcard', {
       resolve: async (source, args, context) => {
