@@ -1,13 +1,13 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,10 @@ import { DOCUMENT } from '@angular/common';
 export class InviteAuthGuard implements CanActivate {
   constructor(
     private auth: AuthService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,6 +27,9 @@ export class InviteAuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    if (isPlatformServer(this.platformId)) {
+      return true;
+    }
     const redirectPath = this.document.location.pathname
       ? this.document.location.pathname
       : '/';

@@ -30,6 +30,7 @@
             <th class="whitespace-nowrap px-4 py-2 text-left font-medium">
               Redeemed at
             </th>
+            <th></th>
           </tr>
         </thead>
 
@@ -47,6 +48,16 @@
             </td>
             <td class="whitespace-nowrap px-4 py-2">
               {{ invite.redeemedAt | date: 'short' }}
+            </td>
+            <td class="whitespace-nowrap px-4 py-2">
+              <button
+                mat-stroked-button
+                cdkCopyToClipboard="https://beta.esn.world/invite/{{
+                  invite.id
+                }}"
+              >
+                Copy invite link
+              </button>
             </td>
           </tr>
         </tbody>
