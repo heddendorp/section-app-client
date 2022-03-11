@@ -123,7 +123,7 @@ model User {
   /// Id from auth0 for this user
   authId             String              @unique
   // User attributes
-  birthdate          DateTime
+  birthdate          DateTime?
   email              String
   email_verified     Boolean
   esnCardOverride    Boolean             @default(false)
