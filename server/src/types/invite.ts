@@ -5,13 +5,10 @@ import {
   nonNull,
   objectType,
   queryField,
-  queryType,
-  stringArg,
 } from 'nexus';
 import { Invite } from 'nexus-prisma';
 import { Invite as DBInvite } from '@prisma/client';
 import { MailService } from '../helpers/mailService';
-import { prisma } from '@tumi/party-animals/app/generated/prisma';
 
 export const inviteType = objectType({
   name: Invite.$name,
