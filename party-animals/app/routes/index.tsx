@@ -55,6 +55,18 @@ export default function Index() {
               <p>Noon and evening</p>
             </div>
           </div>
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+            <img
+              src={itemURL('handshake:nolan')}
+              alt="handshake:nolan"
+              className="w-16"
+            />
+            <div>
+              <strong>Sat 02.04.</strong>
+              <p>Kick-off</p>
+              <p>Evening</p>
+            </div>
+          </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2 sm:col-span-2">
             <img
               src={itemURL('castle:nolan')}
@@ -126,7 +138,7 @@ export default function Index() {
               <p>Erdinger Brewery Tour</p>
             </div>
           </div>
-          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+          {/*<div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
               src={itemURL('confetti:nolan')}
               alt="handshake:nolan"
@@ -137,7 +149,7 @@ export default function Index() {
               <p>Semester Opening Party</p>
               <p>Evening</p>
             </div>
-          </div>
+          </div>*/}
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
               src={itemURL('trophy:nolan')}

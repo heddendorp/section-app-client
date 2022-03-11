@@ -136,8 +136,8 @@ export const createInvitesMutation = mutationField('createInvites', {
       invites,
       ctx.user,
       ctx.tenant,
-      `${ctx.req.protocol}://${ctx.req.hostname}${
-        ctx.req.hostname == 'localhost' ? ':4200' : ''
+      `${ctx.req.protocol}://${
+        ctx.req.hostname == 'localhost' ? 'localhost:4200' : 'beta.esn.world'
       }/invite/`
     );
     return invites;
