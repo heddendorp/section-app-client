@@ -18,7 +18,11 @@ export class SharedModule {
   ) {
     registry.addSvgIconSet(
       san.bypassSecurityTrustResourceUrl(
-        `${location.protocol}//${location.host}/assets/icons/tumi.min.svg`
+        `${
+          location.host.includes('localhost')
+            ? 'http://localhost:4200'
+            : 'https://beta.esn.world'
+        }/assets/icons/tumi.min.svg`
       )
     );
   }
