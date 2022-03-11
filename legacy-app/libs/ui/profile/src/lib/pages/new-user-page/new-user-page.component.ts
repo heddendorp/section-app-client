@@ -31,15 +31,15 @@ export class NewUserPageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void  {
+  ngOnInit(): void {
     this.currentUser.fetch().subscribe(({ data }) => {
-      if (data.currentUser) {
+      if (data.currentUser && !data.currentUser.profileComplete) {
         this.router.navigate(['/', 'profile']);
       }
     });
   }
 
-  public onSubmit(): void  {
+  public onSubmit(): void {
     if (this.welcomeForm.invalid) return;
     this.registerUser
       .mutate({ userInput: this.welcomeForm.value })
