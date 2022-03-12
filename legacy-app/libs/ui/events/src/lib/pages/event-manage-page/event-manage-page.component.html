@@ -285,6 +285,7 @@
             <th>E-mail</th>
             <th>Phone</th>
             <th>Check in</th>
+            <th>Price paid</th>
           </tr>
           <tr
             *ngFor="
@@ -300,6 +301,9 @@
             <td>{{ registration.user.email }}</td>
             <td>{{ registration.user.phone }}</td>
             <td>{{ registration.checkInTime | date: 'short' }}</td>
+            <td>
+              {{ (registration.payment?.netAmount ?? 0) / 100 }}
+            </td>
           </tr>
         </tbody>
       </table>
