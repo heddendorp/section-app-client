@@ -15,7 +15,6 @@ import { DOCUMENT, isPlatformServer } from '@angular/common';
 export class InviteAuthGuard implements CanActivate {
   constructor(
     private auth: AuthService,
-    @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -30,9 +29,7 @@ export class InviteAuthGuard implements CanActivate {
     if (isPlatformServer(this.platformId)) {
       return true;
     }
-    const redirectPath = this.document.location.pathname
-      ? this.document.location.pathname
-      : '/';
+    const redirectPath = state.url;
     return this.auth.isAuthenticated$.pipe(
       tap((isAuthenticated) => {
         if (!isAuthenticated) {
