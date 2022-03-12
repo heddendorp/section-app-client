@@ -28,7 +28,7 @@ Table User {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   authId String [unique, not null, note: 'Id from auth0 for this user']
-  birthdate DateTime [not null]
+  birthdate DateTime
   email String [not null]
   email_verified Boolean [not null]
   esnCardOverride Boolean [not null, default: false]

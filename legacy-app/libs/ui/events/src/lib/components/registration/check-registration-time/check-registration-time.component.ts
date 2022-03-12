@@ -21,6 +21,7 @@ export class CheckRegistrationTimeComponent implements OnChanges {
   public registrationOpen$: Observable<boolean>;
   public remainingTime$: Observable<string>;
   private registrationStart$ = new ReplaySubject<DateTime>(1);
+  public eventPrice$ = new ReplaySubject<number>(1);
   private interval = interval(1000);
   constructor() {
     this.registrationOpen$ = combineLatest([
@@ -41,10 +42,15 @@ export class CheckRegistrationTimeComponent implements OnChanges {
     );
   }
 
-  ngOnChanges(changes: SimpleChanges): void  {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.event) {
       this.registrationStart$.next(
         DateTime.fromISO(changes.event.currentValue.registrationStart)
+      );
+      this.eventPrice$.next(
+        changes.event.currentValue.prices.options.find(
+          (price: any) => price.defaultPrice
+        ).amount
       );
     }
   }

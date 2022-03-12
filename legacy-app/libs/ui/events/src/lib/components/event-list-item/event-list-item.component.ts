@@ -15,4 +15,13 @@ export class EventListItemComponent {
   @Input() public event: EventListQuery['events'][0] | null = null;
   public RegistrationMode = RegistrationMode;
   public MembershipStatus = MembershipStatus;
+  public notYetOpen() {
+    return new Date(this.event?.registrationStart) > new Date();
+  }
+  public defaultPrice() {
+    if (this.event?.prices) {
+      return this.event?.prices.options.find((p: any) => p.defaultPrice);
+    }
+    return null;
+  }
 }
