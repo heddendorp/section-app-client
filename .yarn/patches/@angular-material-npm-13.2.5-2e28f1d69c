@@ -1,0 +1,58 @@
+diff --git a/core/theming/_palette.scss b/core/theming/_palette.scss
+index e2b5faada05cc4a2c00d3404cfb605b9d843db2b..4e9432e506225a455c1ba9f69acae4afaf97175a 100644
+--- a/core/theming/_palette.scss
++++ b/core/theming/_palette.scss
+@@ -635,16 +635,16 @@ $grey-palette: (
+ $gray-palette: $grey-palette;
+ 
+ $blue-grey-palette: (
+-  50: #eceff1,
+-  100: #cfd8dc,
+-  200: #b0bec5,
+-  300: #90a4ae,
+-  400: #78909c,
+-  500: #607d8b,
+-  600: #546e7a,
+-  700: #455a64,
+-  800: #37474f,
+-  900: #263238,
++  50: #f8fafc,
++  100: #f1f5f9,
++  200: #e2e8f0,
++  300: #cbd5e1,
++  400: #94a3b8,
++  500: #64748b,
++  600: #475569,
++  700: #334155,
++  800: #1e293b,
++  900: #0f172a,
+   A100: #cfd8dc,
+   A200: #b0bec5,
+   A400: #78909c,
+@@ -692,20 +692,20 @@ $light-theme-background-palette: (
+ 
+ // Background palette for dark themes.
+ $dark-theme-background-palette: (
+-  status-bar: black,
++  status-bar: #0f172a,
+   app-bar:    map.get($grey-palette, 900),
+-  background: #303030,
+-  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
++  background: #334155,
++  hover:      rgba(#f1f5f9, 0.04), // TODO(kara): check style with Material Design UX
+   card:       map.get($grey-palette, 800),
+   dialog:     map.get($grey-palette, 800),
+-  disabled-button: rgba(white, 0.12),
++  disabled-button: rgba(#f1f5f9, 0.12),
+   raised-button: map.get($grey-palette, 800),
+   focused-button: $light-focused,
+   selected-button: map.get($grey-palette, 900),
+   selected-disabled-button: map.get($grey-palette, 800),
+-  disabled-button-toggle: black,
++  disabled-button-toggle: #0f172a,
+   unselected-chip: map.get($grey-palette, 700),
+-  disabled-list-option: rgba(white, 0.12),
++  disabled-list-option: rgba(#f1f5f9, 0.12),
+   tooltip: map.get($grey-palette, 700),
+ );
+ 

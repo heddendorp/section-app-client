@@ -469,6 +469,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular/material@patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c::locator=tumi%40workspace%3A.":
+  version: 13.2.5
+  resolution: "@angular/material@patch:@angular/material@npm%3A13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c::version=13.2.5&hash=36a7b2&locator=tumi%40workspace%3A."
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/animations": ^13.0.0 || ^14.0.0-0
+    "@angular/cdk": 13.2.5
+    "@angular/common": ^13.0.0 || ^14.0.0-0
+    "@angular/core": ^13.0.0 || ^14.0.0-0
+    "@angular/forms": ^13.0.0 || ^14.0.0-0
+    "@angular/platform-browser": ^13.0.0 || ^14.0.0-0
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: d01e788ef209d461eb05cce3a5cc284ed33678c138f5ccbe5e23e4d3a81978ce80b9830f50610ebb4eacadc8c289f13ff919c2c3ac4831b9c900cc9a4963b938
+  languageName: node
+  linkType: hard
+
 "@angular/platform-browser-dynamic@npm:~13.2.5":
   version: 13.2.5
   resolution: "@angular/platform-browser-dynamic@npm:13.2.5"

@@ -33,5 +33,7 @@ export class AdminInvitesCreatePageComponent {
     await firstValueFrom(
       this.createInvitesGQL.mutate({ emails, status: value.status })
     );
+    this.inviteForm.reset();
+    alert('Invites created');
   }
 }
