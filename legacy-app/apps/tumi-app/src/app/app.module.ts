@@ -56,62 +56,69 @@ import { Settings } from 'luxon';
     ReactiveFormsModule,
     MarkdownModule.forRoot(),
     ApolloModule,
-    RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'events' },
-      { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
-      {
-        path: 'profile',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('@tumi/ui/profile').then((module) => module.UiProfileModule),
-      },
-      {
-        path: 'event-templates',
-        canActivate: [AuthGuard, CheckUserGuard],
-        loadChildren: () =>
-          import('@tumi/ui/event-templates').then(
-            (module) => module.UiEventTemplatesModule
-          ),
-      },
-      {
-        path: 'events',
-        loadChildren: () =>
-          import('@tumi/ui/events').then((module) => module.UiEventsModule),
-      },
-      {
-        path: 'tenant',
-        canActivate: [AuthGuard, CheckUserGuard],
-        loadChildren: () =>
-          import('@tumi/ui/tenant').then((module) => module.UiTenantModule),
-      },
-      {
-        path: 'feedback',
-        loadChildren: () =>
-          import('@tumi/ui/feedback').then((module) => module.UiFeedbackModule),
-      },
-      {
-        path: 'page',
-        loadChildren: () =>
-          import('@tumi/ui/pages').then((module) => module.UiPagesModule),
-      },
-      {
-        path: 'shop',
-        loadChildren: () =>
-          import('@tumi/ui/products').then((module) => module.UiProductsModule),
-      },
-      {
-        path: 'basket',
-        loadChildren: () =>
-          import('@tumi/ui/shopping-basket').then(
-            (module) => module.UiShoppingBasketModule
-          ),
-      },
-      {
-        path: 'home',
-        loadChildren: () =>
-          import('@tumi/ui/home').then((module) => module.UiHomeModule),
-      },
-    ]),
+    RouterModule.forRoot(
+      [
+        { path: '', pathMatch: 'full', redirectTo: 'events' },
+        { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
+        {
+          path: 'profile',
+          canActivate: [AuthGuard],
+          loadChildren: () =>
+            import('@tumi/ui/profile').then((module) => module.UiProfileModule),
+        },
+        {
+          path: 'event-templates',
+          canActivate: [AuthGuard, CheckUserGuard],
+          loadChildren: () =>
+            import('@tumi/ui/event-templates').then(
+              (module) => module.UiEventTemplatesModule
+            ),
+        },
+        {
+          path: 'events',
+          loadChildren: () =>
+            import('@tumi/ui/events').then((module) => module.UiEventsModule),
+        },
+        {
+          path: 'tenant',
+          canActivate: [AuthGuard, CheckUserGuard],
+          loadChildren: () =>
+            import('@tumi/ui/tenant').then((module) => module.UiTenantModule),
+        },
+        {
+          path: 'feedback',
+          loadChildren: () =>
+            import('@tumi/ui/feedback').then(
+              (module) => module.UiFeedbackModule
+            ),
+        },
+        {
+          path: 'page',
+          loadChildren: () =>
+            import('@tumi/ui/pages').then((module) => module.UiPagesModule),
+        },
+        {
+          path: 'shop',
+          loadChildren: () =>
+            import('@tumi/ui/products').then(
+              (module) => module.UiProductsModule
+            ),
+        },
+        {
+          path: 'basket',
+          loadChildren: () =>
+            import('@tumi/ui/shopping-basket').then(
+              (module) => module.UiShoppingBasketModule
+            ),
+        },
+        {
+          path: 'home',
+          loadChildren: () =>
+            import('@tumi/ui/home').then((module) => module.UiHomeModule),
+        },
+      ],
+      { scrollPositionRestoration: 'top' }
+    ),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
