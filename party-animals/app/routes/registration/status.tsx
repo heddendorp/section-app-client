@@ -26,6 +26,11 @@ export default function RegistrationStatus() {
         You registered!
       </h2>
       <p className="lg:text-lg">We will be in contact about further steps.</p>
+      <p className="mt-2 lg:text-lg">
+        The first admission mails will be sent out on the 23rd of march, please
+        check your mails in the evening to confirm your spot. Spots that are not
+        confirmed within 24h will be reallocated.
+      </p>
     </div>
   );
 }

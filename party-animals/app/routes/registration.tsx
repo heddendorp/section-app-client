@@ -155,6 +155,24 @@ export default function Registration() {
               </a>
             </div>
           </div>
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+            <strong>What's next?</strong>
+            <p>
+              Keep the following dates in mind:
+              <ul className="list-inside list-disc">
+                <li>
+                  <strong>20.03. 18:00</strong>: Applications close
+                </li>
+                <li>
+                  <strong>23.03. 18:00</strong>: First round of admissions
+                </li>
+                <li>
+                  <strong>25.03. 18:00</strong>: Second round of admissions
+                </li>
+              </ul>
+              Check your mails to confirm your registration.
+            </p>
+          </div>
         </div>
         <Link
           to="/"
