@@ -106,6 +106,9 @@ export const eventType = objectType({
           })
           .then((registrations) => {
             const quota = registrations / source.participantLimit;
+            if (source.participantLimit - registrations === 1) {
+              return '1 spot left';
+            }
             if (quota < 0.5) {
               return 'Many free spots';
             } else if (quota < 0.8) {
