@@ -9,6 +9,7 @@ import { ActionFunction, LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import { createRegistration } from '~/services/registrations.server';
 import { Prisma, prisma, PrismaClient } from '~/generated/prisma';
+import { useState } from 'react';
 
 export let loader: LoaderFunction = async ({ request }) => {
   const countries = await fetch(
@@ -41,6 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function RegistrationForm() {
   let [countries, user] = useLoaderData();
+  const [esnMember, setEsnMember] = useState(false);
   const transition = useTransition();
   const actionData = useActionData();
   return (
@@ -292,6 +294,52 @@ export default function RegistrationForm() {
           <ValidationMessage
             isSubmitting={transition.state === 'submitting'}
             error={actionData?.errors?.diet}
+          />
+        ) : null}
+      </label>
+      <div className="flex items-center">
+        <label htmlFor="sectionMember">
+          <div className="flex flex-row space-x-4">
+            <input
+              type="checkbox"
+              name="sectionMember"
+              id="sectionMember"
+              required
+              defaultValue={actionData?.values?.sectionMember}
+              className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
+              onChange={(event) => setEsnMember(event.target.checked)}
+            />
+            <span>I am a member of an ESN section at home</span>
+          </div>
+          {actionData?.errors.sectionMember ? (
+            <ValidationMessage
+              isSubmitting={transition.state === 'submitting'}
+              error={actionData?.errors?.sectionMember}
+            />
+          ) : null}
+        </label>
+      </div>
+      <label
+        className="relative block rounded-lg border-2 border-gray-200 p-3"
+        htmlFor="esnSection"
+      >
+        <input
+          className="peer w-full border-none bg-transparent px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+          id="esnSection"
+          name="esnSection"
+          type="text"
+          required
+          defaultValue={actionData?.values?.esnSection}
+          placeholder="ESN Section"
+          disabled={!esnMember}
+        />
+        <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs peer-disabled:text-slate-500">
+          My ESN section
+        </span>
+        {actionData?.errors.esnSection ? (
+          <ValidationMessage
+            isSubmitting={transition.state === 'submitting'}
+            error={actionData?.errors?.esnSection}
           />
         ) : null}
       </label>

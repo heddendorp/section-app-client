@@ -115,7 +115,7 @@ export default function Registration() {
             <strong>Where can I find out more?</strong>
             <p>
               To find out more about the program go to the overview or reach us
-              on instagram, facebook and vial mail. You can also join our
+              on instagram, facebook and via mail. You can also join our
               telegram group for this semester.
             </p>
             <div className="mt-2 flex space-x-2">

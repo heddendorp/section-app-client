@@ -50,6 +50,7 @@ model Registration {
   university         String
   status             String
   diet               String
+  esnSection         String?
   // PA data
   dinner             String
   size               String

@@ -139,6 +139,7 @@ export async function createRegistration(
       university: values.university.toString(),
       status: values.status.toString(),
       diet: values.diet.toString(),
+      esnSection: values.esnSection?.toString() ?? null,
       dinner: values.dinner.toString(),
       size: values.size.toString(),
       oldie: values.oldie.toString() === 'true',
