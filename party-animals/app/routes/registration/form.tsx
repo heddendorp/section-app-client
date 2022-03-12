@@ -304,7 +304,6 @@ export default function RegistrationForm() {
               type="checkbox"
               name="sectionMember"
               id="sectionMember"
-              required
               defaultValue={actionData?.values?.sectionMember}
               className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
               onChange={(event) => setEsnMember(event.target.checked)}
@@ -328,7 +327,6 @@ export default function RegistrationForm() {
           id="esnSection"
           name="esnSection"
           type="text"
-          required
           defaultValue={actionData?.values?.esnSection}
           placeholder="ESN Section"
           disabled={!esnMember}
