@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconURLPipe } from './icon-url.pipe';
-import { ExtendDatePipe } from './extend-date-pipe';
+import { ExtendDatePipe } from './extend-date.pipe';
 
 @NgModule({
   imports: [CommonModule],

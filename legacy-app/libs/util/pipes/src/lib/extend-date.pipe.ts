@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 export class ExtendDatePipe implements PipeTransform {
   readonly customFormats: { [type: string]: string } = {
     medium: 'EEEE, d MMM y, HH:mm',
+    short: 'EE, d.MM, HH:mm',
     shortTime: 'HH:mm',
     mediumTime: 'HH:mm',
     longDate: 'EEEE, d LLLL',
