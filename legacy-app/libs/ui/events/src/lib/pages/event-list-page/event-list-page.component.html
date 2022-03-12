@@ -25,7 +25,29 @@
         </mat-form-field>
       </div>
     </div>
-    <div
+    <div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
+      <div class="block h-full overflow-hidden rounded-xl bg-white">
+        <div class="h-full bg-gray-100 p-4">
+          <h4 class="text-lg font-bold">The Party animals are back!</h4>
+          <p class="text-md mt-1 mb-6">
+            The best way to get started in Munich is finally making a return.
+            Come together in groups of 25 students and enjoy 9 days of exciting
+            activities and fun. Make friends for your stay in munich and beyond.
+          </p>
+          <a
+            class="inline-block w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+            href="https://party-animals.esn.world"
+          >
+            <span
+              class="block text-center rounded-full bg-gray-100 px-8 py-3 text-lg font-bold hover:bg-transparent"
+            >
+              Learn more!
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!--<div
       fxFlex="grow"
       class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
     >
@@ -35,7 +57,7 @@
         not change the page when you click. One mitigation is to reload the page
         after clicking. We're working on a fix.
       </p>
-    </div>
+    </div>-->
   </div>
   <tumi-event-list
     *ngIf="events$ | async as events"
