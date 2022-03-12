@@ -20,17 +20,28 @@ export default function Index() {
             tutors. Last semester one student called it "The ultimate Munich
             student life safari", here and around the world it is known as{' '}
             <strong>Party Animals</strong>!<br />
-            Should this be a little bit too much for you we also prepared a
-            whole selection of single events you can check out
+            If 9 days of being a party animal sound a little intense to you or
+            you would prefer to get started on you own time, check out the
+            extensive program of single events in our orientationweeks.
           </p>
-          <Link
-            className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-            to="/registration"
-          >
-            <span className="block rounded-full bg-slate-800 px-8 py-3 text-lg font-bold hover:bg-transparent">
-              Sign up now!
-            </span>
-          </Link>
+          <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+            <Link
+              className=" inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] text-center hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+              to="/registration"
+            >
+              <span className="block rounded-full bg-slate-800 px-8 py-3 text-center text-lg font-bold hover:bg-transparent">
+                Sign up now!
+              </span>
+            </Link>
+            <a
+              className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+              href="https://tumi.esn.world/events"
+            >
+              <span className="block rounded-full bg-slate-800 px-8 py-3 text-center text-lg font-bold hover:bg-transparent">
+                Check out the Orientationweeks
+              </span>
+            </a>
+          </div>
         </div>
       </section>
       <section className="pa-schedule p-4 py-8 sm:p-8">
