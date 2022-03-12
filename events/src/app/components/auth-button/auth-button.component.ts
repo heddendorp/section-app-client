@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 
@@ -12,7 +7,7 @@ import { DOCUMENT } from '@angular/common';
   template: `
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
       <button
-        (click)="auth.logout()"
+        (click)="startLogout()"
         class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-slate-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-slate-700"
       >
         Log out
@@ -35,13 +30,18 @@ export class AuthButtonComponent {
     public auth: AuthService,
     @Inject(DOCUMENT) private document: Document
   ) {}
+
   startLogin() {
     const redirectPath = this.document.location.pathname
       ? this.document.location.pathname
       : '/';
-    console.log(redirectPath);
     this.auth.loginWithRedirect({
       appState: { target: redirectPath },
     });
+  }
+
+  startLogout() {
+    const redirectPath = this.document.location.origin;
+    this.auth.logout({ returnTo: redirectPath });
   }
 }

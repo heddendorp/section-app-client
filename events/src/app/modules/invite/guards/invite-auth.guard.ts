@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
-import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
