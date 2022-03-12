@@ -452,6 +452,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular/localize@npm:13.2.5":
+  version: 13.2.5
+  resolution: "@angular/localize@npm:13.2.5"
+  dependencies:
+    "@babel/core": 7.17.2
+    glob: 7.2.0
+    yargs: ^17.2.1
+  peerDependencies:
+    "@angular/compiler": 13.2.5
+    "@angular/compiler-cli": 13.2.5
+  bin:
+    localize-extract: tools/bundles/src/extract/cli.js
+    localize-migrate: tools/bundles/src/migrate/cli.js
+    localize-translate: tools/bundles/src/translate/cli.js
+  checksum: ec1bf91d92178ef5a93c0626ffe267fe938de4e4a8a925699e8dda59a497a5ef67dc4505d46ef93533b5e3a7c1e1ae5c51728f345610e1a64797c8bca21a24f8
+  languageName: node
+  linkType: hard
+
 "@angular/material@npm:13.2.5":
   version: 13.2.5
   resolution: "@angular/material@npm:13.2.5"
@@ -676,6 +694,29 @@ __metadata:
     semver: ^6.3.0
     source-map: ^0.5.0
   checksum: 29b56f3cb7c329fc038a2efaccf64ac3025835676b3d90f57f2265b6acd477a970114d09021b38d019ac8f20b2bb1596a9e79ce1f820d6b8cf0e4a802891817c
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:7.17.2":
+  version: 7.17.2
+  resolution: "@babel/core@npm:7.17.2"
+  dependencies:
+    "@ampproject/remapping": ^2.0.0
+    "@babel/code-frame": ^7.16.7
+    "@babel/generator": ^7.17.0
+    "@babel/helper-compilation-targets": ^7.16.7
+    "@babel/helper-module-transforms": ^7.16.7
+    "@babel/helpers": ^7.17.2
+    "@babel/parser": ^7.17.0
+    "@babel/template": ^7.16.7
+    "@babel/traverse": ^7.17.0
+    "@babel/types": ^7.17.0
+    convert-source-map: ^1.7.0
+    debug: ^4.1.0
+    gensync: ^1.0.0-beta.2
+    json5: ^2.1.2
+    semver: ^6.3.0
+  checksum: 68ab3459f41b41feb5cb263937f15e418e1c46998d482d1b6dfe34f78064765466cfd5b10205c22fb16b69dbd1d46e7a3c26c067884ca4eb514b3dac1e09a57f
   languageName: node
   linkType: hard
 
@@ -3715,6 +3756,7 @@ __metadata:
     "@angular/compiler-cli": ~13.2.5
     "@angular/core": ~13.2.5
     "@angular/forms": ~13.2.5
+    "@angular/localize": 13.2.5
     "@angular/material": 13.2.5
     "@angular/platform-browser": ~13.2.5
     "@angular/platform-browser-dynamic": ~13.2.5
