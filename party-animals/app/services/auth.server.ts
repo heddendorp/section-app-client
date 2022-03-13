@@ -29,10 +29,17 @@ authenticator.use(
             firstName: profile.name.givenName ?? '',
             lastName: profile.name.familyName ?? '',
             email: profile.emails[0]?.value ?? '',
+            photo: profile.photos[0]?.value ?? '',
+          },
+        });
+      } else {
+        return prisma.user.update({
+          where: { authId: profile.id },
+          data: {
+            photo: profile.photos[0]?.value ?? '',
           },
         });
       }
-      return user;
     }
   )
 );

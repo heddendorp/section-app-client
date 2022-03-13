@@ -73,6 +73,10 @@ export default function App() {
           defer
           src="https://scripts.simpleanalyticscdn.com/latest.js"
         />
+        <script
+          async
+          src="https://scripts.simpleanalyticscdn.com/auto-events.js"
+        />
         <noscript>
           <img
             src="https://queue.simpleanalyticscdn.com/noscript.gif"
