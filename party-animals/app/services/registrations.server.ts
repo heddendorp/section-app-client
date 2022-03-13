@@ -125,6 +125,17 @@ export async function createRegistration(
       email: values.email.toString(),
     },
   });
+  const existingRegistration = await prisma.registration.findFirst({
+    where: { user: { id: user.id } },
+  });
+  if (existingRegistration) {
+    return [
+      {
+        form: 'It seems like you have already submitted a registration. Please reach out to us if you think this is an error.',
+      },
+      null,
+    ];
+  }
   const registration = await prisma.registration.create({
     data: {
       user: {

@@ -47,6 +47,14 @@ export default function RegistrationForm() {
   const actionData = useActionData();
   return (
     <Form method="post" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {actionData?.errors.form ? (
+        <div className="md:col-span-2">
+          <ValidationMessage
+            isSubmitting={transition.state === 'submitting'}
+            error={actionData?.errors?.form}
+          />
+        </div>
+      ) : null}
       <h2 className="text-2xl font-bold md:col-span-2 md:text-4xl">
         Who are you?
       </h2>
