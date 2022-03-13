@@ -18,6 +18,8 @@ import cors from 'cors';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
 import { useHive } from '@graphql-hive/client';
+import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
+import { permissions } from './permissions';
 
 declare global {
   namespace Express {
@@ -43,7 +45,6 @@ declare global {
     }
   }
 }
-// context: createContext,
 
 const app = express();
 app.use(compression());
@@ -178,6 +179,7 @@ const getEnveloped = envelop({
         }
       }
     ),
+    useGraphQLMiddleware(permissions),
   ],
 });
 

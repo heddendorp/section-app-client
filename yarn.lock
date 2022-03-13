@@ -2051,7 +2051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.7.6":
+"@babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.7.6":
   version: 7.17.2
   resolution: "@babel/runtime@npm:7.17.2"
   dependencies:
@@ -2182,6 +2182,17 @@ __metadata:
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: b257553b3098022f3c39fab31683f1f756e25f504ef4ceaeacb9fd8ff6bc1d9dd20abda12a070cc8bf7f77ffc5aaa66a7287d03ea12f2eb97042fa98cbac3029
+  languageName: node
+  linkType: hard
+
+"@envelop/graphql-middleware@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@envelop/graphql-middleware@npm:3.1.0"
+  peerDependencies:
+    "@envelop/core": ^2.1.0
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    graphql-middleware: ^6.0.0
+  checksum: 04d497aa3078f7d0ea818006a02d973a4a21ef7f1b9d011414c5fe683afb940d1818a349646ebe3e06e9b828e278dcf1412f7d6073da64db6b5a24dcff7661f2
   languageName: node
   linkType: hard
 
@@ -3872,6 +3883,7 @@ __metadata:
   dependencies:
     "@envelop/auth0": ^3.1.0
     "@envelop/core": ^2.1.0
+    "@envelop/graphql-middleware": ^3.1.0
     "@envelop/sentry": ^3.1.0
     "@graphql-hive/client": ^0.14.2
     "@pathcheck/dcc-sdk": ^0.0.27
@@ -3901,6 +3913,7 @@ __metadata:
     got: ^12.0.1
     graphql: ^15.8.0
     graphql-helix: ^1.11.0
+    graphql-shield: ^7.5.0
     jsonwebtoken: ^8.5.1
     jwks-rsa: ^2.0.5
     lodash: ^4.17.21
@@ -4486,6 +4499,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 308957864b9a5a0378ac82f1b084fa31b1bbe85106fb0d84ed2b392e4829404f21ab6ab2c1eb782d556e59cd33d57c75ad2d0cedc4b9b9d0ca3b2311bc915578
+  languageName: node
+  linkType: hard
+
+"@types/yup@npm:0.29.11":
+  version: 0.29.11
+  resolution: "@types/yup@npm:0.29.11"
+  checksum: 703fa2075231a831ee09087128c5ca3c45670a3854d9564d037c46e1f51247d3e00e468d73efb4b4e8ba3df880ddf8494c4cefcd96adddb8fcca06add70e192c
   languageName: node
   linkType: hard
 
@@ -9630,6 +9650,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"graphql-shield@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "graphql-shield@npm:7.5.0"
+  dependencies:
+    "@types/yup": 0.29.11
+    object-hash: ^2.0.3
+    yup: ^0.31.0
+  peerDependencies:
+    graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    graphql-middleware: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^6.0.0
+  checksum: a0eb1afa483b654da01ff41648b6c9d3b7eeff63a29f305112e51c904e0a74f88ce50e0993958d9381ba34fc308f85834031097f0f4b89f22704a871408d3d63
+  languageName: node
+  linkType: hard
+
 "graphql-sse@npm:^1.0.1":
   version: 1.0.6
   resolution: "graphql-sse@npm:1.0.6"
@@ -11643,6 +11677,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.11":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
+  languageName: node
+  linkType: hard
+
 "lodash.castarray@npm:^4.4.0":
   version: 4.4.0
   resolution: "lodash.castarray@npm:4.4.0"
@@ -13420,7 +13461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-hash@npm:^2.2.0":
+"object-hash@npm:^2.0.3, object-hash@npm:^2.2.0":
   version: 2.2.0
   resolution: "object-hash@npm:2.2.0"
   checksum: 55ba841e3adce9c4f1b9b46b41983eda40f854e0d01af2802d3ae18a7085a17168d6b81731d43fdf1d6bcbb3c9f9c56d22c8fea992203ad90a38d7d919bc28f1
@@ -14711,6 +14752,13 @@ __metadata:
     object-assign: ^4.1.1
     react-is: ^16.13.1
   checksum: c056d3f1c057cb7ff8344c645450e14f088a915d078dcda795041765047fa080d38e5d626560ccaac94a4e16e3aa15f3557c1a9a8d1174530955e992c675e459
+  languageName: node
+  linkType: hard
+
+"property-expr@npm:^2.0.4":
+  version: 2.0.5
+  resolution: "property-expr@npm:2.0.5"
+  checksum: 4ebe82ce45aaf1527e96e2ab84d75d25217167ec3ff6378cf83a84fb4abc746e7c65768a79d275881602ae82f168f9a6dfaa7f5e331d0fcc83d692770bcce5f1
   languageName: node
   linkType: hard
 
@@ -16972,6 +17020,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"toposort@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "toposort@npm:2.0.2"
+  checksum: d64c74b570391c9432873f48e231b439ee56bc49f7cb9780b505cfdf5cb832f808d0bae072515d93834dd6bceca5bb34448b5b4b408335e4d4716eaf68195dcb
+  languageName: node
+  linkType: hard
+
 "tough-cookie@npm:^4.0.0":
   version: 4.0.0
   resolution: "tough-cookie@npm:4.0.0"
@@ -18505,6 +18560,19 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"yup@npm:^0.31.0":
+  version: 0.31.1
+  resolution: "yup@npm:0.31.1"
+  dependencies:
+    "@babel/runtime": ^7.10.5
+    lodash: ^4.17.20
+    lodash-es: ^4.17.11
+    property-expr: ^2.0.4
+    toposort: ^2.0.2
+  checksum: 79bf28d6afa4cebcabe3322bb82eec93632289cad47dbe47a89ae067f4438b3a7de8ac2e30977539727510450a4f73ed9051c6d6aa2718d9f1ba6b345179cb7d
   languageName: node
   linkType: hard
 
