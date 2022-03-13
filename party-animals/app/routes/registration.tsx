@@ -82,7 +82,11 @@ export default function Registration() {
               <p>
                 Party Animals is a program with a lot of contact which we
                 believe is crucial for making friends. Thus, we require you to{' '}
-                <strong>comply with the european 2G norm</strong>. <br />
+                <strong>
+                  be fully vaccinated against or recently recovered from
+                  COVID-19
+                </strong>
+                . <br />
                 In case of new regulations parts of the program could be moved,
                 substituted or canceled. We do our best to replace it as
                 appropriately as possible, but can't guarantee it.

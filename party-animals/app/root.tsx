@@ -68,18 +68,10 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <script
-          async
-          defer
-          src="https://scripts.simpleanalyticscdn.com/latest.js"
-        />
-        <script
-          async
-          src="https://scripts.simpleanalyticscdn.com/auto-events.js"
-        />
+        <script async defer src="https://data.esn.world/latest.js"></script>
         <noscript>
           <img
-            src="https://queue.simpleanalyticscdn.com/noscript.gif"
+            src="https://data.esn.world/noscript.gif"
             alt=""
             referrerPolicy="no-referrer-when-downgrade"
           />

@@ -61,7 +61,7 @@ export default function AdminRegistrations() {
           <div className="mb-4 flex items-center">
             <img
               src={registration.user.photo}
-              className="w-10 overflow-hidden rounded-full"
+              className="mr-2 w-10 overflow-hidden rounded-full"
             />
             <h2 className="text-xl font-bold">
               Registration of {registration.user.firstName}{' '}
