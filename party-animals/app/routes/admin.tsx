@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from 'remix';
+import { LoaderFunction, NavLink, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import { Role } from '~/generated/prisma';
 import { Link, Outlet } from '@remix-run/react';
@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function AdminFrame() {
   return (
-    <div className="m-4 md:m-6">
+    <>
       <nav className="mx-auto flex max-w-3xl items-center justify-between p-4">
         {/*<a*/}
         {/*  className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100"*/}
@@ -26,20 +26,30 @@ export default function AdminFrame() {
         {/*</a>*/}
 
         <ul className="flex items-center space-x-2 text-sm font-medium text-gray-200">
-          <li className="hidden lg:block">
-            <Link className="rounded-lg px-3 py-2" to="registrations">
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                `rounded-lg px-3 py-2 ${isActive ? 'font-bold' : ''}`
+              }
+              to="registrations"
+            >
               Registrations
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <a className="rounded-lg px-3 py-2" href="">
+            <NavLink
+              className={({ isActive }) =>
+                `rounded-lg px-3 py-2 ${isActive ? 'font-bold' : ''}`
+              }
+              to="groups"
+            >
               Groups
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
       <Outlet />
-    </div>
+    </>
   );
 }
