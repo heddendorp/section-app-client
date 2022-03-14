@@ -1,11 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import {
   LoadPreviewEventsGQL,
   LoadPreviewEventsQuery,
@@ -19,11 +13,12 @@ import { DateTime } from 'luxon';
   styleUrls: ['./instagram.component.scss'],
 })
 export class InstagramComponent implements AfterViewInit {
-  private events$: Observable<LoadPreviewEventsQuery['events']>;
   @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement> | null = null;
+  private events$: Observable<LoadPreviewEventsQuery['events']>;
+
   constructor(loadPreviewEventsGQL: LoadPreviewEventsGQL) {
     this.events$ = loadPreviewEventsGQL.watch().valueChanges.pipe(
-      tap((data) => console.log(data)),
+      // tap((data) => console.log(data)),
       map(({ data }) =>
         data.events
           .filter((event) => event.freeParticipantSpots !== 'Event is full')
