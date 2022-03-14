@@ -26,4 +26,7 @@
       {{ event.end | date: 'mediumTime' }}
     </p>
   </ng-template>
+  <ng-container *ngIf="bestPrice">
+    <p>💶 {{ bestPrice.amount | currency: 'EUR' }}</p>
+  </ng-container>
 </div>

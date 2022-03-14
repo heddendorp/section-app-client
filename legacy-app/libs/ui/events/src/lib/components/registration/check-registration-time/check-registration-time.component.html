@@ -2,7 +2,4 @@
 <ng-template #countdown>
   <p class="font-bold">This event is not open for registration yet</p>
   <p>Registration opens {{ remainingTime$ | async }}</p>
-  <p *ngIf="eventPrice$ | async">
-    This event will cost about {{ eventPrice$ | async | currency: 'EUR' }}
-  </p>
 </ng-template>

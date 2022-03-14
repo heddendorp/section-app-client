@@ -26,17 +26,8 @@
   </button>
   <tumi-event-header
     [event]="event"
-    class="
-      p-4
-      lg:p-6
-      pb-20
-      lg:pb-24
-      text-secondary-onContainerDark
-      bg-secondary-containerDark
-      from-gray-600
-      to-gray-800
-      dark-button
-    "
+    [bestPrice]="bestPrice$ | async"
+    class="p-4 lg:p-6 pb-20 lg:pb-24 text-secondary-onContainerDark bg-secondary-containerDark from-gray-600 to-gray-800 dark-button"
   ></tumi-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
@@ -179,13 +170,7 @@
       event.couldBeOrganizer &&
       event.registrationMode !== RegistrationMode.External
     "
-    class="
-      p-6
-      lg:p-12
-      bg-secondary-container
-      text-secondary-onContainer
-      border-t-2 border-secondary-onContainer
-    "
+    class="p-6 lg:p-12 bg-secondary-container text-secondary-onContainer border-t-2 border-secondary-onContainer"
   >
     <h2 class="font-bold mb-4">Sign up as organizer</h2>
     <tumi-check-registration-time [event]="event">

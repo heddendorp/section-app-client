@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LoadEventQuery, Role } from '@tumi/data-access';
 import { PermissionsService } from '../../../../../auth/src/lib/services/permissions.service';
+import { Price } from '@tumi/shared/data-types';
 
 @Component({
   selector: 'tumi-event-header',
@@ -11,6 +12,7 @@ import { PermissionsService } from '../../../../../auth/src/lib/services/permiss
 export class EventHeaderComponent {
   public Role = Role;
   @Input() public event: LoadEventQuery['event'] | null = null;
+  @Input() public bestPrice: Price | null = null;
   isSingleDayEvent() {
     return (
       this.event &&

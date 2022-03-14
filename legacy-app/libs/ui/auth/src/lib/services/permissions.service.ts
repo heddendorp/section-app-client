@@ -59,10 +59,15 @@ export class PermissionsService {
   }
 
   getPricesForUser(prices: Price[]): Observable<Price[]> {
+    console.log(prices);
     return this.auth.isAuthenticated$.pipe(
       skipUntil(this.auth.isLoading$.pipe(filter((loading) => !loading))),
       switchMap((authenticated) => {
         if (!authenticated) {
+          const defaultPrice = prices.find((price) => price.defaultPrice);
+          if (defaultPrice) {
+            return of([defaultPrice]);
+          }
           return of([]);
         }
         return this.userRoles.watch().valueChanges.pipe(

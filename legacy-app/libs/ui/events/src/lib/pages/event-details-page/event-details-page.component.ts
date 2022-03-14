@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { firstValueFrom, Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject, switchMap } from 'rxjs';
 import {
   GetCurrentUserGQL,
   LoadEventGQL,
@@ -9,11 +9,13 @@ import {
   RegistrationType,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { first, map, shareReplay } from 'rxjs/operators';
+import { first, map, shareReplay, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { QrDisplayDialogComponent } from '../../components/qr-display-dialog/qr-display-dialog.component';
+import { PermissionsService } from '../../../../../auth/src/lib/services/permissions.service';
+import { Price } from '@tumi/shared/data-types';
 
 @Component({
   selector: 'tumi-event-details-page',
@@ -24,6 +26,7 @@ import { QrDisplayDialogComponent } from '../../components/qr-display-dialog/qr-
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
   public user$: Observable<LoadEventQuery['currentUser']>;
+  public bestPrice$: Observable<Price>;
   public eventOver$: Observable<boolean>;
   public eventStarted$: Observable<boolean>;
   public hasAccount$: Observable<boolean>;
@@ -38,6 +41,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
     private dialog: MatDialog,
+    private permissions: PermissionsService,
     private snackbar: MatSnackBar
   ) {
     this.title.setTitle('TUMi - event');
@@ -48,6 +52,12 @@ export class EventDetailsPageComponent implements OnDestroy {
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
       shareReplay(1)
+    );
+    this.bestPrice$ = this.event$.pipe(
+      switchMap((event) =>
+        this.permissions.getPricesForUser(event.prices.options)
+      ),
+      map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b)))
     );
     this.user$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser),
