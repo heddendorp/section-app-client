@@ -179,7 +179,7 @@ const getEnveloped = envelop({
         }
       }
     ),
-    useGraphQLMiddleware(permissions),
+    useGraphQLMiddleware([permissions]),
   ],
 });
 
