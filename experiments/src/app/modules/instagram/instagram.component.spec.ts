@@ -8,9 +8,8 @@ describe('InstagramComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InstagramComponent ]
-    })
-    .compileComponents();
+      declarations: [InstagramComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
