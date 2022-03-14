@@ -48,9 +48,9 @@ export class CheckRegistrationTimeComponent implements OnChanges {
         DateTime.fromISO(changes.event.currentValue.registrationStart)
       );
       this.eventPrice$.next(
-        changes.event.currentValue.prices.options.find(
+        changes.event.currentValue.prices?.options?.find(
           (price: any) => price.defaultPrice
-        ).amount
+        )?.amount
       );
     }
   }

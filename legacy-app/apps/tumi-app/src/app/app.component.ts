@@ -26,8 +26,6 @@ export class AppComponent {
         this.showNavigation$.next(false);
       } else if (url.includes('orders/receipts')) {
         this.showNavigation$.next(false);
-      } else if (url.includes('/home')) {
-        this.showNavigation$.next(false);
       } else {
         this.showNavigation$.next(true);
       }
