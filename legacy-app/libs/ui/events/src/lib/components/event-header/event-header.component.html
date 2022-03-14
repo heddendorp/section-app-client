@@ -16,6 +16,14 @@
     class="mx-auto mb-4 lg:mb-8 p-1 rounded-2xl bg-surface-default"
   />
   <h1 class="mb-2">{{ event.title }}</h1>
-  <p>Starts: {{ event.start | date: 'medium' }}</p>
-  <p>Ends: {{ event.end | date: 'medium' }}</p>
+  <ng-container *ngIf="!isSingleDayEvent(); else singleDayEvent">
+    <p>Starts: {{ event.start | date: 'medium' }}</p>
+    <p>Ends: {{ event.end | date: 'medium' }}</p>
+  </ng-container>
+  <ng-template #singleDayEvent>
+    <p>
+      📅 {{ event.start | date: 'medium' }} -
+      {{ event.end | date: 'mediumTime' }}
+    </p>
+  </ng-template>
 </div>
