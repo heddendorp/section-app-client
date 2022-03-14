@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { EventListGQL, EventListQuery, Role } from '@tumi/data-access';
 import { combineLatest, Observable, Subject, timer } from 'rxjs';
-import { map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -15,6 +15,7 @@ import { DateTime } from 'luxon';
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new FormControl(true);
+  public filterEvents = new FormControl('');
   public eventsAfter = new FormControl(
     DateTime.local().toISO({ includeOffset: false })
   );
@@ -35,7 +36,7 @@ export class EventListPageComponent implements OnDestroy {
       map(({ data }) => data.events)
     );
     this.eventsAfter.valueChanges
-      .pipe(takeUntil(this.destroy$), )
+      .pipe(takeUntil(this.destroy$))
       .subscribe((value) =>
         this.loadEventsQueryRef.refetch({
           after: value.toJSDate(),
@@ -46,23 +47,30 @@ export class EventListPageComponent implements OnDestroy {
       this.showFullEvents.valueChanges.pipe(
         startWith(this.showFullEvents.value)
       ),
+      this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
-      map(([events, showFull]) => {
-        if (showFull) {
-          return events;
+      map(([events, showFull, filterEvents]) => {
+        let filteredEvents = events;
+        if (!showFull) {
+          filteredEvents = events.filter(
+            (event) =>
+              event.userIsOrganizer ||
+              event.userRegistered ||
+              event.freeParticipantSpots !== 'Event is full'
+          );
         }
-        return events.filter(
-          (event) =>
-            event.userIsOrganizer ||
-            event.userRegistered ||
-            event.freeParticipantSpots !== 'Event is full'
-        );
+        if (filterEvents) {
+          filteredEvents = filteredEvents.filter((event) =>
+            event.title.toLowerCase().includes(filterEvents.toLowerCase())
+          );
+        }
+        return filteredEvents;
       })
     );
     this.loadEventsQueryRef.startPolling(10000);
   }
 
-  ngOnDestroy(): void  {
+  ngOnDestroy(): void {
     this.loadEventsQueryRef.stopPolling();
     this.destroy$.next(true);
     this.destroy$.complete();

@@ -6,11 +6,16 @@
   <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem" class="mb-6">
     <div fxFlex="noshrink">
       <h1 class="mb-4">Upcoming Events</h1>
-      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+      <div
+        fxLayout="column"
+        fxLayout.gt-sm="row"
+        fxLayoutGap="1rem"
+        class="w-full"
+      >
         <mat-checkbox [formControl]="showFullEvents">
           Include events without spot
         </mat-checkbox>
-        <mat-form-field *tumiIfRole="[Role.Admin]">
+        <mat-form-field *tumiIfRole="[Role.Admin]" fxFlex.gt-sm="grow">
           <mat-label>Show Events after</mat-label>
           <input
             matInput
@@ -24,6 +29,10 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
+      <mat-form-field class="w-full">
+        <mat-label>Search Event</mat-label>
+        <input matInput [formControl]="filterEvents" type="search" />
+      </mat-form-field>
     </div>
     <div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
