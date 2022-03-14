@@ -31,6 +31,7 @@
     "got": "^12.0.1",
     "graphql": "^15.8.0",
     "graphql-helix": "^1.11.0",
+    "graphql-middleware": "^6.1.17",
     "graphql-shield": "^7.5.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5",

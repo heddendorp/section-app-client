@@ -4,10 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev": "ng serve",
+    "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn codegen --watch\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "codegen": "yarn graphql-codegen",
+    "codegen:watch": "yarn graphql-codegen --watch",
     "lint": "ng lint"
   },
   "private": true,
@@ -20,6 +22,10 @@
     "@angular/platform-browser": "~13.2.5",
     "@angular/platform-browser-dynamic": "~13.2.5",
     "@angular/router": "~13.2.5",
+    "@apollo/client": "^3.5.10",
+    "apollo-angular": "^3.0.0",
+    "graphql": "^16.3.0",
+    "luxon": "^2.3.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
@@ -33,10 +39,17 @@
     "@angular-eslint/template-parser": "13.1.0",
     "@angular/cli": "~13.2.5",
     "@angular/compiler-cli": "~13.2.5",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript-apollo-angular": "^3.4.5",
+    "@graphql-codegen/typescript-operations": "^2.3.4",
     "@types/jasmine": "~3.10.3",
+    "@types/luxon": "^2.3.0",
     "@types/node": "^12.11.1",
+    "@types/prettier": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
+    "autoprefixer": "^10.4.2",
+    "concurrently": "^7.0.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
     "jasmine-core": "~4.0.1",
@@ -45,6 +58,10 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "postcss": "^8.4.8",
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "tailwindcss": "^3.0.23",
     "typescript": "~4.5.2"
   }
 }
