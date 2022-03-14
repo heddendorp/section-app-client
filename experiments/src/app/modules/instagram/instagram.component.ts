@@ -27,7 +27,6 @@ export class InstagramComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.canvas);
     if (!this.canvas) return;
     const context = this.canvas.nativeElement.getContext('2d');
     if (!context) return;

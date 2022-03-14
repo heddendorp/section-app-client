@@ -3968,6 +3968,7 @@ __metadata:
     "@graphql-codegen/cli": ^2.6.2
     "@graphql-codegen/typescript-apollo-angular": ^3.4.5
     "@graphql-codegen/typescript-operations": ^2.3.4
+    "@tailwindcss/typography": ^0.5.2
     "@types/jasmine": ~3.10.3
     "@types/luxon": ^2.3.0
     "@types/node": ^12.11.1
