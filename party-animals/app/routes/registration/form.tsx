@@ -267,8 +267,8 @@ export default function RegistrationForm() {
           <option value="">Select your status</option>
           <option value="l">Local Student</option>
           <option value="i">International degree student</option>
-          <option value="o">Exchange Student (2nd semester)</option>
-          <option value="e">Exchange Student (new)</option>
+          <option value="o">Exchange Student (arrived in 2021)</option>
+          <option value="e">Exchange Student (arrived in 2022)</option>
         </select>
         <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
           Status
