@@ -36,9 +36,9 @@
   >
     <p class="font-bold mb-2">{{ event.title }}</p>
     <p>
-      Starts: {{ event.start | date: 'shortTime' }}
+      🕐 {{ event.start | date: 'shortTime' }}
       <span class="ml-2" *ngIf="defaultPrice()">
-        {{ defaultPrice().amount | currency: 'EUR':true:'1.2-2' }}
+        💶 {{ defaultPrice().amount | currency: 'EUR' }}
       </span>
     </p>
     <p
