@@ -749,8 +749,8 @@ export const updateCoreEventInput = inputObjectType({
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
-    t.field(TumiEvent.participantLimit);
-    t.field(TumiEvent.organizerLimit);
+    t.field({ ...TumiEvent.participantLimit, type: 'Int' });
+    t.field({ ...TumiEvent.organizerLimit, type: 'Int' });
     t.field(TumiEvent.prices);
     t.id('eventOrganizerId');
   },
