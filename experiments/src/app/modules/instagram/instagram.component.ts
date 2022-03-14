@@ -5,10 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import {
   LoadPreviewEventsGQL,
   LoadPreviewEventsQuery,
+  RegistrationMode,
 } from '../../generated/generated';
 import { DateTime } from 'luxon';
 
@@ -21,9 +22,15 @@ export class InstagramComponent implements AfterViewInit {
   private events$: Observable<LoadPreviewEventsQuery['events']>;
   @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement> | null = null;
   constructor(loadPreviewEventsGQL: LoadPreviewEventsGQL) {
-    this.events$ = loadPreviewEventsGQL
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.events.slice(0, 7)));
+    this.events$ = loadPreviewEventsGQL.watch().valueChanges.pipe(
+      tap((data) => console.log(data)),
+      map(({ data }) =>
+        data.events
+          .filter((event) => event.freeParticipantSpots !== 'Event is full')
+          .filter((event) => event.registrationMode !== RegistrationMode.Online)
+          .slice(0, 7)
+      )
+    );
   }
 
   ngAfterViewInit() {
@@ -71,7 +78,7 @@ export class InstagramComponent implements AfterViewInit {
             context.font = 'normal 30pt sans-serif';
             if (!event.title.includes('ESNcard')) {
               context.fillText(
-                DateTime.fromISO(event.start).toFormat('EEEEEE dd MMM HH:mm'),
+                DateTime.fromISO(event.start).toFormat('EEEE dd MMM HH:mm'),
                 220,
                 offset + 130,
                 780
