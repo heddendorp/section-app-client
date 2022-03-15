@@ -1,7 +1,6 @@
 import { PrismaClient, Registration, User } from '~/generated/prisma';
 import v8n from 'v8n';
-
-const prisma = new PrismaClient();
+import { prisma } from '~/services/prisma.server';
 
 function validateRegistration(data: FormData): { [key: string]: string } {
   const errors: { [key: string]: string } = {};

@@ -2,12 +2,11 @@ import { Authenticator } from 'remix-auth';
 import { sessionStorage } from '~/services/session.server';
 import { Auth0Strategy } from 'remix-auth-auth0';
 import { PrismaClient, User } from '~/generated/prisma';
+import { prisma } from '~/services/prisma.server';
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
 export const authenticator = new Authenticator<User>(sessionStorage);
-
-const prisma = new PrismaClient();
 
 authenticator.use(
   new Auth0Strategy(

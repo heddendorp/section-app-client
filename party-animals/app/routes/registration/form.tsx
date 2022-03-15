@@ -8,15 +8,14 @@ import {
 import { ActionFunction, LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import { createRegistration } from '~/services/registrations.server';
-import { Prisma, prisma, PrismaClient } from '~/generated/prisma';
 import { useState } from 'react';
+import { prisma } from '~/services/prisma.server';
 
 export let loader: LoaderFunction = async ({ request }) => {
   const countries = await fetch(
     'https://restcountries.com/v2/all?fields=name,alpha2Code'
   ).then((res) => res.json());
   const user = await authenticator.isAuthenticated(request);
-  const prisma = new PrismaClient();
   const registration = await prisma.registration.findFirst({
     where: { user: { id: user?.id } },
   });

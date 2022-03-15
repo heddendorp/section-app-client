@@ -3,6 +3,7 @@ import { authenticator } from '~/services/auth.server';
 import { PrismaClient, Registration, Role, User } from '~/generated/prisma';
 import { useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
+import { prisma } from '~/services/prisma.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
@@ -13,7 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     console.log(user);
     throw new Error('You are not authorized to view this page');
   }
-  const prisma = new PrismaClient();
   const countries = fetch(
     'https://restcountries.com/v2/all?fields=name,alpha2Code,flags'
   ).then((res) => res.json());

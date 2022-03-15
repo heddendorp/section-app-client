@@ -3,11 +3,11 @@ import { Form } from '@remix-run/react';
 import { LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import { PrismaClient } from '~/generated/prisma';
+import { prisma } from '~/services/prisma.server';
 
 export let loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
   if (user) {
-    const prisma = new PrismaClient();
     const registration = await prisma.registration.findFirst({
       where: {
         id: user.id,
