@@ -148,7 +148,7 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n party-animals -g tumi-container -i ghcr.io/heddendorp/tumi/party-animals:${{ needs.build.outputs.sha_short }} -v "DATABASE_URL=secretref:database-url,AUTH0_CLIENT_SECRET=secretref:auth0-secret,AUTH0_CALLBACK_URL=secretref:auth0-callback,NODE_ENV=production" --cpu 0.5 --memory 1.0Gi --revisions-mode single
+            az containerapp update -n party-animals -g tumi-container -i ghcr.io/heddendorp/tumi/party-animals:${{ needs.build.outputs.sha_short }} --debug -v "DATABASE_URL=secretref:database-url,AUTH0_CLIENT_SECRET=secretref:auth0-secret,AUTH0_CALLBACK_URL=secretref:auth0-callback,NODE_ENV=production" --cpu 1 --memory 2.0Gi --revisions-mode single
 
 #  release:
 #    runs-on: ubuntu-latest
