@@ -1,13 +1,13 @@
 import { LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { Prisma, PrismaClient, Registration } from '~/generated/prisma';
+import { Registration } from '~/generated/prisma';
 import { useLoaderData } from '@remix-run/react';
-import { prisma } from '~/services/prisma.server';
+import { db } from '~/utils/db.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) return redirect('/registration');
-  const registration = await prisma.registration.findFirst({
+  const registration = await db.registration.findFirst({
     where: {
       user: {
         id: user.id,

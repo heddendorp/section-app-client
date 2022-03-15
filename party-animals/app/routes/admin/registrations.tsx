@@ -1,9 +1,9 @@
 import { LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { PrismaClient, Registration, Role, User } from '~/generated/prisma';
+import { Registration, Role, User } from '~/generated/prisma';
 import { useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
-import { prisma } from '~/services/prisma.server';
+import { db } from '~/utils/db.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const countries = fetch(
     'https://restcountries.com/v2/all?fields=name,alpha2Code,flags'
   ).then((res) => res.json());
-  const registrations = prisma.registration.findMany({
+  const registrations = db.registration.findMany({
     include: { user: true },
     orderBy: { createdAt: 'asc' },
   });

@@ -1,8 +1,8 @@
 import { Authenticator } from 'remix-auth';
 import { sessionStorage } from '~/services/session.server';
 import { Auth0Strategy } from 'remix-auth-auth0';
-import { PrismaClient, User } from '~/generated/prisma';
-import { prisma } from '~/services/prisma.server';
+import { User } from '~/generated/prisma';
+import { db } from '~/utils/db.server';
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
@@ -18,11 +18,11 @@ authenticator.use(
       scope: 'openid profile email',
     },
     async ({ accessToken, refreshToken, extraParams, profile }) => {
-      const user = await prisma.user.findUnique({
+      const user = await db.user.findUnique({
         where: { authId: profile.id },
       });
       if (!user) {
-        return prisma.user.create({
+        return db.user.create({
           data: {
             authId: profile.id,
             firstName: profile.name.givenName ?? '',
@@ -32,7 +32,7 @@ authenticator.use(
           },
         });
       } else {
-        return prisma.user.update({
+        return db.user.update({
           where: { authId: profile.id },
           data: {
             photo: profile.photos[0]?.value ?? '',

@@ -1,6 +1,6 @@
-import { PrismaClient, Registration, User } from '~/generated/prisma';
+import { Registration, User } from '~/generated/prisma';
 import v8n from 'v8n';
-import { prisma } from '~/services/prisma.server';
+import { db } from '~/utils/db.server';
 
 function validateRegistration(data: FormData): { [key: string]: string } {
   const errors: { [key: string]: string } = {};
@@ -116,7 +116,7 @@ export async function createRegistration(
     return [errors, null];
   }
   const values = Object.fromEntries(data);
-  await prisma.user.update({
+  await db.user.update({
     where: { id: user.id },
     data: {
       firstName: values.firstName.toString(),
@@ -124,7 +124,7 @@ export async function createRegistration(
       email: values.email.toString(),
     },
   });
-  const existingRegistration = await prisma.registration.findFirst({
+  const existingRegistration = await db.registration.findFirst({
     where: { user: { id: user.id } },
   });
   if (existingRegistration) {
@@ -135,7 +135,7 @@ export async function createRegistration(
       null,
     ];
   }
-  const registration = await prisma.registration.create({
+  const registration = await db.registration.create({
     data: {
       user: {
         connect: {
