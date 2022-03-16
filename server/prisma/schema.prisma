@@ -8,12 +8,13 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  //  output          = "../lib/client"
+  output          = "../src/generated/prisma"
   previewFeatures = ["interactiveTransactions", "fullTextSearch"]
 }
 
 generator nexusPrisma {
   provider = "nexus-prisma"
+  output   = "../src/generated/nexus-prisma"
 }
 
 //generator dbml {
@@ -160,7 +161,7 @@ model Invite {
   redeemedBy User?            @relation(fields: [redeemerId], references: [id])
   tenantId   String           @db.Uuid
   creatorId  String           @db.Uuid
-  redeemerId String?           @db.Uuid
+  redeemerId String?          @db.Uuid
 }
 
 model StripeUserData {
