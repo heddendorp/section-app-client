@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { EventSubmission } from 'nexus-prisma';
+import { EventSubmission } from '../generated/nexus-prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const eventSubmissionType = objectType({

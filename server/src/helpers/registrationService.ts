@@ -4,7 +4,7 @@ import {
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
-} from '@prisma/client';
+} from '../generated/prisma';
 import * as stripe from 'stripe';
 import { GetGen } from 'nexus/dist/typegenTypeHelpers';
 import { DateTime } from 'luxon';

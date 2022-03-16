@@ -8,8 +8,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventRegistrationCode } from 'nexus-prisma';
-import { RegistrationMode, Role } from '@prisma/client';
+import { EventRegistrationCode } from '../generated/nexus-prisma';
+import { RegistrationMode, Role } from '../generated/prisma';
 import { RegistrationService } from '../helpers/registrationService';
 import { eventRegistrationType } from './eventRegistration';
 import { userType } from './user';

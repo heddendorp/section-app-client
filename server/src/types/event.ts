@@ -10,7 +10,7 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { TumiEvent } from 'nexus-prisma';
+import { TumiEvent } from '../generated/nexus-prisma';
 import {
   MembershipStatus,
   Prisma,
@@ -19,7 +19,7 @@ import {
   RegistrationStatus,
   RegistrationType,
   Role,
-} from '@prisma/client';
+} from '../generated/prisma';
 import {
   publicationStateEnum,
   registrationTypeEnum,

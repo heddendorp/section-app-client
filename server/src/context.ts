@@ -1,4 +1,4 @@
-import { PrismaClient, Tenant, User, UsersOfTenants } from '@prisma/client';
+import { PrismaClient, Tenant, User, UsersOfTenants } from './generated/prisma';
 import { Auth0 } from './helpers/auth0';
 
 const prisma = new PrismaClient();

@@ -13,7 +13,7 @@ import { useSentry } from '@envelop/sentry';
 import * as Sentry from '@sentry/node';
 import { getCurrentHub } from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
-import { PrismaClient, Tenant, User } from '@prisma/client';
+import { PrismaClient, Tenant, User } from './generated/prisma';
 import cors from 'cors';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
@@ -46,7 +46,7 @@ declare global {
   }
 }
 
-const app = express();
+export const app = express();
 app.use(compression());
 const prisma = new PrismaClient();
 prisma.$use(async (params, next) => {
@@ -103,17 +103,21 @@ const getEnveloped = envelop({
     useSchema(schema),
     // useLogger(),
     // useTiming(),
-    useHive({
-      enabled: true,
-      debug: process.env.NODE_ENV !== 'production', // or false
-      token: process.env.HIVE_TOKEN ?? '',
-      reporting: {
-        // feel free to set dummy values here
-        author: 'Author of the schema version',
-        commit: 'git sha or any identifier',
-      },
-      usage: true,
-    }),
+    ...(process.env.NODE_ENV !== 'test'
+      ? [
+          useHive({
+            enabled: true,
+            debug: process.env.NODE_ENV !== 'production', // or false
+            token: process.env.HIVE_TOKEN ?? '',
+            reporting: {
+              // feel free to set dummy values here
+              author: 'Author of the schema version',
+              commit: 'git sha or any identifier',
+            },
+            usage: true,
+          }),
+        ]
+      : []),
     useSentry(),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
@@ -231,6 +235,7 @@ app.use(socialRouter);
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
-app.listen(port, () => {
-  console.log(`GraphQL server is running on port ${port}.`);
-});
+process.env.NODE_ENV !== 'test' &&
+  app.listen(port, () => {
+    console.log(`GraphQL server is running on port ${port}.`);
+  });

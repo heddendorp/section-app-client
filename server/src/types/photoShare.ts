@@ -7,8 +7,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { PhotoShare } from 'nexus-prisma';
-import { RegistrationStatus, Role } from '@prisma/client';
+import { PhotoShare } from '../generated/nexus-prisma';
+import { RegistrationStatus, Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const photoShare = objectType({

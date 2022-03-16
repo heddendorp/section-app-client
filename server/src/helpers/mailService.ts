@@ -1,5 +1,5 @@
 import sgMail = require('@sendgrid/mail');
-import { Invite, Tenant, User } from '@prisma/client';
+import { Invite, Tenant, User } from '../generated/prisma';
 
 export class MailService {
   static sendInviteMail(

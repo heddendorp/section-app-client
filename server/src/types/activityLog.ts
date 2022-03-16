@@ -1,8 +1,8 @@
 import { list, nonNull, objectType, queryField } from 'nexus';
 
-import { ActivityLog } from 'nexus-prisma';
-import { Role } from '@prisma/client';
 import { EnvelopError } from '@envelop/core';
+import { ActivityLog } from '../generated/nexus-prisma';
+import { Role } from '../generated/prisma';
 
 export const activityLogType = objectType({
   name: ActivityLog.$name,

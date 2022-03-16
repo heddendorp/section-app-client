@@ -11,7 +11,7 @@ import {
   queryField,
   stringArg,
 } from 'nexus';
-import { MembershipStatus, Role, User } from 'nexus-prisma';
+import { MembershipStatus, Role, User } from '../generated/nexus-prisma';
 import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
@@ -19,7 +19,7 @@ import {
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
-} from '@prisma/client';
+} from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const userType = objectType({

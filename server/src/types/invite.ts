@@ -6,8 +6,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { Invite } from 'nexus-prisma';
-import { Invite as DBInvite } from '@prisma/client';
+import { Invite } from '../generated/nexus-prisma';
+import { Invite as DBInvite } from '../generated/prisma';
 import { MailService } from '../helpers/mailService';
 
 export const inviteType = objectType({

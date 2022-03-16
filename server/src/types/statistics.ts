@@ -1,5 +1,5 @@
 import { list, nonNull, objectType } from 'nexus';
-import { RegistrationMode, Tenant } from '@prisma/client';
+import { RegistrationMode, Tenant } from '../generated/prisma';
 import { DateTime } from 'luxon';
 import { countBy, groupBy, range, transform } from 'lodash';
 import { EnvelopError } from '@envelop/core';

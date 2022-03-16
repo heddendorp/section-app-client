@@ -8,8 +8,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventRegistration } from 'nexus-prisma';
-import { RegistrationStatus } from '@prisma/client';
+import { EventRegistration } from '../generated/nexus-prisma';
+import { RegistrationStatus } from '../generated/prisma';
 import { registrationStatusEnum } from './enums';
 import { eventRegistrationCodeType } from './eventRegistrationCode';
 import { EnvelopError } from '@envelop/core';

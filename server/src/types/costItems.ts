@@ -6,10 +6,10 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { CostItem } from 'nexus-prisma';
+import { CostItem } from '../generated/nexus-prisma';
 import { eventType } from './event';
 import { createReceiptInputType } from './receipt';
-import { Role } from '@prisma/client';
+import { Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const costItemType = objectType({

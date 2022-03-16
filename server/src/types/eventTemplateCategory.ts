@@ -1,5 +1,5 @@
 import { idArg, list, nonNull, objectType, queryField } from 'nexus';
-import { EventTemplateCategory } from 'nexus-prisma';
+import { EventTemplateCategory } from '../generated/nexus-prisma';
 
 export const eventTemplateCategoryType = objectType({
   name: EventTemplateCategory.$name,

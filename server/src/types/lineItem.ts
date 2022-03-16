@@ -6,7 +6,7 @@ import {
   nonNull,
   objectType,
 } from 'nexus';
-import { LineItem } from 'nexus-prisma';
+import { LineItem } from '../generated/nexus-prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const lineItemType = objectType({

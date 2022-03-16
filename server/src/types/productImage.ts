@@ -6,8 +6,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { ProductImage } from 'nexus-prisma';
-import { Role } from '@prisma/client';
+import { ProductImage } from '../generated/nexus-prisma';
+import { Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const productImageType = objectType({

@@ -1,9 +1,14 @@
 import { makeSchema } from 'nexus';
-import NexusPrismaScalars from 'nexus-prisma/scalars';
 import * as types from './types';
+import {
+  Json,
+  Decimal,
+  DateTime,
+} from 'nexus-prisma/dist-cjs/entrypoints/scalars';
+// import { Json, Decimal, DateTime } from 'nexus-prisma/';
 
 export const schema = makeSchema({
-  types: [NexusPrismaScalars, types],
+  types: [Json, Decimal, DateTime, types],
   outputs: {
     schema: __dirname + '/../schema.graphql',
     typegen: __dirname + '/generated/nexus.ts',

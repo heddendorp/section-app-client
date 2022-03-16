@@ -8,10 +8,10 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { Purchase } from 'nexus-prisma';
+import { Purchase } from '../generated/nexus-prisma';
 import * as stripe from 'stripe';
 import { DateTime } from 'luxon';
-import { MembershipStatus } from '@prisma/client';
+import { MembershipStatus } from '../generated/prisma';
 import { purchaseStatusEnum } from './enums';
 import { EnvelopError } from '@envelop/core';
 

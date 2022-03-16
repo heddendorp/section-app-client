@@ -8,8 +8,8 @@ import {
   objectType,
   stringArg,
 } from 'nexus';
-import { EventSubmissionItem } from 'nexus-prisma';
-import { PurchaseStatus, Role } from '@prisma/client';
+import { EventSubmissionItem } from '../generated/nexus-prisma';
+import { PurchaseStatus, Role } from '../generated/prisma';
 import { eventSubmissionType } from './eventSubmission';
 import { eventType } from './event';
 import { countBy, toPairs } from 'lodash';

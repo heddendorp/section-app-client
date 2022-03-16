@@ -1,5 +1,5 @@
 import { list, nonNull, objectType } from 'nexus';
-import { StripePayment } from 'nexus-prisma';
+import { StripePayment } from '../generated/nexus-prisma';
 
 export const stripePaymentType = objectType({
   name: StripePayment.$name,

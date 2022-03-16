@@ -8,14 +8,14 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { Product } from 'nexus-prisma';
+import { Product } from '../generated/nexus-prisma';
 import {
   MembershipStatus,
   Prisma,
   PublicationState,
   PurchaseStatus,
   Role,
-} from '@prisma/client';
+} from '../generated/prisma';
 import { productImageType } from './productImage';
 import { constant, countBy, flatten, times, toPairs } from 'lodash';
 import { EnvelopError } from '@envelop/core';

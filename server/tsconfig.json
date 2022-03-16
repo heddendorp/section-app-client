@@ -5,7 +5,11 @@
     "rootDir": "src",
     "lib": ["esnext"],
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "~/*": ["./app/*"]
+    },
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*"]
 }

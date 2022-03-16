@@ -1,6 +1,6 @@
 import express from 'express';
 import { createCanvas, loadImage } from 'canvas';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma';
 
 export const socialRouter = express.Router();
 const prisma = new PrismaClient();

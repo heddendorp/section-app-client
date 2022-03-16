@@ -1,5 +1,5 @@
 import { inputObjectType, objectType } from 'nexus';
-import { Receipt } from 'nexus-prisma';
+import { Receipt } from '../generated/nexus-prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const receiptType = objectType({

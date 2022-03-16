@@ -1,7 +1,7 @@
 import { rule } from 'graphql-shield';
 import { GraphQLResolveInfo } from 'graphql';
 import { Context } from '../context';
-import { MembershipStatus, Role, TumiEvent, User } from '@prisma/client';
+import { MembershipStatus, Role, TumiEvent, User } from '../generated/prisma';
 
 export const isAuthenticated = rule({ cache: 'contextual' })(
   async (

@@ -1,4 +1,4 @@
-import { Tenant } from 'nexus-prisma';
+import { Tenant } from '../generated/nexus-prisma';
 import {
   extendType,
   idArg,

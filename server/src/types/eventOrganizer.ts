@@ -6,8 +6,8 @@ import {
   objectType,
   queryField,
 } from 'nexus';
-import { EventOrganizer } from 'nexus-prisma';
-import { Role } from '@prisma/client';
+import { EventOrganizer } from '../generated/nexus-prisma';
+import { Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 
 export const organizerType = objectType({

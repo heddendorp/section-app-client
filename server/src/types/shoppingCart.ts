@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { ShoppingCart } from 'nexus-prisma';
+import { ShoppingCart } from '../generated/nexus-prisma';
 
 export const shoppingCartType = objectType({
   name: ShoppingCart.$name,
