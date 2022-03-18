@@ -110,24 +110,30 @@ export const loader: LoaderFunction = async ({ request }) => {
   groups.forEach((group) => {
     assignments[group.id] = group.registrations;
   });
-  registrations.forEach((registration) => {
-    let assigned = false;
-    groups.forEach((group) => {
-      if (!assigned) {
-        if (!countryInGroup(assignments[group.id], registration.country)) {
-          if (genderInGroup(assignments[group.id], registration.gender) < 10) {
-            if (spaceForSizeInGroup(assignments[group.id], registration.size)) {
-              assignments[group.id].push(registration);
-              assigned = true;
+  registrations
+    .filter((registration) => !registration.groupId)
+    .forEach((registration) => {
+      let assigned = false;
+      groups.forEach((group) => {
+        if (!assigned) {
+          if (!countryInGroup(assignments[group.id], registration.country)) {
+            if (
+              genderInGroup(assignments[group.id], registration.gender) < 10
+            ) {
+              if (
+                spaceForSizeInGroup(assignments[group.id], registration.size)
+              ) {
+                assignments[group.id].push(registration);
+                assigned = true;
+              }
             }
           }
         }
+      });
+      if (!assigned) {
+        nonAssigned.push(registration);
       }
     });
-    if (!assigned) {
-      nonAssigned.push(registration);
-    }
-  });
   return { registrations, groups, assignments, nonAssigned };
 };
 
