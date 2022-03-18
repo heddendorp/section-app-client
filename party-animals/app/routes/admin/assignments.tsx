@@ -137,6 +137,16 @@ export const loader: LoaderFunction = async ({ request }) => {
         nonAssigned.push(registration);
       }
     });
+  //sort groups by name
+  groups.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
   return { registrations, groups, assignments, nonAssigned };
 };
 
