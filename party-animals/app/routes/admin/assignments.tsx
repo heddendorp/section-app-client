@@ -39,6 +39,26 @@ const statusToNum = (status: string) => {
   }
 };
 
+const shirtSizeInGroup = (group: Registration[], size: string) => {
+  return group.filter((reg) => reg.size === size).length;
+};
+
+const spaceForSizeInGroup = (group: Registration[], size: string) => {
+  const alreadyInGroup = shirtSizeInGroup(group, size);
+  switch (size) {
+    case 's':
+      return alreadyInGroup < 7;
+    case 'm':
+      return alreadyInGroup < 16;
+    case 'l':
+      return alreadyInGroup < 5;
+    case 'xl':
+      return alreadyInGroup < 2;
+    default:
+      return false;
+  }
+};
+
 const genderInGroup = (group: Registration[], gender: string) => {
   return group.filter((reg) => reg.gender === gender).length;
 };
@@ -64,6 +84,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
   const groupsQuery = db.group.findMany({
     orderBy: { name: 'asc' },
+    include: { registrations: { include: { user: true } } },
   });
   const [groups, registrations] = await Promise.all([
     groupsQuery,
@@ -87,7 +108,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const assignments: { [groupId: string]: Registration[] } = {};
   const nonAssigned: Registration[] = [];
   groups.forEach((group) => {
-    assignments[group.id] = [];
+    assignments[group.id] = group.registrations;
   });
   registrations.forEach((registration) => {
     let assigned = false;
@@ -95,8 +116,10 @@ export const loader: LoaderFunction = async ({ request }) => {
       if (!assigned) {
         if (!countryInGroup(assignments[group.id], registration.country)) {
           if (genderInGroup(assignments[group.id], registration.gender) < 10) {
-            assignments[group.id].push(registration);
-            assigned = true;
+            if (spaceForSizeInGroup(assignments[group.id], registration.size)) {
+              assignments[group.id].push(registration);
+              assigned = true;
+            }
           }
         }
       }
