@@ -114,6 +114,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     .filter((registration) => !registration.groupId)
     .forEach((registration) => {
       let assigned = false;
+      groups.sort(
+        (a, b) => assignments[a.id].length - assignments[b.id].length
+      );
       groups.forEach((group) => {
         if (!assigned) {
           if (!countryInGroup(assignments[group.id], registration.country)) {
