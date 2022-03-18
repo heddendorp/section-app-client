@@ -250,8 +250,12 @@ export default function AdminRegistrations() {
               <p>{registration.priority}</p>
               <p>Status</p>
               <p>{registration.registrationStatus}</p>
-              <p>Group</p>
-              <p>{registration?.group?.name ?? 'Not assigned'}</p>
+              {registration.group && (
+                <>
+                  <p>Group</p>
+                  <p>{registration?.group?.name ?? 'Not assigned'}</p>
+                </>
+              )}
             </div>
             <div className="grow" />
             <Menu as="div" className="relative mb-4 inline-block text-left">
