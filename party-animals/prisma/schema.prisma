@@ -23,6 +23,12 @@ enum Status {
   ACCEPTED
 }
 
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 model User {
   id            String         @id @default(uuid()) @db.Uuid
   createdAt     DateTime       @default(now())
@@ -43,6 +49,7 @@ model Registration {
   userId             String   @db.Uuid
   registrationStatus Status   @default(PENDING)
   rejectionReason    String?
+  priority           Priority @default(MEDIUM)
   // Personal data
   gender             String
   callBy             String

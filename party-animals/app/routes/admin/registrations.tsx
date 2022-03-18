@@ -1,9 +1,11 @@
-import { LoaderFunction, redirect } from 'remix';
+import { ActionFunction, LoaderFunction, redirect, useFetcher } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { Registration, Role, User } from '~/generated/prisma';
+import { Priority, Registration, Role, User, Status } from '~/generated/prisma';
 import { useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
 import { db } from '~/utils/db.server';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
@@ -11,7 +13,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/auth/login');
   }
   if (user.role !== Role.ADMIN) {
-    console.log(user);
     throw new Error('You are not authorized to view this page');
   }
   const countries = fetch(
@@ -24,7 +25,52 @@ export const loader: LoaderFunction = async ({ request }) => {
   return Promise.all([registrations, countries]);
 };
 
+export const action: ActionFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request);
+  if (!user) {
+    return redirect('/auth/login');
+  }
+  if (user.role !== Role.ADMIN) {
+    throw new Error(
+      `Only Admins are allowed to change this! You are ${user.role}`
+    );
+  }
+  const formData = await request.formData();
+  const id = formData.get('id');
+  if (typeof id !== 'string') {
+    throw new Error('No id provided');
+  }
+  const priority = formData.get('prio');
+  switch (priority) {
+    case 'high':
+      await db.registration.update({
+        where: { id },
+        data: { priority: Priority.HIGH },
+      });
+      break;
+    case 'medium':
+      await db.registration.update({
+        where: { id },
+        data: { priority: Priority.MEDIUM },
+      });
+      break;
+    case 'low':
+      await db.registration.update({
+        where: { id },
+        data: { priority: Priority.LOW },
+      });
+      break;
+    case 'none':
+      await db.registration.update({
+        where: { id },
+        data: { registrationStatus: Status.REJECTED },
+      });
+  }
+  return null;
+};
+
 export default function AdminRegistrations() {
+  const fetcher = useFetcher();
   const [registrations, countries] =
     useLoaderData<[(Registration & { user: User })[], any[]]>();
   const nonRejectedRegistrations = registrations.filter(
@@ -64,6 +110,11 @@ export default function AdminRegistrations() {
   const getCountry = (code: string) => {
     return countries.find((c) => c.alpha2Code === code);
   };
+
+  function setPriority(id: string, prio: string) {
+    fetcher.submit({ id, prio }, { method: 'patch' });
+  }
+
   return (
     <main>
       <section className="mb-2 p-4 text-white">
@@ -89,9 +140,12 @@ export default function AdminRegistrations() {
           </li>
         </ul>
       </section>
-      <section className="grid grid-cols-1 gap-4 p-4 text-white lg:grid-cols-2 xl:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 p-4 text-white md:grid-cols-2 xl:grid-cols-3">
         {registrations.map((registration) => (
-          <div key={registration.id} className="rounded-lg border p-6">
+          <div
+            key={registration.id}
+            className="flex flex-col rounded-lg border p-6"
+          >
             <div className="mb-4 flex items-center">
               <img
                 src={registration.user.photo}
@@ -108,7 +162,7 @@ export default function AdminRegistrations() {
                 className="w-10"
               />
             </div>
-            <div className="grid grid-cols-[max-content_auto] gap-2">
+            <div className="mb-4 grid grid-cols-[max-content_auto] gap-2">
               <p>Registration Time</p>
               <p>
                 {new Date(registration.createdAt).toLocaleString('en-DE', {
@@ -140,8 +194,12 @@ export default function AdminRegistrations() {
               <p>{registration.diet}</p>
               <p>Dinner choice</p>
               <p>{registration.dinner}</p>
-              <p>Section</p>
-              <p>{registration.esnSection}</p>
+              {registration.esnSection && (
+                <>
+                  <p>ESN Section</p>
+                  <p>{registration.esnSection}</p>
+                </>
+              )}
               <strong className="col-span-2">Party Animal</strong>
               <p>Size</p>
               <p>{registration.size.toUpperCase()}</p>
@@ -149,12 +207,156 @@ export default function AdminRegistrations() {
               <p>{registration.oldie ? 'Yes' : 'No'}</p>
               <p>Expectations</p>
               <p>{registration.expectations}</p>
-              <p>Requests</p>
-              <p>{registration.requests}</p>
+              {registration.requests && (
+                <>
+                  <p>Requests</p>
+                  <p>{registration.requests}</p>
+                </>
+              )}
+              <strong className="col-span-2">Internal Data</strong>
+              <p>Priority</p>
+              <p>{registration.priority}</p>
+              <p>Status</p>
+              <p>{registration.registrationStatus}</p>
             </div>
+            <div className="grow" />
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  Set Priority
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-slate-900 rounded-md bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-1 py-1 ">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setPriority(registration.id, 'high')}
+                        >
+                          <img
+                            src={itemURL('high-priority:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          High Priority
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setPriority(registration.id, 'medium')}
+                        >
+                          <img
+                            src={itemURL('medium-priority:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          Medium Priority
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setPriority(registration.id, 'low')}
+                        >
+                          <img
+                            src={itemURL('low-priority:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          Low Priority
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setPriority(registration.id, 'none')}
+                        >
+                          <img
+                            src={itemURL('remove-user-female:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          Reject
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
           </div>
         ))}
       </section>
     </main>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return (
+    <div
+      className="
+    mt-6
+    flex
+    w-full
+    items-center
+    justify-center
+    px-8
+  "
+    >
+      <div className="rounded-md bg-white px-10 py-5 shadow-xl md:py-20 md:px-40">
+        <div className="flex flex-col items-center">
+          <h1 className="text-4xl font-bold text-blue-600 md:text-9xl">
+            Error!
+          </h1>
+
+          <h6 className="mb-2 text-center text-lg font-bold text-gray-800 md:text-2xl md:text-3xl">
+            <span className="text-red-500">Oops!</span> We had a problem.
+          </h6>
+
+          <p className="mb-8 text-center text-gray-500 md:text-lg">
+            You can try refreshing the page or contact us at{' '}
+            <a href="mailto:questions@esn-tumi.de">questions@esn-tumi.de</a>{' '}
+            <br />
+            Please send the following error message along with your request:
+          </p>
+
+          <pre className="select-all whitespace-pre-wrap text-sm text-slate-600">
+            {error.message}
+          </pre>
+        </div>
+      </div>
+    </div>
   );
 }

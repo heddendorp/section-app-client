@@ -34,3 +34,42 @@ export default function RegistrationStatus() {
     </div>
   );
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return (
+    <div
+      className="
+    mt-6
+    flex
+    w-full
+    items-center
+    justify-center
+    px-8
+  "
+    >
+      <div className="rounded-md bg-white px-10 py-5 shadow-xl md:py-20 md:px-40">
+        <div className="flex flex-col items-center">
+          <h1 className="text-4xl font-bold text-blue-600 md:text-9xl">
+            Error!
+          </h1>
+
+          <h6 className="mb-2 text-center text-lg font-bold text-gray-800 md:text-2xl md:text-3xl">
+            <span className="text-red-500">Oops!</span> We had a problem.
+          </h6>
+
+          <p className="mb-8 text-center text-gray-500 md:text-lg">
+            You can try refreshing the page or contact us at{' '}
+            <a href="mailto:questions@esn-tumi.de">questions@esn-tumi.de</a>{' '}
+            <br />
+            Please send the following error message along with your request:
+          </p>
+
+          <pre className="select-all whitespace-pre-wrap text-sm text-slate-600">
+            {error.message}
+          </pre>
+        </div>
+      </div>
+    </div>
+  );
+}
