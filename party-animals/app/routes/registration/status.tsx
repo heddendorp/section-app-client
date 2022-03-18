@@ -1,8 +1,43 @@
-import { LoaderFunction, redirect } from 'remix';
+import { ActionFunction, LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { Registration } from '~/generated/prisma';
-import { useLoaderData } from '@remix-run/react';
+import { PaymentStatus, Registration } from '~/generated/prisma';
+import { Form, useLoaderData } from '@remix-run/react';
 import { db } from '~/utils/db.server';
+import { itemURL } from '~/utils';
+import { getDomainUrl, getStripeSession } from '~/utils/stripe.server';
+
+export const action: ActionFunction = async ({ request }) => {
+  const data = await request.formData();
+  const registrationId = data.get('registration');
+  if (typeof registrationId !== 'string') {
+    throw new Error('Invalid registration id');
+  }
+  const registration = await db.registration.findUnique({
+    where: {
+      id: registrationId,
+    },
+  });
+  if (!registration) {
+    throw new Error('Invalid registration id');
+  }
+  if (registration.paymentStatus !== PaymentStatus.SUCCESS) {
+    throw new Error('Registration already paid');
+  }
+  const user = await authenticator.isAuthenticated(request);
+  if (!user) {
+    throw new Error('Not authenticated');
+  }
+  const stripeRedirectUrl = await getStripeSession(
+    process.env.PRICE_ID as string,
+    getDomainUrl(request),
+    `Party Animals payment for ${user.email}`,
+    { registrationId, userId: user.id, userEmail: user.email }
+  );
+  if (!stripeRedirectUrl) {
+    throw new Error('Could not get stripe session');
+  }
+  return redirect(stripeRedirectUrl);
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
@@ -20,6 +55,74 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function RegistrationStatus() {
   const registration = useLoaderData<Registration>();
+  if (registration.registrationStatus === 'ACCEPTED') {
+    return (
+      <div className="mb-8">
+        <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
+          You made it <span className="text-white">🎉 🥳</span>
+        </h2>
+        <p className="text-xl">
+          <span className="font-bold">Welcome to Party Animals!</span> We are so
+          excited to take this journey with you!
+        </p>
+        <h3 className="mt-4 text-2xl font-bold">Next steps</h3>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('1-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">Pay!</h4>
+            <p>
+              To take part in Party Animals we need you to pay the participation
+              fee of 65 euro. If you don't pay, we will give your spot to
+              someone on the waitlist.
+            </p>
+            {registration.paymentStatus === 'SUCCESS' ? (
+              <p className="text-green-500">
+                You have paid the participation fee. Thank you!
+              </p>
+            ) : (
+              <>
+                <p className="mb-4 text-red-500">
+                  You have not paid the participation fee. Please pay now.
+                </p>
+                <Form method="post">
+                  <input
+                    type="hidden"
+                    defaultValue={registration.id}
+                    name="registration"
+                  />
+                  <button className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75">
+                    <span className="block rounded-full bg-slate-800 px-8 py-3 text-sm font-medium hover:bg-transparent">
+                      Start Payment
+                    </span>
+                  </button>
+                </Form>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('2-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">Get to know you group!</h4>
+            <p className="mb-4">
+              After payment we will invite you to your group chat on whatsapp.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('3-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">PARTEY! 👯</h4>
+            <p className="mb-4">
+              We will get started on the 2nd of April and are looking forward to
+              meeting you in person. You will get to know your group and spend
+              the afternoon and evening with your friends.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
