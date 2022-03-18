@@ -1,6 +1,13 @@
 import { ActionFunction, LoaderFunction, redirect, useFetcher } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { Priority, Registration, Role, User, Status } from '~/generated/prisma';
+import {
+  Priority,
+  Registration,
+  Role,
+  User,
+  Status,
+  Group,
+} from '~/generated/prisma';
 import { useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
 import { db } from '~/utils/db.server';
@@ -19,10 +26,13 @@ export const loader: LoaderFunction = async ({ request }) => {
     'https://restcountries.com/v2/all?fields=name,alpha2Code,flags'
   ).then((res) => res.json());
   const registrations = db.registration.findMany({
-    include: { user: true },
+    include: { user: true, group: true },
     orderBy: { createdAt: 'asc' },
   });
-  return Promise.all([registrations, countries]);
+  const groups = db.group.findMany({
+    orderBy: { name: 'asc' },
+  });
+  return Promise.all([registrations, countries, groups]);
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -41,38 +51,56 @@ export const action: ActionFunction = async ({ request }) => {
     throw new Error('No id provided');
   }
   const priority = formData.get('prio');
-  switch (priority) {
-    case 'high':
+  const groupId = formData.get('group');
+  if (priority) {
+    switch (priority) {
+      case 'high':
+        await db.registration.update({
+          where: { id },
+          data: { priority: Priority.HIGH },
+        });
+        break;
+      case 'medium':
+        await db.registration.update({
+          where: { id },
+          data: { priority: Priority.MEDIUM },
+        });
+        break;
+      case 'low':
+        await db.registration.update({
+          where: { id },
+          data: { priority: Priority.LOW },
+        });
+        break;
+      case 'none':
+        await db.registration.update({
+          where: { id },
+          data: { registrationStatus: Status.REJECTED },
+        });
+    }
+  }
+  if (typeof groupId === 'string') {
+    if (groupId === 'none') {
       await db.registration.update({
         where: { id },
-        data: { priority: Priority.HIGH },
+        data: { group: { disconnect: true } },
       });
-      break;
-    case 'medium':
+    } else {
       await db.registration.update({
         where: { id },
-        data: { priority: Priority.MEDIUM },
+        data: { group: { connect: { id: groupId } } },
       });
-      break;
-    case 'low':
-      await db.registration.update({
-        where: { id },
-        data: { priority: Priority.LOW },
-      });
-      break;
-    case 'none':
-      await db.registration.update({
-        where: { id },
-        data: { registrationStatus: Status.REJECTED },
-      });
+    }
   }
   return null;
 };
 
 export default function AdminRegistrations() {
   const fetcher = useFetcher();
-  const [registrations, countries] =
-    useLoaderData<[(Registration & { user: User })[], any[]]>();
+  const [registrations, countries, groups] =
+    useLoaderData<
+      [(Registration & { user: User; group?: Group })[], any[], Group[]]
+    >();
   const nonRejectedRegistrations = registrations.filter(
     (registration) => registration.status !== 'REJECTED'
   );
@@ -113,6 +141,10 @@ export default function AdminRegistrations() {
 
   function setPriority(id: string, prio: string) {
     fetcher.submit({ id, prio }, { method: 'patch' });
+  }
+
+  function setGroup(id: string, group: string) {
+    fetcher.submit({ id, group }, { method: 'patch' });
   }
 
   return (
@@ -218,9 +250,11 @@ export default function AdminRegistrations() {
               <p>{registration.priority}</p>
               <p>Status</p>
               <p>{registration.registrationStatus}</p>
+              <p>Group</p>
+              <p>{registration?.group?.name ?? 'Not assigned'}</p>
             </div>
             <div className="grow" />
-            <Menu as="div" className="relative inline-block text-left">
+            <Menu as="div" className="relative mb-4 inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                   Set Priority
@@ -308,6 +342,59 @@ export default function AdminRegistrations() {
                             className="mr-2 w-6"
                           />
                           Reject
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  Assign to Group
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-slate-900 rounded-md bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-1 py-1 ">
+                    {groups.map((group) => (
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active
+                                ? 'bg-violet-500 text-white'
+                                : 'text-slate-100'
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            onClick={() => setGroup(registration.id, group.id)}
+                          >
+                            {group.name}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </div>
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setGroup(registration.id, 'none')}
+                        >
+                          Remove from group
                         </button>
                       )}
                     </Menu.Item>
