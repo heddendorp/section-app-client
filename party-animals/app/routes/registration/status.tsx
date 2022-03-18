@@ -55,6 +55,28 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function RegistrationStatus() {
   const registration = useLoaderData<Registration>();
+  if (registration.registrationStatus === 'REJECTED') {
+    return (
+      <div>
+        <h2 className="mb-4 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
+          This is not the year <span className="text-white">😞</span>
+        </h2>
+        <p className="mb-4 lg:text-lg">
+          We're very sorry that we can not offer you a spot. <br />
+          This is not the end though, check out the regular orientation weeks
+          that we have prepared for you.
+        </p>
+        <a
+          className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+          href="https://tumi.esn.world/events"
+        >
+          <span className="block rounded-full bg-slate-800 px-8 py-3 text-center text-lg font-bold hover:bg-transparent">
+            Check out the Orientationweeks
+          </span>
+        </a>
+      </div>
+    );
+  }
   if (registration.registrationStatus === 'ACCEPTED') {
     return (
       <div className="mb-8">
