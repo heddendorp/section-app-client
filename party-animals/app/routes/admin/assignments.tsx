@@ -151,16 +151,22 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function AdminAssignments() {
-  const { registrations, groups, assignments, nonAssigned } = useLoaderData<{
+  const { groups, assignments, nonAssigned } = useLoaderData<{
     registrations: (Registration & { user: User })[];
     groups: Group[];
     assignments: { [groupId: string]: (Registration & { user: User })[] };
     nonAssigned: (Registration & { user: User })[];
   }>();
+  const totalAssigned = groups.reduce(
+    (acc, group) => acc + assignments[group.id].length,
+    0
+  );
   return (
     <main>
       <section className="mb-2 p-4 text-white">
-        <h1 className="mb-6 text-2xl font-bold">Assignments</h1>
+        <h1 className="mb-6 text-2xl font-bold">
+          Assignments ({160 - totalAssigned} still free)
+        </h1>
         <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {groups.map((group) => (
             <div className="border border-slate-200 p-4">
