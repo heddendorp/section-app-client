@@ -165,7 +165,7 @@ export default function AdminAssignments() {
     <main>
       <section className="mb-2 p-4 text-white">
         <h1 className="mb-6 text-2xl font-bold">
-          Assignments ({160 - totalAssigned} still free)
+          Assignments ({groups.length * 20 - totalAssigned} still free)
         </h1>
         <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {groups.map((group) => (
