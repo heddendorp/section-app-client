@@ -1,6 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
-import { PaymentStatus, Registration } from '~/generated/prisma';
+import { PaymentStatus, Registration, User } from '~/generated/prisma';
 import { Form, useLoaderData } from '@remix-run/react';
 import { db } from '~/utils/db.server';
 import { itemURL } from '~/utils';
@@ -16,6 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
     where: {
       id: registrationId,
     },
+    include: { user: true },
   });
   if (!registration) {
     throw new Error('Invalid registration id');
@@ -54,12 +55,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function RegistrationStatus() {
-  const registration = useLoaderData<Registration>();
+  const registration = useLoaderData<Registration & { user: User }>();
   if (registration.registrationStatus === 'REJECTED') {
     return (
       <div>
         <h2 className="mb-4 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
-          This is not the year <span className="text-white">😞</span>
+          This is not the year {registration.callBy}{' '}
+          <span className="text-white">😞</span>
         </h2>
         <p className="mb-4 lg:text-lg">
           We're very sorry that we can not offer you a spot. <br />
@@ -148,7 +150,8 @@ export default function RegistrationStatus() {
   return (
     <div>
       <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
-        You registered!
+        Hey there {registration.callBy}! 👋 <br />
+        You registered for Party Animals!
       </h2>
       <p className="lg:text-lg">We will be in contact about further steps.</p>
       <p className="mt-2 lg:text-lg">
