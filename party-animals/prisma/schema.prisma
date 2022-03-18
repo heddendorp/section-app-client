@@ -65,4 +65,15 @@ model Registration {
   oldie              Boolean
   expectations       String
   requests           String
+  // Assignment
+  group              Group?   @relation(fields: [groupId], references: [id])
+  groupId            String?  @db.Uuid
+}
+
+model Group {
+  id            String         @id @default(uuid()) @db.Uuid
+  createdAt     DateTime       @default(now())
+  name          String         @unique
+  description   String         @default("")
+  registrations Registration[]
 }

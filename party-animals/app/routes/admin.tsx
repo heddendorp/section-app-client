@@ -47,6 +47,17 @@ export default function AdminFrame() {
               Groups
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                `rounded-lg px-3 py-2 ${isActive ? 'font-bold' : ''}`
+              }
+              to="assignments"
+            >
+              Assignments
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <Outlet />
