@@ -79,7 +79,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     'https://restcountries.com/v2/all?fields=name,alpha2Code,flags'
   ).then((res) => res.json());
   const registrationsQuery = db.registration.findMany({
-    where: { registrationStatus: { not: Status.REJECTED } },
+    where: { registrationStatus: Status.PENDING },
     include: { user: true },
     orderBy: { createdAt: 'asc' },
   });

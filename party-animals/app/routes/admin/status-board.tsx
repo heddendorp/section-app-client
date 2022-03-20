@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   ).then((res) => res.json());
   const registrations = db.registration.findMany({
     include: { user: true, group: true },
-    orderBy: { group: { name: 'asc' } },
+    orderBy: [{ group: { name: 'asc' } }, { user: { lastName: 'asc' } }],
   });
   const groups = db.group.findMany({
     orderBy: { name: 'asc' },

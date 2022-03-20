@@ -72,10 +72,22 @@ export const action: ActionFunction = async ({ request }) => {
           data: { priority: Priority.LOW },
         });
         break;
+      case 'cancel':
+        await db.registration.update({
+          where: { id },
+          data: {
+            registrationStatus: Status.CANCELLED,
+            group: { disconnect: true },
+          },
+        });
+        break;
       case 'none':
         await db.registration.update({
           where: { id },
-          data: { registrationStatus: Status.REJECTED },
+          data: {
+            registrationStatus: Status.REJECTED,
+            group: { disconnect: true },
+          },
         });
     }
   }
@@ -340,6 +352,24 @@ export default function AdminRegistrations() {
                     </Menu.Item>
                   </div>
                   <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setPriority(registration.id, 'cancel')}
+                        >
+                          <img
+                            src={itemURL('cancel:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          Cancel
+                        </button>
+                      )}
+                    </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
                         <button
