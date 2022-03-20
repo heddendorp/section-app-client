@@ -19,6 +19,7 @@ enum Role {
 
 enum Status {
   PENDING
+  CANCELLED
   REJECTED
   ACCEPTED
 }
