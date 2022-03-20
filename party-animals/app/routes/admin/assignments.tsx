@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from 'remix';
+import { ActionFunction, LoaderFunction, redirect } from 'remix';
 import { authenticator } from '~/services/auth.server';
 import {
   Group,
@@ -9,7 +9,7 @@ import {
   User,
 } from '~/generated/prisma';
 import { db } from '~/utils/db.server';
-import { useLoaderData } from '@remix-run/react';
+import { Form, useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
 
 const prioToNum = (prio: Priority) => {
@@ -151,6 +151,78 @@ export const loader: LoaderFunction = async ({ request }) => {
   return { registrations, groups, assignments, nonAssigned, countries };
 };
 
+export const action: ActionFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request);
+  if (!user) {
+    return redirect('/auth/login');
+  }
+  if (user.role !== Role.ADMIN) {
+    throw new Error(
+      `Only Admins are allowed to change this! You are ${user.role}`
+    );
+  }
+  const formData = await request.formData();
+  const action = formData.get('action');
+  if (typeof action !== 'string') {
+    throw new Error('No action specified');
+  }
+  switch (action) {
+    case 'pinGroup': {
+      const groupId = formData.get('groupId');
+      if (typeof groupId !== 'string') {
+        throw new Error('No groupId specified');
+      }
+      const group = await db.group.findUnique({
+        where: { id: groupId },
+        include: { registrations: true },
+      });
+      if (!group) {
+        throw new Error('Group not found');
+      }
+      const registrationIds = formData.get('registrationIds');
+      if (typeof registrationIds !== 'string') {
+        throw new Error('No registrationIds specified');
+      }
+      const registrationIdsArray = registrationIds.split(',');
+      if (registrationIdsArray.length === 0) {
+        throw new Error('No registrations specified');
+      }
+      await db.registration.updateMany({
+        where: { id: { in: registrationIdsArray } },
+        data: { groupId: group.id },
+      });
+      break;
+    }
+    case 'acceptGroup': {
+      const groupId = formData.get('groupId');
+      if (typeof groupId !== 'string') {
+        throw new Error('No groupId specified');
+      }
+      const group = await db.group.findUnique({
+        where: { id: groupId },
+        include: { registrations: true },
+      });
+      if (!group) {
+        throw new Error('Group not found');
+      }
+      const registrationIds = formData.get('registrationIds');
+      if (typeof registrationIds !== 'string') {
+        throw new Error('No registrationIds specified');
+      }
+      const registrationIdsArray = registrationIds.split(',');
+      if (registrationIdsArray.length === 0) {
+        throw new Error('No registrations specified');
+      }
+      await db.registration.updateMany({
+        where: { id: { in: registrationIdsArray } },
+        data: { registrationStatus: Status.ACCEPTED },
+      });
+      break;
+    }
+  }
+  return null;
+};
+
 export default function AdminAssignments() {
   const mapGender = (short: string) => {
     switch (short) {
@@ -187,13 +259,69 @@ export default function AdminAssignments() {
         <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {groups.map((group) => (
             <div className="border border-slate-200 p-4">
-              <h3 className="mb-1 text-lg font-bold">
-                {group.name} ({assignments[group.id].length} assigned)
-              </h3>
-              <p className="mb-4">
-                {assignments[group.id].filter((r) => r.gender === 'm').length}{' '}
-                male
-              </p>
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h3 className="mb-1 text-lg font-bold">
+                    {group.name} ({assignments[group.id].length} assigned)
+                  </h3>
+                  <p className="mb-4">
+                    {
+                      assignments[group.id].filter((r) => r.gender === 'm')
+                        .length
+                    }{' '}
+                    male
+                  </p>
+                </div>
+                <div className="flex">
+                  <Form method="patch">
+                    <input
+                      type="hidden"
+                      name="action"
+                      defaultValue="acceptGroup"
+                    />
+                    <input
+                      type="hidden"
+                      name="groupId"
+                      defaultValue={group.id}
+                    />
+                    <input
+                      type="hidden"
+                      name="registrationIds"
+                      defaultValue={assignments[group.id]
+                        .map((r) => r.id)
+                        .join(',')}
+                    />
+                    <button>
+                      <img
+                        src={itemURL('check-all:fluency')}
+                        className="w-10"
+                      />
+                    </button>
+                  </Form>
+                  <Form method="patch">
+                    <input
+                      type="hidden"
+                      name="action"
+                      defaultValue="pinGroup"
+                    />
+                    <input
+                      type="hidden"
+                      name="groupId"
+                      defaultValue={group.id}
+                    />
+                    <input
+                      type="hidden"
+                      name="registrationIds"
+                      defaultValue={assignments[group.id]
+                        .map((r) => r.id)
+                        .join(',')}
+                    />
+                    <button>
+                      <img src={itemURL('pin:fluency')} className="w-10" />
+                    </button>
+                  </Form>
+                </div>
+              </div>
               <div className="flex flex-col space-y-4">
                 {assignments[group.id].map((registration) => (
                   <div className="flex items-center">
@@ -203,8 +331,12 @@ export default function AdminAssignments() {
                       src={registration.user.photo}
                       alt={registration.user.firstName}
                     />
-                    <div className="ml-2">
-                      <p className="text-lg">
+                    <div className="ml-2 overflow-hidden">
+                      <p className="overflow-hidden text-ellipsis whitespace-nowrap text-lg">
+                        {registration.groupId ? '📌' : ''}
+                        {registration.registrationStatus === 'ACCEPTED'
+                          ? '✅'
+                          : ''}
                         {registration.user.firstName}{' '}
                         {registration.user.lastName}
                       </p>
@@ -214,7 +346,9 @@ export default function AdminAssignments() {
                           className="mr-2 h-4"
                           alt=""
                         />
-                        <p>{getCountry(registration.country).name}</p>
+                        <p className="overflow-hidden text-ellipsis whitespace-nowrap">
+                          {getCountry(registration.country).name}
+                        </p>
                       </div>
                     </div>
                     <div className="grow" />
