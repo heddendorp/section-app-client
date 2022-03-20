@@ -208,7 +208,16 @@ export default function AdminRegistrations() {
               <p>E-Mail</p>
               <p>{registration.user.email}</p>
               <p>Phone Number</p>
-              <p>{registration.phone}</p>
+              <div className="flex items-center">
+                <p>{registration.phone}</p>
+                <a
+                  target="_blank"
+                  href={`https://wa.me/${registration.phone.replace(`+`, ``)}`}
+                  className="ml-2"
+                >
+                  <img src={itemURL('whatsapp:fluency')} className="w-6" />
+                </a>
+              </div>
               <p>Home Country</p>
               <div className="flex items-center">
                 <img
@@ -371,7 +380,7 @@ export default function AdminRegistrations() {
                 <Menu.Items className="absolute right-0 z-20 mt-2 w-56 origin-top-right divide-y divide-slate-900 rounded-md bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
                     {groups.map((group) => (
-                      <Menu.Item>
+                      <Menu.Item key={group.id}>
                         {({ active }) => (
                           <button
                             className={`${
