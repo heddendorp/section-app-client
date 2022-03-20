@@ -20,7 +20,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     where: { user: { id: user?.id } },
   });
   if (registration) {
-    // return redirect('/registration/status');
+    return redirect('/registration/status');
   }
   return Promise.all([countries, user]);
 };
