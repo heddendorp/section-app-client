@@ -81,6 +81,14 @@ export const action: ActionFunction = async ({ request }) => {
           },
         });
         break;
+      case 'pending':
+        await db.registration.update({
+          where: { id },
+          data: {
+            registrationStatus: Status.PENDING,
+          },
+        });
+        break;
       case 'none':
         await db.registration.update({
           where: { id },
@@ -352,6 +360,26 @@ export default function AdminRegistrations() {
                     </Menu.Item>
                   </div>
                   <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? 'bg-violet-500 text-white'
+                              : 'text-slate-100'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() =>
+                            setPriority(registration.id, 'pending')
+                          }
+                        >
+                          <img
+                            src={itemURL('connection-status-off:fluency')}
+                            className="mr-2 w-6"
+                          />
+                          Set to pending
+                        </button>
+                      )}
+                    </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
                         <button
