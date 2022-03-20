@@ -126,4 +126,3 @@ dist
 # docker ignore
 experiments/.angular/cache
 events/.angular/cache
-
