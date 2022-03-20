@@ -58,6 +58,16 @@ export default function AdminFrame() {
               Assignments
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                `rounded-lg px-3 py-2 ${isActive ? 'font-bold' : ''}`
+              }
+              to="status-board"
+            >
+              Status Board
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <Outlet />
