@@ -53,7 +53,12 @@ export const action: ActionFunction = async ({ request }) => {
     process.env.PRICE_ID as string,
     getDomainUrl(request),
     `Party Animals payment for ${user.email}`,
-    { registrationId, userId: user.id, userEmail: user.email }
+    {
+      registrationId,
+      userId: user.id,
+      userEmail: user.email,
+      userName: `${user.firstName} ${user.lastName}`,
+    }
   );
   if (!stripeRedirectUrl) {
     console.error('Failed to get stripe session');
