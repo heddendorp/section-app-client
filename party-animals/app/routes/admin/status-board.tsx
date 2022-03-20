@@ -159,7 +159,7 @@ export default function () {
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Group</th>
-              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Registration Status</th>
               <th className="px-4 py-2">Payment status</th>
             </tr>
           </thead>
@@ -171,7 +171,7 @@ export default function () {
                 </td>
                 <td className="px-4 py-2">{registration.user.email}</td>
                 <td className="px-4 py-2">{registration.group?.name}</td>
-                <td className="px-4 py-2">{mapStatus(registration.status)}</td>
+                <td className="px-4 py-2">{registration.registrationStatus}</td>
                 <td className="px-4 py-2">{registration.paymentStatus}</td>
               </tr>
             ))}
