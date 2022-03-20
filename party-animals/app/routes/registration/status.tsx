@@ -10,6 +10,7 @@ export const action: ActionFunction = async ({ request }) => {
   const data = await request.formData();
   const registrationId = data.get('registration');
   if (typeof registrationId !== 'string') {
+    console.error('Invalid registration id: not string');
     throw new Error('Invalid registration id');
   }
   const registration = await db.registration.findUnique({
@@ -19,13 +20,16 @@ export const action: ActionFunction = async ({ request }) => {
     include: { user: true },
   });
   if (!registration) {
+    console.error('Invalid registration id: not found');
     throw new Error('Invalid registration id');
   }
-  if (registration.paymentStatus !== PaymentStatus.SUCCESS) {
+  if (registration.paymentStatus === PaymentStatus.SUCCESS) {
+    console.error('Registration already paid');
     throw new Error('Registration already paid');
   }
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
+    console.error('Not authenticated');
     throw new Error('Not authenticated');
   }
   const stripeRedirectUrl = await getStripeSession(
@@ -35,6 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
     { registrationId, userId: user.id, userEmail: user.email }
   );
   if (!stripeRedirectUrl) {
+    console.error('Failed to get stripe session');
     throw new Error('Could not get stripe session');
   }
   return redirect(stripeRedirectUrl);
