@@ -215,7 +215,7 @@ export const action: ActionFunction = async ({ request }) => {
       }
       await db.registration.updateMany({
         where: { id: { in: registrationIdsArray } },
-        data: { registrationStatus: Status.ACCEPTED },
+        data: { registrationStatus: Status.ACCEPTED, groupId: group.id },
       });
       break;
     }
