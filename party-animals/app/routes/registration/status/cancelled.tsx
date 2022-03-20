@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function RegistrationStatusCancelled() {
   const registration = useLoaderData<Registration & { user: User }>();
   return (
-    <div>
+    <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className="mb-4 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
         This is not the year {registration.callBy}
       </h2>
@@ -43,7 +43,7 @@ export default function RegistrationStatusCancelled() {
           Check out the Orientation weeks
         </span>
       </a>
-    </div>
+    </section>
   );
 }
 

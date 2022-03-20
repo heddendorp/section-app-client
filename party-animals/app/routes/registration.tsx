@@ -8,7 +8,7 @@ export function links() {
 
 export default function Registration() {
   return (
-    <main>
+    <main className="text-white">
       <section className="intro">
         <h1 className="mb-6 text-4xl font-black md:text-6xl">
           Party Animals registration
@@ -187,18 +187,7 @@ export default function Registration() {
           </span>
         </Link>
       </section>
-      <section className="bg-slate-800 p-4 text-white md:p-8">
-        <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
-        <p className="mt-4 mb-8 md:text-lg">
-          Register here to join party animals. The registration includes the
-          entire program outlined in the overview. You will be assigned to one
-          of the eight groups of party animals and stay with them for the whole
-          program. <br />
-          We believe this is the best way to get to know each other and to start
-          well in munich.
-        </p>
-        <Outlet />
-      </section>
+      <Outlet />
     </main>
   );
 }

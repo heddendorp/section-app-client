@@ -24,48 +24,50 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function () {
   const registration = useLoaderData<Registration & { user: User }>();
   return (
-    <div className="mb-8">
-      <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
-        You made it <span className="text-white">🎉 🥳</span>
-      </h2>
-      <p className="text-xl">
-        <span className="font-bold">Welcome to Party Animals!</span> We are so
-        excited to take this journey with you!
-      </p>
-      <h3 className="mt-4 text-2xl font-bold">Next steps</h3>
-      <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
-        <img src={itemURL('1-circle:nolan')} alt="1st" className="w-24" />
-        <div>
-          <h4 className="text-lg font-bold">Pay!</h4>
-          <p>
-            To take part in Party Animals we need you to pay the participation
-            fee of 65 euro. If you don't pay, we will give your spot to someone
-            on the waitlist.
-          </p>
-          <Outlet />
+    <section className="bg-slate-800 p-4 text-white md:p-8">
+      <div className="mb-8">
+        <h2 className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 bg-clip-text py-2 text-2xl font-bold leading-loose text-transparent md:col-span-2 md:text-4xl">
+          You made it <span className="text-white">🎉 🥳</span>
+        </h2>
+        <p className="text-xl">
+          <span className="font-bold">Welcome to Party Animals!</span> We are so
+          excited to take this journey with you!
+        </p>
+        <h3 className="mt-4 text-2xl font-bold">Next steps</h3>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('1-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">Pay!</h4>
+            <p>
+              To take part in Party Animals we need you to pay the participation
+              fee of 65 euro. If you don't pay, we will give your spot to
+              someone on the waitlist.
+            </p>
+            <Outlet />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('2-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">Get to know you group!</h4>
+            <p className="mb-4">
+              After payment we will invite you to your group chat on whatsapp.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
+          <img src={itemURL('3-circle:nolan')} alt="1st" className="w-24" />
+          <div>
+            <h4 className="text-lg font-bold">PARTEY! 👯</h4>
+            <p className="mb-4">
+              We will get started on the 2nd of April and are looking forward to
+              meeting you in person. You will get to know your group and spend
+              the afternoon and evening with your friends.
+            </p>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
-        <img src={itemURL('2-circle:nolan')} alt="1st" className="w-24" />
-        <div>
-          <h4 className="text-lg font-bold">Get to know you group!</h4>
-          <p className="mb-4">
-            After payment we will invite you to your group chat on whatsapp.
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
-        <img src={itemURL('3-circle:nolan')} alt="1st" className="w-24" />
-        <div>
-          <h4 className="text-lg font-bold">PARTEY! 👯</h4>
-          <p className="mb-4">
-            We will get started on the 2nd of April and are looking forward to
-            meeting you in person. You will get to know your group and spend the
-            afternoon and evening with your friends.
-          </p>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 
