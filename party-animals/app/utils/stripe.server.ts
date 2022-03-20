@@ -23,6 +23,7 @@ export const getStripeSession = async (
     {
       price: priceId,
       quantity: 1,
+      tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
     },
   ];
   const session = await stripe.checkout.sessions.create({
