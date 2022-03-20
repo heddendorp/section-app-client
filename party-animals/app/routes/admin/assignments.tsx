@@ -337,6 +337,7 @@ export default function AdminAssignments() {
                         {registration.registrationStatus === 'ACCEPTED'
                           ? '✅'
                           : ''}
+                        {registration.paymentStatus === 'SUCCESS' ? '💶' : ''}{' '}
                         {registration.user.firstName}{' '}
                         {registration.user.lastName}
                       </p>
