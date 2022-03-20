@@ -20,7 +20,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     where: { user: { id: user?.id } },
   });
   if (registration) {
-    return redirect('/registration/status');
+    // return redirect('/registration/status');
   }
   return Promise.all([countries, user]);
 };
@@ -46,6 +46,18 @@ export default function RegistrationForm() {
   const actionData = useActionData();
   return (
     <Form method="post" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="md:col-span-2">
+        <div
+          className="border-l-4 border-red-500 bg-red-900 p-4 text-red-100"
+          role="alert"
+        >
+          <h3 className="mb-4 font-medium">Registration deadline passed!</h3>
+          <p>
+            You can still sign up, but you will be placed on the waitlist. Only
+            if spots become free, you can get one.
+          </p>
+        </div>
+      </div>
       {actionData?.errors.form ? (
         <div className="md:col-span-2">
           <ValidationMessage
