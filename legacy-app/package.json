@@ -18,6 +18,7 @@
     "start:app": "nx serve tumi-app",
     "start:api": "nx serve api",
     "build:api": "nx build api --configuration production",
+    "build:app": "nx build tumi-app --configuration production",
     "test": "ng test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "ng e2e",
