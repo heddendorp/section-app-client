@@ -15,10 +15,12 @@ on:
     tags: [ 'v*.*.*' ]
     paths:
       - 'legacy-app/**'
+      - 'Dockerfile-Legacy'
   pull_request:
     branches: [ main ]
     paths:
       - 'legacy-app/**'
+      - 'Dockerfile-Legacy'
 
 env:
   # Use docker.io for Docker Hub if empty

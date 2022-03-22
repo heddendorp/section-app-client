@@ -6,7 +6,7 @@ COPY legacy-app/package.json package.json yarn.lock .yarnrc.yml ./
 COPY legacy-app/package.json legacy-app/
 COPY .yarn .yarn/
 
-RUN yarn workspace @tumi/legacy-app install --verbose
+RUN yarn workspace @tumi/legacy-app install
 COPY legacy-app legacy-app/
 # If you are building your code for production
 RUN yarn workspace @tumi/legacy-app build:app

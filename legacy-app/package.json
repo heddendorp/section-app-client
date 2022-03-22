@@ -12,7 +12,7 @@
   },
   "scripts": {
     "ng": "nx",
-    "postinstall": "yarn run ngcc && yarn run generate:graphql",
+    "brrd": "yarn run ngcc && yarn run generate:graphql",
     "nx": "nx",
     "ngcc": "ngcc --properties es2015 browser module main",
     "start": "node dist/apps/api/main.js",
