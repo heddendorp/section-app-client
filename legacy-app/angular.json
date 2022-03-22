@@ -241,7 +241,7 @@
               "apps/tumi-app/src/manifest.webmanifest"
             ],
             "styles": ["apps/tumi-app/src/styles.scss"],
-            "scripts": ["node_modules/marked/marked.min.js"],
+            "scripts": ["../node_modules/marked/marked.min.js"],
             "serviceWorker": true,
             "ngswConfigPath": "apps/tumi-app/ngsw-config.json"
           },

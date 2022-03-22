@@ -29,6 +29,7 @@ jobs:
       - run: |
           docker build . -t esntumi.azurecr.io/tumiapp:${{ github.sha }}
           docker push esntumi.azurecr.io/tumiapp:${{ github.sha }}
+        working-directory: ./legacy-app
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,5 +45,5 @@ jobs:
         with:
           app-name: 'esn-tumi'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_95e5f091805c4c79b63cae42d6496088 }}
+          publish-profile: ${{ secrets.LEGACY_APP_PUBLISH_PROFILE }}
           images: 'esntumi.azurecr.io/tumiapp:${{ github.sha }}'

@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "dotenv -e .env.development -- ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "dev:full-db": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",
     "clean": "rimraf dist",
     "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma && copyfiles -u 3 src/generated/nexus-prisma/** dist/generated/nexus-prisma",

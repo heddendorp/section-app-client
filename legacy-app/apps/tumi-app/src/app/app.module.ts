@@ -128,7 +128,7 @@ import { Settings } from 'luxon';
       httpInterceptor: {
         allowedList: [
           {
-            uri: '/graphql',
+            uri: environment.server + '/graphql',
             allowAnonymous: true,
           },
         ],
@@ -156,7 +156,7 @@ import { Settings } from 'luxon';
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
         const http = httpLink.create({
-          uri: '/graphql',
+          uri: environment.server + '/graphql',
           includeExtensions: true,
         });
         const error = onError(({ graphQLErrors, networkError }) => {
@@ -170,12 +170,12 @@ import { Settings } from 'luxon';
           if (networkError) console.log(`[Network error]: `, networkError);
         });
         const link = error
-          .concat(
-            createPersistedQueryLink({
-              sha256,
-              useGETForHashedQueries: true,
-            })
-          )
+          // .concat(
+          //   createPersistedQueryLink({
+          //     sha256,
+          //     useGETForHashedQueries: true,
+          //   })
+          // )
           .concat(http);
 
         const cache = new InMemoryCache({
