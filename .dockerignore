@@ -127,4 +127,4 @@ dist
 .angular/
 
 #git
-.git
+.git/
