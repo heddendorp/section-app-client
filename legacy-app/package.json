@@ -42,7 +42,7 @@
     "serve:ssr": "node dist/tumi-app/server/main.js",
     "build:ssr": "ng build && ng run tumi-app:server",
     "prerender": "ng run tumi-app:prerender",
-    "generate:graphql": "patch-package && nx run server-models:generate && nx run data-access:generate",
+    "generate:graphql": "nx run server-models:generate && nx run data-access:generate",
     "db:push": "nx run server-models:push",
     "postdb:push": "yarn generate:graphql",
     "statistics": "nx build tumi-app --configuration production --stats-json && npx webpack-bundle-analyzer dist/apps/tumi-app/browser/stats.json"
