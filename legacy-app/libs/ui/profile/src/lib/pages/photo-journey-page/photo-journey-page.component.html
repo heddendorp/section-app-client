@@ -1,0 +1,66 @@
+<main class="p-6 lg:p-6 bg-gray-800 min-h-full">
+  <div class="mb-8">
+    <h1 class="text-5xl font-extrabold">
+      <span
+        class="
+          bg-clip-text
+          text-transparent
+          bg-gradient-to-r
+          from-green-400
+          to-blue-500
+        "
+      >
+        Your TUMi journey
+      </span>
+    </h1>
+  </div>
+  <div *ngIf="$data | async as data" fxLayout="column" fxLayoutGap="2rem">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start start"
+      *ngFor="let registration of data.eventRegistrations; let i = index"
+    >
+      <img
+        *ngIf="[0, 4, 9].includes(i)"
+        src="/assets/images/journey/achievement.svg"
+        fxFlex="64px"
+      />
+      <div *ngIf="![0, 4, 9].includes(i)" fxFlex="64px"></div>
+      <div class="ml-4">
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 0">
+          Your very first event
+        </h2>
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 4">
+          Going strong
+        </h2>
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 9">
+          Wow, 10!
+        </h2>
+        <h2 class="text-3xl font-bold text-green-400">
+          {{ registration.event.title }} ({{ registration.event.start | date }})
+        </h2>
+        <div
+          class="w-full mt-4"
+          gdAuto="dense"
+          gdAlignColumns="stretch"
+          gdAlignRows="stretch"
+          gdGap="1rem"
+          gdColumns="repeat(2, 1fr)"
+          gdColumns.gt-sm="repeat(3, 1fr)"
+          gdColumns.gt-md="repeat(4, 1fr)"
+          gdColumns.gt-lg="repeat(6, 1fr)"
+        >
+          <div
+            *ngFor="let photo of registration.event.photoShares"
+            gdColumn="span {{ photo.cols }}"
+            gdRow="span {{ photo.rows }}"
+            class="relative"
+            (click)="openPhoto(photo)"
+          >
+            <img [src]="photo.src" class="object-cover w-full h-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

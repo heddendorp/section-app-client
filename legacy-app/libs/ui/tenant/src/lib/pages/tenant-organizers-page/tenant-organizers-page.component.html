@@ -1,0 +1,13 @@
+<main class="p-4">
+  <h2>Event Organizers</h2>
+  <a mat-stroked-button routerLink="..">Go back</a>
+  <button mat-flat-button color="primary" (click)="addOrganizer()">
+    Add new
+  </button>
+  <mat-list>
+    <mat-list-item *ngFor="let organizer of organizers$ | async">
+      <h3 mat-line>{{ organizer.name }}</h3>
+      <p mat-line>{{ organizer.text }}</p>
+    </mat-list-item>
+  </mat-list>
+</main>

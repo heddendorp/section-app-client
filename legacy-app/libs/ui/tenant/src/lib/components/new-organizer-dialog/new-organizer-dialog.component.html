@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>New Organizer</h1>
+<form [formGroup]="newOrganizerForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" required />
+      <mat-hint>Name of the organizer</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Text</mat-label>
+      <input matInput formControlName="text" type="text" required />
+      <mat-hint>Text to be displayed on the event page</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Link</mat-label>
+      <input matInput formControlName="link" type="url" />
+      <mat-hint>Link to more info about the organizer</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,98 @@
+<main class="p-4">
+  <h1 class="font-bold mb-2">
+    Registered Users
+    <span class="font-light">(showing: {{ userNum$ | async }})</span>
+  </h1>
+  <form [formGroup]="filterForm" fxLayout="column" fxLayoutGap="1rem">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+      <mat-form-field fxFlex="noshrink">
+        <mat-label>Selected Roles</mat-label>
+        <mat-select formControlName="roleList" multiple>
+          <mat-option [value]="Role.User">{{
+            Role.User | titlecase
+          }}</mat-option>
+          <mat-option [value]="Role.Admin">{{
+            Role.Admin | titlecase
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="noshrink">
+        <mat-label>Selected Status</mat-label>
+        <mat-select formControlName="statusList" multiple>
+          <mat-option [value]="MembershipStatus.None">
+            {{ MembershipStatus.None | titlecase }}
+          </mat-option>
+          <mat-option [value]="MembershipStatus.Trial">
+            {{ MembershipStatus.Trial | titlecase }}
+          </mat-option>
+          <mat-option [value]="MembershipStatus.Full">
+            {{ MembershipStatus.Full | titlecase }}
+          </mat-option>
+          <mat-option [value]="MembershipStatus.Sponsor">
+            {{ MembershipStatus.Sponsor | titlecase }}
+          </mat-option>
+          <mat-option [value]="MembershipStatus.Alumni">
+            {{ MembershipStatus.Alumni | titlecase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput formControlName="search" type="search" />
+    </mat-form-field>
+  </form>
+  <button mat-stroked-button (click)="copyMails()">Copy mail addresses</button>
+  <table
+    *ngIf="users$ | async as users"
+    mat-table
+    [dataSource]="users"
+    class="w-full"
+  >
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>EMail</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef>Role</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.currentTenant.role }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.currentTenant.status }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <a mat-flat-button [routerLink]="element.id"> See details </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="userNum$ | async"
+    [pageSizeOptions]="[20, 50, 100]"
+    showFirstLastButtons
+    (page)="updatePage($event)"
+  >
+  </mat-paginator>
+</main>

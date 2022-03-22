@@ -1,0 +1,201 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(products$ | async) === null"
+></mat-progress-bar>
+<main class="p-4">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="1rem"
+    class="mb-4"
+  >
+    <a mat-icon-button routerLink="..">
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1 class="text-3xl font-bold">Orders</h1>
+    <div fxFlex="noshrink"></div>
+    <a routerLink="receipts" target="_blank" mat-stroked-button>
+      Print package receipts
+    </a>
+    <a routerLink="labels" target="_blank" mat-stroked-button>
+      Print shipping labels
+    </a>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row-reverse" fxLayoutGap="2rem">
+    <div>
+      <div *ngIf="products$ | async as products">
+        <h1 class="mb-4">Ordered Products</h1>
+        <div class="mb-6" fxLayout="column" fxLayoutGap="2rem">
+          <div
+            *ngFor="let product of products"
+            fxLayout="column"
+            fxLayout.gt-md="row"
+            fxLayoutGap="1rem"
+            fxLayoutAlign.gt-md="start start"
+          >
+            <img [src]="product.leadImage?.src" class="w-16 rounded-full" />
+            <div fxLayout="column" fxLayoutGap=".5rem">
+              <h3>{{ product.title }} x {{ product.orderQuantity }}</h3>
+              <p>
+                <span *ngFor="let item of product.uniSplit" class="mr-2">
+                  {{ item.uni }} x {{ item.count }}
+                </span>
+              </p>
+              <p *ngFor="let submission of product.submissionItems">
+                {{ submission.name }} :
+                <span
+                  *ngFor="let response of submission.responses"
+                  class="mr-2"
+                >
+                  {{ response.value }} x {{ response.count }}
+                </span>
+              </p>
+              <div fxLayout="row wrap" *ngIf="product.submissionOverview">
+                <span
+                  *ngFor="let item of product.submissionOverview"
+                  class="mr-2 mb-2 px-2 border rounded"
+                >
+                  {{ item.version | lowercase }} x {{ item.count }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="lmu$ | async as purchases">
+        <h1>LMU Purchases ({{ purchases.length }})</h1>
+        <div class="mb-6" fxLayout="column" fxLayoutGap="2rem">
+          <div
+            fxLayout="column"
+            fxLayoutGap=".5rem"
+            *ngFor="let purchase of purchases"
+          >
+            <h3>Purchase by {{ purchase.user.fullName }}</h3>
+            <mat-list dense>
+              <mat-list-item *ngFor="let item of purchase.items">
+                <img [src]="item.product.leadImage?.src" mat-list-avatar />
+                <h3 mat-line>{{ item.product.title }} x {{ item.quantity }}</h3>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="users$ | async as users" fxFlex="noshrink">
+      <div fxLayout="row" fxLayoutAlign="space-between" class="mb-2">
+        <div>
+          <h1 class="mb-1">Purchases by User ({{ users.length }})</h1>
+          <mat-form-field class="w-full">
+              <mat-label>Name Search</mat-label>
+              <input matInput [formControl]="nameSearchControl" type="text">
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+            <mat-label>Status filter</mat-label>
+            <mat-select [formControl]="filter">
+              <mat-option value="">All</mat-option>
+              <mat-option [value]="PurchaseStatus.Sent">Sent</mat-option>
+              <mat-option [value]="PurchaseStatus.Paid">Paid</mat-option>
+              <mat-option value="not-sent">Not Sent</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="column" fxLayoutGap="1rem">
+        <div
+          *ngFor="let user of users"
+          fxLayout="column"
+          fxLayoutGap="1rem"
+          class="relative bg-surface-default text-surface-on border border-outline-default rounded-2xl p-4"
+        >
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <img src="/assets/images/shop/{{ user.purchases[0].status === PurchaseStatus.Sent? 'shipped':'package'}}.svg" class="h-16" />
+            <div>
+              <h3 class="mb-2 font-bold">
+                {{ user.fullName }} ({{ user.email }})
+              </h3>
+              <div
+                *ngFor="let purchase of user.purchases"
+                fxLayout="column"
+                fxLayout.gt-md="row"
+                fxLayoutGap="1rem"
+              >
+                <div>
+                  <h3>
+                    Purchase on {{ purchase.createdAt | date }} ({{
+                      purchase.status
+                    }})
+                  </h3>
+                  <div
+                    class="font-mono bg-variant-default text-variant-on select-all p-2 mb-2"
+                  >
+                    <p>
+                      {{ purchase.payment.shipping?.name }} <br />
+                      {{ purchase.payment.shipping?.address?.line1 }} <br />
+                      <ng-container
+                        *ngIf="purchase.payment.shipping?.address?.line2"
+                      >
+                        {{ purchase.payment.shipping?.address?.line2 }} <br />
+                      </ng-container>
+                      {{ purchase.payment.shipping?.address?.postal_code }}
+                      {{ purchase.payment.shipping?.address?.city }} <br />
+                      {{ purchase.payment.shipping?.address?.country }}
+                    </p>
+                  </div>
+                  <div fxLayout="row" fxLayoutGap=".5rem">
+                    <button
+                      mat-flat-button
+                      color="accent"
+                      class="modern"
+                      (click)="
+                      changeAddress(
+                        purchase.payment.shipping?.address,
+                        purchase.id
+                      )
+                    "
+                    >
+                      <mat-icon svgIcon="icon-edit-product"></mat-icon>
+                      <span>Change Address</span>
+                    </button>
+                    <button
+                      mat-flat-button
+                      color="accent"
+                      class="modern"
+                      (click)="
+                      markShipped(
+                        purchase.id
+                      )
+                    "
+                    >
+                      <mat-icon svgIcon="icon-shipped"></mat-icon>
+                      <span>Mark as shipped</span>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <h3>Items</h3>
+                  <mat-list>
+                    <mat-list-item *ngFor="let item of purchase.items">
+                      <img
+                        [src]="item.product.leadImage?.src"
+                        mat-list-avatar
+                      />
+                      <h3 mat-line>
+                        {{ item.product.title }} ({{
+                          item.cost | currency: 'EUR'
+                        }}) x {{ item.quantity }}
+                      </h3>
+                      <p mat-line *ngFor="let submission of item.submissions">
+                        {{ submission.submissionItem.name }}:
+                        {{ submission.data.value }}
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

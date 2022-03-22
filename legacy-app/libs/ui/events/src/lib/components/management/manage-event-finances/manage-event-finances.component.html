@@ -1,0 +1,33 @@
+<div *ngIf="data$ | async as data" class="my-4">
+  <div
+    *ngFor="let costItem of data.costItemsForEvent"
+    fxLayout="row"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="start start"
+  >
+    <p>{{ costItem.amount | currency: 'EUR' }}</p>
+    <div>
+      <p>{{ costItem.name }}</p>
+      <p>{{ costItem.calculationInfo }}</p>
+    </div>
+    <p *ngIf="costItem.onInvoice" class="bg-green-500 px-2 rounded text-white">
+      on invoice
+    </p>
+    <p
+      *ngIf="costItem.submittedAmount"
+      class="bg-yellow-500 px-2 rounded text-white"
+    >
+      already submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
+    </p>
+    <a
+      mat-stroked-button
+      routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
+    >
+      See receipts
+    </a>
+  </div>
+</div>
+<button mat-raised-button class="modern" (click)="getFromTemplate()">
+  <mat-icon svgIcon="icon-approve-and-update"></mat-icon>
+  <span>Update from Template</span>
+</button>

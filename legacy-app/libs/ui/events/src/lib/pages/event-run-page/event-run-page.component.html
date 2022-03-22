@@ -1,0 +1,121 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="event$ | async as event" class="p-4">
+  <button mat-fab (click)="scanCode()">
+    <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+  </button>
+  <div fxLayout="row" fxLayoutGap="1rem" class="mb-4">
+    <a mat-icon-button routerLink="..">
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <h1>{{ event.title }}</h1>
+  </div>
+  <div *ngIf="event.costItems.length" class="border-2 rounded p-2 mb-8">
+    <h2 class="font-bold">Required receipts</h2>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let costItem of event.costItems"
+        routerLink="receipts/{{ costItem.id }}"
+      >
+        <mat-icon svgIcon="icon-cash-receipt" mat-list-icon></mat-icon>
+        <h1 mat-line>
+          {{ costItem.name }}
+        </h1>
+        <p mat-line>
+          for {{ costItem.amount | currency: 'EUR' }} (
+          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
+          with receipts)
+        </p>
+      </a>
+    </mat-nav-list>
+    <p class="mt-2">Click an entry to see and add receipts</p>
+    <p class="mb-2">
+      You can upload multiple photos of receipts for each entry, please make
+      sure to add all receipts with their data to make sure we can pay you back.
+    </p>
+    <p class="text-red-500 font-bold">
+      KEEP ALL ORIGINAL RECEIPTS! <br />
+      TUMi is not yet fully digital so make sure to collect any tickets at the
+      end of the event
+    </p>
+  </div>
+  <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem" class="mb-8">
+    <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of organizers</span>
+    </button>
+    <button mat-stroked-button (click)="copyParticipantMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of participants</span>
+    </button>
+    <button mat-stroked-button (click)="copyCheckedInMails()" class="modern">
+      <mat-icon svgIcon="icon-copy"></mat-icon>
+      <span>Copy mails of checked in users</span>
+    </button>
+  </div>
+  <h2 class="mb-2">Organizers</h2>
+  <div fxLayout="column" fxLayoutGap="1rem">
+    <div
+      *ngFor="let registration of event.organizerRegistrations"
+      fxLayout="row"
+      fxLayoutGap="1rem"
+    >
+      <div class="relative">
+        <img
+          [src]="registration.user.picture"
+          referrerpolicy="no-referrer"
+          class="w-16 rounded"
+        />
+      </div>
+      <div>
+        <p>{{ registration.user.fullName }}</p>
+        <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+      </div>
+    </div>
+  </div>
+  <h2 class="mt-4 mb-2">Participants</h2>
+  <div fxLayout="column" fxLayoutGap="2rem">
+    <div
+      *ngFor="let registration of event.participantRegistrations"
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutGap="1rem"
+    >
+      <div fxLayout="row" fxLayoutGap="1rem">
+        <div class="relative">
+          <img
+            [src]="registration.user.picture"
+            referrerpolicy="no-referrer"
+            class="w-16 rounded"
+          />
+          <mat-icon
+            *ngIf="registration.checkInTime; else cross"
+            svgIcon="icon-checkmark"
+            class="absolute bottom-0 -right-3"
+          ></mat-icon>
+          <ng-template #cross>
+            <mat-icon
+              svgIcon="icon-delete-sign"
+              class="absolute bottom-0 -right-3"
+            ></mat-icon>
+          </ng-template>
+        </div>
+        <div>
+          <p>{{ registration.user.fullName }}</p>
+          <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+        <div>
+          <div *ngFor="let submission of registration.submissions">
+            <p class="font-bold">{{ submission.submissionItem.name }}</p>
+            <p>{{ submission.data.value }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

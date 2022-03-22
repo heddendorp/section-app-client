@@ -1,0 +1,201 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="event$ | async as event" class="bg-surface-default">
+  <a
+    mat-fab
+    routerLink="run"
+    class="extended-fab"
+    *ngIf="event.userIsOrganizer"
+  >
+    <mat-icon svgIcon="icon-user-shield"></mat-icon>
+    <span class="label">Run Event</span>
+  </a>
+  <button
+    mat-fab
+    (click)="showCode()"
+    class="extended-fab"
+    *ngIf="
+      event.userRegistered &&
+      !((eventOver$ | async) && event.activeRegistration?.didAttend)
+    "
+  >
+    <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
+    <span class="label">Check in</span>
+  </button>
+  <tumi-event-header
+    [event]="event"
+    [bestPrice]="bestPrice$ | async"
+    class="p-4 lg:p-6 pb-20 lg:pb-24 text-secondary-onContainerDark bg-secondary-containerDark from-gray-600 to-gray-800 dark-button"
+  ></tumi-event-header>
+  <!--  TODO: get rid of the 10 character check here -->
+  <div class="p-4 lg:p-6 mx-2 lg:mx-6 -mt-16">
+    <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
+      <mat-expansion-panel
+        [expanded]="
+          (!event.userRegistered && !event.userIsOrganizer) ||
+          event.participantText.length < 10
+        "
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Description</mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown
+          [data]="event.description"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="event.couldBeOrganizer" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Information for organizing</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="my-2">
+          This event was created by {{ event.createdBy.fullName }} they can
+          answer any questions
+        </p>
+        <markdown
+          [data]="event.organizerText"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        *ngIf="
+          event.participantText.length > 10 &&
+          (event.userRegistered || event.userIsOrganizer)
+        "
+        [expanded]="event.userRegistered || event.userIsOrganizer"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Info for participants</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="mb-4" *ngIf="eventStarted$ | async">
+          <a
+            routerLink="./photos"
+            mat-flat-button
+            color="primary"
+            class="w-full"
+          >
+            Photos for this event
+          </a>
+        </div>
+        <p class="lg:text-lg mb-2" *ngIf="event.location">
+          Meeting point: {{ event.location }} on
+          {{ event.start | date: 'medium' }}
+        </p>
+        <div *ngIf="event.coordinates?.lat" class="mb-2">
+          <a
+            mat-stroked-button
+            href="http://www.google.com/maps/place/{{
+              event.coordinates?.lat
+            }},{{ event.coordinates?.lon }}"
+            target="_blank"
+          >
+            Open in google maps
+          </a>
+        </div>
+        <markdown
+          [data]="event.participantText"
+          class="prose lg:prose-xl break-words mb-4"
+        ></markdown>
+        <p class="lg:text-lg mb-2 mt-2 font-bold">
+          Your organizers on this event:
+        </p>
+        <ul class="list-disc list-inside lg:text-lg">
+          <li *ngFor="let organizer of event.organizers">
+            {{ organizer.fullName }}
+            <span *ngIf="organizer.phone">
+              (<a
+                class="text-blue-600 underline"
+                href="tel:{{ organizer.phone }}"
+                >{{ organizer.phone }}</a
+              >)
+            </span>
+          </li>
+        </ul>
+        <p class="lg:text-lg mb-2 mt-2">
+          Contact them in case of any issues. <br />We're looking forward to
+          seeing you soon
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="p-6 lg:px-12">
+    <p>{{ event.organizer.text }}</p>
+  </div>
+  <div class="p-6 lg:p-12 bg-secondary-container text-secondary-onContainer">
+    <ng-template #noRegistration>
+      <h2>You can not sign up for this event</h2>
+      <ng-container *ngIf="(hasAccount$ | async) === false">
+        <p class="my-4">To sign up for events please create an account</p>
+        <a routerLink="/profile/new" mat-flat-button color="accent">
+          Create Account
+        </a>
+      </ng-container>
+    </ng-template>
+    <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
+      <h2 class="mb-4 font-bold">Registration</h2>
+      <tumi-check-registration-time
+        [event]="event"
+        *ngIf="(user$ | async)?.university; else noUni"
+      >
+        <ng-container [ngSwitch]="event.registrationMode">
+          <tumi-external-event-registration
+            *ngSwitchCase="RegistrationMode.External"
+            [event]="event"
+          >
+          </tumi-external-event-registration>
+          <tumi-stripe-registration
+            *ngSwitchCase="RegistrationMode.Stripe"
+            [event]="event"
+            [user]="user$ | async"
+          ></tumi-stripe-registration>
+          <tumi-online-event-registration
+            [event]="event"
+            *ngSwitchCase="RegistrationMode.Online"
+          ></tumi-online-event-registration>
+        </ng-container>
+      </tumi-check-registration-time>
+      <ng-template #noUni>
+        <p class="my-4">
+          You need to add your university to your profile to register for
+          events!
+        </p>
+        <a routerLink="/profile" mat-stroked-button>Open Profile</a>
+      </ng-template>
+    </ng-container>
+  </div>
+  <div
+    *ngIf="
+      event.couldBeOrganizer &&
+      event.registrationMode !== RegistrationMode.External
+    "
+    class="p-6 lg:p-12 bg-secondary-container text-secondary-onContainer border-t-2 border-secondary-onContainer"
+  >
+    <h2 class="font-bold mb-4">Sign up as organizer</h2>
+    <tumi-check-registration-time [event]="event">
+      <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+        <button
+          mat-raised-button
+          color="accent"
+          class="w-full"
+          [disabled]="!event.organizerRegistrationPossible"
+          (click)="registerAsOrganizer()"
+        >
+          Sign up now
+        </button>
+        <div fxFlex="50">
+          <h3>Organizers already on this event</h3>
+          <mat-list>
+            <mat-list-item *ngIf="event.organizers.length === 0">
+              Nobody yet
+            </mat-list-item>
+            <mat-list-item *ngFor="let user of event.organizers">
+              {{ user.fullName }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </tumi-check-registration-time>
+  </div>
+</main>

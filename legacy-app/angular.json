@@ -1,0 +1,800 @@
+{
+  "version": 1,
+  "projects": {
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:webpack",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "generatePackageJson": true,
+            "externalDependencies": ["_http_common"],
+            "assets": [
+              "apps/api/src/assets",
+              {
+                "glob": "schema.prisma",
+                "input": "libs/server/models/src/prisma",
+                "output": "./"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:node",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": ["scope:server"],
+      "implicitDependencies": ["tumi-app"]
+    },
+    "data-access": {
+      "projectType": "library",
+      "root": "libs/data-access",
+      "sourceRoot": "libs/data-access/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access"],
+          "options": {
+            "jestConfig": "libs/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "generate": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "yarn graphql-codegen --config libs/data-access/codegen.yml"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/src/**/*.ts",
+              "libs/data-access/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": []
+    },
+    "server-graphql": {
+      "root": "libs/server/graphql",
+      "sourceRoot": "libs/server/graphql/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/server/graphql/**/*.ts"]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/server/graphql"],
+          "options": {
+            "jestConfig": "libs/server/graphql/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "server-models": {
+      "root": "libs/server/models",
+      "sourceRoot": "libs/server/models/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/server/models/**/*.ts"]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/server/models"],
+          "options": {
+            "jestConfig": "libs/server/models/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "generate": {
+          "builder": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "npx prisma generate"
+          }
+        },
+        "format": {
+          "builder": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "npx prisma format"
+          }
+        },
+        "push": {
+          "builder": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "npx prisma db push"
+          }
+        }
+      },
+      "tags": ["scope:server"]
+    },
+    "server-services": {
+      "root": "libs/server/services",
+      "sourceRoot": "libs/server/services/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/server/services/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/server/services"],
+          "options": {
+            "jestConfig": "libs/server/services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "shared-data-types": {
+      "root": "libs/shared/data-types",
+      "sourceRoot": "libs/shared/data-types/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/shared/data-types/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/data-types"],
+          "options": {
+            "jestConfig": "libs/shared/data-types/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "tumi-app": {
+      "projectType": "application",
+      "root": "apps/tumi-app",
+      "sourceRoot": "apps/tumi-app/src",
+      "prefix": "tumi",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/tumi-app/browser",
+            "index": "apps/tumi-app/src/index.html",
+            "main": "apps/tumi-app/src/main.ts",
+            "polyfills": "apps/tumi-app/src/polyfills.ts",
+            "tsConfig": "apps/tumi-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/tumi-app/src/favicon.ico",
+              "apps/tumi-app/src/manifest.webmanifest",
+              {
+                "glob": "qr-scanner-worker.min.js",
+                "input": "node_modules/qr-scanner/",
+                "output": "assets/"
+              },
+              "apps/tumi-app/src/assets",
+              "apps/tumi-app/src/manifest.webmanifest"
+            ],
+            "styles": ["apps/tumi-app/src/styles.scss"],
+            "scripts": ["node_modules/marked/marked.min.js"],
+            "serviceWorker": true,
+            "ngswConfigPath": "apps/tumi-app/ngsw-config.json"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/tumi-app/src/environments/environment.ts",
+                  "with": "apps/tumi-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "tumi-app:build:production"
+            },
+            "development": {
+              "browserTarget": "tumi-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/tumi-app/proxy.conf.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tumi-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/tumi-app/src/**/*.ts",
+              "apps/tumi-app/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/tumi-app"],
+          "options": {
+            "jestConfig": "apps/tumi-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/apps/tumi-app/server",
+            "main": "apps/tumi-app/server.ts",
+            "tsConfig": "apps/tumi-app/tsconfig.server.json",
+            "inlineStyleLanguage": "scss",
+            "externalDependencies": [
+              "firebase",
+              "@firebase/app",
+              "@firebase/analytics",
+              "@firebase/auth",
+              "@firebase/component",
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/functions",
+              "@firebase/installations",
+              "@firebase/messaging",
+              "@firebase/storage",
+              "@firebase/performance",
+              "@firebase/remote-config",
+              "@firebase/util"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "apps/tumi-app/src/environments/environment.ts",
+                  "with": "apps/tumi-app/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "tumi-app:build:development",
+              "serverTarget": "tumi-app:server:development"
+            },
+            "production": {
+              "browserTarget": "tumi-app:build:production",
+              "serverTarget": "tumi-app:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tumi-app:build:production",
+              "serverTarget": "tumi-app:server:production"
+            },
+            "development": {
+              "browserTarget": "tumi-app:build:development",
+              "serverTarget": "tumi-app:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "ssr": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "tumi-app-e2e": {
+      "root": "apps/tumi-app-e2e",
+      "sourceRoot": "apps/tumi-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/tumi-app-e2e/cypress.json",
+            "tsConfig": "apps/tumi-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "tumi-app:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "tumi-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/tumi-app-e2e/**/*.{js,ts}"]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["tumi-app"]
+    },
+    "ui-app-shell": {
+      "projectType": "library",
+      "root": "libs/ui/app-shell",
+      "sourceRoot": "libs/ui/app-shell/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/app-shell"],
+          "options": {
+            "jestConfig": "libs/ui/app-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/app-shell/src/**/*.ts",
+              "libs/ui/app-shell/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": ["scope:client"]
+    },
+    "ui-auth": {
+      "projectType": "library",
+      "root": "libs/ui/auth",
+      "sourceRoot": "libs/ui/auth/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/auth"],
+          "options": {
+            "jestConfig": "libs/ui/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/auth/src/**/*.ts",
+              "libs/ui/auth/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": ["scope:client"]
+    },
+    "ui-event-templates": {
+      "projectType": "library",
+      "root": "libs/ui/event-templates",
+      "sourceRoot": "libs/ui/event-templates/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/event-templates"],
+          "options": {
+            "jestConfig": "libs/ui/event-templates/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/event-templates/src/**/*.ts",
+              "libs/ui/event-templates/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-events": {
+      "projectType": "library",
+      "root": "libs/ui/events",
+      "sourceRoot": "libs/ui/events/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/events"],
+          "options": {
+            "jestConfig": "libs/ui/events/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/events/src/**/*.ts",
+              "libs/ui/events/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-feedback": {
+      "projectType": "library",
+      "root": "libs/ui/feedback",
+      "sourceRoot": "libs/ui/feedback/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/feedback"],
+          "options": {
+            "jestConfig": "libs/ui/feedback/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/feedback/src/**/*.ts",
+              "libs/ui/feedback/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-home": {
+      "projectType": "library",
+      "root": "libs/ui/home",
+      "sourceRoot": "libs/ui/home/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/home"],
+          "options": {
+            "jestConfig": "libs/ui/home/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/home/src/**/*.ts",
+              "libs/ui/home/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-pages": {
+      "projectType": "library",
+      "root": "libs/ui/pages",
+      "sourceRoot": "libs/ui/pages/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/pages"],
+          "options": {
+            "jestConfig": "libs/ui/pages/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/pages/src/**/*.ts",
+              "libs/ui/pages/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-products": {
+      "projectType": "library",
+      "root": "libs/ui/products",
+      "sourceRoot": "libs/ui/products/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/products"],
+          "options": {
+            "jestConfig": "libs/ui/products/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/products/src/**/*.ts",
+              "libs/ui/products/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-profile": {
+      "projectType": "library",
+      "root": "libs/ui/profile",
+      "sourceRoot": "libs/ui/profile/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/profile"],
+          "options": {
+            "jestConfig": "libs/ui/profile/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/profile/src/**/*.ts",
+              "libs/ui/profile/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": []
+    },
+    "ui-shopping-basket": {
+      "projectType": "library",
+      "root": "libs/ui/shopping-basket",
+      "sourceRoot": "libs/ui/shopping-basket/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/shopping-basket"],
+          "options": {
+            "jestConfig": "libs/ui/shopping-basket/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/shopping-basket/src/**/*.ts",
+              "libs/ui/shopping-basket/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ui-tenant": {
+      "projectType": "library",
+      "root": "libs/ui/tenant",
+      "sourceRoot": "libs/ui/tenant/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/tenant"],
+          "options": {
+            "jestConfig": "libs/ui/tenant/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/tenant/src/**/*.ts",
+              "libs/ui/tenant/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "util-components": {
+      "projectType": "library",
+      "root": "libs/util/components",
+      "sourceRoot": "libs/util/components/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/components"],
+          "options": {
+            "jestConfig": "libs/util/components/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/components/src/**/*.ts",
+              "libs/util/components/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "util-material": {
+      "projectType": "library",
+      "root": "libs/util/material",
+      "sourceRoot": "libs/util/material/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/material"],
+          "options": {
+            "jestConfig": "libs/util/material/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/material/src/**/*.ts",
+              "libs/util/material/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": []
+    },
+    "util-pipes": {
+      "projectType": "library",
+      "root": "libs/util/pipes",
+      "sourceRoot": "libs/util/pipes/src",
+      "prefix": "tumi",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/pipes"],
+          "options": {
+            "jestConfig": "libs/util/pipes/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/pipes/src/**/*.ts",
+              "libs/util/pipes/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    }
+  }
+}

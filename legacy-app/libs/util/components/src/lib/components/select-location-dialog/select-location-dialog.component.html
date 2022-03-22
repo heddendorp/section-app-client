@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Select location</h1>
+<mat-dialog-content>
+  <tumi-location-autocomplete
+    [formControl]="locationControl"
+  ></tumi-location-autocomplete>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="locationControl.invalid"
+    [mat-dialog-close]="locationControl.value"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

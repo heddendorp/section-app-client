@@ -1,0 +1,71 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(product$ | async) === null"
+></mat-progress-bar>
+<ng-container *ngIf="product$ | async as product">
+  <div
+    class="
+      dark-button
+      p-4
+      bg-secondary-containerDark
+      text-secondary-onContainerDark
+    "
+    fxLayout="column"
+    fxLayoutGap="2rem"
+  >
+    <div fxLayout="row" class="mb-6">
+      <a routerLink=".." mat-icon-button>
+        <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
+      ></a>
+      <div fxFlex="grow"></div>
+      <a routerLink="edit" mat-icon-button *tumiIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-edit"></mat-icon
+      ></a>
+    </div>
+    <div>
+      <img
+        [src]="product.leadImage?.src"
+        class="rounded-lg overflow-hidden w-64 mx-auto"
+      />
+    </div>
+    <h1>{{ product.title }} ({{ product.defaultPrice | currency: 'EUR' }})</h1>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <main class="p-4" fxFlex.gt-md="grow">
+      <markdown
+        [data]="product.description"
+        class="prose lg:prose-lg"
+      ></markdown>
+      <div class="border border-outline-default p-4 rounded-2xl mt-6">
+        <h3 class="font-bold mb-2">Information</h3>
+        <p>
+          You can order all products until Saturday, 27th November. After that
+          we will make the orders and ship the products to you as soon as all
+          your ordered products have arrived. This should take approximately 10
+          working days. If some products have longer shipping times, we will
+          send everything that is already available on the 17th December, so it
+          will arrive before Christmas.
+        </p>
+        <p class="font-bold">
+          Please note that we can ship only to germany right now!
+        </p>
+      </div>
+      <div class="mt-6">
+        <tumi-grid maxWidth="400px" minWidth="200px">
+          <img
+            *ngFor="let image of product.images"
+            (click)="openPhoto(image)"
+            [src]="image.src"
+            class="rounded-lg cursor-pointer"
+          />
+        </tumi-grid>
+      </div>
+    </main>
+    <aside fxFlex.gt-md="33" class="p-4">
+      <tumi-order-product
+        [product]="product"
+        [user]="user$ | async"
+      ></tumi-order-product>
+    </aside>
+  </div>
+</ng-container>

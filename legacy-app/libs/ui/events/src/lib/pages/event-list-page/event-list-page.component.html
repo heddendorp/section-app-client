@@ -1,0 +1,96 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(events$ | async) === null"
+></mat-progress-bar>
+<main class="p-4 text-surface-on">
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem" class="mb-6">
+    <div fxFlex="noshrink">
+      <h1 class="mb-4">Upcoming Events</h1>
+      <div
+        fxLayout="column"
+        fxLayout.gt-sm="row"
+        fxLayoutGap="1rem"
+        class="w-full"
+      >
+        <mat-checkbox [formControl]="showFullEvents">
+          Include events without spot
+        </mat-checkbox>
+        <mat-form-field *tumiIfRole="[Role.Admin]" fxFlex.gt-sm="grow">
+          <mat-label>Show Events after</mat-label>
+          <input
+            matInput
+            [formControl]="eventsAfter"
+            [matDatepicker]="picker"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="w-full">
+        <mat-label>Search Event</mat-label>
+        <input matInput [formControl]="filterEvents" type="search" />
+      </mat-form-field>
+    </div>
+    <div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
+      <div class="block h-full overflow-hidden rounded-xl bg-white">
+        <div class="h-full bg-gray-100 p-4">
+          <h4 class="text-lg font-bold">The Party animals are back!</h4>
+          <p class="text-md mt-1 mb-6">
+            The best way to get started in Munich is finally making a return.
+            Come together in groups of 25 students and enjoy 9 days of exciting
+            activities and fun. Make friends for your stay in munich and beyond.
+          </p>
+          <a
+            class="inline-block w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+            href="https://party-animals.esn.world"
+          >
+            <span
+              class="block text-center rounded-full bg-gray-100 px-8 py-3 text-lg font-bold hover:bg-transparent"
+            >
+              Learn more!
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!--<div
+      fxFlex="grow"
+      class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
+    >
+      <h1 class="font-bold mb-2">App navigation issues</h1>
+      <p class="mb-4">
+        We're aware of issues with the app navigation. Sometimes the app will
+        not change the page when you click. One mitigation is to reload the page
+        after clicking. We're working on a fix.
+      </p>
+    </div>-->
+  </div>
+  <tumi-event-list
+    *ngIf="events$ | async as events"
+    [events]="events"
+  ></tumi-event-list>
+  <div
+    *ngIf="(events$ | async)?.length === 0"
+    class="rounded-2xl bg-pink-200 p-4 max-w-md mx-auto"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-6"
+    >
+      <mat-icon
+        svgIcon="icon-overtime"
+        class="text-pink-500 bg-white card-icon"
+      ></mat-icon>
+      <h2 class="font-bold">No events right now</h2>
+    </div>
+    <p>
+      Right now there are no events to show you, but check back soon to see what
+      we are planning
+    </p>
+  </div>
+</main>

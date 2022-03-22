@@ -1,0 +1,146 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav {{ (isHandset$ | async) ? 'rounded-r-2xl' : '' }}"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <div class="h-full w-full" fxLayout="column">
+      <!--      <p class="font-bold text-lg ml-4" fxFlex="noshrink">Menu</p>-->
+      <mat-nav-list (click)="closeSidenav(drawer)">
+        <a mat-list-item routerLink="home" routerLinkActive="active">
+          <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
+        </a>
+        <a mat-list-item routerLink="events" routerLinkActive="active">
+          <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60"
+        >
+          <mat-icon svgIcon="icon-membership-card"></mat-icon>
+          <span>Get an ESNcard</span>
+        </a>
+        <!--        <a mat-list-item routerLink="/page/apply" routerLinkActive="active">-->
+        <!--          <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon><span>Become a part of TUMi</span>-->
+        <!--        </a>-->
+        <!--        <a mat-list-item routerLink="shop" routerLinkActive="active">-->
+        <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
+        <!--          <span>The TUMi shop</span>-->
+        <!--        </a>-->
+        <!--<a
+          mat-list-item
+          routerLink="basket"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.User, Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
+          <span>Shopping basket</span>
+        </a>-->
+        <!--        <a mat-list-item routerLink="page/about" routerLinkActive="active">-->
+        <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
+        <!--          <span>About us</span>-->
+        <!--        </a>-->
+        <a
+          mat-list-item
+          routerLink="profile"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.User, Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-contact-card"></mat-icon>
+          <span>Profile</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="event-templates"
+          routerLinkActive="active"
+          *tumiIfStatus="[MembershipStatus.Full]"
+        >
+          <mat-icon svgIcon="icon-template"></mat-icon>
+          <span>Event templates</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="tenant"
+          routerLinkActive="active"
+          *tumiIfRole="[Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-maintenance"></mat-icon>
+          <span>Management</span>
+        </a>
+        <a mat-list-item routerLink="feedback" routerLinkActive="active">
+          <mat-icon svgIcon="icon-feedback"></mat-icon>
+          <span>Give Feedback</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/page/faq"
+          *ngIf="(tenant$ | async)?.faqPage"
+          routerLinkActive="active"
+        >
+          <mat-icon svgIcon="icon-faq"></mat-icon>
+          <span>FAQ</span>
+        </a>
+        <button
+          mat-list-item
+          *ngIf="installEvent$ | async as event"
+          (click)="event.prompt()"
+        >
+          <mat-icon svgIcon="icon-software-installer"></mat-icon>
+          <span>Install the TUMi app</span>
+        </button>
+      </mat-nav-list>
+      <div fxFlex="grow"></div>
+      <div class="mb-2 mx-auto">
+        <a routerLink="/page/imprint">Imprint</a> /
+        <a routerLink="/page/privacy">Privacy policy</a>
+      </div>
+      <div class="mb-4 mx-auto">
+        <a routerLink="/page/tac">Terms + Conditions</a>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          svgIcon="icon-menu"
+        ></mat-icon>
+      </button>
+      <span>{{ (tenant$ | async)?.name }}</span>
+      <div fxFlex="grow"></div>
+      <tumi-auth-button></tumi-auth-button>
+    </mat-toolbar>
+    <!--    <div class="border-b p-2 lg:p-4 bg-gray-100">-->
+    <!--      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">-->
+    <!--        <img src="/assets/images/general/virus.svg" class="h-6" />-->
+    <!--        <p class="">Please note: most TUMi events require 2G!</p>-->
+    <!--      </div>-->
+    <!--      <div>-->
+    <!--        <p class="mb-2">-->
+    <!--          Starting on the 9th of november, Corona measures in bavaria are-->
+    <!--          tightening. 2G is required in most indoor venues (vaccinated or-->
+    <!--          recovered). PCR tests allow entry to restaurants, hairdressers and-->
+    <!--          hotels. <span class="font-bold">FFP2</span> masks are required!-->
+    <!--        </p>-->
+    <!--        <p>-->
+    <!--          Please check your events to see if you are affected by the measures.-->
+    <!--          If there are any issues, contact us at-->
+    <!--          <a class="underline font-bold" href="mailto:questions@esn-tumi.de">-->
+    <!--            questions@esn-tumi.de-->
+    <!--          </a>-->
+    <!--        </p>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

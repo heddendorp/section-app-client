@@ -1,0 +1,133 @@
+mutation RegisterUser($userInput: CreateUserInput) {
+  registerUser(userInput: $userInput) {
+    id
+  }
+}
+
+query getPaymentSetupSession {
+  getPaymentSetupSession {
+    id
+  }
+}
+
+query getPhotoJourney {
+  currentUser {
+    eventRegistrations {
+      id
+      event {
+        id
+        title
+        icon
+        location
+        start
+        photoShares {
+          id
+          type
+          src
+          original
+          originalBlob
+          container
+          cols
+          rows
+        }
+      }
+    }
+  }
+}
+
+query userProfile {
+  currentUser {
+    id
+    fullName
+    picture
+    email_verified
+    email
+    phone
+    university
+    iban
+    paypal
+    birthdate
+    firstName
+    lastName
+    calendarToken
+    hasESNcard
+    currentTenant {
+      userId
+      tenantId
+      status
+      stripeData {
+        paymentMethodId
+      }
+    }
+    organizedEvents {
+      id
+      title
+      icon
+      start
+    }
+    participatedEvents(hideCancelled: true) {
+      id
+      title
+      icon
+      start
+      end
+    }
+  }
+}
+
+query getRegistrationCodeInfo($code: ID!) {
+  eventRegistrationCode(id: $code) {
+    id
+    status
+    registrationCreated {
+      id
+      belongsToCurrentUser
+      payment {
+        id
+        status
+        checkoutSession
+      }
+    }
+    targetEvent {
+      id
+      registrationMode
+      title
+      start
+      prices
+    }
+  }
+}
+
+mutation useRegistrationCode($id: ID!, $price: Json) {
+  useRegistrationCode(id: $id, price: $price) {
+    id
+    status
+    registrationCreated {
+      id
+      belongsToCurrentUser
+      payment {
+        id
+        status
+        checkoutSession
+      }
+    }
+    targetEvent {
+      id
+      registrationMode
+      title
+      start
+      prices
+    }
+  }
+}
+
+mutation updateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input) {
+    id
+    firstName
+    lastName
+    fullName
+    university
+    phone
+  }
+}

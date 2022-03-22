@@ -1,0 +1,19 @@
+<main class="p-4">
+  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between">
+    <h1 class="mb-4">Event Templates</h1>
+    <button
+      (click)="createTemplate()"
+      mat-flat-button
+      color="accent"
+      *tumiIfRole="[Role.Admin]"
+    >
+      Add new template
+    </button>
+  </div>
+  <div>
+    <tumi-template-list-entry
+      *ngFor="let template of eventTemplates$ | async"
+      [template]="template"
+    ></tumi-template-list-entry>
+  </div>
+</main>

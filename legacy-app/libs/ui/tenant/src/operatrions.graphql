@@ -1,0 +1,269 @@
+mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
+    id
+  }
+}
+
+query loadAllPhotos {
+  photos {
+    id
+    cols
+    rows
+    src
+    original
+    originalBlob
+    type
+    event {
+      id
+      title
+    }
+    creator {
+      id
+      fullName
+    }
+  }
+}
+
+query loadUser($id: ID!) {
+  userById(id: $id) {
+    id
+    authId
+    firstName
+    lastName
+    fullName
+    email
+    birthdate
+    phone
+    university
+    hasESNcard
+    esnCardOverride
+    currentTenant(userId: $id) {
+      userId
+      tenantId
+      role
+      status
+    }
+    eventRegistrations {
+      id
+      createdAt
+      checkInTime
+      type
+      status
+      deletingCode {
+        id
+        createdAt
+      }
+      creatingCode {
+        id
+        createdAt
+      }
+      payment {
+        id
+        status
+        events
+      }
+      event {
+        id
+        title
+        start
+        end
+      }
+    }
+  }
+}
+
+query getTenantForEdit {
+  currentTenant {
+    id
+    name
+    imprintPage
+    aboutPage
+    privacyPolicyPage
+    faqPage
+    tacPage
+  }
+}
+
+query getOrganizers {
+  organizers {
+    id
+    name
+    text
+  }
+}
+
+query getUsers(
+  $roleList: [Role]
+  $statusList: [MembershipStatus]
+  $search: String
+  $pageIndex: Int
+  $pageLength: Int
+) {
+  users(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+    pageIndex: $pageIndex
+    pageLength: $pageLength
+  ) {
+    id
+    firstName
+    lastName
+    email
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
+    }
+  }
+  userSearchResultNum(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+  )
+}
+
+query getStatistics {
+  currentTenant {
+    id
+    name
+    statistics {
+      usersRegistered
+      usersWithCustomer
+      usersWithPaymentMethod
+      registrations
+      userHistory
+      registrationHistory
+      refundHistory
+      userEventDistribution
+      usersRegisteredEvents
+      usersRegisteredFreeEvents
+      usersRegisteredPaidEvents
+      checkins
+      paidRegistrations
+      #      totalNetPayments
+      totalEvents
+      paidEvents
+      #      averageEventCost
+      userUniversityDistribution
+    }
+  }
+}
+
+query getLogs {
+  logs {
+    id
+    createdAt
+    message
+    severity
+    data
+    oldData
+  }
+  logStats {
+    count
+    message
+  }
+}
+
+query getTenantPurchases{
+  purchases(limitToOwn: false){
+    id
+    createdAt
+    status
+    user{
+      id
+      email
+      fullName
+      university
+    }
+    payment{
+      id
+      status
+      amount
+    }
+  }
+}
+
+query getPurchase($id: ID!){
+  purchase(id: $id){
+    id
+    status
+    createdAt
+    status
+    user{
+      id
+      email
+      fullName
+      university
+    }
+    payment{
+      id
+      status
+      paymentMethodType
+      events
+      shipping
+      amount
+      netAmount
+      feeAmount
+    }
+    items{
+      id
+      quantity
+      product{
+        id
+        title
+        leadImage{
+          id
+          src
+        }
+      }
+      submissions{
+        id
+        data
+        submissionItem{
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation updateTenant($id: ID!, $update: updateTenantInput!) {
+  updateTenant(id: $id, data: $update) {
+    id
+    faqPage
+    imprintPage
+    privacyPolicyPage
+    aboutPage
+    tacPage
+  }
+}
+
+mutation updateESNcard($userId: ID!, $override: Boolean!) {
+  updateESNcard(id: $userId, esnCardOverride: $override) {
+    id
+    esnCardOverride
+    hasESNcard
+  }
+}
+
+mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+  updateUserRole(userId: $id, role: $role) {
+    id
+    currentTenant(userId: $id) {
+      userId
+      tenantId
+      role
+    }
+  }
+  updateUserStatus(userId: $id, status: $status) {
+    id
+    currentTenant(userId: $id) {
+      userId
+      tenantId
+      status
+    }
+  }
+}

@@ -1,0 +1,216 @@
+query getProductList {
+  products {
+    id
+    title
+    description
+    publicationState
+    defaultPrice
+    isActive
+    leadImage {
+      id
+      src
+    }
+  }
+}
+
+query getProductImageKey {
+  productImageKey
+}
+
+query loadProduct($id: ID!) {
+  currentUser {
+    id
+    hasESNcard
+    university
+  }
+  product(id: $id) {
+    id
+    title
+    description
+    prices
+    availability
+    publicationState
+    defaultPrice
+    isActive
+    submissionItems {
+      id
+      name
+      instruction
+      data
+      submissionTime
+      type
+    }
+    images {
+      id
+      src
+      original
+    }
+    leadImage {
+      id
+      src
+    }
+  }
+}
+
+query loadOrderInfo {
+  lmuPurchases {
+    id
+    user {
+      id
+      fullName
+    }
+    items {
+      id
+      quantity
+      product {
+        id
+        title
+        leadImage {
+          id
+          src
+        }
+      }
+    }
+  }
+  products(onlyWithOrders: true) {
+    id
+    title
+    orderQuantity
+    uniSplit
+    submissionOverview
+    submissionItems {
+      id
+      name
+      responses(onlyWithPurchase: true)
+    }
+    leadImage {
+      id
+      src
+    }
+    #    lineItems {
+    #      id
+    #      cost
+    #      quantity
+    #      submissions {
+    #        id
+    #        data
+    #        submissionItem {
+    #          id
+    #          name
+    #        }
+    #      }
+    #    }
+  }
+  users(onlyWithPurchase: true) {
+    id
+    fullName
+    email
+    university
+    currentTenant {
+      userId
+      tenantId
+      status
+    }
+    purchases(skipCancelled: true) {
+      id
+      createdAt
+      status
+      payment {
+        id
+        shipping
+        status
+        amount
+      }
+      items {
+        id
+        quantity
+        cost
+        product {
+          id
+          title
+          leadImage {
+            id
+            src
+          }
+        }
+        submissions {
+          id
+          data
+          submissionItem {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation createProduct {
+  createProduct {
+    id
+  }
+}
+
+mutation updateAddress($id: ID!, $address: Json!) {
+  updateAddress(id: $id, address: $address) {
+    id
+    payment {
+      id
+      shipping
+    }
+  }
+}
+
+mutation updatePurchaseStatus($id: ID!, $status: PurchaseStatus!) {
+  updatePurchaseStatus(id: $id, status: $status) {
+    id
+    status
+  }
+}
+
+mutation createProductImage($productId: ID!, $image: CreateProductImageInput!) {
+  createProductImage(productId: $productId, data: $image) {
+    id
+  }
+}
+
+mutation updateLeadImage($productId: ID!, $imageId: ID!) {
+  updateLeadImage(id: $productId, leadImageId: $imageId) {
+    id
+    leadImageId
+    leadImage {
+      id
+      src
+    }
+  }
+}
+
+mutation deleteProductImage($imageId: ID!) {
+  deleteProductImage(id: $imageId) {
+    id
+  }
+}
+
+mutation updateProduct($id: ID!, $update: UpdateProductInput!) {
+  updateProduct(id: $id, data: $update) {
+    id
+    title
+    description
+    prices
+    availability
+    publicationState
+  }
+}
+
+mutation addProductToCart($data: AddLineItemToBasketInput!) {
+  addLineItemToBasket(input: $data) {
+    id
+    cart {
+      id
+      items {
+        id
+      }
+    }
+  }
+}

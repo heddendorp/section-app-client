@@ -1,0 +1,21 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(purchase$ | async) === null"
+></mat-progress-bar>
+<main class="p-4" *ngIf="purchase$ | async as purchase">
+  <h1 class="font-bold">Purchase details</h1>
+  <h2>Payment</h2>
+  <p>Status: {{ purchase.payment.status }}</p>
+  <p>Amount: {{ purchase.payment.amount / 100 | currency: 'EUR' }}</p>
+  <h2>Items</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let item of purchase.items">
+      <img [src]="item.product.leadImage?.src" mat-list-avatar />
+      <h3 mat-line>{{ item.product.title }} x {{ item.quantity }}</h3>
+      <p mat-line *ngFor="let submission of item.submissions">
+        {{ submission.submissionItem.name }}: {{ submission.data.value }}
+      </p>
+    </mat-list-item>
+  </mat-list>
+  <pre>{{ purchase$ | async | json }}</pre>
+</main>

@@ -1,0 +1,66 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(products$ | async) === null"
+></mat-progress-bar>
+<main class="p-4">
+  <div
+    fxLayout="row"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="space-between center"
+    class="mb-4"
+  >
+    <h1 class="text-secondary-default">TUMi products</h1>
+    <a routerLink="orders" mat-stroked-button *tumiIfRole="[Role.Admin]">
+      Go to orders
+    </a>
+  </div>
+  <button
+    mat-fab
+    *tumiIfRole="[Role.Admin]"
+    class="extended-fab"
+    (click)="createProduct()"
+  >
+    <mat-icon svgIcon="icon-plus-2-math" class="mr-2"></mat-icon>
+    <span class="label">Create Product</span>
+  </button>
+  <div *ngIf="products$ | async as products">
+    <div
+      *ngIf="products.length === 0"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      class="h-full"
+    >
+      <div class="m-4" fxLayout="column" fxLayoutAlign="start center">
+        <img src="/assets/images/shop/empty.svg" class="max-h-60" />
+        <p class="w-full">
+          Currently there are no products available, check back at another time
+        </p>
+      </div>
+    </div>
+    <tumi-grid *ngIf="products.length > 0" minWidth="200px" maxWidth="400px">
+      <a
+        *ngFor="let product of products"
+        class="card relative"
+        routerLink="{{ product.id }}"
+      >
+        <span
+          *ngIf="product.publicationState !== 'PUBLIC'"
+          class="absolute top-2 right-2 rounded-full text-sm px-2 bg-tertiary-containerDark text-tertiary-onContainerDark"
+        >
+          {{ product.publicationState | titlecase }}
+        </span>
+        <span
+          *ngIf="!product.isActive"
+          class="absolute bg-tertiary-containerDark text-tertiary-onContainerDark tag"
+        >
+          Orders closed
+        </span>
+        <img [src]="product.leadImage?.src" height="800" width="800" />
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <h2>{{ product.title }}</h2>
+          <h2>{{ product.defaultPrice | currency: 'EUR' }}</h2>
+        </div>
+      </a>
+    </tumi-grid>
+  </div>
+</main>

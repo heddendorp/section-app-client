@@ -1,0 +1,42 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tumi/data-access": ["libs/data-access/src/index.ts"],
+      "@tumi/products": ["libs/products/src/index.ts"],
+      "@tumi/server-graphql": ["libs/server/graphql/src/index.ts"],
+      "@tumi/server-models": ["libs/server/models/src/index.ts"],
+      "@tumi/server/services": ["libs/server/services/src/index.ts"],
+      "@tumi/shared/data-types": ["libs/shared/data-types/src/index.ts"],
+      "@tumi/ui-app-shell": ["libs/ui/app-shell/src/index.ts"],
+      "@tumi/ui-auth": ["libs/ui/auth/src/index.ts"],
+      "@tumi/ui/event-templates": ["libs/ui/event-templates/src/index.ts"],
+      "@tumi/ui/events": ["libs/ui/events/src/index.ts"],
+      "@tumi/ui/feedback": ["libs/ui/feedback/src/index.ts"],
+      "@tumi/ui/home": ["libs/ui/home/src/index.ts"],
+      "@tumi/ui/pages": ["libs/ui/pages/src/index.ts"],
+      "@tumi/ui/products": ["libs/ui/products/src/index.ts"],
+      "@tumi/ui/profile": ["libs/ui/profile/src/index.ts"],
+      "@tumi/ui/shopping-basket": ["libs/ui/shopping-basket/src/index.ts"],
+      "@tumi/ui/tenant": ["libs/ui/tenant/src/index.ts"],
+      "@tumi/util-components": ["libs/util/components/src/index.ts"],
+      "@tumi/util-environment": ["libs/util/environment/src/index.ts"],
+      "@tumi/util/material": ["libs/util/material/src/index.ts"],
+      "@tumi/util/pipes": ["libs/util/pipes/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
