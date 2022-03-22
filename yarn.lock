@@ -6498,6 +6498,7 @@ __metadata:
     "@types/lodash-es": ^4.17.5
     "@types/luxon": ^2.0.9
     "@types/node": ^16.11.11
+    "@types/postcss-modules-values": ^4
     "@types/qrcode": ^1.4.2
     "@typescript-eslint/eslint-plugin": 5.12.1
     "@typescript-eslint/parser": 5.12.1
@@ -6543,6 +6544,7 @@ __metadata:
     pdf2pic: ^2.1.4
     postcss: ^8.4.6
     postcss-import: ^14.0.2
+    postcss-modules-values: ^4.0.0
     postcss-preset-env: ^7.4.1
     postcss-url: ^10.1.1
     postinstall-postinstall: ^2.1.0
@@ -7270,6 +7272,15 @@ __metadata:
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
   checksum: fd6bce2b674b6efc3db4c7c3d336bd70c90838e8439de639b909ce22f3720d21344f52427f1d9e57b265fcb7f6c018699b99e5e0c208a1a4823014269a6bf35b
+  languageName: node
+  linkType: hard
+
+"@types/postcss-modules-values@npm:^4":
+  version: 4.0.0
+  resolution: "@types/postcss-modules-values@npm:4.0.0"
+  dependencies:
+    postcss: ^8.0.0
+  checksum: 6031fa6fed2ce414bd552d080eb42fc9a8681c14dad0fb10b82bc4553064fde06192845df366cecd1f1e9531f5da924ba234ae25b394f65b5019905189eb9762
   languageName: node
   linkType: hard
 
@@ -21408,6 +21419,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss@npm:^8.0.0, postcss@npm:^8.2.4, postcss@npm:^8.4.12":
+  version: 8.4.12
+  resolution: "postcss@npm:8.4.12"
+  dependencies:
+    nanoid: ^3.3.1
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: 248e3d0f9bbb8efaafcfda7f91627a29bdc9a19f456896886330beb28c5abea0e14c7901b35191928602e2eccbed496b1e94097d27a0b2a980854cd00c7a835f
+  languageName: node
+  linkType: hard
+
 "postcss@npm:^8.2.14, postcss@npm:^8.2.15, postcss@npm:^8.3.7, postcss@npm:^8.4.6":
   version: 8.4.6
   resolution: "postcss@npm:8.4.6"
@@ -21416,17 +21438,6 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: 60e7808f39c4a9d0fa067bfd5eb906168c4eb6d3ff0093f7d314d1979b001a16363deedccd368a7df869c63ad4ae350d27da439c94ff3fb0f8fc93d49fe38a90
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.2.4, postcss@npm:^8.4.12":
-  version: 8.4.12
-  resolution: "postcss@npm:8.4.12"
-  dependencies:
-    nanoid: ^3.3.1
-    picocolors: ^1.0.0
-    source-map-js: ^1.0.2
-  checksum: 248e3d0f9bbb8efaafcfda7f91627a29bdc9a19f456896886330beb28c5abea0e14c7901b35191928602e2eccbed496b1e94097d27a0b2a980854cd00c7a835f
   languageName: node
   linkType: hard
 

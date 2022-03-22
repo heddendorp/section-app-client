@@ -124,4 +124,7 @@ dist
 .pnp.*
 
 # angular cli cache
-.angular
+.angular/
+
+#git
+.git
