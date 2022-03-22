@@ -123,6 +123,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# docker ignore
-experiments/.angular/cache
-events/.angular/cache
+# angular cli cache
+.angular
