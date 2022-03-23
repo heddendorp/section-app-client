@@ -232,9 +232,9 @@ export const eventType = objectType({
                 : { status: { not: RegistrationStatus.CANCELLED } }),
             },
             orderBy: [
-              { status: 'desc' },
-              { checkInTime: 'desc' },
               { user: { lastName: 'asc' } },
+              { checkInTime: 'desc' },
+              { status: 'desc' },
             ],
           });
       },
