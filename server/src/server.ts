@@ -64,6 +64,9 @@ Sentry.init({
   tracesSampleRate: 0.2,
 });
 
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
+
 app.use(compression());
 const prisma = new PrismaClient();
 prisma.$use(async (params, next) => {
@@ -97,8 +100,6 @@ prisma.$use(async (params, next) => {
   return result;
 });
 app.use(cors());
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.tracingHandler());
 const getEnveloped = envelop({
   plugins: [
     useSchema(schema),
