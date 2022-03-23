@@ -15,10 +15,14 @@ on:
     tags: [ 'v*.*.*' ]
     paths:
       - 'server/**'
+      - 'Dockerfile-Server'
+      - '.github/workflows/publish-server.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'server/**'
+      - 'Dockerfile-Server'
+      - '.github/workflows/publish-server.yml'
 
 env:
   # Use docker.io for Docker Hub if empty

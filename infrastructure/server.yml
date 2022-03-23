@@ -1,0 +1,35 @@
+configuration:
+  activeRevisionsMode: Single
+  ingress:
+    external: true
+    targetPort: 3333
+template:
+  containers:
+  - image: ghcr.io/heddendorp/tumi/server:main
+    name: tumi-server
+    env:
+    - name: DATABASE_URL
+      secretRef: database-url
+    - name: NODE_ENV
+      value: production
+    - name: HIVE_TOKEN
+      secretRef: hive-token
+    - name: SENDGRID_API_KEY
+      secretRef: sendgrid-key
+    resources:
+      cpu: 1
+      memory: 2Gi
+  scale:
+    minReplicas: 0
+    maxReplicas: 5
+    rules:
+    - name: http-rule
+      http:
+        metadata:
+          concurrentRequests: 100
+    - name: cpuScalingRule
+      custom:
+        type: cpu
+        metadata:
+          type: Utilization
+          value: 80

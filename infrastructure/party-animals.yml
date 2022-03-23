@@ -1,0 +1,29 @@
+configuration:
+  activeRevisionsMode: Single
+  ingress:
+    external: true
+    targetPort: 3000
+template:
+  containers:
+  - image: ghcr.io/heddendorp/tumi/party-animals:main
+    name: party-animals
+    env:
+    - name: DATABASE_URL
+      secretRef: database-url
+    - name: NODE_ENV
+      value: production
+    - name: AUTH0_CLIENT_SECRET
+      secretRef: auth0-secret
+    - name: AUTH0_CALLBACK_URL
+      secretRef: auth0-callback
+    - name: PRICE_ID
+      secretRef: stripe-price-id
+    - name: STRIPE_WEBHOOK_ENDPOINT_SECRET
+      secretRef: stripe-webhook-secret
+    - name: STRIPE_SECRET_KEY
+      secretRef: stripe-secret-key
+    resources:
+      cpu: 1
+      memory: 2Gi
+  scale:
+    maxReplicas: 1

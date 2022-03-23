@@ -15,10 +15,14 @@ on:
     tags: [ 'v*.*.*' ]
     paths:
       - 'experiments/**'
+      - 'Dockerfile-Experiments'
+      - '.github/workflows/publish-experiments.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'experiments/**'
+      - 'Dockerfile-Experiments'
+      - '.github/workflows/publish-experiments.yml'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -127,6 +131,13 @@ jobs:
       - name: Check outputs
         run: echo ${{ needs.build.outputs.sha_short }}
 
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/experiments.yml
+          find: 'main'
+          replace: ${{ needs.build.outputs.sha_short }}
+
       - name: Deploy to containerapp
         uses: azure/CLI@v1
         with:
@@ -134,4 +145,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n experiments -g tumi-container -i ghcr.io/heddendorp/tumi/experiments:${{ needs.build.outputs.sha_short }} --debug --cpu 0.25 --memory 0.5Gi --revisions-mode single
+            az containerapp update -n experiments -g tumi-container --yaml infrastructure/experiments.yml

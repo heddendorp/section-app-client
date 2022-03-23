@@ -47,6 +47,23 @@ declare global {
 }
 
 export const app = express();
+
+Sentry.init({
+  dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
+  environment: process.env.NODE_ENV ?? 'development',
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+  ],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0.2,
+});
+
 app.use(compression());
 const prisma = new PrismaClient();
 prisma.$use(async (params, next) => {
@@ -78,22 +95,6 @@ prisma.$use(async (params, next) => {
   span?.finish();
 
   return result;
-});
-
-Sentry.init({
-  dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
-  environment: process.env.NODE_ENV ?? 'development',
-  integrations: [
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-    // enable Express.js middleware tracing
-    new Tracing.Integrations.Express({ app }),
-  ],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
 });
 app.use(cors());
 app.use(Sentry.Handlers.requestHandler());

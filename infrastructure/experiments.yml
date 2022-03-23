@@ -1,0 +1,20 @@
+configuration:
+  activeRevisionsMode: Single
+  ingress:
+    external: true
+    targetPort: 4000
+template:
+  containers:
+  - image: ghcr.io/heddendorp/tumi/experiments:main
+    name: experiments
+    resources:
+      cpu: 0.25
+      memory: 0.5Gi
+  scale:
+    minReplicas: 0
+    maxReplicas: 5
+    rules:
+    - name: http-rule
+      http:
+        metadata:
+          concurrentRequests: 500
