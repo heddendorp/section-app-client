@@ -128,9 +128,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Check outputs
-        run: echo ${{ needs.build.outputs.sha_short }}
-
       - name: update image tag in deployment file
         uses: jacobtomlinson/gha-find-replace@v2
         with:
@@ -145,4 +142,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n experiments -g tumi-container --yaml infrastructure/experiments.yml
+            az containerapp update -n experiments -g tumi-container --yaml ./infrastructure/experiments.yml
