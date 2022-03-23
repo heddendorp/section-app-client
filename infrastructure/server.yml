@@ -29,7 +29,7 @@ template:
       http:
         metadata:
           concurrentRequests: 100
-    - name: cpuScalingRule
+    - name: cpu-scaling-rule
       custom:
         type: cpu
         metadata:
