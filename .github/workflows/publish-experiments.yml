@@ -144,4 +144,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n experiments -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/experiments.yml
+            az containerapp update -n experiments -g tumi-container --yaml $GITHUB_WORKSPACE/tumi/infrastructure/experiments.yml
