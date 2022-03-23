@@ -6,9 +6,7 @@
     "lib": ["esnext"],
     "strict": true,
     "noImplicitAny": false,
-    "paths": {
-      "~/*": ["./src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   },
   "include": ["src/**/*"]

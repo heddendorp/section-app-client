@@ -189,9 +189,8 @@ const getEnveloped = envelop({
     useGraphQLMiddleware([permissions]),
   ],
 });
-
-app.use(express.json());
 app.use('/webhooks', webhookRouter(prisma));
+app.use(express.json());
 app.use('/graphql', async (req, res) => {
   const { parse, validate, contextFactory, execute, schema } = getEnveloped({
     req,
@@ -241,4 +240,5 @@ const port = process.env.PORT || 3333;
 process.env.NODE_ENV !== 'test' &&
   app.listen(port, () => {
     console.log(`GraphQL server is running on port ${port}.`);
+    console.log(process.env);
   });
