@@ -20,4 +20,10 @@ template:
     - name: http-rule
       http:
         metadata:
-          concurrentRequests: 100
+          concurrentRequests: 300
+    - name: cpu-scaling-rule
+        custom:
+          type: cpu
+          metadata:
+            type: Utilization
+            value: 80
