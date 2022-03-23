@@ -16,6 +16,8 @@ template:
       secretRef: hive-token
     - name: SENDGRID_API_KEY
       secretRef: sendgrid-key
+    - name: STRIPE_KEY
+      secretRef: stripe-key
     resources:
       cpu: 1
       memory: 2Gi
