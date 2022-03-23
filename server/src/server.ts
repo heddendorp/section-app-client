@@ -20,7 +20,7 @@ import { socialRouter } from './helpers/socialImage';
 import { useHive } from '@graphql-hive/client';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
-import { webhookRouter } from '~/helpers/webhooks';
+import { webhookRouter } from './helpers/webhooks';
 
 declare global {
   namespace Express {

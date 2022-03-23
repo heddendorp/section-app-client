@@ -8,7 +8,7 @@ import {
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
-} from '~/generated/prisma';
+} from '../generated/prisma';
 import InputJsonObject = Prisma.InputJsonObject;
 
 const stripe: Stripe.Stripe = require('stripe')(process.env['STRIPE_KEY']);
