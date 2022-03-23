@@ -20,6 +20,7 @@ import { socialRouter } from './helpers/socialImage';
 import { useHive } from '@graphql-hive/client';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
+import { webhookRouter } from '~/helpers/webhooks';
 
 declare global {
   namespace Express {
@@ -190,7 +191,7 @@ const getEnveloped = envelop({
 });
 
 app.use(express.json());
-
+app.use('/webhooks', webhookRouter(prisma));
 app.use('/graphql', async (req, res) => {
   const { parse, validate, contextFactory, execute, schema } = getEnveloped({
     req,

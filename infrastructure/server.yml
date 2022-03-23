@@ -18,6 +18,8 @@ template:
       secretRef: sendgrid-key
     - name: STRIPE_KEY
       secretRef: stripe-key
+    - name: STRIPE_WH_SECRET
+      secretRef: stripe-wh-secret
     resources:
       cpu: 1
       memory: 2Gi
