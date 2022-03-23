@@ -21,6 +21,9 @@ import { useHive } from '@graphql-hive/client';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
 import { webhookRouter } from './helpers/webhooks';
+import { calendarRouter } from './helpers/calendars';
+import { qrRouter } from './helpers/qrCode';
+import { shortRouter } from './helpers/shortRouter';
 
 declare global {
   namespace Express {
@@ -191,6 +194,9 @@ const getEnveloped = envelop({
 });
 app.use('/webhooks', webhookRouter(prisma));
 app.use(express.json());
+app.use('/cal', calendarRouter(prisma));
+app.use('/qr', qrRouter());
+app.use('/go', shortRouter());
 app.use('/graphql', async (req, res) => {
   const { parse, validate, contextFactory, execute, schema } = getEnveloped({
     req,
