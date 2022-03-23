@@ -17,12 +17,14 @@ on:
       - 'experiments/**'
       - 'Dockerfile-Experiments'
       - '.github/workflows/publish-experiments.yml'
+      - 'infrastructure/experiments.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'experiments/**'
       - 'Dockerfile-Experiments'
       - '.github/workflows/publish-experiments.yml'
+      - 'infrastructure/experiments.yml'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -142,4 +144,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n experiments -g tumi-container --yaml ./infrastructure/experiments.yml
+            az containerapp update -n experiments -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/experiments.yml
