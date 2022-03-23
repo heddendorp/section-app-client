@@ -17,12 +17,14 @@ on:
       - 'server/**'
       - 'Dockerfile-Server'
       - '.github/workflows/publish-server.yml'
+      - 'infrastructure/server.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'server/**'
       - 'Dockerfile-Server'
       - '.github/workflows/publish-server.yml'
+      - 'infrastructure/server.yml'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -142,8 +144,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Check outputs
-        run: echo ${{ needs.build.outputs.sha_short }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/server.yml
+          find: 'main'
+          replace: ${{ needs.build.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
@@ -152,7 +161,7 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n server -g tumi-container -i ghcr.io/heddendorp/tumi/server:${{ needs.build.outputs.sha_short }} --debug -v "DATABASE_URL=secretref:database-url,SENDGRID_API_KEY=secretref:sendgrid-key,HIVE_TOKEN=secretref:hive-token,NODE_ENV=production" --cpu 1 --memory 2.0Gi --revisions-mode single
+            az containerapp update -n server -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/server.yml
 
   release:
     runs-on: ubuntu-latest

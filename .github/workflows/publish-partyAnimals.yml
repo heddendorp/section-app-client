@@ -15,10 +15,16 @@ on:
     tags: [ 'v*.*.*' ]
     paths:
       - 'party-animals/**'
+      - 'Dockerfile-PartyAnimals'
+      - '.github/workflows/publish-partyAnimals.yml'
+      - 'infrastructure/party-animals.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'party-animals/**'
+      - 'Dockerfile-PartyAnimals'
+      - '.github/workflows/publish-partyAnimals.yml'
+      - 'infrastructure/party-animals.yml'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -138,8 +144,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Check outputs
-        run: echo ${{ needs.build.outputs.sha_short }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/party-animals.yml
+          find: 'main'
+          replace: ${{ needs.build.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
@@ -148,37 +161,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n party-animals -g tumi-container -i ghcr.io/heddendorp/tumi/party-animals:${{ needs.build.outputs.sha_short }} --debug -v "PRICE_ID=secretref:stripe-price-id,STRIPE_WEBHOOK_ENDPOINT_SECRET=secretref:stripe-webhook-secret,STRIPE_SECRET_KEY=secretref:stripe-secret-key,DATABASE_URL=secretref:database-url,AUTH0_CLIENT_SECRET=secretref:auth0-secret,AUTH0_CALLBACK_URL=secretref:auth0-callback" --cpu 1 --memory 2.0Gi --revisions-mode single
-
-#  release:
-#    runs-on: ubuntu-latest
-#    needs: deploy
-#
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#
-#      - name: Prepare yarn
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: '16'
-#          cache: 'yarn'
-#
-#      - name: Install dependencies
-#        run: yarn workspace @tumi/server install
-#
-#      - name: Build Server
-#        env:
-#          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-#        run: yarn workspace @tumi/party-animals build --sourcemap
-#
-#      - name: Create Sentry release
-#        uses: getsentry/action-release@v1
-#        env:
-#          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-#          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-#        with:
-#          environment: production
-#          ignore_empty: true
-#          projects: tumi-server
-#          sourcemaps: server/dist
+            az containerapp update -n party-animals -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/party-animals.yml

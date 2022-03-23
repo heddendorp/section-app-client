@@ -16,11 +16,15 @@ on:
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
+      - '.github/workflows/publish-legacy-app.yml'
+      - 'infrastructure/legacy-app.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
+      - '.github/workflows/publish-legacy-app.yml'
+      - 'infrastructure/legacy-app.yml'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -126,8 +130,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Check outputs
-        run: echo ${{ needs.build.outputs.sha_short }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/legacy-app.yml
+          find: 'main'
+          replace: ${{ needs.build.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
@@ -136,4 +147,4 @@ jobs:
             echo "Installing containerapp extension"
             az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
             echo "Starting Deploying"
-            az containerapp update -n legacy-app -g tumi-container -i ghcr.io/heddendorp/tumi/legacy-app:${{ needs.build.outputs.sha_short }} --debug --cpu 0.25 --memory 0.5Gi --revisions-mode single
+            az containerapp update -n legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml
