@@ -85,6 +85,20 @@ export default function () {
   const getCountry = (code: string) => {
     return countries.find((c) => c.alpha2Code === code);
   };
+  const generateWaLink = (
+    registration: Registration & { user: User; group?: Group }
+  ) => {
+    const number = registration.phone.replace(/[ +]/g, '');
+    const message = encodeURIComponent(`Hey there ${registration.callBy}!
+It seems like you are missing your payment for your the party animals spot. Please pay your registration fee at the following link:
+https://party-animals.esn.world/registration/status 
+This is also where you can see your registration status.
+If the payment is confirmed here you are good to go, otherwise we will give away your spot to someone else.
+Should you not be able to take part in the program anymore, please contact us at questions@esn-tumi.de and we will cancel your spot.
+Best, 
+Your TUMi party animals team`);
+    return `https://wa.me/${number}?text=${message}`;
+  };
   return (
     <main>
       <section className="mb-2 p-4 text-white">
@@ -131,7 +145,7 @@ export default function () {
             </span>
           </label>
           <label
-            className="relative block rounded-lg border-2 border-gray-200 p-3"
+            className="relative block w-32 rounded-lg border-2 border-gray-200 p-3"
             htmlFor="paymentStatus"
           >
             <select
@@ -161,6 +175,7 @@ export default function () {
               <th className="px-4 py-2">Group</th>
               <th className="px-4 py-2">Registration Status</th>
               <th className="px-4 py-2">Payment status</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -173,6 +188,15 @@ export default function () {
                 <td className="px-4 py-2">{registration.group?.name}</td>
                 <td className="px-4 py-2">{registration.registrationStatus}</td>
                 <td className="px-4 py-2">{registration.paymentStatus}</td>
+                <td className="px-4 py-2">
+                  <a
+                    className="rounded bg-gray-800 py-2 px-4 font-bold text-white hover:bg-gray-700"
+                    href={generateWaLink(registration)}
+                    target="_blank"
+                  >
+                    Send WA message
+                  </a>
+                </td>
               </tr>
             ))}
           </tbody>
