@@ -123,7 +123,7 @@ const getEnveloped = envelop({
             },
             usage: {
               clientInfo(context: any) {
-                const name = context.headers['x-graphql-client-name'];
+                const name = context.req.headers['x-graphql-client-name'];
                 if (name) {
                   return {
                     name,
