@@ -147,7 +147,7 @@ jobs:
         with:
           include: infrastructure/events.yml
           find: 'main'
-          replace: ${{ needs.build.outputs.sha_short }}
+          replace: ${{ steps.vars.outputs.sha_short }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
