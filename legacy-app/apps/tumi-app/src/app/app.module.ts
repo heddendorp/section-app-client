@@ -47,8 +47,6 @@ import {
   IconToastComponent,
   UtilComponentsModule,
 } from '@tumi/util-components';
-import { sha256 } from 'crypto-hash';
-import { createPersistedQueryLink } from 'apollo-angular/persisted-queries';
 import { Settings } from 'luxon';
 
 @NgModule({
@@ -165,10 +163,9 @@ import { Settings } from 'luxon';
         });
         const addClientName = new ApolloLink((operation, forward) => {
           operation.setContext({
-            headers: new HttpHeaders().set(
-              'x-graphql-client-name',
-              'leagcy-app'
-            ),
+            headers: new HttpHeaders()
+              .set('x-graphql-client-name', 'leagcy-app')
+              .set('x-graphql-client-version', environment.version),
           });
           return forward(operation);
         });

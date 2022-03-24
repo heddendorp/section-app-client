@@ -14,7 +14,9 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   const http = httpLink.create({ uri });
   const addClientName = new ApolloLink((operation, forward) => {
     operation.setContext({
-      headers: new HttpHeaders().set('x-graphql-client-name', 'events-client'),
+      headers: new HttpHeaders()
+        .set('x-graphql-client-name', 'events-client')
+        .set('x-graphql-client-version', environment.version),
     });
     return forward(operation);
   });

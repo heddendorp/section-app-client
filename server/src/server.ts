@@ -124,10 +124,11 @@ const getEnveloped = envelop({
             usage: {
               clientInfo(context: any) {
                 const name = context.req.headers['x-graphql-client-name'];
-                if (name) {
+                const version = context.req.headers['x-graphql-client-version'];
+                if (name && version) {
                   return {
                     name,
-                    version: '1.0.0',
+                    version,
                   };
                 }
                 return null;
