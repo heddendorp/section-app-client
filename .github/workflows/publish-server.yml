@@ -197,3 +197,4 @@ jobs:
           ignore_empty: true
           projects: tumi-server
           sourcemaps: server/dist
+          version: ${{ needs.build.outputs.sha_short }}

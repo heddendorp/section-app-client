@@ -191,3 +191,4 @@ jobs:
           ignore_empty: true
           projects: events events-ssr
           sourcemaps: events/dist
+          version: ${{ needs.build.outputs.sha_short }}
