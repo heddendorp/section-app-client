@@ -205,7 +205,7 @@ const getEnveloped = envelop({
     useGraphQLMiddleware([permissions]),
   ],
 });
-app.head('health', (req, res) => {
+app.get('/health', (req, res) => {
   res.sendStatus(200);
 });
 app.use('/webhooks', webhookRouter(prisma));

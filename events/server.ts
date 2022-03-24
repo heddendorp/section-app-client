@@ -69,7 +69,7 @@ export function app(): express.Express {
     })
   );
 
-  server.head('health', (req, res) => {
+  server.get('/health', (req, res) => {
     res.sendStatus(200);
   });
 
