@@ -102,7 +102,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           include: events/src/environments/environment.prod.ts
-          find: 'prod'
+          find: prod
           replace: ${{ steps.vars.outputs.sha_short }}
 
       # Build and push Docker image with Buildx (don't push on PR)
