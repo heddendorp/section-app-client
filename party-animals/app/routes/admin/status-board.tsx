@@ -92,8 +92,8 @@ export default function () {
     const message = encodeURIComponent(`Hey there ${registration.callBy}!
 It seems like you are missing your payment for your the party animals spot. Please pay your registration fee at the following link:
 https://party-animals.esn.world/registration/status 
-This is also where you can see your registration status.
-If the payment is confirmed here you are good to go, otherwise we will give away your spot to someone else.
+This is also where you can see your registration status, if the payment is confirmed here you are good to go.
+*The payment deadline is today at 18:00 CET* if you do not pay or contact us we will cancel your spot.
 Should you not be able to take part in the program anymore, please contact us at questions@esn-tumi.de and we will cancel your spot.
 Best, 
 Your TUMi party animals team`);
