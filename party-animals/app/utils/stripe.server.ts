@@ -26,9 +26,11 @@ export const getStripeSession = async (
       tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
     },
   ];
+  const payment_method_types: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
+    ['card', 'giropay', 'ideal', 'p24', 'bancontact'];
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
-    payment_method_types: ['card'],
+    payment_method_types,
     line_items: lineItems,
     success_url: `${domainUrl}/registration/status`,
     cancel_url: `${domainUrl}/payment/cancelled`,
