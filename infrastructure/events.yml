@@ -10,6 +10,10 @@ template:
     env:
     - name: NODE_ENV
       value: production
+    - name: PM2_PUBLIC_KEY
+      value: dlasc229vo4thbf
+    - name: PM2_SECRET_KEY
+      secretRef: pm2-secret-key
     resources:
       cpu: 1
       memory: 2Gi

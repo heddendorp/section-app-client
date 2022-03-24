@@ -20,6 +20,10 @@ template:
       secretRef: stripe-key
     - name: STRIPE_WH_SECRET
       secretRef: stripe-wh-secret
+    - name: PM2_PUBLIC_KEY
+      value: 9itltnqk9yqwqph
+    - name: PM2_SECRET_KEY
+      secretRef: pm2-secret-key
     resources:
       cpu: 1
       memory: 2Gi
