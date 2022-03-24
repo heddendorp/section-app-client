@@ -1,13 +1,27 @@
 import { NgModule } from '@angular/core';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
+import {
+  ApolloClientOptions,
+  ApolloLink,
+  InMemoryCache,
+} from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
 
 const uri = environment.server + '/graphql'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+  const http = httpLink.create({ uri });
+  const addClientName = new ApolloLink((operation, forward) => {
+    operation.setContext({
+      headers: new HttpHeaders().set('x-graphql-client-name', 'events-client'),
+    });
+    return forward(operation);
+  });
+  const link = addClientName.concat(http);
+
   return {
-    link: httpLink.create({ uri }),
+    link,
     cache: new InMemoryCache(),
   };
 }

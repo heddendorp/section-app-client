@@ -24,6 +24,7 @@ import { webhookRouter } from './helpers/webhooks';
 import { calendarRouter } from './helpers/calendars';
 import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
+import { ClientInfo } from '@graphql-hive/client/internal/types';
 
 declare global {
   namespace Express {
@@ -120,7 +121,18 @@ const getEnveloped = envelop({
               author: 'Author of the schema version',
               commit: 'git sha or any identifier',
             },
-            usage: true,
+            usage: {
+              clientInfo(context: any) {
+                const name = context.headers['x-graphql-client-name'];
+                if (name) {
+                  return {
+                    name,
+                    version: '1.0.0',
+                  };
+                }
+                return null;
+              },
+            },
           }),
         ]
       : []),

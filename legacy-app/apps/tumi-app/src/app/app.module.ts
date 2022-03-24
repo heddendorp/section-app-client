@@ -6,7 +6,11 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  HttpHeaders,
+} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -18,7 +22,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UiAppShellModule } from '@tumi/ui-app-shell';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client/core';
+import { ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -159,6 +163,15 @@ import { Settings } from 'luxon';
           uri: environment.server + '/graphql',
           includeExtensions: true,
         });
+        const addClientName = new ApolloLink((operation, forward) => {
+          operation.setContext({
+            headers: new HttpHeaders().set(
+              'x-graphql-client-name',
+              'leagcy-app'
+            ),
+          });
+          return forward(operation);
+        });
         const error = onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors)
             graphQLErrors.map(({ message, locations, path }) =>
@@ -176,6 +189,7 @@ import { Settings } from 'luxon';
           //     useGETForHashedQueries: true,
           //   })
           // )
+          .concat(addClientName)
           .concat(http);
 
         const cache = new InMemoryCache({
