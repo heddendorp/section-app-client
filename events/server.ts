@@ -68,6 +68,10 @@ export function app(): express.Express {
     })
   );
 
+  server.head('health', (req, res) => {
+    res.sendStatus(200);
+  });
+
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(indexHtml, {

@@ -192,6 +192,9 @@ const getEnveloped = envelop({
     useGraphQLMiddleware([permissions]),
   ],
 });
+app.head('health', (req, res) => {
+  res.sendStatus(200);
+});
 app.use('/webhooks', webhookRouter(prisma));
 app.use(express.json());
 app.use('/cal', calendarRouter(prisma));
