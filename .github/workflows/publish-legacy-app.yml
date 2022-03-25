@@ -102,8 +102,9 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           include: legacy-app/apps/tumi-app/src/environments/environment.prod.ts
-          find: prod
+          find: 'prod'
           replace: ${{ steps.vars.outputs.sha_short }}
+          regex: false
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
