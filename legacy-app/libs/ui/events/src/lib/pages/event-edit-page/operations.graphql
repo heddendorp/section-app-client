@@ -133,9 +133,7 @@ mutation addSubmissionToEvent(
   }
 }
 
-mutation removeSubmissionFromEvent(
-  $submissionItemId: ID!
-) {
+mutation removeSubmissionFromEvent($submissionItemId: ID!) {
   removeSubmissionFromEvent(id: $submissionItemId) {
     id
     submissionItems {
