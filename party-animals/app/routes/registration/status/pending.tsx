@@ -30,13 +30,15 @@ export default function RegistrationStatusPending() {
         You registered for Party Animals!
       </h2>
       <p className="lg:text-lg">
-        We will be in contact about further steps. You can always see your
-        status here!
+        You are currently on the waiting list and we will contact you if a spot
+        opens up.
       </p>
       <p className="mt-2 lg:text-lg">
-        The first admission mails will be sent out before the 23rd of march,
-        please check your mails in the evening to confirm your spot. Spots that
-        are not confirmed within 24h will be reallocated.
+        The rounds of admission are: <br />
+        the 23rd of march, <br />
+        the 25th of march <br />
+        and the 27th of march. <br />
+        Check your mail or this page to see if you got a spot.
       </p>
     </section>
   );

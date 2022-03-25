@@ -159,7 +159,7 @@ export default function Registration() {
               </a>
             </div>
           </div>
-          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+          {/*<div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>What's next?</strong>
             <p>
               Keep the following dates in mind:
@@ -176,7 +176,7 @@ export default function Registration() {
               </ul>
               Check your mails to confirm your registration.
             </p>
-          </div>
+          </div>*/}
         </div>
         <Link
           to="/"

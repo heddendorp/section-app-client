@@ -79,7 +79,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     'https://restcountries.com/v2/all?fields=name,alpha2Code,flags'
   ).then((res) => res.json());
   const registrationsQuery = db.registration.findMany({
-    where: { registrationStatus: Status.PENDING },
+    where: {
+      OR: [
+        { registrationStatus: Status.PENDING },
+        { registrationStatus: Status.ACCEPTED },
+      ],
+    },
     include: { user: true },
     orderBy: { createdAt: 'asc' },
   });
@@ -92,6 +97,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     registrationsQuery,
   ]);
   registrations.sort((a, b) => {
+    if (
+      a.registrationStatus === 'ACCEPTED' &&
+      b.registrationStatus !== 'ACCEPTED'
+    ) {
+      return -1;
+    }
+    if (
+      a.registrationStatus !== 'ACCEPTED' &&
+      b.registrationStatus === 'ACCEPTED'
+    ) {
+      return 1;
+    }
     if (prioToNum(a.priority) > prioToNum(b.priority)) {
       return -1;
     }
@@ -109,6 +126,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const assignments: { [groupId: string]: Registration[] } = {};
   const nonAssigned: Registration[] = [];
   groups.forEach((group) => {
+    assignments[group.id] = [];
     assignments[group.id] = group.registrations;
   });
   registrations
@@ -381,6 +399,10 @@ export default function AdminAssignments() {
                   />
                   <div className="ml-2">
                     <p className="text-lg">
+                      {registration.groupId ? '📌' : ''}
+                      {registration.registrationStatus === 'ACCEPTED'
+                        ? '✅'
+                        : ''}
                       {registration.user.firstName} {registration.user.lastName}
                     </p>
                     <div className="flex items-center">

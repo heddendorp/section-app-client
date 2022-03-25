@@ -279,6 +279,8 @@ export default function AdminRegistrations() {
               <p>{registration.priority}</p>
               <p>Status</p>
               <p>{registration.registrationStatus}</p>
+              <p>Payment</p>
+              <p>{registration.paymentStatus}</p>
               {registration.group && (
                 <>
                   <p>Group</p>
