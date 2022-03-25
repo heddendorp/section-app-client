@@ -3,7 +3,12 @@
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4 text-surface-on">
-  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="1rem" class="mb-6">
+  <div
+    fxLayout="column-reverse"
+    fxLayout.gt-md="row"
+    fxLayoutGap="1rem"
+    class="mb-6"
+  >
     <div fxFlex="noshrink">
       <h1 class="mb-4">Upcoming Events</h1>
       <div
@@ -82,7 +87,7 @@
               </p>
               <div fxFlex="grow"></div>
               <a
-                href="https://t.me/+PtNU9JqOE19lZjMy"
+                href="https://www.instagram.com/tumi.esn/"
                 mat-flat-button
                 color="primary"
                 class="modern"
