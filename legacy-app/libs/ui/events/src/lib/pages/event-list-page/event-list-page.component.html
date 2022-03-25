@@ -34,7 +34,68 @@
         <input matInput [formControl]="filterEvents" type="search" />
       </mat-form-field>
     </div>
-    <div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
+    <div
+      fxFlex="grow"
+      class="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1"
+    >
+      <div class="block h-full overflow-hidden rounded-xl bg-white">
+        <div class="h-full bg-white p-4">
+          <h4 class="text-lg font-bold">Welcome to TUMi!</h4>
+          <h5 class="mb-4 text-lg text-slate-800">
+            Join us on other platforms to stay informed!
+          </h5>
+
+          <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+            <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
+              <p class="text-lg">Telegram</p>
+              <p>
+                Join the telegram group to stay informed and connect with other
+                students.
+              </p>
+              <div fxFlex="grow"></div>
+              <a
+                href="https://t.me/+PtNU9JqOE19lZjMy"
+                mat-flat-button
+                color="primary"
+                class="modern"
+              >
+                <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+                <span>Join the group</span>
+              </a>
+            </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
+              <p class="text-lg">Instagram</p>
+              <p>
+                Use our hashtag
+                <span
+                  class="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text font-bold text-transparent"
+                >
+                  #tumilove
+                </span>
+                and tag us at
+                <span
+                  class="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text font-bold text-transparent"
+                >
+                  @tumi.esn
+                </span>
+                to share your experiences!
+              </p>
+              <div fxFlex="grow"></div>
+              <a
+                href="https://t.me/+PtNU9JqOE19lZjMy"
+                mat-flat-button
+                color="primary"
+                class="modern"
+              >
+                <mat-icon svgIcon="icon-instagram-new"></mat-icon>
+                <span>Follow us</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
         <div class="h-full bg-gray-100 p-4">
           <h4 class="text-lg font-bold">The Party animals are back!</h4>
@@ -55,7 +116,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div>-->
     <!--<div
       fxFlex="grow"
       class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
@@ -74,7 +135,7 @@
   ></tumi-event-list>
   <div
     *ngIf="(events$ | async)?.length === 0"
-    class="rounded-2xl bg-pink-200 p-4 max-w-md mx-auto"
+    class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
   >
     <div
       fxLayout="row"
@@ -84,7 +145,7 @@
     >
       <mat-icon
         svgIcon="icon-overtime"
-        class="text-pink-500 bg-white card-icon"
+        class="card-icon bg-white text-pink-500"
       ></mat-icon>
       <h2 class="font-bold">No events right now</h2>
     </div>
