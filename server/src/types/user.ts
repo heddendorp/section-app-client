@@ -256,6 +256,21 @@ export const listUsersQuery = queryField('users', {
     { statusList, roleList, search, pageLength, pageIndex, onlyWithPurchase },
     context
   ) => {
+    // const OR: any[] = [];
+    // return context.prisma.user.count({
+    //   where: {
+    //     ...(search ? { OR } : {}),
+    //     tenants: {
+    //       some: {
+    //         tenantId: context.tenant.id,
+    //         // @ts-ignore
+    //         role: { in: roleList },
+    //         // @ts-ignore
+    //         status: { in: statusList },
+    //       },
+    //     },
+    //   },
+    // });
     if (context.assignment?.role != 'ADMIN') {
       throw new EnvelopError('Only admins can read the list of users');
     }
@@ -264,10 +279,15 @@ export const listUsersQuery = queryField('users', {
     if (typeof pageIndex === 'number' && typeof pageLength === 'number') {
       page = { skip: pageIndex * pageLength, take: pageLength };
     }
+    // if (search) {
+    //   OR.push({ firstName: { contains: search } });
+    //   OR.push({ lastName: { contains: search } });
+    //   OR.push({ email: { contains: search } });
+    // }
     if (search) {
-      OR.push({ firstName: { contains: search } });
-      OR.push({ lastName: { contains: search } });
-      OR.push({ email: { contains: search } });
+      OR.push({ firstName: { search } });
+      OR.push({ lastName: { search } });
+      OR.push({ email: { search } });
     }
     return context.prisma.user.findMany({
       where: {

@@ -1,5 +1,5 @@
 <main class="p-4">
-  <h1 class="font-bold mb-2">
+  <h1 class="mb-2 font-bold">
     Registered Users
     <span class="font-light">(showing: {{ userNum$ | async }})</span>
   </h1>
@@ -90,7 +90,7 @@
   </table>
   <mat-paginator
     [length]="userNum$ | async"
-    [pageSizeOptions]="[20, 50, 100]"
+    [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"
     showFirstLastButtons
     (page)="updatePage($event)"
   >
