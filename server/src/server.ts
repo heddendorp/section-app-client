@@ -24,7 +24,7 @@ import { webhookRouter } from './helpers/webhooks';
 import { calendarRouter } from './helpers/calendars';
 import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
-import { ClientInfo } from '@graphql-hive/client/internal/types';
+import prisma from './client';
 
 declare global {
   namespace Express {
@@ -73,7 +73,6 @@ app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 
 app.use(compression());
-const prisma = new PrismaClient();
 prisma.$use(async (params, next) => {
   const { model, action, runInTransaction, args } = params;
   const description = [model, action].filter(Boolean).join('.');

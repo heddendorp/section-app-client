@@ -1,9 +1,9 @@
 import express from 'express';
 import { createCanvas, loadImage } from 'canvas';
 import { PrismaClient } from '../generated/prisma';
+import prisma from '../client';
 
 export const socialRouter = express.Router();
-const prisma = new PrismaClient();
 socialRouter.get('/social/event/:id', async (req, res) => {
   const { id } = req.params;
   const event = await prisma.tumiEvent.findUnique({ where: { id } });

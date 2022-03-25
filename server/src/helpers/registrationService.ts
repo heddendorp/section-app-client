@@ -8,9 +8,9 @@ import {
 import * as stripe from 'stripe';
 import { GetGen } from 'nexus/dist/typegenTypeHelpers';
 import { DateTime } from 'luxon';
+import prisma from '../client';
 
 export class RegistrationService {
-  private static prisma = new PrismaClient();
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   private static stripe: stripe.Stripe = require('stripe')(
     process.env['STRIPE_KEY']
@@ -24,9 +24,10 @@ export class RegistrationService {
     cancelUrl?: string,
     successUrl?: string
   ): Promise<any> {
-    const registrationCode = await this.prisma.eventRegistrationCode.findUnique(
-      { where: { id: registrationCodeId }, include: { targetEvent: true } }
-    );
+    const registrationCode = await prisma.eventRegistrationCode.findUnique({
+      where: { id: registrationCodeId },
+      include: { targetEvent: true },
+    });
     if (
       registrationCode?.targetEvent?.registrationMode ===
       RegistrationMode.STRIPE
@@ -49,7 +50,7 @@ export class RegistrationService {
         userId,
         registrationCode.sepaAllowed
       );
-      const registration = await this.prisma.eventRegistration.create({
+      const registration = await prisma.eventRegistration.create({
         data: {
           event: { connect: { id: registrationCode.targetEvent.id } },
           user: { connect: { id: userId } },
@@ -59,7 +60,7 @@ export class RegistrationService {
           eventRegistrationCode: { connect: { id: registrationCode.id } },
         },
       });
-      return this.prisma.eventRegistrationCode.update({
+      return prisma.eventRegistrationCode.update({
         where: { id: registrationCodeId },
         data: {
           registrationCreatedId: registration.id,
@@ -70,7 +71,7 @@ export class RegistrationService {
       registrationCode?.targetEvent?.registrationMode ===
       RegistrationMode.ONLINE
     ) {
-      const newRegistration = await this.prisma.eventRegistration.create({
+      const newRegistration = await prisma.eventRegistration.create({
         data: {
           user: { connect: { id: userId } },
           event: { connect: { id: registrationCode.eventId } },
@@ -79,7 +80,7 @@ export class RegistrationService {
         },
       });
       if (registrationCode.registrationToRemoveId) {
-        await this.prisma.eventRegistration.update({
+        await prisma.eventRegistration.update({
           where: { id: registrationCode.registrationToRemoveId },
           data: {
             status: RegistrationStatus.CANCELLED,
@@ -87,7 +88,7 @@ export class RegistrationService {
           },
         });
       }
-      return this.prisma.eventRegistrationCode.update({
+      return prisma.eventRegistrationCode.update({
         where: { id: registrationCodeId },
         data: {
           status: RegistrationStatus.SUCCESSFUL,
@@ -106,7 +107,7 @@ export class RegistrationService {
     userId: string,
     allowSepa = false
   ) {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
         tenants: {
@@ -123,7 +124,7 @@ export class RegistrationService {
         email: user?.email,
         metadata: { userId: user?.id ?? '', tenantId: context.tenant.id },
       });
-      await this.prisma.stripeUserData.create({
+      await prisma.stripeUserData.create({
         data: {
           usersOfTenantsTenantId: context.tenant.id,
           usersOfTenantsUserId: userId,
@@ -159,7 +160,7 @@ export class RegistrationService {
       success_url: successUrl,
       expires_at: Math.round(DateTime.now().plus({ hours: 1 }).toSeconds()),
     });
-    const payment = this.prisma.stripePayment.create({
+    const payment = prisma.stripePayment.create({
       data: {
         user: { connect: { id: userId } },
         amount: session.amount_total ?? 0,
