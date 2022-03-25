@@ -56,10 +56,19 @@
           mat-list-item
           routerLink="event-templates"
           routerLinkActive="active"
-          *tumiIfStatus="[MembershipStatus.Full]"
+          *tumiIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
         >
           <mat-icon svgIcon="icon-template"></mat-icon>
           <span>Event templates</span>
+        </a>
+        <a
+          mat-list-item
+          href="https://drive.google.com/drive/folders/1_Eb5pOsPsk9ejIFJmXSxldrn1Gh92aZN"
+          target="_blank"
+          *tumiIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+        >
+          <mat-icon svgIcon="icon-user-manual"></mat-icon>
+          <span>Tutor Guide</span>
         </a>
         <a
           mat-list-item
@@ -93,11 +102,11 @@
         </button>
       </mat-nav-list>
       <div fxFlex="grow"></div>
-      <div class="mb-2 mx-auto">
+      <div class="mx-auto mb-2">
         <a routerLink="/page/imprint">Imprint</a> /
         <a routerLink="/page/privacy">Privacy policy</a>
       </div>
-      <div class="mb-4 mx-auto">
+      <div class="mx-auto mb-4">
         <a routerLink="/page/tac">Terms + Conditions</a>
       </div>
     </div>
