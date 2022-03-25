@@ -127,6 +127,7 @@ model User {
   email              String
   email_verified     Boolean
   esnCardOverride    Boolean             @default(false)
+  partyAnimals       Boolean             @default(false)
   firstName          String
   iban               String?
   lastName           String
