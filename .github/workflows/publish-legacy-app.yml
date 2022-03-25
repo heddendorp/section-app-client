@@ -10,9 +10,9 @@ on:
   schedule:
     - cron: '43 11 * * *'
   push:
-    branches: [ main ]
+    branches: [main]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ['v*.*.*']
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
@@ -20,7 +20,7 @@ on:
       - 'infrastructure/legacy-app.yml'
       - 'yarn.lock'
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
@@ -33,7 +33,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
 
 jobs:
   build:
@@ -69,7 +68,6 @@ jobs:
         with:
           cosign-release: 'v1.4.0'
 
-
       # Workaround: https://github.com/docker/build-push-action/issues/461
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
@@ -98,13 +96,17 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=sha
 
-      - name: Update version in environment
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          include: legacy-app/apps/tumi-app/src/environments/environment.prod.ts
-          find: 'prod'
-          replace: ${{ steps.vars.outputs.sha_short }}
-          regex: false
+      - run: perl -pi -e 's/prod/"$ENV{VERSION}"/' legacy-app/apps/tumi-app/src/environments/environment.prod.ts
+        env:
+          VERSION: ${{ steps.vars.outputs.sha_short }}
+
+#      - name: Update version in environment
+#        uses: jacobtomlinson/gha-find-replace@v2
+#        with:
+#          include: legacy-app/apps/tumi-app/src/environments/environment.prod.ts
+#          find: 'prod'
+#          replace: ${{ steps.vars.outputs.sha_short }}
+#          regex: false
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -125,7 +127,7 @@ jobs:
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          COSIGN_EXPERIMENTAL: "true"
+          COSIGN_EXPERIMENTAL: 'true'
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/legacy-app@${{ steps.build-and-push.outputs.digest }}
