@@ -19,14 +19,14 @@ on:
       - '.github/workflows/publish-server.yml'
       - 'infrastructure/server.yml'
       - 'yarn.lock'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'server/**'
-      - 'Dockerfile-Server'
-      - '.github/workflows/publish-server.yml'
-      - 'infrastructure/server.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    branches: [ main ]
+#    paths:
+#      - 'server/**'
+#      - 'Dockerfile-Server'
+#      - '.github/workflows/publish-server.yml'
+#      - 'infrastructure/server.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty

@@ -19,14 +19,14 @@ on:
       - '.github/workflows/publish-partyAnimals.yml'
       - 'infrastructure/party-animals.yml'
       - 'yarn.lock'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'party-animals/**'
-      - 'Dockerfile-PartyAnimals'
-      - '.github/workflows/publish-partyAnimals.yml'
-      - 'infrastructure/party-animals.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    branches: [ main ]
+#    paths:
+#      - 'party-animals/**'
+#      - 'Dockerfile-PartyAnimals'
+#      - '.github/workflows/publish-partyAnimals.yml'
+#      - 'infrastructure/party-animals.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty

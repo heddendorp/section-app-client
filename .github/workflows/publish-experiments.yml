@@ -19,14 +19,14 @@ on:
       - '.github/workflows/publish-experiments.yml'
       - 'infrastructure/experiments.yml'
       - 'yarn.lock'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'experiments/**'
-      - 'Dockerfile-Experiments'
-      - '.github/workflows/publish-experiments.yml'
-      - 'infrastructure/experiments.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    branches: [ main ]
+#    paths:
+#      - 'experiments/**'
+#      - 'Dockerfile-Experiments'
+#      - '.github/workflows/publish-experiments.yml'
+#      - 'infrastructure/experiments.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty

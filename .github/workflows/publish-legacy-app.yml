@@ -19,14 +19,14 @@ on:
       - '.github/workflows/publish-legacy-app.yml'
       - 'infrastructure/legacy-app.yml'
       - 'yarn.lock'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'legacy-app/**'
-      - 'Dockerfile-Legacy'
-      - '.github/workflows/publish-legacy-app.yml'
-      - 'infrastructure/legacy-app.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    branches: [main]
+#    paths:
+#      - 'legacy-app/**'
+#      - 'Dockerfile-Legacy'
+#      - '.github/workflows/publish-legacy-app.yml'
+#      - 'infrastructure/legacy-app.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty

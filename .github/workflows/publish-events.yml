@@ -19,14 +19,14 @@ on:
       - '.github/workflows/publish-events.yml'
       - 'infrastructure/events.yml'
       - 'yarn.lock'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'events/**'
-      - 'Dockerfile-Events'
-      - '.github/workflows/publish-events.yml'
-      - 'infrastructure/events.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    branches: [ main ]
+#    paths:
+#      - 'events/**'
+#      - 'Dockerfile-Events'
+#      - '.github/workflows/publish-events.yml'
+#      - 'infrastructure/events.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty
