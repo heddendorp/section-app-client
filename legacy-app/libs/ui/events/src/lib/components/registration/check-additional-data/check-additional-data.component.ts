@@ -25,9 +25,7 @@ export class CheckAdditionalDataComponent implements OnChanges {
   public incompleteItems$ = new ReplaySubject<
     LoadEventQuery['event']['submissionItems']
   >(1);
-  public inputForm = new FormGroup({});
-  public SubmissionItemType = SubmissionItemType;
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.event) {
@@ -43,23 +41,12 @@ export class CheckAdditionalDataComponent implements OnChanges {
             (item) => item.ownSubmissions.length === 0
           )
         );
-        this.inputForm = this.fb.group(
-          event.submissionItems
-            .filter((item) => item.ownSubmissions.length === 0)
-            .reduce((acc, item) => {
-              return { ...acc, [item.id]: ['', Validators.required] };
-            }, {})
-        );
       }
     }
   }
 
-  async submitData() {
-    if (this.inputForm.valid) {
-      this.dataSubmission.emit(this.inputForm.value);
-      this.needsInput$.next(false);
-    } else {
-      this.snackBar.open('Form is not valid');
-    }
+  async submitData(data: unknown) {
+    this.dataSubmission.emit(data);
+    this.needsInput$.next(false);
   }
 }

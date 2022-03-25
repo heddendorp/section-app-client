@@ -14,6 +14,7 @@ import { eventSubmissionType } from './eventSubmission';
 import { eventType } from './event';
 import { countBy, toPairs } from 'lodash';
 import { EnvelopError } from '@envelop/core';
+import { GraphQLError } from 'graphql';
 
 export const eventSubmissionItemType = objectType({
   name: EventSubmissionItem.$name,
@@ -162,6 +163,41 @@ export const removeSubmissionItemMutation = mutationField(
       }
       return context.prisma.eventSubmissionItem.delete({
         where: { id },
+      });
+    },
+  }
+);
+
+export const removeSubmissionItemFromEventMutation = mutationField(
+  'removeSubmissionFromEvent',
+  {
+    type: nonNull(eventType),
+    args: {
+      id: nonNull(idArg({ description: 'ID of the item to delete' })),
+    },
+    resolve: async (source, { id }, context) => {
+      const { role } = context.assignment ?? {};
+      if (role !== Role.ADMIN) {
+        throw new GraphQLError('Only Admins can delete submission items');
+      }
+      const event = await context.prisma.tumiEvent.findFirst({
+        where: {
+          submissionItems: {
+            some: { id },
+          },
+        },
+        select: { id: true },
+      });
+      if (!event) {
+        throw new GraphQLError('No event found');
+      }
+      return context.prisma.tumiEvent.update({
+        where: event,
+        data: {
+          submissionItems: {
+            delete: { id },
+          },
+        },
       });
     },
   }

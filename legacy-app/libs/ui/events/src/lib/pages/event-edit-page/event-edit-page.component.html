@@ -6,7 +6,7 @@
     <h1>Edit event</h1>
   </div>
 
-  <div class="my-8 py-4 px-4 border-2 rounded-lg">
+  <div class="my-8 rounded-lg border-2 py-4 px-4">
     <mat-tab-group
       mat-stretch-tabs
       animationDuration="300ms"
@@ -15,7 +15,7 @@
       <mat-tab label="General">
         <div class="p-4">
           <div
-            class="p-4 mb-4 flex justify-between border-2 rounded-md"
+            class="mb-4 flex justify-between rounded-md border-2 p-4"
             *ngIf="event$ | async as event"
           >
             <div>
@@ -307,27 +307,13 @@
       </mat-tab>
       <mat-tab label="Userdata" *tumiIfRole="[Role.Admin]">
         <div class="p-4" *ngIf="event$ | async as event">
-          <div
-            fxLayoutGap="1rem"
-            fxLayout="row"
-            fxLayoutAlign="start center"
-            class="mb-2"
-          >
-            <h2>Additional Userdata</h2>
-            <button
-              mat-icon-button
-              [disabled]="editingProhibited$ | async"
-              (click)="addSubmission()"
-            >
-              <mat-icon svgIcon="icon-add"></mat-icon>
-            </button>
-          </div>
-          <mat-list>
-            <mat-list-item *ngFor="let item of event.submissionItems">
-              <h3 mat-line>{{ item.name }}</h3>
-              <p mat-line>{{ item.type }} | {{ item.submissionTime }}</p>
-            </mat-list-item>
-          </mat-list>
+          <h1 class="mt-16 mb-2">Additional Data</h1>
+          <tumi-data-items-manager
+            mode="event"
+            [parentId]="event.id"
+            [items]="event.submissionItems"
+            (reloadParent)="reloadEvent()"
+          ></tumi-data-items-manager>
         </div>
       </mat-tab>
       <mat-tab label="Organizers">

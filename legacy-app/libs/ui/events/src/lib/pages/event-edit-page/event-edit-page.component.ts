@@ -157,7 +157,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     return this.coreInformationForm.get('prices')?.get('options') as FormArray;
   }
 
-  addPrice(): void  {
+  addPrice(): void {
     this.prices.push(
       this.fb.group({
         amount: ['', Validators.required],
@@ -168,7 +168,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePrice(index: number): void  {
+  removePrice(index: number): void {
     const priceToRemove = this.prices.at(index);
     if (priceToRemove?.get('defaultPrice')?.value) {
       return;
@@ -394,5 +394,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       }
     }
     this.snackBar.open('Event saved ✔️');
+  }
+
+  async reloadEvent() {
+    await this.loadEventRef?.refetch();
   }
 }

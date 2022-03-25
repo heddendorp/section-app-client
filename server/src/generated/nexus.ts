@@ -666,6 +666,7 @@ export interface NexusGenFieldTypes {
     increaseLineItemQuantity: NexusGenRootTypes['LineItem'] | null; // LineItem
     registerForEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     registerUser: NexusGenRootTypes['User']; // User!
+    removeSubmissionFromEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateAddress: NexusGenRootTypes['Purchase']; // Purchase!
     updateCostItemsFromTemplate: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     updateESNcard: NexusGenRootTypes['User'] | null; // User
@@ -684,6 +685,7 @@ export interface NexusGenFieldTypes {
     updateUserStatus: NexusGenRootTypes['User']; // User!
     useInvite: NexusGenRootTypes['Invite']; // Invite!
     useRegistrationCode: NexusGenRootTypes['EventRegistrationCode']; // EventRegistrationCode!
+    verifyDCC: NexusGenScalars['Json'] | null; // Json
     verifyEmail: NexusGenRootTypes['User']; // User!
   }
   PhotoShare: { // field return type
@@ -1154,6 +1156,7 @@ export interface NexusGenFieldTypeNames {
     increaseLineItemQuantity: 'LineItem'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
+    removeSubmissionFromEvent: 'TumiEvent'
     updateAddress: 'Purchase'
     updateCostItemsFromTemplate: 'TumiEvent'
     updateESNcard: 'User'
@@ -1172,6 +1175,7 @@ export interface NexusGenFieldTypeNames {
     updateUserStatus: 'User'
     useInvite: 'Invite'
     useRegistrationCode: 'EventRegistrationCode'
+    verifyDCC: 'Json'
     verifyEmail: 'User'
   }
   PhotoShare: { // field return type name
@@ -1563,6 +1567,9 @@ export interface NexusGenArgTypes {
     registerUser: { // args
       userInput: NexusGenInputs['CreateUserInput']; // CreateUserInput!
     }
+    removeSubmissionFromEvent: { // args
+      id: string; // ID!
+    }
     updateAddress: { // args
       address: NexusGenScalars['Json']; // Json!
       id: string; // ID!
@@ -1631,6 +1638,9 @@ export interface NexusGenArgTypes {
     useRegistrationCode: { // args
       id: string; // ID!
       price?: NexusGenScalars['Json'] | null; // Json
+    }
+    verifyDCC: { // args
+      certificate: string; // String!
     }
     verifyEmail: { // args
       userId?: string | null; // ID

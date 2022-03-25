@@ -323,6 +323,10 @@ type Mutation {
 
   """Add a new user to the database"""
   registerUser(userInput: CreateUserInput!): User!
+  removeSubmissionFromEvent(
+    """ID of the item to delete"""
+    id: ID!
+  ): TumiEvent!
   updateAddress(address: Json!, id: ID!): Purchase!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent
   updateESNcard(esnCardOverride: Boolean!, id: ID!): User
@@ -354,6 +358,7 @@ type Mutation {
     id: ID!
   ): Invite!
   useRegistrationCode(id: ID!, price: Json): EventRegistrationCode!
+  verifyDCC(certificate: String!): Json
 
   """
   Send a verification email to a user (to the current user if no id is provided)

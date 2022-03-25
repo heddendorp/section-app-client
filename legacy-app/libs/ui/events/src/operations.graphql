@@ -32,6 +32,7 @@ query loadEvent($id: ID!) {
       instruction
       required
       type
+      data
       ownSubmissions {
         id
         data

@@ -29,7 +29,7 @@
         <mat-label>{{ item.name }}</mat-label>
         <mat-select [formControlName]="item.id">
           <mat-option
-            *ngFor="let option of item.data.choices"
+            *ngFor="let option of item.data?.choices"
             [value]="option"
             >{{ option }}</mat-option
           >

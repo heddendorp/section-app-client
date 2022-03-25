@@ -231,5 +231,4 @@ const port = process.env.PORT || 3333;
 process.env.NODE_ENV !== 'test' &&
   app.listen(port, () => {
     console.log(`GraphQL server is running on port ${port}.`);
-    console.log(process.env);
   });

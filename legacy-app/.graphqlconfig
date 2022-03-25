@@ -1,10 +1,10 @@
 {
-  "name": "Untitled GraphQL Schema",
-  "schemaPath": "libs/graphql/schema.graphql",
+  "name": "TUMi Schema",
+  "schemaPath": "../server/schema.graphql",
   "extensions": {
     "endpoints": {
-      "Angular app endpoint": {
-        "url": "http://localhost:4200/graphql",
+      "Local server endpoint": {
+        "url": "http://localhost:3333/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
