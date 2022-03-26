@@ -171,7 +171,7 @@ export const createUserInputType = inputObjectType({
     t.field(User.firstName);
     t.field(User.lastName);
     t.field(User.university);
-    t.nonNull.field(User.birthdate);
+    t.field(User.birthdate);
     t.field(User.phone);
   },
 });
@@ -455,7 +455,7 @@ export const createUser = mutationField('registerUser', {
   type: nonNull(userType),
   description: 'Add a new user to the database or update existing',
   args: {
-    userInput: createUserInputType,
+    userInput: nonNull(createUserInputType),
   },
   resolve: async (source, args, context) => {
     const { email, email_verified, picture } = await context.auth0.getUserInfo(

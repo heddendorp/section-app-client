@@ -100,7 +100,7 @@ input CreateSubmissionItemInput {
 
 """New user input object"""
 input CreateUserInput {
-  birthdate: DateTime!
+  birthdate: DateTime
   firstName: String!
   lastName: String!
   phone: String
@@ -321,7 +321,7 @@ type Mutation {
   increaseLineItemQuantity(id: ID!): LineItem
   registerForEvent(eventId: ID!, price: Json, registrationType: RegistrationType = PARTICIPANT, submissions: Json): TumiEvent!
 
-  """Add a new user to the database"""
+  """Add a new user to the database or update existing"""
   registerUser(userInput: CreateUserInput!): User!
   removeSubmissionFromEvent(
     """ID of the item to delete"""

@@ -100,7 +100,7 @@ export interface NexusGenInputs {
     type: NexusGenEnums['SubmissionItemType']; // SubmissionItemType!
   }
   CreateUserInput: { // input type
-    birthdate: NexusGenScalars['DateTime']; // DateTime!
+    birthdate?: NexusGenScalars['DateTime'] | null; // DateTime
     firstName: string; // String!
     lastName: string; // String!
     phone?: string | null; // String
