@@ -11,7 +11,6 @@ import { envelop, useExtendContext, useSchema } from '@envelop/core';
 import { useAuth0 } from '@envelop/auth0';
 import { useSentry } from '@envelop/sentry';
 import * as Sentry from '@sentry/node';
-import { getCurrentHub } from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import { PrismaClient, Tenant, User } from './generated/prisma';
 import cors from 'cors';

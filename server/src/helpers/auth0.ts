@@ -1,11 +1,24 @@
 import jwt from 'jsonwebtoken';
-import { RequestInfo, RequestInit } from 'node-fetch';
 
-const fetch = (url: RequestInfo, init?: RequestInit) =>
+const fetch = (url: any, init?: any) =>
   import('node-fetch').then(({ default: fetch }) => fetch(url, init));
 
 export class Auth0 {
   private token: string | undefined;
+
+  public async getUserInfo(userId: string) {
+    await this.verifyToken();
+    const response = await fetch(
+      `https://tumi.eu.auth0.com/api/v2/users/${userId}`,
+      { headers: { Authorization: `Bearer ${this.token}` } }
+    );
+    const data = (await response.json()) as {
+      email: string;
+      email_verified: boolean;
+      picture: string;
+    };
+    return data;
+  }
 
   private async verifyToken() {
     if (this.token) {
@@ -30,20 +43,6 @@ export class Auth0 {
     });
     const data = (await response.json()) as { access_token: string };
     this.token = data.access_token;
-  }
-
-  public async getUserInfo(userId: string) {
-    await this.verifyToken();
-    const response = await fetch(
-      `https://tumi.eu.auth0.com/api/v2/users/${userId}`,
-      { headers: { Authorization: `Bearer ${this.token}` } }
-    );
-    const data = (await response.json()) as {
-      email: string;
-      email_verified: boolean;
-      picture: string;
-    };
-    return data;
   }
 
   // public async verifyEmail(userId: string) {
