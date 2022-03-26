@@ -25,6 +25,7 @@ import { calendarRouter } from './helpers/calendars';
 import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
+import { Auth0 } from './helpers/auth0';
 
 declare global {
   namespace Express {
@@ -115,6 +116,7 @@ const getEnveloped = envelop({
     useExtendContext(async (context) => {
       return {
         tenant: await context.prisma.tenant.findFirst(),
+        auth0: Auth0,
       };
     }),
     useExtendContext(async (context: { token: any; prisma: PrismaClient }) => {
