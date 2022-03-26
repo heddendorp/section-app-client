@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-const fetch = (url: any, init?: any) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(url, init));
+const fetch = (...args) =>
+  // @ts-ignore
+  import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 export class Auth0 {
   private token: string | undefined;
