@@ -116,7 +116,6 @@ const getEnveloped = envelop({
     useExtendContext(async (context) => {
       return {
         tenant: await context.prisma.tenant.findFirst(),
-        auth0: Auth0,
       };
     }),
     useExtendContext(async (context: { token: any; prisma: PrismaClient }) => {
@@ -188,6 +187,7 @@ app.use('/graphql', async (req, res) => {
   const { parse, validate, contextFactory, execute, schema } = getEnveloped({
     req,
     prisma,
+    auth0: new Auth0(),
   });
   // Create a generic Request object that can be consumed by Graphql Helix's API
   const request = {
