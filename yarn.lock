@@ -6531,7 +6531,7 @@ __metadata:
     moment-timezone: ^0.5.34
     nexus: ^1.3.0
     nexus-prisma: ^0.35.0
-    node-fetch: ^3.2.3
+    node-fetch: ^2.6.7
     prettier: ^2.6.0
     prisma: ^3.11.0
     qrcode: ^1.5.0
