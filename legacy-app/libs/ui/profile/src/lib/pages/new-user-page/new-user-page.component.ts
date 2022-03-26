@@ -14,6 +14,7 @@ import { DateTime } from 'luxon';
 export class NewUserPageComponent implements OnInit {
   public welcomeForm: FormGroup;
   startDate = DateTime.local().minus({ years: 20 }).toJSDate();
+
   constructor(
     private title: Title,
     private registerUser: RegisterUserGQL,
