@@ -16,6 +16,8 @@ template:
       secretRef: hive-token
     - name: SENDGRID_API_KEY
       secretRef: sendgrid-key
+    - name: AUTH0_SECRET
+      secretRef: auth0-secret
     - name: STRIPE_KEY
       secretRef: stripe-key
     - name: STRIPE_WH_SECRET
