@@ -37,9 +37,9 @@ template:
       http:
         metadata:
           concurrentRequests: 100
-#    - name: cpu-scaling-rule
-#      custom:
-#        type: cpu
-#        metadata:
-#          type: Utilization
-#          value: 80
+    - name: cpu-scaling-rule
+      custom:
+        type: cpu
+        metadata:
+          type: Utilization
+          value: 80

@@ -8,14 +8,18 @@ export class Auth0 {
     await this.verifyToken();
     const response = await fetch(
       `https://tumi.eu.auth0.com/api/v2/users/${userId}`,
-      { headers: { Authorization: `Bearer ${this.token}` } }
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
+        },
+      }
     );
-    const data = (await response.json()) as {
+    return (await response.json()) as {
       email: string;
       email_verified: boolean;
       picture: string;
     };
-    return data;
   }
 
   private async verifyToken() {
@@ -37,7 +41,8 @@ export class Auth0 {
         audience: 'https://tumi.eu.auth0.com/api/v2/',
         grant_type: 'client_credentials',
       }),
-      method: 'POST',
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
     });
     const data = (await response.json()) as { access_token: string };
     this.token = data.access_token;
