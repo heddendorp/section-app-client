@@ -172,6 +172,7 @@ Your TUMi party animals team`);
             <tr>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Phone</th>
               <th className="px-4 py-2">Group</th>
               <th className="px-4 py-2">Registration Status</th>
               <th className="px-4 py-2">Payment status</th>
@@ -185,6 +186,7 @@ Your TUMi party animals team`);
                   {registration.user.firstName} {registration.user.lastName}
                 </td>
                 <td className="px-4 py-2">{registration.user.email}</td>
+                <td className="px-4 py-2">{registration.phone}</td>
                 <td className="px-4 py-2">{registration.group?.name}</td>
                 <td className="px-4 py-2">{registration.registrationStatus}</td>
                 <td className="px-4 py-2">{registration.paymentStatus}</td>
