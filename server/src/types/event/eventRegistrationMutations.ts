@@ -35,13 +35,12 @@ export const registerForEventMutation = mutationField('registerForEvent', {
     if (event.registrationStart > new Date()) {
       throw new GraphQLError('Registration is not open yet');
     }
-    console.log(new Date(event.end));
-    console.log(new Date(2022, 4, 10));
-    console.log(new Date(event.end) > new Date(2022, 4, 10));
-    console.log(new Date(event.end) > new Date(2022, 4, 10));
-    /*if (true && new Date(event.end) < new Date(2022, 4, 10)) {
+    if (
+      context.user?.partyAnimals &&
+      new Date(event.end) < new Date(2022, 3, 9)
+    ) {
       throw new GraphQLError('Intercepts with Party Animals');
-    }*/
+    }
     const { status } = context.assignment ?? {};
     const allowedStatus =
       registrationType === RegistrationType.PARTICIPANT
