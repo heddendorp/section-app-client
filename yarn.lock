@@ -3125,6 +3125,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@envelop/parser-cache@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@envelop/parser-cache@npm:4.1.0"
+  dependencies:
+    tiny-lru: 7.0.6
+  peerDependencies:
+    "@envelop/core": ^2.1.0
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 1082c19cff2963a3412770abd7c8d469c460921694a79f78912975c1efb8bcd49b12662ad577c6a8535f8f4f884e54ec04650bec7570f00033a385c196bad369
+  languageName: node
+  linkType: hard
+
 "@envelop/sentry@npm:^3.1.1":
   version: 3.1.1
   resolution: "@envelop/sentry@npm:3.1.1"
@@ -3142,6 +3154,18 @@ __metadata:
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: 146863aeb7f5901316d227805295e8e05e472b9fb2ee0aa10995b5b642b9fe681cb43563ca2e2082bd4ed5891cbd0f54235a076a47bb49e5fe3d0bbe9431b721
+  languageName: node
+  linkType: hard
+
+"@envelop/validation-cache@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@envelop/validation-cache@npm:4.1.0"
+  dependencies:
+    tiny-lru: 7.0.6
+  peerDependencies:
+    "@envelop/core": ^2.1.0
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 129ff73db8098993d9a6b45df9da63b00ec09f747347752b8ac44140c79c954b327bf5655a5c8904cb9fc67f3ef6a67176b5cbd0e7e75335d5a0cf0841e2faf5
   languageName: node
   linkType: hard
 
@@ -6481,7 +6505,9 @@ __metadata:
     "@envelop/auth0": ^3.1.0
     "@envelop/core": ^2.1.0
     "@envelop/graphql-middleware": ^3.1.0
+    "@envelop/parser-cache": ^4.1.0
     "@envelop/sentry": ^3.1.1
+    "@envelop/validation-cache": ^4.1.0
     "@faker-js/faker": ^6.0.0
     "@graphql-hive/client": ^0.14.2
     "@pathcheck/dcc-sdk": ^0.0.27

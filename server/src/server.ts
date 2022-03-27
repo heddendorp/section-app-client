@@ -25,6 +25,8 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
+import { useParserCache } from '@envelop/parser-cache';
+import { useValidationCache } from '@envelop/validation-cache';
 
 declare global {
   namespace Express {
@@ -112,6 +114,8 @@ const getEnveloped = envelop({
       audience: 'esn.events',
       extendContextField: 'token',
     }),
+    useParserCache(),
+    useValidationCache(),
     useExtendContext(async (context) => {
       return {
         tenant: await context.prisma.tenant.findFirst(),

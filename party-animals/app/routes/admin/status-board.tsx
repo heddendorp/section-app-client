@@ -170,7 +170,8 @@ Your TUMi party animals team`);
         <table className="w-full">
           <thead>
             <tr>
-              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">First Name</th>
+              <th className="px-4 py-2">Last Name</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Phone</th>
               <th className="px-4 py-2">Group</th>
@@ -182,9 +183,8 @@ Your TUMi party animals team`);
           <tbody>
             {filteredRegistrations.map((registration) => (
               <tr key={registration.id}>
-                <td className="px-4 py-2">
-                  {registration.user.firstName} {registration.user.lastName}
-                </td>
+                <td className="px-4 py-2">{registration.user.firstName}</td>
+                <td className="px-4 py-2">{registration.user.lastName}</td>
                 <td className="px-4 py-2">{registration.user.email}</td>
                 <td className="px-4 py-2">{registration.phone}</td>
                 <td className="px-4 py-2">{registration.group?.name}</td>
