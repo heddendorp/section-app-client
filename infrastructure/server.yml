@@ -31,21 +31,21 @@ template:
       memory: 4Gi
   scale:
     minReplicas: 0
-    maxReplicas: 10
+    maxReplicas: 5
     rules:
-#    - name: http-rule
-#      http:
+    - name: http-rule
+      http:
+        metadata:
+          concurrentRequests: 100
+#    - name: cpu-scaling-rule
+#      custom:
+#        type: cpu
 #        metadata:
-#          concurrentRequests: 100
-    - name: cpu-scaling-rule
-      custom:
-        type: cpu
-        metadata:
-          type: Utilization
-          value: 80
-    - name: memory-scaling-rule
-      custom:
-        type: memory
-        metadata:
-          type: Utilization
-          value: 80
+#          type: Utilization
+#          value: 80
+#    - name: memory-scaling-rule
+#      custom:
+#        type: memory
+#        metadata:
+#          type: Utilization
+#          value: 80
