@@ -26,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
     const intent = event.data.object as Stripe.PaymentIntent;
     const registrationId = intent.metadata.registrationId;
     if (!registrationId) {
-      throw json({ errors: [{ message: 'No registrationId found' }] }, 400);
+      throw json({ response: [{ message: 'No registrationId found' }] }, 200);
     }
     await db.registration.update({
       where: { id: registrationId },
