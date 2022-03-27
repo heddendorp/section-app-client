@@ -27,8 +27,8 @@ template:
     - name: PM2_SECRET_KEY
       secretRef: pm2-secret-key
     resources:
-      cpu: 1
-      memory: 2Gi
+      cpu: 2
+      memory: 4Gi
   scale:
     minReplicas: 0
     maxReplicas: 5
