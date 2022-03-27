@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class OnlineEventRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;
   public processing = new BehaviorSubject(false);
+  public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   constructor(
     private registerForEvent: RegisterForEventGQL,
     private deregistrationMutation: DeregisterFromEventGQL,
@@ -37,7 +38,10 @@ export class OnlineEventRegistrationComponent {
     this.processing.next(true);
     try {
       await firstValueFrom(
-        this.registerForEvent.mutate({ eventId: this.event?.id ?? '' })
+        this.registerForEvent.mutate({
+          eventId: this.event?.id ?? '',
+          submissions: this.infoCollected$.value,
+        })
       );
     } catch (e) {
       this.processing.next(false);
@@ -66,5 +70,9 @@ export class OnlineEventRegistrationComponent {
     }
     this.snackBar.open('✔️ Success');
     this.processing.next(false);
+  }
+
+  registerAdditionalData($event: unknown): void {
+    this.infoCollected$.next($event);
   }
 }

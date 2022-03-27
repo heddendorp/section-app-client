@@ -7,10 +7,8 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { LoadEventQuery, SubmissionItemType } from '@tumi/data-access';
+import { LoadEventQuery } from '@tumi/data-access';
 import { ReplaySubject } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tumi-check-additional-data',
@@ -25,10 +23,12 @@ export class CheckAdditionalDataComponent implements OnChanges {
   public incompleteItems$ = new ReplaySubject<
     LoadEventQuery['event']['submissionItems']
   >(1);
+
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.event) {
+      console.log(changes.event.currentValue);
       const event = changes.event.currentValue as LoadEventQuery['event'];
       if (event && event.activeRegistration) {
         this.needsInput$.next(false);

@@ -9,7 +9,7 @@ import {
   RegistrationType,
 } from '@tumi/data-access';
 import { ActivatedRoute } from '@angular/router';
-import { first, map, shareReplay, tap } from 'rxjs/operators';
+import { first, map, shareReplay, filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,8 +55,9 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.bestPrice$ = this.event$.pipe(
       switchMap((event) =>
-        this.permissions.getPricesForUser(event.prices.options)
+        this.permissions.getPricesForUser(event.prices?.options)
       ),
+      filter((prices) => prices.length > 0),
       map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b)))
     );
     this.user$ = this.loadEventQueryRef.valueChanges.pipe(

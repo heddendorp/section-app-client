@@ -59,7 +59,9 @@ export class PermissionsService {
   }
 
   getPricesForUser(prices: Price[]): Observable<Price[]> {
-    console.log(prices);
+    if (!prices) {
+      return of([]);
+    }
     return this.auth.isAuthenticated$.pipe(
       skipUntil(this.auth.isLoading$.pipe(filter((loading) => !loading))),
       switchMap((authenticated) => {
