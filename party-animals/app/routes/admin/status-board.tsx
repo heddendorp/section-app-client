@@ -212,6 +212,14 @@ Your TUMi party animals team`);
           {filteredRegistrations.map((r) => r.user.email).join(';')}
         </pre>
       </section>
+      <section className="mb-2 p-4 text-white">
+        <h2 className="mb-4 text-lg font-bold">
+          All those ids ({filteredRegistrations.length})
+        </h2>
+        <pre className="select-all whitespace-pre-wrap break-words">
+          {filteredRegistrations.map((r) => `'${r.user.authId}'`).join(',')}
+        </pre>
+      </section>
     </main>
   );
 }
