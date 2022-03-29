@@ -27,6 +27,7 @@ import prisma from './client';
 import { Auth0 } from './helpers/auth0';
 import { useParserCache } from '@envelop/parser-cache';
 import { useValidationCache } from '@envelop/validation-cache';
+import { $settings } from './generated/nexus-prisma';
 
 declare global {
   namespace Express {
@@ -73,6 +74,13 @@ Sentry.init({
 
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
+
+$settings({
+  // @ts-ignore
+  checks: {
+    PrismaClientOnContext: false,
+  },
+});
 
 app.use(compression());
 app.use(cors());

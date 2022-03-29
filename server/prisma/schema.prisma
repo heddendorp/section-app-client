@@ -14,7 +14,7 @@ generator client {
 
 generator nexusPrisma {
   provider = "nexus-prisma"
-  output   = "../src/generated/nexus-prisma"
+//  output   = "../src/generated/nexus-prisma"
 }
 
 //generator dbml {
