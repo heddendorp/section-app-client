@@ -2,19 +2,21 @@ import { PrismaClient } from './generated/prisma';
 import { getCurrentHub } from '@sentry/node';
 
 const prisma = new PrismaClient();
-prisma.$use(async (params, next) => {
-  const before = Date.now();
+if (process.env.NODE_ENV === 'production') {
+  prisma.$use(async (params, next) => {
+    const before = Date.now();
 
-  const result = await next(params);
+    const result = await next(params);
 
-  const after = Date.now();
+    const after = Date.now();
 
-  console.log(
-    `Query ${params.model}.${params.action} took ${after - before}ms`
-  );
+    console.log(
+      `Query ${params.model}.${params.action} took ${after - before}ms`
+    );
 
-  return result;
-});
+    return result;
+  });
+}
 prisma.$use(async (params, next) => {
   const { model, action, runInTransaction, args } = params;
   const description = [model, action].filter(Boolean).join('.');
@@ -32,7 +34,6 @@ prisma.$use(async (params, next) => {
     data,
   });
 
-  // optional but nice
   scope?.addBreadcrumb({
     category: 'db',
     message: description,
