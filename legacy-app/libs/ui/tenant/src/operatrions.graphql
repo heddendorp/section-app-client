@@ -11,6 +11,8 @@ query loadEventsForInsurance {
     start
     shouldBeReportedToInsurance
     insuranceDescription
+    organizerLimit
+    participantLimit
     organizer {
       id
       name
