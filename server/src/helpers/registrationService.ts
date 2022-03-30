@@ -305,7 +305,9 @@ export class RegistrationService {
         where: { id: registrationId },
         data: {
           status: RegistrationStatus.CANCELLED,
-          cancellationReason: 'Spot given up by user',
+          cancellationReason: isKick
+            ? 'Cancelled by admin'
+            : 'Spot given up by user',
         },
       });
     } else {
