@@ -523,43 +523,38 @@ export const eventType = objectType({
             reason: 'You are already registered for this event!',
           };
         }
-        const registrationsOfUser =
-          await context.prisma.eventRegistration.count({
-            where: {
-              event: {
-                start: { gt: new Date() },
-                registrationMode: RegistrationMode.STRIPE,
-                id: {
-                  notIn: [
-                    'c486c0ad-c07f-48cd-a330-203ed8b59740',
-                    '998851e2-17af-482c-99cb-99a29b543d60',
-                  ],
-                },
-              },
-              type: RegistrationType.PARTICIPANT,
-              status: { not: RegistrationStatus.CANCELLED },
-              user: { id: context.user.id },
-            },
-          });
-        const { hours } = Luxon.fromJSDate(root.start)
-          .diff(Luxon.local(), 'hours')
+        const { days } = Luxon.fromJSDate(root.start)
+          .diff(Luxon.local(), 'days')
           .toObject();
-        if (
-          registrationsOfUser >= 5 &&
-          !root.title.includes('ESNcard') &&
-          !root.title.includes('Party') &&
-          (hours ?? 0) > 30 &&
-          root.registrationMode === RegistrationMode.STRIPE
-        ) {
-          if (process.env.DEV) {
-            console.info(
-              `Can't register participant because there are too many registrations ${registrationsOfUser}`
-            );
+        if ((days ?? 0) > 5) {
+          const registrationsOfUser =
+            await context.prisma.eventRegistration.count({
+              where: {
+                event: {
+                  start: { gt: new Date() },
+                  registrationMode: RegistrationMode.STRIPE,
+                },
+                type: RegistrationType.PARTICIPANT,
+                status: { not: RegistrationStatus.CANCELLED },
+                user: { id: context.user.id },
+              },
+            });
+          if (
+            registrationsOfUser >= 5 &&
+            !root.title.includes('ESNcard') &&
+            !root.title.includes('Party') &&
+            root.registrationMode === RegistrationMode.STRIPE
+          ) {
+            if (process.env.DEV) {
+              console.info(
+                `Can't register participant because there are too many registrations ${registrationsOfUser}`
+              );
+            }
+            return {
+              option: false,
+              reason: `You are already signed up for ${registrationsOfUser} paid events that start in the future.\nTo make sure everyone has a chance to experience events you may only register for another event once you are registered for less then 5 paid events that start in the future.\nThis restriction will be lifted a few days before the event.`,
+            };
           }
-          return {
-            option: false,
-            reason: `You are already signed up for ${registrationsOfUser} paid events that start in the future.\nTo make sure everyone has a chance to experience events you may only register for another event once you are registered for less then 5 paid events that start in the future.`,
-          };
         }
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
