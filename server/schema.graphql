@@ -501,7 +501,8 @@ type Query {
   purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean = true): [Purchase!]!
   registration(id: ID!): EventRegistration!
-  registrations(statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
+  registrationCount(statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): Int!
+  registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   templateCategories: [EventTemplateCategory!]!
   templateCategory(id: ID!): EventTemplateCategory
   tenants: [Tenant!]!

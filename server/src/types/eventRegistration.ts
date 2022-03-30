@@ -2,6 +2,7 @@ import {
   arg,
   booleanArg,
   idArg,
+  intArg,
   list,
   mutationField,
   nonNull,
@@ -49,33 +50,13 @@ export const eventRegistrationType = objectType({
           }),
     });
     t.field(EventRegistration.eventId);
-    t.field({
-      ...EventRegistration.payment,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        if (!source.paymentId) return null;
-        return context.prisma.stripePayment.findUnique({
-          where: { id: source.paymentId },
-        });
-      },
-    });
+    t.field(EventRegistration.payment);
     t.field(EventRegistration.paymentId);
     t.field(EventRegistration.checkInTime);
     t.field(EventRegistration.manualCheckin);
     t.field(EventRegistration.status);
     t.field(EventRegistration.cancellationReason);
-    t.field({
-      ...EventRegistration.submissions,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({ maxAge: 60 * 60 });
-        return context.prisma.eventRegistration
-          .findUnique({ where: { id: source.id } })
-          .submissions();
-      },
-    });
+    t.field(EventRegistration.submissions);
     t.field({
       name: 'deletingCode',
       type: eventRegistrationCodeType,
@@ -110,6 +91,19 @@ export const eventRegistrationType = objectType({
     });
   },
 });
+export const userSearchResultNumQuery = queryField('registrationCount', {
+  type: nonNull('Int'),
+  args: {
+    statusList: arg({
+      type: list(nonNull(registrationStatusEnum)),
+      default: [RegistrationStatus.PENDING, RegistrationStatus.SUCCESSFUL],
+    }),
+  },
+  resolve: (source, { statusList }, context) =>
+    context.prisma.eventRegistration.count({
+      where: { status: { in: statusList ?? undefined } },
+    }),
+});
 
 export const getRegistrationsQuery = queryField('registrations', {
   type: nonNull(list(nonNull(eventRegistrationType))),
@@ -118,12 +112,20 @@ export const getRegistrationsQuery = queryField('registrations', {
       type: list(nonNull(registrationStatusEnum)),
       default: [RegistrationStatus.PENDING, RegistrationStatus.SUCCESSFUL],
     }),
+    pageLength: intArg(),
+    pageIndex: intArg(),
   },
-  resolve: (source, { statusList }, context) =>
-    context.prisma.eventRegistration.findMany({
+  resolve: (source, { statusList, pageIndex, pageLength }, context) => {
+    let page = {};
+    if (typeof pageIndex === 'number' && typeof pageLength === 'number') {
+      page = { skip: pageIndex * pageLength, take: pageLength };
+    }
+    return context.prisma.eventRegistration.findMany({
       orderBy: { createdAt: 'desc' },
       where: { status: { in: statusList ?? undefined } },
-    }),
+      ...page,
+    });
+  },
 });
 
 export const getOneRegistrationQuery = queryField('registration', {

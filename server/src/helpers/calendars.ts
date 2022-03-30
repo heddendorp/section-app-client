@@ -1,8 +1,9 @@
 import * as express from 'express';
 import ical from 'ical-generator';
-import { PrismaClient, PublicationState } from '../generated/prisma';
+import { PublicationState } from '../generated/prisma';
+import prisma from '../client';
 
-export const calendarRouter = (prisma: PrismaClient) => {
+export const calendarRouter = () => {
   const router = express.Router();
 
   router.get('/public', async (req, res) => {

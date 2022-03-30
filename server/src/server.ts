@@ -79,7 +79,7 @@ app.get('/health', (req, res) => {
 });
 app.use('/webhooks', webhookRouter(prisma));
 app.use(express.json());
-app.use('/cal', calendarRouter(prisma));
+app.use('/cal', calendarRouter());
 app.use('/qr', qrRouter());
 app.use('/go', shortRouter());
 app.use('/graphql', async (req, res) => {

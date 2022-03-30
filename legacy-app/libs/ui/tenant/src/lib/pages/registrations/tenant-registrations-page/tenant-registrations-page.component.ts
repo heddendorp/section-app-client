@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetRegistrationsGQL, GetRegistrationsQuery } from '@tumi/data-access';
+import {
+  GetRegistrationCountGQL,
+  GetRegistrationCountQuery,
+  GetRegistrationsGQL,
+  GetRegistrationsQuery,
+} from '@tumi/data-access';
 import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'tumi-tenant-registrations-page',
@@ -12,6 +18,9 @@ import { map } from 'rxjs/operators';
 })
 export class TenantRegistrationsPageComponent implements OnDestroy {
   public registrations$: Observable<GetRegistrationsQuery['registrations']>;
+  public registrationCount$: Observable<
+    GetRegistrationCountQuery['registrationCount']
+  >;
   public displayedColumns = [
     'event',
     'user',
@@ -23,35 +32,30 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
   private registrationsQueryRef;
   constructor(
     private title: Title,
-    private loadRegistrations: GetRegistrationsGQL
+    private getRegistrationsGQL: GetRegistrationsGQL,
+    private getRegistrationCountGQL: GetRegistrationCountGQL
   ) {
     this.title.setTitle('TUMi - manage registrations');
-    this.registrationsQueryRef = this.loadRegistrations.watch();
-    this.registrationsQueryRef.startPolling(5000);
+    this.registrationsQueryRef = this.getRegistrationsGQL.watch({
+      pageLength: 20,
+      pageIndex: 0,
+    });
+    this.registrationCount$ = this.getRegistrationCountGQL
+      .watch()
+      .valueChanges.pipe(map(({ data }) => data.registrationCount));
     this.registrations$ = this.registrationsQueryRef.valueChanges.pipe(
       map(({ data }) => data.registrations)
     );
-    // this.registrations$.subscribe((registrations) => {
-    //   const feeRegistrations = registrations.filter((reg) => reg.stripeFee);
-    //   const totalPaid = feeRegistrations.reduce(
-    //     (previousValue, currentValue) =>
-    //       previousValue + (currentValue.amountPaid ?? 0) - 25,
-    //     0
-    //   );
-    //   const totalFees = feeRegistrations.reduce(
-    //     (previousValue, currentValue) =>
-    //       previousValue + (currentValue.stripeFee ?? 0) - 25,
-    //     0
-    //   );
-    //   console.log(feeRegistrations.length);
-    //   console.log(totalPaid / 100);
-    //   console.log(totalFees / 100);
-    //   console.log((totalFees / totalPaid) * 100);
-    //   console.log((25 * feeRegistrations.length) / 100);
-    // });
   }
 
-  ngOnDestroy(): void  {
+  ngOnDestroy(): void {
     this.registrationsQueryRef.stopPolling();
+  }
+
+  updatePage($event: PageEvent) {
+    this.registrationsQueryRef.refetch({
+      pageIndex: $event.pageIndex,
+      pageLength: $event.pageSize,
+    });
   }
 }

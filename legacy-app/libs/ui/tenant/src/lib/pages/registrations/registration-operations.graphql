@@ -1,5 +1,5 @@
-query getRegistrations {
-  registrations {
+query getRegistrations($pageLength:Int, $pageIndex:Int) {
+  registrations(pageIndex: $pageIndex, pageLength: $pageLength) {
     id
     createdAt
     type
@@ -11,10 +11,19 @@ query getRegistrations {
       id
       fullName
     }
+    payment {
+      id
+      status
+      netAmount
+    }
     #    amountPaid
     #    stripeFee
     #    paymentStatus
   }
+}
+
+query getRegistrationCount{
+  registrationCount
 }
 
 query getCancelledRegistrations {

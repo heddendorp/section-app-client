@@ -791,6 +791,7 @@ export interface NexusGenFieldTypes {
     purchase: NexusGenRootTypes['Purchase']; // Purchase!
     purchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
     registration: NexusGenRootTypes['EventRegistration']; // EventRegistration!
+    registrationCount: number; // Int!
     registrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     templateCategories: NexusGenRootTypes['EventTemplateCategory'][]; // [EventTemplateCategory!]!
     templateCategory: NexusGenRootTypes['EventTemplateCategory'] | null; // EventTemplateCategory
@@ -1285,6 +1286,7 @@ export interface NexusGenFieldTypeNames {
     purchase: 'Purchase'
     purchases: 'Purchase'
     registration: 'EventRegistration'
+    registrationCount: 'Int'
     registrations: 'EventRegistration'
     templateCategories: 'EventTemplateCategory'
     templateCategory: 'EventTemplateCategory'
@@ -1714,7 +1716,12 @@ export interface NexusGenArgTypes {
     registration: { // args
       id: string; // ID!
     }
+    registrationCount: { // args
+      statusList: NexusGenEnums['RegistrationStatus'][] | null; // [RegistrationStatus!]
+    }
     registrations: { // args
+      pageIndex?: number | null; // Int
+      pageLength?: number | null; // Int
       statusList: NexusGenEnums['RegistrationStatus'][] | null; // [RegistrationStatus!]
     }
     templateCategory: { // args

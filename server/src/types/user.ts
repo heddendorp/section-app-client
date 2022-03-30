@@ -316,7 +316,7 @@ export const listUsersQuery = queryField('users', {
   },
 });
 
-export const userSearchResultNumQuery = queryField('userSearchResultNum', {
+export const userSearchResultCountQuery = queryField('userSearchResultNum', {
   type: nonNull('Int'),
   args: {
     search: stringArg(),
