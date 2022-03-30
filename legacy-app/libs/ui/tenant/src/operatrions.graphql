@@ -13,6 +13,7 @@ query loadEventsForInsurance {
     insuranceDescription
     organizerLimit
     participantLimit
+    publicationState
     organizer {
       id
       name

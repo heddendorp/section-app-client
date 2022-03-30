@@ -1,0 +1,65 @@
+<main class="space-y-2 p-4 lg:p-8">
+  <h1 class="font-bold">Registration</h1>
+  <div
+    class="overflow-hidden rounded-2xl border"
+    *ngIf="registration$ | async as registration"
+  >
+    <table class="w-full table-auto border-collapse">
+      <tbody>
+        <tr>
+          <th colspan="2">User</th>
+          <th colspan="2">Event</th>
+        </tr>
+        <tr>
+          <td>{{ registration.user.fullName }}</td>
+          <td>Registered: {{ registration.createdAt | date: 'medium' }}</td>
+          <td colspan="2">{{ registration.event.title }}</td>
+        </tr>
+        <tr>
+          <td>Status: {{ registration.status }}</td>
+          <td>
+            {{ registration.cancellationReason }}
+          </td>
+          <td>Start: {{ registration.event.start | date: 'medium' }}</td>
+          <td>End: {{ registration.event.end | date: 'medium' }}</td>
+        </tr>
+        <tr>
+          <ng-container *ngIf="registration?.payment">
+            <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
+              <span> Payment status: </span>
+              <span>{{ registration.payment?.status }}</span>
+              <span> Payment method: </span>
+              <span>{{ registration.payment?.paymentMethodType }}</span>
+              <a
+                gdColumn="span 2"
+                mat-stroked-button
+                href="https://dashboard.stripe.com/payments/{{
+                  registration.payment?.paymentIntent
+                }}"
+                >Open in stripe</a
+              >
+            </td>
+            <td>
+              <p>Events</p>
+              <p *ngFor="let event of registration.payment?.events">
+                {{ event.name }} - {{ event.date | date: 'medium' }}
+              </p>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!registration.payment">
+            <td colspan="2">No payment for this registration</td>
+          </ng-container>
+          <td colspan="2">
+            <a
+              class="w-full"
+              href="/events/{{ registration.event.id }}/manage"
+              mat-stroked-button
+            >
+              Manage Event
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

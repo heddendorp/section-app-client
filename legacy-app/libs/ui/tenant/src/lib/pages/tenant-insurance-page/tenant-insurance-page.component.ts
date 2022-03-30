@@ -21,6 +21,7 @@ export class TenantInsurancePageComponent {
       map((events) =>
         events
           .filter((event) => event.shouldBeReportedToInsurance)
+          .filter((event) => event.publicationState === 'PUBLIC')
           .filter(
             (event) =>
               event.organizer.id === '06166e2f-5302-41b0-a22c-8bf952cb2128'

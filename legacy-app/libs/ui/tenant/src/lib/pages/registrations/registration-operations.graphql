@@ -16,9 +16,34 @@ query getRegistrations($pageLength:Int, $pageIndex:Int) {
       status
       netAmount
     }
-    #    amountPaid
-    #    stripeFee
-    #    paymentStatus
+  }
+}
+
+query getRegistrationForAdmin($id: ID!) {
+  registration(id: $id) {
+    id
+    createdAt
+    type
+    status
+    cancellationReason
+    event {
+      title
+      id
+      start
+      end
+    }
+    user {
+      id
+      fullName
+    }
+    payment {
+      id
+      status
+      netAmount
+      paymentIntent
+      paymentMethodType
+      events
+    }
   }
 }
 

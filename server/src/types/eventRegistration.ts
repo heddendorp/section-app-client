@@ -14,6 +14,7 @@ import { RegistrationStatus } from '../generated/prisma';
 import { registrationStatusEnum } from './enums';
 import { eventRegistrationCodeType } from './eventRegistrationCode';
 import { EnvelopError } from '@envelop/core';
+import { GraphQLError } from 'graphql';
 
 export const eventRegistrationType = objectType({
   name: EventRegistration.$name,
@@ -138,9 +139,7 @@ export const getOneRegistrationQuery = queryField('registration', {
       })
       .then((res) => {
         if (!res) {
-          throw new EnvelopError('Registration not found', {
-            status: 404,
-          });
+          throw new GraphQLError('Registration not found');
         }
         return res;
       }),

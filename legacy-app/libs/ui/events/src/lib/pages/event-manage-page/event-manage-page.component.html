@@ -1,12 +1,12 @@
 <main *ngIf="event$ | async as event" class="p-4">
   <h1>Manage {{ event.title }}</h1>
-  <div class="border p-4 rounded-2xl my-4">
+  <div class="my-4 rounded-2xl border p-4">
     <h2>Finances</h2>
     <tumi-manage-event-finances
       [eventId]="event.id"
     ></tumi-manage-event-finances>
 
-    <table class="table-auto mt-4">
+    <table class="mt-4 table-auto">
       <thead>
         <tr>
           <th>Date</th>
@@ -60,7 +60,7 @@
       </tbody>
     </table>
   </div>
-  <div class="border p-4 rounded-2xl my-4">
+  <div class="my-4 rounded-2xl border p-4">
     <h2 class="mb-2">Extra tickets</h2>
     <div class="space-x-2">
       <button
@@ -103,7 +103,7 @@
       </mat-list-item>
     </mat-list>
   </div>
-  <div class="border p-4 rounded-2xl my-4">
+  <div class="my-4 rounded-2xl border p-4">
     <h2 class="mb-2">Participants</h2>
     <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
       <p>Users Checked in</p>
@@ -136,7 +136,7 @@
           <p>{{ registration.user.email }}</p>
           <p>
             Status:
-            <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
+            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
               registration.status | lowercase
             }}</span>
           </p>
@@ -145,7 +145,7 @@
           </p>
           <p>
             Paid:
-            <span class="px-1 rounded bg-gray-200 font-mono mr-2">
+            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">
               {{
                 (registration.payment?.netAmount ?? 0) / 100 | currency: 'EUR'
               }}
@@ -153,23 +153,29 @@
           </p>
           <p>
             Payment status:
-            <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
+            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
               registration.payment?.status
             }}</span>
           </p>
           <p>
             Payment method:
-            <span class="px-1 rounded bg-gray-200 font-mono mr-2">{{
+            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
               registration.payment?.paymentMethodType
             }}</span>
           </p>
           <p>
             Registered:
-            <span class="px-1 rounded bg-gray-200 font-mono">
+            <span class="rounded bg-gray-200 px-1 font-mono">
               {{ registration.createdAt | date: 'medium' }}
             </span>
           </p>
         </div>
+        <a
+          routerLink="/tenant/registrations/{{ registration.id }}"
+          mat-icon-button
+        >
+          <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
+        </a>
         <div *ngIf="registration.submissions.length">
           <p>Additional Data</p>
           <div *ngFor="let submission of registration.submissions">
@@ -181,7 +187,7 @@
           <p>During event</p>
           <p>
             Checked in:
-            <span class="px-1 rounded bg-gray-200 font-mono">
+            <span class="rounded bg-gray-200 px-1 font-mono">
               {{ registration.checkInTime | date: 'medium' }}
             </span>
           </p>
@@ -224,7 +230,7 @@
     </div>
   </div>
   <div
-    class="border p-4 rounded-2xl my-4"
+    class="my-4 rounded-2xl border p-4"
     *ngIf="event.title.includes('ESNcard')"
   >
     <h2 class="mb-4">For Thomas with ❤️</h2>
@@ -251,9 +257,9 @@
       </tbody>
     </table>
   </div>
-  <div class="border p-4 rounded-2xl my-4">
+  <div class="my-4 rounded-2xl border p-4">
     <h2 class="mb-2">Event Table</h2>
-    <div class="overflow-x-auto max-w-full block">
+    <div class="block max-w-full overflow-x-auto">
       <table class="select-all">
         <tbody>
           <tr>

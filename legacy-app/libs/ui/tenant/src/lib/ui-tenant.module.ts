@@ -36,6 +36,7 @@ import { TenantRegistrationCodePageComponent } from './pages/registrations/tenan
 import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tenant-purchases-page.component';
 import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-details-page/tenant-purchase-details-page.component';
 import { TenantInsurancePageComponent } from './pages/tenant-insurance-page/tenant-insurance-page.component';
+import { TenantRegistrationDetailsPageComponent } from './pages/registrations/tenant-registration-details-page/tenant-registration-details-page.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,10 @@ import { TenantInsurancePageComponent } from './pages/tenant-insurance-page/tena
       { path: 'users', component: TenantUsersPageComponent },
       { path: 'users/:userId', component: TenantUserInfoPageComponent },
       { path: 'registrations', component: TenantRegistrationsPageComponent },
+      {
+        path: 'registrations/:registrationId',
+        component: TenantRegistrationDetailsPageComponent,
+      },
       { path: 'codes', component: TenantMoveOrdersPageComponent },
       { path: 'codes/:codeId', component: TenantRegistrationCodePageComponent },
       { path: 'refunds', component: TenantRefundsPageComponent },
@@ -98,6 +103,7 @@ import { TenantInsurancePageComponent } from './pages/tenant-insurance-page/tena
     TenantPurchasesPageComponent,
     TenantPurchaseDetailsPageComponent,
     TenantInsurancePageComponent,
+    TenantRegistrationDetailsPageComponent,
   ],
 })
 export class UiTenantModule {}
