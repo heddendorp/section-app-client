@@ -132,16 +132,26 @@
           </p>
         </ng-container>
       </div>
-      <button mat-flat-button color="primary" (click)="showScanner()">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="showScanner()"
+        class="h-16"
+      >
         Show QR scanner
       </button>
     </ng-container>
   </section>
-  <div fxFlexAlign="end" fxLayout="row" fxLayoutGap="1rem" class="mt-6">
-    <a routerLink=".." mat-flat-button color="warn">Back</a>
+  <div
+    fxFlexAlign="end"
+    fxLayout="column"
+    fxLayoutGap="3rem"
+    class="mt-6 w-full"
+  >
     <button
       mat-flat-button
       color="primary"
+      class="h-24"
       (click)="checkInUser()"
       [disabled]="
         (currentRegistration$ | async) === null ||
@@ -151,5 +161,6 @@
     >
       Check in
     </button>
+    <a routerLink=".." mat-flat-button color="warn">Back</a>
   </div>
 </main>
