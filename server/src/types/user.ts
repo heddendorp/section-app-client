@@ -21,6 +21,7 @@ import {
   RegistrationType,
 } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
+import { GraphQLError } from 'graphql';
 
 export const userType = objectType({
   name: User.$name,
@@ -112,7 +113,7 @@ export const userType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new EnvelopError('User not found in tenant');
+              throw new GraphQLError('User not found in tenant');
             }
             return res;
           });

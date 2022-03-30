@@ -46,14 +46,18 @@
       <div class="block h-full overflow-hidden rounded-xl bg-white">
         <div class="h-full bg-white p-4">
           <h4 class="text-lg font-bold">Welcome to TUMi!</h4>
-          <h5 class="mb-4 text-lg text-slate-800">
+          <h5 class="mb-4 text-lg text-slate-800" fxHide.lt-sm>
             Join us on other platforms to stay informed!
           </h5>
 
-          <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+          <div
+            fxLayout.gt-md="row"
+            fxLayout="column-reverse"
+            fxLayoutGap="1rem"
+          >
             <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
-              <p class="text-lg">Telegram</p>
-              <p>
+              <p class="text-lg" fxHide.lt-sm>Telegram</p>
+              <p fxHide.lt-sm>
                 Join the telegram group to stay informed and connect with other
                 students.
               </p>
@@ -65,11 +69,11 @@
                 class="modern"
               >
                 <mat-icon svgIcon="icon-telegram-app"></mat-icon>
-                <span>Join the group</span>
+                <span>Join the telegram group</span>
               </a>
             </div>
             <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
-              <p class="text-lg">Instagram</p>
+              <p class="text-lg" fxHide.lt-sm>Instagram</p>
               <p>
                 Use our hashtag
                 <span
