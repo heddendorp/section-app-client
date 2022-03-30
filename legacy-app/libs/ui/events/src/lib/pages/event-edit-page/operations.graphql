@@ -23,6 +23,8 @@ query loadEventForEdit($id: ID!) {
     organizerLimit
     publicationState
     registrationLink
+    insuranceDescription
+    shouldBeReportedToInsurance
     submissionItems {
       id
       createdAt

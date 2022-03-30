@@ -69,7 +69,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private title: Title,
-    private loadEventQuery: LoadEventForEditGQL,
+    private loadEventForEditGQL: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
     private updateGeneralEventGQL: UpdateGeneralEventGQL,
     private updateCoreEventGQL: UpdateCoreEventGQL,
@@ -98,6 +98,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       icon: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
+      insuranceDescription: ['', Validators.required],
+      shouldBeReportedToInsurance: ['', Validators.required],
       registrationStart: ['', Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
@@ -112,7 +114,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     });
     this.event$ = this.route.paramMap.pipe(
       map((params) =>
-        this.loadEventQuery.watch({ id: params.get('eventId') ?? '' })
+        this.loadEventForEditGQL.watch({ id: params.get('eventId') ?? '' })
       ),
       tap((ref) => (this.loadEventRef = ref)),
       switchMap((ref) => ref.valueChanges),
@@ -121,7 +123,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
     this.organizers$ = this.route.paramMap.pipe(
       switchMap((params) =>
-        this.loadEventQuery.fetch({ id: params.get('eventId') ?? '' })
+        this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' })
       ),
       map(({ data }) => data.organizers),
       shareReplay(1)

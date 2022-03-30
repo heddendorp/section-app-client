@@ -2,7 +2,6 @@ import {
   enableIf,
   envelop,
   useExtendContext,
-  useLogger,
   useSchema,
   useTiming,
 } from '@envelop/core';
@@ -16,7 +15,7 @@ import { PrismaClient, Tenant, User } from './generated/prisma';
 import * as Sentry from '@sentry/node';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
-import { useResponseCache } from '@envelop/response-cache';
+
 const isProd = process.env.NODE_ENV === 'production';
 export const getEnveloped = envelop({
   plugins: [

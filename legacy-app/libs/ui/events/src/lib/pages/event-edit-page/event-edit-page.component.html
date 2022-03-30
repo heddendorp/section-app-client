@@ -129,6 +129,17 @@
               />
               <mat-hint>Define the opening of event registration</mat-hint>
             </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Insurance Description</mat-label>
+              <textarea
+                matInput
+                formControlName="insuranceDescription"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+            <mat-checkbox formControlName="shouldBeReportedToInsurance">
+              Insurance Required
+            </mat-checkbox>
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
               <div fxFlex="50">
                 <h3>Possible Organizers</h3>

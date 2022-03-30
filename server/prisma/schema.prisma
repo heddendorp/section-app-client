@@ -265,23 +265,25 @@ model EventOrganizer {
 
 /// Template that holds all information for an event that is needed to run it
 model EventTemplate {
-  id              String                 @id @default(uuid()) @db.Uuid
-  createdAt       DateTime               @default(now())
-  category        EventTemplateCategory? @relation(fields: [categoryId], references: [id])
-  categoryId      String?                @db.Uuid
-  comment         String
-  coordinates     Json?
-  description     String
-  duration        Decimal
-  eventInstances  TumiEvent[]
-  finances        Json
-  icon            String
-  location        String
-  organizerText   String
-  participantText String
-  tenant          Tenant                 @relation(fields: [tenantId], references: [id])
-  tenantId        String                 @db.Uuid
-  title           String
+  id                          String                 @id @default(uuid()) @db.Uuid
+  createdAt                   DateTime               @default(now())
+  category                    EventTemplateCategory? @relation(fields: [categoryId], references: [id])
+  categoryId                  String?                @db.Uuid
+  comment                     String
+  coordinates                 Json?
+  description                 String
+  duration                    Decimal
+  eventInstances              TumiEvent[]
+  finances                    Json
+  icon                        String
+  insuranceDescription        String                 @default("")
+  location                    String
+  organizerText               String
+  participantText             String
+  shouldBeReportedToInsurance Boolean                @default(true)
+  tenant                      Tenant                 @relation(fields: [tenantId], references: [id])
+  tenantId                    String                 @db.Uuid
+  title                       String
 }
 
 /// Category to keep an overview of event templates
@@ -297,38 +299,40 @@ model EventTemplateCategory {
 
 /// Actual instande of an TumiEventbased on a template
 model TumiEvent {
-  id                     String                  @id @default(uuid()) @db.Uuid
-  createdAt              DateTime                @default(now())
-  coordinates            Json?
-  costItems              CostItem[]
-  createdBy              User                    @relation(fields: [creatorId], references: [id])
-  creatorId              String                  @db.Uuid
-  description            String
-  end                    DateTime
-  eventOrganizerId       String                  @db.Uuid
-  eventRegistrationCodes EventRegistrationCode[]
-  eventTemplate          EventTemplate           @relation(fields: [eventTemplateId], references: [id])
-  eventTemplateId        String                  @db.Uuid
-  icon                   String
-  location               String
-  organizer              EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
-  organizerLimit         Int                     @default(0)
-  organizerSignup        MembershipStatus[]
-  organizerText          String
-  participantLimit       Int                     @default(0)
-  participantSignup      MembershipStatus[]
-  participantText        String
-  photoShares            PhotoShare[]
-  prices                 Json?
-  publicationState       PublicationState        @default(DRAFT)
-  registrationLink       String?
-  registrationMode       RegistrationMode
-  registrationStart      DateTime                @default(now())
-  registrations          EventRegistration[]
-  start                  DateTime
-  submissionItems        EventSubmissionItem[]
-  title                  String
-  transactions           Transaction[]
+  id                          String                  @id @default(uuid()) @db.Uuid
+  createdAt                   DateTime                @default(now())
+  insuranceDescription        String                  @default("")
+  coordinates                 Json?
+  costItems                   CostItem[]
+  createdBy                   User                    @relation(fields: [creatorId], references: [id])
+  creatorId                   String                  @db.Uuid
+  description                 String
+  end                         DateTime
+  eventOrganizerId            String                  @db.Uuid
+  eventRegistrationCodes      EventRegistrationCode[]
+  eventTemplate               EventTemplate           @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId             String                  @db.Uuid
+  icon                        String
+  location                    String
+  organizer                   EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
+  organizerLimit              Int                     @default(0)
+  organizerSignup             MembershipStatus[]
+  organizerText               String
+  participantLimit            Int                     @default(0)
+  participantSignup           MembershipStatus[]
+  participantText             String
+  photoShares                 PhotoShare[]
+  prices                      Json?
+  publicationState            PublicationState        @default(DRAFT)
+  registrationLink            String?
+  registrationMode            RegistrationMode
+  registrationStart           DateTime                @default(now())
+  registrations               EventRegistration[]
+  shouldBeReportedToInsurance Boolean                 @default(true)
+  start                       DateTime
+  submissionItems             EventSubmissionItem[]
+  title                       String
+  transactions                Transaction[]
 }
 
 model Product {

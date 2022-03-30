@@ -4,6 +4,16 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
+query loadEventsForInsurance{
+  events{
+    id
+    title
+    start
+    shouldBeReportedToInsurance
+    insuranceDescription
+  }
+}
+
 query loadAllPhotos {
   photos {
     id

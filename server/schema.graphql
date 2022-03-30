@@ -61,9 +61,11 @@ input CreateEventTemplateInput {
   description: String!
   duration: Decimal!
   icon: String!
+  insuranceDescription: String!
   location: String!
   organizerText: String!
   participantText: String!
+  shouldBeReportedToInsurance: Boolean!
   title: String!
 }
 
@@ -203,9 +205,11 @@ type EventTemplate {
   finances: Json!
   icon: String!
   id: ID!
+  insuranceDescription: String!
   location: String!
   organizerText: String!
   participantText: String!
+  shouldBeReportedToInsurance: Boolean!
   tenant: Tenant!
   title: String!
 }
@@ -646,6 +650,7 @@ type TumiEvent {
   freeParticipantSpots: String!
   icon: String!
   id: ID!
+  insuranceDescription: String!
   location: String!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
@@ -687,6 +692,7 @@ type TumiEvent {
   registrationLink: String
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
+  shouldBeReportedToInsurance: Boolean!
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   submittedSpend: Decimal
@@ -705,6 +711,7 @@ input UpdateCoreEventInput {
   end: DateTime!
   eventOrganizerId: String!
   icon: String!
+  insuranceDescription: String!
   organizerLimit: Int!
   organizerSignup: [MembershipStatus!]!
   participantLimit: Int!
@@ -713,6 +720,7 @@ input UpdateCoreEventInput {
   registrationLink: String
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
+  shouldBeReportedToInsurance: Boolean!
   start: DateTime!
   title: String!
 }
@@ -754,8 +762,10 @@ input UpdateTemplateInput {
   description: String!
   duration: Decimal!
   icon: String!
+  insuranceDescription: String!
   organizerText: String!
   participantText: String!
+  shouldBeReportedToInsurance: Boolean!
   title: String!
 }
 

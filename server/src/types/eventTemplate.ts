@@ -26,6 +26,8 @@ export const eventTemplateType = objectType({
     t.field(EventTemplate.participantText);
     t.field(EventTemplate.organizerText);
     t.field(EventTemplate.finances);
+    t.field(EventTemplate.insuranceDescription);
+    t.field(EventTemplate.shouldBeReportedToInsurance);
     t.field({
       ...EventTemplate.eventInstances,
       resolve: (source, args, context) =>
@@ -41,15 +43,17 @@ export const createEventTemplateInput = inputObjectType({
   name: 'CreateEventTemplateInput',
   description: 'Input needed to create a new event template',
   definition(t) {
-    t.field(EventTemplate.title);
-    t.field(EventTemplate.icon);
-    t.field(EventTemplate.description);
     t.field(EventTemplate.comment);
-    t.field(EventTemplate.location);
     t.field(EventTemplate.coordinates);
+    t.field(EventTemplate.description);
     t.field(EventTemplate.duration);
-    t.field(EventTemplate.participantText);
+    t.field(EventTemplate.icon);
+    t.field(EventTemplate.insuranceDescription);
+    t.field(EventTemplate.location);
     t.field(EventTemplate.organizerText);
+    t.field(EventTemplate.participantText);
+    t.field(EventTemplate.shouldBeReportedToInsurance);
+    t.field(EventTemplate.title);
   },
 });
 
@@ -57,15 +61,15 @@ export const updateTemplateInputType = inputObjectType({
   name: 'UpdateTemplateInput',
   description: 'Input to update an event template',
   definition(t) {
-    t.field(EventTemplate.title);
-    t.field(EventTemplate.icon);
-    t.field(EventTemplate.description);
     t.field(EventTemplate.comment);
-    // t.field(EventTemplate.location);
-    // t.field(EventTemplate.coordinates);
+    t.field(EventTemplate.description);
     t.field(EventTemplate.duration);
-    t.field(EventTemplate.participantText);
+    t.field(EventTemplate.icon);
+    t.field(EventTemplate.insuranceDescription);
     t.field(EventTemplate.organizerText);
+    t.field(EventTemplate.participantText);
+    t.field(EventTemplate.shouldBeReportedToInsurance);
+    t.field(EventTemplate.title);
   },
 });
 

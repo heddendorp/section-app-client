@@ -20,37 +20,9 @@ export const eventType = objectType({
     t.field(TumiEvent.id);
     t.field(TumiEvent.createdAt);
     t.field(TumiEvent.creatorId);
-    t.field({
-      ...TumiEvent.createdBy,
-      resolve: (source, args, { prisma }) => {
-        // cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
-        return prisma.user
-          .findUnique({ where: { id: source.creatorId } })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('User not found');
-            }
-            return res;
-          });
-      },
-    });
+    t.field(TumiEvent.createdBy);
     t.field(TumiEvent.eventOrganizerId);
-    t.field({
-      ...TumiEvent.organizer,
-      resolve: (source, args, context) => {
-        // cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
-        return context.prisma.eventOrganizer
-          .findUnique({
-            where: { id: source.eventOrganizerId },
-          })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('Event organizer not found');
-            }
-            return res;
-          });
-      },
-    });
+    t.field(TumiEvent.organizer);
     t.field(TumiEvent.title);
     t.field(TumiEvent.icon);
     t.field(TumiEvent.start);
@@ -72,15 +44,13 @@ export const eventType = objectType({
     t.field({
       ...TumiEvent.eventRegistrationCodes,
       resolve: (source, args, context) => {
-        /*info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });*/
         return context.prisma.tumiEvent
           .findUnique({ where: { id: source.id } })
           .eventRegistrationCodes();
       },
     });
+    t.field(TumiEvent.insuranceDescription);
+    t.field(TumiEvent.shouldBeReportedToInsurance);
     t.nonNull.string('freeParticipantSpots', {
       resolve: (source, args, context) => {
         /*info.cacheControl.setCacheHint({
@@ -146,22 +116,7 @@ export const eventType = objectType({
           .photoShares();
       },
     });
-    t.field({
-      ...TumiEvent.eventTemplate,
-      resolve: (source, args, context) => {
-        // cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
-        return context.prisma.eventTemplate
-          .findUnique({
-            where: { id: source.eventTemplateId },
-          })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('Event template not found');
-            }
-            return res;
-          });
-      },
-    });
+    t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
     t.field({
       name: 'activeRegistration',

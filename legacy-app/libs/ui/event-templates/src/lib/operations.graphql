@@ -41,6 +41,8 @@ mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
     location
     coordinates
     comment
+    insuranceDescription
+    shouldBeReportedToInsurance
   }
 }
 
@@ -77,6 +79,8 @@ query getEventTemplate($id: ID!) {
     location
     coordinates
     finances
+    insuranceDescription
+    shouldBeReportedToInsurance
     eventInstances {
       id
       title

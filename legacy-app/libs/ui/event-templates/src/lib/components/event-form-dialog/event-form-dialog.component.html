@@ -36,6 +36,20 @@
       <mat-hint>This description will be visible to anyone</mat-hint>
       <mat-error>You have to add an event description</mat-error>
     </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Short description for our insurance</mat-label>
+      <textarea
+        rows="3"
+        matInput
+        formControlName="insuranceDescription"
+        required
+      ></textarea>
+      <mat-hint>This description will be sent to our insurance</mat-hint>
+      <mat-error>You have to add a description</mat-error>
+    </mat-form-field>
+    <mat-checkbox formControlName="shouldBeReportedToInsurance">
+      This event should be reported to our insurance
+    </mat-checkbox>
     <tumi-location-autocomplete
       formControlName="location"
     ></tumi-location-autocomplete>

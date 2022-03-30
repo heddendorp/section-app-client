@@ -67,9 +67,11 @@ export interface NexusGenInputs {
     description: string; // String!
     duration: NexusGenScalars['Decimal']; // Decimal!
     icon: string; // String!
+    insuranceDescription: string; // String!
     location: string; // String!
     organizerText: string; // String!
     participantText: string; // String!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     title: string; // String!
   }
   CreatePhotoShareInput: { // input type
@@ -115,6 +117,7 @@ export interface NexusGenInputs {
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     icon: string; // String!
+    insuranceDescription: string; // String!
     organizerLimit: number; // Int!
     organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
     participantLimit: number; // Int!
@@ -123,6 +126,7 @@ export interface NexusGenInputs {
     registrationLink?: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     registrationStart: NexusGenScalars['DateTime']; // DateTime!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     start: NexusGenScalars['DateTime']; // DateTime!
     title: string; // String!
   }
@@ -155,8 +159,10 @@ export interface NexusGenInputs {
     description: string; // String!
     duration: NexusGenScalars['Decimal']; // Decimal!
     icon: string; // String!
+    insuranceDescription: string; // String!
     organizerText: string; // String!
     participantText: string; // String!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     title: string; // String!
   }
   updateTenantInput: { // input type
@@ -278,9 +284,11 @@ export interface NexusGenObjects {
     finances: NexusGenScalars['Json']; // Json!
     icon: string; // String!
     id: string; // ID!
+    insuranceDescription: string; // String!
     location: string; // String!
     organizerText: string; // String!
     participantText: string; // String!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     title: string; // String!
   }
   EventTemplateCategory: { // root type
@@ -413,6 +421,7 @@ export interface NexusGenObjects {
     eventTemplateId: string; // String!
     icon: string; // String!
     id: string; // ID!
+    insuranceDescription: string; // String!
     location: string; // String!
     organizerLimit: number; // Int!
     organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
@@ -425,6 +434,7 @@ export interface NexusGenObjects {
     registrationLink?: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     registrationStart: NexusGenScalars['DateTime']; // DateTime!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     start: NexusGenScalars['DateTime']; // DateTime!
     title: string; // String!
   }
@@ -597,9 +607,11 @@ export interface NexusGenFieldTypes {
     finances: NexusGenScalars['Json']; // Json!
     icon: string; // String!
     id: string; // ID!
+    insuranceDescription: string; // String!
     location: string; // String!
     organizerText: string; // String!
     participantText: string; // String!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     tenant: NexusGenRootTypes['Tenant']; // Tenant!
     title: string; // String!
   }
@@ -866,6 +878,7 @@ export interface NexusGenFieldTypes {
     freeParticipantSpots: string; // String!
     icon: string; // String!
     id: string; // ID!
+    insuranceDescription: string; // String!
     location: string; // String!
     netAmountCollected: NexusGenScalars['Decimal']; // Decimal!
     organizer: NexusGenRootTypes['EventOrganizer']; // EventOrganizer!
@@ -891,6 +904,7 @@ export interface NexusGenFieldTypes {
     registrationLink: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     registrationStart: NexusGenScalars['DateTime']; // DateTime!
+    shouldBeReportedToInsurance: boolean; // Boolean!
     start: NexusGenScalars['DateTime']; // DateTime!
     submissionItems: NexusGenRootTypes['EventSubmissionItem'][]; // [EventSubmissionItem!]!
     submittedSpend: NexusGenScalars['Decimal'] | null; // Decimal
@@ -1087,9 +1101,11 @@ export interface NexusGenFieldTypeNames {
     finances: 'Json'
     icon: 'String'
     id: 'ID'
+    insuranceDescription: 'String'
     location: 'String'
     organizerText: 'String'
     participantText: 'String'
+    shouldBeReportedToInsurance: 'Boolean'
     tenant: 'Tenant'
     title: 'String'
   }
@@ -1356,6 +1372,7 @@ export interface NexusGenFieldTypeNames {
     freeParticipantSpots: 'String'
     icon: 'String'
     id: 'ID'
+    insuranceDescription: 'String'
     location: 'String'
     netAmountCollected: 'Decimal'
     organizer: 'EventOrganizer'
@@ -1381,6 +1398,7 @@ export interface NexusGenFieldTypeNames {
     registrationLink: 'String'
     registrationMode: 'RegistrationMode'
     registrationStart: 'DateTime'
+    shouldBeReportedToInsurance: 'Boolean'
     start: 'DateTime'
     submissionItems: 'EventSubmissionItem'
     submittedSpend: 'Decimal'

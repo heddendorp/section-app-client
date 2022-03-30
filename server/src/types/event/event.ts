@@ -130,6 +130,8 @@ export const updateCoreEventInput = inputObjectType({
     t.field(TumiEvent.organizerLimit);
     t.field(TumiEvent.prices);
     t.field(TumiEvent.eventOrganizerId);
+    t.field(TumiEvent.insuranceDescription);
+    t.field(TumiEvent.shouldBeReportedToInsurance);
   },
 });
 
@@ -383,6 +385,8 @@ export const createFromTemplateMutation = mutationField(
           location: template.location,
           participantText: template.participantText,
           organizerText: template.organizerText,
+          insuranceDescription: template.insuranceDescription,
+          shouldBeReportedToInsurance: template.shouldBeReportedToInsurance,
           ...(createEventFromTemplateInput.registrationMode ===
           RegistrationMode.STRIPE
             ? {

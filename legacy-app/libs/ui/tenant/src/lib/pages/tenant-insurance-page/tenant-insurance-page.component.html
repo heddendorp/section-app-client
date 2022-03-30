@@ -1,0 +1,10 @@
+<main class="p-4">
+  <h1>Events for insurance</h1>
+  <section class="select-all">
+    <p *ngFor="let event of events$ | async">
+      {{ event.title }}&nbsp;({{ event.start | date: 'd.M.y' }})<br />
+      {{ event.insuranceDescription }}
+      <br />
+    </p>
+  </section>
+</main>

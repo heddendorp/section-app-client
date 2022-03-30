@@ -24,8 +24,9 @@ import { DateTime } from 'luxon';
 })
 export class CreateEventDialogComponent implements OnInit, OnDestroy {
   public eventDataForm: FormGroup;
-  private destroyed$ = new Subject();
   public RegistrationMode = RegistrationMode;
+  private destroyed$ = new Subject();
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -84,7 +85,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSubmit(): void  {
+  onSubmit(): void {
     if (this.eventDataForm.valid) {
       const data = this.eventDataForm.value;
       this.dialog.close({
@@ -92,9 +93,6 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
         start: new Date(data.start),
         end: new Date(data.end),
       });
-    } else {
-      
-      
     }
   }
 

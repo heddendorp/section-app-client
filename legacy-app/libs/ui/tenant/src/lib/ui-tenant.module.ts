@@ -35,6 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { TenantRegistrationCodePageComponent } from './pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
 import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tenant-purchases-page.component';
 import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-details-page/tenant-purchase-details-page.component';
+import { TenantInsurancePageComponent } from './pages/tenant-insurance-page/tenant-insurance-page.component';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-deta
       { path: 'logs', component: TenantActivityLogPageComponent },
       { path: 'photos', component: TenantPhotosPageComponent },
       { path: 'purchases', component: TenantPurchasesPageComponent },
+      { path: 'insurance', component: TenantInsurancePageComponent },
       {
         path: 'purchases/:purchaseId',
         component: TenantPurchaseDetailsPageComponent,
@@ -95,6 +97,7 @@ import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-deta
     TenantRegistrationCodePageComponent,
     TenantPurchasesPageComponent,
     TenantPurchaseDetailsPageComponent,
+    TenantInsurancePageComponent,
   ],
 })
 export class UiTenantModule {}
