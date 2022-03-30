@@ -15,6 +15,7 @@ import { PrismaClient, Tenant, User } from './generated/prisma';
 import * as Sentry from '@sentry/node';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
+import { useResponseCache } from '@envelop/response-cache';
 
 export const getEnveloped = envelop({
   plugins: [
@@ -116,5 +117,9 @@ export const getEnveloped = envelop({
       }
     ),
     useGraphQLMiddleware([permissions]),
+    useResponseCache({
+      ttl: 2000,
+      session: (context) => String(context.user?.id),
+    }),
   ],
 });

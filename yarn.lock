@@ -3121,6 +3121,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@envelop/response-cache@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@envelop/response-cache@npm:2.1.1"
+  dependencies:
+    "@graphql-tools/utils": ^8.6.1
+    fast-json-stable-stringify: ^2.1.0
+    lru-cache: ^6.0.0
+  peerDependencies:
+    "@envelop/core": ^2.1.0
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: a3d4f4e3a180cb1fcd0e4fcfde05c3434329b6f4d4ff0c56be5fcd44d86776260929936840789987acb8c578dd3cfe45e5cfc9abe16f164624240bb9246586fb
+  languageName: node
+  linkType: hard
+
 "@envelop/sentry@npm:^3.1.1":
   version: 3.1.1
   resolution: "@envelop/sentry@npm:3.1.1"
@@ -3765,7 +3779,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:8.6.5":
+"@graphql-tools/utils@npm:8.6.5, @graphql-tools/utils@npm:^8.6.1":
   version: 8.6.5
   resolution: "@graphql-tools/utils@npm:8.6.5"
   dependencies:
@@ -6203,6 +6217,7 @@ __metadata:
     "@envelop/core": ^2.1.0
     "@envelop/graphql-middleware": ^3.1.0
     "@envelop/parser-cache": ^4.1.0
+    "@envelop/response-cache": ^2.1.1
     "@envelop/sentry": ^3.1.1
     "@envelop/validation-cache": ^4.1.0
     "@faker-js/faker": ^6.0.0
@@ -13174,7 +13189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-json-stable-stringify@npm:2.1.0, fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0":
+"fast-json-stable-stringify@npm:2.1.0, fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0, fast-json-stable-stringify@npm:^2.1.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
   checksum: b191531e36c607977e5b1c47811158733c34ccb3bfde92c44798929e9b4154884378536d26ad90dfecd32e1ffc09c545d23535ad91b3161a27ddbb8ebe0cbecb
