@@ -35,7 +35,11 @@ import { MarkdownModule } from 'ngx-markdown';
 import { onError } from '@apollo/client/link/error';
 import { CheckUserGuard } from './guards/check-user.guard';
 import { environment } from '../environments/environment';
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import {
+  ServiceWorkerModule,
+  SwUpdate,
+  VersionReadyEvent,
+} from '@angular/service-worker';
 import { concat, filter, first, interval } from 'rxjs';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import {
@@ -246,20 +250,24 @@ export class AppModule {
     if (environment.production && isPlatformBrowser(platform)) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
-    updates.available.subscribe((event) => {
-      snackBar
-        .openFromComponent(IconToastComponent, {
-          duration: 0,
-          data: {
-            message: 'A new version of this app is available!',
-            action: 'Activate now',
-            icon: 'icon-available-updates',
-          },
-        })
-        .onAction()
-        .subscribe(() =>
-          updates.activateUpdate().then(() => document.location.reload())
-        );
-    });
+    updates.versionUpdates
+      .pipe(
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+      )
+      .subscribe((event) => {
+        snackBar
+          .openFromComponent(IconToastComponent, {
+            duration: 0,
+            data: {
+              message: 'A new version of this app is available!',
+              action: 'Activate now',
+              icon: 'icon-available-updates',
+            },
+          })
+          .onAction()
+          .subscribe(() =>
+            updates.activateUpdate().then(() => document.location.reload())
+          );
+      });
   }
 }
