@@ -11,6 +11,10 @@ query loadEventsForInsurance {
     start
     shouldBeReportedToInsurance
     insuranceDescription
+    organizer {
+      id
+      name
+    }
   }
 }
 

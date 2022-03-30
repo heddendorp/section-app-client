@@ -19,7 +19,12 @@ export class TenantInsurancePageComponent {
     this.events$ = this.loadEventsForInsuranceGQL.watch().valueChanges.pipe(
       map(({ data }) => data.events),
       map((events) =>
-        events.filter((event) => event.shouldBeReportedToInsurance)
+        events
+          .filter((event) => event.shouldBeReportedToInsurance)
+          .filter(
+            (event) =>
+              event.organizer.id === '06166e2f-5302-41b0-a22c-8bf952cb2128'
+          )
       )
     );
   }
