@@ -1,4 +1,5 @@
 import {
+  enableIf,
   envelop,
   useExtendContext,
   useLogger,
@@ -16,39 +17,38 @@ import * as Sentry from '@sentry/node';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
 import { useResponseCache } from '@envelop/response-cache';
-
+const isProd = process.env.NODE_ENV !== 'test';
 export const getEnveloped = envelop({
   plugins: [
     useSchema(schema),
     // useLogger(),
     useTiming(),
-    ...(process.env.NODE_ENV !== 'test'
-      ? [
-          useHive({
-            enabled: true,
-            debug: process.env.NODE_ENV !== 'production', // or false
-            token: process.env.HIVE_TOKEN ?? '',
-            reporting: {
-              // feel free to set dummy values here
-              author: 'Author of the schema version',
-              commit: 'git sha or any identifier',
-            },
-            usage: {
-              clientInfo(context: any) {
-                const name = context.req.headers['x-graphql-client-name'];
-                const version = context.req.headers['x-graphql-client-version'];
-                if (name && version) {
-                  return {
-                    name,
-                    version,
-                  };
-                }
-                return null;
-              },
-            },
-          }),
-        ]
-      : []),
+    enableIf(
+      isProd,
+      useHive({
+        enabled: true,
+        debug: process.env.NODE_ENV !== 'production', // or false
+        token: process.env.HIVE_TOKEN ?? '',
+        reporting: {
+          // feel free to set dummy values here
+          author: 'Author of the schema version',
+          commit: 'git sha or any identifier',
+        },
+        usage: {
+          clientInfo(context: any) {
+            const name = context.req.headers['x-graphql-client-name'];
+            const version = context.req.headers['x-graphql-client-version'];
+            if (name && version) {
+              return {
+                name,
+                version,
+              };
+            }
+            return null;
+          },
+        },
+      })
+    ),
     useSentry(),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
@@ -116,10 +116,10 @@ export const getEnveloped = envelop({
         }
       }
     ),
+    // useResponseCache({
+    //   ttl: 2000,
+    //   session: (context) => String(context.user?.id),
+    // }),
     useGraphQLMiddleware([permissions]),
-    useResponseCache({
-      ttl: 2000,
-      session: (context) => String(context.user?.id),
-    }),
   ],
 });
