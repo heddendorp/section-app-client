@@ -17,12 +17,12 @@ import * as Sentry from '@sentry/node';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
 import { useResponseCache } from '@envelop/response-cache';
-const isProd = process.env.NODE_ENV !== 'test';
+const isProd = process.env.NODE_ENV === 'production';
 export const getEnveloped = envelop({
   plugins: [
     useSchema(schema),
     // useLogger(),
-    useTiming(),
+    enableIf(!isProd, useTiming()),
     enableIf(
       isProd,
       useHive({
@@ -49,7 +49,7 @@ export const getEnveloped = envelop({
         },
       })
     ),
-    useSentry(),
+    enableIf(isProd, useSentry()),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
       audience: 'esn.events',
