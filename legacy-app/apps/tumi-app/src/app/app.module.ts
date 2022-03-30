@@ -119,7 +119,7 @@ import { Settings } from 'luxon';
             import('@tumi/ui/home').then((module) => module.UiHomeModule),
         },
       ],
-      { scrollPositionRestoration: 'top' }
+      { scrollPositionRestoration: 'enabled' }
     ),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',

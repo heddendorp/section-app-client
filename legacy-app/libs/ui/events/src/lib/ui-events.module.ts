@@ -53,7 +53,11 @@ import { ManageEventVotingComponent } from './components/management/manage-event
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: EventListPageComponent },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+      },
       { path: ':eventId', component: EventDetailsPageComponent },
       {
         path: ':eventId/edit',

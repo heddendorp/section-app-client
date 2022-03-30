@@ -156,10 +156,10 @@ $tumi-dark-theme: mat.define-dark-theme(
   html {
     box-sizing: border-box;
   }
-  html,
-  body {
-    height: 100%;
-  }
+  //html,
+  //body {
+  //  height: 100%;
+  //}
   body {
     margin: 0;
     @apply font-sans;
