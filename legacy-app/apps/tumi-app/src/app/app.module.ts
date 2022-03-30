@@ -23,7 +23,7 @@ import { UiAppShellModule } from '@tumi/ui-app-shell';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, Scroll } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {
@@ -34,15 +34,10 @@ import {
 import { MarkdownModule } from 'ngx-markdown';
 import { onError } from '@apollo/client/link/error';
 import { CheckUserGuard } from './guards/check-user.guard';
-import {
-  AngularPlugin,
-  ApplicationinsightsAngularpluginErrorService,
-} from '@microsoft/applicationinsights-angularplugin-js';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
-import { concat, first, interval } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { concat, filter, first, interval } from 'rxjs';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import {
   IconToastComponent,
   UtilComponentsModule,
@@ -119,7 +114,7 @@ import { Settings } from 'luxon';
             import('@tumi/ui/home').then((module) => module.UiHomeModule),
         },
       ],
-      { scrollPositionRestoration: 'enabled' }
+      { scrollPositionRestoration: 'disabled' }
     ),
     AuthModule.forRoot({
       domain: 'tumi.eu.auth0.com',
@@ -218,14 +213,6 @@ import { Settings } from 'luxon';
       useValue: { appearance: 'fill' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
-    environment.production
-      ? [
-          {
-            provide: ErrorHandler,
-            useClass: ApplicationinsightsAngularpluginErrorService,
-          },
-        ]
-      : [],
   ],
   bootstrap: [AppComponent],
 })
@@ -235,28 +222,24 @@ export class AppModule {
     appRef: ApplicationRef,
     updates: SwUpdate,
     snackBar: MatSnackBar,
+    viewportScroller: ViewportScroller,
     @Inject(PLATFORM_ID) platform: any
   ) {
+    router.events
+      .pipe(filter((e): e is Scroll => e instanceof Scroll))
+      .subscribe((e) => {
+        if (e.position) {
+          setTimeout(() => {
+            e.position && viewportScroller.scrollToPosition(e.position);
+          }, 0);
+        } else if (e.anchor) {
+          viewportScroller.scrollToAnchor(e.anchor);
+        } else {
+          viewportScroller.scrollToPosition([0, 0]);
+        }
+      });
     // set default Luxon locale
     Settings.defaultLocale = 'en';
-
-    if (environment.production) {
-      const angularPlugin = new AngularPlugin();
-      const appInsights = new ApplicationInsights({
-        config: {
-          connectionString:
-            'InstrumentationKey=f366572f-cd84-482d-bd75-ba65076988c8;IngestionEndpoint=https://germanywestcentral-1.in.applicationinsights.azure.com/',
-          disableFetchTracking: false,
-          enableRequestHeaderTracking: true,
-          enableResponseHeaderTracking: true,
-          extensions: [angularPlugin],
-          extensionConfig: {
-            [angularPlugin.identifier]: { router },
-          },
-        },
-      });
-      appInsights.loadAppInsights();
-    }
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);

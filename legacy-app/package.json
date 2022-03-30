@@ -63,8 +63,6 @@
     "@apollo/client": "^3.5.10",
     "@auth0/auth0-angular": "^1.9.0",
     "@azure/storage-blob": "^12.9.0",
-    "@microsoft/applicationinsights-angularplugin-js": "^2.8.0",
-    "@microsoft/applicationinsights-web": "2.7.4",
     "@ngneat/tailwind": "7.0.3",
     "@nguniversal/express-engine": "13.0.1",
     "@nrwl/devkit": "13.8.8",

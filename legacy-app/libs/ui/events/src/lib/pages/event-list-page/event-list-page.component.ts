@@ -5,6 +5,7 @@ import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'tumi-event-list-page',
@@ -24,7 +25,11 @@ export class EventListPageComponent implements OnDestroy {
   private loadEventsQueryRef;
   private destroy$ = new Subject();
 
-  constructor(private loadEventsQuery: EventListGQL, private title: Title) {
+  constructor(
+    private loadEventsQuery: EventListGQL,
+    private title: Title,
+    private route: ActivatedRoute
+  ) {
     this.title.setTitle('TUMi - events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
     this.timeRemaining$ = timer(0, 1000).pipe(
