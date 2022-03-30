@@ -72,7 +72,7 @@ export class EventDetailsPageComponent implements OnDestroy {
         event?.start ? new Date(event.start) < new Date() : false
       )
     );
-    this.loadEventQueryRef.startPolling(5000);
+    this.loadEventQueryRef.startPolling(30000);
     this.hasAccount$ = this.loadCurrentUser.watch().valueChanges.pipe(
       map(({ data }) => !!data.currentUser),
       shareReplay(1)

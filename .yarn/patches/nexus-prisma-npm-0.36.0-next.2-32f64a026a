@@ -1,0 +1,13 @@
+diff --git a/dist-cjs/generator/ModuleGenerators/TS.js b/dist-cjs/generator/ModuleGenerators/TS.js
+index 793fc17622cc6f3d22bac9b459b4e2bf1c5e3b91..43375ce088ae11f9c94307b7f81eaa8a3f9f0014 100644
+--- a/dist-cjs/generator/ModuleGenerators/TS.js
++++ b/dist-cjs/generator/ModuleGenerators/TS.js
+@@ -108,7 +108,7 @@ const renderTypeScriptDeclarationForDocumentModels = (dmmf, settings) => {
+ 
+       import type { Settings } from ${settings.data.output.directory === 'default'
+         ? `'../generator/Settings'`
+-        : `'nexus-prisma/dist-cjs/generator/Settings'`}
++        : `'nexus-prisma/dist-cjs/generator/Settings/index'`}
+ 
+       /**
+        * Adjust Nexus Prisma's [runtime settings](https://pris.ly/nexus-prisma/docs/settings/runtime).

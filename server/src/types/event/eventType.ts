@@ -87,16 +87,16 @@ export const eventType = objectType({
           maxAge: 10,
           scope: CacheScope.Public,
         });*/
-        return context.prisma.eventRegistration
-          .count({
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
             where: {
-              eventId: source.id,
               type: RegistrationType.PARTICIPANT,
               status: { not: RegistrationStatus.CANCELLED },
             },
           })
           .then((registrations) => {
-            const quota = registrations / source.participantLimit;
+            const quota = registrations.length / source.participantLimit;
             if (quota < 0.5) {
               return 'Many free spots';
             } else if (quota < 0.8) {
@@ -169,13 +169,18 @@ export const eventType = objectType({
       resolve: (source, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Private });
         if (!context.user) return null;
-        return context.prisma.eventRegistration.findFirst({
-          where: {
-            event: { id: source.id },
-            user: { id: context.user.id },
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        });
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              user: { id: context.user.id },
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((registrations) => {
+            if (registrations.length === 0) return null;
+            return registrations[0];
+          });
       },
     });
     t.field({
@@ -337,16 +342,16 @@ export const eventType = objectType({
       resolve: (source, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
-        return context.prisma.eventRegistration
-          .count({
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
             where: {
-              eventId: source.id,
-              userId: context.user.id,
+              user: { id: context.user.id },
               type: RegistrationType.PARTICIPANT,
               status: { not: RegistrationStatus.CANCELLED },
             },
           })
-          .then((number) => number !== 0);
+          .then((registrations) => registrations.length > 0);
       },
     });
     t.nonNull.boolean('userIsCreator', {
@@ -361,16 +366,16 @@ export const eventType = objectType({
       resolve: (source, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 5, scope: CacheScope.Private });
         if (!context.user) return false;
-        return context.prisma.eventRegistration
-          .count({
+        return context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
             where: {
-              eventId: source.id,
-              userId: context.user.id,
+              user: { id: context.user.id },
               type: RegistrationType.ORGANIZER,
               status: { not: RegistrationStatus.CANCELLED },
             },
           })
-          .then((number) => number !== 0);
+          .then((organizers) => organizers.length > 0);
       },
     });
     t.field('organizers', {
@@ -447,13 +452,17 @@ export const eventType = objectType({
       description: 'Number of users registered as participant to this event',
       resolve: async (root, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.eventRegistration.count({
-          where: {
-            eventId: root.id,
-            type: RegistrationType.PARTICIPANT,
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        });
+        return context.prisma.tumiEvent
+          .findUnique({
+            where: { id: root.id },
+          })
+          .registrations({
+            where: {
+              type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((registrations) => registrations.length);
       },
     });
     t.nonNull.int('participantsAttended', {
@@ -578,13 +587,17 @@ export const eventType = objectType({
       description: 'Number of users registered as organizer to this event',
       resolve: async (root, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.eventRegistration.count({
-          where: {
-            eventId: root.id,
-            status: { not: RegistrationStatus.CANCELLED },
-            type: RegistrationType.ORGANIZER,
-          },
-        });
+        return context.prisma.tumiEvent
+          .findUnique({
+            where: { id: root.id },
+          })
+          .registrations({
+            where: {
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((registrations) => registrations.length);
       },
     });
     t.nonNull.boolean('organizerRegistrationPossible', {
