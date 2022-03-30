@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Give away your spot</h1>
 <mat-dialog-content *ngIf="registration$ | async as registration">
   <h2 class="mb-2">You are about to send away your event spot</h2>
-  <p class="leading-normal mb-4">
+  <p class="mb-4 leading-normal">
     Please read the following information: <br />
     To give away this event registration you can generate a special code that
     will allow another person to claim your registration in their profile. This
@@ -16,10 +16,10 @@
   </p>
   <ng-container *ngIf="registration.deletingCode; else noCode">
     <p class="mb-2">
-      You have created a transfer code, copy it below to send it somewhere else
+      You have created a transfer link, copy it below to send it to someone else
     </p>
-    <p class="font-mono select-all bg-gray-200 rounded px-3 py-1">
-      {{ registration.deletingCode.id }}
+    <p class="select-all rounded bg-gray-200 px-3 py-1 font-mono">
+      https://tumi.esn.world/profile?code={{ registration.deletingCode.id }}
     </p>
   </ng-container>
   <ng-template #noCode>

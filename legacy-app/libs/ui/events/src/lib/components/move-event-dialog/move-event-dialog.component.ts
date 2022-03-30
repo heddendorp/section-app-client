@@ -21,6 +21,7 @@ export class MoveEventDialogComponent {
   >;
   public buttonDisabled = new BehaviorSubject(false);
   private registrationQueryRef;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { event: LoadEventQuery['event'] },
     private registrationForMoveGQL: LoadRegistrationForMoveGQL,
