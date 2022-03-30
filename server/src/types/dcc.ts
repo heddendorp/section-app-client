@@ -13,13 +13,14 @@ export const verifyDCCMutation = mutationField('verifyDCC', {
   type: 'Json',
   args: { certificate: nonNull(stringArg()) },
   resolve: async (source, { certificate }) => {
-    // info.cacheControl.setCacheHint({ maxAge: 600, scope: CacheScope.Private });
-
     const cwt = await DCC.unpackAndVerify(certificate);
 
     if (cwt) {
       const debugInfo = await DCC.debug(certificate);
-      const payload = await DCC.parseCWT(cwt);
+      console.log(cwt);
+      console.log(debugInfo);
+      const payload = await DCC.parseCWT(cwt.contents);
+      console.log(payload);
 
       let keyId = debugInfo.value[0].get
         ? debugInfo.value[0].get(4)
@@ -32,12 +33,12 @@ export const verifyDCCMutation = mutationField('verifyDCC', {
       const cardType = payload.nam ? 'DCC' : 'UY';
 
       const cvtCWT = {
-        iss: cwt.get(CWT_ISSUER),
-        sub: cwt.get(CWT_SUBJECT),
-        aud: cwt.get(CWT_AUDIENCE),
-        exp: cwt.get(CWT_EXPIRATION),
-        nbf: cwt.get(CWT_NOT_BEFORE),
-        iat: cwt.get(CWT_ISSUED_AT),
+        // iss: cwt.get(CWT_ISSUER),
+        // sub: cwt.get(CWT_SUBJECT),
+        // aud: cwt.get(CWT_AUDIENCE),
+        // exp: cwt.get(CWT_EXPIRATION),
+        // nbf: cwt.get(CWT_NOT_BEFORE),
+        // iat: cwt.get(CWT_ISSUED_AT),
         data: payload,
       };
 

@@ -48,6 +48,7 @@ import { CheckAdditionalDataComponent } from './components/registration/check-ad
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ManageEventVotingComponent } from './components/management/manage-event-voting/manage-event-voting.component';
+import { EventScanPageComponent } from './pages/event-scan-page/event-scan-page.component';
 
 @NgModule({
   imports: [
@@ -68,6 +69,11 @@ import { ManageEventVotingComponent } from './components/management/manage-event
         path: ':eventId/run',
         canActivate: [AuthGuard],
         component: EventRunPageComponent,
+      },
+      {
+        path: ':eventId/run/scan',
+        canActivate: [AuthGuard],
+        component: EventScanPageComponent,
       },
       {
         path: ':eventId/photos',
@@ -133,6 +139,7 @@ import { ManageEventVotingComponent } from './components/management/manage-event
     CheckRegistrationTimeComponent,
     CheckAdditionalDataComponent,
     ManageEventVotingComponent,
+    EventScanPageComponent,
   ],
 })
 export class UiEventsModule {}

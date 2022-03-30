@@ -3,16 +3,16 @@
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4">
-  <button mat-fab (click)="scanCode()">
+  <a mat-fab routerLink="scan">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
-  </button>
+  </a>
   <div fxLayout="row" fxLayoutGap="1rem" class="mb-4">
     <a mat-icon-button routerLink="..">
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <h1>{{ event.title }}</h1>
   </div>
-  <div *ngIf="event.costItems.length" class="border-2 rounded p-2 mb-8">
+  <div *ngIf="event.costItems.length" class="mb-8 rounded border-2 p-2">
     <h2 class="font-bold">Required receipts</h2>
     <mat-nav-list>
       <a
@@ -36,7 +36,7 @@
       You can upload multiple photos of receipts for each entry, please make
       sure to add all receipts with their data to make sure we can pay you back.
     </p>
-    <p class="text-red-500 font-bold">
+    <p class="font-bold text-red-500">
       KEEP ALL ORIGINAL RECEIPTS! <br />
       TUMi is not yet fully digital so make sure to collect any tickets at the
       end of the event
