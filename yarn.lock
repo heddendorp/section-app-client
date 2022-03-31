@@ -4579,7 +4579,7 @@ __metadata:
     "@types/compression": ^1.7.2
     "@types/express": ^4.17.13
     "@types/jasmine": ~3.10.4
-    "@types/node": ^16.11.26
+    "@types/node": ^17.0.23
     "@types/prettier": ^2.4.4
     "@typescript-eslint/eslint-plugin": 5.17.0
     "@typescript-eslint/parser": 5.17.0
@@ -4636,7 +4636,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.2
     "@types/jasmine": ~3.10.4
     "@types/luxon": ^2.3.1
-    "@types/node": ^16.11.26
+    "@types/node": ^17.0.23
     "@types/prettier": ^2.4.4
     "@typescript-eslint/eslint-plugin": 5.17.0
     "@typescript-eslint/parser": 5.17.0
@@ -4656,6 +4656,76 @@ __metadata:
     postcss: ^8.4.12
     prettier: ^2.6.1
     prettier-plugin-tailwindcss: ^0.1.8
+    rxjs: ~7.5.5
+    tailwindcss: ^3.0.23
+    tslib: ^2.3.1
+    typescript: ~4.6.3
+    zone.js: ~0.11.5
+  languageName: unknown
+  linkType: soft
+
+"@tumi/legacy-app@workspace:legacy-app":
+  version: 0.0.0-use.local
+  resolution: "@tumi/legacy-app@workspace:legacy-app"
+  dependencies:
+    "@angular-devkit/build-angular": ~13.3.1
+    "@angular-eslint/builder": 13.1.0
+    "@angular-eslint/eslint-plugin": 13.1.0
+    "@angular-eslint/eslint-plugin-template": 13.1.0
+    "@angular-eslint/schematics": 13.1.0
+    "@angular-eslint/template-parser": 13.1.0
+    "@angular/animations": ~13.3.1
+    "@angular/cdk": ~13.3.2
+    "@angular/cli": ~13.3.1
+    "@angular/common": ~13.3.1
+    "@angular/compiler": ~13.3.1
+    "@angular/compiler-cli": ~13.3.1
+    "@angular/core": ~13.3.1
+    "@angular/flex-layout": ^13.0.0-beta.38
+    "@angular/forms": ~13.3.1
+    "@angular/material": ~13.3.2
+    "@angular/material-luxon-adapter": ^13.3.2
+    "@angular/platform-browser": ~13.3.1
+    "@angular/platform-browser-dynamic": ~13.3.1
+    "@angular/router": ~13.3.1
+    "@angular/service-worker": ^13.3.1
+    "@apollo/client": ^3.5.10
+    "@auth0/auth0-angular": ^1.9.0
+    "@azure/storage-blob": ^12.9.0
+    "@graphql-codegen/cli": ^2.6.2
+    "@graphql-codegen/typescript-apollo-angular": ^3.4.7
+    "@graphql-codegen/typescript-operations": ^2.3.5
+    "@stripe/stripe-js": ^1.26.0
+    "@swimlane/ngx-charts": ^20.1.0
+    "@tailwindcss/aspect-ratio": ^0.4.0
+    "@tailwindcss/line-clamp": ^0.3.1
+    "@tailwindcss/typography": ^0.5.2
+    "@types/d3-scale": ^4.0.2
+    "@types/d3-selection": ^3.0.2
+    "@types/jasmine": ~3.10.4
+    "@types/luxon": ^2.3.1
+    "@types/node": ^17.0.23
+    "@types/prettier": ^2.4.4
+    "@typescript-eslint/eslint-plugin": 5.17.0
+    "@typescript-eslint/parser": 5.17.0
+    apollo-angular: ^3.0.0
+    autoprefixer: ^10.4.4
+    azure-maps-rest: ^2.0.8
+    concurrently: ^7.0.0
+    eslint: ^8.12.0
+    graphql: ^16.3.0
+    jasmine-core: ~4.0.1
+    karma: ~6.3.17
+    karma-chrome-launcher: ~3.1.1
+    karma-coverage: ~2.2.0
+    karma-jasmine: ~4.0.2
+    karma-jasmine-html-reporter: ~1.7.0
+    luxon: ^2.3.1
+    ngx-markdown: ^13.1.0
+    postcss: ^8.4.12
+    prettier: ^2.6.1
+    prettier-plugin-tailwindcss: ^0.1.8
+    qr-scanner: ^1.4.1
     rxjs: ~7.5.5
     tailwindcss: ^3.0.23
     tslib: ^2.3.1
@@ -5315,24 +5385,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^12.20.47":
-  version: 12.20.47
-  resolution: "@types/node@npm:12.20.47"
-  checksum: 97487af02fada4342e1bd47f9c9ebf601c12b85cbf17056ba73a315339ae996490403f2d4d1d799d8078cfe43a59e33370b4a5ae2d4fb79dd02359f4691934b4
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^14.11.8, @types/node@npm:^14.14.11":
   version: 14.18.12
   resolution: "@types/node@npm:14.18.12"
   checksum: 8a0273caa0584020adb8802784fc7d4f18f05e6c205335b7f3818a91d6b0c22736b9f51da3428d5bc54076ad47f1a4d6d57990a3ce8489a520ac66b2b3ff24bc
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.11.26":
-  version: 16.11.26
-  resolution: "@types/node@npm:16.11.26"
-  checksum: 57757caaba3f0d95de82198cb276a1002c49b710108c932a1d02d7c91ff2fa57cfe2dd19fde60853b6dd90b0964b3cf35557981d2628e20aed6a909057aedfe6
   languageName: node
   linkType: hard
 
@@ -13855,76 +13911,6 @@ __metadata:
   checksum: fbc72b071eb66c40f652441fd783a9cca62f08bf42433651937f078cd9ef94bf728ec7743992777826e4e89305aef24f234b515e6030503a2cbee7fc9bdc2c0f
   languageName: node
   linkType: hard
-
-"legacy-app@workspace:legacy-app":
-  version: 0.0.0-use.local
-  resolution: "legacy-app@workspace:legacy-app"
-  dependencies:
-    "@angular-devkit/build-angular": ~13.3.1
-    "@angular-eslint/builder": 13.1.0
-    "@angular-eslint/eslint-plugin": 13.1.0
-    "@angular-eslint/eslint-plugin-template": 13.1.0
-    "@angular-eslint/schematics": 13.1.0
-    "@angular-eslint/template-parser": 13.1.0
-    "@angular/animations": ~13.3.1
-    "@angular/cdk": ~13.3.2
-    "@angular/cli": ~13.3.1
-    "@angular/common": ~13.3.1
-    "@angular/compiler": ~13.3.1
-    "@angular/compiler-cli": ~13.3.1
-    "@angular/core": ~13.3.1
-    "@angular/flex-layout": ^13.0.0-beta.38
-    "@angular/forms": ~13.3.1
-    "@angular/material": ~13.3.2
-    "@angular/material-luxon-adapter": ^13.3.2
-    "@angular/platform-browser": ~13.3.1
-    "@angular/platform-browser-dynamic": ~13.3.1
-    "@angular/router": ~13.3.1
-    "@angular/service-worker": ^13.3.1
-    "@apollo/client": ^3.5.10
-    "@auth0/auth0-angular": ^1.9.0
-    "@azure/storage-blob": ^12.9.0
-    "@graphql-codegen/cli": ^2.6.2
-    "@graphql-codegen/typescript-apollo-angular": ^3.4.7
-    "@graphql-codegen/typescript-operations": ^2.3.5
-    "@stripe/stripe-js": ^1.26.0
-    "@swimlane/ngx-charts": ^20.1.0
-    "@tailwindcss/aspect-ratio": ^0.4.0
-    "@tailwindcss/line-clamp": ^0.3.1
-    "@tailwindcss/typography": ^0.5.2
-    "@types/d3-scale": ^4.0.2
-    "@types/d3-selection": ^3.0.2
-    "@types/jasmine": ~3.10.4
-    "@types/luxon": ^2.3.1
-    "@types/node": ^12.20.47
-    "@types/prettier": ^2.4.4
-    "@typescript-eslint/eslint-plugin": 5.17.0
-    "@typescript-eslint/parser": 5.17.0
-    apollo-angular: ^3.0.0
-    autoprefixer: ^10.4.4
-    azure-maps-rest: ^2.0.8
-    concurrently: ^7.0.0
-    eslint: ^8.12.0
-    graphql: ^16.3.0
-    jasmine-core: ~4.0.1
-    karma: ~6.3.17
-    karma-chrome-launcher: ~3.1.1
-    karma-coverage: ~2.2.0
-    karma-jasmine: ~4.0.2
-    karma-jasmine-html-reporter: ~1.7.0
-    luxon: ^2.3.1
-    ngx-markdown: ^13.1.0
-    postcss: ^8.4.12
-    prettier: ^2.6.1
-    prettier-plugin-tailwindcss: ^0.1.8
-    qr-scanner: ^1.4.1
-    rxjs: ~7.5.5
-    tailwindcss: ^3.0.23
-    tslib: ^2.3.1
-    typescript: ~4.6.3
-    zone.js: ~0.11.5
-  languageName: unknown
-  linkType: soft
 
 "less-loader@npm:10.2.0":
   version: 10.2.0
