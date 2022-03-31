@@ -109,8 +109,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         options: this.fb.array([], Validators.required),
       }),
       eventOrganizerId: ['', Validators.required],
-      organizerSignup: [[], Validators.required],
-      participantSignup: [[], Validators.required],
+      organizerSignup: [[]],
+      participantSignup: [[]],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
     });
