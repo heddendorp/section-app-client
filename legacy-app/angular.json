@@ -26,9 +26,19 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets", "src/.well-known"],
+            "assets": [
+              "src/favicon.ico",
+              "src/manifest.webmanifest",
+              "src/assets",
+              {
+                "glob": "qr-scanner-worker.min.js",
+                "input": "../node_modules/qr-scanner/",
+                "output": "assets/"
+              }
+            ],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": ["../node_modules/marked/marked.min.js"],
+            "serviceWorker": true
           },
           "configurations": {
             "production": {
