@@ -47,7 +47,7 @@ export class InstagramComponent implements AfterViewInit {
         context.fillStyle = '#fff';
         context.fillText(text, 540, 250);
         context.font = 'normal 57pt sans-serif';
-        context.fillText('Register at: tumi.esn.world', 540, 350);
+        context.fillText('Sign up at: tumi.esn.world', 540, 350);
 
         events.forEach((event, index) => {
           const offset = 450 + index * 200;
@@ -78,6 +78,14 @@ export class InstagramComponent implements AfterViewInit {
                 offset + 130,
                 780
               );
+              context.fillStyle = 'gray';
+              context.fillText(
+                event.freeParticipantSpots,
+                720,
+                offset + 130,
+                780
+              );
+              context.fillStyle = '#000';
             } else {
               context.fillText(
                 'Any time at tumi.esn.world',
