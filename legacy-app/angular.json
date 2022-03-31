@@ -109,6 +109,7 @@
   },
   "defaultProject": "legacy-app",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "defaultCollection": "@angular-eslint/schematics",
+    "packageManager": "yarn"
   }
 }
