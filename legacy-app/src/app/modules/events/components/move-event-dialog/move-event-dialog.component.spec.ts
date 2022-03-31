@@ -8,9 +8,8 @@ describe('MoveEventDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MoveEventDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [MoveEventDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('CheckAdditionalDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CheckAdditionalDataComponent ]
-    })
-    .compileComponents();
+      declarations: [CheckAdditionalDataComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

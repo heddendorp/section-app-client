@@ -8,9 +8,8 @@ describe('TenantRefundsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TenantRefundsPageComponent ]
-    })
-    .compileComponents();
+      declarations: [TenantRefundsPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

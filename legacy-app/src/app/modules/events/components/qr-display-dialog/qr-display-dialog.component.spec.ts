@@ -8,9 +8,8 @@ describe('QrDisplayDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ QrDisplayDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [QrDisplayDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

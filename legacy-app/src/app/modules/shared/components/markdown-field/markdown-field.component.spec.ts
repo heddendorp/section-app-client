@@ -8,9 +8,8 @@ describe('MarkdownFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MarkdownFieldComponent ]
-    })
-    .compileComponents();
+      declarations: [MarkdownFieldComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

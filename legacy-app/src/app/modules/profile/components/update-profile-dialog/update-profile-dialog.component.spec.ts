@@ -8,9 +8,8 @@ describe('UpdateProfileDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateProfileDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [UpdateProfileDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
