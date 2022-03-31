@@ -1,0 +1,179 @@
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
+import {
+  BehaviorSubject,
+  debounceTime,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
+import {
+  CheckInUserGQL,
+  GetRegistrationGQL,
+  GetRegistrationQuery,
+  LoadEventForRunningGQL,
+  LoadEventForRunningQuery,
+  VerifyCertificateGQL,
+} from '@tumi/legacy-app/generated/generated';
+import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import QrScanner from 'qr-scanner';
+
+@Component({
+  selector: 'app-event-checkin-page',
+  templateUrl: './event-checkin-page.component.html',
+  styleUrls: ['./event-checkin-page.component.scss'],
+})
+export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
+  public hideScanner$ = new BehaviorSubject(false);
+  public cameras$ = new BehaviorSubject<QrScanner.Camera[]>([]);
+  public cameraControl = new FormControl();
+  public currentRegistration$ = new BehaviorSubject<
+    GetRegistrationQuery['registration'] | null
+  >(null);
+  public event$: Observable<LoadEventForRunningQuery['event']>;
+  public certificatePayload$ = new BehaviorSubject<{
+    name: string;
+    test?: {
+      type: string;
+      country: string;
+      result: 'Positive' | 'Negative';
+      hours: number;
+      date: string;
+      relativeDate: string;
+    };
+    vaccination?: {
+      doseNumber: number;
+      series: number;
+      date: string;
+      country: string;
+      relativeDate: string;
+    };
+    recovery?: {
+      date: string;
+      validFrom: string;
+      validUntil: string;
+      country: string;
+      relativeDate: string;
+      relativeUntil: string;
+      relativeFrom: string;
+    };
+  } | null>(null);
+  @ViewChild('scannerVideo') video: ElementRef<HTMLVideoElement> | undefined;
+  public eventId: string;
+  private loadEventQueryRef;
+  private destroyed$ = new Subject();
+  private scanner: QrScanner | undefined;
+  private scanResult$ = new Subject<string>();
+
+  constructor(
+    private route: ActivatedRoute,
+    private loadEvent: LoadEventForRunningGQL,
+    private loadRegistration: GetRegistrationGQL,
+    private checkInMutation: CheckInUserGQL,
+    private verifyCertificateGQL: VerifyCertificateGQL,
+    private snackBar: MatSnackBar
+  ) {
+    this.loadEventQueryRef = this.loadEvent.watch({
+      id: this.route.snapshot.params['eventId'],
+    });
+    this.eventId = this.route.snapshot.params['eventId'];
+    this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      map(({ data }) => data.event)
+    );
+    this.loadEventQueryRef.startPolling(5000);
+  }
+
+  async ngAfterViewInit() {
+    const idTest = new RegExp(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+    );
+    this.scanResult$.pipe(debounceTime(500)).subscribe((result) => {
+      const isID = idTest.test(result);
+      if (result.includes('HC1')) {
+        // DCC.unpackAndVerify(result);
+        this.verifyCertificateGQL
+          .mutate({
+            cert: result,
+          })
+          .subscribe({
+            next: ({ data }) => {
+              if (data) {
+                this.snackBar.open(
+                  `Certificate scanned: ${data.verifyDCC.status}`
+                );
+                this.certificatePayload$.next(data.verifyDCC.payload);
+                this.hideScanner$.next(true);
+              } else {
+                this.snackBar.open('Certificate not verified');
+              }
+            },
+            error: (err) => {
+              this.snackBar.open('Error processing certificate');
+            },
+          });
+      }
+      if (isID) {
+        this.scanner?.stop();
+        this.hideScanner$.next(true);
+        this.loadRegistration
+          .fetch({ id: result })
+          .subscribe(({ data }) =>
+            this.currentRegistration$.next(data.registration)
+          );
+      }
+    });
+    QrScanner.WORKER_PATH = 'assets/qr-scanner-worker.min.js';
+    if (this.video?.nativeElement) {
+      this.scanner = new QrScanner(this.video?.nativeElement, (result) => {
+        this.scanResult$.next(result);
+      });
+      await this.scanner.setCamera('environment');
+    } else {
+      this.snackBar.open('No video element found');
+    }
+    this.scanner?.start();
+    const cameras = await QrScanner.listCameras(true);
+    this.cameras$.next(cameras);
+    this.cameraControl.setValue(cameras[0].id);
+    this.cameraControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((camera) => {
+        this.scanner?.setCamera(camera);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.scanner?.stop();
+    this.scanner?.destroy();
+    this.loadEventQueryRef.stopPolling();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+    this.scanResult$.complete();
+  }
+
+  showScanner(): void {
+    this.hideScanner$.next(false);
+    this.certificatePayload$.next(null);
+  }
+
+  async checkInUser() {
+    const registration = this.currentRegistration$.value;
+    if (registration) {
+      await this.checkInMutation.mutate({ id: registration.id }).toPromise();
+      this.snackBar.open('✔️ Check in successful');
+      this.currentRegistration$.next(null);
+      this.hideScanner$.next(false);
+      this.scanner?.start();
+    } else {
+      this.snackBar.open('⚠️ No registration loaded');
+    }
+  }
+}

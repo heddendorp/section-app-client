@@ -1,0 +1,25 @@
+query userRoles {
+  currentUser {
+    id
+    fullName
+    hasESNcard
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
+    }
+  }
+}
+
+mutation createSubmissionItem($target:String, $id: ID!, $input: CreateSubmissionItemInput!){
+  createSubmissionItem(id: $id,data: $input,target: $target){
+    id
+  }
+}
+
+mutation deleteSubmissionItem($id: ID!){
+  deleteSubmissionItem(id: $id){
+    id
+  }
+}

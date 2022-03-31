@@ -1,0 +1,62 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(photos$ | async) === null"
+></mat-progress-bar>
+<mat-progress-bar
+  *ngIf="uploading$ | async"
+  [mode]="(uploadMode$ | async) ?? 'indeterminate'"
+  [value]="uploadProgress$ | async"
+></mat-progress-bar>
+<main *ngIf="photos$ | async as photos" class="p-4">
+  <input
+    type="file"
+    hidden
+    #fileInput
+    accept="image/*"
+    multiple
+    (change)="addFile($event)"
+  />
+  <div
+    class="fixed right-4 bottom-4 z-20 lg:right-8"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <button
+      [disabled]="uploading$ | async"
+      mat-fab
+      class="extended-fab"
+      (click)="fileInput.click()"
+    >
+      <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
+      <span class="label">Add Images</span>
+    </button>
+  </div>
+  <h1 class="mb-4 font-bold">Photos for {{ (event$ | async)?.title }}</h1>
+  <div
+    class="w-full"
+    gdAuto="dense"
+    gdAlignColumns="stretch"
+    gdAlignRows="stretch"
+    gdGap="1rem"
+    gdColumns="repeat(2, 1fr)"
+    gdColumns.gt-sm="repeat(3, 1fr)"
+    gdColumns.gt-md="repeat(4, 1fr)"
+    gdColumns.gt-lg="repeat(6, 1fr)"
+    *ngIf="photos$ | async as photos"
+  >
+    <div
+      *ngFor="let photo of photos"
+      gdColumn="span {{ photo.cols }}"
+      gdRow="span {{ photo.rows }}"
+      class="relative"
+      (click)="openPhoto(photo)"
+    >
+      <p
+        class="absolute bottom-0 left-0 right-0 rounded-t bg-white bg-opacity-80 p-2"
+      >
+        {{ photo.creator.fullName }}
+      </p>
+      <img [src]="photo.src" class="h-full w-full object-cover" />
+    </div>
+  </div>
+</main>

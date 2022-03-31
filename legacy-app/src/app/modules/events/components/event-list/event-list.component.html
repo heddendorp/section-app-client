@@ -1,0 +1,17 @@
+<app-grid minWidth="450px">
+  <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
+    <span
+      *ngIf="
+        i === 0 ||
+        (events[i - 1].start | date: 'shortDate') !==
+          (event.start | date: 'shortDate')
+      "
+      gdColumn="-1/1"
+      >{{ event.start | date: 'longDate' }}</span
+    >
+    <app-event-list-item
+      [event]="event"
+      class="block h-full"
+    ></app-event-list-item>
+  </ng-container>
+</app-grid>

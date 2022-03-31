@@ -1,0 +1,169 @@
+<main class="space-y-2 p-4 lg:p-8">
+  <h1 class="font-bold">Registration Code</h1>
+  <p>The ultimate information center 😎</p>
+  <div
+    class="overflow-hidden rounded-2xl border"
+    *ngIf="eventRegistrationCode$ | async as code"
+  >
+    <table class="w-full table-auto border-collapse">
+      <tbody>
+        <tr>
+          <th colspan="2">Code</th>
+          <th colspan="2">Event: {{ code.targetEvent.title }}</th>
+        </tr>
+        <tr>
+          <td>Created: {{ code.createdAt | date: 'medium' }}</td>
+          <td>Creator: {{ code.creator.fullName }}</td>
+          <td>Start: {{ code.targetEvent.start | date: 'medium' }}</td>
+          <td>End: {{ code.targetEvent.end | date: 'medium' }}</td>
+        </tr>
+        <tr>
+          <td>Status: {{ code.status }}</td>
+          <td>
+            <span class="tag" *ngIf="code.isPublic">public</span>
+            <span class="tag" *ngIf="!code.isPublic">private</span>
+            <span class="tag" *ngIf="code.sepaAllowed">sepa</span>
+          </td>
+          <td colspan="2">
+            <a
+              class="w-full"
+              href="/events/{{ code.targetEvent.id }}/manage"
+              mat-stroked-button
+            >
+              Manage Event
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="2">Initial Registration</th>
+          <th colspan="2">Created Registration</th>
+        </tr>
+
+        <tr>
+          <ng-container *ngIf="code.registrationToRemove">
+            <td>
+              Created:
+              {{ code.registrationToRemove.createdAt | date: 'medium' }}
+            </td>
+            <td>{{ code.registrationToRemove.user.fullName }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove">
+            <td colspan="2">Admin code with no original registration</td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated">
+            <td>
+              Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
+            </td>
+            <td>{{ code.registrationCreated.user.fullName }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated">
+            <td colspan="2">Code was not used yet</td>
+          </ng-container>
+        </tr>
+
+        <tr>
+          <ng-container *ngIf="code.registrationToRemove">
+            <td>
+              Status:
+              {{ code.registrationToRemove.status | lowercase }}
+            </td>
+            <td>{{ code.registrationToRemove.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove">
+            <td colspan="2"></td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated">
+            <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
+            <td>{{ code.registrationCreated.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated">
+            <td colspan="2"></td>
+          </ng-container>
+        </tr>
+
+        <tr>
+          <ng-container *ngIf="code.registrationToRemove?.payment">
+            <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
+              <span> Payment status: </span>
+              <span>{{ code.registrationToRemove?.payment?.status }}</span>
+              <span> Payment method: </span>
+              <span>{{
+                code.registrationToRemove?.payment?.paymentMethodType
+              }}</span>
+              <a
+                gdColumn="span 2"
+                mat-stroked-button
+                href="https://dashboard.stripe.com/payments/{{
+                  code.registrationToRemove?.payment?.paymentIntent
+                }}"
+                >Open in stripe</a
+              >
+            </td>
+            <td>
+              <p>Events</p>
+              <p
+                *ngFor="let event of code.registrationToRemove?.payment?.events"
+              >
+                {{ event.name }} - {{ event.date | date: 'medium' }}
+              </p>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove?.payment">
+            <td colspan="2">No payment for this registration</td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated?.payment">
+            <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
+              <span> Payment status: </span>
+              <span>{{ code.registrationCreated?.payment?.status }}</span>
+              <span> Payment method: </span>
+              <span>
+                {{ code.registrationCreated?.payment?.paymentMethodType }}
+              </span>
+              <a
+                gdColumn="span 2"
+                mat-stroked-button
+                href="https://dashboard.stripe.com/payments/{{
+                  code.registrationCreated?.payment?.paymentIntent
+                }}"
+                >Open in stripe</a
+              >
+            </td>
+            <td>
+              <p>Events</p>
+              <p
+                *ngFor="let event of code.registrationCreated?.payment?.events"
+              >
+                {{ event.name }} - {{ event.date | date: 'medium' }}
+              </p>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated?.payment">
+            <td colspan="2">No payment for this registration</td>
+          </ng-container>
+        </tr>
+        <ng-container *ngIf="code.connectedRegistrations.length">
+          <tr>
+            <th colspan="4">All connected registrations</th>
+          </tr>
+          <tr *ngFor="let registration of code.connectedRegistrations">
+            <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+            <td>{{ registration.user.fullName }}</td>
+            <td>
+              Status: {{ registration.status }} ({{
+                registration.cancellationReason
+              }})
+            </td>
+            <td>
+              <p>
+                Payment: {{ registration.payment?.status }} ({{
+                  registration.payment?.paymentMethodType
+                }})
+              </p>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <!--  <pre>{{ eventRegistrationCode$ | async | json }}</pre>-->
+</main>

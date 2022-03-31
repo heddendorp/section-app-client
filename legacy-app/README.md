@@ -1,69 +1,27 @@
-# ESN (TUMi) App
+# LegacyApp
 
-A modern PWA to manage the events and members of an ESN secion
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
 
-## Demo
+## Development server
 
-https://tumi.esn.world/events is the running and used instance of this project for the events organized by the ESN TUMi e.V.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Tech Stack
+## Code scaffolding
 
-**Client:** Angular, Angular components, Apollo-Angular, TailwindCSS
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-**Server:** Node, Express, Apollo Server, Prisma, Nexus, Nexus-Prisma
+## Build
 
-## Roadmap
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-You can find some planned things [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6dvGfRChCsMUanV8lBoxLgCg6EPqy9Zf3gIWjTV4_Jen2F6Qady9G_w-xqHul_WXnHvUaheFD5_nK/pubhtml?gid=0&single=true)
+## Running unit tests
 
-## Contributing
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-Contributions are always welcome!
+## Running end-to-end tests
 
-You can reach me at president@esn-tumi.de if you want to know more about TUMi, this project or what could be done.
-Contributions in forms of issues opened here are also very welcome to improve the project.
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Run Locally
+## Further help
 
-Clone the project
-
-```bash
-  git clone https://github.com/heddendorp/tumi-app.git
-```
-
-Go to the project directory
-
-```bash
-  cd tumi-app
-```
-
-Install dependencies
-
-```bash
-  yarn install
-```
-
-Start the server
-
-```bash
-  yarn run start:app
-  yarn run start:api
-```
-
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`BLOB_SAS_TOKEN`
-
-`PRODUCT_SAS_TOKEN`
-
-`STORAGE_CONNECTION_STRING`
-
-`STRIPE_WH_SECRET`
-
-`DATABASE_URL`
-
-`STRIPE_KEY`
-
-Of course these can't be published, but if they are needed for development, sandbox keys will do.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

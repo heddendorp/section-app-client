@@ -1,0 +1,19 @@
+<main class="p-4">
+  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between">
+    <h1 class="mb-4">Event Templates</h1>
+    <button
+      (click)="createTemplate()"
+      mat-flat-button
+      color="accent"
+      *appIfRole="[Role.Admin]"
+    >
+      Add new template
+    </button>
+  </div>
+  <div>
+    <app-template-list-entry
+      *ngFor="let template of eventTemplates$ | async"
+      [template]="template"
+    ></app-template-list-entry>
+  </div>
+</main>
