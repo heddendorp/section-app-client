@@ -1,3 +1,4 @@
 events/src/app/generated/
+legacy-app/src/app/generated/
 server/schema.graphql
 server/src/generated/

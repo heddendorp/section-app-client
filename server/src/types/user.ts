@@ -44,7 +44,6 @@ export const userType = objectType({
     t.field(User.esnCardOverride);
     t.field({
       ...User.eventRegistrations,
-      // type: list(eventRegistrationCodeType),
       resolve: (source, args, context) =>
         context.prisma.user
           .findUnique({

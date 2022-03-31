@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   GetPhotoJourneyGQL,
   GetPhotoJourneyQuery,
+  RegistrationStatus,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 
@@ -14,9 +15,22 @@ import { map, Observable } from 'rxjs';
 export class PhotoJourneyPageComponent {
   $data: Observable<GetPhotoJourneyQuery['currentUser']>;
   constructor(private photoQuery: GetPhotoJourneyGQL) {
-    this.$data = this.photoQuery
-      .fetch()
-      .pipe(map(({ data }) => data.currentUser));
+    this.$data = this.photoQuery.fetch().pipe(
+      map(({ data }) => data.currentUser),
+      map((user) => {
+        if (user) {
+          return {
+            ...user,
+            eventRegistrations: user?.eventRegistrations.filter(
+              (registraion) =>
+                registraion.status !== RegistrationStatus.Cancelled
+            ),
+          };
+        } else {
+          return user;
+        }
+      })
+    );
   }
 
   openPhoto(photo: {
