@@ -8,9 +8,8 @@ describe('LocationAutocompleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LocationAutocompleteComponent ]
-    })
-    .compileComponents();
+      declarations: [LocationAutocompleteComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

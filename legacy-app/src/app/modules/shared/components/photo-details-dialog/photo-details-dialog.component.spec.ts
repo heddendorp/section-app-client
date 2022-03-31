@@ -8,9 +8,8 @@ describe('PhotoDetailsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PhotoDetailsDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [PhotoDetailsDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

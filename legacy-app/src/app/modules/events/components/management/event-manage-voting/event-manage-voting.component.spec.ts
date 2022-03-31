@@ -8,9 +8,8 @@ describe('EventManageVotingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventManageVotingComponent ]
-    })
-    .compileComponents();
+      declarations: [EventManageVotingComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

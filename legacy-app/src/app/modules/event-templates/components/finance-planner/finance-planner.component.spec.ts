@@ -8,9 +8,8 @@ describe('FinancePlannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FinancePlannerComponent ]
-    })
-    .compileComponents();
+      declarations: [FinancePlannerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('SelectOrganizerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectOrganizerDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SelectOrganizerDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('NewFinanceEntryDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewFinanceEntryDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [NewFinanceEntryDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

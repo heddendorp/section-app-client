@@ -4,14 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ShopRoutingModule } from './shop-routing.module';
 import { ShopComponent } from './shop.component';
 
-
 @NgModule({
-  declarations: [
-    ShopComponent
-  ],
-  imports: [
-    CommonModule,
-    ShopRoutingModule
-  ]
+  declarations: [ShopComponent],
+  imports: [CommonModule, ShopRoutingModule],
 })
-export class ShopModule { }
+export class ShopModule {}

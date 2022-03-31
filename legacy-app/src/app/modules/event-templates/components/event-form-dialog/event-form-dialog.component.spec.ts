@@ -8,9 +8,8 @@ describe('EventFormDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventFormDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [EventFormDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

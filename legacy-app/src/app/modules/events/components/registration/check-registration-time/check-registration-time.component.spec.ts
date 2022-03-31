@@ -8,9 +8,8 @@ describe('CheckRegistrationTimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CheckRegistrationTimeComponent ]
-    })
-    .compileComponents();
+      declarations: [CheckRegistrationTimeComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

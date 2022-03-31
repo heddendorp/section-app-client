@@ -8,9 +8,8 @@ describe('OnlineEventRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OnlineEventRegistrationComponent ]
-    })
-    .compileComponents();
+      declarations: [OnlineEventRegistrationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

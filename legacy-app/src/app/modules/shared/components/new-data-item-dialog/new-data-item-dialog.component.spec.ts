@@ -8,9 +8,8 @@ describe('NewDataItemDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewDataItemDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [NewDataItemDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
