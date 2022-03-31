@@ -8,6 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "update": "ng update -C @angular/cli @angular/core",
     "codegen": "yarn graphql-codegen",
     "codegen:watch": "yarn graphql-codegen --watch",
     "lint": "ng lint"
