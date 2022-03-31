@@ -8,9 +8,8 @@ describe('ExternalEventRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExternalEventRegistrationComponent ]
-    })
-    .compileComponents();
+      declarations: [ExternalEventRegistrationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

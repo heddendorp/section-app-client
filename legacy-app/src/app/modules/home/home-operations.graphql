@@ -1,11 +1,11 @@
-query getHomePageData{
-  events(limit: 10){
+query getHomePageData {
+  events(limit: 10) {
     id
     title
     icon
     start
   }
-  currentUser{
+  currentUser {
     id
   }
 }

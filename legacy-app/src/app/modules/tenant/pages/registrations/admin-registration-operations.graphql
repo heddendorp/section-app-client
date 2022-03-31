@@ -1,4 +1,4 @@
-query getRegistrations($pageLength:Int, $pageIndex:Int) {
+query getRegistrations($pageLength: Int, $pageIndex: Int) {
   registrations(pageIndex: $pageIndex, pageLength: $pageLength) {
     id
     createdAt
@@ -47,7 +47,7 @@ query getRegistrationForAdmin($id: ID!) {
   }
 }
 
-query getRegistrationCount{
+query getRegistrationCount {
   registrationCount
 }
 

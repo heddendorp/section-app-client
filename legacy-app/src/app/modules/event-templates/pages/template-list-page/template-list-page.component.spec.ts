@@ -8,9 +8,8 @@ describe('TemplateListPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TemplateListPageComponent ]
-    })
-    .compileComponents();
+      declarations: [TemplateListPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

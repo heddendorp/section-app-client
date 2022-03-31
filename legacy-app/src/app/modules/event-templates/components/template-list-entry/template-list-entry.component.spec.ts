@@ -8,9 +8,8 @@ describe('TemplateListEntryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TemplateListEntryComponent ]
-    })
-    .compileComponents();
+      declarations: [TemplateListEntryComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

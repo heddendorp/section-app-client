@@ -8,9 +8,8 @@ describe('TenantActivityLogPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TenantActivityLogPageComponent ]
-    })
-    .compileComponents();
+      declarations: [TenantActivityLogPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

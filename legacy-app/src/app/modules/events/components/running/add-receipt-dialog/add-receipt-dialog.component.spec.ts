@@ -8,9 +8,8 @@ describe('AddReceiptDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddReceiptDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [AddReceiptDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

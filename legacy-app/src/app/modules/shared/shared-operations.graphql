@@ -12,14 +12,18 @@ query userRoles {
   }
 }
 
-mutation createSubmissionItem($target:String, $id: ID!, $input: CreateSubmissionItemInput!){
-  createSubmissionItem(id: $id,data: $input,target: $target){
+mutation createSubmissionItem(
+  $target: String
+  $id: ID!
+  $input: CreateSubmissionItemInput!
+) {
+  createSubmissionItem(id: $id, data: $input, target: $target) {
     id
   }
 }
 
-mutation deleteSubmissionItem($id: ID!){
-  deleteSubmissionItem(id: $id){
+mutation deleteSubmissionItem($id: ID!) {
+  deleteSubmissionItem(id: $id) {
     id
   }
 }
