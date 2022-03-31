@@ -1,5 +1,5 @@
 {
-  "name": "legacy-app",
+  "name": "@tumi/legacy-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
