@@ -8,6 +8,7 @@ COPY .yarn .yarn/
 
 RUN yarn workspace @tumi/legacy-app install
 COPY legacy-app legacy-app/
+COPY shared shared/
 # If you are building your code for production
 RUN yarn workspace @tumi/legacy-app build
 
