@@ -48,6 +48,15 @@ export default function RegistrationForm() {
     <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
       <p className="mt-4 mb-8 md:text-lg">
+        The registration deadline for the summer 2022 edition of Party Animals
+        has passed. You can still take part in the TUMi orientation weeks.
+      </p>
+    </section>
+  );
+  /*return (
+    <section className="bg-slate-800 p-4 text-white md:p-8">
+      <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
+      <p className="mt-4 mb-8 md:text-lg">
         Register here to join party animals. The registration includes the
         entire program outlined in the overview. You will be assigned to one of
         the eight groups of party animals and stay with them for the whole
@@ -602,5 +611,5 @@ export default function RegistrationForm() {
         </button>
       </Form>
     </section>
-  );
+  );*/
 }
