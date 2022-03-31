@@ -4,26 +4,51 @@
   "theme_color": "#3B82F6",
   "background_color": "#3B82F6",
   "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["esn", "education", "exchange", "events"],
   "scope": "./",
-  "start_url": "./events",
+  "start_url": "./events?utm_source=homescreen",
   "shortcuts": [
     {
       "name": "Open Events",
       "short_name": "TUMi events",
       "description": "See all upcoming events",
-      "url": "/events?utm_source=homescreen",
+      "url": "/events?utm_source=shortcut",
       "icons": [{ "src": "/assets/icons/schedule.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/favicon/screenshot1.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Welcome Screen of the App"
+    },
+    {
+      "src": "/assets/favicon/screenshot2.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Welcome Screen of the App"
+    },
+    {
+      "src": "/assets/favicon/screenshot3.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Event Screen of the App"
     }
   ],
   "icons": [
     {
-      "src": "/assets/favicon/android-chrome-192x192.png",
+      "src": "/assets/favicon/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/favicon/android-chrome-512x512.png",
+      "src": "/assets/favicon/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
