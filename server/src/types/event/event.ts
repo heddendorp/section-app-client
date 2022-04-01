@@ -7,6 +7,7 @@ import {
   mutationField,
   nonNull,
   queryField,
+  stringArg,
 } from 'nexus';
 import { TumiEvent } from '../../generated/nexus-prisma';
 import {
@@ -22,6 +23,7 @@ import { updateLocationInputType } from '../eventTemplate';
 import { EnvelopError } from '@envelop/core';
 import { eventType } from './eventType';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
+import { GraphQLError } from 'graphql';
 
 export const updateCostItemsFromTemplateMutation = mutationField(
   'updateCostItemsFromTemplate',
@@ -432,3 +434,39 @@ export const createFromTemplateMutation = mutationField(
     },
   }
 );
+
+export const rateEventMutation = mutationField('rateEvent', {
+  type: eventType,
+  args: {
+    id: nonNull(idArg()),
+    rating: nonNull(intArg()),
+    comment: stringArg({ default: '' }),
+  },
+  resolve: async (source, { id, rating, comment }, context) => {
+    const registration = await context.prisma.eventRegistration.findFirst({
+      where: {
+        event: {
+          id,
+        },
+        user: {
+          id: context.user?.id,
+        },
+      },
+    });
+    if (!registration) throw new GraphQLError('Registration not found!');
+    return context.prisma.tumiEvent.update({
+      where: { id },
+      data: {
+        registrations: {
+          update: {
+            where: { id: registration.id },
+            data: {
+              rating,
+              userComment: comment,
+            },
+          },
+        },
+      },
+    });
+  },
+});

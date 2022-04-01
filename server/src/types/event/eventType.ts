@@ -1,6 +1,6 @@
 import { arg, booleanArg, list, nonNull, objectType } from 'nexus';
 import { EnvelopError } from '@envelop/core';
-import { DateTime as Luxon } from 'luxon';
+import { DateTime, DateTime as Luxon } from 'luxon';
 import { TumiEvent } from '../../generated/nexus-prisma';
 import {
   MembershipStatus,
@@ -12,6 +12,7 @@ import {
 import { submissionTimeEnum } from '../enums';
 import { eventRegistrationType } from '../eventRegistration';
 import { userType } from '../user';
+import { assertWrappingType } from 'graphql';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -118,6 +119,27 @@ export const eventType = objectType({
     });
     t.field(TumiEvent.eventTemplate);
     t.field(TumiEvent.eventTemplateId);
+    t.nonNull.boolean('needsRating', {
+      resolve: async (source, args, context) => {
+        const lastWeek = DateTime.local().minus({ days: 7 });
+        const registrations = await context.prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              event: {
+                end: {
+                  gt: lastWeek.toJSDate(),
+                  lt: new Date(),
+                },
+              },
+              user: { id: context.user?.id },
+              status: { not: RegistrationStatus.CANCELLED },
+              rating: null,
+            },
+          });
+        return registrations.length > 0;
+      },
+    });
     t.field({
       name: 'activeRegistration',
       type: eventRegistrationType,

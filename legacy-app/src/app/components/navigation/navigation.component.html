@@ -129,6 +129,16 @@
       <div fxFlex="grow"></div>
       <app-auth-button></app-auth-button>
     </mat-toolbar>
+    <div
+      *ngIf="outstandingRating$ | async"
+      class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
+    >
+      <p class="text-center text-sm font-medium">
+        Please rate events you took part in recently!
+
+        <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
+      </p>
+    </div>
     <!--    <div class="border-b p-2 lg:p-4 bg-gray-100">-->
     <!--      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">-->
     <!--        <img src="/assets/images/general/virus.svg" class="h-6" />-->

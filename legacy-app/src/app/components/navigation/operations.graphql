@@ -4,4 +4,8 @@ query getTenantInfo {
     name
     faqPage
   }
+  currentUser {
+    id
+    outstandingRating
+  }
 }

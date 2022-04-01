@@ -22,6 +22,7 @@ import {
 } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
 import { GraphQLError } from 'graphql';
+import { DateTime } from 'luxon';
 
 export const userType = objectType({
   name: User.$name,
@@ -79,6 +80,29 @@ export const userType = objectType({
           source.picture &&
           source.university
         ),
+    });
+    t.nonNull.boolean('outstandingRating', {
+      resolve: async (source, args, context) => {
+        const lastWeek = DateTime.local().minus({ days: 7 });
+        const registrations = await context.prisma.user
+          .findUnique({
+            where: { id: source.id },
+          })
+          .eventRegistrations({
+            where: {
+              event: {
+                end: {
+                  gt: lastWeek.toJSDate(),
+                  lt: new Date(),
+                },
+              },
+              status: { not: RegistrationStatus.CANCELLED },
+              rating: null,
+            },
+          });
+        console.log(registrations);
+        return registrations.length > 0;
+      },
     });
     t.nonNull.boolean('hasESNcard', {
       resolve: async (source, args, context) => {

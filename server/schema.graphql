@@ -323,6 +323,7 @@ type Mutation {
   deleteTemplate(id: ID!): EventTemplate
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent
   increaseLineItemQuantity(id: ID!): LineItem
+  rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent
   registerForEvent(eventId: ID!, price: Json, registrationType: RegistrationType = PARTICIPANT, submissions: Json): TumiEvent!
 
   """Add a new user to the database or update existing"""
@@ -653,6 +654,7 @@ type TumiEvent {
   id: ID!
   insuranceDescription: String!
   location: String!
+  needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
@@ -793,6 +795,7 @@ type User {
 
   """List of events organized by the user"""
   organizedEvents: [TumiEvent!]!
+  outstandingRating: Boolean!
 
   """List of events attended by the user"""
   participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!

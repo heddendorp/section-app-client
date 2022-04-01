@@ -105,6 +105,39 @@
       </button>
     </div>
     <div
+      *ngIf="(eventsToRate$ | async)?.length"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+    >
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="mb-6"
+      >
+        <mat-icon
+          svgIcon="icon-star"
+          class="text-secondary-default bg-secondary-on card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Rate Events</h2>
+      </div>
+      <p class="mb-4">
+        Please take a little time to rate these events you took part in so we
+        can improve.
+      </p>
+      <div
+        fxLayout="column"
+        fxLayoutGap="1rem"
+        *ngIf="eventsToRate$ | async as events"
+      >
+        <app-rate-event
+          *ngFor="let event of events"
+          [event]="event"
+          (ratingSubmitted)="saveRating($event, event.id)"
+        >
+        </app-rate-event>
+      </div>
+    </div>
+    <div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl md:p-4"
       *ngIf="profile.organizedEvents.length"
     >

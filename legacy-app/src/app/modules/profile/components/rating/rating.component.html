@@ -1,0 +1,8 @@
+<div fxLayout="row" fxLayoutGap=".5rem">
+  <mat-icon
+    [class.saturate-0]="((currentValue | async) ?? 0) < rating"
+    svgIcon="icon-star-2"
+    *ngFor="let rating of elements"
+    (click)="setRating(rating)"
+  ></mat-icon>
+</div>

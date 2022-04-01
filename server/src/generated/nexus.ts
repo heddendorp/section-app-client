@@ -676,6 +676,7 @@ export interface NexusGenFieldTypes {
     deleteTemplate: NexusGenRootTypes['EventTemplate'] | null; // EventTemplate
     deregisterFromEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     increaseLineItemQuantity: NexusGenRootTypes['LineItem'] | null; // LineItem
+    rateEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     registerForEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     registerUser: NexusGenRootTypes['User']; // User!
     removeSubmissionFromEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
@@ -881,6 +882,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     insuranceDescription: string; // String!
     location: string; // String!
+    needsRating: boolean; // Boolean!
     netAmountCollected: NexusGenScalars['Decimal']; // Decimal!
     organizer: NexusGenRootTypes['EventOrganizer']; // EventOrganizer!
     organizerLimit: number; // Int!
@@ -931,6 +933,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     lastName: string; // String!
     organizedEvents: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
+    outstandingRating: boolean; // Boolean!
     participatedEvents: NexusGenRootTypes['TumiEvent'][]; // [TumiEvent!]!
     paypal: string | null; // String
     phone: string | null; // String
@@ -1171,6 +1174,7 @@ export interface NexusGenFieldTypeNames {
     deleteTemplate: 'EventTemplate'
     deregisterFromEvent: 'TumiEvent'
     increaseLineItemQuantity: 'LineItem'
+    rateEvent: 'TumiEvent'
     registerForEvent: 'TumiEvent'
     registerUser: 'User'
     removeSubmissionFromEvent: 'TumiEvent'
@@ -1376,6 +1380,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     insuranceDescription: 'String'
     location: 'String'
+    needsRating: 'Boolean'
     netAmountCollected: 'Decimal'
     organizer: 'EventOrganizer'
     organizerLimit: 'Int'
@@ -1426,6 +1431,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     lastName: 'String'
     organizedEvents: 'TumiEvent'
+    outstandingRating: 'Boolean'
     participatedEvents: 'TumiEvent'
     paypal: 'String'
     phone: 'String'
@@ -1577,6 +1583,11 @@ export interface NexusGenArgTypes {
     }
     increaseLineItemQuantity: { // args
       id: string; // ID!
+    }
+    rateEvent: { // args
+      comment?: string | null; // String
+      id: string; // ID!
+      rating: number; // Int!
     }
     registerForEvent: { // args
       eventId: string; // ID!

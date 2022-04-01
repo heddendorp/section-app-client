@@ -65,6 +65,7 @@ query userProfile {
       title
       icon
       start
+      needsRating
     }
     participatedEvents(hideCancelled: true) {
       id
@@ -72,6 +73,7 @@ query userProfile {
       icon
       start
       end
+      needsRating
     }
   }
 }
@@ -96,6 +98,13 @@ query getRegistrationCodeInfo($code: ID!) {
       start
       prices
     }
+  }
+}
+
+mutation submitEventFeedback($id: ID!, $rating: Int!, $comment: String) {
+  rateEvent(id: $id, rating: $rating, comment: $comment) {
+    id
+    needsRating
   }
 }
 

@@ -326,6 +326,7 @@ export type Mutation = {
   deleteTemplate?: Maybe<EventTemplate>;
   deregisterFromEvent?: Maybe<TumiEvent>;
   increaseLineItemQuantity?: Maybe<LineItem>;
+  rateEvent?: Maybe<TumiEvent>;
   registerForEvent: TumiEvent;
   /** Add a new user to the database or update existing */
   registerUser: User;
@@ -487,6 +488,13 @@ export type MutationDeregisterFromEventArgs = {
 
 export type MutationIncreaseLineItemQuantityArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationRateEventArgs = {
+  comment?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  rating: Scalars['Int'];
 };
 
 
@@ -1020,6 +1028,7 @@ export type TumiEvent = {
   id: Scalars['ID'];
   insuranceDescription: Scalars['String'];
   location: Scalars['String'];
+  needsRating: Scalars['Boolean'];
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
@@ -1171,6 +1180,7 @@ export type User = {
   lastName: Scalars['String'];
   /** List of events organized by the user */
   organizedEvents: Array<TumiEvent>;
+  outstandingRating: Scalars['Boolean'];
   /** List of events attended by the user */
   participatedEvents: Array<TumiEvent>;
   paypal?: Maybe<Scalars['String']>;
@@ -1279,7 +1289,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __type
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null } | null, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -1602,7 +1612,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, email_verified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNcard: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, email_verified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNcard: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, needsRating: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -1610,6 +1620,15 @@ export type GetRegistrationCodeInfoQueryVariables = Exact<{
 
 
 export type GetRegistrationCodeInfoQuery = { __typename?: 'Query', eventRegistrationCode?: { __typename?: 'EventRegistrationCode', id: string, status: RegistrationStatus, registrationCreated?: { __typename?: 'EventRegistration', id: string, belongsToCurrentUser: boolean, payment?: { __typename?: 'StripePayment', id: string, status: string, checkoutSession: string } | null } | null, targetEvent: { __typename?: 'TumiEvent', id: string, registrationMode: RegistrationMode, title: string, start: any, prices?: any | null } } | null };
+
+export type SubmitEventFeedbackMutationVariables = Exact<{
+  id: Scalars['ID'];
+  rating: Scalars['Int'];
+  comment?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type SubmitEventFeedbackMutation = { __typename?: 'Mutation', rateEvent?: { __typename?: 'TumiEvent', id: string, needsRating: boolean } | null };
 
 export type UseRegistrationCodeMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1801,6 +1820,10 @@ export const GetTenantInfoDocument = gql`
     id
     name
     faqPage
+  }
+  currentUser {
+    id
+    outstandingRating
   }
 }
     `;
@@ -3176,6 +3199,7 @@ export const UserProfileDocument = gql`
       title
       icon
       start
+      needsRating
     }
     participatedEvents(hideCancelled: true) {
       id
@@ -3183,6 +3207,7 @@ export const UserProfileDocument = gql`
       icon
       start
       end
+      needsRating
     }
   }
 }
@@ -3228,6 +3253,25 @@ export const GetRegistrationCodeInfoDocument = gql`
   })
   export class GetRegistrationCodeInfoGQL extends Apollo.Query<GetRegistrationCodeInfoQuery, GetRegistrationCodeInfoQueryVariables> {
     override document = GetRegistrationCodeInfoDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitEventFeedbackDocument = gql`
+    mutation submitEventFeedback($id: ID!, $rating: Int!, $comment: String) {
+  rateEvent(id: $id, rating: $rating, comment: $comment) {
+    id
+    needsRating
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitEventFeedbackGQL extends Apollo.Mutation<SubmitEventFeedbackMutation, SubmitEventFeedbackMutationVariables> {
+    override document = SubmitEventFeedbackDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

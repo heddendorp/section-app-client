@@ -7,6 +7,7 @@ import {
 import {
   GetPaymentSetupSessionGQL,
   MembershipStatus,
+  SubmitEventFeedbackGQL,
   UpdateProfileGQL,
   UserProfileGQL,
   UserProfileQuery,
@@ -29,12 +30,14 @@ import { environment } from '../../../../../environments/environment';
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
+  public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
     private title: Title,
     private profileQuery: UserProfileGQL,
     private getStripeSession: GetPaymentSetupSessionGQL,
+    private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -45,6 +48,14 @@ export class ProfilePageComponent implements OnDestroy {
     this.profileQueryRef.startPolling(5000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
+    );
+    this.eventsToRate$ = this.profile$.pipe(
+      map((profile) => [
+        ...(profile?.participatedEvents.filter((event) => event?.needsRating) ??
+          []),
+        ...(profile?.organizedEvents.filter((event) => event?.needsRating) ??
+          []),
+      ])
     );
     this.route.queryParamMap.pipe(first()).subscribe((queryMap) => {
       const status = queryMap.get('stripe');
@@ -87,5 +98,15 @@ export class ProfilePageComponent implements OnDestroy {
 
   claimEvent(code?: string): void {
     this.dialog.open(ClaimEventDialogComponent, { data: { code } });
+  }
+
+  async saveRating($event: { rating: number; comment: string }, id: string) {
+    await firstValueFrom(
+      this.submitEventFeedbackGQL.mutate({
+        id,
+        rating: $event.rating,
+        comment: $event.comment,
+      })
+    );
   }
 }
