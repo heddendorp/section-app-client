@@ -449,16 +449,18 @@ model EventRegistration {
   checkInTime           DateTime?
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
   eventId               String                 @db.Uuid
+  eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
   manualCheckin         Boolean                @default(false)
   payment               StripePayment?         @relation(fields: [paymentId], references: [id])
   paymentId             String?                @unique @db.Uuid
+  rating                Int?
+  registrationCodeId    String?                @db.Uuid
   status                RegistrationStatus     @default(SUCCESSFUL)
   submissions           EventSubmission[]
   type                  RegistrationType       @default(PARTICIPANT)
   user                  User                   @relation(fields: [userId], references: [id])
+  userComment           String?
   userId                String                 @db.Uuid
-  registrationCodeId    String?                @db.Uuid
-  eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
 }
 
 model EventRegistrationCode {

@@ -19,13 +19,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * The `BigInt` scalar type represents non-fractional signed whole numeric values.
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
-   */
-  BigInt: any;
-  /** The `Byte` scalar type represents byte value as a Buffer */
-  Bytes: any;
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
   /** An arbitrary-precision Decimal type */
@@ -96,9 +89,11 @@ export type CreateEventTemplateInput = {
   description: Scalars['String'];
   duration: Scalars['Decimal'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   title: Scalars['String'];
 };
 
@@ -135,7 +130,7 @@ export type CreateSubmissionItemInput = {
 
 /** New user input object */
 export type CreateUserInput = {
-  birthdate: Scalars['DateTime'];
+  birthdate?: InputMaybe<Scalars['DateTime']>;
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone?: InputMaybe<Scalars['String']>;
@@ -238,9 +233,11 @@ export type EventTemplate = {
   finances: Scalars['Json'];
   icon: Scalars['String'];
   id: Scalars['ID'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   tenant: Tenant;
   title: Scalars['String'];
 };
@@ -335,8 +332,9 @@ export type Mutation = {
   deregisterFromEvent?: Maybe<TumiEvent>;
   increaseLineItemQuantity?: Maybe<LineItem>;
   registerForEvent: TumiEvent;
-  /** Add a new user to the database */
+  /** Add a new user to the database or update existing */
   registerUser: User;
+  removeSubmissionFromEvent: TumiEvent;
   updateAddress: Purchase;
   updateCostItemsFromTemplate?: Maybe<TumiEvent>;
   updateESNcard?: Maybe<User>;
@@ -360,6 +358,7 @@ export type Mutation = {
   updateUserStatus: User;
   useInvite: Invite;
   useRegistrationCode: EventRegistrationCode;
+  verifyDCC?: Maybe<Scalars['Json']>;
   /** Send a verification email to a user (to the current user if no id is provided) */
   verifyEmail: User;
 };
@@ -483,6 +482,10 @@ export type MutationRegisterUserArgs = {
   userInput: CreateUserInput;
 };
 
+export type MutationRemoveSubmissionFromEventArgs = {
+  id: Scalars['ID'];
+};
+
 export type MutationUpdateAddressArgs = {
   address: Scalars['Json'];
   id: Scalars['ID'];
@@ -568,6 +571,10 @@ export type MutationUseInviteArgs = {
 export type MutationUseRegistrationCodeArgs = {
   id: Scalars['ID'];
   price?: InputMaybe<Scalars['Json']>;
+};
+
+export type MutationVerifyDccArgs = {
+  certificate: Scalars['String'];
 };
 
 export type MutationVerifyEmailArgs = {
@@ -705,6 +712,7 @@ export type Query = {
   purchase: Purchase;
   purchases: Array<Purchase>;
   registration: EventRegistration;
+  registrationCount: Scalars['Int'];
   registrations: Array<EventRegistration>;
   templateCategories: Array<EventTemplateCategory>;
   templateCategory?: Maybe<EventTemplateCategory>;
@@ -775,7 +783,13 @@ export type QueryRegistrationArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryRegistrationCountArgs = {
+  statusList?: InputMaybe<Array<RegistrationStatus>>;
+};
+
 export type QueryRegistrationsArgs = {
+  pageIndex?: InputMaybe<Scalars['Int']>;
+  pageLength?: InputMaybe<Scalars['Int']>;
   statusList?: InputMaybe<Array<RegistrationStatus>>;
 };
 
@@ -941,6 +955,7 @@ export type TumiEvent = {
   freeParticipantSpots: Scalars['String'];
   icon: Scalars['String'];
   id: Scalars['ID'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
@@ -972,6 +987,7 @@ export type TumiEvent = {
   registrationLink?: Maybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   start: Scalars['DateTime'];
   submissionItems: Array<EventSubmissionItem>;
   submittedSpend?: Maybe<Scalars['Decimal']>;
@@ -1008,6 +1024,7 @@ export type UpdateCoreEventInput = {
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['String'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   organizerLimit: Scalars['Int'];
   organizerSignup: Array<MembershipStatus>;
   participantLimit: Scalars['Int'];
@@ -1016,6 +1033,7 @@ export type UpdateCoreEventInput = {
   registrationLink?: InputMaybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   start: Scalars['DateTime'];
   title: Scalars['String'];
 };
@@ -1057,8 +1075,10 @@ export type UpdateTemplateInput = {
   description: Scalars['String'];
   duration: Scalars['Decimal'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   title: Scalars['String'];
 };
 

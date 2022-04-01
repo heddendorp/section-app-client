@@ -19,6 +19,7 @@ import prisma from './client';
 import { Auth0 } from './helpers/auth0';
 import { $settings } from './generated/nexus-prisma';
 import { getEnveloped } from './getEnveloped';
+import { prismaUtils } from './utils';
 
 declare global {
   namespace Express {
@@ -131,5 +132,8 @@ const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
   app.listen(port, () => {
+    prismaUtils().then(() => {
+      console.log(`DB actions finished`);
+    });
     console.log(`GraphQL server is running on port ${port}.`);
   });

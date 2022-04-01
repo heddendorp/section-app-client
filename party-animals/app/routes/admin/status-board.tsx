@@ -4,7 +4,6 @@ import { Group, Registration, Role, User } from '~/generated/prisma';
 import { db } from '~/utils/db.server';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { ValidationMessage } from '~/components/ValidationMessage';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request);
