@@ -1032,6 +1032,7 @@ export type TumiEvent = {
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
+  organizerRatings?: Maybe<Scalars['Float']>;
   /** Indicates whether the current user can register to this event as Organizer */
   organizerRegistrationPossible: Scalars['Boolean'];
   organizerRegistrations: Array<EventRegistration>;
@@ -1043,6 +1044,7 @@ export type TumiEvent = {
   organizersRegistered: Scalars['Int'];
   ownRegistrations: Array<EventRegistration>;
   participantLimit: Scalars['Int'];
+  participantRatings?: Maybe<Scalars['Float']>;
   /** Indicates whether the current user can register to this event as participant */
   participantRegistrationPossible: Scalars['Json'];
   participantRegistrations: Array<EventRegistration>;
@@ -1714,6 +1716,13 @@ export type LoadEventsForInsuranceQueryVariables = Exact<{ [key: string]: never;
 
 
 export type LoadEventsForInsuranceQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, shouldBeReportedToInsurance: boolean, insuranceDescription: string, organizerLimit: number, participantLimit: number, publicationState: PublicationState, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+
+export type LoadEventsWithRatingQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['DateTime']>;
+}>;
+
+
+export type LoadEventsWithRatingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, participantRatings?: number | null, organizerRatings?: number | null, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
 export type LoadAllPhotosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3680,6 +3689,33 @@ export const LoadEventsForInsuranceDocument = gql`
   })
   export class LoadEventsForInsuranceGQL extends Apollo.Query<LoadEventsForInsuranceQuery, LoadEventsForInsuranceQueryVariables> {
     override document = LoadEventsForInsuranceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventsWithRatingDocument = gql`
+    query loadEventsWithRating($after: DateTime) {
+  events(after: $after) {
+    id
+    title
+    start
+    icon
+    participantRatings
+    organizerRatings
+    organizer {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventsWithRatingGQL extends Apollo.Query<LoadEventsWithRatingQuery, LoadEventsWithRatingQueryVariables> {
+    override document = LoadEventsWithRatingDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

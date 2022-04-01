@@ -658,6 +658,7 @@ type TumiEvent {
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
+  organizerRatings: Float
 
   """
   Indicates whether the current user can register to this event as Organizer
@@ -674,6 +675,7 @@ type TumiEvent {
   organizersRegistered: Int!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
+  participantRatings: Float
 
   """
   Indicates whether the current user can register to this event as participant

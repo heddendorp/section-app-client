@@ -28,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TenantEventRatingsComponent } from './pages/tenant-event-ratings/tenant-event-ratings.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TenantUserInfoPageComponent,
     TenantUsersPageComponent,
     UpdateUserDialogComponent,
+    TenantEventRatingsComponent,
   ],
   imports: [
     CommonModule,

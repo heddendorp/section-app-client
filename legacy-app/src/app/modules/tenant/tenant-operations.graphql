@@ -20,6 +20,20 @@ query loadEventsForInsurance {
     }
   }
 }
+query loadEventsWithRating($after: DateTime) {
+  events(after: $after) {
+    id
+    title
+    start
+    icon
+    participantRatings
+    organizerRatings
+    organizer {
+      id
+      name
+    }
+  }
+}
 
 query loadAllPhotos {
   photos {

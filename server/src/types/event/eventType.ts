@@ -140,6 +140,44 @@ export const eventType = objectType({
         return registrations.length > 0;
       },
     });
+    t.float('participantRatings', {
+      resolve: async (source, args, context) => {
+        return context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              status: { not: RegistrationStatus.CANCELLED },
+              type: RegistrationType.PARTICIPANT,
+              rating: {
+                not: null,
+              },
+            },
+            _avg: {
+              rating: true,
+            },
+          })
+          .then(({ _avg: { rating } }) => rating);
+      },
+    });
+    t.float('organizerRatings', {
+      resolve: async (source, args, context) => {
+        return context.prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              status: { not: RegistrationStatus.CANCELLED },
+              type: RegistrationType.ORGANIZER,
+              rating: {
+                not: null,
+              },
+            },
+            _avg: {
+              rating: true,
+            },
+          })
+          .then(({ _avg: { rating } }) => rating);
+      },
+    });
     t.field({
       name: 'activeRegistration',
       type: eventRegistrationType,

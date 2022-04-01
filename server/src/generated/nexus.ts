@@ -886,6 +886,7 @@ export interface NexusGenFieldTypes {
     netAmountCollected: NexusGenScalars['Decimal']; // Decimal!
     organizer: NexusGenRootTypes['EventOrganizer']; // EventOrganizer!
     organizerLimit: number; // Int!
+    organizerRatings: number | null; // Float
     organizerRegistrationPossible: boolean; // Boolean!
     organizerRegistrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     organizerSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
@@ -894,6 +895,7 @@ export interface NexusGenFieldTypes {
     organizersRegistered: number; // Int!
     ownRegistrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     participantLimit: number; // Int!
+    participantRatings: number | null; // Float
     participantRegistrationPossible: NexusGenScalars['Json']; // Json!
     participantRegistrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     participantSignup: NexusGenEnums['MembershipStatus'][]; // [MembershipStatus!]!
@@ -1384,6 +1386,7 @@ export interface NexusGenFieldTypeNames {
     netAmountCollected: 'Decimal'
     organizer: 'EventOrganizer'
     organizerLimit: 'Int'
+    organizerRatings: 'Float'
     organizerRegistrationPossible: 'Boolean'
     organizerRegistrations: 'EventRegistration'
     organizerSignup: 'MembershipStatus'
@@ -1392,6 +1395,7 @@ export interface NexusGenFieldTypeNames {
     organizersRegistered: 'Int'
     ownRegistrations: 'EventRegistration'
     participantLimit: 'Int'
+    participantRatings: 'Float'
     participantRegistrationPossible: 'Json'
     participantRegistrations: 'EventRegistration'
     participantSignup: 'MembershipStatus'
