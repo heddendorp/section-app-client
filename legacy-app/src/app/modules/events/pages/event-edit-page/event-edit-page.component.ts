@@ -33,6 +33,7 @@ import {
   first,
   firstValueFrom,
   map,
+  Observable,
   shareReplay,
   startWith,
   Subject,
@@ -44,7 +45,6 @@ import { Title } from '@angular/platform-browser';
 import { SelectLocationDialogComponent } from '@tumi/legacy-app/modules/shared/components/select-location-dialog/select-location-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-event-edit-page',
@@ -134,7 +134,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
     this.users$ = this.event$.pipe(
       switchMap((event) =>
-        this.loadUsers.fetch({ allowList: event?.organizerSignup ?? [] })
+        this.loadUsers.fetch({
+          allowList: [
+            MembershipStatus.Trial,
+            MembershipStatus.Full,
+            MembershipStatus.Sponsor,
+          ],
+        })
       ),
       map(({ data }) => data.userWithStatus),
       shareReplay(1)
