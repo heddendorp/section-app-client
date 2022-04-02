@@ -98,6 +98,16 @@
           [data]="event.participantText"
           class="prose lg:prose-xl mb-4 break-words"
         ></markdown>
+        <div
+          class="mb-4 mt-6"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="1rem"
+          *ngIf="(event$ | async)?.activeRegistration?.didAttend"
+        >
+          <img src="{{ 'approval' | iconURL }}" alt="approval" class="w-10" />
+          <span class="text-lg font-bold">You are checked in to the event</span>
+        </div>
         <p class="mb-2 mt-2 font-bold lg:text-lg">
           Your organizers on this event:
         </p>
