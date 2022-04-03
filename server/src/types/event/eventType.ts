@@ -555,7 +555,7 @@ export const eventType = objectType({
               },
             });
           if (
-            registrationsOfUser >= 5 &&
+            registrationsOfUser >= 6 &&
             !root.title.includes('ESNcard') &&
             !root.title.includes('Party') &&
             root.registrationMode === RegistrationMode.STRIPE
