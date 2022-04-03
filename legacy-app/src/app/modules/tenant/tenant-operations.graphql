@@ -20,6 +20,25 @@ query loadEventsForInsurance {
     }
   }
 }
+
+
+query loadEventsWithBooking($after: DateTime) {
+  events(after: $after) {
+    id
+    title
+    start
+    icon
+    registrationMode
+    registrationStart
+    participantLimit
+    participantsRegistered
+    organizer {
+      id
+      name
+    }
+  }
+}
+
 query loadEventsWithRating($after: DateTime) {
   events(after: $after) {
     id

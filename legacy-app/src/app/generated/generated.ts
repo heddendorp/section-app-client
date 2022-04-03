@@ -1717,6 +1717,13 @@ export type LoadEventsForInsuranceQueryVariables = Exact<{ [key: string]: never;
 
 export type LoadEventsForInsuranceQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, shouldBeReportedToInsurance: boolean, insuranceDescription: string, organizerLimit: number, participantLimit: number, publicationState: PublicationState, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
+export type LoadEventsWithBookingQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['DateTime']>;
+}>;
+
+
+export type LoadEventsWithBookingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, registrationMode: RegistrationMode, registrationStart: any, participantLimit: number, participantsRegistered: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+
 export type LoadEventsWithRatingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
 }>;
@@ -3689,6 +3696,35 @@ export const LoadEventsForInsuranceDocument = gql`
   })
   export class LoadEventsForInsuranceGQL extends Apollo.Query<LoadEventsForInsuranceQuery, LoadEventsForInsuranceQueryVariables> {
     override document = LoadEventsForInsuranceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventsWithBookingDocument = gql`
+    query loadEventsWithBooking($after: DateTime) {
+  events(after: $after) {
+    id
+    title
+    start
+    icon
+    registrationMode
+    registrationStart
+    participantLimit
+    participantsRegistered
+    organizer {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventsWithBookingGQL extends Apollo.Query<LoadEventsWithBookingQuery, LoadEventsWithBookingQueryVariables> {
+    override document = LoadEventsWithBookingDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

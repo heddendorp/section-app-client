@@ -16,6 +16,7 @@ import { TenantRegistrationsPageComponent } from '@tumi/legacy-app/modules/tenan
 import { TenantEditPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-edit-page/tenant-edit-page.component';
 import { TenantOrganizersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-organizers-page/tenant-organizers-page.component';
 import { TenantEventRatingsComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-event-ratings/tenant-event-ratings.component';
+import { TenantEventBookingsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-event-bookings-page/tenant-event-bookings-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: TenantLandingPageComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'purchases', component: TenantPurchasesPageComponent },
   { path: 'insurance', component: TenantInsurancePageComponent },
   { path: 'ratings', component: TenantEventRatingsComponent },
+  { path: 'bookings', component: TenantEventBookingsPageComponent },
   {
     path: 'purchases/:purchaseId',
     component: TenantPurchaseDetailsPageComponent,
