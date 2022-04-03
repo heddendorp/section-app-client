@@ -21,7 +21,6 @@ query loadEventsForInsurance {
   }
 }
 
-
 query loadEventsWithBooking($after: DateTime) {
   events(after: $after) {
     id
