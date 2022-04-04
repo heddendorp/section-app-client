@@ -74,6 +74,8 @@ export const eventType = objectType({
               return 'Some spots left';
             } else if (quota < 1) {
               return 'Few spots left';
+            } else if (source.participantLimit - registrations.length === 1) {
+              return 'One spot left';
             } else {
               return 'Event is full';
             }
