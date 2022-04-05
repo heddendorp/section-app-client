@@ -23,6 +23,17 @@ export class TenantEventRatingsComponent {
           events.filter(
             (event) => event.participantRatings || event.organizerRatings
           )
+        ),
+        map((events) =>
+          events.map((event) => ({
+            ...event,
+            voteCount: event.participantRegistrations.filter(
+              (registration) => registration.rating
+            ).length,
+            participantRegistrations: event.participantRegistrations.filter(
+              (registration) => registration.userComment
+            ),
+          }))
         )
       );
   }

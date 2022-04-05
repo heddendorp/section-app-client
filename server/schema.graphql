@@ -142,10 +142,12 @@ type EventRegistration {
   manualCheckin: Boolean!
   payment: StripePayment
   paymentId: String
+  rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
   type: RegistrationType!
   user: User!
+  userComment: String
   userId: String!
 }
 

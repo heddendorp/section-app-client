@@ -58,6 +58,8 @@ export const eventRegistrationType = objectType({
     t.field(EventRegistration.status);
     t.field(EventRegistration.cancellationReason);
     t.field(EventRegistration.submissions);
+    t.field(EventRegistration.rating);
+    t.field(EventRegistration.userComment);
     t.field({
       name: 'deletingCode',
       type: eventRegistrationCodeType,

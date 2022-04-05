@@ -242,8 +242,10 @@ export interface NexusGenObjects {
     id: string; // ID!
     manualCheckin: boolean; // Boolean!
     paymentId?: string | null; // String
+    rating?: number | null; // Int
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
     type: NexusGenEnums['RegistrationType']; // RegistrationType!
+    userComment?: string | null; // String
     userId: string; // String!
   }
   EventRegistrationCode: { // root type
@@ -551,10 +553,12 @@ export interface NexusGenFieldTypes {
     manualCheckin: boolean; // Boolean!
     payment: NexusGenRootTypes['StripePayment'] | null; // StripePayment
     paymentId: string | null; // String
+    rating: number | null; // Int
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
     submissions: NexusGenRootTypes['EventSubmission'][]; // [EventSubmission!]!
     type: NexusGenEnums['RegistrationType']; // RegistrationType!
     user: NexusGenRootTypes['User']; // User!
+    userComment: string | null; // String
     userId: string; // String!
   }
   EventRegistrationCode: { // field return type
@@ -1051,10 +1055,12 @@ export interface NexusGenFieldTypeNames {
     manualCheckin: 'Boolean'
     payment: 'StripePayment'
     paymentId: 'String'
+    rating: 'Int'
     status: 'RegistrationStatus'
     submissions: 'EventSubmission'
     type: 'RegistrationType'
     user: 'User'
+    userComment: 'String'
     userId: 'String'
   }
   EventRegistrationCode: { // field return type name

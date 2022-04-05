@@ -158,10 +158,12 @@ export type EventRegistration = {
   manualCheckin: Scalars['Boolean'];
   payment?: Maybe<StripePayment>;
   paymentId?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Int']>;
   status: RegistrationStatus;
   submissions: Array<EventSubmission>;
   type: RegistrationType;
   user: User;
+  userComment?: Maybe<Scalars['String']>;
   userId: Scalars['String'];
 };
 
@@ -1729,7 +1731,7 @@ export type LoadEventsWithRatingQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventsWithRatingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, participantRatings?: number | null, organizerRatings?: number | null, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+export type LoadEventsWithRatingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, participantRatings?: number | null, organizerRatings?: number | null, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus, rating?: number | null, userComment?: string | null }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
 export type LoadAllPhotosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3739,6 +3741,12 @@ export const LoadEventsWithRatingDocument = gql`
     icon
     participantRatings
     organizerRatings
+    participantRegistrations {
+      id
+      status
+      rating
+      userComment
+    }
     organizer {
       id
       name
