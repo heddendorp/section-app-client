@@ -21,7 +21,6 @@ query loadEventsForInsurance {
   }
 }
 
-
 query loadEventsWithBooking($after: DateTime) {
   events(after: $after) {
     id
@@ -47,7 +46,7 @@ query loadEventsWithRating($after: DateTime) {
     icon
     participantRatings
     organizerRatings
-    participantRegistrations{
+    participantRegistrations {
       id
       status
       rating
