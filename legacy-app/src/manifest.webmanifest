@@ -1,5 +1,6 @@
 {
   "name": "ESN TUMi app",
+  "iarc_rating_id": "ae0a66e9-9214-461e-8ffa-0410a2cdb996",
   "short_name": "TUMi app",
   "theme_color": "#3B82F6",
   "background_color": "#3B82F6",
@@ -15,6 +16,13 @@
       "description": "See all upcoming events",
       "url": "/events?utm_source=shortcut",
       "icons": [{ "src": "/assets/icons/schedule.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=world.esn.tumi.twa",
+      "id": "world.esn.tumi.twa"
     }
   ],
   "screenshots": [
