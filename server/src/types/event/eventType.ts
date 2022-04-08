@@ -543,7 +543,7 @@ export const eventType = objectType({
         const { days } = Luxon.fromJSDate(root.start)
           .diff(Luxon.local(), 'days')
           .toObject();
-        if ((days ?? 0) > 5) {
+        /*if ((days ?? 0) > 5) {
           const registrationsOfUser =
             await context.prisma.eventRegistration.count({
               where: {
@@ -572,7 +572,7 @@ export const eventType = objectType({
               reason: `You are already signed up for ${registrationsOfUser} paid events that start in the future.\nTo make sure everyone has a chance to experience events you may only register for another event once you are registered for less then 5 paid events that start in the future.\nThis restriction will be lifted a few days before the event.`,
             };
           }
-        }
+        }*/
         const currentRegistrationNum =
           await context.prisma.eventRegistration.count({
             where: {
