@@ -26,6 +26,10 @@ template:
       value: 9itltnqk9yqwqph
     - name: PM2_SECRET_KEY
       secretRef: pm2-secret-key
+    - name: BLOB_SAS_TOKEN
+      secretRef: azure-storage-token
+    - name: PRODUCT_SAS_TOKEN
+      secretRef: azure-product-storage-token
     resources:
       cpu: 2
       memory: 4Gi
