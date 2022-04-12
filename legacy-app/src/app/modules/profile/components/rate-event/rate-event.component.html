@@ -22,7 +22,9 @@
     ></textarea>
     <mat-hint> Tell us about what you liked and what could be better </mat-hint>
   </mat-form-field>
-  <p *ngIf='event.userIsOrganizer'>You where an organizer for this event, please rate it from that perspective</p>
+  <p *ngIf="event.userIsOrganizer">
+    You where an organizer for this event, please rate it from that perspective
+  </p>
   <button
     class="modern"
     mat-flat-button
