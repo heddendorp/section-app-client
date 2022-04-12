@@ -4,7 +4,7 @@ import {
   processRequest,
   renderGraphiQL,
   sendResult,
-  shouldRenderGraphiQL,
+  shouldRenderGraphiQL
 } from 'graphql-helix';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
@@ -19,7 +19,6 @@ import prisma from './client';
 import { Auth0 } from './helpers/auth0';
 import { $settings } from './generated/nexus-prisma';
 import { getEnveloped } from './getEnveloped';
-import { prismaUtils } from './utils';
 
 declare global {
   namespace Express {
@@ -55,13 +54,13 @@ Sentry.init({
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
-    new Tracing.Integrations.Express({ app }),
+    new Tracing.Integrations.Express({ app })
   ],
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
-  tracesSampleRate: 1,
+  tracesSampleRate: 1
 });
 
 app.use(Sentry.Handlers.requestHandler());
@@ -69,8 +68,8 @@ app.use(Sentry.Handlers.tracingHandler());
 
 $settings({
   checks: {
-    PrismaClientOnContext: false,
-  },
+    PrismaClientOnContext: false
+  }
 });
 
 app.use(compression());
@@ -87,14 +86,14 @@ app.use('/graphql', async (req, res) => {
   const { parse, validate, contextFactory, execute, schema } = getEnveloped({
     req,
     prisma,
-    auth0: new Auth0(),
+    auth0: new Auth0()
   });
   // Create a generic Request object that can be consumed by Graphql Helix's API
   const request = {
     body: req.body,
     headers: req.headers,
     method: req.method,
-    query: req.query,
+    query: req.query
   };
 
   // Determine whether we should render GraphiQL instead of returning an API response
@@ -114,7 +113,7 @@ app.use('/graphql', async (req, res) => {
       parse,
       validate,
       execute,
-      contextFactory,
+      contextFactory
     });
 
     // processRequest returns one of three types of results depending on how the server should respond
@@ -131,9 +130,9 @@ app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
-  app.listen(port, () => {
-    prismaUtils().then(() => {
-      console.log(`DB actions finished`);
-    });
-    console.log(`GraphQL server is running on port ${port}.`);
-  });
+app.listen(port, () => {
+  /*prismaUtils().then(() => {
+    console.log(`DB actions finished`);
+  });*/
+  console.log(`GraphQL server is running on port ${port}.`);
+});
