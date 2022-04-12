@@ -199,10 +199,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-eslint/builder@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/builder@npm:13.2.0"
+  dependencies:
+    "@nrwl/devkit": 13.1.3
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: "*"
+  checksum: 86f94fe99b4747ad691cbf0b3208a8beee1a86c06e8e72f0b37fa8d05a8fd82a256470f3d3d5391aa3f777d07fd270d1276c037b58a033dd76e3feec976921e4
+  languageName: node
+  linkType: hard
+
 "@angular-eslint/bundled-angular-compiler@npm:13.1.0":
   version: 13.1.0
   resolution: "@angular-eslint/bundled-angular-compiler@npm:13.1.0"
   checksum: 64a5e1bb1fc59b33ea8aa45be93bc3364bcb168a0b7091fdc8b35f26fa1066ef5536069d815b7b353012238f7fba744e681da054ec3d3b3c8310b9110826e2cf
+  languageName: node
+  linkType: hard
+
+"@angular-eslint/bundled-angular-compiler@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/bundled-angular-compiler@npm:13.2.0"
+  checksum: 81855c560b80252dce49ba6cf32ffe77fa4bba0d53921b0a38b2bacdcb582d10f2633d841248f862f0b228e2e81bf64cb8ef36842bc84745f76af615bb0b82bc
   languageName: node
   linkType: hard
 
@@ -221,6 +240,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-eslint/eslint-plugin-template@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/eslint-plugin-template@npm:13.2.0"
+  dependencies:
+    "@angular-eslint/bundled-angular-compiler": 13.2.0
+    "@typescript-eslint/experimental-utils": 5.17.0
+    aria-query: ^4.2.2
+    axobject-query: ^2.2.0
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: "*"
+  checksum: eefd11711ba00a71d86f2946e685d864485ce38088c9da6f04e297f5da9bdda58c8325b433ef40f408a9d3882e7bcdfa5a1eb0d26024354961dd606360ba22fe
+  languageName: node
+  linkType: hard
+
 "@angular-eslint/eslint-plugin@npm:13.1.0":
   version: 13.1.0
   resolution: "@angular-eslint/eslint-plugin@npm:13.1.0"
@@ -231,6 +265,19 @@ __metadata:
     eslint: ^7.0.0 || ^8.0.0
     typescript: "*"
   checksum: 85709ce337f3b27b790fdadb3d737eea74cee2b970a4787a27c633d41cf2c199d2a378175848bde3682a854e5401c06b8c49d8ac1c1b3adb53e1cb432cb372a3
+  languageName: node
+  linkType: hard
+
+"@angular-eslint/eslint-plugin@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/eslint-plugin@npm:13.2.0"
+  dependencies:
+    "@angular-eslint/utils": 13.2.0
+    "@typescript-eslint/experimental-utils": 5.17.0
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: "*"
+  checksum: 23cf154570c451bd90f45f742559bfe84488dd92fac62a72e11d925b8a82426ccabcdf0fe1bdabe3e5843b815fc8992363aada569e45877abf11494e7273230d
   languageName: node
   linkType: hard
 
@@ -249,6 +296,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-eslint/schematics@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/schematics@npm:13.2.0"
+  dependencies:
+    "@angular-eslint/eslint-plugin": 13.2.0
+    "@angular-eslint/eslint-plugin-template": 13.2.0
+    ignore: 5.2.0
+    strip-json-comments: 3.1.1
+    tmp: 0.2.1
+  peerDependencies:
+    "@angular/cli": ">= 13.0.0 < 14.0.0"
+  checksum: 5b880bee47341125ddbee52ac8697a75b6b572299bc87d788030231b8fe5781d44315b2b82fe22b2ca01017426a34c96170ccde5e23e8c156efabc86f4b00e96
+  languageName: node
+  linkType: hard
+
 "@angular-eslint/template-parser@npm:13.1.0":
   version: 13.1.0
   resolution: "@angular-eslint/template-parser@npm:13.1.0"
@@ -262,6 +324,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-eslint/template-parser@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/template-parser@npm:13.2.0"
+  dependencies:
+    "@angular-eslint/bundled-angular-compiler": 13.2.0
+    eslint-scope: ^5.1.0
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: "*"
+  checksum: f4e02f61664b23837e9f508b5a3784c6b4b84921dbfc4fbf75ba9f0bd9586ae186bfbcfb73ff05027cd7bbb8554e252e70e14035f6cc05d9b363a5e41c4e4850
+  languageName: node
+  linkType: hard
+
 "@angular-eslint/utils@npm:13.1.0":
   version: 13.1.0
   resolution: "@angular-eslint/utils@npm:13.1.0"
@@ -272,6 +347,19 @@ __metadata:
     eslint: ^7.0.0 || ^8.0.0
     typescript: "*"
   checksum: 1e03d7eda3a2251749e8f4df3e17f8f452801a3d37f11a31759194ee061a98f2557999c5ade7240cbd2f3640bc4288fe381d8d7bcd8a4aa3c1111f3f536885d3
+  languageName: node
+  linkType: hard
+
+"@angular-eslint/utils@npm:13.2.0":
+  version: 13.2.0
+  resolution: "@angular-eslint/utils@npm:13.2.0"
+  dependencies:
+    "@angular-eslint/bundled-angular-compiler": 13.2.0
+    "@typescript-eslint/experimental-utils": 5.17.0
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: "*"
+  checksum: 876bbb181a6a8ff39c0cd8e466227071703bd1d4e748fd3c90de93d11c312479ee23a2968921f9bbfb61180c2444d3d546b5622525aec334ba90a79af4e3e445
   languageName: node
   linkType: hard
 
@@ -4669,11 +4757,11 @@ __metadata:
   resolution: "@tumi/legacy-app@workspace:legacy-app"
   dependencies:
     "@angular-devkit/build-angular": ~13.3.1
-    "@angular-eslint/builder": 13.1.0
-    "@angular-eslint/eslint-plugin": 13.1.0
-    "@angular-eslint/eslint-plugin-template": 13.1.0
-    "@angular-eslint/schematics": 13.1.0
-    "@angular-eslint/template-parser": 13.1.0
+    "@angular-eslint/builder": 13.2.0
+    "@angular-eslint/eslint-plugin": 13.2.0
+    "@angular-eslint/eslint-plugin-template": 13.2.0
+    "@angular-eslint/schematics": 13.2.0
+    "@angular-eslint/template-parser": 13.2.0
     "@angular/animations": ~13.3.1
     "@angular/cdk": ~13.3.2
     "@angular/cli": ~13.3.1
@@ -5684,6 +5772,17 @@ __metadata:
   peerDependencies:
     eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
   checksum: aa74dab82946132cf2fc0b620e200e31a02021ba2459eafaba404c9be7f50b576fb09b359f5e45836ac6bbb85cc11fcafe3682bc92e1d1af38cf28e461066cc6
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/experimental-utils@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/experimental-utils@npm:5.17.0"
+  dependencies:
+    "@typescript-eslint/utils": 5.17.0
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  checksum: cecc1bb822d9b4f97f1bd736f02f9affc44fac98f997df5305866625e1a4a6da8aa3ab15d8f2e560a33a2c0d089c3fac863a4adca99d23252514a077462c2822
   languageName: node
   linkType: hard
 
