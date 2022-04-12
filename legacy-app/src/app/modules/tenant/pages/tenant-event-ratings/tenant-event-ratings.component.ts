@@ -33,6 +33,12 @@ export class TenantEventRatingsComponent {
             participantRegistrations: event.participantRegistrations.filter(
               (registration) => registration.userComment
             ),
+            organizerVotes: event.organizerRegistrations.filter(
+              (registration) => registration.rating
+            ).length,
+            organizerRegistrations: event.organizerRegistrations.filter(
+              (registration) => registration.userComment
+            ),
           }))
         )
       );

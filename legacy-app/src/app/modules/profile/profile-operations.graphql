@@ -66,6 +66,7 @@ query userProfile {
       icon
       start
       needsRating
+      userIsOrganizer
     }
     participatedEvents(hideCancelled: true) {
       id
@@ -74,6 +75,7 @@ query userProfile {
       start
       end
       needsRating
+      userIsOrganizer
     }
   }
 }

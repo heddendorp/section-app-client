@@ -52,6 +52,12 @@ query loadEventsWithRating($after: DateTime) {
       rating
       userComment
     }
+    organizerRegistrations {
+      id
+      status
+      rating
+      userComment
+    }
     organizer {
       id
       name
