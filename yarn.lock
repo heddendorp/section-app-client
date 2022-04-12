@@ -507,21 +507,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/localize@npm:13.3.1":
-  version: 13.3.1
-  resolution: "@angular/localize@npm:13.3.1"
+"@angular/localize@npm:13.3.2":
+  version: 13.3.2
+  resolution: "@angular/localize@npm:13.3.2"
   dependencies:
     "@babel/core": 7.17.2
     glob: 7.2.0
     yargs: ^17.2.1
   peerDependencies:
-    "@angular/compiler": 13.3.1
-    "@angular/compiler-cli": 13.3.1
+    "@angular/compiler": 13.3.2
+    "@angular/compiler-cli": 13.3.2
   bin:
     localize-extract: tools/bundles/src/extract/cli.js
     localize-migrate: tools/bundles/src/migrate/cli.js
     localize-translate: tools/bundles/src/translate/cli.js
-  checksum: f6695cb80b1d602dc17fa2ab7f06b5308651483dc71a3a3ac00cbc4f60d25a1b9457c897f66f9b68ab1ce52acc83eed250e4eb4892d9c7ea212b127c5a23189b
+  checksum: 06e8e4e0b2fd15753c32f94a71e06057f70dc1561476b121b397236158a42ffc72771078892a097cbdbd7902a7faebf2b587d973ad2b73b84a00d7254df8d063
   languageName: node
   linkType: hard
 
@@ -4630,11 +4630,11 @@ __metadata:
   resolution: "@tumi/events@workspace:events"
   dependencies:
     "@angular-devkit/build-angular": ~13.3.1
-    "@angular-eslint/builder": 13.1.0
-    "@angular-eslint/eslint-plugin": 13.1.0
-    "@angular-eslint/eslint-plugin-template": 13.1.0
-    "@angular-eslint/schematics": 13.1.0
-    "@angular-eslint/template-parser": 13.1.0
+    "@angular-eslint/builder": 13.2.0
+    "@angular-eslint/eslint-plugin": 13.2.0
+    "@angular-eslint/eslint-plugin-template": 13.2.0
+    "@angular-eslint/schematics": 13.2.0
+    "@angular-eslint/template-parser": 13.2.0
     "@angular/animations": ~13.3.1
     "@angular/cdk": 13.3.2
     "@angular/cli": ~13.3.1
@@ -4643,7 +4643,7 @@ __metadata:
     "@angular/compiler-cli": ~13.3.1
     "@angular/core": ~13.3.1
     "@angular/forms": ~13.3.1
-    "@angular/localize": 13.3.1
+    "@angular/localize": 13.3.2
     "@angular/material": 13.3.2
     "@angular/platform-browser": ~13.3.1
     "@angular/platform-browser-dynamic": ~13.3.1
