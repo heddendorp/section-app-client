@@ -145,14 +145,18 @@ export const userType = objectType({
     t.field({
       name: 'organizedEvents',
       type: nonNull(list(nonNull(eventType))),
+      args: { hideCancelled: booleanArg({ default: false }) },
       description: 'List of events organized by the user',
-      resolve: (source, args, context) =>
+      resolve: (source, { hideCancelled }, context) =>
         context.prisma.tumiEvent.findMany({
           where: {
             registrations: {
               some: {
                 user: { id: source.id },
                 type: RegistrationType.ORGANIZER,
+                ...(hideCancelled
+                  ? { status: { not: RegistrationStatus.CANCELLED } }
+                  : {}),
               },
             },
           },

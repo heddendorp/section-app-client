@@ -60,7 +60,7 @@ query userProfile {
         paymentMethodId
       }
     }
-    organizedEvents {
+    organizedEvents(hideCancelled: true) {
       id
       title
       icon

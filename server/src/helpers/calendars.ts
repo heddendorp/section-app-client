@@ -1,6 +1,6 @@
 import * as express from 'express';
 import ical from 'ical-generator';
-import { PublicationState } from '../generated/prisma';
+import { PublicationState, RegistrationStatus } from '../generated/prisma';
 import prisma from '../client';
 
 export const calendarRouter = () => {
@@ -8,7 +8,7 @@ export const calendarRouter = () => {
 
   router.get('/public', async (req, res) => {
     const events = await prisma.tumiEvent.findMany({
-      where: { publicationState: PublicationState.PUBLIC },
+      where: { publicationState: PublicationState.PUBLIC }
     });
     const calendar = ical({ name: 'TUMi public events', ttl: 60 * 60 * 2 });
     events.forEach((event) =>
@@ -17,7 +17,7 @@ export const calendarRouter = () => {
         end: event.end,
         summary: event.title,
         description: `More info at: https://tumi.esn.world/events/${event.id}`,
-        url: `https://tumi.esn.world/events/${event.id}`,
+        url: `https://tumi.esn.world/events/${event.id}`
       })
     );
     calendar.serve(res);
@@ -25,18 +25,19 @@ export const calendarRouter = () => {
   router.get('/private/:token', async (req, res) => {
     const token = req.params.token;
     const user = await prisma.user.findUnique({
-      where: { calendarToken: token },
+      where: { calendarToken: token }
     });
     const events = await prisma.tumiEvent.findMany({
-      where: { registrations: { some: { userId: user?.id } } },
-      include: {
-        eventTemplate: { include: { tenant: true } },
-        registrations: { where: { user: { id: user?.id } } },
-      },
-    });
+      where: {
+        registrations: { some: { userId: user?.id, status: { not: RegistrationStatus.CANCELLED } } }},
+        include: {
+          eventTemplate: { include: { tenant: true } },
+          registrations: { where: { user: { id: user?.id }, status: { not: RegistrationStatus.CANCELLED } } }
+        }
+      });
     const calendar = ical({
       name: `TUMi events for ${user?.firstName}`,
-      ttl: 60 * 60 * 2,
+      ttl: 60 * 60 * 2
     });
 
     events.forEach((event) => {
@@ -49,8 +50,8 @@ export const calendarRouter = () => {
         addon = {
           location: {
             title: event.location,
-            geo: { lat: event.coordinates?.lat, lon: event.coordinates?.lon },
-          },
+            geo: { lat: event.coordinates?.lat, lon: event.coordinates?.lon }
+          }
         };
       }
       calendar.createEvent({
@@ -62,10 +63,11 @@ export const calendarRouter = () => {
         You are registered for this events as ${event.registrations[0].type.toLocaleLowerCase()}.
         More info at: https://tumi.esn.world/events/${event.id}`,
         url: `https://tumi.esn.world/events/${event.id}`,
-        ...addon,
+        ...addon
       });
     });
     calendar.serve(res);
-  });
-  return router;
-};
+  })
+    ;
+    return router;
+  };
