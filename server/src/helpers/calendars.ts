@@ -1,5 +1,5 @@
 import * as express from 'express';
-import ical from 'ical-generator';
+import ical, { ICalCalendarMethod } from 'ical-generator';
 import { PublicationState, RegistrationStatus } from '../generated/prisma';
 import prisma from '../client';
 
@@ -49,6 +49,11 @@ export const calendarRouter = () => {
     const calendar = ical({
       name: `TUMi events for ${user?.firstName}`,
       ttl: 60 * 60 * 2,
+      method: ICalCalendarMethod.PUBLISH,
+      prodId:{
+        company: 'TUMi e.V.',
+        product: 'Events',
+      },
     });
 
     events.forEach((event) => {
