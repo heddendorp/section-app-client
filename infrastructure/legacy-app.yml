@@ -8,8 +8,8 @@ template:
   - image: ghcr.io/heddendorp/tumi/legacy-app:main
     name: legacy-app-image
     resources:
-      cpu: 1
-      memory: 2Gi
+      cpu: 0.25
+      memory: 0.5Gi
   scale:
     minReplicas: 0
     maxReplicas: 5

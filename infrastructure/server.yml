@@ -31,8 +31,8 @@ template:
     - name: PRODUCT_SAS_TOKEN
       secretRef: azure-product-storage-token
     resources:
-      cpu: 2
-      memory: 4Gi
+      cpu: 0.5
+      memory: 1Gi
   scale:
     minReplicas: 0
     maxReplicas: 5

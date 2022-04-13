@@ -23,7 +23,14 @@ template:
     - name: STRIPE_SECRET_KEY
       secretRef: stripe-secret-key
     resources:
-      cpu: 1
-      memory: 2Gi
+      resources:
+        cpu: 0.25
+        memory: 0.5Gi
   scale:
-    maxReplicas: 1
+    minReplicas: 0
+    maxReplicas: 5
+    rules:
+      - name: http-rule
+        http:
+          metadata:
+            concurrentRequests: 300
