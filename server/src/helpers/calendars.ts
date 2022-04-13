@@ -50,7 +50,7 @@ export const calendarRouter = () => {
       name: `TUMi events for ${user?.firstName}`,
       ttl: 60 * 60 * 2,
       method: ICalCalendarMethod.PUBLISH,
-      prodId:{
+      prodId: {
         company: 'TUMi e.V.',
         product: 'Events',
       },
