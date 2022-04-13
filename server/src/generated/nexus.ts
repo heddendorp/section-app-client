@@ -1786,6 +1786,9 @@ export interface NexusGenArgTypes {
     currentTenant: { // args
       userId?: string | null; // ID
     }
+    organizedEvents: { // args
+      hideCancelled?: boolean | null; // Boolean
+    }
     participatedEvents: { // args
       hideCancelled?: boolean | null; // Boolean
     }

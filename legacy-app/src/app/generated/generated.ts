@@ -1203,6 +1203,12 @@ export type UserCurrentTenantArgs = {
 
 
 /** One User of the app */
+export type UserOrganizedEventsArgs = {
+  hideCancelled?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+/** One User of the app */
 export type UserParticipatedEventsArgs = {
   hideCancelled?: InputMaybe<Scalars['Boolean']>;
 };
@@ -3212,7 +3218,7 @@ export const UserProfileDocument = gql`
         paymentMethodId
       }
     }
-    organizedEvents {
+    organizedEvents(hideCancelled: true) {
       id
       title
       icon

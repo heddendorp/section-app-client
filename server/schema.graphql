@@ -798,7 +798,7 @@ type User {
   lastName: String!
 
   """List of events organized by the user"""
-  organizedEvents: [TumiEvent!]!
+  organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   outstandingRating: Boolean!
 
   """List of events attended by the user"""
