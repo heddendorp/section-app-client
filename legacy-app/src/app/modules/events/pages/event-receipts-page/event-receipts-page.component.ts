@@ -39,7 +39,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
       map(({ data }) => data.costItem)
     );
-    this.loadCostItemQueryRef.startPolling(5000);
+    this.loadCostItemQueryRef.startPolling(60000);
   }
 
   ngOnDestroy(): void {

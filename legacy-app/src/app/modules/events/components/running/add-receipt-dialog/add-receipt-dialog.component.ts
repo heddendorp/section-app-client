@@ -74,6 +74,9 @@ export class AddReceiptDialogComponent {
       const res = await blockBlobClient.uploadBrowserData(
         this.uploadForm.value.file,
         {
+          blobHTTPHeaders: {
+            blobContentType: file.type,
+          },
           onProgress: (event) =>
             this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
         }

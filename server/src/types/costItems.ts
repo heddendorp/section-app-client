@@ -11,6 +11,11 @@ import { eventType } from './event';
 import { createReceiptInputType } from './receipt';
 import { Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
+import { BlobServiceClient } from '@azure/storage-blob';
+import { fromBuffer } from 'pdf2pic';
+import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
+import sharp from 'sharp';
+import { stream2buffer } from '../helpers/fileFunctions';
 
 export const costItemType = objectType({
   name: CostItem.$name,
@@ -86,18 +91,77 @@ export const addReceiptToCostItemMutation = mutationField(
       costItemId: nonNull(idArg()),
       receiptInput: nonNull(createReceiptInputType),
     },
-    resolve: (source, { costItemId, receiptInput }, context) =>
-      context.prisma.costItem.update({
+    resolve: async (source, { costItemId, receiptInput }, context) => {
+      if (receiptInput.blob.includes('.pdf')) {
+        const blobServiceClient = BlobServiceClient.fromConnectionString(
+          process.env['STORAGE_CONNECTION_STRING'] ?? ''
+        );
+        const containerClient = blobServiceClient.getContainerClient('tumi');
+        const blockBlobClient = containerClient.getBlockBlobClient(
+          receiptInput.container + '/' + receiptInput.blob
+        );
+        const downloadBlockBlobResponse = await blockBlobClient.download();
+        if (!downloadBlockBlobResponse.readableStreamBody) {
+          throw new Error('No readable stream body');
+        }
+        const pdfBuffer = await stream2buffer(
+          downloadBlockBlobResponse.readableStreamBody
+        );
+        if (!pdfBuffer || !Buffer.isBuffer(pdfBuffer)) {
+          console.log(pdfBuffer);
+          throw new Error('Invalid pdf');
+        }
+        const pdfConvert = fromBuffer(pdfBuffer, {
+          width: 707,
+          height: 1000,
+        });
+        if (!pdfConvert.bulk) {
+          throw new Error('Invalid pdf conversion');
+        }
+        const pdfResponse = (await pdfConvert.bulk(
+          -1,
+          true
+        )) as ToBase64Response[];
+        const image = await sharp({
+          create: {
+            width: 707,
+            height: 1000 * pdfResponse.length,
+            channels: 3,
+            background: 'white',
+          },
+        })
+          .composite(
+            pdfResponse.map(({ base64 }, index) => ({
+              input: Buffer.from(base64 ?? '', 'base64'),
+              top: index * 1000,
+              left: 0,
+            }))
+          )
+          .png()
+          .toBuffer();
+        const resultBlockBlobClient = containerClient.getBlockBlobClient(
+          receiptInput.container +
+            '/' +
+            receiptInput.blob.replace(/\.pdf$/, '.png')
+        );
+        await resultBlockBlobClient.upload(image, image.length);
+      }
+      return context.prisma.costItem.update({
         where: { id: costItemId },
         data: {
           receipts: {
             create: {
               ...receiptInput,
+              preview: `${receiptInput.container}/${receiptInput.blob.replace(
+                /\.pdf$/,
+                '.png'
+              )}`,
               user: { connect: { id: context.user?.id } },
             },
           },
         },
-      }),
+      });
+    },
   }
 );
 

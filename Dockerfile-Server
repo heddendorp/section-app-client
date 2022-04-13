@@ -1,6 +1,7 @@
-FROM node:16
+FROM node:17-alpine
 # Create app directory
 WORKDIR /usr/src/app
+RUN apk update && apk add ghostscript imagemagick && rm -rf /var/cache/apk/*
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
@@ -11,11 +12,9 @@ COPY .yarn .yarn/
 RUN yarn workspace @tumi/server install
 COPY server server/
 # If you are building your code for production
-# RUN npm ci --only=production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 RUN yarn workspace @tumi/server build
 RUN npm install pm2 -g
-#RUN ng run tumi-events:server
 
 #FROM node:16
 #WORKDIR /root/

@@ -21,7 +21,7 @@ export const getEnveloped = envelop({
   plugins: [
     useSchema(schema),
     // useLogger(),
-    enableIf(!isProd, useTiming()),
+    // enableIf(!isProd, useTiming()),
     enableIf(
       isProd,
       useHive({
