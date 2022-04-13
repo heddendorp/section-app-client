@@ -10,6 +10,8 @@ import {
 import { PhotoShare } from '../generated/nexus-prisma';
 import { RegistrationStatus, Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
+import { BlobServiceClient } from '@azure/storage-blob';
+import { stream2buffer } from '../helpers/fileFunctions';
 
 export const photoShare = objectType({
   name: PhotoShare.$name,
@@ -52,14 +54,18 @@ export const photoShare = objectType({
     t.field({
       name: 'src',
       type: nonNull('String'),
-      resolve: (source) => {
-        const lastDot = source.originalBlob.lastIndexOf('.');
-        return `/storage/tumi-photos/${encodeURIComponent(
+      resolve: (source) =>
+        `/storage/tumi-photos/${encodeURIComponent(
           source.container
-        )}/${encodeURIComponent(
-          `${source.originalBlob.substr(0, lastDot)}-preview.jpg`
-        )}`;
-      },
+        )}/${encodeURIComponent(source.originalBlob)}`,
+      // resolve: (source) => {
+      //   const lastDot = source.originalBlob.lastIndexOf('.');
+      //   return `/storage/tumi-photos/${encodeURIComponent(
+      //     source.container
+      //   )}/${encodeURIComponent(
+      //     `${source.originalBlob.substr(0, lastDot)}-preview.jpg`
+      //   )}`;
+      // },
     });
     t.field({
       name: 'original',
@@ -126,12 +132,32 @@ export const getPhotosOfEventQuery = queryField('photosOfEvent', {
 export const createPhotoShareMutation = mutationField('createPhotoShare', {
   type: photoShare,
   args: { data: nonNull(createPhotoShareInputType), eventId: nonNull(idArg()) },
-  resolve: (source, { data, eventId }, context) =>
-    context.prisma.photoShare.create({
+  resolve: (source, { data, eventId }, context) => {
+    // const blobServiceClient = BlobServiceClient.fromConnectionString(
+    //   process.env['STORAGE_CONNECTION_STRING'] ?? ''
+    // );
+    // const containerClient = blobServiceClient.getContainerClient('tumi-photos');
+    // const blockBlobClient = containerClient.getBlockBlobClient(
+    //   data.container + '/' + data.originalBlob
+    // );
+    // const downloadBlockBlobResponse = await blockBlobClient.download();
+    // if (!downloadBlockBlobResponse.readableStreamBody) {
+    //   throw new Error('No readable stream body');
+    // }
+    // const imageBuffer = await stream2buffer(
+    //   downloadBlockBlobResponse.readableStreamBody
+    // );
+    // if (!imageBuffer || !Buffer.isBuffer(imageBuffer)) {
+    //   console.log(pdfBuffer);
+    //   throw new Error('Invalid image');
+    // }
+    // TODO: create image thumbnails
+    return context.prisma.photoShare.create({
       data: {
         ...data,
         creator: { connect: { id: context.user?.id } },
         event: { connect: { id: eventId } },
       },
-    }),
+    });
+  },
 });
