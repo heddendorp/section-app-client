@@ -65,7 +65,10 @@
       <td colspan="3" mat-cell *matCellDef="let element">
         <app-grid
           minWidth="200px"
-          *ngIf="element.participantRegistrations.length || element.organizerRegistrations.length"
+          *ngIf="
+            element.participantRegistrations.length ||
+            element.organizerRegistrations.length
+          "
           class="m-4"
         >
           <div
@@ -73,7 +76,9 @@
             class="border p-2"
           >
             {{ registration.userComment }}<br />
-            <span class='font-mono mr-2 bg-gray-200 px-1 rounded'>organizer</span>{{ registration.rating }}/5
+            <span class="font-mono mr-2 bg-gray-200 px-1 rounded"
+              >organizer</span
+            >{{ registration.rating }}/5
           </div>
           <div
             *ngFor="let registration of element.participantRegistrations"
