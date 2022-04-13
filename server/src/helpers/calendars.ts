@@ -1,6 +1,10 @@
 import * as express from 'express';
 import ical, { ICalCalendarMethod } from 'ical-generator';
-import { PublicationState, RegistrationStatus } from '../generated/prisma';
+import {
+  MembershipStatus,
+  PublicationState,
+  RegistrationStatus,
+} from '../generated/prisma';
 import prisma from '../client';
 
 export const calendarRouter = () => {
@@ -8,7 +12,10 @@ export const calendarRouter = () => {
 
   router.get('/public', async (req, res) => {
     const events = await prisma.tumiEvent.findMany({
-      where: { publicationState: PublicationState.PUBLIC },
+      where: {
+        publicationState: PublicationState.PUBLIC,
+        participantSignup: { has: MembershipStatus.NONE },
+      },
     });
     const calendar = ical({
       name: 'TUMi public events',
