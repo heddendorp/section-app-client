@@ -75,9 +75,9 @@ export const calendarRouter = () => {
         end: event.end,
         summary: event.title,
         description: `
-        Event by: ${event.eventTemplate.tenant.name}
-        You are registered for this events as ${event.registrations[0].type.toLocaleLowerCase()}.
-        More info at: https://tumi.esn.world/events/${event.id}`,
+Event by: ${event.eventTemplate.tenant.name}
+You are registered for this events as ${event.registrations[0].type.toLocaleLowerCase()}.
+More info at: https://tumi.esn.world/events/${event.id}`,
         url: `https://tumi.esn.world/events/${event.id}`,
         ...addon,
       });
