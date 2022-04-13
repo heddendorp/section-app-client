@@ -1,6 +1,7 @@
 import { Stream } from 'stream';
+import ReadableStream = NodeJS.ReadableStream;
 
-export async function stream2buffer(stream: Stream): Promise<Buffer> {
+export async function stream2buffer(stream: ReadableStream): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {
     const _buf = Array<any>();
 

@@ -1,7 +1,7 @@
-FROM node:17-alpine
+FROM node:17
 # Create app directory
 WORKDIR /usr/src/app
-RUN apk update && apk add ghostscript imagemagick && rm -rf /var/cache/apk/*
+RUN apt-get update && apt-get install ghostscript graphicsmagick -y
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
