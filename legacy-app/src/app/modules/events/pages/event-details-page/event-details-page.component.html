@@ -158,6 +158,7 @@
           <app-stripe-event-registration
             *ngSwitchCase="RegistrationMode.Stripe"
             [event]="event"
+            [bestPrice]="bestPrice$ | async"
             [user]="user$ | async"
           ></app-stripe-event-registration>
           <app-online-event-registration

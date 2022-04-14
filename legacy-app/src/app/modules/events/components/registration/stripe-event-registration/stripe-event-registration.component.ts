@@ -36,7 +36,7 @@ import { environment } from '../../../../../../environments/environment';
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
   @Input() public user: LoadEventQuery['currentUser'] | null = null;
-  public infoForm: FormGroup | undefined;
+  @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
   public priceControl = new FormControl(null, Validators.required);
   public processing = new BehaviorSubject(false);
@@ -89,9 +89,8 @@ export class StripeEventRegistrationComponent implements OnChanges {
           changes['event'].currentValue.prices.options
         )
       );
-      const defaultPrice = prices.find((p) => p.defaultPrice);
-      if (defaultPrice) {
-        this.priceControl.setValue(defaultPrice);
+      if (this.bestPrice) {
+        this.priceControl.setValue(this.bestPrice);
       }
       this.availablePrices$.next(prices);
     }
