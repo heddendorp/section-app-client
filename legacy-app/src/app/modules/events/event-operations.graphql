@@ -184,6 +184,7 @@ query getCostItem($id: ID!) {
       id
       amount
       url
+      type
       originalUrl
       user {
         id

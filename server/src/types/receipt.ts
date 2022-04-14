@@ -46,7 +46,7 @@ export const receiptType = objectType({
       resolve: (receipt) =>
         `https://storetumi.blob.core.windows.net/tumi/${encodeURIComponent(
           receipt.container
-        )}/${encodeURIComponent(receipt.blob).replace('.pdf', '.png')}`,
+        )}/${encodeURIComponent(receipt.blob) /*.replace('.pdf', '.png')*/}`,
     });
     t.nonNull.string('originalUrl', {
       resolve: (receipt) =>

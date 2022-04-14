@@ -92,7 +92,7 @@ export const addReceiptToCostItemMutation = mutationField(
       receiptInput: nonNull(createReceiptInputType),
     },
     resolve: async (source, { costItemId, receiptInput }, context) => {
-      if (receiptInput.blob.includes('.pdf')) {
+      /*if (receiptInput.blob.includes('.pdf')) {
         const blobServiceClient = BlobServiceClient.fromConnectionString(
           process.env['STORAGE_CONNECTION_STRING'] ?? ''
         );
@@ -145,17 +145,17 @@ export const addReceiptToCostItemMutation = mutationField(
             receiptInput.blob.replace(/\.pdf$/, '.png')
         );
         await resultBlockBlobClient.upload(image, image.length);
-      }
+      }*/
       return context.prisma.costItem.update({
         where: { id: costItemId },
         data: {
           receipts: {
             create: {
               ...receiptInput,
-              preview: `${receiptInput.container}/${receiptInput.blob.replace(
+              /*preview: `${receiptInput.container}/${receiptInput.blob.replace(
                 /\.pdf$/,
                 '.png'
-              )}`,
+              )}`,*/
               user: { connect: { id: context.user?.id } },
             },
           },

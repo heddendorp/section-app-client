@@ -1438,7 +1438,7 @@ export type GetCostItemQueryVariables = Exact<{
 }>;
 
 
-export type GetCostItemQuery = { __typename?: 'Query', costItem: { __typename?: 'CostItem', id: string, name: string, amount: any, submittedAmount: any, event: { __typename?: 'TumiEvent', id: string, title: string }, receipts: Array<{ __typename?: 'Receipt', id: string, amount: any, url: string, originalUrl: string, user: { __typename?: 'User', id: string, fullName: string } }> } };
+export type GetCostItemQuery = { __typename?: 'Query', costItem: { __typename?: 'CostItem', id: string, name: string, amount: any, submittedAmount: any, event: { __typename?: 'TumiEvent', id: string, title: string }, receipts: Array<{ __typename?: 'Receipt', id: string, amount: any, url: string, type?: string | null, originalUrl: string, user: { __typename?: 'User', id: string, fullName: string } }> } };
 
 export type GetBlobTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2421,6 +2421,7 @@ export const GetCostItemDocument = gql`
       id
       amount
       url
+      type
       originalUrl
       user {
         id

@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import {
   DeleteReceiptGQL,
   GetCostItemGQL,
@@ -29,7 +29,8 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private loadCostItem: GetCostItemGQL,
     private removeReceiptMutation: DeleteReceiptGQL,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {
     this.title.setTitle('TUMi - event receipts');
     this.loadCostItemQueryRef = this.loadCostItem.watch();
@@ -64,5 +65,9 @@ export class EventReceiptsPageComponent implements OnDestroy {
         .mutate({ receiptId: receipt.id, costItemId: costItem.id })
         .toPromise();
     }
+  }
+
+  sanitizeUrl(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

@@ -12,9 +12,17 @@
   <button mat-raised-button (click)="addReceipt()" class="mb-4">
     Add receipt
   </button>
-  <app-grid>
+  <app-grid minWidth="500px">
     <div *ngFor="let receipt of costItem.receipts">
-      <img [src]="receipt.url" />
+      <img *ngIf="!receipt.type?.includes('pdf')" [src]="receipt.url" />
+      <object
+        class="block"
+        *ngIf="receipt.type?.includes('pdf')"
+        [data]="sanitizeUrl(receipt.url + '#toolbar=0&navpanes=0')"
+        [type]="receipt.type"
+        width="500px"
+        height="500px"
+      ></object>
       <p class="mt-2">
         <span class="font-bold">{{ receipt.amount | currency: 'EUR' }}</span>
         <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
