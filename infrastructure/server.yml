@@ -31,8 +31,8 @@ template:
     - name: PRODUCT_SAS_TOKEN
       secretRef: azure-product-storage-token
     resources:
-      cpu: 1
-      memory: 2Gi
+      cpu: 0.5
+      memory: 1Gi
   scale:
     minReplicas: 0
     maxReplicas: 5
@@ -41,15 +41,3 @@ template:
       http:
         metadata:
           concurrentRequests: 300
-#    - name: cpu-scaling-rule
-#      custom:
-#        type: cpu
-#        metadata:
-#          type: Utilization
-#          value: 80
-#    - name: memory-scaling-rule
-#      custom:
-#        type: memory
-#        metadata:
-#          type: Utilization
-#          value: 80
