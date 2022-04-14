@@ -123,6 +123,9 @@ jobs:
         run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/experiments@${{ steps.build-and-push.outputs.digest }}
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://experiments.esn.world
     needs: build
     if: github.ref == 'refs/heads/main'
 
