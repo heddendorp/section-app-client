@@ -7,7 +7,7 @@
     <div fxFlex="noshrink"></div>
     <button mat-stroked-button (click)="updateUser(user)">Update Role</button>
   </div>
-  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem">
+  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
     <p>TUMi app UserID:</p>
     <p class="select-all font-mono">{{ user.id }}</p>
     <p>First name:</p>
@@ -21,9 +21,9 @@
     <p>email:</p>
     <p>{{ user.email }}</p>
     <p>Auth0 ID:</p>
-    <p>{{ user.authId }}</p>
+    <p class="break-all">{{ user.authId }}</p>
     <p>Birthday:</p>
-    <p>{{ user.birthdate | date: 'medium' }}</p>
+    <p>{{ user.birthdate | date: 'mediumDate' }}</p>
     <p>University:</p>
     <p>{{ user.university }}</p>
     <p>Phone:</p>
@@ -36,19 +36,27 @@
       (change)="updateEsnCard($event)"
     ></mat-slide-toggle>
     <h2 gdColumn="-1/1" class="my-2">Registrations</h2>
-    <ng-container *ngFor="let registration of user.eventRegistrations">
-      <p class="mt-2 font-bold" gdColumn="-1/1">
-        {{ registration.event.title }}
-      </p>
+  </div>
+  <div
+    [class.opacity-60]="registration.status === RegistrationStatus.Cancelled"
+    class="my-4"
+    *ngFor="let registration of user.eventRegistrations"
+  >
+    <p class="max-w-full break-words font-bold" gdColumn="-1/1">
+      {{ registration.event.title }}
+    </p>
+    <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
       <p>Type:</p>
       <p>{{ registration.type | titlecase }}</p>
+      <p>Status:</p>
+      <p>{{ registration.status | titlecase }}</p>
       <p>Registration date:</p>
       <p>{{ registration.createdAt | date: 'medium' }}</p>
       <p>Event start:</p>
       <p>{{ registration.event.start | date: 'medium' }}</p>
       <p>Checkin date:</p>
       <p>{{ registration.checkInTime | date: 'medium' }}</p>
-    </ng-container>
+    </div>
   </div>
 </main>
-<pre>{{ user$ | async | json }}</pre>
+<!--<pre>{{ user$ | async | json }}</pre>-->

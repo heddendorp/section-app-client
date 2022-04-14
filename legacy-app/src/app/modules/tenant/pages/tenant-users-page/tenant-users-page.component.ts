@@ -48,6 +48,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public Role = Role;
   private loadUsersReference;
   private destroyed$ = new Subject();
+
   constructor(
     private title: Title,
     private loadUsers: GetUsersGQL,
@@ -81,6 +82,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$), debounceTime(500))
       .subscribe((value) => this.loadUsersReference.refetch(value));
   }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

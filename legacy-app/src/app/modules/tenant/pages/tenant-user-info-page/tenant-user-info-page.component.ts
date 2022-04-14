@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GetUsersQuery,
   LoadUserGQL,
   LoadUserQuery,
+  RegistrationStatus,
   UpdateEsNcardGQL,
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
@@ -20,6 +21,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TenantUserInfoPageComponent {
   public user$: Observable<LoadUserQuery['userById']>;
+  public RegistrationStatus = RegistrationStatus;
+
   constructor(
     private loadUserQuery: LoadUserGQL,
     private route: ActivatedRoute,
