@@ -30,6 +30,19 @@
               <span>{{ registration.payment?.status }}</span>
               <span> Payment method: </span>
               <span>{{ registration.payment?.paymentMethodType }}</span>
+              <span>Amount:</span>
+              <span>{{
+                (registration.payment?.amount ?? 0) / 100 | currency: 'EUR'
+              }}</span>
+              <span>Net Amount:</span>
+              <span>{{
+                (registration.payment?.netAmount ?? 0) / 100 | currency: 'EUR'
+              }}</span>
+              <span>Refunded Amount:</span>
+              <span>{{
+                (registration.payment?.refundedAmount ?? 0) / 100
+                  | currency: 'EUR'
+              }}</span>
               <a
                 gdColumn="span 2"
                 mat-stroked-button

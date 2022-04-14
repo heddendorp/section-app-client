@@ -281,9 +281,9 @@ export const eventType = objectType({
     t.field({
       name: 'netAmountCollected',
       type: nonNull('Decimal'),
-      resolve: (source, args, context) => {
+      resolve: async (source, args, context) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.stripePayment
+        const netAmount = await context.prisma.stripePayment
           .aggregate({
             where: {
               eventRegistration: {
@@ -298,6 +298,22 @@ export const eventType = objectType({
             (aggregations) =>
               (aggregations._sum.netAmount?.toNumber() ?? 0) / 100
           );
+        const refundedAmount = await context.prisma.stripePayment
+          .aggregate({
+            where: {
+              eventRegistration: {
+                event: { id: source.id },
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+              refundedAmount: { not: undefined },
+            },
+            _sum: { refundedAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.refundedAmount?.toNumber() ?? 0) / 100
+          );
+        return netAmount - refundedAmount;
       },
     });
     t.field({

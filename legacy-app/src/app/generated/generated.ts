@@ -1689,7 +1689,7 @@ export type GetRegistrationForAdminQueryVariables = Exact<{
 }>;
 
 
-export type GetRegistrationForAdminQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, createdAt: any, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, event: { __typename?: 'TumiEvent', title: string, id: string, start: any, end: any }, user: { __typename?: 'User', id: string, fullName: string }, payment?: { __typename?: 'StripePayment', id: string, status: string, netAmount?: any | null, paymentIntent: string, paymentMethodType?: string | null, events: Array<any | null> } | null } };
+export type GetRegistrationForAdminQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, createdAt: any, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, event: { __typename?: 'TumiEvent', title: string, id: string, start: any, end: any }, user: { __typename?: 'User', id: string, fullName: string }, payment?: { __typename?: 'StripePayment', id: string, status: string, netAmount?: any | null, refundedAmount?: any | null, amount: any, feeAmount?: any | null, paymentIntent: string, paymentMethodType?: string | null, events: Array<any | null> } | null } };
 
 export type GetRegistrationCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3483,6 +3483,9 @@ export const GetRegistrationForAdminDocument = gql`
       id
       status
       netAmount
+      refundedAmount
+      amount
+      feeAmount
       paymentIntent
       paymentMethodType
       events

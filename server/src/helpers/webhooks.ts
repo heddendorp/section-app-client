@@ -559,12 +559,22 @@ export const webhookRouter = (prisma: PrismaClient) => {
             console.debug('No database payment found for incoming event');
             break;
           }
+          let balanceTransaction;
+          if (typeof charge?.balance_transaction === 'string') {
+            balanceTransaction = await stripe.balanceTransactions.retrieve(
+              charge.balance_transaction
+            );
+          } else {
+            balanceTransaction = charge?.balance_transaction;
+          }
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
               where: { paymentIntent: paymentIntentId },
               data: {
                 status: 'refunded',
                 refundedAmount: charge.amount_refunded,
+                feeAmount: balanceTransaction.fee,
+                netAmount: balanceTransaction.net,
                 events: [
                   ...stripePayment.events,
                   {

@@ -40,6 +40,9 @@ query getRegistrationForAdmin($id: ID!) {
       id
       status
       netAmount
+      refundedAmount
+      amount
+      feeAmount
       paymentIntent
       paymentMethodType
       events

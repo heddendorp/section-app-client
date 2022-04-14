@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CheckInUserGQL,
   CreateEventRegistrationCodeGQL,
@@ -25,9 +20,10 @@ import { environment } from 'src/environments/environment';
 })
 export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;
+  public environment = environment;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
-  public environment = environment;
+
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
