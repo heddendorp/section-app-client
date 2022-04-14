@@ -360,6 +360,7 @@ mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean) {
     id
     participantRegistrations(includeCancelled: true) {
       id
+      status
     }
     activeRegistration {
       id

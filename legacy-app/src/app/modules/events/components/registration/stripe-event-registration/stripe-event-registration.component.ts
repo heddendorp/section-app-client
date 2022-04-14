@@ -94,6 +94,9 @@ export class StripeEventRegistrationComponent implements OnChanges {
       }
       this.availablePrices$.next(prices);
     }
+    if (changes['bestPrice']) {
+      this.priceControl.setValue(this.bestPrice);
+    }
   }
 
   async register() {

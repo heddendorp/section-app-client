@@ -1494,7 +1494,7 @@ export type DeregisterFromEventMutationVariables = Exact<{
 }>;
 
 
-export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent?: { __typename?: 'TumiEvent', id: string, participantsRegistered: number, userRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } | null };
+export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent?: { __typename?: 'TumiEvent', id: string, participantsRegistered: number, userRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } | null };
 
 export type LoadUsersByStatusQueryVariables = Exact<{
   allowList: Array<MembershipStatus> | MembershipStatus;
@@ -2686,6 +2686,7 @@ export const DeregisterFromEventDocument = gql`
     id
     participantRegistrations(includeCancelled: true) {
       id
+      status
     }
     activeRegistration {
       id
