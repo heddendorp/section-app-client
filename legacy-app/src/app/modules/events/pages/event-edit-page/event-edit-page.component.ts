@@ -358,6 +358,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         this.updateCoreEventGQL.mutate({
           id: event.id,
           data: {
+            organizerLimit: event.organizerLimit,
+            participantLimit: event.participantLimit,
             ...update,
             start: DateTime.fromISO(update.start).toJSDate(),
             end: DateTime.fromISO(update.end).toJSDate(),
