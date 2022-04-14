@@ -271,6 +271,11 @@ query loadEventForManagement($id: ID!) {
       submittedAmount
       amount
     }
+    # template
+    eventTemplate {
+      id
+      title
+    }
     eventRegistrationCodes {
       id
       isPublic

@@ -1,5 +1,18 @@
 <main *ngIf="event$ | async as event" class="p-4">
-  <h1>Manage {{ event.title }}</h1>
+  <div
+    fxLayout="column"
+    fxLayout.gt-xs="row"
+    fxLayoutGap="1rem"
+    fxLayoutAlign="space-between"
+  >
+    <h1>Manage {{ event.title }}</h1>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-stroked-button
+      class="modern"
+      >Go to template</a
+    >
+  </div>
   <div class="my-4 rounded-2xl border p-4">
     <h2>Finances</h2>
     <app-event-manage-finances [eventId]="event.id"></app-event-manage-finances>
@@ -59,7 +72,7 @@
     </table>
   </div>
   <div class="my-4 rounded-2xl border p-4">
-    <h2 class="mb-2">Extra tickets</h2>
+    <h2 class="mb-2">Registration codes</h2>
     <div class="space-x-2">
       <button
         class="modern"
