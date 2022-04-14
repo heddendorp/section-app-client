@@ -839,6 +839,7 @@ export interface NexusGenFieldTypes {
     feeAmount: NexusGenScalars['Decimal'] | null; // Decimal
     id: string; // ID!
     netAmount: NexusGenScalars['Decimal'] | null; // Decimal
+    netLessRefundAmount: NexusGenScalars['Decimal']; // Decimal!
     paymentIntent: string; // String!
     paymentMethod: string | null; // String
     paymentMethodType: string | null; // String
@@ -1341,6 +1342,7 @@ export interface NexusGenFieldTypeNames {
     feeAmount: 'Decimal'
     id: 'ID'
     netAmount: 'Decimal'
+    netLessRefundAmount: 'Decimal'
     paymentIntent: 'String'
     paymentMethod: 'String'
     paymentMethodType: 'String'

@@ -23,6 +23,10 @@ export const stripePaymentType = objectType({
     t.field(StripePayment.feeAmount);
     t.field(StripePayment.netAmount);
     t.field(StripePayment.refundedAmount);
+    t.nonNull.decimal('netLessRefundAmount', {
+      resolve: (payment) =>
+        Math.max(0, (payment.netAmount ?? 0) - (payment.refundedAmount ?? 0)),
+    });
     t.field({
       ...StripePayment.purchase,
       resolve: (source, args, context) => {

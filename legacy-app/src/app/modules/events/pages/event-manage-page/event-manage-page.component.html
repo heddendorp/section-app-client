@@ -158,9 +158,8 @@
             Paid:
             <span class="mr-2 rounded bg-gray-200 px-1 font-mono">
               {{
-                ((registration.payment?.netAmount ?? 0) -
-                  (registration.payment?.refundedAmount ?? 0)) /
-                  100 | currency: 'EUR'
+                (registration.payment?.netLessRefundAmount ?? 0) / 100
+                  | currency: 'EUR'
               }}
             </span>
           </p>
@@ -321,11 +320,7 @@
             <td>{{ registration.user.phone }}</td>
             <td>{{ registration.checkInTime | date: 'short' }}</td>
             <td>
-              {{
-                ((registration.payment?.netAmount ?? 0) -
-                  (registration.payment?.refundedAmount ?? 0)) /
-                  100
-              }}
+              {{ (registration.payment?.netLessRefundAmount ?? 0) / 100 }}
             </td>
           </tr>
         </tbody>
