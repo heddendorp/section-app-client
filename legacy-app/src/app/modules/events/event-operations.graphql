@@ -310,6 +310,7 @@ query loadEventForManagement($id: ID!) {
         status
         paymentMethodType
         netAmount
+        refundedAmount
       }
       checkInTime
       didAttend
