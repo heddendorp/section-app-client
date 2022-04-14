@@ -139,27 +139,44 @@
         <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
       </p>
     </div>
-    <!--    <div class="border-b p-2 lg:p-4 bg-gray-100">-->
-    <!--      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">-->
-    <!--        <img src="/assets/images/general/virus.svg" class="h-6" />-->
-    <!--        <p class="">Please note: most TUMi events require 2G!</p>-->
-    <!--      </div>-->
-    <!--      <div>-->
-    <!--        <p class="mb-2">-->
-    <!--          Starting on the 9th of november, Corona measures in bavaria are-->
-    <!--          tightening. 2G is required in most indoor venues (vaccinated or-->
-    <!--          recovered). PCR tests allow entry to restaurants, hairdressers and-->
-    <!--          hotels. <span class="font-bold">FFP2</span> masks are required!-->
-    <!--        </p>-->
-    <!--        <p>-->
-    <!--          Please check your events to see if you are affected by the measures.-->
-    <!--          If there are any issues, contact us at-->
-    <!--          <a class="underline font-bold" href="mailto:questions@esn-tumi.de">-->
-    <!--            questions@esn-tumi.de-->
-    <!--          </a>-->
-    <!--        </p>-->
-    <!--      </div>-->
-    <!--    </div>-->
     <router-outlet></router-outlet>
+    <div class="grow"></div>
+    <div class="relative mt-8 flex-shrink-0 bg-slate-800">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div
+          class="flex items-center justify-between py-6 md:justify-start md:space-x-10"
+        >
+          <div class="flex justify-start lg:w-0 lg:flex-1">
+            <p class="text-slate-100">©️ 2022 ESN TUMi e.V.</p>
+          </div>
+          <!--      <nav class="hidden space-x-10 md:flex"></nav>-->
+          <div
+            class="items-center justify-end space-x-4 md:flex md:flex-1 lg:w-0"
+          >
+            <a
+              href="https://www.instagram.com/tumi.esn/"
+              target="_blank"
+              class="text-base text-slate-300 hover:text-slate-100"
+            >
+              <mat-icon svgIcon="icon-instagram-new"></mat-icon>
+            </a>
+            <a
+              href="https://www.facebook.com/esntumi.munchen"
+              target="_blank"
+              class="text-base text-slate-300 hover:text-slate-100"
+            >
+              <mat-icon svgIcon="icon-facebook-new-2"></mat-icon>
+            </a>
+            <a
+              href="https://github.com/heddendorp/tumi"
+              target="_blank"
+              class="text-base text-slate-300 hover:text-slate-100"
+            >
+              <mat-icon svgIcon="icon-github"></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
