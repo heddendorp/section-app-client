@@ -403,7 +403,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:13.3.2, @angular/cdk@npm:~13.3.2":
+"@angular/cdk@npm:13.3.3":
+  version: 13.3.3
+  resolution: "@angular/cdk@npm:13.3.3"
+  dependencies:
+    parse5: ^5.0.0
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^13.0.0 || ^14.0.0-0
+    "@angular/core": ^13.0.0 || ^14.0.0-0
+    rxjs: ^6.5.3 || ^7.4.0
+  dependenciesMeta:
+    parse5:
+      optional: true
+  checksum: d33a1cc0b944776038d282f12dcbc6d52d01234010b525166376cc4afa9012917761ebcce70f81dc0c2dd36c4c1747c0356195df3cc19fcf5442ad7cb3847348
+  languageName: node
+  linkType: hard
+
+"@angular/cdk@npm:~13.3.2":
   version: 13.3.2
   resolution: "@angular/cdk@npm:13.3.2"
   dependencies:
@@ -536,21 +553,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/localize@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@angular/localize@npm:13.3.2"
+"@angular/localize@npm:13.3.3":
+  version: 13.3.3
+  resolution: "@angular/localize@npm:13.3.3"
   dependencies:
     "@babel/core": 7.17.2
     glob: 7.2.0
     yargs: ^17.2.1
   peerDependencies:
-    "@angular/compiler": 13.3.2
-    "@angular/compiler-cli": 13.3.2
+    "@angular/compiler": 13.3.3
+    "@angular/compiler-cli": 13.3.3
   bin:
     localize-extract: tools/bundles/src/extract/cli.js
     localize-migrate: tools/bundles/src/migrate/cli.js
     localize-translate: tools/bundles/src/translate/cli.js
-  checksum: 06e8e4e0b2fd15753c32f94a71e06057f70dc1561476b121b397236158a42ffc72771078892a097cbdbd7902a7faebf2b587d973ad2b73b84a00d7254df8d063
+  checksum: 7f37ac464924e4a4dbe06d8e0f6d5e6242c1ac4acc422b8b49601c542a0b50afefe1a91ee3feca09ee97d743bc0318209f2c897b706db144e71e36b9a112dae8
   languageName: node
   linkType: hard
 
@@ -567,7 +584,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material@npm:13.3.2, @angular/material@npm:~13.3.2":
+"@angular/material@npm:13.3.3":
+  version: 13.3.3
+  resolution: "@angular/material@npm:13.3.3"
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/animations": ^13.0.0 || ^14.0.0-0
+    "@angular/cdk": 13.3.3
+    "@angular/common": ^13.0.0 || ^14.0.0-0
+    "@angular/core": ^13.0.0 || ^14.0.0-0
+    "@angular/forms": ^13.0.0 || ^14.0.0-0
+    "@angular/platform-browser": ^13.0.0 || ^14.0.0-0
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: 1075af13b97fff661cf2d389b7fb89ac310c0ad5e25b40b6dd8ada7fab2cfe7cd7f3e21d718ee0063a039db30fadacffadf1edb951c5b02baf2ecf2ce84389ff
+  languageName: node
+  linkType: hard
+
+"@angular/material@npm:~13.3.2":
   version: 13.3.2
   resolution: "@angular/material@npm:13.3.2"
   dependencies:
@@ -4913,21 +4947,21 @@ __metadata:
   resolution: "@tumi/events@workspace:events"
   dependencies:
     "@angular-devkit/build-angular": ~13.3.2
-    "@angular-eslint/builder": 13.2.0
-    "@angular-eslint/eslint-plugin": 13.2.0
-    "@angular-eslint/eslint-plugin-template": 13.2.0
-    "@angular-eslint/schematics": 13.2.0
-    "@angular-eslint/template-parser": 13.2.0
+    "@angular-eslint/builder": 13.2.1
+    "@angular-eslint/eslint-plugin": 13.2.1
+    "@angular-eslint/eslint-plugin-template": 13.2.1
+    "@angular-eslint/schematics": 13.2.1
+    "@angular-eslint/template-parser": 13.2.1
     "@angular/animations": ~13.3.2
-    "@angular/cdk": 13.3.2
+    "@angular/cdk": 13.3.3
     "@angular/cli": ~13.3.2
     "@angular/common": ~13.3.2
     "@angular/compiler": ~13.3.2
     "@angular/compiler-cli": ~13.3.2
     "@angular/core": ~13.3.2
     "@angular/forms": ~13.3.2
-    "@angular/localize": 13.3.2
-    "@angular/material": 13.3.2
+    "@angular/localize": 13.3.3
+    "@angular/material": 13.3.3
     "@angular/platform-browser": ~13.3.2
     "@angular/platform-browser-dynamic": ~13.3.2
     "@angular/platform-server": ~13.3.2
