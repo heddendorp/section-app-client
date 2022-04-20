@@ -1,1 +1,24 @@
-<p>photo-details-dialog works!</p>
+<div class="relative">
+  <mat-spinner
+    *ngIf="(imageLoaded$ | async) === false"
+    class="m-6"
+  ></mat-spinner>
+  <img
+    [src]="data.photo.original"
+    class="max-h-full max-w-full"
+    (load)="imageLoad($event)"
+  />
+  <div
+    class="dark-button absolute bottom-2 right-2"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+    *ngIf="imageLoaded$ | async"
+  >
+    <button (click)="shareImage()" mat-fab *ngIf="canShareImage">
+      <mat-icon svgIcon="icon-share-3"></mat-icon>
+    </button>
+    <a [href]="data.photo.original" mat-fab target="_blank" download>
+      <mat-icon svgIcon="icon-download"></mat-icon>
+    </a>
+  </div>
+</div>
