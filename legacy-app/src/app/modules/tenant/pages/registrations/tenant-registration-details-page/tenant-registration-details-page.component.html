@@ -43,6 +43,10 @@
                 (registration.payment?.refundedAmount ?? 0) / 100
                   | currency: 'EUR'
               }}</span>
+              <span>Fee Amount:</span>
+              <span>{{
+                (registration.payment?.feeAmount ?? 0) / 100 | currency: 'EUR'
+              }}</span>
               <a
                 gdColumn="span 2"
                 mat-stroked-button
