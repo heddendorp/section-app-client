@@ -23,4 +23,15 @@ export class EventHeaderComponent {
       new Date(this.event.start).getDay() === new Date(this.event.end).getDay()
     );
   }
+  get canShare() {
+    return !!navigator.share;
+  }
+
+  shareEvent() {
+    navigator.share({
+      title: this.event?.title,
+      text: `Check out this event on TUMi: ${this.event?.title}`,
+      url: 'https://tumi.esn.world/events/' + this.event?.id,
+    });
+  }
 }
