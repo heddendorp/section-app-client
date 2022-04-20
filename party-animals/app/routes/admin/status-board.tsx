@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from 'remix';
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { authenticator } from '~/services/auth.server';
 import { Group, Registration, Role, User } from '~/generated/prisma';
 import { db } from '~/utils/db.server';

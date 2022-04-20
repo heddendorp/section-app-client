@@ -1,4 +1,5 @@
-import { LoaderFunction, NavLink, redirect } from 'remix';
+import { LoaderFunction, redirect } from "@remix-run/node";
+import { NavLink } from "@remix-run/react";
 import { authenticator } from '~/services/auth.server';
 import { Role } from '~/generated/prisma';
 import { Link, Outlet } from '@remix-run/react';

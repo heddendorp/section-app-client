@@ -5,7 +5,7 @@ import {
   useLoaderData,
   useTransition,
 } from '@remix-run/react';
-import { ActionFunction, LoaderFunction, redirect } from 'remix';
+import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 import { authenticator } from '~/services/auth.server';
 import { createRegistration } from '~/services/registrations.server';
 import { useState } from 'react';

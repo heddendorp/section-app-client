@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from 'remix';
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { authenticator } from '~/services/auth.server';
 import { db } from '~/utils/db.server';
 import { Outlet, useLoaderData } from '@remix-run/react';

@@ -1,6 +1,6 @@
 import { itemURL } from '~/utils';
 import { Form, Outlet } from '@remix-run/react';
-import { LoaderFunction, redirect } from 'remix';
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { authenticator } from '~/services/auth.server';
 import { db } from '~/utils/db.server';
 
