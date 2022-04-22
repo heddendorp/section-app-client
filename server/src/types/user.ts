@@ -486,6 +486,9 @@ export const createUser = mutationField('registerUser', {
     userInput: nonNull(createUserInputType),
   },
   resolve: async (source, args, context) => {
+    if (!context.token?.sub) {
+      throw new Error('User not logged in');
+    }
     const { email, email_verified, picture } = await context.auth0.getUserInfo(
       context.token?.sub ?? ''
     );
