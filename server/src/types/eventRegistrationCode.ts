@@ -13,7 +13,6 @@ import { RegistrationMode, Role } from '../generated/prisma';
 import { RegistrationService } from '../helpers/registrationService';
 import { eventRegistrationType } from './eventRegistration';
 import { userType } from './user';
-import { EnvelopError } from '@envelop/core';
 
 export const eventRegistrationCodeType = objectType({
   name: EventRegistrationCode.$name,
@@ -35,7 +34,7 @@ export const eventRegistrationCodeType = objectType({
             where: { id: source.eventId },
           })
           .then((res) => {
-            if (!res) throw new EnvelopError('Event not found');
+            if (!res) throw new Error('Event not found');
             return res;
           });
       },
@@ -97,7 +96,7 @@ export const eventRegistrationCodeType = objectType({
             where: { id: source.createdById },
           })
           .then((res) => {
-            if (!res) throw new EnvelopError('User not found');
+            if (!res) throw new Error('User not found');
             return res;
           });
       },
@@ -107,14 +106,29 @@ export const eventRegistrationCodeType = objectType({
 
 export const getListQuery = queryField('eventRegistrationCodes', {
   type: nonNull(list(nonNull(eventRegistrationCodeType))),
-  args: { includePrivate: booleanArg({ default: false }) },
-  resolve: (source, { includePrivate }, context) => {
+  args: {
+    includePrivate: booleanArg({ default: false }),
+    includePassed: booleanArg({ default: false }),
+    includeUsed: booleanArg({ default: false }),
+    orderByEvent: booleanArg({ default: false }),
+  },
+  resolve: (
+    source,
+    { includePrivate, orderByEvent, includePassed, includeUsed },
+    context
+  ) => {
     // info.cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
     return context.prisma.eventRegistrationCode.findMany({
       where: {
         ...(includePrivate ? {} : { isPublic: true }),
+        ...(includeUsed ? {} : { registrationCreatedId: null }),
+        ...(includePassed
+          ? {}
+          : { targetEvent: { start: { gt: new Date() } } }),
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: orderByEvent
+        ? { targetEvent: { start: 'asc' } }
+        : { createdAt: 'desc' },
     });
   },
 });
@@ -146,12 +160,12 @@ export const createRegistrationCodeMutation = mutationField(
       const { role } = context.assignment ?? {};
       let registrationCode;
       if (sepaAllowed && role !== Role.ADMIN) {
-        throw new EnvelopError(
+        throw new Error(
           'Only Admins can generate registration codes with SEPA payments!'
         );
       }
       if (!registrationId && role !== Role.ADMIN) {
-        throw new EnvelopError(
+        throw new Error(
           'Only Admins can generate registration codes for new registrations!'
         );
       } else if (registrationId) {
@@ -159,7 +173,7 @@ export const createRegistrationCodeMutation = mutationField(
           where: { id: registrationId },
         });
         if (!registration) {
-          throw new EnvelopError(
+          throw new Error(
             'Registration could not be found for id ' + registrationId
           );
         }
@@ -199,9 +213,7 @@ export const useRegistrationCodeMutation = mutationField(
           include: { targetEvent: true },
         });
       if (!registrationCode) {
-        throw new EnvelopError(
-          'Registration code could not be found for: ' + id
-        );
+        throw new Error('Registration code could not be found for: ' + id);
       }
       if (
         registrationCode.targetEvent.registrationMode ===
@@ -214,7 +226,7 @@ export const useRegistrationCodeMutation = mutationField(
         // );
         const priceAllowed = true;
         if (!priceAllowed) {
-          throw new EnvelopError('Price received is not valid in this context');
+          throw new Error('Price received is not valid in this context');
         }
       }
       const baseUrl = process.env.DEV

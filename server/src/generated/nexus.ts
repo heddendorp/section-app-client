@@ -1708,7 +1708,10 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
     eventRegistrationCodes: { // args
+      includePassed?: boolean | null; // Boolean
       includePrivate?: boolean | null; // Boolean
+      includeUsed?: boolean | null; // Boolean
+      orderByEvent?: boolean | null; // Boolean
     }
     eventTemplate: { // args
       id: string; // ID!

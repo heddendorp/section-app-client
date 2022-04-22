@@ -1,0 +1,57 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(registrationCodes$ | async) === null"
+></mat-progress-bar>
+<main class="text-surface-on p-4">
+  <h1 class="mb-4">Public registration codes</h1>
+  <p class="mb-6">
+    You can find some short notice spots for TUMi events here that others want
+    to give away. Please make sure to check out the event before registering.
+  </p>
+  <div fxLayout="column" fxLayoutGap="1rem">
+    <p *ngIf="(registrationCodes$ | async)?.length === 0">
+      Currently there are no public registration codes
+    </p>
+    <div
+      fxLayout="row"
+      class="text-surface-on relative h-full"
+      *ngFor="let code of registrationCodes$ | async"
+    >
+      <div
+        class="border-outline-default rounded-l-2xl border bg-gray-100 p-4 pr-20"
+        fxLayout="column"
+        fxLayoutAlign="center"
+      >
+        <img
+          [src]="code.targetEvent.icon | iconURL"
+          [alt]="code.targetEvent.icon"
+          class="w-28"
+          height="7rem"
+          width="7rem"
+        />
+      </div>
+      <div
+        class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4"
+      >
+        <p class="mb-2 font-bold">{{ code.targetEvent.title }}</p>
+        <p class="mb-2">🕐 {{ code.targetEvent.start | date: 'shortTime' }}</p>
+        <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap=".5rem">
+          <a
+            mat-stroked-button
+            routerLink="/events/{{ code.targetEvent.id }}"
+            target="_blank"
+          >
+            Check out event
+          </a>
+          <a
+            mat-stroked-button
+            routerLink="/profile"
+            [queryParams]="{ code: code.id }"
+          >
+            Use code
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

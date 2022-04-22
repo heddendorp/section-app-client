@@ -473,7 +473,7 @@ type Query {
   """Get one event by ID"""
   event(eventId: ID!): TumiEvent!
   eventRegistrationCode(id: ID!): EventRegistrationCode
-  eventRegistrationCodes(includePrivate: Boolean = false): [EventRegistrationCode!]!
+  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
 
   """Get one event template by ID"""
   eventTemplate(id: ID!): EventTemplate

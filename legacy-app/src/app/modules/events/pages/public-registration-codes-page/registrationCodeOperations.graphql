@@ -1,0 +1,11 @@
+query loadPublicRegistrationCodes{
+  eventRegistrationCodes(orderByEvent: true){
+    id
+    targetEvent {
+      id
+      title
+      icon
+      start
+    }
+  }
+}

@@ -799,7 +799,10 @@ export type QueryEventRegistrationCodeArgs = {
 
 
 export type QueryEventRegistrationCodesArgs = {
+  includePassed?: InputMaybe<Scalars['Boolean']>;
   includePrivate?: InputMaybe<Scalars['Boolean']>;
+  includeUsed?: InputMaybe<Scalars['Boolean']>;
+  orderByEvent?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1592,6 +1595,11 @@ export type CreatePhotoShareMutationVariables = Exact<{
 
 
 export type CreatePhotoShareMutation = { __typename?: 'Mutation', createPhotoShare?: { __typename?: 'PhotoShare', id: string } | null };
+
+export type LoadPublicRegistrationCodesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadPublicRegistrationCodesQuery = { __typename?: 'Query', eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, targetEvent: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any } }> };
 
 export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3076,6 +3084,30 @@ export const CreatePhotoShareDocument = gql`
   })
   export class CreatePhotoShareGQL extends Apollo.Mutation<CreatePhotoShareMutation, CreatePhotoShareMutationVariables> {
     override document = CreatePhotoShareDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadPublicRegistrationCodesDocument = gql`
+    query loadPublicRegistrationCodes {
+  eventRegistrationCodes(orderByEvent: true) {
+    id
+    targetEvent {
+      id
+      title
+      icon
+      start
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadPublicRegistrationCodesGQL extends Apollo.Query<LoadPublicRegistrationCodesQuery, LoadPublicRegistrationCodesQueryVariables> {
+    override document = LoadPublicRegistrationCodesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
