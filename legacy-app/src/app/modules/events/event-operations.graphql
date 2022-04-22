@@ -183,6 +183,7 @@ query getCostItem($id: ID!) {
     }
     receipts {
       id
+      createdAt
       amount
       url
       type

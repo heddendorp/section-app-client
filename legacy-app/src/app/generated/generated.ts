@@ -1442,7 +1442,7 @@ export type GetCostItemQueryVariables = Exact<{
 }>;
 
 
-export type GetCostItemQuery = { __typename?: 'Query', costItem: { __typename?: 'CostItem', id: string, name: string, amount: any, submittedAmount: any, event: { __typename?: 'TumiEvent', id: string, title: string }, receipts: Array<{ __typename?: 'Receipt', id: string, amount: any, url: string, type?: string | null, originalUrl: string, user: { __typename?: 'User', id: string, fullName: string } }> } };
+export type GetCostItemQuery = { __typename?: 'Query', costItem: { __typename?: 'CostItem', id: string, name: string, amount: any, submittedAmount: any, event: { __typename?: 'TumiEvent', id: string, title: string }, receipts: Array<{ __typename?: 'Receipt', id: string, createdAt: any, amount: any, url: string, type?: string | null, originalUrl: string, user: { __typename?: 'User', id: string, fullName: string } }> } };
 
 export type GetBlobTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2429,6 +2429,7 @@ export const GetCostItemDocument = gql`
     }
     receipts {
       id
+      createdAt
       amount
       url
       type
@@ -3587,7 +3588,11 @@ export const GetCancelledRegistrationsDocument = gql`
   }
 export const GetEventRegistrationCodesDocument = gql`
     query getEventRegistrationCodes {
-  eventRegistrationCodes(includePrivate: true) {
+  eventRegistrationCodes(
+    includePrivate: true
+    includePassed: true
+    includeUsed: true
+  ) {
     id
     createdAt
     isPublic

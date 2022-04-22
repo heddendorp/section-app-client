@@ -18,8 +18,8 @@
       <object
         class="block"
         *ngIf="receipt.type?.includes('pdf')"
-        [data]="sanitizeUrl(receipt.url + '#toolbar=0&navpanes=0')"
-        [type]="receipt.type"
+        [data]="sanitizeUrl(receipt.url)"
+        type="application/pdf"
         width="500px"
         height="500px"
       ></object>

@@ -38,7 +38,28 @@ export class EventReceiptsPageComponent implements OnDestroy {
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' })
     );
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
-      map(({ data }) => data.costItem)
+      map(({ data }) => data.costItem),
+      map((costItem) => {
+        console.log(costItem.receipts);
+        return {
+          ...costItem,
+          receipts: costItem.receipts.map((receipt) => {
+            if (receipt?.type?.includes('pdf')) {
+              if (
+                receipt?.createdAt &&
+                new Date(receipt.createdAt) < new Date('2022-04-14')
+              ) {
+                return {
+                  ...receipt,
+                  url: receipt?.url?.replace('pdf', 'png'),
+                  type: 'png',
+                };
+              }
+            }
+            return receipt;
+          }),
+        };
+      })
     );
     this.loadCostItemQueryRef.startPolling(60000);
   }
