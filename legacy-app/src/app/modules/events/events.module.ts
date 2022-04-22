@@ -34,6 +34,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     OnlineEventRegistrationComponent,
     StripeEventRegistrationComponent,
     AddReceiptDialogComponent,
+    PublicRegistrationCodesPageComponent,
   ],
   imports: [
     CommonModule,

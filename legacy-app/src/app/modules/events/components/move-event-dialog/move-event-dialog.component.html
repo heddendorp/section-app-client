@@ -8,6 +8,7 @@
     process cannot be undone. <br />
     During the transfer, we will refund your participation fee after collecting
     it from the person taking over your registration. <br />
+    <br />
     <span class="font-bold">Watch out</span> <br />
     The transfer is only complete after the recipient has paid the event fee,
     this is also the time when you will receive a refund of your fee. Just
@@ -21,16 +22,41 @@
     <p class="select-all rounded bg-gray-200 px-3 py-1 font-mono">
       https://tumi.esn.world/profile?code={{ registration.deletingCode.id }}
     </p>
+    <p *ngIf="registration.deletingCode.isPublic">
+      This code is public and is displayed in the TUMi app
+    </p>
   </ng-container>
   <ng-template #noCode>
-    <button
-      mat-stroked-button
-      class="w-full"
-      [disabled]="buttonDisabled | async"
-      (click)="createOrder()"
-    >
-      I understood and want to create a code
-    </button>
+    <p class="mb-4 font-bold">I understood and want to create a code</p>
+    <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="1rem">
+      <div>
+        <p class="mb-2">
+          You can create a private code if you want to transfer this spot to a
+          specific person
+        </p>
+        <button
+          mat-stroked-button
+          class="w-full"
+          [disabled]="buttonDisabled | async"
+          (click)="createCode()"
+        >
+          Create a private code
+        </button>
+      </div>
+      <div>
+        <p class="mb-2">
+          Or you can create a public code that can be used by anyone
+        </p>
+        <button
+          mat-stroked-button
+          class="w-full"
+          [disabled]="buttonDisabled | async"
+          (click)="createCode(true)"
+        >
+          Create a public code
+        </button>
+      </div>
+    </div>
   </ng-template>
 </mat-dialog-content>
 <mat-dialog-actions>

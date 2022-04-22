@@ -1408,7 +1408,7 @@ export type LoadRegistrationForMoveQueryVariables = Exact<{
 }>;
 
 
-export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode?: { __typename?: 'EventRegistrationCode', id: string } | null } };
+export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, isPublic: boolean } | null } };
 
 export type VerifyCertificateMutationVariables = Exact<{
   cert: Scalars['String'];
@@ -2284,6 +2284,7 @@ export const LoadRegistrationForMoveDocument = gql`
     eventId
     deletingCode {
       id
+      isPublic
     }
   }
 }

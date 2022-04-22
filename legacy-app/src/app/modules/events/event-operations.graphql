@@ -89,6 +89,7 @@ query loadRegistrationForMove($registrationId: ID!) {
     eventId
     deletingCode {
       id
+      isPublic
     }
   }
 }

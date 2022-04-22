@@ -9,12 +9,18 @@ import { EventRunPageComponent } from '@tumi/legacy-app/modules/events/pages/eve
 import { EventPhotoPageComponent } from '@tumi/legacy-app/modules/events/pages/event-photo-page/event-photo-page.component';
 import { EventCheckinPageComponent } from '@tumi/legacy-app/modules/events/pages/event-checkin-page/event-checkin-page.component';
 import { EventReceiptsPageComponent } from '@tumi/legacy-app/modules/events/pages/event-receipts-page/event-receipts-page.component';
+import { PublicRegistrationCodesPageComponent } from '@tumi/legacy-app/modules/events/pages/public-registration-codes-page/public-registration-codes-page.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: EventListPageComponent,
+  },
+  {
+    path: 'codes',
+    canActivate: [AuthGuard],
+    component: PublicRegistrationCodesPageComponent,
   },
   { path: ':eventId', component: EventDetailsPageComponent },
   {

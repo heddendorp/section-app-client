@@ -13,8 +13,22 @@
         <a mat-list-item routerLink="home" routerLinkActive="active">
           <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
         </a>
-        <a mat-list-item routerLink="events" routerLinkActive="active">
+        <a
+          mat-list-item
+          routerLink="events"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+        </a>
+        <a
+          *appIfRole="[Role.User, Role.Admin]"
+          mat-list-item
+          routerLink="events/codes"
+          routerLinkActive="active"
+        >
+          <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
+          ><span>Registration Codes</span>
         </a>
         <a
           mat-list-item

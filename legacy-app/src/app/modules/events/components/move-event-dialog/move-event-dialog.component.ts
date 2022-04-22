@@ -40,7 +40,7 @@ export class MoveEventDialogComponent {
     });
   }
 
-  async createOrder() {
+  async createCode(isPublic = false) {
     this.buttonDisabled.next(true);
     const registration = await firstValueFrom(this.registration$);
     if (registration) {
@@ -48,6 +48,7 @@ export class MoveEventDialogComponent {
         this.createEventRegistrationCodeGQL.mutate({
           registrationId: registration.id,
           eventId: registration.eventId,
+          isPublic,
         })
       );
       this.registrationQueryRef.refetch();
