@@ -34,7 +34,7 @@
         class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4"
       >
         <p class="mb-2 font-bold">{{ code.targetEvent.title }}</p>
-        <p class="mb-2">🕐 {{ code.targetEvent.start | date: 'shortTime' }}</p>
+        <p class="mb-2">📅 {{ code.targetEvent.start | date: 'short' }}</p>
         <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap=".5rem">
           <a
             mat-stroked-button
