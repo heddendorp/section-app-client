@@ -51,7 +51,6 @@ export class EventDetailsPageComponent implements OnDestroy {
     private permissions: PermissionsService,
     private snackbar: MatSnackBar
   ) {
-    this.title.setTitle('TUMi - event');
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
@@ -60,6 +59,9 @@ export class EventDetailsPageComponent implements OnDestroy {
       map(({ data }) => data.event),
       shareReplay(1)
     );
+    firstValueFrom(this.event$).then((event) => {
+      this.title.setTitle(`${event.title} - TUMi`);
+    });
     this.bestPrice$ = this.event$.pipe(
       switchMap((event) =>
         this.permissions.getPricesForUser(event.prices?.options)
