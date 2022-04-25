@@ -11,7 +11,7 @@ job("My project warmup data") {
         // e.g. 'gradlew assemble'
         // If you want Automation only to build indexes,
         // don't specify scriptLocation
-        // scriptLocation = "./dev-env-warmup.sh"
+        scriptLocation = "./dev-env-warmup.sh"
 
         // (Optional) IDE version to use instead of the
         // organization default. You can also use
