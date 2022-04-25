@@ -1,6 +1,11 @@
 job("My project warmup data") {
     startOn {
         schedule { cron("0 7 * * *") }
+        gitPush {
+            branchFilter {
+                +"refs/heads/main"
+            }
+        }
     }
 
     // ide is an IDE you want Automation to build indexes for:
