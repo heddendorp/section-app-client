@@ -27,7 +27,7 @@ job("My project warmup data") {
 
         // (Optional) IDE version to use instead of the
         // organization default. You can also use
-        ideVersion = IdeVersion.LatestOfQuality("Release").
+        ideVersion = IdeVersion.LatestOfQuality("Release")
         // ideVersion = IdeVersion.Specific("2021.3", "Release")
     }
 
