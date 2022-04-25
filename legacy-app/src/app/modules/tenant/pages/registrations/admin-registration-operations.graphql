@@ -71,7 +71,11 @@ query getCancelledRegistrations {
 }
 
 query getEventRegistrationCodes {
-  eventRegistrationCodes(includePrivate: true, includePassed: true, includeUsed: true) {
+  eventRegistrationCodes(
+    includePrivate: true
+    includePassed: true
+    includeUsed: true
+  ) {
     id
     createdAt
     isPublic
