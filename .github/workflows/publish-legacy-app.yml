@@ -56,6 +56,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Update version in environment
+        id: update-version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: legacy-app/src/environments/*.ts
+          find: "PROD_VERSION"
+          replace: ${{ github.sha }}
+
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
@@ -95,14 +103,6 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=sha
-
-      - name: Update version in environment
-        id: update-version
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          include: legacy-app/src/environments/*.ts
-          find: "PROD_VERSION"
-          replace: ${{ github.sha }}
 
       - run: echo ${{steps.vars.outputs.sha_short}}
       - run: echo ${{steps.update-version.outputs.modifiedFiles}}
@@ -146,6 +146,14 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Update version in environment
+        id: update-version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: legacy-app/src/environments/*.ts
+          find: "PROD_VERSION"
+          replace: ${{ github.sha }}
 
       - name: update image tag in deployment file
         uses: jacobtomlinson/gha-find-replace@v2
@@ -192,6 +200,6 @@ jobs:
           environment: production
           ignore_empty: true
           projects: legacy-app
-          sourcemaps: legacy-app/dist
+          sourcemaps: legacy-app/dist/legacy-app
           version_prefix: legacy-app@
           version: ${{ github.sha }}
