@@ -60,6 +60,10 @@ export class RegistrationService {
           eventRegistrationCode: { connect: { id: registrationCode.id } },
         },
       });
+      await prisma.tumiEvent.update({
+        where: { id: registrationCode.eventId },
+        data: { participantRegistrationCount: { increment: 1 } },
+      });
       return prisma.eventRegistrationCode.update({
         where: { id: registrationCodeId },
         data: {
@@ -79,6 +83,10 @@ export class RegistrationService {
           type: RegistrationType.PARTICIPANT,
         },
       });
+      await prisma.tumiEvent.update({
+        where: { id: registrationCode.eventId },
+        data: { participantRegistrationCount: { increment: 1 } },
+      });
       if (registrationCode.registrationToRemoveId) {
         await prisma.eventRegistration.update({
           where: { id: registrationCode.registrationToRemoveId },
@@ -86,6 +94,10 @@ export class RegistrationService {
             status: RegistrationStatus.CANCELLED,
             cancellationReason: `Registration taken over by code`,
           },
+        });
+        await prisma.tumiEvent.update({
+          where: { id: registrationCode.eventId },
+          data: { participantRegistrationCount: { decrement: 1 } },
         });
       }
       return prisma.eventRegistrationCode.update({
@@ -258,6 +270,10 @@ export class RegistrationService {
           },
         },
       });
+      await prisma.tumiEvent.update({
+        where: { id: eventId },
+        data: { participantRegistrationCount: { increment: 1 } },
+      });
       return event;
     } else {
       throw new Error('Registration mode not supported');
@@ -298,6 +314,10 @@ export class RegistrationService {
             : 'Spot given up by user',
         },
       });
+      await prisma.tumiEvent.update({
+        where: { id: registration.eventId },
+        data: { participantRegistrationCount: { decrement: 1 } },
+      });
     } else if (
       registration.event.registrationMode === RegistrationMode.ONLINE
     ) {
@@ -309,6 +329,10 @@ export class RegistrationService {
             ? 'Cancelled by admin'
             : 'Spot given up by user',
         },
+      });
+      await prisma.tumiEvent.update({
+        where: { id: registration.eventId },
+        data: { participantRegistrationCount: { decrement: 1 } },
       });
     } else {
       throw new Error('Registration mode not supported');

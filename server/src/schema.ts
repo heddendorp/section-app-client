@@ -1,9 +1,9 @@
 import { makeSchema } from 'nexus';
 import * as types from './types';
 import {
-  Json,
-  Decimal,
   DateTime,
+  Decimal,
+  Json,
 } from 'nexus-prisma/dist-cjs/entrypoints/scalars';
 // import { Json, Decimal, DateTime } from 'nexus-prisma/';
 

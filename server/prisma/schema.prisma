@@ -299,40 +299,41 @@ model EventTemplateCategory {
 
 /// Actual instande of an TumiEventbased on a template
 model TumiEvent {
-  id                          String                  @id @default(uuid()) @db.Uuid
-  createdAt                   DateTime                @default(now())
-  insuranceDescription        String                  @default("")
-  coordinates                 Json?
-  costItems                   CostItem[]
-  createdBy                   User                    @relation(fields: [creatorId], references: [id])
-  creatorId                   String                  @db.Uuid
-  description                 String
-  end                         DateTime
-  eventOrganizerId            String                  @db.Uuid
-  eventRegistrationCodes      EventRegistrationCode[]
-  eventTemplate               EventTemplate           @relation(fields: [eventTemplateId], references: [id])
-  eventTemplateId             String                  @db.Uuid
-  icon                        String
-  location                    String
-  organizer                   EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
-  organizerLimit              Int                     @default(0)
-  organizerSignup             MembershipStatus[]
-  organizerText               String
-  participantLimit            Int                     @default(0)
-  participantSignup           MembershipStatus[]
-  participantText             String
-  photoShares                 PhotoShare[]
-  prices                      Json?
-  publicationState            PublicationState        @default(DRAFT)
-  registrationLink            String?
-  registrationMode            RegistrationMode
-  registrationStart           DateTime                @default(now())
-  registrations               EventRegistration[]
-  shouldBeReportedToInsurance Boolean                 @default(true)
-  start                       DateTime
-  submissionItems             EventSubmissionItem[]
-  title                       String
-  transactions                Transaction[]
+  id                           String                  @id @default(uuid()) @db.Uuid
+  createdAt                    DateTime                @default(now())
+  coordinates                  Json?
+  costItems                    CostItem[]
+  createdBy                    User                    @relation(fields: [creatorId], references: [id])
+  creatorId                    String                  @db.Uuid
+  description                  String
+  end                          DateTime
+  eventOrganizerId             String                  @db.Uuid
+  eventRegistrationCodes       EventRegistrationCode[]
+  eventTemplate                EventTemplate           @relation(fields: [eventTemplateId], references: [id])
+  eventTemplateId              String                  @db.Uuid
+  icon                         String
+  insuranceDescription         String                  @default("")
+  location                     String
+  organizer                    EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
+  organizerLimit               Int                     @default(0)
+  organizerSignup              MembershipStatus[]
+  organizerText                String
+  participantLimit             Int                     @default(0)
+  participantRegistrationCount Int                     @default(0)
+  participantSignup            MembershipStatus[]
+  participantText              String
+  photoShares                  PhotoShare[]
+  prices                       Json?
+  publicationState             PublicationState        @default(DRAFT)
+  registrationLink             String?
+  registrationMode             RegistrationMode
+  registrationStart            DateTime                @default(now())
+  registrations                EventRegistration[]
+  shouldBeReportedToInsurance  Boolean                 @default(true)
+  start                        DateTime
+  submissionItems              EventSubmissionItem[]
+  title                        String
+  transactions                 Transaction[]
 }
 
 model Product {

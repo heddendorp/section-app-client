@@ -679,6 +679,7 @@ type TumiEvent {
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
   participantRatings: Float
+  participantRegistrationCount: Int!
 
   """
   Indicates whether the current user can register to this event as participant
@@ -692,7 +693,7 @@ type TumiEvent {
   participantsAttended: Int!
 
   """Number of users registered as participant to this event"""
-  participantsRegistered: Int!
+  participantsRegistered: Int! @deprecated(reason: "Use participantRegistrationCount instead")
   photoShares: [PhotoShare!]!
   plannedSpend: Decimal
   prices: Json

@@ -8,7 +8,8 @@ import {
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import { registrationTypeEnum } from '../enums';
-import { GraphQLError } from 'graphql';
+import { GraphQLYogaError } from '@graphql-yoga/node';
+import prisma from '../../client';
 
 export const registerForEventMutation = mutationField('registerForEvent', {
   type: nonNull(eventType),
@@ -30,10 +31,10 @@ export const registerForEventMutation = mutationField('registerForEvent', {
       where: { id: eventId },
     });
     if (!event) {
-      throw new GraphQLError('Event not found');
+      throw new GraphQLYogaError('Event not found');
     }
     if (event.registrationStart > new Date()) {
-      throw new GraphQLError('Registration is not open yet');
+      throw new GraphQLYogaError('Registration is not open yet');
     }
     const { status } = context.assignment ?? {};
     const allowedStatus =
@@ -41,35 +42,44 @@ export const registerForEventMutation = mutationField('registerForEvent', {
         ? event?.participantSignup
         : event?.organizerSignup;
     if (!allowedStatus?.includes(status ?? MembershipStatus.NONE)) {
-      throw new GraphQLError(
+      throw new GraphQLYogaError(
         'User does not fulfill the requirements to sign up!'
       );
     }
+    const ownRegistration = await context.prisma.eventRegistration.findFirst({
+      where: {
+        userId: context.user?.id,
+        eventId,
+        status: { not: RegistrationStatus.CANCELLED },
+      },
+    });
+    if (ownRegistration) {
+      throw new GraphQLYogaError('You are already registered for this event!');
+    }
     let registration;
     await context.prisma.$transaction(async (prisma) => {
-      const ownRegistration = await prisma.eventRegistration.findFirst({
-        where: {
-          userId: context.user?.id,
-          eventId,
-          status: { not: RegistrationStatus.CANCELLED },
-        },
-      });
-      if (ownRegistration) {
-        throw new Error('You are already registered for this event!');
-      }
-      const registeredUsers = await prisma.eventRegistration.count({
-        where: {
-          eventId,
-          type: registrationType ?? undefined,
-          status: { not: RegistrationStatus.CANCELLED },
-        },
-      });
-      const maxRegistrations =
-        registrationType === RegistrationType.PARTICIPANT
-          ? event?.participantLimit
-          : event?.organizerLimit;
-      if (registeredUsers >= (maxRegistrations ?? 0)) {
-        throw new Error('Event does not have an available spot!');
+      if (registrationType === RegistrationType.PARTICIPANT) {
+        const registrationCountEvent = await prisma.tumiEvent.findUnique({
+          where: { id: eventId },
+          select: { participantRegistrationCount: true },
+        });
+        if (
+          (registrationCountEvent?.participantRegistrationCount ?? 0) >=
+          event.participantLimit
+        ) {
+          throw new GraphQLYogaError('Registration for this event is full!');
+        }
+      } else {
+        const registeredUsers = await prisma.eventRegistration.count({
+          where: {
+            eventId,
+            type: registrationType ?? undefined,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (registeredUsers >= event.organizerLimit) {
+          throw new GraphQLYogaError('Event does not have an available spot!');
+        }
       }
       const submissionArray: { submissionItem: any; data: any }[] = [];
       if (submissions) {
@@ -100,7 +110,7 @@ export const registerForEventMutation = mutationField('registerForEvent', {
           },
         });
         if (event.organizerLimit - 1 - sameStatusRegistrations <= 0) {
-          throw new Error(
+          throw new GraphQLYogaError(
             `Event does not have an organizer spot for ${
               userIsNewbie ? 'newbies' : 'oldies'
             }!`
@@ -123,6 +133,10 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             },
           },
         });
+        await prisma.tumiEvent.update({
+          where: { id: eventId },
+          data: { participantRegistrationCount: { increment: 1 } },
+        });
       } else if (
         event?.registrationMode === RegistrationMode.ONLINE ||
         registrationType === RegistrationType.ORGANIZER
@@ -138,8 +152,12 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             },
           },
         });
+        await prisma.tumiEvent.update({
+          where: { id: eventId },
+          data: { participantRegistrationCount: { increment: 1 } },
+        });
       } else {
-        throw new Error('Registration mode not supported');
+        throw new GraphQLYogaError('Registration mode not supported');
       }
     });
     if (
@@ -187,10 +205,14 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             cancellationReason: 'Payment creation failed',
           },
         });
+        await prisma.tumiEvent.update({
+          where: { id: eventId },
+          data: { participantRegistrationCount: { decrement: 1 } },
+        });
       }
     }
     if (!event) {
-      throw new Error('Event not found');
+      throw new GraphQLYogaError('Event not found');
     }
     return event;
   },
@@ -213,7 +235,7 @@ export const deregisterFromEventMutation = mutationField(
         registration?.userId !== context.user?.id &&
         context.assignment?.role !== 'ADMIN'
       ) {
-        throw new GraphQLError('Only admins can deregister other users');
+        throw new GraphQLYogaError('Only admins can deregister other users');
       }
       if (registration?.userId !== context.user?.id) {
         const user = await context.prisma.user.findUnique({

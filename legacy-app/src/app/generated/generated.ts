@@ -1051,6 +1051,7 @@ export type TumiEvent = {
   ownRegistrations: Array<EventRegistration>;
   participantLimit: Scalars['Int'];
   participantRatings?: Maybe<Scalars['Float']>;
+  participantRegistrationCount: Scalars['Int'];
   /** Indicates whether the current user can register to this event as participant */
   participantRegistrationPossible: Scalars['Json'];
   participantRegistrations: Array<EventRegistration>;
@@ -1058,7 +1059,10 @@ export type TumiEvent = {
   participantText: Scalars['String'];
   /** Number of users that are checked in on the event */
   participantsAttended: Scalars['Int'];
-  /** Number of users registered as participant to this event */
+  /**
+   * Number of users registered as participant to this event
+   * @deprecated Use participantRegistrationCount instead
+   */
   participantsRegistered: Scalars['Int'];
   photoShares: Array<PhotoShare>;
   plannedSpend?: Maybe<Scalars['Decimal']>;

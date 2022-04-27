@@ -1,10 +1,8 @@
 import { arg, booleanArg, list, nonNull, objectType } from 'nexus';
-import { EnvelopError } from '@envelop/core';
 import { DateTime, DateTime as Luxon } from 'luxon';
 import { TumiEvent } from '../../generated/nexus-prisma';
 import {
   MembershipStatus,
-  RegistrationMode,
   RegistrationStatus,
   RegistrationType,
   Role,
@@ -12,7 +10,6 @@ import {
 import { submissionTimeEnum } from '../enums';
 import { eventRegistrationType } from '../eventRegistration';
 import { userType } from '../user';
-import { assertWrappingType } from 'graphql';
 
 export const eventType = objectType({
   name: TumiEvent.$name,
@@ -42,6 +39,7 @@ export const eventType = objectType({
     t.field(TumiEvent.organizerSignup);
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
+    t.field(TumiEvent.participantRegistrationCount);
     t.field({
       ...TumiEvent.eventRegistrationCodes,
       resolve: (source, args, context) => {
@@ -53,33 +51,26 @@ export const eventType = objectType({
     t.field(TumiEvent.insuranceDescription);
     t.field(TumiEvent.shouldBeReportedToInsurance);
     t.nonNull.string('freeParticipantSpots', {
-      resolve: (source, args, context) => {
+      resolve: (root, args, context) => {
         /*info.cacheControl.setCacheHint({
           maxAge: 10,
           scope: CacheScope.Public,
         });*/
-        return context.prisma.tumiEvent
-          .findUnique({ where: { id: source.id } })
-          .registrations({
-            where: {
-              type: RegistrationType.PARTICIPANT,
-              status: { not: RegistrationStatus.CANCELLED },
-            },
-          })
-          .then((registrations) => {
-            const quota = registrations.length / source.participantLimit;
-            if (quota < 0.5) {
-              return 'Many free spots';
-            } else if (quota < 0.8) {
-              return 'Some spots left';
-            } else if (quota < 1) {
-              return 'Few spots left';
-            } else if (source.participantLimit - registrations.length === 1) {
-              return 'One spot left';
-            } else {
-              return 'Event is full';
-            }
-          });
+        const quota = root.participantRegistrationCount / root.participantLimit;
+        if (quota < 0.5) {
+          return 'Many free spots';
+        } else if (quota < 0.8) {
+          return 'Some spots left';
+        } else if (quota < 1) {
+          return 'Few spots left';
+        } else if (
+          root.participantLimit - root.participantRegistrationCount ===
+          1
+        ) {
+          return 'One spot left';
+        } else {
+          return 'Event is full';
+        }
       },
     });
     t.field({
@@ -483,19 +474,10 @@ export const eventType = objectType({
     });
     t.nonNull.int('participantsRegistered', {
       description: 'Number of users registered as participant to this event',
-      resolve: async (root, args, context) => {
+      deprecation: 'Use participantRegistrationCount instead',
+      resolve: async (root) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
-        return context.prisma.tumiEvent
-          .findUnique({
-            where: { id: root.id },
-          })
-          .registrations({
-            where: {
-              type: RegistrationType.PARTICIPANT,
-              status: { not: RegistrationStatus.CANCELLED },
-            },
-          })
-          .then((registrations) => registrations.length);
+        return root.participantRegistrationCount;
       },
     });
     t.nonNull.int('participantsAttended', {
@@ -589,18 +571,10 @@ export const eventType = objectType({
             };
           }
         }*/
-        const currentRegistrationNum =
-          await context.prisma.eventRegistration.count({
-            where: {
-              type: RegistrationType.PARTICIPANT,
-              status: { not: RegistrationStatus.CANCELLED },
-              event: { id: root.id },
-            },
-          });
-        if (currentRegistrationNum >= root.participantLimit) {
+        if (root.participantRegistrationCount >= root.participantLimit) {
           if (process.env.DEV) {
             console.info(
-              `Can't register because to many people are on event ${currentRegistrationNum} >= ${root.participantLimit}`
+              `Can't register because to many people are on event ${root.participantRegistrationCount} >= ${root.participantLimit}`
             );
           }
           return {

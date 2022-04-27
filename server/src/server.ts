@@ -13,6 +13,7 @@ import { $settings } from './generated/nexus-prisma';
 import { envelopPlugins } from './getEnveloped';
 import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
+import { setupCronjob } from './helpers/cronjobs';
 
 declare global {
   namespace Express {
@@ -40,6 +41,8 @@ declare global {
 }
 
 const app = express();
+
+setupCronjob(prisma);
 
 const graphQLServer = createServer({
   schema,

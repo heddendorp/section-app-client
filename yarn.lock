@@ -2638,7 +2638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/parser-cache@npm:^4.0.0, @envelop/parser-cache@npm:^4.3.1":
+"@envelop/parser-cache@npm:^4.0.0":
   version: 4.3.1
   resolution: "@envelop/parser-cache@npm:4.3.1"
   dependencies:
@@ -2684,7 +2684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/validation-cache@npm:^4.0.0, @envelop/validation-cache@npm:^4.3.1":
+"@envelop/validation-cache@npm:^4.0.0":
   version: 4.3.1
   resolution: "@envelop/validation-cache@npm:4.3.1"
   dependencies:
@@ -5168,10 +5168,8 @@ __metadata:
     "@envelop/core": ^2.3.1
     "@envelop/graphql-jit": ^4.2.1
     "@envelop/graphql-middleware": ^3.3.1
-    "@envelop/parser-cache": ^4.3.1
     "@envelop/response-cache": ^2.3.1
     "@envelop/sentry": ^3.4.0
-    "@envelop/validation-cache": ^4.3.1
     "@faker-js/faker": ^6.2.0
     "@graphql-hive/client": ^0.15.2
     "@graphql-yoga/node": ^2.3.0
@@ -5191,6 +5189,7 @@ __metadata:
     "@types/lodash": ^4.14.182
     "@types/luxon": ^2.3.1
     "@types/node": ^17.0.29
+    "@types/node-cron": ^3
     "@types/prettier": ^2.6.0
     "@types/qrcode": ^1.4.2
     "@types/rimraf": ^3.0.2
@@ -5201,7 +5200,6 @@ __metadata:
     canvas: ^2.9.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
-    cors: ^2.8.5
     dayjs: ^1.11.1
     dotenv-cli: ^5.1.0
     eslint: ^8.14.0
@@ -5210,8 +5208,8 @@ __metadata:
     express-jwt: ^7.5.0
     got: ^12.0.4
     graphql: ^16.4.0
-    graphql-helix: ^1.12.0
     graphql-middleware: ^6.1.25
+    graphql-scalars: ^1.17.0
     graphql-shield: ^7.5.0
     ical-generator: ^3.4.1
     jest: ^28.0.2
@@ -5223,6 +5221,7 @@ __metadata:
     moment-timezone: ^0.5.34
     nexus: ^1.3.0
     nexus-prisma: 0.36.0-next.2
+    node-cron: ^3.0.0
     node-fetch: ^2.6.7
     pdf2pic: ^2.1.4
     prettier: ^2.6.2
@@ -5767,6 +5766,13 @@ __metadata:
   version: 0.7.31
   resolution: "@types/ms@npm:0.7.31"
   checksum: daadd354aedde024cce6f5aa873fefe7b71b22cd0e28632a69e8b677aeb48ae8caa1c60e5919bb781df040d116b01cb4316335167a3fc0ef6a63fa3614c0f6da
+  languageName: node
+  linkType: hard
+
+"@types/node-cron@npm:^3":
+  version: 3.0.1
+  resolution: "@types/node-cron@npm:3.0.1"
+  checksum: c93887daef8064b92122c3baf5a3f058bafb70a600f432665dd2684ef8539f7796fd731b3b35b54daad7faef88f87b56fc3236b8e69ce021a364ba2e8f30e51e
   languageName: node
   linkType: hard
 
@@ -8926,7 +8932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cors@npm:^2.8.5, cors@npm:~2.8.5":
+"cors@npm:~2.8.5":
   version: 2.8.5
   resolution: "cors@npm:2.8.5"
   dependencies:
@@ -12338,15 +12344,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-helix@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "graphql-helix@npm:1.12.0"
-  peerDependencies:
-    graphql: ^15.3.0 || ^16.0.0
-  checksum: eac17d3b231c46b5961ae99272d0b758dd0f77c86a088a65b9c3599a63cb1b3f835859e3d06cfa3f3bb6d689e604d742746055c5a680bff5b678eaaac94e5ef7
-  languageName: node
-  linkType: hard
-
 "graphql-jit@npm:^0.7.0":
   version: 0.7.3
   resolution: "graphql-jit@npm:0.7.3"
@@ -12397,6 +12394,17 @@ __metadata:
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: b7bdddc49fbd305d18da47b00f2a6e910d5b4e017cb62b61045e138f308348f5c53a7bba3912d2ae6e7e292971b5195c3a8d197f4eee60da60e7cc32756c8848
+  languageName: node
+  linkType: hard
+
+"graphql-scalars@npm:^1.17.0":
+  version: 1.17.0
+  resolution: "graphql-scalars@npm:1.17.0"
+  dependencies:
+    tslib: ~2.3.0
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 4ac8f2ef7a387bac85e32381fc73067e7dd4ad4c1bef4cda3b5de4eb907ef9bc258372e1dcf225547390b5798a476073e6d83eb36ecdf6c3c06669c13d021962
   languageName: node
   linkType: hard
 
@@ -16647,7 +16655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:^0.5.34":
+"moment-timezone@npm:^0.5.31, moment-timezone@npm:^0.5.34":
   version: 0.5.34
   resolution: "moment-timezone@npm:0.5.34"
   dependencies:
@@ -16983,6 +16991,15 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 3de396e23cc209f539c704583e8e99c148850226f6e389a641b92e8967953713228109f919765abc1f4355e801e8f41842f96210b8d61c7dcc10a477002dcf00
+  languageName: node
+  linkType: hard
+
+"node-cron@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "node-cron@npm:3.0.0"
+  dependencies:
+    moment-timezone: ^0.5.31
+  checksum: acae07d835f74636ec2bf598ffadf6b89aa2eae036671bffad336371b28fb1eefb11870912c965bb351cd958d4b62f9fa9b28cf922b5f681459ea4878837ffcf
   languageName: node
   linkType: hard
 
