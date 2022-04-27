@@ -207,3 +207,4 @@ jobs:
           environment: production
           ignore_empty: true
           sourcemaps: server/dist
+          version_prefix: tumi-server@
