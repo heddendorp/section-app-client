@@ -1,22 +1,14 @@
-import {
-  enableIf,
-  envelop,
-  useExtendContext,
-  useSchema,
-  useTiming,
-} from '@envelop/core';
+import { enableIf, useExtendContext, useSchema } from '@envelop/core';
 import { schema } from './schema';
 import { useHive } from '@graphql-hive/client';
 import { useSentry } from '@envelop/sentry';
 import { useAuth0 } from '@envelop/auth0';
-import { useParserCache } from '@envelop/parser-cache';
-import { useValidationCache } from '@envelop/validation-cache';
 import { PrismaClient, Tenant, User } from './generated/prisma';
 import * as Sentry from '@sentry/node';
 import { useGraphQLMiddleware } from '@envelop/graphql-middleware';
 import { permissions } from './permissions';
-import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
+import { useResponseCache } from '@envelop/response-cache';
 
 const isProd = process.env.NODE_ENV === 'production';
 export const envelopPlugins = [
@@ -55,8 +47,6 @@ export const envelopPlugins = [
     audience: 'esn.events',
     extendContextField: 'token',
   }),
-  useParserCache(),
-  useValidationCache(),
   useExtendContext(async (context) => {
     return {
       tenant: await context.prisma.tenant.findFirst(),
@@ -115,6 +105,7 @@ export const envelopPlugins = [
   useGraphQlJit(),
   // useResponseCache({
   //   ttl: 2000,
+  //   includeExtensionMetadata: true,
   //   session: (context) => String(context.user?.id),
   // }),
   useGraphQLMiddleware([permissions]),
