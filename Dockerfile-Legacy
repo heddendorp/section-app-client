@@ -10,7 +10,7 @@ RUN yarn workspace @tumi/legacy-app install
 COPY legacy-app legacy-app/
 COPY shared shared/
 # If you are building your code for production
-RUN yarn workspace @tumi/legacy-app build
+RUN yarn workspace @tumi/legacy-app build --source-map
 
 FROM nginx:1.17.1-alpine
 COPY legacy-app/nginx.conf /etc/nginx/nginx.conf
