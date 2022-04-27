@@ -1,6 +1,7 @@
 import express from 'express';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
+import { RewriteFrames } from '@sentry/integrations';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
 import { webhookRouter } from './helpers/webhooks';
@@ -16,6 +17,11 @@ import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
 
 declare global {
+  namespace NodeJS {
+    interface Global {
+      __rootdir__: string;
+    }
+  }
   namespace Express {
     interface User {
       id: string;
@@ -39,6 +45,7 @@ declare global {
     }
   }
 }
+global.__rootdir__ = __dirname || process.cwd();
 
 const app = express();
 
@@ -59,6 +66,9 @@ Sentry.init({
   dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
   environment: process.env.NODE_ENV ?? 'development',
   integrations: [
+    new RewriteFrames({
+      root: global.__rootdir__,
+    }),
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing

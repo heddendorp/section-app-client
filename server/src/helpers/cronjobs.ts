@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import * as Sentry from '@sentry/node';
 import {
   PrismaClient,
   RegistrationStatus,
@@ -36,6 +37,11 @@ export const setupCronjob = (prisma: PrismaClient) => {
               category: 'database',
             },
           });
+          Sentry.captureException(
+            new Error(
+              `Updated participantRegistrationCount for event ${event.id}`
+            )
+          );
         } else {
           console.log(
             `updated participantRegistrationCount for event ${event.id}`

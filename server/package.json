@@ -10,6 +10,7 @@
     "clean": "rimraf dist",
     "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma && copyfiles -u 3 src/generated/nexus-prisma/** dist/generated/nexus-prisma",
     "build": "yarn clean && yarn generate && tsc && yarn copy",
+    "build:production": "yarn clean && yarn generate && tsc -p tsconfig.production.json && yarn copy",
     "generate": "yarn generate:prisma && yarn generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
@@ -31,6 +32,7 @@
     "@pathcheck/dcc-sdk": "^0.0.27",
     "@prisma/client": "^3.13.0",
     "@sendgrid/mail": "^7.6.2",
+    "@sentry/integrations": "^6.19.7",
     "@sentry/node": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
     "canvas": "^2.9.1",
@@ -54,7 +56,8 @@
     "pdf2pic": "^2.1.4",
     "qrcode": "^1.5.0",
     "sharp": "^0.30.4",
-    "stripe": "^8.219.0"
+    "stripe": "^8.219.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.2.0",

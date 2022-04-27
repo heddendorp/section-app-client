@@ -13,7 +13,7 @@ RUN yarn workspace @tumi/server install
 COPY server server/
 # If you are building your code for production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
-RUN yarn workspace @tumi/server build
+RUN yarn workspace @tumi/server build:production
 RUN npm install pm2 -g
 
 #FROM node:16

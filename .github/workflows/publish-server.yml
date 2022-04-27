@@ -188,7 +188,7 @@ jobs:
       - name: Build Server
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: yarn workspace @tumi/server build --sourcemap
+        run: yarn workspace @tumi/server build:production
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
