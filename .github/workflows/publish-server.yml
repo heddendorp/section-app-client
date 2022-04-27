@@ -159,6 +159,13 @@ jobs:
           find: 'main'
           replace: ${{ needs.build.outputs.sha_short }}
 
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/server.yml
+          find: 'GIT_VERSION'
+          replace: ${{ needs.build.outputs.sha_short }}
+
       - name: Deploy to containerapp
         uses: azure/CLI@v1
         with:

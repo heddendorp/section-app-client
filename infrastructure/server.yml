@@ -12,6 +12,8 @@ template:
       secretRef: database-url
     - name: NODE_ENV
       value: production
+    - name: VERSION
+      value: GIT_VERSION
     - name: HIVE_TOKEN
       secretRef: hive-token
     - name: SENDGRID_API_KEY

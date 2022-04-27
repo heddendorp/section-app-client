@@ -46,6 +46,7 @@ declare global {
   }
 }
 global.__rootdir__ = __dirname || process.cwd();
+console.log(global.__rootdir__);
 
 const app = express();
 
@@ -74,6 +75,7 @@ Sentry.init({
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
   ],
+  release: process.env.VERSION ?? 'development',
   ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
   beforeBreadcrumb(breadcrumb) {
     if (
