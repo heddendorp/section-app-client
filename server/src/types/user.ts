@@ -23,6 +23,7 @@ import {
 import { EnvelopError } from '@envelop/core';
 import { GraphQLError } from 'graphql';
 import { DateTime } from 'luxon';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 export const userType = objectType({
   name: User.$name,
@@ -136,7 +137,7 @@ export const userType = objectType({
           })
           .then((res) => {
             if (!res) {
-              throw new GraphQLError('User not found in tenant');
+              throw new GraphQLYogaError('User not found in tenant');
             }
             return res;
           });
@@ -259,7 +260,7 @@ export const getCurrent = queryField('currentUser', {
   description: 'Returns the logged in user if found or throws an error',
   resolve: async (source, args, context) => {
     if (!context.user) {
-      throw new Error('Not logged in');
+      throw new GraphQLYogaError('Not logged in');
     }
     return context.user;
   },

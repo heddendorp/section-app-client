@@ -2,7 +2,7 @@ import { PrismaClient } from './generated/prisma';
 import { getCurrentHub } from '@sentry/node';
 
 const prisma = new PrismaClient();
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'production') {
   prisma.$use(async (params, next) => {
     const before = Date.now();
 
@@ -24,7 +24,7 @@ prisma.$use(async (params, next) => {
     model,
     action,
     runInTransaction,
-    args,
+    args: JSON.stringify(args),
   };
   const scope = getCurrentHub().getScope();
   const parentSpan = scope?.getSpan();

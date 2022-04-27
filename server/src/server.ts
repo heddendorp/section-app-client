@@ -74,7 +74,16 @@ Sentry.init({
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
   ],
-
+  ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
+  beforeBreadcrumb(breadcrumb) {
+    if (
+      breadcrumb.category === 'http' &&
+      breadcrumb.data?.url?.includes('graphql-hive')
+    ) {
+      return null;
+    }
+    return breadcrumb;
+  },
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
