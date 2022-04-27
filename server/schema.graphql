@@ -467,8 +467,8 @@ type Query {
   costItemsForEvent(eventId: ID!): [CostItem!]!
   currentTenant: Tenant
 
-  """Returns the logged in user if found or null"""
-  currentUser: User
+  """Returns the logged in user if found or throws an error"""
+  currentUser: User!
 
   """Get one event by ID"""
   event(eventId: ID!): TumiEvent!

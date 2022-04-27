@@ -773,7 +773,7 @@ export interface NexusGenFieldTypes {
     costItem: NexusGenRootTypes['CostItem']; // CostItem!
     costItemsForEvent: NexusGenRootTypes['CostItem'][]; // [CostItem!]!
     currentTenant: NexusGenRootTypes['Tenant'] | null; // Tenant
-    currentUser: NexusGenRootTypes['User'] | null; // User
+    currentUser: NexusGenRootTypes['User']; // User!
     event: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     eventRegistrationCode: NexusGenRootTypes['EventRegistrationCode'] | null; // EventRegistrationCode
     eventRegistrationCodes: NexusGenRootTypes['EventRegistrationCode'][]; // [EventRegistrationCode!]!

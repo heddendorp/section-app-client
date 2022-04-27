@@ -255,11 +255,11 @@ export const getById = queryField('userById', {
 });
 
 export const getCurrent = queryField('currentUser', {
-  type: userType,
-  description: 'Returns the logged in user if found or null',
+  type: nonNull(userType),
+  description: 'Returns the logged in user if found or throws an error',
   resolve: async (source, args, context) => {
     if (!context.user) {
-      return null;
+      throw new Error('Not logged in');
     }
     return context.user;
   },

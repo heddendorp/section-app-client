@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
-import { filter } from 'rxjs';
+import { filter, retry, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router } from '@angular/router';
 
@@ -18,11 +18,17 @@ export class AuthButtonComponent {
     getUser: GetCurrentUserGQL
   ) {
     auth.isAuthenticated$.pipe(filter((auth) => auth)).subscribe(() => {
-      getUser.fetch().subscribe((user) => {
-        if (!user.data.currentUser || !user.data.currentUser.profileComplete) {
-          router.navigate(['/', 'profile', 'new']);
-        }
-      });
+      getUser
+        .fetch()
+        .pipe(retry(3))
+        .subscribe((user) => {
+          if (
+            !user.data.currentUser ||
+            !user.data.currentUser.profileComplete
+          ) {
+            router.navigate(['/', 'profile', 'new']);
+          }
+        });
     });
   }
 }
