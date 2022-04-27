@@ -164,7 +164,7 @@ jobs:
         with:
           include: infrastructure/server.yml
           find: 'GIT_VERSION'
-          replace: ${{ needs.build.outputs.sha_short }}
+          replace: ${{ github.sha }}
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
@@ -202,9 +202,8 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: tumi-server
         with:
           environment: production
           ignore_empty: true
-          projects: tumi-server
           sourcemaps: server/dist
-          version: ${{ needs.build.outputs.sha_short }}
