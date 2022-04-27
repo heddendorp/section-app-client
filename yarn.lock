@@ -5029,6 +5029,7 @@ __metadata:
     apollo-angular: ^3.0.1
     autoprefixer: ^10.4.5
     azure-maps-rest: ^2.0.8
+    backoff-rxjs: ^6.5.7
     concurrently: ^7.1.0
     eslint: ^8.14.0
     graphql: ^16.4.0
@@ -7421,6 +7422,15 @@ __metadata:
   version: 1.0.2
   resolution: "backo2@npm:1.0.2"
   checksum: fda8d0a0f4810068d23715f2f45153146d6ee8f62dd827ce1e0b6cc3c8328e84ad61e11399a83931705cef702fe7cbb457856bf99b9bd10c4ed57b0786252385
+  languageName: node
+  linkType: hard
+
+"backoff-rxjs@npm:^6.5.7":
+  version: 6.5.7
+  resolution: "backoff-rxjs@npm:6.5.7"
+  peerDependencies:
+    rxjs: ^6.5.5
+  checksum: b38dac48dc30fafabe1e3fa076acb99c2ced52e80df31450c735a701090b63006247eb7a409a861a0b6d5908c57784920aa459b4bd4af9a64a75746ae9c2520a
   languageName: node
   linkType: hard
 
