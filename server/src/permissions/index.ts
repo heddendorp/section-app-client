@@ -1,48 +1,49 @@
 import { allow, deny, shield } from 'graphql-shield';
-import { GraphQLError, GraphQLResolveInfo } from 'graphql';
-import { IShieldContext } from 'graphql-shield/dist/types';
+import { GraphQLError } from 'graphql';
 import * as Sentry from '@sentry/node';
+import { Severity } from '@sentry/node';
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import { isAdmin, isAuthenticated, isMember } from './rules';
 
 export const permissions = shield(
   {
     Query: {
-      logs: allow,
-      logStats: allow,
+      logs: isAdmin,
+      logStats: isAdmin,
       costItemsForEvent: allow,
       costItem: allow,
       blobUploadKey: allow,
       events: allow,
       event: allow,
       organizers: allow,
-      registrationCount: allow,
-      registrations: allow,
-      registration: allow,
+      registrationCount: isAdmin,
+      registrations: isAdmin,
+      registration: isAdmin,
       eventRegistrationCodes: allow,
       eventRegistrationCode: allow,
-      eventTemplates: allow,
-      eventTemplate: allow,
-      templateCategories: allow,
-      templateCategory: allow,
+      eventTemplates: isMember,
+      eventTemplate: isMember,
+      templateCategories: isMember,
+      templateCategory: isMember,
       invites: allow,
       invite: allow,
-      photoShareKey: allow,
-      photos: allow,
+      photoShareKey: isAuthenticated,
+      photos: isAuthenticated,
       photosOfEvent: allow,
       products: allow,
       product: allow,
-      productImageKey: allow,
-      purchases: allow,
-      lmuPurchases: allow,
+      productImageKey: isAdmin,
+      purchases: isAdmin,
+      lmuPurchases: isAdmin,
       purchase: allow,
       getPaymentSetupSession: allow,
       tenants: allow,
       currentTenant: allow,
-      userById: allow,
-      currentUser: allow,
-      users: allow,
-      userSearchResultNum: allow,
-      userWithStatus: allow,
+      userById: isAdmin,
+      currentUser: isAuthenticated,
+      users: isAdmin,
+      userSearchResultNum: isAdmin,
+      userWithStatus: isMember,
     },
     Mutation: {
       addReceiptToCostItem: allow,
@@ -131,6 +132,12 @@ export const permissions = shield(
     allowExternalErrors: true,
     fallbackError: (err: unknown) => {
       if (err) {
+        Sentry.addBreadcrumb({
+          category: 'shield',
+          type: 'debug',
+          message: 'Shield not authorized',
+          level: Severity.Warning,
+        });
         Sentry.captureException(err);
         if (err instanceof Error) {
           return err;
