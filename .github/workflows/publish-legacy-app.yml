@@ -101,7 +101,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           include: legacy-app/src/environments/*.ts
-          find: "prod"
+          find: "PROD_VERSION"
           replace: ${{ steps.vars.outputs.sha_short }}
           regex: false
 
