@@ -2,5 +2,11 @@ query getCurrentUser {
   currentUser {
     id
     profileComplete
+    firstName
+    lastName
+    email
+    phone
+    university
+    birthdate
   }
 }

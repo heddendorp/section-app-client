@@ -29,6 +29,7 @@ export class NewUserPageComponent implements OnInit {
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      email: ['', Validators.required],
       university: ['', Validators.required],
       birthdate: [null, Validators.required],
       phone: ['', Validators.pattern(/[+][0-9]+/)],
@@ -36,10 +37,13 @@ export class NewUserPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.welcomeForm.get('email')?.disable();
     this.currentUser.fetch().subscribe(({ data }) => {
       if (data.currentUser && data.currentUser.profileComplete) {
-        this.router.navigate(['/', 'profile']);
+        // this.router.navigate(['/', 'profile']);
       }
+      console.log(data.currentUser);
+      this.welcomeForm.patchValue(data.currentUser);
     });
   }
 

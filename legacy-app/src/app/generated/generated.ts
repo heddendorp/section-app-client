@@ -1298,7 +1298,7 @@ export type UserHistoryItem = {
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, profileComplete: boolean } };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, profileComplete: boolean, firstName: string, lastName: string, email: string, phone?: string | null, university?: string | null, birthdate?: any | null } };
 
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1833,6 +1833,12 @@ export const GetCurrentUserDocument = gql`
   currentUser {
     id
     profileComplete
+    firstName
+    lastName
+    email
+    phone
+    university
+    birthdate
   }
 }
     `;
