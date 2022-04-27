@@ -8,9 +8,8 @@ describe('PublicRegistrationCodesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PublicRegistrationCodesPageComponent ]
-    })
-    .compileComponents();
+      declarations: [PublicRegistrationCodesPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
-query loadPublicRegistrationCodes{
-  eventRegistrationCodes(orderByEvent: true){
+query loadPublicRegistrationCodes {
+  eventRegistrationCodes(orderByEvent: true) {
     id
     targetEvent {
       id
