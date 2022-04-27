@@ -75,7 +75,7 @@ Sentry.init({
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
   ],
-  release: process.env.VERSION ?? 'development',
+  release: 'rumi-server@' + process.env.VERSION ?? 'development',
   ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
   beforeBreadcrumb(breadcrumb) {
     if (
