@@ -5102,6 +5102,8 @@ __metadata:
     "@graphql-codegen/cli": ^2.6.2
     "@graphql-codegen/typescript-apollo-angular": ^3.4.7
     "@graphql-codegen/typescript-operations": ^2.3.5
+    "@sentry/angular": ^6.19.7
+    "@sentry/tracing": ^6.19.7
     "@stripe/stripe-js": ^1.29.0
     "@swimlane/ngx-charts": ^20.1.0
     "@tailwindcss/aspect-ratio": ^0.4.0

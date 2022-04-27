@@ -30,6 +30,8 @@
     "@apollo/client": "^3.6.0",
     "@auth0/auth0-angular": "^1.9.0",
     "@azure/storage-blob": "^12.9.0",
+    "@sentry/angular": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
     "@stripe/stripe-js": "^1.29.0",
     "@swimlane/ngx-charts": "^20.1.0",
     "apollo-angular": "^3.0.1",

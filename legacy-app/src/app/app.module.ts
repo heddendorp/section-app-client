@@ -1,4 +1,11 @@
-import { ApplicationRef, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationRef,
+  ErrorHandler,
+  Inject,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +47,7 @@ import { Router, Scroll } from '@angular/router';
 import { concat, filter, first, interval } from 'rxjs';
 import { IconToastComponent } from '@tumi/legacy-app/modules/shared/components/icon-toast/icon-toast.component';
 import { Settings } from 'luxon';
+import * as Sentry from '@sentry/angular';
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent, AuthButtonComponent],
@@ -127,6 +135,26 @@ import { Settings } from 'luxon';
       useValue: { appearance: 'fill' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+    environment.production
+      ? [
+          {
+            provide: ErrorHandler,
+            useValue: Sentry.createErrorHandler({
+              showDialog: true,
+            }),
+          },
+          {
+            provide: Sentry.TraceService,
+            deps: [Router],
+          },
+          {
+            provide: APP_INITIALIZER,
+            useFactory: () => () => {},
+            deps: [Sentry.TraceService],
+            multi: true,
+          },
+        ]
+      : [],
   ],
   bootstrap: [AppComponent],
 })

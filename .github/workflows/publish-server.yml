@@ -208,3 +208,4 @@ jobs:
           ignore_empty: true
           sourcemaps: server/dist
           version_prefix: tumi-server@
+          version: ${{ github.sha }}
