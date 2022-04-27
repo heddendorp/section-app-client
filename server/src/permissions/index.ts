@@ -1,9 +1,148 @@
-import { allow, shield } from 'graphql-shield';
+import { allow, deny, shield } from 'graphql-shield';
+import { GraphQLError, GraphQLResolveInfo } from 'graphql';
+import { IShieldContext } from 'graphql-shield/dist/types';
+import * as Sentry from '@sentry/node';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 export const permissions = shield(
   {
-    Query: {},
-    Mutation: {},
+    Query: {
+      logs: allow,
+      logStats: allow,
+      costItemsForEvent: allow,
+      costItem: allow,
+      blobUploadKey: allow,
+      events: allow,
+      event: allow,
+      organizers: allow,
+      registrationCount: allow,
+      registrations: allow,
+      registration: allow,
+      eventRegistrationCodes: allow,
+      eventRegistrationCode: allow,
+      eventTemplates: allow,
+      eventTemplate: allow,
+      templateCategories: allow,
+      templateCategory: allow,
+      invites: allow,
+      invite: allow,
+      photoShareKey: allow,
+      photos: allow,
+      photosOfEvent: allow,
+      products: allow,
+      product: allow,
+      productImageKey: allow,
+      purchases: allow,
+      lmuPurchases: allow,
+      purchase: allow,
+      getPaymentSetupSession: allow,
+      tenants: allow,
+      currentTenant: allow,
+      userById: allow,
+      currentUser: allow,
+      users: allow,
+      userSearchResultNum: allow,
+      userWithStatus: allow,
+    },
+    Mutation: {
+      addReceiptToCostItem: allow,
+      deleteReceipt: allow,
+      deleteCostItem: allow,
+      verifyDCC: allow,
+      updateCostItemsFromTemplate: allow,
+      updateEventLocation: allow,
+      addOrganizerToEvent: allow,
+      changeEventPublication: allow,
+      updateEventGeneralInfo: allow,
+      updateEventCoreInfo: allow,
+      createEventFromTemplate: allow,
+      rateEvent: allow,
+      registerForEvent: allow,
+      deregisterFromEvent: allow,
+      createEventOrganizer: allow,
+      checkInUser: allow,
+      createRegistrationCode: allow,
+      useRegistrationCode: allow,
+      createSubmissionItem: allow,
+      deleteSubmissionItem: allow,
+      removeSubmissionFromEvent: allow,
+      createSubmissionOnEvent: allow,
+      createEventTemplate: allow,
+      updateTemplate: allow,
+      updateTemplateLocation: allow,
+      updateTemplateFinances: allow,
+      deleteTemplate: allow,
+      useInvite: allow,
+      createInvites: allow,
+      increaseLineItemQuantity: allow,
+      decreaseLineItemQuantity: allow,
+      deleteLineItem: allow,
+      addLineItemToBasket: allow,
+      createPhotoShare: allow,
+      updateLeadImage: allow,
+      createProduct: allow,
+      updateProduct: allow,
+      deleteProductImage: allow,
+      createProductImage: allow,
+      updateAddress: allow,
+      updatePurchaseStatus: allow,
+      createPurchaseFromCart: allow,
+      updateTenant: allow,
+      updateProfile: allow,
+      updateESNcard: allow,
+      verifyEmail: allow,
+      updateUserStatus: allow,
+      updateUserRole: allow,
+      registerUser: allow,
+    },
+    ActivityLog: allow,
+    ActivityLogStat: allow,
+    CostItem: allow,
+    TumiEvent: allow,
+    EventOrganizer: allow,
+    EventRegistration: allow,
+    EventRegistrationCode: allow,
+    EventSubmission: allow,
+    EventSubmissionItem: allow,
+    EventTemplate: allow,
+    EventTemplateCategory: allow,
+    Invite: allow,
+    LineItem: allow,
+    PhotoShare: allow,
+    Product: allow,
+    ProductImage: allow,
+    Purchase: allow,
+    Receipt: allow,
+    ShoppingCart: allow,
+    statistics: allow,
+    userHistoryItem: allow,
+    lineChartSeriesItem: allow,
+    StripePayment: allow,
+    StripeUserData: allow,
+    paymentSetupSession: allow,
+    paymentIntent: allow,
+    checkoutSession: allow,
+    Tenant: allow,
+    User: allow,
+    UsersOfTenants: allow,
   },
-  { fallbackRule: allow, allowExternalErrors: true }
+  {
+    fallbackRule: deny,
+    allowExternalErrors: true,
+    fallbackError: (err: unknown) => {
+      if (err) {
+        Sentry.captureException(err);
+        if (err instanceof Error) {
+          return err;
+        }
+        if (err instanceof GraphQLYogaError) {
+          return err;
+        }
+        if (err instanceof GraphQLError) {
+          return err;
+        }
+      }
+      return new Error('Not authorized!');
+    },
+  }
 );
