@@ -54,7 +54,10 @@
       >
         <p>You claimed this code already ✅</p>
         <ng-container
-          *ngIf="code.registrationCreated?.payment?.status === 'incomplete'"
+          *ngIf="
+            code.registrationCreated?.transaction?.stripePayment?.status ===
+            'incomplete'
+          "
         >
           <p>
             Payment for this event is still missing, please finalize your
@@ -64,7 +67,10 @@
             mat-raised-button
             color="primary"
             (click)="
-              openCheckout(code?.registrationCreated?.payment?.checkoutSession)
+              openCheckout(
+                code?.registrationCreated?.transaction?.stripePayment
+                  ?.checkoutSession
+              )
             "
           >
             Pay for registration

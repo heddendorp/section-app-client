@@ -158,21 +158,22 @@
             Paid:
             <span class="mr-2 rounded bg-gray-200 px-1 font-mono">
               {{
-                (registration.payment?.netLessRefundAmount ?? 0) / 100
-                  | currency: 'EUR'
+                (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                  0) /
+                  100 | currency: 'EUR'
               }}
             </span>
           </p>
           <p>
             Payment status:
             <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
-              registration.payment?.status
+              registration.transaction?.stripePayment?.status
             }}</span>
           </p>
           <p>
             Payment method:
             <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
-              registration.payment?.paymentMethodType
+              registration.transaction?.stripePayment?.paymentMethodType
             }}</span>
           </p>
           <p>
@@ -222,8 +223,8 @@
             <button
               mat-menu-item
               [disabled]="
-                (registration.payment?.netAmount ?? 0) === 0 ||
-                registration.didAttend
+                (registration.transaction?.stripePayment?.netAmount ?? 0) ===
+                  0 || registration.didAttend
               "
               (click)="kickWithRefund(registration.id)"
             >
@@ -320,7 +321,11 @@
             <td>{{ registration.user.phone }}</td>
             <td>{{ registration.checkInTime | date: 'short' }}</td>
             <td>
-              {{ (registration.payment?.netLessRefundAmount ?? 0) / 100 }}
+              {{
+                (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                  0) /
+                  100
+              }}
             </td>
           </tr>
         </tbody>

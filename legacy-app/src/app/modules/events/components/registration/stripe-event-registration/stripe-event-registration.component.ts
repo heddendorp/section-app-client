@@ -59,11 +59,15 @@ export class StripeEventRegistrationComponent implements OnChanges {
     return DateTime.fromISO(this.event?.start).minus({ days: 5 }).toJSDate();
   }
 
-  get lasPayment() {
-    if (!this.event?.activeRegistration?.payment?.createdAt) {
+  get lastPayment() {
+    if (
+      !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    ) {
       return new Date();
     }
-    return DateTime.fromISO(this.event?.activeRegistration?.payment?.createdAt)
+    return DateTime.fromISO(
+      this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    )
       .plus({ hours: 1 })
       .toJSDate();
   }

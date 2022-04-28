@@ -51,26 +51,35 @@
     <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
     <p>✔️ You have a spot on this event.</p>
     <ng-container
-      *ngIf="event.activeRegistration?.payment?.status === 'incomplete'"
+      *ngIf="
+        event.activeRegistration?.transaction?.stripePayment?.status ===
+        'incomplete'
+      "
     >
       <p class="text-lg font-bold">Your payment is not complete yet</p>
       <p>
         Please make sure to complete you payment by
-        {{ lasPayment | date: 'mediumTime' }} or we will have to cancel your
+        {{ lastPayment | date: 'mediumTime' }} or we will have to cancel your
         registration
       </p>
       <button
         mat-flat-button
         color="primary"
         (click)="
-          openPaymentSession(event.activeRegistration?.payment?.checkoutSession)
+          openPaymentSession(
+            event.activeRegistration?.transaction?.stripePayment
+              ?.checkoutSession
+          )
         "
       >
         Finalize event payment
       </button>
     </ng-container>
     <ng-container
-      *ngIf="event.activeRegistration?.payment?.status === 'processing'"
+      *ngIf="
+        event.activeRegistration?.transaction?.stripePayment?.status ===
+        'processing'
+      "
     >
       <p>
         Your payment is currently processing, once it was successful you can

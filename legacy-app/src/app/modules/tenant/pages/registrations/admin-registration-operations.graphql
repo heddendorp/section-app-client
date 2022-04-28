@@ -11,10 +11,13 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
       id
       fullName
     }
-    payment {
+    transaction {
       id
-      status
-      netAmount
+      stripePayment {
+        id
+        status
+        netAmount
+      }
     }
   }
 }
@@ -36,16 +39,19 @@ query getRegistrationForAdmin($id: ID!) {
       id
       fullName
     }
-    payment {
+    transaction {
       id
-      status
-      netAmount
-      refundedAmount
-      amount
-      feeAmount
-      paymentIntent
-      paymentMethodType
-      events
+      stripePayment{
+        id
+        status
+        netAmount
+        refundedAmount
+        amount
+        feeAmount
+        paymentIntent
+        paymentMethodType
+        events
+      }
     }
   }
 }
@@ -129,12 +135,15 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      payment {
+      transaction {
         id
-        status
-        paymentMethodType
-        paymentIntent
-        events
+        stripePayment{
+          id
+          status
+          paymentMethodType
+          paymentIntent
+          events
+        }
       }
     }
     registrationToRemove {
@@ -146,12 +155,15 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      payment {
+      transaction {
         id
-        status
-        paymentMethodType
-        paymentIntent
-        events
+        stripePayment{
+          id
+          status
+          paymentMethodType
+          paymentIntent
+          events
+        }
       }
     }
     registrationCreated {
@@ -163,12 +175,15 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      payment {
+      transaction {
         id
-        status
-        paymentIntent
-        paymentMethodType
-        events
+        stripePayment {
+          id
+          status
+          paymentIntent
+          paymentMethodType
+          events
+        }
       }
     }
   }

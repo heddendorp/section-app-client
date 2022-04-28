@@ -87,10 +87,13 @@ query getRegistrationCodeInfo($code: ID!) {
     registrationCreated {
       id
       belongsToCurrentUser
-      payment {
+      transaction {
         id
-        status
-        checkoutSession
+        stripePayment {
+          id
+          status
+          checkoutSession
+        }
       }
     }
     targetEvent {
@@ -117,10 +120,13 @@ mutation useRegistrationCode($id: ID!, $price: Json) {
     registrationCreated {
       id
       belongsToCurrentUser
-      payment {
+      transaction {
         id
-        status
-        checkoutSession
+        stripePayment {
+          id
+          status
+          checkoutSession
+        }
       }
     }
     targetEvent {

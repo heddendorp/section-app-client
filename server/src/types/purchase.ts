@@ -276,7 +276,7 @@ export const createPurchaseFromCartMutation = mutationField(
           createdBy: { connect: { id: context.user?.id } },
           user: { connect: { id: context.user?.id } },
           tenant: { connect: { id: context.tenant.id } },
-          amount: checkoutSession.amount_total ?? 0,
+          amount: (checkoutSession.amount_total ?? 0) / -100,
           stripePayment: {
             create: {
               amount: checkoutSession.amount_total ?? 0,

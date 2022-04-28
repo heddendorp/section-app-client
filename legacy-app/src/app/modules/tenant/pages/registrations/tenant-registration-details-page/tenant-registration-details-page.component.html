@@ -24,46 +24,55 @@
           <td>End: {{ registration.event.end | date: 'medium' }}</td>
         </tr>
         <tr>
-          <ng-container *ngIf="registration?.payment">
+          <ng-container *ngIf="registration?.transaction?.stripePayment">
             <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
               <span> Payment status: </span>
-              <span>{{ registration.payment?.status }}</span>
+              <span>{{ registration.transaction?.stripePayment?.status }}</span>
               <span> Payment method: </span>
-              <span>{{ registration.payment?.paymentMethodType }}</span>
+              <span>{{
+                registration.transaction?.stripePayment?.paymentMethodType
+              }}</span>
               <span>Amount:</span>
               <span>{{
-                (registration.payment?.amount ?? 0) / 100 | currency: 'EUR'
+                (registration.transaction?.stripePayment?.amount ?? 0) / 100
+                  | currency: 'EUR'
               }}</span>
               <span>Net Amount:</span>
               <span>{{
-                (registration.payment?.netAmount ?? 0) / 100 | currency: 'EUR'
+                (registration.transaction?.stripePayment?.netAmount ?? 0) / 100
+                  | currency: 'EUR'
               }}</span>
               <span>Refunded Amount:</span>
               <span>{{
-                (registration.payment?.refundedAmount ?? 0) / 100
-                  | currency: 'EUR'
+                (registration.transaction?.stripePayment?.refundedAmount ?? 0) /
+                  100 | currency: 'EUR'
               }}</span>
               <span>Fee Amount:</span>
               <span>{{
-                (registration.payment?.feeAmount ?? 0) / 100 | currency: 'EUR'
+                (registration.transaction?.stripePayment?.feeAmount ?? 0) / 100
+                  | currency: 'EUR'
               }}</span>
               <a
                 gdColumn="span 2"
                 mat-stroked-button
                 href="https://dashboard.stripe.com/payments/{{
-                  registration.payment?.paymentIntent
+                  registration.transaction?.stripePayment?.paymentIntent
                 }}"
                 >Open in stripe</a
               >
             </td>
             <td>
               <p>Events</p>
-              <p *ngFor="let event of registration.payment?.events">
+              <p
+                *ngFor="
+                  let event of registration.transaction?.stripePayment?.events
+                "
+              >
                 {{ event.name }} - {{ event.date | date: 'medium' }}
               </p>
             </td>
           </ng-container>
-          <ng-container *ngIf="!registration.payment">
+          <ng-container *ngIf="!registration?.transaction?.stripePayment">
             <td colspan="2">No payment for this registration</td>
           </ng-container>
           <td colspan="2">

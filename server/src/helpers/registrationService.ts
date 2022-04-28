@@ -180,7 +180,7 @@ export class RegistrationService {
         createdBy: { connect: { id: userId } },
         user: { connect: { id: userId } },
         tenant: { connect: { id: context.tenant.id } },
-        amount: session.amount_total ?? 0,
+        amount: (session.amount_total ?? 0) / -100,
         stripePayment: {
           create: {
             amount: session.amount_total ?? 0,

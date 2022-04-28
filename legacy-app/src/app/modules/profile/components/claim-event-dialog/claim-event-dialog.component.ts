@@ -94,8 +94,8 @@ export class ClaimEventDialogComponent {
       if (data && stripe) {
         stripe.redirectToCheckout({
           sessionId:
-            data.useRegistrationCode.registrationCreated?.payment
-              ?.checkoutSession ?? '',
+            data.useRegistrationCode.registrationCreated?.transaction
+              ?.stripePayment?.checkoutSession ?? '',
         });
       }
     } catch (e: unknown) {

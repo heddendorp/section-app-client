@@ -237,6 +237,7 @@ model Transaction {
   user                  User?                  @relation(fields: [userId], references: [id])
   userId                String?                @db.Uuid
   costItemId            String?                @db.Uuid
+  onUserBalance         Boolean                @default(false)
 }
 
 /// To be removed soon

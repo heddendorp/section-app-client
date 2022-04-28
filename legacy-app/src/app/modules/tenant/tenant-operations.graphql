@@ -118,10 +118,13 @@ query loadUser($id: ID!) {
         id
         createdAt
       }
-      payment {
+      transaction {
         id
-        status
-        events
+        stripePayment {
+          id
+          status
+          events
+        }
       }
       event {
         id
@@ -238,10 +241,13 @@ query getTenantPurchases {
       fullName
       university
     }
-    payment {
+    transaction {
       id
-      status
-      amount
+      stripePayment {
+        id
+        status
+        amount
+      }
     }
   }
 }
@@ -258,15 +264,18 @@ query getPurchase($id: ID!) {
       fullName
       university
     }
-    payment {
+    transaction {
       id
-      status
-      paymentMethodType
-      events
-      shipping
-      amount
-      netAmount
-      feeAmount
+      stripePayment{
+        id
+        status
+        paymentMethodType
+        events
+        shipping
+        amount
+        netAmount
+        feeAmount
+      }
     }
     items {
       id
