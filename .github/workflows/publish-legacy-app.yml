@@ -56,18 +56,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - run: cat legacy-app/src/environments/environment.prod.ts
-
-      - name: Update version in environment
-        id: update-version
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          include: legacy-app/src/environments/environment.prod.ts
-          find: PROD_VERSION
-          replace: ${{ github.sha }}
-
-      - run: cat legacy-app/src/environments/environment.prod.ts
-
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
@@ -108,19 +96,18 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=sha
 
-      - run: echo ${{steps.vars.outputs.sha_short}}
-      - run: echo ${{steps.update-version.outputs.modifiedFiles}}
-
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           file: Dockerfile-Legacy
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.sha }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
