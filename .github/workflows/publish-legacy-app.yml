@@ -56,13 +56,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - run: echo cat legacy-app/src/environments/environment.prod.ts
+
       - name: Update version in environment
         id: update-version
         uses: jacobtomlinson/gha-find-replace@v2
         with:
-          include: legacy-app/src/environments/*.ts
-          find: "PROD_VERSION"
+          include: legacy-app/src/environments/environment.prod.ts
+          find: PROD_VERSION
           replace: ${{ github.sha }}
+
+      - run: echo cat legacy-app/src/environments/environment.prod.ts
 
       - name: Set outputs
         id: vars
@@ -147,14 +151,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Update version in environment
-        id: update-version
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          include: legacy-app/src/environments/*.ts
-          find: "PROD_VERSION"
-          replace: ${{ github.sha }}
-
       - name: update image tag in deployment file
         uses: jacobtomlinson/gha-find-replace@v2
         with:
@@ -179,10 +175,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Update version in environment
+        id: update-version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: legacy-app/src/environments/*.ts
+          find: "PROD_VERSION"
+          replace: ${{ github.sha }}
+
       - name: Prepare yarn
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '17'
           cache: 'yarn'
 
       - name: Install dependencies
