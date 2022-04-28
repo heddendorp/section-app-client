@@ -4,6 +4,7 @@ import {
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
+  TransactionType,
 } from '../generated/prisma';
 import * as stripe from 'stripe';
 import { GetGen } from 'nexus/dist/typegenTypeHelpers';
@@ -32,7 +33,7 @@ export class RegistrationService {
       registrationCode?.targetEvent?.registrationMode ===
       RegistrationMode.STRIPE
     ) {
-      const payment = await this.createPayment(
+      const transaction = await this.createPayment(
         context,
         [
           {
@@ -54,7 +55,7 @@ export class RegistrationService {
         data: {
           event: { connect: { id: registrationCode.targetEvent.id } },
           user: { connect: { id: userId } },
-          payment: { connect: { id: payment.id } },
+          transaction: { connect: { id: transaction.id } },
           status: RegistrationStatus.PENDING,
           type: RegistrationType.PARTICIPANT,
           eventRegistrationCode: { connect: { id: registrationCode.id } },
@@ -68,7 +69,7 @@ export class RegistrationService {
         where: { id: registrationCodeId },
         data: {
           registrationCreatedId: registration.id,
-          paymentId: payment.id,
+          transactionId: transaction.id,
         },
       });
     } else if (
@@ -172,112 +173,34 @@ export class RegistrationService {
       success_url: successUrl,
       expires_at: Math.round(DateTime.now().plus({ hours: 1 }).toSeconds()),
     });
-    const payment = prisma.stripePayment.create({
+    return prisma.transaction.create({
       data: {
+        type: TransactionType.STRIPE,
+        subject: `Fee for: ${items.map((item) => item.name).join(',')}`,
+        createdBy: { connect: { id: userId } },
         user: { connect: { id: userId } },
+        tenant: { connect: { id: context.tenant.id } },
         amount: session.amount_total ?? 0,
-        paymentIntent:
-          typeof session.payment_intent === 'string'
-            ? session.payment_intent
-            : session.payment_intent?.id || '',
-        checkoutSession: session.id,
-        status: 'incomplete',
-        events: [
-          { type: 'payment_intent.created', name: 'created', date: Date.now() },
-        ],
-      },
-    });
-    return payment;
-  }
-
-  static async registerOnEvent(
-    context: GetGen<'context'>,
-    prisma: PrismaClient,
-    eventId: string,
-    userId: string,
-    registrationType: RegistrationType,
-    submissions: any,
-    // TODO: bring back price
-    price?: any,
-    cancelUrl?: string,
-    successUrl?: string
-  ) {
-    const event = await prisma.tumiEvent.findUnique({ where: { id: eventId } });
-    if (
-      event?.registrationMode === RegistrationMode.STRIPE &&
-      registrationType === RegistrationType.PARTICIPANT
-    ) {
-      const payment = await this.createPayment(
-        context,
-        [
-          {
-            amount: price.amount * 100,
-            quantity: 1,
-            currency: 'EUR',
-            name: event.title,
-            tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
-            description: 'Registration fee for event',
-          },
-        ],
-        'book',
-        cancelUrl ?? '',
-        successUrl ?? '',
-        userId
-      );
-      // const submissionArray = [];
-      // if (submissions) {
-      //   Object.entries(submissions).forEach(([key, value]) => {
-      //     submissionArray.push({
-      //       submissionItem: { connect: { id: key } },
-      //       data: { value },
-      //     });
-      //   });
-      // }
-      // await prisma.eventRegistration.create({
-      //   data: {
-      //     user: { connect: { id: userId } },
-      //     event: { connect: { id: eventId } },
-      //     status: RegistrationStatus.PENDING,
-      //     type: registrationType,
-      //     payment: { connect: { id: payment.id } },
-      //     submissions: {
-      //       create: submissionArray,
-      //     },
-      //   },
-      // });
-      return event;
-    } else if (
-      event?.registrationMode === RegistrationMode.ONLINE ||
-      registrationType === RegistrationType.ORGANIZER
-    ) {
-      const submissionArray: any[] = [];
-      if (submissions) {
-        Object.entries(submissions).forEach(([key, value]) => {
-          submissionArray.push({
-            submissionItem: { connect: { id: key } },
-            data: { value },
-          });
-        });
-      }
-      await prisma.eventRegistration.create({
-        data: {
-          user: { connect: { id: userId } },
-          event: { connect: { id: eventId } },
-          status: RegistrationStatus.SUCCESSFUL,
-          type: registrationType,
-          submissions: {
-            create: submissionArray,
+        stripePayment: {
+          create: {
+            amount: session.amount_total ?? 0,
+            paymentIntent:
+              typeof session.payment_intent === 'string'
+                ? session.payment_intent
+                : session.payment_intent?.id || '',
+            checkoutSession: session.id,
+            status: 'incomplete',
+            events: [
+              {
+                type: 'payment_intent.created',
+                name: 'created',
+                date: Date.now(),
+              },
+            ],
           },
         },
-      });
-      await prisma.tumiEvent.update({
-        where: { id: eventId },
-        data: { participantRegistrationCount: { increment: 1 } },
-      });
-      return event;
-    } else {
-      throw new Error('Registration mode not supported');
-    }
+      },
+    });
   }
 
   static async cancelRegistration(

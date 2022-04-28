@@ -15,63 +15,16 @@ export const lineItemType = objectType({
     t.field(LineItem.id);
     t.field(LineItem.createdAt);
     t.field(LineItem.cancellationReason);
-    t.field({
-      ...LineItem.cart,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Private,
-        // });
-        if (!source.shoppingCartId) return null;
-        return context.prisma.shoppingCart.findUnique({
-          where: { id: source.shoppingCartId },
-        });
-      },
-    });
+    t.field(LineItem.cart);
     t.field(LineItem.cost);
     t.field(LineItem.pickupTime);
-    t.field({
-      ...LineItem.product,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 60,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.product
-          .findUnique({
-            where: {
-              id: source.productId,
-            },
-          })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('Product not found');
-            }
-            return res;
-          });
-      },
-    });
+    t.field(LineItem.product);
     t.field(LineItem.productId);
     t.field(LineItem.purchase);
     t.field(LineItem.purchaseId);
     t.field(LineItem.quantity);
     t.field(LineItem.shoppingCartId);
-    t.field({
-      ...LineItem.submissions,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 60,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.lineItem
-          .findUnique({
-            where: {
-              id: source.id,
-            },
-          })
-          .submissions();
-      },
-    });
+    t.field(LineItem.submissions);
   },
 });
 

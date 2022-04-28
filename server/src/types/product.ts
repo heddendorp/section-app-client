@@ -36,43 +36,10 @@ export const productType = objectType({
     t.field(Product.needsShippingAddress);
     t.field(Product.isActive);
     t.field(Product.leadImageId);
-    t.field({
-      ...Product.images,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.product
-          .findUnique({ where: { id: source.id } })
-          .images();
-      },
-    });
+    t.field(Product.images);
     t.field(Product.tenantId);
-    t.field({
-      ...Product.tenant,
-      resolve: (source, args, context) =>
-        context.prisma.tenant
-          .findUnique({ where: { id: source.tenantId } })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('Tenant not found');
-            }
-            return res;
-          }),
-    });
-    t.field({
-      ...Product.submissionItems,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.product
-          .findUnique({ where: { id: source.id } })
-          .submissionItems();
-      },
-    });
+    t.field(Product.tenant);
+    t.field(Product.submissionItems);
     t.field({
       ...Product.lineItems,
       args: { onlyWithPurchase: booleanArg({ default: false }) },

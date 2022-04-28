@@ -13,6 +13,7 @@ import { RegistrationMode, Role } from '../generated/prisma';
 import { RegistrationService } from '../helpers/registrationService';
 import { eventRegistrationType } from './eventRegistration';
 import { userType } from './user';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 export const eventRegistrationCodeType = objectType({
   name: EventRegistrationCode.$name,
@@ -22,39 +23,14 @@ export const eventRegistrationCodeType = objectType({
     t.field(EventRegistrationCode.createdById);
     t.field(EventRegistrationCode.registrationToRemoveId);
     t.field(EventRegistrationCode.registrationCreatedId);
-    t.field({
-      ...EventRegistrationCode.targetEvent,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 60,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.tumiEvent
-          .findUnique({
-            where: { id: source.eventId },
-          })
-          .then((res) => {
-            if (!res) throw new Error('Event not found');
-            return res;
-          });
-      },
-    });
+    t.field(EventRegistrationCode.targetEvent);
     t.field(EventRegistrationCode.isPublic);
     t.field(EventRegistrationCode.eventId);
     t.field(EventRegistrationCode.status);
     t.field(EventRegistrationCode.sepaAllowed);
-    t.field({
-      ...EventRegistrationCode.connectedRegistrations,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.eventRegistrationCode
-          .findUnique({ where: { id: source.id } })
-          .connectedRegistrations({ orderBy: { createdAt: 'desc' } });
-      },
-    });
+    t.field(EventRegistrationCode.connectedRegistrations);
+    t.field(EventRegistrationCode.transaction);
+    t.field(EventRegistrationCode.transactionId);
     t.field({
       name: 'registrationToRemove',
       type: eventRegistrationType,
@@ -96,7 +72,7 @@ export const eventRegistrationCodeType = objectType({
             where: { id: source.createdById },
           })
           .then((res) => {
-            if (!res) throw new Error('User not found');
+            if (!res) throw new GraphQLYogaError('User not found');
             return res;
           });
       },
@@ -160,12 +136,12 @@ export const createRegistrationCodeMutation = mutationField(
       const { role } = context.assignment ?? {};
       let registrationCode;
       if (sepaAllowed && role !== Role.ADMIN) {
-        throw new Error(
+        throw new GraphQLYogaError(
           'Only Admins can generate registration codes with SEPA payments!'
         );
       }
       if (!registrationId && role !== Role.ADMIN) {
-        throw new Error(
+        throw new GraphQLYogaError(
           'Only Admins can generate registration codes for new registrations!'
         );
       } else if (registrationId) {
@@ -173,7 +149,7 @@ export const createRegistrationCodeMutation = mutationField(
           where: { id: registrationId },
         });
         if (!registration) {
-          throw new Error(
+          throw new GraphQLYogaError(
             'Registration could not be found for id ' + registrationId
           );
         }
@@ -213,7 +189,9 @@ export const useRegistrationCodeMutation = mutationField(
           include: { targetEvent: true },
         });
       if (!registrationCode) {
-        throw new Error('Registration code could not be found for: ' + id);
+        throw new GraphQLYogaError(
+          'Registration code could not be found for: ' + id
+        );
       }
       if (
         registrationCode.targetEvent.registrationMode ===
@@ -226,7 +204,9 @@ export const useRegistrationCodeMutation = mutationField(
         // );
         const priceAllowed = true;
         if (!priceAllowed) {
-          throw new Error('Price received is not valid in this context');
+          throw new GraphQLYogaError(
+            'Price received is not valid in this context'
+          );
         }
       }
       const baseUrl = process.env.DEV

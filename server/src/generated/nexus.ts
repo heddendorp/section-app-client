@@ -185,6 +185,7 @@ export interface NexusGenEnums {
   Role: "ADMIN" | "USER"
   SubmissionItemType: "BOOLEAN" | "DATE" | "FILE" | "LONGTEXT" | "NUMBER" | "RATING" | "SELECT" | "TEXT"
   SubmissionTime: "AFTER" | "BEFORE" | "DURING" | "REGISTRATION"
+  TransactionType: "CASH" | "PAYPAL" | "STRIPE" | "TRANSFER"
 }
 
 export interface NexusGenScalars {
@@ -216,13 +217,12 @@ export interface NexusGenObjects {
     actualAmount?: NexusGenScalars['Decimal'] | null; // Decimal
     amount: NexusGenScalars['Decimal']; // Decimal!
     calculationInfo: string; // String!
+    complete: boolean; // Boolean!
     confirmed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     details?: string | null; // String
     eventId: string; // String!
     id: string; // ID!
-    moneySent: boolean; // Boolean!
-    moneySentTo?: string | null; // String
     name: string; // String!
     onInvoice: boolean; // Boolean!
   }
@@ -241,9 +241,9 @@ export interface NexusGenObjects {
     eventId: string; // String!
     id: string; // ID!
     manualCheckin: boolean; // Boolean!
-    paymentId?: string | null; // String
     rating?: number | null; // Int
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
+    transactionId?: string | null; // String
     type: NexusGenEnums['RegistrationType']; // RegistrationType!
     userComment?: string | null; // String
     userId: string; // String!
@@ -258,6 +258,7 @@ export interface NexusGenObjects {
     registrationToRemoveId?: string | null; // String
     sepaAllowed: boolean; // Boolean!
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
+    transactionId?: string | null; // String
   }
   EventSubmission: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -360,8 +361,8 @@ export interface NexusGenObjects {
   Purchase: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    paymentId: string; // String!
     status: NexusGenEnums['PurchaseStatus']; // PurchaseStatus!
+    transactionId?: string | null; // String
     userId: string; // String!
   }
   Query: {};
@@ -396,6 +397,7 @@ export interface NexusGenObjects {
     refundedAmount?: NexusGenScalars['Decimal'] | null; // Decimal
     shipping?: NexusGenScalars['Json'] | null; // Json
     status: string; // String!
+    transactionId?: string | null; // String
   }
   StripeUserData: { // root type
     customerId: string; // String!
@@ -412,6 +414,20 @@ export interface NexusGenObjects {
     privacyPolicyPage: string; // String!
     shortName: string; // String!
     tacPage?: string | null; // String
+  }
+  Transaction: { // root type
+    amount: NexusGenScalars['Decimal']; // Decimal!
+    comment?: string | null; // String
+    costItemId?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    creatorId: string; // String!
+    id: string; // ID!
+    isMembershipFee: boolean; // Boolean!
+    partner?: string | null; // String
+    subject: string; // String!
+    tenantId: string; // String!
+    type: NexusGenEnums['TransactionType']; // TransactionType!
+    userId?: string | null; // String
   }
   TumiEvent: { // root type
     coordinates?: NexusGenScalars['Json'] | null; // Json
@@ -517,18 +533,18 @@ export interface NexusGenFieldTypes {
     actualAmount: NexusGenScalars['Decimal'] | null; // Decimal
     amount: NexusGenScalars['Decimal']; // Decimal!
     calculationInfo: string; // String!
+    complete: boolean; // Boolean!
     confirmed: boolean; // Boolean!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     details: string | null; // String
     event: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     eventId: string; // String!
     id: string; // ID!
-    moneySent: boolean; // Boolean!
-    moneySentTo: string | null; // String
     name: string; // String!
     onInvoice: boolean; // Boolean!
     receipts: NexusGenRootTypes['Receipt'][]; // [Receipt!]!
     submittedAmount: NexusGenScalars['Decimal']; // Decimal!
+    transactions: NexusGenRootTypes['Transaction'][]; // [Transaction!]!
   }
   EventOrganizer: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -552,11 +568,11 @@ export interface NexusGenFieldTypes {
     eventId: string; // String!
     id: string; // ID!
     manualCheckin: boolean; // Boolean!
-    payment: NexusGenRootTypes['StripePayment'] | null; // StripePayment
-    paymentId: string | null; // String
     rating: number | null; // Int
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
     submissions: NexusGenRootTypes['EventSubmission'][]; // [EventSubmission!]!
+    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
+    transactionId: string | null; // String
     type: NexusGenEnums['RegistrationType']; // RegistrationType!
     user: NexusGenRootTypes['User']; // User!
     userComment: string | null; // String
@@ -577,6 +593,8 @@ export interface NexusGenFieldTypes {
     sepaAllowed: boolean; // Boolean!
     status: NexusGenEnums['RegistrationStatus']; // RegistrationStatus!
     targetEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
+    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
+    transactionId: string | null; // String
   }
   EventSubmission: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -763,9 +781,9 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     items: NexusGenRootTypes['LineItem'][]; // [LineItem!]!
-    payment: NexusGenRootTypes['StripePayment']; // StripePayment!
-    paymentId: string; // String!
     status: NexusGenEnums['PurchaseStatus']; // PurchaseStatus!
+    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
+    transactionId: string | null; // String
     user: NexusGenRootTypes['User']; // User!
     userId: string; // String!
   }
@@ -835,7 +853,6 @@ export interface NexusGenFieldTypes {
     amount: NexusGenScalars['Decimal']; // Decimal!
     checkoutSession: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    eventRegistration: NexusGenRootTypes['EventRegistration'] | null; // EventRegistration
     events: Array<NexusGenScalars['Json'] | null>; // [Json]!
     feeAmount: NexusGenScalars['Decimal'] | null; // Decimal
     id: string; // ID!
@@ -844,10 +861,11 @@ export interface NexusGenFieldTypes {
     paymentIntent: string; // String!
     paymentMethod: string | null; // String
     paymentMethodType: string | null; // String
-    purchase: NexusGenRootTypes['Purchase'] | null; // Purchase
     refundedAmount: NexusGenScalars['Decimal'] | null; // Decimal
     shipping: NexusGenScalars['Json'] | null; // Json
     status: string; // String!
+    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
+    transactionId: string | null; // String
   }
   StripeUserData: { // field return type
     customerId: string; // String!
@@ -865,6 +883,28 @@ export interface NexusGenFieldTypes {
     shortName: string; // String!
     statistics: NexusGenRootTypes['statistics']; // statistics!
     tacPage: string | null; // String
+    transactions: NexusGenRootTypes['Transaction'][]; // [Transaction!]!
+  }
+  Transaction: { // field return type
+    amount: NexusGenScalars['Decimal']; // Decimal!
+    comment: string | null; // String
+    costItem: NexusGenRootTypes['CostItem'] | null; // CostItem
+    costItemId: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    createdBy: NexusGenRootTypes['User']; // User!
+    creatorId: string; // String!
+    eventRegistration: NexusGenRootTypes['EventRegistration'] | null; // EventRegistration
+    id: string; // ID!
+    isMembershipFee: boolean; // Boolean!
+    partner: string | null; // String
+    purchase: NexusGenRootTypes['Purchase'] | null; // Purchase
+    stripePayment: NexusGenRootTypes['StripePayment'] | null; // StripePayment
+    subject: string; // String!
+    tenant: NexusGenRootTypes['Tenant']; // Tenant!
+    tenantId: string; // String!
+    type: NexusGenEnums['TransactionType']; // TransactionType!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string | null; // String
   }
   TumiEvent: { // field return type
     activeRegistration: NexusGenRootTypes['EventRegistration'] | null; // EventRegistration
@@ -930,6 +970,7 @@ export interface NexusGenFieldTypes {
     birthdate: NexusGenScalars['DateTime'] | null; // DateTime
     calendarToken: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    createdTransactions: NexusGenRootTypes['Transaction'][]; // [Transaction!]!
     currentTenant: NexusGenRootTypes['UsersOfTenants']; // UsersOfTenants!
     email: string; // String!
     email_verified: boolean; // Boolean!
@@ -949,6 +990,7 @@ export interface NexusGenFieldTypes {
     picture: string; // String!
     profileComplete: boolean; // Boolean!
     purchases: NexusGenRootTypes['Purchase'][]; // [Purchase!]!
+    transactions: NexusGenRootTypes['Transaction'][]; // [Transaction!]!
     university: string | null; // String
   }
   UsersOfTenants: { // field return type
@@ -1021,18 +1063,18 @@ export interface NexusGenFieldTypeNames {
     actualAmount: 'Decimal'
     amount: 'Decimal'
     calculationInfo: 'String'
+    complete: 'Boolean'
     confirmed: 'Boolean'
     createdAt: 'DateTime'
     details: 'String'
     event: 'TumiEvent'
     eventId: 'String'
     id: 'ID'
-    moneySent: 'Boolean'
-    moneySentTo: 'String'
     name: 'String'
     onInvoice: 'Boolean'
     receipts: 'Receipt'
     submittedAmount: 'Decimal'
+    transactions: 'Transaction'
   }
   EventOrganizer: { // field return type name
     createdAt: 'DateTime'
@@ -1056,11 +1098,11 @@ export interface NexusGenFieldTypeNames {
     eventId: 'String'
     id: 'ID'
     manualCheckin: 'Boolean'
-    payment: 'StripePayment'
-    paymentId: 'String'
     rating: 'Int'
     status: 'RegistrationStatus'
     submissions: 'EventSubmission'
+    transaction: 'Transaction'
+    transactionId: 'String'
     type: 'RegistrationType'
     user: 'User'
     userComment: 'String'
@@ -1081,6 +1123,8 @@ export interface NexusGenFieldTypeNames {
     sepaAllowed: 'Boolean'
     status: 'RegistrationStatus'
     targetEvent: 'TumiEvent'
+    transaction: 'Transaction'
+    transactionId: 'String'
   }
   EventSubmission: { // field return type name
     createdAt: 'DateTime'
@@ -1267,9 +1311,9 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     id: 'ID'
     items: 'LineItem'
-    payment: 'StripePayment'
-    paymentId: 'String'
     status: 'PurchaseStatus'
+    transaction: 'Transaction'
+    transactionId: 'String'
     user: 'User'
     userId: 'String'
   }
@@ -1339,7 +1383,6 @@ export interface NexusGenFieldTypeNames {
     amount: 'Decimal'
     checkoutSession: 'String'
     createdAt: 'DateTime'
-    eventRegistration: 'EventRegistration'
     events: 'Json'
     feeAmount: 'Decimal'
     id: 'ID'
@@ -1348,10 +1391,11 @@ export interface NexusGenFieldTypeNames {
     paymentIntent: 'String'
     paymentMethod: 'String'
     paymentMethodType: 'String'
-    purchase: 'Purchase'
     refundedAmount: 'Decimal'
     shipping: 'Json'
     status: 'String'
+    transaction: 'Transaction'
+    transactionId: 'String'
   }
   StripeUserData: { // field return type name
     customerId: 'String'
@@ -1369,6 +1413,28 @@ export interface NexusGenFieldTypeNames {
     shortName: 'String'
     statistics: 'statistics'
     tacPage: 'String'
+    transactions: 'Transaction'
+  }
+  Transaction: { // field return type name
+    amount: 'Decimal'
+    comment: 'String'
+    costItem: 'CostItem'
+    costItemId: 'String'
+    createdAt: 'DateTime'
+    createdBy: 'User'
+    creatorId: 'String'
+    eventRegistration: 'EventRegistration'
+    id: 'ID'
+    isMembershipFee: 'Boolean'
+    partner: 'String'
+    purchase: 'Purchase'
+    stripePayment: 'StripePayment'
+    subject: 'String'
+    tenant: 'Tenant'
+    tenantId: 'String'
+    type: 'TransactionType'
+    user: 'User'
+    userId: 'String'
   }
   TumiEvent: { // field return type name
     activeRegistration: 'EventRegistration'
@@ -1434,6 +1500,7 @@ export interface NexusGenFieldTypeNames {
     birthdate: 'DateTime'
     calendarToken: 'String'
     createdAt: 'DateTime'
+    createdTransactions: 'Transaction'
     currentTenant: 'UsersOfTenants'
     email: 'String'
     email_verified: 'Boolean'
@@ -1453,6 +1520,7 @@ export interface NexusGenFieldTypeNames {
     picture: 'String'
     profileComplete: 'Boolean'
     purchases: 'Purchase'
+    transactions: 'Transaction'
     university: 'String'
   }
   UsersOfTenants: { // field return type name

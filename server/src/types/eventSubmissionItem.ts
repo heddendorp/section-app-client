@@ -22,13 +22,7 @@ export const eventSubmissionItemType = objectType({
   definition(t) {
     t.field(EventSubmissionItem.id);
     t.field(EventSubmissionItem.createdAt);
-    t.field({
-      ...EventSubmissionItem.event,
-      resolve: (source, args, context) =>
-        context.prisma.tumiEvent.findUnique({
-          where: { id: source.eventId ?? '' },
-        }),
-    });
+    t.field(EventSubmissionItem.event);
     t.field(EventSubmissionItem.eventId);
     t.field(EventSubmissionItem.required);
     t.field(EventSubmissionItem.submissionTime);
@@ -36,13 +30,7 @@ export const eventSubmissionItemType = objectType({
     t.field(EventSubmissionItem.name);
     t.field(EventSubmissionItem.instruction);
     t.field(EventSubmissionItem.data);
-    t.field({
-      ...EventSubmissionItem.submissions,
-      resolve: (source, args, context) =>
-        context.prisma.eventSubmission.findMany({
-          where: { submissionItem: { id: source.id } },
-        }),
-    });
+    t.field(EventSubmissionItem.submissions);
     t.field({
       name: 'ownSubmissions',
       type: nonNull(list(nonNull(eventSubmissionType))),

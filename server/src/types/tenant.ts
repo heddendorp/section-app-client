@@ -23,6 +23,7 @@ export const tenantType = objectType({
     t.field(Tenant.aboutPage);
     t.field(Tenant.faqPage);
     t.field(Tenant.tacPage);
+    t.field(Tenant.transactions);
     t.field({
       name: 'statistics',
       type: nonNull(statisticsType),

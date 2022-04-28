@@ -22,5 +22,6 @@ export * from './statistics';
 export * from './stripePayment';
 export * from './stripeUserData';
 export * from './tenant';
+export * from './transaction';
 export * from './user';
 export * from './userOfTenant';

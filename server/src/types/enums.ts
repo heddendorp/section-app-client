@@ -10,6 +10,7 @@ import {
   Role,
   SubmissionItemType,
   SubmissionTime,
+  TransactionType,
 } from '../generated/nexus-prisma';
 
 export const roleEnum = enumType(Role);
@@ -22,3 +23,4 @@ export const registrationModeEnum = enumType(RegistrationMode);
 export const logSeverityEnum = enumType(LogSeverity);
 export const registrationStatusEnum = enumType(RegistrationStatus);
 export const purchaseStatusEnum = enumType(PurchaseStatus);
+export const transactionTypeEnum = enumType(TransactionType);

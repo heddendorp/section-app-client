@@ -44,15 +44,9 @@ export const userType = objectType({
     t.field(User.email);
     t.field(User.calendarToken);
     t.field(User.esnCardOverride);
-    t.field({
-      ...User.eventRegistrations,
-      resolve: (source, args, context) =>
-        context.prisma.user
-          .findUnique({
-            where: { id: source.id },
-          })
-          .eventRegistrations({ orderBy: { event: { start: 'desc' } } }),
-    });
+    t.field(User.eventRegistrations);
+    t.field(User.transactions);
+    t.field(User.createdTransactions);
     t.field({
       ...User.purchases,
       args: { skipCancelled: booleanArg({ default: false }) },

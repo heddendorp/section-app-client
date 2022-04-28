@@ -13,8 +13,7 @@ import { EventRegistration } from '../generated/nexus-prisma';
 import { RegistrationStatus } from '../generated/prisma';
 import { registrationStatusEnum } from './enums';
 import { eventRegistrationCodeType } from './eventRegistrationCode';
-import { EnvelopError } from '@envelop/core';
-import { GraphQLError } from 'graphql';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 export const eventRegistrationType = objectType({
   name: EventRegistration.$name,
@@ -30,7 +29,7 @@ export const eventRegistrationType = objectType({
           .findUnique({ where: { id: source.userId } })
           .then((res) => {
             if (!res) {
-              throw new EnvelopError('User not found', {
+              throw new GraphQLYogaError('User not found', {
                 code: 404,
               });
             }
@@ -45,14 +44,14 @@ export const eventRegistrationType = objectType({
           .findUnique({ where: { id: source.eventId } })
           .then((res) => {
             if (!res) {
-              throw new EnvelopError('Event not found');
+              throw new GraphQLYogaError('Event not found');
             }
             return res;
           }),
     });
     t.field(EventRegistration.eventId);
-    t.field(EventRegistration.payment);
-    t.field(EventRegistration.paymentId);
+    t.field(EventRegistration.transaction);
+    t.field(EventRegistration.transactionId);
     t.field(EventRegistration.checkInTime);
     t.field(EventRegistration.manualCheckin);
     t.field(EventRegistration.status);
@@ -141,7 +140,7 @@ export const getOneRegistrationQuery = queryField('registration', {
       })
       .then((res) => {
         if (!res) {
-          throw new GraphQLError('Registration not found');
+          throw new GraphQLYogaError('Registration not found');
         }
         return res;
       }),

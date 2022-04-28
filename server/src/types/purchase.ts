@@ -11,9 +11,9 @@ import {
 import { Purchase } from '../generated/nexus-prisma';
 import * as stripe from 'stripe';
 import { DateTime } from 'luxon';
-import { MembershipStatus } from '../generated/prisma';
+import { MembershipStatus, TransactionType } from '../generated/prisma';
 import { purchaseStatusEnum } from './enums';
-import { EnvelopError } from '@envelop/core';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripeClient: stripe.Stripe = require('stripe')(process.env.STRIPE_KEY);
@@ -47,7 +47,7 @@ export const purchaseType = objectType({
           .user()
           .then((res) => {
             if (!res) {
-              throw new EnvelopError('User not found');
+              throw new GraphQLYogaError('User not found');
             }
             return res;
           });
@@ -56,25 +56,8 @@ export const purchaseType = objectType({
     t.field(Purchase.status);
     // t.field(Purchase.productId);
     t.field(Purchase.userId);
-    t.field({
-      ...Purchase.payment,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.purchase
-          .findUnique({ where: { id: source.id } })
-          .payment()
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('Payment not found');
-            }
-            return res;
-          });
-      },
-    });
-    t.field(Purchase.paymentId);
+    t.field(Purchase.transactionId);
+    t.field(Purchase.transaction);
   },
 });
 
@@ -82,12 +65,8 @@ export const purchasesQuery = queryField('purchases', {
   type: nonNull(list(nonNull(purchaseType))),
   args: { limitToOwn: booleanArg({ default: true }) },
   resolve: async (parent, { limitToOwn }, context) => {
-    // info.cacheControl.setCacheHint({
-    //   maxAge: 10,
-    //   scope: CacheScope.Public,
-    // });
     if (!limitToOwn && context.assignment?.role !== 'ADMIN') {
-      throw new EnvelopError(
+      throw new GraphQLYogaError(
         'You are not allowed to view other users purchases'
       );
     }
@@ -109,12 +88,8 @@ export const purchasesQuery = queryField('purchases', {
 export const lmuPurchasesQuery = queryField('lmuPurchases', {
   type: nonNull(list(nonNull(purchaseType))),
   resolve: async (parent, args, context) => {
-    // info.cacheControl.setCacheHint({
-    //   maxAge: 10,
-    //   scope: CacheScope.Public,
-    // });
     if (context.assignment?.role !== 'ADMIN') {
-      throw new EnvelopError('You are not allowed to view these purchases');
+      throw new GraphQLYogaError('You are not allowed to view these purchases');
     }
     return context.prisma.purchase.findMany({
       where: {
@@ -149,7 +124,7 @@ export const purchaseQuery = queryField('purchase', {
       })
       .then((res) => {
         if (!res) {
-          throw new EnvelopError('Purchase not found');
+          throw new GraphQLYogaError('Purchase not found');
         }
         return res;
       });
@@ -168,15 +143,15 @@ export const updateAddressMutation = mutationField('updateAddress', {
         id,
       },
       include: {
-        payment: true,
+        transaction: { include: { stripePayment: true } },
       },
     });
-    const oldShipping = purchase?.payment
+    const oldShipping = purchase?.transaction?.stripePayment
       ?.shipping as unknown as stripe.Stripe.PaymentIntentUpdateParams.Shipping;
     const shipping = { ...oldShipping, ...{ address } };
     try {
       await stripeClient.paymentIntents.update(
-        purchase?.payment?.paymentIntent ?? '',
+        purchase?.transaction?.stripePayment?.paymentIntent ?? '',
         {
           shipping,
         }
@@ -230,7 +205,7 @@ export const createPurchaseFromCartMutation = mutationField(
         include: { items: { include: { product: true } } },
       });
       if (!cart) {
-        throw new EnvelopError('Cart not found for current User');
+        throw new GraphQLYogaError('Cart not found for current User');
       }
       let customerId;
       const userdata = await context.prisma.stripeUserData.findUnique({
@@ -294,23 +269,32 @@ export const createPurchaseFromCartMutation = mutationField(
         success_url: `${baseUrl}?success=true`,
         expires_at: Math.round(DateTime.now().plus({ hours: 5 }).toSeconds()),
       });
-      const payment = await context.prisma.stripePayment.create({
+      const transaction = await context.prisma.transaction.create({
         data: {
+          type: TransactionType.STRIPE,
+          subject: `Purchase in the TUMi shop`,
+          createdBy: { connect: { id: context.user?.id } },
           user: { connect: { id: context.user?.id } },
+          tenant: { connect: { id: context.tenant.id } },
           amount: checkoutSession.amount_total ?? 0,
-          paymentIntent:
-            typeof checkoutSession.payment_intent === 'string'
-              ? checkoutSession.payment_intent
-              : checkoutSession.payment_intent?.id ?? '',
-          checkoutSession: checkoutSession.id,
-          status: 'incomplete',
-          events: [
-            {
-              type: 'payment_intent.created',
-              name: 'created',
-              date: Date.now(),
+          stripePayment: {
+            create: {
+              amount: checkoutSession.amount_total ?? 0,
+              paymentIntent:
+                typeof checkoutSession.payment_intent === 'string'
+                  ? checkoutSession.payment_intent
+                  : checkoutSession.payment_intent?.id ?? '',
+              checkoutSession: checkoutSession.id,
+              status: 'incomplete',
+              events: [
+                {
+                  type: 'payment_intent.created',
+                  name: 'created',
+                  date: Date.now(),
+                },
+              ],
             },
-          ],
+          },
         },
       });
       await context.prisma.shoppingCart.update({
@@ -327,7 +311,7 @@ export const createPurchaseFromCartMutation = mutationField(
           items: {
             connect: cart.items.map((item) => ({ id: item.id })),
           },
-          payment: { connect: { id: payment.id } },
+          transaction: { connect: { id: transaction.id } },
         },
       });
     },

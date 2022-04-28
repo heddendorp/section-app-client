@@ -27,30 +27,8 @@ export const stripePaymentType = objectType({
       resolve: (payment) =>
         Math.max(0, (payment.netAmount ?? 0) - (payment.refundedAmount ?? 0)),
     });
-    t.field({
-      ...StripePayment.purchase,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.stripePayment
-          .findUnique({ where: { id: source.id } })
-          .purchase();
-      },
-    });
-    t.field({
-      ...StripePayment.eventRegistration,
-      resolve: (source, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 10,
-        //   scope: CacheScope.Public,
-        // });
-        return context.prisma.stripePayment
-          .findUnique({ where: { id: source.id } })
-          .eventRegistration();
-      },
-    });
+    t.field(StripePayment.transaction);
+    t.field(StripePayment.transactionId);
     t.field(StripePayment.checkoutSession);
   },
 });

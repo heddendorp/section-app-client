@@ -169,7 +169,7 @@ export const registerForEventMutation = mutationField('registerForEvent', {
         ? `http://localhost:4200/events/${eventId}`
         : `https://tumi.esn.world/events/${eventId}`;
       try {
-        const payment = await RegistrationService.createPayment(
+        const transaction = await RegistrationService.createPayment(
           context,
           [
             {
@@ -191,7 +191,11 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             id: registration.id,
           },
           data: {
-            payment: { connect: { id: payment.id } },
+            transaction: {
+              connect: {
+                id: transaction.id,
+              },
+            },
           },
         });
       } catch (e) {

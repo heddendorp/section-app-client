@@ -39,18 +39,7 @@ export const photoShare = objectType({
     t.field(PhotoShare.previewBlob);
     t.field(PhotoShare.creatorId);
     t.field(PhotoShare.type);
-    t.field({
-      ...PhotoShare.creator,
-      resolve: (source, args, context) =>
-        context.prisma.user
-          .findUnique({ where: { id: source.creatorId } })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('User not found');
-            }
-            return res;
-          }),
-    });
+    t.field(PhotoShare.creator);
     t.field({
       name: 'src',
       type: nonNull('String'),

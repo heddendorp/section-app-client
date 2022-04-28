@@ -147,7 +147,6 @@ model User {
   // User relations
   createdEvents       TumiEvent[]
   eventRegistrations  EventRegistration[]
-  payments            StripePayment[]
   photos              PhotoShare[]
   productImages       ProductImage[]
   purchases           Purchase[]
@@ -156,7 +155,7 @@ model User {
   createdTransactions Transaction[]       @relation("TransactionCreator")
   createdInvites      Invite[]            @relation("InviteCreator")
   redeemedInvites     Invite[]
-  Transaction         Transaction[]
+  transactions        Transaction[]
 }
 
 model Invite {
@@ -213,29 +212,31 @@ model StripePayment {
   refundedAmount        Decimal?
   shipping              Json?
   status                String
-  user                  User                   @relation(fields: [userId], references: [id])
-  userId                String                 @db.Uuid
-  transactions          Transaction[]
+  transaction           Transaction?           @relation(fields: [transactionId], references: [id])
+  transactionId         String?                @unique @db.Uuid
 }
 
 model Transaction {
-  id              String          @id @default(uuid()) @db.Uuid
-  createdAt       DateTime        @default(now())
-  comment         String?
-  createdBy       User            @relation("TransactionCreator", fields: [creatorId], references: [id])
-  creatorId       String          @db.Uuid
-  event           TumiEvent?      @relation(fields: [tumiEventId], references: [id])
-  isMembershipFee Boolean         @default(false)
-  partner         String?
-  stipePayment    StripePayment?  @relation(fields: [stripePaymentId], references: [id])
-  stripePaymentId String?         @db.Uuid
-  subject         String
-  tenant          Tenant          @relation(fields: [tenantId], references: [id])
-  tenantId        String          @db.Uuid
-  tumiEventId     String?         @db.Uuid
-  type            TransactionType
-  user            User?           @relation(fields: [userId], references: [id])
-  userId          String?         @db.Uuid
+  id                    String                 @id @default(uuid()) @db.Uuid
+  createdAt             DateTime               @default(now())
+  amount                Decimal
+  comment               String?
+  costItem              CostItem?              @relation(fields: [costItemId], references: [id])
+  createdBy             User                   @relation("TransactionCreator", fields: [creatorId], references: [id])
+  creatorId             String                 @db.Uuid
+  eventRegistration     EventRegistration?
+  eventRegistrationCode EventRegistrationCode?
+  isMembershipFee       Boolean                @default(false)
+  partner               String?                @default("User")
+  purchase              Purchase?
+  stripePayment         StripePayment?
+  subject               String
+  tenant                Tenant                 @relation(fields: [tenantId], references: [id])
+  tenantId              String                 @db.Uuid
+  type                  TransactionType
+  user                  User?                  @relation(fields: [userId], references: [id])
+  userId                String?                @db.Uuid
+  costItemId            String?                @db.Uuid
 }
 
 /// To be removed soon
@@ -346,7 +347,6 @@ model TumiEvent {
   start                        DateTime
   submissionItems              EventSubmissionItem[]
   title                        String
-  transactions                 Transaction[]
 }
 
 model Product {
@@ -386,11 +386,13 @@ model Purchase {
   createdAt          DateTime       @default(now())
   cancellationReason String?
   items              LineItem[]
-  payment            StripePayment  @relation(fields: [paymentId], references: [id])
+  payment            StripePayment? @relation(fields: [paymentId], references: [id])
   status             PurchaseStatus @default(PENDING)
-  paymentId          String         @unique @db.Uuid
+  paymentId          String?        @unique @db.Uuid
   user               User           @relation(fields: [userId], references: [id])
   userId             String         @db.Uuid
+  transaction        Transaction?   @relation(fields: [transactionId], references: [id])
+  transactionId      String?        @unique @db.Uuid
 }
 
 model LineItem {
@@ -410,20 +412,20 @@ model LineItem {
 }
 
 model CostItem {
-  id              String    @id @default(uuid()) @db.Uuid
-  createdAt       DateTime  @default(now())
+  id              String        @id @default(uuid()) @db.Uuid
+  createdAt       DateTime      @default(now())
   actualAmount    Decimal?
   amount          Decimal
   calculationInfo String
-  confirmed       Boolean   @default(false)
+  confirmed       Boolean       @default(false)
+  complete        Boolean       @default(false)
   details         String?
-  event           TumiEvent @relation(fields: [eventId], references: [id])
-  eventId         String    @db.Uuid
-  moneySent       Boolean   @default(false)
-  moneySentTo     String?   @db.Uuid
+  event           TumiEvent     @relation(fields: [eventId], references: [id])
+  eventId         String        @db.Uuid
   name            String
   onInvoice       Boolean
   receipts        Receipt[]
+  transactions    Transaction[]
 }
 
 model Receipt {
@@ -475,6 +477,8 @@ model EventRegistration {
   user                  User                   @relation(fields: [userId], references: [id])
   userComment           String?
   userId                String                 @db.Uuid
+  transaction           Transaction?           @relation(fields: [transactionId], references: [id])
+  transactionId         String?                @unique @db.Uuid
 }
 
 model EventRegistrationCode {
@@ -491,6 +495,8 @@ model EventRegistrationCode {
   payment                StripePayment?      @relation(fields: [paymentId], references: [id])
   paymentId              String?             @unique @db.Uuid
   connectedRegistrations EventRegistration[]
+  transaction            Transaction?        @relation(fields: [transactionId], references: [id])
+  transactionId          String?             @unique @db.Uuid
 }
 
 model EventSubmissionItem {

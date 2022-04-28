@@ -28,18 +28,18 @@ type CostItem {
   actualAmount: Decimal
   amount: Decimal!
   calculationInfo: String!
+  complete: Boolean!
   confirmed: Boolean!
   createdAt: DateTime!
   details: String
   event: TumiEvent!
   eventId: String!
   id: ID!
-  moneySent: Boolean!
-  moneySentTo: String
   name: String!
   onInvoice: Boolean!
   receipts: [Receipt!]!
   submittedAmount: Decimal!
+  transactions: [Transaction!]!
 }
 
 """Additional inputs to create an event from a template"""
@@ -140,11 +140,11 @@ type EventRegistration {
   eventId: String!
   id: ID!
   manualCheckin: Boolean!
-  payment: StripePayment
-  paymentId: String
   rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
+  transaction: Transaction
+  transactionId: String
   type: RegistrationType!
   user: User!
   userComment: String
@@ -166,6 +166,8 @@ type EventRegistrationCode {
   sepaAllowed: Boolean!
   status: RegistrationStatus!
   targetEvent: TumiEvent!
+  transaction: Transaction
+  transactionId: String
 }
 
 type EventSubmission {
@@ -447,9 +449,9 @@ type Purchase {
   createdAt: DateTime!
   id: ID!
   items: [LineItem!]!
-  payment: StripePayment!
-  paymentId: String!
   status: PurchaseStatus!
+  transaction: Transaction
+  transactionId: String
   user: User!
   userId: String!
 }
@@ -575,7 +577,6 @@ type StripePayment {
   amount: Decimal!
   checkoutSession: String!
   createdAt: DateTime!
-  eventRegistration: EventRegistration
 
   """Array of events with their timestamps"""
   events: [Json]!
@@ -586,10 +587,11 @@ type StripePayment {
   paymentIntent: String!
   paymentMethod: String
   paymentMethodType: String
-  purchase: Purchase
   refundedAmount: Decimal
   shipping: Json
   status: String!
+  transaction: Transaction
+  transactionId: String
 }
 
 type StripeUserData {
@@ -628,6 +630,36 @@ type Tenant {
   shortName: String!
   statistics: statistics!
   tacPage: String
+  transactions: [Transaction!]!
+}
+
+type Transaction {
+  amount: Decimal!
+  comment: String
+  costItem: CostItem
+  costItemId: String
+  createdAt: DateTime!
+  createdBy: User!
+  creatorId: String!
+  eventRegistration: EventRegistration
+  id: ID!
+  isMembershipFee: Boolean!
+  partner: String
+  purchase: Purchase
+  stripePayment: StripePayment
+  subject: String!
+  tenant: Tenant!
+  tenantId: String!
+  type: TransactionType!
+  user: User
+  userId: String
+}
+
+enum TransactionType {
+  CASH
+  PAYPAL
+  STRIPE
+  TRANSFER
 }
 
 """Actual instande of an TumiEventbased on a template"""
@@ -785,6 +817,7 @@ type User {
   birthdate: DateTime
   calendarToken: String!
   createdAt: DateTime!
+  createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants!
   email: String!
   email_verified: Boolean!
@@ -810,6 +843,7 @@ type User {
   picture: String!
   profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
+  transactions: [Transaction!]!
   university: String
 }
 

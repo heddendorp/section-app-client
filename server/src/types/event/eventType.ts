@@ -52,10 +52,6 @@ export const eventType = objectType({
     t.field(TumiEvent.shouldBeReportedToInsurance);
     t.nonNull.string('freeParticipantSpots', {
       resolve: (root, args, context) => {
-        /*info.cacheControl.setCacheHint({
-          maxAge: 10,
-          scope: CacheScope.Public,
-        });*/
         const quota = root.participantRegistrationCount / root.participantLimit;
         if (quota < 0.5) {
           return 'Many free spots';

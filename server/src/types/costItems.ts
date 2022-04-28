@@ -18,11 +18,7 @@ export const costItemType = objectType({
   definition(t) {
     t.field(CostItem.id);
     t.field(CostItem.createdAt);
-    t.field({
-      ...CostItem.event,
-      // resolve: (source, args, context) =>
-      //   context.prisma.tumiEvent.findUnique({ where: { id: source.eventId } }),
-    });
+    t.field(CostItem.event);
     t.field(CostItem.eventId);
     t.field(CostItem.name);
     t.field(CostItem.calculationInfo);
@@ -30,9 +26,9 @@ export const costItemType = objectType({
     t.field(CostItem.amount);
     t.field(CostItem.actualAmount);
     t.field(CostItem.confirmed);
+    t.field(CostItem.complete);
     t.field(CostItem.onInvoice);
-    t.field(CostItem.moneySent);
-    t.field(CostItem.moneySentTo);
+    t.field(CostItem.transactions);
     t.field({
       name: 'submittedAmount',
       type: nonNull('Decimal'),

@@ -8,33 +8,9 @@ export const receiptType = objectType({
   definition(t) {
     t.field(Receipt.id);
     t.field(Receipt.createdAt);
-    t.field({
-      ...Receipt.user,
-      resolve: (source, args, context) =>
-        context.prisma.user
-          .findUnique({ where: { id: source.userId } })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('User not found');
-            }
-            return res;
-          }),
-    });
+    t.field(Receipt.user);
     t.field(Receipt.userId);
-    t.field({
-      ...Receipt.costItem,
-      resolve: (source, args, context) =>
-        context.prisma.costItem
-          .findUnique({
-            where: { id: source.costItemId },
-          })
-          .then((res) => {
-            if (!res) {
-              throw new EnvelopError('CostItem not found');
-            }
-            return res;
-          }),
-    });
+    t.field(Receipt.costItem);
     t.field(Receipt.costItemId);
     t.field(Receipt.amount);
     t.field(Receipt.container);

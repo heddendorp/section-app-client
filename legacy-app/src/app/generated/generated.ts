@@ -1008,6 +1008,13 @@ export type Tenant = {
   tacPage?: Maybe<Scalars['String']>;
 };
 
+export enum TransactionType {
+  Cash = 'CASH',
+  Paypal = 'PAYPAL',
+  Stripe = 'STRIPE',
+  Transfer = 'TRANSFER'
+}
+
 /** Actual instande of an TumiEventbased on a template */
 export type TumiEvent = {
   __typename?: 'TumiEvent';
