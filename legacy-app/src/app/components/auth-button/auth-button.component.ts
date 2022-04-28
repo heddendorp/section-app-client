@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
-import { filter, retry, tap } from 'rxjs';
+import { filter, map, retry, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router } from '@angular/router';
 import { retryBackoff } from 'backoff-rxjs';
@@ -23,7 +23,13 @@ export class AuthButtonComponent {
     auth.isAuthenticated$.pipe(filter((auth) => auth)).subscribe(() => {
       getUser
         .fetch()
-        .pipe(retryBackoff({ initialInterval: 100, maxRetries: 5 }))
+        .pipe(
+          map((user) => {
+            if (!user.data.currentUser) throw new Error('not logged in');
+            return user;
+          }),
+          retryBackoff({ initialInterval: 100, maxRetries: 5 })
+        )
         .subscribe({
           next: (user) => {
             if (

@@ -256,11 +256,11 @@ export const getById = queryField('userById', {
 });
 
 export const getCurrent = queryField('currentUser', {
-  type: nonNull(userType),
+  type: userType,
   description: 'Returns the logged in user if found or throws an error',
   resolve: async (source, args, context) => {
     if (!context.user) {
-      throw new GraphQLYogaError('Not logged in');
+      return null;
     }
     return context.user;
   },

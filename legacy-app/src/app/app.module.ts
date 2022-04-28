@@ -39,8 +39,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './modules/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
-import { IfRoleDirective } from '@tumi/legacy-app/modules/shared/directives/if-role.directive';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { Router, Scroll } from '@angular/router';
@@ -108,14 +106,29 @@ import * as Sentry from '@sentry/angular';
           return forward(operation);
         });
         const error = onError(({ graphQLErrors, networkError }) => {
-          if (graphQLErrors)
+          if (graphQLErrors) {
+            Sentry.addBreadcrumb({
+              message: 'GraphQL error',
+              category: 'GraphQL error',
+              type: 'error',
+              data: graphQLErrors,
+            });
             graphQLErrors.map(({ message, locations, path }) =>
               console.log(
                 `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
               )
             );
+          }
 
-          if (networkError) console.log(`[Network error]: `, networkError);
+          if (networkError) {
+            Sentry.addBreadcrumb({
+              message: 'Network error',
+              category: 'GraphQL error',
+              type: 'error',
+              data: networkError,
+            });
+            console.log(`[Network error]: `, networkError);
+          }
         });
         const link = error.concat(addClientName).concat(http);
         const cache = new InMemoryCache({
