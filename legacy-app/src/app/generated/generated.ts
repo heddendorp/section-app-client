@@ -718,8 +718,8 @@ export type Purchase = {
   id: Scalars['ID'];
   items: Array<LineItem>;
   status: PurchaseStatus;
-  transaction?: Maybe<Transaction>;
-  transactionId?: Maybe<Scalars['String']>;
+  transaction: Transaction;
+  transactionId: Scalars['String'];
   user: User;
   userId: Scalars['String'];
 };
@@ -966,8 +966,8 @@ export type StripePayment = {
   refundedAmount?: Maybe<Scalars['Decimal']>;
   shipping?: Maybe<Scalars['Json']>;
   status: Scalars['String'];
-  transaction?: Maybe<Transaction>;
-  transactionId?: Maybe<Scalars['String']>;
+  transaction: Transaction;
+  transactionId: Scalars['String'];
 };
 
 export type StripeUserData = {
@@ -1833,14 +1833,14 @@ export type GetLogsQuery = { __typename?: 'Query', logs: Array<{ __typename?: 'A
 export type GetTenantPurchasesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantPurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, createdAt: any, status: PurchaseStatus, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transaction?: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, amount: any } | null } | null }> };
+export type GetTenantPurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, createdAt: any, status: PurchaseStatus, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transaction: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, amount: any } | null } }> };
 
 export type GetPurchaseQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetPurchaseQuery = { __typename?: 'Query', purchase: { __typename?: 'Purchase', id: string, status: PurchaseStatus, createdAt: any, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transaction?: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, events: Array<any | null>, shipping?: any | null, amount: any, netAmount?: any | null, feeAmount?: any | null } | null } | null, items: Array<{ __typename?: 'LineItem', id: string, quantity: number, product: { __typename?: 'Product', id: string, title: string, leadImage?: { __typename?: 'ProductImage', id: string, src: string } | null }, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }> }> } };
+export type GetPurchaseQuery = { __typename?: 'Query', purchase: { __typename?: 'Purchase', id: string, status: PurchaseStatus, createdAt: any, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transaction: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, events: Array<any | null>, shipping?: any | null, amount: any, netAmount?: any | null, feeAmount?: any | null } | null }, items: Array<{ __typename?: 'LineItem', id: string, quantity: number, product: { __typename?: 'Product', id: string, title: string, leadImage?: { __typename?: 'ProductImage', id: string, src: string } | null }, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }> }> } };
 
 export type UpdateTenantMutationVariables = Exact<{
   id: Scalars['ID'];
