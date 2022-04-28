@@ -43,7 +43,7 @@ export class NewUserPageComponent implements OnInit {
         // this.router.navigate(['/', 'profile']);
       }
       console.log(data.currentUser);
-      this.welcomeForm.patchValue(data.currentUser);
+      this.welcomeForm.patchValue(data.currentUser ?? {});
     });
   }
 

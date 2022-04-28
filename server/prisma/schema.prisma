@@ -93,6 +93,13 @@ enum LogSeverity {
   ERROR
 }
 
+enum TransactionType {
+  CASH
+  STRIPE
+  TRANSFER
+  PAYPAL
+}
+
 /// One Tenant of the app, most likely an ESN section
 model Tenant {
   id                      String                  @id @default(uuid()) @db.Uuid
@@ -118,37 +125,38 @@ model Tenant {
 
 /// One User of the app
 model User {
-  id                 String              @id @default(uuid()) @db.Uuid
-  createdAt          DateTime            @default(now())
+  id                  String              @id @default(uuid()) @db.Uuid
+  createdAt           DateTime            @default(now())
   /// Id from auth0 for this user
-  authId             String              @unique
+  authId              String              @unique
   // User attributes
-  birthdate          DateTime?
-  email              String
-  email_verified     Boolean
-  esnCardOverride    Boolean             @default(false)
-  partyAnimals       Boolean             @default(false)
-  firstName          String
-  iban               String?
-  lastName           String
-  paypal             String?
-  phone              String?
-  picture            String
-  university         String?
+  birthdate           DateTime?
+  email               String
+  email_verified      Boolean
+  esnCardOverride     Boolean             @default(false)
+  partyAnimals        Boolean             @default(false)
+  firstName           String
+  iban                String?
+  lastName            String
+  paypal              String?
+  phone               String?
+  picture             String
+  university          String?
   // Calendar fucntionality
-  calendarToken      String              @unique @default(uuid()) @db.Uuid
+  calendarToken       String              @unique @default(uuid()) @db.Uuid
   // User relations
-  createdEvents      TumiEvent[]
-  eventRegistrations EventRegistration[]
-  payments           StripePayment[]
-  photos             PhotoShare[]
-  productImages      ProductImage[]
-  purchases          Purchase[]
-  receipts           Receipt[]
-  tenants            UsersOfTenants[]
-  transactions       Transaction[]
-  createdInvites     Invite[]            @relation("InviteCreator")
-  redeemedInvites    Invite[]
+  createdEvents       TumiEvent[]
+  eventRegistrations  EventRegistration[]
+  payments            StripePayment[]
+  photos              PhotoShare[]
+  productImages       ProductImage[]
+  purchases           Purchase[]
+  receipts            Receipt[]
+  tenants             UsersOfTenants[]
+  createdTransactions Transaction[]       @relation("TransactionCreator")
+  createdInvites      Invite[]            @relation("InviteCreator")
+  redeemedInvites     Invite[]
+  Transaction         Transaction[]
 }
 
 model Invite {
@@ -211,18 +219,23 @@ model StripePayment {
 }
 
 model Transaction {
-  id              String        @id @default(uuid()) @db.Uuid
-  createdAt       DateTime      @default(now())
-  payment         StripePayment @relation(fields: [stripePaymentId], references: [id])
+  id              String          @id @default(uuid()) @db.Uuid
+  createdAt       DateTime        @default(now())
+  comment         String?
+  createdBy       User            @relation("TransactionCreator", fields: [creatorId], references: [id])
+  creatorId       String          @db.Uuid
+  event           TumiEvent?      @relation(fields: [tumiEventId], references: [id])
+  isMembershipFee Boolean         @default(false)
+  partner         String?
+  stipePayment    StripePayment?  @relation(fields: [stripePaymentId], references: [id])
+  stripePaymentId String?         @db.Uuid
   subject         String
-  user            User?         @relation(fields: [userId], references: [id])
-  event           TumiEvent?    @relation(fields: [tumiEventId], references: [id])
-  tenant          Tenant?       @relation(fields: [tenantId], references: [id])
-  isMembershipFee Boolean
-  stripePaymentId String        @db.Uuid
-  userId          String?       @db.Uuid
-  tumiEventId     String?       @db.Uuid
-  tenantId        String?       @db.Uuid
+  tenant          Tenant          @relation(fields: [tenantId], references: [id])
+  tenantId        String          @db.Uuid
+  tumiEventId     String?         @db.Uuid
+  type            TransactionType
+  user            User?           @relation(fields: [userId], references: [id])
+  userId          String?         @db.Uuid
 }
 
 /// To be removed soon

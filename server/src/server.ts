@@ -61,6 +61,7 @@ const graphQLServer = createServer({
   plugins: envelopPlugins,
   parserCache: true,
   validationCache: true,
+  maskedErrors: false,
 });
 
 Sentry.init({
