@@ -56,7 +56,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - run: echo cat legacy-app/src/environments/environment.prod.ts
+      - run: cat legacy-app/src/environments/environment.prod.ts
 
       - name: Update version in environment
         id: update-version
@@ -66,7 +66,7 @@ jobs:
           find: PROD_VERSION
           replace: ${{ github.sha }}
 
-      - run: echo cat legacy-app/src/environments/environment.prod.ts
+      - run: cat legacy-app/src/environments/environment.prod.ts
 
       - name: Set outputs
         id: vars

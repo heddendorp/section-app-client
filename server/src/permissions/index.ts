@@ -131,13 +131,13 @@ export const permissions = shield(
     fallbackRule: deny,
     allowExternalErrors: true,
     fallbackError: (err: unknown) => {
+      Sentry.addBreadcrumb({
+        category: 'shield',
+        type: 'debug',
+        message: 'Shield not authorized',
+        level: Severity.Warning,
+      });
       if (err) {
-        Sentry.addBreadcrumb({
-          category: 'shield',
-          type: 'debug',
-          message: 'Shield not authorized',
-          level: Severity.Warning,
-        });
         Sentry.captureException(err);
         if (err instanceof Error) {
           return err;
