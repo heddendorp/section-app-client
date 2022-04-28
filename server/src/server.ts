@@ -15,7 +15,6 @@ import { envelopPlugins } from './getEnveloped';
 import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
-import { prismaUtils } from './utils';
 
 declare global {
   namespace NodeJS {
@@ -119,8 +118,8 @@ const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
   app.listen(port, () => {
-    prismaUtils().then(() => {
-      console.log(`DB actions finished`);
-    });
+    // prismaUtils().then(() => {
+    //   console.log(`DB actions finished`);
+    // });
     console.log(`GraphQL server is running on port ${port}.`);
   });

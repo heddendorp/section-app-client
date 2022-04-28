@@ -362,7 +362,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     status: NexusGenEnums['PurchaseStatus']; // PurchaseStatus!
-    transactionId?: string | null; // String
+    transactionId: string; // String!
     userId: string; // String!
   }
   Query: {};
@@ -397,7 +397,7 @@ export interface NexusGenObjects {
     refundedAmount?: NexusGenScalars['Decimal'] | null; // Decimal
     shipping?: NexusGenScalars['Json'] | null; // Json
     status: string; // String!
-    transactionId?: string | null; // String
+    transactionId: string; // String!
   }
   StripeUserData: { // root type
     customerId: string; // String!
@@ -782,8 +782,8 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     items: NexusGenRootTypes['LineItem'][]; // [LineItem!]!
     status: NexusGenEnums['PurchaseStatus']; // PurchaseStatus!
-    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
-    transactionId: string | null; // String
+    transaction: NexusGenRootTypes['Transaction']; // Transaction!
+    transactionId: string; // String!
     user: NexusGenRootTypes['User']; // User!
     userId: string; // String!
   }
@@ -864,8 +864,8 @@ export interface NexusGenFieldTypes {
     refundedAmount: NexusGenScalars['Decimal'] | null; // Decimal
     shipping: NexusGenScalars['Json'] | null; // Json
     status: string; // String!
-    transaction: NexusGenRootTypes['Transaction'] | null; // Transaction
-    transactionId: string | null; // String
+    transaction: NexusGenRootTypes['Transaction']; // Transaction!
+    transactionId: string; // String!
   }
   StripeUserData: { // field return type
     customerId: string; // String!

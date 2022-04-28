@@ -212,8 +212,8 @@ model StripePayment {
   refundedAmount        Decimal?
   shipping              Json?
   status                String
-  transaction           Transaction?           @relation(fields: [transactionId], references: [id])
-  transactionId         String?                @unique @db.Uuid
+  transaction           Transaction            @relation(fields: [transactionId], references: [id])
+  transactionId         String                 @unique @db.Uuid
 }
 
 model Transaction {
@@ -392,8 +392,8 @@ model Purchase {
   paymentId          String?        @unique @db.Uuid
   user               User           @relation(fields: [userId], references: [id])
   userId             String         @db.Uuid
-  transaction        Transaction?   @relation(fields: [transactionId], references: [id])
-  transactionId      String?        @unique @db.Uuid
+  transaction        Transaction    @relation(fields: [transactionId], references: [id])
+  transactionId      String         @unique @db.Uuid
 }
 
 model LineItem {

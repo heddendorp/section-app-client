@@ -450,8 +450,8 @@ type Purchase {
   id: ID!
   items: [LineItem!]!
   status: PurchaseStatus!
-  transaction: Transaction
-  transactionId: String
+  transaction: Transaction!
+  transactionId: String!
   user: User!
   userId: String!
 }
@@ -590,8 +590,8 @@ type StripePayment {
   refundedAmount: Decimal
   shipping: Json
   status: String!
-  transaction: Transaction
-  transactionId: String
+  transaction: Transaction!
+  transactionId: String!
 }
 
 type StripeUserData {
