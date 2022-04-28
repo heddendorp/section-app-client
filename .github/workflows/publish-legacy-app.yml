@@ -171,7 +171,7 @@ jobs:
           replace: ${{ github.sha }}
 
       - name: Prepare yarn
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '17'
           cache: 'yarn'
