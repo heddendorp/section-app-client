@@ -41,7 +41,7 @@ query getRegistrationForAdmin($id: ID!) {
     }
     transaction {
       id
-      stripePayment{
+      stripePayment {
         id
         status
         netAmount
@@ -137,7 +137,7 @@ query getEventRegistrationCode($registrationId: ID!) {
       }
       transaction {
         id
-        stripePayment{
+        stripePayment {
           id
           status
           paymentMethodType
@@ -157,7 +157,7 @@ query getEventRegistrationCode($registrationId: ID!) {
       }
       transaction {
         id
-        stripePayment{
+        stripePayment {
           id
           status
           paymentMethodType
