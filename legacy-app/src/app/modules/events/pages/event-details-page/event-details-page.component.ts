@@ -24,12 +24,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TraceClassDecorator } from '@sentry/angular';
 
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
   styleUrls: ['./event-details-page.component.scss'],
 })
+@TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
   public user$: Observable<LoadEventQuery['currentUser']>;

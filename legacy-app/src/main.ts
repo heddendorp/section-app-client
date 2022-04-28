@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular';
 import { BrowserTracing } from '@sentry/tracing';
+import { getActiveTransaction } from '@sentry/angular';
 
 if (environment.production) {
   enableProdMode();
@@ -26,6 +27,20 @@ if (environment.production) {
   });
 }
 
+const activeTransaction = getActiveTransaction();
+const bootstrapSpan =
+  activeTransaction &&
+  activeTransaction.startChild({
+    description: 'platform-browser-dynamic',
+    op: 'ui.angular.bootstrap',
+  });
+
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+  .then(() => console.log(`Bootstrap success`))
+  .catch((err) => console.error(err))
+  .finally(() => {
+    if (bootstrapSpan) {
+      bootstrapSpan.finish();
+    }
+  });

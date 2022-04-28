@@ -11,12 +11,14 @@ import {
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { TraceClassDecorator } from '@sentry/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
+@TraceClassDecorator()
 export class AppComponent {
   public appState: Observable<'ok' | 'down' | 'maintenance' | string>;
   public showNavigation$ = new BehaviorSubject(true);

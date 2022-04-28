@@ -17,12 +17,14 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
+import { TraceClassDecorator } from '@sentry/angular';
 
 @Component({
   selector: 'app-event-list-page',
   templateUrl: './event-list-page.component.html',
   styleUrls: ['./event-list-page.component.scss'],
 })
+@TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new FormControl(true);
