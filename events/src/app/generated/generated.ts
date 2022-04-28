@@ -89,9 +89,11 @@ export type CreateEventTemplateInput = {
   description: Scalars['String'];
   duration: Scalars['Decimal'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   title: Scalars['String'];
 };
 
@@ -128,7 +130,7 @@ export type CreateSubmissionItemInput = {
 
 /** New user input object */
 export type CreateUserInput = {
-  birthdate: Scalars['DateTime'];
+  birthdate?: InputMaybe<Scalars['DateTime']>;
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone?: InputMaybe<Scalars['String']>;
@@ -162,10 +164,12 @@ export type EventRegistration = {
   manualCheckin: Scalars['Boolean'];
   payment?: Maybe<StripePayment>;
   paymentId?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Int']>;
   status: RegistrationStatus;
   submissions: Array<EventSubmission>;
   type: RegistrationType;
   user: User;
+  userComment?: Maybe<Scalars['String']>;
   userId: Scalars['String'];
 };
 
@@ -231,9 +235,11 @@ export type EventTemplate = {
   finances: Scalars['Json'];
   icon: Scalars['String'];
   id: Scalars['ID'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   tenant: Tenant;
   title: Scalars['String'];
 };
@@ -327,9 +333,11 @@ export type Mutation = {
   deleteTemplate?: Maybe<EventTemplate>;
   deregisterFromEvent?: Maybe<TumiEvent>;
   increaseLineItemQuantity?: Maybe<LineItem>;
+  rateEvent?: Maybe<TumiEvent>;
   registerForEvent: TumiEvent;
-  /** Add a new user to the database */
+  /** Add a new user to the database or update existing */
   registerUser: User;
+  removeSubmissionFromEvent: TumiEvent;
   updateAddress: Purchase;
   updateCostItemsFromTemplate?: Maybe<TumiEvent>;
   updateESNcard?: Maybe<User>;
@@ -353,6 +361,7 @@ export type Mutation = {
   updateUserStatus: User;
   useInvite: Invite;
   useRegistrationCode: EventRegistrationCode;
+  verifyDCC?: Maybe<Scalars['Json']>;
   /** Send a verification email to a user (to the current user if no id is provided) */
   verifyEmail: User;
 };
@@ -465,6 +474,12 @@ export type MutationIncreaseLineItemQuantityArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationRateEventArgs = {
+  comment?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  rating: Scalars['Int'];
+};
+
 export type MutationRegisterForEventArgs = {
   eventId: Scalars['ID'];
   price?: InputMaybe<Scalars['Json']>;
@@ -474,6 +489,10 @@ export type MutationRegisterForEventArgs = {
 
 export type MutationRegisterUserArgs = {
   userInput: CreateUserInput;
+};
+
+export type MutationRemoveSubmissionFromEventArgs = {
+  id: Scalars['ID'];
 };
 
 export type MutationUpdateAddressArgs = {
@@ -561,6 +580,10 @@ export type MutationUseInviteArgs = {
 export type MutationUseRegistrationCodeArgs = {
   id: Scalars['ID'];
   price?: InputMaybe<Scalars['Json']>;
+};
+
+export type MutationVerifyDccArgs = {
+  certificate: Scalars['String'];
 };
 
 export type MutationVerifyEmailArgs = {
@@ -669,7 +692,7 @@ export type Query = {
   costItem: CostItem;
   costItemsForEvent: Array<CostItem>;
   currentTenant?: Maybe<Tenant>;
-  /** Returns the logged in user if found or null */
+  /** Returns the logged in user if found or throws an error */
   currentUser?: Maybe<User>;
   /** Get one event by ID */
   event: TumiEvent;
@@ -698,6 +721,7 @@ export type Query = {
   purchase: Purchase;
   purchases: Array<Purchase>;
   registration: EventRegistration;
+  registrationCount: Scalars['Int'];
   registrations: Array<EventRegistration>;
   templateCategories: Array<EventTemplateCategory>;
   templateCategory?: Maybe<EventTemplateCategory>;
@@ -727,7 +751,10 @@ export type QueryEventRegistrationCodeArgs = {
 };
 
 export type QueryEventRegistrationCodesArgs = {
+  includePassed?: InputMaybe<Scalars['Boolean']>;
   includePrivate?: InputMaybe<Scalars['Boolean']>;
+  includeUsed?: InputMaybe<Scalars['Boolean']>;
+  orderByEvent?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type QueryEventTemplateArgs = {
@@ -768,7 +795,13 @@ export type QueryRegistrationArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryRegistrationCountArgs = {
+  statusList?: InputMaybe<Array<RegistrationStatus>>;
+};
+
 export type QueryRegistrationsArgs = {
+  pageIndex?: InputMaybe<Scalars['Int']>;
+  pageLength?: InputMaybe<Scalars['Int']>;
   statusList?: InputMaybe<Array<RegistrationStatus>>;
 };
 
@@ -861,6 +894,7 @@ export type StripePayment = {
   feeAmount?: Maybe<Scalars['Decimal']>;
   id: Scalars['ID'];
   netAmount?: Maybe<Scalars['Decimal']>;
+  netLessRefundAmount: Scalars['Decimal'];
   paymentIntent: Scalars['String'];
   paymentMethod?: Maybe<Scalars['String']>;
   paymentMethodType?: Maybe<Scalars['String']>;
@@ -934,10 +968,13 @@ export type TumiEvent = {
   freeParticipantSpots: Scalars['String'];
   icon: Scalars['String'];
   id: Scalars['ID'];
+  insuranceDescription: Scalars['String'];
   location: Scalars['String'];
+  needsRating: Scalars['Boolean'];
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
+  organizerRatings?: Maybe<Scalars['Float']>;
   /** Indicates whether the current user can register to this event as Organizer */
   organizerRegistrationPossible: Scalars['Boolean'];
   organizerRegistrations: Array<EventRegistration>;
@@ -949,6 +986,8 @@ export type TumiEvent = {
   organizersRegistered: Scalars['Int'];
   ownRegistrations: Array<EventRegistration>;
   participantLimit: Scalars['Int'];
+  participantRatings?: Maybe<Scalars['Float']>;
+  participantRegistrationCount: Scalars['Int'];
   /** Indicates whether the current user can register to this event as participant */
   participantRegistrationPossible: Scalars['Json'];
   participantRegistrations: Array<EventRegistration>;
@@ -956,7 +995,10 @@ export type TumiEvent = {
   participantText: Scalars['String'];
   /** Number of users that are checked in on the event */
   participantsAttended: Scalars['Int'];
-  /** Number of users registered as participant to this event */
+  /**
+   * Number of users registered as participant to this event
+   * @deprecated Use participantRegistrationCount instead
+   */
   participantsRegistered: Scalars['Int'];
   photoShares: Array<PhotoShare>;
   plannedSpend?: Maybe<Scalars['Decimal']>;
@@ -965,6 +1007,7 @@ export type TumiEvent = {
   registrationLink?: Maybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   start: Scalars['DateTime'];
   submissionItems: Array<EventSubmissionItem>;
   submittedSpend?: Maybe<Scalars['Decimal']>;
@@ -1001,6 +1044,7 @@ export type UpdateCoreEventInput = {
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['String'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   organizerLimit: Scalars['Int'];
   organizerSignup: Array<MembershipStatus>;
   participantLimit: Scalars['Int'];
@@ -1009,6 +1053,7 @@ export type UpdateCoreEventInput = {
   registrationLink?: InputMaybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   start: Scalars['DateTime'];
   title: Scalars['String'];
 };
@@ -1050,8 +1095,10 @@ export type UpdateTemplateInput = {
   description: Scalars['String'];
   duration: Scalars['Decimal'];
   icon: Scalars['String'];
+  insuranceDescription: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
+  shouldBeReportedToInsurance: Scalars['Boolean'];
   title: Scalars['String'];
 };
 
@@ -1077,6 +1124,7 @@ export type User = {
   lastName: Scalars['String'];
   /** List of events organized by the user */
   organizedEvents: Array<TumiEvent>;
+  outstandingRating: Scalars['Boolean'];
   /** List of events attended by the user */
   participatedEvents: Array<TumiEvent>;
   paypal?: Maybe<Scalars['String']>;
@@ -1090,6 +1138,11 @@ export type User = {
 /** One User of the app */
 export type UserCurrentTenantArgs = {
   userId?: InputMaybe<Scalars['ID']>;
+};
+
+/** One User of the app */
+export type UserOrganizedEventsArgs = {
+  hideCancelled?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** One User of the app */

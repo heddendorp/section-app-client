@@ -468,7 +468,7 @@ type Query {
   currentTenant: Tenant
 
   """Returns the logged in user if found or throws an error"""
-  currentUser: User!
+  currentUser: User
 
   """Get one event by ID"""
   event(eventId: ID!): TumiEvent!
