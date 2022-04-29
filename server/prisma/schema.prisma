@@ -200,15 +200,15 @@ model StripePayment {
   createdAt             DateTime               @default(now())
   amount                Decimal
   checkoutSession       String                 @unique
-  eventRegistration     EventRegistration?
-  eventRegistrationCode EventRegistrationCode?
+  eventRegistration     EventRegistration?     @ignore
+  eventRegistrationCode EventRegistrationCode? @ignore
   events                Json /// Array of events with their timestamps
   feeAmount             Decimal?
   netAmount             Decimal?
   paymentIntent         String                 @unique
   paymentMethod         String?
   paymentMethodType     String?
-  purchase              Purchase?
+  purchase              Purchase?              @ignore
   refundedAmount        Decimal?
   shipping              Json?
   status                String
@@ -468,8 +468,8 @@ model EventRegistration {
   eventId               String                 @db.Uuid
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
   manualCheckin         Boolean                @default(false)
-  payment               StripePayment?         @relation(fields: [paymentId], references: [id])
-  paymentId             String?                @unique @db.Uuid
+  payment               StripePayment?         @relation(fields: [paymentId], references: [id]) @ignore
+  paymentId             String?                @unique @db.Uuid @ignore
   rating                Int?
   registrationCodeId    String?                @db.Uuid
   status                RegistrationStatus     @default(SUCCESSFUL)
@@ -493,8 +493,8 @@ model EventRegistrationCode {
   sepaAllowed            Boolean             @default(false)
   eventId                String              @db.Uuid
   status                 RegistrationStatus  @default(PENDING)
-  payment                StripePayment?      @relation(fields: [paymentId], references: [id])
-  paymentId              String?             @unique @db.Uuid
+  payment                StripePayment?      @relation(fields: [paymentId], references: [id]) @ignore
+  paymentId              String?             @unique @db.Uuid @ignore
   connectedRegistrations EventRegistration[]
   transaction            Transaction?        @relation(fields: [transactionId], references: [id])
   transactionId          String?             @unique @db.Uuid

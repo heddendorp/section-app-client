@@ -162,8 +162,12 @@ export const updateAddressMutation = mutationField('updateAddress', {
     return context.prisma.purchase.update({
       where: { id },
       data: {
-        payment: {
-          update: { shipping },
+        transaction: {
+          update: {
+            stripePayment: {
+              update: { shipping },
+            },
+          },
         },
       },
     });

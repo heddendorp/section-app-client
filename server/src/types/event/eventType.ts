@@ -252,9 +252,11 @@ export const eventType = objectType({
         return context.prisma.stripePayment
           .aggregate({
             where: {
-              eventRegistration: {
-                event: { id: source.id },
-                status: { not: RegistrationStatus.CANCELLED },
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
               },
               amount: { not: undefined },
             },
@@ -273,9 +275,11 @@ export const eventType = objectType({
         const netAmount = await context.prisma.stripePayment
           .aggregate({
             where: {
-              eventRegistration: {
-                event: { id: source.id },
-                status: { not: RegistrationStatus.CANCELLED },
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
               },
               netAmount: { not: undefined },
             },
@@ -288,9 +292,11 @@ export const eventType = objectType({
         const refundedAmount = await context.prisma.stripePayment
           .aggregate({
             where: {
-              eventRegistration: {
-                event: { id: source.id },
-                status: { not: RegistrationStatus.CANCELLED },
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
               },
               refundedAmount: { not: undefined },
             },
@@ -311,9 +317,11 @@ export const eventType = objectType({
         return context.prisma.stripePayment
           .aggregate({
             where: {
-              eventRegistration: {
-                event: { id: source.id },
-                status: { not: RegistrationStatus.CANCELLED },
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
               },
               feeAmount: { not: undefined },
             },

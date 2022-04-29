@@ -211,7 +211,10 @@ export class RegistrationService {
   ) {
     const registration = await context.prisma.eventRegistration.findUnique({
       where: { id: registrationId },
-      include: { event: true },
+      include: {
+        event: true,
+        transaction: { include: { stripePayment: true } },
+      },
     });
     if (!registration) {
       throw new Error('Registration not found');
@@ -219,7 +222,7 @@ export class RegistrationService {
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
       if (withRefund) {
         const payment = await context.prisma.stripePayment.findUnique({
-          where: { id: registration.paymentId ?? '' },
+          where: { id: registration.transaction?.stripePayment?.id ?? '' },
         });
         if (!payment) {
           throw new Error('Payment not found');
