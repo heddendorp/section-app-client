@@ -266,7 +266,7 @@ query getPurchase($id: ID!) {
     }
     transaction {
       id
-      stripePayment{
+      stripePayment {
         id
         status
         paymentMethodType
