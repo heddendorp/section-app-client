@@ -124,11 +124,12 @@ export const permissions = shield(
     paymentIntent: allow,
     checkoutSession: allow,
     Tenant: allow,
+    Transaction: allow,
     User: allow,
     UsersOfTenants: allow,
   },
   {
-    fallbackRule: deny,
+    fallbackRule: allow,
     allowExternalErrors: true,
     fallbackError: (err: unknown) => {
       Sentry.addBreadcrumb({
