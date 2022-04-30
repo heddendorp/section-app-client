@@ -34,7 +34,7 @@ export const permissions = shield(
       products: allow,
       purchase: allow,
       purchases: isAdmin,
-      registration: isAdmin,
+      registration: isAuthenticated,
       registrationCount: isAdmin,
       registrations: isAdmin,
       templateCategories: isMember,
