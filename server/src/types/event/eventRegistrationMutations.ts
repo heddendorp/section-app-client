@@ -152,10 +152,12 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             },
           },
         });
-        await prisma.tumiEvent.update({
-          where: { id: eventId },
-          data: { participantRegistrationCount: { increment: 1 } },
-        });
+        if (registrationType === RegistrationType.PARTICIPANT) {
+          await prisma.tumiEvent.update({
+            where: { id: eventId },
+            data: { participantRegistrationCount: { increment: 1 } },
+          });
+        }
       } else {
         throw new GraphQLYogaError('Registration mode not supported');
       }

@@ -240,10 +240,12 @@ export class RegistrationService {
             : 'Spot given up by user',
         },
       });
-      await prisma.tumiEvent.update({
-        where: { id: registration.eventId },
-        data: { participantRegistrationCount: { decrement: 1 } },
-      });
+      if (registration.type === RegistrationType.PARTICIPANT) {
+        await prisma.tumiEvent.update({
+          where: { id: registration.eventId },
+          data: { participantRegistrationCount: { decrement: 1 } },
+        });
+      }
     } else if (
       registration.event.registrationMode === RegistrationMode.ONLINE
     ) {
@@ -256,10 +258,12 @@ export class RegistrationService {
             : 'Spot given up by user',
         },
       });
-      await prisma.tumiEvent.update({
-        where: { id: registration.eventId },
-        data: { participantRegistrationCount: { decrement: 1 } },
-      });
+      if (registration.type === RegistrationType.PARTICIPANT) {
+        await prisma.tumiEvent.update({
+          where: { id: registration.eventId },
+          data: { participantRegistrationCount: { decrement: 1 } },
+        });
+      }
     } else {
       throw new Error('Registration mode not supported');
     }
