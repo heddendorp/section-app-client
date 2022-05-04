@@ -349,7 +349,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
             break;
           }
-          if (payment.transaction.eventRegistration) {
+          /*if (payment.transaction.eventRegistration) {
             await prisma.eventRegistration.update({
               where: { id: payment.transaction.eventRegistration.id },
               data: {
@@ -361,8 +361,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
               where: { id: payment.transaction.eventRegistration.eventId },
               data: { participantRegistrationCount: { decrement: 1 } },
             });
-          }
-          if (payment.transaction.purchase) {
+          }*/
+          /*if (payment.transaction.purchase) {
             await prisma.purchase.update({
               where: { id: payment.transaction.purchase.id },
               data: {
@@ -370,8 +370,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 cancellationReason: 'Payment failed',
               },
             });
-          }
-          if (payment.transaction.eventRegistrationCode) {
+          }*/
+          /*if (payment.transaction.eventRegistrationCode) {
             if (
               payment.transaction.eventRegistrationCode.registrationToRemoveId
             ) {
@@ -416,7 +416,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 status: RegistrationStatus.PENDING,
               },
             });
-          }
+          }*/
           break;
         }
         case 'payment_intent.canceled': {
