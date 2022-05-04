@@ -223,8 +223,7 @@
             <button
               mat-menu-item
               [disabled]="
-                (registration.transaction?.stripePayment?.netAmount ?? 0) ===
-                  0 || registration.didAttend
+                (registration.transaction?.stripePayment?.netAmount ?? 0) === 0
               "
               (click)="kickWithRefund(registration.id)"
             >

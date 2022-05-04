@@ -36,8 +36,7 @@ export class InstagramComponent implements AfterViewInit {
       context.fillStyle = '#000';
       context.fillRect(0, 0, 1080, 1920);
       const bgImage = new Image(1080, 1920);
-      bgImage.src =
-        'https://experiments.esn.world/assets/images/background.jpg';
+      bgImage.src = '/assets/images/background.jpg';
       bgImage.addEventListener('load', () => {
         context.drawImage(bgImage, 0, 0, 1080, 1920);
         const text = 'Upcoming TUMi Events';
