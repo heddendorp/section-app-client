@@ -58,16 +58,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-        with:
-          environment: production
-          ignore_empty: true
-          projects: tumi-server
-
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
