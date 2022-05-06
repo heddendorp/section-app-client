@@ -90,7 +90,7 @@ export const registerForEventMutation = mutationField('registerForEvent', {
           });
         });
       }
-      if (
+      /*if (
         event.organizerLimit > 1 &&
         registrationType === RegistrationType.ORGANIZER
       ) {
@@ -116,7 +116,7 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             }!`
           );
         }
-      }
+      }*/
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT
