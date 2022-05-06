@@ -120,8 +120,23 @@ export const webhookRouter = (prisma: PrismaClient) => {
           break;
         }
         case 'payment_intent.succeeded': {
-          const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
+          const eventObject: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.succeeded');
+          const paymentIntent = await stripe.paymentIntents.retrieve(
+            eventObject.id
+          );
+          if (paymentIntent.status !== 'succeeded') {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(paymentIntent)),
+                oldData: JSON.parse(JSON.stringify(eventObject)),
+                message: 'Payment intent status is not succeeded',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            break;
+          }
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
           });
@@ -270,7 +285,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
             }
 
             if (
-              payment.transaction.eventRegistrationCode.registrationCreatedId
+              payment.transaction.eventRegistrationCode?.registrationCreatedId
             ) {
               await prisma.eventRegistration.update({
                 where: {
@@ -420,8 +435,23 @@ export const webhookRouter = (prisma: PrismaClient) => {
           break;
         }
         case 'payment_intent.canceled': {
-          const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
-          console.log('Processing event: payment_intent.payment_failed');
+          const eventObject: Stripe.Stripe.PaymentIntent = event.data.object;
+          console.log('Processing event: payment_intent.canceled');
+          const paymentIntent = await stripe.paymentIntents.retrieve(
+            eventObject.id
+          );
+          if (paymentIntent.status !== 'canceled') {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(paymentIntent)),
+                oldData: JSON.parse(JSON.stringify(eventObject)),
+                message: 'Payment intent status is not canceled',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            break;
+          }
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
           });
@@ -604,8 +634,9 @@ export const webhookRouter = (prisma: PrismaClient) => {
           break;
         }
         case 'charge.refunded': {
-          const charge: Stripe.Stripe.Charge = event.data.object;
+          const eventObject: Stripe.Stripe.Charge = event.data.object;
           console.log('Processing event: charge.refunded');
+          const charge = await stripe.charges.retrieve(eventObject.id);
           const paymentIntentId =
             typeof charge.payment_intent === 'string'
               ? charge.payment_intent

@@ -54,6 +54,9 @@ export class ShowDataDialogComponent {
     if (this.data?.data?.eventId) {
       return `/events/${this.data.data.eventId}`;
     }
+    if (this.data?.data?.event?.id) {
+      return `/events/${this.data.data.event.id}`;
+    }
     return null;
   }
 
