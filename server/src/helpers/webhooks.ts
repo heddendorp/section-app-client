@@ -242,7 +242,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (payment.transaction.eventRegistrationCode) {
             if (
-              payment.transaction.eventRegistrationCode.registrationToRemoveId
+              payment.transaction.eventRegistrationCode?.registrationToRemoveId
             ) {
               const removedRegistration = await prisma.eventRegistration.update(
                 {
@@ -259,10 +259,10 @@ export const webhookRouter = (prisma: PrismaClient) => {
                   },
                 }
               );
-              await prisma.tumiEvent.update({
-                where: { id: removedRegistration.eventId },
-                data: { participantRegistrationCount: { decrement: 1 } },
-              });
+              // await prisma.tumiEvent.update({
+              //   where: { id: removedRegistration.eventId },
+              //   data: { participantRegistrationCount: { decrement: 1 } },
+              // });
               if (removedRegistration.transaction?.stripePayment) {
                 try {
                   await stripe.refunds.create({
