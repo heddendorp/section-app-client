@@ -60,6 +60,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
+    "@apollo/utils.logger": "^1.0.0",
     "@faker-js/faker": "^6.3.1",
     "@types/compression": "^1.7.2",
     "@types/copyfiles": "^2.4.1",
