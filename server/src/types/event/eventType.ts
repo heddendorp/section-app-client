@@ -40,14 +40,7 @@ export const eventType = objectType({
     t.field(TumiEvent.participantSignup);
     t.field(TumiEvent.publicationState);
     t.field(TumiEvent.participantRegistrationCount);
-    t.field({
-      ...TumiEvent.eventRegistrationCodes,
-      resolve: (source, args, context) => {
-        return context.prisma.tumiEvent
-          .findUnique({ where: { id: source.id } })
-          .eventRegistrationCodes();
-      },
-    });
+    t.field(TumiEvent.eventRegistrationCodes);
     t.field(TumiEvent.insuranceDescription);
     t.field(TumiEvent.shouldBeReportedToInsurance);
     t.nonNull.string('freeParticipantSpots', {
@@ -482,6 +475,20 @@ export const eventType = objectType({
       resolve: async (root) => {
         // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         return root.participantRegistrationCount;
+      },
+    });
+    t.nonNull.int('countedParticipantRegistrations', {
+      description:
+        'Number of users registered as participant to this event, counted directly',
+      resolve: async (root, _, context) => {
+        // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.eventRegistration.count({
+          where: {
+            eventId: root.id,
+            type: RegistrationType.PARTICIPANT,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
       },
     });
     t.nonNull.int('participantsAttended', {

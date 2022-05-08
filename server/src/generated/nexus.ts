@@ -913,6 +913,7 @@ export interface NexusGenFieldTypes {
     costItems: NexusGenRootTypes['CostItem'][]; // [CostItem!]!
     couldBeOrganizer: boolean; // Boolean!
     couldBeParticipant: boolean; // Boolean!
+    countedParticipantRegistrations: number; // Int!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy: NexusGenRootTypes['User']; // User!
     creatorId: string; // String!
@@ -1443,6 +1444,7 @@ export interface NexusGenFieldTypeNames {
     costItems: 'CostItem'
     couldBeOrganizer: 'Boolean'
     couldBeParticipant: 'Boolean'
+    countedParticipantRegistrations: 'Int'
     createdAt: 'DateTime'
     createdBy: 'User'
     creatorId: 'String'

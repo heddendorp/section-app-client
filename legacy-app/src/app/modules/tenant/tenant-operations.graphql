@@ -30,7 +30,8 @@ query loadEventsWithBooking($after: DateTime) {
     registrationMode
     registrationStart
     participantLimit
-    participantsRegistered
+    participantRegistrationCount
+    countedParticipantRegistrations
     organizer {
       id
       name

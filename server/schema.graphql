@@ -674,6 +674,11 @@ type TumiEvent {
 
   """Indicates whether the user could be a participant for this event"""
   couldBeParticipant: Boolean!
+
+  """
+  Number of users registered as participant to this event, counted directly
+  """
+  countedParticipantRegistrations: Int!
   createdAt: DateTime!
   createdBy: User!
   creatorId: String!

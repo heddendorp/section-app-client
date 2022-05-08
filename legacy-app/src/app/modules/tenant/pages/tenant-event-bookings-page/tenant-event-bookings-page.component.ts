@@ -23,9 +23,18 @@ export class TenantEventBookingsPageComponent {
       .valueChanges.pipe(
         map((result) => result.data.events),
         map((events) =>
-          events.filter(
-            (event) => event.registrationMode === RegistrationMode.Stripe
-          )
+          events
+            .filter(
+              (event) => event.registrationMode === RegistrationMode.Stripe
+            )
+            .filter(
+              (event) =>
+                !(
+                  event.countedParticipantRegistrations ===
+                    event.participantRegistrationCount &&
+                  event.participantRegistrationCount === event.participantLimit
+                )
+            )
         )
         /*map((events) =>
           events.filter(

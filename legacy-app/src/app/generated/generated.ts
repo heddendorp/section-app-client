@@ -1052,6 +1052,8 @@ export type TumiEvent = {
   couldBeOrganizer: Scalars['Boolean'];
   /** Indicates whether the user could be a participant for this event */
   couldBeParticipant: Scalars['Boolean'];
+  /** Number of users registered as participant to this event, counted directly */
+  countedParticipantRegistrations: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   createdBy: User;
   creatorId: Scalars['String'];
@@ -1778,7 +1780,7 @@ export type LoadEventsWithBookingQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventsWithBookingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, registrationMode: RegistrationMode, registrationStart: any, participantLimit: number, participantsRegistered: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+export type LoadEventsWithBookingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, registrationMode: RegistrationMode, registrationStart: any, participantLimit: number, participantRegistrationCount: number, countedParticipantRegistrations: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
 export type LoadEventsWithRatingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
@@ -3852,7 +3854,8 @@ export const LoadEventsWithBookingDocument = gql`
     registrationMode
     registrationStart
     participantLimit
-    participantsRegistered
+    participantRegistrationCount
+    countedParticipantRegistrations
     organizer {
       id
       name
