@@ -20,14 +20,14 @@
     <table class="mt-4 table-auto">
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Item</th>
-          <th>Cost</th>
-          <th>Participation fees</th>
-          <th>Subsidies</th>
-          <th>Loss</th>
-          <th>Wins</th>
+          <th class="mx-4">Date</th>
+          <th class="mx-4">Name</th>
+          <th class="mx-4">Item</th>
+          <th class="mx-4">Cost</th>
+          <th class="mx-4">Participation fees</th>
+          <th class="mx-4">Subsidies</th>
+          <th class="mx-4">Loss</th>
+          <th class="mx-4">Wins</th>
         </tr>
       </thead>
       <tbody class="select-all">
@@ -70,49 +70,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div class="my-4 rounded-2xl border p-4">
-    <h2 class="mb-2">Registration codes</h2>
-    <div class="space-x-2">
-      <button
-        class="modern"
-        mat-flat-button
-        color="accent"
-        (click)="createRegistrationCode()"
-      >
-        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-        <span>Create registration code</span>
-      </button>
-      <button
-        class="modern"
-        mat-flat-button
-        color="accent"
-        (click)="createRegistrationCode(true)"
-      >
-        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-        <span>Create SEPA registration code</span>
-      </button>
-    </div>
-    <mat-list>
-      <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
-        <h3 mat-line>Registration code</h3>
-        <p mat-line>
-          {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
-            code.status
-          }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
-        </p>
-        <p mat-line>
-          Link for registration:
-          <span class="select-all font-mono">
-            {{
-              environment.production
-                ? 'https://tumi.esn.world/'
-                : 'localhost:4200/'
-            }}profile?code={{ code.id }}
-          </span>
-        </p>
-      </mat-list-item>
-    </mat-list>
   </div>
   <div class="my-4 rounded-2xl border p-4">
     <h2 class="mb-2">Participants</h2>
@@ -240,6 +197,49 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="my-4 rounded-2xl border p-4">
+    <h2 class="mb-2">Registration codes</h2>
+    <div class="space-x-2">
+      <button
+        class="modern"
+        mat-flat-button
+        color="accent"
+        (click)="createRegistrationCode()"
+      >
+        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+        <span>Create registration code</span>
+      </button>
+      <button
+        class="modern"
+        mat-flat-button
+        color="accent"
+        (click)="createRegistrationCode(true)"
+      >
+        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+        <span>Create SEPA registration code</span>
+      </button>
+    </div>
+    <mat-list>
+      <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
+        <h3 mat-line>Registration code</h3>
+        <p mat-line>
+          {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
+            code.status
+          }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
+        </p>
+        <p mat-line>
+          Link for registration:
+          <span class="select-all font-mono">
+            {{
+              environment.production
+                ? 'https://tumi.esn.world/'
+                : 'localhost:4200/'
+            }}profile?code={{ code.id }}
+          </span>
+        </p>
+      </mat-list-item>
+    </mat-list>
   </div>
   <div
     class="my-4 rounded-2xl border p-4"

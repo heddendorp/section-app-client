@@ -244,42 +244,54 @@ export const webhookRouter = (prisma: PrismaClient) => {
             if (
               payment.transaction.eventRegistrationCode?.registrationToRemoveId
             ) {
-              const removedRegistration = await prisma.eventRegistration.update(
-                {
+              const registrationToRemove =
+                await prisma.eventRegistration.findUnique({
                   where: {
                     id: payment.transaction.eventRegistrationCode
                       .registrationToRemoveId,
                   },
-                  data: {
-                    status: RegistrationStatus.CANCELLED,
-                    cancellationReason: 'Event was moved to another person',
-                  },
-                  include: {
-                    transaction: { include: { stripePayment: true } },
-                  },
-                }
-              );
-              // await prisma.tumiEvent.update({
-              //   where: { id: removedRegistration.eventId },
-              //   data: { participantRegistrationCount: { decrement: 1 } },
-              // });
-              if (removedRegistration.transaction?.stripePayment) {
-                try {
-                  await stripe.refunds.create({
-                    payment_intent:
-                      removedRegistration.transaction.stripePayment
-                        .paymentIntent,
-                  });
-                } catch (e) {
-                  await prisma.activityLog.create({
+                });
+              if (
+                registrationToRemove?.status !== RegistrationStatus.CANCELLED
+              ) {
+                const removedRegistration =
+                  await prisma.eventRegistration.update({
+                    where: {
+                      id: payment.transaction.eventRegistrationCode
+                        .registrationToRemoveId,
+                    },
                     data: {
-                      message: `Refund failed during registration move`,
-                      category: 'webhook',
-                      data: e as InputJsonObject,
-                      oldData: JSON.parse(JSON.stringify(removedRegistration)),
-                      severity: LogSeverity.ERROR,
+                      status: RegistrationStatus.CANCELLED,
+                      cancellationReason: 'Event was moved to another person',
+                    },
+                    include: {
+                      transaction: { include: { stripePayment: true } },
                     },
                   });
+                await prisma.tumiEvent.update({
+                  where: { id: removedRegistration.eventId },
+                  data: { participantRegistrationCount: { decrement: 1 } },
+                });
+                if (removedRegistration.transaction?.stripePayment) {
+                  try {
+                    await stripe.refunds.create({
+                      payment_intent:
+                        removedRegistration.transaction.stripePayment
+                          .paymentIntent,
+                    });
+                  } catch (e) {
+                    await prisma.activityLog.create({
+                      data: {
+                        message: `Refund failed during registration move`,
+                        category: 'webhook',
+                        data: e as InputJsonObject,
+                        oldData: JSON.parse(
+                          JSON.stringify(removedRegistration)
+                        ),
+                        severity: LogSeverity.ERROR,
+                      },
+                    });
+                  }
                 }
               }
             }

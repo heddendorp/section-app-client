@@ -6,7 +6,7 @@ import {
   RegistrationType,
 } from '../generated/prisma';
 export const setupCronjob = (prisma: PrismaClient) => {
-  cron.schedule('* 4 * * *', async () => {
+  cron.schedule('* 18,6 * * *', async () => {
     console.log('checking db consistency');
     const events = await prisma.tumiEvent.findMany({
       select: { id: true, participantRegistrationCount: true },
@@ -26,27 +26,21 @@ export const setupCronjob = (prisma: PrismaClient) => {
           where: { id: event.id },
           data: { participantRegistrationCount },
         });
-        if (process.env.NODE_ENV !== 'development') {
-          await prisma.activityLog.create({
-            data: {
-              data: JSON.parse(
-                JSON.stringify({ event, participantRegistrationCount })
-              ),
-              message: 'Mismatch of participant registration count',
-              severity: 'WARNING',
-              category: 'database',
-            },
-          });
-          Sentry.captureException(
-            new Error(
-              `Updated participantRegistrationCount for event ${event.id}`
-            )
-          );
-        } else {
-          console.log(
-            `updated participantRegistrationCount for event ${event.id}`
-          );
-        }
+        await prisma.activityLog.create({
+          data: {
+            data: JSON.parse(
+              JSON.stringify({ event, participantRegistrationCount })
+            ),
+            message: 'Mismatch of participant registration count',
+            severity: 'WARNING',
+            category: 'database',
+          },
+        });
+        Sentry.captureException(
+          new Error(
+            `Updated participantRegistrationCount for event ${event.id}`
+          )
+        );
       }
     }
     console.log('events updated');
