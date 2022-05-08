@@ -515,7 +515,11 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
             break;
           }
-          if (payment.transaction.eventRegistration) {
+          if (
+            payment.transaction.eventRegistration &&
+            payment.transaction.eventRegistration.status !==
+              RegistrationStatus.CANCELLED
+          ) {
             await prisma.eventRegistration.update({
               where: { id: payment.transaction.eventRegistration.id },
               data: {
@@ -541,39 +545,61 @@ export const webhookRouter = (prisma: PrismaClient) => {
             if (
               payment.transaction.eventRegistrationCode.registrationToRemoveId
             ) {
-              await prisma.eventRegistration.update({
-                where: {
-                  id: payment.transaction.eventRegistrationCode
-                    .registrationToRemoveId,
-                },
-                data: {
-                  status: RegistrationStatus.SUCCESSFUL,
-                  cancellationReason: null,
-                },
-              });
-              await prisma.tumiEvent.update({
-                where: { id: payment.transaction.eventRegistration.eventId },
-                data: { participantRegistrationCount: { increment: 1 } },
-              });
+              const registrationToRemove =
+                await prisma.eventRegistration.findUnique({
+                  where: {
+                    id: payment.transaction.eventRegistrationCode
+                      .registrationToRemoveId,
+                  },
+                });
+              if (
+                registrationToRemove?.status !== RegistrationStatus.SUCCESSFUL
+              ) {
+                await prisma.eventRegistration.update({
+                  where: {
+                    id: payment.transaction.eventRegistrationCode
+                      .registrationToRemoveId,
+                  },
+                  data: {
+                    status: RegistrationStatus.SUCCESSFUL,
+                    cancellationReason: null,
+                  },
+                });
+                await prisma.tumiEvent.update({
+                  where: { id: payment.transaction.eventRegistration.eventId },
+                  data: { participantRegistrationCount: { increment: 1 } },
+                });
+              }
             }
 
             if (
               payment.transaction.eventRegistrationCode.registrationCreatedId
             ) {
-              await prisma.eventRegistration.update({
-                where: {
-                  id: payment.transaction.eventRegistrationCode
-                    .registrationCreatedId,
-                },
-                data: {
-                  status: RegistrationStatus.CANCELLED,
-                  cancellationReason: 'Payment for move failed',
-                },
-              });
-              await prisma.tumiEvent.update({
-                where: { id: payment.transaction.eventRegistration.eventId },
-                data: { participantRegistrationCount: { decrement: 1 } },
-              });
+              const registrationCreated =
+                await prisma.eventRegistration.findUnique({
+                  where: {
+                    id: payment.transaction.eventRegistrationCode
+                      .registrationCreatedId,
+                  },
+                });
+              if (
+                registrationCreated?.status !== RegistrationStatus.CANCELLED
+              ) {
+                await prisma.eventRegistration.update({
+                  where: {
+                    id: payment.transaction.eventRegistrationCode
+                      .registrationCreatedId,
+                  },
+                  data: {
+                    status: RegistrationStatus.CANCELLED,
+                    cancellationReason: 'Payment for move failed',
+                  },
+                });
+                await prisma.tumiEvent.update({
+                  where: { id: payment.transaction.eventRegistration.eventId },
+                  data: { participantRegistrationCount: { decrement: 1 } },
+                });
+              }
             }
             await prisma.eventRegistrationCode.update({
               where: { id: payment.transaction.eventRegistrationCode.id },
