@@ -301,7 +301,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
             ) {
               await prisma.eventRegistration.update({
                 where: {
-                  id: payment.eventRegistrationCode.registrationCreatedId,
+                  id: payment.transaction.eventRegistrationCode
+                    .registrationCreatedId,
                 },
                 data: {
                   status: RegistrationStatus.SUCCESSFUL,
