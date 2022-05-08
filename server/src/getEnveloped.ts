@@ -12,7 +12,7 @@ import { useResponseCache } from '@envelop/response-cache';
 
 const isProd = process.env.NODE_ENV === 'production';
 export const envelopPlugins = [
-  useSchema(schema),
+  // useSchema(schema),
   // useLogger(),
   // enableIf(!isProd, useTiming()),
   enableIf(
