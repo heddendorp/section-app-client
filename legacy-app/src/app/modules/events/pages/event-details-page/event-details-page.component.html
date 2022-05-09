@@ -185,7 +185,12 @@
   >
     <h2 class="mb-4 font-bold">Sign up as organizer</h2>
     <app-check-registration-time [event]="event">
-      <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem">
+      <div
+        fxLayout.gt-md="row"
+        fxLayout="column"
+        fxLayoutGap="1rem"
+        fxLayoutAlign.gt-md="start start"
+      >
         <button
           mat-raised-button
           color="accent"
@@ -203,6 +208,12 @@
             </mat-list-item>
             <mat-list-item *ngFor="let user of event.organizers">
               {{ user.fullName }}
+              <span
+                *ngIf="user.id == event.createdBy.id"
+                class="ml-4 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
+              >
+                Event Creator
+              </span>
             </mat-list-item>
           </mat-list>
         </div>

@@ -46,7 +46,6 @@ declare global {
   }
 }
 global.__rootdir__ = __dirname || process.cwd();
-console.log(global.__rootdir__);
 
 const app = express();
 
@@ -117,9 +116,46 @@ app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
-  app.listen(port, () => {
+  app.listen(port, async () => {
     // prismaUtils().then(() => {
     //   console.log(`DB actions finished`);
     // });
     console.log(`GraphQL server is running on port ${port}.`);
+    const users = await prisma.user.findMany({
+      where: {
+        eventRegistrations: {
+          some: {
+            status: { not: 'CANCELLED' },
+            type: 'ORGANIZER',
+            createdAt: { gt: new Date('2022-03-01') },
+          },
+        },
+        // createdAt: { gt: new Date('2022-03-01') },
+      },
+      orderBy: {
+        lastName: 'asc',
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+        eventRegistrations: {
+          where: {
+            status: { not: 'CANCELLED' },
+            type: 'ORGANIZER',
+            createdAt: { gt: new Date('2022-03-01') },
+          },
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    console.log(
+      users
+        .map(
+          (u) => `${u.firstName} ${u.lastName} (${u.eventRegistrations.length})`
+        )
+        .join('\n')
+    );
+    console.log(users.length);
   });
