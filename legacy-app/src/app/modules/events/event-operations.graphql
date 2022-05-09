@@ -127,6 +127,10 @@ query loadEventForRunning($id: ID!) {
     participantLimit
     participantsRegistered
     participantsAttended
+    createdBy {
+      id
+      fullName
+    }
     organizerRegistrations {
       id
       checkInTime
