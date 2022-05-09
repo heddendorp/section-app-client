@@ -4324,6 +4324,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pothos/core@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@pothos/core@npm:3.10.1"
+  peerDependencies:
+    graphql: ">=15.1.0"
+  checksum: e77f08f57b53612614d93d2138b2396217a6cf4fb08c30d93d4949cb93414f1865005eaf20beafa0ee381b41d75ffc364e80833863d8082dc57664eb40a77d0f
+  languageName: node
+  linkType: hard
+
 "@prisma/client@npm:^3.13.0":
   version: 3.13.0
   resolution: "@prisma/client@npm:3.13.0"
@@ -5211,6 +5220,7 @@ __metadata:
     "@graphql-hive/client": ^0.15.2
     "@graphql-yoga/node": ^2.5.0
     "@pathcheck/dcc-sdk": ^0.0.27
+    "@pothos/core": ^3.10.1
     "@prisma/client": ^3.13.0
     "@sendgrid/mail": ^7.6.2
     "@sentry/integrations": ^6.19.7

@@ -30,6 +30,7 @@
     "@graphql-hive/client": "^0.15.2",
     "@graphql-yoga/node": "^2.5.0",
     "@pathcheck/dcc-sdk": "^0.0.27",
+    "@pothos/core": "^3.10.1",
     "@prisma/client": "^3.13.0",
     "@sendgrid/mail": "^7.6.2",
     "@sentry/integrations": "^6.19.7",
