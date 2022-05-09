@@ -56,7 +56,7 @@ export interface NexusGenInputs {
     organizerId: string; // ID!
     organizerLimit: number; // Int!
     participantLimit: number; // Int!
-    price?: number | null; // Int
+    price?: NexusGenScalars['Decimal'] | null; // Decimal
     registrationLink?: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     start: NexusGenScalars['DateTime']; // DateTime!

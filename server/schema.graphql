@@ -48,7 +48,7 @@ input CreateEventFromTemplateInput {
   organizerId: ID!
   organizerLimit: Int!
   participantLimit: Int!
-  price: Int
+  price: Decimal
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!

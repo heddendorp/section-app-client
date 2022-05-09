@@ -70,7 +70,7 @@ export type CreateEventFromTemplateInput = {
   organizerId: Scalars['ID'];
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
-  price?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Decimal']>;
   registrationLink?: InputMaybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   start: Scalars['DateTime'];

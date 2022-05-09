@@ -102,7 +102,7 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.nonNull.id('organizerId');
-    t.int('price');
+    t.decimal('price');
   },
 });
 
