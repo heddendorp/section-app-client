@@ -59,12 +59,12 @@ export const registerForEventMutation = mutationField('registerForEvent', {
     let registration;
     await context.prisma.$transaction(async (prisma) => {
       if (registrationType === RegistrationType.PARTICIPANT) {
-        const registrationCountEvent = await prisma.tumiEvent.findUnique({
+        const registrationCountEvent = await prisma.tumiEvent.update({
           where: { id: eventId },
-          select: { participantRegistrationCount: true },
+          data: { participantRegistrationCount: { increment: 1 } },
         });
         if (
-          (registrationCountEvent?.participantRegistrationCount ?? 0) >=
+          (registrationCountEvent?.participantRegistrationCount ?? 0) >
           event.participantLimit
         ) {
           throw new GraphQLYogaError('Registration for this event is full!');
@@ -133,10 +133,6 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             },
           },
         });
-        await prisma.tumiEvent.update({
-          where: { id: eventId },
-          data: { participantRegistrationCount: { increment: 1 } },
-        });
       } else if (
         event?.registrationMode === RegistrationMode.ONLINE ||
         registrationType === RegistrationType.ORGANIZER
@@ -152,12 +148,6 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             },
           },
         });
-        if (registrationType === RegistrationType.PARTICIPANT) {
-          await prisma.tumiEvent.update({
-            where: { id: eventId },
-            data: { participantRegistrationCount: { increment: 1 } },
-          });
-        }
       } else {
         throw new GraphQLYogaError('Registration mode not supported');
       }
@@ -211,10 +201,12 @@ export const registerForEventMutation = mutationField('registerForEvent', {
             cancellationReason: 'Payment creation failed',
           },
         });
-        await prisma.tumiEvent.update({
-          where: { id: eventId },
-          data: { participantRegistrationCount: { decrement: 1 } },
-        });
+        if (registrationType === RegistrationType.PARTICIPANT) {
+          await prisma.tumiEvent.update({
+            where: { id: eventId },
+            data: { participantRegistrationCount: { decrement: 1 } },
+          });
+        }
       }
     }
     if (!event) {
