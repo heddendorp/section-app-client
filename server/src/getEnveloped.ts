@@ -103,10 +103,10 @@ export const envelopPlugins = [
     }
   ),
   useGraphQlJit(),
-  // useResponseCache({
-  //   ttl: 2000,
-  //   includeExtensionMetadata: true,
-  //   session: (context) => String(context.user?.id),
-  // }),
+  useResponseCache({
+    ttl: 2000,
+    includeExtensionMetadata: true,
+    session: (context) => String(context.user?.id),
+  }),
   useGraphQLMiddleware([permissions]),
 ];

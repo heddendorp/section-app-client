@@ -2634,14 +2634,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/graphql-middleware@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "@envelop/graphql-middleware@npm:3.3.2"
+"@envelop/graphql-middleware@npm:3.3.3-alpha-d8adbb6.0":
+  version: 3.3.3-alpha-d8adbb6.0
+  resolution: "@envelop/graphql-middleware@npm:3.3.3-alpha-d8adbb6.0"
   peerDependencies:
     "@envelop/core": ^2.3.2
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     graphql-middleware: ^6.0.0
-  checksum: 8aed1d0f11041355b81d99da9e13f7d46a7f976807d8ac47cd132fe36682f9281330e9f4392be3f031c79fc1fe9c48fbe0d650de78229ecd2ed7306869b70f33
+  checksum: a3a974e739da6cf3b78b1984c3bee796be008e6d9d1d0ad1a6db7b0d5a8e5c27925af6e262a3e2ce750fcb9e2ad3575f63d01a35087938977886a5c945198137
   languageName: node
   linkType: hard
 
@@ -4670,6 +4670,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/angular@npm:^7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/angular@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/browser": 7.0.0-beta.1
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": 10.x || 11.x || 12.x || 13.x
+    "@angular/core": 10.x || 11.x || 12.x || 13.x
+    "@angular/router": 10.x || 11.x || 12.x || 13.x
+    rxjs: ^6.5.5 || ^7.x
+  checksum: 36af9dd2ed8937eb8a7294646547632af6e47dd9e1d60503828af11bc776ea988ca0ffe48351d32f85c533c251bb523a38f87dc679327b8e5394abf4b30337cb
+  languageName: node
+  linkType: hard
+
 "@sentry/browser@npm:6.19.7":
   version: 6.19.7
   resolution: "@sentry/browser@npm:6.19.7"
@@ -4679,6 +4696,18 @@ __metadata:
     "@sentry/utils": 6.19.7
     tslib: ^1.9.3
   checksum: 071d00c76c2d0384580474c634c58c6196bbd1a3cf510da1309bd1565c57df7422fca8ceb717db189fa557f2c711a21664ee1ab935dfd9869faf416d388e6f78
+  languageName: node
+  linkType: hard
+
+"@sentry/browser@npm:7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/browser@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/core": 7.0.0-beta.1
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    tslib: ^1.9.3
+  checksum: a7804662ab4411108e03d72a72dede8e1386a72ee4b6e3bbb835b591e2f150f45fa61dc68ada047431c2d36447286a5c9af262d8e149f79c3d4466f8572fbb65
   languageName: node
   linkType: hard
 
@@ -4695,6 +4724,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/core@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/hub": 7.0.0-beta.1
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    tslib: ^1.9.3
+  checksum: 4619a1b77bec8023559cd7ab0e7a4d4018603587388c90a8df618b43c39889c202ad2e6a1183af1ac9d12d3a5adaa3cac1e4348a5de0a848c9b0613b3a88dfd9
+  languageName: node
+  linkType: hard
+
 "@sentry/hub@npm:6.19.7":
   version: 6.19.7
   resolution: "@sentry/hub@npm:6.19.7"
@@ -4706,15 +4747,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^6.19.7":
-  version: 6.19.7
-  resolution: "@sentry/integrations@npm:6.19.7"
+"@sentry/hub@npm:7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/hub@npm:7.0.0-beta.1"
   dependencies:
-    "@sentry/types": 6.19.7
-    "@sentry/utils": 6.19.7
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    tslib: ^1.9.3
+  checksum: c31158a38b3d585bff72df2c7a045600b2ff26957fbdddb115d2d00213a533a7627ac670481b7c396abb403943cffd0cb7e5c2e8c3432dbc1d7d91cdd6aa4a9c
+  languageName: node
+  linkType: hard
+
+"@sentry/integrations@npm:^7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/integrations@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 6ea22ef8d518e6ade96ad00c07f5346c8316264ae6ec353c299e03d1d3cf4b226f639bde07dd5d1da28feaa031338e75df25fc60a083a24d847f4cfde4dbc8e9
+  checksum: c36392f7b1cfe5f5b03a19514502a56c5fb5c8a20bd7cd3436bfcea002b0e8eb41b31792c56b52370229ffb29eabe801ba3ed7fad2403b6abaf0d9cbbda6b81b
   languageName: node
   linkType: hard
 
@@ -4745,6 +4797,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/node@npm:^7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/node@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/core": 7.0.0-beta.1
+    "@sentry/hub": 7.0.0-beta.1
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    cookie: ^0.4.1
+    https-proxy-agent: ^5.0.0
+    lru_map: ^0.3.3
+    tslib: ^1.9.3
+  checksum: 9e20c158bf6acaad12206bb288d1c26adbd0068ea24a9ae0f8c2f874a4a0f6959736093a5cf3099c8b99e825e2c093e03d2712b3e297014db0bc87911f4ad559
+  languageName: node
+  linkType: hard
+
 "@sentry/tracing@npm:^6.19.7":
   version: 6.19.7
   resolution: "@sentry/tracing@npm:6.19.7"
@@ -4758,10 +4826,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/tracing@npm:^7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/tracing@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/hub": 7.0.0-beta.1
+    "@sentry/types": 7.0.0-beta.1
+    "@sentry/utils": 7.0.0-beta.1
+    tslib: ^1.9.3
+  checksum: a1ba3ce333af042c9042096b65148721d4045173afc1ecbc97736c57fed692764d1e383e6a9459fc5f88f5bdb26531658ee74584af59707f5aaa0f90ddbdcbc2
+  languageName: node
+  linkType: hard
+
 "@sentry/types@npm:6.19.7":
   version: 6.19.7
   resolution: "@sentry/types@npm:6.19.7"
   checksum: f46ef74a33376ad6ea9b128115515c58eb9369d89293c60aa67abca26b5d5d519aa4d0a736db56ae0d75ffd816643d62187018298523cbc2e6c2fb3a6b2a9035
+  languageName: node
+  linkType: hard
+
+"@sentry/types@npm:7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/types@npm:7.0.0-beta.1"
+  checksum: 60a1380c6b555c703e28201fcca56d30ddb5e109ecaafff1f01f658be495035231e6759c1c1d3c9a3ad645aaf2d47fe508c8b67b42fa320bca5222ece2c0b94b
   languageName: node
   linkType: hard
 
@@ -4772,6 +4859,16 @@ __metadata:
     "@sentry/types": 6.19.7
     tslib: ^1.9.3
   checksum: a000223b9c646c64e3565e79cace1eeb75114342b768367c4dddd646476c215eb1bddfb70c63f05e2352d3bce2d7d415344e4757a001605d0e01ac74da5dd306
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.0.0-beta.1":
+  version: 7.0.0-beta.1
+  resolution: "@sentry/utils@npm:7.0.0-beta.1"
+  dependencies:
+    "@sentry/types": 7.0.0-beta.1
+    tslib: ^1.9.3
+  checksum: 0d2a37653c4f8906c54f048673c14ba3e0d9281f7465d0d48cb3c019d60311590b6bb61ff9238cc4f8b0923c450921240a75189466ea3d8a68b7c8bf626432dd
   languageName: node
   linkType: hard
 
@@ -5134,8 +5231,8 @@ __metadata:
     "@graphql-codegen/cli": ^2.6.2
     "@graphql-codegen/typescript-apollo-angular": ^3.4.10
     "@graphql-codegen/typescript-operations": ^2.4.0
-    "@sentry/angular": ^6.19.7
-    "@sentry/tracing": ^6.19.7
+    "@sentry/angular": ^7.0.0-beta.1
+    "@sentry/tracing": ^7.0.0-beta.1
     "@stripe/stripe-js": ^1.29.0
     "@swimlane/ngx-charts": ^20.1.0
     "@tailwindcss/aspect-ratio": ^0.4.0
@@ -5214,7 +5311,7 @@ __metadata:
     "@envelop/auth0": ^3.3.2
     "@envelop/core": ^2.3.2
     "@envelop/graphql-jit": ^4.2.2
-    "@envelop/graphql-middleware": ^3.3.2
+    "@envelop/graphql-middleware": 3.3.3-alpha-d8adbb6.0
     "@envelop/response-cache": ^2.3.2
     "@envelop/sentry": ^3.4.1
     "@faker-js/faker": ^6.3.1
@@ -5223,9 +5320,9 @@ __metadata:
     "@pathcheck/dcc-sdk": ^0.0.27
     "@prisma/client": ^3.14.0
     "@sendgrid/mail": ^7.6.2
-    "@sentry/integrations": ^6.19.7
-    "@sentry/node": ^6.19.7
-    "@sentry/tracing": ^6.19.7
+    "@sentry/integrations": ^7.0.0-beta.1
+    "@sentry/node": ^7.0.0-beta.1
+    "@sentry/tracing": ^7.0.0-beta.1
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.12

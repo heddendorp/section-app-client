@@ -74,6 +74,8 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
+    // new Tracing.Integrations.GraphQL(),
+    new Tracing.Integrations.Prisma({ client: prisma }),
   ],
   release: 'tumi-server@' + process.env.VERSION ?? 'development',
   ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
@@ -120,42 +122,4 @@ process.env.NODE_ENV !== 'test' &&
     // prismaUtils().then(() => {
     //   console.log(`DB actions finished`);
     // });
-    console.log(`GraphQL server is running on port ${port}.`);
-    const users = await prisma.user.findMany({
-      where: {
-        eventRegistrations: {
-          some: {
-            status: { not: 'CANCELLED' },
-            type: 'ORGANIZER',
-            createdAt: { gt: new Date('2022-03-01') },
-          },
-        },
-        // createdAt: { gt: new Date('2022-03-01') },
-      },
-      orderBy: {
-        lastName: 'asc',
-      },
-      select: {
-        firstName: true,
-        lastName: true,
-        eventRegistrations: {
-          where: {
-            status: { not: 'CANCELLED' },
-            type: 'ORGANIZER',
-            createdAt: { gt: new Date('2022-03-01') },
-          },
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    console.log(
-      users
-        .map(
-          (u) => `${u.firstName} ${u.lastName} (${u.eventRegistrations.length})`
-        )
-        .join('\n')
-    );
-    console.log(users.length);
   });

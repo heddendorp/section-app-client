@@ -1,7 +1,7 @@
-import { allow, deny, shield } from 'graphql-shield';
+import { allow, shield } from 'graphql-shield';
 import { GraphQLError } from 'graphql';
 import * as Sentry from '@sentry/node';
-import { Severity } from '@sentry/node';
+import { SeverityLevel } from '@sentry/node';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { isAdmin, isAuthenticated, isMember } from './rules';
 
@@ -136,7 +136,7 @@ export const permissions = shield(
         category: 'shield',
         type: 'debug',
         message: 'Shield not authorized',
-        level: Severity.Warning,
+        level: 'warning' as SeverityLevel,
       });
       if (err) {
         Sentry.captureException(err);
