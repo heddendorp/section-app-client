@@ -1,5 +1,6 @@
 import express from 'express';
 import * as Sentry from '@sentry/node';
+import cors from 'cors';
 import * as Tracing from '@sentry/tracing';
 import { RewriteFrames } from '@sentry/integrations';
 import compression from 'compression';
@@ -104,6 +105,7 @@ $settings({
 });
 
 app.use(compression());
+app.use(cors());
 app.get('/health', (req, res) => {
   res.sendStatus(200);
 });

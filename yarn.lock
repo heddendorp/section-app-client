@@ -5345,6 +5345,7 @@ __metadata:
     canvas: ^2.9.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
+    cors: ^2.8.5
     dayjs: ^1.11.2
     dotenv-cli: ^5.1.0
     eslint: ^8.15.0
@@ -9107,7 +9108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cors@npm:~2.8.5":
+"cors@npm:^2.8.5, cors@npm:~2.8.5":
   version: 2.8.5
   resolution: "cors@npm:2.8.5"
   dependencies:
