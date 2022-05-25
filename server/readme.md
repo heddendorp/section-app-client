@@ -1,7 +1,7 @@
-
 # TUMi server
 
 The backend to the TUMi webservices, handles data access, authentication and webhooks for the TUMi apps except Party Animals.
+
 ## Run Locally
 
 Clone the project
@@ -33,20 +33,24 @@ To make things easier, a `docker-compose.yml` is provided that helps you.
 You can find the environment config that goes with it in `.env.development`.
 
 ### Database
+
 The docker compose file has a postgres set up. You can reset the db in case there are any issues after starting the docker setup.
+
 ```bash
   yarn prisma:reset-dev
   yarn prisma:seed-dev
 ```
+
 These commands bring the db into sync with the schema and seed it.
 
 ### issues
-Currently the local azure blob storage solution does not work, help is appreciated.
 
+Currently the local azure blob storage solution does not work, help is appreciated.
 
 ## Documentation
 
 Relevant documentation for this project is listed below to give you a starting point.
+
 - [Prisma](https://www.prisma.io/docs/)
   For database access
 - [nexus prisma](https://nexus.prisma.io/)
@@ -57,4 +61,3 @@ Relevant documentation for this project is listed below to give you a starting p
 ## Roadmap
 
 - Replace nexus and nexus prisma with [pothos](https://pothos-graphql.dev/)
-
