@@ -1,27 +1,48 @@
-# LegacyApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+# TUMi app _legacy-app_
 
-## Development server
+This is the third version of the TUMi app you know and love, currently the active client at tumi.esn.world.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Run Locally
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Clone the project
 
-## Build
+```bash
+  git clone https://github.com/heddendorp/tumi.git
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Go to the project directory
 
-## Running unit tests
+```bash
+  cd tumi/legacy-app
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Install dependencies
 
-## Running end-to-end tests
+```bash
+  yarn install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Start the server
 
-## Further help
+```bash
+  yarn start
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+After this, you are able to work on the app.   
+To fetch data you need to have the [server](../server) running on localhost as well.
+
+
+## Documentation
+
+Relevant documentation for this project is listed below to give you a starting point.
+- [Angular docs](https://angular.io/docs)
+- [Angular material docs](https://material.angular.io/components/categories)   
+  For things like the formfields and some buttons, this is the UI library.
+  It would be nice to move further to Tailwind and reduce reliance on this library.
+- [Apollo Angular](https://apollo-angular.com/docs/)   
+  For data loading and most server commnication.
+- [TailwindCSS](https://tailwindcss.com/docs/utility-first)   
+  For general styling in the app instead of custom CSS.
+

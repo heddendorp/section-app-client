@@ -16,6 +16,8 @@
     "generate:nexus": "ts-node --transpile-only src/schema",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
+    "prisma:seed-dev": "dotenv -e .env.development -- ts-node prisma/seed.ts",
+    "prisma:reset-dev": "dotenv -e .env.development -- yarn prisma db push --accept-data-loss",
     "test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force && dotenv -e .env.test -- jest -i --detectOpenHandles",
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },
