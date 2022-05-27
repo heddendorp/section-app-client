@@ -5312,6 +5312,8 @@ __metadata:
     concurrently: ^7.2.1
     eslint: ^8.16.0
     graphql: ^16.5.0
+    highcharts: ^10.1.0
+    highcharts-angular: ^3.0.0
     jasmine-core: ~4.1.1
     karma: ~6.3.20
     karma-chrome-launcher: ~3.1.1
@@ -12815,6 +12817,26 @@ __metadata:
   version: 1.0.0
   resolution: "hexoid@npm:1.0.0"
   checksum: 27a148ca76a2358287f40445870116baaff4a0ed0acc99900bf167f0f708ffd82e044ff55e9949c71963852b580fc024146d3ac6d5d76b508b78d927fa48ae2d
+  languageName: node
+  linkType: hard
+
+"highcharts-angular@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "highcharts-angular@npm:3.0.0"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": ">=9.0.0"
+    "@angular/core": ">=9.0.0"
+    highcharts: ">=6.0.0"
+  checksum: aff6ede535b19e61aec46fc1befbe3267f56513d18d6e51569774d6a3b52809a8052c1bb83ddbc3f3c5f3d934f3292f721387663b5b89d0a9659a88c34b98f9b
+  languageName: node
+  linkType: hard
+
+"highcharts@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "highcharts@npm:10.1.0"
+  checksum: 62b5e5ce33b93d31f18a1dc3192defa77aa12b19ee1809723bb4e206385e0ae7dbe31f2e4f8c4dc683c87550a9dcdd5ee760f3862845bfd2ca271ca0b54f4dd1
   languageName: node
   linkType: hard
 

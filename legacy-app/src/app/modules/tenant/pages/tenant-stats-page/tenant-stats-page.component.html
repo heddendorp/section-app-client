@@ -1,5 +1,16 @@
 <main class="p-4" *ngIf="tenant$ | async as tenant">
   <h1 class="mb-4 font-mono font-black">Statistics HQ</h1>
+  <mat-form-field [formGroup]="rangeControl">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input formControlName="start" matStartDate placeholder="Start date" />
+      <input formControlName="end" matEndDate placeholder="End date" />
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
   <app-grid class="mb-4">
     <div class="kpi">
       <p class="title">Registered Users</p>
@@ -68,51 +79,12 @@
       <p>{{ entry.count }}</p>
     </ng-container>
   </div>
-  <div class="relative my-4">
-    <ngx-charts-line-chart
-      [results]="tenant.statistics.userHistory"
-      [legend]="true"
-      [yAxis]="true"
-      [xAxis]="true"
-      [view]="[700, 300]"
-      [legendPosition]="legendPosition"
-      legendTitle="Users"
-      class="relative"
-    ></ngx-charts-line-chart>
-  </div>
-  <div class="relative my-4">
-    <ngx-charts-line-chart
-      [results]="tenant.statistics.registrationHistory"
-      [legend]="true"
-      [yAxis]="true"
-      [xAxis]="true"
-      [view]="[700, 300]"
-      [legendPosition]="legendPosition"
-      legendTitle="Registrations"
-      class="relative"
-    ></ngx-charts-line-chart>
-  </div>
-  <div class="relative my-4">
-    <ngx-charts-line-chart
-      [results]="tenant.statistics.refundHistory"
-      [legend]="true"
-      [yAxis]="true"
-      [xAxis]="true"
-      [view]="[700, 300]"
-      [legendPosition]="legendPosition"
-      legendTitle="Refunds"
-      class="relative"
-    ></ngx-charts-line-chart>
-  </div>
-  <div class="relative my-4">
-    <ngx-charts-pie-chart
-      [results]="tenant.statistics.userEventDistribution"
-      [legend]="true"
-      [view]="[700, 300]"
-      [legendPosition]="legendPosition"
-      legendTitle="Event registrations"
-      class="relative"
-    ></ngx-charts-pie-chart>
+  <div class="relative my-4" *ngFor="let options of charts$ | async">
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="options"
+      style="width: 100%; height: 400px; display: block"
+    ></highcharts-chart>
   </div>
   <br />
   <!--  <pre>{{ tenant | json }}</pre>-->

@@ -109,6 +109,11 @@ input CreateUserInput {
   university: String
 }
 
+input DateRangeInput {
+  end: DateTime!
+  start: DateTime!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -886,22 +891,22 @@ type paymentSetupSession {
 }
 
 type statistics {
-  checkins: Int!
-  paidEvents: Int!
-  paidRegistrations: Int!
-  refundHistory: [Json!]!
-  registrationHistory: [Json!]!
-  registrations: Int!
-  totalEvents: Int!
-  userEventDistribution: [Json!]!
-  userHistory: [Json!]!
-  userUniversityDistribution: [Json!]!
-  usersRegistered: Int!
-  usersRegisteredEvents: Int!
-  usersRegisteredFreeEvents: Int!
-  usersRegisteredPaidEvents: Int!
-  usersWithCustomer: Int!
-  usersWithPaymentMethod: Int!
+  checkins(range: DateRangeInput): Int!
+  paidEvents(range: DateRangeInput): Int!
+  paidRegistrations(range: DateRangeInput): Int!
+  refundHistory(range: DateRangeInput): [Json!]!
+  registrationHistory(range: DateRangeInput): [Json!]!
+  registrations(range: DateRangeInput): Int!
+  totalEvents(range: DateRangeInput): Int!
+  userEventDistribution(range: DateRangeInput): [Json!]!
+  userHistory(range: DateRangeInput): [Json!]!
+  userUniversityDistribution(range: DateRangeInput): [Json!]!
+  usersRegistered(range: DateRangeInput): Int!
+  usersRegisteredEvents(range: DateRangeInput): Int!
+  usersRegisteredFreeEvents(range: DateRangeInput): Int!
+  usersRegisteredPaidEvents(range: DateRangeInput): Int!
+  usersWithCustomer(range: DateRangeInput): Int!
+  usersWithPaymentMethod(range: DateRangeInput): Int!
 }
 
 input updateTenantInput {

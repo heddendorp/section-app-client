@@ -131,6 +131,11 @@ export type CreateUserInput = {
   university?: InputMaybe<Scalars['String']>;
 };
 
+export type DateRangeInput = {
+  end: Scalars['DateTime'];
+  start: Scalars['DateTime'];
+};
+
 export type EventOrganizer = {
   __typename?: 'EventOrganizer';
   createdAt: Scalars['DateTime'];
@@ -1322,6 +1327,86 @@ export type Statistics = {
   usersWithPaymentMethod: Scalars['Int'];
 };
 
+
+export type StatisticsCheckinsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsPaidEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsPaidRegistrationsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsRefundHistoryArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsRegistrationHistoryArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsRegistrationsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsTotalEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUserEventDistributionArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUserHistoryArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUserUniversityDistributionArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersRegisteredArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersRegisteredEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersRegisteredFreeEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersRegisteredPaidEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersWithCustomerArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUsersWithPaymentMethodArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
 export type UpdateTenantInput = {
   aboutPage: Scalars['String'];
   faqPage?: InputMaybe<Scalars['String']>;
@@ -1822,7 +1907,9 @@ export type GetUsersQueryVariables = Exact<{
 
 export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } }> };
 
-export type GetStatisticsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetStatisticsQueryVariables = Exact<{
+  range?: InputMaybe<DateRangeInput>;
+}>;
 
 
 export type GetStatisticsQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, statistics: { __typename?: 'statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: Array<any>, registrationHistory: Array<any>, refundHistory: Array<any>, userEventDistribution: Array<any>, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: Array<any> } } | null };
@@ -4095,27 +4182,27 @@ export const GetUsersDocument = gql`
     }
   }
 export const GetStatisticsDocument = gql`
-    query getStatistics {
+    query getStatistics($range: DateRangeInput) {
   currentTenant {
     id
     name
     statistics {
-      usersRegistered
-      usersWithCustomer
-      usersWithPaymentMethod
-      registrations
-      userHistory
-      registrationHistory
-      refundHistory
-      userEventDistribution
-      usersRegisteredEvents
-      usersRegisteredFreeEvents
-      usersRegisteredPaidEvents
-      checkins
-      paidRegistrations
-      totalEvents
-      paidEvents
-      userUniversityDistribution
+      usersRegistered(range: $range)
+      usersWithCustomer(range: $range)
+      usersWithPaymentMethod(range: $range)
+      registrations(range: $range)
+      userHistory(range: $range)
+      registrationHistory(range: $range)
+      refundHistory(range: $range)
+      userEventDistribution(range: $range)
+      usersRegisteredEvents(range: $range)
+      usersRegisteredFreeEvents(range: $range)
+      usersRegisteredPaidEvents(range: $range)
+      checkins(range: $range)
+      paidRegistrations(range: $range)
+      totalEvents(range: $range)
+      paidEvents(range: $range)
+      userUniversityDistribution(range: $range)
     }
   }
 }

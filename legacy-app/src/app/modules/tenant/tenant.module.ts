@@ -26,10 +26,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { HighchartsChartModule } from 'highcharts-angular';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TenantEventRatingsComponent } from './pages/tenant-event-ratings/tenant-event-ratings.component';
 import { TenantEventBookingsPageComponent } from './pages/tenant-event-bookings-page/tenant-event-bookings-page.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -61,10 +62,11 @@ import { TenantEventBookingsPageComponent } from './pages/tenant-event-bookings-
     MatPaginatorModule,
     MatSlideToggleModule,
     MatTableModule,
-    NgxChartsModule,
+    HighchartsChartModule,
     ReactiveFormsModule,
     SharedModule,
     TenantRoutingModule,
+    MatDatepickerModule,
   ],
 })
 export class TenantModule {}

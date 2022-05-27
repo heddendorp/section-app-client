@@ -108,6 +108,10 @@ export interface NexusGenInputs {
     phone?: string | null; // String
     university?: string | null; // String
   }
+  DateRangeInput: { // input type
+    end: NexusGenScalars['DateTime']; // DateTime!
+    start: NexusGenScalars['DateTime']; // DateTime!
+  }
   NewOrganizerInput: { // input type
     link?: string | null; // String
     name: string; // String!
@@ -1872,6 +1876,56 @@ export interface NexusGenArgTypes {
     }
     purchases: { // args
       skipCancelled?: boolean | null; // Boolean
+    }
+  }
+  statistics: {
+    checkins: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    paidEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    paidRegistrations: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    refundHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    registrationHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    registrations: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    totalEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userEventDistribution: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userUniversityDistribution: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegistered: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredFreeEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredPaidEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersWithCustomer: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersWithPaymentMethod: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
     }
   }
 }
