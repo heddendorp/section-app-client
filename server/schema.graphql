@@ -320,6 +320,7 @@ type Mutation {
   ): TumiEvent!
   decreaseLineItemQuantity(id: ID!): LineItem
   deleteCostItem(id: ID!): TumiEvent!
+  deleteEvent(id: ID!): TumiEvent
   deleteLineItem(id: ID!): LineItem
   deleteProductImage(id: ID!): ProductImage
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!

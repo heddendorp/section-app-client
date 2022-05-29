@@ -7,6 +7,8 @@ import {
 import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
+  DeleteEventGQL,
+  DeleteEventMutation,
   DeregisterFromEventGQL,
   Exact,
   LoadEventForEditGQL,
@@ -26,7 +28,7 @@ import { SelectOrganizerDialogComponent } from '@tumi/legacy-app/modules/events/
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QueryRef } from 'apollo-angular';
 import {
   combineLatest,
@@ -70,20 +72,22 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     | undefined;
 
   constructor(
-    private title: Title,
-    private loadEventForEditGQL: LoadEventForEditGQL,
-    private loadUsers: LoadUsersByStatusGQL,
-    private updateGeneralEventGQL: UpdateGeneralEventGQL,
-    private updateCoreEventGQL: UpdateCoreEventGQL,
-    private updatePublicationMutation: UpdatePublicationGQL,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private addOrganizerMutation: AddOrganizerToEventGQL,
     private addSubmissionMutation: AddSubmissionToEventGQL,
-    private updateLocationMutation: UpdateEventLocationGQL,
-    private fb: FormBuilder,
+    private deleteEventGQL: DeleteEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private loadEventForEditGQL: LoadEventForEditGQL,
+    private loadUsers: LoadUsersByStatusGQL,
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private title: Title,
+    private updateCoreEventGQL: UpdateCoreEventGQL,
+    private updateGeneralEventGQL: UpdateGeneralEventGQL,
+    private updateLocationMutation: UpdateEventLocationGQL,
+    private updatePublicationMutation: UpdatePublicationGQL,
     public permission: PermissionsService
   ) {
     this.title.setTitle('TUMi - edit event');
@@ -167,6 +171,23 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
 
   get prices() {
     return this.coreInformationForm.get('prices')?.get('options') as FormArray;
+  }
+
+  async deleteEvent() {
+    const event = await firstValueFrom(this.event$);
+    const confirmDelete = confirm(
+      `Are you sure you want to delete ${event.title}?`
+    );
+    if (confirmDelete) {
+      try {
+        await firstValueFrom(this.deleteEventGQL.mutate({ id: event.id }));
+      } catch (e: any) {
+        console.error(e);
+        alert(e.message);
+        return;
+      }
+      await this.router.navigateByUrl('/events');
+    }
   }
 
   addPrice(): void {

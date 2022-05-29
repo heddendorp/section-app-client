@@ -696,6 +696,7 @@ export interface NexusGenFieldTypes {
     createSubmissionOnEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     decreaseLineItemQuantity: NexusGenRootTypes['LineItem'] | null; // LineItem
     deleteCostItem: NexusGenRootTypes['TumiEvent']; // TumiEvent!
+    deleteEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     deleteLineItem: NexusGenRootTypes['LineItem'] | null; // LineItem
     deleteProductImage: NexusGenRootTypes['ProductImage'] | null; // ProductImage
     deleteReceipt: NexusGenRootTypes['CostItem']; // CostItem!
@@ -1227,6 +1228,7 @@ export interface NexusGenFieldTypeNames {
     createSubmissionOnEvent: 'TumiEvent'
     decreaseLineItemQuantity: 'LineItem'
     deleteCostItem: 'TumiEvent'
+    deleteEvent: 'TumiEvent'
     deleteLineItem: 'LineItem'
     deleteProductImage: 'ProductImage'
     deleteReceipt: 'CostItem'
@@ -1648,6 +1650,9 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
     deleteCostItem: { // args
+      id: string; // ID!
+    }
+    deleteEvent: { // args
       id: string; // ID!
     }
     deleteLineItem: { // args

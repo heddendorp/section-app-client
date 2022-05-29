@@ -63,6 +63,12 @@ query loadEventForEdit($id: ID!) {
   }
 }
 
+mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id) {
+    id
+  }
+}
+
 mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
   addOrganizerToEvent(eventId: $eventId, userId: $userId) {
     id

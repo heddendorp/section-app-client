@@ -15,6 +15,7 @@ import {
   Prisma,
   PublicationState,
   RegistrationMode,
+  RegistrationStatus,
   RegistrationType,
   Role,
 } from '../../generated/prisma';
@@ -22,8 +23,49 @@ import { publicationStateEnum } from '../enums';
 import { updateLocationInputType } from '../eventTemplate';
 import { EnvelopError } from '@envelop/core';
 import { eventType } from './eventType';
-import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 import { GraphQLError } from 'graphql';
+import TumiEventWhereInput = Prisma.TumiEventWhereInput;
+import { GraphQLYogaError } from '@graphql-yoga/node';
+
+export const deleteEventMutation = mutationField('deleteEvent', {
+  type: eventType,
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: async (_, { id }: { id: string }, context) => {
+    const registrations = await context.prisma.eventRegistration.findMany({
+      where: {
+        event: {
+          id,
+        },
+        status: {
+          not: RegistrationStatus.CANCELLED,
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (registrations.length > 0) {
+      throw new GraphQLYogaError(
+        `Event has ${registrations.length} registrations that are not cancelled. Please cancel them before deleting.` +
+          '\n' +
+          registrations.map((r) => `${r.user.email} ${r.type}`).join('/n')
+      );
+    }
+    await context.prisma.eventRegistration.deleteMany({
+      where: {
+        event: {
+          id,
+        },
+      },
+    });
+    return context.prisma.tumiEvent.delete({
+      where: { id },
+    });
+  },
+});
 
 export const updateCostItemsFromTemplateMutation = mutationField(
   'updateCostItemsFromTemplate',
@@ -63,7 +105,8 @@ export const updateCostItemsFromTemplateMutation = mutationField(
             switch (item.type) {
               case 'event':
                 amount = item.value;
-                calculationInfo = `${item.value}€ per event`;
+                calculationInfo = `
+    }${item.value}€ per event`;
                 break;
               case 'participant':
                 amount = item.value * allParticipants;

@@ -316,7 +316,7 @@
           </form>
         </div>
       </mat-tab>
-      <mat-tab label="Userdata" *appIfRole="[Role.Admin]">
+      <mat-tab label="Admin options" *appIfRole="[Role.Admin]">
         <div class="p-4" *ngIf="event$ | async as event">
           <h1 class="mt-16 mb-2">Additional Data</h1>
           <app-data-items-manager
@@ -325,6 +325,16 @@
             [items]="event.submissionItems"
             (reloadParent)="reloadEvent()"
           ></app-data-items-manager>
+          <h1 class="mt-16 mb-2">Delete Event</h1>
+          <button
+            mat-flat-button
+            class="modern"
+            color="warn"
+            (click)="deleteEvent()"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+            <span>Delete event</span>
+          </button>
         </div>
       </mat-tab>
       <mat-tab label="Organizers">

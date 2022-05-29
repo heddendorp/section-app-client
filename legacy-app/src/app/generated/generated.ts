@@ -327,6 +327,7 @@ export type Mutation = {
   createSubmissionOnEvent: TumiEvent;
   decreaseLineItemQuantity?: Maybe<LineItem>;
   deleteCostItem: TumiEvent;
+  deleteEvent?: Maybe<TumiEvent>;
   deleteLineItem?: Maybe<LineItem>;
   deleteProductImage?: Maybe<ProductImage>;
   deleteReceipt: CostItem;
@@ -459,6 +460,11 @@ export type MutationDecreaseLineItemQuantityArgs = {
 
 
 export type MutationDeleteCostItemArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteEventArgs = {
   id: Scalars['ID'];
 };
 
@@ -1646,6 +1652,13 @@ export type LoadEventForEditQueryVariables = Exact<{
 
 
 export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, description: string, location: string, coordinates?: any | null, organizerText: string, participantText: string, registrationMode: RegistrationMode, prices?: any | null, eventOrganizerId: string, organizerSignup: Array<MembershipStatus>, participantSignup: Array<MembershipStatus>, organizerRegistrationPossible: boolean, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantLimit: number, organizerLimit: number, publicationState: PublicationState, registrationLink?: string | null, insuranceDescription: string, shouldBeReportedToInsurance: boolean, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: any, required: boolean, submissionTime: SubmissionTime, type: SubmissionItemType, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', picture: string, fullName: string } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } } | null, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'TumiEvent', id: string } | null };
 
 export type AddOrganizerToEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
@@ -3000,6 +3013,24 @@ export const LoadEventForEditDocument = gql`
   })
   export class LoadEventForEditGQL extends Apollo.Query<LoadEventForEditQuery, LoadEventForEditQueryVariables> {
     override document = LoadEventForEditDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteEventDocument = gql`
+    mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
+    override document = DeleteEventDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
