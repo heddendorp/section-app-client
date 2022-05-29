@@ -150,7 +150,7 @@ model User {
   phone               String?
   picture             String
   university          String?
-  enrolmentStatus     EnrollmentStatus    @default(OTHER)
+  enrolmentStatus     EnrollmentStatus    @default(NONE)
   // Calendar fucntionality
   calendarToken       String              @unique @default(uuid()) @db.Uuid
   // User relations

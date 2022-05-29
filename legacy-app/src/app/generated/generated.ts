@@ -1335,6 +1335,7 @@ export type Statistics = {
   totalEvents: Scalars['Int'];
   userEventDistribution: Array<Scalars['Json']>;
   userHistory: Array<Scalars['Json']>;
+  userStatusDistribution: Array<Scalars['Json']>;
   userUniversityDistribution: Array<Scalars['Json']>;
   usersRegistered: Scalars['Int'];
   usersRegisteredEvents: Scalars['Int'];
@@ -1386,6 +1387,11 @@ export type StatisticsUserEventDistributionArgs = {
 
 
 export type StatisticsUserHistoryArgs = {
+  range?: InputMaybe<DateRangeInput>;
+};
+
+
+export type StatisticsUserStatusDistributionArgs = {
   range?: InputMaybe<DateRangeInput>;
 };
 
@@ -1936,7 +1942,7 @@ export type GetStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type GetStatisticsQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, statistics: { __typename?: 'statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: Array<any>, registrationHistory: Array<any>, refundHistory: Array<any>, userEventDistribution: Array<any>, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: Array<any> } } | null };
+export type GetStatisticsQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, statistics: { __typename?: 'statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: Array<any>, registrationHistory: Array<any>, refundHistory: Array<any>, userEventDistribution: Array<any>, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: Array<any>, userStatusDistribution: Array<any> } } | null };
 
 export type GetLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4248,6 +4254,7 @@ export const GetStatisticsDocument = gql`
       totalEvents(range: $range)
       paidEvents(range: $range)
       userUniversityDistribution(range: $range)
+      userStatusDistribution(range: $range)
     }
   }
 }

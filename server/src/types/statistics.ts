@@ -393,6 +393,30 @@ export const statisticsType = objectType({
           ),
     });
     t.field({
+      name: 'userStatusDistribution',
+      type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
+      // @ts-ignore
+      resolve: (root: Tenant, { range }, context) =>
+        context.prisma.user
+          .groupBy({
+            where: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+              tenants: { some: { tenantId: context.tenant.id } },
+            },
+            by: ['enrolmentStatus'],
+            _count: { enrolmentStatus: true },
+          })
+          .then((res) =>
+            res.map((entry) => ({
+              status: entry.enrolmentStatus,
+              count: entry._count.enrolmentStatus,
+            }))
+          ),
+    });
+    t.field({
       name: 'userHistory',
       type: nonNull(list(nonNull('Json'))),
       args: { range: arg({ type: dateRangeInputType }) },

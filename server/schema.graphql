@@ -912,6 +912,7 @@ type statistics {
   totalEvents(range: DateRangeInput): Int!
   userEventDistribution(range: DateRangeInput): [Json!]!
   userHistory(range: DateRangeInput): [Json!]!
+  userStatusDistribution(range: DateRangeInput): [Json!]!
   userUniversityDistribution(range: DateRangeInput): [Json!]!
   usersRegistered(range: DateRangeInput): Int!
   usersRegisteredEvents(range: DateRangeInput): Int!

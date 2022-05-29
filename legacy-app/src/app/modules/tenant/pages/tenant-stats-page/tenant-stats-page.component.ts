@@ -32,7 +32,10 @@ export class TenantStatsPageComponent implements OnDestroy {
       },
     ],
   };
-  charts$: Observable<Highcharts.Options[]>;
+  charts$: Observable<{
+    line: Highcharts.Options[];
+    pie: Highcharts.Options[];
+  }>;
   public tenant$: Observable<GetStatisticsQuery['currentTenant']>;
   // public legendPosition = LegendPosition.Right;
   private getStatisticsRef;
@@ -56,58 +59,98 @@ export class TenantStatsPageComponent implements OnDestroy {
       map((tenant) => {
         const stats = tenant?.statistics;
         if (!stats) {
-          return [];
+          return { line: [], pie: [] };
         }
-        return [
-          {
-            series: stats.userHistory.map((series) => ({
-              name: series.name,
-              data: series.series.map((data: any) => [
-                new Date(data.name).getTime(),
-                data.value,
-              ]),
-              type: 'line',
-            })),
-            title: {
-              text: 'User History',
+        return {
+          line: [
+            {
+              series: stats.userHistory.map((series) => ({
+                name: series.name,
+                data: series.series.map((data: any) => [
+                  new Date(data.name).getTime(),
+                  data.value,
+                ]),
+                type: 'line',
+              })),
+              title: {
+                text: 'User History',
+              },
+              xAxis: {
+                type: 'datetime',
+              },
             },
-            xAxis: {
-              type: 'datetime',
+            {
+              series: stats.registrationHistory.map((series) => ({
+                name: series.name,
+                data: series.series.map((data: any) => [
+                  new Date(data.name).getTime(),
+                  data.value,
+                ]),
+                type: 'line',
+              })),
+              title: {
+                text: 'Registration History',
+              },
+              xAxis: {
+                type: 'datetime',
+              },
             },
-          },
-          {
-            series: stats.registrationHistory.map((series) => ({
-              name: series.name,
-              data: series.series.map((data: any) => [
-                new Date(data.name).getTime(),
-                data.value,
-              ]),
-              type: 'line',
-            })),
-            title: {
-              text: 'Registration History',
+            {
+              series: stats.refundHistory.map((series) => ({
+                name: series.name,
+                data: series.series.map((data: any) => [
+                  new Date(data.name).getTime(),
+                  data.value,
+                ]),
+                type: 'line',
+              })),
+              title: {
+                text: 'Refund History',
+              },
+              xAxis: {
+                type: 'datetime',
+              },
             },
-            xAxis: {
-              type: 'datetime',
+          ],
+          pie: [
+            {
+              title: {
+                text: 'University distribution',
+              },
+              chart: {
+                type: 'pie',
+              },
+              series: [
+                {
+                  colorByPoint: true,
+                  type: 'pie',
+                  data: stats.userUniversityDistribution.map((data) => ({
+                    name: data.uni ?? 'not set',
+                    y: data.count,
+                  })),
+                },
+              ],
             },
-          },
-          {
-            series: stats.refundHistory.map((series) => ({
-              name: series.name,
-              data: series.series.map((data: any) => [
-                new Date(data.name).getTime(),
-                data.value,
-              ]),
-              type: 'line',
-            })),
-            title: {
-              text: 'Refund History',
+            {
+              title: {
+                text: 'Enrolment status distribution',
+              },
+              chart: {
+                type: 'pie',
+              },
+              series: [
+                {
+                  colorByPoint: true,
+                  type: 'pie',
+                  data: stats.userStatusDistribution.map((data) => ({
+                    name: data.status,
+                    y: data.count,
+                  })),
+                },
+              ],
             },
-            xAxis: {
-              type: 'datetime',
-            },
-          },
-        ];
+          ],
+        };
       })
     );
   }

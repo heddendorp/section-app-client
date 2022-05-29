@@ -79,12 +79,32 @@
       <p>{{ entry.count }}</p>
     </ng-container>
   </div>
-  <div class="relative my-4" *ngFor="let options of charts$ | async">
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="options"
-      style="width: 100%; height: 400px; display: block"
-    ></highcharts-chart>
+  <h2>Status distribution</h2>
+  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
+    <ng-container
+      *ngFor="let entry of tenant.statistics.userStatusDistribution"
+    >
+      <p class="font-bold">{{ entry.status | titlecase }}</p>
+      <p>{{ entry.count }}</p>
+    </ng-container>
+  </div>
+  <div *ngIf="charts$ | async as charts">
+    <div gdAuto gdColumns.gt-md="1fr 1fr" gdColumns="1fr" gdGap="1rem">
+      <div *ngFor="let options of charts.pie">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="options"
+          style="width: 100%; height: 400px; display: block"
+        ></highcharts-chart>
+      </div>
+    </div>
+    <div class="relative my-4" *ngFor="let options of charts.line">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="options"
+        style="width: 100%; height: 400px; display: block"
+      ></highcharts-chart>
+    </div>
   </div>
   <br />
   <!--  <pre>{{ tenant | json }}</pre>-->

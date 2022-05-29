@@ -1042,6 +1042,7 @@ export interface NexusGenFieldTypes {
     totalEvents: number; // Int!
     userEventDistribution: NexusGenScalars['Json'][]; // [Json!]!
     userHistory: NexusGenScalars['Json'][]; // [Json!]!
+    userStatusDistribution: NexusGenScalars['Json'][]; // [Json!]!
     userUniversityDistribution: NexusGenScalars['Json'][]; // [Json!]!
     usersRegistered: number; // Int!
     usersRegisteredEvents: number; // Int!
@@ -1575,6 +1576,7 @@ export interface NexusGenFieldTypeNames {
     totalEvents: 'Int'
     userEventDistribution: 'Json'
     userHistory: 'Json'
+    userStatusDistribution: 'Json'
     userUniversityDistribution: 'Json'
     usersRegistered: 'Int'
     usersRegisteredEvents: 'Int'
@@ -1915,6 +1917,9 @@ export interface NexusGenArgTypes {
       range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
     }
     userHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userStatusDistribution: { // args
       range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
     }
     userUniversityDistribution: { // args

@@ -212,6 +212,7 @@ query getStatistics($range: DateRangeInput) {
       paidEvents(range: $range)
       #      averageEventCost
       userUniversityDistribution(range: $range)
+      userStatusDistribution(range: $range)
     }
   }
 }
