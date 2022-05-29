@@ -95,7 +95,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     const idTest = new RegExp(
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
     );
-    this.scanResult$.pipe(debounceTime(500)).subscribe((result) => {
+    this.scanResult$.subscribe((result) => {
       const isID = idTest.test(result);
       if (result.includes('HC1')) {
         // DCC.unpackAndVerify(result);
@@ -130,11 +130,21 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
           );
       }
     });
-    QrScanner.WORKER_PATH = 'assets/qr-scanner-worker.min.js';
     if (this.video?.nativeElement) {
-      this.scanner = new QrScanner(this.video?.nativeElement, (result) => {
-        this.scanResult$.next(result);
-      });
+      this.scanner = new QrScanner(
+        this.video?.nativeElement,
+        (result) => {
+          if (typeof result === 'string') {
+            this.scanResult$.next(result);
+          }
+          this.scanResult$.next(result.data);
+        },
+        {
+          maxScansPerSecond: 2,
+          highlightScanRegion: true,
+          highlightCodeOutline: true,
+        }
+      );
       await this.scanner.setCamera('environment');
     } else {
       this.snackBar.open('No video element found');

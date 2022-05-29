@@ -33,7 +33,7 @@
               {
                 "glob": "qr-scanner-worker.min.js",
                 "input": "../node_modules/qr-scanner/",
-                "output": "assets/"
+                "output": "/"
               }
             ],
             "styles": ["src/styles.scss"],
