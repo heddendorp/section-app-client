@@ -27,6 +27,14 @@ enum Role {
   ADMIN
 }
 
+enum EnrollmentStatus {
+  LOCAL
+  EXCHANGE
+  INTERNATIONAL
+  NONE
+  OTHER
+}
+
 enum MembershipStatus {
   NONE
   TRIAL
@@ -142,6 +150,7 @@ model User {
   phone               String?
   picture             String
   university          String?
+  enrolmentStatus     EnrollmentStatus    @default(OTHER)
   // Calendar fucntionality
   calendarToken       String              @unique @default(uuid()) @db.Uuid
   // User relations

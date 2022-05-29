@@ -16,6 +16,7 @@ import { envelopPlugins } from './getEnveloped';
 import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
+import { EnrollmentStatus } from './generated/prisma';
 
 declare global {
   namespace NodeJS {

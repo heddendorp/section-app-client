@@ -103,6 +103,7 @@ input CreateSubmissionItemInput {
 """New user input object"""
 input CreateUserInput {
   birthdate: DateTime
+  enrolmentStatus: EnrollmentStatus!
   firstName: String!
   lastName: String!
   phone: String
@@ -121,6 +122,14 @@ scalar DateTime
 
 """An arbitrary-precision Decimal type"""
 scalar Decimal
+
+enum EnrollmentStatus {
+  EXCHANGE
+  INTERNATIONAL
+  LOCAL
+  NONE
+  OTHER
+}
 
 type EventOrganizer {
   createdAt: DateTime!
@@ -802,6 +811,7 @@ input UpdateProductInput {
 
 """Profile update input object"""
 input UpdateProfileInput {
+  enrolmentStatus: EnrollmentStatus!
   firstName: String!
   lastName: String!
   phone: String
@@ -832,6 +842,7 @@ type User {
   currentTenant(userId: ID): UsersOfTenants!
   email: String!
   email_verified: Boolean!
+  enrolmentStatus: EnrollmentStatus!
   esnCardOverride: Boolean!
   eventRegistrations: [EventRegistration!]!
   firstName: String!

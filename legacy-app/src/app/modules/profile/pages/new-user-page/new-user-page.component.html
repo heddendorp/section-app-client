@@ -1,6 +1,6 @@
 <main class="space-y-2 p-4">
   <h1>Hello there 👋</h1>
-  <p>Let's get you set up</p>
+  <p>There is some data missing from your profile</p>
   <form
     [formGroup]="welcomeForm"
     (ngSubmit)="onSubmit()"
@@ -30,6 +30,20 @@
         <mat-option value="hm">HM</mat-option>
         <mat-option value="otherUni">other university</mat-option>
         <mat-option value="other">not a student</mat-option>
+      </mat-select>
+      <mat-error>Your university is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enrolment Status</mat-label>
+      <mat-select formControlName="enrolmentStatus" required>
+        <mat-option [value]="EnrolmentStatus.Exchange"
+          >Exchange student</mat-option
+        >
+        <mat-option [value]="EnrolmentStatus.International"
+          >International degree student</mat-option
+        >
+        <mat-option [value]="EnrolmentStatus.Local">Local student</mat-option>
+        <mat-option [value]="EnrolmentStatus.Other">Other</mat-option>
       </mat-select>
       <mat-error>Your university is required</mat-error>
     </mat-form-field>

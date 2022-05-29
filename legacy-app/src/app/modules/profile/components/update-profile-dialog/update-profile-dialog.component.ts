@@ -6,7 +6,10 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserProfileQuery } from '@tumi/legacy-app/generated/generated';
+import {
+  EnrollmentStatus,
+  UserProfileQuery,
+} from '@tumi/legacy-app/generated/generated';
 
 @Component({
   selector: 'app-update-profile-dialog',
@@ -16,6 +19,7 @@ import { UserProfileQuery } from '@tumi/legacy-app/generated/generated';
 })
 export class UpdateProfileDialogComponent {
   public profileForm: FormGroup;
+  public EnrolmentStatus = EnrollmentStatus;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialogRef<UpdateProfileDialogComponent>,
@@ -26,6 +30,7 @@ export class UpdateProfileDialogComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       university: ['', Validators.required],
+      enrolmentStatus: ['', Validators.required],
       phone: ['', Validators.pattern(/[+][0-9]+/)],
     });
     this.profileForm.patchValue({ ...this.data.profile });

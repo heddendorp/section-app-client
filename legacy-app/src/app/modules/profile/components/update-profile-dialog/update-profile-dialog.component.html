@@ -21,6 +21,20 @@
       <mat-error>Your university is required</mat-error>
     </mat-form-field>
     <mat-form-field class="my-2 w-full">
+      <mat-label>Enrolment Status</mat-label>
+      <mat-select formControlName="enrolmentStatus" required>
+        <mat-option [value]="EnrolmentStatus.Exchange"
+          >Exchange student</mat-option
+        >
+        <mat-option [value]="EnrolmentStatus.International"
+          >International degree student</mat-option
+        >
+        <mat-option [value]="EnrolmentStatus.Local">Local student</mat-option>
+        <mat-option [value]="EnrolmentStatus.Other">Other</mat-option>
+      </mat-select>
+      <mat-error>Your university is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="my-2 w-full">
       <mat-label>Phone number</mat-label>
       <input matInput formControlName="phone" type="tel" minlength="5" />
       <mat-hint>

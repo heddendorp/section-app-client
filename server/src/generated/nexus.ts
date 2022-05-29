@@ -103,6 +103,7 @@ export interface NexusGenInputs {
   }
   CreateUserInput: { // input type
     birthdate?: NexusGenScalars['DateTime'] | null; // DateTime
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     firstName: string; // String!
     lastName: string; // String!
     phone?: string | null; // String
@@ -153,6 +154,7 @@ export interface NexusGenInputs {
     title: string; // String!
   }
   UpdateProfileInput: { // input type
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     firstName: string; // String!
     lastName: string; // String!
     phone?: string | null; // String
@@ -179,6 +181,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  EnrollmentStatus: "EXCHANGE" | "INTERNATIONAL" | "LOCAL" | "NONE" | "OTHER"
   LogSeverity: "DEBUG" | "ERROR" | "INFO" | "SILLY" | "WARNING"
   MembershipStatus: "ALUMNI" | "FULL" | "NONE" | "SPONSOR" | "TRIAL"
   PublicationState: "APPROVAL" | "DRAFT" | "ORGANIZERS" | "PUBLIC"
@@ -468,6 +471,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     email_verified: boolean; // Boolean!
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     esnCardOverride: boolean; // Boolean!
     firstName: string; // String!
     iban?: string | null; // String
@@ -980,6 +984,7 @@ export interface NexusGenFieldTypes {
     currentTenant: NexusGenRootTypes['UsersOfTenants']; // UsersOfTenants!
     email: string; // String!
     email_verified: boolean; // Boolean!
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     esnCardOverride: boolean; // Boolean!
     eventRegistrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     firstName: string; // String!
@@ -1512,6 +1517,7 @@ export interface NexusGenFieldTypeNames {
     currentTenant: 'UsersOfTenants'
     email: 'String'
     email_verified: 'Boolean'
+    enrolmentStatus: 'EnrollmentStatus'
     esnCardOverride: 'Boolean'
     eventRegistrations: 'EventRegistration'
     firstName: 'String'
