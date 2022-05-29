@@ -1,14 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   GetStatisticsGQL,
   GetStatisticsQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import * as Highcharts from 'highcharts';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -40,6 +35,7 @@ export class TenantStatsPageComponent implements OnDestroy {
   // public legendPosition = LegendPosition.Right;
   private getStatisticsRef;
   private rangeSubscription;
+
   constructor(private getStatistics: GetStatisticsGQL) {
     this.getStatisticsRef = this.getStatistics.watch();
     this.rangeSubscription = this.rangeControl.valueChanges.subscribe(

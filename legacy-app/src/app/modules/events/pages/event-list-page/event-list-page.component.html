@@ -138,10 +138,39 @@
       </p>
     </div>-->
   </div>
-  <app-event-list
-    *ngIf="events$ | async as events"
-    [events]="events"
-  ></app-event-list>
+  <ng-container [ngSwitch]="selectedView | async">
+    <ng-container *ngSwitchCase="'list'">
+      <div>
+        <button
+          mat-stroked-button
+          class="modern mb-4"
+          (click)="toggleSelectedView()"
+        >
+          <mat-icon svgIcon="icon-calendar"></mat-icon>
+          <span>Switch to calendar view</span>
+        </button>
+      </div>
+      <app-event-list
+        *ngIf="events$ | async as events"
+        [events]="events"
+      ></app-event-list>
+    </ng-container>
+    <ng-container *ngSwitchCase="'calendar'">
+      <div>
+        <button
+          mat-stroked-button
+          class="modern mb-4"
+          (click)="toggleSelectedView()"
+        >
+          <span>Switch to list view</span>
+        </button>
+      </div>
+      <app-event-calendar
+        *ngIf="events$ | async as events"
+        [events]="events"
+      ></app-event-calendar>
+    </ng-container>
+  </ng-container>
   <div
     *ngIf="(events$ | async)?.length === 0"
     class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"

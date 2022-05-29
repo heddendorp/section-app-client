@@ -1661,7 +1661,7 @@ export type EventListQueryVariables = Exact<{
 }>;
 
 
-export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, registrationStart: any, prices?: any | null, freeParticipantSpots: string, organizerLimit: number, organizersRegistered: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userRegistered: boolean, userIsOrganizer: boolean }> };
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, prices?: any | null, freeParticipantSpots: string, organizerLimit: number, organizersRegistered: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userRegistered: boolean, userIsOrganizer: boolean }> };
 
 export type LoadEventForEditQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2935,6 +2935,7 @@ export const EventListDocument = gql`
     title
     icon
     start
+    end
     registrationStart
     prices
     freeParticipantSpots

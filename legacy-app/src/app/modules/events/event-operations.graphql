@@ -408,6 +408,7 @@ query eventList($after: DateTime) {
     title
     icon
     start
+    end
     registrationStart
     prices
     freeParticipantSpots

@@ -1,0 +1,36 @@
+<div class="mt-4 mb-2">
+  Get an overview about the upcoming events. Events without free spots are
+  <span class="opacity-40">in a lighter color</span>. If the registration is not
+  yet open, you can see a 🔒 with the date of the registration.
+</div>
+<div gdAuto gdColumns="repeat(7, 1fr)" class="border-r border-b">
+  <ng-container *ngFor="let month of months">
+    <div gdColumn="-1/1" class="border-t border-l p-4">
+      <p class="font-bold">{{ month.month }} {{ month.year }}</p>
+    </div>
+    <div class="border-t border-l p-1" *ngFor="let weekday of weekdays">
+      <p>{{ weekday }}</p>
+    </div>
+    <ng-container *ngFor="let week of month.weeks">
+      <div
+        *ngFor="let day of week.days"
+        class="flex flex-col space-y-2 border-t border-l p-2"
+      >
+        <p *ngIf="!day.notInMonth" class="mb-2">{{ day.date }}.</p>
+        <a
+          *ngFor="let event of day.events"
+          routerLink="/events/{{ event.id }}"
+          class="rounded bg-gray-300 p-1 {{
+            event.freeParticipantSpots === 'Event is full' ? 'opacity-40' : ''
+          }}"
+        >
+          {{ event.start | date: 'HH:mm' }}
+          {{ event.title }}
+          <p *ngIf="!isRegistrationOpen(event)">
+            🔒 {{ event.registrationStart | date: 'dd.MM HH:mm' }}
+          </p>
+        </a>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -35,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
+import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { PublicRegistrationCodesPageComponent } from './pages/public-registratio
     StripeEventRegistrationComponent,
     AddReceiptDialogComponent,
     PublicRegistrationCodesPageComponent,
+    EventCalendarComponent,
   ],
   imports: [
     CommonModule,
