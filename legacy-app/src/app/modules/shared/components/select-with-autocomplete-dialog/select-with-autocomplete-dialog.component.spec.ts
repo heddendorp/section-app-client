@@ -8,9 +8,8 @@ describe('SelectWithAutocompleteDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectWithAutocompleteDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SelectWithAutocompleteDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
