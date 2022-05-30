@@ -21,10 +21,15 @@
       <a
         *ngFor="let event of day.events"
         routerLink="/events/{{ event.id }}"
-        class="rounded bg-gray-300 p-1 {{
+        class="rounded bg-gray-200 p-1 {{
           event.freeParticipantSpots === 'Event is full' ? 'opacity-40' : ''
         }}"
       >
+        <img
+          [src]="event.icon | iconURL"
+          alt="{{ event.icon }}"
+          class="float-right ml-1 w-8"
+        />
         {{ event.start | date: 'HH:mm' }}
         {{ event.title }}
         <p *ngIf="!isRegistrationOpen(event)">
