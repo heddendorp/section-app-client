@@ -321,6 +321,18 @@
             [items]="event.submissionItems"
             (reloadParent)="reloadEvent()"
           ></app-data-items-manager>
+          <h1 class="mt-16 mb-2">Change event template</h1>
+          <p class="mb-2">
+            Connected template: {{ event.eventTemplate.title }}
+          </p>
+          <button
+            mat-flat-button
+            class="modern"
+            color="primary"
+            (click)="changeTemplate()"
+          >
+            <span>Change connected template</span>
+          </button>
           <h1 class="mt-16 mb-2">Delete Event</h1>
           <button
             mat-flat-button

@@ -8,9 +8,9 @@ import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
   DeleteEventGQL,
-  DeleteEventMutation,
   DeregisterFromEventGQL,
   Exact,
+  GetEventTemplatesGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
@@ -21,10 +21,10 @@ import {
   Role,
   UpdateCoreEventGQL,
   UpdateEventLocationGQL,
+  UpdateEventTemplateConnectionGQL,
   UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { SelectOrganizerDialogComponent } from '@tumi/legacy-app/modules/events/components/select-organizer-dialog/select-organizer-dialog.component';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,6 +47,10 @@ import { Title } from '@angular/platform-browser';
 import { SelectLocationDialogComponent } from '@tumi/legacy-app/modules/shared/components/select-location-dialog/select-location-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
+import {
+  SelectWithAutocompleteDialogComponent,
+  SelectWithAutocompleteDialogData,
+} from '@tumi/legacy-app/modules/shared/components/select-with-autocomplete-dialog/select-with-autocomplete-dialog.component';
 
 @Component({
   selector: 'app-event-edit-page',
@@ -65,8 +69,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
-  private destroyed$ = new Subject();
   public editingProhibited$: Observable<boolean>;
+  private destroyed$ = new Subject();
   private loadEventRef:
     | QueryRef<LoadEventForEditQuery, Exact<{ id: string }>>
     | undefined;
@@ -88,6 +92,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private updateGeneralEventGQL: UpdateGeneralEventGQL,
     private updateLocationMutation: UpdateEventLocationGQL,
     private updatePublicationMutation: UpdatePublicationGQL,
+    private updateEventTemplateGQL: UpdateEventTemplateConnectionGQL,
+    private getEventTemplatesGQL: GetEventTemplatesGQL,
     public permission: PermissionsService
   ) {
     this.title.setTitle('TUMi - edit event');
@@ -172,6 +178,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
 
   get prices() {
     return this.coreInformationForm.get('prices')?.get('options') as FormArray;
+  }
+
+  get statusOptions() {
+    return Object.values(this.MembershipStatus);
   }
 
   async deleteEvent() {
@@ -274,10 +284,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  get statusOptions() {
-    return Object.values(this.MembershipStatus);
-  }
-
   async addOrganizer() {
     const loader = this.snackBar.open('Loading data ⏳', undefined, {
       duration: 0,
@@ -290,17 +296,56 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
     loader.dismiss();
     const userId = await this.dialog
-      .open(SelectOrganizerDialogComponent, { data: { choices } })
+      .open<
+        SelectWithAutocompleteDialogComponent,
+        SelectWithAutocompleteDialogData
+      >(SelectWithAutocompleteDialogComponent, {
+        data: {
+          choices,
+          displayAttribute: 'fullName',
+          title: 'Select Organizer',
+        },
+      })
       .afterClosed()
       .toPromise();
-    this.snackBar.open('Adding user ⏳', undefined, { duration: 0 });
     if (userId && event) {
+      this.snackBar.open('Adding user ⏳', undefined, { duration: 0 });
       await this.addOrganizerMutation
         .mutate({ eventId: event.id, userId })
         .toPromise();
       if (this.loadEventRef) {
         await this.loadEventRef.refetch();
       }
+      this.snackBar.open('User added ✔️');
+    }
+  }
+
+  async changeTemplate() {
+    const loader = this.snackBar.open('Loading data ⏳', undefined, {
+      duration: 0,
+    });
+    const event = await firstValueFrom(this.event$);
+    const templates = await firstValueFrom(this.getEventTemplatesGQL.fetch());
+    const choices = templates.data.eventTemplates;
+    loader.dismiss();
+    const templateId = await this.dialog
+      .open<
+        SelectWithAutocompleteDialogComponent,
+        SelectWithAutocompleteDialogData
+      >(SelectWithAutocompleteDialogComponent, {
+        data: {
+          choices,
+          displayAttribute: 'title',
+          title: 'Select Template',
+        },
+      })
+      .afterClosed()
+      .toPromise();
+    if (templateId && event) {
+      this.snackBar.open('Updating Event ⏳', undefined, { duration: 0 });
+      await firstValueFrom(
+        this.updateEventTemplateGQL.mutate({ templateId, eventId: event.id })
+      );
       this.snackBar.open('User added ✔️');
     }
   }

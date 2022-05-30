@@ -150,7 +150,7 @@ export const createEventFromTemplateInput = inputObjectType({
 
 export const updateGeneralEventInput = inputObjectType({
   name: 'UpdateGeneralEventInput',
-  description: 'Additional inputs to create an event from a template',
+  description: 'Texts related to an event',
   definition(t) {
     t.field(TumiEvent.description);
     t.field(TumiEvent.organizerText);
@@ -159,7 +159,7 @@ export const updateGeneralEventInput = inputObjectType({
 });
 export const updateCoreEventInput = inputObjectType({
   name: 'UpdateCoreEventInput',
-  description: 'Additional inputs to create an event from a template',
+  description: 'Core information related to an event',
   definition(t) {
     t.field(TumiEvent.disableDeregistration);
     t.field(TumiEvent.end);
@@ -253,7 +253,7 @@ export const updateEventLocationMutation = mutationField(
   'updateEventLocation',
   {
     type: eventType,
-    description: 'Update an event template',
+    description: 'Update an event location',
     args: { id: nonNull(idArg()), data: nonNull(updateLocationInputType) },
     resolve: async (source, { id, data }, context) => {
       const event = await context.prisma.tumiEvent.findUnique({
@@ -266,6 +266,24 @@ export const updateEventLocationMutation = mutationField(
         );
       }
       return context.prisma.tumiEvent.update({ where: { id }, data });
+    },
+  }
+);
+
+export const updateEventTemplateConnectionMutation = mutationField(
+  'updateEventTemplateConnection',
+  {
+    type: eventType,
+    description: 'Update an event template',
+    args: {
+      id: nonNull(idArg()),
+      templateId: nonNull(idArg()),
+    },
+    resolve: async (source, { id, templateId }, context) => {
+      return context.prisma.tumiEvent.update({
+        where: { id },
+        data: { eventTemplate: { connect: { id: templateId } } },
+      });
     },
   }
 );

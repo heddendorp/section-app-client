@@ -355,8 +355,10 @@ export type Mutation = {
   updateESNcard?: Maybe<User>;
   updateEventCoreInfo: TumiEvent;
   updateEventGeneralInfo: TumiEvent;
-  /** Update an event template */
+  /** Update an event location */
   updateEventLocation?: Maybe<TumiEvent>;
+  /** Update an event template */
+  updateEventTemplateConnection?: Maybe<TumiEvent>;
   updateLeadImage: Product;
   updateProduct: Product;
   updateProfile?: Maybe<User>;
@@ -572,6 +574,12 @@ export type MutationUpdateEventGeneralInfoArgs = {
 export type MutationUpdateEventLocationArgs = {
   data: UpdateLocationInput;
   id: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventTemplateConnectionArgs = {
+  id: Scalars['ID'];
+  templateId: Scalars['ID'];
 };
 
 
@@ -1163,7 +1171,7 @@ export type TumiEventSubmissionItemsArgs = {
   submissionTime?: InputMaybe<SubmissionTime>;
 };
 
-/** Additional inputs to create an event from a template */
+/** Core information related to an event */
 export type UpdateCoreEventInput = {
   disableDeregistration: Scalars['Boolean'];
   end: Scalars['DateTime'];
@@ -1183,7 +1191,7 @@ export type UpdateCoreEventInput = {
   title: Scalars['String'];
 };
 
-/** Additional inputs to create an event from a template */
+/** Texts related to an event */
 export type UpdateGeneralEventInput = {
   description: Scalars['String'];
   organizerText: Scalars['String'];
@@ -1676,7 +1684,15 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: any, eventOrganizerId: string, icon: string, id: string, insuranceDescription: string, location: string, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<MembershipStatus>, organizerText: string, participantLimit: number, participantSignup: Array<MembershipStatus>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: any, shouldBeReportedToInsurance: boolean, start: any, title: string, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: any, required: boolean, submissionTime: SubmissionTime, type: SubmissionItemType, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', picture: string, fullName: string } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } } | null, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: any, eventOrganizerId: string, icon: string, id: string, insuranceDescription: string, location: string, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<MembershipStatus>, organizerText: string, participantLimit: number, participantSignup: Array<MembershipStatus>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: any, shouldBeReportedToInsurance: boolean, start: any, title: string, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: any, required: boolean, submissionTime: SubmissionTime, type: SubmissionItemType, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', picture: string, fullName: string } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } } | null, organizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+
+export type UpdateEventTemplateConnectionMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  templateId: Scalars['ID'];
+}>;
+
+
+export type UpdateEventTemplateConnectionMutation = { __typename?: 'Mutation', updateEventTemplateConnection?: { __typename?: 'TumiEvent', id: string, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string } } | null };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2998,6 +3014,10 @@ export const LoadEventForEditDocument = gql`
     shouldBeReportedToInsurance
     start
     title
+    eventTemplate {
+      id
+      title
+    }
     submissionItems {
       id
       createdAt
@@ -3042,6 +3062,28 @@ export const LoadEventForEditDocument = gql`
   })
   export class LoadEventForEditGQL extends Apollo.Query<LoadEventForEditQuery, LoadEventForEditQueryVariables> {
     override document = LoadEventForEditDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateEventTemplateConnectionDocument = gql`
+    mutation updateEventTemplateConnection($eventId: ID!, $templateId: ID!) {
+  updateEventTemplateConnection(id: $eventId, templateId: $templateId) {
+    id
+    eventTemplate {
+      id
+      title
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventTemplateConnectionGQL extends Apollo.Mutation<UpdateEventTemplateConnectionMutation, UpdateEventTemplateConnectionMutationVariables> {
+    override document = UpdateEventTemplateConnectionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

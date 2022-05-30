@@ -26,6 +26,10 @@ query loadEventForEdit($id: ID!) {
     shouldBeReportedToInsurance
     start
     title
+    eventTemplate {
+      id
+      title
+    }
     submissionItems {
       id
       createdAt
@@ -61,6 +65,16 @@ query loadEventForEdit($id: ID!) {
   organizers {
     id
     name
+  }
+}
+
+mutation updateEventTemplateConnection($eventId: ID!, $templateId: ID!) {
+  updateEventTemplateConnection(id: $eventId, templateId: $templateId) {
+    id
+    eventTemplate {
+      id
+      title
+    }
   }
 }
 

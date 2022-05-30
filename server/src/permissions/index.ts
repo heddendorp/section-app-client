@@ -82,6 +82,7 @@ export const permissions = shield(
       updateEventCoreInfo: allow,
       updateEventGeneralInfo: allow,
       updateEventLocation: allow,
+      updateEventTemplateConnection: isAdmin,
       updateLeadImage: allow,
       updateProduct: allow,
       updateProfile: allow,

@@ -720,6 +720,7 @@ export interface NexusGenFieldTypes {
     updateEventCoreInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateEventGeneralInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateEventLocation: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
+    updateEventTemplateConnection: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     updateLeadImage: NexusGenRootTypes['Product']; // Product!
     updateProduct: NexusGenRootTypes['Product']; // Product!
     updateProfile: NexusGenRootTypes['User'] | null; // User
@@ -1256,6 +1257,7 @@ export interface NexusGenFieldTypeNames {
     updateEventCoreInfo: 'TumiEvent'
     updateEventGeneralInfo: 'TumiEvent'
     updateEventLocation: 'TumiEvent'
+    updateEventTemplateConnection: 'TumiEvent'
     updateLeadImage: 'Product'
     updateProduct: 'Product'
     updateProfile: 'User'
@@ -1731,6 +1733,10 @@ export interface NexusGenArgTypes {
     updateEventLocation: { // args
       data: NexusGenInputs['UpdateLocationInput']; // UpdateLocationInput!
       id: string; // ID!
+    }
+    updateEventTemplateConnection: { // args
+      id: string; // ID!
+      templateId: string; // ID!
     }
     updateLeadImage: { // args
       id: string; // ID!

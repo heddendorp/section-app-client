@@ -357,8 +357,11 @@ type Mutation {
   updateEventCoreInfo(data: UpdateCoreEventInput!, id: ID!): TumiEvent!
   updateEventGeneralInfo(data: UpdateGeneralEventInput!, id: ID!): TumiEvent!
 
-  """Update an event template"""
+  """Update an event location"""
   updateEventLocation(data: UpdateLocationInput!, id: ID!): TumiEvent
+
+  """Update an event template"""
+  updateEventTemplateConnection(id: ID!, templateId: ID!): TumiEvent
   updateLeadImage(id: ID!, leadImageId: ID!): Product!
   updateProduct(data: UpdateProductInput!, id: ID!): Product!
   updateProfile(input: UpdateProfileInput!): User
@@ -768,7 +771,7 @@ type TumiEvent {
   userRegistered: Boolean!
 }
 
-"""Additional inputs to create an event from a template"""
+"""Core information related to an event"""
 input UpdateCoreEventInput {
   disableDeregistration: Boolean!
   end: DateTime!
@@ -788,7 +791,7 @@ input UpdateCoreEventInput {
   title: String!
 }
 
-"""Additional inputs to create an event from a template"""
+"""Texts related to an event"""
 input UpdateGeneralEventInput {
   description: String!
   organizerText: String!
