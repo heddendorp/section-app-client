@@ -508,6 +508,7 @@ export const rateEventMutation = mutationField('rateEvent', {
   resolve: async (source, { id, rating, comment }, context) => {
     const registration = await context.prisma.eventRegistration.findFirst({
       where: {
+        status: { not: RegistrationStatus.CANCELLED },
         event: {
           id,
         },
