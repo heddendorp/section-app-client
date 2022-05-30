@@ -60,8 +60,9 @@ export class TenantStatsPageComponent implements OnDestroy {
         return {
           line: [
             {
-              series: stats.userHistory.map((series) => ({
+              series: stats.userHistory.map((series, index) => ({
                 name: series.name,
+                yAxis: index,
                 data: series.series.map((data: any) => [
                   new Date(data.name).getTime(),
                   data.value,
@@ -69,15 +70,29 @@ export class TenantStatsPageComponent implements OnDestroy {
                 type: 'line',
               })),
               title: {
-                text: 'User History',
+                text: 'Signup History',
               },
               xAxis: {
                 type: 'datetime',
               },
+              yAxis: [
+                {
+                  title: {
+                    text: 'New Users',
+                  },
+                  opposite: true,
+                },
+                {
+                  title: {
+                    text: 'Total Users',
+                  },
+                },
+              ],
             },
             {
-              series: stats.registrationHistory.map((series) => ({
+              series: stats.registrationHistory.map((series, index) => ({
                 name: series.name,
+                yAxis: index,
                 data: series.series.map((data: any) => [
                   new Date(data.name).getTime(),
                   data.value,
@@ -90,8 +105,52 @@ export class TenantStatsPageComponent implements OnDestroy {
               xAxis: {
                 type: 'datetime',
               },
+              yAxis: [
+                {
+                  title: {
+                    text: 'New Registrations',
+                  },
+                  opposite: true,
+                },
+                {
+                  title: {
+                    text: 'Total Registrations',
+                  },
+                },
+              ],
             },
+
             {
+              series: stats.checkinHistory.map((series, index) => ({
+                name: series.name,
+                yAxis: index,
+                data: series.series.map((data: any) => [
+                  new Date(data.name).getTime(),
+                  data.value,
+                ]),
+                type: 'line',
+              })),
+              title: {
+                text: 'Checkin History',
+              },
+              xAxis: {
+                type: 'datetime',
+              },
+              yAxis: [
+                {
+                  title: {
+                    text: 'New Checkins',
+                  },
+                  opposite: true,
+                },
+                {
+                  title: {
+                    text: 'Total Checkins',
+                  },
+                },
+              ],
+            },
+            /*{
               series: stats.refundHistory.map((series) => ({
                 name: series.name,
                 data: series.series.map((data: any) => [
@@ -106,7 +165,7 @@ export class TenantStatsPageComponent implements OnDestroy {
               xAxis: {
                 type: 'datetime',
               },
-            },
+            },*/
           ],
           pie: [
             {

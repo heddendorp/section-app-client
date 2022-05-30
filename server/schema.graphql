@@ -905,6 +905,7 @@ type paymentSetupSession {
 }
 
 type statistics {
+  checkinHistory(range: DateRangeInput): [Json!]!
   checkins(range: DateRangeInput): Int!
   paidEvents(range: DateRangeInput): Int!
   paidRegistrations(range: DateRangeInput): Int!

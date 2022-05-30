@@ -200,6 +200,7 @@ query getStatistics($range: DateRangeInput) {
       registrations(range: $range)
       userHistory(range: $range)
       registrationHistory(range: $range)
+      checkinHistory(range: $range)
       refundHistory(range: $range)
       userEventDistribution(range: $range)
       usersRegisteredEvents(range: $range)

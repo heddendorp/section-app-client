@@ -1328,6 +1328,7 @@ export type PaymentSetupSession = {
 
 export type Statistics = {
   __typename?: 'statistics';
+  checkinHistory: Array<Scalars['Json']>;
   checkins: Scalars['Int'];
   paidEvents: Scalars['Int'];
   paidRegistrations: Scalars['Int'];
@@ -1345,6 +1346,11 @@ export type Statistics = {
   usersRegisteredPaidEvents: Scalars['Int'];
   usersWithCustomer: Scalars['Int'];
   usersWithPaymentMethod: Scalars['Int'];
+};
+
+
+export type StatisticsCheckinHistoryArgs = {
+  range?: InputMaybe<DateRangeInput>;
 };
 
 
@@ -1944,7 +1950,7 @@ export type GetStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type GetStatisticsQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, statistics: { __typename?: 'statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: Array<any>, registrationHistory: Array<any>, refundHistory: Array<any>, userEventDistribution: Array<any>, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: Array<any>, userStatusDistribution: Array<any> } } | null };
+export type GetStatisticsQuery = { __typename?: 'Query', currentTenant?: { __typename?: 'Tenant', id: string, name: string, statistics: { __typename?: 'statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: Array<any>, registrationHistory: Array<any>, checkinHistory: Array<any>, refundHistory: Array<any>, userEventDistribution: Array<any>, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: Array<any>, userStatusDistribution: Array<any> } } | null };
 
 export type GetLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4249,6 +4255,7 @@ export const GetStatisticsDocument = gql`
       registrations(range: $range)
       userHistory(range: $range)
       registrationHistory(range: $range)
+      checkinHistory(range: $range)
       refundHistory(range: $range)
       userEventDistribution(range: $range)
       usersRegisteredEvents(range: $range)

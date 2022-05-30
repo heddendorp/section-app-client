@@ -1,14 +1,18 @@
 import { arg, inputObjectType, list, nonNull, objectType } from 'nexus';
-import { RegistrationMode, Tenant } from '../generated/prisma';
+import {
+  RegistrationMode,
+  RegistrationStatus,
+  Tenant,
+} from '../generated/prisma';
 import { DateTime } from 'luxon';
 import { countBy, groupBy, range, transform } from 'lodash';
 import { EnvelopError } from '@envelop/core';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 
-function convertToSeries(growthName) {
+function convertToSeries(growthName, column = 'createdAt') {
   return (connections) => {
     const parts = groupBy(connections, (connection) =>
-      DateTime.fromJSDate(connection.createdAt).toISODate()
+      DateTime.fromJSDate(connection[column]).toISODate()
     );
     const growthSeries: { name: string; value: number }[] = [];
     const totalSeries: { name: string; value: number }[] = [];
@@ -102,6 +106,7 @@ export const statisticsType = objectType({
                 ],
               },
             },
+            status: { not: RegistrationStatus.CANCELLED },
           },
         }),
     });
@@ -112,6 +117,7 @@ export const statisticsType = objectType({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
                   ...(range
                     ? { createdAt: { gte: range.start, lte: range.end } }
@@ -139,6 +145,7 @@ export const statisticsType = objectType({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
                   registrationMode: RegistrationMode.ONLINE,
                   ...(range
@@ -171,6 +178,7 @@ export const statisticsType = objectType({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
                   ...(range
                     ? { createdAt: { gte: range.start, lte: range.end } }
@@ -197,6 +205,7 @@ export const statisticsType = objectType({
       resolve: (root, { range }, context) => {
         return context.prisma.eventRegistration.count({
           where: {
+            status: { not: RegistrationStatus.CANCELLED },
             event: {
               ...(range
                 ? { createdAt: { gte: range.start, lte: range.end } }
@@ -339,6 +348,7 @@ export const statisticsType = objectType({
             include: {
               eventRegistrations: {
                 where: {
+                  status: { not: RegistrationStatus.CANCELLED },
                   event: {
                     eventTemplate: { tenantId: context.tenant.id },
                     registrationMode: RegistrationMode.STRIPE,
@@ -443,6 +453,7 @@ export const statisticsType = objectType({
         context.prisma.eventRegistration
           .findMany({
             where: {
+              status: { not: RegistrationStatus.CANCELLED },
               event: {
                 ...(range
                   ? { createdAt: { gte: range.start, lte: range.end } }
@@ -453,6 +464,28 @@ export const statisticsType = objectType({
             orderBy: { createdAt: 'asc' },
           })
           .then(convertToSeries('New Registrations')),
+    });
+    t.field({
+      name: 'checkinHistory',
+      type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
+      // @ts-ignore
+      resolve: (root: Tenant, { range }, context) =>
+        context.prisma.eventRegistration
+          .findMany({
+            where: {
+              event: {
+                ...(range
+                  ? { createdAt: { gte: range.start, lte: range.end } }
+                  : {}),
+                eventTemplate: { tenant: { id: root.id } },
+              },
+              status: { not: RegistrationStatus.CANCELLED },
+              checkInTime: { not: null },
+            },
+            orderBy: { checkInTime: 'asc' },
+          })
+          .then(convertToSeries('New Checkins', 'checkInTime')),
     });
     t.field({
       name: 'refundHistory',

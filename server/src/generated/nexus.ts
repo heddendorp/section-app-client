@@ -1036,6 +1036,7 @@ export interface NexusGenFieldTypes {
     id: string; // String!
   }
   statistics: { // field return type
+    checkinHistory: NexusGenScalars['Json'][]; // [Json!]!
     checkins: number; // Int!
     paidEvents: number; // Int!
     paidRegistrations: number; // Int!
@@ -1571,6 +1572,7 @@ export interface NexusGenFieldTypeNames {
     id: 'String'
   }
   statistics: { // field return type name
+    checkinHistory: 'Json'
     checkins: 'Int'
     paidEvents: 'Int'
     paidRegistrations: 'Int'
@@ -1896,6 +1898,9 @@ export interface NexusGenArgTypes {
     }
   }
   statistics: {
+    checkinHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
     checkins: { // args
       range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
     }
