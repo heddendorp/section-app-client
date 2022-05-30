@@ -2,6 +2,8 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Josefin+Sans:wght@400;700&display=swap');
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -123,6 +125,14 @@ $tumi-app-accent: mat.define-palette($secondary-palette);
 // The warn palette is optional (defaults to red).
 $tumi-app-warn: mat.define-palette($error-palette);
 
+$tumi-typography: mat.define-typography-config(
+  $font-family: 'inter, sans-serif',
+);
+
+$tumi-display-typography: mat.define-typography-config(
+  $font-family: 'Josefin Sans, sans-serif',
+);
+
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $tumi-app-theme: mat.define-light-theme(
@@ -132,6 +142,7 @@ $tumi-app-theme: mat.define-light-theme(
       accent: $tumi-app-accent,
       warn: $tumi-app-warn,
     ),
+    typography: $tumi-typography,
   )
 );
 
@@ -149,6 +160,7 @@ $tumi-dark-theme: mat.define-dark-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($tumi-app-theme);
+@include mat.toolbar-typography($tumi-display-typography);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -170,10 +182,10 @@ $tumi-dark-theme: mat.define-dark-theme(
     box-sizing: inherit;
   }
   h1 {
-    @apply text-2xl;
+    @apply text-2xl font-display;
   }
   h2 {
-    @apply text-xl;
+    @apply text-xl font-display;
   }
   h3 {
     @apply text-lg;
