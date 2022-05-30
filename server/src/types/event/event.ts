@@ -21,11 +21,10 @@ import {
 } from '../../generated/prisma';
 import { publicationStateEnum } from '../enums';
 import { updateLocationInputType } from '../eventTemplate';
-import { EnvelopError } from '@envelop/core';
 import { eventType } from './eventType';
 import { GraphQLError } from 'graphql';
-import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
 export const deleteEventMutation = mutationField('deleteEvent', {
   type: eventType,
@@ -85,7 +84,7 @@ export const updateCostItemsFromTemplateMutation = mutationField(
           Array.isArray(template.finances) ||
           !Array.isArray(template.finances?.items)
         ) {
-          throw new EnvelopError('No items found in template finances');
+          throw new GraphQLYogaError('No items found in template finances');
         }
         await prisma.costItem.deleteMany({ where: { event: { id: eventId } } });
         const items = template.finances?.items as {
@@ -162,21 +161,22 @@ export const updateCoreEventInput = inputObjectType({
   name: 'UpdateCoreEventInput',
   description: 'Additional inputs to create an event from a template',
   definition(t) {
-    t.field(TumiEvent.title);
-    t.field(TumiEvent.icon);
-    t.field(TumiEvent.start);
+    t.field(TumiEvent.disableDeregistration);
     t.field(TumiEvent.end);
-    t.field(TumiEvent.registrationStart);
-    t.field(TumiEvent.registrationMode);
-    t.field(TumiEvent.registrationLink);
-    t.field(TumiEvent.organizerSignup);
-    t.field(TumiEvent.participantSignup);
-    t.field(TumiEvent.participantLimit);
-    t.field(TumiEvent.organizerLimit);
-    t.field(TumiEvent.prices);
     t.field(TumiEvent.eventOrganizerId);
+    t.field(TumiEvent.icon);
     t.field(TumiEvent.insuranceDescription);
+    t.field(TumiEvent.organizerLimit);
+    t.field(TumiEvent.organizerSignup);
+    t.field(TumiEvent.participantLimit);
+    t.field(TumiEvent.participantSignup);
+    t.field(TumiEvent.prices);
+    t.field(TumiEvent.registrationLink);
+    t.field(TumiEvent.registrationMode);
+    t.field(TumiEvent.registrationStart);
     t.field(TumiEvent.shouldBeReportedToInsurance);
+    t.field(TumiEvent.start);
+    t.field(TumiEvent.title);
   },
 });
 
@@ -261,7 +261,7 @@ export const updateEventLocationMutation = mutationField(
       });
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can change events they did not create'
         );
       }
@@ -283,7 +283,7 @@ export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
     });
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-      throw new EnvelopError(
+      throw new GraphQLYogaError(
         'Only Admins can change events they did not create'
       );
     }
@@ -324,10 +324,10 @@ export const changePublicationMutation = mutationField(
           state === PublicationState.ORGANIZERS) &&
         role !== Role.ADMIN
       ) {
-        throw new EnvelopError('Only admins can publish events!');
+        throw new GraphQLYogaError('Only admins can publish events!');
       }
       if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can change events they did not create'
         );
       }
@@ -353,7 +353,7 @@ export const updateGeneralEventMutation = mutationField(
       });
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can update events that are not their own'
         );
       }
@@ -376,7 +376,7 @@ export const updateCoreEventMutation = mutationField('updateEventCoreInfo', {
     const event = await context.prisma.tumiEvent.findUnique({ where: { id } });
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-      throw new EnvelopError(
+      throw new GraphQLYogaError(
         'Only Admins can update events that are not their own'
       );
     }
@@ -384,7 +384,7 @@ export const updateCoreEventMutation = mutationField('updateEventCoreInfo', {
       event?.publicationState !== PublicationState.DRAFT &&
       role !== Role.ADMIN
     ) {
-      throw new EnvelopError('Only admins can edit published Events');
+      throw new GraphQLYogaError('Only admins can edit published Events');
     }
     return context.prisma.tumiEvent.update({
       where: {
@@ -413,7 +413,9 @@ export const createFromTemplateMutation = mutationField(
         where: { id: templateId },
       });
       if (!template) {
-        throw new EnvelopError('Template with the given ID could not be found');
+        throw new GraphQLYogaError(
+          'Template with the given ID could not be found'
+        );
       }
       return context.prisma.tumiEvent.create({
         data: {

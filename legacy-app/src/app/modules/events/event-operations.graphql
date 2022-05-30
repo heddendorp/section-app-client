@@ -11,6 +11,7 @@ query loadEvent($id: ID!) {
     start
     end
     registrationStart
+    disableDeregistration
     publicationState
     description
     organizerText

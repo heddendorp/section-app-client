@@ -119,6 +119,7 @@ export interface NexusGenInputs {
     text: string; // String!
   }
   UpdateCoreEventInput: { // input type
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     icon: string; // String!
@@ -441,6 +442,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     creatorId: string; // String!
     description: string; // String!
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     eventTemplateId: string; // String!
@@ -927,6 +929,7 @@ export interface NexusGenFieldTypes {
     createdBy: NexusGenRootTypes['User']; // User!
     creatorId: string; // String!
     description: string; // String!
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     eventRegistrationCodes: NexusGenRootTypes['EventRegistrationCode'][]; // [EventRegistrationCode!]!
@@ -1461,6 +1464,7 @@ export interface NexusGenFieldTypeNames {
     createdBy: 'User'
     creatorId: 'String'
     description: 'String'
+    disableDeregistration: 'Boolean'
     end: 'DateTime'
     eventOrganizerId: 'String'
     eventRegistrationCodes: 'EventRegistrationCode'

@@ -120,15 +120,20 @@
                 <input matInput formControlName="end" type="datetime-local" />
               </mat-form-field>
             </div>
-            <mat-form-field class="w-full">
-              <mat-label>Registration Start</mat-label>
-              <input
-                matInput
-                formControlName="registrationStart"
-                type="datetime-local"
-              />
-              <mat-hint>Define the opening of event registration</mat-hint>
-            </mat-form-field>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <mat-form-field class="w-full">
+                <mat-label>Registration Start</mat-label>
+                <input
+                  matInput
+                  formControlName="registrationStart"
+                  type="datetime-local"
+                />
+                <mat-hint>Define the opening of event registration</mat-hint>
+              </mat-form-field>
+              <mat-checkbox formControlName="disableDeregistration">
+                Disable deregistration and moves
+              </mat-checkbox>
+            </div>
             <mat-form-field class="w-full">
               <mat-label>Insurance Description</mat-label>
               <textarea
@@ -141,34 +146,28 @@
               Insurance Required
             </mat-checkbox>
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-              <div fxFlex="50">
-                <h3>Possible Organizers</h3>
-                <mat-button-toggle-group
-                  multiple
-                  formControlName="organizerSignup"
-                >
-                  <mat-button-toggle
+              <mat-form-field class="w-full">
+                <mat-label>Possible Organizers</mat-label>
+                <mat-select multiple formControlName="organizerSignup">
+                  <mat-option
                     *ngFor="let status of statusOptions"
                     [value]="status"
                   >
                     {{ status | titlecase }}
-                  </mat-button-toggle>
-                </mat-button-toggle-group>
-              </div>
-              <div fxFlex="50">
-                <h3>Possible Participants</h3>
-                <mat-button-toggle-group
-                  multiple
-                  formControlName="participantSignup"
-                >
-                  <mat-button-toggle
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Possible Participants</mat-label>
+                <mat-select multiple formControlName="participantSignup">
+                  <mat-option
                     *ngFor="let status of statusOptions"
                     [value]="status"
                   >
                     {{ status | titlecase }}
-                  </mat-button-toggle>
-                </mat-button-toggle-group>
-              </div>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
               <mat-form-field class="w-full">
@@ -225,20 +224,17 @@
                     fxLayoutAlign.gt-sm="start center"
                     fxLayoutGap="1rem"
                   >
-                    <div fxFlex="50">
-                      <h3>Allowed Status</h3>
-                      <mat-button-toggle-group
-                        multiple
-                        formControlName="allowedStatusList"
-                      >
-                        <mat-button-toggle
+                    <mat-form-field fxFlex="50">
+                      <mat-label>Allowed Status</mat-label>
+                      <mat-select multiple formControlName="allowedStatusList">
+                        <mat-option
                           *ngFor="let status of statusOptions"
                           [value]="status"
                         >
                           {{ status | titlecase }}
-                        </mat-button-toggle>
-                      </mat-button-toggle-group>
-                    </div>
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                     <mat-checkbox formControlName="esnCardRequired">
                       Only with ESNcard
                     </mat-checkbox>

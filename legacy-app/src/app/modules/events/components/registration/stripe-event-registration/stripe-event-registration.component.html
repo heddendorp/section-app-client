@@ -8,6 +8,11 @@
   >
     <ng-container *ngIf="event.participantRegistrationPossible.option">
       <p class="font-bold">You can register for this event</p>
+      <p *ngIf="event.disableDeregistration">
+        <span class="mr-2 font-bold text-red-500">Please note!</span>
+        You can not deregister from this event or send it to someone else. The
+        registration is final once successful.
+      </p>
       <p class="mb-2">
         We are showing all prices that you can choose from depending on the
         event and your account.
@@ -86,11 +91,15 @@
         give the event away or give up you spot.
       </p>
     </ng-container>
+    <p *ngIf="event.disableDeregistration">
+      You can not deregister from this event or send it to someone else.
+    </p>
     <div
       class="my-2"
       *ngIf="
         !event.activeRegistration?.didAttend &&
-        event.activeRegistration?.status === 'SUCCESSFUL'
+        event.activeRegistration?.status === 'SUCCESSFUL' &&
+        !event.disableDeregistration
       "
     >
       <p class="mb-2">You can give this registration to another person</p>
@@ -100,8 +109,7 @@
       *ngIf="
         canDeregister &&
         event.activeRegistration?.status === 'SUCCESSFUL' &&
-        !event.title.includes('ESNcard') &&
-        !event.title.includes('Party')
+        !event.disableDeregistration
       "
     >
       <p class="my-2" *ngIf="canDeregisterInTime">

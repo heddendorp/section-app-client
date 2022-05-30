@@ -698,6 +698,7 @@ type TumiEvent {
   createdBy: User!
   creatorId: String!
   description: String!
+  disableDeregistration: Boolean!
   end: DateTime!
   eventOrganizerId: String!
   eventRegistrationCodes: [EventRegistrationCode!]!
@@ -769,6 +770,7 @@ type TumiEvent {
 
 """Additional inputs to create an event from a template"""
 input UpdateCoreEventInput {
+  disableDeregistration: Boolean!
   end: DateTime!
   eventOrganizerId: String!
   icon: String!

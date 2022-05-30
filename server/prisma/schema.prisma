@@ -330,6 +330,7 @@ model TumiEvent {
   createdBy                    User                    @relation(fields: [creatorId], references: [id])
   creatorId                    String                  @db.Uuid
   description                  String
+  disableDeregistration        Boolean                 @default(false)
   end                          DateTime
   eventOrganizerId             String                  @db.Uuid
   eventRegistrationCodes       EventRegistrationCode[]

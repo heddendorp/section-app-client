@@ -1,30 +1,31 @@
 query loadEventForEdit($id: ID!) {
   event(eventId: $id) {
-    id
-    title
-    icon
-    start
-    end
-    registrationStart
-    description
-    location
     coordinates
-    organizerText
-    participantText
-    registrationMode
-    prices
-    eventOrganizerId
-    organizerSignup
-    participantSignup
-    organizerRegistrationPossible
     couldBeOrganizer
     couldBeParticipant
-    participantLimit
+    description
+    disableDeregistration
+    end
+    eventOrganizerId
+    icon
+    id
+    insuranceDescription
+    location
     organizerLimit
+    organizerRegistrationPossible
+    organizerSignup
+    organizerText
+    participantLimit
+    participantSignup
+    participantText
+    prices
     publicationState
     registrationLink
-    insuranceDescription
+    registrationMode
+    registrationStart
     shouldBeReportedToInsurance
+    start
+    title
     submissionItems {
       id
       createdAt
