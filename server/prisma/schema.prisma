@@ -497,7 +497,7 @@ model EventRegistrationCode {
   createdById            String              @db.Uuid
   registrationToRemoveId String?             @unique @db.Uuid
   registrationCreatedId  String?             @db.Uuid
-  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id])
+  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   isPublic               Boolean             @default(false)
   sepaAllowed            Boolean             @default(false)
   eventId                String              @db.Uuid
