@@ -30,6 +30,7 @@
               "src/favicon.ico",
               "src/manifest.webmanifest",
               "src/assets",
+              "src/_redirects",
               {
                 "glob": "qr-scanner-worker.min.js",
                 "input": "../node_modules/qr-scanner/",
