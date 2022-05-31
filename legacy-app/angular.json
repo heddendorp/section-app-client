@@ -42,6 +42,20 @@
             "serviceWorker": true
           },
           "configurations": {
+            "light": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.light.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
@@ -83,6 +97,9 @@
           "configurations": {
             "production": {
               "browserTarget": "legacy-app:build:production"
+            },
+            "light": {
+              "browserTarget": "legacy-app:build:light"
             },
             "development": {
               "browserTarget": "legacy-app:build:development"

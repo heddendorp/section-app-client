@@ -1,7 +1,7 @@
 export const environment = {
-  production: true,
+  production: false,
   stripeKey: 'pk_live_cwWIdXXGPsJXy0UDC26mL4ai',
   server: 'https://server.esn.world',
-  useApiPath: true,
-  version: 'PROD_VERSION',
+  useApiPath: false,
+  version: 'dev',
 };

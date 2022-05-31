@@ -98,7 +98,9 @@ import * as Sentry from '@sentry/angular';
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
         const http = httpLink.create({
-          uri: '/graphql',
+          uri: environment.useApiPath
+            ? '/graphql'
+            : `${environment.server}/graphql`,
           includeExtensions: true,
         });
         const addClientName = new ApolloLink((operation, forward) => {
