@@ -34,6 +34,8 @@ template:
       secretRef: azure-product-storage-token
     - name: PHOTO_SAS_TOKEN
       secretRef: photo-storage-token
+    - name: STORAGE_CONNECTION_STRING
+      secretRef: storage-connection-string
     resources:
       cpu: 0.5
       memory: 1Gi

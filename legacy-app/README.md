@@ -1,27 +1,57 @@
-# LegacyApp
+# TUMi app _legacy-app_
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+This is the third version of the TUMi app you know and love, currently the active client at tumi.esn.world.
 
-## Development server
+## Run Locally
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Clone the project
 
-## Code scaffolding
+```bash
+  git clone https://github.com/heddendorp/tumi.git
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Go to the project directory
 
-## Build
+```bash
+  cd tumi/legacy-app
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Install dependencies
 
-## Running unit tests
+```bash
+  yarn install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Without local server (for frontend only)
+This uses the server running on `server.esn.world` which is also used by the live version.
+```bash
+  yarn dev:light
+```
+If you need changes in the and don't want to implement them yourself server you can line 
+out what the API should return for you feature and open an issue.
 
-## Running end-to-end tests
+### With local server
+To fetch data you need to have the [server](../server) running on localhost as well.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+  yarn dev
+```
 
-## Further help
+## Documentation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Relevant documentation for this project is listed below to give you a starting point.
+
+- [Angular docs](https://angular.io/docs)
+- [Angular material docs](https://material.angular.io/components/categories)  
+  For things like the formfields and some buttons, this is the UI library.
+  It would be nice to move further to Tailwind and reduce reliance on this library.
+- [Apollo Angular](https://apollo-angular.com/docs/)  
+  For data loading and most server communication.
+- [TailwindCSS](https://tailwindcss.com/docs/utility-first)  
+  For general styling in the app instead of custom CSS.
+
+
+## Deployment
+The `release` branch is automatically deployed to `tumi.esn.world`. 
+You can check the deployment of PRs by checking the URL that on the PR page. 
+The `master` branch is deployed instantly to `dev.esn.world`.

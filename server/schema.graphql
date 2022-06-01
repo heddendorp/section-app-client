@@ -48,7 +48,7 @@ input CreateEventFromTemplateInput {
   organizerId: ID!
   organizerLimit: Int!
   participantLimit: Int!
-  price: Int
+  price: Decimal
   registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
@@ -103,10 +103,16 @@ input CreateSubmissionItemInput {
 """New user input object"""
 input CreateUserInput {
   birthdate: DateTime
+  enrolmentStatus: EnrollmentStatus!
   firstName: String!
   lastName: String!
   phone: String
   university: String
+}
+
+input DateRangeInput {
+  end: DateTime!
+  start: DateTime!
 }
 
 """
@@ -116,6 +122,14 @@ scalar DateTime
 
 """An arbitrary-precision Decimal type"""
 scalar Decimal
+
+enum EnrollmentStatus {
+  EXCHANGE
+  INTERNATIONAL
+  LOCAL
+  NONE
+  OTHER
+}
 
 type EventOrganizer {
   createdAt: DateTime!
@@ -315,6 +329,7 @@ type Mutation {
   ): TumiEvent!
   decreaseLineItemQuantity(id: ID!): LineItem
   deleteCostItem(id: ID!): TumiEvent!
+  deleteEvent(id: ID!): TumiEvent
   deleteLineItem(id: ID!): LineItem
   deleteProductImage(id: ID!): ProductImage
   deleteReceipt(costItemId: ID!, receiptId: ID!): CostItem!
@@ -342,8 +357,11 @@ type Mutation {
   updateEventCoreInfo(data: UpdateCoreEventInput!, id: ID!): TumiEvent!
   updateEventGeneralInfo(data: UpdateGeneralEventInput!, id: ID!): TumiEvent!
 
-  """Update an event template"""
+  """Update an event location"""
   updateEventLocation(data: UpdateLocationInput!, id: ID!): TumiEvent
+
+  """Update an event template"""
+  updateEventTemplateConnection(id: ID!, templateId: ID!): TumiEvent
   updateLeadImage(id: ID!, leadImageId: ID!): Product!
   updateProduct(data: UpdateProductInput!, id: ID!): Product!
   updateProfile(input: UpdateProfileInput!): User
@@ -683,6 +701,7 @@ type TumiEvent {
   createdBy: User!
   creatorId: String!
   description: String!
+  disableDeregistration: Boolean!
   end: DateTime!
   eventOrganizerId: String!
   eventRegistrationCodes: [EventRegistrationCode!]!
@@ -752,8 +771,9 @@ type TumiEvent {
   userRegistered: Boolean!
 }
 
-"""Additional inputs to create an event from a template"""
+"""Core information related to an event"""
 input UpdateCoreEventInput {
+  disableDeregistration: Boolean!
   end: DateTime!
   eventOrganizerId: String!
   icon: String!
@@ -771,7 +791,7 @@ input UpdateCoreEventInput {
   title: String!
 }
 
-"""Additional inputs to create an event from a template"""
+"""Texts related to an event"""
 input UpdateGeneralEventInput {
   description: String!
   organizerText: String!
@@ -796,6 +816,7 @@ input UpdateProductInput {
 
 """Profile update input object"""
 input UpdateProfileInput {
+  enrolmentStatus: EnrollmentStatus!
   firstName: String!
   lastName: String!
   phone: String
@@ -826,6 +847,7 @@ type User {
   currentTenant(userId: ID): UsersOfTenants!
   email: String!
   email_verified: Boolean!
+  enrolmentStatus: EnrollmentStatus!
   esnCardOverride: Boolean!
   eventRegistrations: [EventRegistration!]!
   firstName: String!
@@ -886,22 +908,24 @@ type paymentSetupSession {
 }
 
 type statistics {
-  checkins: Int!
-  paidEvents: Int!
-  paidRegistrations: Int!
-  refundHistory: [Json!]!
-  registrationHistory: [Json!]!
-  registrations: Int!
-  totalEvents: Int!
-  userEventDistribution: [Json!]!
-  userHistory: [Json!]!
-  userUniversityDistribution: [Json!]!
-  usersRegistered: Int!
-  usersRegisteredEvents: Int!
-  usersRegisteredFreeEvents: Int!
-  usersRegisteredPaidEvents: Int!
-  usersWithCustomer: Int!
-  usersWithPaymentMethod: Int!
+  checkinHistory(range: DateRangeInput): [Json!]!
+  checkins(range: DateRangeInput): Int!
+  paidEvents(range: DateRangeInput): Int!
+  paidRegistrations(range: DateRangeInput): Int!
+  refundHistory(range: DateRangeInput): [Json!]!
+  registrationHistory(range: DateRangeInput): [Json!]!
+  registrations(range: DateRangeInput): Int!
+  totalEvents(range: DateRangeInput): Int!
+  userEventDistribution(range: DateRangeInput): [Json!]!
+  userHistory(range: DateRangeInput): [Json!]!
+  userStatusDistribution(range: DateRangeInput): [Json!]!
+  userUniversityDistribution(range: DateRangeInput): [Json!]!
+  usersRegistered(range: DateRangeInput): Int!
+  usersRegisteredEvents(range: DateRangeInput): Int!
+  usersRegisteredFreeEvents(range: DateRangeInput): Int!
+  usersRegisteredPaidEvents(range: DateRangeInput): Int!
+  usersWithCustomer(range: DateRangeInput): Int!
+  usersWithPaymentMethod(range: DateRangeInput): Int!
 }
 
 input updateTenantInput {

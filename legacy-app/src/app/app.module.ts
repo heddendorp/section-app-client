@@ -98,7 +98,9 @@ import * as Sentry from '@sentry/angular';
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
         const http = httpLink.create({
-          uri: '/graphql',
+          uri: environment.useApiPath
+            ? '/graphql'
+            : `${environment.server}/graphql`,
           includeExtensions: true,
         });
         const addClientName = new ApolloLink((operation, forward) => {
@@ -149,7 +151,7 @@ import * as Sentry from '@sentry/angular';
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' },
+      useValue: { appearance: 'outline' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
     environment.production

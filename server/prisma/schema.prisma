@@ -27,6 +27,14 @@ enum Role {
   ADMIN
 }
 
+enum EnrollmentStatus {
+  LOCAL
+  EXCHANGE
+  INTERNATIONAL
+  NONE
+  OTHER
+}
+
 enum MembershipStatus {
   NONE
   TRIAL
@@ -142,6 +150,7 @@ model User {
   phone               String?
   picture             String
   university          String?
+  enrolmentStatus     EnrollmentStatus    @default(NONE)
   // Calendar fucntionality
   calendarToken       String              @unique @default(uuid()) @db.Uuid
   // User relations
@@ -321,6 +330,7 @@ model TumiEvent {
   createdBy                    User                    @relation(fields: [creatorId], references: [id])
   creatorId                    String                  @db.Uuid
   description                  String
+  disableDeregistration        Boolean                 @default(false)
   end                          DateTime
   eventOrganizerId             String                  @db.Uuid
   eventRegistrationCodes       EventRegistrationCode[]
@@ -488,7 +498,7 @@ model EventRegistrationCode {
   createdById            String              @db.Uuid
   registrationToRemoveId String?             @unique @db.Uuid
   registrationCreatedId  String?             @db.Uuid
-  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id])
+  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   isPublic               Boolean             @default(false)
   sepaAllowed            Boolean             @default(false)
   eventId                String              @db.Uuid

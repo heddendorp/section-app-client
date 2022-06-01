@@ -1,5 +1,6 @@
 import express from 'express';
 import * as Sentry from '@sentry/node';
+import cors from 'cors';
 import * as Tracing from '@sentry/tracing';
 import { RewriteFrames } from '@sentry/integrations';
 import compression from 'compression';
@@ -15,6 +16,7 @@ import { envelopPlugins } from './getEnveloped';
 import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
+import { EnrollmentStatus } from './generated/prisma';
 
 declare global {
   namespace NodeJS {
@@ -46,7 +48,6 @@ declare global {
   }
 }
 global.__rootdir__ = __dirname || process.cwd();
-console.log(global.__rootdir__);
 
 const app = express();
 
@@ -75,6 +76,8 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
+    // new Tracing.Integrations.GraphQL(),
+    new Tracing.Integrations.Prisma({ client: prisma }),
   ],
   release: 'tumi-server@' + process.env.VERSION ?? 'development',
   ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
@@ -103,6 +106,7 @@ $settings({
 });
 
 app.use(compression());
+app.use(cors());
 app.get('/health', (req, res) => {
   res.sendStatus(200);
 });
@@ -117,9 +121,8 @@ app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
-  app.listen(port, () => {
+  app.listen(port, async () => {
     // prismaUtils().then(() => {
     //   console.log(`DB actions finished`);
     // });
-    console.log(`GraphQL server is running on port ${port}.`);
   });

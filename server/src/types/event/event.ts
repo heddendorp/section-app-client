@@ -15,15 +15,56 @@ import {
   Prisma,
   PublicationState,
   RegistrationMode,
+  RegistrationStatus,
   RegistrationType,
   Role,
 } from '../../generated/prisma';
 import { publicationStateEnum } from '../enums';
 import { updateLocationInputType } from '../eventTemplate';
-import { EnvelopError } from '@envelop/core';
 import { eventType } from './eventType';
-import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 import { GraphQLError } from 'graphql';
+import { GraphQLYogaError } from '@graphql-yoga/node';
+import TumiEventWhereInput = Prisma.TumiEventWhereInput;
+
+export const deleteEventMutation = mutationField('deleteEvent', {
+  type: eventType,
+  args: {
+    id: nonNull(idArg()),
+  },
+  resolve: async (_, { id }: { id: string }, context) => {
+    const registrations = await context.prisma.eventRegistration.findMany({
+      where: {
+        event: {
+          id,
+        },
+        status: {
+          not: RegistrationStatus.CANCELLED,
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (registrations.length > 0) {
+      throw new GraphQLYogaError(
+        `Event has ${registrations.length} registrations that are not cancelled. Please cancel them before deleting.` +
+          '\n' +
+          registrations.map((r) => `${r.user.email} ${r.type}`).join('/n')
+      );
+    }
+    await context.prisma.eventRegistration.deleteMany({
+      where: {
+        event: {
+          id,
+        },
+      },
+    });
+    return context.prisma.tumiEvent.delete({
+      where: { id },
+    });
+  },
+});
 
 export const updateCostItemsFromTemplateMutation = mutationField(
   'updateCostItemsFromTemplate',
@@ -43,7 +84,7 @@ export const updateCostItemsFromTemplateMutation = mutationField(
           Array.isArray(template.finances) ||
           !Array.isArray(template.finances?.items)
         ) {
-          throw new EnvelopError('No items found in template finances');
+          throw new GraphQLYogaError('No items found in template finances');
         }
         await prisma.costItem.deleteMany({ where: { event: { id: eventId } } });
         const items = template.finances?.items as {
@@ -63,7 +104,8 @@ export const updateCostItemsFromTemplateMutation = mutationField(
             switch (item.type) {
               case 'event':
                 amount = item.value;
-                calculationInfo = `${item.value}€ per event`;
+                calculationInfo = `
+    }${item.value}€ per event`;
                 break;
               case 'participant':
                 amount = item.value * allParticipants;
@@ -102,13 +144,13 @@ export const createEventFromTemplateInput = inputObjectType({
     t.field(TumiEvent.registrationLink);
     t.field(TumiEvent.registrationMode);
     t.nonNull.id('organizerId');
-    t.int('price');
+    t.decimal('price');
   },
 });
 
 export const updateGeneralEventInput = inputObjectType({
   name: 'UpdateGeneralEventInput',
-  description: 'Additional inputs to create an event from a template',
+  description: 'Texts related to an event',
   definition(t) {
     t.field(TumiEvent.description);
     t.field(TumiEvent.organizerText);
@@ -117,23 +159,24 @@ export const updateGeneralEventInput = inputObjectType({
 });
 export const updateCoreEventInput = inputObjectType({
   name: 'UpdateCoreEventInput',
-  description: 'Additional inputs to create an event from a template',
+  description: 'Core information related to an event',
   definition(t) {
-    t.field(TumiEvent.title);
-    t.field(TumiEvent.icon);
-    t.field(TumiEvent.start);
+    t.field(TumiEvent.disableDeregistration);
     t.field(TumiEvent.end);
-    t.field(TumiEvent.registrationStart);
-    t.field(TumiEvent.registrationMode);
-    t.field(TumiEvent.registrationLink);
-    t.field(TumiEvent.organizerSignup);
-    t.field(TumiEvent.participantSignup);
-    t.field(TumiEvent.participantLimit);
-    t.field(TumiEvent.organizerLimit);
-    t.field(TumiEvent.prices);
     t.field(TumiEvent.eventOrganizerId);
+    t.field(TumiEvent.icon);
     t.field(TumiEvent.insuranceDescription);
+    t.field(TumiEvent.organizerLimit);
+    t.field(TumiEvent.organizerSignup);
+    t.field(TumiEvent.participantLimit);
+    t.field(TumiEvent.participantSignup);
+    t.field(TumiEvent.prices);
+    t.field(TumiEvent.registrationLink);
+    t.field(TumiEvent.registrationMode);
+    t.field(TumiEvent.registrationStart);
     t.field(TumiEvent.shouldBeReportedToInsurance);
+    t.field(TumiEvent.start);
+    t.field(TumiEvent.title);
   },
 });
 
@@ -210,7 +253,7 @@ export const updateEventLocationMutation = mutationField(
   'updateEventLocation',
   {
     type: eventType,
-    description: 'Update an event template',
+    description: 'Update an event location',
     args: { id: nonNull(idArg()), data: nonNull(updateLocationInputType) },
     resolve: async (source, { id, data }, context) => {
       const event = await context.prisma.tumiEvent.findUnique({
@@ -218,11 +261,29 @@ export const updateEventLocationMutation = mutationField(
       });
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can change events they did not create'
         );
       }
       return context.prisma.tumiEvent.update({ where: { id }, data });
+    },
+  }
+);
+
+export const updateEventTemplateConnectionMutation = mutationField(
+  'updateEventTemplateConnection',
+  {
+    type: eventType,
+    description: 'Update an event template',
+    args: {
+      id: nonNull(idArg()),
+      templateId: nonNull(idArg()),
+    },
+    resolve: async (source, { id, templateId }, context) => {
+      return context.prisma.tumiEvent.update({
+        where: { id },
+        data: { eventTemplate: { connect: { id: templateId } } },
+      });
     },
   }
 );
@@ -240,7 +301,7 @@ export const addOrganizerMutation = mutationField('addOrganizerToEvent', {
     });
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-      throw new EnvelopError(
+      throw new GraphQLYogaError(
         'Only Admins can change events they did not create'
       );
     }
@@ -281,10 +342,10 @@ export const changePublicationMutation = mutationField(
           state === PublicationState.ORGANIZERS) &&
         role !== Role.ADMIN
       ) {
-        throw new EnvelopError('Only admins can publish events!');
+        throw new GraphQLYogaError('Only admins can publish events!');
       }
       if (role !== Role.ADMIN && context.user?.id !== event?.creatorId) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can change events they did not create'
         );
       }
@@ -310,7 +371,7 @@ export const updateGeneralEventMutation = mutationField(
       });
       const { role } = context.assignment ?? {};
       if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-        throw new EnvelopError(
+        throw new GraphQLYogaError(
           'Only Admins can update events that are not their own'
         );
       }
@@ -333,7 +394,7 @@ export const updateCoreEventMutation = mutationField('updateEventCoreInfo', {
     const event = await context.prisma.tumiEvent.findUnique({ where: { id } });
     const { role } = context.assignment ?? {};
     if (role !== Role.ADMIN && event?.creatorId !== context.user?.id) {
-      throw new EnvelopError(
+      throw new GraphQLYogaError(
         'Only Admins can update events that are not their own'
       );
     }
@@ -341,7 +402,7 @@ export const updateCoreEventMutation = mutationField('updateEventCoreInfo', {
       event?.publicationState !== PublicationState.DRAFT &&
       role !== Role.ADMIN
     ) {
-      throw new EnvelopError('Only admins can edit published Events');
+      throw new GraphQLYogaError('Only admins can edit published Events');
     }
     return context.prisma.tumiEvent.update({
       where: {
@@ -370,7 +431,9 @@ export const createFromTemplateMutation = mutationField(
         where: { id: templateId },
       });
       if (!template) {
-        throw new EnvelopError('Template with the given ID could not be found');
+        throw new GraphQLYogaError(
+          'Template with the given ID could not be found'
+        );
       }
       return context.prisma.tumiEvent.create({
         data: {
@@ -445,6 +508,7 @@ export const rateEventMutation = mutationField('rateEvent', {
   resolve: async (source, { id, rating, comment }, context) => {
     const registration = await context.prisma.eventRegistration.findFirst({
       where: {
+        status: { not: RegistrationStatus.CANCELLED },
         event: {
           id,
         },

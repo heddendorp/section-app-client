@@ -16,6 +16,7 @@ import { userOfTenantType } from './userOfTenant';
 import { membershipStatusEnum, roleEnum } from './enums';
 import { eventType } from './event';
 import {
+  EnrollmentStatus,
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
@@ -47,6 +48,7 @@ export const userType = objectType({
     t.field(User.eventRegistrations);
     t.field(User.transactions);
     t.field(User.createdTransactions);
+    t.field(User.enrolmentStatus);
     t.field({
       ...User.purchases,
       args: { skipCancelled: booleanArg({ default: false }) },
@@ -73,7 +75,8 @@ export const userType = objectType({
           source.lastName &&
           source.birthdate &&
           source.picture &&
-          source.university
+          source.university &&
+          source.enrolmentStatus !== EnrollmentStatus.NONE
         ),
     });
     t.nonNull.boolean('outstandingRating', {
@@ -195,6 +198,7 @@ export const createUserInputType = inputObjectType({
     t.field(User.lastName);
     t.field(User.university);
     t.field(User.birthdate);
+    t.field(User.enrolmentStatus);
     t.field(User.phone);
   },
 });
@@ -206,6 +210,7 @@ export const updateProfileInputType = inputObjectType({
     t.field(User.firstName);
     t.field(User.lastName);
     t.field(User.university);
+    t.field(User.enrolmentStatus);
     t.field(User.phone);
   },
 });

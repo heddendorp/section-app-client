@@ -45,7 +45,7 @@ export class ProfilePageComponent implements OnDestroy {
   ) {
     this.title.setTitle('TUMi - profile');
     this.profileQueryRef = this.profileQuery.watch();
-    this.profileQueryRef.startPolling(5000);
+    this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
     );

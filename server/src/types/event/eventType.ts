@@ -27,6 +27,7 @@ export const eventType = objectType({
     t.field(TumiEvent.end);
     t.field(TumiEvent.registrationStart);
     t.field(TumiEvent.description);
+    t.field(TumiEvent.disableDeregistration);
     t.field(TumiEvent.coordinates);
     t.field(TumiEvent.location);
     t.field(TumiEvent.registrationLink);

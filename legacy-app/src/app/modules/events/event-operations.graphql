@@ -11,6 +11,7 @@ query loadEvent($id: ID!) {
     start
     end
     registrationStart
+    disableDeregistration
     publicationState
     description
     organizerText
@@ -127,6 +128,10 @@ query loadEventForRunning($id: ID!) {
     participantLimit
     participantsRegistered
     participantsAttended
+    createdBy {
+      id
+      fullName
+    }
     organizerRegistrations {
       id
       checkInTime
@@ -404,6 +409,7 @@ query eventList($after: DateTime) {
     title
     icon
     start
+    end
     registrationStart
     prices
     freeParticipantSpots

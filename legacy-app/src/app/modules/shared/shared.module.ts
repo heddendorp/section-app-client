@@ -29,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewDataItemDialogComponent } from './components/new-data-item-dialog/new-data-item-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SelectWithAutocompleteDialogComponent } from './components/select-with-autocomplete-dialog/select-with-autocomplete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ExtendDatePipe,
     IconURLPipe,
     NewDataItemDialogComponent,
+    SelectWithAutocompleteDialogComponent,
   ],
   imports: [
     CommonModule,

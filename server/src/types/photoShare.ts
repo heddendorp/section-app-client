@@ -10,8 +10,12 @@ import {
 import { PhotoShare } from '../generated/nexus-prisma';
 import { RegistrationStatus, Role } from '../generated/prisma';
 import { EnvelopError } from '@envelop/core';
-import { BlobServiceClient } from '@azure/storage-blob';
+import {
+  BlobServiceClient,
+  ContainerSASPermissions,
+} from '@azure/storage-blob';
 import { stream2buffer } from '../helpers/fileFunctions';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 export const photoShare = objectType({
   name: PhotoShare.$name,
@@ -82,9 +86,16 @@ export const getPhotoShareKey = queryField('photoShareKey', {
   type: nonNull('String'),
   resolve: (source, args, context) => {
     if (!context.assignment) {
-      throw new EnvelopError('Only logged in users may retrieve the key');
+      throw new GraphQLYogaError('Only logged in users may retrieve the key');
     }
-    return process.env.PHOTO_SAS_TOKEN ?? '';
+    return BlobServiceClient.fromConnectionString(
+      process.env.STORAGE_CONNECTION_STRING ?? ''
+    )
+      .getContainerClient('tumi-photos')
+      .generateSasUrl({
+        permissions: ContainerSASPermissions.parse('c'),
+        expiresOn: new Date(Date.now() + 3600 * 1000),
+      });
   },
 });
 

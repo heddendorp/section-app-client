@@ -1,5 +1,6 @@
 import { enumType } from 'nexus';
 import {
+  EnrollmentStatus,
   LogSeverity,
   MembershipStatus,
   PublicationState,
@@ -14,6 +15,7 @@ import {
 } from '../generated/nexus-prisma';
 
 export const roleEnum = enumType(Role);
+export const enrolmentStatusEnum = enumType(EnrollmentStatus);
 export const membershipStatusEnum = enumType(MembershipStatus);
 export const publicationStateEnum = enumType(PublicationState);
 export const submissionItemTypeEnum = enumType(SubmissionItemType);

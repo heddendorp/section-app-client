@@ -56,7 +56,7 @@ export interface NexusGenInputs {
     organizerId: string; // ID!
     organizerLimit: number; // Int!
     participantLimit: number; // Int!
-    price?: number | null; // Int
+    price?: NexusGenScalars['Decimal'] | null; // Decimal
     registrationLink?: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     start: NexusGenScalars['DateTime']; // DateTime!
@@ -103,10 +103,15 @@ export interface NexusGenInputs {
   }
   CreateUserInput: { // input type
     birthdate?: NexusGenScalars['DateTime'] | null; // DateTime
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     firstName: string; // String!
     lastName: string; // String!
     phone?: string | null; // String
     university?: string | null; // String
+  }
+  DateRangeInput: { // input type
+    end: NexusGenScalars['DateTime']; // DateTime!
+    start: NexusGenScalars['DateTime']; // DateTime!
   }
   NewOrganizerInput: { // input type
     link?: string | null; // String
@@ -114,6 +119,7 @@ export interface NexusGenInputs {
     text: string; // String!
   }
   UpdateCoreEventInput: { // input type
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     icon: string; // String!
@@ -149,6 +155,7 @@ export interface NexusGenInputs {
     title: string; // String!
   }
   UpdateProfileInput: { // input type
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     firstName: string; // String!
     lastName: string; // String!
     phone?: string | null; // String
@@ -175,6 +182,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  EnrollmentStatus: "EXCHANGE" | "INTERNATIONAL" | "LOCAL" | "NONE" | "OTHER"
   LogSeverity: "DEBUG" | "ERROR" | "INFO" | "SILLY" | "WARNING"
   MembershipStatus: "ALUMNI" | "FULL" | "NONE" | "SPONSOR" | "TRIAL"
   PublicationState: "APPROVAL" | "DRAFT" | "ORGANIZERS" | "PUBLIC"
@@ -434,6 +442,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     creatorId: string; // String!
     description: string; // String!
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     eventTemplateId: string; // String!
@@ -464,6 +473,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     email_verified: boolean; // Boolean!
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     esnCardOverride: boolean; // Boolean!
     firstName: string; // String!
     iban?: string | null; // String
@@ -692,6 +702,7 @@ export interface NexusGenFieldTypes {
     createSubmissionOnEvent: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     decreaseLineItemQuantity: NexusGenRootTypes['LineItem'] | null; // LineItem
     deleteCostItem: NexusGenRootTypes['TumiEvent']; // TumiEvent!
+    deleteEvent: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     deleteLineItem: NexusGenRootTypes['LineItem'] | null; // LineItem
     deleteProductImage: NexusGenRootTypes['ProductImage'] | null; // ProductImage
     deleteReceipt: NexusGenRootTypes['CostItem']; // CostItem!
@@ -709,6 +720,7 @@ export interface NexusGenFieldTypes {
     updateEventCoreInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateEventGeneralInfo: NexusGenRootTypes['TumiEvent']; // TumiEvent!
     updateEventLocation: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
+    updateEventTemplateConnection: NexusGenRootTypes['TumiEvent'] | null; // TumiEvent
     updateLeadImage: NexusGenRootTypes['Product']; // Product!
     updateProduct: NexusGenRootTypes['Product']; // Product!
     updateProfile: NexusGenRootTypes['User'] | null; // User
@@ -918,6 +930,7 @@ export interface NexusGenFieldTypes {
     createdBy: NexusGenRootTypes['User']; // User!
     creatorId: string; // String!
     description: string; // String!
+    disableDeregistration: boolean; // Boolean!
     end: NexusGenScalars['DateTime']; // DateTime!
     eventOrganizerId: string; // String!
     eventRegistrationCodes: NexusGenRootTypes['EventRegistrationCode'][]; // [EventRegistrationCode!]!
@@ -975,6 +988,7 @@ export interface NexusGenFieldTypes {
     currentTenant: NexusGenRootTypes['UsersOfTenants']; // UsersOfTenants!
     email: string; // String!
     email_verified: boolean; // Boolean!
+    enrolmentStatus: NexusGenEnums['EnrollmentStatus']; // EnrollmentStatus!
     esnCardOverride: boolean; // Boolean!
     eventRegistrations: NexusGenRootTypes['EventRegistration'][]; // [EventRegistration!]!
     firstName: string; // String!
@@ -1023,6 +1037,7 @@ export interface NexusGenFieldTypes {
     id: string; // String!
   }
   statistics: { // field return type
+    checkinHistory: NexusGenScalars['Json'][]; // [Json!]!
     checkins: number; // Int!
     paidEvents: number; // Int!
     paidRegistrations: number; // Int!
@@ -1032,6 +1047,7 @@ export interface NexusGenFieldTypes {
     totalEvents: number; // Int!
     userEventDistribution: NexusGenScalars['Json'][]; // [Json!]!
     userHistory: NexusGenScalars['Json'][]; // [Json!]!
+    userStatusDistribution: NexusGenScalars['Json'][]; // [Json!]!
     userUniversityDistribution: NexusGenScalars['Json'][]; // [Json!]!
     usersRegistered: number; // Int!
     usersRegisteredEvents: number; // Int!
@@ -1223,6 +1239,7 @@ export interface NexusGenFieldTypeNames {
     createSubmissionOnEvent: 'TumiEvent'
     decreaseLineItemQuantity: 'LineItem'
     deleteCostItem: 'TumiEvent'
+    deleteEvent: 'TumiEvent'
     deleteLineItem: 'LineItem'
     deleteProductImage: 'ProductImage'
     deleteReceipt: 'CostItem'
@@ -1240,6 +1257,7 @@ export interface NexusGenFieldTypeNames {
     updateEventCoreInfo: 'TumiEvent'
     updateEventGeneralInfo: 'TumiEvent'
     updateEventLocation: 'TumiEvent'
+    updateEventTemplateConnection: 'TumiEvent'
     updateLeadImage: 'Product'
     updateProduct: 'Product'
     updateProfile: 'User'
@@ -1449,6 +1467,7 @@ export interface NexusGenFieldTypeNames {
     createdBy: 'User'
     creatorId: 'String'
     description: 'String'
+    disableDeregistration: 'Boolean'
     end: 'DateTime'
     eventOrganizerId: 'String'
     eventRegistrationCodes: 'EventRegistrationCode'
@@ -1506,6 +1525,7 @@ export interface NexusGenFieldTypeNames {
     currentTenant: 'UsersOfTenants'
     email: 'String'
     email_verified: 'Boolean'
+    enrolmentStatus: 'EnrollmentStatus'
     esnCardOverride: 'Boolean'
     eventRegistrations: 'EventRegistration'
     firstName: 'String'
@@ -1554,6 +1574,7 @@ export interface NexusGenFieldTypeNames {
     id: 'String'
   }
   statistics: { // field return type name
+    checkinHistory: 'Json'
     checkins: 'Int'
     paidEvents: 'Int'
     paidRegistrations: 'Int'
@@ -1563,6 +1584,7 @@ export interface NexusGenFieldTypeNames {
     totalEvents: 'Int'
     userEventDistribution: 'Json'
     userHistory: 'Json'
+    userStatusDistribution: 'Json'
     userUniversityDistribution: 'Json'
     usersRegistered: 'Int'
     usersRegisteredEvents: 'Int'
@@ -1646,6 +1668,9 @@ export interface NexusGenArgTypes {
     deleteCostItem: { // args
       id: string; // ID!
     }
+    deleteEvent: { // args
+      id: string; // ID!
+    }
     deleteLineItem: { // args
       id: string; // ID!
     }
@@ -1708,6 +1733,10 @@ export interface NexusGenArgTypes {
     updateEventLocation: { // args
       data: NexusGenInputs['UpdateLocationInput']; // UpdateLocationInput!
       id: string; // ID!
+    }
+    updateEventTemplateConnection: { // args
+      id: string; // ID!
+      templateId: string; // ID!
     }
     updateLeadImage: { // args
       id: string; // ID!
@@ -1872,6 +1901,62 @@ export interface NexusGenArgTypes {
     }
     purchases: { // args
       skipCancelled?: boolean | null; // Boolean
+    }
+  }
+  statistics: {
+    checkinHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    checkins: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    paidEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    paidRegistrations: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    refundHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    registrationHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    registrations: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    totalEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userEventDistribution: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userHistory: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userStatusDistribution: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    userUniversityDistribution: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegistered: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredFreeEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersRegisteredPaidEvents: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersWithCustomer: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
+    }
+    usersWithPaymentMethod: { // args
+      range?: NexusGenInputs['DateRangeInput'] | null; // DateRangeInput
     }
   }
 }

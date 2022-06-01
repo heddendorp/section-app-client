@@ -1,13 +1,18 @@
-import { list, nonNull, objectType } from 'nexus';
-import { RegistrationMode, Tenant } from '../generated/prisma';
+import { arg, inputObjectType, list, nonNull, objectType } from 'nexus';
+import {
+  RegistrationMode,
+  RegistrationStatus,
+  Tenant,
+} from '../generated/prisma';
 import { DateTime } from 'luxon';
 import { countBy, groupBy, range, transform } from 'lodash';
 import { EnvelopError } from '@envelop/core';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
-function convertToSeries(growthName) {
+function convertToSeries(growthName, column = 'createdAt') {
   return (connections) => {
     const parts = groupBy(connections, (connection) =>
-      DateTime.fromJSDate(connection.createdAt).toISODate()
+      DateTime.fromJSDate(connection[column]).toISODate()
     );
     const growthSeries: { name: string; value: number }[] = [];
     const totalSeries: { name: string; value: number }[] = [];
@@ -36,46 +41,64 @@ export const statisticsType = objectType({
   name: 'statistics',
   definition(t) {
     t.nonNull.int('usersRegistered', {
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.usersOfTenants
           .count({
-            where: { tenant: { id: root.id } },
+            where: {
+              tenant: { id: root.id },
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+            },
           })
           .then((res) => {
             if (!res) {
-              throw new EnvelopError('No users registered');
+              throw new GraphQLYogaError('No users registered');
             }
             return res;
           }),
     });
     t.nonNull.int('usersWithCustomer', {
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.usersOfTenants.count({
           where: {
             tenant: { id: root.id },
             stripeData: { isNot: null },
+            ...(range
+              ? { createdAt: { gte: range.start, lte: range.end } }
+              : {}),
           },
         }),
     });
     t.nonNull.int('usersWithPaymentMethod', {
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.usersOfTenants.count({
           where: {
             tenant: { id: root.id },
             stripeData: { paymentMethodId: { not: null } },
+            ...(range
+              ? { createdAt: { gte: range.start, lte: range.end } }
+              : {}),
           },
         }),
     });
     t.nonNull.int('registrations', {
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.eventRegistration.count({
           where: {
             event: {
               eventTemplate: { tenant: { id: root.id } },
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
               id: {
                 notIn: [
                   'c486c0ad-c07f-48cd-a330-203ed8b59740',
@@ -83,20 +106,22 @@ export const statisticsType = objectType({
                 ],
               },
             },
+            status: { not: RegistrationStatus.CANCELLED },
           },
         }),
     });
     t.nonNull.int('usersRegisteredEvents', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.user.count({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
+                  ...(range
+                    ? { createdAt: { gte: range.start, lte: range.end } }
+                    : {}),
                   id: {
                     notIn: [
                       'c486c0ad-c07f-48cd-a330-203ed8b59740',
@@ -114,17 +139,18 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('usersRegisteredFreeEvents', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.user.count({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
                   registrationMode: RegistrationMode.ONLINE,
+                  ...(range
+                    ? { createdAt: { gte: range.start, lte: range.end } }
+                    : {}),
                   id: {
                     notIn: [
                       'c486c0ad-c07f-48cd-a330-203ed8b59740',
@@ -142,7 +168,8 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('usersRegisteredPaidEvents', {
-      resolve: (root, args, context) => {
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         // info.cacheControl.setCacheHint({
         //   maxAge: 120,
         //   scope: CacheScope.Private,
@@ -151,7 +178,11 @@ export const statisticsType = objectType({
           where: {
             eventRegistrations: {
               some: {
+                status: { not: RegistrationStatus.CANCELLED },
                 event: {
+                  ...(range
+                    ? { createdAt: { gte: range.start, lte: range.end } }
+                    : {}),
                   registrationMode: RegistrationMode.STRIPE,
                   id: {
                     notIn: [
@@ -170,14 +201,15 @@ export const statisticsType = objectType({
       },
     });
     t.nonNull.int('paidRegistrations', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.eventRegistration.count({
           where: {
+            status: { not: RegistrationStatus.CANCELLED },
             event: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
               registrationMode: RegistrationMode.STRIPE,
               id: {
                 notIn: [
@@ -225,40 +257,42 @@ export const statisticsType = objectType({
     //   },
     // });
     t.nonNull.int('checkins', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.eventRegistration.count({
           where: {
             checkInTime: { not: null },
+            event: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+            },
           },
         });
       },
     });
     t.nonNull.int('totalEvents', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.tumiEvent.count({
           where: {
             registrationMode: { not: RegistrationMode.EXTERNAL },
+            ...(range
+              ? { createdAt: { gte: range.start, lte: range.end } }
+              : {}),
           },
         });
       },
     });
     t.nonNull.int('paidEvents', {
-      resolve: (root, args, context) => {
-        // info.cacheControl.setCacheHint({
-        //   maxAge: 120,
-        //   scope: CacheScope.Private,
-        // });
+      args: { range: arg({ type: dateRangeInputType }) },
+      resolve: (root, { range }, context) => {
         return context.prisma.tumiEvent.count({
           where: {
             registrationMode: RegistrationMode.STRIPE,
+            ...(range
+              ? { createdAt: { gte: range.start, lte: range.end } }
+              : {}),
           },
         });
       },
@@ -286,8 +320,9 @@ export const statisticsType = objectType({
     t.field({
       name: 'userEventDistribution',
       type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.user
           .findMany({
             where: {
@@ -295,6 +330,9 @@ export const statisticsType = objectType({
               eventRegistrations: {
                 some: {
                   event: {
+                    ...(range
+                      ? { createdAt: { gte: range.start, lte: range.end } }
+                      : {}),
                     eventTemplate: { tenantId: context.tenant.id },
                     registrationMode: RegistrationMode.STRIPE,
                     id: {
@@ -310,6 +348,7 @@ export const statisticsType = objectType({
             include: {
               eventRegistrations: {
                 where: {
+                  status: { not: RegistrationStatus.CANCELLED },
                   event: {
                     eventTemplate: { tenantId: context.tenant.id },
                     registrationMode: RegistrationMode.STRIPE,
@@ -342,11 +381,15 @@ export const statisticsType = objectType({
     t.field({
       name: 'userUniversityDistribution',
       type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.user
           .groupBy({
             where: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
               tenants: { some: { tenantId: context.tenant.id } },
             },
             by: ['university'],
@@ -360,35 +403,105 @@ export const statisticsType = objectType({
           ),
     });
     t.field({
+      name: 'userStatusDistribution',
+      type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
+      // @ts-ignore
+      resolve: (root: Tenant, { range }, context) =>
+        context.prisma.user
+          .groupBy({
+            where: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+              tenants: { some: { tenantId: context.tenant.id } },
+            },
+            by: ['enrolmentStatus'],
+            _count: { enrolmentStatus: true },
+          })
+          .then((res) =>
+            res.map((entry) => ({
+              status: entry.enrolmentStatus,
+              count: entry._count.enrolmentStatus,
+            }))
+          ),
+    });
+    t.field({
       name: 'userHistory',
       type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.usersOfTenants
           .findMany({
-            where: { tenant: { id: root.id } },
+            where: {
+              tenant: { id: root.id },
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+            },
+            orderBy: { createdAt: 'asc' },
           })
           .then(convertToSeries('New Users')),
     });
     t.field({
       name: 'registrationHistory',
       type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.eventRegistration
           .findMany({
-            where: { event: { eventTemplate: { tenant: { id: root.id } } } },
+            where: {
+              status: { not: RegistrationStatus.CANCELLED },
+              event: {
+                ...(range
+                  ? { createdAt: { gte: range.start, lte: range.end } }
+                  : {}),
+                eventTemplate: { tenant: { id: root.id } },
+              },
+            },
+            orderBy: { createdAt: 'asc' },
           })
           .then(convertToSeries('New Registrations')),
     });
     t.field({
+      name: 'checkinHistory',
+      type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
+      // @ts-ignore
+      resolve: (root: Tenant, { range }, context) =>
+        context.prisma.eventRegistration
+          .findMany({
+            where: {
+              event: {
+                ...(range
+                  ? { createdAt: { gte: range.start, lte: range.end } }
+                  : {}),
+                eventTemplate: { tenant: { id: root.id } },
+              },
+              status: { not: RegistrationStatus.CANCELLED },
+              checkInTime: { not: null },
+            },
+            orderBy: { checkInTime: 'asc' },
+          })
+          .then(convertToSeries('New Checkins', 'checkInTime')),
+    });
+    t.field({
       name: 'refundHistory',
       type: nonNull(list(nonNull('Json'))),
+      args: { range: arg({ type: dateRangeInputType }) },
       // @ts-ignore
-      resolve: (root: Tenant, args, context) =>
+      resolve: (root: Tenant, { range }, context) =>
         context.prisma.refundedRegistration
           .findMany({
-            where: { tenant: { id: root.id } },
+            where: {
+              ...(range
+                ? { createdAt: { gte: range.start, lte: range.end } }
+                : {}),
+              tenant: { id: root.id },
+            },
+            orderBy: { createdAt: 'asc' },
           })
           .then(convertToSeries('New Refunds')),
     });
@@ -411,5 +524,17 @@ export const lineChartSeriesItemType = objectType({
   definition(t) {
     t.nonNull.string('name');
     t.nonNull.int('value');
+  },
+});
+
+export const dateRangeInputType = inputObjectType({
+  name: 'DateRangeInput',
+  definition(t) {
+    t.field('start', {
+      type: nonNull('DateTime'),
+    });
+    t.field('end', {
+      type: nonNull('DateTime'),
+    });
   },
 });

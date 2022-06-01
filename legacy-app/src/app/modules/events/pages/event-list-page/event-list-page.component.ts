@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   EventListGQL,
@@ -7,6 +7,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import {
   combineLatest,
+  firstValueFrom,
   map,
   Observable,
   startWith,
@@ -14,10 +15,10 @@ import {
   takeUntil,
   timer,
 } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
+import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 
 @Component({
   selector: 'app-event-list-page',
@@ -34,14 +35,16 @@ export class EventListPageComponent implements OnDestroy {
   );
   public Role = Role;
   public timeRemaining$: Observable<string | null>;
+  public selectedView: Observable<string>;
   private loadEventsQueryRef;
   private destroy$ = new Subject();
 
   constructor(
     private loadEventsQuery: EventListGQL,
     private title: Title,
-    private route: ActivatedRoute
+    private eventListStateService: EventListStateService
   ) {
+    this.selectedView = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
     this.timeRemaining$ = timer(0, 1000).pipe(
@@ -91,5 +94,14 @@ export class EventListPageComponent implements OnDestroy {
     this.loadEventsQueryRef.stopPolling();
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  public async toggleSelectedView() {
+    const selectedView = await firstValueFrom(this.selectedView);
+    if (selectedView === 'list') {
+      this.eventListStateService.setSelectedView('calendar');
+    } else {
+      this.eventListStateService.setSelectedView('list');
+    }
   }
 }

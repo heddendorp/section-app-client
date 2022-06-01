@@ -20,9 +20,9 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
     "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build"
   },
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.1.0"
+    "concurrently": "^7.2.1"
   },
   "resolutions": {
     "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",

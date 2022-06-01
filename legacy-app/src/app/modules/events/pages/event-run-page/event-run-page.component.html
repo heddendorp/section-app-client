@@ -56,8 +56,28 @@
       <span>Copy mails of checked in users</span>
     </button>
   </div>
-  <h2 class="mb-2">Organizers</h2>
-  <div fxLayout="column" fxLayoutGap="1rem">
+  <ul
+    class="mt-8 divide-y-2 divide-gray-600 divide-opacity-25 border-2 border-gray-600 border-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2 sm:border-l-0 sm:border-r-0"
+  >
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">
+        {{ event.participantsRegistered }}
+      </p>
+      <p class="mt-1 font-medium md:text-xl">Registrations</p>
+    </li>
+
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">{{ event.participantsAttended }}</p>
+      <p class="mt-1 font-medium md:text-xl">Users checked in</p>
+    </li>
+
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
+      <p class="mt-1 font-medium md:text-xl">Participant Spots</p>
+    </li>
+  </ul>
+  <h2 class="mb-2 mt-6">Organizers</h2>
+  <app-grid>
     <div
       *ngFor="let registration of event.organizerRegistrations"
       fxLayout="row"
@@ -67,17 +87,30 @@
         <img
           [src]="registration.user.picture"
           referrerpolicy="no-referrer"
-          class="w-16 rounded"
+          class="w-12 rounded"
         />
       </div>
       <div>
-        <p>{{ registration.user.fullName }}</p>
-        <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+        <p>
+          {{ registration.user.fullName }}
+          <span
+            *ngIf="registration.user.id == event.createdBy.id"
+            class="ml-2 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
+          >
+            Event Creator
+          </span>
+        </p>
+        <a
+          *ngIf="registration.user.phone"
+          href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
+          target="_blank"
+          >{{ registration.user.phone }}</a
+        >
       </div>
     </div>
-  </div>
+  </app-grid>
   <h2 class="mt-4 mb-2">Participants</h2>
-  <div fxLayout="column" fxLayoutGap="2rem">
+  <app-grid>
     <div
       *ngFor="let registration of event.participantRegistrations"
       fxLayout="column"
@@ -89,7 +122,7 @@
           <img
             [src]="registration.user.picture"
             referrerpolicy="no-referrer"
-            class="w-16 rounded"
+            class="w-12 rounded"
           />
           <mat-icon
             *ngIf="registration.checkInTime; else cross"
@@ -105,7 +138,12 @@
         </div>
         <div>
           <p>{{ registration.user.fullName }}</p>
-          <p *ngIf="registration.user.phone">{{ registration.user.phone }}</p>
+          <a
+            *ngIf="registration.user.phone"
+            href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
+            target="_blank"
+            >{{ registration.user.phone }}</a
+          >
         </div>
       </div>
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
@@ -117,5 +155,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </app-grid>
 </main>

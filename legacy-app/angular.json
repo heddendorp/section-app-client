@@ -30,10 +30,11 @@
               "src/favicon.ico",
               "src/manifest.webmanifest",
               "src/assets",
+              "src/_redirects",
               {
                 "glob": "qr-scanner-worker.min.js",
                 "input": "../node_modules/qr-scanner/",
-                "output": "assets/"
+                "output": "/"
               }
             ],
             "styles": ["src/styles.scss"],
@@ -41,6 +42,20 @@
             "serviceWorker": true
           },
           "configurations": {
+            "light": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.light.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
@@ -82,6 +97,9 @@
           "configurations": {
             "production": {
               "browserTarget": "legacy-app:build:production"
+            },
+            "light": {
+              "browserTarget": "legacy-app:build:light"
             },
             "development": {
               "browserTarget": "legacy-app:build:development"

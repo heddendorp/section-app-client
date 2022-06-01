@@ -61,6 +61,15 @@
       }
     },
     {
+      "name": "fonts",
+      "urls": ["https://fonts.gstatic.com/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 80,
+        "maxAge": "14d"
+      }
+    },
+    {
       "name": "photoShares",
       "urls": ["/storage/tumi-photos/**"],
       "cacheConfig": {

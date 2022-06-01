@@ -52,6 +52,7 @@ query userProfile {
     lastName
     calendarToken
     hasESNcard
+    enrolmentStatus
     currentTenant {
       userId
       tenantId
@@ -146,6 +147,7 @@ mutation updateProfile($input: UpdateProfileInput!) {
     lastName
     fullName
     university
+    enrolmentStatus
     phone
   }
 }

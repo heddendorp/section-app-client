@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import {
   BehaviorSubject,
-  debounceTime,
+  firstValueFrom,
   map,
   Observable,
   Subject,
@@ -30,14 +31,21 @@ import QrScanner from 'qr-scanner';
   selector: 'app-event-checkin-page',
   templateUrl: './event-checkin-page.component.html',
   styleUrls: ['./event-checkin-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   public hideScanner$ = new BehaviorSubject(false);
   public cameras$ = new BehaviorSubject<QrScanner.Camera[]>([]);
   public cameraControl = new FormControl();
   public currentRegistration$ = new BehaviorSubject<
-    GetRegistrationQuery['registration'] | null
+    | GetRegistrationQuery['registration']
+    | (LoadEventForRunningQuery['event']['participantRegistrations'][0] & {
+        event: LoadEventForRunningQuery['event'];
+        didAttend: boolean;
+      })
+    | null
   >(null);
+  public registrationLoading$ = new BehaviorSubject(false);
   public event$: Observable<LoadEventForRunningQuery['event']>;
   public certificatePayload$ = new BehaviorSubject<{
     name: string;
@@ -95,7 +103,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     const idTest = new RegExp(
       /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
     );
-    this.scanResult$.pipe(debounceTime(500)).subscribe((result) => {
+    this.scanResult$.subscribe(async (result) => {
       const isID = idTest.test(result);
       if (result.includes('HC1')) {
         // DCC.unpackAndVerify(result);
@@ -123,18 +131,39 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
       if (isID) {
         this.scanner?.stop();
         this.hideScanner$.next(true);
-        this.loadRegistration
-          .fetch({ id: result })
-          .subscribe(({ data }) =>
-            this.currentRegistration$.next(data.registration)
-          );
+        this.registrationLoading$.next(true);
+        const event = await firstValueFrom(this.event$);
+        const registration = event.participantRegistrations.find(
+          (r) => r.id === result
+        );
+        if (registration) {
+          this.currentRegistration$.next({
+            ...registration,
+            event,
+            didAttend: false,
+          });
+        }
+        this.loadRegistration.fetch({ id: result }).subscribe(({ data }) => {
+          this.registrationLoading$.next(false);
+          this.currentRegistration$.next(data.registration);
+        });
       }
     });
-    QrScanner.WORKER_PATH = 'assets/qr-scanner-worker.min.js';
     if (this.video?.nativeElement) {
-      this.scanner = new QrScanner(this.video?.nativeElement, (result) => {
-        this.scanResult$.next(result);
-      });
+      this.scanner = new QrScanner(
+        this.video?.nativeElement,
+        (result) => {
+          if (typeof result === 'string') {
+            this.scanResult$.next(result);
+          }
+          this.scanResult$.next(result.data);
+        },
+        {
+          maxScansPerSecond: 2,
+          highlightScanRegion: true,
+          highlightCodeOutline: true,
+        }
+      );
       await this.scanner.setCamera('environment');
     } else {
       this.snackBar.open('No video element found');

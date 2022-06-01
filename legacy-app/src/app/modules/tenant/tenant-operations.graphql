@@ -189,29 +189,31 @@ query getUsers(
   )
 }
 
-query getStatistics {
+query getStatistics($range: DateRangeInput) {
   currentTenant {
     id
     name
     statistics {
-      usersRegistered
-      usersWithCustomer
-      usersWithPaymentMethod
-      registrations
-      userHistory
-      registrationHistory
-      refundHistory
-      userEventDistribution
-      usersRegisteredEvents
-      usersRegisteredFreeEvents
-      usersRegisteredPaidEvents
-      checkins
-      paidRegistrations
+      usersRegistered(range: $range)
+      usersWithCustomer(range: $range)
+      usersWithPaymentMethod(range: $range)
+      registrations(range: $range)
+      userHistory(range: $range)
+      registrationHistory(range: $range)
+      checkinHistory(range: $range)
+      refundHistory(range: $range)
+      userEventDistribution(range: $range)
+      usersRegisteredEvents(range: $range)
+      usersRegisteredFreeEvents(range: $range)
+      usersRegisteredPaidEvents(range: $range)
+      checkins(range: $range)
+      paidRegistrations(range: $range)
       #      totalNetPayments
-      totalEvents
-      paidEvents
+      totalEvents(range: $range)
+      paidEvents(range: $range)
       #      averageEventCost
-      userUniversityDistribution
+      userUniversityDistribution(range: $range)
+      userStatusDistribution(range: $range)
     }
   }
 }

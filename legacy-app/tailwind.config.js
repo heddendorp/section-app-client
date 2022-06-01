@@ -49,6 +49,12 @@ module.exports = {
         },
         outline: { default: '#75767f', dark: '#8f909a' },
       },
+      fontFamily: {
+        display: ['Josefin Sans', 'sans-serif'],
+      },
+    },
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
     },
   },
   variants: {
