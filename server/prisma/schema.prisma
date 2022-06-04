@@ -17,10 +17,16 @@ generator nexusPrisma {
   output   = "../src/generated/nexus-prisma"
 }
 
-//generator dbml {
-//  provider = "prisma-dbml-generator"
-//  output   = "./dbml"
-//}
+generator pothos {
+  provider = "prisma-pothos-types"
+  clientOutput = "./prisma"
+  output = "../src/generated/pothos-types.ts"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+  output   = "./dbml"
+}
 
 enum Role {
   USER
