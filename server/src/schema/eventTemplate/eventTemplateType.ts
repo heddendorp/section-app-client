@@ -25,3 +25,49 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     tenant: t.relation('tenant'),
   }),
 });
+
+export const createEventTemplateInput = builder.inputType(
+  'CreateEventTemplateInput',
+  {
+    fields: (t) => ({
+      comment: t.string({ required: true }),
+      coordinates: t.field({ required: true, type: 'JSON' }),
+      description: t.string({ required: true }),
+      duration: t.field({ required: true, type: 'Decimal' }),
+      icon: t.string({ required: true }),
+      insuranceDescription: t.string({ required: true }),
+      location: t.string({ required: true }),
+      organizerText: t.string({ required: true }),
+      participantText: t.string({ required: true }),
+      shouldBeReportedToInsurance: t.boolean({ required: true }),
+      title: t.string({ required: true }),
+    }),
+  }
+);
+
+export const updateTemplateInputType = builder.inputType(
+  'UpdateTemplateInput',
+  {
+    fields: (t) => ({
+      comment: t.string(),
+      description: t.string(),
+      duration: t.field({ type: 'Decimal' }),
+      icon: t.string(),
+      insuranceDescription: t.string(),
+      organizerText: t.string(),
+      participantText: t.string(),
+      shouldBeReportedToInsurance: t.boolean(),
+      title: t.string(),
+    }),
+  }
+);
+
+export const updateTemplateLocationInputType = builder.inputType(
+  'UpdateTemplateLocationInput',
+  {
+    fields: (t) => ({
+      location: t.string({ required: true }),
+      coordinates: t.field({ type: 'JSON', required: true }),
+    }),
+  }
+);

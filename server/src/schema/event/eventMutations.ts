@@ -1,12 +1,15 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 import {
+  MembershipStatus,
   PublicationState,
+  RegistrationMode,
   RegistrationStatus,
   RegistrationType,
 } from '../../generated/prisma';
 import { GraphQLError } from 'graphql';
 import {
+  createEventFromTemplateInput,
   updateCoreEventInputType,
   updateEventLocationInputType,
   updateGeneralEventInputType,
@@ -47,6 +50,85 @@ builder.mutationFields((t) => ({
                 rating,
                 userComment: comment,
               },
+            },
+          },
+        },
+      });
+    },
+  }),
+  createEventFromTemplate: t.prismaField({
+    authScopes: { member: true },
+    type: 'TumiEvent',
+    args: {
+      input: t.arg({
+        type: createEventFromTemplateInput,
+        required: true,
+      }),
+      templateId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, parent, { input, templateId }, context) => {
+      const template = await prisma.eventTemplate.findUnique({
+        where: { id: templateId },
+      });
+      if (!template) {
+        throw new GraphQLYogaError(
+          'Template with the given ID could not be found'
+        );
+      }
+      return prisma.tumiEvent.create({
+        data: {
+          title: template.title,
+          icon: template.icon,
+          start: input.start,
+          end: input.end,
+          participantLimit: input.participantLimit,
+          organizerLimit: input.organizerLimit,
+          registrationLink: input.registrationLink,
+          registrationMode: input.registrationMode,
+          description: template.description,
+          coordinates: template.coordinates ?? undefined,
+          location: template.location,
+          participantText: template.participantText,
+          organizerText: template.organizerText,
+          insuranceDescription: template.insuranceDescription,
+          shouldBeReportedToInsurance: template.shouldBeReportedToInsurance,
+          ...(input.registrationMode === RegistrationMode.STRIPE
+            ? {
+                prices: {
+                  options: [
+                    {
+                      amount: input.price,
+                      defaultPrice: true,
+                      esnCardRequired: false,
+                      allowedStatusList: [
+                        MembershipStatus.NONE,
+                        MembershipStatus.TRIAL,
+                        MembershipStatus.FULL,
+                        MembershipStatus.SPONSOR,
+                        MembershipStatus.ALUMNI,
+                      ],
+                    },
+                  ],
+                },
+              }
+            : {}),
+          createdBy: { connect: { id: context.user?.id } },
+          participantSignup: [
+            MembershipStatus.NONE,
+            MembershipStatus.TRIAL,
+            MembershipStatus.FULL,
+            MembershipStatus.SPONSOR,
+            MembershipStatus.ALUMNI,
+          ],
+          organizerSignup: [MembershipStatus.TRIAL, MembershipStatus.FULL],
+          organizer: {
+            connect: {
+              id: input.eventOrganizerId,
+            },
+          },
+          eventTemplate: {
+            connect: {
+              id: template.id,
             },
           },
         },

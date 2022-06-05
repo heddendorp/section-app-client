@@ -530,14 +530,14 @@ export const createEventFromTemplateInput = builder.inputType(
   'CreateEventFromTemplateInput',
   {
     fields: (t) => ({
-      start: t.field({ type: 'DateTime' }),
-      end: t.field({ type: 'DateTime' }),
-      participantLimit: t.int(),
-      organizerLimit: t.int(),
-      registrationLink: t.string(),
-      registrationMode: t.field({ type: RegistrationMode }),
-      eventOrganizerId: t.id(),
-      price: t.field({ type: 'Decimal' }),
+      start: t.field({ type: 'DateTime', required: true }),
+      end: t.field({ type: 'DateTime', required: true }),
+      participantLimit: t.int({ required: true }),
+      organizerLimit: t.int({ required: true }),
+      registrationLink: t.string({ required: true }),
+      registrationMode: t.field({ type: RegistrationMode, required: true }),
+      eventOrganizerId: t.id({ required: true }),
+      price: t.field({ type: 'Decimal', required: true }),
     }),
   }
 );

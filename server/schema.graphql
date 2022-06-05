@@ -32,14 +32,28 @@ type CostItem {
 }
 
 input CreateEventFromTemplateInput {
-  end: DateTime
-  eventOrganizerId: ID
-  organizerLimit: Int
-  participantLimit: Int
-  price: Decimal
-  registrationLink: String
-  registrationMode: RegistrationMode
-  start: DateTime
+  end: DateTime!
+  eventOrganizerId: ID!
+  organizerLimit: Int!
+  participantLimit: Int!
+  price: Decimal!
+  registrationLink: String!
+  registrationMode: RegistrationMode!
+  start: DateTime!
+}
+
+input CreateEventTemplateInput {
+  comment: String!
+  coordinates: JSON!
+  description: String!
+  duration: Decimal!
+  icon: String!
+  insuranceDescription: String!
+  location: String!
+  organizerText: String!
+  participantText: String!
+  shouldBeReportedToInsurance: Boolean!
+  title: String!
 }
 
 input CreatePhotoShareInput {
@@ -256,7 +270,9 @@ type Mutation {
   addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent!
   changeEventPublication(eventId: ID!, publicationState: PublicationState!): TumiEvent!
   checkInUser(manualCheckin: Boolean = false, registrationId: ID!): EventRegistration!
+  createEventFromTemplate(input: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent!
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
+  createEventTemplate(input: CreateEventTemplateInput!): EventTemplate!
   createPhotoShare(eventId: ID!, input: CreatePhotoShareInput!): PhotoShare!
   createReceipt(costItemId: ID!, input: CreateReceiptInput!): Receipt!
   createRegistrationCode(eventId: ID!, isPublic: Boolean = false, registrationId: ID, sepaAllowed: Boolean = false): EventRegistrationCode!
@@ -266,6 +282,7 @@ type Mutation {
   deleteEvent(id: ID!): TumiEvent!
   deleteReceipt(id: ID!): Receipt!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
+  deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
   rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
@@ -275,6 +292,9 @@ type Mutation {
   updateEventGeneralInfo(eventId: ID!, input: UpdateGeneralEventInput!): TumiEvent!
   updateEventLocation(eventId: ID!, input: UpdateEventLocationInput!): TumiEvent!
   updateEventTemplateConnection(eventId: ID!, templateId: ID!): TumiEvent!
+  updateTemplate(input: UpdateTemplateInput!, templateId: ID!): EventTemplate!
+  updateTemplateFinances(finances: JSON!, templateId: ID!): EventTemplate!
+  updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
@@ -374,6 +394,8 @@ type Query {
   eventOrganizers: [EventOrganizer!]!
   eventRegistrationCode(id: ID!): EventRegistrationCode!
   eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
+  eventTemplate(id: ID!): EventTemplate!
+  eventTemplates: [EventTemplate!]!
   events(after: DateTime, limit: Int): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
@@ -634,6 +656,23 @@ input UpdateGeneralEventInput {
   description: String
   organizerText: String
   participantText: String
+}
+
+input UpdateTemplateInput {
+  comment: String
+  description: String
+  duration: Decimal
+  icon: String
+  insuranceDescription: String
+  organizerText: String
+  participantText: String
+  shouldBeReportedToInsurance: Boolean
+  title: String
+}
+
+input UpdateTemplateLocationInput {
+  coordinates: JSON!
+  location: String!
 }
 
 input UpdateTenantInput {
