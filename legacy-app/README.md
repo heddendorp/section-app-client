@@ -23,14 +23,18 @@ Install dependencies
 ```
 
 ### Without local server (for frontend only)
+
 This uses the server running on `server.esn.world` which is also used by the live version.
+
 ```bash
   yarn dev:light
 ```
-If you need changes in the and don't want to implement them yourself server you can line 
+
+If you need changes in the and don't want to implement them yourself server you can line
 out what the API should return for you feature and open an issue.
 
 ### With local server
+
 To fetch data you need to have the [server](../server) running on localhost as well.
 
 ```bash
@@ -50,8 +54,8 @@ Relevant documentation for this project is listed below to give you a starting p
 - [TailwindCSS](https://tailwindcss.com/docs/utility-first)  
   For general styling in the app instead of custom CSS.
 
-
 ## Deployment
-The `release` branch is automatically deployed to `tumi.esn.world`. 
-You can check the deployment of PRs by checking the URL that on the PR page. 
+
+The `release` branch is automatically deployed to `tumi.esn.world`.
+You can check the deployment of PRs by checking the URL that on the PR page.
 The `master` branch is deployed instantly to `dev.esn.world`.

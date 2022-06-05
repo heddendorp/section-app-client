@@ -9,10 +9,7 @@ mutation createEventFromTemplate(
   $templateId: ID!
   $eventData: CreateEventFromTemplateInput!
 ) {
-  createEventFromTemplate(
-    templateId: $templateId
-    input: $eventData
-  ) {
+  createEventFromTemplate(templateId: $templateId, input: $eventData) {
     id
   }
 }
