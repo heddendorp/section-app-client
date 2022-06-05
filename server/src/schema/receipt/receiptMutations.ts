@@ -11,12 +11,14 @@ builder.mutationFields((t) => ({
         type: createReceiptInputType,
         required: true,
       }),
+      costItemId: t.arg.id({ required: true }),
     },
     resolve: async (query, parent, args, context, info) => {
       return prisma.receipt.create({
         ...query,
         data: {
           ...args.input,
+          costItemId: args.costItemId,
           userId: context.user?.id ?? '',
         },
       });

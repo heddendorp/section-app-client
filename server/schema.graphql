@@ -255,15 +255,18 @@ enum MembershipStatus {
 type Mutation {
   addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent!
   changeEventPublication(eventId: ID!, publicationState: PublicationState!): TumiEvent!
+  checkInUser(manualCheckin: Boolean = false, registrationId: ID!): EventRegistration!
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
   createPhotoShare(eventId: ID!, input: CreatePhotoShareInput!): PhotoShare!
-  createReceipt(input: CreateReceiptInput!): Receipt!
+  createReceipt(costItemId: ID!, input: CreateReceiptInput!): Receipt!
+  createRegistrationCode(eventId: ID!, isPublic: Boolean = false, registrationId: ID, sepaAllowed: Boolean = false): EventRegistrationCode!
   createSubmissionItem(input: CreateSubmissionItemInput!, target: String = "event", targetId: ID!): EventSubmissionItem!
   createUser(input: CreateUserInput!): User!
   deleteCostItem(id: ID!): CostItem!
   deleteEvent(id: ID!): TumiEvent!
   deleteReceipt(id: ID!): Receipt!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
+  deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
   rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateEventCoreInfo(eventId: ID!, input: UpdateCoreEventInput!): TumiEvent!
@@ -560,6 +563,7 @@ type TumiEvent {
   eventTemplate: EventTemplate!
   eventTemplateId: ID!
   feesPaid: Decimal!
+  freeParticipantSpots: String!
   icon: String!
   id: ID!
   insuranceDescription: String!

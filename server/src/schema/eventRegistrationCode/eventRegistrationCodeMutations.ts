@@ -45,4 +45,37 @@ builder.mutationFields((t) => ({
       );
     },
   }),
+  createRegistrationCode: t.prismaField({
+    authScopes: (query, args, context) => {
+      if (args.sepaAllowed || !args.registrationId) {
+        return { admin: true };
+      } else {
+        return { public: true };
+      }
+    },
+    type: 'EventRegistrationCode',
+    args: {
+      registrationId: t.arg.id(),
+      eventId: t.arg.id({ required: true }),
+      isPublic: t.arg.boolean({ defaultValue: false }),
+      sepaAllowed: t.arg.boolean({ defaultValue: false }),
+    },
+    resolve: async (
+      query,
+      root,
+      { registrationId, eventId, isPublic, sepaAllowed },
+      context
+    ) => {
+      return prisma.eventRegistrationCode.create({
+        ...query,
+        data: {
+          registrationToRemoveId: registrationId ?? undefined,
+          isPublic: isPublic ?? false,
+          sepaAllowed: sepaAllowed ?? false,
+          targetEvent: { connect: { id: eventId } },
+          createdById: context.user?.id ?? '',
+        },
+      });
+    },
+  }),
 }));

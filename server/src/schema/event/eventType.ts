@@ -72,6 +72,26 @@ export const eventType = builder.prismaObject('TumiEvent', {
     photoShares: t.relation('photoShares'),
     eventTemplate: t.relation('eventTemplate'),
     eventTemplateId: t.exposeID('eventTemplateId'),
+    freeParticipantSpots: t.string({
+      resolve: async (event, args, context) => {
+        const quota =
+          event.participantRegistrationCount / event.participantLimit;
+        if (quota < 0.5) {
+          return 'Many free spots';
+        } else if (quota < 0.8) {
+          return 'Some spots left';
+        } else if (quota < 1) {
+          return 'Few spots left';
+        } else if (
+          event.participantLimit - event.participantRegistrationCount ===
+          1
+        ) {
+          return 'One spot left';
+        } else {
+          return 'Event is full';
+        }
+      },
+    }),
     needsRating: t.boolean({
       resolve: async (source, args, context) => {
         const lastWeek = DateTime.local().minus({ days: 7 });
