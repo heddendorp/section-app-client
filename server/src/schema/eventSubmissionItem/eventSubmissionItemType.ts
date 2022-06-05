@@ -1,5 +1,9 @@
 import { builder } from '../../builder';
-import { PurchaseStatus, SubmissionTime } from '../../generated/prisma';
+import {
+  PurchaseStatus,
+  SubmissionItemType,
+  SubmissionTime,
+} from '../../generated/prisma';
 import prisma from '../../client';
 import { countBy, toPairs } from 'lodash';
 
@@ -64,6 +68,20 @@ export const eventSubmissionItemType = builder.prismaObject(
             );
         },
       }),
+    }),
+  }
+);
+
+export const createSubmissionItemInputType = builder.inputType(
+  'CreateSubmissionItemInput',
+  {
+    fields: (t) => ({
+      required: t.boolean({ required: true }),
+      submissionTime: t.field({ type: SubmissionTime, required: true }),
+      type: t.field({ required: true, type: SubmissionItemType }),
+      name: t.string({ required: true }),
+      instruction: t.string({ required: true }),
+      data: t.field({ type: 'JSON', required: true }),
     }),
   }
 );

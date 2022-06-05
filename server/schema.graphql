@@ -40,6 +40,15 @@ input CreateReceiptInput {
   type: String!
 }
 
+input CreateSubmissionItemInput {
+  data: JSON!
+  instruction: String!
+  name: String!
+  required: Boolean!
+  submissionTime: SubmissionTime!
+  type: SubmissionItemType!
+}
+
 type DCC {
   card: DCCCard
   status: String!
@@ -218,8 +227,10 @@ enum MembershipStatus {
 type Mutation {
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
   createReceipt(input: CreateReceiptInput!): Receipt!
+  createSubmissionItem(input: CreateSubmissionItemInput!, target: String = "event", targetId: ID!): EventSubmissionItem!
   deleteCostItem(id: ID!): CostItem!
   deleteReceipt(id: ID!): Receipt!
+  deleteSubmissionItem(id: ID!): EventSubmissionItem!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
@@ -313,6 +324,7 @@ type Query {
   costItem(id: ID!): CostItem!
   costItems(eventId: ID): [CostItem!]!
   currentTenant: Tenant!
+  currentUser: User!
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
   eventRegistrationCode(id: ID!): EventRegistrationCode!
