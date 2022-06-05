@@ -31,3 +31,16 @@ export const photoShareType = builder.prismaObject('PhotoShare', {
     }),
   }),
 });
+
+export const createPhotoShareInputType = builder.inputType(
+  'CreatePhotoShareInput',
+  {
+    fields: (t) => ({
+      cols: t.int({ required: true }),
+      rows: t.int({ required: true }),
+      container: t.string({ required: true }),
+      originalBlob: t.string({ required: true }),
+      type: t.string({ required: true }),
+    }),
+  }
+);

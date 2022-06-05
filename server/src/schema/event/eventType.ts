@@ -495,3 +495,63 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
   }),
 });
+
+export const updateEventLocationInputType = builder.inputType(
+  'UpdateEventLocationInput',
+  {
+    fields: (t) => ({
+      location: t.string({ required: true }),
+      coordinates: t.field({ type: 'JSON', required: true }),
+    }),
+  }
+);
+
+export const createEventFromTemplateInput = builder.inputType(
+  'CreateEventFromTemplateInput',
+  {
+    fields: (t) => ({
+      start: t.field({ type: 'DateTime' }),
+      end: t.field({ type: 'DateTime' }),
+      participantLimit: t.int(),
+      organizerLimit: t.int(),
+      registrationLink: t.string(),
+      registrationMode: t.field({ type: RegistrationMode }),
+      eventOrganizerId: t.id(),
+      price: t.field({ type: 'Decimal' }),
+    }),
+  }
+);
+
+export const updateGeneralEventInputType = builder.inputType(
+  'UpdateGeneralEventInput',
+  {
+    fields: (t) => ({
+      description: t.string(),
+      organizerText: t.string(),
+      participantText: t.string(),
+    }),
+  }
+);
+
+export const updateCoreEventInputType = builder.inputType(
+  'UpdateCoreEventInput',
+  {
+    fields: (t) => ({
+      disableDeregistration: t.boolean(),
+      end: t.field({ type: 'DateTime' }),
+      icon: t.string(),
+      insuranceDescription: t.string(),
+      organizerLimit: t.int(),
+      organizerSignup: t.field({ type: [MembershipStatus] }),
+      participantLimit: t.int(),
+      participantSignup: t.field({ type: [MembershipStatus] }),
+      prices: t.field({ type: 'JSON' }),
+      registrationLink: t.string(),
+      registrationMode: t.field({ type: RegistrationMode }),
+      registrationStart: t.field({ type: 'DateTime' }),
+      shouldBeReportedToInsurance: t.boolean(),
+      start: t.field({ type: 'DateTime' }),
+      title: t.string(),
+    }),
+  }
+);

@@ -31,6 +31,25 @@ type CostItem {
   transactions: [Transaction!]!
 }
 
+input CreateEventFromTemplateInput {
+  end: DateTime
+  eventOrganizerId: ID
+  organizerLimit: Int
+  participantLimit: Int
+  price: Decimal
+  registrationLink: String
+  registrationMode: RegistrationMode
+  start: DateTime
+}
+
+input CreatePhotoShareInput {
+  cols: Int!
+  container: String!
+  originalBlob: String!
+  rows: Int!
+  type: String!
+}
+
 input CreateReceiptInput {
   amount: Decimal!
   blob: String!
@@ -172,8 +191,8 @@ type EventSubmissionItem {
   ownSubmissions(onlyOwn: Boolean): [EventSubmission!]!
   required: Boolean!
   responses(onlyWithPurchase: Boolean = false): JSON!
+  submissionTime: SubmissionTime!
   submissions: [EventSubmission!]!
-  sumbissionTime: SubmissionTime!
   type: String!
 }
 
@@ -234,15 +253,23 @@ enum MembershipStatus {
 }
 
 type Mutation {
+  addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent!
+  changeEventPublication(eventId: ID!, publicationState: PublicationState!): TumiEvent!
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
+  createPhotoShare(eventId: ID!, input: CreatePhotoShareInput!): PhotoShare!
   createReceipt(input: CreateReceiptInput!): Receipt!
   createSubmissionItem(input: CreateSubmissionItemInput!, target: String = "event", targetId: ID!): EventSubmissionItem!
   createUser(input: CreateUserInput!): User!
   deleteCostItem(id: ID!): CostItem!
+  deleteEvent(id: ID!): TumiEvent!
   deleteReceipt(id: ID!): Receipt!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
+  updateEventCoreInfo(eventId: ID!, input: UpdateCoreEventInput!): TumiEvent!
+  updateEventGeneralInfo(eventId: ID!, input: UpdateGeneralEventInput!): TumiEvent!
+  updateEventLocation(eventId: ID!, input: UpdateEventLocationInput!): TumiEvent!
+  updateEventTemplateConnection(eventId: ID!, templateId: ID!): TumiEvent!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
@@ -345,7 +372,8 @@ type Query {
   events(after: DateTime, limit: Int): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
-  photos: [PhotoShare!]!
+  photoShareKey: String!
+  photos(eventId: ID): [PhotoShare!]!
   purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean): [Purchase!]!
   registration(id: ID!): EventRegistration!
@@ -571,6 +599,35 @@ type TumiEvent {
   userIsCreator: Boolean!
   userIsOrganizer: Boolean!
   userIsRegistered: Boolean!
+}
+
+input UpdateCoreEventInput {
+  disableDeregistration: Boolean
+  end: DateTime
+  icon: String
+  insuranceDescription: String
+  organizerLimit: Int
+  organizerSignup: [MembershipStatus!]
+  participantLimit: Int
+  participantSignup: [MembershipStatus!]
+  prices: JSON
+  registrationLink: String
+  registrationMode: RegistrationMode
+  registrationStart: DateTime
+  shouldBeReportedToInsurance: Boolean
+  start: DateTime
+  title: String
+}
+
+input UpdateEventLocationInput {
+  coordinates: JSON!
+  location: String!
+}
+
+input UpdateGeneralEventInput {
+  description: String
+  organizerText: String
+  participantText: String
 }
 
 input UpdateTenantInput {

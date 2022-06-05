@@ -18,7 +18,7 @@ export const eventSubmissionItemType = builder.prismaObject(
       eventId: t.exposeID('eventId', { nullable: true }),
       name: t.exposeString('name'),
       required: t.exposeBoolean('required'),
-      sumbissionTime: t.expose('submissionTime', { type: SubmissionTime }),
+      submissionTime: t.expose('submissionTime', { type: SubmissionTime }),
       type: t.exposeString('type'),
       instruction: t.exposeString('instruction'),
       data: t.expose('data', { type: 'JSON' }),
