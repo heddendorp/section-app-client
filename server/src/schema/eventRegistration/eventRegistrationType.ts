@@ -14,7 +14,7 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
     userId: t.exposeID('userId'),
     event: t.relation('event'),
     eventId: t.exposeID('eventId'),
-    transaction: t.relation('transaction'),
+    transaction: t.relation('transaction', { nullable: true }),
     transactionId: t.exposeID('transactionId', { nullable: true }),
     checkInTime: t.expose('checkInTime', { type: 'DateTime', nullable: true }),
     manualCheckin: t.expose('manualCheckin', { type: 'Boolean' }),

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  EnrollmentStatus,
+  EnrolmentStatus,
   GetCurrentUserGQL,
   RegisterUserGQL,
 } from '@tumi/legacy-app/generated/generated';
@@ -17,7 +17,7 @@ import { DateTime } from 'luxon';
 })
 export class NewUserPageComponent implements OnInit {
   public welcomeForm: FormGroup;
-  public EnrolmentStatus = EnrollmentStatus;
+  public EnrolmentStatus = EnrolmentStatus;
   startDate = DateTime.local().minus({ years: 20 }).toJSDate();
 
   constructor(

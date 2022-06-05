@@ -5,7 +5,6 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  GetPaymentSetupSessionGQL,
   MembershipStatus,
   SubmitEventFeedbackGQL,
   UpdateProfileGQL,
@@ -36,7 +35,6 @@ export class ProfilePageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private profileQuery: UserProfileGQL,
-    private getStripeSession: GetPaymentSetupSessionGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
     private route: ActivatedRoute,
@@ -75,7 +73,7 @@ export class ProfilePageComponent implements OnDestroy {
     this.profileQueryRef.stopPolling();
   }
 
-  async setupStripePayment() {
+  /*async setupStripePayment() {
     const { data } = await firstValueFrom(this.getStripeSession.fetch());
     const stripe = await loadStripe(environment.stripeKey);
     if (stripe) {
@@ -83,16 +81,19 @@ export class ProfilePageComponent implements OnDestroy {
         sessionId: data.getPaymentSetupSession.id,
       });
     }
-  }
+  }*/
 
   async updateProfile() {
     const profile = await firstValueFrom(this.profile$);
-    const result = await this.dialog
-      .open(UpdateProfileDialogComponent, { data: { profile } })
-      .afterClosed()
-      .toPromise();
+    const result = await firstValueFrom(
+      this.dialog
+        .open(UpdateProfileDialogComponent, { data: { profile } })
+        .afterClosed()
+    );
     if (result && profile) {
-      await this.updateProfileMutation.mutate({ input: result }).toPromise();
+      await firstValueFrom(
+        this.updateProfileMutation.mutate({ input: result, userId: profile.id })
+      );
     }
   }
 

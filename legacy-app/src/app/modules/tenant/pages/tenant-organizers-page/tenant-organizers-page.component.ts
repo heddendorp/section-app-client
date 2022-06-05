@@ -16,7 +16,7 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantOrganizersPageComponent implements OnInit {
-  public organizers$: Observable<GetOrganizersQuery['organizers']>;
+  public organizers$: Observable<GetOrganizersQuery['eventOrganizers']>;
   private organizersQuery;
   constructor(
     private title: Title,
@@ -27,7 +27,7 @@ export class TenantOrganizersPageComponent implements OnInit {
     this.title.setTitle('TUMi - manage organizers');
     this.organizersQuery = this.getOrganizers.watch();
     this.organizers$ = this.organizersQuery.valueChanges.pipe(
-      map(({ data }) => data.organizers)
+      map(({ data }) => data.eventOrganizers)
     );
   }
 

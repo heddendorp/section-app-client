@@ -30,7 +30,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       template: GetEventTemplateQuery['eventTemplate'];
-      organizers: GetOrganizerOptionsQuery['organizers'];
+      organizers: GetOrganizerOptionsQuery['eventOrganizers'];
     },
     private fb: FormBuilder,
     private dialog: MatDialogRef<CreateEventDialogComponent>

@@ -103,6 +103,9 @@ mutation verifyCertificate($cert: String!) {
     status
     card {
       name
+      test
+      vaccination
+      recovery
     }
   }
 }

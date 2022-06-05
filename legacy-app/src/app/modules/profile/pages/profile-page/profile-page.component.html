@@ -55,7 +55,7 @@
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
         <p gdColumn="-1/1">
-          You have {{ profile.hasESNcard ? 'an' : 'no' }} ESNcard registered in
+          You have {{ profile.hasESNCard ? 'an' : 'no' }} ESNcard registered in
           the app
         </p>
       </div>
@@ -73,7 +73,7 @@
         are registered for.
       </p>
     </div>
-    <div
+    <!--<div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
     >
       <div
@@ -103,7 +103,7 @@
       <button mat-flat-button color="accent" (click)="setupStripePayment()">
         Set payment method
       </button>
-    </div>
+    </div>-->
     <div
       *ngIf="(eventsToRate$ | async)?.length"
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"

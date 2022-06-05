@@ -33,7 +33,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventPhotoPageComponent implements OnDestroy {
-  public photos$: Observable<GetPhotosOfEventQuery['photosOfEvent']>;
+  public photos$: Observable<GetPhotosOfEventQuery['photos']>;
   public event$: Observable<GetPhotosOfEventQuery['event']>;
   public uploadProgress$ = new BehaviorSubject(0);
   public uploadMode$ = new BehaviorSubject<ProgressBarMode>('indeterminate');
@@ -51,7 +51,7 @@ export class EventPhotoPageComponent implements OnDestroy {
   ) {
     this.loadPhotosRef = this.loadPhotos.watch();
     this.photos$ = this.loadPhotosRef.valueChanges.pipe(
-      map(({ data }) => data.photosOfEvent)
+      map(({ data }) => data.photos)
     );
     this.event$ = this.loadPhotosRef.valueChanges.pipe(
       map(({ data }) => data.event)
@@ -78,7 +78,7 @@ export class EventPhotoPageComponent implements OnDestroy {
     const photos = await firstValueFrom(this.photos$);
     const event = await firstValueFrom(this.event$);
     const files = await Promise.all(
-      photos.map((photo) =>
+      photos.map((photo: any) =>
         firstValueFrom(
           this.http.get(photo.original, { responseType: 'blob' })
         ).then(

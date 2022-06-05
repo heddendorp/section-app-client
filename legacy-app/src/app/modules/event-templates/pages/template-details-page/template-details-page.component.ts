@@ -54,7 +54,7 @@ export class TemplateDetailsPageComponent {
     if (template?.id) {
       const eventData = await this.dialog
         .open(CreateEventDialogComponent, {
-          data: { template, organizers: data.organizers },
+          data: { template, organizers: data.eventOrganizers },
         })
         .afterClosed()
         .toPromise();

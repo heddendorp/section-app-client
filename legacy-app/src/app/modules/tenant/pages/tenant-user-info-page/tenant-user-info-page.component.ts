@@ -7,7 +7,7 @@ import {
   UpdateEsNcardGQL,
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { first, map, Observable, switchMap } from 'rxjs';
+import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { UpdateUserDialogComponent } from '@tumi/legacy-app/modules/tenant/components/update-user-dialog/update-user-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantUserInfoPageComponent {
-  public user$: Observable<LoadUserQuery['userById']>;
+  public user$: Observable<LoadUserQuery['user']>;
   public RegistrationStatus = RegistrationStatus;
 
   constructor(
@@ -36,24 +36,29 @@ export class TenantUserInfoPageComponent {
           this.loadUserQuery.watch({ id: params.get('userId') ?? '' })
             .valueChanges
       ),
-      map(({ data }) => data.userById)
+      map(({ data }) => data.user)
     );
   }
 
   async updateUser(user: GetUsersQuery['users'][0]) {
-    const newUser = await this.dialog
-      .open(UpdateUserDialogComponent, { data: { user } })
-      .afterClosed()
-      .toPromise();
+    const newUser = await firstValueFrom(
+      this.dialog
+        .open(UpdateUserDialogComponent, { data: { user } })
+        .afterClosed()
+    );
     if (newUser) {
-      await this.updateMutation
-        .mutate({ id: user.id, role: newUser.role, status: newUser.status })
-        .toPromise();
+      await firstValueFrom(
+        this.updateMutation.mutate({
+          id: user.id,
+          role: newUser.role,
+          status: newUser.status,
+        })
+      );
     }
   }
 
   async updateEsnCard(event: MatSlideToggleChange) {
-    const user = await this.user$.pipe(first()).toPromise();
+    const user = await firstValueFrom(this.user$);
     if (user) {
       await this.updateCardMutation
         .mutate({

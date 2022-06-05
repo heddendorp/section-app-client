@@ -277,7 +277,7 @@ builder.queryFields((t) => ({
             ...(range?.start ? { createdAt: { gte: range.start } } : {}),
             ...(range?.end ? { createdAt: { lte: range.end } } : {}),
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: 'asc' },
         })
         .then(convertToSeries('New Users'));
       const registrationHistory = await prisma.eventRegistration
@@ -293,7 +293,7 @@ builder.queryFields((t) => ({
             },
             status: { not: RegistrationStatus.CANCELLED },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: 'asc' },
         })
         .then(convertToSeries('New Registrations'));
       const checkinHistory = await prisma.eventRegistration
@@ -310,7 +310,7 @@ builder.queryFields((t) => ({
             status: { not: RegistrationStatus.CANCELLED },
             checkInTime: { not: null },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { checkInTime: 'asc' },
         })
         .then(convertToSeries('New Checkins', 'checkInTime'));
       return {

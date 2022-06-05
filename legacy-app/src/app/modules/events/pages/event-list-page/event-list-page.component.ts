@@ -75,7 +75,7 @@ export class EventListPageComponent implements OnDestroy {
           filteredEvents = events.filter(
             (event) =>
               event.userIsOrganizer ||
-              event.userRegistered ||
+              event.userIsRegistered ||
               event.freeParticipantSpots !== 'Event is full'
           );
         }

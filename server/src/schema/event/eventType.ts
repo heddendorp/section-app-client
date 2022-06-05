@@ -29,7 +29,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     description: t.exposeString('description'),
     disableDeregistration: t.exposeBoolean('disableDeregistration'),
     coordinates: t.expose('coordinates', { type: 'JSON' }),
-    prices: t.expose('prices', { type: 'JSON' }),
+    prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
@@ -430,6 +430,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             eventId: parent.id,
             status: { not: RegistrationStatus.CANCELLED },
           },
+          rejectOnNotFound: false,
         });
         if (previousRegistration) {
           if (process.env.DEV) {
@@ -493,6 +494,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             eventId: parent.id,
             status: { not: RegistrationStatus.CANCELLED },
           },
+          rejectOnNotFound: false,
         });
         if (previousRegistration) {
           if (process.env.DEV) {

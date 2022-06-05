@@ -13,6 +13,9 @@ builder.queryFields((t) => ({
             id: context.tenant.id,
           },
         },
+        orderBy: {
+          title: 'asc',
+        },
       });
     },
   }),

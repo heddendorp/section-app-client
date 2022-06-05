@@ -1,10 +1,10 @@
 type ActivityLog {
   createdAt: DateTime!
-  data: JSON!
+  data: JSON
   id: ID!
   involvedUser: String
   message: String!
-  oldData: JSON!
+  oldData: JSON
   severity: String!
 }
 
@@ -157,7 +157,7 @@ type EventRegistration {
   rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
-  transaction: Transaction!
+  transaction: Transaction
   transactionId: ID
   type: RegistrationType!
   user: User!
@@ -614,7 +614,7 @@ type TumiEvent {
   participantsAttended: Int!
   photoShares: [PhotoShare!]!
   plannedSpend: Decimal!
-  prices: JSON!
+  prices: JSON
   publicationState: PublicationState!
   registrationLink: String
   registrationMode: RegistrationMode!

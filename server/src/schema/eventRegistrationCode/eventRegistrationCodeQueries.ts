@@ -18,6 +18,7 @@ builder.queryFields((t) => ({
       context
     ) => {
       return prisma.eventRegistrationCode.findMany({
+        ...query,
         where: {
           ...(includePrivate ? {} : { isPublic: true }),
           ...(includeUsed ? {} : { registrationCreatedId: null }),
@@ -28,7 +29,6 @@ builder.queryFields((t) => ({
         orderBy: orderByEvent
           ? { targetEvent: { start: 'asc' } }
           : { createdAt: 'desc' },
-        ...query,
       });
     },
   }),

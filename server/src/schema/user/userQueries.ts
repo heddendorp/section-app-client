@@ -71,13 +71,7 @@ builder.queryFields((t) => ({
       }),
       search: t.arg.string(),
     },
-    resolve: async (
-      query,
-      root,
-      { statusList, roleList, search },
-      context,
-      info
-    ) => {
+    resolve: async (root, { statusList, roleList, search }, context, info) => {
       const OR: any[] = [];
       if (search) {
         OR.push({ firstName: { search } });

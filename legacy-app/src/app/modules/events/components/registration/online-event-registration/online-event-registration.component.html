@@ -1,7 +1,10 @@
 <div *ngIf="event" class="my-2">
   <p class="mb-4">
     Free spots:
-    {{ (event?.participantLimit ?? 0) - (event?.participantsRegistered ?? 0) }}
+    {{
+      (event?.participantLimit ?? 0) -
+        (event?.participantRegistrationCount ?? 0)
+    }}
   </p>
   <app-check-additional-data
     [event]="event"
@@ -25,14 +28,14 @@
     </ng-container>
     <ng-container
       *ngIf="
-        !event.participantRegistrationPossible.option && !event.userRegistered
+        !event.participantRegistrationPossible.option && !event.userIsRegistered
       "
     >
       <p class="whitespace-pre-wrap">
         {{ event.participantRegistrationPossible.reason }}
       </p>
     </ng-container>
-    <ng-container *ngIf="event.userRegistered">
+    <ng-container *ngIf="event.userIsRegistered">
       <p>✔️ You are registered for this event.</p>
       <ng-container *ngIf="canDeregister">
         <p class="my-2">

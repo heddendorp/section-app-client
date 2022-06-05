@@ -7,7 +7,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  EnrollmentStatus,
+  EnrolmentStatus,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 
@@ -19,7 +19,7 @@ import {
 })
 export class UpdateProfileDialogComponent {
   public profileForm: FormGroup;
-  public EnrolmentStatus = EnrollmentStatus;
+  public EnrolmentStatus = EnrolmentStatus;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialogRef<UpdateProfileDialogComponent>,
