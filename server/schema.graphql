@@ -268,6 +268,7 @@ type Mutation {
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
   rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
+  registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateEventCoreInfo(eventId: ID!, input: UpdateCoreEventInput!): TumiEvent!
   updateEventGeneralInfo(eventId: ID!, input: UpdateGeneralEventInput!): TumiEvent!
