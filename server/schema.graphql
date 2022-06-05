@@ -118,6 +118,7 @@ type EventRegistrationCode {
   connectedRegistrations: [EventRegistration!]!
   createdAt: DateTime!
   createdById: ID!
+  creator: User!
   id: ID!
   isPublic: Boolean!
   registrationCreated: EventRegistration!
@@ -314,12 +315,17 @@ type Query {
   currentTenant: Tenant!
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
+  eventRegistrationCode(id: ID!): EventRegistrationCode!
+  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
   events(after: DateTime): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photos: [PhotoShare!]!
   purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean): [Purchase!]!
+  registration(id: ID!): EventRegistration!
+  registrationCount(statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): Int!
+  registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
   user(id: ID!): User!

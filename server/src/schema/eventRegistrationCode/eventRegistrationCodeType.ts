@@ -1,7 +1,6 @@
 import { builder } from '../../builder';
 import { RegistrationStatus } from '../../generated/prisma';
 import prisma from '../../client';
-import { eventRegistrationType } from '../eventRegistration/eventRegistrationType';
 
 export const eventRegistrationCodeType = builder.prismaObject(
   'EventRegistrationCode',
@@ -13,6 +12,15 @@ export const eventRegistrationCodeType = builder.prismaObject(
       id: t.exposeID('id'),
       createdAt: t.expose('createdAt', { type: 'DateTime' }),
       createdById: t.exposeID('createdById'),
+      creator: t.prismaField({
+        type: 'User',
+        resolve: (query, parent, args, context, info) => {
+          return prisma.user.findUnique({
+            where: { id: parent.createdById },
+            ...query,
+          });
+        },
+      }),
       registrationToRemoveId: t.exposeID('registrationToRemoveId', {
         nullable: true,
       }),
