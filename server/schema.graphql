@@ -1,23 +1,205 @@
+type ActivityLog {
+  createdAt: DateTime!
+  data: JSON!
+  id: ID!
+  involvedUser: String
+  message: String!
+  oldData: JSON!
+  severity: String!
+}
+
+type ActivityLogStat {
+  count: Int!
+  message: String!
+}
+
+type CostItem {
+  actualAmount: Decimal
+  amount: Decimal!
+  calculationInfo: String!
+  complete: Boolean!
+  confirmed: Boolean!
+  createdAt: DateTime!
+  details: String
+  event: TumiEvent!
+  eventId: ID!
+  id: ID!
+  name: String!
+  onInvoice: Boolean!
+  receipts: [Receipt!]!
+  submittedAmount: Decimal!
+  transactions: [Transaction!]!
+}
+
+input CreateReceiptInput {
+  amount: Decimal!
+  blob: String!
+  container: String!
+  costItemId: ID!
+  md5: String!
+  type: String!
+}
+
+type DCC {
+  card: DCCCard
+  status: String!
+}
+
+type DCCCard {
+  cert: JSON!
+  format: String!
+  name: String!
+  pub_key: String!
+  rawQR: String!
+  recovery: JSON
+  scanDate: DateTime!
+  signature: String!
+  test: JSON
+  type: String!
+  vaccination: JSON
+  verified: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
+scalar Decimal
+
+enum EnrolmentStatus {
+  EXCHANGE
+  INTERNATIONAL
+  LOCAL
+  NONE
+  OTHER
+}
+
 type EventOrganizer {
+  createdAt: DateTime!
+  events: [TumiEvent!]!
   id: ID!
+  link: String
   name: String!
+  tenant: Tenant!
+  tenantId: ID!
+  text: String!
 }
 
 type EventRegistration {
+  belongsToCurrentUser: Boolean!
+  cancellationReason: String
+  checkInTime: DateTime
+  createdAt: DateTime!
+  creatingCode: EventRegistrationCode!
+  deletingCode: EventRegistrationCode!
+  didAttend: Boolean!
   event: TumiEvent!
+  eventId: ID!
   id: ID!
+  manualCheckin: Boolean!
+  rating: Int
+  status: RegistrationStatus!
+  submissions: [EventSubmission!]!
+  transaction: Transaction!
+  transactionId: ID
+  type: RegistrationType!
   user: User!
+  userComment: String
+  userId: ID!
+}
+
+type EventRegistrationCode {
+  connectedRegistrations: [EventRegistration!]!
+  createdAt: DateTime!
+  createdById: ID!
+  id: ID!
+  isPublic: Boolean!
+  registrationCreated: EventRegistration!
+  registrationCreatedId: ID
+  registrationToRemove: EventRegistration!
+  registrationToRemoveId: ID
+  sepaAllowed: Boolean!
+  status: RegistrationStatus!
+  targetEvent: TumiEvent!
+  targetEventId: ID!
+  transaction: Transaction!
+  transactionId: ID
+}
+
+type EventSubmission {
+  createdAt: DateTime!
+  data: JSON!
+  id: ID!
+  registration: EventRegistration!
+  registrationId: ID
+  submissionItem: EventSubmissionItem!
+  submissionItemId: ID!
+}
+
+type EventSubmissionItem {
+  createdAt: DateTime!
+  data: JSON!
+  event: TumiEvent!
+  eventId: ID
+  id: ID!
+  instruction: String!
+  name: String!
+  ownSubmissions(onlyOwn: Boolean): [EventSubmission!]!
+  required: Boolean!
+  responses(onlyWithPurchase: Boolean = false): JSON!
+  submissions: [EventSubmission!]!
+  sumbissionTime: SubmissionTime!
+  type: String!
+}
+
+type EventTemplate {
+  comment: String!
+  coordinates: JSON!
+  createdAt: DateTime!
+  description: String!
+  duration: Decimal!
+  eventInstances: [TumiEvent!]!
+  finances: JSON!
+  icon: String!
+  id: ID!
+  insuranceDescription: String!
+  location: String!
+  organizerText: String!
+  participantText: String!
+  shouldBeReportedToInsurance: Boolean!
+  tenant: Tenant!
+  title: String!
 }
 
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
+
+type LineItem {
+  cancellationReason: String
+  cart: ShoppingCart!
+  cost: Decimal!
+  createdAt: DateTime!
+  id: ID!
+  pickupTime: DateTime
+  product: Product!
+  productId: ID!
+  purchase: Purchase!
+  purchaseId: ID
+  quantity: Int!
+  shoppingCartId: ID
+  submissions: [EventSubmission!]!
+}
+
+enum LogSeverity {
+  DEBUG
+  ERROR
+  INFO
+  SILLY
+  WARNING
+}
 
 enum MembershipStatus {
   ALUMNI
@@ -28,10 +210,99 @@ enum MembershipStatus {
 }
 
 type Mutation {
+  createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
+  createReceipt(input: CreateReceiptInput!): Receipt!
+  deleteCostItem(id: ID!): CostItem!
+  deleteReceipt(id: ID!): Receipt!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
+  verifyDCC(certificate: String!): DCC!
+}
+
+input NewOrganizerInput {
+  link: String
+  name: String!
+  text: String!
+}
+
+type PhotoShare {
+  cols: Int!
+  container: String!
+  createdAt: DateTime!
+  creator: User!
+  creatorId: ID!
+  event: TumiEvent!
+  eventId: ID!
+  id: ID!
+  original: String!
+  originalBlob: String!
+  previewBlob: String
+  rows: Int!
+  src: String!
+}
+
+type Product {
+  availability: [MembershipStatus!]!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  images: [ProductImage!]!
+  isActive: Boolean!
+  isESNcard: Boolean!
+  leadImageId: ID
+  lineItems(onlyWithPurchase: Boolean = false): [LineItem!]!
+  needsShippingAddress: Boolean!
+  prices: JSON!
+  publicationState: PublicationState!
+  tenant: Tenant!
+  tenantId: ID!
+  title: String!
+}
+
+type ProductImage {
+  container: String!
+  createdAt: DateTime!
+  creator: User!
+  creatorId: ID!
+  id: ID!
+  original: String!
+  originalBlob: String!
+  previewBlob: String
+  product: Product!
+  productId: ID!
+  src: String!
+}
+
+enum PublicationState {
+  APPROVAL
+  DRAFT
+  ORGANIZERS
+  PUBLIC
+}
+
+type Purchase {
+  createdAt: DateTime!
+  id: ID!
+  items: [LineItem!]!
+  status: PurchaseStatus!
+  transaction: Transaction!
+  transactionId: ID!
+  user: User!
+  userId: ID!
+}
+
+enum PurchaseStatus {
+  CANCELLED
+  PAID
+  PENDING
+  SENT
 }
 
 type Query {
+  activityLogStats: [ActivityLogStat!]!
+  activityLogs: [ActivityLog!]!
+  blobUploadKey: String!
+  costItem(id: ID!): CostItem!
+  costItems(eventId: ID): [CostItem!]!
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
   events: [TumiEvent!]!
@@ -39,9 +310,90 @@ type Query {
   users: [User!]!
 }
 
+type Receipt {
+  amount: Decimal!
+  blob: String!
+  container: String!
+  costItem: CostItem!
+  costItemId: ID!
+  createdAt: DateTime!
+  id: ID!
+  md5: String
+  originalUrl: String!
+  preview: String
+  type: String
+  url: String!
+  user: User!
+  userId: ID!
+}
+
+enum RegistrationMode {
+  EXTERNAL
+  ONLINE
+  STRIPE
+}
+
+enum RegistrationStatus {
+  CANCELLED
+  PENDING
+  SUCCESSFUL
+}
+
+enum RegistrationType {
+  CALENDAR
+  ORGANIZER
+  PARTICIPANT
+}
+
 enum Role {
   ADMIN
   USER
+}
+
+type ShoppingCart {
+  createdAt: DateTime!
+  id: ID!
+  items: [LineItem!]!
+  userOfTenant: UsersOfTenants!
+  usersOfTenantsTenantId: ID!
+  usersOfTenantsUserId: ID!
+}
+
+type StripePayment {
+  amount: Decimal!
+  checkoutSession: String!
+  createdAt: DateTime!
+  events: JSON!
+  feeAmount: Decimal
+  id: ID!
+  netAmount: Decimal
+  netLessRefundAmount: Decimal!
+  paymentIntent: String!
+  paymentMethod: String
+  paymentMethodType: String
+  refundedAmount: Decimal
+  shipping: JSON
+  status: String!
+  transaction: Transaction!
+  transactionId: ID!
+}
+
+enum SubmissionItemType {
+  BOOLEAN
+  DATE
+  FILE
+  LONGTEXT
+  NUMBER
+  RATING
+  SELECT
+  TEXT
+}
+
+enum SubmissionTime {
+  AFTER
+  BEFORE
+  DURING
+  REGISTRATION
 }
 
 type Tenant {
@@ -56,11 +408,74 @@ type Tenant {
   users: [UsersOfTenants!]!
 }
 
+type Transaction {
+  amount: Decimal!
+  comment: String
+  costItem: CostItem!
+  costItemId: ID
+  createdAt: DateTime!
+  createdBy: User!
+  creatorId: ID
+  eventRegistration: EventRegistration!
+  id: ID!
+  isMembershipFee: Boolean!
+  partner: String
+  purchase: Purchase!
+  stripePayment: StripePayment!
+  subject: String!
+  tenant: Tenant!
+  tenantId: ID!
+  type: String!
+  user: User!
+  userId: ID
+}
+
+enum TransactionType {
+  CASH
+  PAYPAL
+  STRIPE
+  TRANSFER
+}
+
 type TumiEvent {
+  activeRegistration: EventRegistration!
+  ammountCollected: Decimal!
+  coordinates: JSON!
+  costItems(hideOnInvoice: Boolean = false): [CostItem!]!
+  createdAt: DateTime!
+  createdBy: User!
+  creatorId: ID!
   description: String!
+  disableDeregistration: Boolean!
+  end: DateTime!
+  eventOrganizerId: ID!
+  eventRegistrationCodes: [EventRegistrationCode!]!
+  eventTemplate: EventTemplate!
+  eventTemplateId: ID!
   icon: String!
   id: ID!
+  insuranceDescription: String!
+  location: String!
+  needsRating: Boolean!
+  organizer: EventOrganizer!
+  organizerRatings: Float
+  organizerRegistrations: [EventRegistration!]!
+  organizerSignup: [String!]!
+  organizerText: String!
+  ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
+  participantRatings: Float
+  participantRegistrationCount: Int!
+  participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
+  participantSignup: [String!]!
+  participantText: String!
+  photoShares: [PhotoShare!]!
+  publicationState: PublicationState!
+  registrationLink: String
+  registrationMode: RegistrationMode!
+  registrationStart: DateTime!
+  shouldBeReportedToInsurance: Boolean!
   start: DateTime!
+  submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   title: String!
 }
 
@@ -73,9 +488,32 @@ input UpdateTenantInput {
 }
 
 type User {
-  createdEvents: [TumiEvent!]!
+  authId: String!
+  birthdate: DateTime
+  calendarToken: String!
+  createdAt: DateTime!
+  createdTransactions: [Transaction!]!
+  currentTenant(userId: ID): UsersOfTenants!
+  email: String!
+  emailVerified: Boolean!
+  enrolmentStatus: EnrolmentStatus!
+  esnCardOverride: Boolean!
+  firstName: String!
+  fullName: String!
+  hasEsnCard: Boolean!
+  iban: String
   id: ID!
-  registrations: [EventRegistration!]!
+  lastName: String!
+  organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
+  outstandingRating: Boolean!
+  participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
+  paypal: String
+  phone: String
+  picture: String!
+  profileComplete: Boolean!
+  purchases(skipCancelled: Boolean = false): [Purchase!]!
+  transactions: [Transaction!]!
+  university: String
 }
 
 type UsersOfTenants {

@@ -3,13 +3,30 @@ import { lexicographicSortSchema, printSchema } from 'graphql';
 import * as fs from 'fs';
 import path from 'path';
 
+import './activityLog';
+import './costItem';
+import './dcc';
 import './enums';
-import './tenant';
-import './user';
-import './organizer';
 import './event';
-import './userOfTenant';
+import './eventOrganizer';
 import './eventRegistration';
+import './eventRegistrationCode';
+import './eventTemplate';
+import './purchase';
+import './receipt';
+import './eventSubmission';
+import './eventSubmissionItem';
+import './shoppingCart';
+import './shoppingCart';
+import './lineItem';
+import './tenant';
+import './transaction';
+import './user';
+import './userOfTenant';
+import './product';
+import './stripePayment';
+import './productImage';
+import './photoShare';
 
 export const schema = builder.toSchema({});
 

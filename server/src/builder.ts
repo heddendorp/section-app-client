@@ -6,11 +6,21 @@ import prisma from './client';
 import PrismaTypes from './generated/pothos-types';
 import {
   DateTimeResolver,
-  DateTimeTypeDefinition,
+  GraphQLDateTime,
+  GraphQLJSON,
   JSONResolver,
 } from 'graphql-scalars';
 import { Auth0 } from './helpers/auth0';
-import { Tenant, User, UsersOfTenants } from './generated/prisma';
+import {
+  MembershipStatus,
+  Prisma,
+  Role,
+  Tenant,
+  User,
+  UsersOfTenants,
+} from './generated/prisma';
+import { GraphQLJSONConfig } from 'graphql-scalars/scalars/json/JSON';
+import { sample } from 'lodash';
 
 export const builder = new SchemaBuilder<{
   Context: {
@@ -33,17 +43,44 @@ export const builder = new SchemaBuilder<{
       Input: string;
       Output: string;
     };
+    Decimal: {
+      Input: Prisma.Decimal;
+      Output: Prisma.Decimal;
+    };
+  };
+  AuthScopes: {
+    authenticated: boolean;
+    public: boolean;
+    member: boolean;
+    admin: boolean;
   };
 }>({
   plugins: [ScopeAuthPlugin, PrismaPlugin, SimpleObjectsPlugin],
-  authScopes: async (context) => ({}),
+  authScopes: async (context) => ({
+    authenticated: !!context.auth0,
+    public: !!context.user,
+    member: context.userOfTenant?.status !== MembershipStatus.NONE,
+    admin: context.userOfTenant?.role === Role.ADMIN,
+  }),
   prisma: {
     client: prisma,
   },
 });
 
-builder.addScalarType('DateTime', DateTimeResolver, {});
-builder.addScalarType('JSON', JSONResolver, {});
+builder.addScalarType('DateTime', GraphQLDateTime, {});
+builder.addScalarType('JSON', GraphQLJSON, {});
+builder.scalarType('Decimal', {
+  serialize: (value) => value.toString(),
+  parseValue: (value) => {
+    if (typeof value === 'string' || typeof value === 'number') {
+      return new Prisma.Decimal(value);
+    } else {
+      throw new Error(
+        'Decimal scalar can only be parsed from strings or numbers'
+      );
+    }
+  },
+});
 
 builder.queryType({});
 builder.mutationType({});
