@@ -11,6 +11,7 @@ import {
   updateEventLocationInputType,
   updateGeneralEventInputType,
 } from './eventType';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 builder.mutationFields((t) => ({
   rateEvent: t.prismaField({
@@ -201,6 +202,71 @@ builder.mutationFields((t) => ({
           id,
         },
       });
+    },
+  }),
+  updateCostItemsFromTemplate: t.prismaField({
+    authScopes: { admin: true },
+    type: 'TumiEvent',
+    args: {
+      eventId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, root, { eventId }, context) => {
+      const event = await prisma.tumiEvent.findUnique({
+        where: { id: eventId },
+      });
+      const template = await prisma.eventTemplate.findUnique({
+        where: { id: event?.eventTemplateId },
+      });
+      if (
+        typeof template?.finances !== 'object' ||
+        Array.isArray(template.finances) ||
+        !Array.isArray(template.finances?.items)
+      ) {
+        throw new GraphQLYogaError('No items found in template finances');
+      }
+      await prisma.costItem.deleteMany({ where: { event: { id: eventId } } });
+      const items = template.finances?.items as {
+        description: string;
+        value: number;
+        type: string;
+        prepaid: boolean;
+        details: string;
+        scale?: number;
+      }[];
+      await prisma.costItem.createMany({
+        data: items.map((item) => {
+          let amount;
+          let calculationInfo;
+          const allParticipants =
+            (event?.participantLimit ?? 0) + (event?.organizerLimit ?? 0);
+          switch (item.type) {
+            case 'event':
+              amount = item.value;
+              calculationInfo = `
+    }${item.value}€ per event`;
+              break;
+            case 'participant':
+              amount = item.value * allParticipants;
+              calculationInfo = `${allParticipants} x ${item.value}€ per participant`;
+              break;
+            default:
+              amount =
+                item.value * Math.ceil(allParticipants / (item.scale ?? 1));
+              calculationInfo = `${Math.ceil(
+                allParticipants / (item.scale ?? 1)
+              )} x ${item.value}€ per ${item.scale ?? 1} participants`;
+          }
+          return {
+            eventId,
+            onInvoice: item.prepaid,
+            amount: amount,
+            calculationInfo,
+            details: item.details,
+            name: item.description,
+          };
+        }),
+      });
+      return event;
     },
   }),
 }));
