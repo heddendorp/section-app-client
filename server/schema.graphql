@@ -49,6 +49,15 @@ input CreateSubmissionItemInput {
   type: SubmissionItemType!
 }
 
+input CreateUserInput {
+  birthdate: DateTime!
+  enrolmentStatus: EnrolmentStatus!
+  firstName: String!
+  lastName: String!
+  phone: String
+  university: String!
+}
+
 type DCC {
   card: DCCCard
   status: String!
@@ -228,13 +237,17 @@ type Mutation {
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
   createReceipt(input: CreateReceiptInput!): Receipt!
   createSubmissionItem(input: CreateSubmissionItemInput!, target: String = "event", targetId: ID!): EventSubmissionItem!
+  createUser(input: CreateUserInput!): User!
   deleteCostItem(id: ID!): CostItem!
   deleteReceipt(id: ID!): Receipt!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
+  rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
+  updateUser(input: UpdateUserInput!, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
   updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
+  useRegistrationCode(id: ID!, price: JSON): EventRegistrationCode!
   verifyDCC(certificate: String!): DCC!
 }
 
@@ -502,9 +515,11 @@ enum TransactionType {
 
 type TumiEvent {
   activeRegistration: EventRegistration!
-  ammountCollected: Decimal!
+  amountCollected: Decimal!
   coordinates: JSON!
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
+  couldBeOrganizer: Boolean!
+  couldBeParticipant: Boolean!
   countedParticipantRegistrations: Int!
   createdAt: DateTime!
   createdBy: User!
@@ -516,25 +531,34 @@ type TumiEvent {
   eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: ID!
+  feesPaid: Decimal!
   icon: String!
   id: ID!
   insuranceDescription: String!
   location: String!
   needsRating: Boolean!
+  netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
   organizerRatings: Float
+  organizerRegistrationPossible: Boolean!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
   organizerText: String!
+  organizers: [User!]!
+  organizersRegistered: Int!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
   participantRatings: Float
   participantRegistrationCount: Int!
+  participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantSignup: [String!]!
   participantText: String!
+  participantsAttended: Int!
   photoShares: [PhotoShare!]!
+  plannedSpend: Decimal!
+  prices: JSON!
   publicationState: PublicationState!
   registrationLink: String
   registrationMode: RegistrationMode!
@@ -542,7 +566,11 @@ type TumiEvent {
   shouldBeReportedToInsurance: Boolean!
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
+  submittedSpend: Decimal!
   title: String!
+  userIsCreator: Boolean!
+  userIsOrganizer: Boolean!
+  userIsRegistered: Boolean!
 }
 
 input UpdateTenantInput {
@@ -551,6 +579,15 @@ input UpdateTenantInput {
   imprintPage: String
   privacyPolicyPage: String
   tacPage: String
+}
+
+input UpdateUserInput {
+  birthdate: DateTime
+  enrolmentStatus: EnrolmentStatus
+  firstName: String
+  lastName: String
+  phone: String
+  university: String
 }
 
 type User {

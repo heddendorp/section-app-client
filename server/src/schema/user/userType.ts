@@ -171,3 +171,25 @@ builder.prismaObject('User', {
     }),
   }),
 });
+
+export const createUserInputType = builder.inputType('CreateUserInput', {
+  fields: (t) => ({
+    firstName: t.string({ required: true }),
+    lastName: t.string({ required: true }),
+    university: t.string({ required: true }),
+    birthdate: t.field({ type: 'DateTime', required: true }),
+    enrolmentStatus: t.field({ type: EnrollmentStatus, required: true }),
+    phone: t.string(),
+  }),
+});
+
+export const updateUserInputType = builder.inputType('UpdateUserInput', {
+  fields: (t) => ({
+    firstName: t.string(),
+    lastName: t.string(),
+    university: t.string(),
+    birthdate: t.field({ type: 'DateTime' }),
+    phone: t.string(),
+    enrolmentStatus: t.field({ type: EnrollmentStatus }),
+  }),
+});

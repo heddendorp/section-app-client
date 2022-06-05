@@ -24,6 +24,7 @@ import { sample } from 'lodash';
 
 export const builder = new SchemaBuilder<{
   Context: {
+    token?: { sub: string };
     auth0: Auth0;
     tenant: Tenant;
     user?: User;

@@ -1,5 +1,6 @@
 import { builder } from '../../builder';
 import {
+  MembershipStatus,
   Prisma,
   PublicationState,
   RegistrationMode,
@@ -9,6 +10,7 @@ import {
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
+import { parentPort } from 'worker_threads';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -27,6 +29,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     description: t.exposeString('description'),
     disableDeregistration: t.exposeBoolean('disableDeregistration'),
     coordinates: t.expose('coordinates', { type: 'JSON' }),
+    prices: t.expose('prices', { type: 'JSON' }),
     location: t.exposeString('location'),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
@@ -181,7 +184,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         },
       }),
     }),
-    ammountCollected: t.field({
+    amountCollected: t.field({
       type: 'Decimal',
       resolve: async (source, args, context) => {
         return prisma.stripePayment
@@ -201,6 +204,293 @@ export const eventType = builder.prismaObject('TumiEvent', {
             (aggregations) => (aggregations._sum.amount?.toNumber() ?? 0) / 100
           )
           .then((amount) => new Prisma.Decimal(amount));
+      },
+    }),
+    netAmountCollected: t.field({
+      type: 'Decimal',
+      resolve: async (source, args, context) => {
+        return prisma.stripePayment
+          .aggregate({
+            where: {
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
+              },
+              netAmount: { not: undefined },
+            },
+            _sum: { netAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.netAmount?.toNumber() ?? 0) / 100
+          )
+          .then((amount) => new Prisma.Decimal(amount));
+      },
+    }),
+    feesPaid: t.field({
+      type: 'Decimal',
+      resolve: async (source, args, context) => {
+        return prisma.stripePayment
+          .aggregate({
+            where: {
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: { not: RegistrationStatus.CANCELLED },
+                },
+              },
+              feeAmount: { not: undefined },
+            },
+            _sum: { feeAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+          )
+          .then((amount) => new Prisma.Decimal(amount));
+      },
+    }),
+    plannedSpend: t.field({
+      type: 'Decimal',
+      resolve: async (source, args, context) => {
+        return prisma.costItem
+          .aggregate({
+            where: {
+              event: { id: source.id },
+              amount: { not: undefined },
+            },
+            _sum: { amount: true },
+          })
+          .then((aggregations) => aggregations._sum.amount)
+          .then((amount) => new Prisma.Decimal(amount ?? 0));
+      },
+    }),
+    submittedSpend: t.field({
+      type: 'Decimal',
+      resolve: async (source, args, context) => {
+        return prisma.receipt
+          .aggregate({
+            where: {
+              costItem: { event: { id: source.id } },
+              amount: { not: undefined },
+            },
+            _sum: { amount: true },
+          })
+          .then((aggregations) => aggregations._sum.amount)
+          .then((amount) => new Prisma.Decimal(amount ?? 0));
+      },
+    }),
+    userIsRegistered: t.boolean({
+      authScopes: { public: true },
+      resolve: async (parent, args, context) => {
+        return prisma.tumiEvent
+          .findUnique({ where: { id: parent.id } })
+          .registrations({
+            where: {
+              user: { id: context.user?.id },
+              type: RegistrationType.PARTICIPANT,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((registrations) => registrations.length > 0);
+      },
+    }),
+    userIsCreator: t.boolean({
+      authScopes: { public: true },
+      resolve: async (parent, args, context) => {
+        return parent.creatorId === context.user?.id;
+      },
+    }),
+    userIsOrganizer: t.boolean({
+      authScopes: { public: true },
+      resolve: async (parent, args, context) => {
+        return prisma.tumiEvent
+          .findUnique({ where: { id: parent.id } })
+          .registrations({
+            where: {
+              user: { id: context.user?.id },
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          })
+          .then((organizers) => organizers.length > 0);
+      },
+    }),
+    organizers: t.prismaField({
+      type: ['User'],
+      resolve: async (query, parent, args, context) => {
+        return prisma.user.findMany({
+          ...query,
+          where: {
+            eventRegistrations: {
+              some: {
+                event: { id: parent.id },
+                type: RegistrationType.ORGANIZER,
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+            },
+          },
+        });
+      },
+    }),
+    couldBeOrganizer: t.boolean({
+      authScopes: { public: true },
+      resolve: async (parent, args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        if (!parent.organizerSignup.includes(status ?? MembershipStatus.NONE)) {
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing status ' +
+                status
+            );
+          }
+          return false;
+        }
+        return true;
+      },
+    }),
+    couldBeParticipant: t.boolean({
+      authScopes: { public: true },
+      resolve: async (parent, args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        if (
+          !parent.participantSignup.includes(status ?? MembershipStatus.NONE)
+        ) {
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing status ' +
+                status
+            );
+          }
+          return false;
+        }
+        return true;
+      },
+    }),
+    participantsAttended: t.int({
+      resolve: async (parent, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: parent.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.PARTICIPANT,
+            checkInTime: { not: null },
+          },
+        });
+      },
+    }),
+    participantRegistrationPossible: t.field({
+      type: 'JSON',
+      resolve: async (parent, args, context) => {
+        if (!context.user) {
+          if (process.env.DEV) {
+            console.info(`Can't register participant because user is missing`);
+          }
+          return { option: false, reason: 'You have to log in to register!' };
+        }
+        const { status } = context.userOfTenant ?? {};
+        if (
+          !parent.participantSignup.includes(status ?? MembershipStatus.NONE)
+        ) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because status is not allowed ${status}`
+            );
+          }
+          return {
+            option: false,
+            reason: 'You do not have the required status to sign up!',
+          };
+        }
+        const previousRegistration = await prisma.eventRegistration.findFirst({
+          where: {
+            userId: context.user.id,
+            eventId: parent.id,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (previousRegistration) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because there is a registration already`
+            );
+          }
+          return {
+            option: false,
+            reason: 'You are already registered for this event!',
+          };
+        }
+        if (parent.participantRegistrationCount >= parent.participantLimit) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register because to many people are on event ${parent.participantRegistrationCount} >= ${parent.participantLimit}`
+            );
+          }
+          return {
+            option: false,
+            reason: `This event is already at capacity!\nYou can check back at a later time in case spots become available.`,
+          };
+        }
+        return { option: true };
+      },
+    }),
+    organizersRegistered: t.int({
+      resolve: async (parent, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: parent.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.ORGANIZER,
+          },
+        });
+      },
+    }),
+    organizerRegistrationPossible: t.boolean({
+      resolve: async (parent, args, context) => {
+        if (!context.user) {
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing user'
+            );
+          }
+          return false;
+        }
+        const { status } = context.userOfTenant ?? {};
+        if (!parent.organizerSignup.includes(status ?? MembershipStatus.NONE)) {
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of missing status ' +
+                status
+            );
+          }
+          return false;
+        }
+        const previousRegistration = await prisma.eventRegistration.findFirst({
+          where: {
+            userId: context.user.id,
+            eventId: parent.id,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (previousRegistration) {
+          if (process.env.DEV) {
+            console.info(
+              'Organizer signup not possible because of already registered'
+            );
+            console.info(previousRegistration);
+          }
+          return false;
+        }
+        const currentRegistrationNum = await prisma.eventRegistration.count({
+          where: {
+            type: RegistrationType.ORGANIZER,
+            status: { not: RegistrationStatus.CANCELLED },
+            event: { id: parent.id },
+          },
+        });
+        return currentRegistrationNum < parent.organizerLimit;
       },
     }),
   }),

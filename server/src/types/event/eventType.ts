@@ -550,9 +550,9 @@ export const eventType = objectType({
             reason: 'You are already registered for this event!',
           };
         }
-        const { days } = Luxon.fromJSDate(root.start)
+        /*const { days } = Luxon.fromJSDate(root.start)
           .diff(Luxon.local(), 'days')
-          .toObject();
+          .toObject();*/
         /*if ((days ?? 0) > 5) {
           const registrationsOfUser =
             await context.prisma.eventRegistration.count({
