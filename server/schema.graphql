@@ -342,7 +342,7 @@ type Query {
   eventOrganizers: [EventOrganizer!]!
   eventRegistrationCode(id: ID!): EventRegistrationCode!
   eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
-  events(after: DateTime): [TumiEvent!]!
+  events(after: DateTime, limit: Int): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photos: [PhotoShare!]!
