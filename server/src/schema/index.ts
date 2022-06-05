@@ -25,6 +25,8 @@ import './user';
 import './userOfTenant';
 import './product';
 import './stripePayment';
+import './statistics';
+import './stripeUserData';
 import './productImage';
 import './photoShare';
 

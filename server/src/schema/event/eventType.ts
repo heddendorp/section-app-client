@@ -34,11 +34,22 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizerText: t.exposeString('organizerText'),
     organizerSignup: t.exposeStringList('organizerSignup'),
     participantSignup: t.exposeStringList('participantSignup'),
+    participantLimit: t.exposeInt('participantLimit'),
+    organizerLimit: t.exposeInt('organizerLimit'),
     publicationState: t.expose('publicationState', { type: PublicationState }),
     participantRegistrationCount: t.exposeInt('participantRegistrationCount'),
     eventRegistrationCodes: t.relation('eventRegistrationCodes'),
     insuranceDescription: t.exposeString('insuranceDescription'),
     shouldBeReportedToInsurance: t.exposeBoolean('shouldBeReportedToInsurance'),
+    countedParticipantRegistrations: t.int({
+      resolve: async (event, args, context) =>
+        prisma.eventRegistration.count({
+          where: {
+            event: { id: event.id },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        }),
+    }),
     submissionItems: t.relation('submissionItems', {
       args: {
         submissionTime: t.arg({ type: SubmissionTime }),

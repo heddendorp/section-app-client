@@ -15,7 +15,13 @@ builder.queryFields((t) => ({
   }),
   events: t.prismaField({
     type: ['TumiEvent'],
+    args: {
+      after: t.arg({ type: 'DateTime', required: false }),
+    },
     resolve: async (query, parent, args, context, info) =>
-      prisma.tumiEvent.findMany({ ...query }),
+      prisma.tumiEvent.findMany({
+        ...query,
+        ...(args.after ? { where: { start: { gte: args.after } } } : {}),
+      }),
   }),
 }));

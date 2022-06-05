@@ -5,6 +5,8 @@ builder.prismaObject('Tenant', {
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
+    name: t.exposeString('name'),
+    shortName: t.exposeString('shortName'),
     organizers: t.relation('organizers'),
     users: t.relation('users'),
     imprintPage: t.exposeString('imprintPage'),

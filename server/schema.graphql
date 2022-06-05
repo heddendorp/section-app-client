@@ -60,6 +60,11 @@ type DCCCard {
   verified: String!
 }
 
+input DateRangeInput {
+  end: DateTime
+  start: DateTime!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -214,7 +219,10 @@ type Mutation {
   createReceipt(input: CreateReceiptInput!): Receipt!
   deleteCostItem(id: ID!): CostItem!
   deleteReceipt(id: ID!): Receipt!
+  updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
+  updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
+  updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
   verifyDCC(certificate: String!): DCC!
 }
 
@@ -238,6 +246,7 @@ type PhotoShare {
   previewBlob: String
   rows: Int!
   src: String!
+  type: String!
 }
 
 type Product {
@@ -248,6 +257,7 @@ type Product {
   images: [ProductImage!]!
   isActive: Boolean!
   isESNcard: Boolean!
+  leadImage: ProductImage!
   leadImageId: ID
   lineItems(onlyWithPurchase: Boolean = false): [LineItem!]!
   needsShippingAddress: Boolean!
@@ -298,16 +308,23 @@ enum PurchaseStatus {
 }
 
 type Query {
-  activityLogStats: [ActivityLogStat!]!
-  activityLogs: [ActivityLog!]!
   blobUploadKey: String!
   costItem(id: ID!): CostItem!
   costItems(eventId: ID): [CostItem!]!
+  currentTenant: Tenant!
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
-  events: [TumiEvent!]!
+  events(after: DateTime): [TumiEvent!]!
+  logStats: [ActivityLogStat!]!
+  logs: [ActivityLog!]!
+  photos: [PhotoShare!]!
+  purchase(id: ID!): Purchase!
+  purchases(limitToOwn: Boolean): [Purchase!]!
+  statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
-  users: [User!]!
+  user(id: ID!): User!
+  userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
+  users(onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
 }
 
 type Receipt {
@@ -359,6 +376,26 @@ type ShoppingCart {
   usersOfTenantsUserId: ID!
 }
 
+type Statistics {
+  checkinHistory: JSON!
+  checkins: Int!
+  paidEvents: Int!
+  paidRegistrations: Int!
+  registrationHistory: JSON!
+  registrations: Int!
+  totalEvents: Int!
+  userEventDistribution: JSON!
+  userHistory: JSON!
+  userStatusDistribution: JSON!
+  userUniversityDistribution: JSON!
+  usersRegistered: Int!
+  usersRegisteredEvents: Int!
+  usersRegisteredFreeEvents: Int!
+  usersRegisteredPaidEvents: Int!
+  usersWithCustomer: Int!
+  usersWithPaymentMethod: Int!
+}
+
 type StripePayment {
   amount: Decimal!
   checkoutSession: String!
@@ -376,6 +413,12 @@ type StripePayment {
   status: String!
   transaction: Transaction!
   transactionId: ID!
+}
+
+type StripeUserData {
+  customerId: String!
+  id: ID!
+  paymentMethodId: String
 }
 
 enum SubmissionItemType {
@@ -402,8 +445,10 @@ type Tenant {
   faqPage: String
   id: ID!
   imprintPage: String!
+  name: String!
   organizers: [EventOrganizer!]!
   privacyPolicyPage: String!
+  shortName: String!
   tacPage: String
   users: [UsersOfTenants!]!
 }
@@ -442,6 +487,7 @@ type TumiEvent {
   ammountCollected: Decimal!
   coordinates: JSON!
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
+  countedParticipantRegistrations: Int!
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID!
@@ -458,11 +504,13 @@ type TumiEvent {
   location: String!
   needsRating: Boolean!
   organizer: EventOrganizer!
+  organizerLimit: Int!
   organizerRatings: Float
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
   organizerText: String!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
+  participantLimit: Int!
   participantRatings: Float
   participantRegistrationCount: Int!
   participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
@@ -498,8 +546,10 @@ type User {
   emailVerified: Boolean!
   enrolmentStatus: EnrolmentStatus!
   esnCardOverride: Boolean!
+  eventRegistrations: [EventRegistration!]!
   firstName: String!
   fullName: String!
+  hasESNCard: Boolean!
   hasEsnCard: Boolean!
   iban: String
   id: ID!
@@ -517,8 +567,13 @@ type User {
 }
 
 type UsersOfTenants {
+  cart: ShoppingCart!
+  createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
+  stripeData: StripeUserData!
   tenant: Tenant!
+  tenantId: ID!
   user: User!
+  userId: ID!
 }

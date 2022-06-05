@@ -3,7 +3,7 @@ import { activityLogStatType, activityLogType } from './activityLogType';
 import prisma from '../../client';
 
 builder.queryFields((t) => ({
-  activityLogs: t.prismaField({
+  logs: t.prismaField({
     authScopes: {
       admin: true,
     },
@@ -15,7 +15,7 @@ builder.queryFields((t) => ({
       });
     },
   }),
-  activityLogStats: t.field({
+  logStats: t.field({
     authScopes: {
       admin: true,
     },

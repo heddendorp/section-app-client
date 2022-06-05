@@ -1,4 +1,5 @@
 import { builder } from '../../builder';
+import prisma from '../../client';
 import {
   MembershipStatus,
   PublicationState,
@@ -21,9 +22,17 @@ export const productType = builder.prismaObject('Product', {
     needsShippingAddress: t.exposeBoolean('needsShippingAddress'),
     isActive: t.exposeBoolean('isActive'),
     leadImageId: t.exposeID('leadImageId', { nullable: true }),
-    // leadImage: t.prismaField({
-    //
-    // }),
+    leadImage: t.prismaField({
+      type: 'ProductImage',
+      resolve: async (query, parent, args, context, info) => {
+        return prisma.productImage.findUnique({
+          ...query,
+          where: {
+            id: parent.leadImageId ?? '',
+          },
+        });
+      },
+    }),
     images: t.relation('images'),
     tenantId: t.exposeID('tenantId'),
     tenant: t.relation('tenant'),

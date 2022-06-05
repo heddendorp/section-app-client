@@ -16,6 +16,7 @@ export const photoShareType = builder.prismaObject('PhotoShare', {
     previewBlob: t.exposeString('previewBlob', { nullable: true }),
     creatorId: t.exposeID('creatorId'),
     creator: t.relation('creator'),
+    type: t.exposeString('type'),
     src: t.string({
       resolve: (source) =>
         `/storage/tumi-photos/${encodeURIComponent(

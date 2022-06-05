@@ -231,6 +231,7 @@ Table TumiEvent {
   eventRegistrationCodes EventRegistrationCode [not null]
   eventTemplate EventTemplate [not null]
   eventTemplateId String [not null]
+  excludeFromStatistics Boolean [not null, default: false]
   icon String [not null]
   insuranceDescription String [not null, default: '']
   location String [not null]

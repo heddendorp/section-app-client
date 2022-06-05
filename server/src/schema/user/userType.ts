@@ -149,6 +149,23 @@ builder.prismaObject('User', {
         });
       },
     }),
+    eventRegistrations: t.relation('eventRegistrations'),
+    hasESNCard: t.boolean({
+      resolve: async (source, args, context) => {
+        if (source.esnCardOverride) {
+          return true;
+        }
+        const cardBought = await prisma.eventRegistration.count({
+          where: {
+            user: { id: source.id },
+            event: { title: { contains: 'ESNcard' } },
+            type: RegistrationType.PARTICIPANT,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        return !!cardBought;
+      },
+    }),
     fullName: t.string({
       resolve: (source) => `${source.firstName} ${source.lastName}`,
     }),
