@@ -336,6 +336,7 @@ model TumiEvent {
   eventRegistrationCodes       EventRegistrationCode[]
   eventTemplate                EventTemplate           @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId              String                  @db.Uuid
+  excludeFromStatistics        Boolean                 @default(false)
   icon                         String
   insuranceDescription         String                  @default("")
   location                     String
