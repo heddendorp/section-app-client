@@ -34,7 +34,6 @@ export class EventListPageComponent implements OnDestroy {
     DateTime.local().toISO({ includeOffset: false })
   );
   public Role = Role;
-  public timeRemaining$: Observable<string | null>;
   public selectedView: Observable<string>;
   private loadEventsQueryRef;
   private destroy$ = new Subject();
@@ -46,12 +45,9 @@ export class EventListPageComponent implements OnDestroy {
   ) {
     this.selectedView = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - events');
-    this.loadEventsQueryRef = this.loadEventsQuery.watch();
-    this.timeRemaining$ = timer(0, 1000).pipe(
-      map(() =>
-        DateTime.local(2021, 11, 28, 0, 0).diffNow().toFormat('hh:mm:ss')
-      )
-    );
+    this.loadEventsQueryRef = this.loadEventsQuery.watch({
+      after: this.eventsAfter.value,
+    });
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events)
     );

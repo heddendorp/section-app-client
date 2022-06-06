@@ -104,7 +104,16 @@ builder.queryFields((t) => ({
   }),
   currentUser: t.prismaField({
     type: 'User',
-    resolve: async (query, root, args, ctx, info) =>
-      prisma.user.findUnique({ ...query, where: { id: ctx.user?.id } }),
+    nullable: true,
+    resolve: async (query, root, args, ctx, info) => {
+      const id = ctx.user?.id;
+      if (!id) {
+        return null;
+      }
+      return prisma.user.findUnique({
+        ...query,
+        where: { id },
+      });
+    },
   }),
 }));

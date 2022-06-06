@@ -1,5 +1,12 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
+import {
+  MembershipStatus,
+  Prisma,
+  PublicationState,
+  Role,
+} from '../../generated/prisma';
+import TumiEventWhereInput = Prisma.TumiEventWhereInput;
 
 builder.queryFields((t) => ({
   event: t.prismaField({
@@ -19,11 +26,48 @@ builder.queryFields((t) => ({
       after: t.arg({ type: 'DateTime', required: false }),
       limit: t.arg.int(),
     },
-    resolve: async (query, parent, args, context, info) =>
-      prisma.tumiEvent.findMany({
+    resolve: async (query, parent, { after, limit }, context, info) => {
+      let where: TumiEventWhereInput;
+      after ??= new Date();
+      const { role, status } = context.userOfTenant ?? {};
+      if (!context.user) {
+        where = {
+          participantSignup: {
+            has: MembershipStatus.NONE,
+          },
+          end: { gt: new Date() },
+          publicationState: PublicationState.PUBLIC,
+        };
+      } else if (role === Role.ADMIN) {
+        where = { end: { gt: after } };
+      } else {
+        where = {
+          end: { gt: after },
+          OR: [
+            {
+              participantSignup: {
+                has: status,
+              },
+              publicationState: PublicationState.PUBLIC,
+            },
+            {
+              createdBy: { id: context.user.id },
+            },
+            {
+              organizerSignup: { has: status },
+              publicationState: {
+                in: [PublicationState.PUBLIC, PublicationState.ORGANIZERS],
+              },
+            },
+          ],
+        };
+      }
+      return prisma.tumiEvent.findMany({
         ...query,
-        ...(args.after ? { where: { start: { gte: args.after } } } : {}),
-        ...(args.limit ? { take: args.limit } : {}),
-      }),
+        where,
+        ...(limit ? { take: limit } : {}),
+        orderBy: { start: 'asc' },
+      });
+    },
   }),
 }));

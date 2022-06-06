@@ -304,6 +304,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     userIsRegistered: t.boolean({
       authScopes: { public: true },
+      unauthorizedResolver: () => false,
       resolve: async (parent, args, context) => {
         return prisma.tumiEvent
           .findUnique({ where: { id: parent.id } })
@@ -319,12 +320,14 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     userIsCreator: t.boolean({
       authScopes: { public: true },
+      unauthorizedResolver: () => false,
       resolve: async (parent, args, context) => {
         return parent.creatorId === context.user?.id;
       },
     }),
     userIsOrganizer: t.boolean({
       authScopes: { public: true },
+      unauthorizedResolver: () => false,
       resolve: async (parent, args, context) => {
         return prisma.tumiEvent
           .findUnique({ where: { id: parent.id } })
@@ -357,6 +360,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     couldBeOrganizer: t.boolean({
       authScopes: { public: true },
+      unauthorizedResolver: () => false,
       resolve: async (parent, args, context) => {
         const { status } = context.userOfTenant ?? {};
         if (!parent.organizerSignup.includes(status ?? MembershipStatus.NONE)) {
@@ -373,6 +377,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     couldBeParticipant: t.boolean({
       authScopes: { public: true },
+      unauthorizedResolver: () => false,
       resolve: async (parent, args, context) => {
         const { status } = context.userOfTenant ?? {};
         if (
