@@ -8,8 +8,8 @@ import {
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import {
-  FormBuilder,
-  FormControl,
+  UntypedFormBuilder,
+  UntypedFormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -38,7 +38,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public user: LoadEventQuery['currentUser'] | null = null;
   @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
-  public priceControl = new FormControl(null, Validators.required);
+  public priceControl = new UntypedFormControl(null, Validators.required);
   public processing = new BehaviorSubject(false);
   public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   public SubmissionItemType = SubmissionItemType;
@@ -47,7 +47,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
     private registerForEventGQL: RegisterForEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private permissions: PermissionsService
   ) {}

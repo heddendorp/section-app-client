@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith, Subject, tap } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -17,7 +17,7 @@ export interface SelectWithAutocompleteDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectWithAutocompleteDialogComponent {
-  public nameControl = new FormControl();
+  public nameControl = new UntypedFormControl();
   public filteredChoices$: Observable<
     Required<{ id: string; [displayAttribute: string]: string }>[]
   >;

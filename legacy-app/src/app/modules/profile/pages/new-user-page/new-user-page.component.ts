@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   EnrollmentStatus,
   GetCurrentUserGQL,
@@ -16,14 +16,14 @@ import { DateTime } from 'luxon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewUserPageComponent implements OnInit {
-  public welcomeForm: FormGroup;
+  public welcomeForm: UntypedFormGroup;
   public EnrolmentStatus = EnrollmentStatus;
   startDate = DateTime.local().minus({ years: 20 }).toJSDate();
 
   constructor(
     private title: Title,
     private registerUser: RegisterUserGQL,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private currentUser: GetCurrentUserGQL,
     private router: Router
   ) {

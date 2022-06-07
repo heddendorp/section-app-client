@@ -25,7 +25,7 @@ import {
   UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,9 +63,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public PublicationState = PublicationState;
   public MembershipStatus = MembershipStatus;
   public Role = Role;
-  public generalInformationForm: FormGroup;
-  public coreInformationForm: FormGroup;
-  public publicationForm: FormGroup;
+  public generalInformationForm: UntypedFormGroup;
+  public coreInformationForm: UntypedFormGroup;
+  public publicationForm: UntypedFormGroup;
   public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
   public organizers$: Observable<LoadEventForEditQuery['organizers']>;
@@ -81,7 +81,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private deleteEventGQL: DeleteEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private loadEventForEditGQL: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
     private route: ActivatedRoute,
@@ -177,7 +177,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   get prices() {
-    return this.coreInformationForm.get('prices')?.get('options') as FormArray;
+    return this.coreInformationForm.get('prices')?.get('options') as UntypedFormArray;
   }
 
   get statusOptions() {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   GetTenantForEditGQL,
   GetTenantForEditQuery,
@@ -14,11 +14,11 @@ import { first, firstValueFrom, map, Observable, shareReplay } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantEditPageComponent {
-  public editForm: FormGroup;
+  public editForm: UntypedFormGroup;
   public tenant$: Observable<GetTenantForEditQuery['currentTenant']>;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private updateTenant: UpdateTenantGQL,
     private loadTenant: GetTenantForEditGQL
   ) {
