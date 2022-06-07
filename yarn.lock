@@ -54,7 +54,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:~13.3.7":
+"@angular-devkit/build-angular@npm:^13.3.7, @angular-devkit/build-angular@npm:~13.3.7":
   version: 13.3.7
   resolution: "@angular-devkit/build-angular@npm:13.3.7"
   dependencies:
@@ -323,7 +323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/animations@npm:~13.3.11":
+"@angular/animations@npm:^13.3.11, @angular/animations@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/animations@npm:13.3.11"
   dependencies:
@@ -334,7 +334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:~13.3.9":
+"@angular/cdk@npm:^13.3.9, @angular/cdk@npm:~13.3.9":
   version: 13.3.9
   resolution: "@angular/cdk@npm:13.3.9"
   dependencies:
@@ -351,7 +351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:~13.3.7":
+"@angular/cli@npm:^13.3.7, @angular/cli@npm:~13.3.7":
   version: 13.3.7
   resolution: "@angular/cli@npm:13.3.7"
   dependencies:
@@ -380,7 +380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:~13.3.11":
+"@angular/common@npm:^13.3.11, @angular/common@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/common@npm:13.3.11"
   dependencies:
@@ -392,7 +392,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler-cli@npm:~13.3.11":
+"@angular/compiler-cli@npm:^13.3.11, @angular/compiler-cli@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/compiler-cli@npm:13.3.11"
   dependencies:
@@ -417,7 +417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler@npm:~13.3.11":
+"@angular/compiler@npm:^13.3.11, @angular/compiler@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/compiler@npm:13.3.11"
   dependencies:
@@ -426,7 +426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/core@npm:~13.3.11":
+"@angular/core@npm:^13.3.11, @angular/core@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/core@npm:13.3.11"
   dependencies:
@@ -453,7 +453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:~13.3.11":
+"@angular/forms@npm:^13.3.11, @angular/forms@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/forms@npm:13.3.11"
   dependencies:
@@ -498,7 +498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material@npm:~13.3.9":
+"@angular/material@npm:^13.3.9, @angular/material@npm:~13.3.9":
   version: 13.3.9
   resolution: "@angular/material@npm:13.3.9"
   dependencies:
@@ -515,7 +515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:~13.3.11":
+"@angular/platform-browser-dynamic@npm:^13.3.11, @angular/platform-browser-dynamic@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/platform-browser-dynamic@npm:13.3.11"
   dependencies:
@@ -529,7 +529,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser@npm:~13.3.11":
+"@angular/platform-browser@npm:^13.3.11, @angular/platform-browser@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/platform-browser@npm:13.3.11"
   dependencies:
@@ -563,7 +563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:~13.3.11":
+"@angular/router@npm:^13.3.11, @angular/router@npm:~13.3.11":
   version: 13.3.11
   resolution: "@angular/router@npm:13.3.11"
   dependencies:
@@ -5132,26 +5132,26 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/legacy-app@workspace:legacy-app"
   dependencies:
-    "@angular-devkit/build-angular": ~13.3.7
+    "@angular-devkit/build-angular": ^13.3.7
     "@angular-eslint/builder": 13.2.1
     "@angular-eslint/eslint-plugin": 13.2.1
     "@angular-eslint/eslint-plugin-template": 13.2.1
     "@angular-eslint/schematics": 13.2.1
     "@angular-eslint/template-parser": 13.2.1
-    "@angular/animations": ~13.3.11
-    "@angular/cdk": ~13.3.9
-    "@angular/cli": ~13.3.7
-    "@angular/common": ~13.3.11
-    "@angular/compiler": ~13.3.11
-    "@angular/compiler-cli": ~13.3.11
-    "@angular/core": ~13.3.11
+    "@angular/animations": ^13.3.11
+    "@angular/cdk": ^13.3.9
+    "@angular/cli": ^13.3.7
+    "@angular/common": ^13.3.11
+    "@angular/compiler": ^13.3.11
+    "@angular/compiler-cli": ^13.3.11
+    "@angular/core": ^13.3.11
     "@angular/flex-layout": ^13.0.0-beta.38
-    "@angular/forms": ~13.3.11
-    "@angular/material": ~13.3.9
+    "@angular/forms": ^13.3.11
+    "@angular/material": ^13.3.9
     "@angular/material-luxon-adapter": ^13.3.9
-    "@angular/platform-browser": ~13.3.11
-    "@angular/platform-browser-dynamic": ~13.3.11
-    "@angular/router": ~13.3.11
+    "@angular/platform-browser": ^13.3.11
+    "@angular/platform-browser-dynamic": ^13.3.11
+    "@angular/router": ^13.3.11
     "@angular/service-worker": ^13.3.11
     "@apollo/client": ^3.6.6
     "@auth0/auth0-angular": ^1.9.0
