@@ -2,7 +2,11 @@ import {
   GetEventTemplateQuery,
   UpdateFinancesGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,

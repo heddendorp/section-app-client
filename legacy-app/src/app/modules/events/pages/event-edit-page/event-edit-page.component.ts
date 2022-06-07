@@ -25,7 +25,12 @@ import {
   UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -177,7 +182,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   get prices() {
-    return this.coreInformationForm.get('prices')?.get('options') as UntypedFormArray;
+    return this.coreInformationForm
+      .get('prices')
+      ?.get('options') as UntypedFormArray;
   }
 
   get statusOptions() {

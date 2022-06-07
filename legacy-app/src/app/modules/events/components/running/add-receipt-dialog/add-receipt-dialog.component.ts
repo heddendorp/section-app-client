@@ -5,7 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AddReceiptGQL,
   GetBlobTokenGQL,

@@ -42,7 +42,10 @@ export class ClaimEventDialogComponent {
   >;
   public availablePrices$: Observable<Price[]>;
   public priceControl = new UntypedFormControl(null, Validators.required);
-  public codeControl = new UntypedFormControl('', Validators.pattern(this.idTest));
+  public codeControl = new UntypedFormControl(
+    '',
+    Validators.pattern(this.idTest)
+  );
   public processing$ = new BehaviorSubject(false);
   public error$ = new BehaviorSubject('');
   constructor(

@@ -10,7 +10,11 @@ import {
   GetOrganizerOptionsQuery,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { DateTime } from 'luxon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
