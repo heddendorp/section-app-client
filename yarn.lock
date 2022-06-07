@@ -64,7 +64,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^14.0.0":
+"@angular-devkit/build-angular@npm:^14.0.0, @angular-devkit/build-angular@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular-devkit/build-angular@npm:14.0.0"
   dependencies:
@@ -561,7 +561,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/animations@npm:^14.0.0":
+"@angular/animations@npm:^14.0.0, @angular/animations@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/animations@npm:14.0.0"
   dependencies:
@@ -617,7 +617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:^14.0.0":
+"@angular/cli@npm:^14.0.0, @angular/cli@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/cli@npm:14.0.0"
   dependencies:
@@ -676,7 +676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:^14.0.0":
+"@angular/common@npm:^14.0.0, @angular/common@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/common@npm:14.0.0"
   dependencies:
@@ -700,7 +700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler-cli@npm:^14.0.0":
+"@angular/compiler-cli@npm:^14.0.0, @angular/compiler-cli@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/compiler-cli@npm:14.0.0"
   dependencies:
@@ -750,7 +750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler@npm:^14.0.0":
+"@angular/compiler@npm:^14.0.0, @angular/compiler@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/compiler@npm:14.0.0"
   dependencies:
@@ -773,7 +773,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/core@npm:^14.0.0":
+"@angular/core@npm:^14.0.0, @angular/core@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/core@npm:14.0.0"
   dependencies:
@@ -812,7 +812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:^14.0.0":
+"@angular/forms@npm:^14.0.0, @angular/forms@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/forms@npm:14.0.0"
   dependencies:
@@ -905,7 +905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:^14.0.0":
+"@angular/platform-browser-dynamic@npm:^14.0.0, @angular/platform-browser-dynamic@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/platform-browser-dynamic@npm:14.0.0"
   dependencies:
@@ -933,7 +933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser@npm:^14.0.0":
+"@angular/platform-browser@npm:^14.0.0, @angular/platform-browser@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/platform-browser@npm:14.0.0"
   dependencies:
@@ -983,7 +983,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:^14.0.0":
+"@angular/router@npm:^14.0.0, @angular/router@npm:~14.0.0":
   version: 14.0.0
   resolution: "@angular/router@npm:14.0.0"
   dependencies:
@@ -6144,22 +6144,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/experiments@workspace:experiments"
   dependencies:
-    "@angular-devkit/build-angular": ~13.3.7
-    "@angular-eslint/builder": 13.2.1
-    "@angular-eslint/eslint-plugin": 13.2.1
-    "@angular-eslint/eslint-plugin-template": 13.2.1
-    "@angular-eslint/schematics": 13.2.1
-    "@angular-eslint/template-parser": 13.2.1
-    "@angular/animations": ~13.3.11
-    "@angular/cli": ~13.3.7
-    "@angular/common": ~13.3.11
-    "@angular/compiler": ~13.3.11
-    "@angular/compiler-cli": ~13.3.11
-    "@angular/core": ~13.3.11
-    "@angular/forms": ~13.3.11
-    "@angular/platform-browser": ~13.3.11
-    "@angular/platform-browser-dynamic": ~13.3.11
-    "@angular/router": ~13.3.11
+    "@angular-devkit/build-angular": ~14.0.0
+    "@angular-eslint/builder": 14.0.0-alpha.0
+    "@angular-eslint/eslint-plugin": 14.0.0-alpha.0
+    "@angular-eslint/eslint-plugin-template": 14.0.0-alpha.0
+    "@angular-eslint/schematics": 14.0.0-alpha.0
+    "@angular-eslint/template-parser": 14.0.0-alpha.0
+    "@angular/animations": ~14.0.0
+    "@angular/cli": ~14.0.0
+    "@angular/common": ~14.0.0
+    "@angular/compiler": ~14.0.0
+    "@angular/compiler-cli": ~14.0.0
+    "@angular/core": ~14.0.0
+    "@angular/forms": ~14.0.0
+    "@angular/platform-browser": ~14.0.0
+    "@angular/platform-browser-dynamic": ~14.0.0
+    "@angular/router": ~14.0.0
     "@apollo/client": ^3.6.6
     "@graphql-codegen/cli": ^2.6.2
     "@graphql-codegen/typescript-apollo-angular": ^3.4.10
