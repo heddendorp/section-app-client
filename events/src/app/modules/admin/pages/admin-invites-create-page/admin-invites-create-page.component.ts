@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { CreateInvitesGQL, MembershipStatus } from '@tumi/events/graphQL';
 import { firstValueFrom } from 'rxjs';
 
