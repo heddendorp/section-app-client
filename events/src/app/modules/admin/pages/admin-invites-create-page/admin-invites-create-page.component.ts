@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CreateInvitesGQL, MembershipStatus } from '@tumi/events/graphQL';
 import { firstValueFrom } from 'rxjs';
 
@@ -9,11 +9,11 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./admin-invites-create-page.component.scss'],
 })
 export class AdminInvitesCreatePageComponent {
-  public inviteForm: FormGroup;
+  public inviteForm: UntypedFormGroup;
   public MembershipStatus = MembershipStatus;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private createInvitesGQL: CreateInvitesGQL
   ) {
     this.inviteForm = this.fb.group({
