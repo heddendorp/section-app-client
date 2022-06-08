@@ -25,7 +25,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^14.0.0, @angular-devkit/build-angular@npm:~14.0.0":
+"@angular-devkit/build-angular@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular-devkit/build-angular@npm:14.0.0"
   dependencies:
@@ -253,7 +253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/animations@npm:^14.0.0, @angular/animations@npm:~14.0.0":
+"@angular/animations@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/animations@npm:14.0.0"
   dependencies:
@@ -264,7 +264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^14.0.0, @angular/cdk@npm:~14.0.1":
+"@angular/cdk@npm:^14.0.0, @angular/cdk@npm:^14.0.1":
   version: 14.0.1
   resolution: "@angular/cdk@npm:14.0.1"
   dependencies:
@@ -281,7 +281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:^14.0.0, @angular/cli@npm:~14.0.0":
+"@angular/cli@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/cli@npm:14.0.0"
   dependencies:
@@ -311,7 +311,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:^14.0.0, @angular/common@npm:~14.0.0":
+"@angular/common@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/common@npm:14.0.0"
   dependencies:
@@ -323,7 +323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler-cli@npm:^14.0.0, @angular/compiler-cli@npm:~14.0.0":
+"@angular/compiler-cli@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/compiler-cli@npm:14.0.0"
   dependencies:
@@ -348,7 +348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler@npm:^14.0.0, @angular/compiler@npm:~14.0.0":
+"@angular/compiler@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/compiler@npm:14.0.0"
   dependencies:
@@ -362,7 +362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/core@npm:^14.0.0, @angular/core@npm:~14.0.0":
+"@angular/core@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/core@npm:14.0.0"
   dependencies:
@@ -389,7 +389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:^14.0.0, @angular/forms@npm:~14.0.0":
+"@angular/forms@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/forms@npm:14.0.0"
   dependencies:
@@ -434,7 +434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material@npm:^14.0.0, @angular/material@npm:~14.0.1":
+"@angular/material@npm:^14.0.0, @angular/material@npm:^14.0.1":
   version: 14.0.1
   resolution: "@angular/material@npm:14.0.1"
   dependencies:
@@ -451,7 +451,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:^14.0.0, @angular/platform-browser-dynamic@npm:~14.0.0":
+"@angular/platform-browser-dynamic@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/platform-browser-dynamic@npm:14.0.0"
   dependencies:
@@ -465,7 +465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser@npm:^14.0.0, @angular/platform-browser@npm:~14.0.0":
+"@angular/platform-browser@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/platform-browser@npm:14.0.0"
   dependencies:
@@ -481,7 +481,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-server@npm:~14.0.0":
+"@angular/platform-server@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/platform-server@npm:14.0.0"
   dependencies:
@@ -499,7 +499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:^14.0.0, @angular/router@npm:~14.0.0":
+"@angular/router@npm:^14.0.0":
   version: 14.0.0
   resolution: "@angular/router@npm:14.0.0"
   dependencies:
@@ -4586,26 +4586,26 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/events@workspace:events"
   dependencies:
-    "@angular-devkit/build-angular": ~14.0.0
+    "@angular-devkit/build-angular": ^14.0.0
     "@angular-eslint/builder": 14.0.0-alpha.0
     "@angular-eslint/eslint-plugin": 14.0.0-alpha.0
     "@angular-eslint/eslint-plugin-template": 14.0.0-alpha.0
     "@angular-eslint/schematics": 14.0.0-alpha.0
     "@angular-eslint/template-parser": 14.0.0-alpha.0
-    "@angular/animations": ~14.0.0
-    "@angular/cdk": ~14.0.1
-    "@angular/cli": ~14.0.0
-    "@angular/common": ~14.0.0
-    "@angular/compiler": ~14.0.0
-    "@angular/compiler-cli": ~14.0.0
-    "@angular/core": ~14.0.0
-    "@angular/forms": ~14.0.0
+    "@angular/animations": ^14.0.0
+    "@angular/cdk": ^14.0.1
+    "@angular/cli": ^14.0.0
+    "@angular/common": ^14.0.0
+    "@angular/compiler": ^14.0.0
+    "@angular/compiler-cli": ^14.0.0
+    "@angular/core": ^14.0.0
+    "@angular/forms": ^14.0.0
     "@angular/localize": 14.0.0
-    "@angular/material": ~14.0.1
-    "@angular/platform-browser": ~14.0.0
-    "@angular/platform-browser-dynamic": ~14.0.0
-    "@angular/platform-server": ~14.0.0
-    "@angular/router": ~14.0.0
+    "@angular/material": ^14.0.1
+    "@angular/platform-browser": ^14.0.0
+    "@angular/platform-browser-dynamic": ^14.0.0
+    "@angular/platform-server": ^14.0.0
+    "@angular/router": ^14.0.0
     "@apollo/client": ^3.6.6
     "@auth0/auth0-angular": ^1.9.0
     "@graphql-codegen/cli": ^2.6.2
