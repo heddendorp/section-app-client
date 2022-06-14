@@ -4,9 +4,10 @@ This is the third version of the TUMi app you know and love, currently the activ
 
 ## Usage
 
-If you are interested in learning how to use this, read the following docs. This gives you an idea about how the app works and benefits our ESN section.   
- - [Event creation process](./event-journey.md)
- - [Administration features](./admin-features.md)
+If you are interested in learning how to use this, read the following docs. This gives you an idea about how the app works and benefits our ESN section.
+
+- [Event creation process](./event-journey.md)
+- [Administration features](./admin-features.md)
 
 ## Run Locally
 
