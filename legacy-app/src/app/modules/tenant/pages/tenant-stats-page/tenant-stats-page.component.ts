@@ -5,7 +5,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 import * as Highcharts from 'highcharts';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tenant-stats-page',
@@ -14,9 +14,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantStatsPageComponent implements OnDestroy {
-  rangeControl = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+  rangeControl = new UntypedFormGroup({
+    start: new UntypedFormControl(),
+    end: new UntypedFormControl(),
   });
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {

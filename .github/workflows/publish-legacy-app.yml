@@ -7,10 +7,10 @@ name: Build Docker for the legacy app
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '43 11 * * *'
+#  schedule:
+#    - cron: '43 11 * * *'
   push:
-    branches: [main]
+    branches: [release]
     # Publish semver tags as releases.
     tags: ['v*.*.*']
     paths:

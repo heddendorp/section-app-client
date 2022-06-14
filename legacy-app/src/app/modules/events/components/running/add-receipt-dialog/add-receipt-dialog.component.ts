@@ -5,7 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AddReceiptGQL,
   GetBlobTokenGQL,
@@ -21,7 +25,7 @@ import { BlobServiceClient } from '@azure/storage-blob';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddReceiptDialogComponent {
-  public uploadForm: FormGroup;
+  public uploadForm: UntypedFormGroup;
   public previewURL$ = new Subject();
   public processing$ = new BehaviorSubject(false);
   public uploadProgress$ = new BehaviorSubject(0);
@@ -31,7 +35,7 @@ export class AddReceiptDialogComponent {
     private getBlobTokenGQL: GetBlobTokenGQL,
     private addReceiptGQL: AddReceiptGQL,
     private dialog: MatDialogRef<AddReceiptDialogComponent>,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.uploadForm = this.fb.group({
       file: [null, Validators.required],

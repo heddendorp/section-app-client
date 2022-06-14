@@ -5,7 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { GetEventTemplateQuery } from '@tumi/legacy-app/generated/generated';
 import { Observable, of } from 'rxjs';
 
@@ -16,11 +20,11 @@ import { Observable, of } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventFormDialogComponent {
-  public dialogForm: FormGroup;
+  public dialogForm: UntypedFormGroup;
   public iconFieldValue: Observable<string>;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<EventFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data?: { template?: GetEventTemplateQuery['eventTemplate'] }

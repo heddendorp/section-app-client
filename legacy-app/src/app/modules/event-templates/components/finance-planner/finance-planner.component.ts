@@ -2,7 +2,11 @@ import {
   GetEventTemplateQuery,
   UpdateFinancesGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -46,12 +50,12 @@ export class FinancePlannerComponent implements OnChanges {
     'action',
   ];
   public items$ = new ReplaySubject<CostItem[]>(1);
-  public forecastForm: FormGroup;
+  public forecastForm: UntypedFormGroup;
   public forecastResult$: Observable<any>;
 
   constructor(
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private updateFinances: UpdateFinancesGQL
   ) {
     this.forecastForm = this.fb.group({

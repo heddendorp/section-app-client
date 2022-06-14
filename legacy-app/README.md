@@ -53,3 +53,9 @@ Relevant documentation for this project is listed below to give you a starting p
   For data loading and most server communication.
 - [TailwindCSS](https://tailwindcss.com/docs/utility-first)  
   For general styling in the app instead of custom CSS.
+
+## Deployment
+
+The `release` branch is automatically deployed to `tumi.esn.world`.
+You can check the deployment of PRs by checking the URL that on the PR page.
+The `master` branch is deployed instantly to `dev.esn.world`.

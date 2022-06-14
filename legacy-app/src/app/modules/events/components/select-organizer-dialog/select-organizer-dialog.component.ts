@@ -8,7 +8,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, startWith, Subject, tap } from 'rxjs';
 import { LoadUsersByStatusQuery } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-select-organizer-dialog',
@@ -17,7 +17,7 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectOrganizerDialogComponent implements OnDestroy {
-  public nameControl = new FormControl();
+  public nameControl = new UntypedFormControl();
   public filteredChoices$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   private destroyed$ = new Subject();
   private idTest = new RegExp(

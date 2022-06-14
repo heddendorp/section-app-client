@@ -23,7 +23,7 @@ import {
   VerifyCertificateGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
 
@@ -36,7 +36,7 @@ import QrScanner from 'qr-scanner';
 export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   public hideScanner$ = new BehaviorSubject(false);
   public cameras$ = new BehaviorSubject<QrScanner.Camera[]>([]);
-  public cameraControl = new FormControl();
+  public cameraControl = new UntypedFormControl();
   public currentRegistration$ = new BehaviorSubject<
     | GetRegistrationQuery['registration']
     | (LoadEventForRunningQuery['event']['participantRegistrations'][0] & {

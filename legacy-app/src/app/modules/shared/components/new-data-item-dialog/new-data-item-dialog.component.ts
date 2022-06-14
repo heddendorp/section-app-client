@@ -6,7 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   SubmissionItemType,
   SubmissionTime,
@@ -20,13 +25,13 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewDataItemDialogComponent implements OnDestroy {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public SubmissionItemType = SubmissionItemType;
   public SubmissionTime = SubmissionTime;
   private destroyed$ = new Subject();
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { mode: 'event' | 'product' },
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -55,7 +60,7 @@ export class NewDataItemDialogComponent implements OnDestroy {
   }
 
   get choices() {
-    return this.form.get('data')?.get('choices') as FormArray;
+    return this.form.get('data')?.get('choices') as UntypedFormArray;
   }
 
   addChoice(): void {
