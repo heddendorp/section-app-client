@@ -10,7 +10,11 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-update-user-dialog',
@@ -21,10 +25,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UpdateUserDialogComponent implements OnInit {
   public Role = Role;
   public MembershipStatus = MembershipStatus;
-  public updateForm: FormGroup;
+  public updateForm: UntypedFormGroup;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { user: GetUsersQuery['users'][0] },
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<UpdateUserDialogComponent>
   ) {
     this.updateForm = this.fb.group({

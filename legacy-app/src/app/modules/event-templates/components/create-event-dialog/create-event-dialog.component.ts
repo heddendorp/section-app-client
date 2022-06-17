@@ -10,7 +10,11 @@ import {
   GetOrganizerOptionsQuery,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { DateTime } from 'luxon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -22,7 +26,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateEventDialogComponent implements OnInit, OnDestroy {
-  public eventDataForm: FormGroup;
+  public eventDataForm: UntypedFormGroup;
   public RegistrationMode = RegistrationMode;
   private destroyed$ = new Subject();
 
@@ -32,7 +36,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       template: GetEventTemplateQuery['eventTemplate'];
       organizers: GetOrganizerOptionsQuery['organizers'];
     },
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<CreateEventDialogComponent>
   ) {
     this.eventDataForm = this.fb.group({

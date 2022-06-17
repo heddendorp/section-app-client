@@ -7,7 +7,7 @@ import {
 import { debounceTime, from, map, Observable, switchMap } from 'rxjs';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import * as atlas from 'azure-maps-rest';
@@ -27,7 +27,7 @@ import * as atlas from 'azure-maps-rest';
 })
 export class LocationAutocompleteComponent implements ControlValueAccessor {
   private searchClient: atlas.SearchURL;
-  public locationControl = new FormControl();
+  public locationControl = new UntypedFormControl();
   public locationOptions: Observable<atlas.Models.SearchFuzzyResult[]>;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange: (v: atlas.Models.SearchFuzzyResult) => void = () => {};

@@ -21,7 +21,7 @@ import {
   UseRegistrationCodeGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { loadStripe } from '@stripe/stripe-js';
@@ -41,8 +41,11 @@ export class ClaimEventDialogComponent {
     GetRegistrationCodeInfoQuery['eventRegistrationCode']
   >;
   public availablePrices$: Observable<Price[]>;
-  public priceControl = new FormControl(null, Validators.required);
-  public codeControl = new FormControl('', Validators.pattern(this.idTest));
+  public priceControl = new UntypedFormControl(null, Validators.required);
+  public codeControl = new UntypedFormControl(
+    '',
+    Validators.pattern(this.idTest)
+  );
   public processing$ = new BehaviorSubject(false);
   public error$ = new BehaviorSubject('');
   constructor(

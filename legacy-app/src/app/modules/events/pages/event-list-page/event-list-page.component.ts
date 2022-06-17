@@ -15,7 +15,7 @@ import {
   takeUntil,
   timer,
 } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
@@ -28,9 +28,9 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
-  public showFullEvents = new FormControl(true);
-  public filterEvents = new FormControl('');
-  public eventsAfter = new FormControl(
+  public showFullEvents = new UntypedFormControl(true);
+  public filterEvents = new UntypedFormControl('');
+  public eventsAfter = new UntypedFormControl(
     DateTime.local().toISO({ includeOffset: false })
   );
   public Role = Role;

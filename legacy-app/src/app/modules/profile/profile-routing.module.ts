@@ -5,7 +5,7 @@ import { PhotoJourneyPageComponent } from '@tumi/legacy-app/modules/profile/page
 import { NewUserPageComponent } from '@tumi/legacy-app/modules/profile/pages/new-user-page/new-user-page.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'exact', component: ProfilePageComponent },
+  { path: '', pathMatch: 'full', component: ProfilePageComponent },
   { path: 'journey', component: PhotoJourneyPageComponent },
   { path: 'new', component: NewUserPageComponent },
 ];

@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-rate-event',
@@ -12,8 +16,8 @@ export class RateEventComponent {
     rating: number;
     comment: string;
   }>();
-  public ratingForm: FormGroup;
-  constructor(fb: FormBuilder) {
+  public ratingForm: UntypedFormGroup;
+  constructor(fb: UntypedFormBuilder) {
     this.ratingForm = fb.group({
       rating: ['', Validators.required],
       comment: [''],

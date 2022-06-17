@@ -2,6 +2,13 @@
 
 This is the third version of the TUMi app you know and love, currently the active client at tumi.esn.world.
 
+## Usage
+
+If you are interested in learning how to use this, read the following docs. This gives you an idea about how the app works and benefits our ESN section.
+
+- [Event creation process](./event-journey.md)
+- [Administration features](./admin-features.md)
+
 ## Run Locally
 
 Clone the project
@@ -54,8 +61,8 @@ Relevant documentation for this project is listed below to give you a starting p
 - [TailwindCSS](https://tailwindcss.com/docs/utility-first)  
   For general styling in the app instead of custom CSS.
 
-
 ## Deployment
-The `release` branch is automatically deployed to `tumi.esn.world`. 
-You can check the deployment of PRs by checking the URL that on the PR page. 
-The `master` branch is deployed instantly to `dev.esn.world`.
+
+The `release` branch is automatically deployed to `tumi.esn.world`.
+You can check the deployment of PRs by checking the URL that on the PR page.
+The `main` branch is deployed instantly to `dev.esn.world`.

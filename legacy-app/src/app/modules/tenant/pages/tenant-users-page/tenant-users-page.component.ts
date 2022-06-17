@@ -11,7 +11,7 @@ import {
   Role,
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   debounceTime,
   firstValueFrom,
@@ -43,7 +43,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     'role',
     'action',
   ];
-  public filterForm: FormGroup;
+  public filterForm: UntypedFormGroup;
   public MembershipStatus = MembershipStatus;
   public Role = Role;
   private loadUsersReference;
@@ -54,7 +54,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     private loadUsers: GetUsersGQL,
     private dialog: MatDialog,
     private updateMutation: UpdateUserGQL,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private clipboard: Clipboard
   ) {
     this.title.setTitle('TUMi - manage users');

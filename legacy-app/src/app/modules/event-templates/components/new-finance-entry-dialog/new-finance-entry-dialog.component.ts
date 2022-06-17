@@ -4,7 +4,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -14,9 +18,9 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewFinanceEntryDialogComponent implements OnDestroy, OnInit {
-  public expenseForm: FormGroup;
+  public expenseForm: UntypedFormGroup;
   private destroyed$ = new Subject();
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.expenseForm = this.fb.group({
       value: ['', Validators.required],
       scale: ['', Validators.required],

@@ -103,9 +103,8 @@
       }
     }
   },
-  "defaultProject": "experiments",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics",
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }
