@@ -9,7 +9,7 @@ datasource db {
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
-  previewFeatures = ["interactiveTransactions", "fullTextSearch"]
+  previewFeatures = ["interactiveTransactions", "fullTextSearch", "metrics"]
 }
 
 generator nexusPrisma {
@@ -336,6 +336,7 @@ model TumiEvent {
   eventRegistrationCodes       EventRegistrationCode[]
   eventTemplate                EventTemplate           @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId              String                  @db.Uuid
+  excludeFromStatistics        Boolean                 @default(false)
   icon                         String
   insuranceDescription         String                  @default("")
   location                     String

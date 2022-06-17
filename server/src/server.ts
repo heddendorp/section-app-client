@@ -117,6 +117,12 @@ app.use('/qr', qrRouter());
 app.use('/go', shortRouter());
 app.use('/graphql', graphQLServer);
 app.use(socialRouter);
+app.get('/metrics', async (_, res) => {
+  console.log('Getting metrics');
+  const metrics = await prisma.$metrics.json();
+  console.log(metrics);
+  res.send(metrics);
+});
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
