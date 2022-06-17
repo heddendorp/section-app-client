@@ -19,14 +19,6 @@ export class TenantStatsPageComponent implements OnDestroy {
     end: new UntypedFormControl(),
   });
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {
-    series: [
-      {
-        data: [1, 2, 3],
-        type: 'line',
-      },
-    ],
-  };
   charts$: Observable<{
     line: Highcharts.Options[];
     pie: Highcharts.Options[];
