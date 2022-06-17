@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@auth0/auth0-angular';
+import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
   {
     path: 'profile',
+    canLoad: [AuthGuard],
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: 'event-templates',
+    canLoad: [AuthGuard],
     loadChildren: () =>
       import('./modules/event-templates/event-templates.module').then(
         (m) => m.EventTemplatesModule
@@ -23,6 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'tenant',
+    canLoad: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./modules/tenant/tenant.module').then((m) => m.TenantModule),
   },

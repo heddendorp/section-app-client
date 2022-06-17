@@ -10,6 +10,8 @@ import { EventPhotoPageComponent } from '@tumi/legacy-app/modules/events/pages/e
 import { EventCheckinPageComponent } from '@tumi/legacy-app/modules/events/pages/event-checkin-page/event-checkin-page.component';
 import { EventReceiptsPageComponent } from '@tumi/legacy-app/modules/events/pages/event-receipts-page/event-receipts-page.component';
 import { PublicRegistrationCodesPageComponent } from '@tumi/legacy-app/modules/events/pages/public-registration-codes-page/public-registration-codes-page.component';
+import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
+import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
 
 const routes: Routes = [
   {
@@ -25,17 +27,17 @@ const routes: Routes = [
   { path: ':eventId', component: EventDetailsPageComponent },
   {
     path: ':eventId/edit',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, MemberGuard],
     component: EventEditPageComponent,
   },
   {
     path: ':eventId/run',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, MemberGuard],
     component: EventRunPageComponent,
   },
   {
     path: ':eventId/run/scan',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, MemberGuard],
     component: EventCheckinPageComponent,
   },
   {
@@ -45,12 +47,12 @@ const routes: Routes = [
   },
   {
     path: ':eventId/run/receipts/:costItemId',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, MemberGuard],
     component: EventReceiptsPageComponent,
   },
   {
     path: ':eventId/manage',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
     component: EventManagePageComponent,
   },
 ];
