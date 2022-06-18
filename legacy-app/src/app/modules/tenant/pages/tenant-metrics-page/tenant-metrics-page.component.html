@@ -1,0 +1,28 @@
+<main class="p-4">
+  <h1 class="mb-4">Prisma Metrics</h1>
+  <h2 class="mb-2">Counters</h2>
+  <app-grid minWidth="200px">
+    <div *ngFor="let counter of counters$ | async" class="border p-2">
+      <h3>{{ counter.key }}</h3>
+      <p class="text-xl font-bold">{{ counter.value }}</p>
+    </div>
+  </app-grid>
+  <h2 class="mb-2 mt-6">Gauges</h2>
+  <app-grid minWidth="200px">
+    <div *ngFor="let gauge of gauges$ | async" class="border p-2">
+      <h3>{{ gauge.key }}</h3>
+      <p class="text-xl font-bold">{{ gauge.value }}</p>
+      <p class="text-sm">{{ gauge.description }}</p>
+    </div>
+  </app-grid>
+  <h2 class="mb-2 mt-6">Histograms</h2>
+  <app-grid minWidth="400px">
+    <div *ngFor="let histogram of histograms$ | async">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="histogram"
+        style="width: 100%; height: 200px; display: block"
+      ></highcharts-chart>
+    </div>
+  </app-grid>
+</main>
