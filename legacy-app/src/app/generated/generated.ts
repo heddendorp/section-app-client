@@ -1007,6 +1007,7 @@ export type StripeUserData = {
 
 export enum SubmissionItemType {
   Boolean = 'BOOLEAN',
+  Confirm = 'CONFIRM',
   Date = 'DATE',
   File = 'FILE',
   Longtext = 'LONGTEXT',

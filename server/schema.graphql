@@ -620,6 +620,7 @@ type StripeUserData {
 
 enum SubmissionItemType {
   BOOLEAN
+  CONFIRM
   DATE
   FILE
   LONGTEXT

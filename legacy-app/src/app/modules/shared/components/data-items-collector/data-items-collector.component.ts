@@ -4,11 +4,11 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import {
+  FormControl,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -41,15 +41,22 @@ export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
       this.form = this.fb.group(
         changes['items'].currentValue.reduce(
           (
-            acc: { [id: string]: unknown },
+            acc: { [id: string]: FormControl },
             item: { id: string; type: SubmissionItemType }
           ) => {
             return {
               ...acc,
-              [item.id]: [
-                item.type === SubmissionItemType.Boolean ? false : '',
-                Validators.required,
-              ],
+              [item.id]: new FormControl(
+                [
+                  SubmissionItemType.Boolean,
+                  SubmissionItemType.Confirm,
+                ].includes(item.type)
+                  ? false
+                  : '',
+                item.type === SubmissionItemType.Confirm
+                  ? [Validators.requiredTrue]
+                  : [Validators.required]
+              ),
             };
           },
           {}

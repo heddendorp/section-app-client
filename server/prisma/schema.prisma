@@ -59,6 +59,7 @@ enum SubmissionItemType {
   RATING
   BOOLEAN
   SELECT
+  CONFIRM
 }
 
 enum SubmissionTime {
