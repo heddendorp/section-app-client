@@ -191,7 +191,7 @@ export interface NexusGenEnums {
   RegistrationStatus: "CANCELLED" | "PENDING" | "SUCCESSFUL"
   RegistrationType: "CALENDAR" | "ORGANIZER" | "PARTICIPANT"
   Role: "ADMIN" | "USER"
-  SubmissionItemType: "BOOLEAN" | "DATE" | "FILE" | "LONGTEXT" | "NUMBER" | "RATING" | "SELECT" | "TEXT"
+  SubmissionItemType: "BOOLEAN" | "CONFIRM" | "DATE" | "FILE" | "LONGTEXT" | "NUMBER" | "RATING" | "SELECT" | "TEXT"
   SubmissionTime: "AFTER" | "BEFORE" | "DURING" | "REGISTRATION"
   TransactionType: "CASH" | "PAYPAL" | "STRIPE" | "TRANSFER"
 }

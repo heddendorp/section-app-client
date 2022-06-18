@@ -30,6 +30,8 @@ import { NewDataItemDialogComponent } from './components/new-data-item-dialog/ne
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectWithAutocompleteDialogComponent } from './components/select-with-autocomplete-dialog/select-with-autocomplete-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -50,16 +52,19 @@ import { SelectWithAutocompleteDialogComponent } from './components/select-with-
   ],
   imports: [
     CommonModule,
-    MatIconModule,
     FlexLayoutModule,
-    ReactiveFormsModule,
-    MatSelectModule,
+    MarkdownModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
-    MatButtonModule,
-    MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule,
   ],
   exports: [
     DataItemsCollectorComponent,

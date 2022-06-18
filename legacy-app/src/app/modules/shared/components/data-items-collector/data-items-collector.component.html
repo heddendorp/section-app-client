@@ -11,18 +11,24 @@
         <mat-label>{{ item.name }}</mat-label>
         <input matInput [formControlName]="item.id" type="text" />
       </mat-form-field>
-      <p>{{ item.instruction }}</p>
+      <markdown [data]="item.instruction" class="prose"></markdown>
     </div>
     <div *ngSwitchCase="SubmissionItemType.Longtext">
       <mat-form-field class="w-full">
         <mat-label>{{ item.name }}</mat-label>
         <textarea matInput rows="3" [formControlName]="item.id"></textarea>
       </mat-form-field>
-      <p>{{ item.instruction }}</p>
+      <markdown [data]="item.instruction" class="prose"></markdown>
     </div>
     <div *ngSwitchCase="SubmissionItemType.Boolean">
+      <mat-slide-toggle [formControlName]="item.id">{{
+        item.name
+      }}</mat-slide-toggle>
+      <markdown [data]="item.instruction" class="prose"></markdown>
+    </div>
+    <div *ngSwitchCase="SubmissionItemType.Confirm">
       <mat-checkbox [formControlName]="item.id">{{ item.name }}</mat-checkbox>
-      <p>{{ item.instruction }}</p>
+      <markdown [data]="item.instruction" class="prose"></markdown>
     </div>
     <div *ngSwitchCase="SubmissionItemType.Select">
       <mat-form-field class="w-full">
@@ -35,7 +41,7 @@
           >
         </mat-select>
       </mat-form-field>
-      <p>{{ item.instruction }}</p>
+      <markdown [data]="item.instruction" class="prose"></markdown>
     </div>
   </ng-container>
   <button

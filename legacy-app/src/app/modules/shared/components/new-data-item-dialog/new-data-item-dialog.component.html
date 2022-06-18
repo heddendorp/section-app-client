@@ -21,6 +21,9 @@
         <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>
         <mat-option [value]="SubmissionItemType.Select">Select</mat-option>
         <mat-option [value]="SubmissionItemType.Boolean">Boolean</mat-option>
+        <mat-option [value]="SubmissionItemType.Confirm">
+          Confirmation
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -29,8 +32,6 @@
         <mat-option [value]="SubmissionTime.Registration">{{
           data.mode === 'product' ? 'at purchase' : 'at registration'
         }}</mat-option>
-        <!--        <mat-option [value]="SubmissionItemType.Longtext">Long text</mat-option>-->
-        <!--        <mat-option [value]="SubmissionItemType.Select">Select</mat-option>-->
       </mat-select>
     </mat-form-field>
     <h3>Choices for select</h3>
