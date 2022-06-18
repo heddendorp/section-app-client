@@ -4,14 +4,14 @@
   <app-grid minWidth="200px">
     <div *ngFor="let counter of counters$ | async" class="border p-2">
       <h3>{{ counter.key }}</h3>
-      <p class="text-xl font-bold">{{ counter.value }}</p>
+      <p class="text-xl font-bold">{{ counter.value | number }}</p>
     </div>
   </app-grid>
   <h2 class="mb-2 mt-6">Gauges</h2>
   <app-grid minWidth="200px">
     <div *ngFor="let gauge of gauges$ | async" class="border p-2">
       <h3>{{ gauge.key }}</h3>
-      <p class="text-xl font-bold">{{ gauge.value }}</p>
+      <p class="text-xl font-bold">{{ gauge.value | number }}</p>
       <p class="text-sm">{{ gauge.description }}</p>
     </div>
   </app-grid>
