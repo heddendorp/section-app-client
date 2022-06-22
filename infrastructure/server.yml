@@ -39,6 +39,17 @@ template:
     resources:
       cpu: 0.5
       memory: 1Gi
+    probes:
+      - type: Liveness
+        httpGet:
+          path: /health
+          port: 3333
+          scheme: HTTP
+      - type: Startup
+        httpGet:
+          path: /health
+          port: 3333
+          scheme: HTTP
   scale:
     minReplicas: 0
     maxReplicas: 5
@@ -46,4 +57,4 @@ template:
     - name: http-rule
       http:
         metadata:
-          concurrentRequests: 300
+          concurrentRequests: 150
