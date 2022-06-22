@@ -7,7 +7,7 @@ import {
   LoadEventForManagementQuery,
   RegistrationStatus,
 } from '@tumi/legacy-app/generated/generated';
-import { firstValueFrom, map, Observable, Subject } from 'rxjs';
+import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
 export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;
   public environment = environment;
+  public feeShare$: Observable<number>;
+  public lastUserFeeShare$: Observable<number>;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
@@ -40,7 +42,37 @@ export class EventManagePageComponent implements OnDestroy {
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event)
     );
-    // this.loadEventQueryRef.startPolling(5000);
+    this.feeShare$ = this.event$.pipe(
+      map(
+        (event) =>
+          Math.floor(
+            (event.refundFeesPaid /
+              event.participantRegistrations.filter(
+                (r) => r.status !== RegistrationStatus.Cancelled
+              ).length) *
+              100
+          ) / 100
+      ),
+      share()
+    );
+    this.lastUserFeeShare$ = this.event$.pipe(
+      map(
+        (event) =>
+          event.refundFeesPaid -
+          (Math.floor(
+            (event.refundFeesPaid /
+              event.participantRegistrations.filter(
+                (r) => r.status !== RegistrationStatus.Cancelled
+              ).length) *
+              100
+          ) /
+            100) *
+            (event.participantRegistrations.filter(
+              (r) => r.status !== RegistrationStatus.Cancelled
+            ).length -
+              1)
+      )
+    );
   }
 
   ngOnDestroy(): void {
@@ -60,9 +92,6 @@ export class EventManagePageComponent implements OnDestroy {
             registrationId,
           })
         );
-        //     await this.removeUserWithRefund
-        //       .mutate({ eventId: event.id, userId })
-        //       .toPromise();
       } catch (e) {
         console.error(e);
         if (e instanceof Error) {
@@ -85,7 +114,6 @@ export class EventManagePageComponent implements OnDestroy {
             registrationId,
           })
         );
-        //     await this.removeUser.mutate({ registrationId }).toPromise();
       } catch (e) {
         console.error(e);
         if (e instanceof Error) {

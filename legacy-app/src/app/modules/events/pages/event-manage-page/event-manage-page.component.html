@@ -310,7 +310,8 @@
               let registration of filterRegistrations(
                 event.participantRegistrations
               );
-              let i = index
+              let i = index;
+              let last = last
             "
             class="table-row"
           >
@@ -319,11 +320,20 @@
             <td>{{ registration.user.email }}</td>
             <td>{{ registration.user.phone }}</td>
             <td>{{ registration.checkInTime | date: 'short' }}</td>
-            <td>
+            <td *ngIf="last == false">
               {{
                 (registration.transaction?.stripePayment?.netLessRefundAmount ??
                   0) /
-                  100
+                  100 -
+                  ((feeShare$ | async) ?? 0)
+              }}
+            </td>
+            <td *ngIf="last">
+              {{
+                (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                  0) /
+                  100 -
+                  ((lastUserFeeShare$ | async) ?? 0)
               }}
             </td>
           </tr>

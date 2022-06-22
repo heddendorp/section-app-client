@@ -755,6 +755,7 @@ type TumiEvent {
   plannedSpend: Decimal
   prices: Json
   publicationState: PublicationState!
+  refundFeesPaid: Decimal!
   registrationLink: String
   registrationMode: RegistrationMode!
   registrationStart: DateTime!

@@ -275,6 +275,7 @@ query loadEventForManagement($id: ID!) {
     amountCollected
     netAmountCollected
     feesPaid
+    refundFeesPaid
     plannedSpend
     submittedSpend
     participantLimit

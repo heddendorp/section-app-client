@@ -967,6 +967,7 @@ export interface NexusGenFieldTypes {
     plannedSpend: NexusGenScalars['Decimal'] | null; // Decimal
     prices: NexusGenScalars['Json'] | null; // Json
     publicationState: NexusGenEnums['PublicationState']; // PublicationState!
+    refundFeesPaid: NexusGenScalars['Decimal']; // Decimal!
     registrationLink: string | null; // String
     registrationMode: NexusGenEnums['RegistrationMode']; // RegistrationMode!
     registrationStart: NexusGenScalars['DateTime']; // DateTime!
@@ -1504,6 +1505,7 @@ export interface NexusGenFieldTypeNames {
     plannedSpend: 'Decimal'
     prices: 'Json'
     publicationState: 'PublicationState'
+    refundFeesPaid: 'Decimal'
     registrationLink: 'String'
     registrationMode: 'RegistrationMode'
     registrationStart: 'DateTime'

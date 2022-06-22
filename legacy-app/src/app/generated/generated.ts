@@ -1133,6 +1133,7 @@ export type TumiEvent = {
   plannedSpend?: Maybe<Scalars['Decimal']>;
   prices?: Maybe<Scalars['Json']>;
   publicationState: PublicationState;
+  refundFeesPaid: Scalars['Decimal'];
   registrationLink?: Maybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
@@ -1651,7 +1652,7 @@ export type LoadEventForManagementQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, plannedSpend?: any | null, submittedSpend?: any | null, participantLimit: number, participantsRegistered: number, participantsAttended: number, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, checkInTime?: any | null, didAttend: boolean, transaction?: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, netAmount?: any | null, refundedAmount?: any | null, netLessRefundAmount: any } | null } | null, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } } }> } };
+export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, refundFeesPaid: any, plannedSpend?: any | null, submittedSpend?: any | null, participantLimit: number, participantsRegistered: number, participantsAttended: number, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, checkInTime?: any | null, didAttend: boolean, transaction?: { __typename?: 'Transaction', id: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, netAmount?: any | null, refundedAmount?: any | null, netLessRefundAmount: any } | null } | null, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } } }> } };
 
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2785,6 +2786,7 @@ export const LoadEventForManagementDocument = gql`
     amountCollected
     netAmountCollected
     feesPaid
+    refundFeesPaid
     plannedSpend
     submittedSpend
     participantLimit
