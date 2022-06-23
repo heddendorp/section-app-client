@@ -11,6 +11,7 @@ As this repo is based on yarn workspaces you can find additional information in 
 ### What's on `tumi.esn.world`
 
 #### [Legacy App](./legacy-app/README.md)
+
 Check this out for the frontend application that is currently the _TUMi app_. You can also learn more about the features and usage here.
 
 #### [Server](./server/README.md)
@@ -46,4 +47,3 @@ Also in play is prisma for db connection.
 ### Authentication
 
 All the authentication is done with [Auth0](https://auth0.com/docs).
-
