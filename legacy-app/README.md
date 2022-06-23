@@ -40,6 +40,7 @@ Currently the app is made to support the processes inside the TUMi ESN section w
   - Profit from continuous improvements as time goes on.
   - Open source: the code is right here.
   - Profit form customisation to make the tool right for your section as well.
+  - You can use a custom domain or get a `<section>.esn.world` domain form us.
 
 ### Planned features ( also check the [issues](https://github.com/heddendorp/tumi/issues) )
 
