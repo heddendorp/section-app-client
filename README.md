@@ -4,6 +4,26 @@ The main repository of the websevice that make TUMi work the way it does.
 The main code for the TUMi app can be found here together with some other projects like the website for Party Animals.
 Additionally there is a new serverside rendered version of the TUMi app and a small projects for experiments.
 
+## Projects
+
+As this repo is based on yarn workspaces you can find additional information in the folders for the specific projects.
+
+### What's on `tumi.esn.world`
+
+#### [Legacy App](./legacy-app/README.md)
+
+Check this out for the frontend application that is currently the _TUMi app_. You can also learn more about the features and usage here.
+
+#### [Server](./server/README.md)
+
+The server used by all projects but Party Animals for data access
+
+### [Events App](./events)
+
+### [Experiments](./experiments)
+
+### [Party Animals](./party-animals)
+
 ## Tech Stack
 
 ### TUMi Apps (Legacy app + events)
@@ -27,21 +47,3 @@ Also in play is prisma for db connection.
 ### Authentication
 
 All the authentication is done with [Auth0](https://auth0.com/docs).
-
-## Projects
-
-As this repo is based on yarn workspaces you can find additional information in the folders for the specific projects.
-
-### What's on `tumi.esn.world`
-
-#### [Legacy App](./legacy-app)
-
-#### [Server](./server)
-
-The server used by all projects but Party Animals for data access
-
-### [Events App](./events)
-
-### [Experiments](./experiments)
-
-### [Party Animals](./party-animals)
