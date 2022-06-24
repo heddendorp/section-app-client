@@ -17,6 +17,7 @@ import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
 import { EnrollmentStatus } from './generated/prisma';
+import prom from 'prom-client';
 
 declare global {
   namespace NodeJS {
@@ -50,6 +51,8 @@ declare global {
 global.__rootdir__ = __dirname || process.cwd();
 
 const app = express();
+const register = new prom.Registry();
+prom.collectDefaultMetrics({ register });
 
 setupCronjob(prisma);
 
@@ -119,9 +122,18 @@ app.use('/graphql', graphQLServer);
 app.use(socialRouter);
 app.get('/metrics', async (_, res) => {
   console.log('Getting metrics');
-  const metrics = await prisma.$metrics.json();
+  const metrics = await prisma.$metrics.json({
+    globalLabels: { app_version: process.env.VERSION ?? 'development' },
+  });
   console.log(metrics);
   res.send(metrics);
+});
+app.get('/prom-metrics', async (_, res) => {
+  let prismaMetrics = await prisma.$metrics.prometheus({
+    globalLabels: { app_version: process.env.VERSION ?? 'development' },
+  });
+  let appMetrics = await register.metrics();
+  res.end(prismaMetrics + appMetrics);
 });
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;

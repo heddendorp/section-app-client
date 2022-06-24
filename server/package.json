@@ -57,6 +57,7 @@
     "node-cron": "^3.0.1",
     "node-fetch": "^2.6.7",
     "pdf2pic": "^2.1.4",
+    "prom-client": "^14.0.1",
     "qrcode": "^1.5.0",
     "sharp": "^0.30.6",
     "stripe": "^9.9.0",
