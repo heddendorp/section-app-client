@@ -4,6 +4,14 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <h1>Edit event</h1>
+    <div fxFlex></div>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-stroked-button
+      class="modern"
+      *ngIf="event$ | async as event"
+      >Go to template</a
+    >
   </div>
 
   <div class="my-8 rounded-lg border-2 py-4 px-4">
