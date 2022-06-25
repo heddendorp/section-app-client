@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -23,13 +19,13 @@ import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/comp
   styleUrls: ['./profile-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilePageComponent implements OnDestroy {  
+export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
   public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
-    private title: Title,    
+    private title: Title,
     private profileQuery: UserProfileGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,

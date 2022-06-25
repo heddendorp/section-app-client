@@ -1,13 +1,11 @@
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <a
-    routerLink="/profile"
-  >
+  <a routerLink="/profile">
     <img
-        [src]="userPicture"
-        class="rounded-lg border border-white m-2 max-w-11 max-h-11 w-11 h-11"
-        style="text-indent: -10000px" 
-        referrerpolicy="no-referrer"
-      />
+      [src]="userPicture"
+      class="rounded-lg border border-white m-2 max-w-11 max-h-11 w-11 h-11"
+      style="text-indent: -10000px"
+      referrerpolicy="no-referrer"
+    />
   </a>
 </ng-container>
 
