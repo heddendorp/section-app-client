@@ -843,6 +843,7 @@ export type QueryEventTemplateArgs = {
 
 export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
   limit?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['ID']>;
 };
@@ -1676,6 +1677,7 @@ export type LoadUsersByStatusQuery = { __typename?: 'Query', userWithStatus: Arr
 
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
 }>;
 
 
@@ -2957,8 +2959,8 @@ export const LoadUsersByStatusDocument = gql`
     }
   }
 export const EventListDocument = gql`
-    query eventList($after: DateTime) {
-  events(after: $after) {
+    query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
     id
     title
     icon

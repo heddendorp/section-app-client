@@ -29,11 +29,11 @@ export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new UntypedFormControl(true);
   public filterEvents = new UntypedFormControl('');
-  public eventsAfter = new UntypedFormControl(
-    DateTime.local().toISO({ includeOffset: false })
-  );
+  /** 0: all upcoming events, -1: last month, 1: next month etc. */
+  public monthOffset = new UntypedFormControl(0);
+  public monthOffsetLabel = 'Upcoming';
   public Role = Role;
-  public selectedView: Observable<string>;
+  public selectedView$: Observable<string>;
   private loadEventsQueryRef;
   private destroy$ = new Subject();
 
@@ -42,19 +42,28 @@ export class EventListPageComponent implements OnDestroy {
     private title: Title,
     private eventListStateService: EventListStateService
   ) {
-    this.selectedView = this.eventListStateService.getSelectedView();
-    this.title.setTitle('TUMi - events');
+    this.selectedView$ = this.eventListStateService.getSelectedView();
+    this.title.setTitle('TUMi - Events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events)
     );
-    this.eventsAfter.valueChanges
+    this.monthOffset.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value) =>
-        this.loadEventsQueryRef.refetch({
-          after: value.toJSDate(),
+      .subscribe((value) => {
+        if (value === 0) {
+          this.monthOffsetLabel = 'Upcoming';
+          return this.loadEventsQueryRef.refetch();
+        }
+        const monthsOffset = value + (value < 0 ? 1 : 0);
+        const startOfMonth = DateTime.local().startOf('month').plus({ months: monthsOffset });
+        const endOfMonth = startOfMonth.endOf('month');
+        this.monthOffsetLabel = startOfMonth.toFormat('LLLL yyyy');
+        return this.loadEventsQueryRef.refetch({
+          after: startOfMonth.toJSDate(),
+          before: endOfMonth.toJSDate()
         })
-      );
+      });
     this.events$ = combineLatest([
       events$,
       this.showFullEvents.valueChanges.pipe(
@@ -90,7 +99,7 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   public async toggleSelectedView() {
-    const selectedView = await firstValueFrom(this.selectedView);
+    const selectedView = await firstValueFrom(this.selectedView$);
     if (selectedView === 'list') {
       this.eventListStateService.setSelectedView('calendar');
     } else {

@@ -20,24 +20,18 @@
         <mat-checkbox [formControl]="showFullEvents">
           Include events without spot
         </mat-checkbox>
-        <mat-form-field *appIfRole="[Role.Admin]" fxFlex.gt-sm="grow">
-          <mat-label>Show Events after</mat-label>
-          <input
-            matInput
-            [formControl]="eventsAfter"
-            [matDatepicker]="picker"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
       </div>
       <mat-form-field class="w-full">
-        <mat-label>Search Event</mat-label>
+        <mat-label>Search event</mat-label>
         <input matInput [formControl]="filterEvents" type="search" />
-      </mat-form-field>
+      </mat-form-field>      
+      <div class="flex flex-row items-center">
+        <button mat-button (click)="monthOffset.setValue(monthOffset.value - 12)">«</button>
+        <button mat-button (click)="monthOffset.setValue(monthOffset.value - 1)">‹</button>
+        <div>{{ monthOffsetLabel }}</div>
+        <button mat-button (click)="monthOffset.setValue(monthOffset.value + 1)">›</button>
+        <button mat-button (click)="monthOffset.setValue(monthOffset.value + 12)">»</button>
+      </div>
     </div>
     <!--<div
       fxFlex="grow"
@@ -138,7 +132,7 @@
       </p>
     </div>-->
   </div>
-  <ng-container [ngSwitch]="selectedView | async">
+  <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
       <div>
         <button

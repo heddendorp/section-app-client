@@ -404,8 +404,8 @@ query loadUsersByStatus($allowList: [MembershipStatus!]!) {
   }
 }
 
-query eventList($after: DateTime) {
-  events(after: $after) {
+query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
     id
     title
     icon
