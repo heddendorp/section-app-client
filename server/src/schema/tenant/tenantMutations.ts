@@ -1,5 +1,6 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
+import { removeEmpty } from '../helperFunctions';
 
 builder.mutationFields((t) => ({
   updateTenant: t.prismaField({

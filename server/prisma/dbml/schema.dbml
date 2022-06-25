@@ -192,6 +192,7 @@ Table EventTemplate {
   duration Decimal [not null]
   eventInstances TumiEvent [not null]
   finances Json [not null]
+  googlePlaceId String
   icon String [not null]
   insuranceDescription String [not null, default: '']
   location String [not null]
@@ -231,7 +232,9 @@ Table TumiEvent {
   eventRegistrationCodes EventRegistrationCode [not null]
   eventTemplate EventTemplate [not null]
   eventTemplateId String [not null]
+  excludeFromRatings Boolean [not null, default: false]
   excludeFromStatistics Boolean [not null, default: false]
+  googlePlaceId String
   icon String [not null]
   insuranceDescription String [not null, default: '']
   location String [not null]

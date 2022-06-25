@@ -18,9 +18,9 @@ generator client {
 //}
 
 generator pothos {
-  provider = "prisma-pothos-types"
+  provider     = "prisma-pothos-types"
   clientOutput = "./prisma"
-  output = "../src/generated/pothos-types.ts"
+  output       = "../src/generated/pothos-types.ts"
 }
 
 generator dbml {
@@ -306,6 +306,7 @@ model EventTemplate {
   duration                    Decimal
   eventInstances              TumiEvent[]
   finances                    Json
+  googlePlaceId               String?
   icon                        String
   insuranceDescription        String                 @default("")
   location                    String
@@ -343,7 +344,9 @@ model TumiEvent {
   eventRegistrationCodes       EventRegistrationCode[]
   eventTemplate                EventTemplate           @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId              String                  @db.Uuid
+  excludeFromRatings           Boolean                 @default(false)
   excludeFromStatistics        Boolean                 @default(false)
+  googlePlaceId                String?
   icon                         String
   insuranceDescription         String                  @default("")
   location                     String
@@ -487,7 +490,7 @@ model EventRegistration {
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
   manualCheckin         Boolean                @default(false)
   payment               StripePayment?         @relation(fields: [paymentId], references: [id]) @ignore
-  paymentId             String?                @unique @db.Uuid @ignore
+  paymentId             String?                @unique @ignore @db.Uuid
   rating                Int?
   registrationCodeId    String?                @db.Uuid
   status                RegistrationStatus     @default(SUCCESSFUL)
@@ -512,7 +515,7 @@ model EventRegistrationCode {
   eventId                String              @db.Uuid
   status                 RegistrationStatus  @default(PENDING)
   payment                StripePayment?      @relation(fields: [paymentId], references: [id]) @ignore
-  paymentId              String?             @unique @db.Uuid @ignore
+  paymentId              String?             @unique @ignore @db.Uuid
   connectedRegistrations EventRegistration[]
   transaction            Transaction?        @relation(fields: [transactionId], references: [id])
   transactionId          String?             @unique @db.Uuid

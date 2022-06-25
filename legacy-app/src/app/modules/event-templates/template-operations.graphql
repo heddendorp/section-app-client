@@ -22,6 +22,7 @@ mutation updateTemplateLocation(
     id
     location
     coordinates
+    googlePlaceId
   }
 }
 
@@ -75,6 +76,7 @@ query getEventTemplate($id: ID!) {
     comment
     location
     coordinates
+    googlePlaceId
     finances
     insuranceDescription
     shouldBeReportedToInsurance

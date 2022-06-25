@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 import { createUserInputType, updateUserInputType } from './userType';
+import { removeEmpty } from '../helperFunctions';
 
 builder.mutationFields((t) => ({
   createUser: t.prismaField({

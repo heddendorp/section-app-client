@@ -57,6 +57,8 @@ export type CostItem = {
 export type CreateEventFromTemplateInput = {
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['ID'];
+  excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
+  excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
   price: Scalars['Decimal'];
@@ -252,6 +254,7 @@ export type EventTemplate = {
   duration: Scalars['Decimal'];
   eventInstances: Array<TumiEvent>;
   finances: Scalars['JSON'];
+  googlePlaceId?: Maybe<Scalars['String']>;
   icon: Scalars['String'];
   id: Scalars['ID'];
   insuranceDescription: Scalars['String'];
@@ -919,7 +922,7 @@ export enum TransactionType {
 
 export type TumiEvent = {
   __typename?: 'TumiEvent';
-  activeRegistration: EventRegistration;
+  activeRegistration?: Maybe<EventRegistration>;
   amountCollected: Scalars['Decimal'];
   coordinates?: Maybe<Scalars['JSON']>;
   costItems: Array<CostItem>;
@@ -936,8 +939,11 @@ export type TumiEvent = {
   eventRegistrationCodes: Array<EventRegistrationCode>;
   eventTemplate: EventTemplate;
   eventTemplateId: Scalars['ID'];
+  excludeFromRatings: Scalars['Boolean'];
+  excludeFromStatistics: Scalars['Boolean'];
   feesPaid: Scalars['Decimal'];
   freeParticipantSpots: Scalars['String'];
+  googlePlaceId?: Maybe<Scalars['String']>;
   icon: Scalars['String'];
   id: Scalars['ID'];
   insuranceDescription: Scalars['String'];
@@ -1003,6 +1009,9 @@ export type TumiEventSubmissionItemsArgs = {
 export type UpdateCoreEventInput = {
   disableDeregistration?: InputMaybe<Scalars['Boolean']>;
   end?: InputMaybe<Scalars['DateTime']>;
+  eventOrganizerId: Scalars['ID'];
+  excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
+  excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
   icon?: InputMaybe<Scalars['String']>;
   insuranceDescription?: InputMaybe<Scalars['String']>;
   organizerLimit?: InputMaybe<Scalars['Int']>;
@@ -1019,7 +1028,8 @@ export type UpdateCoreEventInput = {
 };
 
 export type UpdateEventLocationInput = {
-  coordinates: Scalars['JSON'];
+  coordinates?: InputMaybe<Scalars['JSON']>;
+  googlePlaceId?: InputMaybe<Scalars['String']>;
   location: Scalars['String'];
 };
 
@@ -1042,7 +1052,8 @@ export type UpdateTemplateInput = {
 };
 
 export type UpdateTemplateLocationInput = {
-  coordinates: Scalars['JSON'];
+  coordinates?: InputMaybe<Scalars['JSON']>;
+  googlePlaceId?: InputMaybe<Scalars['String']>;
   location: Scalars['String'];
 };
 
@@ -1121,7 +1132,7 @@ export type UsersOfTenants = {
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
-  stripeData: StripeUserData;
+  stripeData?: Maybe<StripeUserData>;
   tenant: Tenant;
   tenantId: Scalars['ID'];
   user: User;
@@ -1159,7 +1170,7 @@ export type UpdateTemplateLocationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTemplateLocationMutation = { __typename?: 'Mutation', updateTemplateLocation: { __typename?: 'EventTemplate', id: string, location: string, coordinates: any } };
+export type UpdateTemplateLocationMutation = { __typename?: 'Mutation', updateTemplateLocation: { __typename?: 'EventTemplate', id: string, location: string, coordinates: any, googlePlaceId?: string | null } };
 
 export type UpdateEventTemplateMutationVariables = Exact<{
   templateId: Scalars['ID'];
@@ -1193,7 +1204,7 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates: any, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates: any, googlePlaceId?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1230,14 +1241,14 @@ export type RegisterForEventMutationVariables = Exact<{
 }>;
 
 
-export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutSession: string, paymentIntent: string } } | null }, organizers: Array<{ __typename?: 'User', fullName: string }> } };
+export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutSession: string, paymentIntent: string } } | null } | null, organizers: Array<{ __typename?: 'User', fullName: string }> } };
 
 export type LoadEventQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, hasESNCard: boolean, university?: string | null } | null, event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, prices?: any | null, location: string, coordinates?: any | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, createdBy: { __typename?: 'User', id: string, fullName: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, transactionId?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent: string, checkoutSession: string } } | null, user: { __typename?: 'User', id: string, fullName: string } }, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null }> } };
+export type LoadEventQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, hasESNCard: boolean, university?: string | null } | null, event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, prices?: any | null, location: string, coordinates?: any | null, googlePlaceId?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, createdBy: { __typename?: 'User', id: string, fullName: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, transactionId?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent: string, checkoutSession: string } } | null, user: { __typename?: 'User', id: string, fullName: string } } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null }> } };
 
 export type LoadRegistrationForMoveQueryVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1322,7 +1333,7 @@ export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typ
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } } } | null };
+export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData?: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } | null } } | null };
 
 export type DeregisterFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1330,7 +1341,7 @@ export type DeregisterFromEventMutationVariables = Exact<{
 }>;
 
 
-export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent: { __typename?: 'TumiEvent', id: string, participantRegistrationCount: number, userIsRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration: { __typename?: 'EventRegistration', id: string }, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
+export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent: { __typename?: 'TumiEvent', id: string, participantRegistrationCount: number, userIsRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
 
 export type LoadUsersByStatusQueryVariables = Exact<{
   allowList: Array<MembershipStatus> | MembershipStatus;
@@ -1341,6 +1352,7 @@ export type LoadUsersByStatusQuery = { __typename?: 'Query', users: Array<{ __ty
 
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
 }>;
 
 
@@ -1473,7 +1485,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData: { __typename?: 'StripeUserData', paymentMethodId?: string | null } }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -1767,6 +1779,7 @@ export const UpdateTemplateLocationDocument = gql`
     id
     location
     coordinates
+    googlePlaceId
   }
 }
     `;
@@ -1880,6 +1893,7 @@ export const GetEventTemplateDocument = gql`
     comment
     location
     coordinates
+    googlePlaceId
     finances
     insuranceDescription
     shouldBeReportedToInsurance
@@ -2069,6 +2083,7 @@ export const LoadEventDocument = gql`
     prices
     location
     coordinates
+    googlePlaceId
     createdBy {
       id
       fullName
@@ -2630,8 +2645,8 @@ export const LoadUsersByStatusDocument = gql`
     }
   }
 export const EventListDocument = gql`
-    query eventList($after: DateTime) {
-  events(after: $after) {
+    query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
     id
     title
     icon

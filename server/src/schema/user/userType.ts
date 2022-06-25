@@ -59,6 +59,7 @@ builder.prismaObject('User', {
           .eventRegistrations({
             where: {
               event: {
+                excludeFromRatings: false,
                 end: {
                   gt: lastWeek.toJSDate(),
                   lt: new Date(),
@@ -123,7 +124,7 @@ builder.prismaObject('User', {
               },
             },
           },
-          orderBy: { createdAt: 'asc' },
+          orderBy: { start: 'asc' },
         });
       },
     }),
@@ -146,6 +147,7 @@ builder.prismaObject('User', {
               },
             },
           },
+          orderBy: { start: 'asc' },
         });
       },
     }),

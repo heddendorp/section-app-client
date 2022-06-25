@@ -28,9 +28,12 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationStart: t.expose('registrationStart', { type: 'DateTime' }),
     description: t.exposeString('description'),
     disableDeregistration: t.exposeBoolean('disableDeregistration'),
+    excludeFromStatistics: t.exposeBoolean('excludeFromStatistics'),
+    excludeFromRatings: t.exposeBoolean('excludeFromRatings'),
     coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
+    googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
@@ -100,6 +103,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .registrations({
             where: {
               event: {
+                excludeFromRatings: false,
                 end: {
                   gt: lastWeek.toJSDate(),
                   lt: new Date(),
@@ -155,14 +159,19 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     activeRegistration: t.prismaField({
       type: 'EventRegistration',
+      nullable: true,
       resolve: async (query, parent, args, context, info) => {
-        return prisma.eventRegistration.findFirst({
-          ...query,
-          where: {
-            user: { id: context.user?.id },
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        });
+        try {
+          return prisma.eventRegistration.findFirst({
+            ...query,
+            where: {
+              user: { id: context.user?.id },
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          });
+        } catch (e) {
+          return null;
+        }
       },
     }),
     ownRegistrations: t.relation('registrations', {
@@ -551,7 +560,8 @@ export const updateEventLocationInputType = builder.inputType(
   {
     fields: (t) => ({
       location: t.string({ required: true }),
-      coordinates: t.field({ type: 'JSON', required: true }),
+      coordinates: t.field({ type: 'JSON' }),
+      googlePlaceId: t.string(),
     }),
   }
 );
@@ -568,6 +578,8 @@ export const createEventFromTemplateInput = builder.inputType(
       registrationMode: t.field({ type: RegistrationMode, required: true }),
       eventOrganizerId: t.id({ required: true }),
       price: t.field({ type: 'Decimal', required: true }),
+      excludeFromStatistics: t.boolean(),
+      excludeFromRatings: t.boolean(),
     }),
   }
 );
@@ -588,6 +600,8 @@ export const updateCoreEventInputType = builder.inputType(
   {
     fields: (t) => ({
       disableDeregistration: t.boolean(),
+      excludeFromStatistics: t.boolean(),
+      excludeFromRatings: t.boolean(),
       end: t.field({ type: 'DateTime' }),
       icon: t.string(),
       insuranceDescription: t.string(),
@@ -600,6 +614,7 @@ export const updateCoreEventInputType = builder.inputType(
       registrationMode: t.field({ type: RegistrationMode }),
       registrationStart: t.field({ type: 'DateTime' }),
       shouldBeReportedToInsurance: t.boolean(),
+      eventOrganizerId: t.id({ required: true }),
       start: t.field({ type: 'DateTime' }),
       title: t.string(),
     }),

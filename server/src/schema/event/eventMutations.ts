@@ -1,4 +1,5 @@
 import { builder } from '../../builder';
+import { removeEmpty } from '../helperFunctions';
 import prisma from '../../client';
 import {
   MembershipStatus,
@@ -85,9 +86,12 @@ builder.mutationFields((t) => ({
           organizerLimit: input.organizerLimit,
           registrationLink: input.registrationLink,
           registrationMode: input.registrationMode,
+          excludeFromStatistics: input.excludeFromStatistics,
+          excludeFromRatings: input.excludeFromRatings,
           description: template.description,
           coordinates: template.coordinates ?? undefined,
           location: template.location,
+          googlePlaceId: template.googlePlaceId,
           participantText: template.participantText,
           organizerText: template.organizerText,
           insuranceDescription: template.insuranceDescription,

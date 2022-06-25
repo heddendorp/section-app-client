@@ -5,6 +5,7 @@ import {
   updateTemplateLocationInputType,
 } from './eventTemplateType';
 import prisma from '../../client';
+import { removeEmpty } from '../helperFunctions';
 
 builder.mutationFields((t) => ({
   createEventTemplate: t.prismaField({

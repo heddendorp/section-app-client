@@ -403,6 +403,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular/google-maps@npm:^14.0.3":
+  version: 14.0.3
+  resolution: "@angular/google-maps@npm:14.0.3"
+  dependencies:
+    "@types/google.maps": ^3.45.6
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^14.0.0 || ^15.0.0
+    "@angular/core": ^14.0.0 || ^15.0.0
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: 0c2556c1c6a5362f4da4998135becbbe62443161b36622836e22c9180364a922e04319db5da13aa12e57cf1d2db47bc3d6d5ede1e1ece4486f1f934717d31075
+  languageName: node
+  linkType: hard
+
 "@angular/localize@npm:14.0.3":
   version: 14.0.3
   resolution: "@angular/localize@npm:14.0.3"
@@ -5074,6 +5088,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/server@workspace:server"
   dependencies:
+    "@angular/google-maps": ^14.0.3
     "@apollo/utils.logger": ^1.0.0
     "@azure/storage-blob": ^12.10.0
     "@envelop/auth0": ^3.3.3
@@ -5444,6 +5459,13 @@ __metadata:
     "@types/minimatch": "*"
     "@types/node": "*"
   checksum: 6ae717fedfdfdad25f3d5a568323926c64f52ef35897bcac8aca8e19bc50c0bd84630bbd063e5d52078b2137d8e7d3c26eabebd1a2f03ff350fff8a91e79fc19
+  languageName: node
+  linkType: hard
+
+"@types/google.maps@npm:^3.45.6":
+  version: 3.49.2
+  resolution: "@types/google.maps@npm:3.49.2"
+  checksum: ca2cb7842dfbc10551b5a33a052bd1c90dab21c13d5632601d87bc908064516a3f90b0b7eb517ce1024ea98734e490e2a90028c5534c52a82ceffb2e1b241fc9
   languageName: node
   linkType: hard
 

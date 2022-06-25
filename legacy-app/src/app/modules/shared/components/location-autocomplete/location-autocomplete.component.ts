@@ -1,16 +1,25 @@
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  forwardRef,
-  OnInit,
-} from '@angular/core';
-import { debounceTime, from, map, Observable, switchMap } from 'rxjs';
+  catchError,
+  concat,
+  debounceTime,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import {
   ControlValueAccessor,
-  UntypedFormControl,
   NG_VALUE_ACCESSOR,
+  UntypedFormControl,
 } from '@angular/forms';
 import * as atlas from 'azure-maps-rest';
+import { HttpClient } from '@angular/common/http';
+import AutocompletePrediction = google.maps.places.AutocompletePrediction;
+import AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
+import AutocompleteService = google.maps.places.AutocompleteService;
 
 @Component({
   selector: 'app-location-autocomplete',
@@ -26,47 +35,55 @@ import * as atlas from 'azure-maps-rest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationAutocompleteComponent implements ControlValueAccessor {
-  private searchClient: atlas.SearchURL;
   public locationControl = new UntypedFormControl();
-  public locationOptions: Observable<atlas.Models.SearchFuzzyResult[]>;
+  public locationOptions: Observable<AutocompletePrediction[]>;
+  private apiLoaded$: Observable<boolean>;
+  private sessionToken?: AutocompleteSessionToken;
+  private autocompleteService?: AutocompleteService;
+
+  constructor(httpClient: HttpClient) {
+    this.apiLoaded$ = httpClient
+      .jsonp(
+        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDl_a52BoC_ukP5FFDpTJh5puiKuayfr6A&libraries=places',
+        'callback'
+      )
+      .pipe(
+        tap(console.log),
+        map(() => true),
+        tap(() => {
+          this.autocompleteService =
+            new google.maps.places.AutocompleteService();
+          this.sessionToken = new google.maps.places.AutocompleteSessionToken();
+        }),
+        catchError((err) => {
+          console.error(err);
+          return of(false);
+        })
+      );
+    this.locationOptions = concat(
+      this.apiLoaded$.pipe(map(() => [])),
+      this.locationControl.valueChanges.pipe(
+        // startWith([this.locationControl.value]),
+        debounceTime(500),
+        switchMap((value) => this.loadLocationOptions(value)),
+        tap((options) => console.log(options))
+      )
+    );
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: (v: atlas.Models.SearchFuzzyResult) => void = () => {};
+  onChange: (v: AutocompletePrediction) => void = () => {};
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouch: () => void = () => {};
-  constructor() {
-    const subscriptionKeyCredential = new atlas.SubscriptionKeyCredential(
-      '-kk7lgvH-JWj5-0rWcj-Z9rvlBK1BsUkG5jALx1Poko'
-    );
-    const pipeline = atlas.MapsURL.newPipeline(subscriptionKeyCredential, {
-      retryOptions: { maxTries: 4 },
-    });
-    this.searchClient = new atlas.SearchURL(pipeline);
-    this.locationOptions = this.locationControl.valueChanges.pipe(
-      // startWith([this.locationControl.value]),
-      debounceTime(500),
-      switchMap((value) => this.loadLocationOptions(value))
-    );
-  }
 
-  private loadLocationOptions(value: string | atlas.Models.SearchFuzzyResult) {
-    if (!value || typeof value !== 'string') {
-      return from([[]]);
-    }
-    return from(
-      this.searchClient.searchFuzzy(atlas.Aborter.timeout(10000), value)
-    ).pipe(map((response) => response.results ?? []));
-  }
-
-  public optionDisplay(option: atlas.Models.SearchFuzzyResult | string) {
+  public optionDisplay(option: AutocompletePrediction | string) {
+    if (!option) return '';
     if (typeof option === 'string') return option;
-    return (
-      (option?.type === 'POI'
-        ? option?.poi?.name
-        : option?.address?.freeformAddress) ?? ''
-    );
+    return option.structured_formatting.main_text;
   }
 
-  registerOnChange(fn: (v: atlas.Models.SearchFuzzyResult) => void): void {
+  registerOnChange(fn: (v: AutocompletePrediction) => void): void {
     this.onChange = fn;
   }
 
@@ -84,5 +101,18 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
 
   writeValue(obj: never): void {
     this.locationControl.setValue(obj);
+  }
+
+  private loadLocationOptions(value: string | AutocompletePrediction) {
+    if (!value || typeof value !== 'string') {
+      return from([[]]);
+    }
+    if (!this.autocompleteService) return of([]);
+    return from(
+      this.autocompleteService.getPlacePredictions({
+        input: value,
+        sessionToken: this.sessionToken,
+      })
+    ).pipe(map((res) => res.predictions ?? []));
   }
 }

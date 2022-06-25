@@ -34,6 +34,8 @@ type CostItem {
 input CreateEventFromTemplateInput {
   end: DateTime!
   eventOrganizerId: ID!
+  excludeFromRatings: Boolean
+  excludeFromStatistics: Boolean
   organizerLimit: Int!
   participantLimit: Int!
   price: Decimal!
@@ -215,6 +217,7 @@ type EventTemplate {
   duration: Decimal!
   eventInstances: [TumiEvent!]!
   finances: JSON!
+  googlePlaceId: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -564,7 +567,7 @@ enum TransactionType {
 }
 
 type TumiEvent {
-  activeRegistration: EventRegistration!
+  activeRegistration: EventRegistration
   amountCollected: Decimal!
   coordinates: JSON
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
@@ -581,8 +584,11 @@ type TumiEvent {
   eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: ID!
+  excludeFromRatings: Boolean!
+  excludeFromStatistics: Boolean!
   feesPaid: Decimal!
   freeParticipantSpots: String!
+  googlePlaceId: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -628,6 +634,9 @@ type TumiEvent {
 input UpdateCoreEventInput {
   disableDeregistration: Boolean
   end: DateTime
+  eventOrganizerId: ID!
+  excludeFromRatings: Boolean
+  excludeFromStatistics: Boolean
   icon: String
   insuranceDescription: String
   organizerLimit: Int
@@ -644,7 +653,8 @@ input UpdateCoreEventInput {
 }
 
 input UpdateEventLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
   location: String!
 }
 
@@ -667,7 +677,8 @@ input UpdateTemplateInput {
 }
 
 input UpdateTemplateLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
   location: String!
 }
 
@@ -724,7 +735,7 @@ type UsersOfTenants {
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
-  stripeData: StripeUserData!
+  stripeData: StripeUserData
   tenant: Tenant!
   tenantId: ID!
   user: User!
