@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   EventListGQL,
@@ -6,6 +6,7 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  BehaviorSubject,
   combineLatest,
   firstValueFrom,
   map,
@@ -13,6 +14,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -26,35 +28,62 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
+  public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new UntypedFormControl(true);
   public filterEvents = new UntypedFormControl('');
-  public eventsAfter = new UntypedFormControl(
-    DateTime.local().toISO({ includeOffset: false })
-  );
+  /** 0: all upcoming events, -1: last month, 1: next month etc. */
+  public monthOffset = new UntypedFormControl(0);
+  public monthOffsetLabel = 'Upcoming';
+  public startOfMonth?: DateTime;
+  public endOfMonth?: DateTime;
   public Role = Role;
-  public selectedView: Observable<string>;
+  public selectedView$: Observable<string>;
   private loadEventsQueryRef;
   private destroy$ = new Subject();
+
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
+  public searchEnabled = false;
 
   constructor(
     private loadEventsQuery: EventListGQL,
     private title: Title,
     private eventListStateService: EventListStateService
   ) {
-    this.selectedView = this.eventListStateService.getSelectedView();
-    this.title.setTitle('TUMi - events');
+    this.selectedView$ = this.eventListStateService.getSelectedView();
+    this.title.setTitle('TUMi - Events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.events)
+      map(({ data }) => data.events),
+      tap(() => this.loading$.next(false))
     );
-    this.eventsAfter.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) =>
-        this.loadEventsQueryRef.refetch({
-          after: value.toJSDate(),
-        })
-      );
+    this.monthOffset.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.loading$.next(true))
+      )
+      .subscribe((value) => {
+        if (value === 0) {
+          this.monthOffsetLabel = 'Upcoming';
+          this.startOfMonth = undefined;
+          this.endOfMonth = undefined;
+          return this.loadEventsQueryRef.refetch({
+            after: new Date(),
+            before: null,
+          });
+        }
+        const monthsOffset = value + (value < 0 ? 1 : 0);
+        this.startOfMonth = DateTime.local()
+          .startOf('month')
+          .plus({ months: monthsOffset });
+        this.endOfMonth = this.startOfMonth.endOf('month');
+        this.monthOffsetLabel = this.startOfMonth.toFormat('LLLL yyyy');
+        return this.loadEventsQueryRef.refetch({
+          after: this.startOfMonth.toJSDate(),
+          before: this.endOfMonth.toJSDate(),
+        });
+      });
     this.events$ = combineLatest([
       events$,
       this.showFullEvents.valueChanges.pipe(
@@ -90,11 +119,22 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   public async toggleSelectedView() {
-    const selectedView = await firstValueFrom(this.selectedView);
+    const selectedView = await firstValueFrom(this.selectedView$);
     if (selectedView === 'list') {
       this.eventListStateService.setSelectedView('calendar');
     } else {
       this.eventListStateService.setSelectedView('list');
+    }
+  }
+
+  initSearch(): void {
+    if (this.searchEnabled) {
+      this.searchEnabled = false;
+    } else {
+      this.searchEnabled = true;
+      setTimeout(() => {
+        this.searchBar.nativeElement.focus();
+      });
     }
   }
 }
