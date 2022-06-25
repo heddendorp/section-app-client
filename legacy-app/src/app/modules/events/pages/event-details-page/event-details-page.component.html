@@ -213,7 +213,11 @@
           Sign up now
         </button>
         <div fxFlex="50">
-          <h3>Organizers already on this event ({{event.organizers.length}}/{{event.organizerLimit}})</h3>
+          <h3>
+            Organizers already on this event ({{ event.organizers.length }}/{{
+              event.organizerLimit
+            }})
+          </h3>
           <mat-list>
             <mat-list-item *ngIf="event.organizers.length === 0">
               Nobody yet
