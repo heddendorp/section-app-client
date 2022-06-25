@@ -566,7 +566,7 @@ enum TransactionType {
 }
 
 type TumiEvent {
-  activeRegistration: EventRegistration!
+  activeRegistration: EventRegistration
   amountCollected: Decimal!
   coordinates: JSON
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
