@@ -26,6 +26,19 @@ mutation updateTemplateLocation(
   }
 }
 
+mutation updateEventTemplateCategoryAssignment(
+  $templateId: ID!
+  $categoryId: ID!
+) {
+  updateTemplateCategory(templateId: $templateId, categoryId: $categoryId) {
+    id
+    category {
+      id
+      name
+    }
+  }
+}
+
 mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
   updateTemplate(templateId: $templateId, input: $update) {
     id
@@ -64,6 +77,38 @@ query getEventTemplates {
   }
 }
 
+query getTemplateCategoriesWithTemplates {
+  eventTemplateCategories {
+    id
+    name
+    icon
+    templateCount
+    templates {
+      id
+      title
+      icon
+      participantRating
+    }
+  }
+}
+
+query getEventTemplateCategories {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+
+query getLonelyEventTemplates {
+  eventTemplates(onlyWithoutCategory: true) {
+    id
+    title
+    icon
+    participantRating
+  }
+}
+
 query getEventTemplate($id: ID!) {
   eventTemplate(id: $id) {
     id
@@ -80,6 +125,11 @@ query getEventTemplate($id: ID!) {
     finances
     insuranceDescription
     shouldBeReportedToInsurance
+    category {
+      id
+      name
+      icon
+    }
     eventInstances {
       id
       title

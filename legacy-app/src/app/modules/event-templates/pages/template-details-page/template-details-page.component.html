@@ -26,6 +26,11 @@
     >
       Open in maps
     </a>
+    <h2>Category</h2>
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <img class="h-10" [src]="template.category?.icon ?? '' | iconURL" />
+      <h3>{{ template.category?.name }}</h3>
+    </div>
     <h2>Comments for this template</h2>
     <markdown class="prose" [data]="template.comment"></markdown>
     <h2>Description</h2>
@@ -43,6 +48,9 @@
       </button>
       <button mat-flat-button color="accent" (click)="updateLocation()">
         Update location
+      </button>
+      <button mat-flat-button color="accent" (click)="changeCategory()">
+        Update category
       </button>
       <button mat-flat-button color="warn" (click)="deleteTemplate()">
         Delete

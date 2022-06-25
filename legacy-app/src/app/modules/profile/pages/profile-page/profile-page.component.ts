@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -18,9 +13,6 @@ import { ActivatedRoute } from '@angular/router';
 import { UpdateProfileDialogComponent } from '@tumi/legacy-app/modules/profile/components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/components/claim-event-dialog/claim-event-dialog.component';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { environment } from '../../../../../environments/environment';
-
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -55,6 +47,7 @@ export class ProfilePageComponent implements OnDestroy {
           []),
       ])
     );
+
     this.route.queryParamMap.pipe(first()).subscribe((queryMap) => {
       const status = queryMap.get('stripe');
       if (status === 'success') {

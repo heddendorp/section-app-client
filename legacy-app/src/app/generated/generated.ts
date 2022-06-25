@@ -67,7 +67,13 @@ export type CreateEventFromTemplateInput = {
   start: Scalars['DateTime'];
 };
 
+export type CreateEventTemplateCategoryInput = {
+  icon: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type CreateEventTemplateInput = {
+  categoryId: Scalars['ID'];
   comment: Scalars['String'];
   coordinates: Scalars['JSON'];
   description: Scalars['String'];
@@ -169,8 +175,8 @@ export type EventRegistration = {
   cancellationReason?: Maybe<Scalars['String']>;
   checkInTime?: Maybe<Scalars['DateTime']>;
   createdAt: Scalars['DateTime'];
-  creatingCode: EventRegistrationCode;
-  deletingCode: EventRegistrationCode;
+  creatingCode?: Maybe<EventRegistrationCode>;
+  deletingCode?: Maybe<EventRegistrationCode>;
   didAttend: Scalars['Boolean'];
   event: TumiEvent;
   eventId: Scalars['ID'];
@@ -247,8 +253,9 @@ export type EventSubmissionItemResponsesArgs = {
 
 export type EventTemplate = {
   __typename?: 'EventTemplate';
+  category?: Maybe<EventTemplateCategory>;
   comment: Scalars['String'];
-  coordinates: Scalars['JSON'];
+  coordinates?: Maybe<Scalars['JSON']>;
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   duration: Scalars['Decimal'];
@@ -260,10 +267,23 @@ export type EventTemplate = {
   insuranceDescription: Scalars['String'];
   location: Scalars['String'];
   organizerText: Scalars['String'];
+  participantRating?: Maybe<Scalars['Float']>;
   participantText: Scalars['String'];
   shouldBeReportedToInsurance: Scalars['Boolean'];
   tenant: Tenant;
   title: Scalars['String'];
+};
+
+export type EventTemplateCategory = {
+  __typename?: 'EventTemplateCategory';
+  createdAt: Scalars['DateTime'];
+  icon: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  templateCount: Scalars['Int'];
+  templates: Array<EventTemplate>;
+  tenant: Tenant;
+  tenantId: Scalars['ID'];
 };
 
 export type LineItem = {
@@ -307,6 +327,7 @@ export type Mutation = {
   createEventFromTemplate: TumiEvent;
   createEventOrganizer: EventOrganizer;
   createEventTemplate: EventTemplate;
+  createEventTemplateCategory: EventTemplateCategory;
   createPhotoShare: PhotoShare;
   createReceipt: Receipt;
   createRegistrationCode: EventRegistrationCode;
@@ -314,6 +335,7 @@ export type Mutation = {
   createUser: User;
   deleteCostItem: CostItem;
   deleteEvent: TumiEvent;
+  deleteEventTemplateCategory: EventTemplateCategory;
   deleteReceipt: Receipt;
   deleteSubmissionItem: EventSubmissionItem;
   deleteTemplate: EventTemplate;
@@ -327,6 +349,7 @@ export type Mutation = {
   updateEventLocation: TumiEvent;
   updateEventTemplateConnection: TumiEvent;
   updateTemplate: EventTemplate;
+  updateTemplateCategory: EventTemplate;
   updateTemplateFinances: EventTemplate;
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
@@ -372,6 +395,11 @@ export type MutationCreateEventTemplateArgs = {
 };
 
 
+export type MutationCreateEventTemplateCategoryArgs = {
+  input: CreateEventTemplateCategoryInput;
+};
+
+
 export type MutationCreatePhotoShareArgs = {
   eventId: Scalars['ID'];
   input: CreatePhotoShareInput;
@@ -411,6 +439,11 @@ export type MutationDeleteCostItemArgs = {
 
 export type MutationDeleteEventArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationDeleteEventTemplateCategoryArgs = {
+  categoryId: Scalars['ID'];
 };
 
 
@@ -487,6 +520,12 @@ export type MutationUpdateEventTemplateConnectionArgs = {
 
 export type MutationUpdateTemplateArgs = {
   input: UpdateTemplateInput;
+  templateId: Scalars['ID'];
+};
+
+
+export type MutationUpdateTemplateCategoryArgs = {
+  categoryId: Scalars['ID'];
   templateId: Scalars['ID'];
 };
 
@@ -639,6 +678,7 @@ export type Query = {
   eventRegistrationCode: EventRegistrationCode;
   eventRegistrationCodes: Array<EventRegistrationCode>;
   eventTemplate: EventTemplate;
+  eventTemplateCategories: Array<EventTemplateCategory>;
   eventTemplates: Array<EventTemplate>;
   events: Array<TumiEvent>;
   logStats: Array<ActivityLogStat>;
@@ -688,6 +728,11 @@ export type QueryEventRegistrationCodesArgs = {
 
 export type QueryEventTemplateArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryEventTemplatesArgs = {
+  onlyWithoutCategory?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1142,7 +1187,7 @@ export type UsersOfTenants = {
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, profileComplete: boolean, firstName: string, lastName: string, email: string, phone?: string | null, university?: string | null, enrolmentStatus: EnrolmentStatus, birthdate?: any | null } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, profileComplete: boolean, firstName: string, lastName: string, email: string, phone?: string | null, picture: string, university?: string | null, enrolmentStatus: EnrolmentStatus, birthdate?: any | null } | null };
 
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1170,7 +1215,15 @@ export type UpdateTemplateLocationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTemplateLocationMutation = { __typename?: 'Mutation', updateTemplateLocation: { __typename?: 'EventTemplate', id: string, location: string, coordinates: any, googlePlaceId?: string | null } };
+export type UpdateTemplateLocationMutation = { __typename?: 'Mutation', updateTemplateLocation: { __typename?: 'EventTemplate', id: string, location: string, coordinates?: any | null, googlePlaceId?: string | null } };
+
+export type UpdateEventTemplateCategoryAssignmentMutationVariables = Exact<{
+  templateId: Scalars['ID'];
+  categoryId: Scalars['ID'];
+}>;
+
+
+export type UpdateEventTemplateCategoryAssignmentMutation = { __typename?: 'Mutation', updateTemplateCategory: { __typename?: 'EventTemplate', id: string, category?: { __typename?: 'EventTemplateCategory', id: string, name: string } | null } };
 
 export type UpdateEventTemplateMutationVariables = Exact<{
   templateId: Scalars['ID'];
@@ -1178,7 +1231,7 @@ export type UpdateEventTemplateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean } };
+export type UpdateEventTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, insuranceDescription: string, shouldBeReportedToInsurance: boolean } };
 
 export type DeleteEventTemplateMutationVariables = Exact<{
   templateId: Scalars['ID'];
@@ -1199,12 +1252,27 @@ export type GetEventTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string }> };
 
+export type GetTemplateCategoriesWithTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null }> }> };
+
+export type GetEventTemplateCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEventTemplateCategoriesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string }> };
+
+export type GetLonelyEventTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLonelyEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null }> };
+
 export type GetEventTemplateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates: any, googlePlaceId?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceId?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1255,7 +1323,7 @@ export type LoadRegistrationForMoveQueryVariables = Exact<{
 }>;
 
 
-export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode: { __typename?: 'EventRegistrationCode', id: string, isPublic: boolean } } };
+export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, isPublic: boolean } | null } };
 
 export type VerifyCertificateMutationVariables = Exact<{
   cert: Scalars['String'];
@@ -1485,7 +1553,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -1577,6 +1645,25 @@ export type GetEventRegistrationCodeQueryVariables = Exact<{
 
 export type GetEventRegistrationCodeQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, sepaAllowed: boolean, targetEvent: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any }, creator: { __typename?: 'User', id: string, email: string, fullName: string }, connectedRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null }>, registrationToRemove: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null }, registrationCreated: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentIntent: string, paymentMethodType?: string | null, events: any } } | null } } };
 
+export type LoadEventCategoriesForAdminQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadEventCategoriesForAdminQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string }> };
+
+export type CreateEventTemplateCategoryMutationVariables = Exact<{
+  input: CreateEventTemplateCategoryInput;
+}>;
+
+
+export type CreateEventTemplateCategoryMutation = { __typename?: 'Mutation', createEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
+
+export type DeleteEventTemplateCategoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventTemplateCategoryMutation = { __typename?: 'Mutation', deleteEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
+
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
 }>;
@@ -1613,7 +1700,7 @@ export type LoadUserQueryVariables = Exact<{
 }>;
 
 
-export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus }, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any }, creatingCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
+export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus }, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, creatingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
 
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1695,6 +1782,7 @@ export const GetCurrentUserDocument = gql`
     lastName
     email
     phone
+    picture
     university
     enrolmentStatus
     birthdate
@@ -1794,6 +1882,28 @@ export const UpdateTemplateLocationDocument = gql`
       super(apollo);
     }
   }
+export const UpdateEventTemplateCategoryAssignmentDocument = gql`
+    mutation updateEventTemplateCategoryAssignment($templateId: ID!, $categoryId: ID!) {
+  updateTemplateCategory(templateId: $templateId, categoryId: $categoryId) {
+    id
+    category {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventTemplateCategoryAssignmentGQL extends Apollo.Mutation<UpdateEventTemplateCategoryAssignmentMutation, UpdateEventTemplateCategoryAssignmentMutationVariables> {
+    override document = UpdateEventTemplateCategoryAssignmentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UpdateEventTemplateDocument = gql`
     mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
   updateTemplate(templateId: $templateId, input: $update) {
@@ -1880,6 +1990,74 @@ export const GetEventTemplatesDocument = gql`
       super(apollo);
     }
   }
+export const GetTemplateCategoriesWithTemplatesDocument = gql`
+    query getTemplateCategoriesWithTemplates {
+  eventTemplateCategories {
+    id
+    name
+    icon
+    templateCount
+    templates {
+      id
+      title
+      icon
+      participantRating
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetTemplateCategoriesWithTemplatesGQL extends Apollo.Query<GetTemplateCategoriesWithTemplatesQuery, GetTemplateCategoriesWithTemplatesQueryVariables> {
+    override document = GetTemplateCategoriesWithTemplatesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetEventTemplateCategoriesDocument = gql`
+    query getEventTemplateCategories {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventTemplateCategoriesGQL extends Apollo.Query<GetEventTemplateCategoriesQuery, GetEventTemplateCategoriesQueryVariables> {
+    override document = GetEventTemplateCategoriesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetLonelyEventTemplatesDocument = gql`
+    query getLonelyEventTemplates {
+  eventTemplates(onlyWithoutCategory: true) {
+    id
+    title
+    icon
+    participantRating
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetLonelyEventTemplatesGQL extends Apollo.Query<GetLonelyEventTemplatesQuery, GetLonelyEventTemplatesQueryVariables> {
+    override document = GetLonelyEventTemplatesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetEventTemplateDocument = gql`
     query getEventTemplate($id: ID!) {
   eventTemplate(id: $id) {
@@ -1897,6 +2075,11 @@ export const GetEventTemplateDocument = gql`
     finances
     insuranceDescription
     shouldBeReportedToInsurance
+    category {
+      id
+      name
+      icon
+    }
     eventInstances {
       id
       title
@@ -3199,6 +3382,7 @@ export const UserProfileDocument = gql`
       title
       icon
       start
+      end
       needsRating
       userIsOrganizer
     }
@@ -3664,6 +3848,66 @@ export const GetEventRegistrationCodeDocument = gql`
   })
   export class GetEventRegistrationCodeGQL extends Apollo.Query<GetEventRegistrationCodeQuery, GetEventRegistrationCodeQueryVariables> {
     override document = GetEventRegistrationCodeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventCategoriesForAdminDocument = gql`
+    query LoadEventCategoriesForAdmin {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventCategoriesForAdminGQL extends Apollo.Query<LoadEventCategoriesForAdminQuery, LoadEventCategoriesForAdminQueryVariables> {
+    override document = LoadEventCategoriesForAdminDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateEventTemplateCategoryDocument = gql`
+    mutation CreateEventTemplateCategory($input: CreateEventTemplateCategoryInput!) {
+  createEventTemplateCategory(input: $input) {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventTemplateCategoryGQL extends Apollo.Mutation<CreateEventTemplateCategoryMutation, CreateEventTemplateCategoryMutationVariables> {
+    override document = CreateEventTemplateCategoryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteEventTemplateCategoryDocument = gql`
+    mutation DeleteEventTemplateCategory($id: ID!) {
+  deleteEventTemplateCategory(categoryId: $id) {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventTemplateCategoryGQL extends Apollo.Mutation<DeleteEventTemplateCategoryMutation, DeleteEventTemplateCategoryMutationVariables> {
+    override document = DeleteEventTemplateCategoryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

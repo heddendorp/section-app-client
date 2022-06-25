@@ -34,7 +34,10 @@
         class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4"
       >
         <p class="mb-2 font-bold">{{ code.targetEvent.title }}</p>
-        <p class="mb-2">📅 {{ code.targetEvent.start | date: 'short' }}</p>
+        <div class="mb-1 flex items-center gap-1">
+          <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
+          <span>{{ code.targetEvent.start | date: 'short' }}</span>
+        </div>
         <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap=".5rem">
           <a
             mat-stroked-button

@@ -1,0 +1,11 @@
+<a mat-list-item routerLink="/events/{{ event.id }}">
+  <img [src]="event.icon | iconURL" mat-list-avatar />
+  <h3 mat-line>{{ event.title }}</h3>
+  <p mat-line>
+    {{ event.start | date: 'mediumDate' }}
+    <span *ngIf="showTime">{{ event.start | date: 'shortTime' }}</span>
+    <span *ngIf="showTime || isMultiDay()"> -</span>
+    <span *ngIf="isMultiDay()"> {{ event.end | date: 'mediumDate' }}</span>
+    <span *ngIf="showTime"> {{ event.end | date: 'shortTime' }}</span>
+  </p>
+</a>

@@ -1,16 +1,9 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
-  FormGroup,
   Validators,
 } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -18,7 +11,6 @@ import {
   DeregisterFromEventGQL,
   LoadEventQuery,
   RegisterForEventGQL,
-  RegisterForEventMutation,
   SubmissionItemType,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';

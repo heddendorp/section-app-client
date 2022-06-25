@@ -6,6 +6,7 @@ query getCurrentUser {
     lastName
     email
     phone
+    picture
     university
     enrolmentStatus
     birthdate

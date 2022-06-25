@@ -27,7 +27,10 @@ export class EventFormDialogComponent {
     private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<EventFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data?: { template?: GetEventTemplateQuery['eventTemplate'] }
+    public data?: {
+      template?: GetEventTemplateQuery['eventTemplate'];
+      categories?: { id: string; name: string }[];
+    }
   ) {
     this.dialogForm = this.fb.group({
       title: ['', Validators.required],
@@ -40,8 +43,12 @@ export class EventFormDialogComponent {
       organizerText: ['', Validators.required],
       insuranceDescription: ['', Validators.required],
       shouldBeReportedToInsurance: [true, Validators.required],
+      categoryId: [null, Validators.required],
     });
     this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
+    if (!this.data?.categories) {
+      this.dialogForm.get('categoryId')?.disable();
+    }
     if (this.data?.template) {
       this.dialogForm.patchValue(this.data.template, { emitEvent: true });
       this.dialogForm.get('location')?.disable();

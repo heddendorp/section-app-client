@@ -36,6 +36,7 @@ builder.mutationFields((t) => ({
             id: context.user?.id,
           },
         },
+        rejectOnNotFound: false,
       });
       if (!registration) throw new GraphQLError('Registration not found!');
       return prisma.tumiEvent.update({
@@ -328,8 +329,7 @@ builder.mutationFields((t) => ({
           switch (item.type) {
             case 'event':
               amount = item.value;
-              calculationInfo = `
-    }${item.value}€ per event`;
+              calculationInfo = `${item.value}€ per event`;
               break;
             case 'participant':
               amount = item.value * allParticipants;
