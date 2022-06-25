@@ -82,13 +82,7 @@ const graphQLServer = createServer({
       if (tenantName === 'dev') {
         tenantName = 'tumi';
       }
-      if (tenantName === 'server') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'http') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'https') {
+      if (tenantName.includes('deploy-preview')) {
         tenantName = 'tumi';
       }
       let tenant;
