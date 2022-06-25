@@ -15,14 +15,14 @@
       </p>
       <a
         *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
-        class="flex rounded bg-gray-200 text-xs mr-0.5 {{
+        class="event flex rounded text-xs md:text-sm mr-0.5 {{
           event.freeParticipantSpots === 'Event is full' ? 'opacity-40' : ''
-        }}"
+        }} {{ event.publicationState | lowercase }} {{ event.userIsRegistered ? 'registered' : ''}} {{ event.userIsOrganizer ? 'organizer' : ''}}"
       >
         <img
           [src]="event.icon | iconURL"
           alt="{{ event.icon }}"
-          class="w-4"
+          class="w-4 md:w-6 md:mr-0.5"
         />
         <span class="text-clip overflow-hidden whitespace-nowrap block">{{ event.title }}</span>
         <p *ngIf="!isRegistrationOpen(event)">
