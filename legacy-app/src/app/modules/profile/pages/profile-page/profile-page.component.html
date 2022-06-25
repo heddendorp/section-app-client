@@ -59,10 +59,12 @@
           the app
         </p>
       </div>
-      <button mat-stroked-button class="mt-2 w-full" (click)="updateProfile()">
-        <mat-icon svgIcon="icon-change-user-female"></mat-icon>
-        Update data
-      </button>
+      <div class="mt-2 w-full flex flex-col gap-2">
+        <button mat-stroked-button (click)="updateProfile()">
+          <mat-icon svgIcon="icon-change-user-female"></mat-icon>
+          Update data
+        </button>        
+      </div>
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 
       <p class="select-all break-words font-mono" style="max-width: 80vw">

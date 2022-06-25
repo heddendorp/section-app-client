@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import {
   MembershipStatus,
@@ -18,22 +17,19 @@ import { ActivatedRoute } from '@angular/router';
 import { UpdateProfileDialogComponent } from '@tumi/legacy-app/modules/profile/components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/components/claim-event-dialog/claim-event-dialog.component';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { environment } from '../../../../../environments/environment';
-
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilePageComponent implements OnDestroy {
+export class ProfilePageComponent implements OnDestroy {  
   public profile$: Observable<UserProfileQuery['currentUser']>;
   public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
-    private title: Title,
+    private title: Title,    
     private profileQuery: UserProfileGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
