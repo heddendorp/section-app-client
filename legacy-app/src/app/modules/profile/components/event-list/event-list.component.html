@@ -11,9 +11,23 @@
       svgIcon="icon-overtime"
       class="text-secondary-default bg-secondary-on card-icon"
     ></mat-icon>
-    <h2 class="font-bold">{{ isOrganized ? 'Organized' : 'Your' }} events <span class="font-light">({{ events.length }})</span></h2>
+    <h2 class="font-bold">
+      {{ isOrganized ? 'Organized' : 'Your' }} events
+      <span class="font-light">({{ events.length }})</span>
+    </h2>
   </div>
   <mat-nav-list>
+    <div class="-mt-2 ml-4 mr-4 mb-2" *ngIf="!isOrganized">
+      <button        
+        class="modern w-full"
+        color="primary"
+        mat-raised-button
+        (click)="requestClaimDialog()"
+      >
+        <mat-icon svgIcon="icon-cancel-4-digits"></mat-icon>
+        Claim event with code
+      </button>
+    </div>
     <app-event-list-item
       *ngFor="let event of futureEvents()"
       [event]="event"
@@ -25,7 +39,7 @@
             fxLayout="row"
             fxLayoutAlign="start center"
             fxLayoutGap="1rem"
-            class="p-2 lg"
+            class="lg p-2"
           >
             <mat-icon
               svgIcon="icon-time-machine"
@@ -41,9 +55,4 @@
       ></app-event-list-item>
     </mat-expansion-panel>
   </mat-nav-list>
-  <div *ngIf="!isOrganized" class="m-4 mt-2">
-    <button class="w-full" mat-stroked-button (click)="requestClaimDialog()">
-      Claim event with code
-    </button>
-  </div>
 </div>
