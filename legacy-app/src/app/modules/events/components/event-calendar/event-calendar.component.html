@@ -3,7 +3,7 @@
     <p class="text-center">{{ weekday }}</p>
   </div>
   <ng-container *ngFor="let week of weeks">
-    <div *ngFor="let day of week.days" (click)="showDayDialog(day.events)" class="flex flex-col space-y-1 border-t border-l cursor-pointer {{
+    <div *ngFor="let day of week.days" (click)="showDayDialog(day.events)" class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
         day.today ? 'bg-blue-100' : ''
       }}">
       <p class="text-center">
@@ -18,8 +18,8 @@
             !isRegistrationOpen(event) ? 'italic' : ''
           }}">{{ event.title }}</span>
       </div>
-      <div *ngIf="day.events.length > 4" class="flex justify-center text-xs">
-        ...
+      <div *ngIf="day.events.length > 4" class="flex justify-center text-xs italic">
+        +{{ day.events.length - 3 }}
       </div>
       <!-- Phantom to force the height to be exactly 4 events -->
       <ng-container *ngIf="day.events.length < 4">
