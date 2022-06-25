@@ -93,7 +93,7 @@ builder.mutationFields((t) => ({
           insuranceDescription: template.insuranceDescription,
           shouldBeReportedToInsurance: template.shouldBeReportedToInsurance,
           ...(input.registrationMode === RegistrationMode.STRIPE
-            ? {
+            ? ({
                 prices: {
                   options: [
                     {
@@ -110,7 +110,7 @@ builder.mutationFields((t) => ({
                     },
                   ],
                 },
-              }
+              } as any)
             : {}),
           createdBy: { connect: { id: context.user?.id } },
           participantSignup: [
