@@ -64,7 +64,7 @@ export const builder = new SchemaBuilder<{
 // builder.addScalarType('DateTime', GraphQLDateTime, {});
 builder.addScalarType('JSON', GraphQLJSON, {});
 builder.scalarType('DateTime', {
-  serialize: (value) => value.toString(),
+  serialize: (value) => value.toJSON(),
   parseValue: (value) => {
     if (typeof value === 'string') {
       return new Date(value);

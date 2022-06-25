@@ -28,7 +28,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationStart: t.expose('registrationStart', { type: 'DateTime' }),
     description: t.exposeString('description'),
     disableDeregistration: t.exposeBoolean('disableDeregistration'),
-    coordinates: t.expose('coordinates', { type: 'JSON' }),
+    coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
