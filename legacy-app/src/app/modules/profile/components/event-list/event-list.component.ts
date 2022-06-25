@@ -38,7 +38,7 @@ export class EventListComponent implements OnInit {
   }
 
   futureEvents() {
-    return this.events.filter(this.isFuture).sort(this.compareEventTime);
+    return this.events.filter(this.isFuture).sort((e1, e2) => this.compareEventTime(e2, e1));
   }
 
   pastEvents() {
