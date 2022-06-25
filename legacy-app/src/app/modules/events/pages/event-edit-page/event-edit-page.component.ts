@@ -372,20 +372,19 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
 
   async updateLocation() {
     const event = await this.event$.pipe(first()).toPromise();
-    const location = await this.dialog
-      .open(SelectLocationDialogComponent, { minWidth: '50vw' })
-      .afterClosed()
-      .toPromise();
+    const location = await firstValueFrom(
+      this.dialog
+        .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+        .afterClosed()
+    );
     if (location && event) {
       await this.updateLocationMutation
         .mutate({
           eventId: event.id,
           update: {
+            location: location.structured_formatting.main_text,
             coordinates: location.position,
-            location:
-              location.type === 'POI'
-                ? location.poi.name
-                : location.address.freeformAddress,
+            googlePlaceId: location.place_id,
           },
         })
         .toPromise();

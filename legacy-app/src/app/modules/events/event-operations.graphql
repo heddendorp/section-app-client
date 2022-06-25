@@ -22,6 +22,7 @@ query loadEvent($id: ID!) {
     prices
     location
     coordinates
+    googlePlaceId
     createdBy {
       id
       fullName

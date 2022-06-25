@@ -4,10 +4,22 @@
     <h1>{{ template.title }}</h1>
     <h2>Location</h2>
     <p>{{ template.location }}</p>
+    <p>{{ template.googlePlaceId }}</p>
     <p>{{ template.coordinates | json }}</p>
     <a
+      *ngIf="template.googlePlaceId"
       mat-stroked-button
-      href="http://www.google.com/maps/place/{{ template.coordinates?.lat }},{{
+      href="https://www.google.com/maps/place/?q=place_id:{{
+        template.googlePlaceId
+      }}"
+      target="_blank"
+    >
+      Open in maps
+    </a>
+    <a
+      *ngIf="template.coordinates && !template.googlePlaceId"
+      mat-stroked-button
+      href="https://www.google.com/maps/place/{{ template.coordinates?.lat }},{{
         template.coordinates?.lon
       }}"
       target="_blank"

@@ -217,6 +217,7 @@ type EventTemplate {
   duration: Decimal!
   eventInstances: [TumiEvent!]!
   finances: JSON!
+  googlePlaceId: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -587,6 +588,7 @@ type TumiEvent {
   excludeFromStatistics: Boolean!
   feesPaid: Decimal!
   freeParticipantSpots: String!
+  googlePlaceId: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -651,7 +653,8 @@ input UpdateCoreEventInput {
 }
 
 input UpdateEventLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
   location: String!
 }
 
@@ -674,7 +677,8 @@ input UpdateTemplateInput {
 }
 
 input UpdateTemplateLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
   location: String!
 }
 

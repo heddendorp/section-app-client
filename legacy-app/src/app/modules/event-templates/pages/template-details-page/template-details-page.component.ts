@@ -109,23 +109,23 @@ export class TemplateDetailsPageComponent {
 
   async updateLocation() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
-    const location = await this.dialog
-      .open(SelectLocationDialogComponent, { minWidth: '50vw' })
-      .afterClosed()
-      .toPromise();
+    const location = await firstValueFrom(
+      await this.dialog
+        .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+        .afterClosed()
+    );
+    console.log(location);
     if (location && template) {
-      await this.updateLocationMutation
-        .mutate({
+      await firstValueFrom(
+        this.updateLocationMutation.mutate({
           templateId: template.id,
           update: {
             coordinates: location.position,
-            location:
-              location.type === 'POI'
-                ? location.poi.name
-                : location.address.freeformAddress,
+            googlePlaceId: location.place_id,
+            location: location.structured_formatting.main_text,
           },
         })
-        .toPromise();
+      );
     }
   }
 }

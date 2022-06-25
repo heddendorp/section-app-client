@@ -12,6 +12,7 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     description: t.exposeString('description'),
     comment: t.exposeString('comment'),
     location: t.exposeString('location'),
+    googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
     coordinates: t.expose('coordinates', { type: 'JSON' }),
     duration: t.expose('duration', { type: 'Decimal' }),
     participantText: t.exposeString('participantText'),
@@ -67,7 +68,8 @@ export const updateTemplateLocationInputType = builder.inputType(
   {
     fields: (t) => ({
       location: t.string({ required: true }),
-      coordinates: t.field({ type: 'JSON', required: true }),
+      coordinates: t.field({ type: 'JSON' }),
+      googlePlaceId: t.string(),
     }),
   }
 );

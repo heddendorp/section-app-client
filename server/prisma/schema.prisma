@@ -306,6 +306,7 @@ model EventTemplate {
   duration                    Decimal
   eventInstances              TumiEvent[]
   finances                    Json
+  googlePlaceId               String?
   icon                        String
   insuranceDescription        String                 @default("")
   location                    String
@@ -343,8 +344,9 @@ model TumiEvent {
   eventRegistrationCodes       EventRegistrationCode[]
   eventTemplate                EventTemplate           @relation(fields: [eventTemplateId], references: [id])
   eventTemplateId              String                  @db.Uuid
-  excludeFromStatistics        Boolean                 @default(false)
   excludeFromRatings           Boolean                 @default(false)
+  excludeFromStatistics        Boolean                 @default(false)
+  googlePlaceId                String?
   icon                         String
   insuranceDescription         String                  @default("")
   location                     String

@@ -83,17 +83,29 @@
           Meeting point: {{ event.location }} on
           {{ event.start | date: 'medium' }}
         </p>
-        <div *ngIf="event.coordinates?.lat" class="mb-2">
+        <div class="mb-2">
           <a
+            *ngIf="event.googlePlaceId"
             mat-stroked-button
-            href="http://www.google.com/maps/place/{{
+            href="https://www.google.com/maps/place/?q=place_id:{{
+              event.googlePlaceId
+            }}"
+            target="_blank"
+          >
+            Open in maps
+          </a>
+          <a
+            *ngIf="event.coordinates?.lat && !event.googlePlaceId"
+            mat-stroked-button
+            href="https://www.google.com/maps/place/{{
               event.coordinates?.lat
             }},{{ event.coordinates?.lon }}"
             target="_blank"
           >
-            Open in google maps
+            Open in maps
           </a>
         </div>
+
         <markdown
           [data]="event.participantText"
           class="prose lg:prose-xl mb-4 break-words"

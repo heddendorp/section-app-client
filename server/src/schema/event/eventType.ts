@@ -33,6 +33,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
+    googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
@@ -559,7 +560,8 @@ export const updateEventLocationInputType = builder.inputType(
   {
     fields: (t) => ({
       location: t.string({ required: true }),
-      coordinates: t.field({ type: 'JSON', required: true }),
+      coordinates: t.field({ type: 'JSON' }),
+      googlePlaceId: t.string(),
     }),
   }
 );

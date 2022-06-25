@@ -32,6 +32,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectWithAutocompleteDialogComponent } from './components/select-with-autocomplete-dialog/select-with-autocomplete-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MarkdownModule } from 'ngx-markdown';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { HttpClientJsonpModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSelectModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
+    HttpClientJsonpModule,
   ],
   exports: [
     DataItemsCollectorComponent,

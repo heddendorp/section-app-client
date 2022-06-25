@@ -124,7 +124,7 @@ builder.prismaObject('User', {
               },
             },
           },
-          orderBy: { createdAt: 'asc' },
+          orderBy: { start: 'asc' },
         });
       },
     }),
@@ -147,6 +147,7 @@ builder.prismaObject('User', {
               },
             },
           },
+          orderBy: { start: 'asc' },
         });
       },
     }),
