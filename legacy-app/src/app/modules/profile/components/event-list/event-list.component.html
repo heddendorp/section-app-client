@@ -1,11 +1,10 @@
 <div
-  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl md:p-4"
+  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4"
 >
   <div
     fxLayout="row"
     fxLayoutAlign="start center"
     fxLayoutGap="1rem"
-    class="mb-2 p-2 lg:mb-6"
   >
     <mat-icon
       svgIcon="icon-overtime"
@@ -17,7 +16,7 @@
     </h2>
   </div>
   <mat-nav-list>
-    <div class="-mt-2 ml-4 mr-4 mb-2" *ngIf="!isOrganized">
+    <div class="mx-4 my-2" *ngIf="!isOrganized">
       <button        
         class="modern w-full"
         color="primary"
