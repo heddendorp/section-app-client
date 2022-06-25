@@ -31,18 +31,22 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
     }),
     deletingCode: t.prismaField({
       type: 'EventRegistrationCode',
+      nullable: true,
       resolve: async (query, parent, args, context, info) => {
         return prisma.eventRegistrationCode.findFirst({
           ...query,
           where: { registrationToRemoveId: parent.id },
+          rejectOnNotFound: false,
         });
       },
     }),
     creatingCode: t.prismaField({
       type: 'EventRegistrationCode',
+      nullable: true,
       resolve: async (query, parent, args, context, info) => {
         return prisma.eventRegistrationCode.findFirst({
           ...query,
+          rejectOnNotFound: false,
           where: { registrationCreatedId: parent.id },
         });
       },

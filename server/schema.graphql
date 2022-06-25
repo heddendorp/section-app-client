@@ -152,8 +152,8 @@ type EventRegistration {
   cancellationReason: String
   checkInTime: DateTime
   createdAt: DateTime!
-  creatingCode: EventRegistrationCode!
-  deletingCode: EventRegistrationCode!
+  creatingCode: EventRegistrationCode
+  deletingCode: EventRegistrationCode
   didAttend: Boolean!
   event: TumiEvent!
   eventId: ID!
