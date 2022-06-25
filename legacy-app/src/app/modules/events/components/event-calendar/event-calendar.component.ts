@@ -31,9 +31,7 @@ export class EventCalendarComponent implements OnChanges {
   }[] = [];
   public weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  constructor(public dialog: MatDialog) {
-
-  }
+  constructor(public dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['events']) {
@@ -44,8 +42,12 @@ export class EventCalendarComponent implements OnChanges {
       }
       const firstEvent = events[0];
       const lastEvent = events[events.length - 1];
-      const firstDate = this.firstDate ? this.firstDate : DateTime.fromISO(firstEvent.start);
-      const lastDate = this.lastDate ? this.lastDate : DateTime.fromISO(lastEvent.end);
+      const firstDate = this.firstDate
+        ? this.firstDate
+        : DateTime.fromISO(firstEvent.start);
+      const lastDate = this.lastDate
+        ? this.lastDate
+        : DateTime.fromISO(lastEvent.end);
       for (
         let i = 0;
         i < Math.ceil(lastDate.diff(firstDate.startOf('week'), 'week').weeks);
@@ -114,8 +116,8 @@ export class EventCalendarComponent implements OnChanges {
     this.dialog.open(EventCalendarDayDialog, {
       width: '600px',
       maxWidth: '100vw',
-      data: {events: events},
-      autoFocus: false
+      data: { events: events },
+      autoFocus: false,
     });
   }
 }

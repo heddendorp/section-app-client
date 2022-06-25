@@ -70,7 +70,7 @@ export class EventListPageComponent implements OnDestroy {
           this.endOfMonth = undefined;
           return this.loadEventsQueryRef.refetch({
             after: new Date(),
-            before: null
+            before: null,
           });
         }
         const monthsOffset = value + (value < 0 ? 1 : 0);

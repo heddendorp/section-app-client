@@ -1,7 +1,8 @@
 .event {
   @apply bg-gray-200;
 
-  &.registered, &.organizer {
+  &.registered,
+  &.organizer {
     @apply bg-green-100;
   }
   &.draft {

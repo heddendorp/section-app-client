@@ -64,7 +64,7 @@ import { EventCalendarDayDialog } from './components/event-calendar/event-calend
     AddReceiptDialogComponent,
     PublicRegistrationCodesPageComponent,
     EventCalendarComponent,
-    EventCalendarDayDialog
+    EventCalendarDayDialog,
   ],
   imports: [
     CommonModule,
