@@ -12,10 +12,10 @@ generator client {
   previewFeatures = ["interactiveTransactions", "fullTextSearch", "metrics"]
 }
 
-generator nexusPrisma {
-  provider = "nexus-prisma"
-  output   = "../src/generated/nexus-prisma"
-}
+//generator nexusPrisma {
+//  provider = "nexus-prisma"
+//  output   = "../src/generated/nexus-prisma"
+//}
 
 generator pothos {
   provider = "prisma-pothos-types"

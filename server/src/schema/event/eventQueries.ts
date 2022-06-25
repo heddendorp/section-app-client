@@ -7,6 +7,7 @@ import {
   Role,
 } from '../../generated/prisma';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
+import { before } from 'lodash';
 
 builder.queryFields((t) => ({
   event: t.prismaField({
@@ -24,9 +25,10 @@ builder.queryFields((t) => ({
     type: ['TumiEvent'],
     args: {
       after: t.arg({ type: 'DateTime', required: false }),
+      before: t.arg({ type: 'DateTime', required: false }),
       limit: t.arg.int(),
     },
-    resolve: async (query, parent, { after, limit }, context, info) => {
+    resolve: async (query, parent, { before, after, limit }, context, info) => {
       let where: TumiEventWhereInput;
       after ??= new Date();
       const { role, status } = context.userOfTenant ?? {};
@@ -36,13 +38,18 @@ builder.queryFields((t) => ({
             has: MembershipStatus.NONE,
           },
           end: { gt: new Date() },
+          ...(before ? { start: { lt: after } } : {}),
           publicationState: PublicationState.PUBLIC,
         };
       } else if (role === Role.ADMIN) {
-        where = { end: { gt: after } };
+        where = {
+          end: { gt: after },
+          ...(before ? { start: { lt: after } } : {}),
+        };
       } else {
         where = {
           end: { gt: after },
+          ...(before ? { start: { lt: after } } : {}),
           OR: [
             {
               participantSignup: {
