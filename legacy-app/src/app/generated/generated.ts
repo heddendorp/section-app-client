@@ -175,8 +175,8 @@ export type EventRegistration = {
   cancellationReason?: Maybe<Scalars['String']>;
   checkInTime?: Maybe<Scalars['DateTime']>;
   createdAt: Scalars['DateTime'];
-  creatingCode: EventRegistrationCode;
-  deletingCode: EventRegistrationCode;
+  creatingCode?: Maybe<EventRegistrationCode>;
+  deletingCode?: Maybe<EventRegistrationCode>;
   didAttend: Scalars['Boolean'];
   event: TumiEvent;
   eventId: Scalars['ID'];
@@ -1323,7 +1323,7 @@ export type LoadRegistrationForMoveQueryVariables = Exact<{
 }>;
 
 
-export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode: { __typename?: 'EventRegistrationCode', id: string, isPublic: boolean } } };
+export type LoadRegistrationForMoveQuery = { __typename?: 'Query', registration: { __typename?: 'EventRegistration', id: string, eventId: string, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, isPublic: boolean } | null } };
 
 export type VerifyCertificateMutationVariables = Exact<{
   cert: Scalars['String'];
@@ -1700,7 +1700,7 @@ export type LoadUserQueryVariables = Exact<{
 }>;
 
 
-export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus }, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any }, creatingCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
+export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus }, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, creatingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
 
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 

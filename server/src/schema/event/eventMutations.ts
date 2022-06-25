@@ -36,6 +36,7 @@ builder.mutationFields((t) => ({
             id: context.user?.id,
           },
         },
+        rejectOnNotFound: false,
       });
       if (!registration) throw new GraphQLError('Registration not found!');
       return prisma.tumiEvent.update({

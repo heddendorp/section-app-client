@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { concat, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
 import {
   CreateEventTemplateGQL,
   GetEventTemplateCategoriesGQL,
@@ -16,6 +16,8 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/change-template-category-dialog/change-template-category-dialog.component';
+import { FormControl } from '@angular/forms';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-template-list-page',
@@ -31,6 +33,7 @@ export class TemplateListPageComponent {
   public eventTemplates$: Observable<
     GetLonelyEventTemplatesQuery['eventTemplates']
   >;
+  public searchControl = new FormControl('');
   private eventTemplateQuery;
 
   constructor(
@@ -46,12 +49,42 @@ export class TemplateListPageComponent {
       {},
       { fetchPolicy: 'cache-and-network' }
     );
-    this.eventTemplates$ = this.eventTemplateQuery.valueChanges.pipe(
-      map(({ data }) => data.eventTemplates)
+    this.eventTemplates$ = combineLatest([
+      concat(of(''), this.searchControl.valueChanges),
+      this.eventTemplateQuery.valueChanges.pipe(
+        map(({ data }) => data.eventTemplates)
+      ),
+    ]).pipe(
+      map(([search, templates]) =>
+        templates.filter((template) =>
+          template.title.toLowerCase().includes((search ?? '').toLowerCase())
+        )
+      )
     );
-    this.templateCategories$ = this.getEventTemplatesGQL
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.eventTemplateCategories));
+    this.templateCategories$ = combineLatest([
+      concat(of(''), this.searchControl.valueChanges),
+      this.getEventTemplatesGQL
+        .watch()
+        .valueChanges.pipe(map(({ data }) => data.eventTemplateCategories)),
+    ]).pipe(
+      map(([search, categories]) =>
+        categories.map((category) => ({
+          ...category,
+          templates: category.templates.filter(
+            (template) =>
+              template.title
+                .toLowerCase()
+                .includes((search ?? '').toLowerCase()) || !search
+          ),
+          templateCount: category.templates.filter(
+            (template) =>
+              template.title
+                .toLowerCase()
+                .includes((search ?? '').toLowerCase()) || !search
+          ).length,
+        }))
+      )
+    );
   }
 
   async createTemplate() {
