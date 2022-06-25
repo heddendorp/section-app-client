@@ -1,5 +1,6 @@
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <button style='position:fixed; right: 0.75rem; top: 0.75rem; height: 2.5rem'
+  <button
+    style="position: fixed; right: 0.75rem; top: 0.75rem; height: 2.5rem"
     mat-stroked-button
     (click)="auth.logout({ returnTo: document.location.origin })"
   >
@@ -9,7 +10,11 @@
 </ng-container>
 
 <ng-template #loggedOut>
-  <button style='position:fixed; right: 0.75rem; top: 0.75rem; height: 2.5rem' mat-stroked-button (click)="auth.loginWithRedirect()">
+  <button
+    style="position: fixed; right: 0.75rem; top: 0.75rem; height: 2.5rem"
+    mat-stroked-button
+    (click)="auth.loginWithRedirect()"
+  >
     <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
     Log in
   </button>

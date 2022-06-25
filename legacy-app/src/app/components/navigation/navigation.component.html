@@ -126,7 +126,10 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" style='position: fixed !important; height: 4rem'>
+    <mat-toolbar
+      color="primary"
+      style="position: fixed !important; height: 4rem"
+    >
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -143,7 +146,7 @@
       <div fxFlex="grow"></div>
       <app-auth-button></app-auth-button>
     </mat-toolbar>
-    <div class="relative mt-16" ></div>
+    <div class="relative mt-16"></div>
     <div
       *ngIf="outstandingRating$ | async"
       class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
