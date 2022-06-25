@@ -328,8 +328,7 @@ builder.mutationFields((t) => ({
           switch (item.type) {
             case 'event':
               amount = item.value;
-              calculationInfo = `
-    }${item.value}€ per event`;
+              calculationInfo = `${item.value}€ per event`;
               break;
             case 'participant':
               amount = item.value * allParticipants;
