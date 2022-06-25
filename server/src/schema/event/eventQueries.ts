@@ -38,18 +38,18 @@ builder.queryFields((t) => ({
             has: MembershipStatus.NONE,
           },
           end: { gt: new Date() },
-          ...(before ? { start: { lt: after } } : {}),
+          ...(before ? { start: { lt: before } } : {}),
           publicationState: PublicationState.PUBLIC,
         };
       } else if (role === Role.ADMIN) {
         where = {
           end: { gt: after },
-          ...(before ? { start: { lt: after } } : {}),
+          ...(before ? { start: { lt: before } } : {}),
         };
       } else {
         where = {
           end: { gt: after },
-          ...(before ? { start: { lt: after } } : {}),
+          ...(before ? { start: { lt: before } } : {}),
           OR: [
             {
               participantSignup: {
