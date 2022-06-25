@@ -4,7 +4,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { GetEventTemplatesQuery } from '@tumi/legacy-app/generated/generated';
+import {
+  GetEventTemplatesQuery,
+  GetTemplateCategoriesWithTemplatesQuery,
+} from '@tumi/legacy-app/generated/generated';
 
 @Component({
   selector: 'app-template-list-entry',
@@ -13,7 +16,9 @@ import { GetEventTemplatesQuery } from '@tumi/legacy-app/generated/generated';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateListEntryComponent implements OnInit {
-  @Input() template: GetEventTemplatesQuery['eventTemplates'][0] | null = null;
+  @Input() template:
+    | GetTemplateCategoriesWithTemplatesQuery['eventTemplateCategories'][0]['templates'][0]
+    | null = null;
   constructor() {}
 
   ngOnInit(): void {}

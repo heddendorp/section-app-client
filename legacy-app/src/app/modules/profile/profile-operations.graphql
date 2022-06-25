@@ -66,6 +66,7 @@ query userProfile {
       title
       icon
       start
+      end
       needsRating
       userIsOrganizer
     }

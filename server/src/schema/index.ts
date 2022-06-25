@@ -12,6 +12,7 @@ import './eventOrganizer';
 import './eventRegistration';
 import './eventRegistrationCode';
 import './eventTemplate';
+import './eventTemplateCategory';
 import './purchase';
 import './receipt';
 import './eventSubmission';

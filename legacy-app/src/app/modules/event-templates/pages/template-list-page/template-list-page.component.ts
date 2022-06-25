@@ -3,13 +3,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   CreateEventTemplateGQL,
+  GetEventTemplateCategoriesGQL,
   GetEventTemplatesGQL,
   GetEventTemplatesQuery,
+  GetLonelyEventTemplatesGQL,
+  GetLonelyEventTemplatesQuery,
+  GetTemplateCategoriesWithTemplatesGQL,
+  GetTemplateCategoriesWithTemplatesQuery,
   Role,
 } from '@tumi/legacy-app/generated/generated';
+import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/change-template-category-dialog/change-template-category-dialog.component';
 
 @Component({
   selector: 'app-template-list-page',
@@ -17,9 +23,14 @@ import {
   styleUrls: ['./template-list-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TemplateListPageComponent implements OnInit {
+export class TemplateListPageComponent {
   public Role = Role;
-  public eventTemplates$: Observable<GetEventTemplatesQuery['eventTemplates']>;
+  public templateCategories$: Observable<
+    GetTemplateCategoriesWithTemplatesQuery['eventTemplateCategories']
+  >;
+  public eventTemplates$: Observable<
+    GetLonelyEventTemplatesQuery['eventTemplates']
+  >;
   private eventTemplateQuery;
 
   constructor(
@@ -27,7 +38,8 @@ export class TemplateListPageComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private createTemplateMutation: CreateEventTemplateGQL,
-    private loadTemplates: GetEventTemplatesGQL
+    private loadTemplates: GetLonelyEventTemplatesGQL,
+    private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL
   ) {
     this.title.setTitle('TUMi - Event templates');
     this.eventTemplateQuery = this.loadTemplates.watch(
@@ -37,13 +49,15 @@ export class TemplateListPageComponent implements OnInit {
     this.eventTemplates$ = this.eventTemplateQuery.valueChanges.pipe(
       map(({ data }) => data.eventTemplates)
     );
+    this.templateCategories$ = this.getEventTemplatesGQL
+      .watch()
+      .valueChanges.pipe(map(({ data }) => data.eventTemplateCategories));
   }
 
-  ngOnInit(): void {}
-
   async createTemplate() {
+    const categories = await firstValueFrom(this.templateCategories$);
     const template = await this.dialog
-      .open(EventFormDialogComponent)
+      .open(EventFormDialogComponent, { data: { categories } })
       .afterClosed()
       .toPromise();
     if (template) {
