@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   EventListGQL,
@@ -6,6 +6,7 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  BehaviorSubject,
   combineLatest,
   firstValueFrom,
   map,
@@ -13,6 +14,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -26,16 +28,21 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
+  public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
   public showFullEvents = new UntypedFormControl(true);
   public filterEvents = new UntypedFormControl('');
   /** 0: all upcoming events, -1: last month, 1: next month etc. */
   public monthOffset = new UntypedFormControl(0);
-  public monthOffsetLabel = 'Upcoming';
+  public monthOffsetLabel = 'Upcoming Events';
   public Role = Role;
   public selectedView$: Observable<string>;
   private loadEventsQueryRef;
   private destroy$ = new Subject();
+
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
+  public searchEnabled = false;
 
   constructor(
     private loadEventsQuery: EventListGQL,
@@ -46,23 +53,29 @@ export class EventListPageComponent implements OnDestroy {
     this.title.setTitle('TUMi - Events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.events)
+      map(({ data }) => data.events),
+      tap(() => this.loading$.next(false))
     );
     this.monthOffset.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.loading$.next(true))
+      )
       .subscribe((value) => {
         if (value === 0) {
-          this.monthOffsetLabel = 'Upcoming';
-          return this.loadEventsQueryRef.refetch();
+          this.monthOffsetLabel = 'Upcoming Events';
+          return this.loadEventsQueryRef.refetch({});
         }
         const monthsOffset = value + (value < 0 ? 1 : 0);
-        const startOfMonth = DateTime.local().startOf('month').plus({ months: monthsOffset });
+        const startOfMonth = DateTime.local()
+          .startOf('month')
+          .plus({ months: monthsOffset });
         const endOfMonth = startOfMonth.endOf('month');
         this.monthOffsetLabel = startOfMonth.toFormat('LLLL yyyy');
         return this.loadEventsQueryRef.refetch({
           after: startOfMonth.toJSDate(),
-          before: endOfMonth.toJSDate()
-        })
+          before: endOfMonth.toJSDate(),
+        });
       });
     this.events$ = combineLatest([
       events$,
@@ -104,6 +117,19 @@ export class EventListPageComponent implements OnDestroy {
       this.eventListStateService.setSelectedView('calendar');
     } else {
       this.eventListStateService.setSelectedView('list');
+    }
+  }
+
+  initSearch(): void {
+    this.searchEnabled = true;
+    setTimeout(() => {
+      this.searchBar.nativeElement.focus();
+    });
+  }
+
+  exitSearch(): void {
+    if (this.filterEvents.value.length === 0) {
+      this.searchEnabled = false;
     }
   }
 }

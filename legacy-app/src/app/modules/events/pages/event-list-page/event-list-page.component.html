@@ -1,6 +1,6 @@
 <mat-progress-bar
   mode="indeterminate"
-  *ngIf="(events$ | async) === null"
+  *ngIf="loading$ | async"
 ></mat-progress-bar>
 <main class="text-surface-on p-4">
   <div
@@ -10,28 +10,52 @@
     class="mb-6"
   >
     <div fxFlex="noshrink">
-      <h1 class="mb-4">Upcoming Events</h1>
-      <div
-        fxLayout="column"
-        fxLayout.gt-sm="row"
-        fxLayoutGap="1rem"
-        class="w-full"
-      >
-        <mat-checkbox [formControl]="showFullEvents">
-          Include events without spot
-        </mat-checkbox>
+      <div class="flex flex-row items-end">
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value - 12)"
+        >
+          <span class="text-xl align-baseline">«</span>
+        </button>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value - 1)"
+        >
+        <span class="text-xl align-baseline">‹</span>
+
+          
+        </button>
+        <h1 class="whitespace-nowrap">{{ monthOffsetLabel }}</h1>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value + 1)"
+        >
+        <span class="text-xl align-baseline">›</span>
+
+          
+        </button>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value + 12)"
+        >
+          
+        <span class="text-xl align-baseline">»</span>
+
+        </button>
+        <div fxFlex="grow">          
+        </div>
+        <button
+          mat-stroked-button
+          *ngIf="(selectedView$ | async) === 'list'"
+          (click)="initSearch()"
+        >
+        🔎
+        </button>
       </div>
-      <mat-form-field class="w-full">
-        <mat-label>Search event</mat-label>
-        <input matInput [formControl]="filterEvents" type="search" />
-      </mat-form-field>      
-      <div class="flex flex-row items-center">
-        <button mat-button (click)="monthOffset.setValue(monthOffset.value - 12)">«</button>
-        <button mat-button (click)="monthOffset.setValue(monthOffset.value - 1)">‹</button>
-        <div>{{ monthOffsetLabel }}</div>
-        <button mat-button (click)="monthOffset.setValue(monthOffset.value + 1)">›</button>
-        <button mat-button (click)="monthOffset.setValue(monthOffset.value + 12)">»</button>
-      </div>
+      <mat-form-field class="w-full" [style.display]="searchEnabled && (selectedView$ | async) === 'list' ? 'unset' : 'none'">
+        <mat-label>Search for an event</mat-label>
+        <input #searchbar matInput [formControl]="filterEvents" type="search" (blur)="exitSearch()" />
+      </mat-form-field>
     </div>
     <!--<div
       fxFlex="grow"
@@ -134,7 +158,7 @@
   </div>
   <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
-      <div>
+      <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
           class="modern mb-4"
@@ -143,6 +167,9 @@
           <mat-icon svgIcon="icon-calendar"></mat-icon>
           <span>Switch to calendar view</span>
         </button>
+        <mat-checkbox [formControl]="showFullEvents">
+          Include full events
+        </mat-checkbox>
       </div>
       <app-event-list
         *ngIf="events$ | async as events"
@@ -150,7 +177,7 @@
       ></app-event-list>
     </ng-container>
     <ng-container *ngSwitchCase="'calendar'">
-      <div>
+      <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
           class="modern mb-4"
@@ -158,6 +185,9 @@
         >
           <span>Switch to list view</span>
         </button>
+        <mat-checkbox [formControl]="showFullEvents">
+          Include full events
+        </mat-checkbox>
       </div>
       <app-event-calendar
         *ngIf="events$ | async as events"
@@ -183,7 +213,7 @@
     </div>
     <p>
       Right now there are no events to show you, but check back soon to see what
-      we are planning
+      we are planning :)
     </p>
   </div>
 </main>
