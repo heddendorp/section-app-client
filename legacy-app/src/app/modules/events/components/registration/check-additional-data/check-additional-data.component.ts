@@ -29,7 +29,6 @@ export class CheckAdditionalDataComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['event']) {
-      console.log(changes['event'].currentValue);
       const event = changes['event'].currentValue as LoadEventQuery['event'];
       if (event && event.activeRegistration) {
         this.needsInput$.next(false);
