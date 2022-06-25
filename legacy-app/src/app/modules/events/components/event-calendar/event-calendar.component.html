@@ -33,9 +33,12 @@
           alt="{{ event.icon }}"
           class="w-4 md:mr-0.5 md:w-6"
         />
-        <span class="block overflow-hidden text-clip whitespace-nowrap {{ !isRegistrationOpen(event) ? 'italic' : ''}}">{{
-          event.title
-        }}</span>
+        <span
+          class="block overflow-hidden text-clip whitespace-nowrap {{
+            !isRegistrationOpen(event) ? 'italic' : ''
+          }}"
+          >{{ event.title }}</span
+        >
       </div>
       <div *ngIf="day.events.length > 4" class="flex justify-center text-xs">
         ...

@@ -23,7 +23,10 @@
   <ng-template #singleDayEvent>
     <div class="flex items-center gap-2">
       <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
-      <span>{{ event.start | date: 'medium' }} - {{ event.end | date: 'mediumTime' }}</span>
+      <span
+        >{{ event.start | date: 'medium' }} -
+        {{ event.end | date: 'mediumTime' }}</span
+      >
     </div>
   </ng-template>
   <ng-container *ngIf="bestPrice">
