@@ -1,7 +1,7 @@
 import { countBy, groupBy, range, transform } from 'lodash';
 import { DateTime } from 'luxon';
 import { builder } from '../../builder';
-import { dateRangeInputType } from './statisticsType';
+import { dateRangeInputType, statisticsType } from './statisticsType';
 import prisma from '../../client';
 import { RegistrationMode, RegistrationStatus } from '../../generated/prisma';
 
@@ -29,17 +29,18 @@ function convertToSeries(growthName, column = 'createdAt') {
     return [
       { name: growthName, series: growthSeries },
       { name: 'Total', series: totalSeries },
-    ];
+    ] as any;
   };
 }
 
 builder.queryFields((t) => ({
   statistics: t.field({
-    type: 'Statistics',
+    type: statisticsType,
     args: {
       tenantId: t.arg.id(),
       range: t.arg({ type: dateRangeInputType }),
     },
+    // @ts-ignore
     resolve: async (query, root, { tenantId, range }, context, info) => {
       const usersRegistered = await prisma.usersOfTenants.count({
         where: {
@@ -228,7 +229,7 @@ builder.queryFields((t) => ({
             (result: { name: string; value: any }[], value: any, events: any) =>
               result.push({ name: `${String(events)} events`, value }),
             []
-          );
+          ) as any;
         });
       const userUniversityDistribution = await prisma.user
         .groupBy({
@@ -244,11 +245,12 @@ builder.queryFields((t) => ({
           by: ['university'],
           _count: { university: true },
         })
-        .then((res) =>
-          res.map((entry) => ({
-            uni: entry.university,
-            count: entry._count.university,
-          }))
+        .then(
+          (res) =>
+            res.map((entry) => ({
+              uni: entry.university,
+              count: entry._count.university,
+            })) as any
         );
       const userStatusDistribution = await prisma.user
         .groupBy({
@@ -264,11 +266,12 @@ builder.queryFields((t) => ({
           by: ['enrolmentStatus'],
           _count: { enrolmentStatus: true },
         })
-        .then((res) =>
-          res.map((entry) => ({
-            status: entry.enrolmentStatus,
-            count: entry._count.enrolmentStatus,
-          }))
+        .then(
+          (res) =>
+            res.map((entry) => ({
+              status: entry.enrolmentStatus,
+              count: entry._count.enrolmentStatus,
+            })) as any
         );
       const userHistory = await prisma.usersOfTenants
         .findMany({
