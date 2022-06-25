@@ -16,6 +16,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-navigation',
@@ -38,9 +39,10 @@ export class NavigationComponent {
     );
 
   constructor(
+    public auth: AuthService,
     private breakpointObserver: BreakpointObserver,
     private getTenantInfo: GetTenantInfoGQL,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) public document: Document
   ) {
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
     this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
