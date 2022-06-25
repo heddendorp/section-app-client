@@ -15,6 +15,7 @@ query loadEvent($id: ID!) {
     publicationState
     description
     organizerText
+    organizerLimit
     participantText
     registrationMode
     registrationLink
