@@ -11,7 +11,7 @@
       svgIcon="icon-overtime"
       class="text-secondary-default bg-secondary-on card-icon"
     ></mat-icon>
-    <h2 class="font-bold">{{ isOrganized ? 'Organized' : 'Your' }} events</h2>
+    <h2 class="font-bold">{{ isOrganized ? 'Organized' : 'Your' }} events <span class="font-light">({{ events.length }})</span></h2>
   </div>
   <mat-nav-list>
     <app-event-list-item
@@ -28,7 +28,7 @@
             class="p-2 lg"
           >
             <mat-icon
-              svgIcon="time-machine"
+              svgIcon="icon-time-machine"
               class="text-secondary-default bg-secondary-on card-icon card-icon-small"
             ></mat-icon>
             <p class="font-bold">Past events</p>
