@@ -5,6 +5,10 @@
 :host ::ng-deep .mat-expansion-panel-header {
   padding-left: 0 !important;
   height: unset !important;
+
+  &:hover {
+    background: none !important;
+  }
 }
 
 :host ::ng-deep .mat-expansion-panel {
