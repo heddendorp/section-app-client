@@ -12,7 +12,7 @@
     <div
       *ngFor="let day of week.days"
       (click)="showDayDialog(day.events)"
-      class="flex flex-col space-y-1 border-t border-l {{
+      class="flex flex-col space-y-1 border-t border-l cursor-pointer {{
         day.today ? 'bg-blue-100' : ''
       }}"
     >
