@@ -68,7 +68,6 @@ export class EventListPageComponent implements OnDestroy {
           this.monthOffsetLabel = 'Upcoming';
           this.startOfMonth = undefined;
           this.endOfMonth = undefined;
-          console.log("wow")
           return this.loadEventsQueryRef.refetch({
             after: new Date(),
             before: null

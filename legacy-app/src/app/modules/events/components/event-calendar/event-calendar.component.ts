@@ -5,8 +5,10 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
+import { EventCalendarDayDialog } from './event-calendar-day-dialog/event-calendar-day-dialog';
 
 @Component({
   selector: 'app-event-calendar',
@@ -28,6 +30,10 @@ export class EventCalendarComponent implements OnChanges {
     }[];
   }[] = [];
   public weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  constructor(public dialog: MatDialog) {
+
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['events']) {
@@ -102,5 +108,14 @@ export class EventCalendarComponent implements OnChanges {
 
   public getId(index: number, event: EventListQuery['events'][0]): string {
     return event.id;
+  }
+
+  public showDayDialog(events: EventListQuery['events']) {
+    this.dialog.open(EventCalendarDayDialog, {
+      width: '600px',
+      maxWidth: '100vw',
+      data: {events: events},
+      autoFocus: false
+    });
   }
 }
