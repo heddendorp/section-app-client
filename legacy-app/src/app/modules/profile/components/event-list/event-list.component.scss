@@ -13,11 +13,6 @@
   box-shadow: none;
 }
 
-:host ::ng-deep .mat-expansion-indicator::after {
-  color: black;
-  border-color: black;
-}
-
 .card-icon-small {
   transform: scale(0.7);
   margin-right: 0.3rem !important;
