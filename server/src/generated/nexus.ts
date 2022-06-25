@@ -1822,6 +1822,7 @@ export interface NexusGenArgTypes {
     }
     events: { // args
       after?: NexusGenScalars['DateTime'] | null; // DateTime
+      before?: NexusGenScalars['DateTime'] | null; // DateTime
       limit?: number | null; // Int
       userId?: string | null; // ID
     }

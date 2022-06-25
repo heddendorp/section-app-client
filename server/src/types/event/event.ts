@@ -183,8 +183,13 @@ export const updateCoreEventInput = inputObjectType({
 export const getAllEventsQuery = queryField('events', {
   description: 'Get a list of all events',
   type: nonNull(list(nonNull(eventType))),
-  args: { after: arg({ type: 'DateTime' }), userId: idArg(), limit: intArg() },
-  resolve: async (source, { after, userId, limit }, context) => {
+  args: {
+    before: arg({ type: 'DateTime' }),
+    after: arg({ type: 'DateTime' }),
+    userId: idArg(),
+    limit: intArg(),
+  },
+  resolve: async (source, { after, before, userId, limit }, context) => {
     // cacheControl.setCacheHint({ scope: CacheScope.Private, maxAge: 10 });
     let where: TumiEventWhereInput;
     after ??= new Date();
@@ -195,6 +200,7 @@ export const getAllEventsQuery = queryField('events', {
           has: MembershipStatus.NONE,
         },
         end: { gt: new Date() },
+        ...(before ? { start: { lt: before } } : {}),
         publicationState: PublicationState.PUBLIC,
       };
     } else if (role === Role.ADMIN) {
