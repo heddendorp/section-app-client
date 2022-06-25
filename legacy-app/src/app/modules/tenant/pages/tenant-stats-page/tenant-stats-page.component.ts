@@ -23,7 +23,7 @@ export class TenantStatsPageComponent implements OnDestroy {
     line: Highcharts.Options[];
     pie: Highcharts.Options[];
   }>;
-  public tenant$: Observable<GetStatisticsQuery['currentTenant']>;
+  public statistics$: Observable<GetStatisticsQuery['statistics']>;
   // public legendPosition = LegendPosition.Right;
   private getStatisticsRef;
   private rangeSubscription;
@@ -40,19 +40,18 @@ export class TenantStatsPageComponent implements OnDestroy {
       }
     );
     this.getStatisticsRef.startPolling(30000);
-    this.tenant$ = this.getStatisticsRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant)
+    this.statistics$ = this.getStatisticsRef.valueChanges.pipe(
+      map(({ data }) => data.statistics)
     );
-    this.charts$ = this.tenant$.pipe(
-      map((tenant) => {
-        const stats = tenant?.statistics;
+    this.charts$ = this.statistics$.pipe(
+      map((stats) => {
         if (!stats) {
           return { line: [], pie: [] };
         }
         return {
           line: [
             {
-              series: stats.userHistory.map((series, index) => ({
+              series: stats.userHistory.map((series: any, index: number) => ({
                 name: series.name,
                 yAxis: index,
                 data: series.series.map((data: any) => [
@@ -82,15 +81,17 @@ export class TenantStatsPageComponent implements OnDestroy {
               ],
             },
             {
-              series: stats.registrationHistory.map((series, index) => ({
-                name: series.name,
-                yAxis: index,
-                data: series.series.map((data: any) => [
-                  new Date(data.name).getTime(),
-                  data.value,
-                ]),
-                type: 'line',
-              })),
+              series: stats.registrationHistory.map(
+                (series: any, index: number) => ({
+                  name: series.name,
+                  yAxis: index,
+                  data: series.series.map((data: any) => [
+                    new Date(data.name).getTime(),
+                    data.value,
+                  ]),
+                  type: 'line',
+                })
+              ),
               title: {
                 text: 'Registration History',
               },
@@ -113,15 +114,17 @@ export class TenantStatsPageComponent implements OnDestroy {
             },
 
             {
-              series: stats.checkinHistory.map((series, index) => ({
-                name: series.name,
-                yAxis: index,
-                data: series.series.map((data: any) => [
-                  new Date(data.name).getTime(),
-                  data.value,
-                ]),
-                type: 'line',
-              })),
+              series: stats.checkinHistory.map(
+                (series: any, index: number) => ({
+                  name: series.name,
+                  yAxis: index,
+                  data: series.series.map((data: any) => [
+                    new Date(data.name).getTime(),
+                    data.value,
+                  ]),
+                  type: 'line',
+                })
+              ),
               title: {
                 text: 'Checkin History',
               },
@@ -171,7 +174,7 @@ export class TenantStatsPageComponent implements OnDestroy {
                 {
                   colorByPoint: true,
                   type: 'pie',
-                  data: stats.userUniversityDistribution.map((data) => ({
+                  data: stats.userUniversityDistribution.map((data: any) => ({
                     name: data.uni ?? 'not set',
                     y: data.count,
                   })),
@@ -189,7 +192,7 @@ export class TenantStatsPageComponent implements OnDestroy {
                 {
                   colorByPoint: true,
                   type: 'pie',
-                  data: stats.userStatusDistribution.map((data) => ({
+                  data: stats.userStatusDistribution.map((data: any) => ({
                     name: data.status,
                     y: data.count,
                   })),

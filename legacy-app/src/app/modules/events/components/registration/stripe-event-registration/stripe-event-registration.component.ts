@@ -80,7 +80,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
     return (
       this.lastDeregistration > new Date() ||
       (this.event?.participantLimit ?? 0) <
-        (this.event?.participantsRegistered ?? 0)
+        (this.event?.participantRegistrationCount ?? 0)
     );
   }
 

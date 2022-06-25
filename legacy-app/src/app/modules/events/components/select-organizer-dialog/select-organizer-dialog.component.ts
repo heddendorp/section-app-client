@@ -18,7 +18,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class SelectOrganizerDialogComponent implements OnDestroy {
   public nameControl = new UntypedFormControl();
-  public filteredChoices$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
+  public filteredChoices$: Observable<LoadUsersByStatusQuery['users']>;
   private destroyed$ = new Subject();
   private idTest = new RegExp(
     /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
@@ -26,7 +26,7 @@ export class SelectOrganizerDialogComponent implements OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { choices: LoadUsersByStatusQuery['userWithStatus'] },
+    public data: { choices: LoadUsersByStatusQuery['users'] },
     private dialog: MatDialogRef<SelectOrganizerDialogComponent>
   ) {
     this.filteredChoices$ = this.nameControl.valueChanges.pipe(

@@ -12,15 +12,21 @@ generator client {
   previewFeatures = ["interactiveTransactions", "fullTextSearch", "metrics"]
 }
 
-generator nexusPrisma {
-  provider = "nexus-prisma"
-  output   = "../src/generated/nexus-prisma"
+//generator nexusPrisma {
+//  provider = "nexus-prisma"
+//  output   = "../src/generated/nexus-prisma"
+//}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+  clientOutput = "./prisma"
+  output = "../src/generated/pothos-types.ts"
 }
 
-//generator dbml {
-//  provider = "prisma-dbml-generator"
-//  output   = "./dbml"
-//}
+generator dbml {
+  provider = "prisma-dbml-generator"
+  output   = "./dbml"
+}
 
 enum Role {
   USER

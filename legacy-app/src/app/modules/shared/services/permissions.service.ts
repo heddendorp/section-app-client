@@ -81,7 +81,7 @@ export class PermissionsService {
               if (price.defaultPrice) return true;
               let esnFulfilled;
               if (price.esnCardRequired) {
-                esnFulfilled = user.hasESNcard;
+                esnFulfilled = user.hasESNCard;
               } else {
                 esnFulfilled = true;
               }

@@ -1,10 +1,10 @@
 query loadEvent($id: ID!) {
   currentUser {
     id
-    hasESNcard
+    hasESNCard
     university
   }
-  event(eventId: $id) {
+  event(id: $id) {
     id
     title
     icon
@@ -72,11 +72,11 @@ query loadEvent($id: ID!) {
     participantSignup
     organizerRegistrationPossible
     participantRegistrationPossible
-    userRegistered
+    userIsRegistered
     userIsOrganizer
     userIsCreator
     participantLimit
-    participantsRegistered
+    participantRegistrationCount
     couldBeOrganizer
     couldBeParticipant
     organizers {
@@ -99,7 +99,15 @@ query loadRegistrationForMove($registrationId: ID!) {
 }
 
 mutation verifyCertificate($cert: String!) {
-  verifyDCC(certificate: $cert)
+  verifyDCC(certificate: $cert) {
+    status
+    card {
+      name
+      test
+      vaccination
+      recovery
+    }
+  }
 }
 
 mutation createEventRegistrationCode(
@@ -119,14 +127,14 @@ mutation createEventRegistrationCode(
 }
 
 query loadEventForRunning($id: ID!) {
-  event(eventId: $id) {
+  event(id: $id) {
     id
     title
     icon
     start
     end
     participantLimit
-    participantsRegistered
+    participantRegistrationCount
     participantsAttended
     createdBy {
       id
@@ -212,21 +220,27 @@ query getBlobToken {
 }
 
 mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!) {
-  addReceiptToCostItem(costItemId: $costItemId, receiptInput: $receiptInput) {
+  createReceipt(costItemId: $costItemId, input: $receiptInput) {
     id
-    receipts {
+    amount
+    url
+    costItem {
       id
-      amount
-      url
+      receipts {
+        id
+      }
     }
   }
 }
 
-mutation deleteReceipt($costItemId: ID!, $receiptId: ID!) {
-  deleteReceipt(costItemId: $costItemId, receiptId: $receiptId) {
+mutation deleteReceipt($receiptId: ID!) {
+  deleteReceipt(id: $receiptId) {
     id
-    receipts {
+    costItem {
       id
+      receipts {
+        id
+      }
     }
   }
 }
@@ -258,7 +272,7 @@ query getRegistration($id: ID!) {
 }
 
 mutation checkInUser($id: ID!, $manual: Boolean) {
-  checkInUser(id: $id, manualCheckin: $manual) {
+  checkInUser(registrationId: $id, manualCheckin: $manual) {
     id
     checkInTime
     didAttend
@@ -266,7 +280,7 @@ mutation checkInUser($id: ID!, $manual: Boolean) {
 }
 
 query loadEventForManagement($id: ID!) {
-  event(eventId: $id) {
+  event(id: $id) {
     id
     title
     icon
@@ -279,7 +293,7 @@ query loadEventForManagement($id: ID!) {
     plannedSpend
     submittedSpend
     participantLimit
-    participantsRegistered
+    participantRegistrationCount
     participantsAttended
     #registrations
     costItems {
@@ -392,13 +406,13 @@ mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean) {
       fullName
       picture
     }
-    participantsRegistered
-    userRegistered
+    participantRegistrationCount
+    userIsRegistered
   }
 }
 
 query loadUsersByStatus($allowList: [MembershipStatus!]!) {
-  userWithStatus(allowList: $allowList) {
+  users(statusList: $allowList) {
     id
     fullName
   }
@@ -419,7 +433,7 @@ query eventList($after: DateTime) {
     couldBeOrganizer
     publicationState
     registrationMode
-    userRegistered
+    userIsRegistered
     userIsOrganizer
   }
 }

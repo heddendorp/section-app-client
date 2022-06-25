@@ -17,7 +17,7 @@
     (click)="showCode()"
     class="extended-fab"
     *ngIf="
-      event.userRegistered &&
+      event.userIsRegistered &&
       !((eventOver$ | async) && event.activeRegistration?.didAttend)
     "
   >
@@ -34,7 +34,7 @@
     <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
       <mat-expansion-panel
         [expanded]="
-          (!event.userRegistered && !event.userIsOrganizer) ||
+          (!event.userIsRegistered && !event.userIsOrganizer) ||
           event.participantText.length < 10
         "
       >
@@ -62,9 +62,9 @@
       <mat-expansion-panel
         *ngIf="
           event.participantText.length > 10 &&
-          (event.userRegistered || event.userIsOrganizer)
+          (event.userIsRegistered || event.userIsOrganizer)
         "
-        [expanded]="event.userRegistered || event.userIsOrganizer"
+        [expanded]="event.userIsRegistered || event.userIsOrganizer"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>

@@ -45,14 +45,14 @@
   </app-check-additional-data>
   <ng-container
     *ngIf="
-      !event.participantRegistrationPossible.option && !event.userRegistered
+      !event.participantRegistrationPossible.option && !event.userIsRegistered
     "
   >
     <p>
       {{ event.participantRegistrationPossible.reason }}
     </p>
   </ng-container>
-  <ng-container *ngIf="event.userRegistered">
+  <ng-container *ngIf="event.userIsRegistered">
     <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
     <p>✔️ You have a spot on this event.</p>
     <ng-container

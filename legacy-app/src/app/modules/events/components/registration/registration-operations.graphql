@@ -1,8 +1,8 @@
 mutation registerForEvent(
   $eventId: ID!
   $type: RegistrationType
-  $submissions: Json
-  $price: Json
+  $submissions: JSON
+  $price: JSON
 ) {
   registerForEvent(
     eventId: $eventId
@@ -14,9 +14,9 @@ mutation registerForEvent(
     organizerRegistrationPossible
     participantRegistrationPossible
     organizersRegistered
-    participantsRegistered
+    participantRegistrationCount
     couldBeOrganizer
-    userRegistered
+    userIsRegistered
     activeRegistration {
       id
       type

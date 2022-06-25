@@ -71,9 +71,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public generalInformationForm: UntypedFormGroup;
   public coreInformationForm: UntypedFormGroup;
   public publicationForm: UntypedFormGroup;
-  public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
+  public users$: Observable<LoadUsersByStatusQuery['users']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
-  public organizers$: Observable<LoadEventForEditQuery['organizers']>;
+  public organizers$: Observable<LoadEventForEditQuery['eventOrganizers']>;
   public editingProhibited$: Observable<boolean>;
   private destroyed$ = new Subject();
   private loadEventRef:
@@ -145,7 +145,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       switchMap((params) =>
         this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' })
       ),
-      map(({ data }) => data.organizers),
+      map(({ data }) => data.eventOrganizers),
       shareReplay(1)
     );
     this.users$ = this.event$.pipe(
@@ -158,7 +158,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           ],
         })
       ),
-      map(({ data }) => data.userWithStatus),
+      map(({ data }) => data.users),
       shareReplay(1)
     );
     this.editingProhibited$ = combineLatest([
