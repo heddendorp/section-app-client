@@ -8,9 +8,8 @@ describe('NewEventTemplateCategoryDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewEventTemplateCategoryDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [NewEventTemplateCategoryDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NewEventTemplateCategoryDialogComponent);
     component = fixture.componentInstance;

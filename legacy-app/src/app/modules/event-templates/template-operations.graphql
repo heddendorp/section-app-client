@@ -70,14 +70,14 @@ mutation deleteTemplate($id: ID!) {
 }
 
 query getEventTemplates {
-    eventTemplates {
-      id
-      title
-      icon
-    }
+  eventTemplates {
+    id
+    title
+    icon
+  }
 }
 
-query getTemplateCategoriesWithTemplates{
+query getTemplateCategoriesWithTemplates {
   eventTemplateCategories {
     id
     name
@@ -92,7 +92,7 @@ query getTemplateCategoriesWithTemplates{
   }
 }
 
-query getEventTemplateCategories{
+query getEventTemplateCategories {
   eventTemplateCategories {
     id
     name
@@ -101,7 +101,7 @@ query getEventTemplateCategories{
 }
 
 query getLonelyEventTemplates {
-  eventTemplates(onlyWithoutCategory: true){
+  eventTemplates(onlyWithoutCategory: true) {
     id
     title
     icon
