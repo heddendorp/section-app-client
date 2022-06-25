@@ -1,5 +1,5 @@
 <div
-  gdColumns="repeat(7, 1fr)"
+  gdColumns="repeat(7, calc(100% / 7))"
   class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0"
 >
   <div
@@ -33,10 +33,9 @@
           alt="{{ event.icon }}"
           class="w-4 md:mr-0.5 md:w-6"
         />
-        <span class="block overflow-hidden text-clip whitespace-nowrap">{{
+        <span class="block overflow-hidden text-clip whitespace-nowrap {{ !isRegistrationOpen(event) ? 'italic' : ''}}">{{
           event.title
         }}</span>
-        <p *ngIf="!isRegistrationOpen(event)">🔒</p>
       </div>
       <div *ngIf="day.events.length > 4" class="flex justify-center text-xs">
         ...
