@@ -28,7 +28,7 @@
     class="m-4"
     gdAuto
     gdColumns="1fr"
-    gdColumns.gt-sm="1fr 1fr"
+    gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
     gdGap="1rem"
   >
     <div
@@ -47,17 +47,15 @@
         </mat-icon>
         <h2 class="font-bold">General Information</h2>
       </div>
-      <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mb-2">
+      <div gdAuto gdColumns="auto max-content" gdGap="0 1rem" class="mb-2">
         <p>Name:</p>
         <p>{{ profile.fullName }}</p>
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
-        <p gdColumn="-1/1">
-          You have {{ profile.hasESNCard ? 'an' : 'no' }} ESNcard registered in
-          the app
-        </p>
+        <p>ESNcard:</p>
+        <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
       <div class="mt-2 w-full flex flex-col gap-2">
         <button mat-stroked-button (click)="updateProfile()">
