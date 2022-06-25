@@ -691,6 +691,7 @@ export type QueryEventTemplateArgs = {
 
 export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
   limit?: InputMaybe<Scalars['Int']>;
 };
 

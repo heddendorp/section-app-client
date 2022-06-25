@@ -393,7 +393,7 @@ type Query {
   eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
   eventTemplate(id: ID!): EventTemplate!
   eventTemplates: [EventTemplate!]!
-  events(after: DateTime, limit: Int): [TumiEvent!]!
+  events(after: DateTime, before: DateTime, limit: Int): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photoShareKey: String!
