@@ -8,9 +8,8 @@ describe('ChangeTemplateCategoryDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChangeTemplateCategoryDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [ChangeTemplateCategoryDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ChangeTemplateCategoryDialogComponent);
     component = fixture.componentInstance;

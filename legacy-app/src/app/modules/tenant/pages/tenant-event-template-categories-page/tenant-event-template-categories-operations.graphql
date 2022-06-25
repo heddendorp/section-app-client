@@ -1,4 +1,4 @@
-query LoadEventCategoriesForAdmin{
+query LoadEventCategoriesForAdmin {
   eventTemplateCategories {
     id
     name
@@ -6,7 +6,9 @@ query LoadEventCategoriesForAdmin{
   }
 }
 
-mutation CreateEventTemplateCategory($input: CreateEventTemplateCategoryInput!){
+mutation CreateEventTemplateCategory(
+  $input: CreateEventTemplateCategoryInput!
+) {
   createEventTemplateCategory(input: $input) {
     id
     name
@@ -14,7 +16,7 @@ mutation CreateEventTemplateCategory($input: CreateEventTemplateCategoryInput!){
   }
 }
 
-mutation DeleteEventTemplateCategory($id: ID!){
+mutation DeleteEventTemplateCategory($id: ID!) {
   deleteEventTemplateCategory(categoryId: $id) {
     id
     name
