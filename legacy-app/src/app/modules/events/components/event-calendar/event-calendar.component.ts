@@ -113,6 +113,7 @@ export class EventCalendarComponent implements OnChanges {
   }
 
   public showDayDialog(events: EventListQuery['events']) {
+    if (events.length === 0) return;
     this.dialog.open(EventCalendarDayDialog, {
       width: '600px',
       maxWidth: '100vw',

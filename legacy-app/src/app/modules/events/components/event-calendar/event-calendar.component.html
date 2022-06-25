@@ -10,7 +10,7 @@
         <span *ngIf="day.startOfMonth" class="font-bold">{{ day.month }}</span>
         {{ day.date }}
       </p>
-      <div *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)" class="event flex rounded text-xs md:text-sm mr-0.5 {{ event.publicationState | lowercase }} {{
+      <div *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)" class="event select-none flex rounded text-xs md:text-sm mr-0.5 {{ event.publicationState | lowercase }} {{
           event.userIsRegistered ? 'registered' : ''
         }} {{ event.userIsOrganizer ? 'organizer' : '' }}">
         <img [src]="event.icon | iconURL" alt="{{ event.icon }}" class="w-4 md:mr-0.5 md:w-6" />
