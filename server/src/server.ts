@@ -16,7 +16,6 @@ import { envelopPlugins } from './getEnveloped';
 import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
 import { setupCronjob } from './helpers/cronjobs';
-import { EnrollmentStatus } from './generated/prisma';
 import prom from 'prom-client';
 
 declare global {
@@ -55,12 +54,13 @@ const register = new prom.Registry();
 prom.collectDefaultMetrics({ register });
 
 setupCronjob(prisma);
+const auth0 = new Auth0();
 
 const graphQLServer = createServer({
   schema,
   context: {
     prisma,
-    auth0: new Auth0(),
+    auth0,
   },
   plugins: envelopPlugins,
   parserCache: true,
