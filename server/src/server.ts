@@ -67,13 +67,28 @@ const graphQLServer = createServer({
       extendContextField: 'token',
     }),
     useExtendContext(async (context) => {
-      const hostName = context.req.headers.origin.split(':')[0];
+      const url = new URL(context.req.headers.origin);
+      const hostName = url.hostname;
       let tenantName = hostName.split('.')[0];
       console.log(tenantName);
+      console.log(context.req.headers.origin);
+      console.log(context.req.headers.host);
       if (tenantName === 'localhost') {
         tenantName = 'tumi';
       }
+      if (tenantName === 'beta') {
+        tenantName = 'tumi';
+      }
+      if (tenantName === 'dev') {
+        tenantName = 'tumi';
+      }
       if (tenantName === 'server') {
+        tenantName = 'tumi';
+      }
+      if (tenantName === 'http') {
+        tenantName = 'tumi';
+      }
+      if (tenantName === 'https') {
         tenantName = 'tumi';
       }
       let tenant;
