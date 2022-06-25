@@ -27,6 +27,7 @@ import { AddReceiptDialogComponent } from './components/running/add-receipt-dial
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatRippleModule } from '@angular/material/core';
 import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -79,6 +80,7 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     MatTabsModule,
     MatMenuModule,
     MatAutocompleteModule,
+    MatRippleModule
   ],
 })
 export class EventsModule {}

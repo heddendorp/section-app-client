@@ -3,7 +3,7 @@
     <p class="text-center">{{ weekday }}</p>
   </div>
   <ng-container *ngFor="let week of weeks">
-    <div *ngFor="let day of week.days" (click)="showDayDialog(day.events)" class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
+    <div matRipple *ngFor="let day of week.days" (click)="showDayDialog(day.events)" class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
         day.today ? 'bg-blue-100' : ''
       }}">
       <p class="text-center">
