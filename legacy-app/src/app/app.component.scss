@@ -1,3 +1,8 @@
-:host ::ng-deep .mat-expansion-indicator::after {
-  @apply border-slate-600;
+::ng-deep {
+  .mat-checkbox-layout {
+    white-space: normal !important;
+  }  
+  .mat-expansion-indicator::after {
+    @apply border-slate-600;
+  }
 }
