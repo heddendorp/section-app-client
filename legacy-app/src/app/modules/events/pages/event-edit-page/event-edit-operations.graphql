@@ -1,5 +1,5 @@
 query loadEventForEdit($id: ID!) {
-  event(eventId: $id) {
+  event(id: $id) {
     coordinates
     couldBeOrganizer
     couldBeParticipant
@@ -62,14 +62,14 @@ query loadEventForEdit($id: ID!) {
       status
     }
   }
-  organizers {
+  eventOrganizers {
     id
     name
   }
 }
 
 mutation updateEventTemplateConnection($eventId: ID!, $templateId: ID!) {
-  updateEventTemplateConnection(id: $eventId, templateId: $templateId) {
+  updateEventTemplateConnection(eventId: $eventId, templateId: $templateId) {
     id
     eventTemplate {
       id
@@ -96,7 +96,7 @@ mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
 }
 
 mutation updateGeneralEvent($id: ID!, $data: UpdateGeneralEventInput!) {
-  updateEventGeneralInfo(id: $id, data: $data) {
+  updateEventGeneralInfo(eventId: $id, input: $data) {
     id
     description
     organizerText
@@ -105,7 +105,7 @@ mutation updateGeneralEvent($id: ID!, $data: UpdateGeneralEventInput!) {
 }
 
 mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
-  updateEventCoreInfo(id: $id, data: $data) {
+  updateEventCoreInfo(eventId: $id, input: $data) {
     id
     title
     icon
@@ -124,14 +124,17 @@ mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
 }
 
 mutation updatePublication($id: ID!, $state: PublicationState!) {
-  changeEventPublication(id: $id, state: $state) {
+  changeEventPublication(eventId: $id, publicationState: $state) {
     id
     publicationState
   }
 }
 
-mutation updateEventLocation($eventId: ID!, $update: UpdateLocationInput!) {
-  updateEventLocation(id: $eventId, data: $update) {
+mutation updateEventLocation(
+  $eventId: ID!
+  $update: UpdateEventLocationInput!
+) {
+  updateEventLocation(eventId: $eventId, input: $update) {
     id
     location
     coordinates
@@ -142,31 +145,35 @@ mutation addSubmissionToEvent(
   $eventId: ID!
   $submissionItem: CreateSubmissionItemInput!
 ) {
-  createSubmissionOnEvent(id: $eventId, data: $submissionItem) {
+  createSubmissionItem(
+    input: $submissionItem
+    target: "event"
+    targetId: $eventId
+  ) {
     id
-    submissionItems {
+    createdAt
+    required
+    submissionTime
+    type
+    instruction
+    name
+    event {
       id
-      createdAt
-      required
-      submissionTime
-      type
-      instruction
-      name
+      submissionItems {
+        id
+      }
     }
   }
 }
 
 mutation removeSubmissionFromEvent($submissionItemId: ID!) {
-  removeSubmissionFromEvent(id: $submissionItemId) {
+  deleteSubmissionItem(id: $submissionItemId) {
     id
-    submissionItems {
+    event {
       id
-      createdAt
-      required
-      submissionTime
-      type
-      instruction
-      name
+      submissionItems {
+        id
+      }
     }
   }
 }

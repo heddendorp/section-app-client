@@ -117,7 +117,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
                 this.snackBar.open(
                   `Certificate scanned: ${data.verifyDCC.status}`
                 );
-                this.certificatePayload$.next(data.verifyDCC.payload);
+                this.certificatePayload$.next(data.verifyDCC.card ?? null);
                 this.hideScanner$.next(true);
               } else {
                 this.snackBar.open('Certificate not verified');

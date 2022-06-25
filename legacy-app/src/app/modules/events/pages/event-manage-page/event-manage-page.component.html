@@ -77,7 +77,7 @@
       <p>Users Checked in</p>
       <p>{{ event.participantsAttended }}</p>
       <p>Users registered</p>
-      <p>{{ event.participantsRegistered }}</p>
+      <p>{{ event.participantRegistrationCount }}</p>
       <p>Maximum participants</p>
       <p>{{ event.participantLimit }}</p>
     </div>
@@ -292,7 +292,7 @@
             <td colspan="2">Participants (including tutors):</td>
             <td colspan="3">
               {{
-                event.participantsRegistered +
+                event.participantRegistrationCount +
                   event.organizerRegistrations.length
               }}
             </td>

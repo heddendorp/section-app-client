@@ -87,7 +87,7 @@ query loadAllPhotos {
 }
 
 query loadUser($id: ID!) {
-  userById(id: $id) {
+  user(id: $id) {
     id
     authId
     firstName
@@ -97,7 +97,7 @@ query loadUser($id: ID!) {
     birthdate
     phone
     university
-    hasESNcard
+    hasESNCard
     esnCardOverride
     currentTenant(userId: $id) {
       userId
@@ -150,7 +150,7 @@ query getTenantForEdit {
 }
 
 query getOrganizers {
-  organizers {
+  eventOrganizers {
     id
     name
     text
@@ -158,8 +158,8 @@ query getOrganizers {
 }
 
 query getUsers(
-  $roleList: [Role]
-  $statusList: [MembershipStatus]
+  $roleList: [Role!]
+  $statusList: [MembershipStatus!]
   $search: String
   $pageIndex: Int
   $pageLength: Int
@@ -189,32 +189,27 @@ query getUsers(
   )
 }
 
-query getStatistics($range: DateRangeInput) {
-  currentTenant {
-    id
-    name
-    statistics {
-      usersRegistered(range: $range)
-      usersWithCustomer(range: $range)
-      usersWithPaymentMethod(range: $range)
-      registrations(range: $range)
-      userHistory(range: $range)
-      registrationHistory(range: $range)
-      checkinHistory(range: $range)
-      refundHistory(range: $range)
-      userEventDistribution(range: $range)
-      usersRegisteredEvents(range: $range)
-      usersRegisteredFreeEvents(range: $range)
-      usersRegisteredPaidEvents(range: $range)
-      checkins(range: $range)
-      paidRegistrations(range: $range)
-      #      totalNetPayments
-      totalEvents(range: $range)
-      paidEvents(range: $range)
-      #      averageEventCost
-      userUniversityDistribution(range: $range)
-      userStatusDistribution(range: $range)
-    }
+query getStatistics($range: DateRangeInput, $tenantId: ID) {
+  statistics(range: $range, tenantId: $tenantId) {
+    usersRegistered
+    usersWithCustomer
+    usersWithPaymentMethod
+    registrations
+    userHistory
+    registrationHistory
+    checkinHistory
+    userEventDistribution
+    usersRegisteredEvents
+    usersRegisteredFreeEvents
+    usersRegisteredPaidEvents
+    checkins
+    paidRegistrations
+    #      totalNetPayments
+    totalEvents
+    paidEvents
+    #      averageEventCost
+    userUniversityDistribution
+    userStatusDistribution
   }
 }
 
@@ -303,8 +298,8 @@ query getPurchase($id: ID!) {
   }
 }
 
-mutation updateTenant($id: ID!, $update: updateTenantInput!) {
-  updateTenant(id: $id, data: $update) {
+mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
+  updateTenant(id: $id, updateTenantInput: $update) {
     id
     faqPage
     imprintPage
@@ -315,28 +310,22 @@ mutation updateTenant($id: ID!, $update: updateTenantInput!) {
 }
 
 mutation updateESNcard($userId: ID!, $override: Boolean!) {
-  updateESNcard(id: $userId, esnCardOverride: $override) {
+  updateESNCard(id: $userId, esnCardOverride: $override) {
     id
     esnCardOverride
-    hasESNcard
+    hasESNCard
   }
 }
 
 mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
   updateUserRole(userId: $id, role: $role) {
-    id
-    currentTenant(userId: $id) {
-      userId
-      tenantId
-      role
-    }
+    userId
+    tenantId
+    role
   }
   updateUserStatus(userId: $id, status: $status) {
-    id
-    currentTenant(userId: $id) {
-      userId
-      tenantId
-      status
-    }
+    userId
+    tenantId
+    status
   }
 }

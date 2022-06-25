@@ -1,14 +1,14 @@
 mutation RegisterUser($userInput: CreateUserInput!) {
-  registerUser(userInput: $userInput) {
+  createUser(input: $userInput) {
     id
   }
 }
 
-query getPaymentSetupSession {
-  getPaymentSetupSession {
-    id
-  }
-}
+#query getPaymentSetupSession {
+#  getPaymentSetupSession {
+#    id
+#  }
+#}
 
 query getPhotoJourney {
   currentUser {
@@ -41,7 +41,7 @@ query userProfile {
     id
     fullName
     picture
-    email_verified
+    emailVerified
     email
     phone
     university
@@ -51,7 +51,7 @@ query userProfile {
     firstName
     lastName
     calendarToken
-    hasESNcard
+    hasESNCard
     enrolmentStatus
     currentTenant {
       userId
@@ -114,7 +114,7 @@ mutation submitEventFeedback($id: ID!, $rating: Int!, $comment: String) {
   }
 }
 
-mutation useRegistrationCode($id: ID!, $price: Json) {
+mutation useRegistrationCode($id: ID!, $price: JSON) {
   useRegistrationCode(id: $id, price: $price) {
     id
     status
@@ -140,8 +140,8 @@ mutation useRegistrationCode($id: ID!, $price: Json) {
   }
 }
 
-mutation updateProfile($input: UpdateProfileInput!) {
-  updateProfile(input: $input) {
+mutation updateProfile($input: UpdateUserInput!, $userId: ID!) {
+  updateUser(input: $input, userId: $userId) {
     id
     firstName
     lastName

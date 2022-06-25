@@ -85,18 +85,19 @@ export class AddReceiptDialogComponent {
             this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
         }
       );
-      await this.addReceiptGQL
-        .mutate({
+      await firstValueFrom(
+        this.addReceiptGQL.mutate({
           costItemId: this.data.costItem.id,
           receiptInput: {
+            costItemId: this.data.costItem.id,
             amount,
             blob,
             container,
             type: file.type,
-            md5: res.contentMD5?.toString(),
+            md5: res.contentMD5?.toString() ?? '',
           },
         })
-        .toPromise();
+      );
       this.dialog.close();
     }
     this.processing$.next(false);

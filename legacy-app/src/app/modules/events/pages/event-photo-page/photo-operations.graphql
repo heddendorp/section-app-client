@@ -1,5 +1,5 @@
 query getPhotosOfEvent($eventId: ID!) {
-  photosOfEvent(id: $eventId) {
+  photos(eventId: $eventId) {
     id
     creator {
       id
@@ -16,7 +16,7 @@ query getPhotosOfEvent($eventId: ID!) {
     originalBlob
     type
   }
-  event(eventId: $eventId) {
+  event(id: $eventId) {
     id
     title
   }
@@ -27,7 +27,7 @@ query getPhotoShareKey {
 }
 
 mutation createPhotoShare($data: CreatePhotoShareInput!, $eventId: ID!) {
-  createPhotoShare(data: $data, eventId: $eventId) {
+  createPhotoShare(input: $data, eventId: $eventId) {
     id
   }
 }

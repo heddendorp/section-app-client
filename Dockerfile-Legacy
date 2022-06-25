@@ -13,7 +13,7 @@ ARG VERSION=DOCKER_VERSION
 RUN sed -i "s|PROD_VERSION|$VERSION|g" legacy-app/src/environments/environment.prod.ts
 RUN yarn workspace @tumi/legacy-app build --source-map
 
-FROM nginx:1.17.1-alpine
+FROM nginx:1.23.0-alpine
 COPY legacy-app/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/legacy-app/dist/legacy-app /usr/share/nginx/html
 COPY legacy-app/.well-kown /usr/share/nginx/html/.well-known

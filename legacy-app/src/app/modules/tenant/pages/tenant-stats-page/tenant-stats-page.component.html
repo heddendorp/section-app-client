@@ -1,4 +1,4 @@
-<main class="p-4" *ngIf="tenant$ | async as tenant">
+<main class="p-4" *ngIf="statistics$ | async as statistics">
   <h1 class="mb-4 font-mono font-black">Statistics HQ</h1>
   <mat-form-field [formGroup]="rangeControl">
     <mat-label>Enter a date range</mat-label>
@@ -14,23 +14,23 @@
   <app-grid class="mb-4">
     <div class="kpi">
       <p class="title">Registered Users</p>
-      <p class="value">{{ tenant.statistics.usersRegistered }}</p>
+      <p class="value">{{ statistics.usersRegistered }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users with stripe customer</p>
-      <p class="value">{{ tenant.statistics.usersWithCustomer }}</p>
+      <p class="value">{{ statistics.usersWithCustomer }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users with payment method</p>
-      <p class="value">{{ tenant.statistics.usersWithPaymentMethod }}</p>
+      <p class="value">{{ statistics.usersWithPaymentMethod }}</p>
     </div>
     <div class="kpi">
       <p class="title">Events</p>
-      <p class="value">{{ tenant.statistics.totalEvents }}</p>
+      <p class="value">{{ statistics.totalEvents }}</p>
     </div>
     <div class="kpi">
       <p class="title">Paid Events</p>
-      <p class="value">{{ tenant.statistics.paidEvents }}</p>
+      <p class="value">{{ statistics.paidEvents }}</p>
     </div>
     <!--    <div class="kpi">-->
     <!--      <p class="title">Average events price</p>-->
@@ -41,11 +41,11 @@
 
     <div class="kpi">
       <p class="title">Registrations</p>
-      <p class="value">{{ tenant.statistics.registrations }}</p>
+      <p class="value">{{ statistics.registrations }}</p>
     </div>
     <div class="kpi">
       <p class="title">Paid registrations</p>
-      <p class="value">{{ tenant.statistics.paidRegistrations }}</p>
+      <p class="value">{{ statistics.paidRegistrations }}</p>
     </div>
     <!--    <div class="kpi">-->
     <!--      <p class="title">Total net payments</p>-->
@@ -55,35 +55,31 @@
     <!--    </div>-->
     <div class="kpi">
       <p class="title">Check ins</p>
-      <p class="value">{{ tenant.statistics.checkins }}</p>
+      <p class="value">{{ statistics.checkins }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users who registered for Events</p>
-      <p class="value">{{ tenant.statistics.usersRegisteredEvents }}</p>
+      <p class="value">{{ statistics.usersRegisteredEvents }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users who registered for free Events</p>
-      <p class="value">{{ tenant.statistics.usersRegisteredFreeEvents }}</p>
+      <p class="value">{{ statistics.usersRegisteredFreeEvents }}</p>
     </div>
     <div class="kpi">
       <p class="title">Users who registered for paid Events</p>
-      <p class="value">{{ tenant.statistics.usersRegisteredPaidEvents }}</p>
+      <p class="value">{{ statistics.usersRegisteredPaidEvents }}</p>
     </div>
   </app-grid>
   <h2>University distribution</h2>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    <ng-container
-      *ngFor="let entry of tenant.statistics.userUniversityDistribution"
-    >
+    <ng-container *ngFor="let entry of statistics.userUniversityDistribution">
       <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
       <p>{{ entry.count }}</p>
     </ng-container>
   </div>
   <h2>Status distribution</h2>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    <ng-container
-      *ngFor="let entry of tenant.statistics.userStatusDistribution"
-    >
+    <ng-container *ngFor="let entry of statistics.userStatusDistribution">
       <p class="font-bold">{{ entry.status | titlecase }}</p>
       <p>{{ entry.count }}</p>
     </ng-container>

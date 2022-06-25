@@ -1,5 +1,5 @@
 mutation createEventTemplate($input: CreateEventTemplateInput!) {
-  createEventTemplate(eventTemplateInput: $input) {
+  createEventTemplate(input: $input) {
     id
     createdAt
   }
@@ -9,19 +9,16 @@ mutation createEventFromTemplate(
   $templateId: ID!
   $eventData: CreateEventFromTemplateInput!
 ) {
-  createEventFromTemplate(
-    templateId: $templateId
-    createEventFromTemplateInput: $eventData
-  ) {
+  createEventFromTemplate(templateId: $templateId, input: $eventData) {
     id
   }
 }
 
 mutation updateTemplateLocation(
   $templateId: ID!
-  $update: UpdateLocationInput!
+  $update: UpdateTemplateLocationInput!
 ) {
-  updateTemplateLocation(id: $templateId, data: $update) {
+  updateTemplateLocation(templateId: $templateId, location: $update) {
     id
     location
     coordinates
@@ -29,7 +26,7 @@ mutation updateTemplateLocation(
 }
 
 mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
-  updateTemplate(id: $templateId, data: $update) {
+  updateTemplate(templateId: $templateId, input: $update) {
     id
     title
     icon
@@ -47,13 +44,13 @@ mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
 }
 
 mutation deleteEventTemplate($templateId: ID!) {
-  deleteTemplate(id: $templateId) {
+  deleteTemplate(templateId: $templateId) {
     id
   }
 }
 
 mutation deleteTemplate($id: ID!) {
-  deleteTemplate(id: $id) {
+  deleteTemplate(templateId: $id) {
     id
   }
 }
@@ -89,15 +86,15 @@ query getEventTemplate($id: ID!) {
   }
 }
 
-mutation updateFinances($id: ID!, $finances: Json!) {
-  updateTemplateFinances(id: $id, finances: $finances) {
+mutation updateFinances($id: ID!, $finances: JSON!) {
+  updateTemplateFinances(templateId: $id, finances: $finances) {
     id
     finances
   }
 }
 
 query getOrganizerOptions {
-  organizers {
+  eventOrganizers {
     id
     name
   }

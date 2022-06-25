@@ -2,7 +2,7 @@ query userRoles {
   currentUser {
     id
     fullName
-    hasESNcard
+    hasESNCard
     currentTenant {
       userId
       tenantId
@@ -17,7 +17,7 @@ mutation createSubmissionItem(
   $id: ID!
   $input: CreateSubmissionItemInput!
 ) {
-  createSubmissionItem(id: $id, data: $input, target: $target) {
+  createSubmissionItem(targetId: $id, input: $input, target: $target) {
     id
   }
 }

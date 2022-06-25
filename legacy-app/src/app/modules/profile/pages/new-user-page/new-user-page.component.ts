@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  EnrollmentStatus,
+  EnrolmentStatus,
   GetCurrentUserGQL,
   RegisterUserGQL,
 } from '@tumi/legacy-app/generated/generated';
@@ -21,7 +21,7 @@ import { DateTime } from 'luxon';
 })
 export class NewUserPageComponent implements OnInit {
   public welcomeForm: UntypedFormGroup;
-  public EnrolmentStatus = EnrollmentStatus;
+  public EnrolmentStatus = EnrolmentStatus;
   startDate = DateTime.local().minus({ years: 20 }).toJSDate();
 
   constructor(
@@ -39,7 +39,7 @@ export class NewUserPageComponent implements OnInit {
       university: ['', Validators.required],
       enrolmentStatus: ['', Validators.required],
       birthdate: [null, Validators.required],
-      phone: ['', Validators.pattern(/[+][0-9]+/)],
+      phone: ['', Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)], // Allow spaces in validation, strip them server-side
     });
   }
 

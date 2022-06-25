@@ -11,7 +11,7 @@ COPY experiments experiments/
 # If you are building your code for production
 RUN yarn workspace @tumi/experiments build
 
-FROM nginx:1.17.1-alpine
+FROM nginx:1.23.0-alpine
 COPY experiments/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/experiments/dist/experiments /usr/share/nginx/html
 EXPOSE 4000

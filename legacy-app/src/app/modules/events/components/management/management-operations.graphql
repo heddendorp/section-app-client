@@ -1,5 +1,5 @@
 query getCostItemsForEvent($eventId: ID!) {
-  costItemsForEvent(eventId: $eventId) {
+  costItems(eventId: $eventId) {
     id
     name
     calculationInfo
@@ -7,7 +7,7 @@ query getCostItemsForEvent($eventId: ID!) {
     onInvoice
     submittedAmount
   }
-  event(eventId: $eventId) {
+  event(id: $eventId) {
     id
     eventTemplate {
       id

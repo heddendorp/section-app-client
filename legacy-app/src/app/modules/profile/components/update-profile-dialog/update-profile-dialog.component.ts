@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   UntypedFormBuilder,
@@ -11,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  EnrollmentStatus,
+  EnrolmentStatus,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 
@@ -23,7 +18,8 @@ import {
 })
 export class UpdateProfileDialogComponent {
   public profileForm: UntypedFormGroup;
-  public EnrolmentStatus = EnrollmentStatus;
+  public EnrolmentStatus = EnrolmentStatus;
+
   constructor(
     private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<UpdateProfileDialogComponent>,
@@ -35,7 +31,7 @@ export class UpdateProfileDialogComponent {
       lastName: ['', Validators.required],
       university: ['', Validators.required],
       enrolmentStatus: ['', Validators.required],
-      phone: ['', Validators.pattern(/[+][0-9]+/)],
+      phone: ['', Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)], // Allow spaces in validation, strip them server-side
     });
     this.profileForm.patchValue({ ...this.data.profile });
   }

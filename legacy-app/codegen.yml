@@ -11,6 +11,10 @@ generates:
       - 'typescript-apollo-angular'
     config:
       addExplicitOverride: true
+#      scalars:
+#        JSON: string
+#        UUID: string
+#        Date: string
 hooks:
   afterAllFileWrite:
 #    - yarn eslint --fix

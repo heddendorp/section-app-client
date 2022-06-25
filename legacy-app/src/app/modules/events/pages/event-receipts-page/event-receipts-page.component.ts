@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AddReceiptDialogComponent } from '@tumi/legacy-app/modules/events/components/running/add-receipt-dialog/add-receipt-dialog.component';
 import { QueryRef } from 'apollo-angular';
-import { first, map, Observable } from 'rxjs';
+import { first, firstValueFrom, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-event-receipts-page',
@@ -71,7 +71,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
   }
 
   async addReceipt() {
-    const costItem = await this.costItem$.pipe(first()).toPromise();
+    const costItem = await firstValueFrom(this.costItem$);
     if (costItem) {
       await this.dialog
         .open(AddReceiptDialogComponent, { data: { costItem } })
@@ -82,9 +82,9 @@ export class EventReceiptsPageComponent implements OnDestroy {
   async deleteReceipt(receipt: GetCostItemQuery['costItem']['receipts'][0]) {
     const costItem = await this.costItem$.pipe(first()).toPromise();
     if (costItem) {
-      await this.removeReceiptMutation
-        .mutate({ receiptId: receipt.id, costItemId: costItem.id })
-        .toPromise();
+      await firstValueFrom(
+        this.removeReceiptMutation.mutate({ receiptId: receipt.id })
+      );
     }
   }
 
