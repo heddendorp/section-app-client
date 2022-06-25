@@ -38,28 +38,30 @@
     />
   </div>
   <div
-    class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4"
+    class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4 flex flex-col"
   >
-    <p class="mb-2 font-bold">{{ event.title }}</p>
-    <p>
-      🕐 {{ event.start | date: 'shortTime' }}
-      <span class="ml-2" *ngIf="defaultPrice()">
+    <p class="mb-2 font-bold">{{ event.title }} </p>
+    <div class='flex flex-col grow'>
+      <p class='mt-auto'>
+        🕐 {{ event.start | date: 'shortTime' }}
+        <span class="ml-2" *ngIf="defaultPrice()">
         💶 {{ defaultPrice().amount | currency: 'EUR' }}
       </span>
-    </p>
-    <p
-      *ngIf="
+      </p>
+      <p
+        *ngIf="
         RegistrationMode.External !== event.registrationMode && !notYetOpen()
       "
-    >
-      {{ event.freeParticipantSpots }}
-      <ng-container *ngIf="event?.couldBeOrganizer">
-        ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
-        orga)
-      </ng-container>
-    </p>
-    <p *ngIf="notYetOpen()">
-      🔒 Registration opens {{ event.registrationStart | date: 'short' }}
-    </p>
+      >
+        {{ event.freeParticipantSpots }}
+        <ng-container *ngIf="event?.couldBeOrganizer">
+          ({{ (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0) }}
+          orga)
+        </ng-container>
+      </p>
+      <p *ngIf="notYetOpen()">
+        🔒 Registration opens {{ event.registrationStart | date: 'short' }}
+      </p>
+    </div>
   </div>
 </a>
