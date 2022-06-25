@@ -59,15 +59,6 @@
         <!--        </a>-->
         <a
           mat-list-item
-          routerLink="profile"
-          routerLinkActive="active"
-          *appIfRole="[Role.User, Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-contact-card"></mat-icon>
-          <span>Profile</span>
-        </a>
-        <a
-          mat-list-item
           routerLink="event-templates"
           routerLinkActive="active"
           *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
