@@ -23,6 +23,7 @@ builder.mutationFields((t) => ({
         data: {
           ...args.input,
           finances: {},
+          categoryId: args.input.categoryId as any,
           tenant: {
             connect: {
               id: context.tenant.id,
@@ -47,6 +48,29 @@ builder.mutationFields((t) => ({
         },
         data: {
           ...removeEmpty(input),
+        },
+      });
+    },
+  }),
+  updateTemplateCategory: t.prismaField({
+    authScopes: { member: true },
+    type: 'EventTemplate',
+    args: {
+      templateId: t.arg.id({ required: true }),
+      categoryId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, parent, { templateId, categoryId }, context) => {
+      return prisma.eventTemplate.update({
+        ...query,
+        where: {
+          id: templateId,
+        },
+        data: {
+          category: {
+            connect: {
+              id: categoryId,
+            },
+          },
         },
       });
     },
