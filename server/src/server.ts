@@ -68,6 +68,7 @@ const graphQLServer = createServer({
     }),
     useExtendContext(async (context) => {
       const hostName = context.req.headers.host.split(':')[0];
+      console.log(JSON.stringify(context.req.headers));
       let tenantName = hostName.split('.')[0];
       console.log(tenantName);
       if (tenantName === 'localhost') {

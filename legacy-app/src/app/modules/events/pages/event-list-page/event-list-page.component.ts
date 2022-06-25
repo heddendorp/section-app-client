@@ -44,9 +44,7 @@ export class EventListPageComponent implements OnDestroy {
   ) {
     this.selectedView = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - events');
-    this.loadEventsQueryRef = this.loadEventsQuery.watch({
-      notifyOnNetworkStatusChange: true,
-    });
+    this.loadEventsQueryRef = this.loadEventsQuery.watch();
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events)
     );
