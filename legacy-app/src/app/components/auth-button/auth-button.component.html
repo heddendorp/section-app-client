@@ -3,10 +3,14 @@
     mat-stroked-button
     (click)="auth.logout({ returnTo: document.location.origin })"
   >
+    <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
     Log out
   </button>
 </ng-container>
 
 <ng-template #loggedOut>
-  <button mat-stroked-button (click)="auth.loginWithRedirect()">Log in</button>
+  <button mat-stroked-button (click)="auth.loginWithRedirect()">
+    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+    Log in
+  </button>
 </ng-template>

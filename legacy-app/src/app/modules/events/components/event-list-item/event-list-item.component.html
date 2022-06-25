@@ -42,12 +42,18 @@
   >
     <p class="mb-2 font-bold">{{ event.title }}</p>
     <div class="flex flex-col grow">
-      <p class="mt-auto">
-        🕐 {{ event.start | date: 'shortTime' }}
-        <span class="ml-2" *ngIf="defaultPrice()">
-          💶 {{ defaultPrice().amount | currency: 'EUR' }}
-        </span>
-      </p>
+      <div class="mt-auto flex items-center gap-1">
+        <mat-icon svgIcon="icon-clock" style="width: 18px"></mat-icon>
+        <span>{{ event.start | date: 'shortTime' }}</span>
+        <ng-container *ngIf="defaultPrice()">
+          <mat-icon
+            svgIcon="icon-price-tag-euro"
+            style="width: 18px"
+            class="ml-2"
+          ></mat-icon>
+          {{ defaultPrice().amount | currency: 'EUR' }}
+        </ng-container>
+      </div>
       <p
         *ngIf="
           RegistrationMode.External !== event.registrationMode && !notYetOpen()
@@ -61,9 +67,17 @@
           orga)
         </ng-container>
       </p>
-      <p *ngIf="notYetOpen()">
-        🔒 Registration opens {{ event.registrationStart | date: 'short' }}
-      </p>
+
+      <div
+        class="flex items-center gap-1 text-slate-500 italic"
+        *ngIf="notYetOpen()"
+      >
+        <mat-icon svgIcon="icon-lock" style="width: 18px"></mat-icon>
+        Registration opens
+        <span class="font-medium">{{
+          event.registrationStart | date: 'short'
+        }}</span>
+      </div>
     </div>
   </div>
 </a>
