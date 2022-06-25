@@ -38,6 +38,8 @@ export class Auth0 {
       email: string;
       email_verified: boolean;
       picture: string;
+      family_name?: string;
+      given_name?: string;
     };
   }
 
@@ -47,7 +49,7 @@ export class Auth0 {
       if (
         typeof payload !== 'string' &&
         payload?.exp &&
-        new Date() < new Date(payload.exp)
+        new Date().getTime() / 1000 < payload.exp
       ) {
         return;
       }

@@ -20,6 +20,9 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
     "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build"
   },
+  "engines": {
+    "node": ">=17.0.0 <18.0.0"
+  },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
     "concurrently": "^7.2.2"
