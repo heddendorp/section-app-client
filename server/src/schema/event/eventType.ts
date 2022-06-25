@@ -213,7 +213,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
                 },
               },
               amount: { not: undefined },
@@ -235,7 +234,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
                 },
               },
               netAmount: { not: undefined },
@@ -258,7 +256,29 @@ export const eventType = builder.prismaObject('TumiEvent', {
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
+                },
+              },
+              feeAmount: { not: undefined },
+            },
+            _sum: { feeAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+          )
+          .then((amount) => new Prisma.Decimal(amount));
+      },
+    }),
+    refundFeesPaid: t.field({
+      type: 'Decimal',
+      resolve: async (source, args, context) => {
+        return prisma.stripePayment
+          .aggregate({
+            where: {
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: RegistrationStatus.CANCELLED,
                 },
               },
               feeAmount: { not: undefined },

@@ -11,60 +11,98 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
-import { $settings } from './generated/nexus-prisma';
-import { envelopPlugins } from './getEnveloped';
-import { createServer } from '@graphql-yoga/node';
+import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
 import { schema } from './schema';
-import { setupCronjob } from './helpers/cronjobs';
 import prom from 'prom-client';
+import { useAuth0 } from '@envelop/auth0';
+import { useExtendContext } from '@envelop/core';
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      __rootdir__: string;
-    }
-  }
-  namespace Express {
-    interface User {
-      id: string;
-      email: string;
-      firstName: string;
-      lastName: string;
-      picture: string;
-    }
-
-    interface Request {
-      user?: User;
-      token?: {
-        iss: string;
-        sub: string;
-        aud: string[];
-        iat: number;
-        exp: number;
-        azp: string;
-        scope: string;
-      };
-    }
-  }
-}
-global.__rootdir__ = __dirname || process.cwd();
+// declare global {
+//   namespace NodeJS {
+//     interface Global {
+//       __rootdir__: string;
+//     }
+//   }
+//   namespace Express {
+//     interface User {
+//       id: string;
+//       email: string;
+//       firstName: string;
+//       lastName: string;
+//       picture: string;
+//     }
+//
+//     interface Request {
+//       user?: User;
+//       token?: {
+//         iss: string;
+//         sub: string;
+//         aud: string[];
+//         iat: number;
+//         exp: number;
+//         azp: string;
+//         scope: string;
+//       };
+//     }
+//   }
+// }
+// global.__rootdir__ = __dirname || process.cwd();
 
 const app = express();
 const register = new prom.Registry();
 prom.collectDefaultMetrics({ register });
 
-setupCronjob(prisma);
+// setupCronjob(prisma);
 const auth0 = new Auth0();
 
 const graphQLServer = createServer({
   schema,
-  context: {
-    prisma,
+  context: async ({ req }) => ({
     auth0,
-  },
-  plugins: envelopPlugins,
-  parserCache: true,
-  validationCache: true,
+  }),
+  plugins: [
+    useAuth0({
+      domain: 'tumi.eu.auth0.com',
+      audience: 'esn.events',
+      extendContextField: 'token',
+    }),
+    useExtendContext(async (context) => {
+      const hostName = context.req.headers.host.split(':')[0];
+      let tenantName = hostName.split('.')[0];
+      console.log(tenantName);
+      if (tenantName === 'localhost') {
+        tenantName = 'tumi';
+      }
+      let tenant;
+      try {
+        tenant = await prisma.tenant.findUnique({
+          where: {
+            shortName: tenantName,
+          },
+        });
+      } catch (e) {
+        console.error(e);
+        throw new GraphQLYogaError('Tenant not found', {
+          error: e,
+        });
+      }
+      if (context.token) {
+        const user = await prisma.user.findUnique({
+          where: {
+            authId: context.token.sub,
+          },
+          include: {
+            tenants: { where: { tenantId: tenant.id } },
+          },
+        });
+        return { ...context, tenant, user, userOfTenant: user.tenants[0] };
+      }
+      return { ...context, tenant };
+    }),
+  ],
+  // plugins: envelopPlugins,
+  // parserCache: true,
+  // validationCache: true,
   maskedErrors: false,
 });
 
@@ -102,11 +140,11 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 
-$settings({
-  checks: {
-    PrismaClientOnContext: false,
-  },
-});
+// $settings({
+//   checks: {
+//     PrismaClientOnContext: false,
+//   },
+// });
 
 app.use(compression());
 app.use(cors());
