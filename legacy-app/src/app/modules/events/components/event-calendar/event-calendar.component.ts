@@ -119,7 +119,7 @@ export class EventCalendarComponent implements OnChanges {
       maxWidth: '100vw',
       data: { events: events },
       autoFocus: false,
-      panelClass: 'modern'
+      panelClass: 'modern',
     });
   }
 }

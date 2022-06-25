@@ -80,7 +80,7 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     MatTabsModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatRippleModule
+    MatRippleModule,
   ],
 })
 export class EventsModule {}

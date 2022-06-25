@@ -1,30 +1,58 @@
-<div gdColumns="repeat(7, calc(100% / 7))" class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0">
-  <div class="border-t border-l bg-slate-100 p-1" *ngFor="let weekday of weekdays">
+<div
+  gdColumns="repeat(7, calc(100% / 7))"
+  class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0"
+>
+  <div
+    class="border-t border-l bg-slate-100 p-1"
+    *ngFor="let weekday of weekdays"
+  >
     <p class="text-center">{{ weekday }}</p>
   </div>
   <ng-container *ngFor="let week of weeks">
-    <div matRipple *ngFor="let day of week.days" (click)="showDayDialog(day.events)" class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
+    <div
+      matRipple
+      *ngFor="let day of week.days"
+      (click)="showDayDialog(day.events)"
+      class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
         day.today ? 'bg-blue-100' : ''
-      }}">
+      }}"
+    >
       <p class="text-center">
         <span *ngIf="day.startOfMonth" class="font-bold">{{ day.month }}</span>
         {{ day.date }}
       </p>
-      <div *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)" class="event select-none flex rounded text-xs md:text-sm mr-0.5 {{ event.publicationState | lowercase }} {{
-          event.userIsRegistered ? 'registered' : ''
-        }} {{ event.userIsOrganizer ? 'organizer' : '' }}">
-        <img [src]="event.icon | iconURL" alt="{{ event.icon }}" class="w-4 md:mr-0.5 md:w-6" />
-        <span class="block overflow-hidden text-clip whitespace-nowrap {{
+      <div
+        *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
+        class="event select-none flex rounded text-xs md:text-sm mr-0.5 {{
+          event.publicationState | lowercase
+        }} {{ event.userIsRegistered ? 'registered' : '' }} {{
+          event.userIsOrganizer ? 'organizer' : ''
+        }}"
+      >
+        <img
+          [src]="event.icon | iconURL"
+          alt="{{ event.icon }}"
+          class="w-4 md:mr-0.5 md:w-6"
+        />
+        <span
+          class="block overflow-hidden text-clip whitespace-nowrap {{
             !isRegistrationOpen(event) ? 'italic' : ''
-          }}">{{ event.title }}</span>
+          }}"
+          >{{ event.title }}</span
+        >
       </div>
-      <div *ngIf="day.events.length > 4" class="flex justify-center text-xs italic">
+      <div
+        *ngIf="day.events.length > 4"
+        class="flex justify-center text-xs italic"
+      >
         +{{ day.events.length - 3 }}
       </div>
       <!-- Phantom to force the height to be exactly 4 events -->
       <ng-container *ngIf="day.events.length < 4">
-        <div *ngFor="let event of [].constructor(4 - day.events.length)"
-          class="invisible flex rounded bg-gray-200 text-xs">
+        <div
+          *ngFor="let event of [].constructor(4 - day.events.length)"
+          class="invisible flex rounded bg-gray-200 text-xs"
+        >
           <span class="block truncate">Test</span>
         </div>
       </ng-container>
