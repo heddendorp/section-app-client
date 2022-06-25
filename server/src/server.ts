@@ -81,6 +81,9 @@ const graphQLServer = createServer({
       if (tenantName === 'http') {
         tenantName = 'tumi';
       }
+      if (tenantName === 'https') {
+        tenantName = 'tumi';
+      }
       let tenant;
       try {
         tenant = await prisma.tenant.findUnique({
