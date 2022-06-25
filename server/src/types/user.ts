@@ -218,11 +218,12 @@ export const updateProfileInputType = inputObjectType({
 export const updateProfileMutation = mutationField('updateProfile', {
   type: userType,
   args: { input: nonNull(updateProfileInputType) },
-  resolve: (source, { input }, context) =>
-    context.prisma.user.update({
+  resolve: (source, { input }, context) => {
+    input.phone = input.phone?.replaceAll(" ", "")
+    return context.prisma.user.update({
       where: { id: context.user?.id },
       data: input,
-    }),
+    })},
 });
 
 export const updateEsnCardMutation = mutationField('updateESNcard', {
@@ -489,9 +490,11 @@ export const createUser = mutationField('registerUser', {
     if (!context.token?.sub) {
       throw new Error('User not logged in');
     }
-    const { email, email_verified, picture } = await context.auth0.getUserInfo(
-      context.token?.sub ?? ''
+    const { email, email_verified, picture } = await context.auth0.getProfile(
+      context.req.headers['authorization']
     );
+
+    args.userInput.phone = args.userInput.phone?.replaceAll(" ", "") // Strip spaces from phone numbers
     return context.prisma.user.upsert({
       where: {
         authId: context.token?.sub,
