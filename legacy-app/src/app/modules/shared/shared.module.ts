@@ -10,6 +10,7 @@ import { IfStatusDirective } from './directives/if-status.directive';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { DataItemsCollectorComponent } from './components/data-items-collector/data-items-collector.component';
 import { DataItemsManagerComponent } from './components/data-items-manager/data-items-manager.component';
 import { GridComponent } from './components/grid/grid.component';
@@ -90,6 +91,7 @@ import { HttpClientJsonpModule } from '@angular/common/http';
     MatInputModule,
     MatListModule,
     MatProgressBarModule,
+    MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
     MatToolbarModule,

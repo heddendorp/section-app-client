@@ -55,6 +55,7 @@ export class ProfilePageComponent implements OnDestroy {
           []),
       ])
     );
+
     this.route.queryParamMap.pipe(first()).subscribe((queryMap) => {
       const status = queryMap.get('stripe');
       if (status === 'success') {

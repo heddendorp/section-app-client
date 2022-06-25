@@ -1,0 +1,49 @@
+<div
+  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl md:p-4"
+>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="1rem"
+    class="mb-2 p-2 lg:mb-6"
+  >
+    <mat-icon
+      svgIcon="icon-overtime"
+      class="text-secondary-default bg-secondary-on card-icon"
+    ></mat-icon>
+    <h2 class="font-bold">{{ isOrganized ? 'Organized' : 'Your' }} events</h2>
+  </div>
+  <mat-nav-list>
+    <app-event-list-item
+      *ngFor="let event of futureEvents()"
+      [event]="event"
+    ></app-event-list-item>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="1rem"
+            class="p-2 lg"
+          >
+            <mat-icon
+              svgIcon="time-machine"
+              class="text-secondary-default bg-secondary-on card-icon card-icon-small"
+            ></mat-icon>
+            <p class="font-bold">Past events</p>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-event-list-item
+        *ngFor="let event of pastEvents()"
+        [event]="event"
+      ></app-event-list-item>
+    </mat-expansion-panel>
+  </mat-nav-list>
+  <div *ngIf="!isOrganized" class="m-4 mt-2">
+    <button class="w-full" mat-stroked-button (click)="requestClaimDialog()">
+      Claim event with code
+    </button>
+  </div>
+</div>
