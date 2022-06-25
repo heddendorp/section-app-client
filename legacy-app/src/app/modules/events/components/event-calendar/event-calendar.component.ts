@@ -16,6 +16,8 @@ import { DateTime } from 'luxon';
 })
 export class EventCalendarComponent implements OnChanges {
   @Input() events: EventListQuery['events'] = [];
+  @Input() firstDate?: DateTime;
+  @Input() lastDate?: DateTime;
   public weeks: {
     days: {
       date: string;
@@ -36,8 +38,8 @@ export class EventCalendarComponent implements OnChanges {
       }
       const firstEvent = events[0];
       const lastEvent = events[events.length - 1];
-      const firstDate = DateTime.fromISO(firstEvent.start);
-      const lastDate = DateTime.fromISO(lastEvent.end);
+      const firstDate = this.firstDate ? this.firstDate : DateTime.fromISO(firstEvent.start);
+      const lastDate = this.lastDate ? this.lastDate : DateTime.fromISO(lastEvent.end);
       for (
         let i = 0;
         i < Math.ceil(lastDate.diff(firstDate.startOf('week'), 'week').weeks);
@@ -77,7 +79,7 @@ export class EventCalendarComponent implements OnChanges {
             }
           );
           week.days.push({
-            date: currentDay.toFormat('dd'),
+            date: currentDay.toFormat('d'),
             month: currentDay.toFormat('MMM'),
             startOfMonth: currentDay.day === 1,
             today: currentDay.hasSame(DateTime.local(), 'day'),

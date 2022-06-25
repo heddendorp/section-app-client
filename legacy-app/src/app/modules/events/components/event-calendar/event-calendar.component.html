@@ -1,41 +1,49 @@
-<div class="mt-4 mb-2">
-  Get an overview about the upcoming events. Events without free spots are
-  <span class="opacity-40">in a lighter color</span>. If the registration is not
-  yet open, you can see a 🔒 with the date of the registration.
-</div>
-<div gdAuto gdColumns="repeat(7, 1fr)" class="border-r border-b">
-  <div class="border-t border-l p-1" *ngFor="let weekday of weekdays">
-    <p>{{ weekday }}</p>
+<div gdColumns="repeat(7, calc(100% / 7))" class="border-r border-b -ml-4 -mr-4 md:-ml-0 md:-mr-0">
+  <div class="border-t border-l p-1 bg-slate-100" *ngFor="let weekday of weekdays">
+    <p class="text-center">{{ weekday }}</p>
   </div>
   <ng-container *ngFor="let week of weeks">
     <div
       *ngFor="let day of week.days"
-      class="flex flex-col space-y-2 border-t border-l p-2 {{
+      class="flex flex-col space-y-1 border-t border-l {{
         day.today ? 'bg-blue-100' : ''
       }}"
     >
-      <p class="mb-2">
+      <p class="text-center">
         <span *ngIf="day.startOfMonth" class="font-bold">{{ day.month }}</span>
-        {{ day.date }}.
+        {{ day.date }}
       </p>
       <a
-        *ngFor="let event of day.events"
-        routerLink="/events/{{ event.id }}"
-        class="rounded bg-gray-200 p-1 {{
+        *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
+        class="flex rounded bg-gray-200 text-xs mr-0.5 {{
           event.freeParticipantSpots === 'Event is full' ? 'opacity-40' : ''
         }}"
       >
         <img
           [src]="event.icon | iconURL"
           alt="{{ event.icon }}"
-          class="float-right ml-1 w-8"
+          class="w-4"
         />
-        {{ event.start | date: 'HH:mm' }}
-        {{ event.title }}
+        <span class="text-clip overflow-hidden whitespace-nowrap block">{{ event.title }}</span>
         <p *ngIf="!isRegistrationOpen(event)">
-          🔒 {{ event.registrationStart | date: 'dd.MM HH:mm' }}
+          🔒
         </p>
       </a>
+      <a
+        *ngIf="day.events.length > 4"
+        class="flex text-xs justify-center"
+      >
+        ...
+      </a>
+      <!-- Phantom to force the height to be exactly 4 events -->
+      <ng-container *ngIf="day.events.length < 4">
+        <a
+        *ngFor="let event of [].constructor(4 - day.events.length)"
+        class="flex rounded bg-gray-200 text-xs invisible"
+      >
+        <span class="truncate block">Test</span>
+      </a>
+      </ng-container>      
     </div>
   </ng-container>
 </div>

@@ -34,7 +34,9 @@ export class EventListPageComponent implements OnDestroy {
   public filterEvents = new UntypedFormControl('');
   /** 0: all upcoming events, -1: last month, 1: next month etc. */
   public monthOffset = new UntypedFormControl(0);
-  public monthOffsetLabel = 'Upcoming Events';
+  public monthOffsetLabel = 'Upcoming';
+  public startOfMonth?: DateTime;
+  public endOfMonth?: DateTime;
   public Role = Role;
   public selectedView$: Observable<string>;
   private loadEventsQueryRef;
@@ -63,18 +65,24 @@ export class EventListPageComponent implements OnDestroy {
       )
       .subscribe((value) => {
         if (value === 0) {
-          this.monthOffsetLabel = 'Upcoming Events';
-          return this.loadEventsQueryRef.refetch({});
+          this.monthOffsetLabel = 'Upcoming';
+          this.startOfMonth = undefined;
+          this.endOfMonth = undefined;
+          console.log("wow")
+          return this.loadEventsQueryRef.refetch({
+            after: new Date(),
+            before: null
+          });
         }
         const monthsOffset = value + (value < 0 ? 1 : 0);
-        const startOfMonth = DateTime.local()
+        this.startOfMonth = DateTime.local()
           .startOf('month')
           .plus({ months: monthsOffset });
-        const endOfMonth = startOfMonth.endOf('month');
-        this.monthOffsetLabel = startOfMonth.toFormat('LLLL yyyy');
+        this.endOfMonth = this.startOfMonth.endOf('month');
+        this.monthOffsetLabel = this.startOfMonth.toFormat('LLLL yyyy');
         return this.loadEventsQueryRef.refetch({
-          after: startOfMonth.toJSDate(),
-          before: endOfMonth.toJSDate(),
+          after: this.startOfMonth.toJSDate(),
+          before: this.endOfMonth.toJSDate(),
         });
       });
     this.events$ = combineLatest([
@@ -121,15 +129,13 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   initSearch(): void {
-    this.searchEnabled = true;
-    setTimeout(() => {
-      this.searchBar.nativeElement.focus();
-    });
-  }
-
-  exitSearch(): void {
-    if (this.filterEvents.value.length === 0) {
+    if (this.searchEnabled) {
       this.searchEnabled = false;
+    } else {
+      this.searchEnabled = true;
+      setTimeout(() => {
+        this.searchBar.nativeElement.focus();
+      });
     }
   }
 }
