@@ -1,0 +1,25 @@
+<div class="bg-secondary-container text-secondary-onContainer rounded-2xl md:p-4">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" class="mb-2 p-2 lg:mb-6">
+    <mat-icon svgIcon="icon-overtime" class="text-secondary-default bg-secondary-on card-icon"></mat-icon>
+    <h2 class="font-bold">{{ isOrganized ? "Organized" : "Your" }} events</h2>
+  </div>
+  <mat-nav-list>
+    <a mat-list-item *ngFor="let event of events" routerLink="/events/{{ event.id }}">
+      <img [src]="event.icon | iconURL" mat-list-avatar />
+      <h3 mat-line>{{ event.title }}</h3>
+      <p mat-line>
+        {{ event.start | date: 'mediumDate' }} {{event.start | date: 'shortTime'}} 
+        - 
+        <span *ngIf="event.start.startOf('day') !== event.end.startOf('day')">
+          {{ event.end | date: 'mediumDate' }}
+        </span> 
+        {{event.end | date: 'shortTime'}}
+      </p>
+    </a>
+  </mat-nav-list>
+  <div *ngIf="!isOrganized" class="m-4 mt-2">
+    <button class="w-full" mat-stroked-button (click)="requestClaimDialog()">
+      Claim event with code
+    </button>
+  </div>
+</div>
