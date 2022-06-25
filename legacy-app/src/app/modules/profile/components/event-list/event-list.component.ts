@@ -7,16 +7,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  TumiEvent,
-} from '@tumi/legacy-app/generated/generated';
+import { TumiEvent } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit {
   @Output() claimRequest = new EventEmitter<String>();
@@ -26,22 +23,27 @@ export class EventListComponent implements OnInit {
   ngOnInit(): void {}
 
   requestClaimDialog() {
-    this.claimRequest.emit("")
+    this.claimRequest.emit('');
   }
 
   isFuture(event: TumiEvent) {
-    return DateTime.fromISO(event.end) >= DateTime.now()
+    return DateTime.fromISO(event.end) >= DateTime.now();
   }
 
   compareEventTime(e1: TumiEvent, e2: TumiEvent) {
-    return DateTime.fromISO(e2.start).toMillis() - DateTime.fromISO(e1.start).toMillis()
+    return (
+      DateTime.fromISO(e2.start).toMillis() -
+      DateTime.fromISO(e1.start).toMillis()
+    );
   }
 
   futureEvents() {
-    return this.events.filter(this.isFuture).sort(this.compareEventTime)
+    return this.events.filter(this.isFuture).sort(this.compareEventTime);
   }
 
   pastEvents() {
-    return this.events.filter(e => !this.isFuture(e)).sort(this.compareEventTime)
+    return this.events
+      .filter((e) => !this.isFuture(e))
+      .sort(this.compareEventTime);
   }
 }

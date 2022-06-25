@@ -137,8 +137,15 @@
         </app-rate-event>
       </div>
     </div>
-    <app-event-list [events]="profile.organizedEvents" [isOrganized]="true"></app-event-list>
-    <app-event-list [events]="profile.participatedEvents" [isOrganized]="false" (claimRequest)="claimEvent()"></app-event-list>
+    <app-event-list
+      [events]="profile.organizedEvents"
+      [isOrganized]="true"
+    ></app-event-list>
+    <app-event-list
+      [events]="profile.participatedEvents"
+      [isOrganized]="false"
+      (claimRequest)="claimEvent()"
+    ></app-event-list>
     <div
       class="bg-primary-container text-primary-onContainer rounded-2xl p-4"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
