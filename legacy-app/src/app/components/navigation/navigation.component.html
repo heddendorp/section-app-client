@@ -105,6 +105,14 @@
           <mat-icon svgIcon="icon-software-installer"></mat-icon>
           <span>Install the TUMi app</span>
         </button>
+        <a
+          mat-list-item
+          *appIfRole="[Role.User, Role.Admin]"
+          (click)="auth.logout({ returnTo: document.location.origin })"
+        >
+          <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
+          <span>Log out</span>
+        </a>
       </mat-nav-list>
       <div fxFlex="grow"></div>
       <div class="mx-auto mb-2">

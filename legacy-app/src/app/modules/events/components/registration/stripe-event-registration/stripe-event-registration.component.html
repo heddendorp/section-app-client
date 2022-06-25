@@ -34,9 +34,10 @@
         color="primary"
         [disabled]="priceControl.invalid || (processing | async)"
         (click)="register()"
+        class="modern"
       >
-        <mat-icon svgIcon="icon-money-bag-euro"></mat-icon>
-        Start payment and register
+        <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
+        <span>Start payment and register</span>
       </button>
       <mat-progress-bar
         mode="indeterminate"
