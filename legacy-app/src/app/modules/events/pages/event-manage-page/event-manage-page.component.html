@@ -5,7 +5,12 @@
     fxLayoutGap="1rem"
     fxLayoutAlign="space-between"
   >
-    <h1>Manage {{ event.title }}</h1>
+    <div class="flex flex-row items-center">
+      <a routerLink=".." mat-icon-button>
+        <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+      </a>
+      <h1>Manage {{ event.title }}</h1>
+    </div>
     <a
       routerLink="/event-templates/{{ event.eventTemplate.id }}"
       mat-stroked-button
