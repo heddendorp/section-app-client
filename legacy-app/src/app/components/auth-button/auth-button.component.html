@@ -1,12 +1,17 @@
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <button
-    mat-stroked-button
-    (click)="auth.logout({ returnTo: document.location.origin })"
-  >
-    Log out
-  </button>
+  <a routerLink="/profile">
+    <img
+      [src]="userPicture"
+      class="rounded-lg border border-white m-2 max-w-11 max-h-11 w-11 h-11"
+      style="text-indent: -10000px"
+      referrerpolicy="no-referrer"
+    />
+  </a>
 </ng-container>
 
 <ng-template #loggedOut>
-  <button mat-stroked-button (click)="auth.loginWithRedirect()">Log in</button>
+  <button mat-stroked-button (click)="auth.loginWithRedirect()">
+    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+    Log in
+  </button>
 </ng-template>

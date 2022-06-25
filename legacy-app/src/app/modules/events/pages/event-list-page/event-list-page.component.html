@@ -15,30 +15,32 @@
           mat-icon-button
           (click)="monthOffset.setValue(monthOffset.value - 12)"
         >
-          <span class="align-baseline text-xl">«</span>
+          <mat-icon svgIcon="icon-double-left" style="height: 16px"></mat-icon>
         </button>
         <button
           mat-icon-button
           (click)="monthOffset.setValue(monthOffset.value - 1)"
         >
-          <span class="align-baseline text-xl">‹</span>
+          <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
         </button>
-        <h1 class="whitespace-nowrap">{{ monthOffsetLabel }}</h1>
+        <h1 class="whitespace-nowrap ml-2 mr-2">{{ monthOffsetLabel }}</h1>
         <button
           mat-icon-button
           (click)="monthOffset.setValue(monthOffset.value + 1)"
         >
-          <span class="align-baseline text-xl">›</span>
+          <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
         </button>
         <button
           mat-icon-button
           (click)="monthOffset.setValue(monthOffset.value + 12)"
         >
-          <span class="align-baseline text-xl">»</span>
+          <mat-icon svgIcon="icon-double-right" style="height: 16px"></mat-icon>
         </button>
         <ng-container *ngIf="(selectedView$ | async) === 'list'">
           <div fxFlex="grow"></div>
-          <button mat-stroked-button (click)="initSearch()">🔎</button>
+          <button mat-stroked-button (click)="initSearch()">
+            <mat-icon svgIcon="icon-search"></mat-icon>
+          </button>
         </ng-container>
       </div>
       <mat-form-field
@@ -49,6 +51,7 @@
       >
         <mat-label>Search for an event</mat-label>
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
+        <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
       </mat-form-field>
     </div>
     <!--<div

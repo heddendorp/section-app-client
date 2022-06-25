@@ -4,11 +4,19 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
     ></a>
     <div fxFlex="grow"></div>
-    <a routerLink="edit" mat-icon-button *ngIf="event.userIsOrganizer">
+    <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator">
       <mat-icon svgIcon="icon-edit"></mat-icon
     ></a>
+    <div *ngIf="!event.userIsCreator">
+      <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-edit"></mat-icon
+      ></a>
+    </div>
     <a routerLink="manage" mat-icon-button *appIfRole="[Role.Admin]">
       <mat-icon svgIcon="icon-administrative-tools"></mat-icon
+    ></a>
+    <a routerLink="run" mat-icon-button *appIfRole="[Role.Admin]">
+      <mat-icon svgIcon="icon-user-shield"></mat-icon
     ></a>
   </div>
   <img
@@ -21,13 +29,19 @@
     <p>Ends: {{ event.end | date: 'medium' }}</p>
   </ng-container>
   <ng-template #singleDayEvent>
-    <p>
-      📅 {{ event.start | date: 'medium' }} -
-      {{ event.end | date: 'mediumTime' }}
-    </p>
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
+      <span
+        >{{ event.start | date: 'medium' }} -
+        {{ event.end | date: 'mediumTime' }}</span
+      >
+    </div>
   </ng-template>
   <ng-container *ngIf="bestPrice">
-    <p>💶 {{ bestPrice.amount | currency: 'EUR' }}</p>
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px"></mat-icon>
+      {{ bestPrice.amount | currency: 'EUR' }}
+    </div>
   </ng-container>
   <ng-container *ngIf="canShare">
     <div class="mt-4">
