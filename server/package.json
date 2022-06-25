@@ -8,7 +8,7 @@
     "dev:full-db": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",
     "clean": "rimraf dist",
-    "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma && copyfiles -u 3 src/generated/nexus-prisma/** dist/generated/nexus-prisma",
+    "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma",
     "build": "yarn clean && yarn generate && tsc && yarn copy",
     "build:production": "yarn clean && yarn generate && tsc -p tsconfig.production.json && yarn copy",
     "generate": "yarn generate:prisma && yarn generate:nexus",
