@@ -1420,6 +1420,7 @@ export type LoadUsersByStatusQuery = { __typename?: 'Query', users: Array<{ __ty
 
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
 }>;
 
 
@@ -2826,8 +2827,8 @@ export const LoadUsersByStatusDocument = gql`
     }
   }
 export const EventListDocument = gql`
-    query eventList($after: DateTime) {
-  events(after: $after) {
+    query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
     id
     title
     icon
