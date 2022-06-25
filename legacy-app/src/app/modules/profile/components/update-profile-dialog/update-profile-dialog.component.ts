@@ -35,7 +35,7 @@ export class UpdateProfileDialogComponent {
       lastName: ['', Validators.required],
       university: ['', Validators.required],
       enrolmentStatus: ['', Validators.required],
-      phone: ['', Validators.pattern(/[+][0-9]+/)],
+      phone: ['', Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)], // Allow spaces in validation, strip them server-side
     });
     this.profileForm.patchValue({ ...this.data.profile });
   }
