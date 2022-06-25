@@ -502,7 +502,7 @@ type Query {
   eventTemplates: [EventTemplate!]!
 
   """Get a list of all events"""
-  events(after: DateTime, limit: Int, userId: ID): [TumiEvent!]!
+  events(after: DateTime, before: DateTime, limit: Int, userId: ID): [TumiEvent!]!
   getPaymentSetupSession: paymentSetupSession!
   invite(
     """The ID of the invite"""
