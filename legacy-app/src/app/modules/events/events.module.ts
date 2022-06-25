@@ -36,7 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
 import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
-import { EventCalendarDayDialog } from './components/event-calendar/event-calendar-day-dialog/event-calendar-day-dialog';
+import { EventCalendarDayDialogComponent } from './components/event-calendar/event-calendar-day-dialog/event-calendar-day-dialog';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { EventCalendarDayDialog } from './components/event-calendar/event-calend
     AddReceiptDialogComponent,
     PublicRegistrationCodesPageComponent,
     EventCalendarComponent,
-    EventCalendarDayDialog,
+    EventCalendarDayDialogComponent,
   ],
   imports: [
     CommonModule,
