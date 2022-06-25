@@ -433,7 +433,10 @@ export const eventType = builder.prismaObject('TumiEvent', {
           if (process.env.DEV) {
             console.info(`Can't register participant because user is missing`);
           }
-          return { option: false, reason: 'You have to log in to register!' };
+          return {
+            option: false,
+            reason: 'You have to log in to register!',
+          } as any;
         }
         const { status } = context.userOfTenant ?? {};
         if (
