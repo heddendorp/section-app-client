@@ -158,14 +158,19 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     activeRegistration: t.prismaField({
       type: 'EventRegistration',
+      nullable: true,
       resolve: async (query, parent, args, context, info) => {
-        return prisma.eventRegistration.findFirst({
-          ...query,
-          where: {
-            user: { id: context.user?.id },
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        });
+        try {
+          return prisma.eventRegistration.findFirst({
+            ...query,
+            where: {
+              user: { id: context.user?.id },
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          });
+        } catch (e) {
+          return null;
+        }
       },
     }),
     ownRegistrations: t.relation('registrations', {
