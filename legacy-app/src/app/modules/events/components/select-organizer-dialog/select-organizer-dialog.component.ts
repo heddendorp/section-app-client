@@ -8,7 +8,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, startWith, Subject, tap } from 'rxjs';
 import { LoadUsersByStatusQuery } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-select-organizer-dialog',
@@ -17,8 +17,8 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectOrganizerDialogComponent implements OnDestroy {
-  public nameControl = new FormControl();
-  public filteredChoices$: Observable<LoadUsersByStatusQuery['users']>;
+  public nameControl = new UntypedFormControl();
+  public filteredChoices$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   private destroyed$ = new Subject();
   private idTest = new RegExp(
     /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
@@ -26,7 +26,7 @@ export class SelectOrganizerDialogComponent implements OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { choices: LoadUsersByStatusQuery['users'] },
+    public data: { choices: LoadUsersByStatusQuery['userWithStatus'] },
     private dialog: MatDialogRef<SelectOrganizerDialogComponent>
   ) {
     this.filteredChoices$ = this.nameControl.valueChanges.pipe(

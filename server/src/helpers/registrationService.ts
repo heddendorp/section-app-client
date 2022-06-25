@@ -10,6 +10,7 @@ import * as stripe from 'stripe';
 import { GetGen } from 'nexus/dist/typegenTypeHelpers';
 import { DateTime } from 'luxon';
 import prisma from '../client';
+import * as Sentry from '@sentry/node';
 
 export class RegistrationService {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -221,15 +222,18 @@ export class RegistrationService {
     }
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
       if (withRefund) {
-        const payment = await context.prisma.stripePayment.findUnique({
-          where: { id: registration.transaction?.stripePayment?.id ?? '' },
-        });
+        const payment = registration.transaction?.stripePayment;
         if (!payment) {
           throw new Error('Payment not found');
         }
-        await this.stripe.refunds.create({
-          payment_intent: payment.paymentIntent,
-        });
+        try {
+          await this.stripe.refunds.create({
+            payment_intent: payment.paymentIntent,
+          });
+        } catch (e) {
+          console.error(e);
+          Sentry.captureException(e);
+        }
       }
       await context.prisma.eventRegistration.update({
         where: { id: registrationId },

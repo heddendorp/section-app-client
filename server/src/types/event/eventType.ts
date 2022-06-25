@@ -265,14 +265,12 @@ export const eventType = objectType({
       name: 'netAmountCollected',
       type: nonNull('Decimal'),
       resolve: async (source, args, context) => {
-        // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
         const netAmount = await context.prisma.stripePayment
           .aggregate({
             where: {
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
                 },
               },
               netAmount: { not: undefined },
@@ -289,7 +287,6 @@ export const eventType = objectType({
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
                 },
               },
               refundedAmount: { not: undefined },
@@ -300,6 +297,8 @@ export const eventType = objectType({
             (aggregations) =>
               (aggregations._sum.refundedAmount?.toNumber() ?? 0) / 100
           );
+        console.log(netAmount);
+        console.log(refundedAmount);
         return netAmount - refundedAmount;
       },
     });
@@ -314,7 +313,53 @@ export const eventType = objectType({
               transaction: {
                 eventRegistration: {
                   event: { id: source.id },
-                  status: { not: RegistrationStatus.CANCELLED },
+                },
+              },
+              feeAmount: { not: undefined },
+            },
+            _sum: { feeAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+          );
+      },
+    });
+    t.field({
+      name: 'feesPaid',
+      type: nonNull('Decimal'),
+      resolve: (source, args, context) => {
+        // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.stripePayment
+          .aggregate({
+            where: {
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                },
+              },
+              feeAmount: { not: undefined },
+            },
+            _sum: { feeAmount: true },
+          })
+          .then(
+            (aggregations) =>
+              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+          );
+      },
+    });
+    t.field({
+      name: 'refundFeesPaid',
+      type: nonNull('Decimal'),
+      resolve: (source, args, context) => {
+        // cacheControl.setCacheHint({ maxAge: 10, scope: CacheScope.Public });
+        return context.prisma.stripePayment
+          .aggregate({
+            where: {
+              transaction: {
+                eventRegistration: {
+                  event: { id: source.id },
+                  status: RegistrationStatus.CANCELLED,
                 },
               },
               feeAmount: { not: undefined },

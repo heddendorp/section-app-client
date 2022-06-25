@@ -4,11 +4,15 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 import {
   EventSubmissionItem,
@@ -28,24 +32,31 @@ export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
   > = [];
   @Input() mode: 'event' | 'product' = 'event';
   @Output() public dataSubmission = new EventEmitter<unknown>();
-  public form: FormGroup | undefined;
+  public form: UntypedFormGroup | undefined;
   public SubmissionItemType = SubmissionItemType;
   private destroyed = new Subject();
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(private fb: UntypedFormBuilder, private snackBar: MatSnackBar) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['items']) {
       this.form = this.fb.group(
         changes['items'].currentValue.reduce(
           (
-            acc: { [id: string]: unknown },
+            acc: { [id: string]: FormControl },
             item: { id: string; type: SubmissionItemType }
           ) => {
             return {
               ...acc,
-              [item.id]: [
-                item.type === SubmissionItemType.Boolean ? false : '',
-                Validators.required,
-              ],
+              [item.id]: new FormControl(
+                [
+                  SubmissionItemType.Boolean,
+                  SubmissionItemType.Confirm,
+                ].includes(item.type)
+                  ? false
+                  : '',
+                item.type === SubmissionItemType.Confirm
+                  ? [Validators.requiredTrue]
+                  : [Validators.required]
+              ),
             };
           },
           {}

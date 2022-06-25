@@ -31,6 +31,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TenantEventRatingsComponent } from './pages/tenant-event-ratings/tenant-event-ratings.component';
 import { TenantEventBookingsPageComponent } from './pages/tenant-event-bookings-page/tenant-event-bookings-page.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TenantMetricsPageComponent } from './pages/tenant-metrics-page/tenant-metrics-page.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     UpdateUserDialogComponent,
     TenantEventRatingsComponent,
     TenantEventBookingsPageComponent,
+    TenantMetricsPageComponent,
   ],
   imports: [
     CommonModule,

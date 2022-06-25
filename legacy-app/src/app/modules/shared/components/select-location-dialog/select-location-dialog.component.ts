@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-select-location-dialog',
@@ -8,7 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectLocationDialogComponent implements OnInit {
-  public locationControl = new FormControl(null, Validators.required);
+  public locationControl = new UntypedFormControl(null, Validators.required);
   constructor() {}
 
   ngOnInit(): void {}

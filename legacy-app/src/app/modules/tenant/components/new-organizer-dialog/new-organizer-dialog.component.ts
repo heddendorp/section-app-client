@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-new-organizer-dialog',
@@ -9,10 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewOrganizerDialogComponent implements OnInit {
-  public newOrganizerForm: FormGroup;
+  public newOrganizerForm: UntypedFormGroup;
   constructor(
     private dialog: MatDialogRef<NewOrganizerDialogComponent>,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.newOrganizerForm = this.fb.group({
       name: ['', Validators.required],

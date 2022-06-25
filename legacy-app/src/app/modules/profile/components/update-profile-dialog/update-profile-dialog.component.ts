@@ -5,9 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  EnrolmentStatus,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  EnrollmentStatus,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 
@@ -18,10 +22,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateProfileDialogComponent {
-  public profileForm: FormGroup;
-  public EnrolmentStatus = EnrolmentStatus;
+  public profileForm: UntypedFormGroup;
+  public EnrolmentStatus = EnrollmentStatus;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<UpdateProfileDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { profile: UserProfileQuery['currentUser'] }

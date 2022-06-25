@@ -25,7 +25,12 @@ import {
   UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,12 +68,12 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public PublicationState = PublicationState;
   public MembershipStatus = MembershipStatus;
   public Role = Role;
-  public generalInformationForm: FormGroup;
-  public coreInformationForm: FormGroup;
-  public publicationForm: FormGroup;
-  public users$: Observable<LoadUsersByStatusQuery['users']>;
+  public generalInformationForm: UntypedFormGroup;
+  public coreInformationForm: UntypedFormGroup;
+  public publicationForm: UntypedFormGroup;
+  public users$: Observable<LoadUsersByStatusQuery['userWithStatus']>;
   public event$: Observable<LoadEventForEditQuery['event']>;
-  public organizers$: Observable<LoadEventForEditQuery['eventOrganizers']>;
+  public organizers$: Observable<LoadEventForEditQuery['organizers']>;
   public editingProhibited$: Observable<boolean>;
   private destroyed$ = new Subject();
   private loadEventRef:
@@ -81,7 +86,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private deleteEventGQL: DeleteEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private loadEventForEditGQL: LoadEventForEditGQL,
     private loadUsers: LoadUsersByStatusGQL,
     private route: ActivatedRoute,
@@ -140,7 +145,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       switchMap((params) =>
         this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' })
       ),
-      map(({ data }) => data.eventOrganizers),
+      map(({ data }) => data.organizers),
       shareReplay(1)
     );
     this.users$ = this.event$.pipe(
@@ -153,7 +158,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           ],
         })
       ),
-      map(({ data }) => data.users),
+      map(({ data }) => data.userWithStatus),
       shareReplay(1)
     );
     this.editingProhibited$ = combineLatest([
@@ -177,7 +182,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   get prices() {
-    return this.coreInformationForm.get('prices')?.get('options') as FormArray;
+    return this.coreInformationForm
+      .get('prices')
+      ?.get('options') as UntypedFormArray;
   }
 
   get statusOptions() {
@@ -291,7 +298,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const users = await firstValueFrom(this.users$);
     const event = await firstValueFrom(this.event$);
     const choices = users.filter(
-      (user: any) =>
+      (user) =>
         !event?.organizers.some((organizer: any) => organizer.id === user.id)
     );
     loader.dismiss();

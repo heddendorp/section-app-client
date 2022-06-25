@@ -13,100 +13,62 @@ import prisma from './client';
 import { Auth0 } from './helpers/auth0';
 import { $settings } from './generated/nexus-prisma';
 import { envelopPlugins } from './getEnveloped';
-import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
-import { setupCronjob } from './helpers/cronjobs';
-import { EnrollmentStatus } from './generated/prisma';
+import { createServer } from '@graphql-yoga/node';
 import { schema } from './schema';
-import { useAuth0 } from '@envelop/auth0';
-import { useExtendContext } from '@envelop/core';
+import { setupCronjob } from './helpers/cronjobs';
+import prom from 'prom-client';
 
-// declare global {
-//   namespace NodeJS {
-//     interface Global {
-//       __rootdir__: string;
-//     }
-//   }
-//   namespace Express {
-//     interface User {
-//       id: string;
-//       email: string;
-//       firstName: string;
-//       lastName: string;
-//       picture: string;
-//     }
-//
-//     interface Request {
-//       user?: User;
-//       token?: {
-//         iss: string;
-//         sub: string;
-//         aud: string[];
-//         iat: number;
-//         exp: number;
-//         azp: string;
-//         scope: string;
-//       };
-//     }
-//   }
-// }
-// global.__rootdir__ = __dirname || process.cwd();
+declare global {
+  namespace NodeJS {
+    interface Global {
+      __rootdir__: string;
+    }
+  }
+  namespace Express {
+    interface User {
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      picture: string;
+    }
+
+    interface Request {
+      user?: User;
+      token?: {
+        iss: string;
+        sub: string;
+        aud: string[];
+        iat: number;
+        exp: number;
+        azp: string;
+        scope: string;
+      };
+    }
+  }
+}
+global.__rootdir__ = __dirname || process.cwd();
 
 const app = express();
+const register = new prom.Registry();
+prom.collectDefaultMetrics({ register });
 
-// setupCronjob(prisma);
+setupCronjob(prisma);
+const auth0 = new Auth0();
 
 const graphQLServer = createServer({
   schema,
-  context: async ({ req }) => ({
-    auth0: new Auth0(),
-  }),
-  plugins: [
-    useAuth0({
-      domain: 'tumi.eu.auth0.com',
-      audience: 'esn.events',
-      extendContextField: 'token',
-    }),
-    useExtendContext(async (context) => {
-      const hostName = context.req.headers.host.split(':')[0];
-      let tenantName = hostName.split('.')[0];
-      console.log(tenantName);
-      if (tenantName === 'localhost') {
-        tenantName = 'tumi';
-      }
-      let tenant;
-      try {
-        tenant = await prisma.tenant.findUnique({
-          where: {
-            shortName: tenantName,
-          },
-        });
-      } catch (e) {
-        console.error(e);
-        throw new GraphQLYogaError('Tenant not found', {
-          error: e,
-        });
-      }
-      if (context.token) {
-        const user = await prisma.user.findUnique({
-          where: {
-            authId: context.token.sub,
-          },
-          include: {
-            tenants: { where: { tenantId: tenant.id } },
-          },
-        });
-        return { ...context, tenant, user, userOfTenant: user.tenants[0] };
-      }
-      return { ...context, tenant };
-    }),
-  ],
-  // plugins: envelopPlugins,
-  // parserCache: true,
-  // validationCache: true,
+  context: {
+    prisma,
+    auth0,
+  },
+  plugins: envelopPlugins,
+  parserCache: true,
+  validationCache: true,
   maskedErrors: false,
 });
 
-/*Sentry.init({
+Sentry.init({
   dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
   environment: process.env.NODE_ENV ?? 'development',
   integrations: [
@@ -135,37 +97,49 @@ const graphQLServer = createServer({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1,
-});*/
+});
 
-// app.use(Sentry.Handlers.requestHandler());
-// app.use(Sentry.Handlers.tracingHandler());
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
-// $settings({
-//   checks: {
-//     PrismaClientOnContext: false,
-//   },
-// });
+$settings({
+  checks: {
+    PrismaClientOnContext: false,
+  },
+});
 
-// app.use(compression());
-// app.use(cors());
-// app.get('/health', (req, res) => {
-//   res.sendStatus(200);
-// });
-// app.use('/webhooks', webhookRouter(prisma));
-// app.use(express.json());
-// app.use('/cal', calendarRouter());
-// app.use('/qr', qrRouter());
-// app.use('/go', shortRouter());
+app.use(compression());
+app.use(cors());
+app.get('/health', (req, res) => {
+  res.sendStatus(200);
+});
+app.use('/webhooks', webhookRouter(prisma));
+app.use(express.json());
+app.use('/cal', calendarRouter());
+app.use('/qr', qrRouter());
+app.use('/go', shortRouter());
 app.use('/graphql', graphQLServer);
-// app.use(socialRouter);
-// app.use(Sentry.Handlers.errorHandler());
+app.use(socialRouter);
+app.get('/metrics', async (_, res) => {
+  console.log('Getting metrics');
+  const metrics = await prisma.$metrics.json({
+    globalLabels: { app_version: process.env.VERSION ?? 'development' },
+  });
+  console.log(metrics);
+  res.send(metrics);
+});
+app.get('/prom-metrics', async (_, res) => {
+  let prismaMetrics = await prisma.$metrics.prometheus({
+    globalLabels: { app_version: process.env.VERSION ?? 'development' },
+  });
+  let appMetrics = await register.metrics();
+  res.end(prismaMetrics + appMetrics);
+});
+app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
 process.env.NODE_ENV !== 'test' &&
   app.listen(port, async () => {
-    console.log(
-      `Running a GraphQL API server at http://localhost:${port}/graphql`
-    );
     // prismaUtils().then(() => {
     //   console.log(`DB actions finished`);
     // });

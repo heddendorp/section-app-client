@@ -13,9 +13,8 @@ import {
   startWith,
   Subject,
   takeUntil,
-  timer,
 } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
@@ -28,9 +27,9 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
-  public showFullEvents = new FormControl(true);
-  public filterEvents = new FormControl('');
-  public eventsAfter = new FormControl(
+  public showFullEvents = new UntypedFormControl(true);
+  public filterEvents = new UntypedFormControl('');
+  public eventsAfter = new UntypedFormControl(
     DateTime.local().toISO({ includeOffset: false })
   );
   public Role = Role;
@@ -45,9 +44,7 @@ export class EventListPageComponent implements OnDestroy {
   ) {
     this.selectedView = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - events');
-    this.loadEventsQueryRef = this.loadEventsQuery.watch({
-      after: this.eventsAfter.value,
-    });
+    this.loadEventsQueryRef = this.loadEventsQuery.watch();
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events)
     );
@@ -71,7 +68,7 @@ export class EventListPageComponent implements OnDestroy {
           filteredEvents = events.filter(
             (event) =>
               event.userIsOrganizer ||
-              event.userIsRegistered ||
+              event.userRegistered ||
               event.freeParticipantSpots !== 'Event is full'
           );
         }

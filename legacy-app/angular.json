@@ -135,9 +135,12 @@
       }
     }
   },
-  "defaultProject": "legacy-app",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics",
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "schematicCollections": [
+      "@angular-eslint/schematics",
+      "@schematics/angular"
+    ],
+    "analytics": "30b0fc40-4110-4c47-a065-19ae8badc1a6"
   }
 }

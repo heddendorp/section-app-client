@@ -21,12 +21,12 @@
         <mat-option [value]="RegistrationMode.External">{{
           RegistrationMode.External | titlecase
         }}</mat-option>
-        <mat-option [value]="RegistrationMode.Stripe">{{
-          RegistrationMode.Stripe | titlecase
-        }}</mat-option>
-        <mat-option [value]="RegistrationMode.Online">{{
-          RegistrationMode.Online | titlecase
-        }}</mat-option>
+        <mat-option [value]="RegistrationMode.Stripe">
+          Stripe (paid events)
+        </mat-option>
+        <mat-option [value]="RegistrationMode.Online">
+          Online (free events)
+        </mat-option>
       </mat-select>
       <mat-hint></mat-hint>
     </mat-form-field>
