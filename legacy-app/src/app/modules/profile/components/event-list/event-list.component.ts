@@ -8,20 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import {
-  MembershipStatus,
-  SubmitEventFeedbackGQL,
   TumiEvent,
-  UpdateProfileGQL,
-  UserProfileGQL,
-  UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { first, firstValueFrom, map, Observable } from 'rxjs';
-import { Title } from '@angular/platform-browser';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { UpdateProfileDialogComponent } from '@tumi/legacy-app/modules/profile/components/update-profile-dialog/update-profile-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/components/claim-event-dialog/claim-event-dialog.component';
+import { DateTime } from 'luxon';
+
 
 @Component({
   selector: 'app-event-list',
@@ -33,13 +23,25 @@ export class EventListComponent implements OnInit {
   @Input() isOrganized: boolean = false;
   @Input() events: any[] = new Array<any>();
 
-  ngOnInit(): void {
-    console.log(this.isOrganized)
-    console.log(this.events)
-  }
+  ngOnInit(): void {}
 
   requestClaimDialog() {
     this.claimRequest.emit("")
   }
 
+  isFuture(event: TumiEvent) {
+    return DateTime.fromISO(event.end) >= DateTime.now()
+  }
+
+  compareEventTime(e1: TumiEvent, e2: TumiEvent) {
+    return DateTime.fromISO(e2.start).toMillis() - DateTime.fromISO(e1.start).toMillis()
+  }
+
+  futureEvents() {
+    return this.events.filter(this.isFuture).sort(this.compareEventTime)
+  }
+
+  pastEvents() {
+    return this.events.filter(e => !this.isFuture(e)).sort(this.compareEventTime)
+  }
 }

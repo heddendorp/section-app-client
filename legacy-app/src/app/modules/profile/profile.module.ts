@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RatingComponent } from './components/rating/rating.component';
 import { RateEventComponent } from './components/rate-event/rate-event.component';
 import { EventListComponent } from './components/event-list/event-list.component';
+import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { EventListComponent } from './components/event-list/event-list.component
     RatingComponent,
     RateEventComponent,
     EventListComponent,
+    EventListItemComponent,
   ],
   imports: [
     CommonModule,
