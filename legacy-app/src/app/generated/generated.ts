@@ -57,6 +57,8 @@ export type CostItem = {
 export type CreateEventFromTemplateInput = {
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['ID'];
+  excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
+  excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
   price: Scalars['Decimal'];
@@ -936,6 +938,8 @@ export type TumiEvent = {
   eventRegistrationCodes: Array<EventRegistrationCode>;
   eventTemplate: EventTemplate;
   eventTemplateId: Scalars['ID'];
+  excludeFromRatings: Scalars['Boolean'];
+  excludeFromStatistics: Scalars['Boolean'];
   feesPaid: Scalars['Decimal'];
   freeParticipantSpots: Scalars['String'];
   icon: Scalars['String'];
@@ -1003,6 +1007,9 @@ export type TumiEventSubmissionItemsArgs = {
 export type UpdateCoreEventInput = {
   disableDeregistration?: InputMaybe<Scalars['Boolean']>;
   end?: InputMaybe<Scalars['DateTime']>;
+  eventOrganizerId: Scalars['ID'];
+  excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
+  excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
   icon?: InputMaybe<Scalars['String']>;
   insuranceDescription?: InputMaybe<Scalars['String']>;
   organizerLimit?: InputMaybe<Scalars['Int']>;
@@ -1121,7 +1128,7 @@ export type UsersOfTenants = {
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
-  stripeData: StripeUserData;
+  stripeData?: Maybe<StripeUserData>;
   tenant: Tenant;
   tenantId: Scalars['ID'];
   user: User;
@@ -1322,7 +1329,7 @@ export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typ
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } } } | null };
+export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData?: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } | null } } | null };
 
 export type DeregisterFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1473,7 +1480,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData: { __typename?: 'StripeUserData', paymentMethodId?: string | null } }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null }, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];

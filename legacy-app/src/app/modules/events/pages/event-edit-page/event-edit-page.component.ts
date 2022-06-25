@@ -118,7 +118,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       insuranceDescription: ['', Validators.required],
       shouldBeReportedToInsurance: ['', Validators.required],
       registrationStart: ['', Validators.required],
-      disableDeregistration: ['', Validators.required],
+      disableDeregistration: [false, Validators.required],
+      excludeFromRatings: [false, Validators.required],
+      excludeFromStatistics: [false, Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
       prices: this.fb.group({

@@ -15,6 +15,14 @@
       >
       <mat-error>You have to specify when the event will end</mat-error>
     </mat-form-field>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-checkbox formControlName="excludeFromRatings">
+        Don't collect ratings for this event
+      </mat-checkbox>
+      <mat-checkbox formControlName="excludeFromStatistics">
+        Don't list this event in the statistics
+      </mat-checkbox>
+    </div>
     <mat-form-field class="w-full">
       <mat-label>Registration Mode</mat-label>
       <mat-select formControlName="registrationMode" required>

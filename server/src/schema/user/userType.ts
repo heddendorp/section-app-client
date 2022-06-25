@@ -59,6 +59,7 @@ builder.prismaObject('User', {
           .eventRegistrations({
             where: {
               event: {
+                excludeFromRatings: false,
                 end: {
                   gt: lastWeek.toJSDate(),
                   lt: new Date(),

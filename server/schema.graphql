@@ -34,6 +34,8 @@ type CostItem {
 input CreateEventFromTemplateInput {
   end: DateTime!
   eventOrganizerId: ID!
+  excludeFromRatings: Boolean
+  excludeFromStatistics: Boolean
   organizerLimit: Int!
   participantLimit: Int!
   price: Decimal!
@@ -581,6 +583,8 @@ type TumiEvent {
   eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: ID!
+  excludeFromRatings: Boolean!
+  excludeFromStatistics: Boolean!
   feesPaid: Decimal!
   freeParticipantSpots: String!
   icon: String!
@@ -628,6 +632,9 @@ type TumiEvent {
 input UpdateCoreEventInput {
   disableDeregistration: Boolean
   end: DateTime
+  eventOrganizerId: ID!
+  excludeFromRatings: Boolean
+  excludeFromStatistics: Boolean
   icon: String
   insuranceDescription: String
   organizerLimit: Int
@@ -724,7 +731,7 @@ type UsersOfTenants {
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
-  stripeData: StripeUserData!
+  stripeData: StripeUserData
   tenant: Tenant!
   tenantId: ID!
   user: User!
