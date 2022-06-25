@@ -26,6 +26,7 @@
     <mat-expansion-panel
       *ngFor="let category of templateCategories$ | async"
       [expanded]="!!searchControl.value && !!category.templateCount"
+      [style.display]="!!searchControl.value && !category.templateCount ? 'none': ''"
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3">
@@ -46,8 +47,7 @@
           <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
           <h3 mat-line>{{ template.title }}</h3>
           <span mat-line *ngIf="template.participantRating"
-            >Average participant rating:
-            {{ template.participantRating }}/5</span
+            >{{ template.participantRating | number: '1.1' }} ★ (n)</span
           >
         </a>
       </mat-nav-list>
@@ -55,6 +55,7 @@
     <mat-expansion-panel
       *ngIf="eventTemplates$ | async as templates"
       [expanded]="!!searchControl.value && !!templates.length"
+      [style.display]="!!searchControl.value && !templates.length ? 'none': ''"
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
