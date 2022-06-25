@@ -39,7 +39,7 @@ export class NewUserPageComponent implements OnInit {
       university: ['', Validators.required],
       enrolmentStatus: ['', Validators.required],
       birthdate: [null, Validators.required],
-      phone: ['', Validators.pattern(/[+][0-9]+/)],
+      phone: ['', Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)], // Allow spaces in validation, strip them server-side
     });
   }
 
