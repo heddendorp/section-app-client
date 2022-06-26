@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(codes$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <table
     *ngIf="codes$ | async as orders"

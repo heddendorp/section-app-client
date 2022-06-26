@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(eventRegistrationCode$ | async) === null"
+></mat-progress-bar>
 <main class="space-y-2 p-4 lg:p-8">
   <h1 class="font-bold">Registration Code</h1>
   <p>The ultimate information center 😎</p>

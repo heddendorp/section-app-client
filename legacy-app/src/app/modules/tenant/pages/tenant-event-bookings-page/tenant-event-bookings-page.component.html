@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(events$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <h1 class="font-bold">Events with booked spots</h1>
   <table

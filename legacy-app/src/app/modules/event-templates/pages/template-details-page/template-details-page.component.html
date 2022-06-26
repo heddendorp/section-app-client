@@ -39,16 +39,21 @@
           </button>
           <div class="mt-2 text-xs text-slate-600">
             <span>{{ template.googlePlaceUrl }} </span>
-            <span
-              >({{ template.coordinates?.lat }},
-              {{ template.coordinates?.lon }})</span
+            <span *ngIf="template.coordinates"
+              >({{ template.coordinates.lat }},
+              {{ template.coordinates.lon }})</span
             >
           </div>
         </div>
         <p class="mt-4 font-bold sm:mt-0">Category</p>
         <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-          <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
-          <h3>{{ template.category?.name }}</h3>
+          <ng-container *ngIf="template.category">
+            <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
+            <h3>{{ template.category?.name }}</h3>
+          </ng-container>
+          <ng-container *ngIf="!template.category">
+            <h3>Uncategorized</h3>
+          </ng-container>
           <button class="modern" mat-icon-button (click)="changeCategory()">
             <mat-icon svgIcon="icon-edit"></mat-icon>
           </button>
@@ -56,7 +61,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <div class="my-2 gap-1" fxLayout="column" fxLayout.gt-sm="row">
+      <div class="my-2 gap-2" fxLayout="column" fxLayout.gt-sm="row">
         <button
           class="modern"
           color="primary"
@@ -66,18 +71,14 @@
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           Create event from this template
         </button>
-        <button class="modern" mat-stroked-button (click)="editTemplate()">
-          <mat-icon svgIcon="icon-edit"></mat-icon>
-          Edit
-        </button>
         <button
           class="modern"
+          color="accent"
           mat-flat-button
-          color="warn"
-          (click)="deleteTemplate()"
+          (click)="editTemplate()"
         >
-          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          Delete
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+          Edit
         </button>
       </div>
     </mat-card-actions>
@@ -133,6 +134,22 @@
         <mat-panel-title> Finances </mat-panel-title>
       </mat-expansion-panel-header>
       <app-finance-planner [template]="template"></app-finance-planner>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Admin options </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <button
+        class="modern"
+        mat-flat-button
+        color="warn"
+        (click)="deleteTemplate()"
+      >
+        <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+        Delete event template
+      </button>
     </mat-expansion-panel>
   </mat-accordion>
 </main>

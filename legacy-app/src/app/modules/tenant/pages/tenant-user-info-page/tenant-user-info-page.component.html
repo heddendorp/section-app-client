@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(user$ | async) === null"
+></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">
   <div fxLayout="row" fxLayoutGap="1rem">
     <a routerLink=".." mat-icon-button>
