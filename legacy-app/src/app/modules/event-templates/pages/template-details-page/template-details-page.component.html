@@ -57,7 +57,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <div class="my-2 gap-1" fxLayout="column" fxLayout.gt-sm="row">
+      <div class="my-2 gap-2" fxLayout="column" fxLayout.gt-sm="row">
         <button
           class="modern"
           color="primary"
@@ -67,18 +67,9 @@
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           Create event from this template
         </button>
-        <button class="modern" mat-stroked-button (click)="editTemplate()">
+        <button class="modern" color="accent" mat-flat-button (click)="editTemplate()">
           <mat-icon svgIcon="icon-edit"></mat-icon>
           Edit
-        </button>
-        <button
-          class="modern"
-          mat-flat-button
-          color="warn"
-          (click)="deleteTemplate()"
-        >
-          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          Delete
         </button>
       </div>
     </mat-card-actions>
@@ -135,5 +126,22 @@
       </mat-expansion-panel-header>
       <app-finance-planner [template]="template"></app-finance-planner>
     </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Admin options </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <button
+      class="modern"
+      mat-flat-button
+      color="warn"
+      (click)="deleteTemplate()"
+      >
+        <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+        Delete event template
+      </button>
+    </mat-expansion-panel>
   </mat-accordion>
+  
 </main>
