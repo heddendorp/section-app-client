@@ -36,7 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     MatTableModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
   ],
 })
 export class EventTemplatesModule {}
