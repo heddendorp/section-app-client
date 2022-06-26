@@ -38,7 +38,7 @@ input CreateEventFromTemplateInput {
   excludeFromStatistics: Boolean
   organizerLimit: Int!
   participantLimit: Int!
-  price: Decimal!
+  price: Decimal
   registrationLink: String!
   registrationMode: RegistrationMode!
   start: DateTime!

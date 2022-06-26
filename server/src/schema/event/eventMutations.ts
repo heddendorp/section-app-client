@@ -102,7 +102,7 @@ builder.mutationFields((t) => ({
                 prices: {
                   options: [
                     {
-                      amount: input.price,
+                      amount: input.price ?? 5,
                       defaultPrice: true,
                       esnCardRequired: false,
                       allowedStatusList: [

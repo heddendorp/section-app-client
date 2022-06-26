@@ -575,7 +575,7 @@ export const createEventFromTemplateInput = builder.inputType(
       registrationLink: t.string({ required: true }),
       registrationMode: t.field({ type: RegistrationMode, required: true }),
       eventOrganizerId: t.id({ required: true }),
-      price: t.field({ type: 'Decimal', required: true }),
+      price: t.field({ type: 'Decimal' }),
       excludeFromStatistics: t.boolean(),
       excludeFromRatings: t.boolean(),
     }),

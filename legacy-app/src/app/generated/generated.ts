@@ -61,7 +61,7 @@ export type CreateEventFromTemplateInput = {
   excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
-  price: Scalars['Decimal'];
+  price?: InputMaybe<Scalars['Decimal']>;
   registrationLink: Scalars['String'];
   registrationMode: RegistrationMode;
   start: Scalars['DateTime'];
