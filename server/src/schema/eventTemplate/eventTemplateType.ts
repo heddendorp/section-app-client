@@ -43,9 +43,21 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
               rating: true,
             },
           })
-          .then(({ _avg }) =>
-            _avg.rating ? Math.round(_avg.rating * 10) / 10 : null
-          ),
+          .then(({ _avg }) => _avg.rating),
+    }),
+    participantRatingCount: t.int({
+      nullable: true,
+      resolve: async (eventTemplate) =>
+        prisma.eventRegistration.count({
+          where: {
+            event: {
+              eventTemplate: {
+                id: eventTemplate.id,
+              },
+            },
+            rating: { not: null },
+          },
+        }),
     }),
   }),
 });

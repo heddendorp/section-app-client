@@ -231,6 +231,7 @@ type EventTemplate {
   location: String!
   organizerText: String!
   participantRating: Float
+  participantRatingCount: Int
   participantText: String!
   shouldBeReportedToInsurance: Boolean!
   tenant: Tenant!

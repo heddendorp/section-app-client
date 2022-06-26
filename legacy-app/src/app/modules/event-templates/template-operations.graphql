@@ -88,6 +88,7 @@ query getTemplateCategoriesWithTemplates {
       title
       icon
       participantRating
+      participantRatingCount
     }
   }
 }
@@ -106,6 +107,7 @@ query getLonelyEventTemplates {
     title
     icon
     participantRating
+    participantRatingCount
   }
 }
 

@@ -48,9 +48,11 @@
         >
           <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
           <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating"
-            >{{ template.participantRating | number: '1.1' }} ★ (n)</span
-          >
+          <span mat-line *ngIf="template.participantRating">
+            {{ template.participantRating | number: '1.1-1' }} ★ ({{
+              template.participantRatingCount
+            }})
+          </span>
         </a>
       </mat-nav-list>
     </mat-expansion-panel>
@@ -73,10 +75,11 @@
         >
           <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
           <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating"
-            >Average participant rating:
-            {{ template.participantRating }}/5</span
-          >
+          <span mat-line *ngIf="template.participantRating">
+            {{ template.participantRating | number: '1.1-1' }} ★ ({{
+              template.participantRatingCount
+            }})
+          </span>
         </a>
       </mat-nav-list>
     </mat-expansion-panel>

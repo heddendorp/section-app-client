@@ -268,6 +268,7 @@ export type EventTemplate = {
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantRating?: Maybe<Scalars['Float']>;
+  participantRatingCount?: Maybe<Scalars['Int']>;
   participantText: Scalars['String'];
   shouldBeReportedToInsurance: Scalars['Boolean'];
   tenant: Tenant;
@@ -1255,7 +1256,7 @@ export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Arr
 export type GetTemplateCategoriesWithTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null }> }> };
+export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null }> }> };
 
 export type GetEventTemplateCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1265,7 +1266,7 @@ export type GetEventTemplateCategoriesQuery = { __typename?: 'Query', eventTempl
 export type GetLonelyEventTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLonelyEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null }> };
+export type GetLonelyEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null }> };
 
 export type GetEventTemplateQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2002,6 +2003,7 @@ export const GetTemplateCategoriesWithTemplatesDocument = gql`
       title
       icon
       participantRating
+      participantRatingCount
     }
   }
 }
@@ -2044,6 +2046,7 @@ export const GetLonelyEventTemplatesDocument = gql`
     title
     icon
     participantRating
+    participantRatingCount
   }
 }
     `;
