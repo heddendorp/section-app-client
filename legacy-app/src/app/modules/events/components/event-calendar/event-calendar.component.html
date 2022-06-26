@@ -10,9 +10,10 @@
   </div>
   <ng-container *ngFor="let week of weeks">
     <div
+      matRipple
       *ngFor="let day of week.days"
       (click)="showDayDialog(day.events)"
-      class="flex flex-col space-y-1 border-t border-l cursor-pointer {{
+      class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
         day.today ? 'bg-blue-100' : ''
       }}"
     >
@@ -22,11 +23,11 @@
       </p>
       <div
         *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
-        class="event flex rounded text-xs md:text-sm mr-0.5 {{
-          event.freeParticipantSpots === 'Event is full' ? 'opacity-40' : ''
-        }} {{ event.publicationState | lowercase }} {{
-          event.userIsRegistered ? 'registered' : ''
-        }} {{ event.userIsOrganizer ? 'organizer' : '' }}"
+        class="event select-none flex rounded text-xs md:text-sm mr-0.5 {{
+          event.publicationState | lowercase
+        }} {{ event.userIsRegistered ? 'registered' : '' }} {{
+          event.userIsOrganizer ? 'organizer' : ''
+        }}"
       >
         <img
           [src]="event.icon | iconURL"
@@ -40,8 +41,11 @@
           >{{ event.title }}</span
         >
       </div>
-      <div *ngIf="day.events.length > 4" class="flex justify-center text-xs">
-        ...
+      <div
+        *ngIf="day.events.length > 4"
+        class="flex justify-center text-xs italic"
+      >
+        +{{ day.events.length - 3 }}
       </div>
       <!-- Phantom to force the height to be exactly 4 events -->
       <ng-container *ngIf="day.events.length < 4">

@@ -3,6 +3,7 @@
   fxLayout="row"
   routerLink="/events/{{ event.id }}"
   class="text-surface-on relative h-full"
+  matRipple
 >
   <div
     class="absolute top-0 right-0 rounded-bl rounded-tr-2xl bg-green-500 px-2 text-sm text-white"
@@ -72,11 +73,13 @@
         class="flex items-center gap-1 text-slate-500 italic"
         *ngIf="notYetOpen()"
       >
-        <mat-icon svgIcon="icon-lock" style="width: 18px"></mat-icon>
-        Registration opens
-        <span class="font-medium">{{
-          event.registrationStart | date: 'short'
-        }}</span>
+        <mat-icon svgIcon="icon-lock" style="min-width: 18px"></mat-icon>
+        <div>
+          <span>Registration opens </span>
+          <span class="font-medium">{{
+            event.registrationStart | date: 'short'
+          }}</span>
+        </div>
       </div>
     </div>
   </div>
