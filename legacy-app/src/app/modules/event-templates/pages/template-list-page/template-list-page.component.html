@@ -40,21 +40,24 @@
           {{ category.templateCount }} templates
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-nav-list>
-        <a
-          *ngFor="let template of category.templates"
-          mat-list-item
-          routerLink="./{{ template.id }}"
-        >
-          <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
-          <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating">
-            {{ template.participantRating | number: '1.1-1' }} ★ ({{
-              template.participantRatingCount
-            }})
-          </span>
-        </a>
-      </mat-nav-list>
+      
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of category.templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
+          >
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
     </mat-expansion-panel>
     <mat-expansion-panel
       *ngIf="eventTemplates$ | async as templates"
@@ -67,21 +70,23 @@
           {{ templates.length }} templates
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-nav-list>
-        <a
-          *ngFor="let template of templates"
-          mat-list-item
-          routerLink="./{{ template.id }}"
-        >
-          <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
-          <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating">
-            {{ template.participantRating | number: '1.1-1' }} ★ ({{
-              template.participantRatingCount
-            }})
-          </span>
-        </a>
-      </mat-nav-list>
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
+          >
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
 </main>
