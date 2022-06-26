@@ -46,36 +46,17 @@
       <mat-hint>This description will be visible to anyone</mat-hint>
       <mat-error>You have to add an event description</mat-error>
     </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-label>Short description for our insurance</mat-label>
-      <textarea
-        rows="3"
-        matInput
-        formControlName="insuranceDescription"
-        required
-      ></textarea>
-      <mat-hint>This description will be sent to our insurance</mat-hint>
-      <mat-error>You have to add a description</mat-error>
-    </mat-form-field>
-    <mat-checkbox formControlName="shouldBeReportedToInsurance">
-      This event should be reported to our insurance
-    </mat-checkbox>
     <app-location-autocomplete
       formControlName="location"
-    ></app-location-autocomplete>
+    ></app-location-autocomplete>    
     <mat-form-field class="w-full">
-      <mat-label>Info for registered users</mat-label>
-      <textarea
-        rows="5"
-        matInput
-        formControlName="participantText"
-        required
-      ></textarea>
-      <mat-hint>This text will be visible to signed up participants</mat-hint>
-      <mat-error>You have to add infos for registered users</mat-error>
+      <mat-label>Internal comment for the template</mat-label>
+      <textarea rows="5" matInput formControlName="comment" required></textarea>
+      <mat-hint>This text is shown internally with the template</mat-hint>
+      <mat-error>You have to add a comment</mat-error>
     </mat-form-field>
     <mat-form-field class="w-full">
-      <mat-label>Infos for organizers running the event</mat-label>
+      <mat-label>Information for organizing</mat-label>
       <textarea
         rows="5"
         matInput
@@ -86,10 +67,29 @@
       <mat-error>You have to add infos for event organizers</mat-error>
     </mat-form-field>
     <mat-form-field class="w-full">
-      <mat-label>Internal comment for the template</mat-label>
-      <textarea rows="5" matInput formControlName="comment" required></textarea>
-      <mat-hint>This text is shown internally with the template</mat-hint>
-      <mat-error>You have to add a comment</mat-error>
+      <mat-label>Information for participants</mat-label>
+      <textarea
+        rows="5"
+        matInput
+        formControlName="participantText"
+        required
+      ></textarea>
+      <mat-hint>This text will be visible to signed up participants</mat-hint>
+      <mat-error>You have to add infos for registered users</mat-error>
+    </mat-form-field>
+    <mat-checkbox formControlName="shouldBeReportedToInsurance">
+      This event should be reported to our insurance
+    </mat-checkbox>
+    <mat-form-field class="w-full">
+      <mat-label>Short description for our insurance</mat-label>
+      <textarea
+        rows="3"
+        matInput
+        formControlName="insuranceDescription"
+        required
+      ></textarea>
+      <mat-hint>This description will be sent to our insurance</mat-hint>
+      <mat-error>You have to add a description</mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
