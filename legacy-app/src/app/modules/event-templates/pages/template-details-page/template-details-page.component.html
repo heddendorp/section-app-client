@@ -51,10 +51,10 @@
           <ng-container *ngIf="template.category">
             <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
             <h3>{{ template.category?.name }}</h3>
-          </ng-container>          
+          </ng-container>
           <ng-container *ngIf="!template.category">
             <h3>Uncategorized</h3>
-          </ng-container>        
+          </ng-container>
           <button class="modern" mat-icon-button (click)="changeCategory()">
             <mat-icon svgIcon="icon-edit"></mat-icon>
           </button>
@@ -72,7 +72,12 @@
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           Create event from this template
         </button>
-        <button class="modern" color="accent" mat-flat-button (click)="editTemplate()">
+        <button
+          class="modern"
+          color="accent"
+          mat-flat-button
+          (click)="editTemplate()"
+        >
           <mat-icon svgIcon="icon-edit"></mat-icon>
           Edit
         </button>
@@ -131,22 +136,21 @@
       </mat-expansion-panel-header>
       <app-finance-planner [template]="template"></app-finance-planner>
     </mat-expansion-panel>
-    
+
     <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
       <mat-expansion-panel-header>
         <mat-panel-title> Admin options </mat-panel-title>
       </mat-expansion-panel-header>
-      
+
       <button
-      class="modern"
-      mat-flat-button
-      color="warn"
-      (click)="deleteTemplate()"
+        class="modern"
+        mat-flat-button
+        color="warn"
+        (click)="deleteTemplate()"
       >
         <mat-icon svgIcon="icon-delete-forever"></mat-icon>
         Delete event template
       </button>
     </mat-expansion-panel>
   </mat-accordion>
-  
 </main>
