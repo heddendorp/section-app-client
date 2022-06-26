@@ -5,7 +5,7 @@
 
   <mat-card class="my-4">
     <mat-card-title>
-      <img [src]="template.icon | iconURL" class="w-16 float-right" />
+      <img [src]="template.icon | iconURL" class="float-right w-16" />
       <h1>{{ template.title }}</h1>
     </mat-card-title>
     <mat-card-content>
@@ -22,9 +22,8 @@
             class="modern"
             mat-stroked-button
             [href]="
-              template.googlePlaceId
-                ? 'https://www.google.com/maps/place/?q=place_id:' +
-                  template.googlePlaceId
+              template.googlePlaceUrl
+                ? template.googlePlaceUrl
                 : 'https://www.google.com/maps/place/' +
                   template.coordinates?.lat +
                   ',' +
@@ -38,15 +37,15 @@
           <button class="modern" mat-icon-button (click)="updateLocation()">
             <mat-icon svgIcon="icon-edit"></mat-icon>
           </button>
-          <div class="text-xs mt-2 text-slate-600">
-            <span>{{ template.googlePlaceId }} </span>
+          <div class="mt-2 text-xs text-slate-600">
+            <span>{{ template.googlePlaceUrl }} </span>
             <span
               >({{ template.coordinates?.lat }},
               {{ template.coordinates?.lon }})</span
             >
           </div>
         </div>
-        <p class="font-bold mt-4 sm:mt-0">Category</p>
+        <p class="mt-4 font-bold sm:mt-0">Category</p>
         <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
           <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
           <h3>{{ template.category?.name }}</h3>

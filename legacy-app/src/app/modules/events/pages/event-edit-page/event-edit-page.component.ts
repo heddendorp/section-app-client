@@ -378,16 +378,17 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         .afterClosed()
     );
     if (location && event) {
-      await this.updateLocationMutation
-        .mutate({
+      await firstValueFrom(
+        this.updateLocationMutation.mutate({
           eventId: event.id,
           update: {
             location: location.structured_formatting.main_text,
             coordinates: location.position,
             googlePlaceId: location.place_id,
+            googlePlaceUrl: location.url,
           },
         })
-        .toPromise();
+      );
     }
   }
 

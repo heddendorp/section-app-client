@@ -30,7 +30,7 @@
     class="text-secondary-onContainerDark bg-secondary-containerDark dark-button from-gray-600 to-gray-800 p-4 pb-20 lg:p-6 lg:pb-24"
   ></app-event-header>
   <!--  TODO: get rid of the 10 character check here -->
-  <div class="sm:mx-2 -mt-16 p-2 sm:p-4 lg:mx-6 lg:p-6">
+  <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
       <mat-expansion-panel
         [expanded]="
@@ -85,17 +85,15 @@
         </p>
         <div class="mb-2">
           <a
-            *ngIf="event.googlePlaceId"
+            *ngIf="event.googlePlaceUrl"
             mat-stroked-button
-            href="https://www.google.com/maps/place/?q=place_id:{{
-              event.googlePlaceId
-            }}"
+            [href]="event.googlePlaceUrl"
             target="_blank"
           >
             Open in Maps
           </a>
           <a
-            *ngIf="event.coordinates?.lat && !event.googlePlaceId"
+            *ngIf="event.coordinates?.lat && !event.googlePlaceUrl"
             mat-stroked-button
             href="https://www.google.com/maps/place/{{
               event.coordinates?.lat
@@ -142,7 +140,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <div class="p-6 lg:px-12 text-sm">
+  <div class="p-6 text-sm lg:px-12">
     <p>{{ event.organizer.text }}</p>
   </div>
   <div class="bg-secondary-container text-secondary-onContainer p-6 lg:p-12">
