@@ -71,19 +71,26 @@ export class FinancePlannerComponent implements OnChanges {
       map(([items, info]) => {
         const numberOfPeople = info.organizers + info.participants;
         const totalCost = this.getTotalCost([items, info]);
+
         const subsidyPerPerson = info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
-        const maxSubsidies = Math.min((maxSubsidizedPercentage * totalCost) / numberOfPeople, subsidyPerPerson * info.days);
-        const minPrice = totalCost / numberOfPeople - maxSubsidies;
-        const recommendedPrice = totalCost / numberOfPeople;
-        const expectedFee =
-          (0.25 + recommendedPrice * 0.015) * info.participants;
+        const maxTotalSubsidies = Math.min((maxSubsidizedPercentage * totalCost), subsidyPerPerson * info.days * numberOfPeople);
+
+        // this is a pessimistic estimate
+        const expectedStripeFees = (0.25 + (totalCost / numberOfPeople) * 0.015) * info.participants;
+        const totalCostWithFees = totalCost + expectedStripeFees;
+
+        const costWithoutSubsidies = totalCostWithFees / info.participants;
+        const minPrice = (totalCostWithFees - maxTotalSubsidies) / info.participants;
+        const recommendedPrice = Math.max(totalCost / numberOfPeople, minPrice);
+
         return {
           totalCost,
-          maxSubsidies,
+          maxSubsidies: maxTotalSubsidies,
+          expectedStripeFees,
           minPrice,
-          recommendedPrice,
-          expectedFee,
+          costWithoutSubsidies,
+          recommendedPrice
         };
       })
     );
