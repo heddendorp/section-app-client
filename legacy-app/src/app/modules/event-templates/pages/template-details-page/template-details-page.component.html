@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(eventTemplate$ | async) === null"
+></mat-progress-bar>
 <main class="p-4" *ngIf="eventTemplate$ | async as template">
   <a routerLink=".." mat-icon-button>
     <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
