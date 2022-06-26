@@ -40,16 +40,21 @@
           </button>
           <div class="text-xs mt-2 text-slate-600">
             <span>{{ template.googlePlaceId }} </span>
-            <span
-              >({{ template.coordinates?.lat }},
-              {{ template.coordinates?.lon }})</span
+            <span *ngIf="template.coordinates"
+              >({{ template.coordinates.lat }},
+              {{ template.coordinates.lon }})</span
             >
           </div>
         </div>
         <p class="font-bold mt-4 sm:mt-0">Category</p>
         <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-          <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
-          <h3>{{ template.category?.name }}</h3>
+          <ng-container *ngIf="template.category">
+            <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
+            <h3>{{ template.category?.name }}</h3>
+          </ng-container>          
+          <ng-container *ngIf="!template.category">
+            <h3>Uncategorized</h3>
+          </ng-container>        
           <button class="modern" mat-icon-button (click)="changeCategory()">
             <mat-icon svgIcon="icon-edit"></mat-icon>
           </button>
