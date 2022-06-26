@@ -62,7 +62,7 @@ export class FinancePlannerComponent implements OnChanges {
       organizers: [0, Validators.required],
       participants: [0, Validators.required],
       days: [1, Validators.required],
-      notAnExcursion: [false, Validators.required]
+      notAnExcursion: [false, Validators.required],
     });
     this.forecastResult$ = combineLatest([
       this.items$,
@@ -73,7 +73,10 @@ export class FinancePlannerComponent implements OnChanges {
         const totalCost = this.getTotalCost([items, info]);
         const subsidyPerPerson = info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
-        const maxSubsidies = Math.min((maxSubsidizedPercentage * totalCost) / numberOfPeople, subsidyPerPerson * info.days);
+        const maxSubsidies = Math.min(
+          (maxSubsidizedPercentage * totalCost) / numberOfPeople,
+          subsidyPerPerson * info.days
+        );
         const minPrice = totalCost / numberOfPeople - maxSubsidies;
         const recommendedPrice = totalCost / numberOfPeople;
         const expectedFee =
