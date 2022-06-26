@@ -152,6 +152,7 @@ export class TemplateDetailsPageComponent {
           update: {
             coordinates: location.position,
             googlePlaceId: location.place_id,
+            googlePlaceUrl: location.url,
             location: location.structured_formatting.main_text,
           },
         })

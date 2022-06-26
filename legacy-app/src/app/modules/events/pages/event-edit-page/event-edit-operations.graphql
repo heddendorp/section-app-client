@@ -11,6 +11,8 @@ query loadEventForEdit($id: ID!) {
     id
     insuranceDescription
     location
+    googlePlaceId
+    googlePlaceUrl
     organizerLimit
     organizerRegistrationPossible
     organizerSignup

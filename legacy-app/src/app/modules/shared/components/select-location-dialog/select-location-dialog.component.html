@@ -10,7 +10,7 @@
     mat-flat-button
     color="primary"
     [disabled]="locationControl.invalid"
-    [mat-dialog-close]="locationControl.value"
+    (click)="submitLocation()"
   >
     Save
   </button>
