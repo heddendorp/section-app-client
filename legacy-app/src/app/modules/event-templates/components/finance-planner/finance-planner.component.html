@@ -73,7 +73,7 @@
     <mat-label>Days</mat-label>
     <input matInput formControlName="days" type="number" />
   </mat-form-field>
-  
+
   <mat-checkbox formControlName="notAnExcursion">
     Is not an excursion
   </mat-checkbox>
@@ -83,6 +83,9 @@
   <p>Maximum subsidies: {{ result.maxSubsidies | currency: 'EUR' }}</p>
   <p>Expected stripe fees: {{ result.expectedStripeFees | currency: 'EUR' }}</p>
   <p>Minimal price: {{ result.minPrice | currency: 'EUR' }}</p>
-  <p>Maximal price (no subsidies): {{ result.costWithoutSubsidies | currency: 'EUR' }}</p>
+  <p>
+    Maximal price (no subsidies):
+    {{ result.costWithoutSubsidies | currency: 'EUR' }}
+  </p>
   <p>Recommended price: {{ result.recommendedPrice | currency: 'EUR' }}</p>
 </div>

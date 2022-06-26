@@ -62,7 +62,7 @@ export class FinancePlannerComponent implements OnChanges {
       organizers: [0, Validators.required],
       participants: [0, Validators.required],
       days: [1, Validators.required],
-      notAnExcursion: [false, Validators.required]
+      notAnExcursion: [false, Validators.required],
     });
     this.forecastResult$ = combineLatest([
       this.items$,
@@ -74,14 +74,19 @@ export class FinancePlannerComponent implements OnChanges {
 
         const subsidyPerPerson = info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
-        const maxTotalSubsidies = Math.min((maxSubsidizedPercentage * totalCost), subsidyPerPerson * info.days * numberOfPeople);
+        const maxTotalSubsidies = Math.min(
+          maxSubsidizedPercentage * totalCost,
+          subsidyPerPerson * info.days * numberOfPeople
+        );
 
         // this is a pessimistic estimate
-        const expectedStripeFees = (0.25 + (totalCost / numberOfPeople) * 0.015) * info.participants;
+        const expectedStripeFees =
+          (0.25 + (totalCost / numberOfPeople) * 0.015) * info.participants;
         const totalCostWithFees = totalCost + expectedStripeFees;
 
         const costWithoutSubsidies = totalCostWithFees / info.participants;
-        const minPrice = (totalCostWithFees - maxTotalSubsidies) / info.participants;
+        const minPrice =
+          (totalCostWithFees - maxTotalSubsidies) / info.participants;
         const recommendedPrice = Math.max(totalCost / numberOfPeople, minPrice);
 
         return {
@@ -90,7 +95,7 @@ export class FinancePlannerComponent implements OnChanges {
           expectedStripeFees,
           minPrice,
           costWithoutSubsidies,
-          recommendedPrice
+          recommendedPrice,
         };
       })
     );
