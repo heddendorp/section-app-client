@@ -73,11 +73,17 @@
     <mat-label>Days</mat-label>
     <input matInput formControlName="days" type="number" />
   </mat-form-field>
+
+  <mat-checkbox formControlName="notAnExcursion">
+    Is not an excursion
+  </mat-checkbox>
 </form>
 <div *ngIf="forecastResult$ | async as result">
   <p>Total cost: {{ result.totalCost | currency: 'EUR' }}</p>
-  <p>Maximum STIBET: {{ result.maxSubsidies | currency: 'EUR' }}</p>
+  <p>Expected stripe fees: {{ result.expectedFee | currency: 'EUR' }}</p>
+  <p>
+    Maximum subsidies per person: {{ result.maxSubsidies | currency: 'EUR' }}
+  </p>
   <p>Minimal price: {{ result.minPrice | currency: 'EUR' }}</p>
   <p>Recommended price: {{ result.recommendedPrice | currency: 'EUR' }}</p>
-  <p>Expected stripe fees: {{ result.expectedFee | currency: 'EUR' }}</p>
 </div>
