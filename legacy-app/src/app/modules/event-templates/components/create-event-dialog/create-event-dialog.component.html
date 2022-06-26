@@ -69,7 +69,7 @@
     </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Organizing institution</mat-label>
-      <mat-select formControlName="organizerId" required>
+      <mat-select formControlName="eventOrganizerId" required>
         <mat-option
           *ngFor="let organizer of data.organizers"
           [value]="organizer.id"
