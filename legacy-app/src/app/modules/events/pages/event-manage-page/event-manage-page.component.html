@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4">
   <div
     fxLayout="column"
@@ -18,10 +22,14 @@
       >Go to template</a
     >
   </div>
-  <div class="my-4 rounded-2xl border p-4">
-    <h2>Finances</h2>
-    <app-event-manage-finances [eventId]="event.id"></app-event-manage-finances>
 
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Finances </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-event-manage-finances [eventId]="event.id"></app-event-manage-finances>
+      
     <table class="mt-4 table-auto">
       <thead>
         <tr>
@@ -75,276 +83,266 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div class="my-4 rounded-2xl border p-4">
-    <h2 class="mb-2">Participants</h2>
-    <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
-      <p>Users Checked in</p>
-      <p>{{ event.participantsAttended }}</p>
-      <p>Users registered</p>
-      <p>{{ event.participantRegistrationCount }}</p>
-      <p>Maximum participants</p>
-      <p>{{ event.participantLimit }}</p>
-    </div>
-    <div fxLayout="column" fxLayoutGap="1rem">
-      <div
-        *ngFor="let registration of event.participantRegistrations"
-        class="border-t"
-        fxLayout="column"
-        fxLayout.gt-md="row"
-        fxLayoutAlign="start start"
-        fxLayoutGap="1rem"
-      >
-        <img
-          [src]="registration.user.picture"
-          class="h-12 rounded"
-          referrerpolicy="no-referrer"
-        />
-        <div fxLayout="column">
-          <p>
-            {{ registration.user.fullName }} ({{
-              registration.user.university
-            }})
-          </p>
-          <p>{{ registration.user.email }}</p>
-          <p>
-            Status:
-            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
-              registration.status | lowercase
-            }}</span>
-          </p>
-          <p *ngIf="registration.status === 'CANCELLED'">
-            {{ registration.cancellationReason }}
-          </p>
-          <p>
-            Paid:
-            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">
-              {{
-                (registration.transaction?.stripePayment?.netLessRefundAmount ??
-                  0) /
-                  100 | currency: 'EUR'
-              }}
-            </span>
-          </p>
-          <p>
-            Payment status:
-            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
-              registration.transaction?.stripePayment?.status
-            }}</span>
-          </p>
-          <p>
-            Payment method:
-            <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
-              registration.transaction?.stripePayment?.paymentMethodType
-            }}</span>
-          </p>
-          <p>
-            Registered:
-            <span class="rounded bg-gray-200 px-1 font-mono">
-              {{ registration.createdAt | date: 'medium' }}
-            </span>
-          </p>
-        </div>
-        <a
-          routerLink="/tenant/registrations/{{ registration.id }}"
-          mat-icon-button
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Participants </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
+        <p>Users Checked in</p>
+        <p>{{ event.participantsAttended }}</p>
+        <p>Users registered</p>
+        <p>{{ event.participantRegistrationCount }}</p>
+        <p>Maximum participants</p>
+        <p>{{ event.participantLimit }}</p>
+      </div>
+      <div fxLayout="column" fxLayoutGap="1rem">
+        <div
+          *ngFor="let registration of event.participantRegistrations"
+          class="border-t"
+          fxLayout="column"
+          fxLayout.gt-md="row"
+          fxLayoutAlign="start start"
+          fxLayoutGap="1rem"
         >
-          <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
-        </a>
-        <div *ngIf="registration.submissions.length">
-          <p>Additional Data</p>
-          <div *ngFor="let submission of registration.submissions">
-            <p>{{ submission.submissionItem.name }}:</p>
-            <p class="whitespace-pre-line">{{ submission.data.value }}</p>
+          <img
+            [src]="registration.user.picture"
+            class="h-12 rounded"
+            referrerpolicy="no-referrer"
+          />
+          <div fxLayout="column">
+            <p>
+              {{ registration.user.fullName }} ({{
+                registration.user.university
+              }})
+            </p>
+            <p>{{ registration.user.email }}</p>
+            <p>
+              Status:
+              <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
+                registration.status | lowercase
+              }}</span>
+            </p>
+            <p *ngIf="registration.status === 'CANCELLED'">
+              {{ registration.cancellationReason }}
+            </p>
+            <p>
+              Paid:
+              <span class="mr-2 rounded bg-gray-200 px-1 font-mono">
+                {{
+                  (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                    0) /
+                    100 | currency: 'EUR'
+                }}
+              </span>
+            </p>
+            <p>
+              Payment status:
+              <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
+                registration.transaction?.stripePayment?.status
+              }}</span>
+            </p>
+            <p>
+              Payment method:
+              <span class="mr-2 rounded bg-gray-200 px-1 font-mono">{{
+                registration.transaction?.stripePayment?.paymentMethodType
+              }}</span>
+            </p>
+            <p>
+              Registered:
+              <span class="rounded bg-gray-200 px-1 font-mono">
+                {{ registration.createdAt | date: 'medium' }}
+              </span>
+            </p>
+          </div>
+          <a
+            routerLink="/tenant/registrations/{{ registration.id }}"
+            mat-icon-button
+          >
+            <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
+          </a>
+          <div *ngIf="registration.submissions.length">
+            <p>Additional Data</p>
+            <div *ngFor="let submission of registration.submissions">
+              <p>{{ submission.submissionItem.name }}:</p>
+              <p class="whitespace-pre-line">{{ submission.data.value }}</p>
+            </div>
+          </div>
+          <div>
+            <p>During event</p>
+            <p>
+              Checked in:
+              <span class="rounded bg-gray-200 px-1 font-mono">
+                {{ registration.checkInTime | date: 'medium' }}
+              </span>
+            </p>
+          </div>
+          <div fxLayout="column" fxLayoutGap="1rem">
+            <button
+              mat-stroked-button
+              class="modern"
+              (click)="checkin(registration.id)"
+              [disabled]="registration.didAttend"
+            >
+              <mat-icon svgIcon="icon-checked"></mat-icon>
+              <span>Manually check in user</span>
+            </button>
+            <button mat-stroked-button class="modern" [matMenuTriggerFor]="menu">
+              <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
+              <span>Remove user</span>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button
+                mat-menu-item
+                [disabled]="
+                  (registration.transaction?.stripePayment?.netAmount ?? 0) === 0
+                "
+                (click)="kickWithRefund(registration.id)"
+              >
+                Cancel with refund
+              </button>
+              <button
+                mat-menu-item
+                [disabled]="registration.didAttend"
+                (click)="kick(registration.id)"
+              >
+                Cancel without refund
+              </button>
+            </mat-menu>
           </div>
         </div>
-        <div>
-          <p>During event</p>
-          <p>
-            Checked in:
-            <span class="rounded bg-gray-200 px-1 font-mono">
-              {{ registration.checkInTime | date: 'medium' }}
+      </div>
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Registration codes </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
+          <h3 mat-line>Registration code</h3>
+          <p mat-line>
+            {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
+              code.status
+            }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
+          </p>
+          <p mat-line>
+            Link for registration:
+            <span class="select-all font-mono">
+              {{
+                environment.production
+                  ? 'https://tumi.esn.world/'
+                  : 'localhost:4200/'
+              }}profile?code={{ code.id }}
             </span>
           </p>
-        </div>
-        <div fxLayout="column" fxLayoutGap="1rem">
-          <button
-            mat-stroked-button
-            class="modern"
-            (click)="checkin(registration.id)"
-            [disabled]="registration.didAttend"
-          >
-            <mat-icon svgIcon="icon-checked"></mat-icon>
-            <span>Manually check in user</span>
-          </button>
-          <button mat-stroked-button class="modern" [matMenuTriggerFor]="menu">
-            <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
-            <span>Remove user</span>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button
-              mat-menu-item
-              [disabled]="
-                (registration.transaction?.stripePayment?.netAmount ?? 0) === 0
-              "
-              (click)="kickWithRefund(registration.id)"
-            >
-              Cancel with refund
-            </button>
-            <button
-              mat-menu-item
-              [disabled]="registration.didAttend"
-              (click)="kick(registration.id)"
-            >
-              Cancel without refund
-            </button>
-          </mat-menu>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="my-4 rounded-2xl border p-4">
-    <h2 class="mb-2">Registration codes</h2>
-    <div class="space-x-2">
-      <button
-        class="modern"
-        mat-flat-button
-        color="accent"
-        (click)="createRegistrationCode()"
-      >
-        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-        <span>Create registration code</span>
-      </button>
-      <button
-        class="modern"
-        mat-flat-button
-        color="accent"
-        (click)="createRegistrationCode(true)"
-      >
-        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-        <span>Create SEPA registration code</span>
-      </button>
-    </div>
-    <mat-list>
-      <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
-        <h3 mat-line>Registration code</h3>
-        <p mat-line>
-          {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
-            code.status
-          }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
-        </p>
-        <p mat-line>
-          Link for registration:
-          <span class="select-all font-mono">
-            {{
-              environment.production
-                ? 'https://tumi.esn.world/'
-                : 'localhost:4200/'
-            }}profile?code={{ code.id }}
-          </span>
-        </p>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div
-    class="my-4 rounded-2xl border p-4"
-    *ngIf="event.title.includes('ESNcard')"
-  >
-    <h2 class="mb-4">For Thomas with ❤️</h2>
-
-    <table class="select-all">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Zeile 1</th>
-          <th>Zeile 2</th>
-          <th>Zeile 3</th>
-          <th>Zeile 4</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let registration of getTable(event.participantRegistrations)"
-        >
-          <td>{{ registration.user.fullName }}</td>
-          <td *ngFor="let part of registration.address">
-            {{ part }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="my-4 rounded-2xl border p-4">
-    <h2 class="mb-2">Event Table</h2>
-    <div class="block max-w-full overflow-x-auto">
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="true" *ngIf="event.title.includes('ESNcard')">
+      <mat-expansion-panel-header>
+        <mat-panel-title> For Thomas with ❤️ </mat-panel-title>
+      </mat-expansion-panel-header>
       <table class="select-all">
-        <tbody>
+        <thead>
           <tr>
-            <td colspan="2">Event Name:</td>
-            <td colspan="3">{{ event.title }}</td>
-          </tr>
-          <tr>
-            <td colspan="2">Date:</td>
-            <td colspan="3">{{ event.start | date }}</td>
-          </tr>
-          <tr>
-            <td colspan="2">Tutors:</td>
-            <td colspan="3">
-              {{ joinOrganizers(event.organizerRegistrations) }}
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">Participants (including tutors):</td>
-            <td colspan="3">
-              {{
-                event.participantRegistrationCount +
-                  event.organizerRegistrations.length
-              }}
-            </td>
-          </tr>
-          <tr>
-            <th></th>
             <th>Name</th>
-            <th>E-mail</th>
-            <th>Phone</th>
-            <th>Check in</th>
-            <th>Price paid</th>
+            <th>Zeile 1</th>
+            <th>Zeile 2</th>
+            <th>Zeile 3</th>
+            <th>Zeile 4</th>
           </tr>
+        </thead>
+        <tbody>
           <tr
-            *ngFor="
-              let registration of filterRegistrations(
-                event.participantRegistrations
-              );
-              let i = index;
-              let last = last
-            "
-            class="table-row"
+            *ngFor="let registration of getTable(event.participantRegistrations)"
           >
-            <td>{{ i + 1 }}</td>
             <td>{{ registration.user.fullName }}</td>
-            <td>{{ registration.user.email }}</td>
-            <td>{{ registration.user.phone }}</td>
-            <td>{{ registration.checkInTime | date: 'short' }}</td>
-            <td *ngIf="last == false">
-              {{
-                (registration.transaction?.stripePayment?.netLessRefundAmount ??
-                  0) /
-                  100 -
-                  ((feeShare$ | async) ?? 0)
-              }}
-            </td>
-            <td *ngIf="last">
-              {{
-                (registration.transaction?.stripePayment?.netLessRefundAmount ??
-                  0) /
-                  100 -
-                  ((lastUserFeeShare$ | async) ?? 0)
-              }}
+            <td *ngFor="let part of registration.address">
+              {{ part }}
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Event table </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="block max-w-full overflow-x-auto">
+        <table class="select-all">
+          <tbody>
+            <tr>
+              <td colspan="2">Event Name:</td>
+              <td colspan="3">{{ event.title }}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Date:</td>
+              <td colspan="3">{{ event.start | date }}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Tutors:</td>
+              <td colspan="3">
+                {{ joinOrganizers(event.organizerRegistrations) }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">Participants (including tutors):</td>
+              <td colspan="3">
+                {{
+                  event.participantRegistrationCount +
+                    event.organizerRegistrations.length
+                }}
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>E-mail</th>
+              <th>Phone</th>
+              <th>Check in</th>
+              <th>Price paid</th>
+            </tr>
+            <tr
+              *ngFor="
+                let registration of filterRegistrations(
+                  event.participantRegistrations
+                );
+                let i = index;
+                let last = last
+              "
+              class="table-row"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ registration.user.fullName }}</td>
+              <td>{{ registration.user.email }}</td>
+              <td>{{ registration.user.phone }}</td>
+              <td>{{ registration.checkInTime | date: 'short' }}</td>
+              <td *ngIf="last == false">
+                {{
+                  (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                    0) /
+                    100 -
+                    ((feeShare$ | async) ?? 0)
+                }}
+              </td>
+              <td *ngIf="last">
+                {{
+                  (registration.transaction?.stripePayment?.netLessRefundAmount ??
+                    0) /
+                    100 -
+                    ((lastUserFeeShare$ | async) ?? 0)
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
   <!--  <app-manage-event-voting [event]="event"></app-manage-event-voting>-->
 </main>

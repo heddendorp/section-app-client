@@ -288,6 +288,9 @@ $tumi-dark-theme: mat.define-dark-theme(
       }
     }
   }
+  mat-panel-title {
+    @apply lg:text-lg font-bold;
+  }  
   .bg-blur {
     backdrop-filter: blur(16px) saturate(180%);
   }
