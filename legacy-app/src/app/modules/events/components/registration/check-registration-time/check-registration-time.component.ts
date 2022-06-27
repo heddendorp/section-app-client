@@ -36,6 +36,10 @@ export class CheckRegistrationTimeComponent implements OnChanges {
       this.registrationStart$,
     ]).pipe(
       map(([, registrationStart]) => {
+        const diff = registrationStart.diffNow('days');
+        if (diff.days < 1) {
+          return diff.toFormat('hh:mm:ss');
+        }
         return registrationStart.toRelative() ?? '';
       })
     );
