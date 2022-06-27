@@ -14,12 +14,12 @@ on:
       - main
 #    # Publish semver tags as releases.
 #    tags: ['v*.*.*']
-#    paths:
-#      - 'legacy-app/**'
-#      - 'Dockerfile-Legacy'
-#      - '.github/workflows/publish-legacy-app.yml'
-#      - 'infrastructure/legacy-app.yml'
-#      - 'yarn.lock'
+    paths:
+      - 'legacy-app/**'
+      - 'Dockerfile-Legacy'
+      - '.github/workflows/preview-legacy-app.yml'
+      - 'infrastructure/legacy-app.yml'
+      - 'yarn.lock'
   pull_request:
     paths:
       - 'legacy-app/**'
@@ -124,15 +124,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    environment:
+      name: development
+      url: https://dev.esn.world
 #    if: github.ref == 'refs/heads/release'
 
     steps:
-      - uses: avakar/set-deployment-status@v1
-        with:
-          state: in_progress
-          deployment_id: ${{ github.GITHUB_REF }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -148,13 +145,6 @@ jobs:
           find: 'main'
           replace: ${{ needs.build.outputs.sha_short }}
 
-      - name: update image tag in deployment file
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          include: infrastructure/legacy-app.yml
-          find: 'Single'
-          replace: 'Multiple'
-
       - name: Deploy to containerapp
         id: deploy-preview
         uses: azure/CLI@v1
@@ -163,19 +153,7 @@ jobs:
             echo "Installing containerapp extension"
             az extension add -n containerapp --yes
             echo "Starting Deploying"
-            url = $(az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --only-show-errors | jq '.[0].properties.latestRevisionFqdn')
-            echo "::set-output name=preview_url::$url"
-            echo "$url"
-            echo "${{github.GITHUB_REF}}"
-            az containerapp revision label add -n preview-legacy-app -g tumi-container --label preview-${{github.GITHUB_REF}} --revision latest
-
-      - uses: avakar/set-deployment-status@v1
-        with:
-          state: success
-          environment_url: ${{ steps.deploy-preview.outputs.preview_url }}
-          deployment_id: ${{ github.GITHUB_REF }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml
 
   release:
     runs-on: ubuntu-latest
