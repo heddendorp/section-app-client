@@ -223,7 +223,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
                   event: { id: source.id },
                 },
               },
-              amount: { not: undefined },
             },
             _sum: { amount: true },
           })
@@ -244,13 +243,14 @@ export const eventType = builder.prismaObject('TumiEvent', {
                   event: { id: source.id },
                 },
               },
-              netAmount: { not: undefined },
             },
-            _sum: { netAmount: true },
+            _sum: { netAmount: true, refundedAmount: true },
           })
           .then(
             (aggregations) =>
-              (aggregations._sum.netAmount?.toNumber() ?? 0) / 100
+              ((aggregations._sum.netAmount?.toNumber() ?? 0) -
+                (aggregations._sum.refundedAmount?.toNumber() ?? 0)) /
+              100
           )
           .then((amount) => new Prisma.Decimal(amount));
       },
@@ -266,7 +266,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
                   event: { id: source.id },
                 },
               },
-              feeAmount: { not: undefined },
             },
             _sum: { feeAmount: true },
           })
@@ -289,7 +288,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
                   status: RegistrationStatus.CANCELLED,
                 },
               },
-              feeAmount: { not: undefined },
             },
             _sum: { feeAmount: true },
           })
@@ -307,7 +305,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .aggregate({
             where: {
               event: { id: source.id },
-              amount: { not: undefined },
             },
             _sum: { amount: true },
           })
@@ -322,7 +319,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .aggregate({
             where: {
               costItem: { event: { id: source.id } },
-              amount: { not: undefined },
             },
             _sum: { amount: true },
           })

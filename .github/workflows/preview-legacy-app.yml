@@ -20,13 +20,13 @@ on:
       - '.github/workflows/preview-legacy-app.yml'
       - 'infrastructure/legacy-app.yml'
       - 'yarn.lock'
-  pull_request:
-    paths:
-      - 'legacy-app/**'
-      - 'Dockerfile-Legacy'
-      - '.github/workflows/preview-legacy-app.yml'
-      - 'infrastructure/legacy-app.yml'
-      - 'yarn.lock'
+#  pull_request:
+#    paths:
+#      - 'legacy-app/**'
+#      - 'Dockerfile-Legacy'
+#      - '.github/workflows/preview-legacy-app.yml'
+#      - 'infrastructure/legacy-app.yml'
+#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -127,7 +127,7 @@ jobs:
     environment:
       name: development
       url: https://dev.esn.world
-#    if: github.ref == 'refs/heads/release'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Azure Login

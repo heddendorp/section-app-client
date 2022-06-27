@@ -21,6 +21,8 @@ import { useSentry } from '@envelop/sentry';
 import { setupCronjob } from './helpers/cronjobs';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
+import * as Stripe from 'stripe';
+import PromisePool from 'es6-promise-pool';
 
 // declare global {
 //   namespace NodeJS {
@@ -217,9 +219,4 @@ app.get('/prom-metrics', async (_, res) => {
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
-process.env.NODE_ENV !== 'test' &&
-  app.listen(port, async () => {
-    // prismaUtils().then(() => {
-    //   console.log(`DB actions finished`);
-    // });
-  });
+process.env.NODE_ENV !== 'test' && app.listen(port, async () => {});

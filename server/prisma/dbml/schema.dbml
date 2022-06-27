@@ -109,7 +109,7 @@ Table StripePayment {
   paymentIntent String [unique, not null]
   paymentMethod String
   paymentMethodType String
-  refundedAmount Decimal
+  refundedAmount Decimal [default: 0]
   shipping Json
   status String [not null]
   transaction Transaction [not null]

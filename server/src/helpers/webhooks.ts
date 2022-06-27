@@ -708,9 +708,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               where: { paymentIntent: paymentIntentId },
               data: {
                 status: 'refunded',
-                refundedAmount: charge.amount_refunded,
-                feeAmount: balanceTransaction.fee,
-                netAmount: balanceTransaction.net,
+                refundedAmount: { increment: charge.amount_refunded },
                 events: [
                   ...stripePayment.events,
                   {
