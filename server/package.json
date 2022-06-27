@@ -28,7 +28,7 @@
     "@envelop/graphql-jit": "^4.2.3",
     "@envelop/graphql-middleware": "3.3.4",
     "@envelop/response-cache": "^2.3.3",
-    "@envelop/sentry": "^3.4.2",
+    "@envelop/sentry": "^3.5.0",
     "@graphql-hive/client": "^0.16.0",
     "@graphql-yoga/node": "^2.9.2",
     "@pathcheck/dcc-sdk": "^0.0.27",
