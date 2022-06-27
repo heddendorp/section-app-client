@@ -106,7 +106,7 @@ const graphQLServer = createServer({
       console.log(context.req.headers.origin);
       console.log(context.req.headers.host);
       if (tenantName === 'localhost') {
-        tenantName = 'goettingen';
+        tenantName = 'tumi';
       }
       if (tenantName === 'beta') {
         tenantName = 'tumi';
