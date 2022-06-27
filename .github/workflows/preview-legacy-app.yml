@@ -21,7 +21,6 @@ on:
 #      - 'infrastructure/legacy-app.yml'
 #      - 'yarn.lock'
   pull_request:
-    branches: [main]
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
