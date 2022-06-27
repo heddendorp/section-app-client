@@ -78,6 +78,8 @@ export type CreateEventTemplateInput = {
   coordinates: Scalars['JSON'];
   description: Scalars['String'];
   duration: Scalars['Decimal'];
+  googlePlaceId: Scalars['String'];
+  googlePlaceUrl: Scalars['String'];
   icon: Scalars['String'];
   insuranceDescription: Scalars['String'];
   location: Scalars['String'];

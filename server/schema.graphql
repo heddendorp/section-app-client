@@ -55,6 +55,8 @@ input CreateEventTemplateInput {
   coordinates: JSON!
   description: String!
   duration: Decimal!
+  googlePlaceId: String!
+  googlePlaceUrl: String!
   icon: String!
   insuranceDescription: String!
   location: String!
