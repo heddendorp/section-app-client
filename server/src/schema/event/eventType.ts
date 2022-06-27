@@ -574,12 +574,12 @@ export const createEventFromTemplateInput = builder.inputType(
       end: t.field({ type: 'DateTime', required: true }),
       participantLimit: t.int({ required: true }),
       organizerLimit: t.int({ required: true }),
-      registrationLink: t.string({ required: true }),
+      registrationLink: t.string(),
       registrationMode: t.field({ type: RegistrationMode, required: true }),
       eventOrganizerId: t.id({ required: true }),
       price: t.field({ type: 'Decimal' }),
-      excludeFromStatistics: t.boolean(),
-      excludeFromRatings: t.boolean(),
+      excludeFromStatistics: t.boolean({ required: true, defaultValue: false }),
+      excludeFromRatings: t.boolean({ required: true, defaultValue: false }),
     }),
   }
 );
