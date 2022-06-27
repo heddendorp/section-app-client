@@ -24,7 +24,7 @@ on:
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
-      - '.github/workflows/publish-legacy-app.yml'
+      - '.github/workflows/preview-legacy-app.yml'
       - 'infrastructure/legacy-app.yml'
       - 'yarn.lock'
 
