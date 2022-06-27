@@ -25,6 +25,7 @@ import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-event-details-page',
@@ -46,6 +47,7 @@ export class EventDetailsPageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private route: ActivatedRoute,
+    public auth: AuthService,
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,

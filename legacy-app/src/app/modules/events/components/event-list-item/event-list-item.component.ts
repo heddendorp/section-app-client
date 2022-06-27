@@ -26,4 +26,17 @@ export class EventListItemComponent {
     }
     return null;
   }
+
+  public tutorSpotsClass() {
+    if (!this.event) {
+      return '';
+    }
+    if (this.event.organizersRegistered / this.event.organizerLimit < 0.1) {
+      return 'text-red-500 font-bold';
+    }
+    if (this.event.organizersRegistered >= this.event.organizerLimit) {
+      return 'text-slate-500 font-light';
+    }
+    return 'text-yellow-500 font-bold';
+  }
 }
