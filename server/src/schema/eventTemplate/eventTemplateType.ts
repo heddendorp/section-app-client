@@ -74,6 +74,8 @@ export const createEventTemplateInput = builder.inputType(
       icon: t.string({ required: true }),
       insuranceDescription: t.string({ required: true }),
       location: t.string({ required: true }),
+      googlePlaceId: t.string({ required: true }),
+      googlePlaceUrl: t.string({ required: true }),
       organizerText: t.string({ required: true }),
       participantText: t.string({ required: true }),
       shouldBeReportedToInsurance: t.boolean({ required: true }),

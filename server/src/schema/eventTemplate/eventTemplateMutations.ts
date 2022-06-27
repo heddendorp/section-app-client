@@ -22,8 +22,9 @@ builder.mutationFields((t) => ({
         ...query,
         data: {
           ...args.input,
+          categoryId: undefined,
           finances: {},
-          categoryId: args.input.categoryId as any,
+          category: { connect: { id: args.input.categoryId } },
           tenant: {
             connect: {
               id: context.tenant.id,

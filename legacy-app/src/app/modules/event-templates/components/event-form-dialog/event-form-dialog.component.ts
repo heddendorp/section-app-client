@@ -58,14 +58,29 @@ export class EventFormDialogComponent {
   onSubmit(): void {
     if (this.dialogForm.valid) {
       const templateValue = this.dialogForm.value;
-      if (templateValue.location?.id) {
-        templateValue.coordinates = templateValue.location.position;
-        templateValue.location =
-          templateValue.location.type === 'POI'
-            ? templateValue.location.poi.name
-            : templateValue.location.address.freeformAddress;
+      console.log(templateValue.location);
+      if (templateValue.location?.place_id) {
+        // templateValue.coordinates = templateValue.location.position;
+        const map = new google.maps.Map(document.createElement('div'));
+        const service = new google.maps.places.PlacesService(map);
+        service.getDetails(
+          {
+            placeId: templateValue.location.place_id,
+            fields: ['url', 'geometry'],
+          },
+          (res: any) => {
+            this.dialog.close({
+              ...templateValue,
+              coordinates: res.geometry.location,
+              googlePlaceId: templateValue.location.place_id,
+              googlePlaceUrl: res.url,
+              location: templateValue.location.structured_formatting.main_text,
+            });
+          }
+        );
+      } else {
+        this.dialog.close(templateValue);
       }
-      this.dialog.close(templateValue);
     } else {
     }
   }
