@@ -11,13 +11,9 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-:host fieldset:disabled {
-  cursor: not-allowed;
-}
-
 :host fieldset:disabled .check-registration-time-content-wrapper {
   pointer-events: none;
   user-select: none;
   --webkit-touch-callout: none; // iOS Safari
-  filter: grayscale(1) opacity(0.1);
+  filter: grayscale(1) opacity(0.10);
 }
