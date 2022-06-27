@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { ChangeTemplateCategoryDialogComponent } from './components/change-template-category-dialog/change-template-category-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ReactiveFormsModule,
     MatTableModule,
     MatExpansionModule,
+    MatCardModule,
   ],
 })
 export class EventTemplatesModule {}

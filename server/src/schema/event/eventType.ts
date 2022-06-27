@@ -34,6 +34,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
+    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
@@ -560,6 +561,7 @@ export const updateEventLocationInputType = builder.inputType(
       location: t.string({ required: true }),
       coordinates: t.field({ type: 'JSON' }),
       googlePlaceId: t.string(),
+      googlePlaceUrl: t.string(),
     }),
   }
 );
@@ -572,12 +574,12 @@ export const createEventFromTemplateInput = builder.inputType(
       end: t.field({ type: 'DateTime', required: true }),
       participantLimit: t.int({ required: true }),
       organizerLimit: t.int({ required: true }),
-      registrationLink: t.string({ required: true }),
+      registrationLink: t.string(),
       registrationMode: t.field({ type: RegistrationMode, required: true }),
       eventOrganizerId: t.id({ required: true }),
-      price: t.field({ type: 'Decimal', required: true }),
-      excludeFromStatistics: t.boolean(),
-      excludeFromRatings: t.boolean(),
+      price: t.field({ type: 'Decimal' }),
+      excludeFromStatistics: t.boolean({ required: true, defaultValue: false }),
+      excludeFromRatings: t.boolean({ required: true, defaultValue: false }),
     }),
   }
 );

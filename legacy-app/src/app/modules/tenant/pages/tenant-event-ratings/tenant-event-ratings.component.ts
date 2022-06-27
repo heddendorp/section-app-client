@@ -3,6 +3,7 @@ import {
   LoadEventsWithRatingGQL,
   LoadEventsWithRatingQuery,
 } from '@tumi/legacy-app/generated/generated';
+import { DateTime } from 'luxon';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -16,7 +17,7 @@ export class TenantEventRatingsComponent {
 
   constructor(private loadEventsWithRatingGQL: LoadEventsWithRatingGQL) {
     this.events$ = this.loadEventsWithRatingGQL
-      .watch({ after: new Date(2022, 2, 0) })
+      .watch({ after: DateTime.local().minus({ months: 1 }).toJSDate() })
       .valueChanges.pipe(
         map((result) => result.data.events),
         map((events) =>

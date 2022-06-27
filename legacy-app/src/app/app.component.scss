@@ -1,0 +1,8 @@
+::ng-deep {
+  .mat-checkbox-layout {
+    white-space: normal !important;
+  }
+  .mat-expansion-indicator::after {
+    @apply border-slate-600;
+  }
+}

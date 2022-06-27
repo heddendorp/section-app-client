@@ -14,6 +14,7 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     comment: t.exposeString('comment'),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
+    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
     coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     duration: t.expose('duration', { type: 'Decimal' }),
     participantText: t.exposeString('participantText'),
@@ -43,9 +44,21 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
               rating: true,
             },
           })
-          .then(({ _avg }) =>
-            _avg.rating ? Math.round(_avg.rating * 10) / 10 : null
-          ),
+          .then(({ _avg }) => _avg.rating),
+    }),
+    participantRatingCount: t.int({
+      nullable: true,
+      resolve: async (eventTemplate) =>
+        prisma.eventRegistration.count({
+          where: {
+            event: {
+              eventTemplate: {
+                id: eventTemplate.id,
+              },
+            },
+            rating: { not: null },
+          },
+        }),
     }),
   }),
 });
@@ -94,6 +107,7 @@ export const updateTemplateLocationInputType = builder.inputType(
       location: t.string({ required: true }),
       coordinates: t.field({ type: 'JSON' }),
       googlePlaceId: t.string(),
+      googlePlaceUrl: t.string(),
     }),
   }
 );

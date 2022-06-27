@@ -307,6 +307,7 @@ model EventTemplate {
   eventInstances              TumiEvent[]
   finances                    Json
   googlePlaceId               String?
+  googlePlaceUrl              String?
   icon                        String
   insuranceDescription        String                 @default("")
   location                    String
@@ -347,6 +348,7 @@ model TumiEvent {
   excludeFromRatings           Boolean                 @default(false)
   excludeFromStatistics        Boolean                 @default(false)
   googlePlaceId                String?
+  googlePlaceUrl               String?
   icon                         String
   insuranceDescription         String                  @default("")
   location                     String

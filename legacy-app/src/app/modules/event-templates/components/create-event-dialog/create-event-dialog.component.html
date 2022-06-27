@@ -10,21 +10,14 @@
       <mat-label>End</mat-label>
       <input matInput formControlName="end" type="datetime-local" />
       <mat-hint
-        >The end of the event will automatically set to
+        >The end of the event will automatically be set to
         {{ data.template?.duration }}h after the start</mat-hint
       >
       <mat-error>You have to specify when the event will end</mat-error>
     </mat-form-field>
-    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
-      <mat-checkbox formControlName="excludeFromRatings">
-        Don't collect ratings for this event
-      </mat-checkbox>
-      <mat-checkbox formControlName="excludeFromStatistics">
-        Don't list this event in the statistics
-      </mat-checkbox>
-    </div>
     <mat-form-field class="w-full">
       <mat-label>Registration Mode</mat-label>
+      <mat-hint>Use Stripe for events which we charge money for.</mat-hint>
       <mat-select formControlName="registrationMode" required>
         <mat-option [value]="RegistrationMode.External">{{
           RegistrationMode.External | titlecase
@@ -42,7 +35,7 @@
       <mat-label>Price</mat-label>
       <input matInput formControlName="price" type="number" required />
       <span matSuffix>€</span>
-      <mat-hint>The default for this event</mat-hint>
+      <mat-hint>The default price for this event</mat-hint>
       <mat-error>
         You have to specify a price or change the registration type
       </mat-error>
@@ -69,7 +62,7 @@
     </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Organizing institution</mat-label>
-      <mat-select formControlName="organizerId" required>
+      <mat-select formControlName="eventOrganizerId" required>
         <mat-option
           *ngFor="let organizer of data.organizers"
           [value]="organizer.id"
@@ -77,10 +70,20 @@
           {{ organizer.name }}
         </mat-option>
       </mat-select>
-      <mat-hint>Who is organizing this event</mat-hint>
+      <mat-hint>The organization responsible for this event</mat-hint>
       <mat-error>You have to provide the organizer</mat-error>
     </mat-form-field>
-    <p>You can make further edits after creating the event on the next page</p>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-checkbox formControlName="excludeFromRatings">
+        Don't collect ratings for this event
+      </mat-checkbox>
+      <mat-checkbox formControlName="excludeFromStatistics">
+        Don't list this event in the statistics
+      </mat-checkbox>
+    </div>
+    <div class="pt-2 text-slate-500">
+      You can make further edits after creating the event on the next page.
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="reset">Cancel</button>

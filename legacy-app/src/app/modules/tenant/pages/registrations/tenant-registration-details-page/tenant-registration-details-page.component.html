@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(registration$ | async) === null"
+></mat-progress-bar>
 <main class="space-y-2 p-4 lg:p-8">
   <h1 class="font-bold">Registration</h1>
   <div
@@ -11,7 +15,17 @@
           <th colspan="2">Event</th>
         </tr>
         <tr>
-          <td>{{ registration.user.fullName }}</td>
+          <td>
+            {{ registration.user.fullName }}
+            <a
+              class="w-full"
+              class="modern"
+              href="/tenant/users/{{ registration.user.id }}"
+              mat-stroked-button
+            >
+              View user
+            </a>
+          </td>
           <td>Registered: {{ registration.createdAt | date: 'medium' }}</td>
           <td colspan="2">{{ registration.event.title }}</td>
         </tr>
@@ -55,10 +69,11 @@
               <a
                 gdColumn="span 2"
                 mat-stroked-button
+                class="modern"
                 href="https://dashboard.stripe.com/payments/{{
                   registration.transaction?.stripePayment?.paymentIntent
                 }}"
-                >Open in stripe</a
+                >Open in Stripe</a
               >
             </td>
             <td>
@@ -78,10 +93,11 @@
           <td colspan="2">
             <a
               class="w-full"
+              class="modern"
               href="/events/{{ registration.event.id }}/manage"
               mat-stroked-button
             >
-              Manage Event
+              Manage event
             </a>
           </td>
         </tr>

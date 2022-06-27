@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(registrations$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <table
     *ngIf="registrations$ | async as registrations"
@@ -71,7 +75,6 @@
     [length]="registrationCount$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"
     showFirstLastButtons
-    (page)="updatePage($event)"
   >
   </mat-paginator>
 </main>

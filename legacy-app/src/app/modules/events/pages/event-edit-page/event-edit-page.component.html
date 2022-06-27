@@ -29,6 +29,7 @@
             <div>
               <p>{{ event.location }}</p>
               <p>{{ event.coordinates | json }}</p>
+              <p>{{ event.googlePlaceUrl }}</p>
             </div>
             <div class="my-auto flex">
               <div class="mr-4">
@@ -39,7 +40,7 @@
                   }},{{ event.coordinates?.lon }}"
                   target="_blank"
                 >
-                  Open in maps
+                  Open in Maps
                 </a>
               </div>
               <button
@@ -59,30 +60,30 @@
             fxLayoutGap="1rem"
           >
             <mat-form-field class="w-full">
-              <mat-label>Event Description</mat-label>
+              <mat-label>Event description</mat-label>
               <textarea
                 matInput
                 formControlName="description"
-                rows="10"
+                rows="12"
               ></textarea>
             </mat-form-field>
             <mat-form-field class="w-full">
-              <mat-label>Organizer Help</mat-label>
+              <mat-label>Information for organizing</mat-label>
               <textarea
                 matInput
                 formControlName="organizerText"
-                rows="10"
+                rows="12"
               ></textarea>
               <mat-hint>This text is visible to potential organizers</mat-hint>
             </mat-form-field>
             <mat-form-field class="w-full">
-              <mat-label>Info for Participants</mat-label>
+              <mat-label>Information for participants</mat-label>
               <textarea
                 matInput
                 formControlName="participantText"
-                rows="10"
+                rows="12"
               ></textarea>
-              <mat-hint>This text is only visible to registered Users</mat-hint>
+              <mat-hint>This text is only visible to registered users</mat-hint>
             </mat-form-field>
             <div class="mt-4">
               <button type="submit" mat-flat-button color="primary">

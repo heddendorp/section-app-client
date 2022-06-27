@@ -34,12 +34,12 @@ type CostItem {
 input CreateEventFromTemplateInput {
   end: DateTime!
   eventOrganizerId: ID!
-  excludeFromRatings: Boolean
-  excludeFromStatistics: Boolean
+  excludeFromRatings: Boolean! = false
+  excludeFromStatistics: Boolean! = false
   organizerLimit: Int!
   participantLimit: Int!
-  price: Decimal!
-  registrationLink: String!
+  price: Decimal
+  registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
 }
@@ -225,12 +225,14 @@ type EventTemplate {
   eventInstances: [TumiEvent!]!
   finances: JSON!
   googlePlaceId: String
+  googlePlaceUrl: String
   icon: String!
   id: ID!
   insuranceDescription: String!
   location: String!
   organizerText: String!
   participantRating: Float
+  participantRatingCount: Int
   participantText: String!
   shouldBeReportedToInsurance: Boolean!
   tenant: Tenant!
@@ -612,6 +614,7 @@ type TumiEvent {
   feesPaid: Decimal!
   freeParticipantSpots: String!
   googlePlaceId: String
+  googlePlaceUrl: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -678,6 +681,7 @@ input UpdateCoreEventInput {
 input UpdateEventLocationInput {
   coordinates: JSON
   googlePlaceId: String
+  googlePlaceUrl: String
   location: String!
 }
 
@@ -702,6 +706,7 @@ input UpdateTemplateInput {
 input UpdateTemplateLocationInput {
   coordinates: JSON
   googlePlaceId: String
+  googlePlaceUrl: String
   location: String!
 }
 

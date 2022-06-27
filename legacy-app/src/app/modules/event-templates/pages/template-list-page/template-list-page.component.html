@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(templateCategories$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <div
     fxLayout="column"
@@ -26,10 +30,13 @@
     <mat-expansion-panel
       *ngFor="let category of templateCategories$ | async"
       [expanded]="!!searchControl.value && !!category.templateCount"
+      [style.display]="
+        !!searchControl.value && !category.templateCount ? 'none' : ''
+      "
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3">
-          <img [src]="category.icon | iconURL" class="mr-2 h-10" alt="" />{{
+          <img [src]="category.icon | iconURL" class="mr-4 h-10" alt="" />{{
             category.name
           }}
         </mat-panel-title>
@@ -37,24 +44,31 @@
           {{ category.templateCount }} templates
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-nav-list>
-        <a
-          *ngFor="let template of category.templates"
-          mat-list-item
-          routerLink="./{{ template.id }}"
-        >
-          <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
-          <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating"
-            >Average participant rating:
-            {{ template.participantRating }}/5</span
+
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of category.templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
           >
-        </a>
-      </mat-nav-list>
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
     </mat-expansion-panel>
     <mat-expansion-panel
-      *ngIf="eventTemplates$ | async as templates"
+      *ngIf="
+        (templateCategories$ | async) && eventTemplates$ | async as templates
+      "
       [expanded]="!!searchControl.value && !!templates.length"
+      [style.display]="!!searchControl.value && !templates.length ? 'none' : ''"
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
@@ -62,20 +76,23 @@
           {{ templates.length }} templates
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-nav-list>
-        <a
-          *ngFor="let template of templates"
-          mat-list-item
-          routerLink="./{{ template.id }}"
-        >
-          <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
-          <h3 mat-line>{{ template.title }}</h3>
-          <span mat-line *ngIf="template.participantRating"
-            >Average participant rating:
-            {{ template.participantRating }}/5</span
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
           >
-        </a>
-      </mat-nav-list>
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
 </main>

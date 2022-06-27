@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-import { EventCalendarDayDialog } from './event-calendar-day-dialog/event-calendar-day-dialog';
+import { EventCalendarDayDialogComponent } from './event-calendar-day-dialog/event-calendar-day-dialog';
 
 @Component({
   selector: 'app-event-calendar',
@@ -113,11 +113,13 @@ export class EventCalendarComponent implements OnChanges {
   }
 
   public showDayDialog(events: EventListQuery['events']) {
-    this.dialog.open(EventCalendarDayDialog, {
+    if (events.length === 0) return;
+    this.dialog.open(EventCalendarDayDialogComponent, {
       width: '600px',
       maxWidth: '100vw',
       data: { events: events },
       autoFocus: false,
+      panelClass: 'modern',
     });
   }
 }

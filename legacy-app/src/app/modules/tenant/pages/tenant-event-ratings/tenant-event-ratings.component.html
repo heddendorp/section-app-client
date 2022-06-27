@@ -1,5 +1,10 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(events$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <h1 class="font-bold">Events with ratings</h1>
+  <div class="mt-2 mb-4 text-sm">Showing events of the last month.</div>
   <table
     *ngIf="events$ | async as events"
     mat-table
@@ -49,15 +54,23 @@
     <ng-container matColumnDef="organizer">
       <th mat-header-cell *matHeaderCellDef>Organizer rating</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.organizerRatings | number: '1.0-2' }} -
-        {{ element.organizerVotes }} votes
+        <span *ngIf="element.organizerVotes > 0"
+          >{{ element.organizerRatings | number: '1.1-2' }} ★ ({{
+            element.organizerVotes
+          }})</span
+        >
+        <span *ngIf="element.organizerVotes === 0">None</span>
       </td>
     </ng-container>
     <ng-container matColumnDef="participant">
       <th mat-header-cell *matHeaderCellDef>Participant rating</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.participantRatings | number: '1.0-2' }} -
-        {{ element.voteCount }} votes
+        <span *ngIf="element.voteCount > 0"
+          >{{ element.participantRatings | number: '1.1-2' }} ★ ({{
+            element.voteCount
+          }})</span
+        >
+        <span *ngIf="element.voteCount === 0">None</span>
       </td>
     </ng-container>
     <ng-container matColumnDef="comments">
@@ -78,14 +91,22 @@
             {{ registration.userComment }}<br />
             <span class="font-mono mr-2 bg-gray-200 px-1 rounded"
               >organizer</span
-            >{{ registration.rating }}/5
+            ><span
+              *ngFor="let _ of [].constructor(registration.rating)"
+              class="text-amber-400"
+              >★</span
+            >
           </div>
           <div
             *ngFor="let registration of element.participantRegistrations"
             class="border p-2"
           >
             {{ registration.userComment }}<br />
-            {{ registration.rating }}/5
+            <span
+              *ngFor="let _ of [].constructor(registration.rating)"
+              class="text-amber-400"
+              >★</span
+            >
           </div>
         </app-grid>
       </td>

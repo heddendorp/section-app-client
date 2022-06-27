@@ -22,7 +22,7 @@ mutation updateTemplateLocation(
     id
     location
     coordinates
-    googlePlaceId
+    googlePlaceUrl
   }
 }
 
@@ -88,6 +88,7 @@ query getTemplateCategoriesWithTemplates {
       title
       icon
       participantRating
+      participantRatingCount
     }
   }
 }
@@ -106,6 +107,7 @@ query getLonelyEventTemplates {
     title
     icon
     participantRating
+    participantRatingCount
   }
 }
 
@@ -121,7 +123,7 @@ query getEventTemplate($id: ID!) {
     comment
     location
     coordinates
-    googlePlaceId
+    googlePlaceUrl
     finances
     insuranceDescription
     shouldBeReportedToInsurance

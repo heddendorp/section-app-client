@@ -1,34 +1,49 @@
-<div *ngIf="data$ | async as data" class="my-4">
+<div *ngIf="data$ | async as data" class="mb-6 flex flex-col gap-4">
+  <div *ngIf="data.costItems.length === 0" class="italic text-slate-500">
+    No cost items yet.
+  </div>
   <div
     *ngFor="let costItem of data.costItems"
-    fxLayout="row"
-    fxLayoutGap="1rem"
-    fxLayoutAlign="start start"
+    class="flex flex-row gap-1 items-start"
   >
-    <p>{{ costItem.amount | currency: 'EUR' }}</p>
-    <div>
-      <p>{{ costItem.name }}</p>
-      <p>{{ costItem.calculationInfo }}</p>
+    <div class="flex flex-col flex-grow gap-1">
+      <div>
+        <span class="font-bold">{{ costItem.name }}</span> ({{
+          costItem.amount | currency: 'EUR'
+        }})
+      </div>
+      <div class="text-xs">{{ costItem.calculationInfo }}</div>
+      <div class="flex flex-row gap-1">
+        <div
+          *ngIf="costItem.onInvoice"
+          class="rounded bg-green-500 px-2 text-white text-xs"
+        >
+          on invoice
+        </div>
+        <div
+          *ngIf="costItem.submittedAmount"
+          class="rounded bg-yellow-500 px-2 text-white text-xs"
+        >
+          submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
+        </div>
+      </div>
     </div>
-    <p *ngIf="costItem.onInvoice" class="rounded bg-green-500 px-2 text-white">
-      on invoice
-    </p>
-    <p
-      *ngIf="costItem.submittedAmount"
-      class="rounded bg-yellow-500 px-2 text-white"
-    >
-      already submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
-    </p>
     <a
       mat-stroked-button
+      class="modern"
       routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
     >
       <mat-icon svgIcon="icon-cash-receipt"></mat-icon>
-      See receipts
+      <span class="hidden sm:inline">Receipts</span>
     </a>
   </div>
 </div>
-<button mat-raised-button class="modern" (click)="getFromTemplate()">
+<button
+  mat-flat-button
+  color="accent"
+  class="modern"
+  (click)="getFromTemplate()"
+>
   <mat-icon svgIcon="icon-approve-and-update"></mat-icon>
-  <span>Update from Template</span>
+  <span>Update from template</span>
 </button>

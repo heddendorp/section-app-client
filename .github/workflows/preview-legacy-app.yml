@@ -1,0 +1,197 @@
+name: Build Docker for the legacy app
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: '43 11 * * *'
+#  push:
+#    branches:
+#      - release
+#    # Publish semver tags as releases.
+#    tags: ['v*.*.*']
+#    paths:
+#      - 'legacy-app/**'
+#      - 'Dockerfile-Legacy'
+#      - '.github/workflows/publish-legacy-app.yml'
+#      - 'infrastructure/legacy-app.yml'
+#      - 'yarn.lock'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'legacy-app/**'
+      - 'Dockerfile-Legacy'
+      - '.github/workflows/publish-legacy-app.yml'
+      - 'infrastructure/legacy-app.yml'
+      - 'yarn.lock'
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      actions: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+    outputs:
+      sha_short: ${{ steps.vars.outputs.sha_short }}
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
+
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@7e0881f8fe90b25e305bbf0309761e9314607e25
+        with:
+          cosign-release: 'v1.4.0'
+
+      # Workaround: https://github.com/docker/build-push-action/issues/461
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/legacy-app
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
+        with:
+          file: Dockerfile-Legacy
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.sha }}
+
+      # Sign the resulting Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_EXPERIMENTAL: 'true'
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/legacy-app@${{ steps.build-and-push.outputs.digest }}
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: https://tumi.esn.world
+    needs: build
+#    if: github.ref == 'refs/heads/release'
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: update image tag in deployment file
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: infrastructure/legacy-app.yml
+          find: 'main'
+          replace: ${{ needs.build.outputs.sha_short }}
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            echo "Installing containerapp extension"
+            az extension add -n containerapp --yes
+            echo "Starting Deploying"
+            az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{GITHUB_REF}}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update version in environment
+        id: update-version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          include: legacy-app/src/environments/*.ts
+          find: "PROD_VERSION"
+          replace: ${{ github.sha }}
+
+      - name: Prepare yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: '17'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn workspace @tumi/legacy-app install
+
+      - name: Build browser bundle
+        run: yarn workspace @tumi/legacy-app ng build --source-map
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        with:
+          environment: production
+          ignore_empty: true
+          projects: legacy-app
+          sourcemaps: legacy-app/dist/legacy-app
+          version_prefix: legacy-app@
+          version: ${{ github.sha }}

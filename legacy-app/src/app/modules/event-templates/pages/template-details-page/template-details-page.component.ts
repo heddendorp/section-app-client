@@ -7,6 +7,7 @@ import {
   GetEventTemplateGQL,
   GetEventTemplateQuery,
   GetOrganizerOptionsGQL,
+  Role,
   UpdateEventTemplateCategoryAssignmentGQL,
   UpdateEventTemplateGQL,
   UpdateTemplateLocationGQL,
@@ -27,6 +28,8 @@ import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateDetailsPageComponent {
+  public Role = Role;
+
   public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   constructor(
     private title: Title,
@@ -149,6 +152,7 @@ export class TemplateDetailsPageComponent {
           update: {
             coordinates: location.position,
             googlePlaceId: location.place_id,
+            googlePlaceUrl: location.url,
             location: location.structured_formatting.main_text,
           },
         })

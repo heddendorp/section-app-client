@@ -1,3 +1,11 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="
+    (counters$ | async) === null ||
+    (gauges$ | async) === null ||
+    (histograms$ | async) === null
+  "
+></mat-progress-bar>
 <main class="p-4">
   <h1 class="mb-4">Prisma Metrics</h1>
   <h2 class="mb-2">Counters</h2>
