@@ -1,25 +1,49 @@
 <div *ngIf="data$ | async as data" class="mb-6 flex flex-col gap-4">
-  <div *ngIf="data.costItems.length === 0" class="italic text-slate-500">No cost items yet.</div>
-  <div *ngFor="let costItem of data.costItems" class="flex flex-row gap-1 items-start">
+  <div *ngIf="data.costItems.length === 0" class="italic text-slate-500">
+    No cost items yet.
+  </div>
+  <div
+    *ngFor="let costItem of data.costItems"
+    class="flex flex-row gap-1 items-start"
+  >
     <div class="flex flex-col flex-grow gap-1">
-      <div><span class="font-bold">{{ costItem.name }}</span> ({{ costItem.amount | currency: 'EUR' }})</div>
+      <div>
+        <span class="font-bold">{{ costItem.name }}</span> ({{
+          costItem.amount | currency: 'EUR'
+        }})
+      </div>
       <div class="text-xs">{{ costItem.calculationInfo }}</div>
       <div class="flex flex-row gap-1">
-        <div *ngIf="costItem.onInvoice" class="rounded bg-green-500 px-2 text-white text-xs">
+        <div
+          *ngIf="costItem.onInvoice"
+          class="rounded bg-green-500 px-2 text-white text-xs"
+        >
           on invoice
         </div>
-        <div *ngIf="costItem.submittedAmount" class="rounded bg-yellow-500 px-2 text-white text-xs">
+        <div
+          *ngIf="costItem.submittedAmount"
+          class="rounded bg-yellow-500 px-2 text-white text-xs"
+        >
           submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
         </div>
       </div>
     </div>
-    <a mat-stroked-button class="modern" routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}">
+    <a
+      mat-stroked-button
+      class="modern"
+      routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
+    >
       <mat-icon svgIcon="icon-cash-receipt"></mat-icon>
       <span class="hidden sm:inline">Receipts</span>
     </a>
   </div>
 </div>
-<button mat-flat-button color="accent" class="modern" (click)="getFromTemplate()">
+<button
+  mat-flat-button
+  color="accent"
+  class="modern"
+  (click)="getFromTemplate()"
+>
   <mat-icon svgIcon="icon-approve-and-update"></mat-icon>
   <span>Update from template</span>
 </button>

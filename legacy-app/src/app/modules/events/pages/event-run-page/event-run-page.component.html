@@ -1,4 +1,7 @@
-<mat-progress-bar mode="indeterminate" *ngIf="(event$ | async) === null"></mat-progress-bar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4">
   <a mat-fab routerLink="scan">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
@@ -12,7 +15,11 @@
   <div *ngIf="event.costItems.length" class="mb-8 rounded border-2 p-2">
     <h2 class="font-bold">Required receipts</h2>
     <mat-nav-list>
-      <a mat-list-item *ngFor="let costItem of event.costItems" routerLink="receipts/{{ costItem.id }}">
+      <a
+        mat-list-item
+        *ngFor="let costItem of event.costItems"
+        routerLink="receipts/{{ costItem.id }}"
+      >
         <mat-icon svgIcon="icon-cash-receipt" mat-list-icon></mat-icon>
         <h1 mat-line>
           {{ costItem.name }}
@@ -50,7 +57,8 @@
     </button>
   </div>
   <ul
-    class="mt-8 divide-y-2 divide-gray-600 divide-opacity-25 border-2 border-gray-600 border-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2 sm:border-l-0 sm:border-r-0">
+    class="mt-8 divide-y-2 divide-gray-600 divide-opacity-25 border-2 border-gray-600 border-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2 sm:border-l-0 sm:border-r-0"
+  >
     <li class="p-4">
       <p class="font-extrabold md:text-2xl">
         {{ event.participantRegistrationCount }}
@@ -70,43 +78,82 @@
   </ul>
   <h2 class="mb-2 mt-6">Organizers</h2>
   <app-grid>
-    <div *ngFor="let registration of event.organizerRegistrations" fxLayout="row" fxLayoutGap="1rem">
+    <div
+      *ngFor="let registration of event.organizerRegistrations"
+      fxLayout="row"
+      fxLayoutGap="1rem"
+    >
       <div class="relative">
-        <img [src]="registration.user.picture" referrerpolicy="no-referrer" class="w-12 rounded" />
+        <img
+          [src]="registration.user.picture"
+          referrerpolicy="no-referrer"
+          class="w-12 rounded"
+        />
       </div>
       <div>
         <p>
           {{ registration.user.fullName }}
-          <span *ngIf="registration.user.id === event.createdBy.id"
-            class="ml-2 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm">
+          <span
+            *ngIf="registration.user.id === event.createdBy.id"
+            class="ml-2 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
+          >
             Event Creator
           </span>
         </p>
-        <a *ngIf="registration.user.phone" href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
-          target="_blank" class="underline decoration-dotted text-slate-500 font-light">{{ registration.user.phone }}</a>
+        <a
+          *ngIf="registration.user.phone"
+          href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
+          target="_blank"
+          class="underline decoration-dotted text-slate-500 font-light"
+          >{{ registration.user.phone }}</a
+        >
       </div>
     </div>
   </app-grid>
   <h2 class="mt-4 mb-2">Participants</h2>
   <app-grid>
-    <div *ngFor="let registration of event.participantRegistrations" fxLayout="column" fxLayout.gt-sm="row"
-      fxLayoutGap="1rem">
+    <div
+      *ngFor="let registration of event.participantRegistrations"
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutGap="1rem"
+    >
       <div fxLayout="row" fxLayoutGap="1rem">
         <div class="relative">
-          <img [src]="registration.user.picture" referrerpolicy="no-referrer" class="w-12 rounded" />
-          <mat-icon *ngIf="registration.checkInTime; else cross" svgIcon="icon-checkmark"
-            class="absolute bottom-0 -right-3"></mat-icon>
+          <img
+            [src]="registration.user.picture"
+            referrerpolicy="no-referrer"
+            class="w-12 rounded"
+          />
+          <mat-icon
+            *ngIf="registration.checkInTime; else cross"
+            svgIcon="icon-checkmark"
+            class="absolute bottom-0 -right-3"
+          ></mat-icon>
           <ng-template #cross>
-            <mat-icon svgIcon="icon-delete-sign" class="absolute bottom-0 -right-3"></mat-icon>
+            <mat-icon
+              svgIcon="icon-delete-sign"
+              class="absolute bottom-0 -right-3"
+            ></mat-icon>
           </ng-template>
         </div>
         <div fxFlex>
           <p>{{ registration.user.fullName }}</p>
-          <a *ngIf="registration.user.phone" href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
-            target="_blank" class="underline decoration-dotted text-slate-500 font-light">{{ registration.user.phone }}</a>
+          <a
+            *ngIf="registration.user.phone"
+            href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
+            target="_blank"
+            class="underline decoration-dotted text-slate-500 font-light"
+            >{{ registration.user.phone }}</a
+          >
         </div>
         <ng-container *ngIf="!registration.checkInTime">
-          <button mat-icon-button class="modern" (click)="checkin(registration.id)" *appIfRole="[Role.Admin]">
+          <button
+            mat-icon-button
+            class="modern"
+            (click)="checkin(registration.id)"
+            *appIfRole="[Role.Admin]"
+          >
             <mat-icon svgIcon="icon-checked"></mat-icon>
           </button>
         </ng-container>

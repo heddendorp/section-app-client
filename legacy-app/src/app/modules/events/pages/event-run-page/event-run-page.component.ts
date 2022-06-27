@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CheckInUserGQL,
   LoadEventForRunningGQL,
@@ -30,7 +26,7 @@ export class EventRunPageComponent implements OnDestroy {
     private loadEvent: LoadEventForRunningGQL,
     private route: ActivatedRoute,
     private clipboard: Clipboard,
-    private checkInMutation: CheckInUserGQL,
+    private checkInMutation: CheckInUserGQL
   ) {
     this.title.setTitle('TUMi - run event');
     this.loadEventQueryRef = this.loadEvent.watch();
@@ -111,7 +107,7 @@ export class EventRunPageComponent implements OnDestroy {
     };
     attempt();
   }
-  
+
   async checkin(id: string) {
     throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
   }

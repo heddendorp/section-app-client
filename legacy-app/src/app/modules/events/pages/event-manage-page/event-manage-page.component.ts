@@ -12,19 +12,29 @@ import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { trigger, state, transition, animate, style } from '@angular/animations';
+import {
+  trigger,
+  state,
+  transition,
+  animate,
+  style,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-event-manage-page',
   templateUrl: './event-manage-page.component.html',
   styleUrls: ['./event-manage-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,  
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])]
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;
@@ -34,7 +44,15 @@ export class EventManagePageComponent implements OnDestroy {
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
-  registrationTableColumns: string[] = ['name', 'registrationStatus', 'paid', 'registered', 'checkIn', 'remove', 'expand'];
+  registrationTableColumns: string[] = [
+    'name',
+    'registrationStatus',
+    'paid',
+    'registered',
+    'checkIn',
+    'remove',
+    'expand',
+  ];
   expandedRegistration?: TumiEvent;
 
   constructor(
