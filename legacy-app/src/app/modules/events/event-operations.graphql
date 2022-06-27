@@ -70,6 +70,7 @@ query loadEvent($id: ID!) {
         fullName
       }
     }
+    organizerLimit
     organizerSignup
     participantSignup
     organizerRegistrationPossible
