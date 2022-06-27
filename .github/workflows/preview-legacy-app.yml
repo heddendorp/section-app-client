@@ -130,6 +130,7 @@ jobs:
       - uses: avakar/set-deployment-status@v1
         with:
           state: in_progress
+          deployment_id: ${{ github.GITHUB_REF }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Azure Login
@@ -162,13 +163,17 @@ jobs:
             echo "Installing containerapp extension"
             az extension add -n containerapp --yes
             echo "Starting Deploying"
-            url = $(az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{github.GITHUB_REF}} --only-show-errors | jq '.[0].properties.latestRevisionFqdn')
-            echo "::set-output name=preview_url::$token"
+            url = $(az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --only-show-errors | jq '.[0].properties.latestRevisionFqdn')
+            echo "::set-output name=preview_url::$url"
+            echo "$url"
+            echo "${{github.GITHUB_REF}}"
+            az containerapp revision label add -n preview-legacy-app -g tumi-container --label preview-${{github.GITHUB_REF}} --revision latest
 
       - uses: avakar/set-deployment-status@v1
         with:
           state: success
           environment_url: ${{ steps.deploy-preview.outputs.preview_url }}
+          deployment_id: ${{ github.GITHUB_REF }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
