@@ -61,7 +61,7 @@
         "
       >
         <span>{{ event.freeParticipantSpots }}</span>
-        <span *ngIf="event?.couldBeOrganizer" class="font-light text-slate-500">
+        <span *ngIf="event?.couldBeOrganizer" [class]="tutorSpotsClass()">
           ({{ event?.organizersRegistered ?? 0 }}/{{
             event?.organizerLimit ?? 0
           }}
@@ -81,7 +81,7 @@
           }}</span>
           <span
             *ngIf="event?.couldBeOrganizer"
-            class="font-light text-slate-500"
+            [class]="tutorSpotsClass()"
           >
             ({{ event?.organizersRegistered ?? 0 }}/{{
               event?.organizerLimit ?? 0
