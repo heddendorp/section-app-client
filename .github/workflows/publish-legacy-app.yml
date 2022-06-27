@@ -108,7 +108,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ github.sha }}
+            VERSION=${{ steps.build-and-push.outputs.digest }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
@@ -169,7 +169,7 @@ jobs:
         with:
           include: legacy-app/src/environments/*.ts
           find: "PROD_VERSION"
-          replace: ${{ github.sha }}
+          replace: ${{ needs.build.outputs.sha_short }}
 
       - name: Prepare yarn
         uses: actions/setup-node@v3
@@ -194,4 +194,4 @@ jobs:
           projects: legacy-app
           sourcemaps: legacy-app/dist/legacy-app
           version_prefix: legacy-app@
-          version: ${{ github.sha }}
+          version: ${{ needs.build.outputs.sha_short }}

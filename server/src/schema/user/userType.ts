@@ -90,6 +90,7 @@ builder.prismaObject('User', {
     }),
     currentTenant: t.prismaField({
       type: 'UsersOfTenants',
+      nullable: true,
       args: { userId: t.arg.id() },
       resolve: async (query, source, args, context) => {
         if (!args.userId) {
@@ -102,6 +103,7 @@ builder.prismaObject('User', {
               tenantId: context.tenant.id,
             },
           },
+          rejectOnNotFound: false,
         });
       },
     }),

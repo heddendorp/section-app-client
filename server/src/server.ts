@@ -21,6 +21,8 @@ import { useSentry } from '@envelop/sentry';
 import { setupCronjob } from './helpers/cronjobs';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
+import * as Stripe from 'stripe';
+import PromisePool from 'es6-promise-pool';
 
 // declare global {
 //   namespace NodeJS {
@@ -129,15 +131,46 @@ const graphQLServer = createServer({
         });
       }
       if (context.token) {
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: {
             authId: context.token.sub,
           },
           include: {
             tenants: { where: { tenantId: tenant.id } },
           },
+          rejectOnNotFound: false,
         });
-        return { ...context, tenant, user, userOfTenant: user.tenants[0] };
+        if (user && !user.tenants.length) {
+          try {
+            user = await prisma.user.update({
+              where: {
+                id: user.id,
+              },
+              data: {
+                tenants: {
+                  create: {
+                    tenantId: tenant.id,
+                  },
+                },
+              },
+              include: {
+                tenants: { where: { tenantId: tenant.id } },
+              },
+            });
+          } catch (e) {
+            console.error(e);
+            user = await prisma.user.findUnique({
+              where: {
+                authId: context.token.sub,
+              },
+              include: {
+                tenants: { where: { tenantId: tenant.id } },
+              },
+              rejectOnNotFound: false,
+            });
+          }
+        }
+        return { ...context, tenant, user, userOfTenant: user?.tenants[0] };
       }
       return { ...context, tenant };
     }),
@@ -217,9 +250,4 @@ app.get('/prom-metrics', async (_, res) => {
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
-process.env.NODE_ENV !== 'test' &&
-  app.listen(port, async () => {
-    // prismaUtils().then(() => {
-    //   console.log(`DB actions finished`);
-    // });
-  });
+process.env.NODE_ENV !== 'test' && app.listen(port, async () => {});

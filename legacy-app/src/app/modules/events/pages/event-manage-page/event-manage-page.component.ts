@@ -72,15 +72,14 @@ export class EventManagePageComponent implements OnDestroy {
       map(({ data }) => data.event)
     );
     this.feeShare$ = this.event$.pipe(
-      map(
-        (event) =>
-          Math.floor(
-            (event.refundFeesPaid /
-              event.participantRegistrations.filter(
-                (r) => r.status !== RegistrationStatus.Cancelled
-              ).length) *
-              100
-          ) / 100
+      map((event) =>
+        Math.floor(
+          (event.refundFeesPaid /
+            event.participantRegistrations.filter(
+              (r) => r.status !== RegistrationStatus.Cancelled
+            ).length) *
+            100
+        )
       ),
       share()
     );
@@ -88,14 +87,13 @@ export class EventManagePageComponent implements OnDestroy {
       map(
         (event) =>
           event.refundFeesPaid -
-          (Math.floor(
+          Math.floor(
             (event.refundFeesPaid /
               event.participantRegistrations.filter(
                 (r) => r.status !== RegistrationStatus.Cancelled
               ).length) *
               100
-          ) /
-            100) *
+          ) *
             (event.participantRegistrations.filter(
               (r) => r.status !== RegistrationStatus.Cancelled
             ).length -

@@ -33,7 +33,7 @@
         [eventId]="event.id"
       ></app-event-manage-finances>
 
-      <table class="mt-4 table-auto">
+      <table class="mt-4 w-full table-auto">
         <thead>
           <tr>
             <th class="mx-4">Date</th>
@@ -256,7 +256,7 @@
                     : 'collapsed'
                 "
               >
-                <div class="flex flex-col gap-2 my-4">
+                <div class="my-4 flex flex-col gap-2">
                   <div
                     class="mb-2"
                     gdAuto
@@ -421,7 +421,7 @@
         <mat-panel-title> Event table </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="block max-w-full overflow-x-auto">
-        <table class="select-all">
+        <table class="w-full select-all">
           <tbody>
             <tr>
               <td colspan="2">Event Name:</td>
@@ -471,20 +471,20 @@
               <td>{{ registration.checkInTime | date: 'short' }}</td>
               <td *ngIf="!last">
                 {{
-                  (registration.transaction?.stripePayment
+                  ((registration.transaction?.stripePayment
                     ?.netLessRefundAmount ??
-                    0) /
-                    100 -
-                    ((feeShare$ | async) ?? 0) | currency: 'EUR'
+                    0) -
+                    ((feeShare$ | async) ?? 0)) /
+                    100 | currency: 'EUR'
                 }}
               </td>
               <td *ngIf="last">
                 {{
-                  (registration.transaction?.stripePayment
+                  ((registration.transaction?.stripePayment
                     ?.netLessRefundAmount ??
-                    0) /
-                    100 -
-                    ((lastUserFeeShare$ | async) ?? 0) | currency: 'EUR'
+                    0) -
+                    ((lastUserFeeShare$ | async) ?? 0)) /
+                    100 | currency: 'EUR'
                 }}
               </td>
             </tr>

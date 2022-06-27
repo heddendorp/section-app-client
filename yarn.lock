@@ -5126,6 +5126,7 @@ __metadata:
     cors: ^2.8.5
     dayjs: ^1.11.3
     dotenv-cli: ^5.1.0
+    es6-promise-pool: ^2.5.0
     eslint: ^8.18.0
     eslint-config-prettier: ^8.5.0
     express: ^4.18.1
@@ -10605,6 +10606,13 @@ __metadata:
     is-date-object: ^1.0.1
     is-symbol: ^1.0.2
   checksum: 4ead6671a2c1402619bdd77f3503991232ca15e17e46222b0a41a5d81aebc8740a77822f5b3c965008e631153e9ef0580540007744521e72de8e33599fca2eed
+  languageName: node
+  linkType: hard
+
+"es6-promise-pool@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "es6-promise-pool@npm:2.5.0"
+  checksum: e472ec5959b022b28e678446674c78dd2d198dd50c537ef59916d32d2423fe4518c43f132d81f2e98249b8b8450c95f77b8d9aecc1fb15e8dcd224c5b98f0cce
   languageName: node
   linkType: hard
 
