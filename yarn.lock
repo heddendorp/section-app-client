@@ -5089,7 +5089,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/server@workspace:server"
   dependencies:
-    "@angular/google-maps": ^14.0.3
     "@apollo/utils.logger": ^1.0.0
     "@azure/storage-blob": ^12.10.0
     "@envelop/auth0": ^3.3.3
