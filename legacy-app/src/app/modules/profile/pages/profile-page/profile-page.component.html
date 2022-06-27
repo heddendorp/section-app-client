@@ -141,6 +141,7 @@
     <app-event-list
       [events]="profile.organizedEvents"
       [isOrganized]="true"
+      *ngIf="profile.organizedEvents.length"
     ></app-event-list>
     <app-event-list
       [events]="profile.participatedEvents"
