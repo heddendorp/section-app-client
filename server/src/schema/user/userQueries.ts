@@ -5,7 +5,7 @@ import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
 builder.queryFields((t) => ({
   users: t.prismaField({
     authScopes: {
-      admin: true,
+      member: true,
     },
     type: ['User'],
     args: {

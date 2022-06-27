@@ -4,6 +4,14 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <h1>Edit event</h1>
+    <div fxFlex></div>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-stroked-button
+      class="modern"
+      *ngIf="event$ | async as event"
+      >Go to template</a
+    >
   </div>
 
   <div class="my-8 rounded-lg border-2 py-4 px-4">
@@ -21,6 +29,7 @@
             <div>
               <p>{{ event.location }}</p>
               <p>{{ event.coordinates | json }}</p>
+              <p>{{ event.googlePlaceUrl }}</p>
             </div>
             <div class="my-auto flex">
               <div class="mr-4">
@@ -31,7 +40,7 @@
                   }},{{ event.coordinates?.lon }}"
                   target="_blank"
                 >
-                  Open in maps
+                  Open in Maps
                 </a>
               </div>
               <button
@@ -51,7 +60,7 @@
             fxLayoutGap="1rem"
           >
             <mat-form-field class="w-full">
-              <mat-label>Event Description</mat-label>
+              <mat-label>Event description</mat-label>
               <textarea
                 matInput
                 formControlName="description"
@@ -59,7 +68,7 @@
               ></textarea>
             </mat-form-field>
             <mat-form-field class="w-full">
-              <mat-label>Organizer Help</mat-label>
+              <mat-label>Information for organizing</mat-label>
               <textarea
                 matInput
                 formControlName="organizerText"
@@ -68,7 +77,7 @@
               <mat-hint>This text is visible to potential organizers</mat-hint>
             </mat-form-field>
             <mat-form-field class="w-full">
-              <mat-label>Info for Participants</mat-label>
+              <mat-label>Information for participants</mat-label>
               <textarea
                 matInput
                 formControlName="participantText"
@@ -132,6 +141,14 @@
               </mat-form-field>
               <mat-checkbox formControlName="disableDeregistration">
                 Disable deregistration and moves
+              </mat-checkbox>
+            </div>
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+              <mat-checkbox formControlName="excludeFromRatings">
+                Don't collect ratings for this event
+              </mat-checkbox>
+              <mat-checkbox formControlName="excludeFromStatistics">
+                Don't list this event in the statistics
               </mat-checkbox>
             </div>
             <mat-form-field class="w-full">

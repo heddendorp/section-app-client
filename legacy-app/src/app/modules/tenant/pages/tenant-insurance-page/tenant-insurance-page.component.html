@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(events$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <h1>Events for insurance</h1>
   <section class="select-all">

@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Select Template Category</h1>
+<mat-dialog-content>
+  <mat-form-field class="w-full">
+    <mat-label>Template Category</mat-label>
+    <mat-select [formControl]="categorySelection" required>
+      <mat-option
+        *ngFor="let category of data.categories"
+        [value]="category.id"
+        >{{ category.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="categorySelection.value"
+    [disabled]="categorySelection.invalid"
+  >
+    Select
+  </button>
+</mat-dialog-actions>

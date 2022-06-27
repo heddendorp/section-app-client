@@ -1,57 +1,159 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(eventTemplate$ | async) === null"
+></mat-progress-bar>
 <main class="p-4" *ngIf="eventTemplate$ | async as template">
-  <div class="my-4 rounded border-2 p-2">
-    <img [src]="template.icon | iconURL" class="w-16" />
-    <h1>{{ template.title }}</h1>
-    <h2>Location</h2>
-    <p>{{ template.location }}</p>
-    <p>{{ template.coordinates | json }}</p>
-    <a
-      mat-stroked-button
-      href="http://www.google.com/maps/place/{{ template.coordinates?.lat }},{{
-        template.coordinates?.lon
-      }}"
-      target="_blank"
-    >
-      Open in maps
-    </a>
-    <h2>Comments for this template</h2>
-    <markdown class="prose" [data]="template.comment"></markdown>
-    <h2>Description</h2>
-    <markdown class="prose" [data]="template.description"></markdown>
-    <h2>Running notes</h2>
-    <markdown class="prose" [data]="template.organizerText"></markdown>
-    <h2>Info for registered participants</h2>
-    <markdown class="prose" [data]="template.participantText"></markdown>
-    <div class="my-2" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
-      <button mat-stroked-button (click)="createEvent()">
-        Create Event from this template
-      </button>
-      <button mat-flat-button color="accent" (click)="editTemplate()">
-        Edit
-      </button>
-      <button mat-flat-button color="accent" (click)="updateLocation()">
-        Update location
-      </button>
-      <button mat-flat-button color="warn" (click)="deleteTemplate()">
-        Delete
-      </button>
-    </div>
-  </div>
-  <div class="my-4 rounded border-2 p-2">
-    <h2>Events</h2>
-    <mat-nav-list>
-      <a
-        mat-list-item
-        routerLink="/events/{{ event.id }}"
-        *ngFor="let event of template.eventInstances"
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+
+  <mat-card class="my-4">
+    <mat-card-title>
+      <img [src]="template.icon | iconURL" class="float-right w-16" />
+      <h1>{{ template.title }}</h1>
+    </mat-card-title>
+    <mat-card-content>
+      <div
+        gdAuto
+        gdColumns="1fr"
+        gdColumns.gt-xs="1fr 4fr"
+        gdGap.gt-xs="2rem 1rem"
+        class="my-2"
       >
-        <h3 mat-line>{{ event.title }}</h3>
-        <p mat-line>{{ event.start | date: 'medium' }}</p>
-      </a>
-    </mat-nav-list>
-  </div>
-  <div class="my-4 rounded border-2 p-2">
-    <h2>Finances</h2>
-    <app-finance-planner [template]="template"></app-finance-planner>
-  </div>
+        <p class="font-bold">Location</p>
+        <div>
+          <a
+            class="modern"
+            mat-stroked-button
+            [href]="
+              template.googlePlaceUrl
+                ? template.googlePlaceUrl
+                : 'https://www.google.com/maps/place/' +
+                  template.coordinates?.lat +
+                  ',' +
+                  template.coordinates?.lon
+            "
+            target="_blank"
+          >
+            <mat-icon svgIcon="icon-map-marker"></mat-icon>
+            {{ template.location }}
+          </a>
+          <button class="modern" mat-icon-button (click)="updateLocation()">
+            <mat-icon svgIcon="icon-edit"></mat-icon>
+          </button>
+          <div class="mt-2 text-xs text-slate-600">
+            <span>{{ template.googlePlaceUrl }} </span>
+            <span *ngIf="template.coordinates"
+              >({{ template.coordinates.lat }},
+              {{ template.coordinates.lon }})</span
+            >
+          </div>
+        </div>
+        <p class="mt-4 font-bold sm:mt-0">Category</p>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+          <ng-container *ngIf="template.category">
+            <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
+            <h3>{{ template.category?.name }}</h3>
+          </ng-container>
+          <ng-container *ngIf="!template.category">
+            <h3>Uncategorized</h3>
+          </ng-container>
+          <button class="modern" mat-icon-button (click)="changeCategory()">
+            <mat-icon svgIcon="icon-edit"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="my-2 gap-2" fxLayout="column" fxLayout.gt-sm="row">
+        <button
+          class="modern"
+          color="primary"
+          mat-flat-button
+          (click)="createEvent()"
+        >
+          <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+          Create event from this template
+        </button>
+        <button
+          class="modern"
+          color="accent"
+          mat-flat-button
+          (click)="editTemplate()"
+        >
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+          Edit
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Internal comments </mat-panel-title>
+      </mat-expansion-panel-header>
+      <markdown class="prose" [data]="template.comment"></markdown>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Event description </mat-panel-title>
+      </mat-expansion-panel-header>
+      <markdown class="prose" [data]="template.description"></markdown>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Information for organizing </mat-panel-title>
+      </mat-expansion-panel-header>
+      <markdown class="prose" [data]="template.organizerText"></markdown>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Information for participants </mat-panel-title>
+      </mat-expansion-panel-header>
+      <markdown class="prose" [data]="template.participantText"></markdown>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Events </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <a
+          mat-list-item
+          routerLink="/events/{{ event.id }}"
+          *ngFor="let event of template.eventInstances"
+        >
+          <h3 mat-line>{{ event.title }}</h3>
+          <p mat-line>{{ event.start | date: 'medium' }}</p>
+        </a>
+      </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Finances </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-finance-planner [template]="template"></app-finance-planner>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Admin options </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <button
+        class="modern"
+        mat-flat-button
+        color="warn"
+        (click)="deleteTemplate()"
+      >
+        <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+        Delete event template
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
 </main>

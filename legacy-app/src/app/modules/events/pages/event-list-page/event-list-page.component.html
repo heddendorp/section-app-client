@@ -1,42 +1,59 @@
 <mat-progress-bar
   mode="indeterminate"
-  *ngIf="(events$ | async) === null"
+  *ngIf="loading$ | async"
 ></mat-progress-bar>
 <main class="text-surface-on p-4">
   <div
     fxLayout="column-reverse"
     fxLayout.gt-md="row"
     fxLayoutGap="1rem"
-    class="mb-6"
+    class="mb-4"
   >
     <div fxFlex="noshrink">
-      <h1 class="mb-4">Upcoming Events</h1>
-      <div
-        fxLayout="column"
-        fxLayout.gt-sm="row"
-        fxLayoutGap="1rem"
-        class="w-full"
-      >
-        <mat-checkbox [formControl]="showFullEvents">
-          Include events without spot
-        </mat-checkbox>
-        <mat-form-field *appIfRole="[Role.Admin]" fxFlex.gt-sm="grow">
-          <mat-label>Show Events after</mat-label>
-          <input
-            matInput
-            [formControl]="eventsAfter"
-            [matDatepicker]="picker"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <div class="flex flex-row items-end justify-between sm:justify-start">
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value - 12)"
+          *appIfRole="[Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-double-left" style="height: 16px"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value - 1)"
+        >
+          <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
+        </button>
+        <h1 class="whitespace-nowrap ml-2 mr-2">{{ monthOffsetLabel }}</h1>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value + 1)"
+        >
+          <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="monthOffset.setValue(monthOffset.value + 12)"
+          *appIfRole="[Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-double-right" style="height: 16px"></mat-icon>
+        </button>
+        <ng-container *ngIf="(selectedView$ | async) === 'list'">
+          <div fxFlex="grow"></div>
+          <button mat-stroked-button (click)="initSearch()">
+            <mat-icon svgIcon="icon-search"></mat-icon>
+          </button>
+        </ng-container>
       </div>
-      <mat-form-field class="w-full">
-        <mat-label>Search Event</mat-label>
-        <input matInput [formControl]="filterEvents" type="search" />
+      <mat-form-field
+        class="mt-2 -mb-6 w-full"
+        [style.display]="
+          searchEnabled && (selectedView$ | async) === 'list' ? '' : 'none'
+        "
+      >
+        <mat-label>Search for an event</mat-label>
+        <input #searchbar matInput [formControl]="filterEvents" type="search" />
+        <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
       </mat-form-field>
     </div>
     <!--<div
@@ -138,58 +155,68 @@
       </p>
     </div>-->
   </div>
-  <ng-container [ngSwitch]="selectedView | async">
+  <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
-      <div>
+      <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
           class="modern mb-4"
           (click)="toggleSelectedView()"
         >
           <mat-icon svgIcon="icon-calendar"></mat-icon>
-          <span>Switch to calendar view</span>
+          <span>Calendar view</span>
         </button>
+        <mat-checkbox [formControl]="showFullEvents">
+          Show full events
+        </mat-checkbox>
       </div>
       <app-event-list
         *ngIf="events$ | async as events"
         [events]="events"
       ></app-event-list>
+
+      <div
+        *ngIf="(events$ | async)?.length === 0"
+        class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
+      >
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="1rem"
+          class="mb-6"
+        >
+          <mat-icon
+            svgIcon="icon-overtime"
+            class="card-icon bg-white text-pink-500"
+          ></mat-icon>
+          <h2 class="font-bold">No events right now</h2>
+        </div>
+        <p>
+          Right now there are no events to show you, but check back soon to see
+          what we are planning :)
+        </p>
+      </div>
     </ng-container>
     <ng-container *ngSwitchCase="'calendar'">
-      <div>
+      <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
           class="modern mb-4"
           (click)="toggleSelectedView()"
         >
-          <span>Switch to list view</span>
+          <mat-icon svgIcon="icon-list"></mat-icon>
+          <span>List view</span>
         </button>
+        <mat-checkbox [formControl]="showFullEvents">
+          Show full events
+        </mat-checkbox>
       </div>
       <app-event-calendar
         *ngIf="events$ | async as events"
         [events]="events"
+        [firstDate]="startOfMonth"
+        [lastDate]="endOfMonth"
       ></app-event-calendar>
     </ng-container>
   </ng-container>
-  <div
-    *ngIf="(events$ | async)?.length === 0"
-    class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
-  >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-6"
-    >
-      <mat-icon
-        svgIcon="icon-overtime"
-        class="card-icon bg-white text-pink-500"
-      ></mat-icon>
-      <h2 class="font-bold">No events right now</h2>
-    </div>
-    <p>
-      Right now there are no events to show you, but check back soon to see what
-      we are planning
-    </p>
-  </div>
 </main>

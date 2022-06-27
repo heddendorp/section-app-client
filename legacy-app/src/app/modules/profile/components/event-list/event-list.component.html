@@ -1,0 +1,53 @@
+<div
+  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4"
+>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+    <mat-icon
+      svgIcon="icon-overtime"
+      class="text-secondary-default bg-secondary-on card-icon"
+    ></mat-icon>
+    <h2 class="font-bold">
+      {{ isOrganized ? 'Organized' : 'Your' }} events
+      <span class="font-light">({{ events.length }})</span>
+    </h2>
+  </div>
+  <mat-nav-list>
+    <div class="mx-4 my-2" *ngIf="!isOrganized">
+      <button
+        class="modern w-full"
+        color="primary"
+        mat-raised-button
+        (click)="requestClaimDialog()"
+      >
+        <mat-icon svgIcon="icon-cancel-4-digits"></mat-icon>
+        Claim event with code
+      </button>
+    </div>
+    <app-event-list-item
+      *ngFor="let event of futureEvents()"
+      [event]="event"
+    ></app-event-list-item>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header matRipple>
+        <mat-panel-title>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="1rem"
+            class="lg p-2"
+          >
+            <mat-icon
+              svgIcon="icon-time-machine"
+              class="text-secondary-default bg-secondary-on card-icon card-icon-small"
+            ></mat-icon>
+            <p class="font-bold">Past events</p>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-event-list-item
+        *ngFor="let event of pastEvents()"
+        [event]="event"
+      ></app-event-list-item>
+    </mat-expansion-panel>
+  </mat-nav-list>
+</div>

@@ -27,6 +27,7 @@ import { AddReceiptDialogComponent } from './components/running/add-receipt-dial
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatRippleModule } from '@angular/material/core';
 import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -36,6 +37,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
 import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
+import { EventCalendarDayDialogComponent } from './components/event-calendar/event-calendar-day-dialog/event-calendar-day-dialog';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { EventCalendarComponent } from './components/event-calendar/event-calend
     AddReceiptDialogComponent,
     PublicRegistrationCodesPageComponent,
     EventCalendarComponent,
+    EventCalendarDayDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +80,7 @@ import { EventCalendarComponent } from './components/event-calendar/event-calend
     MatTabsModule,
     MatMenuModule,
     MatAutocompleteModule,
+    MatRippleModule,
   ],
 })
 export class EventsModule {}

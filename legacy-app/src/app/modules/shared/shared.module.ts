@@ -10,6 +10,7 @@ import { IfStatusDirective } from './directives/if-status.directive';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { DataItemsCollectorComponent } from './components/data-items-collector/data-items-collector.component';
 import { DataItemsManagerComponent } from './components/data-items-manager/data-items-manager.component';
 import { GridComponent } from './components/grid/grid.component';
@@ -32,6 +33,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectWithAutocompleteDialogComponent } from './components/select-with-autocomplete-dialog/select-with-autocomplete-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MarkdownModule } from 'ngx-markdown';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { HttpClientJsonpModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,8 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSelectModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
+    HttpClientJsonpModule,
   ],
   exports: [
     DataItemsCollectorComponent,
@@ -86,6 +91,7 @@ import { MarkdownModule } from 'ngx-markdown';
     MatInputModule,
     MatListModule,
     MatProgressBarModule,
+    MatExpansionModule,
     MatSelectModule,
     MatSnackBarModule,
     MatToolbarModule,

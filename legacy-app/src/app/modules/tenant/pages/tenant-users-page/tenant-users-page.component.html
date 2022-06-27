@@ -1,7 +1,13 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(users$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <h1 class="mb-2 font-bold">
     Registered Users
-    <span class="font-light">(showing: {{ userNum$ | async }})</span>
+    <span class="font-light" *ngIf="userNum$ | async as userNum"
+      >({{ userNum }})</span
+    >
   </h1>
   <form [formGroup]="filterForm" fxLayout="column" fxLayoutGap="1rem">
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">

@@ -59,15 +59,6 @@
         <!--        </a>-->
         <a
           mat-list-item
-          routerLink="profile"
-          routerLinkActive="active"
-          *appIfRole="[Role.User, Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-contact-card"></mat-icon>
-          <span>Profile</span>
-        </a>
-        <a
-          mat-list-item
           routerLink="event-templates"
           routerLinkActive="active"
           *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
@@ -77,7 +68,7 @@
         </a>
         <a
           mat-list-item
-          href="https://drive.google.com/drive/folders/1_Eb5pOsPsk9ejIFJmXSxldrn1Gh92aZN"
+          href="https://esntumi.sharepoint.com/:f:/s/Board/EqlZb4OcQgNArN8drmSYCKMBAe9OxW7iaYjHmQl6J-bg5A?e=rALt2f"
           target="_blank"
           *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
         >
@@ -114,6 +105,14 @@
           <mat-icon svgIcon="icon-software-installer"></mat-icon>
           <span>Install the TUMi app</span>
         </button>
+        <a
+          mat-list-item
+          *appIfRole="[Role.User, Role.Admin]"
+          (click)="auth.logout({ returnTo: document.location.origin })"
+        >
+          <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
+          <span>Log out</span>
+        </a>
       </mat-nav-list>
       <div fxFlex="grow"></div>
       <div class="mx-auto mb-2">
@@ -126,22 +125,24 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
-      >
-        <mat-icon
-          aria-label="Side nav toggle icon"
-          svgIcon="icon-menu"
-        ></mat-icon>
-      </button>
-      <h1>{{ (tenant$ | async)?.name }}</h1>
-      <div fxFlex="grow"></div>
-      <app-auth-button></app-auth-button>
+    <mat-toolbar color="primary" style="padding-right: 0">
+      <div class="flex flex-row items-center relative h-full w-full">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          style="line-height: normal"
+        >
+          <mat-icon
+            aria-label="Side nav toggle icon"
+            svgIcon="icon-menu"
+          ></mat-icon>
+        </button>
+        <h1 style="margin-top: 4px">{{ (tenant$ | async)?.name }}</h1>
+        <div fxFlex="grow"></div>
+        <app-auth-button></app-auth-button>
+      </div>
     </mat-toolbar>
     <div
       *ngIf="outstandingRating$ | async"

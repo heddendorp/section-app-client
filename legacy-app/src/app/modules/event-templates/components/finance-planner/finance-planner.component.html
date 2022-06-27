@@ -59,7 +59,7 @@
   [formGroup]="forecastForm"
   fxLayout="column"
   fxLayout.gt-sm="row"
-  fxLayoutGap="1rem"
+  class="sm:gap-2"
 >
   <mat-form-field>
     <mat-label>Participants</mat-label>
@@ -73,11 +73,33 @@
     <mat-label>Days</mat-label>
     <input matInput formControlName="days" type="number" />
   </mat-form-field>
+
+  <mat-checkbox formControlName="notAnExcursion">
+    Is not an excursion
+  </mat-checkbox>
 </form>
-<div *ngIf="forecastResult$ | async as result">
-  <p>Total cost: {{ result.totalCost | currency: 'EUR' }}</p>
-  <p>Maximum STIBET: {{ result.maxSubsidies | currency: 'EUR' }}</p>
-  <p>Minimal price: {{ result.minPrice | currency: 'EUR' }}</p>
-  <p>Recommended price: {{ result.recommendedPrice | currency: 'EUR' }}</p>
-  <p>Expected stripe fees: {{ result.expectedFee | currency: 'EUR' }}</p>
+<div
+  *ngIf="forecastResult$ | async as result"
+  class="mt-4 w-full"
+  gdAuto
+  gdGap="1rem"
+  gdColumns="max-content max-content"
+>
+  <p>Sum of all expenses:</p>
+  <p class="ml-auto">{{ result.totalCost | currency: 'EUR' }}</p>
+  <p>Maximum subsidies:</p>
+  <p class="ml-auto">{{ result.maxSubsidies | currency: 'EUR' }}</p>
+  <p>Expected stripe fees</p>
+  <p class="ml-auto">{{ result.expectedStripeFees | currency: 'EUR' }}</p>
+  <p>Minimal price (max subsidies):</p>
+  <p class="ml-auto">{{ result.minPrice | currency: 'EUR' }}</p>
+  <p>Maximal price (no subsidies):</p>
+  <p class="ml-auto">{{ result.costWithoutSubsidies | currency: 'EUR' }}</p>
+  <p class="font-semibold">Recommended price:</p>
+  <p class="ml-auto">{{ result.recommendedPrice | currency: 'EUR' }}</p>
 </div>
+<p class="mt-4 text-xs text-slate-500">
+  This calculator provides only a rough overview of the costs. The funding
+  depends on other factors. If you have any questions, please contact the Head
+  of Finance or Event Manager.
+</p>

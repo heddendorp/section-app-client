@@ -1,0 +1,25 @@
+query LoadEventCategoriesForAdmin {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+
+mutation CreateEventTemplateCategory(
+  $input: CreateEventTemplateCategoryInput!
+) {
+  createEventTemplateCategory(input: $input) {
+    id
+    name
+    icon
+  }
+}
+
+mutation DeleteEventTemplateCategory($id: ID!) {
+  deleteEventTemplateCategory(categoryId: $id) {
+    id
+    name
+    icon
+  }
+}

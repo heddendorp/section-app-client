@@ -34,15 +34,23 @@ type CostItem {
 input CreateEventFromTemplateInput {
   end: DateTime!
   eventOrganizerId: ID!
+  excludeFromRatings: Boolean! = false
+  excludeFromStatistics: Boolean! = false
   organizerLimit: Int!
   participantLimit: Int!
-  price: Decimal!
-  registrationLink: String!
+  price: Decimal
+  registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
 }
 
+input CreateEventTemplateCategoryInput {
+  icon: String!
+  name: String!
+}
+
 input CreateEventTemplateInput {
+  categoryId: ID!
   comment: String!
   coordinates: JSON!
   description: String!
@@ -144,8 +152,8 @@ type EventRegistration {
   cancellationReason: String
   checkInTime: DateTime
   createdAt: DateTime!
-  creatingCode: EventRegistrationCode!
-  deletingCode: EventRegistrationCode!
+  creatingCode: EventRegistrationCode
+  deletingCode: EventRegistrationCode
   didAttend: Boolean!
   event: TumiEvent!
   eventId: ID!
@@ -208,22 +216,38 @@ type EventSubmissionItem {
 }
 
 type EventTemplate {
+  category: EventTemplateCategory
   comment: String!
-  coordinates: JSON!
+  coordinates: JSON
   createdAt: DateTime!
   description: String!
   duration: Decimal!
   eventInstances: [TumiEvent!]!
   finances: JSON!
+  googlePlaceId: String
+  googlePlaceUrl: String
   icon: String!
   id: ID!
   insuranceDescription: String!
   location: String!
   organizerText: String!
+  participantRating: Float
+  participantRatingCount: Int
   participantText: String!
   shouldBeReportedToInsurance: Boolean!
   tenant: Tenant!
   title: String!
+}
+
+type EventTemplateCategory {
+  createdAt: DateTime!
+  icon: String!
+  id: ID!
+  name: String!
+  templateCount: Int!
+  templates: [EventTemplate!]!
+  tenant: Tenant!
+  tenantId: ID!
 }
 
 scalar JSON
@@ -267,6 +291,7 @@ type Mutation {
   createEventFromTemplate(input: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent!
   createEventOrganizer(newOrganizerInput: NewOrganizerInput!): EventOrganizer!
   createEventTemplate(input: CreateEventTemplateInput!): EventTemplate!
+  createEventTemplateCategory(input: CreateEventTemplateCategoryInput!): EventTemplateCategory!
   createPhotoShare(eventId: ID!, input: CreatePhotoShareInput!): PhotoShare!
   createReceipt(costItemId: ID!, input: CreateReceiptInput!): Receipt!
   createRegistrationCode(eventId: ID!, isPublic: Boolean = false, registrationId: ID, sepaAllowed: Boolean = false): EventRegistrationCode!
@@ -274,6 +299,7 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   deleteCostItem(id: ID!): CostItem!
   deleteEvent(id: ID!): TumiEvent!
+  deleteEventTemplateCategory(categoryId: ID!): EventTemplateCategory!
   deleteReceipt(id: ID!): Receipt!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
@@ -287,6 +313,7 @@ type Mutation {
   updateEventLocation(eventId: ID!, input: UpdateEventLocationInput!): TumiEvent!
   updateEventTemplateConnection(eventId: ID!, templateId: ID!): TumiEvent!
   updateTemplate(input: UpdateTemplateInput!, templateId: ID!): EventTemplate!
+  updateTemplateCategory(categoryId: ID!, templateId: ID!): EventTemplate!
   updateTemplateFinances(finances: JSON!, templateId: ID!): EventTemplate!
   updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
@@ -389,7 +416,8 @@ type Query {
   eventRegistrationCode(id: ID!): EventRegistrationCode!
   eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
   eventTemplate(id: ID!): EventTemplate!
-  eventTemplates: [EventTemplate!]!
+  eventTemplateCategories: [EventTemplateCategory!]!
+  eventTemplates(onlyWithoutCategory: Boolean): [EventTemplate!]!
   events(after: DateTime, before: DateTime, limit: Int): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
@@ -564,7 +592,7 @@ enum TransactionType {
 }
 
 type TumiEvent {
-  activeRegistration: EventRegistration!
+  activeRegistration: EventRegistration
   amountCollected: Decimal!
   coordinates: JSON
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
@@ -581,8 +609,12 @@ type TumiEvent {
   eventRegistrationCodes: [EventRegistrationCode!]!
   eventTemplate: EventTemplate!
   eventTemplateId: ID!
+  excludeFromRatings: Boolean!
+  excludeFromStatistics: Boolean!
   feesPaid: Decimal!
   freeParticipantSpots: String!
+  googlePlaceId: String
+  googlePlaceUrl: String
   icon: String!
   id: ID!
   insuranceDescription: String!
@@ -628,6 +660,9 @@ type TumiEvent {
 input UpdateCoreEventInput {
   disableDeregistration: Boolean
   end: DateTime
+  eventOrganizerId: ID!
+  excludeFromRatings: Boolean
+  excludeFromStatistics: Boolean
   icon: String
   insuranceDescription: String
   organizerLimit: Int
@@ -644,7 +679,9 @@ input UpdateCoreEventInput {
 }
 
 input UpdateEventLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
+  googlePlaceUrl: String
   location: String!
 }
 
@@ -667,7 +704,9 @@ input UpdateTemplateInput {
 }
 
 input UpdateTemplateLocationInput {
-  coordinates: JSON!
+  coordinates: JSON
+  googlePlaceId: String
+  googlePlaceUrl: String
   location: String!
 }
 
@@ -724,7 +763,7 @@ type UsersOfTenants {
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
-  stripeData: StripeUserData!
+  stripeData: StripeUserData
   tenant: Tenant!
   tenantId: ID!
   user: User!

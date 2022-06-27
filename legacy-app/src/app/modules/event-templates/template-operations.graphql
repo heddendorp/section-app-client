@@ -22,6 +22,20 @@ mutation updateTemplateLocation(
     id
     location
     coordinates
+    googlePlaceUrl
+  }
+}
+
+mutation updateEventTemplateCategoryAssignment(
+  $templateId: ID!
+  $categoryId: ID!
+) {
+  updateTemplateCategory(templateId: $templateId, categoryId: $categoryId) {
+    id
+    category {
+      id
+      name
+    }
   }
 }
 
@@ -63,6 +77,40 @@ query getEventTemplates {
   }
 }
 
+query getTemplateCategoriesWithTemplates {
+  eventTemplateCategories {
+    id
+    name
+    icon
+    templateCount
+    templates {
+      id
+      title
+      icon
+      participantRating
+      participantRatingCount
+    }
+  }
+}
+
+query getEventTemplateCategories {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+
+query getLonelyEventTemplates {
+  eventTemplates(onlyWithoutCategory: true) {
+    id
+    title
+    icon
+    participantRating
+    participantRatingCount
+  }
+}
+
 query getEventTemplate($id: ID!) {
   eventTemplate(id: $id) {
     id
@@ -75,9 +123,15 @@ query getEventTemplate($id: ID!) {
     comment
     location
     coordinates
+    googlePlaceUrl
     finances
     insuranceDescription
     shouldBeReportedToInsurance
+    category {
+      id
+      name
+      icon
+    }
     eventInstances {
       id
       title

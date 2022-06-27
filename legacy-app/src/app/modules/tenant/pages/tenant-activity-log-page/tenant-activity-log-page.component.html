@@ -1,3 +1,7 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(logs$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
   <h1>Activity Log</h1>
   <mat-list class="my-2">

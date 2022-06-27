@@ -32,6 +32,8 @@ import { TenantEventRatingsComponent } from './pages/tenant-event-ratings/tenant
 import { TenantEventBookingsPageComponent } from './pages/tenant-event-bookings-page/tenant-event-bookings-page.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TenantMetricsPageComponent } from './pages/tenant-metrics-page/tenant-metrics-page.component';
+import { TenantEventTemplateCategoriesPageComponent } from './pages/tenant-event-template-categories-page/tenant-event-template-categories-page.component';
+import { NewEventTemplateCategoryDialogComponent } from './components/new-event-template-category-dialog/new-event-template-category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { TenantMetricsPageComponent } from './pages/tenant-metrics-page/tenant-m
     TenantEventRatingsComponent,
     TenantEventBookingsPageComponent,
     TenantMetricsPageComponent,
+    TenantEventTemplateCategoriesPageComponent,
+    NewEventTemplateCategoryDialogComponent,
   ],
   imports: [
     CommonModule,

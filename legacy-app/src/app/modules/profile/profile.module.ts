@@ -10,8 +10,11 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatRippleModule } from '@angular/material/core';
 import { RatingComponent } from './components/rating/rating.component';
 import { RateEventComponent } from './components/rate-event/rate-event.component';
+import { EventListComponent } from './components/event-list/event-list.component';
+import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 
 @NgModule({
   declarations: [
@@ -22,12 +25,15 @@ import { RateEventComponent } from './components/rate-event/rate-event.component
     ProfilePageComponent,
     RatingComponent,
     RateEventComponent,
+    EventListComponent,
+    EventListItemComponent,
   ],
   imports: [
     CommonModule,
     ProfileRoutingModule,
     SharedModule,
     MatDatepickerModule,
+    MatRippleModule,
     ReactiveFormsModule,
   ],
 })

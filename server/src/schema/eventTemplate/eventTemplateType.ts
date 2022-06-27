@@ -1,4 +1,5 @@
 import { builder } from '../../builder';
+import prisma from '../../client';
 
 export const eventTemplateType = builder.prismaObject('EventTemplate', {
   findUnique: (eventTemplate) => ({
@@ -12,7 +13,9 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     description: t.exposeString('description'),
     comment: t.exposeString('comment'),
     location: t.exposeString('location'),
-    coordinates: t.expose('coordinates', { type: 'JSON' }),
+    googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
+    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
+    coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     duration: t.expose('duration', { type: 'Decimal' }),
     participantText: t.exposeString('participantText'),
     organizerText: t.exposeString('organizerText'),
@@ -23,6 +26,40 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
       query: { orderBy: { start: 'desc' } },
     }),
     tenant: t.relation('tenant'),
+    category: t.relation('category', { nullable: true }),
+    participantRating: t.float({
+      nullable: true,
+      resolve: async (eventTemplate) =>
+        prisma.eventRegistration
+          .aggregate({
+            where: {
+              event: {
+                eventTemplate: {
+                  id: eventTemplate.id,
+                },
+              },
+              rating: { not: null },
+            },
+            _avg: {
+              rating: true,
+            },
+          })
+          .then(({ _avg }) => _avg.rating),
+    }),
+    participantRatingCount: t.int({
+      nullable: true,
+      resolve: async (eventTemplate) =>
+        prisma.eventRegistration.count({
+          where: {
+            event: {
+              eventTemplate: {
+                id: eventTemplate.id,
+              },
+            },
+            rating: { not: null },
+          },
+        }),
+    }),
   }),
 });
 
@@ -41,6 +78,7 @@ export const createEventTemplateInput = builder.inputType(
       participantText: t.string({ required: true }),
       shouldBeReportedToInsurance: t.boolean({ required: true }),
       title: t.string({ required: true }),
+      categoryId: t.id({ required: true }),
     }),
   }
 );
@@ -67,7 +105,9 @@ export const updateTemplateLocationInputType = builder.inputType(
   {
     fields: (t) => ({
       location: t.string({ required: true }),
-      coordinates: t.field({ type: 'JSON', required: true }),
+      coordinates: t.field({ type: 'JSON' }),
+      googlePlaceId: t.string(),
+      googlePlaceUrl: t.string(),
     }),
   }
 );

@@ -133,6 +133,7 @@ builder.mutationFields((t) => ({
           eventId,
           status: { not: RegistrationStatus.CANCELLED },
         },
+        rejectOnNotFound: false,
       });
       if (ownRegistration) {
         throw new GraphQLYogaError(
@@ -147,7 +148,7 @@ builder.mutationFields((t) => ({
             data: { participantRegistrationCount: { increment: 1 } },
           });
           if (
-            (registrationCountEvent?.participantRegistrationCount ?? 0) >
+            (registrationCountEvent.participantRegistrationCount ?? 0) >
             event.participantLimit
           ) {
             throw new GraphQLYogaError('Registration for this event is full!');

@@ -11,11 +11,16 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
-import { createServer, GraphQLYogaError } from '@graphql-yoga/node';
+import { createServer, enableIf, GraphQLYogaError } from '@graphql-yoga/node';
 import { schema } from './schema';
 import prom from 'prom-client';
 import { useAuth0 } from '@envelop/auth0';
 import { useExtendContext } from '@envelop/core';
+import { useHive } from '@graphql-hive/client';
+import { useSentry } from '@envelop/sentry';
+import { setupCronjob } from './helpers/cronjobs';
+import { useResponseCache } from '@envelop/response-cache';
+import { useGraphQlJit } from '@envelop/graphql-jit';
 
 // declare global {
 //   namespace NodeJS {
@@ -52,8 +57,9 @@ const app = express();
 const register = new prom.Registry();
 prom.collectDefaultMetrics({ register });
 
-// setupCronjob(prisma);
+setupCronjob(prisma);
 const auth0 = new Auth0();
+const isProd = process.env.NODE_ENV === 'production';
 
 const graphQLServer = createServer({
   schema,
@@ -61,6 +67,30 @@ const graphQLServer = createServer({
     auth0,
   }),
   plugins: [
+    enableIf(isProd, useSentry()),
+    useHive({
+      enabled: true,
+      debug: process.env.NODE_ENV !== 'production', // or false
+      token: process.env.HIVE_TOKEN ?? '',
+      reporting: {
+        // feel free to set dummy values here
+        author: 'Author of the schema version',
+        commit: 'git sha or any identifier',
+      },
+      usage: {
+        clientInfo(context: any) {
+          const name = context.req.headers['x-graphql-client-name'];
+          const version = context.req.headers['x-graphql-client-version'];
+          if (name && version) {
+            return {
+              name,
+              version,
+            };
+          }
+          return null;
+        },
+      },
+    }),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
       audience: 'esn.events',
@@ -82,13 +112,7 @@ const graphQLServer = createServer({
       if (tenantName === 'dev') {
         tenantName = 'tumi';
       }
-      if (tenantName === 'server') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'http') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'https') {
+      if (tenantName.includes('deploy-preview')) {
         tenantName = 'tumi';
       }
       let tenant;
@@ -117,10 +141,15 @@ const graphQLServer = createServer({
       }
       return { ...context, tenant };
     }),
+    useGraphQlJit(),
+    useResponseCache({
+      ttl: 2000,
+      includeExtensionMetadata: true,
+      session: (context) => String(context.user?.id),
+    }),
   ],
-  // plugins: envelopPlugins,
-  // parserCache: true,
-  // validationCache: true,
+  parserCache: true,
+  validationCache: true,
   maskedErrors: false,
 });
 
@@ -157,12 +186,6 @@ Sentry.init({
 
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
-
-// $settings({
-//   checks: {
-//     PrismaClientOnContext: false,
-//   },
-// });
 
 app.use(compression());
 app.use(cors());

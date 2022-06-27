@@ -16,19 +16,19 @@
     />
     <div fxLayout="column" class="max-w-md">
       <h2 class="mb-4 text-3xl font-bold">
-        Hey {{ profile.firstName }} <span class="text-white">👋</span>
+        Hey {{ profile.firstName }}! <span class="text-white">👋</span>
       </h2>
       <p>
-        We're excited to see you here. This is your profile, giving you an
-        overview of all things TUMi
+        We're excited to see you here! This is your profile, giving you an
+        overview of all things TUMi.
       </p>
     </div>
   </div>
   <div
-    class="m-4"
+    class="m-4 overflow-hidden"
     gdAuto
-    gdColumns="1fr"
-    gdColumns.gt-sm="1fr 1fr"
+    gdColumns="100%"
+    gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
     gdGap="1rem"
   >
     <div
@@ -47,21 +47,22 @@
         </mat-icon>
         <h2 class="font-bold">General Information</h2>
       </div>
-      <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mb-2">
+      <div gdAuto gdColumns="1fr 2fr" gdGap="0 1rem" class="mb-2">
         <p>Name:</p>
         <p>{{ profile.fullName }}</p>
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
-        <p gdColumn="-1/1">
-          You have {{ profile.hasESNCard ? 'an' : 'no' }} ESNcard registered in
-          the app
-        </p>
+        <p>ESNcard:</p>
+        <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
-      <button mat-stroked-button class="mt-2 w-full" (click)="updateProfile()">
-        Update data
-      </button>
+      <div class="mt-2 flex w-full flex-col gap-2">
+        <button mat-raised-button class="modern" (click)="updateProfile()">
+          <mat-icon svgIcon="icon-change-user-female"></mat-icon>
+          Update data
+        </button>
+      </div>
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 
       <p class="select-all break-words font-mono" style="max-width: 80vw">
@@ -137,67 +138,15 @@
         </app-rate-event>
       </div>
     </div>
-    <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl md:p-4"
-      *ngIf="profile.organizedEvents.length"
-    >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-2 p-2 lg:mb-6"
-      >
-        <mat-icon
-          svgIcon="icon-overtime"
-          class="text-secondary-default bg-secondary-on card-icon"
-        ></mat-icon>
-        <h2 class="font-bold">Organized Events</h2>
-      </div>
-      <mat-nav-list>
-        <a
-          mat-list-item
-          *ngFor="let event of profile.organizedEvents"
-          routerLink="/events/{{ event.id }}"
-        >
-          <img [src]="event.icon | iconURL" mat-list-avatar />
-          <h3 mat-line>{{ event.title }}</h3>
-          <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
-        </a>
-      </mat-nav-list>
-    </div>
-    <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl md:p-4"
-    >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-2 p-2 lg:mb-6"
-      >
-        <mat-icon
-          svgIcon="icon-overtime"
-          class="text-secondary-default bg-secondary-on card-icon"
-        ></mat-icon>
-        <h2 class="font-bold">Your events</h2>
-      </div>
-      <mat-nav-list>
-        <a
-          mat-list-item
-          *ngFor="let event of profile.participatedEvents"
-          routerLink="/events/{{ event.id }}"
-        >
-          <img [src]="event.icon | iconURL" mat-list-avatar />
-          <h3 mat-line>{{ event.title }}</h3>
-          <p mat-line>Starts: {{ event.start | date: 'medium' }}</p>
-          <p mat-line>Ends: {{ event.end | date: 'medium' }}</p>
-        </a>
-      </mat-nav-list>
-      <div class="m-4 mt-2">
-        <button class="w-full" mat-stroked-button (click)="claimEvent()">
-          Claim event with code
-        </button>
-      </div>
-    </div>
+    <app-event-list
+      [events]="profile.organizedEvents"
+      [isOrganized]="true"
+    ></app-event-list>
+    <app-event-list
+      [events]="profile.participatedEvents"
+      [isOrganized]="false"
+      (claimRequest)="claimEvent()"
+    ></app-event-list>
     <div
       class="bg-primary-container text-primary-onContainer rounded-2xl p-4"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
@@ -214,7 +163,12 @@
         ></mat-icon>
         <h2 class="font-bold">Section membership</h2>
       </div>
-      <p>Current status: {{ profile.currentTenant?.status | lowercase }}</p>
+      <div>
+        Current status:
+        <div class="black text-8xl text-center">
+          {{ profile.currentTenant?.status | uppercase }}
+        </div>
+      </div>
     </div>
   </div>
 </main>

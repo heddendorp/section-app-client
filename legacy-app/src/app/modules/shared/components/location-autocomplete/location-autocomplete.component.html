@@ -6,6 +6,7 @@
     [formControl]="locationControl"
     [matAutocomplete]="auto"
     (blur)="onTouch()"
+    required
   />
   <mat-autocomplete
     #auto="matAutocomplete"
@@ -14,10 +15,8 @@
     (optionSelected)="onChange($event.option.value)"
   >
     <mat-option *ngFor="let option of locationOptions | async" [value]="option">
-      <span *ngIf="option?.type === 'POI'"
-        >{{ option?.poi?.name }}&nbsp;|&nbsp;</span
-      >
-      <span>{{ option?.address?.freeformAddress }}</span>
+      <span>{{ option.structured_formatting.main_text }}&nbsp;|&nbsp;</span>
+      <span>{{ option.structured_formatting.secondary_text }}</span>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

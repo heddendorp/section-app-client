@@ -1,19 +1,98 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(templateCategories$ | async) === null"
+></mat-progress-bar>
 <main class="p-4">
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between">
-    <h1 class="mb-4">Event Templates</h1>
+  <div
+    fxLayout="column"
+    fxLayout.gt-sm="row"
+    fxLayoutAlign="space-between center"
+    class="mb-4"
+  >
+    <h1>Event Templates</h1>
     <button
       (click)="createTemplate()"
       mat-flat-button
       color="accent"
+      class="modern"
       *appIfRole="[Role.Admin]"
     >
-      Add new template
+      <mat-icon svgIcon="icon-add"></mat-icon>
+      <span>Add new template</span>
     </button>
   </div>
-  <div>
-    <app-template-list-entry
-      *ngFor="let template of eventTemplates$ | async"
-      [template]="template"
-    ></app-template-list-entry>
-  </div>
+  <mat-form-field class="mb-4 w-full">
+    <mat-label>Search</mat-label>
+    <input matInput placeholder="Search" [formControl]="searchControl" />
+    <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
+  </mat-form-field>
+  <mat-accordion [multi]="!!searchControl.value">
+    <mat-expansion-panel
+      *ngFor="let category of templateCategories$ | async"
+      [expanded]="!!searchControl.value && !!category.templateCount"
+      [style.display]="
+        !!searchControl.value && !category.templateCount ? 'none' : ''
+      "
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title class="w-2/3">
+          <img [src]="category.icon | iconURL" class="mr-4 h-10" alt="" />{{
+            category.name
+          }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ category.templateCount }} templates
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of category.templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
+          >
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      *ngIf="
+        (templateCategories$ | async) && eventTemplates$ | async as templates
+      "
+      [expanded]="!!searchControl.value && !!templates.length"
+      [style.display]="!!searchControl.value && !templates.length ? 'none' : ''"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
+        <mat-panel-description>
+          {{ templates.length }} templates
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <mat-nav-list>
+          <a
+            *ngFor="let template of templates"
+            mat-list-item
+            routerLink="./{{ template.id }}"
+          >
+            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <h3 mat-line>{{ template.title }}</h3>
+            <span mat-line *ngIf="template.participantRating">
+              {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                template.participantRatingCount
+              }})
+            </span>
+          </a>
+        </mat-nav-list>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
 </main>

@@ -1,0 +1,27 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(eventTemplateCategories$ | async) === null"
+></mat-progress-bar>
+<main class="w-full p-4">
+  <h2>Event Template Categories</h2>
+  <a mat-stroked-button routerLink="..">Go back</a>
+  <button mat-flat-button color="primary" (click)="addCategory()">
+    Add new
+  </button>
+  <div fxLayout="column" class="mt-4 w-full space-y-2">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      *ngFor="let category of eventTemplateCategories$ | async"
+      class="border p-2"
+    >
+      <img
+        class="w-12"
+        [src]="category.icon | iconURL"
+        alt="{{ category.icon }}"
+      />
+      <h3>{{ category.name }}</h3>
+    </div>
+  </div>
+</main>

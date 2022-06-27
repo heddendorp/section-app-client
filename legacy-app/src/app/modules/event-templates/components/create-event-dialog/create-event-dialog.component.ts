@@ -47,7 +47,9 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       registrationMode: ['', Validators.required],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
-      organizerId: ['', Validators.required],
+      eventOrganizerId: ['', Validators.required],
+      excludeFromRatings: [false, Validators.required],
+      excludeFromStatistics: [false, Validators.required],
     });
   }
 
