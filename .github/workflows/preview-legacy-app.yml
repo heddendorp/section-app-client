@@ -63,7 +63,7 @@ jobs:
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
-#        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@7e0881f8fe90b25e305bbf0309761e9314607e25
         with:
           cosign-release: 'v1.4.0'
@@ -107,7 +107,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ github.sha }}
+            VERSION=${{ steps.build-and-push.outputs.digest }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
@@ -115,7 +115,7 @@ jobs:
       # transparency data even for private images, pass --force to cosign below.
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image
-#        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         env:
           COSIGN_EXPERIMENTAL: 'true'
         # This step uses the identity token to provision an ephemeral certificate
@@ -123,13 +123,15 @@ jobs:
         run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/legacy-app@${{ steps.build-and-push.outputs.digest }}
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: preview
-      url: https://tumi.esn.world
     needs: build
 #    if: github.ref == 'refs/heads/release'
 
     steps:
+      - uses: avakar/set-deployment-status@v1
+        with:
+          state: in_progress
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -153,13 +155,22 @@ jobs:
           replace: 'Multiple'
 
       - name: Deploy to containerapp
+        id: deploy-preview
         uses: azure/CLI@v1
         with:
           inlineScript: |
             echo "Installing containerapp extension"
             az extension add -n containerapp --yes
             echo "Starting Deploying"
-            az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{github.GITHUB_REF}}
+            url = $(az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{github.GITHUB_REF}} --only-show-errors | jq '.[0].properties.latestRevisionFqdn')
+            echo "::set-output name=preview_url::$token"
+
+      - uses: avakar/set-deployment-status@v1
+        with:
+          state: success
+          environment_url: ${{ steps.deploy-preview.outputs.preview_url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     runs-on: ubuntu-latest
@@ -176,7 +187,7 @@ jobs:
         with:
           include: legacy-app/src/environments/*.ts
           find: "PROD_VERSION"
-          replace: ${{ github.sha }}
+          replace: ${{ needs.build.outputs.sha_short }}
 
       - name: Prepare yarn
         uses: actions/setup-node@v3
@@ -201,4 +212,4 @@ jobs:
           projects: legacy-app
           sourcemaps: legacy-app/dist/legacy-app
           version_prefix: legacy-app@
-          version: ${{ github.sha }}
+          version: ${{ needs.build.outputs.sha_short }}
