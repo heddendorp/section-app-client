@@ -32,7 +32,7 @@ builder.queryFields((t) => ({
       let where: TumiEventWhereInput;
       after ??= new Date();
       const { role, status } = context.userOfTenant ?? {};
-      if (!context.user) {
+      if (!context.user || !context.userOfTenant) {
         where = {
           participantSignup: {
             has: MembershipStatus.NONE,
@@ -40,16 +40,31 @@ builder.queryFields((t) => ({
           end: { gt: new Date() },
           ...(before ? { start: { lt: before } } : {}),
           publicationState: PublicationState.PUBLIC,
+          eventTemplate: {
+            tenant: {
+              id: context.tenant.id,
+            },
+          },
         };
       } else if (role === Role.ADMIN) {
         where = {
           end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
+          eventTemplate: {
+            tenant: {
+              id: context.tenant.id,
+            },
+          },
         };
       } else {
         where = {
           end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
+          eventTemplate: {
+            tenant: {
+              id: context.tenant.id,
+            },
+          },
           OR: [
             {
               participantSignup: {

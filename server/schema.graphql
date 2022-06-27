@@ -733,7 +733,7 @@ type User {
   calendarToken: String!
   createdAt: DateTime!
   createdTransactions: [Transaction!]!
-  currentTenant(userId: ID): UsersOfTenants!
+  currentTenant(userId: ID): UsersOfTenants
   email: String!
   emailVerified: Boolean!
   enrolmentStatus: EnrolmentStatus!

@@ -29,7 +29,7 @@ export class EventManageVotingComponent {
     ]
       .filter(
         (registration) =>
-          registration.user.currentTenant.status == MembershipStatus.Full
+          registration.user.currentTenant?.status == MembershipStatus.Full
       )
       .map((registration) => {
         return `password,${registration.user.id},${registration.user.email},${registration.user.fullName}`;

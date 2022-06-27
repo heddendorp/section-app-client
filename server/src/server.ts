@@ -106,7 +106,7 @@ const graphQLServer = createServer({
       console.log(context.req.headers.origin);
       console.log(context.req.headers.host);
       if (tenantName === 'localhost') {
-        tenantName = 'tumi';
+        tenantName = 'goettingen';
       }
       if (tenantName === 'beta') {
         tenantName = 'tumi';
@@ -131,15 +131,46 @@ const graphQLServer = createServer({
         });
       }
       if (context.token) {
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: {
             authId: context.token.sub,
           },
           include: {
             tenants: { where: { tenantId: tenant.id } },
           },
+          rejectOnNotFound: false,
         });
-        return { ...context, tenant, user, userOfTenant: user.tenants[0] };
+        if (user && !user.tenants.length) {
+          try {
+            user = await prisma.user.update({
+              where: {
+                id: user.id,
+              },
+              data: {
+                tenants: {
+                  create: {
+                    tenantId: tenant.id,
+                  },
+                },
+              },
+              include: {
+                tenants: { where: { tenantId: tenant.id } },
+              },
+            });
+          } catch (e) {
+            console.error(e);
+            user = await prisma.user.findUnique({
+              where: {
+                authId: context.token.sub,
+              },
+              include: {
+                tenants: { where: { tenantId: tenant.id } },
+              },
+              rejectOnNotFound: false,
+            });
+          }
+        }
+        return { ...context, tenant, user, userOfTenant: user?.tenants[0] };
       }
       return { ...context, tenant };
     }),

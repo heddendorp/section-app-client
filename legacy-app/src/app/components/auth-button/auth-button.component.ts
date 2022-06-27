@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { filter, map } from 'rxjs';
+import { filter, map, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router } from '@angular/router';
 import { retryBackoff } from 'backoff-rxjs';
@@ -24,14 +24,7 @@ export class AuthButtonComponent {
       getUser
         .fetch()
         .pipe(
-          map((user) => {
-            if (!user.data.currentUser) throw new Error('not logged in');
-            return user;
-          }),
-          retryBackoff({ initialInterval: 100, maxRetries: 5 })
-        )
-        .subscribe({
-          next: (user) => {
+          tap((user) => {
             this.userPicture = user.data.currentUser?.picture || '';
             if (
               !user.data.currentUser ||
@@ -39,7 +32,14 @@ export class AuthButtonComponent {
             ) {
               router.navigate(['/', 'profile', 'new']);
             }
-          },
+          }),
+          map((user) => {
+            if (!user.data.currentUser) throw new Error('not logged in');
+            return user;
+          }),
+          retryBackoff({ initialInterval: 100, maxRetries: 5 })
+        )
+        .subscribe({
           error: (err) => {
             console.log(err);
             this.snackBar
