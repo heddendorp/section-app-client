@@ -23,11 +23,11 @@
       </p>
       <div
         *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
-        class="event select-none flex rounded text-xs md:text-sm mx-0.5 {{ tutorSpotsClass(event) }} {{
-          event.publicationState | lowercase
-        }} {{ event.userIsRegistered ? 'registered' : '' }} {{
-          event.userIsOrganizer ? 'organizer' : ''
-        }} {{
+        class="event select-none flex rounded text-xs md:text-sm mx-0.5 {{
+          tutorSpotsClass(event)
+        }} {{ event.publicationState | lowercase }} {{
+          event.userIsRegistered ? 'registered' : ''
+        }} {{ event.userIsOrganizer ? 'organizer' : '' }} {{
           isRegistrationOpen(event) ? '' : 'future-registration'
         }}"
       >
@@ -36,10 +36,9 @@
           alt="{{ event.icon }}"
           class="w-4 md:mr-0.5 md:w-6"
         />
-        <span
-          class="block overflow-hidden text-clip whitespace-nowrap"
-          >{{ event.title }}</span
-        >
+        <span class="block overflow-hidden text-clip whitespace-nowrap">{{
+          event.title
+        }}</span>
       </div>
       <div
         *ngIf="day.events.length > 4"

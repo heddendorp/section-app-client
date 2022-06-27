@@ -33,7 +33,7 @@ export class EventListItemComponent {
     }
     if (this.event.organizersRegistered / this.event.organizerLimit < 0.1) {
       return 'text-red-500 font-bold';
-    } 
+    }
     if (this.event.organizersRegistered >= this.event.organizerLimit) {
       return 'text-slate-500 font-light';
     }

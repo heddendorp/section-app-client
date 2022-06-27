@@ -127,10 +127,10 @@ export class EventCalendarComponent implements OnChanges {
     if (!event.couldBeOrganizer) {
       return '';
     }
-    
+
     if (event.organizersRegistered / event.organizerLimit < 0.1) {
       return 'outline-2 outline-dashed outline-red-500';
-    } 
+    }
     if (event.organizersRegistered >= event.organizerLimit) {
       return '';
     }
