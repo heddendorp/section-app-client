@@ -152,7 +152,7 @@ jobs:
             echo "Installing containerapp extension"
             az extension add -n containerapp --yes
             echo "Starting Deploying"
-            az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{GITHUB_REF}}
+            az containerapp update -n preview-legacy-app -g tumi-container --yaml $GITHUB_WORKSPACE/infrastructure/legacy-app.yml --tags preview-${{github.GITHUB_REF}}
 
   release:
     runs-on: ubuntu-latest
