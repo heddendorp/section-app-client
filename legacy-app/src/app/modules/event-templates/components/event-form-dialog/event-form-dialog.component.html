@@ -36,9 +36,20 @@
       <mat-error>You have to add the duration of this event</mat-error>
     </mat-form-field>
     <mat-form-field class="w-full">
+      <mat-label>Internal comment for the template</mat-label>
+      <textarea
+        rows="12"
+        matInput
+        formControlName="comment"
+        required
+      ></textarea>
+      <mat-hint>This text is shown internally with the template</mat-hint>
+      <mat-error>You have to add a comment</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
       <mat-label>Public event description</mat-label>
       <textarea
-        rows="5"
+        rows="12"
         matInput
         formControlName="description"
         required
@@ -50,15 +61,9 @@
       formControlName="location"
     ></app-location-autocomplete>
     <mat-form-field class="w-full">
-      <mat-label>Internal comment for the template</mat-label>
-      <textarea rows="5" matInput formControlName="comment" required></textarea>
-      <mat-hint>This text is shown internally with the template</mat-hint>
-      <mat-error>You have to add a comment</mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-full">
       <mat-label>Information for organizing</mat-label>
       <textarea
-        rows="5"
+        rows="12"
         matInput
         formControlName="organizerText"
         required
@@ -69,7 +74,7 @@
     <mat-form-field class="w-full">
       <mat-label>Information for participants</mat-label>
       <textarea
-        rows="5"
+        rows="12"
         matInput
         formControlName="participantText"
         required

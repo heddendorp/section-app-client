@@ -1,13 +1,9 @@
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import {
+  CheckInUserGQL,
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
+  Role,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
@@ -21,6 +17,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventRunPageComponent implements OnDestroy {
+  public Role = Role;
   public event$: Observable<LoadEventForRunningQuery['event']>;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
@@ -28,8 +25,8 @@ export class EventRunPageComponent implements OnDestroy {
     private title: Title,
     private loadEvent: LoadEventForRunningGQL,
     private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private checkInMutation: CheckInUserGQL
   ) {
     this.title.setTitle('TUMi - run event');
     this.loadEventQueryRef = this.loadEvent.watch();
@@ -109,5 +106,9 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+  }
+
+  async checkin(id: string) {
+    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
   }
 }
