@@ -1,5 +1,11 @@
 .event {
   @apply bg-gray-200;
+  outline-offset: -1px;
+
+  &.future-registration {
+    @apply bg-slate-500;
+    @apply text-white;
+  }
 
   &.registered,
   &.organizer {
