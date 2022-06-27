@@ -35,6 +35,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MarkdownModule } from 'ngx-markdown';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { HttpClientJsonpModule } from '@angular/common/http';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatCardModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
@@ -89,6 +91,7 @@ import { HttpClientJsonpModule } from '@angular/common/http';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatCardModule,
     MatListModule,
     MatProgressBarModule,
     MatExpansionModule,

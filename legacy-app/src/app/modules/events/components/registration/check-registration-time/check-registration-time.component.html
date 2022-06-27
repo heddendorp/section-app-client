@@ -1,8 +1,27 @@
-<ng-content *ngIf="registrationOpen$ | async; else countdown"></ng-content>
-<ng-template #countdown>
-  <p class="font-bold">This event is not open for registration yet</p>
-  <p>
-    Registration opens {{ remainingTime$ | async }} on
-    {{ event?.registrationStart | date: 'medium' }}
-  </p>
-</ng-template>
+<div
+  *ngIf="{
+    registrationOpen: (registrationOpen$ | async),
+    remainingTime: (remainingTime$ | async)
+  } as state"
+>
+  <div class="check-registration-time-container">
+    <fieldset [disabled]="!state.registrationOpen">
+      <div class="check-registration-time-content-wrapper">
+        <ng-content></ng-content>
+      </div>
+    </fieldset>
+    <div
+      class="check-registration-time-card pb-8"
+      *ngIf="!state.registrationOpen && !!state.remainingTime"
+    >
+      <mat-icon svgIcon="icon-lock" style="width: 64px"></mat-icon>
+      <h3 class="font-semibold">Registration opens</h3>
+      <p class="my-4 text-4xl">
+        <span class="font-light">{{ state.remainingTime }}</span>
+      </p>
+      <p class="text-xs">
+        {{ event?.registrationStart | date: 'medium' }}
+      </p>
+    </div>
+  </div>
+</div>

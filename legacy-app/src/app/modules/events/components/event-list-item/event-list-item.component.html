@@ -60,29 +60,35 @@
           RegistrationMode.External !== event.registrationMode && !notYetOpen()
         "
       >
-        {{ event.freeParticipantSpots }}
-        <ng-container *ngIf="event?.couldBeOrganizer">
-          ({{
-            (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0)
+        <span>{{ event.freeParticipantSpots }}</span>
+        <span *ngIf="event?.couldBeOrganizer" class="font-light text-slate-500">
+          ({{ event?.organizersRegistered ?? 0 }}/{{
+            event?.organizerLimit ?? 0
           }}
-          orga)
-        </ng-container>
+          orga)</span
+        >
       </p>
 
       <div
         class="flex items-center gap-1 text-slate-500 italic"
         *ngIf="notYetOpen()"
       >
-        <mat-icon
-          svgIcon="icon-lock"
-          style="min-width: 18px; max-width: 18px"
-        ></mat-icon>
-        <div>
-          <span>Registration opens </span>
+        <mat-icon svgIcon="icon-lock" style="width: 18px"></mat-icon>
+        <span
+          >Registration opens
           <span class="font-medium">{{
             event.registrationStart | date: 'short'
           }}</span>
-        </div>
+          <span
+            *ngIf="event?.couldBeOrganizer"
+            class="font-light text-slate-500"
+          >
+            ({{ event?.organizersRegistered ?? 0 }}/{{
+              event?.organizerLimit ?? 0
+            }}
+            orga)</span
+          >
+        </span>
       </div>
     </div>
   </div>

@@ -203,15 +203,20 @@
       >
         <button
           mat-raised-button
-          color="accent"
-          class="w-full"
+          color="primary"
+          class="w-full modern"
           [disabled]="!event.organizerRegistrationPossible"
           (click)="registerAsOrganizer()"
         >
+          <mat-icon svgIcon="icon-add"></mat-icon>
           Sign up now
         </button>
         <div fxFlex="50">
-          <h3>Organizers already on this event</h3>
+          <h3>
+            Organizers already on this event ({{ event.organizers.length }}/{{
+              event.organizerLimit
+            }})
+          </h3>
           <mat-list>
             <mat-list-item *ngIf="event.organizers.length === 0">
               Nobody yet
@@ -219,7 +224,7 @@
             <mat-list-item *ngFor="let user of event.organizers">
               {{ user.fullName }}
               <span
-                *ngIf="user.id == event.createdBy.id"
+                *ngIf="user.id === event.createdBy.id"
                 class="ml-4 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
               >
                 Event Creator
