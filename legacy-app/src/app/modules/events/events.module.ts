@@ -33,6 +33,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
@@ -78,6 +80,8 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     MatExpansionModule,
     MatButtonToggleModule,
     MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
     MatMenuModule,
     MatAutocompleteModule,
     MatRippleModule,
