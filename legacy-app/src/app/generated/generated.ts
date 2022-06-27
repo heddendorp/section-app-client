@@ -57,12 +57,12 @@ export type CostItem = {
 export type CreateEventFromTemplateInput = {
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['ID'];
-  excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
-  excludeFromStatistics?: InputMaybe<Scalars['Boolean']>;
+  excludeFromRatings?: Scalars['Boolean'];
+  excludeFromStatistics?: Scalars['Boolean'];
   organizerLimit: Scalars['Int'];
   participantLimit: Scalars['Int'];
   price?: InputMaybe<Scalars['Decimal']>;
-  registrationLink: Scalars['String'];
+  registrationLink?: InputMaybe<Scalars['String']>;
   registrationMode: RegistrationMode;
   start: Scalars['DateTime'];
 };

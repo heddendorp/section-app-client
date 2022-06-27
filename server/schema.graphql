@@ -34,12 +34,12 @@ type CostItem {
 input CreateEventFromTemplateInput {
   end: DateTime!
   eventOrganizerId: ID!
-  excludeFromRatings: Boolean
-  excludeFromStatistics: Boolean
+  excludeFromRatings: Boolean! = false
+  excludeFromStatistics: Boolean! = false
   organizerLimit: Int!
   participantLimit: Int!
   price: Decimal
-  registrationLink: String!
+  registrationLink: String
   registrationMode: RegistrationMode!
   start: DateTime!
 }
