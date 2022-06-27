@@ -80,7 +80,7 @@
 </form>
 <div *ngIf="forecastResult$ | async as result" class="mt-4">
   <p>Sum of all expenses: {{ result.totalCost | currency: 'EUR' }}</p>
-  <p>Maximum subsidies: {{ result.maxSubsidies | currency: 'EUR' }}</p>
+  <p>Maximum subsidies: {{ result.maxTotalSubsidies | currency: 'EUR' }}</p>
   <p>Expected stripe fees: {{ result.expectedStripeFees | currency: 'EUR' }}</p>
   <p>Minimal price (max subsidies): {{ result.minPrice | currency: 'EUR' }}</p>
   <p>

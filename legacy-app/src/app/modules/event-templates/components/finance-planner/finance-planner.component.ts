@@ -91,7 +91,7 @@ export class FinancePlannerComponent implements OnChanges {
 
         return {
           totalCost,
-          maxSubsidies: maxTotalSubsidies,
+          maxTotalSubsidies,
           expectedStripeFees,
           minPrice,
           costWithoutSubsidies,
