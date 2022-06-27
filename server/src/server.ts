@@ -21,39 +21,6 @@ import { useSentry } from '@envelop/sentry';
 import { setupCronjob } from './helpers/cronjobs';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
-import * as Stripe from 'stripe';
-import PromisePool from 'es6-promise-pool';
-
-// declare global {
-//   namespace NodeJS {
-//     interface Global {
-//       __rootdir__: string;
-//     }
-//   }
-//   namespace Express {
-//     interface User {
-//       id: string;
-//       email: string;
-//       firstName: string;
-//       lastName: string;
-//       picture: string;
-//     }
-//
-//     interface Request {
-//       user?: User;
-//       token?: {
-//         iss: string;
-//         sub: string;
-//         aud: string[];
-//         iat: number;
-//         exp: number;
-//         azp: string;
-//         scope: string;
-//       };
-//     }
-//   }
-// }
-// global.__rootdir__ = __dirname || process.cwd();
 
 const app = express();
 const register = new prom.Registry();
@@ -102,9 +69,6 @@ const graphQLServer = createServer({
       const url = new URL(context.req.headers.origin);
       const hostName = url.hostname;
       let tenantName = hostName.split('.')[0];
-      console.log(tenantName);
-      console.log(context.req.headers.origin);
-      console.log(context.req.headers.host);
       if (tenantName === 'localhost') {
         tenantName = 'tumi';
       }
@@ -126,6 +90,9 @@ const graphQLServer = createServer({
         });
       } catch (e) {
         console.error(e);
+        console.log(tenantName);
+        console.log(context.req.headers.origin);
+        console.log(context.req.headers.host);
         throw new GraphQLYogaError('Tenant not found', {
           error: e,
         });
