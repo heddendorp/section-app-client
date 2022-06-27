@@ -1,82 +1,52 @@
-<a
-  *ngIf="event"
-  fxLayout="row"
-  routerLink="/events/{{ event.id }}"
-  class="text-surface-on relative h-full"
->
-  <div
-    class="absolute top-0 right-0 rounded-bl rounded-tr-2xl bg-green-500 px-2 text-sm text-white"
-    *ngIf="event.userIsRegistered"
-  >
+<a *ngIf="event" fxLayout="row" routerLink="/events/{{ event.id }}" class="text-surface-on relative h-full">
+  <div class="absolute top-0 right-0 rounded-bl rounded-tr-2xl bg-green-500 px-2 text-sm text-white"
+    *ngIf="event.userIsRegistered">
     registered
   </div>
-  <div
-    class="bg-secondary-default text-secondary-on absolute top-0 right-0 rounded-bl rounded-tr-2xl px-2 text-sm"
-    *ngIf="event.userIsOrganizer"
-  >
+  <div class="bg-secondary-default text-secondary-on absolute top-0 right-0 rounded-bl rounded-tr-2xl px-2 text-sm"
+    *ngIf="event.userIsOrganizer">
     organizer
   </div>
 
-  <div
-    class="
+  <div class="
       bg-gray-100
       p-4
       pr-20
       border border-outline-default
       rounded-l-2xl
       {{ event.publicationState | lowercase }}
-    "
-    fxLayout="column"
-    fxLayoutAlign="center"
-  >
-    <img
-      [src]="event.icon | iconURL"
-      alt=""
-      class="w-28"
-      height="7rem"
-      width="7rem"
-    />
+    " fxLayout="column" fxLayoutAlign="center">
+    <img [src]="event.icon | iconURL" alt="" class="w-28" height="7rem" width="7rem" />
   </div>
-  <div
-    class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4 flex flex-col"
-  >
+  <div class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4 flex flex-col">
     <p class="mb-2 font-bold">{{ event.title }}</p>
     <div class="flex flex-col grow">
       <div class="mt-auto flex items-center gap-1">
         <mat-icon svgIcon="icon-clock" style="width: 18px"></mat-icon>
         <span>{{ event.start | date: 'shortTime' }}</span>
         <ng-container *ngIf="defaultPrice()">
-          <mat-icon
-            svgIcon="icon-price-tag-euro"
-            style="width: 18px"
-            class="ml-2"
-          ></mat-icon>
+          <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px" class="ml-2"></mat-icon>
           {{ defaultPrice().amount | currency: 'EUR' }}
         </ng-container>
       </div>
-      <p
-        *ngIf="
+      <p *ngIf="
           RegistrationMode.External !== event.registrationMode && !notYetOpen()
-        "
-      >
-        {{ event.freeParticipantSpots }}
-        <ng-container *ngIf="event?.couldBeOrganizer">
-          ({{
-            (event?.organizerLimit ?? 0) - (event?.organizersRegistered ?? 0)
-          }}
-          orga)
-        </ng-container>
+        ">
+        <span>{{ event.freeParticipantSpots }}</span>
+        <span *ngIf="event?.couldBeOrganizer" class="font-light text-slate-500"> ({{(event?.organizersRegistered ??
+          0)}}/{{(event?.organizerLimit ?? 0)}}
+          orga)</span>
       </p>
 
-      <div
-        class="flex items-center gap-1 text-slate-500 italic"
-        *ngIf="notYetOpen()"
-      >
+      <div class="flex items-center gap-1 text-slate-500 italic" *ngIf="notYetOpen()">
         <mat-icon svgIcon="icon-lock" style="width: 18px"></mat-icon>
-        Registration opens
-        <span class="font-medium">{{
-          event.registrationStart | date: 'short'
-        }}</span>
+        <span>Registration opens <span class="font-medium">{{
+            event.registrationStart | date: 'short'
+            }}</span>
+          <span *ngIf="event?.couldBeOrganizer" class="font-light text-slate-500"> ({{(event?.organizersRegistered ??
+            0)}}/{{(event?.organizerLimit ??
+            0)}} orga)</span>
+        </span>
       </div>
     </div>
   </div>
