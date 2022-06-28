@@ -6,7 +6,7 @@ import { removeEmpty } from '../helperFunctions';
 builder.mutationFields((t) => ({
   createUser: t.prismaField({
     authScopes: {
-      public: true,
+      authenticated: true,
     },
     type: 'User',
     args: {
