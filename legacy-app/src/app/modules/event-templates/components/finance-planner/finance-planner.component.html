@@ -88,7 +88,9 @@
   gdColumns="max-content max-content"
 >
   <p>Sum of all expenses:</p>
-  <p class="ml-auto rounded px-1 bg-red-200">{{ result.totalCost | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-red-200">
+    {{ result.totalCost | currency: 'EUR' }}
+  </p>
 
   <div class="contents" *ngIf="result.proposedPrice">    
     <p class="font-semibold">Proposed price:</p>
@@ -143,7 +145,6 @@
     <p class="ml-4">Subsidy percentage:</p>
     <p class="ml-auto">{{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
   </div>
-
 </div>
 <div class="mt-4 text-xs text-slate-500 space-y-2">
   <p>

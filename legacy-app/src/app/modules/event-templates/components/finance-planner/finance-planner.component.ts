@@ -84,19 +84,25 @@ export class FinancePlannerComponent implements OnChanges {
           );
         }        
 
-        const minPrice = this.calculatePrice(totalCost, maxTotalSubsidies, info.participants);
+        const minPrice = this.calculatePrice(
+          totalCost,
+          maxTotalSubsidies,
+          info.participants
+        );
         const maxPrice = this.calculatePrice(totalCost, 0, info.participants);
 
         const costPrice = totalCost / numberOfPeople;
         const recommendedPrice = {
           subsidies: minPrice.subsidies,
           participantFee: minPrice.participantFee,
-          totalParticipantFees: minPrice.totalParticipantFees
+          totalParticipantFees: minPrice.totalParticipantFees,
         };
         if (costPrice > minPrice.participantFee) {
           recommendedPrice.participantFee = totalCost / numberOfPeople;
-          recommendedPrice.totalParticipantFees = this.estimateFeeReceived(costPrice) * info.participants;
-          recommendedPrice.subsidies = totalCost - recommendedPrice.totalParticipantFees;
+          recommendedPrice.totalParticipantFees =
+            this.estimateFeeReceived(costPrice) * info.participants;
+          recommendedPrice.subsidies =
+            totalCost - recommendedPrice.totalParticipantFees;
         }
 
         let proposedPrice = null;
@@ -116,7 +122,7 @@ export class FinancePlannerComponent implements OnChanges {
           minPrice,
           maxPrice,
           recommendedPrice,
-          proposedPrice
+          proposedPrice,
         };
       })
     );
