@@ -21,6 +21,7 @@ import {
   map,
   Observable,
   ReplaySubject,
+  startWith,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewFinanceEntryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/new-finance-entry-dialog/new-finance-entry-dialog.component';
@@ -59,9 +60,10 @@ export class FinancePlannerComponent implements OnChanges {
     private updateFinances: UpdateFinancesGQL
   ) {
     this.forecastForm = this.fb.group({
-      organizers: [0, Validators.required],
-      participants: [0, Validators.required],
+      organizers: [3, Validators.required],
+      participants: [22, Validators.required],
       days: [1, Validators.required],
+      proposedFee: [null],
       notAnExcursion: [false, Validators.required],
     });
     this.forecastResult$ = combineLatest([
@@ -74,31 +76,103 @@ export class FinancePlannerComponent implements OnChanges {
 
         const subsidyPerPerson = info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
-        const maxTotalSubsidies = Math.min(
-          maxSubsidizedPercentage * totalCost,
-          subsidyPerPerson * info.days * numberOfPeople
+        let maxTotalSubsidies = subsidyPerPerson * info.days * numberOfPeople;
+        if (!info.notAnExcursion) {
+          maxTotalSubsidies = Math.min(
+            maxSubsidizedPercentage * totalCost,
+            maxTotalSubsidies
+          );
+        }
+
+        const minPrice = this.calculatePrice(
+          totalCost,
+          maxTotalSubsidies,
+          info.participants
         );
+        const maxPrice = this.calculatePrice(totalCost, 0, info.participants);
 
-        // this is a pessimistic estimate
-        const expectedStripeFees =
-          (0.25 + (totalCost / numberOfPeople) * 0.015) * info.participants;
-        const totalCostWithFees = totalCost + expectedStripeFees;
+        const costPrice = totalCost / numberOfPeople;
+        const recommendedPrice = {
+          subsidies: minPrice.subsidies,
+          participantFee: minPrice.participantFee,
+          totalParticipantFees: minPrice.totalParticipantFees,
+        };
+        if (costPrice > minPrice.participantFee) {
+          recommendedPrice.participantFee = totalCost / numberOfPeople;
+          recommendedPrice.totalParticipantFees =
+            this.estimateFeeReceived(costPrice) * info.participants;
+          recommendedPrice.subsidies =
+            totalCost - recommendedPrice.totalParticipantFees;
+        }
 
-        const costWithoutSubsidies = totalCostWithFees / info.participants;
-        const minPrice =
-          (totalCostWithFees - maxTotalSubsidies) / info.participants;
-        const recommendedPrice = Math.max(totalCost / numberOfPeople, minPrice);
+        let proposedPrice = null;
+        if (info.proposedFee !== null) {
+          proposedPrice = {
+            participantFee: info.proposedFee,
+            totalParticipantFees:
+              this.estimateFeeReceived(info.proposedFee) * info.participants,
+            subsidies: 0,
+            buffer: 0,
+          };
+          proposedPrice.subsidies = Math.max(
+            0,
+            totalCost - proposedPrice.totalParticipantFees
+          );
+          proposedPrice.buffer = maxTotalSubsidies - proposedPrice.subsidies;
+        }
 
         return {
           totalCost,
-          maxTotalSubsidies,
-          expectedStripeFees,
           minPrice,
-          costWithoutSubsidies,
+          maxPrice,
           recommendedPrice,
+          proposedPrice,
         };
       })
     );
+  }
+
+  calculatePrice(
+    totalCost: number,
+    subsidies: number,
+    participantCount: number
+  ) {
+    const totalParticipantFees = Math.max(0, totalCost - subsidies);
+    const price = {
+      subsidies: Math.min(totalCost, subsidies),
+      participantFee: this.roundTo2Decimals(
+        Math.max(0, totalCost - subsidies) / participantCount
+      ),
+      totalParticipantFees: totalParticipantFees,
+    };
+    if (price.participantFee > 0) {
+      price.totalParticipantFees = price.participantFee * participantCount;
+      price.participantFee = this.estimateFeeToPay(price.participantFee);
+    }
+    return price;
+  }
+
+  /** Estimates the fee that would need to be paid by a participant so we receive the desired amount
+   * Example: a participant needs to pay ~20.56€ so that we receive 20€
+   * The Stripe fee estimate is 0.25€ + amount * 1.5%
+   * x - (0.25 + x*0.015) = y
+   * This formula solves for the reverse
+   */
+  estimateFeeToPay(amount: number): number {
+    if (amount === 0) return 0;
+    return this.roundTo2Decimals((50 / 197) * (4 * amount + 1));
+  }
+
+  /** Estimates the actual amount of money we receive
+   * Example: 20€ -> 19.45€
+   */
+  estimateFeeReceived(amount: number): number {
+    if (amount === 0) return 0;
+    return this.roundTo2Decimals(amount - (0.25 + amount * 0.015));
+  }
+
+  roundTo2Decimals(amount: number) {
+    return Math.round(amount * 100) / 100;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

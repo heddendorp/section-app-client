@@ -57,42 +57,153 @@
 <h3 class="mt-6 mb-4">Plan costs</h3>
 <form
   [formGroup]="forecastForm"
-  fxLayout="column"
-  fxLayout.gt-sm="row"
-  class="sm:gap-2"
+  class="flex flex-col md:flex-row gap-2 items-center pb-4 border-b-2"
 >
   <mat-form-field>
     <mat-label>Participants</mat-label>
-    <input matInput formControlName="participants" type="number" />
+    <input matInput formControlName="participants" type="number" min="0" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Organizers</mat-label>
-    <input matInput formControlName="organizers" type="number" />
+    <input matInput formControlName="organizers" type="number" min="0" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Days</mat-label>
-    <input matInput formControlName="days" type="number" />
+    <input matInput formControlName="days" type="number" min="1" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Proposed fee</mat-label>
+    <input matInput formControlName="proposedFee" type="number" min="0" />
   </mat-form-field>
 
   <mat-checkbox formControlName="notAnExcursion">
     Is not an excursion
   </mat-checkbox>
 </form>
-<div *ngIf="forecastResult$ | async as result" class="mt-4">
-  <p>Sum of all expenses: {{ result.totalCost | currency: 'EUR' }}</p>
-  <p>Maximum subsidies: {{ result.maxTotalSubsidies | currency: 'EUR' }}</p>
-  <p>Expected stripe fees: {{ result.expectedStripeFees | currency: 'EUR' }}</p>
-  <p>Minimal price (max subsidies): {{ result.minPrice | currency: 'EUR' }}</p>
-  <p>
-    Maximal price (no subsidies):
-    {{ result.costWithoutSubsidies | currency: 'EUR' }}
+<div
+  *ngIf="forecastResult$ | async as result"
+  class="mt-4 w-full"
+  gdAuto
+  gdGap="1rem"
+  gdColumns="max-content max-content"
+>
+  <p>Sum of all expenses:</p>
+  <p class="ml-auto rounded px-1 bg-red-200">
+    {{ result.totalCost | currency: 'EUR' }}
   </p>
-  <p class="font-semibold">
-    Recommended price: {{ result.recommendedPrice | currency: 'EUR' }}
+
+  <div class="contents" *ngIf="result.proposedPrice">
+    <p class="font-semibold">Proposed price:</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+      {{ result.proposedPrice.participantFee | currency: 'EUR' }}
+    </p>
+    <div class="contents text-xs">
+      <p class="ml-4">Total participant fees:</p>
+      <p class="ml-auto">
+        {{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}
+      </p>
+      <p class="ml-4">Subsidies:</p>
+      <p class="ml-auto">
+        {{ result.proposedPrice.subsidies | currency: 'EUR' }}
+      </p>
+      <div class="contents" *ngIf="result.proposedPrice.buffer < 0">
+        <p class="ml-4 text-red-500">Deficit:</p>
+        <p class="ml-auto rounded px-1 bg-red-200">
+          {{ -result.proposedPrice.buffer | currency: 'EUR' }}
+        </p>
+      </div>
+      <div class="contents" *ngIf="result.proposedPrice.buffer >= 0">
+        <p class="ml-4">Subsidy buffer:</p>
+        <p class="ml-auto rounded px-1 bg-green-200">
+          {{ result.proposedPrice.buffer | currency: 'EUR' }}
+        </p>
+        <p class="ml-4">Subsidy percentage:</p>
+        <p class="ml-auto">
+          {{
+            result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1'
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <p class="font-semibold">Recommended price:</p>
+  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+    {{ result.recommendedPrice.participantFee | currency: 'EUR' }}
+  </p>
+  <div class="contents text-xs">
+    <p class="ml-4">Total participant fees:</p>
+    <p class="ml-auto">
+      {{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidies:</p>
+    <p class="ml-auto">
+      {{ result.recommendedPrice.subsidies | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidy percentage:</p>
+    <p class="ml-auto">
+      {{
+        result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1'
+      }}
+    </p>
+  </div>
+
+  <p>Minimal price (max subsidies):</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.minPrice.participantFee | currency: 'EUR' }}
+  </p>
+  <div class="contents text-xs">
+    <p class="ml-4">Total participant fees:</p>
+    <p class="ml-auto">
+      {{ result.minPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidies:</p>
+    <p class="ml-auto">{{ result.minPrice.subsidies | currency: 'EUR' }}</p>
+    <p class="ml-4">Subsidy percentage:</p>
+    <p class="ml-auto">
+      {{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
+  </div>
+
+  <p>Maximal price (no subsidies):</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.maxPrice.participantFee | currency: 'EUR' }}
+  </p>
+  <div class="contents text-xs">
+    <p class="ml-4">Total participant fees:</p>
+    <p class="ml-auto">
+      {{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidies:</p>
+    <p class="ml-auto">{{ result.maxPrice.subsidies | currency: 'EUR' }}</p>
+    <p class="ml-4">Subsidy percentage:</p>
+    <p class="ml-auto">
+      {{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
+  </div>
+</div>
+<div class="mt-4 text-xs text-slate-500 space-y-2">
+  <p>
+    This planner calculates multiple price models depending on how much the
+    event can and should be subsidized. Subsidies depend on the number of
+    participants and organizers, number of days, and whether the event is an
+    excursion (e.g. outside the city) or not. Usually, we offer events at cost
+    price, which means that participants pay what they would pay if they went
+    themselves. That is the <b>recommended price</b>. You can also enter a
+    custom price (proposed fee) and see how the calculation changes and how much
+    subsidy money remains as a buffer.
+  </p>
+  <p>
+    The <b>minimal price</b> refers to maxing out all subsidies, which should
+    generally be avoided due to unforeseen circumstances. For instance,
+    subsidies are only paid for each participant who actually shows up. The
+    <b>maximal price</b> refers to not using any subsidies at all, e.g. for
+    events that involve alcohol. In this model, participants pay for the costs
+    of the organizers.
+  </p>
+  <p>
+    This calculator provides only a rough overview of the costs. The funding
+    depends on other factors. If you have any questions, please contact the Head
+    of Finance or Event Manager.
   </p>
 </div>
-<p class="mt-4 text-xs text-slate-500">
-  This calculator provides only a rough overview of the costs. The funding
-  depends on other factors. If you have any questions, please contact the Head
-  of Finance or Event Manager.
-</p>
