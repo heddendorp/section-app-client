@@ -1,0 +1,9 @@
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .mat-form-field {
+    width: 128px;
+  }
+}
