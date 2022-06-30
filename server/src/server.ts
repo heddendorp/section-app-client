@@ -2,7 +2,6 @@ import express from 'express';
 import * as Sentry from '@sentry/node';
 import cors from 'cors';
 import * as Tracing from '@sentry/tracing';
-import { RewriteFrames } from '@sentry/integrations';
 import compression from 'compression';
 import { socialRouter } from './helpers/socialImage';
 import { webhookRouter } from './helpers/webhooks';
@@ -15,20 +14,93 @@ import { createServer, enableIf, GraphQLYogaError } from '@graphql-yoga/node';
 import { schema } from './schema';
 import prom from 'prom-client';
 import { useAuth0 } from '@envelop/auth0';
-import { useExtendContext } from '@envelop/core';
+import { Plugin, useExtendContext } from '@envelop/core';
 import { useHive } from '@graphql-hive/client';
-import { useSentry } from '@envelop/sentry';
 import { setupCronjob } from './helpers/cronjobs';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
+import { useSentry } from '@envelop/sentry';
+import { AttributeNames } from '@pothos/tracing-sentry';
+import { print } from 'graphql/language';
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      __rootdir__: string;
+    }
+  }
+}
+global.__rootdir__ = __dirname || process.cwd();
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const app = express();
+
+Sentry.init({
+  dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
+  environment: process.env.NODE_ENV ?? 'development',
+  integrations: [
+    // new RewriteFrames({
+    //   root: global.__rootdir__,
+    // }),
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+    // new Tracing.Integrations.GraphQL(),
+    new Tracing.Integrations.Prisma({ client: prisma }),
+  ],
+  release: 'tumi-server@' + process.env.VERSION ?? 'development',
+  ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
+  beforeBreadcrumb(breadcrumb) {
+    if (
+      breadcrumb.category === 'http' &&
+      breadcrumb.data?.url?.includes('graphql-hive')
+    ) {
+      return null;
+    }
+    return breadcrumb;
+  },
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1,
+});
+
 const register = new prom.Registry();
 prom.collectDefaultMetrics({ register });
 
 setupCronjob(prisma);
 const auth0 = new Auth0();
-const isProd = process.env.NODE_ENV === 'production';
+
+const tracingPlugin: Plugin = {
+  onExecute: ({ setExecuteFn, executeFn }) => {
+    setExecuteFn(async (options) => {
+      const transaction = Sentry.startTransaction({
+        op: 'graphql.execute',
+        name: options.operationName ?? '<unnamed operation>',
+        tags: {
+          [AttributeNames.OPERATION_NAME]: options.operationName ?? undefined,
+          [AttributeNames.SOURCE]: print(options.document),
+        },
+        data: {
+          [AttributeNames.SOURCE]: print(options.document),
+        },
+      });
+      Sentry.getCurrentHub().configureScope((scope) =>
+        scope.setSpan(transaction)
+      );
+
+      try {
+        const result = await executeFn(options);
+
+        return result;
+      } finally {
+        transaction.finish();
+      }
+    });
+  },
+};
 
 const graphQLServer = createServer({
   schema,
@@ -36,7 +108,8 @@ const graphQLServer = createServer({
     auth0,
   }),
   plugins: [
-    enableIf(isProd, useSentry()),
+    enableIf(isProd, useSentry({ trackResolvers: false })),
+    enableIf(isProd, tracingPlugin),
     useHive({
       enabled: true,
       debug: process.env.NODE_ENV !== 'production', // or false
@@ -151,37 +224,6 @@ const graphQLServer = createServer({
   parserCache: true,
   validationCache: true,
   maskedErrors: false,
-});
-
-Sentry.init({
-  dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
-  environment: process.env.NODE_ENV ?? 'development',
-  integrations: [
-    new RewriteFrames({
-      root: global.__rootdir__,
-    }),
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-    // enable Express.js middleware tracing
-    new Tracing.Integrations.Express({ app }),
-    // new Tracing.Integrations.GraphQL(),
-    new Tracing.Integrations.Prisma({ client: prisma }),
-  ],
-  release: 'tumi-server@' + process.env.VERSION ?? 'development',
-  ignoreErrors: ['GraphQLError', 'GraphQLYogaError'],
-  beforeBreadcrumb(breadcrumb) {
-    if (
-      breadcrumb.category === 'http' &&
-      breadcrumb.data?.url?.includes('graphql-hive')
-    ) {
-      return null;
-    }
-    return breadcrumb;
-  },
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1,
 });
 
 app.use(Sentry.Handlers.requestHandler());

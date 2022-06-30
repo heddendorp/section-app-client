@@ -14,6 +14,12 @@ import {
   User,
   UsersOfTenants,
 } from './generated/prisma';
+import { createSentryWrapper } from '@pothos/tracing-sentry';
+
+const traceResolver = createSentryWrapper({
+  includeArgs: true,
+  includeSource: true,
+});
 
 export const builder = new SchemaBuilder<{
   Context: {
