@@ -37,7 +37,11 @@ export const eventRegistrationCodeType = builder.prismaObject(
       transactionId: t.exposeID('transactionId', { nullable: true }),
       registrationToRemove: t.prismaField({
         type: 'EventRegistration',
+        nullable: true,
         resolve: async (query, parent, args, context, info) => {
+          if (!parent.registrationToRemoveId) {
+            return null;
+          }
           return prisma.eventRegistration.findUnique({
             ...query,
             where: { id: parent.registrationToRemoveId ?? undefined },

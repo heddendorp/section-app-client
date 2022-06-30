@@ -42,6 +42,7 @@ builder.queryFields((t) => ({
     },
     // @ts-ignore
     resolve: async (query, root, { tenantId, range }, context, info) => {
+      tenantId ??= context.tenant.id;
       const usersRegistered = await prisma.usersOfTenants.count({
         where: {
           ...(tenantId ? { tenantId } : {}),

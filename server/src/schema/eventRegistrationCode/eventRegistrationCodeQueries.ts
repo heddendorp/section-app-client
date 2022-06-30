@@ -19,6 +19,7 @@ builder.queryFields((t) => ({
       return prisma.eventRegistrationCode.findMany({
         ...query,
         where: {
+          targetEvent: { eventTemplate: { tenant: { id: context.tenant.id } } },
           ...(includePrivate ? {} : { isPublic: true }),
           ...(includeUsed ? {} : { registrationCreatedId: null }),
           ...(includePassed

@@ -29,7 +29,10 @@ builder.queryFields((t) => ({
       return prisma.eventRegistration.findMany({
         ...query,
         orderBy: { createdAt: 'desc' },
-        where: { status: { in: statusList ?? undefined } },
+        where: {
+          status: { in: statusList ?? undefined },
+          event: { eventTemplate: { tenant: { id: context.tenant.id } } },
+        },
         ...page,
       });
     },
