@@ -179,7 +179,7 @@ type EventRegistrationCode {
   creator: User!
   id: ID!
   isPublic: Boolean!
-  registrationCreated: EventRegistration!
+  registrationCreated: EventRegistration
   registrationCreatedId: ID
   registrationToRemove: EventRegistration!
   registrationToRemoveId: ID

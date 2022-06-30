@@ -46,10 +46,12 @@ export const eventRegistrationCodeType = builder.prismaObject(
       }),
       registrationCreated: t.prismaField({
         type: 'EventRegistration',
+        nullable: true,
         resolve: async (query, parent, args, context, info) => {
+          if (!parent.registrationCreatedId) return null;
           return prisma.eventRegistration.findUnique({
             ...query,
-            where: { id: parent.registrationCreatedId ?? undefined },
+            where: { id: parent.registrationCreatedId },
           });
         },
       }),
