@@ -92,74 +92,114 @@
     {{ result.totalCost | currency: 'EUR' }}
   </p>
 
-  <div class="contents" *ngIf="result.proposedPrice">    
+  <div class="contents" *ngIf="result.proposedPrice">
     <p class="font-semibold">Proposed price:</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">{{ result.proposedPrice.participantFee | currency: 'EUR' }}</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+      {{ result.proposedPrice.participantFee | currency: 'EUR' }}
+    </p>
     <div class="contents text-xs">
       <p class="ml-4">Total participant fees:</p>
-      <p class="ml-auto">{{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}</p>
+      <p class="ml-auto">
+        {{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}
+      </p>
       <p class="ml-4">Subsidies:</p>
-      <p class="ml-auto">{{ result.proposedPrice.subsidies | currency: 'EUR' }}</p>
+      <p class="ml-auto">
+        {{ result.proposedPrice.subsidies | currency: 'EUR' }}
+      </p>
       <div class="contents" *ngIf="result.proposedPrice.buffer < 0">
         <p class="ml-4 text-red-500">Deficit:</p>
-        <p class="ml-auto rounded px-1 bg-red-200">{{ -result.proposedPrice.buffer | currency: 'EUR' }}</p>
+        <p class="ml-auto rounded px-1 bg-red-200">
+          {{ -result.proposedPrice.buffer | currency: 'EUR' }}
+        </p>
       </div>
       <div class="contents" *ngIf="result.proposedPrice.buffer >= 0">
         <p class="ml-4">Subsidy buffer:</p>
-        <p class="ml-auto rounded px-1 bg-green-200">{{ result.proposedPrice.buffer  | currency: 'EUR' }}</p>
+        <p class="ml-auto rounded px-1 bg-green-200">
+          {{ result.proposedPrice.buffer | currency: 'EUR' }}
+        </p>
         <p class="ml-4">Subsidy percentage:</p>
-        <p class="ml-auto">{{ result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+        <p class="ml-auto">
+          {{
+            result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1'
+          }}
+        </p>
       </div>
     </div>
   </div>
-  
+
   <p class="font-semibold">Recommended price:</p>
-  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">{{ result.recommendedPrice.participantFee | currency: 'EUR' }}</p>
+  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+    {{ result.recommendedPrice.participantFee | currency: 'EUR' }}
+  </p>
   <div class="contents text-xs">
     <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">{{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}</p>
+    <p class="ml-auto">
+      {{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidies:</p>
-    <p class="ml-auto">{{ result.recommendedPrice.subsidies | currency: 'EUR' }}</p>
+    <p class="ml-auto">
+      {{ result.recommendedPrice.subsidies | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+    <p class="ml-auto">
+      {{
+        result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1'
+      }}
+    </p>
   </div>
 
   <p>Minimal price (max subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">{{ result.minPrice.participantFee | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.minPrice.participantFee | currency: 'EUR' }}
+  </p>
   <div class="contents text-xs">
     <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">{{ result.minPrice.totalParticipantFees | currency: 'EUR' }}</p>
+    <p class="ml-auto">
+      {{ result.minPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidies:</p>
     <p class="ml-auto">{{ result.minPrice.subsidies | currency: 'EUR' }}</p>
     <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+    <p class="ml-auto">
+      {{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
   </div>
 
   <p>Maximal price (no subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">{{ result.maxPrice.participantFee | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.maxPrice.participantFee | currency: 'EUR' }}
+  </p>
   <div class="contents text-xs">
     <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">{{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}</p>
+    <p class="ml-auto">
+      {{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidies:</p>
     <p class="ml-auto">{{ result.maxPrice.subsidies | currency: 'EUR' }}</p>
     <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+    <p class="ml-auto">
+      {{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
   </div>
 </div>
 <div class="mt-4 text-xs text-slate-500 space-y-2">
   <p>
-    This planner calculates multiple price models depending on how much the event can and should be subsidized.
-    Subsidies depend on the number of participants and organizers, number of days, and whether the
-    event is an excursion (e.g. outside the city) or not.
-    Usually, we offer events at cost price, which means that participants pay what they would pay
-    if they went themselves. That is the <b>recommended price</b>. You can also enter a custom price (proposed fee)
-    and see how the calculation changes and how much subsidy money remains as a buffer.
+    This planner calculates multiple price models depending on how much the
+    event can and should be subsidized. Subsidies depend on the number of
+    participants and organizers, number of days, and whether the event is an
+    excursion (e.g. outside the city) or not. Usually, we offer events at cost
+    price, which means that participants pay what they would pay if they went
+    themselves. That is the <b>recommended price</b>. You can also enter a
+    custom price (proposed fee) and see how the calculation changes and how much
+    subsidy money remains as a buffer.
   </p>
   <p>
-    The <b>minimal price</b> refers to maxing out all subsidies, which should generally be avoided due to
-    unforeseen circumstances. For instance, subsidies are only paid for each participant who actually
-    shows up. The <b>maximal price</b> refers to not using any subsidies at all, e.g. for events that involve alcohol.
-    In this model, participants pay for the costs of the organizers.
+    The <b>minimal price</b> refers to maxing out all subsidies, which should
+    generally be avoided due to unforeseen circumstances. For instance,
+    subsidies are only paid for each participant who actually shows up. The
+    <b>maximal price</b> refers to not using any subsidies at all, e.g. for
+    events that involve alcohol. In this model, participants pay for the costs
+    of the organizers.
   </p>
   <p>
     This calculator provides only a rough overview of the costs. The funding

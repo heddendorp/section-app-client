@@ -82,7 +82,7 @@ export class FinancePlannerComponent implements OnChanges {
             maxSubsidizedPercentage * totalCost,
             maxTotalSubsidies
           );
-        }        
+        }
 
         const minPrice = this.calculatePrice(
           totalCost,
@@ -109,11 +109,15 @@ export class FinancePlannerComponent implements OnChanges {
         if (info.proposedFee !== null) {
           proposedPrice = {
             participantFee: info.proposedFee,
-            totalParticipantFees: this.estimateFeeReceived(info.proposedFee) * info.participants,
+            totalParticipantFees:
+              this.estimateFeeReceived(info.proposedFee) * info.participants,
             subsidies: 0,
-            buffer: 0
+            buffer: 0,
           };
-          proposedPrice.subsidies = Math.max(0, totalCost - proposedPrice.totalParticipantFees);
+          proposedPrice.subsidies = Math.max(
+            0,
+            totalCost - proposedPrice.totalParticipantFees
+          );
           proposedPrice.buffer = maxTotalSubsidies - proposedPrice.subsidies;
         }
 
@@ -128,13 +132,19 @@ export class FinancePlannerComponent implements OnChanges {
     );
   }
 
-  calculatePrice(totalCost: number, subsidies: number, participantCount: number) {
+  calculatePrice(
+    totalCost: number,
+    subsidies: number,
+    participantCount: number
+  ) {
     const totalParticipantFees = Math.max(0, totalCost - subsidies);
     const price = {
       subsidies: Math.min(totalCost, subsidies),
-      participantFee: this.roundTo2Decimals(Math.max(0, totalCost - subsidies) / participantCount),
-      totalParticipantFees: totalParticipantFees
-    }
+      participantFee: this.roundTo2Decimals(
+        Math.max(0, totalCost - subsidies) / participantCount
+      ),
+      totalParticipantFees: totalParticipantFees,
+    };
     if (price.participantFee > 0) {
       price.totalParticipantFees = price.participantFee * participantCount;
       price.participantFee = this.estimateFeeToPay(price.participantFee);
@@ -158,7 +168,7 @@ export class FinancePlannerComponent implements OnChanges {
    */
   estimateFeeReceived(amount: number): number {
     if (amount === 0) return 0;
-    return this.roundTo2Decimals(amount - (0.25 + amount*0.015));
+    return this.roundTo2Decimals(amount - (0.25 + amount * 0.015));
   }
 
   roundTo2Decimals(amount: number) {
