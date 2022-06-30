@@ -76,10 +76,13 @@ export class FinancePlannerComponent implements OnChanges {
 
         const subsidyPerPerson = info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
-        const maxTotalSubsidies = Math.min(
-          maxSubsidizedPercentage * totalCost,
-          subsidyPerPerson * info.days * numberOfPeople
-        );
+        let maxTotalSubsidies = subsidyPerPerson * info.days * numberOfPeople;
+        if (!info.notAnExcursion) {
+          maxTotalSubsidies = Math.min(
+            maxSubsidizedPercentage * totalCost,
+            maxTotalSubsidies
+          );
+        }        
 
         const minPrice = this.calculatePrice(totalCost, maxTotalSubsidies, info.participants);
         const maxPrice = this.calculatePrice(totalCost, 0, info.participants);
@@ -97,13 +100,15 @@ export class FinancePlannerComponent implements OnChanges {
         }
 
         let proposedPrice = null;
-        if (info.proposedFee) {
+        if (info.proposedFee !== null) {
           proposedPrice = {
             participantFee: info.proposedFee,
             totalParticipantFees: this.estimateFeeReceived(info.proposedFee) * info.participants,
-            subsidies: 0
+            subsidies: 0,
+            buffer: 0
           };
           proposedPrice.subsidies = Math.max(0, totalCost - proposedPrice.totalParticipantFees);
+          proposedPrice.buffer = maxTotalSubsidies - proposedPrice.subsidies;
         }
 
         return {
@@ -118,10 +123,11 @@ export class FinancePlannerComponent implements OnChanges {
   }
 
   calculatePrice(totalCost: number, subsidies: number, participantCount: number) {
+    const totalParticipantFees = Math.max(0, totalCost - subsidies);
     const price = {
-      subsidies: subsidies,
-      participantFee: this.roundTo2Decimals((totalCost - subsidies) / participantCount),
-      totalParticipantFees: totalCost - subsidies
+      subsidies: Math.min(totalCost, subsidies),
+      participantFee: this.roundTo2Decimals(Math.max(0, totalCost - subsidies) / participantCount),
+      totalParticipantFees: totalParticipantFees
     }
     if (price.participantFee > 0) {
       price.totalParticipantFees = price.participantFee * participantCount;
@@ -137,6 +143,7 @@ export class FinancePlannerComponent implements OnChanges {
    * This formula solves for the reverse
    */
   estimateFeeToPay(amount: number): number {
+    if (amount === 0) return 0;
     return this.roundTo2Decimals((50 / 197) * (4 * amount + 1));
   }
 
@@ -144,6 +151,7 @@ export class FinancePlannerComponent implements OnChanges {
    * Example: 20€ -> 19.45€
    */
   estimateFeeReceived(amount: number): number {
+    if (amount === 0) return 0;
     return this.roundTo2Decimals(amount - (0.25 + amount*0.015));
   }
 
