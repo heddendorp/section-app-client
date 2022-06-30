@@ -181,7 +181,7 @@ type EventRegistrationCode {
   isPublic: Boolean!
   registrationCreated: EventRegistration
   registrationCreatedId: ID
-  registrationToRemove: EventRegistration!
+  registrationToRemove: EventRegistration
   registrationToRemoveId: ID
   sepaAllowed: Boolean!
   status: RegistrationStatus!

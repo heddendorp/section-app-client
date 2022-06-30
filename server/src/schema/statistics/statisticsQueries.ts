@@ -41,8 +41,16 @@ builder.queryFields((t) => ({
       range: t.arg({ type: dateRangeInputType }),
     },
     // @ts-ignore
-    resolve: async (query, root, { tenantId, range }, context, info) => {
-      tenantId ??= context.tenant.id;
+    resolve: async (query, { tenantId, range }, context, info) => {
+      if (!tenantId) {
+        tenantId = context.tenant.id;
+      }
+      // console.log(range);
+      // console.log({
+      //   ...(tenantId ? { tenantId } : {}),
+      //   ...(range?.start ? { createdAt: { gte: range.start } } : {}),
+      //   ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+      // });
       const usersRegistered = await prisma.usersOfTenants.count({
         where: {
           ...(tenantId ? { tenantId } : {}),
