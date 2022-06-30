@@ -4123,13 +4123,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pothos/plugin-scope-auth@npm:^3.10.0":
-  version: 3.10.0
-  resolution: "@pothos/plugin-scope-auth@npm:3.10.0"
+"@pothos/plugin-scope-auth@npm:3.9.1":
+  version: 3.9.1
+  resolution: "@pothos/plugin-scope-auth@npm:3.9.1"
   peerDependencies:
     "@pothos/core": "*"
     graphql: ">=15.1.0"
-  checksum: 0b1fd416c641a75ecc94e185e9506dc13e5d94905159106e60d6dd02ca53c5c056dc9c2d451eda182611b1f4550e94454518c0f331d4262f0df59b481282acf2
+  checksum: f26f21b176cae7d60c69850edb0062e63f45daaccbe50fffbf813e1d714ab4d13abfeab7e4ad83e449c0807ae3fc1a06eacd15db7a02894deb1770f3322db3d2
   languageName: node
   linkType: hard
 
@@ -4163,20 +4163,6 @@ __metadata:
     "@sentry/tracing": "*"
     graphql: ">=15.1.0"
   checksum: c631e1c4cdaa1608ff8a5669d6082a8a6fd43c2c342de201c61f12baebe7d248e03bae66100faf4b9debe1dee03831511e417cc464cdde56d84bb387ec9a43e9
-  languageName: node
-  linkType: hard
-
-"@prisma/client@npm:^3.15.2":
-  version: 3.15.2
-  resolution: "@prisma/client@npm:3.15.2"
-  dependencies:
-    "@prisma/engines-version": 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
-  peerDependencies:
-    prisma: "*"
-  peerDependenciesMeta:
-    prisma:
-      optional: true
-  checksum: ef7eaeba6c9b85b0c4ebd95ce87083ca0deb0a588b46a8fac1f9769228e550785c53eb991be774746a7e6bf36c4bcb199bffa20795737aa59384216273d981be
   languageName: node
   linkType: hard
 
@@ -4248,13 +4234,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e":
-  version: 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
-  resolution: "@prisma/engines-version@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e"
-  checksum: f2ea2b3efe2ed90c1448b79e8718eefa7ee12f68dcee3fb9c322aee1cb8847602628436e7760b5ddc1e84da5fb799d464d9b4809a3989393842b75d933273abc
-  languageName: node
-  linkType: hard
-
 "@prisma/engines-version@npm:3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11":
   version: 3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11
   resolution: "@prisma/engines-version@npm:3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11"
@@ -4266,13 +4245,6 @@ __metadata:
   version: 3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b
   resolution: "@prisma/engines@npm:3.11.0-48.b371888aaf8f51357c7457d836b86d12da91658b"
   checksum: a2ca2af2fa0f5ab6616a0f9372f9a88bd200faaf4d2cdcbfa9c300550d0d592c5d55f32d0966944822a61e640b8dc1a3ac396b9f650a570f97775229b169280a
-  languageName: node
-  linkType: hard
-
-"@prisma/engines@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e":
-  version: 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
-  resolution: "@prisma/engines@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e"
-  checksum: 4be65608ab55f17e16791143dcdb7578f5461efb3de211e75cc256eb1b8282ffa7ed50a91c098d0267b6e5b47ad90d4aaeb1600958b1667652ee17bb75b16b8c
   languageName: node
   linkType: hard
 
@@ -5243,11 +5215,11 @@ __metadata:
     "@pathcheck/dcc-sdk": ^0.0.27
     "@pothos/core": ^3.12.1
     "@pothos/plugin-prisma": ^3.13.0
-    "@pothos/plugin-scope-auth": ^3.10.0
+    "@pothos/plugin-scope-auth": 3.9.1
     "@pothos/plugin-simple-objects": ^3.3.0
     "@pothos/plugin-tracing": ^0.2.1
     "@pothos/tracing-sentry": ^0.4.4
-    "@prisma/client": ^3.15.2
+    "@prisma/client": ^4.0.0
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.3.1
     "@sentry/node": ^7.3.1
@@ -5298,7 +5270,7 @@ __metadata:
     node-fetch: ^2.6.7
     pdf2pic: ^2.1.4
     prettier: ^2.7.1
-    prisma: ^3.15.2
+    prisma: ^4.0.0
     prisma-dbml-generator: ^0.9.1
     prom-client: ^14.0.1
     qrcode: ^1.5.0
@@ -19155,18 +19127,6 @@ __metadata:
   bin:
     prisma-dbml-generator: dist/generator.js
   checksum: f390d39820274b7b56ed0c4bf73ed7cc7ec586a929ca0b719d541f21069438434a297ba85de690d0894abe44fcfc6c51c81f0f69693263398596dfc597077680
-  languageName: node
-  linkType: hard
-
-"prisma@npm:^3.15.2":
-  version: 3.15.2
-  resolution: "prisma@npm:3.15.2"
-  dependencies:
-    "@prisma/engines": 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
-  bin:
-    prisma: build/index.js
-    prisma2: build/index.js
-  checksum: 2efdd77cadad51c7c2ff6fcfe0b594849733dffee73755b0e48cefd426e75f0cb5dbe134360a92e47865d331b11308878be91c009acf9f51ca57f86212492118
   languageName: node
   linkType: hard
 

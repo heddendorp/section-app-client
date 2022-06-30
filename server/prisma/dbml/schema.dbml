@@ -5,21 +5,21 @@
 Table Tenant {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  users UsersOfTenants [not null]
   name String [not null]
   shortName String [unique, not null]
-  privacyPolicyPage String [not null, default: '']
-  imprintPage String [not null, default: '']
   aboutPage String [not null, default: '']
   faqPage String
+  imprintPage String [not null, default: '']
+  privacyPolicyPage String [not null, default: '']
   tacPage String
-  eventTemplates EventTemplate [not null]
   organizers EventOrganizer [not null]
-  refundedRegistrations RefundedRegistration [not null]
-  products Product [not null]
+  eventTemplates EventTemplate [not null]
   eventTemplateCategories EventTemplateCategory [not null]
-  transactions Transaction [not null]
   Invite Invite [not null]
+  products Product [not null]
+  refundedRegistrations RefundedRegistration [not null]
+  transactions Transaction [not null]
+  users UsersOfTenants [not null]
 
   Note: 'One Tenant of the app, most likely an ESN section'
 }
@@ -28,31 +28,31 @@ Table User {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   authId String [unique, not null, note: 'Id from auth0 for this user']
-  birthdate DateTime
-  email String [not null]
-  email_verified Boolean [not null]
-  esnCardOverride Boolean [not null, default: false]
-  partyAnimals Boolean [not null, default: false]
   firstName String [not null]
-  iban String
   lastName String [not null]
+  email String [not null]
+  birthdate DateTime
+  email_verified Boolean [not null]
+  picture String [not null]
+  calendarToken String [unique, not null]
+  iban String
   paypal String
   phone String
-  picture String [not null]
+  esnCardOverride Boolean [not null, default: false]
   university String
+  partyAnimals Boolean [not null, default: false]
   enrolmentStatus EnrollmentStatus [not null, default: 'NONE']
-  calendarToken String [unique, not null]
-  createdEvents TumiEvent [not null]
   eventRegistrations EventRegistration [not null]
+  createdInvites Invite [not null]
+  redeemedInvites Invite [not null]
   photos PhotoShare [not null]
   productImages ProductImage [not null]
   purchases Purchase [not null]
   receipts Receipt [not null]
-  tenants UsersOfTenants [not null]
   createdTransactions Transaction [not null]
-  createdInvites Invite [not null]
-  redeemedInvites Invite [not null]
   transactions Transaction [not null]
+  createdEvents TumiEvent [not null]
+  tenants UsersOfTenants [not null]
 
   Note: 'One User of the app'
 }
@@ -62,23 +62,23 @@ Table Invite {
   createdAt DateTime [default: `now()`, not null]
   email String [not null]
   status MembershipStatus [not null, default: 'NONE']
-  tenant Tenant [not null]
-  creator User [not null]
   redeemedAt DateTime
-  redeemedBy User
   tenantId String [not null]
   creatorId String [not null]
   redeemerId String
+  creator User [not null]
+  redeemedBy User
+  tenant Tenant [not null]
 }
 
 Table StripeUserData {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
+  usersOfTenantsUserId String [not null]
+  usersOfTenantsTenantId String [not null]
   customerId String [not null]
   paymentMethodId String
   userOfTenant UsersOfTenants [not null]
-  usersOfTenantsTenantId String [not null]
-  usersOfTenantsUserId String [not null]
 
   indexes {
     (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
@@ -88,10 +88,10 @@ Table StripeUserData {
 Table ShoppingCart {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  items LineItem [not null]
-  userOfTenant UsersOfTenants [not null]
   usersOfTenantsTenantId String [not null]
   usersOfTenantsUserId String [not null]
+  userOfTenant UsersOfTenants [not null]
+  items LineItem [not null]
 
   indexes {
     (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
@@ -110,60 +110,63 @@ Table StripePayment {
   paymentMethod String
   paymentMethodType String
   refundedAmount Decimal [default: 0]
-  shipping Json
   status String [not null]
-  transaction Transaction [not null]
+  shipping Json
   transactionId String [unique, not null]
+  transaction Transaction [not null]
+  eventRegistration EventRegistration
+  eventRegistrationCode EventRegistrationCode
+  purchase Purchase
 }
 
 Table Transaction {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  amount Decimal [not null]
-  comment String
-  costItem CostItem
-  createdBy User [not null]
-  creatorId String [not null]
-  eventRegistration EventRegistration
-  eventRegistrationCode EventRegistrationCode
-  isMembershipFee Boolean [not null, default: false]
-  partner String [default: 'User']
-  purchase Purchase
-  stripePayment StripePayment
   subject String [not null]
-  tenant Tenant [not null]
-  tenantId String [not null]
-  type TransactionType [not null]
-  user User
+  isMembershipFee Boolean [not null, default: false]
   userId String
+  tenantId String [not null]
+  comment String
+  creatorId String [not null]
+  partner String [default: 'User']
+  type TransactionType [not null]
+  amount Decimal [not null]
   costItemId String
   onUserBalance Boolean [not null, default: false]
+  costItem CostItem
+  createdBy User [not null]
+  tenant Tenant [not null]
+  user User
+  eventRegistration EventRegistration
+  eventRegistrationCode EventRegistrationCode
+  purchase Purchase
+  stripePayment StripePayment
 }
 
 Table RefundedRegistration {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  chargeId String [not null]
   eventId String [not null]
-  refundId String [not null]
-  registrationId String [not null]
-  tenant Tenant [not null]
-  tenantId String [not null]
   userId String [not null]
+  registrationId String [not null]
+  tenantId String [not null]
+  chargeId String [not null]
+  refundId String [not null]
+  tenant Tenant [not null]
 
   Note: 'To be removed soon'
 }
 
 Table UsersOfTenants {
   createdAt DateTime [default: `now()`, not null]
-  cart ShoppingCart
+  userId String [not null]
+  tenantId String [not null]
   role Role [not null, default: 'USER']
   status MembershipStatus [not null, default: 'NONE']
-  stripeData StripeUserData
   tenant Tenant [not null]
-  tenantId String [not null]
   user User [not null]
-  userId String [not null]
+  cart ShoppingCart
+  stripeData StripeUserData
 
   indexes {
     (userId, tenantId) [pk]
@@ -173,36 +176,36 @@ Table UsersOfTenants {
 Table EventOrganizer {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  tenant Tenant [not null]
   tenantId String [not null]
   name String [not null]
   text String [not null]
   link String
+  tenant Tenant [not null]
   events TumiEvent [not null]
 }
 
 Table EventTemplate {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  category EventTemplateCategory
-  categoryId String
-  comment String [not null]
-  coordinates Json
+  title String [not null]
+  icon String [not null]
   description String [not null]
+  comment String [not null]
+  location String [not null]
   duration Decimal [not null]
-  eventInstances TumiEvent [not null]
+  participantText String [not null]
+  organizerText String [not null]
   finances Json [not null]
+  tenantId String [not null]
+  categoryId String
+  coordinates Json
+  insuranceDescription String [not null, default: '']
+  shouldBeReportedToInsurance Boolean [not null, default: true]
   googlePlaceId String
   googlePlaceUrl String
-  icon String [not null]
-  insuranceDescription String [not null, default: '']
-  location String [not null]
-  organizerText String [not null]
-  participantText String [not null]
-  shouldBeReportedToInsurance Boolean [not null, default: true]
+  category EventTemplateCategory
   tenant Tenant [not null]
-  tenantId String [not null]
-  title String [not null]
+  eventInstances TumiEvent [not null]
 
   Note: 'Template that holds all information for an event that is needed to run it'
 }
@@ -212,9 +215,9 @@ Table EventTemplateCategory {
   createdAt DateTime [default: `now()`, not null]
   name String [not null]
   icon String [not null]
-  templates EventTemplate [not null]
-  tenant Tenant [not null]
   tenantId String [not null]
+  tenant Tenant [not null]
+  templates EventTemplate [not null]
 
   Note: 'Category to keep an overview of event templates'
 }
@@ -222,43 +225,43 @@ Table EventTemplateCategory {
 Table TumiEvent {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  coordinates Json
-  costItems CostItem [not null]
-  createdBy User [not null]
-  creatorId String [not null]
-  description String [not null]
-  disableDeregistration Boolean [not null, default: false]
-  end DateTime [not null]
-  eventOrganizerId String [not null]
-  eventRegistrationCodes EventRegistrationCode [not null]
-  eventTemplate EventTemplate [not null]
-  eventTemplateId String [not null]
-  excludeFromRatings Boolean [not null, default: false]
-  excludeFromStatistics Boolean [not null, default: false]
-  googlePlaceId String
-  googlePlaceUrl String
+  title String [not null]
   icon String [not null]
-  insuranceDescription String [not null, default: '']
+  start DateTime [not null]
+  end DateTime [not null]
+  description String [not null]
   location String [not null]
-  organizer EventOrganizer [not null]
-  organizerLimit Int [not null, default: 0]
-  organizerSignup MembershipStatus[] [not null]
+  participantText String [not null]
   organizerText String [not null]
   participantLimit Int [not null, default: 0]
-  participantRegistrationCount Int [not null, default: 0]
-  participantSignup MembershipStatus[] [not null]
-  participantText String [not null]
-  photoShares PhotoShare [not null]
-  prices Json
+  organizerLimit Int [not null, default: 0]
   publicationState PublicationState [not null, default: 'DRAFT']
+  participantSignup MembershipStatus[] [not null]
+  organizerSignup MembershipStatus[] [not null]
+  eventOrganizerId String [not null]
+  creatorId String [not null]
+  eventTemplateId String [not null]
   registrationLink String
   registrationMode RegistrationMode [not null]
+  coordinates Json
+  prices Json
   registrationStart DateTime [default: `now()`, not null]
-  registrations EventRegistration [not null]
+  insuranceDescription String [not null, default: '']
   shouldBeReportedToInsurance Boolean [not null, default: true]
-  start DateTime [not null]
+  participantRegistrationCount Int [not null, default: 0]
+  disableDeregistration Boolean [not null, default: false]
+  excludeFromStatistics Boolean [not null, default: false]
+  excludeFromRatings Boolean [not null, default: false]
+  googlePlaceId String
+  googlePlaceUrl String
+  createdBy User [not null]
+  organizer EventOrganizer [not null]
+  eventTemplate EventTemplate [not null]
+  costItems CostItem [not null]
+  registrations EventRegistration [not null]
+  eventRegistrationCodes EventRegistrationCode [not null]
   submissionItems EventSubmissionItem [not null]
-  title String [not null]
+  photoShares PhotoShare [not null]
 
   Note: 'Actual instande of an TumiEventbased on a template'
 }
@@ -266,78 +269,78 @@ Table TumiEvent {
 Table Product {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  availability MembershipStatus[] [not null]
+  title String [not null]
   description String [not null]
-  images ProductImage [not null]
+  availability MembershipStatus[] [not null]
+  tenantId String [not null]
   isESNcard Boolean [not null, default: false]
+  prices Json [not null]
   leadImageId String
-  lineItems LineItem [not null]
+  publicationState PublicationState [not null, default: 'DRAFT']
   needsShippingAddress Boolean [not null, default: false]
   isActive Boolean [not null, default: true]
-  prices Json [not null]
-  publicationState PublicationState [not null, default: 'DRAFT']
-  submissionItems EventSubmissionItem [not null]
   tenant Tenant [not null]
-  tenantId String [not null]
-  title String [not null]
+  submissionItems EventSubmissionItem [not null]
+  lineItems LineItem [not null]
+  images ProductImage [not null]
 }
 
 Table ProductImage {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   container String [not null]
-  creator User [not null]
   creatorId String [not null]
   originalBlob String [not null]
   previewBlob String
   type String [not null]
-  product Product [not null]
   productId String [not null]
+  creator User [not null]
+  product Product [not null]
 }
 
 Table Purchase {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  cancellationReason String
-  items LineItem [not null]
-  payment StripePayment
   status PurchaseStatus [not null, default: 'PENDING']
-  paymentId String [unique]
-  user User [not null]
   userId String [not null]
-  transaction Transaction [not null]
+  paymentId String [unique]
+  cancellationReason String
   transactionId String [unique, not null]
+  payment StripePayment
+  transaction Transaction [not null]
+  user User [not null]
+  items LineItem [not null]
 }
 
 Table LineItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   cancellationReason String
-  cart ShoppingCart
   cost Decimal [not null]
   pickupTime DateTime
-  product Product [not null]
   productId String [not null]
-  purchase Purchase
   purchaseId String
   quantity Int [not null, default: 1]
   shoppingCartId String
+  product Product [not null]
+  purchase Purchase
+  cart ShoppingCart
   submissions EventSubmission [not null]
 }
 
 Table CostItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
+  eventId String [not null]
+  name String [not null]
   actualAmount Decimal
   amount Decimal [not null]
   calculationInfo String [not null]
   confirmed Boolean [not null, default: false]
-  complete Boolean [not null, default: false]
   details String
-  event TumiEvent [not null]
-  eventId String [not null]
-  name String [not null]
   onInvoice Boolean [not null]
+  complete Boolean [not null, default: false]
+  event TumiEvent [not null]
   receipts Receipt [not null]
   transactions Transaction [not null]
 }
@@ -345,52 +348,53 @@ Table CostItem {
 Table Receipt {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
+  userId String [not null]
+  costItemId String [not null]
   amount Decimal [not null]
   blob String [not null]
   container String [not null]
-  costItem CostItem [not null]
-  costItemId String [not null]
   md5 String
   preview String
   type String
+  costItem CostItem [not null]
   user User [not null]
-  userId String [not null]
 }
 
 Table PhotoShare {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  cols Int [not null, default: 2]
-  container String [not null]
-  creator User [not null]
-  creatorId String [not null]
-  event TumiEvent [not null]
   eventId String [not null]
+  container String [not null]
+  creatorId String [not null]
   originalBlob String [not null]
   previewBlob String
+  cols Int [not null, default: 2]
   rows Int [not null, default: 1]
   type String [not null]
+  creator User [not null]
+  event TumiEvent [not null]
 }
 
 Table EventRegistration {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  cancellationReason String
-  checkInTime DateTime
-  event TumiEvent [not null]
-  eventId String [not null]
-  eventRegistrationCode EventRegistrationCode
-  manualCheckin Boolean [not null, default: false]
-  rating Int
-  registrationCodeId String
-  status RegistrationStatus [not null, default: 'SUCCESSFUL']
-  submissions EventSubmission [not null]
   type RegistrationType [not null, default: 'PARTICIPANT']
-  user User [not null]
-  userComment String
   userId String [not null]
-  transaction Transaction
+  eventId String [not null]
+  checkInTime DateTime
+  manualCheckin Boolean [not null, default: false]
+  cancellationReason String
+  status RegistrationStatus [not null, default: 'SUCCESSFUL']
+  registrationCodeId String
+  rating Int
+  userComment String
   transactionId String [unique]
+  event TumiEvent [not null]
+  payment StripePayment
+  eventRegistrationCode EventRegistrationCode
+  transaction Transaction
+  user User [not null]
+  submissions EventSubmission [not null]
 }
 
 Table EventRegistrationCode {
@@ -399,53 +403,54 @@ Table EventRegistrationCode {
   createdById String [not null]
   registrationToRemoveId String [unique]
   registrationCreatedId String
-  targetEvent TumiEvent [not null]
   isPublic Boolean [not null, default: false]
-  sepaAllowed Boolean [not null, default: false]
   eventId String [not null]
   status RegistrationStatus [not null, default: 'PENDING']
-  connectedRegistrations EventRegistration [not null]
-  transaction Transaction
+  sepaAllowed Boolean [not null, default: false]
   transactionId String [unique]
+  targetEvent TumiEvent [not null]
+  payment StripePayment
+  transaction Transaction
+  connectedRegistrations EventRegistration [not null]
 }
 
 Table EventSubmissionItem {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
-  data Json
-  event TumiEvent
   eventId String
-  instruction String [not null]
-  name String [not null]
-  product Product
-  productId String
   required Boolean [not null]
   submissionTime SubmissionTime [not null]
-  submissions EventSubmission [not null]
+  instruction String [not null]
+  name String [not null]
   type SubmissionItemType [not null]
+  data Json
+  productId String
+  event TumiEvent
+  product Product
+  submissions EventSubmission [not null]
 }
 
 Table EventSubmission {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
+  submissionItemId String [not null]
   data Json [not null]
   eventRegistrationId String
-  lineItem LineItem
   lineItemId String
   registration EventRegistration
+  lineItem LineItem
   submissionItem EventSubmissionItem [not null]
-  submissionItemId String [not null]
 }
 
 Table ActivityLog {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   message String [not null]
-  category String [not null, default: 'general']
   data Json
   oldData Json
   involvedUser String
   severity LogSeverity [not null]
+  category String [not null, default: 'general']
 }
 
 Enum Role {
@@ -472,17 +477,17 @@ Enum MembershipStatus {
 Enum PublicationState {
   DRAFT
   APPROVAL
-  ORGANIZERS
   PUBLIC
+  ORGANIZERS
 }
 
 Enum SubmissionItemType {
   FILE
   NUMBER
   TEXT
-  LONGTEXT
   DATE
   RATING
+  LONGTEXT
   BOOLEAN
   SELECT
   CONFIRM
@@ -535,11 +540,11 @@ Enum TransactionType {
   PAYPAL
 }
 
-Ref: Invite.tenantId > Tenant.id
-
 Ref: Invite.creatorId > User.id
 
 Ref: Invite.redeemerId > User.id
+
+Ref: Invite.tenantId > Tenant.id
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
@@ -571,9 +576,9 @@ Ref: EventTemplateCategory.tenantId > Tenant.id
 
 Ref: TumiEvent.creatorId > User.id
 
-Ref: TumiEvent.eventTemplateId > EventTemplate.id
-
 Ref: TumiEvent.eventOrganizerId > EventOrganizer.id
+
+Ref: TumiEvent.eventTemplateId > EventTemplate.id
 
 Ref: Product.tenantId > Tenant.id
 
@@ -583,15 +588,15 @@ Ref: ProductImage.productId > Product.id
 
 Ref: Purchase.paymentId - StripePayment.id
 
-Ref: Purchase.userId > User.id
-
 Ref: Purchase.transactionId - Transaction.id
 
-Ref: LineItem.shoppingCartId > ShoppingCart.id
+Ref: Purchase.userId > User.id
 
 Ref: LineItem.productId > Product.id
 
 Ref: LineItem.purchaseId > Purchase.id
+
+Ref: LineItem.shoppingCartId > ShoppingCart.id
 
 Ref: CostItem.eventId > TumiEvent.id
 
@@ -605,13 +610,17 @@ Ref: PhotoShare.eventId > TumiEvent.id
 
 Ref: EventRegistration.eventId > TumiEvent.id
 
-Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
+Ref: EventRegistration.paymentId - StripePayment.id
 
-Ref: EventRegistration.userId > User.id
+Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
 
 Ref: EventRegistration.transactionId - Transaction.id
 
+Ref: EventRegistration.userId > User.id
+
 Ref: EventRegistrationCode.eventId > TumiEvent.id [delete: Cascade]
+
+Ref: EventRegistrationCode.paymentId - StripePayment.id
 
 Ref: EventRegistrationCode.transactionId - Transaction.id
 
@@ -619,8 +628,8 @@ Ref: EventSubmissionItem.eventId > TumiEvent.id
 
 Ref: EventSubmissionItem.productId > Product.id
 
-Ref: EventSubmission.lineItemId > LineItem.id
-
 Ref: EventSubmission.eventRegistrationId > EventRegistration.id [delete: Cascade]
+
+Ref: EventSubmission.lineItemId > LineItem.id
 
 Ref: EventSubmission.submissionItemId > EventSubmissionItem.id

@@ -1,5 +1,4 @@
 import { builder } from '../../builder';
-import { booleanArg } from 'nexus';
 import prisma from '../../client';
 
 builder.queryFields((t) => ({

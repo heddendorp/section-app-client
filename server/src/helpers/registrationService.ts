@@ -1,6 +1,5 @@
 // import { Price } from '@tumi/shared/data-types';
 import {
-  PrismaClient,
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
@@ -10,7 +9,6 @@ import {
   UsersOfTenants,
 } from '../generated/prisma';
 import * as stripe from 'stripe';
-import { GetGen } from 'nexus/dist/typegenTypeHelpers';
 import { DateTime } from 'luxon';
 import prisma from '../client';
 import * as Sentry from '@sentry/node';
