@@ -81,29 +81,39 @@ export class FinancePlannerComponent implements OnChanges {
           subsidyPerPerson * info.days * numberOfPeople
         );
 
-        const minPrice = this.calculatePrice(totalCost, maxTotalSubsidies, info.participants);
+        const minPrice = this.calculatePrice(
+          totalCost,
+          maxTotalSubsidies,
+          info.participants
+        );
         const maxPrice = this.calculatePrice(totalCost, 0, info.participants);
 
         const costPrice = totalCost / numberOfPeople;
         const recommendedPrice = {
           subsidies: minPrice.subsidies,
           participantFee: minPrice.participantFee,
-          totalParticipantFees: minPrice.totalParticipantFees
+          totalParticipantFees: minPrice.totalParticipantFees,
         };
         if (costPrice > minPrice.participantFee) {
           recommendedPrice.participantFee = totalCost / numberOfPeople;
-          recommendedPrice.totalParticipantFees = this.estimateFeeReceived(costPrice) * info.participants;
-          recommendedPrice.subsidies = totalCost - recommendedPrice.totalParticipantFees;
+          recommendedPrice.totalParticipantFees =
+            this.estimateFeeReceived(costPrice) * info.participants;
+          recommendedPrice.subsidies =
+            totalCost - recommendedPrice.totalParticipantFees;
         }
 
         let proposedPrice = null;
         if (info.proposedFee) {
           proposedPrice = {
             participantFee: info.proposedFee,
-            totalParticipantFees: this.estimateFeeReceived(info.proposedFee) * info.participants,
-            subsidies: 0
+            totalParticipantFees:
+              this.estimateFeeReceived(info.proposedFee) * info.participants,
+            subsidies: 0,
           };
-          proposedPrice.subsidies = Math.max(0, totalCost - proposedPrice.totalParticipantFees);
+          proposedPrice.subsidies = Math.max(
+            0,
+            totalCost - proposedPrice.totalParticipantFees
+          );
         }
 
         return {
@@ -111,18 +121,24 @@ export class FinancePlannerComponent implements OnChanges {
           minPrice,
           maxPrice,
           recommendedPrice,
-          proposedPrice
+          proposedPrice,
         };
       })
     );
   }
 
-  calculatePrice(totalCost: number, subsidies: number, participantCount: number) {
+  calculatePrice(
+    totalCost: number,
+    subsidies: number,
+    participantCount: number
+  ) {
     const price = {
       subsidies: subsidies,
-      participantFee: this.roundTo2Decimals((totalCost - subsidies) / participantCount),
-      totalParticipantFees: totalCost - subsidies
-    }
+      participantFee: this.roundTo2Decimals(
+        (totalCost - subsidies) / participantCount
+      ),
+      totalParticipantFees: totalCost - subsidies,
+    };
     if (price.participantFee > 0) {
       price.totalParticipantFees = price.participantFee * participantCount;
       price.participantFee = this.estimateFeeToPay(price.participantFee);
@@ -144,7 +160,7 @@ export class FinancePlannerComponent implements OnChanges {
    * Example: 20€ -> 19.45€
    */
   estimateFeeReceived(amount: number): number {
-    return this.roundTo2Decimals(amount - (0.25 + amount*0.015));
+    return this.roundTo2Decimals(amount - (0.25 + amount * 0.015));
   }
 
   roundTo2Decimals(amount: number) {

@@ -88,62 +88,111 @@
   gdColumns="max-content max-content"
 >
   <p>Sum of all expenses:</p>
-  <p class="ml-auto rounded px-1 bg-red-200">{{ result.totalCost | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-red-200">
+    {{ result.totalCost | currency: 'EUR' }}
+  </p>
 
   <p>1.) Minimal price (max subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">{{ result.minPrice.participantFee | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.minPrice.participantFee | currency: 'EUR' }}
+  </p>
   <div class="contents text-xs">
     <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto rounded px-1 bg-green-200">{{ result.minPrice.totalParticipantFees | currency: 'EUR' }}</p>
+    <p class="ml-auto rounded px-1 bg-green-200">
+      {{ result.minPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidies:</p>
     <p class="ml-auto">{{ result.minPrice.subsidies | currency: 'EUR' }}</p>
     <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+    <p class="ml-auto">
+      {{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
   </div>
 
   <p>2.) Maximal price (no subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">{{ result.maxPrice.participantFee | currency: 'EUR' }}</p>
+  <p class="ml-auto rounded px-1 bg-slate-200">
+    {{ result.maxPrice.participantFee | currency: 'EUR' }}
+  </p>
   <div class="contents text-xs">
     <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto rounded px-1 bg-green-200">{{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}</p>
+    <p class="ml-auto rounded px-1 bg-green-200">
+      {{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
     <p class="ml-4">Subsidies:</p>
     <p class="ml-auto">{{ result.maxPrice.subsidies | currency: 'EUR' }}</p>
     <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
-  </div>
-  
-  <p class="font-semibold">3.) Recommended price:</p>
-  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">{{ result.recommendedPrice.participantFee | currency: 'EUR' }}</p>
-  <div class="contents text-xs">
-    <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto rounded px-1 bg-green-200">{{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}</p>
-    <p class="ml-4">Subsidies:</p>
-    <p class="ml-auto">{{ result.recommendedPrice.subsidies | currency: 'EUR' }}</p>
-    <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">{{ result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+    <p class="ml-auto">
+      {{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}
+    </p>
   </div>
 
-  <div class="contents" *ngIf="result.proposedPrice">    
+  <p class="font-semibold">3.) Recommended price:</p>
+  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+    {{ result.recommendedPrice.participantFee | currency: 'EUR' }}
+  </p>
+  <div class="contents text-xs">
+    <p class="ml-4">Total participant fees:</p>
+    <p class="ml-auto rounded px-1 bg-green-200">
+      {{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidies:</p>
+    <p class="ml-auto">
+      {{ result.recommendedPrice.subsidies | currency: 'EUR' }}
+    </p>
+    <p class="ml-4">Subsidy percentage:</p>
+    <p class="ml-auto">
+      {{
+        result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1'
+      }}
+    </p>
+  </div>
+
+  <div class="contents" *ngIf="result.proposedPrice">
     <p class="font-semibold">4.) Proposed price:</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">{{ result.proposedPrice.participantFee | currency: 'EUR' }}</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+      {{ result.proposedPrice.participantFee | currency: 'EUR' }}
+    </p>
     <div class="contents text-xs">
       <p class="ml-4">Total participant fees:</p>
-      <p class="ml-auto rounded px-1 bg-green-200">{{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}</p>
+      <p class="ml-auto rounded px-1 bg-green-200">
+        {{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}
+      </p>
       <p class="ml-4">Subsidies:</p>
-      <p class="ml-auto">{{ result.proposedPrice.subsidies | currency: 'EUR' }}</p>
-      <div class="contents" *ngIf="result.minPrice.subsidies <= result.proposedPrice.subsidies">
+      <p class="ml-auto">
+        {{ result.proposedPrice.subsidies | currency: 'EUR' }}
+      </p>
+      <div
+        class="contents"
+        *ngIf="result.minPrice.subsidies <= result.proposedPrice.subsidies"
+      >
         <p class="ml-4 text-red-500">Deficit:</p>
-        <p class="ml-auto rounded px-1 bg-red-200">{{ result.proposedPrice.subsidies - result.minPrice.subsidies | currency: 'EUR' }}</p>
+        <p class="ml-auto rounded px-1 bg-red-200">
+          {{
+            result.proposedPrice.subsidies - result.minPrice.subsidies
+              | currency: 'EUR'
+          }}
+        </p>
       </div>
-      <div class="contents" *ngIf="result.minPrice.subsidies > result.proposedPrice.subsidies">
+      <div
+        class="contents"
+        *ngIf="result.minPrice.subsidies > result.proposedPrice.subsidies"
+      >
         <p class="ml-4">Subsidies not used:</p>
-        <p class="ml-auto rounded px-1 bg-green-200">{{ result.minPrice.subsidies - result.proposedPrice.subsidies  | currency: 'EUR' }}</p>
+        <p class="ml-auto rounded px-1 bg-green-200">
+          {{
+            result.minPrice.subsidies - result.proposedPrice.subsidies
+              | currency: 'EUR'
+          }}
+        </p>
         <p class="ml-4">Subsidy percentage:</p>
-        <p class="ml-auto">{{ result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1' }}</p>
+        <p class="ml-auto">
+          {{
+            result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1'
+          }}
+        </p>
       </div>
     </div>
   </div>
-
 </div>
 <p class="mt-4 text-xs text-slate-500">
   This calculator provides only a rough overview of the costs. The funding
