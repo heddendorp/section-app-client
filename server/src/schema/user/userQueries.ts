@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
+import { GraphQLYogaError } from '@graphql-yoga/node';
 
 builder.queryFields((t) => ({
   users: t.prismaField({
@@ -108,7 +109,11 @@ builder.queryFields((t) => ({
     resolve: async (query, root, args, ctx, info) => {
       const id = ctx.user?.id;
       if (!id) {
-        return null;
+        if (!ctx.token?.sub) {
+          throw new GraphQLYogaError('Not authenticated');
+        } else {
+          return null;
+        }
       }
       return prisma.user.findUnique({
         ...query,

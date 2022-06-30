@@ -33,10 +33,10 @@ export class AuthButtonComponent {
               router.navigate(['/', 'profile', 'new']);
             }
           }),
-          map((user) => {
-            if (!user.data.currentUser) throw new Error('not logged in');
-            return user;
-          }),
+          // map((user) => {
+          //   if (!user.data.currentUser) throw new Error('not logged in');
+          //   return user;
+          // }),
           retryBackoff({ initialInterval: 100, maxRetries: 5 })
         )
         .subscribe({

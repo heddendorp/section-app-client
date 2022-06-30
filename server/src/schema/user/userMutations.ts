@@ -33,18 +33,10 @@ builder.mutationFields((t) => ({
           email_verified,
           picture,
           tenants: {
-            connectOrCreate: {
-              where: {
-                userId_tenantId: {
-                  userId: context.user?.id ?? '',
-                  tenantId: context.tenant.id,
-                },
-              },
-              create: {
-                tenant: {
-                  connect: {
-                    id: context.tenant.id,
-                  },
+            create: {
+              tenant: {
+                connect: {
+                  id: context.tenant.id,
                 },
               },
             },
