@@ -22,6 +22,7 @@
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },
   "dependencies": {
+    "@angular/google-maps": "^14.0.3",
     "@azure/storage-blob": "^12.10.0",
     "@envelop/auth0": "^3.4.0",
     "@envelop/core": "^2.4.0",
