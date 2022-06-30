@@ -31,7 +31,7 @@
     "@envelop/response-cache": "^2.4.0",
     "@envelop/sentry": "^3.5.0",
     "@graphql-hive/client": "^0.16.0",
-    "@graphql-yoga/node": "^2.11.0",
+    "@graphql-yoga/node": "^2.11.1",
     "@pathcheck/dcc-sdk": "^0.0.27",
     "@pothos/core": "^3.12.1",
     "@pothos/plugin-prisma": "^3.13.0",
