@@ -45,32 +45,38 @@ builder.queryFields((t) => ({
       if (!tenantId) {
         tenantId = context.tenant.id;
       }
-      // console.log(range);
-      // console.log({
-      //   ...(tenantId ? { tenantId } : {}),
-      //   ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-      //   ...(range?.end ? { createdAt: { lte: range.end } } : {}),
-      // });
+      let rangeQuery: { gte?: Date; lte?: Date } = {};
+      if (range) {
+        if (range.start) {
+          rangeQuery = {
+            ...rangeQuery,
+            gte: range.start,
+          };
+        }
+        if (range.end) {
+          rangeQuery = {
+            ...rangeQuery,
+            lte: range.end,
+          };
+        }
+      }
       const usersRegistered = await prisma.usersOfTenants.count({
         where: {
           ...(tenantId ? { tenantId } : {}),
-          ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-          ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+          createdAt: rangeQuery,
         },
       });
       const usersWithCustomer = await prisma.usersOfTenants.count({
         where: {
           ...(tenantId ? { tenantId } : {}),
-          ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-          ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+          createdAt: rangeQuery,
           stripeData: { isNot: null },
         },
       });
       const usersWithPaymentMethod = await prisma.usersOfTenants.count({
         where: {
           ...(tenantId ? { tenantId } : {}),
-          ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-          ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+          createdAt: rangeQuery,
           stripeData: { paymentMethodId: { not: null } },
         },
       });
@@ -81,8 +87,7 @@ builder.queryFields((t) => ({
               ...(tenantId ? { tenantId } : {}),
             },
             excludeFromStatistics: false,
-            ...(range?.start ? { start: { gte: range.start } } : {}),
-            ...(range?.end ? { start: { lte: range.end } } : {}),
+            start: rangeQuery,
           },
           status: { not: RegistrationStatus.CANCELLED },
         },
@@ -97,8 +102,7 @@ builder.queryFields((t) => ({
           eventRegistrations: {
             some: {
               event: {
-                ...(range?.start ? { start: { gte: range.start } } : {}),
-                ...(range?.end ? { start: { lte: range.end } } : {}),
+                start: rangeQuery,
                 excludeFromStatistics: false,
               },
               status: { not: RegistrationStatus.CANCELLED },
@@ -116,8 +120,7 @@ builder.queryFields((t) => ({
           eventRegistrations: {
             some: {
               event: {
-                ...(range?.start ? { start: { gte: range.start } } : {}),
-                ...(range?.end ? { start: { lte: range.end } } : {}),
+                start: rangeQuery,
                 excludeFromStatistics: false,
                 registrationMode: RegistrationMode.ONLINE,
               },
@@ -136,8 +139,7 @@ builder.queryFields((t) => ({
           eventRegistrations: {
             some: {
               event: {
-                ...(range?.start ? { start: { gte: range.start } } : {}),
-                ...(range?.end ? { start: { lte: range.end } } : {}),
+                start: rangeQuery,
                 excludeFromStatistics: false,
                 registrationMode: RegistrationMode.STRIPE,
               },
@@ -153,8 +155,7 @@ builder.queryFields((t) => ({
               ...(tenantId ? { tenantId } : {}),
             },
             excludeFromStatistics: false,
-            ...(range?.start ? { start: { gte: range.start } } : {}),
-            ...(range?.end ? { start: { lte: range.end } } : {}),
+            start: rangeQuery,
             registrationMode: RegistrationMode.STRIPE,
           },
           status: { not: RegistrationStatus.CANCELLED },
@@ -167,8 +168,7 @@ builder.queryFields((t) => ({
               ...(tenantId ? { tenantId } : {}),
             },
             excludeFromStatistics: false,
-            ...(range?.start ? { start: { gte: range.start } } : {}),
-            ...(range?.end ? { start: { lte: range.end } } : {}),
+            start: rangeQuery,
           },
           status: { not: RegistrationStatus.CANCELLED },
           checkInTime: { not: null },
@@ -180,8 +180,7 @@ builder.queryFields((t) => ({
             ...(tenantId ? { tenantId } : {}),
           },
           excludeFromStatistics: false,
-          ...(range?.start ? { start: { gte: range.start } } : {}),
-          ...(range?.end ? { start: { lte: range.end } } : {}),
+          start: rangeQuery,
         },
       });
       const paidEvents = await prisma.tumiEvent.count({
@@ -190,8 +189,7 @@ builder.queryFields((t) => ({
             ...(tenantId ? { tenantId } : {}),
           },
           excludeFromStatistics: false,
-          ...(range?.start ? { start: { gte: range.start } } : {}),
-          ...(range?.end ? { start: { lte: range.end } } : {}),
+          start: rangeQuery,
           registrationMode: RegistrationMode.STRIPE,
         },
       });
@@ -206,8 +204,7 @@ builder.queryFields((t) => ({
             eventRegistrations: {
               some: {
                 event: {
-                  ...(range?.start ? { start: { gte: range.start } } : {}),
-                  ...(range?.end ? { start: { lte: range.end } } : {}),
+                  start: rangeQuery,
                   excludeFromStatistics: false,
                   registrationMode: RegistrationMode.STRIPE,
                 },
@@ -248,8 +245,7 @@ builder.queryFields((t) => ({
                 ...(tenantId ? { tenantId } : {}),
               },
             },
-            ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-            ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+            createdAt: rangeQuery,
           },
           by: ['university'],
           _count: { university: true },
@@ -269,8 +265,7 @@ builder.queryFields((t) => ({
                 ...(tenantId ? { tenantId } : {}),
               },
             },
-            ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-            ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+            createdAt: rangeQuery,
           },
           by: ['enrolmentStatus'],
           _count: { enrolmentStatus: true },
@@ -286,8 +281,7 @@ builder.queryFields((t) => ({
         .findMany({
           where: {
             ...(tenantId ? { tenantId } : {}),
-            ...(range?.start ? { createdAt: { gte: range.start } } : {}),
-            ...(range?.end ? { createdAt: { lte: range.end } } : {}),
+            createdAt: rangeQuery,
           },
           orderBy: { createdAt: 'asc' },
         })
@@ -299,8 +293,7 @@ builder.queryFields((t) => ({
               eventTemplate: {
                 ...(tenantId ? { tenantId } : {}),
               },
-              ...(range?.start ? { start: { gte: range.start } } : {}),
-              ...(range?.end ? { start: { lte: range.end } } : {}),
+              start: rangeQuery,
               excludeFromStatistics: false,
             },
             status: { not: RegistrationStatus.CANCELLED },
@@ -315,8 +308,7 @@ builder.queryFields((t) => ({
               eventTemplate: {
                 ...(tenantId ? { tenantId } : {}),
               },
-              ...(range?.start ? { start: { gte: range.start } } : {}),
-              ...(range?.end ? { start: { lte: range.end } } : {}),
+              start: rangeQuery,
               excludeFromStatistics: false,
             },
             status: { not: RegistrationStatus.CANCELLED },
