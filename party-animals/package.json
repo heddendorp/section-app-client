@@ -24,7 +24,7 @@
     "remix-auth": "^3.2.2",
     "remix-auth-auth0": "1.3.7",
     "stripe": "^9.11.0",
-    "v8n": "^1.5.0"
+    "v8n": "^1.5.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.6.3",
