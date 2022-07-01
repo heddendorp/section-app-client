@@ -18,7 +18,9 @@
     "experiments": "yarn workspace @tumi/experiments dev",
     "party-animals": "yarn workspace @tumi/party-animals dev",
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
-    "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build"
+    "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build",
+    "release:draft": "conventional-github-releaser -p angular --draft",
+    "release": "conventional-github-releaser -p angular"
   },
   "engines": {
     "node": ">=17.0.0 <18.0.0"

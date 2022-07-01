@@ -1,8 +1,15 @@
 # ESN TUMi
 
-The main repository of the websevice that make TUMi work the way it does.
+The main repository of the webservice that make TUMi work the way it does.
 The main code for the TUMi app can be found here together with some other projects like the website for Party Animals.
-Additionally there is a new serverside rendered version of the TUMi app and a small projects for experiments.
+Additionally, there is a new serverside rendered version of the TUMi app and a small projects for experiments.
+
+## Contributing
+To find something to work on it's recommended to check the [issues](https://github.com/heddendorp/tumi/issues) and look 
+at the **Good first issue** tag.
+### Commits
+This repository follows the [conventional commits](https://conventionalcommits.org/). Please make sure to work you commit 
+messages according to the guidelines.
 
 ## Projects
 
