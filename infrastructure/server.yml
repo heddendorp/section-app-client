@@ -57,4 +57,4 @@ template:
     - name: http-rule
       http:
         metadata:
-          concurrentRequests: 150
+          concurrentRequests: 50
