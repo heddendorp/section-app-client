@@ -58,3 +58,15 @@ template:
       http:
         metadata:
           concurrentRequests: 50
+    - name: cpu-scaling-rule
+      custom:
+        type: cpu
+        metadata:
+          type: Utilization
+          value: 80
+    - name: memory-scaling-rule
+      custom:
+        type: memory
+        metadata:
+          type: Utilization
+          value: 80
