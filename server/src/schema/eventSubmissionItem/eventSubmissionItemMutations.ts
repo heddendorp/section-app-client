@@ -1,6 +1,5 @@
 import { builder } from '../../builder';
 import { createSubmissionItemInputType } from './eventSubmissionItemType';
-import { query } from 'express';
 import prisma from '../../client';
 
 builder.mutationFields((t) => ({
@@ -16,7 +15,7 @@ builder.mutationFields((t) => ({
         case 'event':
           return prisma.eventSubmissionItem.create({
             ...query,
-            data: { ...input, event: { connect: { id: target } } },
+            data: { ...input, event: { connect: { id: targetId } } },
           });
         case 'product':
           return prisma.eventSubmissionItem.create({
