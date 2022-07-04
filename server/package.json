@@ -41,7 +41,7 @@
     "@pothos/tracing-sentry": "^0.4.4",
     "@prisma/client": "^4.0.0",
     "@sendgrid/mail": "^7.7.0",
-    "@sentry/integrations": "^7.4.1",
+    "@sentry/integrations": "^7.5.0",
     "@sentry/node": "^7.4.1",
     "@sentry/tracing": "^7.4.1",
     "canvas": "^2.9.3",
