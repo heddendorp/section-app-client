@@ -11,6 +11,7 @@ import {
   firstValueFrom,
   map,
   Observable,
+  shareReplay,
   Subject,
   takeUntil,
 } from 'rxjs';
@@ -26,6 +27,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
+import { exponentialBackoffDelay } from 'backoff-rxjs/dist/utils';
+import { retryBackoff } from 'backoff-rxjs';
 
 @Component({
   selector: 'app-event-checkin-page',
@@ -94,7 +97,8 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     });
     this.eventId = this.route.snapshot.params['eventId'];
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.event)
+      map(({ data }) => data.event),
+      shareReplay(1)
     );
     this.loadEventQueryRef.startPolling(5000);
   }
@@ -106,7 +110,6 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     this.scanResult$.subscribe(async (result) => {
       const isID = idTest.test(result);
       if (result.includes('HC1')) {
-        // DCC.unpackAndVerify(result);
         this.verifyCertificateGQL
           .mutate({
             cert: result,
@@ -143,10 +146,13 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
             didAttend: false,
           });
         }
-        this.loadRegistration.fetch({ id: result }).subscribe(({ data }) => {
-          this.registrationLoading$.next(false);
-          this.currentRegistration$.next(data.registration);
-        });
+        // This should not need a setTimeout, but it blocks otherwise
+        setTimeout(() => {
+          this.loadRegistration.fetch({ id: result }).subscribe(({ data }) => {
+            this.registrationLoading$.next(false);
+            this.currentRegistration$.next(data.registration);
+          });
+        }, 100);
       }
     });
     if (this.video?.nativeElement) {
@@ -194,9 +200,18 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   }
 
   async checkInUser() {
+    this.snackBar.open('Checking in...');
     const registration = this.currentRegistration$.value;
     if (registration) {
-      await this.checkInMutation.mutate({ id: registration.id }).toPromise();
+      try {
+        await firstValueFrom(
+          this.checkInMutation
+            .mutate({ id: registration.id })
+            .pipe(retryBackoff({ initialInterval: 100, maxRetries: 5 }))
+        );
+      } catch (e) {
+        this.snackBar.open('Error checking in user');
+      }
       this.snackBar.open('✔️ Check in successful');
       this.currentRegistration$.next(null);
       this.hideScanner$.next(false);

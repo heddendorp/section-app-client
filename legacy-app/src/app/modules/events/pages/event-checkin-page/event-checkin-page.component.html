@@ -35,7 +35,7 @@
         <p>checked</p>
       </div>
     </div>
-    <video #scannerVideo [hidden]="hideScanner$ | async"></video>
+    <video #scannerVideo [class.h-0]="hideScanner$ | async"></video>
     <mat-form-field class="my-2 w-full">
       <mat-label>Camera</mat-label>
       <mat-select [formControl]="cameraControl">
@@ -71,6 +71,10 @@
         <p class="text-lg">Event</p>
         <p>
           {{ registration.event?.title }}
+        </p>
+        <p class="text-red-500" *ngIf="registrationLoading$ | async">
+          This data can not verify the ticket wasn't used before. Info is
+          loading...
         </p>
       </div>
       <div fxFlex="grow"></div>
