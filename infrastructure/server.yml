@@ -37,8 +37,8 @@ template:
     - name: STORAGE_CONNECTION_STRING
       secretRef: storage-connection-string
     resources:
-      cpu: 0.5
-      memory: 1Gi
+      cpu: 1
+      memory: 2Gi
     probes:
       - type: Liveness
         httpGet:
