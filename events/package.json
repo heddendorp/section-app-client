@@ -36,7 +36,7 @@
     "@nguniversal/common": "^14.0.2",
     "@nguniversal/express-engine": "14.0.2",
     "@sentry/angular": "^7.4.1",
-    "@sentry/node": "^7.4.1",
+    "@sentry/node": "^7.5.0",
     "@sentry/tracing": "^7.4.1",
     "apollo-angular": "^3.0.1",
     "compression": "^1.7.4",
