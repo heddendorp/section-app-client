@@ -33,7 +33,7 @@
     "@auth0/auth0-angular": "^1.10.0",
     "@azure/storage-blob": "^12.10.0",
     "@sentry/angular": "^7.4.1",
-    "@sentry/tracing": "^7.4.1",
+    "@sentry/tracing": "^7.5.0",
     "@stripe/stripe-js": "^1.32.0",
     "apollo-angular": "^3.0.1",
     "azure-maps-rest": "^2.0.8",
