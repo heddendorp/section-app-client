@@ -21,7 +21,12 @@ query loadEventsForInsurance {
   }
 }
 
-query loadTransactions($range: DateRangeInput, $search: String, $take: Int, $skip: Int) {
+query loadTransactions(
+  $range: DateRangeInput
+  $search: String
+  $take: Int
+  $skip: Int
+) {
   transactions(range: $range, search: $search, take: $take, skip: $skip) {
     id
     amount
@@ -29,7 +34,7 @@ query loadTransactions($range: DateRangeInput, $search: String, $take: Int, $ski
     amount
     eventRegistration {
       id
-      event{
+      event {
         id
         title
       }
