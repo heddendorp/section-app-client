@@ -18,6 +18,7 @@ import {
 import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/change-template-category-dialog/change-template-category-dialog.component';
 import { FormControl } from '@angular/forms';
 import { combineLatest } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-template-list-page',
@@ -42,7 +43,8 @@ export class TemplateListPageComponent {
     private snackBar: MatSnackBar,
     private createTemplateMutation: CreateEventTemplateGQL,
     private loadTemplates: GetLonelyEventTemplatesGQL,
-    private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL
+    private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
+    private router: Router
   ) {
     this.title.setTitle('TUMi - Event templates');
     this.eventTemplateQuery = this.loadTemplates.watch(
@@ -89,15 +91,22 @@ export class TemplateListPageComponent {
 
   async createTemplate() {
     const categories = await firstValueFrom(this.templateCategories$);
-    const template = await this.dialog
-      .open(EventFormDialogComponent, { data: { categories } })
-      .afterClosed()
-      .toPromise();
+    const template = await firstValueFrom(
+      this.dialog
+        .open(EventFormDialogComponent, { data: { categories } })
+        .afterClosed()
+    );
     if (template) {
       this.snackBar.open('Saving template', undefined, { duration: 0 });
-      await this.createTemplateMutation.mutate({ input: template }).toPromise();
+      const response = await firstValueFrom(
+        this.createTemplateMutation.mutate({ input: template })
+      );
       await this.eventTemplateQuery.refetch();
       this.snackBar.open('Template saved successfully');
+      this.router.navigate([
+        '/event-templates',
+        response?.data?.createEventTemplate.id,
+      ]);
     }
   }
 }
