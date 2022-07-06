@@ -37,7 +37,7 @@ builder.queryFields((t) => ({
           participantSignup: {
             has: MembershipStatus.NONE,
           },
-          end: { gt: new Date() },
+          end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
           publicationState: PublicationState.PUBLIC,
           eventTemplate: {
