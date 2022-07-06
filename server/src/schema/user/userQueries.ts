@@ -2,6 +2,7 @@ import { builder } from '../../builder';
 import prisma from '../../client';
 import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
 import { GraphQLYogaError } from '@graphql-yoga/node';
+import { prepareSearchString } from '../helperFunctions';
 
 builder.queryFields((t) => ({
   users: t.prismaField({
@@ -33,9 +34,9 @@ builder.queryFields((t) => ({
         page = { skip: pageIndex * pageLength, take: pageLength };
       }
       if (search) {
-        OR.push({ firstName: { search } });
-        OR.push({ lastName: { search } });
-        OR.push({ email: { search } });
+        OR.push({ firstName: { search: prepareSearchString(search) } });
+        OR.push({ lastName: { search: prepareSearchString(search) } });
+        OR.push({ email: { search: prepareSearchString(search) } });
       }
       return prisma.user.findMany({
         ...query,
@@ -75,9 +76,9 @@ builder.queryFields((t) => ({
     resolve: async (root, { statusList, roleList, search }, context, info) => {
       const OR: any[] = [];
       if (search) {
-        OR.push({ firstName: { search } });
-        OR.push({ lastName: { search } });
-        OR.push({ email: { search } });
+        OR.push({ firstName: { search: prepareSearchString(search) } });
+        OR.push({ lastName: { search: prepareSearchString(search) } });
+        OR.push({ email: { search: prepareSearchString(search) } });
       }
       return prisma.user.count({
         where: {
