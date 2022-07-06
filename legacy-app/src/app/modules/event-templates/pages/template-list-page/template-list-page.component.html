@@ -54,10 +54,17 @@
           >
             <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
             <h3 mat-line>{{ template.title }}</h3>
-            <span mat-line *ngIf="template.participantRating">
-              {{ template.participantRating | number: '1.1-1' }} ★ ({{
-                template.participantRatingCount
-              }})
+            <span mat-line>
+              <span>
+                {{ template.eventInstanceCount }} instance{{
+                  template.eventInstanceCount === 1 ? '' : 's'
+                }}
+              </span>
+              <span *ngIf="template.participantRating" class="ml-4">
+                {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                  template.participantRatingCount
+                }})
+              </span>
             </span>
           </a>
         </mat-nav-list>

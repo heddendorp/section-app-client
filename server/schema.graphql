@@ -224,6 +224,7 @@ type EventTemplate {
   createdAt: DateTime!
   description: String!
   duration: Decimal!
+  eventInstanceCount: Int!
   eventInstances: [TumiEvent!]!
   finances: JSON!
   googlePlaceId: String

@@ -25,6 +25,7 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     eventInstances: t.relation('eventInstances', {
       query: { orderBy: { start: 'desc' } },
     }),
+    eventInstanceCount: t.relationCount('eventInstances'),
     tenant: t.relation('tenant'),
     category: t.relation('category', { nullable: true }),
     participantRating: t.float({

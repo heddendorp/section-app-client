@@ -89,6 +89,7 @@ query getTemplateCategoriesWithTemplates {
       icon
       participantRating
       participantRatingCount
+      eventInstanceCount
     }
   }
 }

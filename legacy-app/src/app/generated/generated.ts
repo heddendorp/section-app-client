@@ -261,6 +261,7 @@ export type EventTemplate = {
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   duration: Scalars['Decimal'];
+  eventInstanceCount: Scalars['Int'];
   eventInstances: Array<TumiEvent>;
   finances: Scalars['JSON'];
   googlePlaceId?: Maybe<Scalars['String']>;
@@ -1262,7 +1263,7 @@ export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Arr
 export type GetTemplateCategoriesWithTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null }> }> };
+export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null, eventInstanceCount: number }> }> };
 
 export type GetEventTemplateCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2010,6 +2011,7 @@ export const GetTemplateCategoriesWithTemplatesDocument = gql`
       icon
       participantRating
       participantRatingCount
+      eventInstanceCount
     }
   }
 }
