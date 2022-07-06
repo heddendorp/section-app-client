@@ -56,7 +56,7 @@
     "@angular-eslint/template-parser": "14.0.0",
     "@angular/cli": "^14.0.4",
     "@angular/compiler-cli": "^14.0.4",
-    "@angular/localize": "14.0.4",
+    "@angular/localize": "14.0.5",
     "@graphql-codegen/cli": "^2.7.0",
     "@graphql-codegen/typescript-apollo-angular": "3.4.13",
     "@graphql-codegen/typescript-operations": "^2.4.3",
