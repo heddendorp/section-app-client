@@ -4163,13 +4163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pothos/plugin-scope-auth@npm:3.10.0":
-  version: 3.10.0
-  resolution: "@pothos/plugin-scope-auth@npm:3.10.0"
+"@pothos/plugin-scope-auth@npm:3.9.1":
+  version: 3.9.1
+  resolution: "@pothos/plugin-scope-auth@npm:3.9.1"
   peerDependencies:
     "@pothos/core": "*"
     graphql: ">=15.1.0"
-  checksum: 0b1fd416c641a75ecc94e185e9506dc13e5d94905159106e60d6dd02ca53c5c056dc9c2d451eda182611b1f4550e94454518c0f331d4262f0df59b481282acf2
+  checksum: f26f21b176cae7d60c69850edb0062e63f45daaccbe50fffbf813e1d714ab4d13abfeab7e4ad83e449c0807ae3fc1a06eacd15db7a02894deb1770f3322db3d2
   languageName: node
   linkType: hard
 
@@ -5256,7 +5256,7 @@ __metadata:
     "@pathcheck/dcc-sdk": ^0.0.27
     "@pothos/core": ^3.12.1
     "@pothos/plugin-prisma": ^3.13.1
-    "@pothos/plugin-scope-auth": 3.10.0
+    "@pothos/plugin-scope-auth": 3.9.1
     "@pothos/plugin-simple-objects": ^3.3.0
     "@pothos/plugin-tracing": ^0.2.1
     "@pothos/tracing-sentry": ^0.4.4
