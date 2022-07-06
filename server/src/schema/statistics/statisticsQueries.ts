@@ -1,9 +1,10 @@
 import { countBy, groupBy, range, transform } from 'lodash';
 import { DateTime } from 'luxon';
 import { builder } from '../../builder';
-import { dateRangeInputType, statisticsType } from './statisticsType';
+import { statisticsType } from './statisticsType';
 import prisma from '../../client';
 import { RegistrationMode, RegistrationStatus } from '../../generated/prisma';
+import { dateRangeInputType } from '../helperFunctions';
 
 function convertToSeries(growthName, column = 'createdAt') {
   return (connections) => {

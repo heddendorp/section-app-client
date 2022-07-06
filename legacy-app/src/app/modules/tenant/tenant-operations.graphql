@@ -21,6 +21,28 @@ query loadEventsForInsurance {
   }
 }
 
+query loadTransactions($range: DateRangeInput, $search: String, $take: Int, $skip: Int) {
+  transactions(range: $range, search: $search, take: $take, skip: $skip) {
+    id
+    amount
+    createdAt
+    amount
+    eventRegistration {
+      id
+      event{
+        id
+        title
+      }
+    }
+    user {
+      id
+      fullName
+    }
+  }
+  transactionCount(range: $range, search: $search)
+  transactionSumAmount(range: $range, search: $search)
+}
+
 query loadEventsWithBooking($after: DateTime) {
   events(after: $after) {
     id

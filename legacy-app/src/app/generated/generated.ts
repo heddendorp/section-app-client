@@ -148,7 +148,7 @@ export type DccCard = {
 
 export type DateRangeInput = {
   end?: InputMaybe<Scalars['DateTime']>;
-  start: Scalars['DateTime'];
+  start?: InputMaybe<Scalars['DateTime']>;
 };
 
 export enum EnrolmentStatus {
@@ -697,6 +697,9 @@ export type Query = {
   registrations: Array<EventRegistration>;
   statistics: Statistics;
   tenants: Array<Tenant>;
+  transactionCount: Scalars['Int'];
+  transactionSumAmount: Scalars['Float'];
+  transactions: Array<Transaction>;
   user: User;
   userSearchResultNum: Scalars['Int'];
   users: Array<User>;
@@ -783,6 +786,26 @@ export type QueryRegistrationsArgs = {
 export type QueryStatisticsArgs = {
   range?: InputMaybe<DateRangeInput>;
   tenantId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryTransactionCountArgs = {
+  range?: InputMaybe<DateRangeInput>;
+  search?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTransactionSumAmountArgs = {
+  range?: InputMaybe<DateRangeInput>;
+  search?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTransactionsArgs = {
+  range?: InputMaybe<DateRangeInput>;
+  search?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -949,7 +972,7 @@ export type Transaction = {
   createdAt: Scalars['DateTime'];
   createdBy: User;
   creatorId?: Maybe<Scalars['ID']>;
-  eventRegistration: EventRegistration;
+  eventRegistration?: Maybe<EventRegistration>;
   id: Scalars['ID'];
   isMembershipFee: Scalars['Boolean'];
   partner?: Maybe<Scalars['String']>;
@@ -959,7 +982,7 @@ export type Transaction = {
   tenant: Tenant;
   tenantId: Scalars['ID'];
   type: Scalars['String'];
-  user: User;
+  user?: Maybe<User>;
   userId?: Maybe<Scalars['ID']>;
 };
 
@@ -1683,6 +1706,16 @@ export type LoadEventsForInsuranceQueryVariables = Exact<{ [key: string]: never;
 
 
 export type LoadEventsForInsuranceQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, shouldBeReportedToInsurance: boolean, insuranceDescription: string, organizerLimit: number, participantLimit: number, publicationState: PublicationState, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+
+export type LoadTransactionsQueryVariables = Exact<{
+  range?: InputMaybe<DateRangeInput>;
+  search?: InputMaybe<Scalars['String']>;
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type LoadTransactionsQuery = { __typename?: 'Query', transactionCount: number, transactionSumAmount: number, transactions: Array<{ __typename?: 'Transaction', id: string, amount: any, createdAt: any, eventRegistration?: { __typename?: 'EventRegistration', id: string, event: { __typename?: 'TumiEvent', id: string, title: string } } | null, user?: { __typename?: 'User', id: string, fullName: string } | null }> };
 
 export type LoadEventsWithBookingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
@@ -3970,6 +4003,40 @@ export const LoadEventsForInsuranceDocument = gql`
   })
   export class LoadEventsForInsuranceGQL extends Apollo.Query<LoadEventsForInsuranceQuery, LoadEventsForInsuranceQueryVariables> {
     override document = LoadEventsForInsuranceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadTransactionsDocument = gql`
+    query loadTransactions($range: DateRangeInput, $search: String, $take: Int, $skip: Int) {
+  transactions(range: $range, search: $search, take: $take, skip: $skip) {
+    id
+    amount
+    createdAt
+    amount
+    eventRegistration {
+      id
+      event {
+        id
+        title
+      }
+    }
+    user {
+      id
+      fullName
+    }
+  }
+  transactionCount(range: $range, search: $search)
+  transactionSumAmount(range: $range, search: $search)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadTransactionsGQL extends Apollo.Query<LoadTransactionsQuery, LoadTransactionsQueryVariables> {
+    override document = LoadTransactionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

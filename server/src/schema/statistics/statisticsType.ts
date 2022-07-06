@@ -21,10 +21,3 @@ export const statisticsType = builder.simpleObject('Statistics', {
     checkinHistory: t.field({ type: 'JSON' }),
   }),
 });
-
-export const dateRangeInputType = builder.inputType('DateRangeInput', {
-  fields: (t) => ({
-    start: t.field({ type: 'DateTime', required: true }),
-    end: t.field({ type: 'DateTime', required: false }),
-  }),
-});

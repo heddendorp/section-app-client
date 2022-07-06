@@ -13,7 +13,7 @@ builder.prismaObject('Transaction', {
     costItemId: t.exposeID('costItemId', { nullable: true }),
     createdBy: t.relation('createdBy'),
     creatorId: t.exposeID('creatorId', { nullable: true }),
-    eventRegistration: t.relation('eventRegistration'),
+    eventRegistration: t.relation('eventRegistration', { nullable: true }),
     isMembershipFee: t.exposeBoolean('isMembershipFee'),
     partner: t.exposeString('partner', { nullable: true }),
     purchase: t.relation('purchase'),
@@ -22,7 +22,7 @@ builder.prismaObject('Transaction', {
     tenant: t.relation('tenant'),
     tenantId: t.exposeID('tenantId'),
     type: t.exposeString('type'),
-    user: t.relation('user'),
+    user: t.relation('user', { nullable: true }),
     userId: t.exposeID('userId', { nullable: true }),
   }),
 });

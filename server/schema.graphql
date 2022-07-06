@@ -123,7 +123,7 @@ type DCCCard {
 
 input DateRangeInput {
   end: DateTime
-  start: DateTime!
+  start: DateTime
 }
 
 scalar DateTime
@@ -433,6 +433,9 @@ type Query {
   registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
+  transactionCount(range: DateRangeInput, search: String): Int!
+  transactionSumAmount(range: DateRangeInput, search: String): Float!
+  transactions(range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
   user(id: ID!): User!
   userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
   users(onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
@@ -573,7 +576,7 @@ type Transaction {
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID
-  eventRegistration: EventRegistration!
+  eventRegistration: EventRegistration
   id: ID!
   isMembershipFee: Boolean!
   partner: String
@@ -583,7 +586,7 @@ type Transaction {
   tenant: Tenant!
   tenantId: ID!
   type: String!
-  user: User!
+  user: User
   userId: ID
 }
 

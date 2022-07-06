@@ -1,12 +1,13 @@
 <main class="p-4">
   <h2 class="mb-2">Tenant Management</h2>
-  <div fxLayout="row wrap" class="gap-2">
+  <app-grid minWidth="200px">
     <a mat-stroked-button routerLink="organizers">Manage Organizers</a>
     <a mat-stroked-button routerLink="users">Manage Users</a>
     <a mat-stroked-button routerLink="registrations">List registrations</a>
     <a mat-stroked-button routerLink="codes">List moves</a>
     <a mat-stroked-button routerLink="logs">Activity Log</a>
     <a mat-stroked-button routerLink="refunds">List refunds</a>
+    <a mat-stroked-button routerLink="transactions">List transactions</a>
     <a mat-stroked-button routerLink="edit">Edit Tenant</a>
     <a mat-stroked-button routerLink="stats">Statistics</a>
     <a mat-stroked-button routerLink="photos">Photos</a>
@@ -18,5 +19,5 @@
     <a mat-stroked-button routerLink="ratings">Events with rating</a>
     <a mat-stroked-button routerLink="bookings">Events with bookings</a>
     <a mat-stroked-button routerLink="metrics">Prisma metrics</a>
-  </div>
+  </app-grid>
 </main>
