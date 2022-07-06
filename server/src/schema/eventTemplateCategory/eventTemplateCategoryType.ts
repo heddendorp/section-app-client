@@ -11,7 +11,9 @@ export const eventTemplateCategoryType = builder.prismaObject(
       createdAt: t.expose('createdAt', { type: 'DateTime' }),
       name: t.exposeString('name'),
       icon: t.exposeString('icon'),
-      templates: t.relation('templates'),
+      templates: t.relation('templates', {
+        query: (args, context) => ({ orderBy: { title: 'asc' } }),
+      }),
       templateCount: t.relationCount('templates'),
       tenant: t.relation('tenant'),
       tenantId: t.exposeID('tenantId'),
