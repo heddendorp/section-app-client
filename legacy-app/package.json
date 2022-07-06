@@ -21,7 +21,7 @@
     "@angular/compiler": "^14.0.4",
     "@angular/core": "^14.0.4",
     "@angular/flex-layout": "^14.0.0-beta.40",
-    "@angular/forms": "^14.0.4",
+    "@angular/forms": "^14.0.5",
     "@angular/google-maps": "^14.0.4",
     "@angular/material": "^14.0.4",
     "@angular/material-luxon-adapter": "^14.0.4",
