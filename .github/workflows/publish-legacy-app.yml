@@ -10,8 +10,8 @@ on:
 #  schedule:
 #    - cron: '43 11 * * *'
   push:
-    branches:
-      - release
+#     branches:
+#       - release
     # Publish semver tags as releases.
     tags: ['v*.*.*']
     paths:
@@ -128,7 +128,7 @@ jobs:
       name: production
       url: https://tumi.esn.world
     needs: build
-    if: github.ref == 'refs/heads/release'
+#     if: github.ref == 'refs/heads/release'
 
     steps:
       - name: Azure Login
