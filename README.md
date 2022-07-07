@@ -1,3 +1,5 @@
+
+[![Build Docker for the legacy app](https://github.com/heddendorp/tumi/actions/workflows/publish-legacy-app.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/publish-legacy-app.yml) [![Deploy preview of legacy app](https://github.com/heddendorp/tumi/actions/workflows/preview-legacy-app.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/preview-legacy-app.yml) [![Build Docker for Server](https://github.com/heddendorp/tumi/actions/workflows/publish-server.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/publish-server.yml)
 # ESN TUMi
 
 The main repository of the webservice that make TUMi work the way it does.
