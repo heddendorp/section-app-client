@@ -1,27 +1,13 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(event$ | async) === null"></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4">
-  <div
-    fxLayout="column"
-    fxLayout.gt-xs="row"
-    fxLayoutGap="1rem"
-    fxLayoutAlign="space-between"
-    class="mb-4"
-  >
+  <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="1rem" fxLayoutAlign="space-between" class="mb-4">
     <div class="flex flex-row items-center">
       <a routerLink=".." mat-icon-button>
         <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
       </a>
       <h1>Manage {{ event.title }}</h1>
     </div>
-    <a
-      routerLink="/event-templates/{{ event.eventTemplate.id }}"
-      mat-stroked-button
-      class="modern"
-      >Go to template</a
-    >
+    <a routerLink="/event-templates/{{ event.eventTemplate.id }}" mat-stroked-button class="modern">Go to template</a>
   </div>
 
   <mat-accordion [multi]="true">
@@ -29,9 +15,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Finances </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-event-manage-finances
-        [eventId]="event.id"
-      ></app-event-manage-finances>
+      <app-event-manage-finances [eventId]="event.id"></app-event-manage-finances>
 
       <table class="mt-4 w-full table-auto block overflow-x-auto">
         <thead>
@@ -80,8 +64,8 @@
             <td></td>
             <td>
               {{
-                event.submittedSpend - event.netAmountCollected
-                  | currency: 'EUR'
+              event.submittedSpend - event.netAmountCollected
+              | currency: 'EUR'
               }}
             </td>
           </tr>
@@ -98,7 +82,7 @@
         <p>
           {{ event.participantRegistrationCount }} of
           {{ event.participantLimit }} ({{
-            event.participantLimit - event.participantRegistrationCount
+          event.participantLimit - event.participantRegistrationCount
           }}
           spots left)
         </p>
@@ -106,7 +90,7 @@
         <p>
           {{ event.participantsAttended }} of
           {{ event.participantRegistrationCount }} ({{
-            event.participantRegistrationCount - event.participantsAttended
+          event.participantRegistrationCount - event.participantsAttended
           }}
           remaining)
         </p>
@@ -115,20 +99,12 @@
       </div>
 
       <div class="table-wrapper">
-        <table
-          mat-table
-          [dataSource]="event.participantRegistrations"
-          multiTemplateDataRows
-        >
+        <table mat-table [dataSource]="event.participantRegistrations" multiTemplateDataRows>
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let registration">
               <div class="flex items-center gap-2">
-                <img
-                  [src]="registration.user.picture"
-                  class="h-9 rounded"
-                  referrerpolicy="no-referrer"
-                />
+                <img [src]="registration.user.picture" class="h-9 rounded" referrerpolicy="no-referrer" />
                 {{ registration.user.fullName }}
               </div>
             </td>
@@ -137,8 +113,8 @@
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-green-200">{{
-                registration.status | lowercase
-              }}</span>
+                getStatusOfRegistration(registration)
+                }}</span>
             </td>
           </ng-container>
           <ng-container matColumnDef="paid">
@@ -146,10 +122,10 @@
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-slate-200">
                 {{
-                  (registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) /
-                    100 | currency: 'EUR'
+                (registration.transaction?.stripePayment
+                ?.netLessRefundAmount ??
+                0) /
+                100 | currency: 'EUR'
                 }}
               </span>
             </td>
@@ -167,51 +143,11 @@
               <div *ngIf="registration.checkInTime">
                 {{ registration.checkInTime | date: 'short' }}
               </div>
-              <button
-                *ngIf="!registration.checkInTime"
-                mat-stroked-button
-                class="modern"
-                (click)="checkin(registration.id)"
-                [disabled]="registration.didAttend"
-              >
+              <button *ngIf="!registration.checkInTime" mat-stroked-button class="modern"
+                (click)="checkin(registration.id)" [disabled]="registration.didAttend">
                 <mat-icon svgIcon="icon-checked"></mat-icon>
                 <span>Check in</span>
               </button>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="remove">
-            <th mat-header-cell *matHeaderCellDef>Remove</th>
-            <td mat-cell *matCellDef="let registration">
-              <button
-                mat-stroked-button
-                class="modern"
-                color="warn"
-                [matMenuTriggerFor]="menu"
-              >
-                <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
-                <span>Remove</span>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button
-                  mat-menu-item
-                  [disabled]="
-                    (registration.transaction?.stripePayment?.netAmount ??
-                      0) ===
-                    0
-                  "
-                  (click)="kickWithRefund(registration.id)"
-                >
-                  Cancel with refund
-                </button>
-                <button
-                  mat-menu-item
-                  [disabled]="registration.didAttend"
-                  (click)="kick(registration.id)"
-                >
-                  Cancel without refund
-                </button>
-              </mat-menu>
             </td>
           </ng-container>
 
@@ -220,49 +156,27 @@
               &nbsp;
             </th>
             <td mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                aria-label="expand row"
-                (click)="
+              <button mat-icon-button aria-label="expand row" (click)="
                   expandedRegistration =
                     expandedRegistration === element ? null : element;
                   $event.stopPropagation()
-                "
-              >
-                <div
-                  *ngIf="expandedRegistration !== element"
-                  class="mat-expansion-indicator"
-                ></div>
-                <div
-                  *ngIf="expandedRegistration === element"
-                  class="mat-expansion-indicator rotate-180"
-                ></div>
+                ">
+                <div *ngIf="expandedRegistration !== element" class="mat-expansion-indicator"></div>
+                <div *ngIf="expandedRegistration === element" class="mat-expansion-indicator rotate-180"></div>
               </button>
             </td>
           </ng-container>
 
           <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
           <ng-container matColumnDef="expandedDetail">
-            <td
-              mat-cell
-              *matCellDef="let registration"
-              [attr.colspan]="registrationTableColumns.length"
-            >
-              <div
-                class="registration-detail"
-                [@detailExpand]="
+            <td mat-cell *matCellDef="let registration" [attr.colspan]="registrationTableColumns.length">
+              <div class="registration-detail" [@detailExpand]="
                   registration === expandedRegistration
                     ? 'expanded'
                     : 'collapsed'
-                "
-              >
+                ">
                 <div class="my-4 flex flex-col gap-2">
-                  <div
-                    class="mb-2"
-                    gdAuto
-                    gdColumns="max-content auto"
-                    gdGap="0 1rem"
-                  >
+                  <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
                     <p>Email:</p>
                     <p>{{ registration.user.email }}</p>
 
@@ -270,34 +184,38 @@
                     <p>
                       <span class="tag bg-gray-200">{{
                         registration.transaction?.stripePayment?.status
-                      }}</span>
+                        }}</span>
                       <span class="tag bg-gray-200">{{
                         registration.transaction?.stripePayment
-                          ?.paymentMethodType
-                      }}</span>
-                      <span
-                        class="tag bg-gray-200"
-                        *ngIf="registration.status === 'CANCELLED'"
-                      >
+                        ?.paymentMethodType
+                        }}</span>
+                      <span class="tag bg-gray-200" *ngIf="registration.status === 'CANCELLED'">
                         {{ registration.cancellationReason }}
                       </span>
                     </p>
                   </div>
-                  <a
-                    routerLink="/tenant/registrations/{{ registration.id }}"
-                    mat-flat-button
-                    color="accent"
-                    class="modern"
-                  >
+                  <a routerLink="/tenant/registrations/{{ registration.id }}" mat-flat-button color="accent"
+                    class="modern">
                     <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
                     View registration
                   </a>
-                  <a
-                    class="w-full"
-                    class="modern"
-                    href="/tenant/users/{{ registration.user.id }}"
-                    mat-stroked-button
-                  >
+                  <button mat-stroked-button class="modern" color="warn" [matMenuTriggerFor]="menu">
+                    <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
+                    <span>Remove</span>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item [disabled]="
+                      (registration.transaction?.stripePayment?.netAmount ??
+                        0) ===
+                      0
+                    " (click)="kickWithRefund(registration.id)">
+                      Cancel with refund
+                    </button>
+                    <button mat-menu-item [disabled]="registration.didAttend" (click)="kick(registration.id)">
+                      Cancel without refund
+                    </button>
+                  </mat-menu>
+                  <a class="w-full" class="modern" href="/tenant/users/{{ registration.user.id }}" mat-stroked-button>
                     <mat-icon svgIcon="icon-user-shield"></mat-icon>
                     View user
                   </a>
@@ -315,25 +233,12 @@
             </td>
           </ng-container>
 
-          <tr
-            mat-header-row
-            *matHeaderRowDef="registrationTableColumns; sticky: true"
-          ></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: registrationTableColumns"
-            class="registration-row"
-            [class.expanded-row]="expandedRegistration === row"
-            [class.cancelled]="row.status !== 'SUCCESSFUL'"
-            (click)="
+          <tr mat-header-row *matHeaderRowDef="registrationTableColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: registrationTableColumns" class="registration-row"
+            [class.expanded-row]="expandedRegistration === row" [class.cancelled]="row.status !== 'SUCCESSFUL'" (click)="
               expandedRegistration = expandedRegistration === row ? null : row
-            "
-          ></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: ['expandedDetail']"
-            class="registration-detail-row"
-          ></tr>
+            "></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="registration-detail-row"></tr>
         </table>
       </div>
     </mat-expansion-panel>
@@ -343,21 +248,11 @@
         <mat-panel-title> Registration codes </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="flex flex-col sm:flex-row gap-2">
-        <button
-          class="modern"
-          mat-flat-button
-          color="accent"
-          (click)="createRegistrationCode()"
-        >
+        <button class="modern" mat-flat-button color="accent" (click)="createRegistrationCode()">
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           <span>Create registration code</span>
         </button>
-        <button
-          class="modern"
-          mat-flat-button
-          color="accent"
-          (click)="createRegistrationCode(true)"
-        >
+        <button class="modern" mat-flat-button color="accent" (click)="createRegistrationCode(true)">
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           <span>Create SEPA registration code</span>
         </button>
@@ -367,16 +262,16 @@
           <h3 mat-line>Registration code</h3>
           <p mat-line>
             {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
-              code.status
+            code.status
             }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}
           </p>
           <p mat-line>
             Link for registration:
             <span class="select-all font-mono">
               {{
-                environment.production
-                  ? 'https://tumi.esn.world/'
-                  : 'localhost:4200/'
+              environment.production
+              ? 'https://tumi.esn.world/'
+              : 'localhost:4200/'
               }}profile?code={{ code.id }}
             </span>
           </p>
@@ -384,10 +279,7 @@
       </mat-list>
     </mat-expansion-panel>
 
-    <mat-expansion-panel
-      [expanded]="true"
-      *ngIf="event.title.includes('ESNcard')"
-    >
+    <mat-expansion-panel [expanded]="true" *ngIf="event.title.includes('ESNcard')">
       <mat-expansion-panel-header>
         <mat-panel-title> For Thomas with ❤️ </mat-panel-title>
       </mat-expansion-panel-header>
@@ -402,11 +294,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="
+          <tr *ngFor="
               let registration of getTable(event.participantRegistrations)
-            "
-          >
+            ">
             <td>{{ registration.user.fullName }}</td>
             <td *ngFor="let part of registration.address">
               {{ part }}
@@ -441,8 +331,8 @@
               <td colspan="2">Participants (including tutors):</td>
               <td colspan="3">
                 {{
-                  event.participantRegistrationCount +
-                    event.organizerRegistrations.length
+                event.participantRegistrationCount +
+                event.organizerRegistrations.length
                 }}
               </td>
             </tr>
@@ -454,16 +344,13 @@
               <th>Check in</th>
               <th>Price paid</th>
             </tr>
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let registration of filterRegistrations(
                   event.participantRegistrations
                 );
                 let i = index;
                 let last = last
-              "
-              class="table-row"
-            >
+              " class="table-row">
               <td>{{ i + 1 }}</td>
               <td>{{ registration.user.fullName }}</td>
               <td>{{ registration.user.email }}</td>
@@ -471,20 +358,20 @@
               <td>{{ registration.checkInTime | date: 'short' }}</td>
               <td *ngIf="!last">
                 {{
-                  ((registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) -
-                    ((feeShare$ | async) ?? 0)) /
-                    100 | currency: 'EUR'
+                ((registration.transaction?.stripePayment
+                ?.netLessRefundAmount ??
+                0) -
+                ((feeShare$ | async) ?? 0)) /
+                100 | currency: 'EUR'
                 }}
               </td>
               <td *ngIf="last">
                 {{
-                  ((registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) -
-                    ((lastUserFeeShare$ | async) ?? 0)) /
-                    100 | currency: 'EUR'
+                ((registration.transaction?.stripePayment
+                ?.netLessRefundAmount ??
+                0) -
+                ((lastUserFeeShare$ | async) ?? 0)) /
+                100 | currency: 'EUR'
                 }}
               </td>
             </tr>
