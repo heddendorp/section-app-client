@@ -41,6 +41,14 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
   private sessionToken?: AutocompleteSessionToken;
   private autocompleteService?: AutocompleteService;
 
+  private center = { lat: 48.137154, lng: 11.576124 };
+  private defaultBounds = {
+    north: this.center.lat + 0.1,
+    south: this.center.lat - 0.1,
+    east: this.center.lng + 0.1,
+    west: this.center.lng - 0.1,
+  };
+
   constructor(httpClient: HttpClient) {
     this.apiLoaded$ = httpClient
       .jsonp(
@@ -48,7 +56,6 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
         'callback'
       )
       .pipe(
-        tap(console.log),
         map(() => true),
         tap(() => {
           this.autocompleteService =
@@ -112,6 +119,7 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
       this.autocompleteService.getPlacePredictions({
         input: value,
         sessionToken: this.sessionToken,
+        bounds: this.defaultBounds
       })
     ).pipe(map((res) => res.predictions ?? []));
   }
