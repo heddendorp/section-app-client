@@ -80,8 +80,8 @@ export class EventListPageComponent implements OnDestroy {
         this.endOfMonth = this.startOfMonth.endOf('month');
         this.monthOffsetLabel = this.startOfMonth.toFormat('LLLL yyyy');
         return this.loadEventsQueryRef.refetch({
-          after: this.startOfMonth.toJSDate(),
-          before: this.endOfMonth.toJSDate(),
+          after: this.startOfMonth.startOf('week').toJSDate(),
+          before: this.endOfMonth.endOf('week').toJSDate(),
         });
       });
     this.events$ = combineLatest([
