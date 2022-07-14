@@ -31,6 +31,8 @@ export class EventCalendarComponent implements OnChanges {
   }[] = [];
   public weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+  public numberOfEventsPerCell = 5;
+
   constructor(public dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {

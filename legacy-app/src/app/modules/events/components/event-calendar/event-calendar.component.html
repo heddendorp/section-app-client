@@ -13,7 +13,7 @@
       matRipple
       *ngFor="let day of week.days"
       (click)="showDayDialog(day.events)"
-      class="flex flex-col space-y-1 border-t border-l cursor-pointer pb-0.5 {{
+      class="day flex flex-col border-t border-l cursor-pointer pb-0.5 {{
         day.today ? 'bg-blue-100' : ''
       }}"
     >
@@ -22,7 +22,7 @@
         {{ day.date }}
       </p>
       <div
-        *ngFor="let event of day.events.slice(0, day.events.length > 4 ? 3 : 4)"
+        *ngFor="let event of day.events.slice(0, day.events.length > numberOfEventsPerCell ? numberOfEventsPerCell - 1 : numberOfEventsPerCell)"
         class="event select-none flex rounded text-xs md:text-sm mx-0.5 {{
           tutorSpotsClass(event)
         }} {{ event.publicationState | lowercase }} {{
@@ -41,18 +41,17 @@
         }}</span>
       </div>
       <div
-        *ngIf="day.events.length > 4"
-        class="flex justify-center text-xs italic"
+        *ngIf="day.events.length > numberOfEventsPerCell"
+        class="flex justify-center items-center h-4 md:h-6"
       >
-        +{{ day.events.length - 3 }}
+        <span class="text-xs rounded-full bg-slate-500 text-white p-1">+{{ day.events.length - numberOfEventsPerCell + 1 }}</span>
       </div>
       <!-- Phantom to force the height to be exactly 4 events -->
-      <ng-container *ngIf="day.events.length < 4">
+      <ng-container *ngIf="day.events.length < numberOfEventsPerCell">
         <div
-          *ngFor="let event of [].constructor(4 - day.events.length)"
-          class="invisible flex rounded bg-gray-200 text-xs"
+          *ngFor="let event of [].constructor(numberOfEventsPerCell - day.events.length)"
+          class="invisible flex rounded bg-gray-200 h-4 md:h-6"
         >
-          <span class="block truncate">Phantom</span>
         </div>
       </ng-container>
     </div>
