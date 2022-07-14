@@ -30,7 +30,7 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 export class EventListPageComponent implements OnDestroy {
   public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
-  public showFullEvents = new UntypedFormControl(true);
+  public hideFullEvents = new UntypedFormControl(false);
   public filterEvents = new UntypedFormControl('');
   /** 0: all upcoming events, -1: last month, 1: next month etc. */
   public monthOffset = new UntypedFormControl(0);
@@ -86,18 +86,16 @@ export class EventListPageComponent implements OnDestroy {
       });
     this.events$ = combineLatest([
       events$,
-      this.showFullEvents.valueChanges.pipe(
-        startWith(this.showFullEvents.value)
+      this.hideFullEvents.valueChanges.pipe(
+        startWith(this.hideFullEvents.value)
       ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
-      map(([events, showFull, filterEvents]) => {
+      map(([events, hideFull, filterEvents]) => {
         let filteredEvents = events;
-        if (!showFull) {
+        if (hideFull) {
           filteredEvents = events.filter(
             (event) =>
-              event.userIsOrganizer ||
-              event.userIsRegistered ||
               event.freeParticipantSpots !== 'Event is full'
           );
         }
