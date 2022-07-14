@@ -72,8 +72,7 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
       this.locationControl.valueChanges.pipe(
         // startWith([this.locationControl.value]),
         debounceTime(500),
-        switchMap((value) => this.loadLocationOptions(value)),
-        tap((options) => console.log(options))
+        switchMap((value) => this.loadLocationOptions(value))
       )
     );
   }

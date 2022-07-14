@@ -297,4 +297,22 @@ $tumi-dark-theme: mat.define-dark-theme(
   .mat-list-avatar {
     border-radius: 0 !important;
   }
+  .save-button {
+    .mat-icon {
+      &:not(.saving) {
+        display: none;
+      }
+      mat-spinner {
+        height: 24px !important;
+        width: 24px !important;
+        circle {
+          @apply stroke-gray-400;
+        }
+        svg {
+          height: 24px !important;
+          width: 24px !important;
+        }
+      }
+    }
+  }
 }
