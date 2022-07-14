@@ -11,25 +11,17 @@
   >
     <div fxFlex="noshrink">
       <div class="flex flex-row items-end justify-between sm:justify-start">
-        <button
-          mat-icon-button
-          (click)="previousMonth()"
-        >
+        <button mat-icon-button (click)="previousMonth()">
           <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
         </button>
         <h1 class="whitespace-nowrap ml-2 mr-2">{{ selectedMonthLabel }}</h1>
-        <button
-          mat-icon-button
-          (click)="nextMonth()"
-        >
+        <button mat-icon-button (click)="nextMonth()">
           <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
         </button>
       </div>
       <mat-form-field
         class="mt-2 -mb-6 w-full"
-        [style.display]="
-          searchEnabled ? '' : 'none'
-        "
+        [style.display]="searchEnabled ? '' : 'none'"
       >
         <mat-label>Search for an event</mat-label>
         <input #searchbar matInput [formControl]="filterEvents" type="search" />

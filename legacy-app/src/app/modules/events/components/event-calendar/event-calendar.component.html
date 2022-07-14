@@ -18,11 +18,22 @@
       }}"
     >
       <p class="text-center text-sm md:text-base">
-        <span *ngIf="day.startOfMonth" class="font-bold bg-slate-500 text-white py-0.5 px-1 rounded-md">{{ day.month }}</span>
+        <span
+          *ngIf="day.startOfMonth"
+          class="font-bold bg-slate-500 text-white py-0.5 px-1 rounded-md"
+          >{{ day.month }}</span
+        >
         {{ day.date }}
       </p>
       <div
-        *ngFor="let event of day.events.slice(0, day.events.length > numberOfEventsPerCell ? numberOfEventsPerCell - 1 : numberOfEventsPerCell)"
+        *ngFor="
+          let event of day.events.slice(
+            0,
+            day.events.length > numberOfEventsPerCell
+              ? numberOfEventsPerCell - 1
+              : numberOfEventsPerCell
+          )
+        "
         class="event select-none flex rounded text-xs md:text-sm mx-0.5 {{
           tutorSpotsClass(event)
         }} {{ event.publicationState | lowercase }} {{
@@ -44,15 +55,20 @@
         *ngIf="day.events.length > numberOfEventsPerCell"
         class="flex justify-center items-center h-4 md:h-6"
       >
-        <span class="text-xs rounded-full bg-slate-500 text-white p-1">+{{ day.events.length - numberOfEventsPerCell + 1 }}</span>
+        <span class="text-xs rounded-full bg-slate-500 text-white p-1"
+          >+{{ day.events.length - numberOfEventsPerCell + 1 }}</span
+        >
       </div>
       <!-- Phantom to force the height to be exactly 4 events -->
       <ng-container *ngIf="day.events.length < numberOfEventsPerCell">
         <div
-          *ngFor="let event of [].constructor(numberOfEventsPerCell - day.events.length)"
+          *ngFor="
+            let event of [].constructor(
+              numberOfEventsPerCell - day.events.length
+            )
+          "
           class="invisible flex rounded bg-gray-200 h-4 md:h-6"
-        >
-        </div>
+        ></div>
       </ng-container>
     </div>
   </ng-container>

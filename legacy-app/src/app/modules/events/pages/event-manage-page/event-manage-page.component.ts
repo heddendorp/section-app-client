@@ -194,11 +194,12 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   getStatusOfRegistration(registration: any) {
-    console.log(registration)
+    console.log(registration);
     if (registration.status === '"SUCCESSFUL"') return 'successful';
     if (registration.cancellationReason) {
       if (registration.cancellationReason.includes('moved')) return 'moved';
-      if (registration.cancellationReason.includes('given up')) return 'deregistered';
+      if (registration.cancellationReason.includes('given up'))
+        return 'deregistered';
     }
     return registration.status.toLowerCase();
   }

@@ -51,7 +51,7 @@ export class EventListPageComponent implements OnDestroy {
     private title: Title,
     private eventListStateService: EventListStateService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - Events');
@@ -76,7 +76,10 @@ export class EventListPageComponent implements OnDestroy {
             before: null,
           });
         }
-        this.startOfMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month });
+        this.startOfMonth = DateTime.fromObject({
+          year: this.selectedMonth.value.year,
+          month: this.selectedMonth.value.month,
+        });
         this.endOfMonth = this.startOfMonth.endOf('month');
         this.selectedMonthLabel = this.startOfMonth.toFormat('LLLL yyyy');
         return this.loadEventsQueryRef.refetch({
@@ -105,8 +108,7 @@ export class EventListPageComponent implements OnDestroy {
         let filteredEvents = events;
         if (hideFull) {
           filteredEvents = events.filter(
-            (event) =>
-              event.freeParticipantSpots !== 'Event is full'
+            (event) => event.freeParticipantSpots !== 'Event is full'
           );
         }
         if (filterEvents) {
@@ -151,9 +153,17 @@ export class EventListPageComponent implements OnDestroy {
     if (!this.selectedMonth.value) {
       nextMonth = DateTime.local().startOf('month').plus({ months: 1 });
     } else {
-      nextMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month }).plus({ months: 1 })
+      nextMonth = DateTime.fromObject({
+        year: this.selectedMonth.value.year,
+        month: this.selectedMonth.value.month,
+      }).plus({ months: 1 });
     }
-    this.router.navigate(['/events', 'calendar', nextMonth.year, nextMonth.month]);
+    this.router.navigate([
+      '/events',
+      'calendar',
+      nextMonth.year,
+      nextMonth.month,
+    ]);
   }
 
   previousMonth(): void {
@@ -161,8 +171,16 @@ export class EventListPageComponent implements OnDestroy {
     if (!this.selectedMonth.value) {
       prevMonth = DateTime.local().startOf('month').minus({ months: 1 });
     } else {
-      prevMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month }).minus({ months: 1 })
+      prevMonth = DateTime.fromObject({
+        year: this.selectedMonth.value.year,
+        month: this.selectedMonth.value.month,
+      }).minus({ months: 1 });
     }
-    this.router.navigate(['/events', 'calendar', prevMonth.year, prevMonth.month]);
+    this.router.navigate([
+      '/events',
+      'calendar',
+      prevMonth.year,
+      prevMonth.month,
+    ]);
   }
 }
