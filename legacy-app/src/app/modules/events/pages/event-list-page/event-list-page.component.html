@@ -24,17 +24,11 @@
         >
           <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
         </button>
-        <ng-container *ngIf="(selectedView$ | async) === 'list'">
-          <div fxFlex="grow"></div>
-          <button mat-stroked-button (click)="initSearch()">
-            <mat-icon svgIcon="icon-search"></mat-icon>
-          </button>
-        </ng-container>
       </div>
       <mat-form-field
         class="mt-2 -mb-6 w-full"
         [style.display]="
-          searchEnabled && (selectedView$ | async) === 'list' ? '' : 'none'
+          searchEnabled ? '' : 'none'
         "
       >
         <mat-label>Search for an event</mat-label>
@@ -153,8 +147,11 @@
           <span>Calendar view</span>
         </button>
         <mat-slide-toggle [formControl]="hideFullEvents">
-          Hide full events
+          Hide full
         </mat-slide-toggle>
+        <button mat-icon-button class="modern" (click)="initSearch()">
+          <mat-icon svgIcon="icon-search"></mat-icon>
+        </button>
       </div>
       <app-event-list
         *ngIf="events$ | async as events"
@@ -194,8 +191,11 @@
           <span>List view</span>
         </button>
         <mat-slide-toggle [formControl]="hideFullEvents">
-          Hide full events
+          Hide full
         </mat-slide-toggle>
+        <button mat-icon-button class="modern" (click)="initSearch()">
+          <mat-icon svgIcon="icon-search"></mat-icon>
+        </button>
       </div>
       <app-event-calendar
         *ngIf="events$ | async as events"
