@@ -20,6 +20,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-list-page',
@@ -32,9 +33,8 @@ export class EventListPageComponent implements OnDestroy {
   public events$: Observable<EventListQuery['events']>;
   public hideFullEvents = new UntypedFormControl(false);
   public filterEvents = new UntypedFormControl('');
-  /** 0: all upcoming events, -1: last month, 1: next month etc. */
-  public monthOffset = new UntypedFormControl(0);
-  public monthOffsetLabel = 'Upcoming';
+  public selectedMonth = new UntypedFormControl(null);
+  public selectedMonthLabel = 'Upcoming';
   public startOfMonth?: DateTime;
   public endOfMonth?: DateTime;
   public Role = Role;
@@ -49,23 +49,26 @@ export class EventListPageComponent implements OnDestroy {
   constructor(
     private loadEventsQuery: EventListGQL,
     private title: Title,
-    private eventListStateService: EventListStateService
+    private eventListStateService: EventListStateService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - Events');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
+
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.events),
       tap(() => this.loading$.next(false))
     );
-    this.monthOffset.valueChanges
+    this.selectedMonth.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         tap(() => this.loading$.next(true))
       )
       .subscribe((value) => {
         if (value === 0) {
-          this.monthOffsetLabel = 'Upcoming';
+          this.selectedMonthLabel = 'Upcoming';
           this.startOfMonth = undefined;
           this.endOfMonth = undefined;
           return this.loadEventsQueryRef.refetch({
@@ -73,17 +76,24 @@ export class EventListPageComponent implements OnDestroy {
             before: null,
           });
         }
-        const monthsOffset = value + (value < 0 ? 1 : 0);
-        this.startOfMonth = DateTime.local()
-          .startOf('month')
-          .plus({ months: monthsOffset });
+        this.startOfMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month });
         this.endOfMonth = this.startOfMonth.endOf('month');
-        this.monthOffsetLabel = this.startOfMonth.toFormat('LLLL yyyy');
+        this.selectedMonthLabel = this.startOfMonth.toFormat('LLLL yyyy');
         return this.loadEventsQueryRef.refetch({
           after: this.startOfMonth.startOf('week').toJSDate(),
           before: this.endOfMonth.endOf('week').toJSDate(),
         });
       });
+
+    this.route.paramMap.subscribe((params) => {
+      const year = params.get('year');
+      const month = params.get('month');
+      if (year && month) {
+        this.eventListStateService.setSelectedView('calendar');
+        this.selectedMonth.setValue({ year, month });
+      }
+    });
+
     this.events$ = combineLatest([
       events$,
       this.hideFullEvents.valueChanges.pipe(
@@ -134,5 +144,25 @@ export class EventListPageComponent implements OnDestroy {
         this.searchBar.nativeElement.focus();
       });
     }
+  }
+
+  nextMonth(): void {
+    let nextMonth;
+    if (!this.selectedMonth.value) {
+      nextMonth = DateTime.local().startOf('month').plus({ months: 1 });
+    } else {
+      nextMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month }).plus({ months: 1 })
+    }
+    this.router.navigate(['/events', 'calendar', nextMonth.year, nextMonth.month]);
+  }
+
+  previousMonth(): void {
+    let prevMonth;
+    if (!this.selectedMonth.value) {
+      prevMonth = DateTime.local().startOf('month').minus({ months: 1 });
+    } else {
+      prevMonth = DateTime.fromObject({ year: this.selectedMonth.value.year, month: this.selectedMonth.value.month }).minus({ months: 1 })
+    }
+    this.router.navigate(['/events', 'calendar', prevMonth.year, prevMonth.month]);
   }
 }

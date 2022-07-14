@@ -13,30 +13,16 @@
       <div class="flex flex-row items-end justify-between sm:justify-start">
         <button
           mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value - 12)"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-double-left" style="height: 16px"></mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value - 1)"
+          (click)="previousMonth()"
         >
           <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
         </button>
-        <h1 class="whitespace-nowrap ml-2 mr-2">{{ monthOffsetLabel }}</h1>
+        <h1 class="whitespace-nowrap ml-2 mr-2">{{ selectedMonthLabel }}</h1>
         <button
           mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value + 1)"
+          (click)="nextMonth()"
         >
           <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value + 12)"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-double-right" style="height: 16px"></mat-icon>
         </button>
         <ng-container *ngIf="(selectedView$ | async) === 'list'">
           <div fxFlex="grow"></div>
