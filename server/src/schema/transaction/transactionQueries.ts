@@ -1,6 +1,6 @@
 import { builder } from '../../builder';
 import { dateRangeInputType, prepareSearchString } from '../helperFunctions';
-import { Prisma } from '../../generated/prisma';
+import { Prisma, TransactionDirection } from '../../generated/prisma';
 import TransactionWhereInput = Prisma.TransactionWhereInput;
 import prisma from '../../client';
 
@@ -11,6 +11,9 @@ builder.queryFields((t) => ({
       range: t.arg({
         type: dateRangeInputType,
       }),
+      directions: t.arg({
+        type: [TransactionDirection],
+      }),
       search: t.arg.string(),
       take: t.arg.int(),
       skip: t.arg.int(),
@@ -18,7 +21,7 @@ builder.queryFields((t) => ({
     resolve: async (
       query,
       parent,
-      { range, search, skip, take },
+      { range, search, skip, take, directions },
       context,
       info
     ) => {
@@ -41,6 +44,7 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
+        direction: { in: directions ?? [] },
         createdAt: rangeQuery,
         ...(search
           ? {
@@ -63,9 +67,12 @@ builder.queryFields((t) => ({
       range: t.arg({
         type: dateRangeInputType,
       }),
+      directions: t.arg({
+        type: [TransactionDirection],
+      }),
       search: t.arg.string(),
     },
-    resolve: (parent, { range, search }, context, info) => {
+    resolve: (parent, { range, search, directions }, context, info) => {
       let rangeQuery: { gte?: Date; lte?: Date } = {};
       if (range) {
         if (range.start) {
@@ -85,6 +92,7 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
+        direction: { in: directions ?? [] },
         createdAt: rangeQuery,
         ...(search
           ? {
@@ -104,9 +112,12 @@ builder.queryFields((t) => ({
       range: t.arg({
         type: dateRangeInputType,
       }),
+      directions: t.arg({
+        type: [TransactionDirection],
+      }),
       search: t.arg.string(),
     },
-    resolve: (parent, { range, search }, context, info) => {
+    resolve: (parent, { range, search, directions }, context, info) => {
       let rangeQuery: { gte?: Date; lte?: Date } = {};
       if (range) {
         if (range.start) {
@@ -126,6 +137,7 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
+        direction: { in: directions ?? [] },
         createdAt: rangeQuery,
         ...(search
           ? {

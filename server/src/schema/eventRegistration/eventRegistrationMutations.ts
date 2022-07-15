@@ -269,7 +269,7 @@ builder.mutationFields((t) => ({
               id: registration.id,
             },
             data: {
-              transaction: {
+              transactions: {
                 connect: {
                   id: transaction.id,
                 },

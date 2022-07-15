@@ -7,10 +7,10 @@ import {
   RegistrationStatus,
   RegistrationType,
   SubmissionTime,
+  TransactionDirection,
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
-import { parentPort } from 'worker_threads';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -215,64 +215,77 @@ export const eventType = builder.prismaObject('TumiEvent', {
     amountCollected: t.field({
       type: 'Decimal',
       resolve: async (source, args, context) => {
-        return prisma.stripePayment
+        return prisma.transaction
           .aggregate({
             where: {
-              transaction: {
-                eventRegistration: {
-                  event: { id: source.id },
-                },
+              direction: TransactionDirection.USER_TO_TUMI,
+              eventRegistration: {
+                event: { id: source.id },
               },
             },
             _sum: { amount: true },
           })
-          .then(
-            (aggregations) => (aggregations._sum.amount?.toNumber() ?? 0) / 100
-          )
+          .then((aggregations) => aggregations._sum.amount?.toNumber() ?? 0)
           .then((amount) => new Prisma.Decimal(amount));
       },
     }),
     netAmountCollected: t.field({
       type: 'Decimal',
       resolve: async (source, args, context) => {
-        return prisma.stripePayment
-          .aggregate({
+        return Promise.all([
+          prisma.transaction.aggregate({
             where: {
-              transaction: {
-                eventRegistration: {
-                  event: { id: source.id },
-                },
+              direction: TransactionDirection.USER_TO_TUMI,
+              eventRegistration: {
+                event: { id: source.id },
               },
             },
-            _sum: { netAmount: true, refundedAmount: true },
-          })
-          .then(
-            (aggregations) =>
-              ((aggregations._sum.netAmount?.toNumber() ?? 0) -
-                (aggregations._sum.refundedAmount?.toNumber() ?? 0)) /
-              100
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_EXTERNAL,
+              eventRegistration: {
+                event: { id: source.id },
+              },
+            },
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_USER,
+              eventRegistration: {
+                event: { id: source.id },
+              },
+            },
+            _sum: { amount: true },
+          }),
+        ])
+          .then((aggregations) =>
+            aggregations.map(
+              (aggregation) => aggregation._sum.amount?.toNumber() ?? 0
+            )
           )
-          .then((amount) => new Prisma.Decimal(amount));
+          .then(
+            ([incoming, fees, refunds]) =>
+              new Prisma.Decimal(incoming - fees - refunds)
+          );
       },
     }),
     feesPaid: t.field({
       type: 'Decimal',
       resolve: async (source, args, context) => {
-        return prisma.stripePayment
+        return prisma.transaction
           .aggregate({
             where: {
-              transaction: {
-                eventRegistration: {
-                  event: { id: source.id },
-                },
+              direction: TransactionDirection.TUMI_TO_EXTERNAL,
+              eventRegistration: {
+                event: { id: source.id },
               },
             },
-            _sum: { feeAmount: true },
+            _sum: { amount: true },
           })
-          .then(
-            (aggregations) =>
-              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
-          )
+          .then((aggregations) => aggregations._sum.amount?.toNumber() ?? 0)
           .then((amount) => new Prisma.Decimal(amount));
       },
     }),
@@ -282,10 +295,12 @@ export const eventType = builder.prismaObject('TumiEvent', {
         return prisma.stripePayment
           .aggregate({
             where: {
-              transaction: {
-                eventRegistration: {
-                  event: { id: source.id },
-                  status: RegistrationStatus.CANCELLED,
+              transactions: {
+                some: {
+                  eventRegistration: {
+                    event: { id: source.id },
+                    status: RegistrationStatus.CANCELLED,
+                  },
                 },
               },
             },

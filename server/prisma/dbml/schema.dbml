@@ -112,8 +112,8 @@ Table StripePayment {
   refundedAmount Decimal [default: 0]
   status String [not null]
   shipping Json
-  transactionId String [unique, not null]
-  transaction Transaction [not null]
+  transactionId String [unique]
+  transactions Transaction [not null]
   eventRegistration EventRegistration
   eventRegistrationCode EventRegistrationCode
   purchase Purchase
@@ -128,8 +128,9 @@ Table Transaction {
   tenantId String [not null]
   comment String
   creatorId String [not null]
-  partner String [default: 'User']
   type TransactionType [not null]
+  direction TransactionDirection [not null]
+  status TransactionStatus [not null, default: 'PENDING']
   amount Decimal [not null]
   costItemId String
   onUserBalance Boolean [not null, default: false]
@@ -138,8 +139,10 @@ Table Transaction {
   tenant Tenant [not null]
   user User
   eventRegistration EventRegistration
-  eventRegistrationCode EventRegistrationCode
+  eventRegistrationId String
+  purchaseId String
   purchase Purchase
+  stripePaymentId String
   stripePayment StripePayment
 }
 
@@ -307,7 +310,7 @@ Table Purchase {
   cancellationReason String
   transactionId String [unique, not null]
   payment StripePayment
-  transaction Transaction [not null]
+  transactions Transaction [not null]
   user User [not null]
   items LineItem [not null]
 }
@@ -392,7 +395,7 @@ Table EventRegistration {
   event TumiEvent [not null]
   payment StripePayment
   eventRegistrationCode EventRegistrationCode
-  transaction Transaction
+  transactions Transaction [not null]
   user User [not null]
   submissions EventSubmission [not null]
 }
@@ -407,10 +410,8 @@ Table EventRegistrationCode {
   eventId String [not null]
   status RegistrationStatus [not null, default: 'PENDING']
   sepaAllowed Boolean [not null, default: false]
-  transactionId String [unique]
   targetEvent TumiEvent [not null]
   payment StripePayment
-  transaction Transaction
   connectedRegistrations EventRegistration [not null]
 }
 
@@ -540,6 +541,22 @@ Enum TransactionType {
   PAYPAL
 }
 
+Enum TransactionDirection {
+  TUMI_TO_EXTERNAL
+  EXTERNAL_TO_TUMI
+  TUMI_TO_USER
+  USER_TO_TUMI
+  USER_TO_EXTERNAL
+  EXTERNAL_TO_USER
+  USER_TO_USER
+}
+
+Enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
 Ref: Invite.creatorId > User.id
 
 Ref: Invite.redeemerId > User.id
@@ -550,8 +567,6 @@ Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTena
 
 Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
-Ref: StripePayment.transactionId - Transaction.id
-
 Ref: Transaction.costItemId > CostItem.id
 
 Ref: Transaction.creatorId > User.id
@@ -559,6 +574,12 @@ Ref: Transaction.creatorId > User.id
 Ref: Transaction.tenantId > Tenant.id
 
 Ref: Transaction.userId > User.id
+
+Ref: Transaction.eventRegistrationId > EventRegistration.id
+
+Ref: Transaction.purchaseId > Purchase.id
+
+Ref: Transaction.stripePaymentId > StripePayment.id
 
 Ref: RefundedRegistration.tenantId > Tenant.id
 
@@ -588,8 +609,6 @@ Ref: ProductImage.productId > Product.id
 
 Ref: Purchase.paymentId - StripePayment.id
 
-Ref: Purchase.transactionId - Transaction.id
-
 Ref: Purchase.userId > User.id
 
 Ref: LineItem.productId > Product.id
@@ -614,15 +633,11 @@ Ref: EventRegistration.paymentId - StripePayment.id
 
 Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
 
-Ref: EventRegistration.transactionId - Transaction.id
-
 Ref: EventRegistration.userId > User.id
 
 Ref: EventRegistrationCode.eventId > TumiEvent.id [delete: Cascade]
 
 Ref: EventRegistrationCode.paymentId - StripePayment.id
-
-Ref: EventRegistrationCode.transactionId - Transaction.id
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
 

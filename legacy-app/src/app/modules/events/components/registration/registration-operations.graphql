@@ -22,7 +22,7 @@ mutation registerForEvent(
       type
       status
       cancellationReason
-      transaction {
+      transactions {
         id
         stripePayment {
           id

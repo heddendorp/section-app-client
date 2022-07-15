@@ -11,7 +11,7 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
       id
       fullName
     }
-    transaction {
+    transactions {
       id
       stripePayment {
         id
@@ -39,7 +39,7 @@ query getRegistrationForAdmin($id: ID!) {
       id
       fullName
     }
-    transaction {
+    transactions {
       id
       stripePayment {
         id
@@ -135,7 +135,7 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      transaction {
+      transactions {
         id
         stripePayment {
           id
@@ -155,7 +155,7 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      transaction {
+      transactions {
         id
         stripePayment {
           id
@@ -175,7 +175,7 @@ query getEventRegistrationCode($registrationId: ID!) {
         id
         fullName
       }
-      transaction {
+      transactions {
         id
         stripePayment {
           id

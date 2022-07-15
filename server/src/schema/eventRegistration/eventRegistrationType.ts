@@ -1,5 +1,9 @@
 import { builder } from '../../builder';
-import { RegistrationStatus, RegistrationType } from '../../generated/prisma';
+import {
+  RegistrationStatus,
+  RegistrationType,
+  TransactionDirection,
+} from '../../generated/prisma';
 import prisma from '../../client';
 
 export const eventRegistrationType = builder.prismaObject('EventRegistration', {
@@ -14,8 +18,16 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
     userId: t.exposeID('userId'),
     event: t.relation('event'),
     eventId: t.exposeID('eventId'),
-    transaction: t.relation('transaction', { nullable: true }),
-    transactionId: t.exposeID('transactionId', { nullable: true }),
+    transactions: t.relation('transactions', {
+      args: {
+        directions: t.arg({
+          type: [TransactionDirection],
+        }),
+      },
+      query: ({ directions }) => ({
+        where: { direction: { in: directions ?? [] } },
+      }),
+    }),
     checkInTime: t.expose('checkInTime', { type: 'DateTime', nullable: true }),
     manualCheckin: t.expose('manualCheckin', { type: 'Boolean' }),
     status: t.expose('status', { type: RegistrationStatus }),

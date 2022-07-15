@@ -164,8 +164,7 @@ type EventRegistration {
   rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
-  transaction: Transaction
-  transactionId: ID
+  transactions(directions: [TransactionDirection!] = [TUMI_TO_EXTERNAL, EXTERNAL_TO_TUMI, TUMI_TO_USER, USER_TO_TUMI, USER_TO_EXTERNAL, EXTERNAL_TO_USER, USER_TO_USER]): [Transaction!]!
   type: RegistrationType!
   user: User!
   userComment: String
@@ -187,8 +186,6 @@ type EventRegistrationCode {
   status: RegistrationStatus!
   targetEvent: TumiEvent!
   targetEventId: ID!
-  transaction: Transaction!
-  transactionId: ID
 }
 
 type EventSubmission {
@@ -395,8 +392,7 @@ type Purchase {
   id: ID!
   items: [LineItem!]!
   status: PurchaseStatus!
-  transaction: Transaction!
-  transactionId: ID!
+  transactions: [Transaction!]!
   user: User!
   userId: ID!
 }
@@ -525,8 +521,7 @@ type StripePayment {
   refundedAmount: Decimal
   shipping: JSON
   status: String!
-  transaction: Transaction!
-  transactionId: ID!
+  transactions: [Transaction!]!
 }
 
 type StripeUserData {
@@ -576,18 +571,35 @@ type Transaction {
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID
+  direction: TransactionDirection!
   eventRegistration: EventRegistration
   id: ID!
   isMembershipFee: Boolean!
-  partner: String
   purchase: Purchase!
+  status: TransactionStatus!
   stripePayment: StripePayment!
   subject: String!
   tenant: Tenant!
   tenantId: ID!
-  type: String!
+  type: TransactionType!
   user: User
   userId: ID
+}
+
+enum TransactionDirection {
+  EXTERNAL_TO_TUMI
+  EXTERNAL_TO_USER
+  TUMI_TO_EXTERNAL
+  TUMI_TO_USER
+  USER_TO_EXTERNAL
+  USER_TO_TUMI
+  USER_TO_USER
+}
+
+enum TransactionStatus {
+  CANCELLED
+  CONFIRMED
+  PENDING
 }
 
 enum TransactionType {

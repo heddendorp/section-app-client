@@ -50,12 +50,9 @@ query loadEvent($id: ID!) {
       id
       didAttend
       status
-      #      openMoveOrders {
-      #        id
-      #      }
-      transactionId
-      transaction {
+      transactions {
         id
+        status
         stripePayment {
           id
           createdAt
@@ -167,7 +164,7 @@ query loadEventForRunning($id: ID!) {
     participantRegistrations {
       id
       checkInTime
-      transaction {
+      transactions {
         id
         stripePayment {
           id
@@ -251,7 +248,7 @@ mutation deleteReceipt($receiptId: ID!) {
 query getRegistration($id: ID!) {
   registration(id: $id) {
     id
-    transaction {
+    transactions {
       id
       stripePayment {
         id
@@ -339,7 +336,7 @@ query loadEventForManagement($id: ID!) {
       createdAt
       status
       cancellationReason
-      transaction {
+      transactions {
         id
         stripePayment {
           id

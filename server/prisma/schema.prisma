@@ -126,35 +126,38 @@ model StripePayment {
   refundedAmount        Decimal?               @default(0)
   status                String
   shipping              Json?
-  transactionId         String                 @unique @db.Uuid
-  transaction           Transaction            @relation(fields: [transactionId], references: [id])
+  transactionId         String?                @unique @db.Uuid
+  transactions          Transaction[]
   eventRegistration     EventRegistration?
   eventRegistrationCode EventRegistrationCode?
   purchase              Purchase?
 }
 
 model Transaction {
-  id                    String                 @id @default(uuid()) @db.Uuid
-  createdAt             DateTime               @default(now())
-  subject               String
-  isMembershipFee       Boolean                @default(false)
-  userId                String?                @db.Uuid
-  tenantId              String                 @db.Uuid
-  comment               String?
-  creatorId             String                 @db.Uuid
-  partner               String?                @default("User")
-  type                  TransactionType
-  amount                Decimal
-  costItemId            String?                @db.Uuid
-  onUserBalance         Boolean                @default(false)
-  costItem              CostItem?              @relation(fields: [costItemId], references: [id])
-  createdBy             User                   @relation("TransactionCreator", fields: [creatorId], references: [id])
-  tenant                Tenant                 @relation(fields: [tenantId], references: [id])
-  user                  User?                  @relation(fields: [userId], references: [id])
-  eventRegistration     EventRegistration?
-  eventRegistrationCode EventRegistrationCode?
-  purchase              Purchase?
-  stripePayment         StripePayment?
+  id                  String               @id @default(uuid()) @db.Uuid
+  createdAt           DateTime             @default(now())
+  subject             String
+  isMembershipFee     Boolean              @default(false)
+  userId              String?              @db.Uuid
+  tenantId            String               @db.Uuid
+  comment             String?
+  creatorId           String               @db.Uuid
+  type                TransactionType
+  direction           TransactionDirection
+  status              TransactionStatus    @default(PENDING)
+  amount              Decimal
+  costItemId          String?              @db.Uuid
+  onUserBalance       Boolean              @default(false)
+  costItem            CostItem?            @relation(fields: [costItemId], references: [id])
+  createdBy           User                 @relation("TransactionCreator", fields: [creatorId], references: [id])
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  user                User?                @relation(fields: [userId], references: [id])
+  eventRegistration   EventRegistration?   @relation(fields: [eventRegistrationId], references: [id])
+  eventRegistrationId String?              @db.Uuid
+  purchaseId          String?              @db.Uuid
+  purchase            Purchase?            @relation(fields: [purchaseId], references: [id])
+  stripePaymentId     String?              @db.Uuid
+  stripePayment       StripePayment?       @relation(fields: [stripePaymentId], references: [id])
 }
 
 /// To be removed soon
@@ -315,7 +318,7 @@ model Purchase {
   cancellationReason String?
   transactionId      String         @unique @db.Uuid
   payment            StripePayment? @relation(fields: [paymentId], references: [id])
-  transaction        Transaction    @relation(fields: [transactionId], references: [id])
+  transactions       Transaction[]
   user               User           @relation(fields: [userId], references: [id])
   items              LineItem[]
 }
@@ -401,7 +404,7 @@ model EventRegistration {
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
   payment               StripePayment?         @relation(fields: [paymentId], references: [id])
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
-  transaction           Transaction?           @relation(fields: [transactionId], references: [id])
+  transactions          Transaction[]
   user                  User                   @relation(fields: [userId], references: [id])
   submissions           EventSubmission[]
 }
@@ -417,10 +420,8 @@ model EventRegistrationCode {
   status                 RegistrationStatus  @default(PENDING)
   paymentId              String?             @unique @ignore @db.Uuid
   sepaAllowed            Boolean             @default(false)
-  transactionId          String?             @unique @db.Uuid
   targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   payment                StripePayment?      @relation(fields: [paymentId], references: [id])
-  transaction            Transaction?        @relation(fields: [transactionId], references: [id])
   connectedRegistrations EventRegistration[]
 }
 
@@ -548,4 +549,20 @@ enum TransactionType {
   STRIPE
   TRANSFER
   PAYPAL
+}
+
+enum TransactionDirection {
+  TUMI_TO_EXTERNAL
+  EXTERNAL_TO_TUMI
+  TUMI_TO_USER
+  USER_TO_TUMI
+  USER_TO_EXTERNAL
+  EXTERNAL_TO_USER
+  USER_TO_USER
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }

@@ -146,7 +146,7 @@ query loadUser($id: ID!) {
         id
         createdAt
       }
-      transaction {
+      transactions {
         id
         stripePayment {
           id
@@ -266,7 +266,7 @@ query getTenantPurchases {
       fullName
       university
     }
-    transaction {
+    transactions {
       id
       stripePayment {
         id
@@ -289,7 +289,7 @@ query getPurchase($id: ID!) {
       fullName
       university
     }
-    transaction {
+    transactions {
       id
       stripePayment {
         id

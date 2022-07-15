@@ -33,8 +33,6 @@ export const eventRegistrationCodeType = builder.prismaObject(
       status: t.expose('status', { type: RegistrationStatus }),
       sepaAllowed: t.exposeBoolean('sepaAllowed'),
       connectedRegistrations: t.relation('connectedRegistrations'),
-      transaction: t.relation('transaction'),
-      transactionId: t.exposeID('transactionId', { nullable: true }),
       registrationToRemove: t.prismaField({
         type: 'EventRegistration',
         nullable: true,
