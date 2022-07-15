@@ -5,9 +5,7 @@
   ></app-location-autocomplete>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-flat-button class="modern" mat-dialog-close>
-    Cancel
-  </button>
+  <button mat-flat-button class="modern" mat-dialog-close>Cancel</button>
   <button
     mat-flat-button
     class="modern save-button"
@@ -15,7 +13,9 @@
     [disabled]="locationControl.invalid || isSaving"
     (click)="submitLocation()"
   >
-    <mat-icon [class]="isSaving ? 'saving' : ''"><mat-spinner></mat-spinner></mat-icon>    
+    <mat-icon [class]="isSaving ? 'saving' : ''"
+      ><mat-spinner></mat-spinner
+    ></mat-icon>
     Save
   </button>
 </mat-dialog-actions>

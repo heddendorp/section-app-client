@@ -118,7 +118,7 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
       this.autocompleteService.getPlacePredictions({
         input: value,
         sessionToken: this.sessionToken,
-        bounds: this.defaultBounds
+        bounds: this.defaultBounds,
       })
     ).pipe(map((res) => res.predictions ?? []));
   }

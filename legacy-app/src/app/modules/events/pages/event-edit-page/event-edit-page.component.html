@@ -5,23 +5,40 @@
     </a>
     <h1>Edit event</h1>
     <div fxFlex></div>
-    <a routerLink="/event-templates/{{ event.eventTemplate.id }}" mat-stroked-button class="modern"
-      *ngIf="event$ | async as event">Go to template</a>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-stroked-button
+      class="modern"
+      *ngIf="event$ | async as event"
+      >Go to template</a
+    >
   </div>
 
   <div class="my-8 rounded-lg border-2 py-4 px-4">
-    <mat-tab-group mat-stretch-tabs animationDuration="300ms" class="example-stretched-tabs">
+    <mat-tab-group
+      mat-stretch-tabs
+      animationDuration="300ms"
+      class="example-stretched-tabs"
+    >
       <mat-tab label="General">
         <div class="p-4">
-          <div class="mb-4 rounded-md border-2 p-4" *ngIf="event$ | async as event">
-            <a class="modern" mat-stroked-button [href]="
-            event.googlePlaceUrl
-              ? event.googlePlaceUrl
-              : 'https://www.google.com/maps/place/' +
-              event.coordinates?.lat +
-                ',' +
-                event.coordinates?.lon
-          " target="_blank">
+          <div
+            class="mb-4 rounded-md border-2 p-4"
+            *ngIf="event$ | async as event"
+          >
+            <a
+              class="modern"
+              mat-stroked-button
+              [href]="
+                event.googlePlaceUrl
+                  ? event.googlePlaceUrl
+                  : 'https://www.google.com/maps/place/' +
+                    event.coordinates?.lat +
+                    ',' +
+                    event.coordinates?.lon
+              "
+              target="_blank"
+            >
               <mat-icon svgIcon="icon-map-marker"></mat-icon>
               {{ event.location }}
             </a>
@@ -30,24 +47,43 @@
             </button>
             <div class="mt-2 text-xs text-slate-600">
               <span>{{ event.googlePlaceUrl }} </span>
-              <span *ngIf="event.coordinates">({{ event.coordinates.lat }},
-                {{ event.coordinates.lon }})</span>
+              <span *ngIf="event.coordinates"
+                >({{ event.coordinates.lat }},
+                {{ event.coordinates.lon }})</span
+              >
             </div>
           </div>
 
-          <form [formGroup]="generalInformationForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="1rem">
+          <form
+            [formGroup]="generalInformationForm"
+            (ngSubmit)="onSubmit()"
+            fxLayout="column"
+            fxLayoutGap="1rem"
+          >
             <mat-form-field class="w-full">
               <mat-label>Event description</mat-label>
-              <textarea matInput formControlName="description" rows="12"></textarea>
+              <textarea
+                matInput
+                formControlName="description"
+                rows="12"
+              ></textarea>
             </mat-form-field>
             <mat-form-field class="w-full">
               <mat-label>Information for organizing</mat-label>
-              <textarea matInput formControlName="organizerText" rows="12"></textarea>
+              <textarea
+                matInput
+                formControlName="organizerText"
+                rows="12"
+              ></textarea>
               <mat-hint>This text is visible to potential organizers</mat-hint>
             </mat-form-field>
             <mat-form-field class="w-full">
               <mat-label>Information for participants</mat-label>
-              <textarea matInput formControlName="participantText" rows="12"></textarea>
+              <textarea
+                matInput
+                formControlName="participantText"
+                rows="12"
+              ></textarea>
               <mat-hint>This text is only visible to registered users</mat-hint>
             </mat-form-field>
             <div class="mt-4">
@@ -63,7 +99,12 @@
           <p *ngIf="editingProhibited$ | async" class="my-2">
             Only events that are Drafts can be edited
           </p>
-          <form [formGroup]="coreInformationForm" (ngSubmit)="onCoreSubmit()" fxLayout="column" fxLayoutGap="1rem">
+          <form
+            [formGroup]="coreInformationForm"
+            (ngSubmit)="onCoreSubmit()"
+            fxLayout="column"
+            fxLayoutGap="1rem"
+          >
             <mat-form-field class="w-full">
               <mat-label>Event Title</mat-label>
               <input matInput formControlName="title" type="text" />
@@ -71,7 +112,13 @@
             <mat-form-field class="w-full">
               <mat-label>Event Icon</mat-label>
               <input matInput formControlName="icon" type="text" />
-              <img [src]="iconValue | iconURL" alt="icon" matSuffix width="24px" height="24px" />
+              <img
+                [src]="iconValue | iconURL"
+                alt="icon"
+                matSuffix
+                width="24px"
+                height="24px"
+              />
             </mat-form-field>
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
               <mat-form-field class="w-full">
@@ -86,7 +133,11 @@
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
               <mat-form-field class="w-full">
                 <mat-label>Registration Start</mat-label>
-                <input matInput formControlName="registrationStart" type="datetime-local" />
+                <input
+                  matInput
+                  formControlName="registrationStart"
+                  type="datetime-local"
+                />
                 <mat-hint>Define the opening of event registration</mat-hint>
               </mat-form-field>
               <mat-checkbox formControlName="disableDeregistration">
@@ -103,7 +154,11 @@
             </div>
             <mat-form-field class="w-full">
               <mat-label>Insurance Description</mat-label>
-              <textarea matInput formControlName="insuranceDescription" rows="3"></textarea>
+              <textarea
+                matInput
+                formControlName="insuranceDescription"
+                rows="3"
+              ></textarea>
             </mat-form-field>
             <mat-checkbox formControlName="shouldBeReportedToInsurance">
               Insurance Required
@@ -112,7 +167,10 @@
               <mat-form-field class="w-full">
                 <mat-label>Possible Organizers</mat-label>
                 <mat-select multiple formControlName="organizerSignup">
-                  <mat-option *ngFor="let status of statusOptions" [value]="status">
+                  <mat-option
+                    *ngFor="let status of statusOptions"
+                    [value]="status"
+                  >
                     {{ status | titlecase }}
                   </mat-option>
                 </mat-select>
@@ -120,7 +178,10 @@
               <mat-form-field class="w-full">
                 <mat-label>Possible Participants</mat-label>
                 <mat-select multiple formControlName="participantSignup">
-                  <mat-option *ngFor="let status of statusOptions" [value]="status">
+                  <mat-option
+                    *ngFor="let status of statusOptions"
+                    [value]="status"
+                  >
                     {{ status | titlecase }}
                   </mat-option>
                 </mat-select>
@@ -130,7 +191,10 @@
               <mat-form-field class="w-full">
                 <mat-label>Organizing Institution</mat-label>
                 <mat-select formControlName="eventOrganizerId">
-                  <mat-option *ngFor="let organizer of organizers$ | async" [value]="organizer.id">{{ organizer.name }}
+                  <mat-option
+                    *ngFor="let organizer of organizers$ | async"
+                    [value]="organizer.id"
+                    >{{ organizer.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -139,22 +203,31 @@
                 <mat-select formControlName="registrationMode" required>
                   <mat-option [value]="RegistrationMode.External">{{
                     RegistrationMode.External | titlecase
-                    }}</mat-option>
+                  }}</mat-option>
                   <mat-option [value]="RegistrationMode.Stripe">{{
                     RegistrationMode.Stripe | titlecase
-                    }}</mat-option>
+                  }}</mat-option>
                   <mat-option [value]="RegistrationMode.Online">{{
                     RegistrationMode.Online | titlecase
-                    }}</mat-option>
+                  }}</mat-option>
                 </mat-select>
-                <mat-hint>Select how users will register for this event</mat-hint>
+                <mat-hint
+                  >Select how users will register for this event</mat-hint
+                >
               </mat-form-field>
             </div>
             <ng-container formGroupName="prices">
               <div formArrayName="options" fxLayoutGap="2rem" fxLayout="column">
                 <h3 class="mb-4 font-bold">Prices</h3>
-                <div *ngFor="let price of prices.controls; let i = index" [formGroupName]="i">
-                  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+                <div
+                  *ngFor="let price of prices.controls; let i = index"
+                  [formGroupName]="i"
+                >
+                  <div
+                    fxLayout="column"
+                    fxLayout.gt-sm="row"
+                    fxLayoutGap="1rem"
+                  >
                     <mat-form-field fxFlex="50">
                       <mat-label>Price</mat-label>
                       <input matInput formControlName="amount" type="number" />
@@ -163,11 +236,19 @@
                       Is default price
                     </mat-checkbox>
                   </div>
-                  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutGap="1rem">
+                  <div
+                    fxLayout="column"
+                    fxLayout.gt-sm="row"
+                    fxLayoutAlign.gt-sm="start center"
+                    fxLayoutGap="1rem"
+                  >
                     <mat-form-field fxFlex="50">
                       <mat-label>Allowed Status</mat-label>
                       <mat-select multiple formControlName="allowedStatusList">
-                        <mat-option *ngFor="let status of statusOptions" [value]="status">
+                        <mat-option
+                          *ngFor="let status of statusOptions"
+                          [value]="status"
+                        >
                           {{ status | titlecase }}
                         </mat-option>
                       </mat-select>
@@ -175,7 +256,13 @@
                     <mat-checkbox formControlName="esnCardRequired">
                       Only with ESNcard
                     </mat-checkbox>
-                    <button mat-flat-button color="warn" [disabled]="i === 0" (click)="removePrice(i)" type="button">
+                    <button
+                      mat-flat-button
+                      color="warn"
+                      [disabled]="i === 0"
+                      (click)="removePrice(i)"
+                      type="button"
+                    >
                       Remove this price
                     </button>
                   </div>
@@ -187,8 +274,15 @@
             </ng-container>
             <mat-form-field class="w-full">
               <mat-label>Registration link</mat-label>
-              <input matInput formControlName="registrationLink" type="url" required />
-              <mat-hint>The link where users can register for this event</mat-hint>
+              <input
+                matInput
+                formControlName="registrationLink"
+                type="url"
+                required
+              />
+              <mat-hint
+                >The link where users can register for this event</mat-hint
+              >
               <mat-error>
                 You have to specify a link or change the registration type
               </mat-error>
@@ -196,7 +290,12 @@
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
               <mat-form-field class="w-full">
                 <mat-label>Number of organizers</mat-label>
-                <input matInput formControlName="organizerLimit" type="number" required />
+                <input
+                  matInput
+                  formControlName="organizerLimit"
+                  type="number"
+                  required
+                />
                 <mat-hint>Maximum number of students that can sign up</mat-hint>
                 <mat-error>
                   You have to set the maximum number of participants
@@ -204,15 +303,27 @@
               </mat-form-field>
               <mat-form-field class="w-full">
                 <mat-label>Number of participants</mat-label>
-                <input matInput formControlName="participantLimit" type="number" required />
-                <mat-hint>Maximum number of organizers that can sign up</mat-hint>
+                <input
+                  matInput
+                  formControlName="participantLimit"
+                  type="number"
+                  required
+                />
+                <mat-hint
+                  >Maximum number of organizers that can sign up</mat-hint
+                >
                 <mat-error>
                   You have to set the maximum number of organizers
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="mt-4">
-              <button type="submit" mat-flat-button color="primary" [disabled]="editingProhibited$ | async">
+              <button
+                type="submit"
+                mat-flat-button
+                color="primary"
+                [disabled]="editingProhibited$ | async"
+              >
                 Save Changes
               </button>
             </div>
@@ -222,17 +333,31 @@
       <mat-tab label="Admin options" *appIfRole="[Role.Admin]">
         <div class="p-4" *ngIf="event$ | async as event">
           <h1 class="mt-16 mb-2">Additional Data</h1>
-          <app-data-items-manager mode="event" [parentId]="event.id" [items]="event.submissionItems"
-            (reloadParent)="reloadEvent()"></app-data-items-manager>
+          <app-data-items-manager
+            mode="event"
+            [parentId]="event.id"
+            [items]="event.submissionItems"
+            (reloadParent)="reloadEvent()"
+          ></app-data-items-manager>
           <h1 class="mt-16 mb-2">Change event template</h1>
           <p class="mb-2">
             Connected template: {{ event.eventTemplate.title }}
           </p>
-          <button mat-flat-button class="modern" color="primary" (click)="changeTemplate()">
+          <button
+            mat-flat-button
+            class="modern"
+            color="primary"
+            (click)="changeTemplate()"
+          >
             <span>Change connected template</span>
           </button>
           <h1 class="mt-16 mb-2">Delete Event</h1>
-          <button mat-flat-button class="modern" color="warn" (click)="deleteEvent()">
+          <button
+            mat-flat-button
+            class="modern"
+            color="warn"
+            (click)="deleteEvent()"
+          >
             <mat-icon svgIcon="icon-delete-forever"></mat-icon>
             <span>Delete event</span>
           </button>
@@ -240,20 +365,40 @@
       </mat-tab>
       <mat-tab label="Organizers">
         <div class="p-4">
-          <div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center" class="mb-2">
+          <div
+            fxLayoutGap="1rem"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            class="mb-2"
+          >
             <h2>Assigned Organizers</h2>
-            <button mat-icon-button [disabled]="editingProhibited$ | async" (click)="addOrganizer()">
+            <button
+              mat-icon-button
+              [disabled]="editingProhibited$ | async"
+              (click)="addOrganizer()"
+            >
               <mat-icon svgIcon="icon-add"></mat-icon>
             </button>
           </div>
 
           <mat-list class="max-w-lg">
-            <mat-list-item *ngFor="
+            <mat-list-item
+              *ngFor="
                 let registration of (event$ | async)?.organizerRegistrations
-              ">
-              <img [src]="registration.user.picture" alt="Image" referrerpolicy="no-referrer" mat-list-avatar />
+              "
+            >
+              <img
+                [src]="registration.user.picture"
+                alt="Image"
+                referrerpolicy="no-referrer"
+                mat-list-avatar
+              />
               <p mat-line>{{ registration.user.fullName }}</p>
-              <button mat-icon-button (click)="removeUser(registration.id)" [disabled]="editingProhibited$ | async">
+              <button
+                mat-icon-button
+                (click)="removeUser(registration.id)"
+                [disabled]="editingProhibited$ | async"
+              >
                 <mat-icon svgIcon="icon-delete-sign"></mat-icon>
               </button>
             </mat-list-item>
@@ -270,10 +415,16 @@
                 <mat-option [value]="PublicationState.Approval">
                   Ready for approval
                 </mat-option>
-                <mat-option [value]="PublicationState.Organizers" *appIfRole="[Role.Admin]">
+                <mat-option
+                  [value]="PublicationState.Organizers"
+                  *appIfRole="[Role.Admin]"
+                >
                   Visible to Organizers
                 </mat-option>
-                <mat-option [value]="PublicationState.Public" *appIfRole="[Role.Admin]">
+                <mat-option
+                  [value]="PublicationState.Public"
+                  *appIfRole="[Role.Admin]"
+                >
                   Public
                 </mat-option>
               </mat-select>

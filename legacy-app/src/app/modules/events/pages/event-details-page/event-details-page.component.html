@@ -79,16 +79,28 @@
             Photos for this event
           </a>
         </div>
-        <div class="mb-2 lg:text-lg rounded-md border-2 p-4" *ngIf="event.location">
-          <div class="mb-2"><b>Meeting point:</b> {{ event.location }} at {{ event.start | date: 'mediumTime' }}</div>
-          <a class="modern" mat-flat-button color="primary" [href]="
-          event.googlePlaceUrl
-            ? event.googlePlaceUrl
-            : 'https://www.google.com/maps/place/' +
-            event.coordinates?.lat +
-              ',' +
-              event.coordinates?.lon
-        " target="_blank">
+        <div
+          class="mb-2 lg:text-lg rounded-md border-2 p-4"
+          *ngIf="event.location"
+        >
+          <div class="mb-2">
+            <b>Meeting point:</b> {{ event.location }} at
+            {{ event.start | date: 'mediumTime' }}
+          </div>
+          <a
+            class="modern"
+            mat-flat-button
+            color="primary"
+            [href]="
+              event.googlePlaceUrl
+                ? event.googlePlaceUrl
+                : 'https://www.google.com/maps/place/' +
+                  event.coordinates?.lat +
+                  ',' +
+                  event.coordinates?.lon
+            "
+            target="_blank"
+          >
             <mat-icon svgIcon="icon-map-marker"></mat-icon>
             Open in Maps
           </a>
