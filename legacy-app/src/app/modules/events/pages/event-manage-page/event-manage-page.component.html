@@ -33,7 +33,7 @@
         [eventId]="event.id"
       ></app-event-manage-finances>
 
-      <table class="mt-4 w-full table-auto">
+      <table class="mt-4 w-full table-auto block overflow-x-auto">
         <thead>
           <tr>
             <th class="mx-4">Date</th>
@@ -137,7 +137,7 @@
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-green-200">{{
-                registration.status | lowercase
+                getStatusOfRegistration(registration)
               }}</span>
             </td>
           </ng-container>
@@ -177,41 +177,6 @@
                 <mat-icon svgIcon="icon-checked"></mat-icon>
                 <span>Check in</span>
               </button>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="remove">
-            <th mat-header-cell *matHeaderCellDef>Remove</th>
-            <td mat-cell *matCellDef="let registration">
-              <button
-                mat-stroked-button
-                class="modern"
-                color="warn"
-                [matMenuTriggerFor]="menu"
-              >
-                <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
-                <span>Remove</span>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button
-                  mat-menu-item
-                  [disabled]="
-                    (registration.transaction?.stripePayment?.netAmount ??
-                      0) ===
-                    0
-                  "
-                  (click)="kickWithRefund(registration.id)"
-                >
-                  Cancel with refund
-                </button>
-                <button
-                  mat-menu-item
-                  [disabled]="registration.didAttend"
-                  (click)="kick(registration.id)"
-                >
-                  Cancel without refund
-                </button>
-              </mat-menu>
             </td>
           </ng-container>
 
@@ -292,6 +257,35 @@
                     <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
                     View registration
                   </a>
+                  <button
+                    mat-stroked-button
+                    class="modern"
+                    color="warn"
+                    [matMenuTriggerFor]="menu"
+                  >
+                    <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
+                    <span>Remove</span>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button
+                      mat-menu-item
+                      [disabled]="
+                        (registration.transaction?.stripePayment?.netAmount ??
+                          0) ===
+                        0
+                      "
+                      (click)="kickWithRefund(registration.id)"
+                    >
+                      Cancel with refund
+                    </button>
+                    <button
+                      mat-menu-item
+                      [disabled]="registration.didAttend"
+                      (click)="kick(registration.id)"
+                    >
+                      Cancel without refund
+                    </button>
+                  </mat-menu>
                   <a
                     class="w-full"
                     class="modern"

@@ -50,7 +50,6 @@ export class EventManagePageComponent implements OnDestroy {
     'paid',
     'registered',
     'checkIn',
-    'remove',
     'expand',
   ];
   expandedRegistration?: TumiEvent;
@@ -192,5 +191,16 @@ export class EventManagePageComponent implements OnDestroy {
       })
     );
     this.loadEventQueryRef.refetch();
+  }
+
+  getStatusOfRegistration(registration: any) {
+    console.log(registration);
+    if (registration.status === '"SUCCESSFUL"') return 'successful';
+    if (registration.cancellationReason) {
+      if (registration.cancellationReason.includes('moved')) return 'moved';
+      if (registration.cancellationReason.includes('given up'))
+        return 'deregistered';
+    }
+    return registration.status.toLowerCase();
   }
 }

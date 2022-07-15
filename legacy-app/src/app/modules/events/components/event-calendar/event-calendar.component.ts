@@ -31,6 +31,8 @@ export class EventCalendarComponent implements OnChanges {
   }[] = [];
   public weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+  public numberOfEventsPerCell = 5;
+
   constructor(public dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -40,11 +42,10 @@ export class EventCalendarComponent implements OnChanges {
       if (!events) {
         return;
       }
-      const firstEvent = events[0];
       const lastEvent = events[events.length - 1];
       const firstDate = this.firstDate
         ? this.firstDate
-        : DateTime.fromISO(firstEvent.start);
+        : DateTime.now().startOf('week');
       const lastDate = this.lastDate
         ? this.lastDate
         : DateTime.fromISO(lastEvent.end);

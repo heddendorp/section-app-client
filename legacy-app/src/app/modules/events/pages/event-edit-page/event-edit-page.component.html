@@ -23,33 +23,34 @@
       <mat-tab label="General">
         <div class="p-4">
           <div
-            class="mb-4 flex justify-between rounded-md border-2 p-4"
+            class="mb-4 rounded-md border-2 p-4"
             *ngIf="event$ | async as event"
           >
-            <div>
-              <p>{{ event.location }}</p>
-              <p>{{ event.coordinates | json }}</p>
-              <p>{{ event.googlePlaceUrl }}</p>
-            </div>
-            <div class="my-auto flex">
-              <div class="mr-4">
-                <a
-                  mat-stroked-button
-                  href="http://www.google.com/maps/place/{{
-                    event.coordinates?.lat
-                  }},{{ event.coordinates?.lon }}"
-                  target="_blank"
-                >
-                  Open in Maps
-                </a>
-              </div>
-              <button
-                mat-flat-button
-                color="primary"
-                (click)="updateLocation()"
+            <a
+              class="modern"
+              mat-stroked-button
+              [href]="
+                event.googlePlaceUrl
+                  ? event.googlePlaceUrl
+                  : 'https://www.google.com/maps/place/' +
+                    event.coordinates?.lat +
+                    ',' +
+                    event.coordinates?.lon
+              "
+              target="_blank"
+            >
+              <mat-icon svgIcon="icon-map-marker"></mat-icon>
+              {{ event.location }}
+            </a>
+            <button class="modern" mat-icon-button (click)="updateLocation()">
+              <mat-icon svgIcon="icon-edit"></mat-icon>
+            </button>
+            <div class="mt-2 text-xs text-slate-600">
+              <span>{{ event.googlePlaceUrl }} </span>
+              <span *ngIf="event.coordinates"
+                >({{ event.coordinates.lat }},
+                {{ event.coordinates.lon }})</span
               >
-                Update Location
-              </button>
             </div>
           </div>
 
@@ -193,8 +194,8 @@
                   <mat-option
                     *ngFor="let organizer of organizers$ | async"
                     [value]="organizer.id"
-                    >{{ organizer.name }}</mat-option
-                  >
+                    >{{ organizer.name }}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field class="w-full">

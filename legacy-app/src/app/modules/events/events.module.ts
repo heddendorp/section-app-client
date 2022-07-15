@@ -32,6 +32,7 @@ import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -85,6 +86,7 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     MatMenuModule,
     MatAutocompleteModule,
     MatRippleModule,
+    MatSlideToggleModule,
   ],
 })
 export class EventsModule {}

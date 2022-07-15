@@ -11,45 +11,17 @@
   >
     <div fxFlex="noshrink">
       <div class="flex flex-row items-end justify-between sm:justify-start">
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value - 12)"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-double-left" style="height: 16px"></mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value - 1)"
-        >
+        <button mat-icon-button (click)="previousMonth()">
           <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
         </button>
-        <h1 class="whitespace-nowrap ml-2 mr-2">{{ monthOffsetLabel }}</h1>
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value + 1)"
-        >
+        <h1 class="whitespace-nowrap ml-2 mr-2">{{ selectedMonthLabel }}</h1>
+        <button mat-icon-button (click)="nextMonth()">
           <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
         </button>
-        <button
-          mat-icon-button
-          (click)="monthOffset.setValue(monthOffset.value + 12)"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-double-right" style="height: 16px"></mat-icon>
-        </button>
-        <ng-container *ngIf="(selectedView$ | async) === 'list'">
-          <div fxFlex="grow"></div>
-          <button mat-stroked-button (click)="initSearch()">
-            <mat-icon svgIcon="icon-search"></mat-icon>
-          </button>
-        </ng-container>
       </div>
       <mat-form-field
         class="mt-2 -mb-6 w-full"
-        [style.display]="
-          searchEnabled && (selectedView$ | async) === 'list' ? '' : 'none'
-        "
+        [style.display]="searchEnabled ? '' : 'none'"
       >
         <mat-label>Search for an event</mat-label>
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
@@ -166,9 +138,12 @@
           <mat-icon svgIcon="icon-calendar"></mat-icon>
           <span>Calendar view</span>
         </button>
-        <mat-checkbox [formControl]="showFullEvents">
-          Show full events
-        </mat-checkbox>
+        <mat-slide-toggle [formControl]="hideFullEvents">
+          Hide full
+        </mat-slide-toggle>
+        <button mat-icon-button class="modern" (click)="initSearch()">
+          <mat-icon svgIcon="icon-search"></mat-icon>
+        </button>
       </div>
       <app-event-list
         *ngIf="events$ | async as events"
@@ -207,9 +182,12 @@
           <mat-icon svgIcon="icon-list"></mat-icon>
           <span>List view</span>
         </button>
-        <mat-checkbox [formControl]="showFullEvents">
-          Show full events
-        </mat-checkbox>
+        <mat-slide-toggle [formControl]="hideFullEvents">
+          Hide full
+        </mat-slide-toggle>
+        <button mat-icon-button class="modern" (click)="initSearch()">
+          <mat-icon svgIcon="icon-search"></mat-icon>
+        </button>
       </div>
       <app-event-calendar
         *ngIf="events$ | async as events"

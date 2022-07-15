@@ -46,7 +46,7 @@ export class TemplateListPageComponent {
     private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
     private router: Router
   ) {
-    this.title.setTitle('TUMi - Event templates');
+    this.title.setTitle('TUMi - Event Templates');
     this.eventTemplateQuery = this.loadTemplates.watch(
       {},
       { fetchPolicy: 'cache-and-network' }

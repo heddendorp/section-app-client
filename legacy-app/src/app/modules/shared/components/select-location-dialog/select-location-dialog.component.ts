@@ -11,18 +11,22 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SelectLocationDialogComponent {
   public locationControl = new UntypedFormControl(null, Validators.required);
+  public isSaving = false;
+
   constructor(
     private dialog: MatDialogRef<SelectLocationDialogComponent>,
     private http: HttpClient
   ) {}
 
   submitLocation() {
+    this.isSaving = true;
     const value = this.locationControl.value;
     const map = new google.maps.Map(document.createElement('div'));
     const service = new google.maps.places.PlacesService(map);
     service.getDetails(
       { placeId: value.place_id, fields: ['url', 'geometry'] },
       (res: any) => {
+        this.isSaving = false;
         this.dialog.close({
           ...value,
           url: res.url,

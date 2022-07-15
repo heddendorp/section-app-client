@@ -144,7 +144,6 @@ export class TemplateDetailsPageComponent {
         .open(SelectLocationDialogComponent, { minWidth: '50vw' })
         .afterClosed()
     );
-    console.log(location);
     if (location && template) {
       await firstValueFrom(
         this.updateLocationMutation.mutate({

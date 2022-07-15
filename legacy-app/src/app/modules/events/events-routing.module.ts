@@ -20,6 +20,16 @@ const routes: Routes = [
     component: EventListPageComponent,
   },
   {
+    path: 'calendar',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
+    path: 'calendar/:year/:month',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
     path: 'codes',
     canActivate: [AuthGuard],
     component: PublicRegistrationCodesPageComponent,
