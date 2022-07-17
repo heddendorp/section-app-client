@@ -6,8 +6,8 @@ import {
   PublicationState,
   Role,
 } from '../../generated/prisma';
+import { prepareSearchString } from '../helperFunctions';
 import TumiEventWhereInput = Prisma.TumiEventWhereInput;
-import { before } from 'lodash';
 
 builder.queryFields((t) => ({
   event: t.prismaField({
@@ -26,9 +26,16 @@ builder.queryFields((t) => ({
     args: {
       after: t.arg({ type: 'DateTime', required: false }),
       before: t.arg({ type: 'DateTime', required: false }),
+      search: t.arg.string({ required: false }),
       limit: t.arg.int(),
     },
-    resolve: async (query, parent, { before, after, limit }, context, info) => {
+    resolve: async (
+      query,
+      parent,
+      { before, after, limit, search },
+      context,
+      info
+    ) => {
       let where: TumiEventWhereInput;
       after ??= new Date();
       const { role, status } = context.userOfTenant ?? {};
@@ -37,6 +44,7 @@ builder.queryFields((t) => ({
           participantSignup: {
             has: MembershipStatus.NONE,
           },
+          ...(search ? { title: { search: prepareSearchString(search) } } : {}),
           end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
           publicationState: PublicationState.PUBLIC,
@@ -50,6 +58,7 @@ builder.queryFields((t) => ({
         where = {
           end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
+          ...(search ? { title: { search: prepareSearchString(search) } } : {}),
           eventTemplate: {
             tenant: {
               id: context.tenant.id,
@@ -60,6 +69,7 @@ builder.queryFields((t) => ({
         where = {
           end: { gt: after },
           ...(before ? { start: { lt: before } } : {}),
+          ...(search ? { title: { search: prepareSearchString(search) } } : {}),
           eventTemplate: {
             tenant: {
               id: context.tenant.id,

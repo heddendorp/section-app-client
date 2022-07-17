@@ -1,4 +1,4 @@
-<main class="p-4 flex flex-col gap-4">
+<main class="flex flex-col gap-4 p-4">
   <h2 class="mb-2">Tenant Management</h2>
   <div class="rounded-md border-2 p-4">
     <h3>Human Resources</h3>
@@ -10,6 +10,7 @@
   <div class="rounded-md border-2 p-4">
     <h3>Event Management</h3>
     <div fxLayout="row wrap" class="gap-2">
+      <a mat-stroked-button class="modern" routerLink="events">Events</a>
       <a mat-stroked-button class="modern" routerLink="registrations"
         >Registrations</a
       >
@@ -59,7 +60,7 @@
   </div>
 
   <div class="rounded-md border-2 p-4">
-    <h3>Other</h3>
+    <h3>Main settings</h3>
     <div fxLayout="row wrap" class="gap-2">
       <a mat-stroked-button class="modern" routerLink="edit">Edit Tenant</a>
     </div>

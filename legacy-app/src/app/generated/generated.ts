@@ -748,6 +748,7 @@ export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
   limit?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1639,6 +1640,34 @@ export type DeleteSubmissionItemMutationVariables = Exact<{
 
 export type DeleteSubmissionItemMutation = { __typename?: 'Mutation', deleteSubmissionItem: { __typename?: 'EventSubmissionItem', id: string } };
 
+export type TenantLoadEventsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['DateTime']>;
+  after?: InputMaybe<Scalars['DateTime']>;
+}>;
+
+
+export type TenantLoadEventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, description: string, start: any, end: any, createdAt: any, publicationState: PublicationState }> };
+
+export type LoadEventCategoriesForAdminQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoadEventCategoriesForAdminQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string }> };
+
+export type CreateEventTemplateCategoryMutationVariables = Exact<{
+  input: CreateEventTemplateCategoryInput;
+}>;
+
+
+export type CreateEventTemplateCategoryMutation = { __typename?: 'Mutation', createEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
+
+export type DeleteEventTemplateCategoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventTemplateCategoryMutation = { __typename?: 'Mutation', deleteEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
+
 export type GetRegistrationsQueryVariables = Exact<{
   pageLength?: InputMaybe<Scalars['Int']>;
   pageIndex?: InputMaybe<Scalars['Int']>;
@@ -1675,25 +1704,6 @@ export type GetEventRegistrationCodeQueryVariables = Exact<{
 
 
 export type GetEventRegistrationCodeQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, sepaAllowed: boolean, targetEvent: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any }, creator: { __typename?: 'User', id: string, email: string, fullName: string }, connectedRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null }>, registrationToRemove?: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null } | null, registrationCreated?: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentIntent: string, paymentMethodType?: string | null, events: any } } | null } | null } };
-
-export type LoadEventCategoriesForAdminQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LoadEventCategoriesForAdminQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string }> };
-
-export type CreateEventTemplateCategoryMutationVariables = Exact<{
-  input: CreateEventTemplateCategoryInput;
-}>;
-
-
-export type CreateEventTemplateCategoryMutation = { __typename?: 'Mutation', createEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
-
-export type DeleteEventTemplateCategoryMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type DeleteEventTemplateCategoryMutation = { __typename?: 'Mutation', deleteEventTemplateCategory: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
@@ -3638,6 +3648,90 @@ export const DeleteSubmissionItemDocument = gql`
       super(apollo);
     }
   }
+export const TenantLoadEventsDocument = gql`
+    query tenantLoadEvents($search: String, $before: DateTime, $after: DateTime) {
+  events(search: $search, before: $before, after: $after) {
+    id
+    title
+    description
+    start
+    end
+    createdAt
+    publicationState
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TenantLoadEventsGQL extends Apollo.Query<TenantLoadEventsQuery, TenantLoadEventsQueryVariables> {
+    override document = TenantLoadEventsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventCategoriesForAdminDocument = gql`
+    query LoadEventCategoriesForAdmin {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventCategoriesForAdminGQL extends Apollo.Query<LoadEventCategoriesForAdminQuery, LoadEventCategoriesForAdminQueryVariables> {
+    override document = LoadEventCategoriesForAdminDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateEventTemplateCategoryDocument = gql`
+    mutation CreateEventTemplateCategory($input: CreateEventTemplateCategoryInput!) {
+  createEventTemplateCategory(input: $input) {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventTemplateCategoryGQL extends Apollo.Mutation<CreateEventTemplateCategoryMutation, CreateEventTemplateCategoryMutationVariables> {
+    override document = CreateEventTemplateCategoryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteEventTemplateCategoryDocument = gql`
+    mutation DeleteEventTemplateCategory($id: ID!) {
+  deleteEventTemplateCategory(categoryId: $id) {
+    id
+    name
+    icon
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventTemplateCategoryGQL extends Apollo.Mutation<DeleteEventTemplateCategoryMutation, DeleteEventTemplateCategoryMutationVariables> {
+    override document = DeleteEventTemplateCategoryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetRegistrationsDocument = gql`
     query getRegistrations($pageLength: Int, $pageIndex: Int) {
   registrations(pageIndex: $pageIndex, pageLength: $pageLength) {
@@ -3896,66 +3990,6 @@ export const GetEventRegistrationCodeDocument = gql`
   })
   export class GetEventRegistrationCodeGQL extends Apollo.Query<GetEventRegistrationCodeQuery, GetEventRegistrationCodeQueryVariables> {
     override document = GetEventRegistrationCodeDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LoadEventCategoriesForAdminDocument = gql`
-    query LoadEventCategoriesForAdmin {
-  eventTemplateCategories {
-    id
-    name
-    icon
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LoadEventCategoriesForAdminGQL extends Apollo.Query<LoadEventCategoriesForAdminQuery, LoadEventCategoriesForAdminQueryVariables> {
-    override document = LoadEventCategoriesForAdminDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CreateEventTemplateCategoryDocument = gql`
-    mutation CreateEventTemplateCategory($input: CreateEventTemplateCategoryInput!) {
-  createEventTemplateCategory(input: $input) {
-    id
-    name
-    icon
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateEventTemplateCategoryGQL extends Apollo.Mutation<CreateEventTemplateCategoryMutation, CreateEventTemplateCategoryMutationVariables> {
-    override document = CreateEventTemplateCategoryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DeleteEventTemplateCategoryDocument = gql`
-    mutation DeleteEventTemplateCategory($id: ID!) {
-  deleteEventTemplateCategory(categoryId: $id) {
-    id
-    name
-    icon
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteEventTemplateCategoryGQL extends Apollo.Mutation<DeleteEventTemplateCategoryMutation, DeleteEventTemplateCategoryMutationVariables> {
-    override document = DeleteEventTemplateCategoryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

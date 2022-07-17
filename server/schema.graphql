@@ -421,7 +421,7 @@ type Query {
   eventTemplate(id: ID!): EventTemplate!
   eventTemplateCategories: [EventTemplateCategory!]!
   eventTemplates(onlyWithoutCategory: Boolean): [EventTemplate!]!
-  events(after: DateTime, before: DateTime, limit: Int): [TumiEvent!]!
+  events(after: DateTime, before: DateTime, limit: Int, search: String): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photoShareKey: String!

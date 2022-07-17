@@ -28,13 +28,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TenantEventRatingsComponent } from './pages/tenant-event-ratings/tenant-event-ratings.component';
-import { TenantEventBookingsPageComponent } from './pages/tenant-event-bookings-page/tenant-event-bookings-page.component';
+import { TenantEventRatingsComponent } from './pages/events/tenant-event-ratings/tenant-event-ratings.component';
+import { TenantEventBookingsPageComponent } from './pages/events/tenant-event-bookings-page/tenant-event-bookings-page.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TenantMetricsPageComponent } from './pages/tenant-metrics-page/tenant-metrics-page.component';
-import { TenantEventTemplateCategoriesPageComponent } from './pages/tenant-event-template-categories-page/tenant-event-template-categories-page.component';
+import { TenantEventTemplateCategoriesPageComponent } from './pages/events/tenant-event-template-categories-page/tenant-event-template-categories-page.component';
 import { NewEventTemplateCategoryDialogComponent } from './components/new-event-template-category-dialog/new-event-template-category-dialog.component';
 import { TenantTransactionsPageComponent } from './pages/tenant-transactions-page/tenant-transactions-page.component';
+import { TenantEventsPageComponent } from './pages/events/tenant-events-page/tenant-events-page.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { TenantTransactionsPageComponent } from './pages/tenant-transactions-pag
     TenantEventTemplateCategoriesPageComponent,
     NewEventTemplateCategoryDialogComponent,
     TenantTransactionsPageComponent,
+    TenantEventsPageComponent,
   ],
   imports: [
     CommonModule,
