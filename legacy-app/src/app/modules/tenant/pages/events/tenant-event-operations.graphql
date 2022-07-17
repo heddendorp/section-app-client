@@ -1,4 +1,4 @@
-query tenantLoadEvents($search: String, $before: DateTime, $after: DateTime){
+query tenantLoadEvents($search: String, $before: DateTime, $after: DateTime) {
   events(search: $search, before: $before, after: $after) {
     id
     title
