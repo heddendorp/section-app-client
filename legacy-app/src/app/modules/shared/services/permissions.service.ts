@@ -15,6 +15,10 @@ import { Price } from '../../../../../../shared/data-types';
 export class PermissionsService {
   constructor(private auth: AuthService, private userRoles: UserRolesGQL) {}
 
+  isAdmin() {
+    return this.hasRole([Role.Admin]);
+  }
+
   public hasStatus(allowList: MembershipStatus[]): Observable<boolean> {
     return this.auth.isAuthenticated$.pipe(
       skipUntil(this.auth.isLoading$.pipe(filter((loading) => !loading))),
