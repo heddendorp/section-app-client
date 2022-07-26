@@ -78,7 +78,7 @@ import { MatRippleModule } from '@angular/material/core';
     SharedModule,
     TenantRoutingModule,
     MatDatepickerModule,
-    MatRippleModule
+    MatRippleModule,
   ],
 })
 export class TenantModule {}
