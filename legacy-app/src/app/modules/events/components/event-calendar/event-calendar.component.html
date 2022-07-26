@@ -47,15 +47,17 @@
           alt="{{ event.icon }}"
           class="w-4 md:mr-0.5 md:w-6"
         />
-        <span class="block overflow-hidden text-clip whitespace-nowrap tracking-tight">{{
-          event.title
-        }}</span>
+        <span
+          class="block overflow-hidden text-clip whitespace-nowrap tracking-tight"
+          >{{ event.title }}</span
+        >
       </div>
       <div
         *ngIf="day.events.length > numberOfEventsPerCell"
         class="flex justify-center items-center h-4 md:h-6"
       >
-        <span class="text-xs rounded-full bg-slate-500 text-white tracking-tighter w-4 md:w-6 flex justify-center"
+        <span
+          class="text-xs rounded-full bg-slate-500 text-white tracking-tighter w-4 md:w-6 flex justify-center"
           >+{{ day.events.length - numberOfEventsPerCell + 1 }}</span
         >
       </div>

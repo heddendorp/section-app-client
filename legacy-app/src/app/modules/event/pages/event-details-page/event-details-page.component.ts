@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   filter,
   first,
@@ -30,7 +35,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
-  styleUrls: ['./event-details-page.component.scss']
+  styleUrls: ['./event-details-page.component.scss'],
 })
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
@@ -82,7 +87,8 @@ export class EventDetailsPageComponent implements OnDestroy {
       map((event) => (event?.end ? new Date(event.end) < new Date() : false))
     );
     this.eventStarted$ = this.event$.pipe(
-      map((event) => event?.start ? new Date(event.start) < new Date() : false
+      map((event) =>
+        event?.start ? new Date(event.start) < new Date() : false
       )
     );
     this.loadEventQueryRef.startPolling(30000);
@@ -130,7 +136,10 @@ export class EventDetailsPageComponent implements OnDestroy {
   }
 
   mapsUrl(googlePlaceId: string) {
-    console.log("wow")
-    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyDR7DFQIBGumoziD6B6a0n2EZgrKhQOWS4&q=place_id:' + googlePlaceId);
+    console.log('wow');
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://www.google.com/maps/embed/v1/place?key=AIzaSyDR7DFQIBGumoziD6B6a0n2EZgrKhQOWS4&q=place_id:' +
+        googlePlaceId
+    );
   }
 }

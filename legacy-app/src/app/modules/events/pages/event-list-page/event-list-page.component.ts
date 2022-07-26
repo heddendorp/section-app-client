@@ -92,7 +92,7 @@ export class EventListPageComponent implements OnDestroy {
       // backwards compatability with old links (/events renamed to /event)
       const eventId = params.get('selectedView');
       if (eventId?.length === 36) {
-        this.router.navigate(['/event', eventId])
+        this.router.navigate(['/event', eventId]);
       }
 
       if (this.router.url.includes('calendar')) {
@@ -145,8 +145,10 @@ export class EventListPageComponent implements OnDestroy {
       newSelectedView = 'list';
     }
     this.eventListStateService.setSelectedView(newSelectedView);
-    
-    this.router.navigateByUrl(this.router.url.replace(selectedView, newSelectedView));
+
+    this.router.navigateByUrl(
+      this.router.url.replace(selectedView, newSelectedView)
+    );
   }
 
   initSearch(): void {

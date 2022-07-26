@@ -56,7 +56,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ExternalEventRegistrationComponent,
     OnlineEventRegistrationComponent,
     StripeEventRegistrationComponent,
-    AddReceiptDialogComponent
+    AddReceiptDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -30,7 +30,7 @@ import { PublicRegistrationCodesPageComponent } from './pages/public-registratio
     EventListItemComponent,
     EventCalendarComponent,
     EventCalendarDayDialogComponent,
-    PublicRegistrationCodesPageComponent
+    PublicRegistrationCodesPageComponent,
   ],
   imports: [
     CommonModule,
