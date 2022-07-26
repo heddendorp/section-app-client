@@ -23,6 +23,7 @@ import {
   RegisterForEventGQL,
   RegistrationMode,
   RegistrationType,
+  Role,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -57,7 +58,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
     private dialog: MatDialog,
-    private permissions: PermissionsService,
+    public permissions: PermissionsService,
     private snackbar: MatSnackBar,
     public sanitizer: DomSanitizer
   ) {
