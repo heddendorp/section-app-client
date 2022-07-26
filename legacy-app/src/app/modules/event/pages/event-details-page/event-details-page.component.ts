@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   filter,
   first,
@@ -9,8 +9,8 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { Title } from '@angular/platform-browser';
-import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
+import { DomSanitizer, Title } from '@angular/platform-browser';
+import { QrDisplayDialogComponent } from '../../components/qr-display-dialog/qr-display-dialog.component';
 import {
   GetCurrentUserGQL,
   LoadEventGQL,
@@ -22,7 +22,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Price } from '../../../../../../../shared/data-types';
-import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
+import { PermissionsService } from '../../../shared/services/permissions.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
 import { AuthService } from '@auth0/auth0-angular';
@@ -30,7 +30,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
-  styleUrls: ['./event-details-page.component.scss'],
+  styleUrls: ['./event-details-page.component.scss']
 })
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
@@ -53,7 +53,8 @@ export class EventDetailsPageComponent implements OnDestroy {
     private registerForEvent: RegisterForEventGQL,
     private dialog: MatDialog,
     private permissions: PermissionsService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    public sanitizer: DomSanitizer
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
@@ -82,7 +83,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.eventStarted$ = this.event$.pipe(
       map((event) =>
-        event?.start ? new Date(event.start) < new Date() : false
+        {
+          console.log("wow")
+          return event?.start ? new Date(event.start) < new Date() : false;
+        }
       )
     );
     this.loadEventQueryRef.startPolling(30000);
@@ -127,5 +131,10 @@ export class EventDetailsPageComponent implements OnDestroy {
         },
       });
     }
+  }
+
+  mapsUrl(googlePlaceId: string) {
+    console.log("wow")
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyDR7DFQIBGumoziD6B6a0n2EZgrKhQOWS4&q=place_id:' + googlePlaceId);
   }
 }

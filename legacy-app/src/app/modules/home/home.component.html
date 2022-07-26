@@ -76,7 +76,7 @@
     >
       <div
         *ngFor="let event of events$ | async"
-        routerLink="/events/{{ event.id }}"
+        routerLink="/event/{{ event.id }}"
         class="relative shrink-0 cursor-pointer snap-start scroll-ml-6 first:pl-6 last:pr-[calc(100%-21.5rem)]"
       >
         <div
@@ -98,7 +98,7 @@
       <app-grid minWidth="300px">
         <div
           *ngFor="let event of events$ | async"
-          routerLink="/events/{{ event.id }}"
+          routerLink="/event/{{ event.id }}"
           class="cursor-pointer rounded-2xl border bg-gray-600 p-4 hover:bg-gray-700"
           fxLayout="column"
           fxLayoutAlign="start center"

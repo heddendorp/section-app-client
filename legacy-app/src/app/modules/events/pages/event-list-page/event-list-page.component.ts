@@ -89,6 +89,12 @@ export class EventListPageComponent implements OnDestroy {
       });
 
     this.route.paramMap.subscribe((params) => {
+      // backwards compatability with old links (/events renamed to /event)
+      const eventId = params.get('selectedView');
+      if (eventId?.length === 36) {
+        this.router.navigate(['/event', eventId])
+      }
+
       if (this.router.url.includes('calendar')) {
         this.eventListStateService.setSelectedView('calendar');
       }

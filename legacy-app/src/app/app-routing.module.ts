@@ -26,6 +26,11 @@ const routes: Routes = [
       import('./modules/events/events.module').then((m) => m.EventsModule),
   },
   {
+    path: 'event',
+    loadChildren: () =>
+      import('./modules/event/event.module').then((m) => m.EventModule),
+  },
+  {
     path: 'tenant',
     canLoad: [AuthGuard, AdminGuard],
     loadChildren: () =>

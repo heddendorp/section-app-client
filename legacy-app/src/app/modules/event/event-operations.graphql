@@ -24,6 +24,7 @@ query loadEvent($id: ID!) {
     location
     coordinates
     googlePlaceUrl
+    googlePlaceId
     createdBy {
       id
       fullName
@@ -418,25 +419,5 @@ query loadUsersByStatus($allowList: [MembershipStatus!]!) {
   users(statusList: $allowList) {
     id
     fullName
-  }
-}
-
-query eventList($after: DateTime, $before: DateTime) {
-  events(after: $after, before: $before) {
-    id
-    title
-    icon
-    start
-    end
-    registrationStart
-    prices
-    freeParticipantSpots
-    organizerLimit
-    organizersRegistered
-    couldBeOrganizer
-    publicationState
-    registrationMode
-    userIsRegistered
-    userIsOrganizer
   }
 }

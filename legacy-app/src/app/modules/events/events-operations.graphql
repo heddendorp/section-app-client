@@ -1,0 +1,19 @@
+query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
+    id
+    title
+    icon
+    start
+    end
+    registrationStart
+    prices
+    freeParticipantSpots
+    organizerLimit
+    organizersRegistered
+    couldBeOrganizer
+    publicationState
+    registrationMode
+    userIsRegistered
+    userIsOrganizer
+  }
+}

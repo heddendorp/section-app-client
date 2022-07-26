@@ -52,17 +52,17 @@ export class ShowDataDialogComponent {
 
   get event1() {
     if (this.data?.data?.eventId) {
-      return `/events/${this.data.data.eventId}`;
+      return `/event/${this.data.data.eventId}`;
     }
     if (this.data?.data?.event?.id) {
-      return `/events/${this.data.data.event.id}`;
+      return `/event/${this.data.data.event.id}`;
     }
     return null;
   }
 
   get event2() {
     if (this.data?.oldData?.eventId) {
-      return `/events/${this.data.oldData.eventId}`;
+      return `/event/${this.data.oldData.eventId}`;
     }
     return null;
   }

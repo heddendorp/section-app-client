@@ -1,8 +1,8 @@
 <div *ngIf="event" fxFlex="column">
   <div fxLayout="row">
-    <a routerLink=".." mat-icon-button>
+    <button (click)="location.back()" mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
-    ></a>
+    ></button>
     <div fxFlex="grow"></div>
     <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator">
       <mat-icon svgIcon="icon-edit"></mat-icon
