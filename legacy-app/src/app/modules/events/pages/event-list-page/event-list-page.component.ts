@@ -34,7 +34,7 @@ export class EventListPageComponent implements OnDestroy {
   public hideFullEvents = new UntypedFormControl(false);
   public filterEvents = new UntypedFormControl('');
   public selectedMonth = new UntypedFormControl(null);
-  public selectedMonthLabel = 'Upcoming';
+  public selectedMonthLabel = 'Upcoming Events';
   public startOfMonth?: DateTime;
   public endOfMonth?: DateTime;
   public Role = Role;
@@ -68,7 +68,7 @@ export class EventListPageComponent implements OnDestroy {
       )
       .subscribe((value) => {
         if (value === 0) {
-          this.selectedMonthLabel = 'Upcoming';
+          this.selectedMonthLabel = 'Upcoming Events';
           this.startOfMonth = undefined;
           this.endOfMonth = undefined;
           return this.loadEventsQueryRef.refetch({
@@ -138,11 +138,15 @@ export class EventListPageComponent implements OnDestroy {
 
   public async toggleSelectedView() {
     const selectedView = await firstValueFrom(this.selectedView$);
+    let newSelectedView;
     if (selectedView === 'list') {
-      this.eventListStateService.setSelectedView('calendar');
+      newSelectedView = 'calendar';
     } else {
-      this.eventListStateService.setSelectedView('list');
+      newSelectedView = 'list';
     }
+    this.eventListStateService.setSelectedView(newSelectedView);
+    
+    this.router.navigateByUrl(this.router.url.replace(selectedView, newSelectedView));
   }
 
   initSearch(): void {
@@ -156,7 +160,7 @@ export class EventListPageComponent implements OnDestroy {
     }
   }
 
-  nextMonth(): void {
+  async nextMonth() {
     let nextMonth;
     if (!this.selectedMonth.value) {
       nextMonth = DateTime.local().startOf('month').plus({ months: 1 });
@@ -168,16 +172,16 @@ export class EventListPageComponent implements OnDestroy {
     }
     this.router.navigate([
       '/events',
-      'calendar',
+      await firstValueFrom(this.selectedView$),
       nextMonth.year,
       nextMonth.month,
     ]);
   }
 
-  previousMonth(): void {
+  async previousMonth() {
     let prevMonth;
     if (!this.selectedMonth.value) {
-      prevMonth = DateTime.local().startOf('month').minus({ months: 1 });
+      prevMonth = DateTime.local().startOf('month');
     } else {
       prevMonth = DateTime.fromObject({
         year: this.selectedMonth.value.year,
@@ -186,7 +190,7 @@ export class EventListPageComponent implements OnDestroy {
     }
     this.router.navigate([
       '/events',
-      'calendar',
+      await firstValueFrom(this.selectedView$),
       prevMonth.year,
       prevMonth.month,
     ]);

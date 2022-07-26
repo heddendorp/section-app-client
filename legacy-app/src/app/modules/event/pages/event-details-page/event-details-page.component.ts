@@ -82,11 +82,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       map((event) => (event?.end ? new Date(event.end) < new Date() : false))
     );
     this.eventStarted$ = this.event$.pipe(
-      map((event) =>
-        {
-          console.log("wow")
-          return event?.start ? new Date(event.start) < new Date() : false;
-        }
+      map((event) => event?.start ? new Date(event.start) < new Date() : false
       )
     );
     this.loadEventQueryRef.startPolling(30000);

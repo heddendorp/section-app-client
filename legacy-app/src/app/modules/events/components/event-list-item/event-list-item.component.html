@@ -78,9 +78,9 @@
           style="min-width: 18px; max-width: 18px"
         ></mat-icon>
         <span
-          >Registration opens
+          >Opens
           <span class="font-medium">{{
-            event.registrationStart | date: 'short'
+            event.registrationStart | date: 'shortDate'
           }}</span>
           <span *ngIf="event?.couldBeOrganizer" [class]="tutorSpotsClass()">
             ({{ event?.organizersRegistered ?? 0 }}/{{
