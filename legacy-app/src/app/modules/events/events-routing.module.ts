@@ -6,25 +6,23 @@ import { PublicRegistrationCodesPageComponent } from './pages/public-registratio
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'codes',
+    canActivate: [AuthGuard],
+    component: PublicRegistrationCodesPageComponent,
     pathMatch: 'full',
+  },
+  {
+    path: ':selectedView/:year/:month',
     component: EventListPageComponent,
   },
   {
     path: ':selectedView',
-    pathMatch: 'full',
     component: EventListPageComponent,
   },
   {
-    path: ':selectedView/:year/:month',
-    pathMatch: 'full',
+    path: '**',
     component: EventListPageComponent,
-  },
-  {
-    path: 'codes',
-    canActivate: [AuthGuard],
-    component: PublicRegistrationCodesPageComponent,
-  },
+  }
 ];
 
 @NgModule({

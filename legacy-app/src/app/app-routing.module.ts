@@ -4,7 +4,6 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
   {
     path: 'profile',
@@ -58,6 +57,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
+  { path: '**', redirectTo: 'events' },
 ];
 
 @NgModule({
