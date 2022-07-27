@@ -59,7 +59,7 @@ const routes: Routes = [
   },
   {
     path: 'apply',
-    redirectTo: 'page/apply'
+    redirectTo: 'page/apply',
   },
   { path: '**', redirectTo: 'events' },
 ];
