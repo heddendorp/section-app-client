@@ -68,7 +68,7 @@
           <span>Open profile</span>
         </a>
       </div>
-      <h2 class="mt-8 text-2xl font-bold">Upcoming events</h2>
+      <h2 class="mt-8 text-2xl font-bold">Upcoming Events</h2>
     </div>
     <div
       class="flex w-full snap-x gap-12 overflow-x-auto pb-8 pt-4"
@@ -76,7 +76,7 @@
     >
       <div
         *ngFor="let event of events$ | async"
-        routerLink="/events/{{ event.id }}"
+        routerLink="/event/{{ event.id }}"
         class="relative shrink-0 cursor-pointer snap-start scroll-ml-6 first:pl-6 last:pr-[calc(100%-21.5rem)]"
       >
         <div
@@ -98,7 +98,7 @@
       <app-grid minWidth="300px">
         <div
           *ngFor="let event of events$ | async"
-          routerLink="/events/{{ event.id }}"
+          routerLink="/event/{{ event.id }}"
           class="cursor-pointer rounded-2xl border bg-gray-600 p-4 hover:bg-gray-700"
           fxLayout="column"
           fxLayoutAlign="start center"
@@ -130,7 +130,7 @@
     </svg>
   </div>
   <h1
-    class="my-8 bg-gradient-to-br from-fuchsia-600 to-fuchsia-800 bg-clip-text text-4xl font-bold leading-normal text-transparent md:text-6xl"
+    class="my-8 pt-4 bg-gradient-to-br from-fuchsia-600 to-fuchsia-800 bg-clip-text text-4xl font-bold leading-normal text-transparent md:text-6xl"
   >
     With friends
   </h1>
@@ -142,7 +142,7 @@
     gdAlignColumns="center"
     style="max-width: 2000px"
   >
-    <img src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
+    <img src="/assets/logos/supporters/tum.svg" alt="TUM Logo" class="p-4" />
     <img src="/assets/logos/esn_dark.svg" alt="ESN Logo" />
     <img src="/assets/logos/supporters/lei.png" alt="LEI Logo" />
     <img src="/assets/logos/supporters/daad.svg" alt="DAAD Logo" />

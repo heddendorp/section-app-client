@@ -36,6 +36,7 @@ import { TenantEventTemplateCategoriesPageComponent } from './pages/events/tenan
 import { NewEventTemplateCategoryDialogComponent } from './components/new-event-template-category-dialog/new-event-template-category-dialog.component';
 import { TenantTransactionsPageComponent } from './pages/tenant-transactions-page/tenant-transactions-page.component';
 import { TenantEventsPageComponent } from './pages/events/tenant-events-page/tenant-events-page.component';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { TenantEventsPageComponent } from './pages/events/tenant-events-page/ten
     SharedModule,
     TenantRoutingModule,
     MatDatepickerModule,
+    MatRippleModule
   ],
 })
 export class TenantModule {}
