@@ -8,6 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 export class ApplyPageComponent {
   constructor(private title: Title) {
-    this.title.setTitle('TUMi - apply');
+    this.title.setTitle('TUMi - Apply');
   }
 }
