@@ -27,7 +27,7 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.2.2"
+    "concurrently": "^7.3.0"
   },
   "resolutions": {
     "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
