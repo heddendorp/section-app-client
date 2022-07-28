@@ -141,7 +141,9 @@ export class EventListPageComponent implements OnDestroy {
       newSelectedView = 'list';
     }
     this.eventListStateService.setSelectedView(newSelectedView);
-    this.router.navigateByUrl(this.router.url.replace(selectedView, newSelectedView));
+    this.router.navigateByUrl(
+      this.router.url.replace(selectedView, newSelectedView)
+    );
   }
 
   initSearch(): void {
