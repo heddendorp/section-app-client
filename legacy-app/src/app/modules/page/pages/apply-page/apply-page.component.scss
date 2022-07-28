@@ -1,5 +1,56 @@
 :host {
-  display: block;
-  height: 100%;
-  max-height: calc(100vh - 64px);
+}
+
+$gradient: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+.gradient {
+  background: $gradient;
+}
+
+img {
+  object-fit: cover;
+}
+
+.logo {
+  @apply w-full md:w-fit h-20 my-4 object-contain;
+}
+
+.event-card {
+  max-width: 280px;
+  min-width: 280px;
+
+  .mat-card-image {
+    max-width: unset;
+    height: 224px;
+  }
+
+  ::ng-deep .mat-card-header-text {
+    margin: 0;
+
+    .mat-card-title {
+      @apply font-bold;
+    }
+
+    .mat-card-subtitle {
+      @apply font-semibold;
+    }
+  }
+
+  .mat-card-content {
+    @apply space-y-2;
+    @apply tracking-tight;
+    // hyphens: auto;
+    // text-align: justify;
+  }
+}
+
+.counter {
+  @apply text-6xl font-extrabold mb-1;
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p a {
+  @apply tracking-normal;
+  @apply text-blue-600;
 }
