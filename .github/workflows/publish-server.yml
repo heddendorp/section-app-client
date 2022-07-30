@@ -69,7 +69,7 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@48866aa521d8bf870604709cd43ec2f602d03ff2
+        uses: sigstore/cosign-installer@09a077b27eb1310dcfb21981bee195b30ce09de0
         with:
           cosign-release: 'v1.4.0'
 
@@ -106,7 +106,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
+        uses: docker/build-push-action@1cb9d22b932e4832bb29793b7777ec860fc1cde0
         with:
           file: Dockerfile-Server
           push: ${{ github.event_name != 'pull_request' }}
