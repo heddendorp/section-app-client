@@ -49,3 +49,7 @@
 .custom-shape-divider-top-1613324121 .shape-fill {
   fill: theme('colors.gray.800');
 }
+
+img {
+  object-fit: contain;
+}

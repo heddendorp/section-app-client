@@ -15,7 +15,12 @@ import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'list',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
+    path: 'list/:year/:month',
     pathMatch: 'full',
     component: EventListPageComponent,
   },
@@ -64,6 +69,10 @@ const routes: Routes = [
     path: ':eventId/manage',
     canActivate: [AuthGuard, AdminGuard],
     component: EventManagePageComponent,
+  },
+  {
+    path: '**',
+    component: EventListPageComponent,
   },
 ];
 
