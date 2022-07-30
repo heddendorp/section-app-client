@@ -25,7 +25,7 @@ export class AdminGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.isAdmin();
+    return this.permissions.isAdmin();
   }
   canLoad(
     route: Route,
@@ -35,10 +35,6 @@ export class AdminGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.isAdmin();
-  }
-
-  isAdmin() {
-    return this.permissions.hasRole([Role.Admin]);
+    return this.permissions.isAdmin();
   }
 }

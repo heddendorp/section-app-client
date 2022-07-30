@@ -14,13 +14,19 @@ img {
   @apply w-full md:w-fit h-20 my-4 object-contain;
 }
 
+.event-cards {
+  @apply flex flex-row gap-4 mt-12 pb-2 px-8 snap-x;
+  @apply overflow-y-auto w-screen ml-[calc(50%-50vw)];
+  @apply sm:flex-wrap sm:w-[calc(100%+12vw)] sm:-ml-[6vw] sm:justify-center;
+}
+
 .event-card {
-  max-width: 280px;
-  min-width: 280px;
+  @apply min-w-[80vw] max-w-[80vw] sm:min-w-[270px] sm:max-w-[270px];
+  @apply snap-center;
 
   .mat-card-image {
     max-width: unset;
-    height: 224px;
+    aspect-ratio: 5/4;
   }
 
   ::ng-deep .mat-card-header-text {
