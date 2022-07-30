@@ -106,6 +106,7 @@ const graphQLServer = createServer({
   schema,
   context: async ({ req }) => ({
     auth0,
+    req,
   }),
   plugins: [
     enableIf(isProd, useSentry({ trackResolvers: false })),
