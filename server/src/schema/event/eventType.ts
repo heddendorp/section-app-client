@@ -10,7 +10,6 @@ import {
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
-import { parentPort } from 'worker_threads';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),

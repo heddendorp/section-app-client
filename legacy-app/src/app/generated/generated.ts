@@ -283,6 +283,7 @@ export type EventTemplate = {
 export type EventTemplateCategory = {
   __typename?: 'EventTemplateCategory';
   createdAt: Scalars['DateTime'];
+  eventCount: Scalars['Int'];
   icon: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -1297,7 +1298,7 @@ export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Arr
 export type GetTemplateCategoriesWithTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null, eventInstanceCount: number }> }> };
+export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, eventCount: number, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null, eventInstanceCount: number }> }> };
 
 export type GetEventTemplateCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1314,7 +1315,7 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, participantRating?: number | null, participantRatingCount?: number | null }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2058,6 +2059,7 @@ export const GetTemplateCategoriesWithTemplatesDocument = gql`
     id
     name
     icon
+    eventCount
     templateCount
     templates {
       id
@@ -2149,6 +2151,8 @@ export const GetEventTemplateDocument = gql`
       id
       title
       start
+      participantRating
+      participantRatingCount
     }
   }
 }

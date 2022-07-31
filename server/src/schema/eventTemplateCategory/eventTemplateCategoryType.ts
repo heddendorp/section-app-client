@@ -1,4 +1,5 @@
 import { builder } from '../../builder';
+import prisma from '../../client';
 
 export const eventTemplateCategoryType = builder.prismaObject(
   'EventTemplateCategory',
@@ -15,6 +16,19 @@ export const eventTemplateCategoryType = builder.prismaObject(
         query: (args, context) => ({ orderBy: { title: 'asc' } }),
       }),
       templateCount: t.relationCount('templates'),
+      eventCount: t.int({
+        resolve: async (parent, args, context) => {
+          return prisma.tumiEvent.count({
+            where: {
+              eventTemplate: {
+                category: {
+                  id: parent.id
+                }
+              }
+            },
+          });
+        },
+      }),
       tenant: t.relation('tenant'),
       tenantId: t.exposeID('tenantId'),
     }),

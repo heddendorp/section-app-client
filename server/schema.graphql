@@ -245,6 +245,7 @@ type EventTemplate {
 
 type EventTemplateCategory {
   createdAt: DateTime!
+  eventCount: Int!
   icon: String!
   id: ID!
   name: String!
