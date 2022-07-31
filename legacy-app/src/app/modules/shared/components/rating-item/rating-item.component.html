@@ -1,40 +1,23 @@
-<div
-[class]="'flex flex-col border p-2 h-full md:h-auto md:w-96 rounded-md relative ' + (isCurrentUser ? 'bg-green-50' : 'bg-slate-50')"
->
-<div>
-  <span class="font-bold mr-2">
-    <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
-    <span *ngIf="!isAnonymous || isOrganizer">
-      <a
-        class="font-bold"
-        [routerLink]="'/tenant/users/' + userId"
-        >{{ userFullName }}</a
-      >
+<div [class]="'flex flex-col border p-2 h-full md:h-auto rounded-md relative ' +
+  (isCurrentUser 
+    ? (isOrganizer ? 'bg-green-100' : 'bg-green-50')
+    : (isOrganizer ? 'bg-slate-100' : 'bg-slate-50'))">
+  <div>
+    <span class="font-bold mr-2">
+      <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
+      <span *ngIf="!isAnonymous || isOrganizer">
+        <a class="font-bold" [routerLink]="'/tenant/users/' + userId">{{ userFullName }}</a>
+      </span>
     </span>
-  </span>
-  <span *ngIf="isOrganizer" class="font-mono mr-2 bg-slate-200 px-1 rounded"
-  >organizer</span
->
-</div>
-<div class="mb-2">
-  <span
-  *ngFor="let _ of [].constructor(rating)"
-  class="text-amber-400"
-  >★</span
->
-</div>
-<span class="break-words">{{ comment }}</span>
-<div class="absolute right-1 bottom-1">
-  <button
-    type="button"
-    *ngIf="isCurrentUser"
-    class="modern"
-    mat-icon-button
-    (click)="edit.emit()"
-  >
-    <mat-icon
-      svgIcon="icon-edit"
-    ></mat-icon>
-  </button>
-</div>
+    <span *ngIf="isOrganizer" class="font-mono mr-2 bg-slate-200 px-1 rounded">organizer</span>
+  </div>
+  <div class="mb-2">
+    <span *ngFor="let _ of [].constructor(rating)" class="text-amber-400">★</span>
+  </div>
+  <span class="break-words">{{ comment }}</span>
+  <div class="absolute right-1 bottom-1">
+    <button type="button" *ngIf="isCurrentUser" class="modern" mat-icon-button (click)="edit.emit()">
+      <mat-icon svgIcon="icon-edit"></mat-icon>
+    </button>
+  </div>
 </div>

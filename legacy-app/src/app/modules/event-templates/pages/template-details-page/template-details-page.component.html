@@ -1,7 +1,4 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(eventTemplate$ | async) === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(eventTemplate$ | async) === null"></mat-progress-bar>
 <main class="p-4" *ngIf="eventTemplate$ | async as template">
   <a routerLink=".." mat-icon-button>
     <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
@@ -13,28 +10,17 @@
       <h1>{{ template.title }}</h1>
     </mat-card-title>
     <mat-card-content>
-      <div
-        gdAuto
-        gdColumns="1fr"
-        gdColumns.gt-xs="1fr 4fr"
-        gdGap.gt-xs="2rem 1rem"
-        class="my-2"
-      >
+      <div gdAuto gdColumns="1fr" gdColumns.gt-xs="1fr 4fr" gdGap.gt-xs="2rem 1rem" class="my-2">
         <p class="font-bold">Location</p>
         <div>
-          <a
-            class="modern"
-            mat-stroked-button
-            [href]="
+          <a class="modern" mat-stroked-button [href]="
               template.googlePlaceUrl
                 ? template.googlePlaceUrl
                 : 'https://www.google.com/maps/place/' +
                   template.coordinates?.lat +
                   ',' +
                   template.coordinates?.lon
-            "
-            target="_blank"
-          >
+            " target="_blank">
             <mat-icon svgIcon="icon-map-marker"></mat-icon>
             {{ template.location }}
           </a>
@@ -43,10 +29,8 @@
           </button>
           <div class="mt-2 text-xs text-slate-600">
             <span>{{ template.googlePlaceUrl }} </span>
-            <span *ngIf="template.coordinates"
-              >({{ template.coordinates.lat }},
-              {{ template.coordinates.lon }})</span
-            >
+            <span *ngIf="template.coordinates">({{ template.coordinates.lat }},
+              {{ template.coordinates.lon }})</span>
           </div>
         </div>
         <p class="mt-4 font-bold sm:mt-0">Category</p>
@@ -66,21 +50,11 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="my-2 gap-2" fxLayout="column" fxLayout.gt-sm="row">
-        <button
-          class="modern"
-          color="primary"
-          mat-flat-button
-          (click)="createEvent()"
-        >
+        <button class="modern" color="primary" mat-flat-button (click)="createEvent()">
           <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
           Create event from this template
         </button>
-        <button
-          class="modern"
-          color="accent"
-          mat-flat-button
-          (click)="editTemplate()"
-        >
+        <button class="modern" color="accent" mat-flat-button (click)="editTemplate()">
           <mat-icon svgIcon="icon-edit"></mat-icon>
           Edit
         </button>
@@ -116,11 +90,36 @@
       </mat-expansion-panel-header>
       <markdown class="prose" [data]="template.participantText"></markdown>
     </mat-expansion-panel>
-    
+
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Ratings </mat-panel-title>
       </mat-expansion-panel-header>
+      <div class="flex flex-col gap-3">
+        <ng-container *ngFor="let event of template.eventInstances">
+          <div
+           *ngIf="(event.participantRatingCount && event.participantRatingCount > 0) || (event.organizerRatingCount && event.organizerRatingCount > 0)"
+            class="flex flex-col gap-2">
+            <a routerLink="/events/{{ event.id }}" class="text-base">
+              <span class="font-bold">{{ event.title }}</span>
+              <span class="font-light ml-2">{{ event.start | date: 'shortDate' }}</span>
+              <div *ngIf="event.participantRatingCount && event.participantRatingCount > 0"
+                class="inline-block ml-2 text-xs rounded px-1 bg-amber-400 text-white">{{ event.participantRating |
+                number: '1.1-1' }} ★ ({{
+                event.participantRatingCount
+                }})
+              </div>
+            </a>
+            <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
+              <ng-container *ngFor="let rating of event.ratings">
+                <app-rating-item [isOrganizer]="rating.type === 'ORGANIZER'" [comment]="rating.userComment || ''"
+                  [isAnonymous]="rating.anonymousRating" [rating]="rating.rating || 0" [userId]="rating.user.id"
+                  [userFullName]="rating.user.fullName"></app-rating-item>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="true">
@@ -128,19 +127,10 @@
         <mat-panel-title> Events </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <a
-          mat-list-item
-          routerLink="/events/{{ event.id }}"
-          *ngFor="let event of template.eventInstances"
-        >
+        <a mat-list-item routerLink="/events/{{ event.id }}" *ngFor="let event of template.eventInstances">
           <h3 mat-line>{{ event.title }}</h3>
           <p mat-line>
             {{ event.start | date: 'medium' }}
-            <span *ngIf="event.participantRatingCount && event.participantRatingCount > 0">
-              <span class="ml-1 rounded px-1 bg-amber-400 text-white">{{ event.participantRating | number: '1.1-1' }} ★ ({{
-                event.participantRatingCount
-                }})
-              </span></span>
           </p>
         </a>
       </mat-nav-list>
@@ -158,12 +148,7 @@
         <mat-panel-title> Admin options </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <button
-        class="modern"
-        mat-flat-button
-        color="warn"
-        (click)="deleteTemplate()"
-      >
+      <button class="modern" mat-flat-button color="warn" (click)="deleteTemplate()">
         <mat-icon svgIcon="icon-delete-forever"></mat-icon>
         Delete event template
       </button>
