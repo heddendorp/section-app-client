@@ -260,7 +260,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         orderBy: [
           { type: 'asc' },
           { user: { lastName: 'asc' } },
-        ],
+        ]
       }),
     }),
     amountCollected: t.field({

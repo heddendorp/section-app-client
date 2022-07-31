@@ -150,6 +150,7 @@ type EventOrganizer {
 }
 
 type EventRegistration {
+  anonymousRating: Boolean!
   belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
@@ -307,7 +308,7 @@ type Mutation {
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
-  rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
+  rateEvent(anonymousRating: Boolean = true, comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!

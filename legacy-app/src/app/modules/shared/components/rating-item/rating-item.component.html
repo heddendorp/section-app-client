@@ -1,0 +1,31 @@
+<div
+class="flex flex-col border p-2 h-full w-full md:w-80 bg-slate-50 rounded-md"
+>
+<div>
+  <span class="font-bold mr-2">
+    <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
+    <span *ngIf="!isAnonymous || isOrganizer">
+      <a
+        class="font-bold"
+        [routerLink]="
+          permissions.isAdmin()
+            ? '/tenant/users/' + userId
+            : null
+        "
+        >{{ userFullName }}</a
+      >
+    </span>
+  </span>
+  <span *ngIf="isOrganizer" class="font-mono mr-2 bg-slate-200 px-1 rounded"
+  >organizer</span
+>
+</div>
+<div class="mb-2">
+  <span
+  *ngFor="let _ of [].constructor(rating)"
+  class="text-amber-400"
+  >★</span
+>
+</div>
+{{ comment }}
+</div>

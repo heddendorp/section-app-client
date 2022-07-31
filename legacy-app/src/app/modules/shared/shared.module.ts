@@ -36,6 +36,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
+import { RatingItemComponent } from './components/rating-item/rating-item.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -53,8 +55,10 @@ import { MatCardModule } from '@angular/material/card';
     IconURLPipe,
     NewDataItemDialogComponent,
     SelectWithAutocompleteDialogComponent,
+    RatingItemComponent
   ],
   imports: [
+    RouterModule,
     CommonModule,
     FlexLayoutModule,
     MarkdownModule,
@@ -100,6 +104,7 @@ import { MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     PhotoDetailsDialogComponent,
     SelectLocationDialogComponent,
+    RatingItemComponent
   ],
   providers: [DatePipe],
 })

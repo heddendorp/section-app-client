@@ -24,8 +24,9 @@ builder.mutationFields((t) => ({
       id: t.arg.id({ required: true }),
       rating: t.arg.int({ required: true }),
       comment: t.arg.string({ defaultValue: '' }),
+      anonymousRating: t.arg.boolean({ defaultValue: true }),
     },
-    resolve: async (query, root, { id, rating, comment }, context) => {
+    resolve: async (query, root, { id, rating, comment, anonymousRating }, context) => {
       const registration = await prisma.eventRegistration.findFirst({
         where: {
           status: { not: RegistrationStatus.CANCELLED },
@@ -50,6 +51,7 @@ builder.mutationFields((t) => ({
               where: { id: registration.id },
               data: {
                 rating,
+                anonymousRating,
                 userComment: comment,
               },
             },

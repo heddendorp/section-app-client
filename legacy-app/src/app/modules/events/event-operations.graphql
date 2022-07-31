@@ -83,7 +83,11 @@ query loadEvent($id: ID!) {
       userComment
       rating
       type
-      # anonymousRating
+      anonymousRating
+      user {
+        id
+        fullName
+      }
     }
     participantRegistrationCount
     couldBeOrganizer

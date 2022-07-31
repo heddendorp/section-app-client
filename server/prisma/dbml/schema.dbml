@@ -387,6 +387,7 @@ Table EventRegistration {
   status RegistrationStatus [not null, default: 'SUCCESSFUL']
   registrationCodeId String
   rating Int
+  anonymousRating Boolean [not null, default: true]
   userComment String
   transactionId String [unique]
   event TumiEvent [not null]

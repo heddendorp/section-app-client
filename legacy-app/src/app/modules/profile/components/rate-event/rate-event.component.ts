@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -15,12 +15,14 @@ export class RateEventComponent {
   @Output() ratingSubmitted = new EventEmitter<{
     rating: number;
     comment: string;
+    anonymousRating: boolean;
   }>();
   public ratingForm: UntypedFormGroup;
   constructor(fb: UntypedFormBuilder) {
     this.ratingForm = fb.group({
       rating: ['', Validators.required],
       comment: [''],
+      anonymousRating: [false],
     });
   }
 

@@ -54,9 +54,9 @@
     <ng-container matColumnDef="organizer">
       <th mat-header-cell *matHeaderCellDef>Organizer rating</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.organizerVotes > 0"
+        <span *ngIf="element.organizerRatingCount > 0"
           >{{ element.organizerRating | number: '1.1-2' }} ★ ({{
-            element.organizerVotes
+            element.organizerRatingCount
           }})</span
         >
         <span *ngIf="element.organizerVotes === 0">None</span>
@@ -65,9 +65,9 @@
     <ng-container matColumnDef="participant">
       <th mat-header-cell *matHeaderCellDef>Participant rating</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.voteCount > 0"
+        <span *ngIf="element.participantRatingCount > 0"
           >{{ element.participantRating | number: '1.1-2' }} ★ ({{
-            element.voteCount
+            element.participantRatingCount
           }})</span
         >
         <span *ngIf="element.voteCount === 0">None</span>
@@ -76,39 +76,24 @@
     <ng-container matColumnDef="comments">
       <!--      <th mat-header-cell *matHeaderCellDef>Participant rating</th>-->
       <td colspan="3" mat-cell *matCellDef="let element">
-        <app-grid
-          minWidth="200px"
+        <div
           *ngIf="
-            element.participantRegistrations.length ||
-            element.organizerRegistrations.length
+            element.ratings.length
           "
-          class="m-4"
+          class="my-4 flex flex-col md:flex-row flex-wrap gap-4"
         >
           <div
-            *ngFor="let registration of element.organizerRegistrations"
-            class="border p-2"
+            *ngFor="let rating of element.ratings"
           >
-            {{ registration.userComment }}<br />
-            <span class="font-mono mr-2 bg-gray-200 px-1 rounded"
-              >organizer</span
-            ><span
-              *ngFor="let _ of [].constructor(registration.rating)"
-              class="text-amber-400"
-              >★</span
-            >
-          </div>
-          <div
-            *ngFor="let registration of element.participantRegistrations"
-            class="border p-2"
-          >
-            {{ registration.userComment }}<br />
-            <span
-              *ngFor="let _ of [].constructor(registration.rating)"
-              class="text-amber-400"
-              >★</span
-            >
-          </div>
-        </app-grid>
+            <app-rating-item
+            [isOrganizer]="rating.type === 'ORGANIZER'"
+            [comment]="rating.userComment"
+            [rating]="rating.rating"
+            [userId]="rating.user.id"
+            [userFullName]="rating.user.fullName"
+            ></app-rating-item>
+          </div>         
+        </div>
       </td>
     </ng-container>
 

@@ -73,18 +73,18 @@ query loadEventsWithRating($after: DateTime) {
     start
     icon
     participantRating
+    participantRatingCount
     organizerRating
-    participantRegistrations {
-      id
-      status
-      rating
+    organizerRatingCount
+    ratings {
       userComment
-    }
-    organizerRegistrations {
-      id
-      status
       rating
-      userComment
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+      }
     }
     organizer {
       id
