@@ -69,6 +69,8 @@ query userProfile {
       end
       needsRating
       userIsOrganizer
+      participantRating
+      participantRatingCount
     }
     participatedEvents(hideCancelled: true) {
       id
@@ -78,6 +80,8 @@ query userProfile {
       end
       needsRating
       userIsOrganizer
+      participantRating
+      participantRatingCount
     }
   }
 }

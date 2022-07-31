@@ -43,6 +43,17 @@
       {{ bestPrice.amount | currency: 'EUR' }}
     </div>
   </ng-container>
+  <ng-container *ngIf="event.participantRatingCount && event.participantRatingCount > 0">
+    <div class="flex items-center gap-2">
+      <div class="text-center" style="width: 18px">★</div>
+      <span
+        >{{ event.participantRating | number: '1.1-1' }} ({{
+          event.participantRatingCount
+          }} rating)</span
+      >
+    </div>    
+  </ng-container>
+  
   <ng-container *ngIf="canShare">
     <div class="mt-4">
       <button

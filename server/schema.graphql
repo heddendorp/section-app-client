@@ -629,7 +629,8 @@ type TumiEvent {
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
-  organizerRatings: Float
+  organizerRating: Float
+  organizerRatingCount: Float
   organizerRegistrationPossible: Boolean!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
@@ -638,7 +639,8 @@ type TumiEvent {
   organizersRegistered: Int!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
-  participantRatings: Float
+  participantRating: Float
+  participantRatingCount: Float
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
@@ -649,6 +651,7 @@ type TumiEvent {
   plannedSpend: Decimal!
   prices: JSON
   publicationState: PublicationState!
+  ratings(includeOrganizers: Boolean = false): [EventRegistration!]!
   refundFeesPaid: Decimal!
   registrationLink: String
   registrationMode: RegistrationMode!

@@ -150,6 +150,18 @@
           Please contact them in case of any issues. <br />We're looking forward
           to seeing you soon!
         </p>
+      </mat-expansion-panel>     
+      <mat-expansion-panel        
+        *ngIf="
+          event.ratings.length > 0 && (eventOver$ | async)
+        "
+        expanded="true"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Ratings</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        Test
       </mat-expansion-panel>
     </mat-accordion>
   </div>

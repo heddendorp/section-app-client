@@ -1027,7 +1027,8 @@ export type TumiEvent = {
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
-  organizerRatings?: Maybe<Scalars['Float']>;
+  organizerRating?: Maybe<Scalars['Float']>;
+  organizerRatingCount?: Maybe<Scalars['Float']>;
   organizerRegistrationPossible: Scalars['Boolean'];
   organizerRegistrations: Array<EventRegistration>;
   organizerSignup: Array<Scalars['String']>;
@@ -1036,7 +1037,8 @@ export type TumiEvent = {
   organizersRegistered: Scalars['Int'];
   ownRegistrations: Array<EventRegistration>;
   participantLimit: Scalars['Int'];
-  participantRatings?: Maybe<Scalars['Float']>;
+  participantRating?: Maybe<Scalars['Float']>;
+  participantRatingCount?: Maybe<Scalars['Float']>;
   participantRegistrationCount: Scalars['Int'];
   participantRegistrationPossible: Scalars['JSON'];
   participantRegistrations: Array<EventRegistration>;
@@ -1047,6 +1049,7 @@ export type TumiEvent = {
   plannedSpend: Scalars['Decimal'];
   prices?: Maybe<Scalars['JSON']>;
   publicationState: PublicationState;
+  ratings: Array<EventRegistration>;
   refundFeesPaid: Scalars['Decimal'];
   registrationLink?: Maybe<Scalars['String']>;
   registrationMode: RegistrationMode;
@@ -1074,6 +1077,11 @@ export type TumiEventOwnRegistrationsArgs = {
 
 export type TumiEventParticipantRegistrationsArgs = {
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type TumiEventRatingsArgs = {
+  includeOrganizers?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1348,7 +1356,7 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, hasESNCard: boolean, university?: string | null } | null, event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, createdBy: { __typename?: 'User', id: string, fullName: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, transactionId?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent: string, checkoutSession: string } } | null, user: { __typename?: 'User', id: string, fullName: string } } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null }> } };
+export type LoadEventQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, hasESNCard: boolean, university?: string | null } | null, event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount?: number | null, createdBy: { __typename?: 'User', id: string, fullName: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, transactionId?: string | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent: string, checkoutSession: string } } | null, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null }> } };
 
 export type LoadRegistrationForMoveQueryVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1585,7 +1593,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -1739,7 +1747,7 @@ export type LoadEventsWithRatingQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventsWithRatingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, participantRatings?: number | null, organizerRatings?: number | null, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus, rating?: number | null, userComment?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus, rating?: number | null, userComment?: string | null }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+export type LoadEventsWithRatingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, icon: string, participantRating?: number | null, organizerRating?: number | null, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus, rating?: number | null, userComment?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus, rating?: number | null, userComment?: string | null }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
 export type LoadAllPhotosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2374,6 +2382,11 @@ export const LoadEventDocument = gql`
     userIsOrganizer
     userIsCreator
     participantLimit
+    ratings {
+      userComment
+      rating
+      type
+    }
     participantRegistrationCount
     couldBeOrganizer
     couldBeParticipant
@@ -2382,6 +2395,8 @@ export const LoadEventDocument = gql`
       fullName
       phone
     }
+    participantRating
+    participantRatingCount
   }
 }
     `;
@@ -3443,6 +3458,8 @@ export const UserProfileDocument = gql`
       end
       needsRating
       userIsOrganizer
+      participantRating
+      participantRatingCount
     }
     participatedEvents(hideCancelled: true) {
       id
@@ -3452,6 +3469,8 @@ export const UserProfileDocument = gql`
       end
       needsRating
       userIsOrganizer
+      participantRating
+      participantRatingCount
     }
   }
 }
@@ -4113,8 +4132,8 @@ export const LoadEventsWithRatingDocument = gql`
     title
     start
     icon
-    participantRatings
-    organizerRatings
+    participantRating
+    organizerRating
     participantRegistrations {
       id
       status

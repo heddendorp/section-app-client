@@ -38,7 +38,7 @@ export class TenantEventBookingsPageComponent {
         )
         /*map((events) =>
           events.filter(
-            (event) => event.participantRatings || event.organizerRatings
+            (event) => event.participantRating || event.organizerRating
           )
         )*/
       );

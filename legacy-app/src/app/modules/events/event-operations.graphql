@@ -79,6 +79,12 @@ query loadEvent($id: ID!) {
     userIsOrganizer
     userIsCreator
     participantLimit
+    ratings {
+      userComment
+      rating
+      type
+      # anonymousRating
+    }
     participantRegistrationCount
     couldBeOrganizer
     couldBeParticipant
@@ -87,6 +93,8 @@ query loadEvent($id: ID!) {
       fullName
       phone
     }
+    participantRating
+    participantRatingCount
   }
 }
 

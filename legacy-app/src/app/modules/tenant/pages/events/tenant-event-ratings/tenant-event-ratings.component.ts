@@ -22,7 +22,7 @@ export class TenantEventRatingsComponent {
         map((result) => result.data.events),
         map((events) =>
           events.filter(
-            (event) => event.participantRatings || event.organizerRatings
+            (event) => event.participantRating || event.organizerRating
           )
         ),
         map((events) =>
