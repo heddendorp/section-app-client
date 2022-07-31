@@ -67,7 +67,7 @@ query loadEventsWithBooking($after: DateTime) {
 }
 
 query loadEventsWithRating($after: DateTime) {
-  events(after: $after) {
+  events(after: $after, reverseOrder: true) {
     id
     title
     start

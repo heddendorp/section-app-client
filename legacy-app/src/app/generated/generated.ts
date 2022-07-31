@@ -751,6 +751,7 @@ export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
   limit?: InputMaybe<Scalars['Int']>;
+  reverseOrder?: InputMaybe<Scalars['Boolean']>;
   search?: InputMaybe<Scalars['String']>;
 };
 
@@ -4142,7 +4143,7 @@ export const LoadEventsWithBookingDocument = gql`
   }
 export const LoadEventsWithRatingDocument = gql`
     query loadEventsWithRating($after: DateTime) {
-  events(after: $after) {
+  events(after: $after, reverseOrder: true) {
     id
     title
     start
