@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -10,7 +17,7 @@ import {
   templateUrl: './rate-event.component.html',
   styleUrls: ['./rate-event.component.scss'],
 })
-export class RateEventComponent implements OnChanges  {
+export class RateEventComponent implements OnChanges {
   @Input() event: any;
   @Input() rating = 0;
   @Input() comment = '';
@@ -21,7 +28,7 @@ export class RateEventComponent implements OnChanges  {
     comment: string;
     anonymousRating: boolean;
   }>();
-  
+
   public ratingForm: UntypedFormGroup;
 
   public isSaving = false;
@@ -44,7 +51,7 @@ export class RateEventComponent implements OnChanges  {
     this.ratingForm.setValue({
       rating: this.rating,
       comment: this.comment,
-      anonymousRating: this.anonymousRating
+      anonymousRating: this.anonymousRating,
     });
   }
 }

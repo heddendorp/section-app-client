@@ -8,7 +8,7 @@ import {
   shareReplay,
   Subject,
   switchMap,
-  tap
+  tap,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
@@ -59,7 +59,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
     public permissions: PermissionsService,
-    private snackbar: MatSnackBar,
+    private snackbar: MatSnackBar
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
@@ -140,7 +140,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     }
   }
 
-  async saveRating($event: { rating: number; comment: string; anonymousRating: boolean }, id: string) {
+  async saveRating(
+    $event: { rating: number; comment: string; anonymousRating: boolean },
+    id: string
+  ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
         id,

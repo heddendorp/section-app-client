@@ -8,9 +8,11 @@
     <span *ngIf="isMultiDay()"> {{ event.end | date: 'mediumDate' }}</span>
     <span *ngIf="showTime"> {{ event.end | date: 'shortTime' }}</span>
     <span *ngIf="event.participantRatingCount > 0">
-      <span class="ml-1 rounded px-1 bg-amber-400 text-white">{{ event.participantRating | number: '1.1-1' }} ★ ({{
-        event.participantRatingCount
+      <span class="ml-1 rounded px-1 bg-amber-400 text-white"
+        >{{ event.participantRating | number: '1.1-1' }} ★ ({{
+          event.participantRatingCount
         }})
-      </span></span>
+      </span></span
+    >
   </p>
 </a>

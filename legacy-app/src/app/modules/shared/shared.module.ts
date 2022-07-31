@@ -59,7 +59,7 @@ import { RatingComponent } from './components/rating/rating.component';
     SelectWithAutocompleteDialogComponent,
     RatingItemComponent,
     RateEventComponent,
-    RatingComponent
+    RatingComponent,
   ],
   imports: [
     RouterModule,
@@ -110,7 +110,7 @@ import { RatingComponent } from './components/rating/rating.component';
     SelectLocationDialogComponent,
     RatingItemComponent,
     RateEventComponent,
-    RatingComponent
+    RatingComponent,
   ],
   providers: [DatePipe],
 })

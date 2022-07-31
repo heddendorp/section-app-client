@@ -22,9 +22,9 @@ export const eventTemplateCategoryType = builder.prismaObject(
             where: {
               eventTemplate: {
                 category: {
-                  id: parent.id
-                }
-              }
+                  id: parent.id,
+                },
+              },
             },
           });
         },

@@ -28,7 +28,7 @@ builder.queryFields((t) => ({
       before: t.arg({ type: 'DateTime', required: false }),
       search: t.arg.string({ required: false }),
       limit: t.arg.int(),
-      reverseOrder: t.arg.boolean({ required: false})
+      reverseOrder: t.arg.boolean({ required: false }),
     },
     resolve: async (
       query,

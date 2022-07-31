@@ -94,7 +94,10 @@ export class ProfilePageComponent implements OnDestroy {
     this.dialog.open(ClaimEventDialogComponent, { data: { code } });
   }
 
-  async saveRating($event: { rating: number; comment: string; anonymousRating: boolean }, id: string) {
+  async saveRating(
+    $event: { rating: number; comment: string; anonymousRating: boolean },
+    id: string
+  ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
         id,

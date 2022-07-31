@@ -112,8 +112,18 @@ query getRegistrationCodeInfo($code: ID!) {
   }
 }
 
-mutation submitEventFeedback($id: ID!, $anonymousRating: Boolean!, $rating: Int!, $comment: String,) {
-  rateEvent(id: $id, anonymousRating: $anonymousRating, rating: $rating, comment: $comment) {
+mutation submitEventFeedback(
+  $id: ID!
+  $anonymousRating: Boolean!
+  $rating: Int!
+  $comment: String
+) {
+  rateEvent(
+    id: $id
+    anonymousRating: $anonymousRating
+    rating: $rating
+    comment: $comment
+  ) {
     id
     needsRating
   }

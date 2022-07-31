@@ -77,22 +77,18 @@
       <!--      <th mat-header-cell *matHeaderCellDef>Participant rating</th>-->
       <td colspan="3" mat-cell *matCellDef="let element">
         <div
-          *ngIf="
-            element.ratings.length
-          "
+          *ngIf="element.ratings.length"
           class="my-4 flex flex-col md:flex-row flex-wrap gap-4"
         >
-          <ng-container
-            *ngFor="let rating of element.ratings"
-          >
+          <ng-container *ngFor="let rating of element.ratings">
             <app-rating-item
-            [isOrganizer]="rating.type === 'ORGANIZER'"
-            [comment]="rating.userComment"
-            [rating]="rating.rating"
-            [userId]="rating.user.id"
-            [userFullName]="rating.user.fullName"
+              [isOrganizer]="rating.type === 'ORGANIZER'"
+              [comment]="rating.userComment"
+              [rating]="rating.rating"
+              [userId]="rating.user.id"
+              [userFullName]="rating.user.fullName"
             ></app-rating-item>
-          </ng-container>         
+          </ng-container>
         </div>
       </td>
     </ng-container>
