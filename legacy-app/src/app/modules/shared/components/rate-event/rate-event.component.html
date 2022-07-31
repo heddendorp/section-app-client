@@ -1,25 +1,12 @@
-<form
-  fxLayout="column"
-  fxLayoutGap="1rem"
-  *ngIf="event"
-  [formGroup]="ratingForm"
-  (ngSubmit)="onSubmit()"
->
+<form fxLayout="column" fxLayoutGap="1rem" *ngIf="event" [formGroup]="ratingForm" (ngSubmit)="onSubmit()">
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap=".5rem">
-    <img
-      src="{{ event.icon | iconURL }}"
-      class="bg-secondary-on w-16 rounded-lg p-1"
-    />
+    <img src="{{ event.icon | iconURL }}" class="bg-secondary-on w-16 rounded-lg p-1" />
     <p>{{ event.title }}</p>
   </div>
   <app-rating formControlName="rating"></app-rating>
   <mat-form-field>
     <mat-label>Leave a comment</mat-label>
-    <textarea
-      formControlName="comment"
-      matInput
-      placeholder="I liked about the event ..."
-    ></textarea>
+    <textarea formControlName="comment" matInput placeholder="I liked about the event ..."></textarea>
     <mat-hint> Tell us about what you liked and what could have been better!</mat-hint>
   </mat-form-field>
   <mat-checkbox formControlName="anonymousRating" *ngIf="!event.userIsOrganizer">
@@ -28,13 +15,11 @@
   <p *ngIf="event.userIsOrganizer">
     You where an organizer for this event, please rate it from that perspective.
   </p>
-  <button
-    class="modern"
-    mat-flat-button
-    color="primary"
-    [disabled]="ratingForm.invalid"
-  >
-    <mat-icon svgIcon="icon-sent"></mat-icon>
+  <button class="modern save-button" mat-flat-button color="primary" [disabled]="ratingForm.invalid || isSaving">
+    <mat-icon *ngIf="isSaving" class="saving">
+      <mat-spinner></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!isSaving" svgIcon="icon-sent"></mat-icon>
     <span>Submit feedback</span>
   </button>
 </form>

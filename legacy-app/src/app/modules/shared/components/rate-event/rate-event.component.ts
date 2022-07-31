@@ -21,7 +21,10 @@ export class RateEventComponent implements OnChanges  {
     comment: string;
     anonymousRating: boolean;
   }>();
+  
   public ratingForm: UntypedFormGroup;
+
+  public isSaving = false;
   constructor(fb: UntypedFormBuilder) {
     this.ratingForm = fb.group({
       rating: [this.rating, Validators.required],
@@ -32,6 +35,7 @@ export class RateEventComponent implements OnChanges  {
 
   onSubmit() {
     if (this.ratingForm.valid) {
+      this.isSaving = true;
       this.ratingSubmitted.emit(this.ratingForm.value);
     }
   }
