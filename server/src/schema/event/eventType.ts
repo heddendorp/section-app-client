@@ -37,7 +37,15 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
-    organizerText: t.exposeString('organizerText'),
+    organizerText: t.string({
+      resolve: (event, args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        if (!status || status === MembershipStatus.NONE) {
+          return '';
+        }
+        return event.organizerText;
+      },
+    }),
     organizerSignup: t.exposeStringList('organizerSignup'),
     participantSignup: t.exposeStringList('participantSignup'),
     participantLimit: t.exposeInt('participantLimit'),
@@ -140,17 +148,16 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRatingCount: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
-        return prisma.eventRegistration
-          .count({
-            where: {
-              event: { id: source.id },
-              status: { not: RegistrationStatus.CANCELLED },
-              type: RegistrationType.PARTICIPANT,
-              rating: {
-                not: null,
-              },
-            }
-          })
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.PARTICIPANT,
+            rating: {
+              not: null,
+            },
+          },
+        });
       },
     }),
     organizerRating: t.float({
@@ -176,17 +183,16 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizerRatingCount: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
-        return prisma.eventRegistration
-          .count({
-            where: {
-              event: { id: source.id },
-              status: { not: RegistrationStatus.CANCELLED },
-              type: RegistrationType.ORGANIZER,
-              rating: {
-                not: null,
-              },
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.ORGANIZER,
+            rating: {
+              not: null,
             },
-          })
+          },
+        });
       },
     }),
     activeRegistration: t.prismaField({
@@ -242,25 +248,21 @@ export const eventType = builder.prismaObject('TumiEvent', {
           status: { not: RegistrationStatus.CANCELLED },
         },
       }),
-    }),    
+    }),
     ratings: t.relation('registrations', {
       query: (args, context) => {
-      const { role, status } = context.userOfTenant ?? {};
-      console.log(status)
-      return ({
-        where: {
-          ...(!status || status === MembershipStatus.NONE
-            ? { type: RegistrationType.PARTICIPANT }
-            : { status: { not: RegistrationStatus.CANCELLED }}),
-          rating: {
-            not: null,
+        const { role, status } = context.userOfTenant ?? {};
+        return {
+          where: {
+            ...(!status || status === MembershipStatus.NONE
+              ? { type: RegistrationType.PARTICIPANT }
+              : { status: { not: RegistrationStatus.CANCELLED } }),
+            rating: {
+              not: null,
+            },
           },
-        },
-        orderBy: [
-          { type: 'asc' },
-          { user: { lastName: 'asc' } },
-        ]
-      })
+          orderBy: [{ type: 'asc' }, { user: { lastName: 'asc' } }],
+        };
       },
     }),
     amountCollected: t.field({
@@ -419,6 +421,11 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizers: t.prismaField({
       type: ['User'],
       resolve: async (query, parent, args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        if (!status || status === MembershipStatus.NONE) {
+          return [];
+        }
+
         return prisma.user.findMany({
           ...query,
           where: {
