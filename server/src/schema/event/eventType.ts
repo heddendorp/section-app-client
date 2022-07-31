@@ -244,14 +244,14 @@ export const eventType = builder.prismaObject('TumiEvent', {
       }),
     }),    
     ratings: t.relation('registrations', {
-      args: {
-        includeOrganizers: t.arg.boolean({ defaultValue: false }),
-      },
-      query: (args, context) => ({
+      query: (args, context) => {
+      const { role, status } = context.userOfTenant ?? {};
+      console.log(status)
+      return ({
         where: {
-          ...(args.includeOrganizers
-            ? { status: { not: RegistrationStatus.CANCELLED }}
-            : { type: RegistrationType.PARTICIPANT }),
+          ...(!status || status === MembershipStatus.NONE
+            ? { type: RegistrationType.PARTICIPANT }
+            : { status: { not: RegistrationStatus.CANCELLED }}),
           rating: {
             not: null,
           },
@@ -260,7 +260,8 @@ export const eventType = builder.prismaObject('TumiEvent', {
           { type: 'asc' },
           { user: { lastName: 'asc' } },
         ]
-      }),
+      })
+      },
     }),
     amountCollected: t.field({
       type: 'Decimal',

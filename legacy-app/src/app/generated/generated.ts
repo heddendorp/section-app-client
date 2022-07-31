@@ -1083,11 +1083,6 @@ export type TumiEventParticipantRegistrationsArgs = {
 };
 
 
-export type TumiEventRatingsArgs = {
-  includeOrganizers?: InputMaybe<Scalars['Boolean']>;
-};
-
-
 export type TumiEventSubmissionItemsArgs = {
   submissionTime?: InputMaybe<SubmissionTime>;
 };
@@ -2392,7 +2387,7 @@ export const LoadEventDocument = gql`
     userIsOrganizer
     userIsCreator
     participantLimit
-    ratings(includeOrganizers: true) {
+    ratings {
       userComment
       rating
       type

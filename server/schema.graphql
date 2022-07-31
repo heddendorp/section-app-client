@@ -653,7 +653,7 @@ type TumiEvent {
   plannedSpend: Decimal!
   prices: JSON
   publicationState: PublicationState!
-  ratings(includeOrganizers: Boolean = false): [EventRegistration!]!
+  ratings: [EventRegistration!]!
   refundFeesPaid: Decimal!
   registrationLink: String
   registrationMode: RegistrationMode!
