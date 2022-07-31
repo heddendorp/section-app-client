@@ -248,10 +248,10 @@ export const eventType = builder.prismaObject('TumiEvent', {
         includeOrganizers: t.arg.boolean({ defaultValue: false }),
       },
       query: (args, context) => ({
-        ...(args.includeOrganizers
-          ? { where: { status: { not: RegistrationStatus.CANCELLED }}}
-          : { where: { type: RegistrationType.PARTICIPANT } }),
         where: {
+          ...(args.includeOrganizers
+            ? { status: { not: RegistrationStatus.CANCELLED }}
+            : { type: RegistrationType.PARTICIPANT }),
           rating: {
             not: null,
           },

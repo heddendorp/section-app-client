@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
@@ -7,6 +7,12 @@ import { PermissionsService } from '../../services/permissions.service';
   styleUrls: ['./rating-item.component.scss'],
 })
 export class RatingItemComponent {
+  @Input()
+  isCurrentUser: boolean = false;
+
+  @Output()
+  edit: EventEmitter<any> = new EventEmitter();
+
   @Input()
   isOrganizer: boolean = false;
 
@@ -24,6 +30,4 @@ export class RatingItemComponent {
 
   @Input()
   userFullName: string = '';
-
-  public constructor(public permissions: PermissionsService) {}
 }

@@ -69,6 +69,9 @@ query loadEvent($id: ID!) {
         id
         fullName
       }
+      userComment
+      rating
+      anonymousRating
     }
     organizerLimit
     organizerSignup
@@ -79,7 +82,7 @@ query loadEvent($id: ID!) {
     userIsOrganizer
     userIsCreator
     participantLimit
-    ratings {
+    ratings(includeOrganizers: true) {
       userComment
       rating
       type

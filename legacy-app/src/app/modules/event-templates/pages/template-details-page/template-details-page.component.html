@@ -116,6 +116,12 @@
       </mat-expansion-panel-header>
       <markdown class="prose" [data]="template.participantText"></markdown>
     </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Ratings </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
@@ -128,7 +134,14 @@
           *ngFor="let event of template.eventInstances"
         >
           <h3 mat-line>{{ event.title }}</h3>
-          <p mat-line>{{ event.start | date: 'medium' }}</p>
+          <p mat-line>
+            {{ event.start | date: 'medium' }}
+            <span *ngIf="event.participantRatingCount && event.participantRatingCount > 0">
+              <span class="ml-1 rounded px-1 bg-amber-400 text-white">{{ event.participantRating | number: '1.1-1' }} ★ ({{
+                event.participantRatingCount
+                }})
+              </span></span>
+          </p>
         </a>
       </mat-nav-list>
     </mat-expansion-panel>

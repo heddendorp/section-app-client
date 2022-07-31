@@ -1,5 +1,5 @@
 <div
-class="flex flex-col border p-2 h-full w-full md:w-80 bg-slate-50 rounded-md"
+[class]="'flex flex-col border p-2 h-full md:h-auto md:w-96 rounded-md relative ' + (isCurrentUser ? 'bg-green-50' : 'bg-slate-50')"
 >
 <div>
   <span class="font-bold mr-2">
@@ -7,11 +7,7 @@ class="flex flex-col border p-2 h-full w-full md:w-80 bg-slate-50 rounded-md"
     <span *ngIf="!isAnonymous || isOrganizer">
       <a
         class="font-bold"
-        [routerLink]="
-          permissions.isAdmin()
-            ? '/tenant/users/' + userId
-            : null
-        "
+        [routerLink]="'/tenant/users/' + userId"
         >{{ userFullName }}</a
       >
     </span>
@@ -28,4 +24,17 @@ class="flex flex-col border p-2 h-full w-full md:w-80 bg-slate-50 rounded-md"
 >
 </div>
 {{ comment }}
+<div class="absolute right-1 bottom-1">
+  <button
+    type="button"
+    *ngIf="isCurrentUser"
+    class="modern"
+    mat-icon-button
+    (click)="edit.emit()"
+  >
+    <mat-icon
+      svgIcon="icon-edit"
+    ></mat-icon>
+  </button>
+</div>
 </div>

@@ -38,6 +38,8 @@ import { HttpClientJsonpModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { RatingItemComponent } from './components/rating-item/rating-item.component';
 import { RouterModule } from '@angular/router';
+import { RateEventComponent } from './components/rate-event/rate-event.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { RouterModule } from '@angular/router';
     IconURLPipe,
     NewDataItemDialogComponent,
     SelectWithAutocompleteDialogComponent,
-    RatingItemComponent
+    RatingItemComponent,
+    RateEventComponent,
+    RatingComponent
   ],
   imports: [
     RouterModule,
@@ -104,7 +108,9 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     PhotoDetailsDialogComponent,
     SelectLocationDialogComponent,
-    RatingItemComponent
+    RatingItemComponent,
+    RateEventComponent,
+    RatingComponent
   ],
   providers: [DatePipe],
 })

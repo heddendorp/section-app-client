@@ -11,8 +11,6 @@ import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
-import { RatingComponent } from './components/rating/rating.component';
-import { RateEventComponent } from './components/rate-event/rate-event.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 
@@ -23,8 +21,6 @@ import { EventListItemComponent } from './components/event-list-item/event-list-
     NewUserPageComponent,
     PhotoJourneyPageComponent,
     ProfilePageComponent,
-    RatingComponent,
-    RateEventComponent,
     EventListComponent,
     EventListItemComponent,
   ],

@@ -32,11 +32,7 @@
         </mat-expansion-panel-header>
         <p class="my-2">
           This event was created by
-          <a class="font-bold" [routerLink]="
-              permissions.isAdmin()
-                ? '/tenant/users/' + event.createdBy.id
-                : null
-            ">{{ event.createdBy.fullName }}</a>, they can answer any questions.
+          <a class="font-bold" [routerLink]="'/tenant/users/' + event.createdBy.id">{{ event.createdBy.fullName }}</a>, they can answer any questions.
         </p>
         <markdown [data]="event.organizerText" class="prose lg:prose-xl break-words"></markdown>
       </mat-expansion-panel>
@@ -100,9 +96,19 @@
         </mat-expansion-panel-header>
         <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
           <div *ngFor="let rating of event.ratings">
-            <app-rating-item [isOrganizer]="rating.type === 'ORGANIZER'" [comment]="rating.userComment || ''" [rating]="rating.rating || 0"
-              [userId]="rating.user.id" [userFullName]="rating.user.fullName"></app-rating-item>
+            <app-rating-item [isOrganizer]="rating.type === 'ORGANIZER'" [comment]="rating.userComment || ''" [isAnonymous]="rating.anonymousRating"
+              [rating]="rating.rating || 0" [userId]="rating.user.id" [userFullName]="rating.user.fullName"
+              [isCurrentUser]="event.activeRegistration?.user?.id === rating.user.id"
+              (edit)="expandRatingPanel()"></app-rating-item>
           </div>
+        </div>
+        <div *ngIf="ratingExpanded && (event.userIsRegistered || event.userIsOrganizer)" class="bg-slate-50 rounded-md p-2 border">
+          <app-rate-event [event]="event" (ratingSubmitted)="saveRating($event, event.id)"
+            [rating]="event.activeRegistration?.rating || 0"
+            [comment]="event.activeRegistration?.userComment || ''"
+            [anonymousRating]="!!event.activeRegistration?.rating && !!event.activeRegistration?.anonymousRating"
+            >
+          </app-rate-event>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -167,9 +173,7 @@
               Nobody yet
             </mat-list-item>
             <mat-list-item *ngFor="let user of event.organizers">
-              <a [routerLink]="
-                  permissions.isAdmin() ? '/tenant/users/' + user.id : null
-                ">{{ user.fullName }}</a>
+              <a [routerLink]="'/tenant/users/' + user.id">{{ user.fullName }}</a>
               <span *ngIf="user.id === event.createdBy.id"
                 class="ml-4 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm">
                 Event Creator
