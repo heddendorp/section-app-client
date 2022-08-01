@@ -19,7 +19,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./event-form-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventFormDialogComponent {
+export class EventFormDialogComponent implements OnInit {
   public dialogForm: UntypedFormGroup;
   public iconFieldValue: Observable<string>;
 
@@ -53,6 +53,19 @@ export class EventFormDialogComponent {
       this.dialogForm.patchValue(this.data.template, { emitEvent: true });
       this.dialogForm.get('location')?.disable();
     }
+  }
+
+  async ngOnInit() {
+    this.dialogForm
+      .get('shouldBeReportedToInsurance')
+      ?.valueChanges
+      .subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {            
+          this.dialogForm.get('insuranceDescription')?.enable();
+        } else {
+          this.dialogForm.get('insuranceDescription')?.disable();
+        }
+      });
   }
 
   onSubmit(): void {
