@@ -54,12 +54,18 @@ builder.mutationFields((t) => ({
       ) {
         throw new GraphQLYogaError('Only admins can deregister other users');
       }
+      const event = await prisma.tumiEvent.findUnique({
+        where: { id: registration?.eventId },
+      });
+      if (
+        event.start.getTime() < new Date().getTime() &&
+        context.userOfTenant?.role !== 'ADMIN'
+      ) {
+        throw new GraphQLYogaError('You can not deregister from an event after it has started');
+      }
       if (registration?.userId !== context.user?.id) {
         const user = await prisma.user.findUnique({
           where: { id: registration?.userId },
-        });
-        const event = await prisma.tumiEvent.findUnique({
-          where: { id: registration?.eventId },
         });
         isKick = true;
         await prisma.activityLog.create({
