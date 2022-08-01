@@ -49,7 +49,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizerSignup: t.exposeStringList('organizerSignup'),
     internalEvent: t.boolean({
       resolve: (event, args, context) =>
-        !event.participantSignup.includes(MembershipStatus.NONE)
+        !event.participantSignup.includes(MembershipStatus.NONE),
     }),
     participantSignup: t.exposeStringList('participantSignup'),
     participantLimit: t.exposeInt('participantLimit'),

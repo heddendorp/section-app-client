@@ -61,7 +61,9 @@ builder.mutationFields((t) => ({
         event.start.getTime() < new Date().getTime() &&
         context.userOfTenant?.role !== 'ADMIN'
       ) {
-        throw new GraphQLYogaError('You can not deregister from an event after it has started');
+        throw new GraphQLYogaError(
+          'You can not deregister from an event after it has started'
+        );
       }
       if (registration?.userId !== context.user?.id) {
         const user = await prisma.user.findUnique({
