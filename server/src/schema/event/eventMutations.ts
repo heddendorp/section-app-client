@@ -316,7 +316,8 @@ builder.mutationFields((t) => ({
         description: string;
         value: number;
         type: string;
-        prepaid: boolean;
+        onInvoice: boolean;
+        notSubsidized: boolean;
         details: string;
         scale?: number;
       }[];
@@ -333,18 +334,19 @@ builder.mutationFields((t) => ({
               break;
             case 'participant':
               amount = item.value * allParticipants;
-              calculationInfo = `${allParticipants} x ${item.value}€ per participant`;
+              calculationInfo = `${allParticipants} × ${item.value}€ per participant`;
               break;
             default:
               amount =
                 item.value * Math.ceil(allParticipants / (item.scale ?? 1));
               calculationInfo = `${Math.ceil(
                 allParticipants / (item.scale ?? 1)
-              )} x ${item.value}€ per ${item.scale ?? 1} participants`;
+              )} × ${item.value}€ per ${item.scale ?? 1} participants`;
           }
           return {
             eventId,
-            onInvoice: item.prepaid,
+            notSubsidized: item.notSubsidized,
+            onInvoice: item.onInvoice,
             amount: amount,
             calculationInfo,
             details: item.details,

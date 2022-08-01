@@ -48,6 +48,7 @@ export type CostItem = {
   eventId: Scalars['ID'];
   id: Scalars['ID'];
   name: Scalars['String'];
+  notSubsidized: Scalars['Boolean'];
   onInvoice: Scalars['Boolean'];
   receipts: Array<Receipt>;
   submittedAmount: Scalars['Decimal'];
@@ -1324,14 +1325,14 @@ export type GetCostItemsForEventQueryVariables = Exact<{
 }>;
 
 
-export type GetCostItemsForEventQuery = { __typename?: 'Query', costItems: Array<{ __typename?: 'CostItem', id: string, name: string, calculationInfo: string, amount: any, onInvoice: boolean, submittedAmount: any }>, event: { __typename?: 'TumiEvent', id: string, eventTemplate: { __typename?: 'EventTemplate', id: string, finances: any } } };
+export type GetCostItemsForEventQuery = { __typename?: 'Query', costItems: Array<{ __typename?: 'CostItem', id: string, name: string, calculationInfo: string, amount: any, notSubsidized: boolean, onInvoice: boolean, submittedAmount: any }>, event: { __typename?: 'TumiEvent', id: string, eventTemplate: { __typename?: 'EventTemplate', id: string, finances: any } } };
 
 export type UpdateCostItemsFromTemplateMutationVariables = Exact<{
   eventId: Scalars['ID'];
 }>;
 
 
-export type UpdateCostItemsFromTemplateMutation = { __typename?: 'Mutation', updateCostItemsFromTemplate: { __typename?: 'TumiEvent', id: string, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, calculationInfo: string, amount: any, onInvoice: boolean }> } };
+export type UpdateCostItemsFromTemplateMutation = { __typename?: 'Mutation', updateCostItemsFromTemplate: { __typename?: 'TumiEvent', id: string, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, calculationInfo: string, amount: any, notSubsidized: boolean, onInvoice: boolean }> } };
 
 export type RegisterForEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
@@ -2198,6 +2199,7 @@ export const GetCostItemsForEventDocument = gql`
     name
     calculationInfo
     amount
+    notSubsidized
     onInvoice
     submittedAmount
   }
@@ -2230,6 +2232,7 @@ export const UpdateCostItemsFromTemplateDocument = gql`
       name
       calculationInfo
       amount
+      notSubsidized
       onInvoice
     }
   }

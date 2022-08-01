@@ -30,9 +30,24 @@ interface CostItem {
   description: string;
   value: number;
   type: string;
-  prepaid: boolean;
+  onInvoice: boolean;
+  notSubsidized: boolean;
   details: string;
   scale?: number;
+}
+
+export interface PriceModel {  
+  income: number;
+  participantFee: number;
+  totalParticipantFees: number;
+  subsidies: number;
+  maxSubsidies: number;
+  subsidyPercentage: number;
+  subsidyBuffer: number;
+  expenses: number;
+  expensesSubsidizable: number;
+  expensesNotSubsidizable: number;
+  balance: number;
 }
 
 @Component({
@@ -47,7 +62,7 @@ export class FinancePlannerComponent implements OnChanges {
     'description',
     'value',
     'scale',
-    'prepaid',
+    'onInvoice',
     'action',
   ];
   public items$ = new ReplaySubject<CostItem[]>(1);
@@ -72,85 +87,107 @@ export class FinancePlannerComponent implements OnChanges {
     ]).pipe(
       map(([items, info]) => {
         const numberOfPeople = info.organizers + info.participants;
-        const totalCost = this.getTotalCost([items, info]);
+        const expenses = this.getTotalCost([items, info]);
+        const expensesNotSubsidizable = this.getTotalCost([items, info], true);
+        const expensesSubsidizable = expenses - expensesNotSubsidizable;
 
-        const subsidyPerPerson = info.days > 1 ? 30 : 20;
+        const subsidyPerPerson = +info.days > 1 ? 30 : 20;
         const maxSubsidizedPercentage = info.notAnExcursion ? 1.0 : 0.75;
         let maxTotalSubsidies = subsidyPerPerson * info.days * numberOfPeople;
-        if (!info.notAnExcursion) {
-          maxTotalSubsidies = Math.min(
-            maxSubsidizedPercentage * totalCost,
-            maxTotalSubsidies
-          );
-        }
-
-        const minPrice = this.calculatePrice(
-          totalCost,
-          maxTotalSubsidies,
-          info.participants
+        maxTotalSubsidies = Math.min(
+          maxSubsidizedPercentage * expensesSubsidizable,
+          maxTotalSubsidies
         );
-        const maxPrice = this.calculatePrice(totalCost, 0, info.participants);
 
-        const costPrice = totalCost / numberOfPeople;
-        const recommendedPrice = {
-          subsidies: minPrice.subsidies,
-          participantFee: minPrice.participantFee,
-          totalParticipantFees: minPrice.totalParticipantFees,
-        };
-        if (costPrice > minPrice.participantFee) {
-          recommendedPrice.participantFee = totalCost / numberOfPeople;
-          recommendedPrice.totalParticipantFees =
-            this.estimateFeeReceived(costPrice) * info.participants;
-          recommendedPrice.subsidies =
-            totalCost - recommendedPrice.totalParticipantFees;
-        }
+        const minPrice = this.estimateFeeToPay((Math.max(0, expensesSubsidizable - maxTotalSubsidies) + expensesNotSubsidizable) / info.participants);
+        const minPriceModel = this.calculatePriceModelForPrice(
+          info.participants,
+          minPrice,
+          maxTotalSubsidies,
+          expenses,
+          expensesSubsidizable,
+          expensesNotSubsidizable
+        );
 
-        let proposedPrice = null;
-        if (info.proposedFee !== null) {
-          proposedPrice = {
-            participantFee: info.proposedFee,
-            totalParticipantFees:
-              this.estimateFeeReceived(info.proposedFee) * info.participants,
-            subsidies: 0,
-            buffer: 0,
-          };
-          proposedPrice.subsidies = Math.max(
-            0,
-            totalCost - proposedPrice.totalParticipantFees
-          );
-          proposedPrice.buffer = maxTotalSubsidies - proposedPrice.subsidies;
+        let recommendedPrice = expenses / numberOfPeople;
+        if (recommendedPrice < minPrice) {
+          recommendedPrice = minPrice;
         }
+        const recommendedPriceModel = this.calculatePriceModelForPrice(
+          info.participants,
+          recommendedPrice,
+          maxTotalSubsidies,
+          expenses,
+          expensesSubsidizable,
+          expensesNotSubsidizable
+        );
+
+        const maxPrice = this.estimateFeeToPay(expenses / info.participants);
+        const maxPriceModel = this.calculatePriceModelForPrice(
+          info.participants,
+          maxPrice,
+          maxTotalSubsidies,
+          expenses,
+          expensesSubsidizable,
+          expensesNotSubsidizable
+        );        
+
+        const proposedPriceModel = info.proposedFee ? this.calculatePriceModelForPrice(
+          info.participants,
+          info.proposedFee,
+          maxTotalSubsidies,
+          expenses,
+          expensesSubsidizable,
+          expensesNotSubsidizable
+        ) : null;
 
         return {
-          totalCost,
-          minPrice,
-          maxPrice,
-          recommendedPrice,
-          proposedPrice,
+          proposedPriceModel,
+          recommendedPriceModel,
+          minPriceModel,
+          maxPriceModel,
         };
       })
     );
   }
 
-  calculatePrice(
-    totalCost: number,
-    subsidies: number,
-    participantCount: number
-  ) {
-    const totalParticipantFees = Math.max(0, totalCost - subsidies);
-    const price = {
-      subsidies: Math.min(totalCost, subsidies),
-      participantFee: this.roundTo2Decimals(
-        Math.max(0, totalCost - subsidies) / participantCount
-      ),
-      totalParticipantFees: totalParticipantFees,
+  
+  calculatePriceModelForPrice(
+    participants: number,
+    participantFee: number,
+    maxSubsidies: number,
+    expenses: number,
+    expensesSubsidizable: number,
+    expensesNotSubsidizable: number,
+  ): PriceModel {
+    const totalParticipantFees = this.estimateFeeReceived(participantFee) * participants;
+    let subsidies = Math.min(maxSubsidies, expensesSubsidizable);
+    let totalIncome = totalParticipantFees + subsidies;
+    let balance = totalIncome - expenses;
+
+    const subsidyNotNeeded = Math.min(subsidies, Math.max(0, balance));
+    subsidies = subsidies - subsidyNotNeeded;
+    totalIncome = totalParticipantFees + subsidies;
+    balance = totalIncome - expenses;
+
+    const subsidyPercentage = subsidies / expenses;
+    const subsidyBuffer = Math.max(0, maxSubsidies - subsidies);
+
+    return {
+      income: totalIncome,
+      participantFee,
+      totalParticipantFees,
+      subsidies,
+      maxSubsidies,
+      subsidyPercentage,
+      subsidyBuffer,
+      expenses,
+      expensesSubsidizable,
+      expensesNotSubsidizable,
+      balance
     };
-    if (price.participantFee > 0) {
-      price.totalParticipantFees = price.participantFee * participantCount;
-      price.participantFee = this.estimateFeeToPay(price.participantFee);
-    }
-    return price;
   }
+
 
   /** Estimates the fee that would need to be paid by a participant so we receive the desired amount
    * Example: a participant needs to pay ~20.56€ so that we receive 20€
@@ -172,7 +209,7 @@ export class FinancePlannerComponent implements OnChanges {
   }
 
   roundTo2Decimals(amount: number) {
-    return Math.round(amount * 100) / 100;
+    return Math.ceil(amount * 100) / 100;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -217,8 +254,9 @@ export class FinancePlannerComponent implements OnChanges {
   private getTotalCost([items, info]: [
     CostItem[],
     { participants: number; organizers: number }
-  ]) {
+  ], notSubsized = false) {
     return items
+      .filter((item) => notSubsized && item.notSubsidized || !notSubsized)
       .map((item) => {
         switch (item.type) {
           case 'event':

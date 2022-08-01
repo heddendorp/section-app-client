@@ -339,6 +339,7 @@ Table CostItem {
   confirmed Boolean [not null, default: false]
   details String
   onInvoice Boolean [not null]
+  notSubsidized Boolean [not null, default: false]
   complete Boolean [not null, default: false]
   event TumiEvent [not null]
   receipts Receipt [not null]

@@ -25,6 +25,7 @@ type CostItem {
   eventId: ID!
   id: ID!
   name: String!
+  notSubsidized: Boolean!
   onInvoice: Boolean!
   receipts: [Receipt!]!
   submittedAmount: Decimal!
