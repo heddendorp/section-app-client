@@ -58,9 +58,8 @@ export class EventFormDialogComponent implements OnInit {
   async ngOnInit() {
     this.dialogForm
       .get('shouldBeReportedToInsurance')
-      ?.valueChanges
-      .subscribe((shouldBeReportedToInsurance) => {
-        if (shouldBeReportedToInsurance) {            
+      ?.valueChanges.subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {
           this.dialogForm.get('insuranceDescription')?.enable();
         } else {
           this.dialogForm.get('insuranceDescription')?.disable();

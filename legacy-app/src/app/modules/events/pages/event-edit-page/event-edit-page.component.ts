@@ -285,19 +285,21 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }
         }
       });
-      this.coreInformationForm
-        .get('shouldBeReportedToInsurance')
-        ?.valueChanges.pipe(
-          startWith(this.coreInformationForm.get('shouldBeReportedToInsurance')?.value),
-          takeUntil(this.destroyed$)
-        )
-        .subscribe((shouldBeReportedToInsurance) => {
-          if (shouldBeReportedToInsurance) {            
-            this.coreInformationForm.get('insuranceDescription')?.enable();
-          } else {
-            this.coreInformationForm.get('insuranceDescription')?.disable();
-          }
-        });
+    this.coreInformationForm
+      .get('shouldBeReportedToInsurance')
+      ?.valueChanges.pipe(
+        startWith(
+          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value
+        ),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {
+          this.coreInformationForm.get('insuranceDescription')?.enable();
+        } else {
+          this.coreInformationForm.get('insuranceDescription')?.disable();
+        }
+      });
     loader.dismiss();
   }
 
