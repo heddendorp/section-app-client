@@ -36,7 +36,7 @@ interface CostItem {
   scale?: number;
 }
 
-export interface PriceModel {  
+export interface PriceModel {
   income: number;
   participantFee: number;
   totalParticipantFees: number;
@@ -99,7 +99,11 @@ export class FinancePlannerComponent implements OnChanges {
           maxTotalSubsidies
         );
 
-        const minPrice = this.estimateFeeToPay((Math.max(0, expensesSubsidizable - maxTotalSubsidies) + expensesNotSubsidizable) / info.participants);
+        const minPrice = this.estimateFeeToPay(
+          (Math.max(0, expensesSubsidizable - maxTotalSubsidies) +
+            expensesNotSubsidizable) /
+            info.participants
+        );
         const minPriceModel = this.calculatePriceModelForPrice(
           info.participants,
           minPrice,
@@ -130,16 +134,18 @@ export class FinancePlannerComponent implements OnChanges {
           expenses,
           expensesSubsidizable,
           expensesNotSubsidizable
-        );        
+        );
 
-        const proposedPriceModel = info.proposedFee ? this.calculatePriceModelForPrice(
-          info.participants,
-          info.proposedFee,
-          maxTotalSubsidies,
-          expenses,
-          expensesSubsidizable,
-          expensesNotSubsidizable
-        ) : null;
+        const proposedPriceModel = info.proposedFee
+          ? this.calculatePriceModelForPrice(
+              info.participants,
+              info.proposedFee,
+              maxTotalSubsidies,
+              expenses,
+              expensesSubsidizable,
+              expensesNotSubsidizable
+            )
+          : null;
 
         return {
           proposedPriceModel,
@@ -151,16 +157,16 @@ export class FinancePlannerComponent implements OnChanges {
     );
   }
 
-  
   calculatePriceModelForPrice(
     participants: number,
     participantFee: number,
     maxSubsidies: number,
     expenses: number,
     expensesSubsidizable: number,
-    expensesNotSubsidizable: number,
+    expensesNotSubsidizable: number
   ): PriceModel {
-    const totalParticipantFees = this.estimateFeeReceived(participantFee) * participants;
+    const totalParticipantFees =
+      this.estimateFeeReceived(participantFee) * participants;
     let subsidies = Math.min(maxSubsidies, expensesSubsidizable);
     let totalIncome = totalParticipantFees + subsidies;
     let balance = totalIncome - expenses;
@@ -184,10 +190,9 @@ export class FinancePlannerComponent implements OnChanges {
       expenses,
       expensesSubsidizable,
       expensesNotSubsidizable,
-      balance
+      balance,
     };
   }
-
 
   /** Estimates the fee that would need to be paid by a participant so we receive the desired amount
    * Example: a participant needs to pay ~20.56€ so that we receive 20€
@@ -251,12 +256,12 @@ export class FinancePlannerComponent implements OnChanges {
     );
   }
 
-  private getTotalCost([items, info]: [
-    CostItem[],
-    { participants: number; organizers: number }
-  ], notSubsized = false) {
+  private getTotalCost(
+    [items, info]: [CostItem[], { participants: number; organizers: number }],
+    notSubsized = false
+  ) {
     return items
-      .filter((item) => notSubsized && item.notSubsidized || !notSubsized)
+      .filter((item) => (notSubsized && item.notSubsidized) || !notSubsized)
       .map((item) => {
         switch (item.type) {
           case 'event':
