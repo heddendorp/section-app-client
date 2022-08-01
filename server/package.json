@@ -42,7 +42,7 @@
     "@prisma/client": "^4.1.1",
     "@sendgrid/mail": "^7.7.0",
     "@sentry/integrations": "^7.8.0",
-    "@sentry/node": "^7.8.0",
+    "@sentry/node": "^7.8.1",
     "@sentry/tracing": "^7.8.0",
     "canvas": "^2.9.3",
     "compression": "^1.7.4",
