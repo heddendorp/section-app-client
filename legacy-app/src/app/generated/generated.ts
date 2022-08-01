@@ -1026,6 +1026,7 @@ export type TumiEvent = {
   icon: Scalars['String'];
   id: Scalars['ID'];
   insuranceDescription: Scalars['String'];
+  internalEvent: Scalars['Boolean'];
   location: Scalars['String'];
   needsRating: Scalars['Boolean'];
   netAmountCollected: Scalars['Decimal'];
@@ -1463,7 +1464,7 @@ export type EventListQueryVariables = Exact<{
 }>;
 
 
-export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, prices?: any | null, freeParticipantSpots: string, organizerLimit: number, organizersRegistered: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userIsRegistered: boolean, userIsOrganizer: boolean }> };
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, prices?: any | null, freeParticipantSpots: string, organizerLimit: number, organizersRegistered: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userIsRegistered: boolean, userIsOrganizer: boolean, internalEvent: boolean }> };
 
 export type LoadEventForEditQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2943,6 +2944,7 @@ export const EventListDocument = gql`
     registrationMode
     userIsRegistered
     userIsOrganizer
+    internalEvent
   }
 }
     `;

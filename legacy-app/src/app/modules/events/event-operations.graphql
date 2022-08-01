@@ -453,5 +453,6 @@ query eventList($after: DateTime, $before: DateTime) {
     registrationMode
     userIsRegistered
     userIsOrganizer
+    internalEvent
   }
 }

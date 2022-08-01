@@ -626,6 +626,7 @@ type TumiEvent {
   icon: String!
   id: ID!
   insuranceDescription: String!
+  internalEvent: Boolean!
   location: String!
   needsRating: Boolean!
   netAmountCollected: Decimal!
