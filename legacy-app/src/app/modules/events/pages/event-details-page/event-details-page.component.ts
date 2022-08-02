@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  BehaviorSubject,
   filter,
   first,
   firstValueFrom,
@@ -47,7 +48,7 @@ export class EventDetailsPageComponent implements OnDestroy {
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
-  public ratingExpanded = false;
+  public ratingExpanded$ = new BehaviorSubject(false);
 
   constructor(
     private title: Title,
@@ -70,7 +71,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       shareReplay(1),
       tap((event) => {
         if (!event.activeRegistration?.rating) {
-          this.ratingExpanded = true;
+          this.ratingExpanded$.next(true);
         }
       })
     );
@@ -154,10 +155,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.loadEventQueryRef.refetch();
 
-    this.ratingExpanded = false;
+    this.ratingExpanded$.next(false);
   }
 
   expandRatingPanel() {
-    this.ratingExpanded = !this.ratingExpanded;
+    this.ratingExpanded$.next(this.ratingExpanded$.value);
   }
 }

@@ -1033,7 +1033,7 @@ export type TumiEvent = {
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
   organizerRating?: Maybe<Scalars['Float']>;
-  organizerRatingCount?: Maybe<Scalars['Float']>;
+  organizerRatingCount?: Maybe<Scalars['Int']>;
   organizerRegistrationPossible: Scalars['Boolean'];
   organizerRegistrations: Array<EventRegistration>;
   organizerSignup: Array<Scalars['String']>;
@@ -1043,7 +1043,7 @@ export type TumiEvent = {
   ownRegistrations: Array<EventRegistration>;
   participantLimit: Scalars['Int'];
   participantRating?: Maybe<Scalars['Float']>;
-  participantRatingCount?: Maybe<Scalars['Float']>;
+  participantRatingCount?: Maybe<Scalars['Int']>;
   participantRegistrationCount: Scalars['Int'];
   participantRegistrationPossible: Scalars['JSON'];
   participantRegistrations: Array<EventRegistration>;

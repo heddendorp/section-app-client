@@ -633,7 +633,7 @@ type TumiEvent {
   organizer: EventOrganizer!
   organizerLimit: Int!
   organizerRating: Float
-  organizerRatingCount: Float
+  organizerRatingCount: Int
   organizerRegistrationPossible: Boolean!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
@@ -643,7 +643,7 @@ type TumiEvent {
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
   participantRating: Float
-  participantRatingCount: Float
+  participantRatingCount: Int
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!

@@ -38,11 +38,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
     organizerText: t.string({
-      resolve: (event, args, context) => {
-        const { status } = context.userOfTenant ?? {};
-        if (!status || status === MembershipStatus.NONE) {
-          return '';
-        }
+      authScopes: { public: false },
+      unauthorizedResolver: () => '',
+      resolve: (event, args, context) => {        
         return event.organizerText;
       },
     }),
@@ -149,7 +147,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .then(({ _avg: { rating } }) => rating);
       },
     }),
-    participantRatingCount: t.float({
+    participantRatingCount: t.int({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration.count({
@@ -184,7 +182,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .then(({ _avg: { rating } }) => rating);
       },
     }),
-    organizerRatingCount: t.float({
+    organizerRatingCount: t.int({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration.count({
@@ -423,13 +421,10 @@ export const eventType = builder.prismaObject('TumiEvent', {
       },
     }),
     organizers: t.prismaField({
-      type: ['User'],
+      type: ['User'],     
+      authScopes: { public: false },
+      unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
-        const { status } = context.userOfTenant ?? {};
-        if (!status || status === MembershipStatus.NONE) {
-          return [];
-        }
-
         return prisma.user.findMany({
           ...query,
           where: {
