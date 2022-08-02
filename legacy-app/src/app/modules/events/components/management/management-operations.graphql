@@ -4,6 +4,7 @@ query getCostItemsForEvent($eventId: ID!) {
     name
     calculationInfo
     amount
+    notSubsidized
     onInvoice
     submittedAmount
   }
@@ -24,6 +25,7 @@ mutation updateCostItemsFromTemplate($eventId: ID!) {
       name
       calculationInfo
       amount
+      notSubsidized
       onInvoice
     }
   }

@@ -6,7 +6,21 @@
 >
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    <td mat-cell *matCellDef="let element">
+      <span class="break-words">{{ element.description }}</span>
+      <span
+        *ngIf="element.notSubsidized"
+        class="rounded bg-red-500 px-1 text-white text-xs ml-2 inline-block"
+      >
+        not subsidized
+      </span>
+      <span
+        *ngIf="element.onInvoice"
+        class="rounded bg-green-500 px-1 text-white text-xs ml-2 inline-block"
+      >
+        on invoice
+      </span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="value">
@@ -29,10 +43,10 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="prepaid">
+  <ng-container matColumnDef="onInvoice">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      {{ element.prepaid ? 'prepaid by TUMi' : '' }}
+      {{ element.onInvoice ? 'on invoice' : '' }}
     </td>
   </ng-container>
 
@@ -49,8 +63,17 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 <div fxLayout="row" fxLayoutGap="1rem">
-  <button mat-stroked-button (click)="addItem()">Add item</button>
-  <button mat-stroked-button (click)="saveFinances()" color="primary">
+  <button mat-stroked-button class="modern" (click)="addItem()">
+    <mat-icon svgIcon="icon-add"></mat-icon>
+    Add item
+  </button>
+  <button
+    mat-stroked-button
+    class="modern"
+    (click)="saveFinances()"
+    color="primary"
+  >
+    <mat-icon svgIcon="icon-save"></mat-icon>
     Save finances
   </button>
 </div>
@@ -82,105 +105,25 @@
 </form>
 <div
   *ngIf="forecastResult$ | async as result"
-  class="mt-4 w-full"
-  gdAuto
-  gdGap="1rem"
-  gdColumns="max-content max-content"
+  class="flex flex-col md:flex-row flex-wrap gap-3 mt-4"
 >
-  <p>Sum of all expenses:</p>
-  <p class="ml-auto rounded px-1 bg-red-200">
-    {{ result.totalCost | currency: 'EUR' }}
-  </p>
-
-  <div class="contents" *ngIf="result.proposedPrice">
-    <p class="font-semibold">Proposed price:</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
-      {{ result.proposedPrice.participantFee | currency: 'EUR' }}
-    </p>
-    <div class="contents text-xs">
-      <p class="ml-4">Total participant fees:</p>
-      <p class="ml-auto">
-        {{ result.proposedPrice.totalParticipantFees | currency: 'EUR' }}
-      </p>
-      <p class="ml-4">Subsidies:</p>
-      <p class="ml-auto">
-        {{ result.proposedPrice.subsidies | currency: 'EUR' }}
-      </p>
-      <div class="contents" *ngIf="result.proposedPrice.buffer < 0">
-        <p class="ml-4 text-red-500">Deficit:</p>
-        <p class="ml-auto rounded px-1 bg-red-200">
-          {{ -result.proposedPrice.buffer | currency: 'EUR' }}
-        </p>
-      </div>
-      <div class="contents" *ngIf="result.proposedPrice.buffer >= 0">
-        <p class="ml-4">Subsidy buffer:</p>
-        <p class="ml-auto rounded px-1 bg-green-200">
-          {{ result.proposedPrice.buffer | currency: 'EUR' }}
-        </p>
-        <p class="ml-4">Subsidy percentage:</p>
-        <p class="ml-auto">
-          {{
-            result.proposedPrice.subsidies / result.totalCost | percent: '1.1-1'
-          }}
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <p class="font-semibold">Recommended price:</p>
-  <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
-    {{ result.recommendedPrice.participantFee | currency: 'EUR' }}
-  </p>
-  <div class="contents text-xs">
-    <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">
-      {{ result.recommendedPrice.totalParticipantFees | currency: 'EUR' }}
-    </p>
-    <p class="ml-4">Subsidies:</p>
-    <p class="ml-auto">
-      {{ result.recommendedPrice.subsidies | currency: 'EUR' }}
-    </p>
-    <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">
-      {{
-        result.recommendedPrice.subsidies / result.totalCost | percent: '1.1-1'
-      }}
-    </p>
-  </div>
-
-  <p>Minimal price (max subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">
-    {{ result.minPrice.participantFee | currency: 'EUR' }}
-  </p>
-  <div class="contents text-xs">
-    <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">
-      {{ result.minPrice.totalParticipantFees | currency: 'EUR' }}
-    </p>
-    <p class="ml-4">Subsidies:</p>
-    <p class="ml-auto">{{ result.minPrice.subsidies | currency: 'EUR' }}</p>
-    <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">
-      {{ result.minPrice.subsidies / result.totalCost | percent: '1.1-1' }}
-    </p>
-  </div>
-
-  <p>Maximal price (no subsidies):</p>
-  <p class="ml-auto rounded px-1 bg-slate-200">
-    {{ result.maxPrice.participantFee | currency: 'EUR' }}
-  </p>
-  <div class="contents text-xs">
-    <p class="ml-4">Total participant fees:</p>
-    <p class="ml-auto">
-      {{ result.maxPrice.totalParticipantFees | currency: 'EUR' }}
-    </p>
-    <p class="ml-4">Subsidies:</p>
-    <p class="ml-auto">{{ result.maxPrice.subsidies | currency: 'EUR' }}</p>
-    <p class="ml-4">Subsidy percentage:</p>
-    <p class="ml-auto">
-      {{ result.maxPrice.subsidies / result.totalCost | percent: '1.1-1' }}
-    </p>
-  </div>
+  <app-finance-planner-price-model
+    *ngIf="result.proposedPriceModel"
+    name="Proposed price"
+    [result]="result.proposedPriceModel"
+  ></app-finance-planner-price-model>
+  <app-finance-planner-price-model
+    name="Recommended price"
+    [result]="result.recommendedPriceModel"
+  ></app-finance-planner-price-model>
+  <app-finance-planner-price-model
+    name="Minimal price"
+    [result]="result.minPriceModel"
+  ></app-finance-planner-price-model>
+  <app-finance-planner-price-model
+    name="Maximal price"
+    [result]="result.maxPriceModel"
+  ></app-finance-planner-price-model>
 </div>
 <div class="mt-4 text-xs text-slate-500 space-y-2">
   <p>
@@ -191,7 +134,8 @@
     price, which means that participants pay what they would pay if they went
     themselves. That is the <b>recommended price</b>. You can also enter a
     custom price (proposed fee) and see how the calculation changes and how much
-    subsidy money remains as a buffer.
+    subsidy money remains as a buffer. The balance must remain positive. Any
+    positive balance turns into profit.
   </p>
   <p>
     The <b>minimal price</b> refers to maxing out all subsidies, which should

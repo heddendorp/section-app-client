@@ -1,0 +1,62 @@
+<div
+  gdAuto
+  gdGap="1rem"
+  gdColumns="max-content 1fr"
+  class="p-4 border box-border rounded-lg"
+>
+  <div class="contents">
+    <p class="font-bold">{{ name }}</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+      {{ result.participantFee | currency: 'EUR' }}
+    </p>
+    <p class="font-medium">Income</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-green-200">
+      {{ result.income | currency: 'EUR' }}
+    </p>
+    <div class="contents text-xs">
+      <p class="ml-4">Total participant fees:</p>
+      <p class="ml-auto">
+        ≈ {{ result.totalParticipantFees | currency: 'EUR' }}
+      </p>
+      <p class="ml-4">Subsidies:</p>
+      <p class="ml-auto">
+        {{ result.subsidies | currency: 'EUR' }}
+      </p>
+      <p class="ml-8">Max. subsidies:</p>
+      <p class="ml-auto">
+        {{ result.maxSubsidies | currency: 'EUR' }}
+      </p>
+      <p class="ml-8">Subsidy percentage</p>
+      <p class="ml-auto">
+        {{ result.subsidyPercentage | percent: '1.1-1' }}
+      </p>
+      <p class="ml-8">Subsidy buffer</p>
+      <p class="ml-auto">
+        {{ result.subsidyBuffer | currency: 'EUR' }}
+      </p>
+    </div>
+    <p class="font-medium">Expenses</p>
+    <p class="ml-auto font-semibold rounded px-1 bg-red-200">
+      {{ result.expenses | currency: 'EUR' }}
+    </p>
+    <div class="contents text-xs">
+      <p class="ml-4">Subsidizable expenses:</p>
+      <p class="ml-auto">
+        {{ result.expensesSubsidizable | currency: 'EUR' }}
+      </p>
+      <p class="ml-4">Non-subsidizable expenses:</p>
+      <p class="ml-auto">
+        {{ result.expensesNotSubsidizable | currency: 'EUR' }}
+      </p>
+    </div>
+    <p class="font-medium">Balance</p>
+    <p
+      class="ml-auto font-semibold rounded px-1 {{
+        result.balance < 0 ? 'bg-red-200' : 'bg-green-200'
+      }}"
+    >
+      {{ result.balance | currency: 'EUR' }}
+      {{ result.balance < 0 ? '❌' : '✔️' }}
+    </p>
+  </div>
+</div>
