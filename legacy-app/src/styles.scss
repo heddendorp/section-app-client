@@ -299,7 +299,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   .save-button {
     .mat-icon {
-      &:not(.saving) {
+      &:not(.saving) mat-spinner {
         display: none;
       }
       mat-spinner {

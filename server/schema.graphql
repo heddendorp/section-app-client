@@ -151,6 +151,7 @@ type EventOrganizer {
 }
 
 type EventRegistration {
+  anonymousRating: Boolean!
   belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
@@ -245,6 +246,7 @@ type EventTemplate {
 
 type EventTemplateCategory {
   createdAt: DateTime!
+  eventCount: Int!
   icon: String!
   id: ID!
   name: String!
@@ -308,7 +310,7 @@ type Mutation {
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
-  rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
+  rateEvent(anonymousRating: Boolean = true, comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
@@ -422,7 +424,7 @@ type Query {
   eventTemplate(id: ID!): EventTemplate!
   eventTemplateCategories: [EventTemplateCategory!]!
   eventTemplates(onlyWithoutCategory: Boolean): [EventTemplate!]!
-  events(after: DateTime, before: DateTime, limit: Int, search: String): [TumiEvent!]!
+  events(after: DateTime, before: DateTime, limit: Int, reverseOrder: Boolean, search: String): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photoShareKey: String!
@@ -625,12 +627,14 @@ type TumiEvent {
   icon: String!
   id: ID!
   insuranceDescription: String!
+  internalEvent: Boolean!
   location: String!
   needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
-  organizerRatings: Float
+  organizerRating: Float
+  organizerRatingCount: Int
   organizerRegistrationPossible: Boolean!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
@@ -639,7 +643,8 @@ type TumiEvent {
   organizersRegistered: Int!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
-  participantRatings: Float
+  participantRating: Float
+  participantRatingCount: Int
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
@@ -650,6 +655,7 @@ type TumiEvent {
   plannedSpend: Decimal!
   prices: JSON
   publicationState: PublicationState!
+  ratings: [EventRegistration!]!
   refundFeesPaid: Decimal!
   registrationLink: String
   registrationMode: RegistrationMode!

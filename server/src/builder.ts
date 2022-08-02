@@ -62,8 +62,8 @@ export const builder = new SchemaBuilder<{
   authScopes: async (context) => ({
     authenticated: !!context.auth0,
     public: !!context.user,
-    member: context.userOfTenant?.status !== MembershipStatus.NONE,
-    admin: context.userOfTenant?.role === Role.ADMIN,
+    member: !!context.user && context.userOfTenant?.status !== MembershipStatus.NONE,
+    admin: !!context.user && context.userOfTenant?.role === Role.ADMIN,
   }),
   tracing: {
     default: (config) => isRootField(config),

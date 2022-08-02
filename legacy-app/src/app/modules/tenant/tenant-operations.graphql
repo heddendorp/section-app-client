@@ -67,24 +67,24 @@ query loadEventsWithBooking($after: DateTime) {
 }
 
 query loadEventsWithRating($after: DateTime) {
-  events(after: $after) {
+  events(after: $after, reverseOrder: true) {
     id
     title
     start
     icon
-    participantRatings
-    organizerRatings
-    participantRegistrations {
-      id
-      status
-      rating
+    participantRating
+    participantRatingCount
+    organizerRating
+    organizerRatingCount
+    ratings {
       userComment
-    }
-    organizerRegistrations {
-      id
-      status
       rating
-      userComment
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+      }
     }
     organizer {
       id

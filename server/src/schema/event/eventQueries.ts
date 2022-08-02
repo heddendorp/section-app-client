@@ -28,11 +28,12 @@ builder.queryFields((t) => ({
       before: t.arg({ type: 'DateTime', required: false }),
       search: t.arg.string({ required: false }),
       limit: t.arg.int(),
+      reverseOrder: t.arg.boolean({ required: false }),
     },
     resolve: async (
       query,
       parent,
-      { before, after, limit, search },
+      { before, after, limit, search, reverseOrder },
       context,
       info
     ) => {
@@ -98,7 +99,7 @@ builder.queryFields((t) => ({
         ...query,
         where,
         ...(limit ? { take: limit } : {}),
-        orderBy: { start: 'asc' },
+        orderBy: { start: reverseOrder ? 'desc' : 'asc' },
       });
     },
   }),

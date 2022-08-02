@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  BehaviorSubject,
   filter,
   first,
   firstValueFrom,
@@ -8,6 +9,7 @@ import {
   shareReplay,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
@@ -19,6 +21,7 @@ import {
   RegistrationMode,
   RegistrationType,
   Role,
+  SubmitEventFeedbackGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -45,6 +48,8 @@ export class EventDetailsPageComponent implements OnDestroy {
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
+  public ratingExpanded$ = new BehaviorSubject(false);
+
   constructor(
     private title: Title,
     private route: ActivatedRoute,
@@ -52,6 +57,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
+    private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
     public permissions: PermissionsService,
     private snackbar: MatSnackBar
@@ -62,7 +68,12 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      shareReplay(1)
+      shareReplay(1),
+      tap((event) => {
+        if (!event.activeRegistration?.rating) {
+          this.ratingExpanded$.next(true);
+        }
+      })
     );
     firstValueFrom(this.event$).then((event) => {
       this.title.setTitle(`${event.title} - TUMi`);
@@ -128,5 +139,26 @@ export class EventDetailsPageComponent implements OnDestroy {
         },
       });
     }
+  }
+
+  async saveRating(
+    $event: { rating: number; comment: string; anonymousRating: boolean },
+    id: string
+  ) {
+    await firstValueFrom(
+      this.submitEventFeedbackGQL.mutate({
+        id,
+        anonymousRating: $event.anonymousRating,
+        rating: $event.rating,
+        comment: $event.comment,
+      })
+    );
+    this.loadEventQueryRef.refetch();
+
+    this.ratingExpanded$.next(false);
+  }
+
+  expandRatingPanel() {
+    this.ratingExpanded$.next(!this.ratingExpanded$.value);
   }
 }

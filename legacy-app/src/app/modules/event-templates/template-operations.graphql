@@ -82,6 +82,7 @@ query getTemplateCategoriesWithTemplates {
     id
     name
     icon
+    eventCount
     templateCount
     templates {
       id
@@ -137,6 +138,24 @@ query getEventTemplate($id: ID!) {
       id
       title
       start
+      participantRating
+      participantRatingCount
+      organizerRating
+      organizerRatingCount
+      ratings {
+        userComment
+        rating
+        type
+        anonymousRating
+        user {
+          id
+          fullName
+        }
+      }
+      organizer {
+        id
+        name
+      }
     }
   }
 }
