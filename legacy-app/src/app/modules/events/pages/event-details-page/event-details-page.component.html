@@ -155,20 +155,19 @@
           <mat-panel-title>Ratings</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
-          <ng-container *ngFor="let rating of event.ratings">
-            <app-rating-item
-              [isOrganizer]="rating.type === 'ORGANIZER'"
-              [comment]="rating.userComment || ''"
-              [isAnonymous]="rating.anonymousRating"
-              [rating]="rating.rating || 0"
-              [userId]="rating.user.id"
-              [userFullName]="rating.user.fullName"
-              [isCurrentUser]="
-                event.activeRegistration?.user?.id === rating.user.id
-              "
-              (edit)="expandRatingPanel()"
-            ></app-rating-item>
-          </ng-container>
+          <app-rating-item
+            *ngFor="let rating of event.ratings"
+            [isOrganizer]="rating.type === 'ORGANIZER'"
+            [comment]="rating.userComment || ''"
+            [isAnonymous]="rating.anonymousRating"
+            [rating]="rating.rating || 0"
+            [userId]="rating.user.id"
+            [userFullName]="rating.user.fullName"
+            [isCurrentUser]="
+              event.activeRegistration?.user?.id === rating.user.id
+            "
+            (edit)="expandRatingPanel()"
+          ></app-rating-item>
         </div>
         <div
           *ngIf="
