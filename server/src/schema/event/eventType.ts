@@ -38,7 +38,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
     organizerText: t.string({
-      authScopes: { public: false },
+      authScopes: { member: true },
       unauthorizedResolver: () => '',
       resolve: (event, args, context) => {        
         return event.organizerText;
@@ -422,7 +422,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     organizers: t.prismaField({
       type: ['User'],     
-      authScopes: { public: false },
+      authScopes: { member: true },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
         return prisma.user.findMany({
