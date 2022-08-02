@@ -159,6 +159,6 @@ export class EventDetailsPageComponent implements OnDestroy {
   }
 
   expandRatingPanel() {
-    this.ratingExpanded$.next(this.ratingExpanded$.value);
+    this.ratingExpanded$.next(!this.ratingExpanded$.value);
   }
 }
