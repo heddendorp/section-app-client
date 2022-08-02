@@ -40,7 +40,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizerText: t.string({
       authScopes: { member: true },
       unauthorizedResolver: () => '',
-      resolve: (event, args, context) => {        
+      resolve: (event, args, context) => {
         return event.organizerText;
       },
     }),
@@ -421,7 +421,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
       },
     }),
     organizers: t.prismaField({
-      type: ['User'],     
+      type: ['User'],
       authScopes: { member: true },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
