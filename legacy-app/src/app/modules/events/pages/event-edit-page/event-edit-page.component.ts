@@ -285,6 +285,21 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }
         }
       });
+    this.coreInformationForm
+      .get('shouldBeReportedToInsurance')
+      ?.valueChanges.pipe(
+        startWith(
+          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value
+        ),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {
+          this.coreInformationForm.get('insuranceDescription')?.enable();
+        } else {
+          this.coreInformationForm.get('insuranceDescription')?.disable();
+        }
+      });
     loader.dismiss();
   }
 
@@ -402,8 +417,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       await this.updatePublicationMutation
         .mutate({ id: event.id, state })
         .toPromise();
+      this.snackBar.open('Event saved ✔️');
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async onSubmit() {
@@ -420,9 +435,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       if (data) {
         delete data.updateEventGeneralInfo.__typename;
         this.generalInformationForm.patchValue(data.updateEventGeneralInfo);
+        this.snackBar.open('Event saved ✔️');
       }
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async onCoreSubmit() {
@@ -462,8 +477,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }),
         });
       }
+      this.snackBar.open('Event saved ✔️');
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async reloadEvent() {
