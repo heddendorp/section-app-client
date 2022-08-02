@@ -108,7 +108,7 @@
         </button>
         <a
           mat-list-item
-          *appIfRole="[Role.User, Role.Admin]"
+          *ngIf="this.auth.isAuthenticated$ | async"
           (click)="auth.logout({ returnTo: document.location.origin })"
         >
           <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
