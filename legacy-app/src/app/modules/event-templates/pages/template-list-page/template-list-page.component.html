@@ -36,12 +36,18 @@
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3">
-          <img [src]="category.icon | iconURL" class="mr-4 h-10" alt="" />{{
-            category.name
-          }}
+          <div class="relative mr-4">
+            <img [src]="category.icon | iconURL" class="h-10" alt="" />
+            <div class="counter">
+              {{ category.templateCount }}
+            </div>
+          </div>
+          <span>
+            {{ category.name }}
+          </span>
         </mat-panel-title>
         <mat-panel-description>
-          {{ category.templateCount }} templates
+          {{ category.eventCount }} events
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -52,15 +58,15 @@
             mat-list-item
             routerLink="./{{ template.id }}"
           >
-            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <div mat-list-avatar class="relative">
+              <img [src]="template.icon | iconURL" alt="" />
+              <div class="counter">
+                {{ template.eventInstanceCount }}
+              </div>
+            </div>
             <h3 mat-line>{{ template.title }}</h3>
             <span mat-line>
-              <span>
-                {{ template.eventInstanceCount }} instance{{
-                  template.eventInstanceCount === 1 ? '' : 's'
-                }}
-              </span>
-              <span *ngIf="template.participantRating" class="ml-4">
+              <span *ngIf="template.participantRating">
                 {{ template.participantRating | number: '1.1-1' }} ★ ({{
                   template.participantRatingCount
                 }})
@@ -79,9 +85,7 @@
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
-        <mat-panel-description>
-          {{ templates.length }} templates
-        </mat-panel-description>
+        <mat-panel-description> </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <mat-nav-list>
@@ -90,7 +94,12 @@
             mat-list-item
             routerLink="./{{ template.id }}"
           >
-            <img mat-list-avatar [src]="template.icon | iconURL" alt="" />
+            <div mat-list-avatar class="relative">
+              <img [src]="template.icon | iconURL" alt="" />
+              <div class="counter">
+                {{ templates.length }}
+              </div>
+            </div>
             <h3 mat-line>{{ template.title }}</h3>
             <span mat-line *ngIf="template.participantRating">
               {{ template.participantRating | number: '1.1-1' }} ★ ({{

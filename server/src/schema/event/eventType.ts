@@ -10,7 +10,6 @@ import {
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
-import { parentPort } from 'worker_threads';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -38,8 +37,18 @@ export const eventType = builder.prismaObject('TumiEvent', {
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
-    organizerText: t.exposeString('organizerText'),
+    organizerText: t.string({
+      authScopes: { member: true },
+      unauthorizedResolver: () => '',
+      resolve: (event, args, context) => {        
+        return event.organizerText;
+      },
+    }),
     organizerSignup: t.exposeStringList('organizerSignup'),
+    internalEvent: t.boolean({
+      resolve: (event, args, context) =>
+        !event.participantSignup.includes(MembershipStatus.NONE),
+    }),
     participantSignup: t.exposeStringList('participantSignup'),
     participantLimit: t.exposeInt('participantLimit'),
     organizerLimit: t.exposeInt('organizerLimit'),
@@ -84,13 +93,13 @@ export const eventType = builder.prismaObject('TumiEvent', {
           return 'Many free spots';
         } else if (quota < 0.8) {
           return 'Some spots left';
-        } else if (quota < 1) {
-          return 'Few spots left';
         } else if (
           event.participantLimit - event.participantRegistrationCount ===
           1
         ) {
           return 'One spot left';
+        } else if (quota < 1) {
+          return 'Few spots left';
         } else {
           return 'Event is full';
         }
@@ -118,7 +127,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         return registrations.length > 0;
       },
     }),
-    participantRatings: t.float({
+    participantRating: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration
@@ -138,7 +147,22 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .then(({ _avg: { rating } }) => rating);
       },
     }),
-    organizerRatings: t.float({
+    participantRatingCount: t.int({
+      nullable: true,
+      resolve: async (source, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.PARTICIPANT,
+            rating: {
+              not: null,
+            },
+          },
+        });
+      },
+    }),
+    organizerRating: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration
@@ -156,6 +180,21 @@ export const eventType = builder.prismaObject('TumiEvent', {
             },
           })
           .then(({ _avg: { rating } }) => rating);
+      },
+    }),
+    organizerRatingCount: t.int({
+      nullable: true,
+      resolve: async (source, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.ORGANIZER,
+            rating: {
+              not: null,
+            },
+          },
+        });
       },
     }),
     activeRegistration: t.prismaField({
@@ -211,6 +250,22 @@ export const eventType = builder.prismaObject('TumiEvent', {
           status: { not: RegistrationStatus.CANCELLED },
         },
       }),
+    }),
+    ratings: t.relation('registrations', {
+      query: (args, context) => {
+        const { role, status } = context.userOfTenant ?? {};
+        return {
+          where: {
+            ...(!status || status === MembershipStatus.NONE
+              ? { type: RegistrationType.PARTICIPANT }
+              : { status: { not: RegistrationStatus.CANCELLED } }),
+            rating: {
+              not: null,
+            },
+          },
+          orderBy: [{ type: 'asc' }, { user: { lastName: 'asc' } }],
+        };
+      },
     }),
     amountCollected: t.field({
       type: 'Decimal',
@@ -366,7 +421,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
       },
     }),
     organizers: t.prismaField({
-      type: ['User'],
+      type: ['User'],     
+      authScopes: { member: true },
+      unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
         return prisma.user.findMany({
           ...query,

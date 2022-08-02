@@ -397,6 +397,7 @@ model EventRegistration {
   status                RegistrationStatus     @default(SUCCESSFUL)
   registrationCodeId    String?                @db.Uuid
   rating                Int?
+  anonymousRating       Boolean                @default(true)
   userComment           String?
   transactionId         String?                @unique @db.Uuid
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
