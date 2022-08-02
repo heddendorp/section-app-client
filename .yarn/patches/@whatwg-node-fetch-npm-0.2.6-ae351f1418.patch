@@ -1,0 +1,13 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 1bcf62b790289ec5c474da1fbf579d56a35e27b0..861c66f94e81f44bd776e953e132cb65530efac2 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -33,7 +33,7 @@ declare module "@whatwg-node/fetch" {
+   export const TextDecoder: typeof _TextDecoder;
+   export const TextEncoder: typeof _TextEncoder;
+   export const Event: typeof _Event;
+-  export const EventTarget: typeof EventTarget;
++  export const EventTarget: typeof _EventTarget;
+   export interface FormDataLimits {
+     /* Max field name size (in bytes). Default: 100. */
+     fieldNameSize?: number;

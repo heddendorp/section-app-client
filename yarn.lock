@@ -7296,7 +7296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/fetch@npm:^0.2.3, @whatwg-node/fetch@npm:^0.2.4, @whatwg-node/fetch@npm:^0.2.6":
+"@whatwg-node/fetch@npm:0.2.6":
   version: 0.2.6
   resolution: "@whatwg-node/fetch@npm:0.2.6"
   dependencies:
@@ -7310,6 +7310,23 @@ __metadata:
     undici: ^5.8.0
     web-streams-polyfill: ^3.2.0
   checksum: 12ee718be802860fbde2647ec0139dba598a278b0248326c0a314591b7096c84c34b16f5317273b0b11f3bbc6ff0d5d1df08983b4e9f5c3f0d779fde727f21af
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch::locator=tumi%40workspace%3A.":
+  version: 0.2.6
+  resolution: "@whatwg-node/fetch@patch:@whatwg-node/fetch@npm%3A0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch::version=0.2.6&hash=e6c073&locator=tumi%40workspace%3A."
+  dependencies:
+    "@peculiar/webcrypto": ^1.4.0
+    abort-controller: ^3.0.0
+    busboy: ^1.6.0
+    event-target-polyfill: ^0.0.3
+    form-data-encoder: ^1.7.1
+    formdata-node: ^4.3.1
+    node-fetch: ^2.6.7
+    undici: ^5.8.0
+    web-streams-polyfill: ^3.2.0
+  checksum: c0a5e8d1e99db2ccd2fd5d20576f17dab343330c3639136c7265f2b028eb3cd95b4e07d036590bdf4dc57df8e843d0a8ce8345e25316ced3ee525dea4b6739a1
   languageName: node
   linkType: hard
 

@@ -56,7 +56,7 @@ builder.mutationFields((t) => ({
               where: { id: registration.id },
               data: {
                 rating,
-                anonymousRating,
+                anonymousRating: anonymousRating ?? true,
                 userComment: comment,
               },
             },
