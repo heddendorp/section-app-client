@@ -116,7 +116,6 @@ builder.prismaObject('User', {
         return prisma.tumiEvent.findMany({
           ...query,
           where: {
-            excludeFromStatistics: false,
             registrations: {
               some: {
                 user: { id: source.id },
@@ -140,7 +139,6 @@ builder.prismaObject('User', {
         return prisma.tumiEvent.findMany({
           ...query,
           where: {
-            excludeFromStatistics: false,
             registrations: {
               some: {
                 user: { id: source.id },

@@ -24,7 +24,7 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
     }),
     submissions: t.relation('submissions'),
     rating: t.exposeInt('rating', { nullable: true }),
-    anonymousRating: t.expose('anonymousRating', { type: 'Boolean' }),
+    anonymousRating: t.exposeBoolean('anonymousRating'),
     userComment: t.exposeString('userComment', { nullable: true }),
     didAttend: t.boolean({ resolve: (source) => !!source.checkInTime }),
     belongsToCurrentUser: t.boolean({
