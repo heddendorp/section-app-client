@@ -65,7 +65,7 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$)
       )
       .subscribe((shouldBeReportedToInsurance) => {
-        if (shouldBeReportedToInsurance) {            
+        if (shouldBeReportedToInsurance) {
           this.dialogForm.get('insuranceDescription')?.enable();
         } else {
           this.dialogForm.get('insuranceDescription')?.disable();
