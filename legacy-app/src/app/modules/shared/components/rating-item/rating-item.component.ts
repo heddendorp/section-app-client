@@ -11,7 +11,7 @@ export class RatingItemComponent {
   isCurrentUser: boolean = false;
 
   @Output()
-  edit: EventEmitter<any> = new EventEmitter();
+  edit: EventEmitter<void> = new EventEmitter();
 
   @Input()
   isOrganizer: boolean = false;
