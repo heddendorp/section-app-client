@@ -125,6 +125,10 @@ export class EventCalendarComponent implements OnChanges {
   }
 
   public tutorSpotsClass(event: any) {
+    if (event.internalEvent) {
+      return 'outline-2 outline outline-blue-500';
+    }
+
     if (!event.couldBeOrganizer) {
       return '';
     }
