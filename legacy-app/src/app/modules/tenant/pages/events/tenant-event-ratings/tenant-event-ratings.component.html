@@ -80,14 +80,14 @@
           *ngIf="element.ratings.length"
           class="my-4 flex flex-col md:flex-row flex-wrap gap-4"
         >
-            <app-rating-item
-              *ngFor="let rating of element.ratings"
-              [isOrganizer]="rating.type === 'ORGANIZER'"
-              [comment]="rating.userComment"
-              [rating]="rating.rating"
-              [userId]="rating.user.id"
-              [userFullName]="rating.user.fullName"
-            ></app-rating-item>
+          <app-rating-item
+            *ngFor="let rating of element.ratings"
+            [isOrganizer]="rating.type === 'ORGANIZER'"
+            [comment]="rating.userComment"
+            [rating]="rating.rating"
+            [userId]="rating.user.id"
+            [userFullName]="rating.user.fullName"
+          ></app-rating-item>
         </div>
       </td>
     </ng-container>

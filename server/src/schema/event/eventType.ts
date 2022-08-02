@@ -39,7 +39,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantText: t.exposeString('participantText'),
     organizerText: t.exposeString('organizerText', {
       authScopes: { member: true },
-      unauthorizedResolver: () => ''
+      unauthorizedResolver: () => '',
     }),
     organizerSignup: t.exposeStringList('organizerSignup'),
     internalEvent: t.boolean({
