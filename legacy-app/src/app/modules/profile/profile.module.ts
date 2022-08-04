@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { EventListItemComponent } from './components/event-list-item/event-list-
     ProfilePageComponent,
     EventListComponent,
     EventListItemComponent,
+    ProfileCardComponent
   ],
   imports: [
     CommonModule,

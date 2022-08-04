@@ -92,6 +92,21 @@ query userProfile {
   }
 }
 
+query userProfilePublic($id: ID!) {
+  user(id: $id) {
+    id
+    fullName
+    picture    
+    university
+    bio
+    country
+    homeUniversity
+    instagram
+    position
+    studyProgram
+  }
+}
+
 query getRegistrationCodeInfo($code: ID!) {
   eventRegistrationCode(id: $code) {
     id

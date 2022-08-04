@@ -36,7 +36,7 @@ export class ProfilePageComponent implements OnDestroy {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.title.setTitle('TUMi - profile');
+    this.title.setTitle('TUMi - Profile');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(

@@ -1614,6 +1614,13 @@ export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }> } | null };
 
+export type UserProfilePublicQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserProfilePublicQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, fullName: string, picture: string, university?: string | null, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null } };
+
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
 }>;
@@ -3546,6 +3553,33 @@ export const UserProfileDocument = gql`
   })
   export class UserProfileGQL extends Apollo.Query<UserProfileQuery, UserProfileQueryVariables> {
     override document = UserProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserProfilePublicDocument = gql`
+    query userProfilePublic($id: ID!) {
+  user(id: $id) {
+    id
+    fullName
+    picture
+    university
+    bio
+    country
+    homeUniversity
+    instagram
+    position
+    studyProgram
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserProfilePublicGQL extends Apollo.Query<UserProfilePublicQuery, UserProfilePublicQueryVariables> {
+    override document = UserProfilePublicDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
