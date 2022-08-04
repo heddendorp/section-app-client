@@ -1,11 +1,8 @@
 ## [4.2.1](https://github.com/heddendorp/tumi/compare/v4.2.0...v4.2.1) (2022-08-04)
 
-
 ### Bug Fixes
 
-* **legacy-app:** Styling fixes and more inclusive language ([#307](https://github.com/heddendorp/tumi/issues/307)) ([0305236](https://github.com/heddendorp/tumi/commit/03052369dede3a633f31f029a266e41c7753bd7e))
-
-
+- **legacy-app:** Styling fixes and more inclusive language ([#307](https://github.com/heddendorp/tumi/issues/307)) ([0305236](https://github.com/heddendorp/tumi/commit/03052369dede3a633f31f029a266e41c7753bd7e))
 
 # [4.2.0](https://github.com/heddendorp/tumi/compare/v4.1.1...v4.2.0) (2022-08-02)
 
