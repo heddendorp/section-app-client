@@ -61,16 +61,13 @@
     <div>
       <mat-form-field class="w-full">
         <mat-label>Phone number</mat-label>
-        <input matInput formControlName="phone" type="tel" minlength="5" />
+        <input matInput formControlName="phone" type="tel" minlength="5" required/>
+        <mat-error>A valid phone number is required</mat-error>
         <mat-hint>
           Please use the international format
           <span class="font-mono">+4912345678</span>
         </mat-hint>
       </mat-form-field>
-      <p class="mt-4">
-        Saving of your phone number is optional and would be used to reach you
-        if there are issues during an event.
-      </p>
     </div>
     <button mat-flat-button color="primary">Get started</button>
   </form>

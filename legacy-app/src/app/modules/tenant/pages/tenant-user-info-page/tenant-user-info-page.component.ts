@@ -52,6 +52,7 @@ export class TenantUserInfoPageComponent {
           id: user.id,
           role: newUser.role,
           status: newUser.status,
+          position: newUser.position || null
         })
       );
     }

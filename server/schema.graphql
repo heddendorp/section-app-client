@@ -324,6 +324,7 @@ type Mutation {
   updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
+  updateUserPosition(position: String, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
   updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
   useRegistrationCode(id: ID!, price: JSON): EventRegistrationCode!
@@ -732,18 +733,25 @@ input UpdateTenantInput {
 }
 
 input UpdateUserInput {
+  bio: String
   birthdate: DateTime
+  country: String
   enrolmentStatus: EnrolmentStatus
   firstName: String
+  homeUniversity: String
+  instagram: String
   lastName: String
   phone: String
+  studyProgram: String
   university: String
 }
 
 type User {
   authId: String!
+  bio: String
   birthdate: DateTime
   calendarToken: String!
+  country: String
   createdAt: DateTime!
   createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants
@@ -756,8 +764,10 @@ type User {
   fullName: String!
   hasESNCard: Boolean!
   hasEsnCard: Boolean!
+  homeUniversity: String
   iban: String
   id: ID!
+  instagram: String
   lastName: String!
   organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   outstandingRating: Boolean!
@@ -765,8 +775,10 @@ type User {
   paypal: String
   phone: String
   picture: String!
+  position: String
   profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
+  studyProgram: String
   transactions: [Transaction!]!
   university: String
 }

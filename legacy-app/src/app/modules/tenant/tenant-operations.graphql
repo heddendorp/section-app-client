@@ -126,6 +126,7 @@ query loadUser($id: ID!) {
     university
     hasESNCard
     esnCardOverride
+    position
     currentTenant(userId: $id) {
       userId
       tenantId
@@ -202,6 +203,7 @@ query getUsers(
     firstName
     lastName
     email
+    position
     currentTenant {
       userId
       tenantId
@@ -344,7 +346,10 @@ mutation updateESNcard($userId: ID!, $override: Boolean!) {
   }
 }
 
-mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+mutation updateUser($id: ID!, $position: String, $role: Role!, $status: MembershipStatus!) {
+  updateUserPosition(userId: $id, position: $position) {
+    position
+  }
   updateUserRole(userId: $id, role: $role) {
     userId
     tenantId

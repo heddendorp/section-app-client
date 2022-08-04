@@ -3,6 +3,7 @@ import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
   UpdateProfileGQL,
+  UpdateUserInformationGQL,
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
@@ -10,9 +11,10 @@ import { first, firstValueFrom, map, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { UpdateProfileDialogComponent } from '@tumi/legacy-app/modules/profile/components/update-profile-dialog/update-profile-dialog.component';
+import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/components/claim-event-dialog/claim-event-dialog.component';
+import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
+import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -29,6 +31,7 @@ export class ProfilePageComponent implements OnDestroy {
     private profileQuery: UserProfileGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
+    private updateUserInformationMutation: UpdateUserInformationGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -86,6 +89,21 @@ export class ProfilePageComponent implements OnDestroy {
     if (result && profile) {
       await firstValueFrom(
         this.updateProfileMutation.mutate({ input: result, userId: profile.id })
+      );
+    }
+  }
+
+  
+  async updateUserInformation() {
+    const profile = await firstValueFrom(this.profile$);
+    const result = await firstValueFrom(
+      this.dialog
+        .open(UpdateUserInformationDialogComponent, { data: { profile } })
+        .afterClosed()
+    );
+    if (result && profile) {
+      await firstValueFrom(
+        this.updateUserInformationMutation.mutate({ input: result, userId: profile.id })
       );
     }
   }

@@ -4,24 +4,56 @@
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
   <div
-    class="bg-tertiary-containerDark text-tertiary-onContainerDark p-8 lg:py-14"
+    class="bg-slate-200 p-8 lg:py-14"
     fxLayout="column"
     fxLayoutAlign="space-evenly center"
     fxLayoutGap="2rem"
   >
-    <img
+    <div class="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center relative overflow-hidden max-w-[90vw] w-[90vw] sm:w-[400px] text-center">
+      <div class="absolute top-0 left-0 w-full h-[80px] bg-blue-500 flex items-center p-4 justify-between">
+        <img
+          src="/assets/logos/full_white.svg"
+          alt="ESN TUMi Logo"
+          class="w-24 object-contain"
+        />
+        <h1 *ngIf="profile.hasESNCard" class="text-white text-xl font-bold">ESNcard</h1>
+      </div>
+      <img
       [src]="profile.picture"
-      class="rounded-lg shadow-lg"
+      class="rounded-full h-[128px] w-[128px] border-white border-[3px] z-10"
       referrerpolicy="no-referrer"
-    />
-    <div fxLayout="column" class="max-w-md">
-      <h2 class="mb-4 text-3xl font-bold">
-        Hey {{ profile.firstName }}! <span class="text-white">👋</span>
-      </h2>
-      <p>
-        We're excited to see you here! This is your profile, giving you an
-        overview of all things TUMi.
-      </p>
+      />
+      <div class="text-3xl font-bold mt-4 mb-1">{{ profile.fullName }}</div>
+      <div *ngIf="profile.country" class="italic mb-1">{{ profile.country }}</div>
+      <div *ngIf="profile.position" class="mb-3">
+        <span class="bg-blue-500 px-2 py-1 text-sm text-white rounded-lg">{{ profile.position }}</span>
+      </div>
+      <div class="mt-1">
+        <span *ngIf="profile.bio">{{ profile.bio }}</span>
+        <span *ngIf="!profile.bio" class="text-gray-400 italic">no bio</span>
+      </div>
+      <mat-divider class="w-full !my-4"></mat-divider>
+      <div class="flex flex-col items-center gap-1 text-sm">        
+        <div class="">
+          <span *ngIf="profile.university && profile.university.length <= 3" class="font-semibold">{{ profile.university | uppercase }}</span>
+          <span *ngIf="profile.studyProgram" class="font-light"> {{ profile.studyProgram }}</span>
+        </div>
+        
+        <div *ngIf="profile.homeUniversity" class="flex items-center gap-1">
+          <mat-icon svgIcon="icon-home" style="min-width: 18px; max-width: 18px"></mat-icon>
+          <div>{{ profile.homeUniversity }}</div>
+        </div>
+        <div *ngIf="profile.instagram" class="flex items-center gap-1 text-pink-600">
+          <mat-icon svgIcon="icon-instagram-new" style="min-width: 18px; max-width: 18px"></mat-icon>
+          <a href="https://www.instagram.com/{{ profile.instagram }}" target="blank">{{ profile.instagram }}</a>
+        </div>
+      </div>
+      <div class="absolute right-2 bottom-2">
+        <button mat-mini-fab class="modern" color="accent" (click)="updateProfile()">
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+        </button>
+
+      </div>
     </div>
   </div>
   <div
@@ -45,20 +77,20 @@
           class="text-secondary-default bg-secondary-on card-icon"
         >
         </mat-icon>
-        <h2 class="font-bold">General Information</h2>
+        <h2 class="font-bold">Private Information</h2>
       </div>
       <div gdAuto gdColumns="1fr 2fr" gdGap="0 1rem" class="mb-2">
-        <p>Name:</p>
-        <p>{{ profile.fullName }}</p>
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
+        <p>Birthday:</p>
+        <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
         <p>ESNcard:</p>
         <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
-        <button mat-raised-button class="modern" (click)="updateProfile()">
+        <button mat-raised-button class="modern" (click)="updateUserInformation()">
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
         </button>

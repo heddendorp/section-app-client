@@ -11,30 +11,24 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 
 @Component({
-  selector: 'app-update-profile-dialog',
-  templateUrl: './update-profile-dialog.component.html',
-  styleUrls: ['./update-profile-dialog.component.scss'],
+  selector: 'app-update-user-information-dialog',
+  templateUrl: './update-user-information-dialog.component.html',
+  styleUrls: ['./update-user-information-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateProfileDialogComponent {
+export class UpdateUserInformationDialogComponent {
   public profileForm: UntypedFormGroup;
   public EnrolmentStatus = EnrolmentStatus;
 
   constructor(
     private fb: UntypedFormBuilder,
-    private dialog: MatDialogRef<UpdateProfileDialogComponent>,
+    private dialog: MatDialogRef<UpdateUserInformationDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { profile: UserProfileQuery['currentUser'] }
   ) {
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      university: ['', Validators.required],
-      bio: [''],
-      country: [''],
-      homeUniversity: [''],
-      instagram: ['', Validators.pattern(/^[\w](?!.*?\.{2})[\w.]{1,28}[\w]$/)],
-      studyProgram: [''],
+      enrolmentStatus: ['', Validators.required],
+      phone: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)])], // Allow spaces in validation, strip them server-side
     });
     this.profileForm.patchValue({ ...this.data.profile });
   }

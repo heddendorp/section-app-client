@@ -33,6 +33,10 @@
           {{ MembershipStatus.Trial | titlecase }}
         </mat-option>
       </mat-select>
+    </mat-form-field>    
+    <mat-form-field class="w-full">
+      <mat-label>Position</mat-label>
+      <input matInput formControlName="position" type="text" />
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

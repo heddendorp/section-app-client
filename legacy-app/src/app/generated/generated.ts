@@ -362,6 +362,7 @@ export type Mutation = {
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
   updateUser: User;
+  updateUserPosition: User;
   updateUserRole: UsersOfTenants;
   updateUserStatus: UsersOfTenants;
   useRegistrationCode: EventRegistrationCode;
@@ -559,6 +560,12 @@ export type MutationUpdateTenantArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+  userId: Scalars['ID'];
+};
+
+
+export type MutationUpdateUserPositionArgs = {
+  position?: InputMaybe<Scalars['String']>;
   userId: Scalars['ID'];
 };
 
@@ -1152,19 +1159,26 @@ export type UpdateTenantInput = {
 };
 
 export type UpdateUserInput = {
+  bio?: InputMaybe<Scalars['String']>;
   birthdate?: InputMaybe<Scalars['DateTime']>;
+  country?: InputMaybe<Scalars['String']>;
   enrolmentStatus?: InputMaybe<EnrolmentStatus>;
   firstName?: InputMaybe<Scalars['String']>;
+  homeUniversity?: InputMaybe<Scalars['String']>;
+  instagram?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+  studyProgram?: InputMaybe<Scalars['String']>;
   university?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
   __typename?: 'User';
   authId: Scalars['String'];
+  bio?: Maybe<Scalars['String']>;
   birthdate?: Maybe<Scalars['DateTime']>;
   calendarToken: Scalars['String'];
+  country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   createdTransactions: Array<Transaction>;
   currentTenant?: Maybe<UsersOfTenants>;
@@ -1177,8 +1191,10 @@ export type User = {
   fullName: Scalars['String'];
   hasESNCard: Scalars['Boolean'];
   hasEsnCard: Scalars['Boolean'];
+  homeUniversity?: Maybe<Scalars['String']>;
   iban?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  instagram?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   organizedEvents: Array<TumiEvent>;
   outstandingRating: Scalars['Boolean'];
@@ -1186,8 +1202,10 @@ export type User = {
   paypal?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   picture: Scalars['String'];
+  position?: Maybe<Scalars['String']>;
   profileComplete: Scalars['Boolean'];
   purchases: Array<Purchase>;
+  studyProgram?: Maybe<Scalars['String']>;
   transactions: Array<Transaction>;
   university?: Maybe<Scalars['String']>;
 };
@@ -1594,7 +1612,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }> } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount?: number | null }> } | null };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -1627,7 +1645,15 @@ export type UpdateProfileMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, university?: string | null, enrolmentStatus: EnrolmentStatus, phone?: string | null } };
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, university?: string | null, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, studyProgram?: string | null } };
+
+export type UpdateUserInformationMutationVariables = Exact<{
+  input: UpdateUserInput;
+  userId: Scalars['ID'];
+}>;
+
+
+export type UpdateUserInformationMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, phone?: string | null, enrolmentStatus: EnrolmentStatus } };
 
 export type UserRolesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1761,7 +1787,7 @@ export type LoadUserQueryVariables = Exact<{
 }>;
 
 
-export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, creatingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
+export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, authId: string, firstName: string, lastName: string, fullName: string, email: string, birthdate?: any | null, phone?: string | null, university?: string | null, hasESNCard: boolean, esnCardOverride: boolean, position?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null, eventRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, checkInTime?: any | null, type: RegistrationType, status: RegistrationStatus, deletingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, creatingCode?: { __typename?: 'EventRegistrationCode', id: string, createdAt: any } | null, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, events: any } } | null, event: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any } }> } };
 
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1782,7 +1808,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, position?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
 
 export type GetStatisticsQueryVariables = Exact<{
   range?: InputMaybe<DateRangeInput>;
@@ -1827,12 +1853,13 @@ export type UpdateEsNcardMutation = { __typename?: 'Mutation', updateESNCard: { 
 
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID'];
+  position?: InputMaybe<Scalars['String']>;
   role: Role;
   status: MembershipStatus;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUserRole: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role }, updateUserStatus: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUserPosition: { __typename?: 'User', position?: string | null }, updateUserRole: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role }, updateUserStatus: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } };
 
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
@@ -3474,6 +3501,12 @@ export const UserProfileDocument = gql`
     calendarToken
     hasESNCard
     enrolmentStatus
+    bio
+    country
+    homeUniversity
+    instagram
+    position
+    studyProgram
     currentTenant {
       userId
       tenantId
@@ -3626,8 +3659,11 @@ export const UpdateProfileDocument = gql`
     lastName
     fullName
     university
-    enrolmentStatus
-    phone
+    bio
+    country
+    homeUniversity
+    instagram
+    studyProgram
   }
 }
     `;
@@ -3637,6 +3673,26 @@ export const UpdateProfileDocument = gql`
   })
   export class UpdateProfileGQL extends Apollo.Mutation<UpdateProfileMutation, UpdateProfileMutationVariables> {
     override document = UpdateProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserInformationDocument = gql`
+    mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
+  updateUser(input: $input, userId: $userId) {
+    id
+    phone
+    enrolmentStatus
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserInformationGQL extends Apollo.Mutation<UpdateUserInformationMutation, UpdateUserInformationMutationVariables> {
+    override document = UpdateUserInformationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4247,6 +4303,7 @@ export const LoadUserDocument = gql`
     university
     hasESNCard
     esnCardOverride
+    position
     currentTenant(userId: $id) {
       userId
       tenantId
@@ -4353,6 +4410,7 @@ export const GetUsersDocument = gql`
     firstName
     lastName
     email
+    position
     currentTenant {
       userId
       tenantId
@@ -4577,7 +4635,10 @@ export const UpdateEsNcardDocument = gql`
     }
   }
 export const UpdateUserDocument = gql`
-    mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+    mutation updateUser($id: ID!, $position: String, $role: Role!, $status: MembershipStatus!) {
+  updateUserPosition(userId: $id, position: $position) {
+    position
+  }
   updateUserRole(userId: $id, role: $role) {
     userId
     tenantId

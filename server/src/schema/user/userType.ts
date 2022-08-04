@@ -29,6 +29,12 @@ builder.prismaObject('User', {
     transactions: t.relation('transactions'),
     createdTransactions: t.relation('createdTransactions'),
     enrolmentStatus: t.expose('enrolmentStatus', { type: EnrollmentStatus }),
+    bio: t.exposeString('bio', { nullable: true }),
+    country: t.exposeString('country', { nullable: true }),
+    homeUniversity: t.exposeString('homeUniversity', { nullable: true }),
+    instagram: t.exposeString('instagram', { nullable: true }),
+    position: t.exposeString('position', { nullable: true }),
+    studyProgram: t.exposeString('studyProgram', { nullable: true }),
     purchases: t.relation('purchases', {
       args: {
         skipCancelled: t.arg.boolean({ defaultValue: false }),
@@ -153,7 +159,13 @@ builder.prismaObject('User', {
         });
       },
     }),
-    eventRegistrations: t.relation('eventRegistrations'),
+    eventRegistrations: t.relation('eventRegistrations', {
+      query: (args, context) => ({
+        orderBy: [
+          { event: { start: 'desc' } },
+        ],
+      }),
+    }),
     hasESNCard: t.boolean({
       resolve: async (source, args, context) => {
         if (source.esnCardOverride) {
@@ -195,5 +207,10 @@ export const updateUserInputType = builder.inputType('UpdateUserInput', {
     birthdate: t.field({ type: 'DateTime' }),
     phone: t.string(),
     enrolmentStatus: t.field({ type: EnrollmentStatus }),
+    bio: t.string(),
+    country: t.string(),
+    homeUniversity: t.string(),
+    instagram: t.string(),
+    studyProgram: t.string(),
   }),
 });
