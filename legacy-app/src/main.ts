@@ -9,22 +9,25 @@ import { getActiveTransaction } from '@sentry/angular';
 
 if (environment.production) {
   enableProdMode();
-  Sentry.init({
-    dsn: 'https://d5d2f5fb92034473ae598a357ce3eb5c@o541164.ingest.sentry.io/6366795',
-    environment: environment.production ? 'production' : 'development',
-    release: 'legacy-app@' + environment.version,
-    integrations: [
-      new BrowserTracing({
-        tracingOrigins: ['localhost', 'tumi.esn.world', /^\//],
-        routingInstrumentation: Sentry.routingInstrumentation,
-      }),
-    ],
+  if (environment.version !== 'test') {
+    console.log(`Version: ${environment.version}`);
+    Sentry.init({
+      dsn: 'https://d5d2f5fb92034473ae598a357ce3eb5c@o541164.ingest.sentry.io/6366795',
+      environment: environment.production ? 'production' : 'development',
+      release: 'legacy-app@' + environment.version,
+      integrations: [
+        new BrowserTracing({
+          tracingOrigins: ['localhost', 'tumi.esn.world', /^\//],
+          routingInstrumentation: Sentry.routingInstrumentation,
+        }),
+      ],
 
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 0.2,
-  });
+      // Set tracesSampleRate to 1.0 to capture 100%
+      // of transactions for performance monitoring.
+      // We recommend adjusting this value in production
+      tracesSampleRate: 0.2,
+    });
+  }
 }
 
 const activeTransaction = getActiveTransaction();

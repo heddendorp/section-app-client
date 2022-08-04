@@ -1,0 +1,36 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  legacy:
+    build:
+      dockerfile: Dockerfile-Legacy
+      args:
+        CONFIGURATION: testing
+    ports:
+        - "4000:4000"
+  server:
+    build:
+      dockerfile: Dockerfile-Server
+    command: "yarn workspace @tumi/server test"
+    ports:
+        - "3333:3333"
+  db:
+    image: postgres:13
+    restart: always
+    container_name: integration-tests-prisma
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 127.0.0.1 --blobPort 10000 --queueHost 127.0.0.1 --queuePort 10001"
+    ports:
+      - "10000:10000"
+      - "10001:10001"
