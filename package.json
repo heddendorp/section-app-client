@@ -2,7 +2,7 @@
   "name": "tumi",
   "license": "MIT",
   "private": true,
-  "version": "4.2.0",
+  "version": "4.2.1",
   "workspaces": [
     "events",
     "server",
