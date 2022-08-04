@@ -14,7 +14,7 @@
     <span class="font-bold mr-2">
       <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
       <span *ngIf="!isAnonymous || isOrganizer">
-        <a class="font-bold" [routerLink]="'/tenant/users/' + userId">{{
+        <a class="font-bold" [routerLink]="'/profile/' + userId">{{
           userFullName
         }}</a>
       </span>

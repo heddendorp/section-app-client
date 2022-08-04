@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UserProfilePublicQuery, UserProfileQuery } from '@tumi/legacy-app/generated/generated';
+import { Role, UserProfilePublicQuery, UserProfileQuery } from '@tumi/legacy-app/generated/generated';
 
 @Component({
   selector: 'app-profile-card',
@@ -15,4 +15,6 @@ export class ProfileCardComponent {
 
   @Output()
   public edit = new EventEmitter<void>();
+
+  public Role = Role;
 }

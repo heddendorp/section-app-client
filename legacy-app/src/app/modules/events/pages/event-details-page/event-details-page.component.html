@@ -55,7 +55,7 @@
           This event was created by
           <a
             class="font-bold"
-            [routerLink]="'/tenant/users/' + event.createdBy.id"
+            [routerLink]="'/profile/' + event.createdBy.id"
             >{{ event.createdBy.fullName }}</a
           >, they can answer any questions.
         </p>
@@ -283,7 +283,7 @@
               Nobody yet
             </mat-list-item>
             <mat-list-item *ngFor="let user of event.organizers">
-              <a [routerLink]="'/tenant/users/' + user.id">{{
+              <a [routerLink]="'/profile/' + user.id">{{
                 user.fullName
               }}</a>
               <span

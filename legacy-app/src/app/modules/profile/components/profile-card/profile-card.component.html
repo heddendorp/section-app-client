@@ -1,6 +1,6 @@
 
   <div
-  class="bg-slate-200 p-8 lg:py-14"
+  class="bg-slate-200 p-8 lg:py-14 relative"
   fxLayout="column"
   fxLayoutAlign="space-evenly center"
   fxLayoutGap="2rem"
@@ -48,7 +48,9 @@
       <button mat-mini-fab class="modern" color="accent" (click)="edit.emit()">
         <mat-icon svgIcon="icon-edit"></mat-icon>
       </button>
-
     </div>
+  </div>
+  <div class="block sm:absolute top-4 right-4">
+    <a mat-flat-button class="modern" color="primary" [routerLink]="'/tenant/users/' + profile.id" *appIfRole="[Role.Admin]">Manage user</a>
   </div>
 </div>
