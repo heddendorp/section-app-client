@@ -1,0 +1,20 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(profile$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="profile$ | async as profile">
+  <app-profile-card [profile]="profile"></app-profile-card>
+  <div
+    class="m-4 overflow-hidden"
+    gdAuto
+    gdColumns="100%"
+    gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
+    gdGap="1rem"
+  >
+    <!-- <app-event-list
+      [events]="profile.organizedEvents"
+      [isOrganized]="true"
+      *ngIf="profile.organizedEvents.length"
+    ></app-event-list> -->
+  </div>
+</main>

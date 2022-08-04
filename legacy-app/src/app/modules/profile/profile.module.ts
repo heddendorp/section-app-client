@@ -15,6 +15,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { PublicProfilePageComponent } from './pages/public-profile-page/public-profile-page.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
     NewUserPageComponent,
     PhotoJourneyPageComponent,
     ProfilePageComponent,
+    PublicProfilePageComponent,
     EventListComponent,
     EventListItemComponent,
     ProfileCardComponent
