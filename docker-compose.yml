@@ -11,6 +11,8 @@ services:
         CONFIGURATION: testing
     ports:
         - "4000:4000"
+    depends_on:
+      - server
   server:
     build:
       context: .
@@ -18,6 +20,9 @@ services:
     command: "yarn workspace @tumi/server test"
     ports:
         - "3333:3333"
+    depends_on:
+      - db
+      - azurite
   db:
     image: postgres:13
     restart: always

@@ -35,3 +35,34 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add(
+  'loginByAuth0Api',
+  (username: string, password: string) => {
+    const args = { username, password };
+    // cy.session(
+    //   args,
+    //   () => {
+    cy.visit('/');
+    cy.get('button').contains('Log in').click();
+    cy.origin(
+      'https://tumi.eu.auth0.com',
+      { args },
+      ({ username, password }) => {
+        //   cy.visit('/u/login');
+        cy.contains('Email').find('input').type(username);
+        cy.contains('Continue').click();
+        //   cy.contains('Password').find('input').type(password);
+        //   cy.get('button').contains('Login').click();
+      }
+    );
+    // cy.url().should('contain', '/home');
+    // },
+    // {
+    // validate() {
+    //   cy.request('/api/user').its('status').should('eq', 200);
+    // },
+    //   }
+    // );
+  }
+);

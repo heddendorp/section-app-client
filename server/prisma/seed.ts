@@ -6,6 +6,7 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
+import { seedIds } from './ids';
 
 const prisma = new PrismaClient();
 
@@ -105,6 +106,7 @@ async function runSeed() {
 
   const testTemplate = await prisma.eventTemplate.create({
     data: {
+      id: seedIds.testTemplate,
       comment: 'This is a test template',
       description: 'This is a test template',
       duration: 60,
@@ -136,6 +138,7 @@ async function runSeed() {
   const startDate = faker.date.soon(10);
   const testEvent = await prisma.tumiEvent.create({
     data: {
+      id: seedIds.testEvent,
       createdBy: { connect: { id: adminUser.id } },
       description: 'This is a test event',
       end: faker.date.soon(1, startDate.toString()),

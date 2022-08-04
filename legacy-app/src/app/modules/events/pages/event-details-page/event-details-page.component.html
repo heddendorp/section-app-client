@@ -34,6 +34,7 @@
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
       <mat-expansion-panel
+        data-testid="event-description"
         [expanded]="
           (!event.userIsRegistered && !event.userIsOrganizer) ||
           event.participantText.length < 10
@@ -85,7 +86,7 @@
           </a>
         </div>
         <div
-          class="mb-2 lg:text-lg rounded-md border-2 p-4"
+          class="mb-2 rounded-md border-2 p-4 lg:text-lg"
           *ngIf="event.location"
         >
           <div class="mb-2">
@@ -154,7 +155,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Ratings</mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
+        <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
           <app-rating-item
             *ngFor="let rating of event.ratings"
             [isOrganizer]="rating.type === 'ORGANIZER'"
@@ -171,9 +172,10 @@
         </div>
         <div
           *ngIf="
-            (ratingExpanded$ | async) && (event.userIsRegistered || event.userIsOrganizer)
+            (ratingExpanded$ | async) &&
+            (event.userIsRegistered || event.userIsOrganizer)
           "
-          class="bg-slate-50 rounded-md p-2 border"
+          class="rounded-md border bg-slate-50 p-2"
         >
           <app-rate-event
             [event]="event"
@@ -263,7 +265,7 @@
         <button
           mat-raised-button
           color="primary"
-          class="w-full modern"
+          class="modern w-full"
           [disabled]="!event.organizerRegistrationPossible"
           (click)="registerAsOrganizer()"
         >

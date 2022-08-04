@@ -1,7 +1,8 @@
+import { seedIds } from '../../server/prisma/ids';
+
 describe('The event details page', () => {
   beforeEach(() => {
-    cy.visit('/events');
-    cy.get('app-event-list-item').contains('Test Event').click();
+    cy.visit(`/events/${seedIds.testEvent}`);
   });
   it('should show the event title', () => {
     cy.get('app-event-header').contains('Test Event');
