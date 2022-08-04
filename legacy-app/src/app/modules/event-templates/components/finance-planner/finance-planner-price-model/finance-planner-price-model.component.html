@@ -52,11 +52,11 @@
     <p class="font-medium">Balance</p>
     <p
       class="ml-auto font-semibold rounded px-1 {{
-        result.balance < 0 ? 'bg-red-200' : 'bg-green-200'
+        result.balance < -0.005 ? 'bg-red-200' : 'bg-green-200'
       }}"
     >
       {{ result.balance | currency: 'EUR' }}
-      {{ result.balance < 0 ? '❌' : '✔️' }}
+      {{ result.balance < -0.005 ? '❌' : '✔️' }}
     </p>
   </div>
 </div>

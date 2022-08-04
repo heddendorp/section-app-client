@@ -1,6 +1,6 @@
 <div
   [class]="
-    'flex flex-col border p-2 h-full md:h-auto rounded-md relative ' +
+    'flex flex-col border p-2 h-full rounded-md relative ' +
     (isCurrentUser
       ? isOrganizer
         ? 'bg-green-100'
@@ -28,7 +28,7 @@
       >★</span
     >
   </div>
-  <span class="break-words">{{ comment }}</span>
+  <span class="break-words whitespace-pre-wrap">{{ comment }}</span>
   <div class="absolute right-1 bottom-1">
     <button
       type="button"

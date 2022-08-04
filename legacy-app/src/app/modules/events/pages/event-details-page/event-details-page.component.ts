@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -49,6 +55,8 @@ export class EventDetailsPageComponent implements OnDestroy {
   private destroyed$ = new Subject();
 
   public ratingExpanded$ = new BehaviorSubject(false);
+  @ViewChild('rater')
+  private raterRef: ElementRef | undefined;
 
   constructor(
     private title: Title,
@@ -160,5 +168,12 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   expandRatingPanel() {
     this.ratingExpanded$.next(!this.ratingExpanded$.value);
+    setTimeout(() => {
+      if (this.ratingExpanded$.value) {
+        document
+          .querySelector('#rater')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   }
 }
