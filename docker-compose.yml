@@ -5,6 +5,7 @@ version: '3.9'
 services:
   legacy:
     build:
+      context: .
       dockerfile: Dockerfile-Legacy
       args:
         CONFIGURATION: testing
@@ -12,6 +13,7 @@ services:
         - "4000:4000"
   server:
     build:
+      context: .
       dockerfile: Dockerfile-Server
     command: "yarn workspace @tumi/server test"
     ports:

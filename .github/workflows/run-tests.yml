@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   cypress-run:
+    name: Run Tests
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
