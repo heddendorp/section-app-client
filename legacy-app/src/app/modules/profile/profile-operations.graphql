@@ -105,6 +105,11 @@ query userProfilePublic($id: ID!) {
     instagram
     position
     studyProgram
+    currentTenant {
+      userId
+      tenantId
+      status
+    }
   }
   commonEvents(id: $id) {
     id

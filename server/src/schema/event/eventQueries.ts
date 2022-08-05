@@ -4,6 +4,8 @@ import {
   MembershipStatus,
   Prisma,
   PublicationState,
+  RegistrationStatus,
+  RegistrationType,
   Role,
 } from '../../generated/prisma';
 import { prepareSearchString } from '../helperFunctions';
@@ -101,6 +103,55 @@ builder.queryFields((t) => ({
         ...(limit ? { take: limit } : {}),
         orderBy: { start: reverseOrder ? 'desc' : 'asc' },
       });
+    },
+  }),  
+  commonEvents: t.prismaField({
+    type: ['TumiEvent'],
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    resolve: async (query, root, args, context, info) => {
+      const user1Events = await prisma.tumiEvent.findMany({
+        ...query,
+        where: {
+          end: {
+            lt: new Date(),
+          },
+          registrations: {
+            some: {
+              user: { id: context.user.id },
+              status: { not: RegistrationStatus.CANCELLED },
+              OR: [
+                { checkInTime: { not: null } },
+                { type: RegistrationType.ORGANIZER },
+              ],
+            },
+          },
+        },
+        orderBy: { start: 'asc' },
+      });
+      const user2Events = await prisma.tumiEvent.findMany({
+        ...query,
+        where: {
+          end: {
+            lt: new Date(),
+          },
+          registrations: {
+            some: {
+              user: { id: args.id },
+              status: { not: RegistrationStatus.CANCELLED },
+              OR: [
+                { checkInTime: { not: null } },
+                { type: RegistrationType.ORGANIZER },
+              ],
+            },
+          },
+        },
+        orderBy: { start: 'asc' },
+      });
+      return user1Events.filter((e) =>
+        user2Events.some((e2) => e2.id === e.id)
+      );
     },
   }),
 }));

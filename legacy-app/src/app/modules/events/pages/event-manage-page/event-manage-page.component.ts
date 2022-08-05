@@ -175,12 +175,6 @@ export class EventManagePageComponent implements OnDestroy {
     );
   }
 
-  joinOrganizers(
-    organizerRegistrations: LoadEventForManagementQuery['event']['organizerRegistrations']
-  ) {
-    return organizerRegistrations.map((r) => r.user.fullName).join(', ');
-  }
-
   async createRegistrationCode(sepaAllowed = false) {
     const event = await firstValueFrom(this.event$);
     await firstValueFrom(

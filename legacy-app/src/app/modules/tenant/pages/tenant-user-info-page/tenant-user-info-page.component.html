@@ -3,11 +3,15 @@
   *ngIf="(user$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">
-  <div fxLayout="row" fxLayoutGap="1rem">
+  <div class="flex flex-row gap-1 items-center mb-4">
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <h1 class="font-bold">{{ user.fullName }}</h1>
+    <app-user-chip size="xs" [id]="user.id"
+      [picture]="user.picture" [name]="user.fullName"
+      [status]="user.currentTenant?.status + ''">
+    </app-user-chip>
+
     <div fxFlex="noshrink"></div>
     <button mat-flat-button class="modern" color="primary" (click)="updateUser(user)">Update role</button>
   </div>

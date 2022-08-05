@@ -234,20 +234,30 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
+        includeNoShows: t.arg.boolean({ defaultValue: true })
       },
-      query: (args, context) => ({
-        where: {
-          type: RegistrationType.PARTICIPANT,
-          ...(args.includeCancelled
-            ? {}
-            : { status: { not: RegistrationStatus.CANCELLED } }),
-        },
-        orderBy: [
-          { status: 'asc' },
-          { checkInTime: 'desc' },
-          { user: { lastName: 'asc' } },
-        ],
-      }),
+      query: (args, context) => {        
+        const { status } = context.userOfTenant ?? {};
+        // limit non-members to just 30
+        const limit = status && status !== MembershipStatus.NONE ? 0 : 30;
+        return ({
+          where: {
+            type: RegistrationType.PARTICIPANT,
+            ...(args.includeCancelled
+              ? {}
+              : { status: { not: RegistrationStatus.CANCELLED } }),
+            ...(args.includeNoShows
+              ? {}
+              : { checkInTime: { not: null } }),
+          },
+          orderBy: [
+            { status: 'asc' },
+            { checkInTime: 'desc' },
+            { user: { lastName: 'asc' } },
+          ],
+          ...(limit ? { take: limit } : {}),
+        })
+      },
     }),
     organizerRegistrations: t.relation('registrations', {
       query: (args, context) => ({
@@ -428,7 +438,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     organizers: t.prismaField({
       type: ['User'],
-      authScopes: { member: true },
+      authScopes: {
+        authenticated: true,
+      },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
         return prisma.user.findMany({

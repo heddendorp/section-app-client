@@ -87,7 +87,9 @@
             [isAnonymous]="rating.anonymousRating"
             [rating]="rating.rating"
             [userId]="rating.user.id"
-            [userFullName]="rating.user.fullName"
+            [userFullName]="rating.user.fullName"            
+            [userPicture]="rating.user.picture"
+            [userStatus]="rating.user.currentTenant?.status || ''"
           ></app-rating-item>
         </div>
       </td>

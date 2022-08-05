@@ -84,6 +84,12 @@ query loadEventsWithRating($after: DateTime) {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
     organizer {
@@ -127,6 +133,7 @@ query loadUser($id: ID!) {
     hasESNCard
     esnCardOverride
     position
+    picture
     currentTenant(userId: $id) {
       userId
       tenantId

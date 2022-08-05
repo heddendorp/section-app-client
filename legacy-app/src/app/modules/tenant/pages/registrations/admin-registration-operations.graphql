@@ -9,7 +9,13 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
     }
     user {
       id
-      fullName
+      fullName      
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     transaction {
       id
@@ -93,6 +99,12 @@ query getEventRegistrationCodes {
     creator {
       id
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     registrationToRemove {
       id
@@ -103,6 +115,12 @@ query getEventRegistrationCodes {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
   }
@@ -125,6 +143,12 @@ query getEventRegistrationCode($registrationId: ID!) {
       id
       email
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     connectedRegistrations {
       id
@@ -134,6 +158,12 @@ query getEventRegistrationCode($registrationId: ID!) {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
       transaction {
         id
@@ -154,6 +184,12 @@ query getEventRegistrationCode($registrationId: ID!) {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
       transaction {
         id
@@ -174,6 +210,12 @@ query getEventRegistrationCode($registrationId: ID!) {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
       transaction {
         id

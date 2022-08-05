@@ -1,6 +1,6 @@
 .background {
   &.full {
-    @apply bg-purple-500;
+    @apply bg-purple-600;
   }
   
   &.trial {
@@ -11,7 +11,7 @@
 
 .picture {
   &.full {
-    @apply border-purple-500 border-[12px] border-double;
+    @apply border-purple-600 border-[12px] border-double;
   }
   
   &.trial {
