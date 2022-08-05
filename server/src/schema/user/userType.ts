@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import {
   EnrollmentStatus,
+  MembershipStatus,
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
@@ -10,20 +11,73 @@ import prisma from '../../client';
 
 builder.prismaObject('User', {
   findUnique: (user) => ({ id: user.id }),
+  grantScopes: async (user, context) => {
+    const userOfTenant = await prisma.usersOfTenants.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: user.id,
+          tenantId: context.tenant.id,
+        },
+      },
+      rejectOnNotFound: false,
+    });
+    if (userOfTenant?.status !== MembershipStatus.NONE || context.user.id === user.id) {
+      return ['tutorProfile', 'self']
+    }
+    if (context.user.id === user.id) {
+      return ['self'];
+    }
+    return [];
+  },
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     authId: t.exposeString('authId'),
     firstName: t.exposeString('firstName'),
     lastName: t.exposeString('lastName'),
-    birthdate: t.expose('birthdate', { type: 'DateTime', nullable: true }),
+    birthdate: t.expose('birthdate', {
+      type: 'DateTime',
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true
+      },
+      unauthorizedResolver: () => null,
+    }),
     picture: t.exposeString('picture'),
-    phone: t.exposeString('phone', { nullable: true }),
+    phone: t.exposeString('phone', { 
+      nullable: true,
+      authScopes: {
+        $granted: 'tutorProfile',
+        member: true
+      },
+      unauthorizedResolver: () => null,
+    }),
     university: t.exposeString('university', { nullable: true }),
-    iban: t.exposeString('iban', { nullable: true }),
-    paypal: t.exposeString('paypal', { nullable: true }),
+    iban: t.exposeString('iban', {
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true
+      },
+      unauthorizedResolver: () => null,
+    }),
+    paypal: t.exposeString('paypal', {
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true
+      },
+      unauthorizedResolver: () => null,
+    }),
     emailVerified: t.exposeBoolean('email_verified'),
-    email: t.exposeString('email'),
+    email: t.exposeString('email', { 
+      authScopes: {
+        $granted: 'self',
+        member: true
+      },
+      unauthorizedResolver: () => '',
+    }),
     calendarToken: t.exposeString('calendarToken'),
     esnCardOverride: t.exposeBoolean('esnCardOverride'),
     transactions: t.relation('transactions'),
@@ -52,6 +106,7 @@ builder.prismaObject('User', {
           source.birthdate &&
           source.picture &&
           source.university &&
+          source.phone &&
           source.enrolmentStatus !== EnrollmentStatus.NONE
         ),
     }),
