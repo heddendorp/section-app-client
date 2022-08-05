@@ -33,7 +33,16 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
-    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
+    googlePlaceUrl: t.string({
+      nullable: true,
+      resolve: (event, args, context) => {
+        if (event.googlePlaceUrl) return event.googlePlaceUrl;
+        if (event.location && event.googlePlaceId) {
+          return `https://www.google.com/maps/search/?api=1&query=${event.location}&query_place_id=${event.googlePlaceId}`;
+        }
+        return null;
+      }
+    }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
