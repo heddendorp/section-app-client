@@ -5,14 +5,14 @@
 <main *ngIf="profile$ | async as profile">
   <app-profile-card [profile]="profile" (edit)="updateProfile()" [hideEditButton]="false"></app-profile-card>
   <div
-    class="m-4 overflow-hidden"
+    class="m-4"
     gdAuto
     gdColumns="100%"
     gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
     gdGap="1rem"
   >
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow"
     >
       <div
         fxLayout="row"
@@ -119,17 +119,25 @@
       </div>
     </div>
     <app-event-list
+      title="Organized events"
       [events]="profile.organizedEvents"
       [isOrganized]="true"
       *ngIf="profile.organizedEvents.length"
     ></app-event-list>
     <app-event-list
+      title="Created events"
+      [events]="profile.createdEvents"
+      [isOrganized]="true"
+      *ngIf="profile.createdEvents.length"
+    ></app-event-list>
+    <app-event-list
+      title="Participated events"
       [events]="profile.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
     <div
-      class="bg-primary-container text-primary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
       <div
@@ -146,7 +154,7 @@
       </div>
       <div>
         Current status:
-        <div class="black text-8xl text-center">
+        <div class="black text-7xl text-center">
           {{ profile.currentTenant?.status | uppercase }}
         </div>
       </div>

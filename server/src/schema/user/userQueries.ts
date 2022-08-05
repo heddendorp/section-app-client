@@ -4,7 +4,6 @@ import {
   Role,
   MembershipStatus,
   PurchaseStatus,
-  RegistrationStatus,
 } from '../../generated/prisma';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { prepareSearchString } from '../helperFunctions';

@@ -754,6 +754,7 @@ type User {
   calendarToken: String!
   country: String
   createdAt: DateTime!
+  createdEvents: [TumiEvent!]!
   createdEventsCount: Int!
   createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants

@@ -231,12 +231,23 @@ builder.prismaObject('User', {
           },
         }),
     }),
+    createdEvents: t.prismaField({
+      type: ['TumiEvent'],
+      resolve: async (query, user, args, context) => {
+        return prisma.tumiEvent.findMany({
+          ...query,
+          where: {
+            createdBy: { id: user.id },
+          },
+          orderBy: { start: 'asc' },
+        });
+      },
+    }),
     createdEventsCount: t.int({
       resolve: async (user, args, context) =>
         prisma.tumiEvent.count({
           where: {
-            createdBy: { id: user.id },
-            excludeFromStatistics: false,
+            createdBy: { id: user.id }
           },
         }),
     }),

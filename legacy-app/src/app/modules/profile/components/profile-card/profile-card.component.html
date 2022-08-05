@@ -22,13 +22,13 @@
     </div>
     <ng-container *ngIf="profile.organizedEventsCount > 0">
       <mat-divider class="w-full !my-4"></mat-divider>
-      <div class="flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center my-2">
+      <div class="flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center">
         <div>
-          <div class="text-3xl font-extrabold my-1">{{ profile.organizedEventsCount }}</div>
+          <div class="text-3xl font-extrabold mb-1">{{ profile.organizedEventsCount }}</div>
           <div class="text-sm">event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized</div>
         </div>
         <div *ngIf="profile.createdEventsCount > 0">
-          <div class="text-3xl font-extrabold my-1">{{ profile.createdEventsCount }}</div>
+          <div class="text-3xl font-extrabold mb-1">{{ profile.createdEventsCount }}</div>
           <div class="text-sm">event{{ profile.createdEventsCount === 1 ? '' : 's' }} created</div>
         </div>
       </div>      

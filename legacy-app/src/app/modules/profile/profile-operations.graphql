@@ -67,6 +67,15 @@ query userProfile {
         paymentMethodId
       }
     }
+    createdEvents {
+      id
+      title
+      icon
+      start
+      end
+      participantRating
+      participantRatingCount
+    }
     organizedEvents(hideCancelled: true) {
       id
       title
