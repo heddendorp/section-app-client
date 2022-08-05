@@ -1,20 +1,19 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(profile$ | async) === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(profile$ | async) === null"></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
   <app-profile-card [profile]="profile"></app-profile-card>
-  <div
-    class="m-4 overflow-hidden"
-    gdAuto
-    gdColumns="100%"
-    gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
-    gdGap="1rem"
-  >
-    <!-- <app-event-list
-      [events]="profile.organizedEvents"
-      [isOrganized]="true"
-      *ngIf="profile.organizedEvents.length"
-    ></app-event-list> -->
+  <div class="m-4 overflow-hidden">
+    <div class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4 h-full"
+      *ngIf="commonEvents$ | async as events">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <mat-icon svgIcon="icon-overtime" class="text-secondary-default bg-secondary-on card-icon"></mat-icon>
+        <h2 class="font-bold">
+          Common past events with {{ profile.firstName }}
+          <span class="font-light">({{ events.length }})</span>
+        </h2>
+      </div>
+      <mat-nav-list>
+        <app-event-list-item *ngFor="let event of events" [event]="event"></app-event-list-item>        
+      </mat-nav-list>
+    </div>
   </div>
 </main>

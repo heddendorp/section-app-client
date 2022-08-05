@@ -1,6 +1,11 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
-import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
+import {
+  Role,
+  MembershipStatus,
+  PurchaseStatus,
+  RegistrationStatus,
+} from '../../generated/prisma';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { prepareSearchString } from '../helperFunctions';
 
@@ -103,6 +108,45 @@ builder.queryFields((t) => ({
     },
     resolve: async (query, root, args, ctx, info) =>
       prisma.user.findUnique({ ...query, where: { id: args.id } }),
+  }),
+  commonEvents: t.prismaField({
+    type: ['TumiEvent'],
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    resolve: async (query, root, args, context, info) => {
+      const user1Events = await prisma.tumiEvent.findMany({
+        ...query,
+        where: {
+          end: {
+            lt: new Date(),
+          },
+          registrations: {
+            some: {
+              user: { id: context.user.id },
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          },
+        },
+        orderBy: { start: 'asc' },
+      });
+      const user2Events = await prisma.tumiEvent.findMany({
+        ...query,
+        where: {
+          end: {
+            lt: new Date(),
+          },
+          registrations: {
+            some: {
+              user: { id: args.id },
+              status: { not: RegistrationStatus.CANCELLED },
+            },
+          },
+        },
+        orderBy: { start: 'asc' },
+      });
+      return user1Events.filter(e => user2Events.some(e2 => e2.id === e.id));
+    },
   }),
   currentUser: t.prismaField({
     type: 'User',

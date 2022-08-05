@@ -685,6 +685,7 @@ export enum PurchaseStatus {
 export type Query = {
   __typename?: 'Query';
   blobUploadKey: Scalars['String'];
+  commonEvents: Array<TumiEvent>;
   costItem: CostItem;
   costItems: Array<CostItem>;
   currentTenant: Tenant;
@@ -714,6 +715,11 @@ export type Query = {
   user: User;
   userSearchResultNum: Scalars['Int'];
   users: Array<User>;
+};
+
+
+export type QueryCommonEventsArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -1619,7 +1625,7 @@ export type UserProfilePublicQueryVariables = Exact<{
 }>;
 
 
-export type UserProfilePublicQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, fullName: string, picture: string, university?: string | null, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null } };
+export type UserProfilePublicQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, firstName: string, fullName: string, picture: string, university?: string | null, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null }, commonEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any }> };
 
 export type GetRegistrationCodeInfoQueryVariables = Exact<{
   code: Scalars['ID'];
@@ -3562,6 +3568,7 @@ export const UserProfilePublicDocument = gql`
     query userProfilePublic($id: ID!) {
   user(id: $id) {
     id
+    firstName
     fullName
     picture
     university
@@ -3571,6 +3578,13 @@ export const UserProfilePublicDocument = gql`
     instagram
     position
     studyProgram
+  }
+  commonEvents(id: $id) {
+    id
+    title
+    icon
+    start
+    end
   }
 }
     `;

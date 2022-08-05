@@ -6,9 +6,9 @@ import { NewUserPageComponent } from '@tumi/legacy-app/modules/profile/pages/new
 import { PublicProfilePageComponent } from './pages/public-profile-page/public-profile-page.component';
 
 const routes: Routes = [
-  { path: ':userId', component: PublicProfilePageComponent },
   { path: 'journey', component: PhotoJourneyPageComponent },
   { path: 'new', component: NewUserPageComponent },
+  { path: ':userId', component: PublicProfilePageComponent },
   { path: '**', component: ProfilePageComponent },
 ];
 

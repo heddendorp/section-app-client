@@ -44,7 +44,7 @@
         <a href="https://www.instagram.com/{{ profile.instagram }}" target="blank">{{ profile.instagram }}</a>
       </div>
     </div>
-    <div *ngIf="edit" class="absolute right-2 bottom-2">
+    <div *ngIf="!hideEditButton" class="absolute right-2 bottom-2">
       <button mat-mini-fab class="modern" color="accent" (click)="edit.emit()">
         <mat-icon svgIcon="icon-edit"></mat-icon>
       </button>

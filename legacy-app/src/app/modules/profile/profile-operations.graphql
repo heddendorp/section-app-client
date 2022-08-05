@@ -95,6 +95,7 @@ query userProfile {
 query userProfilePublic($id: ID!) {
   user(id: $id) {
     id
+    firstName
     fullName
     picture    
     university
@@ -104,6 +105,13 @@ query userProfilePublic($id: ID!) {
     instagram
     position
     studyProgram
+  }
+  commonEvents(id: $id) {
+    id
+    title
+    icon
+    start
+    end
   }
 }
 

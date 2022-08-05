@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PublicProfilePageComponent {
   public profile$: Observable<UserProfilePublicQuery['user']>;
+  public commonEvents$: Observable<UserProfilePublicQuery['commonEvents']>;
   public profileQueryRef;
   constructor(
     private title: Title,
@@ -32,6 +33,9 @@ export class PublicProfilePageComponent {
       tap(user => {
         this.title.setTitle(`${user.fullName} - TUMi`);        
       })
+    );
+    this.commonEvents$ = this.profileQueryRef.valueChanges.pipe(
+      map(({ data }) => data.commonEvents)
     );
   }
 }

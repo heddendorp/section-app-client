@@ -414,6 +414,7 @@ enum PurchaseStatus {
 
 type Query {
   blobUploadKey: String!
+  commonEvents(id: ID!): [TumiEvent!]!
   costItem(id: ID!): CostItem!
   costItems(eventId: ID): [CostItem!]!
   currentTenant: Tenant!
