@@ -7,7 +7,7 @@
   *ngIf="profile"
 >
   <div class="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center relative overflow-hidden max-w-[90vw] w-[90vw] sm:w-[400px] text-center">
-    <div class="absolute top-0 left-0 w-full h-[80px] bg-blue-500 flex items-center p-4 justify-between">
+    <div class="background absolute top-0 left-0 w-full h-[80px] bg-blue-500 flex items-center p-4 justify-between {{ profile.currentTenant?.status | lowercase }}">
       <img
         src="/assets/logos/full_white.svg"
         alt="ESN TUMi Logo"
@@ -16,15 +16,15 @@
     </div>
     <img
     [src]="profile.picture"
-    class="rounded-full h-[128px] w-[128px] border-white border-[3px] z-10"
+    class="picture rounded-full h-[128px] w-[128px] border-white bg-white border-[3px] z-10 {{ profile.currentTenant?.status | lowercase }}"
     referrerpolicy="no-referrer"
     />
-    <div class="text-3xl font-bold mt-4 mb-1">{{ profile.fullName }}</div>
-    <div *ngIf="profile.country" class="italic mb-1">{{ profile.country }}</div>
-    <div *ngIf="profile.position" class="mb-3">
-      <span class="bg-blue-500 px-2 py-1 text-sm text-white rounded-lg">{{ profile.position }}</span>
+    <div class="text-3xl font-bold mt-4">{{ profile.fullName }}</div>
+    <div *ngIf="position(profile.position, profile.currentTenant?.status) as position" class="my-1">
+      <span class="background px-2 py-1 text-sm text-white rounded-lg {{ profile.currentTenant?.status | lowercase }}">{{ position }}</span>
     </div>
-    <div class="mt-1">
+    <div *ngIf="profile.country" class="italic my-1 text-sm">{{ profile.country }}</div>
+    <div class="mt-3">
       <span *ngIf="profile.bio">{{ profile.bio }}</span>
       <span *ngIf="!profile.bio" class="text-gray-400 italic">no bio</span>
     </div>
@@ -39,7 +39,7 @@
         <mat-icon svgIcon="icon-home" style="min-width: 18px; max-width: 18px"></mat-icon>
         <div>{{ profile.homeUniversity }}</div>
       </div>
-      <div *ngIf="profile.instagram" class="flex items-center gap-1 text-pink-600">
+      <div *ngIf="profile.instagram" class="flex items-center gap-1 text-pink-600 mt-1">
         <mat-icon svgIcon="icon-instagram-new" style="min-width: 18px; max-width: 18px"></mat-icon>
         <a href="https://www.instagram.com/{{ profile.instagram }}" target="blank">{{ profile.instagram }}</a>
       </div>
