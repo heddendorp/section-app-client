@@ -89,6 +89,8 @@ query userProfile {
       participantRating
       participantRatingCount
     }
+    organizedEventsCount
+    createdEventsCount
   }
 }
 
@@ -105,6 +107,8 @@ query userProfilePublic($id: ID!) {
     instagram
     position
     studyProgram
+    organizedEventsCount
+    createdEventsCount
     currentTenant {
       userId
       tenantId

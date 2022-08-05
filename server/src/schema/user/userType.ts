@@ -21,8 +21,11 @@ builder.prismaObject('User', {
       },
       rejectOnNotFound: false,
     });
-    if (userOfTenant?.status !== MembershipStatus.NONE || context.user.id === user.id) {
-      return ['tutorProfile', 'self']
+    if (
+      userOfTenant?.status !== MembershipStatus.NONE ||
+      context.user.id === user.id
+    ) {
+      return ['tutorProfile', 'self'];
     }
     if (context.user.id === user.id) {
       return ['self'];
@@ -40,16 +43,16 @@ builder.prismaObject('User', {
       nullable: true,
       authScopes: {
         $granted: 'self',
-        admin: true
+        admin: true,
       },
       unauthorizedResolver: () => null,
     }),
     picture: t.exposeString('picture'),
-    phone: t.exposeString('phone', { 
+    phone: t.exposeString('phone', {
       nullable: true,
       authScopes: {
         $granted: 'tutorProfile',
-        member: true
+        member: true,
       },
       unauthorizedResolver: () => null,
     }),
@@ -58,7 +61,7 @@ builder.prismaObject('User', {
       nullable: true,
       authScopes: {
         $granted: 'self',
-        admin: true
+        admin: true,
       },
       unauthorizedResolver: () => null,
     }),
@@ -66,15 +69,15 @@ builder.prismaObject('User', {
       nullable: true,
       authScopes: {
         $granted: 'self',
-        admin: true
+        admin: true,
       },
       unauthorizedResolver: () => null,
     }),
     emailVerified: t.exposeBoolean('email_verified'),
-    email: t.exposeString('email', { 
+    email: t.exposeString('email', {
       authScopes: {
         $granted: 'self',
-        member: true
+        member: true,
       },
       unauthorizedResolver: () => '',
     }),
@@ -214,11 +217,32 @@ builder.prismaObject('User', {
         });
       },
     }),
+    organizedEventsCount: t.int({
+      resolve: async (user, args, context) =>
+        prisma.tumiEvent.count({
+          where: {
+            registrations: {
+              some: {
+                user: { id: user.id },
+                type: RegistrationType.ORGANIZER,
+                status: RegistrationStatus.SUCCESSFUL,
+              },
+            },
+          },
+        }),
+    }),
+    createdEventsCount: t.int({
+      resolve: async (user, args, context) =>
+        prisma.tumiEvent.count({
+          where: {
+            createdBy: { id: user.id },
+            excludeFromStatistics: false,
+          },
+        }),
+    }),
     eventRegistrations: t.relation('eventRegistrations', {
       query: (args, context) => ({
-        orderBy: [
-          { event: { start: 'desc' } },
-        ],
+        orderBy: [{ event: { start: 'desc' } }],
       }),
     }),
     hasESNCard: t.boolean({

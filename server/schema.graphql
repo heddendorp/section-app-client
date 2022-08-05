@@ -754,6 +754,7 @@ type User {
   calendarToken: String!
   country: String
   createdAt: DateTime!
+  createdEventsCount: Int!
   createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants
   email: String!
@@ -771,6 +772,7 @@ type User {
   instagram: String
   lastName: String!
   organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
+  organizedEventsCount: Int!
   outstandingRating: Boolean!
   participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   paypal: String
