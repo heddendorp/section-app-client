@@ -106,10 +106,12 @@ builder.queryFields((t) => ({
     },
   }),
   commonEvents: t.prismaField({
+    authScopes: { authenticated: true },
     type: ['TumiEvent'],
     args: {
       id: t.arg.id({ required: true }),
     },
+    unauthorizedResolver: () => [],
     resolve: async (query, root, args, context, info) => {
       const user1Events = await prisma.tumiEvent.findMany({
         ...query,
@@ -119,7 +121,7 @@ builder.queryFields((t) => ({
           },
           registrations: {
             some: {
-              user: { id: context.user.id },
+              user: { id: context.user?.id },
               status: { not: RegistrationStatus.CANCELLED },
               OR: [
                 { checkInTime: { not: null } },

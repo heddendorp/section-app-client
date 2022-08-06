@@ -23,11 +23,11 @@ builder.prismaObject('User', {
     });
     if (
       userOfTenant?.status !== MembershipStatus.NONE ||
-      context.user.id === user.id
+      context.user?.id === user.id
     ) {
       return ['tutorProfile', 'self'];
     }
-    if (context.user.id === user.id) {
+    if (context.user?.id === user.id) {
       return ['self'];
     }
     return [];
