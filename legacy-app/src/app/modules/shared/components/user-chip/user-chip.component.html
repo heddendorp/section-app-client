@@ -29,7 +29,11 @@
   <div class="flex flex-col max-w-[16em]">
     <div class="name whitespace-nowrap text-ellipsis overflow-hidden">
       <span>{{ name }}</span>
-      <span *ngIf="tag" class="px-1 rounded-lg bg-white text-xs font-light ml-1">{{ tag }}</span>
+      <span
+        *ngIf="tag"
+        class="px-1 rounded-lg bg-white text-xs font-light ml-1"
+        >{{ tag }}</span
+      >
     </div>
     <a
       class="tel underline decoration-dotted font-light whitespace-nowrap"
