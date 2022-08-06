@@ -20,6 +20,8 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     freeParticipantSpots
+    excludeFromRatings
+    ratingPending
     prices
     location
     coordinates
@@ -27,6 +29,12 @@ query loadEvent($id: ID!) {
     createdBy {
       id
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     submissionItems(submissionTime: REGISTRATION) {
       id
@@ -90,6 +98,12 @@ query loadEvent($id: ID!) {
       user {
         id
         fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
     participantRegistrationCount
@@ -99,6 +113,25 @@ query loadEvent($id: ID!) {
       id
       fullName
       phone
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    participantRegistrations(includeNoShows: false) {
+      id
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
     }
     participantRating
     participantRatingCount
@@ -167,6 +200,11 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
     costItems(hideOnInvoice: true) {
@@ -203,6 +241,11 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
   }

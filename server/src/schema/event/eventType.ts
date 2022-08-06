@@ -33,7 +33,16 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
-    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
+    googlePlaceUrl: t.string({
+      nullable: true,
+      resolve: (event, args, context) => {
+        if (event.googlePlaceUrl) return event.googlePlaceUrl;
+        if (event.location && event.googlePlaceId) {
+          return `https://www.google.com/maps/search/?api=1&query=${event.location}&query_place_id=${event.googlePlaceId}`;
+        }
+        return null;
+      },
+    }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
@@ -102,6 +111,26 @@ export const eventType = builder.prismaObject('TumiEvent', {
         }
       },
     }),
+    ratingPending: t.boolean({
+      resolve: async (source, args, context) => {
+        const registrations = await prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              event: {
+                excludeFromRatings: false,
+                end: {
+                  lt: new Date(),
+                },
+              },
+              user: { id: context.user?.id },
+              status: RegistrationStatus.SUCCESSFUL,
+              rating: null,
+            },
+          });
+        return registrations.length > 0;
+      },
+    }),
     needsRating: t.boolean({
       resolve: async (source, args, context) => {
         const lastWeek = DateTime.local().minus({ days: 7 });
@@ -117,7 +146,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
                 },
               },
               user: { id: context.user?.id },
-              status: { not: RegistrationStatus.CANCELLED },
+              status: RegistrationStatus.SUCCESSFUL,
               rating: null,
             },
           });
@@ -225,20 +254,28 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
+        includeNoShows: t.arg.boolean({ defaultValue: true }),
       },
-      query: (args, context) => ({
-        where: {
-          type: RegistrationType.PARTICIPANT,
-          ...(args.includeCancelled
-            ? {}
-            : { status: { not: RegistrationStatus.CANCELLED } }),
-        },
-        orderBy: [
-          { status: 'asc' },
-          { checkInTime: 'desc' },
-          { user: { lastName: 'asc' } },
-        ],
-      }),
+      query: (args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        // limit non-members to just 30
+        const limit = status && status !== MembershipStatus.NONE ? 0 : 30;
+        return {
+          where: {
+            type: RegistrationType.PARTICIPANT,
+            ...(args.includeCancelled
+              ? {}
+              : { status: { not: RegistrationStatus.CANCELLED } }),
+            ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
+          },
+          orderBy: [
+            { status: 'asc' },
+            { checkInTime: 'desc' },
+            { user: { lastName: 'asc' } },
+          ],
+          ...(limit ? { take: limit } : {}),
+        };
+      },
     }),
     organizerRegistrations: t.relation('registrations', {
       query: (args, context) => ({
@@ -419,7 +456,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     organizers: t.prismaField({
       type: ['User'],
-      authScopes: { member: true },
+      authScopes: {
+        authenticated: true,
+      },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
         return prisma.user.findMany({

@@ -32,7 +32,7 @@
   </app-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
-    <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
+    <mat-accordion displayMode="flat" [multi]="true">
       <mat-expansion-panel
         [expanded]="
           (!event.userIsRegistered && !event.userIsOrganizer) ||
@@ -53,10 +53,14 @@
         </mat-expansion-panel-header>
         <p class="my-2">
           This event was created by
-          <a
-            class="font-bold"
-            [routerLink]="'/tenant/users/' + event.createdBy.id"
-            >{{ event.createdBy.fullName }}</a
+          <app-user-chip
+            size="xs"
+            [id]="event.createdBy.id"
+            [picture]="event.createdBy.picture"
+            [name]="event.createdBy.fullName"
+            [status]="event.createdBy.currentTenant?.status + ''"
+          >
+          </app-user-chip
           >, they can answer any questions.
         </p>
         <markdown
@@ -74,81 +78,108 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="mb-4" *ngIf="eventStarted$ | async">
-          <a
-            routerLink="./photos"
-            mat-flat-button
-            color="primary"
-            class="w-full"
-          >
-            Photos for this event
-          </a>
-        </div>
-        <div
-          class="mb-2 lg:text-lg rounded-md border-2 p-4"
-          *ngIf="event.location"
-        >
-          <div class="mb-2">
-            <b>Meeting point:</b> {{ event.location }} at
-            {{ event.start | date: 'mediumTime' }}
+        <div class="flex flex-col gap-2">
+          <div class="mb-2" *ngIf="eventStarted$ | async">
+            <a routerLink="./photos" mat-stroked-button class="w-full modern">
+              Photos for this event
+            </a>
           </div>
-          <a
-            class="modern"
-            mat-flat-button
-            color="primary"
-            [href]="
-              event.googlePlaceUrl
-                ? event.googlePlaceUrl
-                : 'https://www.google.com/maps/place/' +
-                  event.coordinates?.lat +
-                  ',' +
-                  event.coordinates?.lon
-            "
-            target="_blank"
+          <div
+            class="lg:text-lg rounded-lg bg-slate-100 border-2 p-4"
+            *ngIf="event.location"
           >
-            <mat-icon svgIcon="icon-map-marker"></mat-icon>
-            Open in Maps
-          </a>
-        </div>
-
-        <markdown
-          [data]="event.participantText"
-          class="prose lg:prose-xl mb-4 break-words"
-        ></markdown>
-        <div
-          class="mb-4 mt-6"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="1rem"
-          *ngIf="(event$ | async)?.activeRegistration?.didAttend"
-        >
-          <img src="{{ 'approval' | iconURL }}" alt="approval" class="w-10" />
-          <span class="text-lg font-bold"
-            >You are checked in to the event!</span
+            <div class="mb-2">
+              <b>Meeting point:</b> {{ event.location }} at
+              {{ event.start | date: 'mediumTime' }}
+            </div>
+            <a
+              class="modern"
+              mat-flat-button
+              color="primary"
+              [href]="
+                event.googlePlaceUrl
+                  ? event.googlePlaceUrl
+                  : 'https://www.google.com/maps/place/' +
+                    event.coordinates?.lat +
+                    ',' +
+                    event.coordinates?.lon
+              "
+              target="_blank"
+            >
+              <mat-icon svgIcon="icon-map-marker"></mat-icon>
+              Open in Maps
+            </a>
+          </div>
+          <markdown
+            [data]="event.participantText"
+            class="prose lg:prose-xl break-words my-4"
+          ></markdown>
+          <div
+            class="my-2"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="1rem"
+            *ngIf="(event$ | async)?.activeRegistration?.didAttend"
           >
+            <img src="{{ 'approval' | iconURL }}" alt="approval" class="w-10" />
+            <span class="text-lg font-bold"
+              >You are checked in to the event!</span
+            >
+          </div>
+          <div class="mb-2 lg:text-lg rounded-lg" *ngIf="event.location">
+            <div class="mb-2">
+              <b>Organizers</b>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <app-user-chip
+                *ngFor="let organizer of event.organizers"
+                size="md"
+                [id]="organizer.id"
+                [picture]="organizer.picture"
+                [name]="organizer.fullName"
+                [phone]="organizer.phone || ''"
+                [status]="organizer.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+            </div>
+            <p class="mt-4 lg:text-lg">
+              Please contact them in case of any issues. We're looking forward
+              to seeing you soon!
+            </p>
+            <ng-container *ngIf="event.participantRegistrations.length > 0">
+              <div class="mt-6 mb-2">
+                <b>Participants</b>
+              </div>
+              <div class="flex flex-wrap gap-2 items-center">
+                <app-user-chip
+                  *ngFor="let registration of event.participantRegistrations"
+                  size="sm"
+                  [id]="registration.user.id"
+                  [picture]="registration.user.picture"
+                  [name]="registration.user.fullName"
+                  [status]="registration.user.currentTenant?.status + ''"
+                >
+                </app-user-chip>
+                <span
+                  *ngIf="
+                    event.participantRegistrationCount >
+                    event.participantRegistrations.length
+                  "
+                  >+{{
+                    event.participantRegistrationCount -
+                      event.participantRegistrations.length
+                  }}</span
+                >
+              </div>
+            </ng-container>
+          </div>
         </div>
-        <p class="mb-2 mt-2 font-bold lg:text-lg">
-          Your organizers on this event:
-        </p>
-        <ul class="list-inside list-disc lg:text-lg">
-          <li *ngFor="let organizer of event.organizers">
-            {{ organizer.fullName }}
-            <span *ngIf="organizer.phone">
-              (<a
-                class="text-blue-600 underline"
-                href="tel:{{ organizer.phone }}"
-                >{{ organizer.phone }}</a
-              >)
-            </span>
-          </li>
-        </ul>
-        <p class="mb-2 mt-2 lg:text-lg">
-          Please contact them in case of any issues. <br />We're looking forward
-          to seeing you soon!
-        </p>
       </mat-expansion-panel>
       <mat-expansion-panel
-        *ngIf="event.ratings.length > 0 && (eventOver$ | async)"
+        *ngIf="
+          !event.excludeFromRatings &&
+          (event.ratingPending || event.ratings.length > 0)
+        "
         expanded="true"
       >
         <mat-expansion-panel-header>
@@ -163,6 +194,8 @@
             [rating]="rating.rating || 0"
             [userId]="rating.user.id"
             [userFullName]="rating.user.fullName"
+            [userPicture]="rating.user.picture"
+            [userStatus]="rating.user.currentTenant?.status || ''"
             [isCurrentUser]="
               event.activeRegistration?.user?.id === rating.user.id
             "
@@ -172,7 +205,7 @@
         <div
           *ngIf="
             (ratingExpanded$ | async) &&
-            (event.userIsRegistered || event.userIsOrganizer)
+            event.activeRegistration?.status === 'SUCCESSFUL'
           "
           class="bg-slate-50 rounded-md p-2 border"
           id="rater"
@@ -283,15 +316,16 @@
               Nobody yet
             </mat-list-item>
             <mat-list-item *ngFor="let user of event.organizers">
-              <a [routerLink]="'/tenant/users/' + user.id">{{
-                user.fullName
-              }}</a>
-              <span
-                *ngIf="user.id === event.createdBy.id"
-                class="ml-4 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
+              <app-user-chip
+                size="sm"
+                [id]="user.id"
+                [picture]="user.picture"
+                [name]="user.fullName"
+                [phone]="user.phone || ''"
+                [status]="user.currentTenant?.status + ''"
+                [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
               >
-                Event Creator
-              </span>
+              </app-user-chip>
             </mat-list-item>
           </mat-list>
         </div>

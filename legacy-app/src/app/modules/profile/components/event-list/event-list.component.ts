@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 })
 export class EventListComponent implements OnInit {
   @Output() claimRequest = new EventEmitter<String>();
+  @Input() title: string = '';
   @Input() isOrganized: boolean = false;
   @Input() events: any[] = new Array<any>();
 

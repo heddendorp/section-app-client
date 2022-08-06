@@ -150,6 +150,12 @@ query getEventTemplate($id: ID!) {
         user {
           id
           fullName
+          picture
+          currentTenant {
+            userId
+            tenantId
+            status
+          }
         }
       }
       organizer {
