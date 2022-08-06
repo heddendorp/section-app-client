@@ -111,6 +111,26 @@ export const eventType = builder.prismaObject('TumiEvent', {
         }
       },
     }),
+    ratingPending: t.boolean({
+      resolve: async (source, args, context) => {
+        const registrations = await prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              event: {
+                excludeFromRatings: false,
+                end: {
+                  lt: new Date(),
+                },
+              },
+              user: { id: context.user?.id },
+              status: RegistrationStatus.SUCCESSFUL,
+              rating: null
+            },
+          });
+        return registrations.length > 0;
+      },
+    }),
     needsRating: t.boolean({
       resolve: async (source, args, context) => {
         const lastWeek = DateTime.local().minus({ days: 7 });
@@ -126,7 +146,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
                 },
               },
               user: { id: context.user?.id },
-              status: { not: RegistrationStatus.CANCELLED },
+              status: RegistrationStatus.SUCCESSFUL,
               rating: null,
             },
           });

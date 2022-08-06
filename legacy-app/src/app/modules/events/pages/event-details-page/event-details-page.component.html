@@ -16,7 +16,7 @@
   </app-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
-    <mat-accordion displayMode="flat" [multi]="event.couldBeOrganizer">
+    <mat-accordion displayMode="flat" [multi]="true">
       <mat-expansion-panel [expanded]="
           (!event.userIsRegistered && !event.userIsOrganizer) ||
           event.participantText.length < 10
@@ -104,7 +104,7 @@
           </div>
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel *ngIf="event.ratings.length > 0 && (eventOver$ | async)" expanded="true">
+      <mat-expansion-panel *ngIf="!event.excludeFromRatings && (event.ratingPending || event.ratings.length > 0)" expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title>Ratings</mat-panel-title>
         </mat-expansion-panel-header>
@@ -117,8 +117,7 @@
             " (edit)="expandRatingPanel()"></app-rating-item>
         </div>
         <div *ngIf="
-            (ratingExpanded$ | async) &&
-            (event.userIsRegistered || event.userIsOrganizer)
+            (ratingExpanded$ | async) && event.activeRegistration?.status === 'SUCCESSFUL'
           " class="bg-slate-50 rounded-md p-2 border" id="rater">
           <app-rate-event [event]="event" (ratingSubmitted)="saveRating($event, event.id)"
             [rating]="event.activeRegistration?.rating || 0" [comment]="event.activeRegistration?.userComment || ''"

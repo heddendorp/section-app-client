@@ -20,6 +20,8 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     freeParticipantSpots
+    excludeFromRatings
+    ratingPending
     prices
     location
     coordinates
