@@ -41,6 +41,11 @@ const routes: Routes = [
   },
   { path: ':eventId', component: EventDetailsPageComponent },
   {
+    path: ':eventId/checkin',
+    canActivate: [AuthGuard],
+    component: EventDetailsPageComponent,
+  },
+  {
     path: ':eventId/edit',
     canActivate: [AuthGuard, MemberGuard],
     component: EventEditPageComponent,

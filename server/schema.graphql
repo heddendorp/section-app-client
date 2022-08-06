@@ -631,6 +631,7 @@ type TumiEvent {
   insuranceDescription: String!
   internalEvent: Boolean!
   location: String!
+  mailTemplate: String!
   needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!

@@ -42,7 +42,11 @@
       end of the event
     </p>
   </div>
-  <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem" class="mb-8">
+  <div class="flex flex-col md:flex-row gap-4 mb-8">
+    <a mat-flat-button (click)="generateMail()" class="modern" color="primary">
+      <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+      <span>Generate mail template</span>
+    </a>
     <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
       <mat-icon svgIcon="icon-copy"></mat-icon>
       <span>Copy mails of organizers</span>
