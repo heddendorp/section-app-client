@@ -1,51 +1,30 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(event$ | async) === null"></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="bg-surface-default">
-  <a
-    mat-fab
-    routerLink="run"
-    class="extended-fab"
-    *ngIf="event.userIsOrganizer"
-  >
+  <a mat-fab routerLink="run" class="extended-fab" *ngIf="event.userIsOrganizer">
     <mat-icon svgIcon="icon-user-shield"></mat-icon>
     <span class="label">Run Event</span>
   </a>
-  <button
-    mat-fab
-    (click)="showCode()"
-    class="extended-fab"
-    *ngIf="
+  <button mat-fab (click)="showCode()" class="extended-fab" *ngIf="
       event.userIsRegistered &&
       !((eventOver$ | async) && event.activeRegistration?.didAttend)
-    "
-  >
+    ">
     <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
     <span class="label">Check in</span>
   </button>
-  <app-event-header
-    [event]="event"
-    [bestPrice]="bestPrice$ | async"
-    class="text-secondary-onContainerDark bg-secondary-containerDark dark-button from-gray-600 to-gray-800 p-4 pb-20 lg:p-6 lg:pb-24"
-  >
+  <app-event-header [event]="event" [bestPrice]="bestPrice$ | async"
+    class="text-secondary-onContainerDark bg-secondary-containerDark dark-button from-gray-600 to-gray-800 p-4 pb-20 lg:p-6 lg:pb-24">
   </app-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="true">
-      <mat-expansion-panel
-        [expanded]="
+      <mat-expansion-panel [expanded]="
           (!event.userIsRegistered && !event.userIsOrganizer) ||
           event.participantText.length < 10
-        "
-      >
+        ">
         <mat-expansion-panel-header>
           <mat-panel-title>Description</mat-panel-title>
         </mat-expansion-panel-header>
-        <markdown
-          [data]="event.description"
-          class="prose lg:prose-xl break-words"
-        ></markdown>
+        <markdown [data]="event.description" class="prose lg:prose-xl break-words"></markdown>
       </mat-expansion-panel>
       <mat-expansion-panel *ngIf="event.couldBeOrganizer" [expanded]="true">
         <mat-expansion-panel-header>
@@ -53,28 +32,16 @@
         </mat-expansion-panel-header>
         <p class="my-2">
           This event was created by
-          <app-user-chip
-            size="xs"
-            [id]="event.createdBy.id"
-            [picture]="event.createdBy.picture"
-            [name]="event.createdBy.fullName"
-            [status]="event.createdBy.currentTenant?.status + ''"
-          >
-          </app-user-chip
-          >, they can answer any questions.
+          <app-user-chip size="xs" [id]="event.createdBy.id" [picture]="event.createdBy.picture"
+            [name]="event.createdBy.fullName" [status]="event.createdBy.currentTenant?.status + ''">
+          </app-user-chip>, they can answer any questions.
         </p>
-        <markdown
-          [data]="event.organizerText"
-          class="prose lg:prose-xl break-words"
-        ></markdown>
+        <markdown [data]="event.organizerText" class="prose lg:prose-xl break-words"></markdown>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        *ngIf="
+      <mat-expansion-panel *ngIf="
           event.participantText.length > 10 &&
           (event.userIsRegistered || event.userIsOrganizer)
-        "
-        [expanded]="event.userIsRegistered || event.userIsOrganizer"
-      >
+        " [expanded]="event.userIsRegistered || event.userIsOrganizer">
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
         </mat-expansion-panel-header>
@@ -84,65 +51,37 @@
               Photos for this event
             </a>
           </div>
-          <div
-            class="lg:text-lg rounded-lg bg-slate-100 border-2 p-4"
-            *ngIf="event.location"
-          >
+          <div class="lg:text-lg rounded-lg bg-slate-100 border-2 p-4" *ngIf="event.location">
             <div class="mb-2">
               <b>Meeting point:</b> {{ event.location }} at
               {{ event.start | date: 'mediumTime' }}
             </div>
-            <a
-              class="modern"
-              mat-flat-button
-              color="primary"
-              [href]="
+            <a class="modern" mat-flat-button color="primary" [href]="
                 event.googlePlaceUrl
                   ? event.googlePlaceUrl
                   : 'https://www.google.com/maps/place/' +
                     event.coordinates?.lat +
                     ',' +
                     event.coordinates?.lon
-              "
-              target="_blank"
-            >
+              " target="_blank">
               <mat-icon svgIcon="icon-map-marker"></mat-icon>
               Open in Maps
             </a>
           </div>
-          <markdown
-            [data]="event.participantText"
-            class="prose lg:prose-xl break-words my-4"
-          ></markdown>
-          <div
-            class="my-2"
-            fxLayout="row"
-            fxLayoutAlign="start center"
-            fxLayoutGap="1rem"
-            *ngIf="(event$ | async)?.activeRegistration?.didAttend"
-          >
+          <markdown [data]="event.participantText" class="prose lg:prose-xl break-words my-4"></markdown>
+          <div class="my-2" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+            *ngIf="(event$ | async)?.activeRegistration?.didAttend">
             <img src="{{ 'approval' | iconURL }}" alt="approval" class="w-10" />
-            <span class="text-lg font-bold"
-              >You are checked in to the event!</span
-            >
+            <span class="text-lg font-bold">You are checked in to the event!</span>
           </div>
-          <div
-            class="mb-2 lg:text-lg rounded-lg"
-            *ngIf="event.location"
-          >
+          <div class="mb-2 lg:text-lg rounded-lg" *ngIf="event.location">
             <div class="mb-2">
               <b>Organizers</b>
             </div>
             <div class="flex flex-wrap gap-2">
-              <app-user-chip
-                *ngFor="let organizer of event.organizers"
-                size="md"
-                [id]="organizer.id"
-                [picture]="organizer.picture"
-                [name]="organizer.fullName"
-                [phone]="organizer.phone || ''"
-                [status]="organizer.currentTenant?.status + ''"
-              >
+              <app-user-chip *ngFor="let organizer of event.organizers" size="md" [id]="organizer.id"
+                [picture]="organizer.picture" [name]="organizer.fullName" [phone]="organizer.phone || ''"
+                [status]="organizer.currentTenant?.status + ''">
               </app-user-chip>
             </div>
             <p class="mt-4 lg:text-lg">
@@ -153,66 +92,44 @@
               <div class="mt-6 mb-2">
                 <b>Participants</b>
               </div>
-              <div class="flex flex-wrap gap-2">
-                <app-user-chip
-                  *ngFor="let registration of event.participantRegistrations"
-                  size="sm"
-                  [id]="registration.user.id"
-                  [picture]="registration.user.picture"
-                  [name]="registration.user.fullName"
-                  [status]="registration.user.currentTenant?.status + ''"
-                >
+              <div class="flex flex-wrap gap-2 items-center">
+                <app-user-chip *ngFor="let registration of event.participantRegistrations" size="sm"
+                  [id]="registration.user.id" [picture]="registration.user.picture" [name]="registration.user.fullName"
+                  [status]="registration.user.currentTenant?.status + ''">
                 </app-user-chip>
+                <span
+                  *ngIf="event.participantRegistrationCount > event.participantRegistrations.length">+{{event.participantRegistrationCount
+                  - event.participantRegistrations.length}}</span>
               </div>
             </ng-container>
           </div>
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        *ngIf="
+      <mat-expansion-panel *ngIf="
           !event.excludeFromRatings &&
           (event.ratingPending || event.ratings.length > 0)
-        "
-        expanded="true"
-      >
+        " expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title>Ratings</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
-          <app-rating-item
-            *ngFor="let rating of event.ratings"
-            [isOrganizer]="rating.type === 'ORGANIZER'"
-            [comment]="rating.userComment || ''"
-            [isAnonymous]="rating.anonymousRating"
-            [rating]="rating.rating || 0"
-            [userId]="rating.user.id"
-            [userFullName]="rating.user.fullName"
-            [userPicture]="rating.user.picture"
-            [userStatus]="rating.user.currentTenant?.status || ''"
-            [isCurrentUser]="
+          <app-rating-item *ngFor="let rating of event.ratings" [isOrganizer]="rating.type === 'ORGANIZER'"
+            [comment]="rating.userComment || ''" [isAnonymous]="rating.anonymousRating" [rating]="rating.rating || 0"
+            [userId]="rating.user.id" [userFullName]="rating.user.fullName" [userPicture]="rating.user.picture"
+            [userStatus]="rating.user.currentTenant?.status || ''" [isCurrentUser]="
               event.activeRegistration?.user?.id === rating.user.id
-            "
-            (edit)="expandRatingPanel()"
-          ></app-rating-item>
+            " (edit)="expandRatingPanel()"></app-rating-item>
         </div>
-        <div
-          *ngIf="
+        <div *ngIf="
             (ratingExpanded$ | async) &&
             event.activeRegistration?.status === 'SUCCESSFUL'
-          "
-          class="bg-slate-50 rounded-md p-2 border"
-          id="rater"
-        >
-          <app-rate-event
-            [event]="event"
-            (ratingSubmitted)="saveRating($event, event.id)"
-            [rating]="event.activeRegistration?.rating || 0"
-            [comment]="event.activeRegistration?.userComment || ''"
+          " class="bg-slate-50 rounded-md p-2 border" id="rater">
+          <app-rate-event [event]="event" (ratingSubmitted)="saveRating($event, event.id)"
+            [rating]="event.activeRegistration?.rating || 0" [comment]="event.activeRegistration?.userComment || ''"
             [anonymousRating]="
               !!event.activeRegistration?.rating &&
               !!event.activeRegistration?.anonymousRating
-            "
-          >
+            ">
           </app-rate-event>
         </div>
       </mat-expansion-panel>
@@ -228,12 +145,7 @@
         <p class="my-4">
           To sign up for events, please log in or create an account.
         </p>
-        <button
-          class="modern"
-          mat-flat-button
-          color="accent"
-          (click)="auth.loginWithRedirect()"
-        >
+        <button class="modern" mat-flat-button color="accent" (click)="auth.loginWithRedirect()">
           <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
           Log in
         </button>
@@ -241,26 +153,13 @@
     </ng-template>
     <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
       <h2 class="mb-4 font-bold">Registration</h2>
-      <app-check-registration-time
-        [event]="event"
-        *ngIf="(user$ | async)?.university; else noUni"
-      >
+      <app-check-registration-time [event]="event" *ngIf="(user$ | async)?.university; else noUni">
         <ng-container [ngSwitch]="event.registrationMode">
-          <app-external-event-registration
-            *ngSwitchCase="RegistrationMode.External"
-            [event]="event"
-          >
+          <app-external-event-registration *ngSwitchCase="RegistrationMode.External" [event]="event">
           </app-external-event-registration>
-          <app-stripe-event-registration
-            *ngSwitchCase="RegistrationMode.Stripe"
-            [event]="event"
-            [bestPrice]="bestPrice$ | async"
-            [user]="user$ | async"
-          ></app-stripe-event-registration>
-          <app-online-event-registration
-            [event]="event"
-            *ngSwitchCase="RegistrationMode.Online"
-          >
+          <app-stripe-event-registration *ngSwitchCase="RegistrationMode.Stripe" [event]="event"
+            [bestPrice]="bestPrice$ | async" [user]="user$ | async"></app-stripe-event-registration>
+          <app-online-event-registration [event]="event" *ngSwitchCase="RegistrationMode.Online">
           </app-online-event-registration>
         </ng-container>
       </app-check-registration-time>
@@ -273,35 +172,22 @@
       </ng-template>
     </ng-container>
   </div>
-  <div
-    *ngIf="
+  <div *ngIf="
       event.couldBeOrganizer &&
       event.registrationMode !== RegistrationMode.External
-    "
-    class="bg-secondary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12"
-  >
+    " class="bg-secondary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12">
     <h2 class="mb-4 font-bold">Sign up as organizer</h2>
     <app-check-registration-time [event]="event">
-      <div
-        fxLayout.gt-md="row"
-        fxLayout="column"
-        fxLayoutGap="1rem"
-        fxLayoutAlign.gt-md="start start"
-      >
-        <button
-          mat-raised-button
-          color="primary"
-          class="w-full modern"
-          [disabled]="!event.organizerRegistrationPossible"
-          (click)="registerAsOrganizer()"
-        >
+      <div fxLayout.gt-md="row" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign.gt-md="start start">
+        <button mat-raised-button color="primary" class="w-full modern"
+          [disabled]="!event.organizerRegistrationPossible" (click)="registerAsOrganizer()">
           <mat-icon svgIcon="icon-add"></mat-icon>
           Sign up now
         </button>
         <div fxFlex="50">
           <h3>
             Organizers already on this event ({{ event.organizers.length }}/{{
-              event.organizerLimit
+            event.organizerLimit
             }})
           </h3>
           <mat-list>
@@ -309,15 +195,9 @@
               Nobody yet
             </mat-list-item>
             <mat-list-item *ngFor="let user of event.organizers">
-              <app-user-chip
-                size="sm"
-                [id]="user.id"
-                [picture]="user.picture"
-                [name]="user.fullName"
-                [phone]="user.phone || ''"
-                [status]="user.currentTenant?.status + ''"
-                [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
-              >
+              <app-user-chip size="sm" [id]="user.id" [picture]="user.picture" [name]="user.fullName"
+                [phone]="user.phone || ''" [status]="user.currentTenant?.status + ''"
+                [tag]="user.id === event.createdBy.id ? 'Creator' : ''">
               </app-user-chip>
             </mat-list-item>
           </mat-list>
