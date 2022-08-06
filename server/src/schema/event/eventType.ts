@@ -474,9 +474,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
                 status: { not: RegistrationStatus.CANCELLED },
               },
             },
-          },        
+          },
           orderBy: {
-            lastName: 'asc'
+            lastName: 'asc',
           },
         });
       },
@@ -670,7 +670,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .replaceAll('%time%', date.toFormat('HH:mm'))
           .replaceAll('%body%', participatedText);
 
-        const imgSrcMatch = /<img[^>]+src="([^">]+)"/gm.exec(marked(event.description));
+        const imgSrcMatch = /<img[^>]+src="([^">]+)"/gm.exec(
+          marked(event.description)
+        );
         if (imgSrcMatch) {
           template = template
             .replaceAll('%photo%', imgSrcMatch[1])

@@ -9,7 +9,9 @@
   <div class="picture-container relative" *ngIf="picture">
     <img
       [src]="picture"
-      class="picture rounded-full bg-white z-10 {{ status | lowercase }} bg-gray-200"
+      class="picture rounded-full bg-white z-10 {{
+        status | lowercase
+      }} bg-gray-200"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
     />
