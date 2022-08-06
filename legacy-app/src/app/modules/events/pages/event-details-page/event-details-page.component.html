@@ -72,9 +72,13 @@
         *ngIf="
           permissions.isAdmin() ||
           (event.participantText.length > 10 &&
-          (event.userIsRegistered || event.userIsOrganizer))
+            (event.userIsRegistered || event.userIsOrganizer))
         "
-        [expanded]="permissions.isAdmin() || event.userIsRegistered || event.userIsOrganizer"
+        [expanded]="
+          permissions.isAdmin() ||
+          event.userIsRegistered ||
+          event.userIsOrganizer
+        "
       >
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
