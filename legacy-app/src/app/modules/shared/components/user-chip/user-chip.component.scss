@@ -19,16 +19,16 @@
 .xs {
   @apply h-5 leading-5 rounded-[20px] items-stretch;
 
-  .picture-container {
-    @apply mr-0.5;
+  .name-container {
+    @apply mx-0.5;
   }
 }
 
 .sm {
-  @apply h-[2em] rounded-[2em] pr-2;
+  @apply h-[2em] rounded-[2em];
 
-  .picture-container {
-    @apply mr-2;
+  .name-container {
+    @apply mx-2;
   }
 
   .name {
@@ -37,10 +37,10 @@
 }
 
 .md {
-  @apply h-[3em] rounded-[3em] pr-3;
+  @apply h-[3em] rounded-[3em];
 
-  .picture-container {
-    @apply mr-3;
+  .name-container {
+    @apply mx-3;
   }
 
   .name {

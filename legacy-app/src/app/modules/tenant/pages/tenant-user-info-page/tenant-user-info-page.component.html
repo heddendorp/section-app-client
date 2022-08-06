@@ -8,7 +8,7 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <app-user-chip
-      size="xs"
+      size="sm"
       [id]="user.id"
       [picture]="user.picture"
       [name]="user.fullName"
@@ -27,17 +27,17 @@
     </button>
   </div>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
-    <p>TUMi app UserID:</p>
+    <p>User ID:</p>
     <p class="select-all font-mono">{{ user.id }}</p>
     <p>First name:</p>
     <p>{{ user.firstName }}</p>
-    <p>Last Name:</p>
+    <p>Last name:</p>
     <p>{{ user.lastName }}</p>
     <p>Role:</p>
     <p>{{ user.currentTenant?.role | titlecase }}</p>
     <p>Status:</p>
     <p>{{ user.currentTenant?.status | titlecase }}</p>
-    <p>email:</p>
+    <p>Email:</p>
     <p>{{ user.email }}</p>
     <p>Auth0 ID:</p>
     <p class="break-all">{{ user.authId }}</p>
@@ -54,7 +54,7 @@
       [checked]="user.esnCardOverride"
       (change)="updateEsnCard($event)"
     ></mat-slide-toggle>
-    <h2 gdColumn="-1/1" class="my-2">Registrations</h2>
+    <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
   </div>
   <div
     [class.opacity-60]="registration.status === RegistrationStatus.Cancelled"
@@ -62,7 +62,7 @@
     *ngFor="let registration of user.eventRegistrations"
   >
     <p class="max-w-full break-words font-bold" gdColumn="-1/1">
-      {{ registration.event.title }}
+      <a routerLink="/events/{{ registration.event.id }}">{{ registration.event.title }}</a>
     </p>
     <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
       <p>Type:</p>
@@ -73,8 +73,10 @@
       <p>{{ registration.createdAt | date: 'medium' }}</p>
       <p>Event start:</p>
       <p>{{ registration.event.start | date: 'medium' }}</p>
-      <p>Checkin date:</p>
-      <p>{{ registration.checkInTime | date: 'medium' }}</p>
+      <ng-container *ngIf="registration.type !== 'ORGANIZER'">
+        <p>Check in date:</p>
+        <p>{{ registration.checkInTime | date: 'medium' }}</p>
+      </ng-container>
     </div>
   </div>
 </main>

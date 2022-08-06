@@ -1827,7 +1827,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, position?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
 
 export type GetStatisticsQueryVariables = Exact<{
   range?: InputMaybe<DateRangeInput>;
@@ -4586,6 +4586,7 @@ export const GetUsersDocument = gql`
     lastName
     email
     position
+    picture
     currentTenant {
       userId
       tenantId

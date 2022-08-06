@@ -211,6 +211,7 @@ query getUsers(
     lastName
     email
     position
+    picture
     currentTenant {
       userId
       tenantId

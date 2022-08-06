@@ -36,12 +36,12 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public users$: Observable<GetUsersQuery['users']>;
   public userNum$: Observable<GetUsersQuery['userSearchResultNum']>;
   public displayedColumns = [
+    'profile',
     'firstName',
     'lastName',
     'email',
     'status',
     'role',
-    'action',
   ];
   public filterForm: UntypedFormGroup;
   public MembershipStatus = MembershipStatus;
