@@ -62,7 +62,9 @@
     *ngFor="let registration of user.eventRegistrations"
   >
     <p class="max-w-full break-words font-bold" gdColumn="-1/1">
-      <a routerLink="/events/{{ registration.event.id }}">{{ registration.event.title }}</a>
+      <a routerLink="/events/{{ registration.event.id }}">{{
+        registration.event.title
+      }}</a>
     </p>
     <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
       <p>Type:</p>

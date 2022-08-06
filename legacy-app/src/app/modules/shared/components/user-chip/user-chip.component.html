@@ -2,9 +2,7 @@
   [routerLink]="'/profile/' + id"
   class="chip {{ size }} {{
     status | lowercase
-  }} box-border inline-flex flex-row items-center {{
-    picture ? '' : 'pl-1'
-  }}"
+  }} box-border inline-flex flex-row items-center {{ picture ? '' : 'pl-1' }}"
 >
   <div class="picture-container relative" *ngIf="picture">
     <img

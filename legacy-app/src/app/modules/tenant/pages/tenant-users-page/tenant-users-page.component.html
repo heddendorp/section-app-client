@@ -53,14 +53,14 @@
     Copy mail addresses
   </button>
   <mat-table
-    *ngIf="users$ | async as users"    
+    *ngIf="users$ | async as users"
     [dataSource]="users"
     class="w-full mt-4"
   >
     <ng-container matColumnDef="profile">
       <mat-header-cell *matHeaderCellDef>Profile</mat-header-cell>
       <mat-cell *matCellDef="let element">
-          <app-user-chip
+        <app-user-chip
           size="sm"
           [id]="element.id"
           [picture]="element.picture"
@@ -105,7 +105,7 @@
       *matRowDef="let row; columns: displayedColumns"
       [routerLink]="row.id"
       class="cursor-pointer hover:bg-gray-100"
-      ></mat-row>
+    ></mat-row>
   </mat-table>
   <mat-paginator
     [length]="userNum$ | async"
