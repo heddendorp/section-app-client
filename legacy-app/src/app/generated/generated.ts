@@ -693,6 +693,7 @@ export type Query = {
   event: TumiEvent;
   eventOrganizers: Array<EventOrganizer>;
   eventRegistrationCode: EventRegistrationCode;
+  eventRegistrationCodeCount: Scalars['Int'];
   eventRegistrationCodes: Array<EventRegistrationCode>;
   eventTemplate: EventTemplate;
   eventTemplateCategories: Array<EventTemplateCategory>;
@@ -748,6 +749,8 @@ export type QueryEventRegistrationCodesArgs = {
   includePrivate?: InputMaybe<Scalars['Boolean']>;
   includeUsed?: InputMaybe<Scalars['Boolean']>;
   orderByEvent?: InputMaybe<Scalars['Boolean']>;
+  pageIndex?: InputMaybe<Scalars['Int']>;
+  pageLength?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1748,7 +1751,10 @@ export type GetCancelledRegistrationsQueryVariables = Exact<{ [key: string]: nev
 
 export type GetCancelledRegistrationsQuery = { __typename?: 'Query', registrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, cancellationReason?: string | null, event: { __typename?: 'TumiEvent', title: string, id: string }, user: { __typename?: 'User', id: string, fullName: string } }> };
 
-export type GetEventRegistrationCodesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetEventRegistrationCodesQueryVariables = Exact<{
+  pageLength?: InputMaybe<Scalars['Int']>;
+  pageIndex?: InputMaybe<Scalars['Int']>;
+}>;
 
 
 export type GetEventRegistrationCodesQuery = { __typename?: 'Query', eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, targetEvent: { __typename?: 'TumiEvent', id: string, title: string, icon: string }, creator: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, registrationToRemove?: { __typename?: 'EventRegistration', id: string } | null, registrationCreated?: { __typename?: 'EventRegistration', id: string, createdAt: any, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } } | null }> };
@@ -1759,6 +1765,11 @@ export type GetEventRegistrationCodeQueryVariables = Exact<{
 
 
 export type GetEventRegistrationCodeQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, sepaAllowed: boolean, targetEvent: { __typename?: 'TumiEvent', id: string, title: string, start: any, end: any, icon: string }, creator: { __typename?: 'User', id: string, email: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, connectedRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null }>, registrationToRemove?: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentMethodType?: string | null, paymentIntent: string, events: any } } | null } | null, registrationCreated?: { __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, transaction?: { __typename?: 'Transaction', id: string, stripePayment: { __typename?: 'StripePayment', id: string, status: string, paymentIntent: string, paymentMethodType?: string | null, events: any } } | null } | null } };
+
+export type GetEventRegistrationCodeCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEventRegistrationCodeCountQuery = { __typename?: 'Query', eventRegistrationCodeCount: number };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
@@ -4112,8 +4123,10 @@ export const GetCancelledRegistrationsDocument = gql`
     }
   }
 export const GetEventRegistrationCodesDocument = gql`
-    query getEventRegistrationCodes {
+    query getEventRegistrationCodes($pageLength: Int, $pageIndex: Int) {
   eventRegistrationCodes(
+    pageIndex: $pageIndex
+    pageLength: $pageLength
     includePrivate: true
     includePassed: true
     includeUsed: true
@@ -4281,6 +4294,22 @@ export const GetEventRegistrationCodeDocument = gql`
   })
   export class GetEventRegistrationCodeGQL extends Apollo.Query<GetEventRegistrationCodeQuery, GetEventRegistrationCodeQueryVariables> {
     override document = GetEventRegistrationCodeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetEventRegistrationCodeCountDocument = gql`
+    query getEventRegistrationCodeCount {
+  eventRegistrationCodeCount
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventRegistrationCodeCountGQL extends Apollo.Query<GetEventRegistrationCodeCountQuery, GetEventRegistrationCodeCountQueryVariables> {
+    override document = GetEventRegistrationCodeCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

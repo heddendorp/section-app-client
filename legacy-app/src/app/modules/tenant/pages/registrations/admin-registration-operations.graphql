@@ -90,8 +90,10 @@ query getCancelledRegistrations {
   }
 }
 
-query getEventRegistrationCodes {
+query getEventRegistrationCodes($pageLength: Int, $pageIndex: Int) {
   eventRegistrationCodes(
+    pageIndex: $pageIndex,
+    pageLength: $pageLength,
     includePrivate: true
     includePassed: true
     includeUsed: true
@@ -239,4 +241,8 @@ query getEventRegistrationCode($registrationId: ID!) {
       }
     }
   }
+}
+
+query getEventRegistrationCodeCount {
+  eventRegistrationCodeCount
 }
