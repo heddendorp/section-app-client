@@ -70,10 +70,11 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         *ngIf="
-          event.participantText.length > 10 &&
-          (event.userIsRegistered || event.userIsOrganizer)
+          permissions.isAdmin() ||
+          (event.participantText.length > 10 &&
+          (event.userIsRegistered || event.userIsOrganizer))
         "
-        [expanded]="event.userIsRegistered || event.userIsOrganizer"
+        [expanded]="permissions.isAdmin() || event.userIsRegistered || event.userIsOrganizer"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>Info for participants</mat-panel-title>
