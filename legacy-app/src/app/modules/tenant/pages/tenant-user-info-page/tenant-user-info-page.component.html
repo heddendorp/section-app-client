@@ -56,11 +56,8 @@
     ></mat-slide-toggle>
     <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
   </div>
-  
-  <mat-table
-    [dataSource]="user.eventRegistrations"
-    class="w-full mt-4"
-  >
+
+  <mat-table [dataSource]="user.eventRegistrations" class="w-full mt-4">
     <ng-container matColumnDef="event">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let registration">

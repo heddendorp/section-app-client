@@ -63,7 +63,7 @@ import { EventChipComponent } from './components/event-chip/event-chip.component
     RateEventComponent,
     RatingComponent,
     UserChipComponent,
-    EventChipComponent
+    EventChipComponent,
   ],
   imports: [
     RouterModule,
@@ -116,7 +116,7 @@ import { EventChipComponent } from './components/event-chip/event-chip.component
     RateEventComponent,
     RatingComponent,
     UserChipComponent,
-    EventChipComponent
+    EventChipComponent,
   ],
   providers: [DatePipe],
 })

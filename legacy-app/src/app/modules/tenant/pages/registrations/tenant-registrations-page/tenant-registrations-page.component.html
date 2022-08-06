@@ -66,9 +66,10 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"
-    routerLink="/tenant/registrations/{{ row.id }}"
-    class="cursor-pointer hover:bg-gray-100"
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      routerLink="/tenant/registrations/{{ row.id }}"
+      class="cursor-pointer hover:bg-gray-100"
     ></mat-row>
   </mat-table>
   <mat-paginator

@@ -9,7 +9,7 @@ import {
   GetEventRegistrationCodesGQL,
   GetEventRegistrationCodesQuery,
   GetEventRegistrationCodeCountGQL,
-  GetEventRegistrationCodeCountQuery
+  GetEventRegistrationCodeCountQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -39,7 +39,7 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
   constructor(
     private title: Title,
     private getEventRegistrationCodesGQL: GetEventRegistrationCodesGQL,
-    private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL,
+    private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL
   ) {
     this.title.setTitle('TUMi - manage registrations');
     this.ordersQueryRef = this.getEventRegistrationCodesGQL.watch({

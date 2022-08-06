@@ -92,8 +92,8 @@ query getCancelledRegistrations {
 
 query getEventRegistrationCodes($pageLength: Int, $pageIndex: Int) {
   eventRegistrationCodes(
-    pageIndex: $pageIndex,
-    pageLength: $pageLength,
+    pageIndex: $pageIndex
+    pageLength: $pageLength
     includePrivate: true
     includePassed: true
     includeUsed: true

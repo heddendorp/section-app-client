@@ -38,7 +38,12 @@
           <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
           <span>{{ code.targetEvent.start | date: 'short' }}</span>
         </div>
-        <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap=".5rem" class="mt-1">
+        <div
+          fxLayout.gt-xs="row"
+          fxLayout="column"
+          fxLayoutGap=".5rem"
+          class="mt-1"
+        >
           <a
             mat-stroked-button
             class="modern"
@@ -48,9 +53,9 @@
             Check out event
           </a>
           <a
-          mat-flat-button
-          class="modern"
-          color="primary"
+            mat-flat-button
+            class="modern"
+            color="primary"
             routerLink="/profile"
             [queryParams]="{ code: code.id }"
           >

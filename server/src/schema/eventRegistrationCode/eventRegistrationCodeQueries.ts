@@ -15,7 +15,14 @@ builder.queryFields((t) => ({
     resolve: async (
       query,
       root,
-      { pageIndex, pageLength, includePrivate, includePassed, includeUsed, orderByEvent },
+      {
+        pageIndex,
+        pageLength,
+        includePrivate,
+        includePassed,
+        includeUsed,
+        orderByEvent,
+      },
       context
     ) => {
       let page = {};
