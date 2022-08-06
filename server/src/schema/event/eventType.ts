@@ -474,6 +474,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
                 status: { not: RegistrationStatus.CANCELLED },
               },
             },
+          },        
+          orderBy: {
+            lastName: 'asc'
           },
         });
       },
