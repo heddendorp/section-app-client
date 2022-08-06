@@ -6,6 +6,7 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
     event {
       title
       id
+      icon
     }
     user {
       id
@@ -40,10 +41,17 @@ query getRegistrationForAdmin($id: ID!) {
       id
       start
       end
+      icon
     }
     user {
       id
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     transaction {
       id
@@ -95,6 +103,7 @@ query getEventRegistrationCodes {
     targetEvent {
       id
       title
+      icon
     }
     creator {
       id
@@ -138,6 +147,7 @@ query getEventRegistrationCode($registrationId: ID!) {
       title
       start
       end
+      icon
     }
     creator {
       id

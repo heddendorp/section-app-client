@@ -45,8 +45,12 @@
   >
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.title }}
+      <mat-cell *matCellDef="let element">        
+        <app-event-chip
+          [id]="element.id"
+          [icon]="element.icon"
+          [title]="element.title"
+        ></app-event-chip>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="date">

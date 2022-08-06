@@ -167,6 +167,7 @@ query loadUser($id: ID!) {
         title
         start
         end
+        icon
       }
     }
   }

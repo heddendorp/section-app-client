@@ -13,14 +13,14 @@
       <tbody>
         <tr>
           <th colspan="2">Code</th>
-          <th colspan="2">Event: {{ code.targetEvent.title }}</th>
+          <th colspan="2">Event</th>
         </tr>
         <tr>
           <td>Created: {{ code.createdAt | date: 'medium' }}</td>
           <td>
             Creator:
             <app-user-chip
-              size="xs"
+              size="sm"
               [id]="code.creator.id"
               [picture]="code.creator.picture"
               [name]="code.creator.fullName"
@@ -28,8 +28,17 @@
             >
             </app-user-chip>
           </td>
-          <td>Start: {{ code.targetEvent.start | date: 'medium' }}</td>
-          <td>End: {{ code.targetEvent.end | date: 'medium' }}</td>
+          <td>
+            <app-event-chip
+            [id]="code.targetEvent.id"
+            [icon]="code.targetEvent.icon"
+            [title]="code.targetEvent.title"
+            ></app-event-chip>
+          </td>
+          <td>
+            <div>Start: {{ code.targetEvent.start | date: 'medium' }}</div>
+            <div>End: {{ code.targetEvent.end | date: 'medium' }}</div>
+          </td>
         </tr>
         <tr>
           <td>Status: {{ code.status }}</td>
@@ -40,7 +49,7 @@
           </td>
           <td colspan="2">
             <a
-              class="w-full"
+              class="w-full modern"
               href="/events/{{ code.targetEvent.id }}/manage"
               mat-stroked-button
             >
@@ -61,7 +70,7 @@
             </td>
             <td>
               <app-user-chip
-                size="xs"
+                size="sm"
                 [id]="code.registrationToRemove.user.id"
                 [picture]="code.registrationToRemove.user.picture"
                 [name]="code.registrationToRemove.user.fullName"
