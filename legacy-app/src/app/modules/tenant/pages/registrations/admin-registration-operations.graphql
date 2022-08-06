@@ -9,7 +9,7 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
     }
     user {
       id
-      fullName      
+      fullName
       picture
       currentTenant {
         userId

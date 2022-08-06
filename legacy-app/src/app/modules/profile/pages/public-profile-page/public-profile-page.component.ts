@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UserProfilePublicGQL,
-  UserProfilePublicQuery
+  UserProfilePublicQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
@@ -19,19 +19,19 @@ export class PublicProfilePageComponent {
   constructor(
     private title: Title,
     private profileQuery: UserProfilePublicGQL,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
-    
+
     this.route.paramMap.subscribe((params) =>
       this.profileQueryRef.refetch({ id: params.get('userId') ?? '' })
     );
 
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.user),
-      tap(user => {
-        this.title.setTitle(`${user.fullName} - TUMi`);        
+      tap((user) => {
+        this.title.setTitle(`${user.fullName} - TUMi`);
       })
     );
     this.commonEvents$ = this.profileQueryRef.valueChanges.pipe(

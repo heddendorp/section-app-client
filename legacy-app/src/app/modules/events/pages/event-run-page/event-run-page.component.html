@@ -78,12 +78,15 @@
   </ul>
   <h2 class="mb-2 mt-6">Organizers</h2>
   <div class="flex flex-col md:flex-row flex-wrap gap-4">
-    <div
-      *ngFor="let registration of event.organizerRegistrations"
-    >
-      <app-user-chip size="md" [id]="registration.user.id"
-        [picture]="registration.user.picture" [name]="registration.user.fullName" [phone]="registration.user.phone || ''"
-        [status]="registration.user.currentTenant?.status + ''">
+    <div *ngFor="let registration of event.organizerRegistrations">
+      <app-user-chip
+        size="md"
+        [id]="registration.user.id"
+        [picture]="registration.user.picture"
+        [name]="registration.user.fullName"
+        [phone]="registration.user.phone || ''"
+        [status]="registration.user.currentTenant?.status + ''"
+      >
       </app-user-chip>
       <span
         *ngIf="registration.user.id === event.createdBy.id"
@@ -94,18 +97,25 @@
     </div>
   </div>
   <h2 class="mt-4 mb-2">Participants</h2>
-  <div class="flex flex-col md:flex-row flex-wrap gap-4"
-  >
-    <div class="flex flex-row gap-1 items-center" *ngFor="let registration of event.participantRegistrations">
+  <div class="flex flex-col md:flex-row flex-wrap gap-4">
+    <div
+      class="flex flex-row gap-1 items-center"
+      *ngFor="let registration of event.participantRegistrations"
+    >
       <div class="flex-1">
-        <app-user-chip size="md" [id]="registration.user.id"
-        [picture]="registration.user.picture" [name]="registration.user.fullName" [phone]="registration.user.phone || ''"
-        [checkedIn]="!!registration.checkInTime"
-        [status]="registration.user.currentTenant?.status + ''">
-      </app-user-chip>
+        <app-user-chip
+          size="md"
+          [id]="registration.user.id"
+          [picture]="registration.user.picture"
+          [name]="registration.user.fullName"
+          [phone]="registration.user.phone || ''"
+          [checkedIn]="!!registration.checkInTime"
+          [status]="registration.user.currentTenant?.status + ''"
+        >
+        </app-user-chip>
       </div>
       <ng-container *ngIf="registration.checkInTime">
-      <!-- <ng-container *ngIf="!registration.checkInTime"> -->
+        <!-- <ng-container *ngIf="!registration.checkInTime"> -->
         <button
           mat-icon-button
           class="modern"

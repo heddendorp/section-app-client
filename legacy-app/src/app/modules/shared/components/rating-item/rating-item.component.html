@@ -13,10 +13,15 @@
   <div>
     <span class="font-bold mr-2">
       <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
-      
-      <app-user-chip size="xs" *ngIf="!isAnonymous || isOrganizer" [id]="userId"
-        [picture]="userPicture" [name]="userFullName"
-        [status]="userStatus">
+
+      <app-user-chip
+        size="xs"
+        *ngIf="!isAnonymous || isOrganizer"
+        [id]="userId"
+        [picture]="userPicture"
+        [name]="userFullName"
+        [status]="userStatus"
+      >
       </app-user-chip>
     </span>
     <span *ngIf="isOrganizer" class="font-mono mr-2 bg-slate-200 px-1 rounded"

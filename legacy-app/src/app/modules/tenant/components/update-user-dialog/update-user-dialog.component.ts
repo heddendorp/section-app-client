@@ -36,7 +36,7 @@ export class UpdateUserDialogComponent implements OnInit {
       role: ['', Validators.required],
       position: [''],
     });
-    console.log(this.data.user)
+    console.log(this.data.user);
     this.updateForm.patchValue({
       role: this.data.user.currentTenant?.role,
       status: this.data.user.currentTenant?.status,

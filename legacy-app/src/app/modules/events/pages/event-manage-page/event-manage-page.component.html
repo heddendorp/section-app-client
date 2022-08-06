@@ -123,9 +123,13 @@
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let registration">
-              <app-user-chip size="sm" [id]="registration.user.id"
-                [picture]="registration.user.picture" [name]="registration.user.fullName"
-                [status]="registration.user.currentTenant?.status + ''">
+              <app-user-chip
+                size="sm"
+                [id]="registration.user.id"
+                [picture]="registration.user.picture"
+                [name]="registration.user.fullName"
+                [status]="registration.user.currentTenant?.status + ''"
+              >
               </app-user-chip>
             </td>
           </ng-container>
@@ -414,11 +418,16 @@
             </tr>
             <tr>
               <td colspan="2">Tutors:</td>
-              <td colspan="3">                
+              <td colspan="3">
                 <div class="flex flex-wrap gap-2">
-                  <app-user-chip size="xs" *ngFor="let registration of event.organizerRegistrations" [id]="registration.user.id"
-                    [picture]="registration.user.picture" [name]="registration.user.fullName"
-                    [status]="registration.user.currentTenant?.status + ''">
+                  <app-user-chip
+                    size="xs"
+                    *ngFor="let registration of event.organizerRegistrations"
+                    [id]="registration.user.id"
+                    [picture]="registration.user.picture"
+                    [name]="registration.user.fullName"
+                    [status]="registration.user.currentTenant?.status + ''"
+                  >
                   </app-user-chip>
                 </div>
               </td>

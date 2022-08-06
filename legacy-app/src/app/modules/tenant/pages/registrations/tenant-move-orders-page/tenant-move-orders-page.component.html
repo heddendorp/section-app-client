@@ -19,19 +19,30 @@
     <ng-container matColumnDef="creator">
       <th mat-header-cell *matHeaderCellDef>Creator</th>
       <td mat-cell *matCellDef="let element">
-        <app-user-chip size="xs" [id]="element.creator.id"
-        [picture]="element.creator.picture" [name]="element.creator.fullName"
-        [status]="element.creator.currentTenant?.status + ''">
+        <app-user-chip
+          size="xs"
+          [id]="element.creator.id"
+          [picture]="element.creator.picture"
+          [name]="element.creator.fullName"
+          [status]="element.creator.currentTenant?.status + ''"
+        >
         </app-user-chip>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="receiver">
       <th mat-header-cell *matHeaderCellDef>Receiver</th>
-      <td mat-cell *matCellDef="let element">        
-        <app-user-chip size="xs" *ngIf="element.registrationCreated?.user" [id]="element.registrationCreated?.user?.id"
-        [picture]="element.registrationCreated?.user?.picture" [name]="element.registrationCreated?.user?.fullName"
-        [status]="element.registrationCreated?.user?.currentTenant?.status + ''">
+      <td mat-cell *matCellDef="let element">
+        <app-user-chip
+          size="xs"
+          *ngIf="element.registrationCreated?.user"
+          [id]="element.registrationCreated?.user?.id"
+          [picture]="element.registrationCreated?.user?.picture"
+          [name]="element.registrationCreated?.user?.fullName"
+          [status]="
+            element.registrationCreated?.user?.currentTenant?.status + ''
+          "
+        >
         </app-user-chip>
       </td>
     </ng-container>

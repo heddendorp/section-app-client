@@ -24,9 +24,17 @@
       <mat-label>Country</mat-label>
       <input matInput formControlName="country" type="text" />
     </mat-form-field>
-    <mat-form-field class="w-full" [hintLabel]="(bio.value?.length || 0) + '/150'">
+    <mat-form-field
+      class="w-full"
+      [hintLabel]="(bio.value?.length || 0) + '/150'"
+    >
       <mat-label>Bio</mat-label>
-      <textarea #bio matInput formControlName="bio" [maxLength]="150"></textarea>
+      <textarea
+        #bio
+        matInput
+        formControlName="bio"
+        [maxLength]="150"
+      ></textarea>
     </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Study Program</mat-label>
@@ -37,8 +45,10 @@
       <input matInput formControlName="homeUniversity" type="text" />
     </mat-form-field>
     <mat-form-field class="w-full">
-      <mat-label>Instagram</mat-label>      
-      <mat-error>Please enter a valid Instagram username without the @</mat-error>
+      <mat-label>Instagram</mat-label>
+      <mat-error
+        >Please enter a valid Instagram username without the @</mat-error
+      >
       <input matInput formControlName="instagram" type="text" />
     </mat-form-field>
   </mat-dialog-content>

@@ -112,7 +112,7 @@ query userProfilePublic($id: ID!) {
     id
     firstName
     fullName
-    picture    
+    picture
     university
     bio
     country

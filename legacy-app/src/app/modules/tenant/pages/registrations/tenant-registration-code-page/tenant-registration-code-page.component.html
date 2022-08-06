@@ -17,10 +17,15 @@
         </tr>
         <tr>
           <td>Created: {{ code.createdAt | date: 'medium' }}</td>
-          <td>Creator:
-            <app-user-chip size="xs" [id]="code.creator.id"
-            [picture]="code.creator.picture" [name]="code.creator.fullName"
-            [status]="code.creator.currentTenant?.status + ''">
+          <td>
+            Creator:
+            <app-user-chip
+              size="xs"
+              [id]="code.creator.id"
+              [picture]="code.creator.picture"
+              [name]="code.creator.fullName"
+              [status]="code.creator.currentTenant?.status + ''"
+            >
             </app-user-chip>
           </td>
           <td>Start: {{ code.targetEvent.start | date: 'medium' }}</td>
@@ -54,10 +59,16 @@
               Created:
               {{ code.registrationToRemove.createdAt | date: 'medium' }}
             </td>
-            <td>              
-              <app-user-chip size="xs" [id]="code.registrationToRemove.user.id"
-              [picture]="code.registrationToRemove.user.picture" [name]="code.registrationToRemove.user.fullName"
-              [status]="code.registrationToRemove.user.currentTenant?.status + ''">
+            <td>
+              <app-user-chip
+                size="xs"
+                [id]="code.registrationToRemove.user.id"
+                [picture]="code.registrationToRemove.user.picture"
+                [name]="code.registrationToRemove.user.fullName"
+                [status]="
+                  code.registrationToRemove.user.currentTenant?.status + ''
+                "
+              >
               </app-user-chip>
             </td>
           </ng-container>
@@ -68,10 +79,16 @@
             <td>
               Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
             </td>
-            <td>        
-              <app-user-chip size="xs" [id]="code.registrationCreated.user.id"
-              [picture]="code.registrationCreated.user.picture" [name]="code.registrationCreated.user.fullName"
-              [status]="code.registrationCreated.user.currentTenant?.status + ''">
+            <td>
+              <app-user-chip
+                size="xs"
+                [id]="code.registrationCreated.user.id"
+                [picture]="code.registrationCreated.user.picture"
+                [name]="code.registrationCreated.user.fullName"
+                [status]="
+                  code.registrationCreated.user.currentTenant?.status + ''
+                "
+              >
               </app-user-chip>
             </td>
           </ng-container>
@@ -190,10 +207,14 @@
           </tr>
           <tr *ngFor="let registration of code.connectedRegistrations">
             <td>Created {{ registration.createdAt | date: 'medium' }}</td>
-            <td>              
-              <app-user-chip size="xs" [id]="registration.user.id"
-              [picture]="registration.user.picture" [name]="registration.user.fullName"
-              [status]="registration.user.currentTenant?.status + ''">
+            <td>
+              <app-user-chip
+                size="xs"
+                [id]="registration.user.id"
+                [picture]="registration.user.picture"
+                [name]="registration.user.fullName"
+                [status]="registration.user.currentTenant?.status + ''"
+              >
               </app-user-chip>
             </td>
             <td>

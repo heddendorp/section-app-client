@@ -66,15 +66,14 @@ builder.mutationFields((t) => ({
     type: 'User',
     args: {
       userId: t.arg.id({ required: true }),
-      position: t.arg.string()
+      position: t.arg.string(),
     },
-    resolve: async (query, parent, args, context, info) => 
+    resolve: async (query, parent, args, context, info) =>
       prisma.user.update({
         ...query,
         where: { id: args.userId },
         data: { position: args.position },
-      })
-    ,
+      }),
   }),
   updateESNCard: t.prismaField({
     type: 'User',

@@ -61,7 +61,7 @@ import { UserChipComponent } from './components/user-chip/user-chip.component';
     RatingItemComponent,
     RateEventComponent,
     RatingComponent,
-    UserChipComponent
+    UserChipComponent,
   ],
   imports: [
     RouterModule,
@@ -113,7 +113,7 @@ import { UserChipComponent } from './components/user-chip/user-chip.component';
     RatingItemComponent,
     RateEventComponent,
     RatingComponent,
-    UserChipComponent
+    UserChipComponent,
   ],
   providers: [DatePipe],
 })

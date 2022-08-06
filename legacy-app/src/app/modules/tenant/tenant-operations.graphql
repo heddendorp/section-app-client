@@ -353,7 +353,12 @@ mutation updateESNcard($userId: ID!, $override: Boolean!) {
   }
 }
 
-mutation updateUser($id: ID!, $position: String, $role: Role!, $status: MembershipStatus!) {
+mutation updateUser(
+  $id: ID!
+  $position: String
+  $role: Role!
+  $status: MembershipStatus!
+) {
   updateUserPosition(userId: $id, position: $position) {
     position
   }

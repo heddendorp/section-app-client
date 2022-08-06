@@ -104,7 +104,7 @@ builder.queryFields((t) => ({
         orderBy: { start: reverseOrder ? 'desc' : 'asc' },
       });
     },
-  }),  
+  }),
   commonEvents: t.prismaField({
     type: ['TumiEvent'],
     args: {

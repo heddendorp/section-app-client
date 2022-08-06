@@ -247,7 +247,7 @@ builder.prismaObject('User', {
       resolve: async (user, args, context) =>
         prisma.tumiEvent.count({
           where: {
-            createdBy: { id: user.id }
+            createdBy: { id: user.id },
           },
         }),
     }),

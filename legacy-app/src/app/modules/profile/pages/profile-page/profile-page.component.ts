@@ -93,7 +93,6 @@ export class ProfilePageComponent implements OnDestroy {
     }
   }
 
-  
   async updateUserInformation() {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
@@ -103,7 +102,10 @@ export class ProfilePageComponent implements OnDestroy {
     );
     if (result && profile) {
       await firstValueFrom(
-        this.updateUserInformationMutation.mutate({ input: result, userId: profile.id })
+        this.updateUserInformationMutation.mutate({
+          input: result,
+          userId: profile.id,
+        })
       );
     }
   }

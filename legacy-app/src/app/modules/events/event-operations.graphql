@@ -119,7 +119,7 @@ query loadEvent($id: ID!) {
         tenantId
         status
       }
-    }    
+    }
     participantRegistrations(includeNoShows: false) {
       id
       user {

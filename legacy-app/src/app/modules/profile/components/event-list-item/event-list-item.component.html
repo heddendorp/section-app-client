@@ -9,9 +9,13 @@
           event.participantRatingCount
         }})
       </span></span
-    >    
+    >
   </p>
-  <p *ngIf="event.ratingPending" class="!text-xs !mt-0.5 text-amber-600 !font-bold" mat-line>
+  <p
+    *ngIf="event.ratingPending"
+    class="!text-xs !mt-0.5 text-amber-600 !font-bold"
+    mat-line
+  >
     Rate now!
   </p>
 </a>

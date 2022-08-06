@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MembershipStatus, Role, UserProfilePublicQuery, UserProfileQuery } from '@tumi/legacy-app/generated/generated';
+import {
+  MembershipStatus,
+  Role,
+  UserProfilePublicQuery,
+  UserProfileQuery,
+} from '@tumi/legacy-app/generated/generated';
 
 @Component({
   selector: 'app-profile-card',
@@ -8,7 +13,9 @@ import { MembershipStatus, Role, UserProfilePublicQuery, UserProfileQuery } from
 })
 export class ProfileCardComponent {
   @Input()
-  public profile : UserProfileQuery['currentUser'] | UserProfilePublicQuery['user'];
+  public profile:
+    | UserProfileQuery['currentUser']
+    | UserProfilePublicQuery['user'];
 
   @Input()
   public hideEditButton = true;
@@ -18,13 +25,16 @@ export class ProfileCardComponent {
 
   public Role = Role;
 
-  position(position: string | null | undefined, status: MembershipStatus | undefined) {
+  position(
+    position: string | null | undefined,
+    status: MembershipStatus | undefined
+  ) {
     if (!!position || !status) return position;
     if (status === MembershipStatus.Trial) {
-      return 'TUMi Tutor (Trial Member)'
+      return 'TUMi Tutor (Trial Member)';
     }
     if (status === MembershipStatus.Full) {
-      return 'TUMi Tutor'
+      return 'TUMi Tutor';
     }
     return null;
   }

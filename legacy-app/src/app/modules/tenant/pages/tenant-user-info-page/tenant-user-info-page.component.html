@@ -7,13 +7,24 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <app-user-chip size="xs" [id]="user.id"
-      [picture]="user.picture" [name]="user.fullName"
-      [status]="user.currentTenant?.status + ''">
+    <app-user-chip
+      size="xs"
+      [id]="user.id"
+      [picture]="user.picture"
+      [name]="user.fullName"
+      [status]="user.currentTenant?.status + ''"
+    >
     </app-user-chip>
 
     <div fxFlex="noshrink"></div>
-    <button mat-flat-button class="modern" color="primary" (click)="updateUser(user)">Update role</button>
+    <button
+      mat-flat-button
+      class="modern"
+      color="primary"
+      (click)="updateUser(user)"
+    >
+      Update role
+    </button>
   </div>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
     <p>TUMi app UserID:</p>

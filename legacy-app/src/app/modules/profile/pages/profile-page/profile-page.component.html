@@ -3,7 +3,11 @@
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
-  <app-profile-card [profile]="profile" (edit)="updateProfile()" [hideEditButton]="false"></app-profile-card>
+  <app-profile-card
+    [profile]="profile"
+    (edit)="updateProfile()"
+    [hideEditButton]="false"
+  ></app-profile-card>
   <div
     class="m-4"
     gdAuto
@@ -38,7 +42,11 @@
         <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
-        <button mat-raised-button class="modern" (click)="updateUserInformation()">
+        <button
+          mat-raised-button
+          class="modern"
+          (click)="updateUserInformation()"
+        >
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
         </button>

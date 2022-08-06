@@ -18,7 +18,7 @@ export class EventListItemComponent {
     const endDate = DateTime.fromISO(this.event.end)
       .minus({ minutes: 1 })
       .startOf('day');
-    
+
     if (startDate.year === endDate.year) {
       if (startDate.month === endDate.month) {
         if (startDate.day === endDate.day) {
@@ -26,10 +26,14 @@ export class EventListItemComponent {
         }
         return `${startDate.toFormat('LLL d')}-${endDate.toFormat('d, yyyy')}`;
       } else {
-        return `${startDate.toFormat('LLL d ')} - ${endDate.toFormat('LLL d, yyyy')}`;
+        return `${startDate.toFormat('LLL d ')} - ${endDate.toFormat(
+          'LLL d, yyyy'
+        )}`;
       }
     } else {
-      return `${startDate.toFormat('LLL d, yyyy')} - ${endDate.toFormat('LLL d, yyyy')}`
+      return `${startDate.toFormat('LLL d, yyyy')} - ${endDate.toFormat(
+        'LLL d, yyyy'
+      )}`;
     }
   }
 }

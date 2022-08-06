@@ -28,7 +28,7 @@ import { PublicProfilePageComponent } from './pages/public-profile-page/public-p
     PublicProfilePageComponent,
     EventListComponent,
     EventListItemComponent,
-    ProfileCardComponent
+    ProfileCardComponent,
   ],
   imports: [
     CommonModule,

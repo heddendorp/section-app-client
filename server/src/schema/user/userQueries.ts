@@ -1,10 +1,6 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
-import {
-  Role,
-  MembershipStatus,
-  PurchaseStatus,
-} from '../../generated/prisma';
+import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { prepareSearchString } from '../helperFunctions';
 
@@ -125,5 +121,5 @@ builder.queryFields((t) => ({
         where: { id },
       });
     },
-  }),  
+  }),
 }));

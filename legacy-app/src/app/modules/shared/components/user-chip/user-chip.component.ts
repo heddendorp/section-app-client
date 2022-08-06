@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class UserChipComponent {
   @Input()
-  public size: 'xs' | 'sm' | 'md' =  'md';
+  public size: 'xs' | 'sm' | 'md' = 'md';
   @Input()
   public name: string = '';
 

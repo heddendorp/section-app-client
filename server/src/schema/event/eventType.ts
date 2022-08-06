@@ -41,7 +41,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
           return `https://www.google.com/maps/search/?api=1&query=${event.location}&query_place_id=${event.googlePlaceId}`;
         }
         return null;
-      }
+      },
     }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
@@ -125,7 +125,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               },
               user: { id: context.user?.id },
               status: RegistrationStatus.SUCCESSFUL,
-              rating: null
+              rating: null,
             },
           });
         return registrations.length > 0;
@@ -254,21 +254,19 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
-        includeNoShows: t.arg.boolean({ defaultValue: true })
+        includeNoShows: t.arg.boolean({ defaultValue: true }),
       },
-      query: (args, context) => {        
+      query: (args, context) => {
         const { status } = context.userOfTenant ?? {};
         // limit non-members to just 30
         const limit = status && status !== MembershipStatus.NONE ? 0 : 30;
-        return ({
+        return {
           where: {
             type: RegistrationType.PARTICIPANT,
             ...(args.includeCancelled
               ? {}
               : { status: { not: RegistrationStatus.CANCELLED } }),
-            ...(args.includeNoShows
-              ? {}
-              : { checkInTime: { not: null } }),
+            ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
           },
           orderBy: [
             { status: 'asc' },
@@ -276,7 +274,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             { user: { lastName: 'asc' } },
           ],
           ...(limit ? { take: limit } : {}),
-        })
+        };
       },
     }),
     organizerRegistrations: t.relation('registrations', {
