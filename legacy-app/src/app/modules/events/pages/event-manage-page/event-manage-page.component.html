@@ -419,17 +419,7 @@
             <tr>
               <td colspan="2">Tutors:</td>
               <td colspan="3">
-                <div class="flex flex-wrap gap-2">
-                  <app-user-chip
-                    size="xs"
-                    *ngFor="let registration of event.organizerRegistrations"
-                    [id]="registration.user.id"
-                    [picture]="registration.user.picture"
-                    [name]="registration.user.fullName"
-                    [status]="registration.user.currentTenant?.status + ''"
-                  >
-                  </app-user-chip>
-                </div>
+                {{ joinOrganizers(event.organizerRegistrations) }}
               </td>
             </tr>
             <tr>

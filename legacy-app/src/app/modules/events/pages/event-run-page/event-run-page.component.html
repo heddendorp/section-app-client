@@ -86,14 +86,9 @@
         [name]="registration.user.fullName"
         [phone]="registration.user.phone || ''"
         [status]="registration.user.currentTenant?.status + ''"
+        [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
       >
       </app-user-chip>
-      <span
-        *ngIf="registration.user.id === event.createdBy.id"
-        class="ml-2 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
-      >
-        Event Creator
-      </span>
     </div>
   </div>
   <h2 class="mt-4 mb-2">Participants</h2>

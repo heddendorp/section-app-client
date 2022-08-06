@@ -127,7 +127,7 @@
             >
           </div>
           <div
-            class="mb-2 lg:text-lg rounded-lg border-2 p-4"
+            class="mb-2 lg:text-lg rounded-lg"
             *ngIf="event.location"
           >
             <div class="mb-2">
@@ -145,12 +145,12 @@
               >
               </app-user-chip>
             </div>
-            <p class="mt-2 lg:text-lg">
+            <p class="mt-4 lg:text-lg">
               Please contact them in case of any issues. We're looking forward
               to seeing you soon!
             </p>
             <ng-container *ngIf="event.participantRegistrations.length > 0">
-              <div class="mt-4 mb-2">
+              <div class="mt-6 mb-2">
                 <b>Participants</b>
               </div>
               <div class="flex flex-wrap gap-2">
@@ -316,14 +316,9 @@
                 [name]="user.fullName"
                 [phone]="user.phone || ''"
                 [status]="user.currentTenant?.status + ''"
+                [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
               >
               </app-user-chip>
-              <span
-                *ngIf="user.id === event.createdBy.id"
-                class="ml-4 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
-              >
-                Event Creator
-              </span>
             </mat-list-item>
           </mat-list>
         </div>

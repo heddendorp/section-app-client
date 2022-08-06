@@ -25,4 +25,7 @@ export class UserChipComponent {
 
   @Input()
   public checkedIn: boolean | null = null;
+
+  @Input()
+  public tag: string = '';
 }
