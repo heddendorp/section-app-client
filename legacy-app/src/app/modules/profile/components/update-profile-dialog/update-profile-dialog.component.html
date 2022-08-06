@@ -1,15 +1,15 @@
 <h1 mat-dialog-title>Update Profile</h1>
 <form [formGroup]="profileForm" (ngSubmit)="submit()">
   <mat-dialog-content>
-    <mat-form-field class="my-2 w-full">
+    <mat-form-field class="w-full">
       <mat-label>First name</mat-label>
       <input required matInput formControlName="firstName" type="text" />
     </mat-form-field>
-    <mat-form-field class="my-2 w-full">
+    <mat-form-field class="w-full">
       <mat-label>Last name</mat-label>
       <input required matInput formControlName="lastName" type="text" />
     </mat-form-field>
-    <mat-form-field class="my-2 w-full">
+    <mat-form-field class="w-full">
       <mat-label>University</mat-label>
       <mat-select formControlName="university" required>
         <mat-option value="tum">TUM</mat-option>
@@ -20,32 +20,37 @@
       </mat-select>
       <mat-error>Your university is required</mat-error>
     </mat-form-field>
-    <mat-form-field class="my-2 w-full">
-      <mat-label>Enrolment Status</mat-label>
-      <mat-select formControlName="enrolmentStatus" required>
-        <mat-option [value]="EnrolmentStatus.Exchange"
-          >Exchange student</mat-option
-        >
-        <mat-option [value]="EnrolmentStatus.International"
-          >International degree student</mat-option
-        >
-        <mat-option [value]="EnrolmentStatus.Local">Local student</mat-option>
-        <mat-option [value]="EnrolmentStatus.Other">Other</mat-option>
-      </mat-select>
-      <mat-error>Your university is required</mat-error>
+    <mat-form-field class="w-full">
+      <mat-label>Country</mat-label>
+      <input matInput formControlName="country" type="text" />
     </mat-form-field>
-    <mat-form-field class="my-2 w-full">
-      <mat-label>Phone number</mat-label>
-      <input matInput formControlName="phone" type="tel" minlength="5" />
-      <mat-hint>
-        Please use the international format
-        <span class="font-mono">+4912345678</span>
-      </mat-hint>
+    <mat-form-field
+      class="w-full"
+      [hintLabel]="(bio.value?.length || 0) + '/150'"
+    >
+      <mat-label>Bio</mat-label>
+      <textarea
+        #bio
+        matInput
+        formControlName="bio"
+        [maxLength]="150"
+      ></textarea>
     </mat-form-field>
-    <p class="mt-4">
-      Saving of your phone number is optional and would be used to reach you if
-      there are issues during an event.
-    </p>
+    <mat-form-field class="w-full">
+      <mat-label>Study Program</mat-label>
+      <input matInput formControlName="studyProgram" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Home University</mat-label>
+      <input matInput formControlName="homeUniversity" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Instagram</mat-label>
+      <mat-error
+        >Please enter a valid Instagram username without the @</mat-error
+      >
+      <input matInput formControlName="instagram" type="text" />
+    </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
     <button mat-flat-button mat-dialog-close>Cancel</button>

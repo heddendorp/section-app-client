@@ -30,4 +30,10 @@ export class RatingItemComponent {
 
   @Input()
   userFullName: string = '';
+
+  @Input()
+  userPicture: string = '';
+
+  @Input()
+  userStatus: string = '';
 }

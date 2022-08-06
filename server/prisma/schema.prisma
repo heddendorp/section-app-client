@@ -72,6 +72,12 @@ model User {
   transactions        Transaction[]
   createdEvents       TumiEvent[]
   tenants             UsersOfTenants[]
+  bio                 String?
+  country             String?
+  homeUniversity      String?
+  instagram           String?
+  position            String?
+  studyProgram        String?
 }
 
 model Invite {

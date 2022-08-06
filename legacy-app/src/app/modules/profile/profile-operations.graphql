@@ -53,6 +53,12 @@ query userProfile {
     calendarToken
     hasESNCard
     enrolmentStatus
+    bio
+    country
+    homeUniversity
+    instagram
+    position
+    studyProgram
     currentTenant {
       userId
       tenantId
@@ -61,12 +67,24 @@ query userProfile {
         paymentMethodId
       }
     }
+    createdEvents {
+      id
+      title
+      icon
+      start
+      end
+      ratingPending
+      needsRating
+      participantRating
+      participantRatingCount
+    }
     organizedEvents(hideCancelled: true) {
       id
       title
       icon
       start
       end
+      ratingPending
       needsRating
       userIsOrganizer
       participantRating
@@ -78,11 +96,44 @@ query userProfile {
       icon
       start
       end
+      ratingPending
       needsRating
       userIsOrganizer
       participantRating
       participantRatingCount
     }
+    organizedEventsCount
+    createdEventsCount
+  }
+}
+
+query userProfilePublic($id: ID!) {
+  user(id: $id) {
+    id
+    firstName
+    fullName
+    picture
+    university
+    bio
+    country
+    homeUniversity
+    instagram
+    position
+    studyProgram
+    organizedEventsCount
+    createdEventsCount
+    currentTenant {
+      userId
+      tenantId
+      status
+    }
+  }
+  commonEvents(id: $id) {
+    id
+    title
+    icon
+    start
+    end
   }
 }
 
@@ -162,7 +213,18 @@ mutation updateProfile($input: UpdateUserInput!, $userId: ID!) {
     lastName
     fullName
     university
-    enrolmentStatus
+    bio
+    country
+    homeUniversity
+    instagram
+    studyProgram
+  }
+}
+
+mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
+  updateUser(input: $input, userId: $userId) {
+    id
     phone
+    enrolmentStatus
   }
 }

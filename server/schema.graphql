@@ -324,6 +324,7 @@ type Mutation {
   updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
+  updateUserPosition(position: String, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
   updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
   useRegistrationCode(id: ID!, price: JSON): EventRegistrationCode!
@@ -413,6 +414,7 @@ enum PurchaseStatus {
 
 type Query {
   blobUploadKey: String!
+  commonEvents(id: ID!): [TumiEvent!]!
   costItem(id: ID!): CostItem!
   costItems(eventId: ID): [CostItem!]!
   currentTenant: Tenant!
@@ -647,7 +649,7 @@ type TumiEvent {
   participantRatingCount: Int
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
-  participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
+  participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true): [EventRegistration!]!
   participantSignup: [String!]!
   participantText: String!
   participantsAttended: Int!
@@ -655,6 +657,7 @@ type TumiEvent {
   plannedSpend: Decimal!
   prices: JSON
   publicationState: PublicationState!
+  ratingPending: Boolean!
   ratings: [EventRegistration!]!
   refundFeesPaid: Decimal!
   registrationLink: String
@@ -732,19 +735,28 @@ input UpdateTenantInput {
 }
 
 input UpdateUserInput {
+  bio: String
   birthdate: DateTime
+  country: String
   enrolmentStatus: EnrolmentStatus
   firstName: String
+  homeUniversity: String
+  instagram: String
   lastName: String
   phone: String
+  studyProgram: String
   university: String
 }
 
 type User {
   authId: String!
+  bio: String
   birthdate: DateTime
   calendarToken: String!
+  country: String
   createdAt: DateTime!
+  createdEvents: [TumiEvent!]!
+  createdEventsCount: Int!
   createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants
   email: String!
@@ -756,17 +768,22 @@ type User {
   fullName: String!
   hasESNCard: Boolean!
   hasEsnCard: Boolean!
+  homeUniversity: String
   iban: String
   id: ID!
+  instagram: String
   lastName: String!
   organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
+  organizedEventsCount: Int!
   outstandingRating: Boolean!
   participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   paypal: String
   phone: String
   picture: String!
+  position: String
   profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
+  studyProgram: String
   transactions: [Transaction!]!
   university: String
 }

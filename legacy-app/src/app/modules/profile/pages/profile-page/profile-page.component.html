@@ -3,36 +3,20 @@
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
+  <app-profile-card
+    [profile]="profile"
+    (edit)="updateProfile()"
+    [hideEditButton]="false"
+  ></app-profile-card>
   <div
-    class="bg-tertiary-containerDark text-tertiary-onContainerDark p-8 lg:py-14"
-    fxLayout="column"
-    fxLayoutAlign="space-evenly center"
-    fxLayoutGap="2rem"
-  >
-    <img
-      [src]="profile.picture"
-      class="rounded-lg shadow-lg"
-      referrerpolicy="no-referrer"
-    />
-    <div fxLayout="column" class="max-w-md">
-      <h2 class="mb-4 text-3xl font-bold">
-        Hey {{ profile.firstName }}! <span class="text-white">👋</span>
-      </h2>
-      <p>
-        We're excited to see you here! This is your profile, giving you an
-        overview of all things TUMi.
-      </p>
-    </div>
-  </div>
-  <div
-    class="m-4 overflow-hidden"
+    class="m-4"
     gdAuto
     gdColumns="100%"
     gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
     gdGap="1rem"
   >
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow"
     >
       <div
         fxLayout="row"
@@ -45,20 +29,24 @@
           class="text-secondary-default bg-secondary-on card-icon"
         >
         </mat-icon>
-        <h2 class="font-bold">General Information</h2>
+        <h2 class="font-bold">Private Information</h2>
       </div>
       <div gdAuto gdColumns="1fr 2fr" gdGap="0 1rem" class="mb-2">
-        <p>Name:</p>
-        <p>{{ profile.fullName }}</p>
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
+        <p>Birthday:</p>
+        <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
         <p>ESNcard:</p>
         <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
-        <button mat-raised-button class="modern" (click)="updateProfile()">
+        <button
+          mat-raised-button
+          class="modern"
+          (click)="updateUserInformation()"
+        >
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
         </button>
@@ -139,17 +127,25 @@
       </div>
     </div>
     <app-event-list
+      title="Organized events"
       [events]="profile.organizedEvents"
       [isOrganized]="true"
       *ngIf="profile.organizedEvents.length"
     ></app-event-list>
     <app-event-list
+      title="Created events"
+      [events]="profile.createdEvents"
+      [isOrganized]="true"
+      *ngIf="profile.createdEvents.length"
+    ></app-event-list>
+    <app-event-list
+      title="Participated events"
       [events]="profile.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
     <div
-      class="bg-primary-container text-primary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
       <div
@@ -166,7 +162,7 @@
       </div>
       <div>
         Current status:
-        <div class="black text-8xl text-center">
+        <div class="black text-7xl text-center">
           {{ profile.currentTenant?.status | uppercase }}
         </div>
       </div>
