@@ -38,31 +38,29 @@
 
 Cypress.Commands.add(
   'loginByAuth0Api',
-  (username: string, password: string) => {
-    const args = { username, password };
+  (args: { email: string; password: string }) => {
     // cy.session(
     //   args,
     //   () => {
     cy.visit('/');
     cy.get('button').contains('Log in').click();
-    cy.origin(
-      'https://tumi.eu.auth0.com',
-      { args },
-      ({ username, password }) => {
-        //   cy.visit('/u/login');
-        cy.contains('Email').find('input').type(username);
-        cy.contains('Continue').click();
-        //   cy.contains('Password').find('input').type(password);
-        //   cy.get('button').contains('Login').click();
+    cy.origin('https://tumi.eu.auth0.com', { args }, ({ email, password }) => {
+      cy.reload();
+      cy.get('#username').type(email);
+      cy.contains('Continue').click();
+      cy.get('#password').type(password);
+      cy.contains('Continue').click();
+      if (cy.contains('Not now')) {
+        cy.contains('Not now').click();
       }
-    );
+    });
     // cy.url().should('contain', '/home');
     // },
     // {
     // validate() {
     //   cy.request('/api/user').its('status').should('eq', 200);
     // },
-    //   }
+    // }
     // );
   }
 );

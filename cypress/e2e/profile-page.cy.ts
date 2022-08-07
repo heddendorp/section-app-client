@@ -1,9 +1,14 @@
+import { users } from '../../server/prisma/constants';
+
 describe('The Profile Page', () => {
   beforeEach(() => {
-    cy.loginByAuth0Api('test1@esn.world', 'testuser1!');
-    cy.visit('/');
+    cy.loginByAuth0Api(users.regularUser);
+    cy.wait(1000);
+    cy.visit('/profile');
   });
   it('should show the user name', () => {
-    cy.get('app-profile-page').contains('Test User');
+    cy.get('app-profile-page').contains(
+      `${users.regularUser.firstName} ${users.regularUser.lastName}`
+    );
   });
 });

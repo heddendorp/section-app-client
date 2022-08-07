@@ -6,7 +6,7 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
-import { seedIds } from './ids';
+import { seedIds, users } from './constants';
 
 const prisma = new PrismaClient();
 
@@ -88,7 +88,33 @@ async function runSeed() {
   const regularUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e56f989f180070ddff85',
-      email: 'test3@esn.world',
+      email: users.regularUser.email,
+      email_verified: true,
+      firstName: users.regularUser.firstName,
+      lastName: users.regularUser.lastName,
+      picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'EXCHANGE',
+      birthdate: faker.date.birthdate(),
+    },
+  });
+  await prisma.usersOfTenants.create({
+    data: {
+      role: Role.USER,
+      status: MembershipStatus.NONE,
+      tenant: { connect: { id: tumiTenant.id } },
+      user: { connect: { id: regularUser.id } },
+    },
+  });
+
+  /**
+   * Test user also available in auth0
+   * password: testuser4!
+   */
+  const unfinishedUser = await prisma.user.create({
+    data: {
+      authId: 'auth0|6231ed02c45d1100696d2a10',
+      email: 'test4@esn.world',
       email_verified: true,
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -100,7 +126,7 @@ async function runSeed() {
       role: Role.USER,
       status: MembershipStatus.NONE,
       tenant: { connect: { id: tumiTenant.id } },
-      user: { connect: { id: regularUser.id } },
+      user: { connect: { id: unfinishedUser.id } },
     },
   });
 

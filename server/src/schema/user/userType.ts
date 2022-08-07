@@ -109,7 +109,6 @@ builder.prismaObject('User', {
           source.birthdate &&
           source.picture &&
           source.university &&
-          source.phone &&
           source.enrolmentStatus !== EnrollmentStatus.NONE
         ),
     }),

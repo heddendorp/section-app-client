@@ -7,7 +7,7 @@ declare global {
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.dataCy('greeting')
        */
-      loginByAuth0Api(username: string, password: string): Chainable<Element>;
+      loginByAuth0Api(username: string, password: string): Chainable;
     }
   }
 }

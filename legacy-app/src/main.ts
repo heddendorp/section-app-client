@@ -7,6 +7,12 @@ import * as Sentry from '@sentry/angular';
 import { BrowserTracing } from '@sentry/tracing';
 import { getActiveTransaction } from '@sentry/angular';
 
+window.addEventListener('load', () => {
+  console.log('page is fully loaded');
+});
+
+let bootstrapSpan: any = null;
+
 if (environment.production) {
   enableProdMode();
   if (environment.version !== 'test') {
@@ -27,16 +33,15 @@ if (environment.production) {
       // We recommend adjusting this value in production
       tracesSampleRate: 0.2,
     });
+    const activeTransaction = getActiveTransaction();
+    bootstrapSpan =
+      activeTransaction &&
+      activeTransaction.startChild({
+        description: 'platform-browser-dynamic',
+        op: 'ui.angular.bootstrap',
+      });
   }
 }
-
-const activeTransaction = getActiveTransaction();
-const bootstrapSpan =
-  activeTransaction &&
-  activeTransaction.startChild({
-    description: 'platform-browser-dynamic',
-    op: 'ui.angular.bootstrap',
-  });
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

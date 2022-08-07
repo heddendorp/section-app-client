@@ -1,4 +1,4 @@
-import { seedIds } from '../../server/prisma/ids';
+import { seedIds } from '../../server/prisma/constants';
 
 describe('The event details page', () => {
   beforeEach(() => {
