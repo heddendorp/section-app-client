@@ -208,7 +208,11 @@ export class AppModule {
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
-    if (environment.production && isPlatformBrowser(platform)) {
+    if (
+      environment.production &&
+      isPlatformBrowser(platform) &&
+      environment.version !== 'test'
+    ) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
     updates.versionUpdates

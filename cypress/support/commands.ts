@@ -51,7 +51,7 @@ Cypress.Commands.add(
       cy.get('#password').type(password);
       cy.contains('Continue').click();
       cy.url().then((url) => {
-        if (url.includes('mfa')) {
+        if (!url.includes('localhost:4000')) {
           cy.contains('Not now').click();
         }
       });
