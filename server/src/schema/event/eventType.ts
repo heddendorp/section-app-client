@@ -231,7 +231,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
       nullable: true,
       authScopes: { public: true },
       unauthorizedResolver: () => null,
-      resolve: async (query, parent, args, context, info) => {        
+      resolve: async (query, parent, args, context, info) => {
         return prisma.eventRegistration.findFirst({
           ...query,
           where: {

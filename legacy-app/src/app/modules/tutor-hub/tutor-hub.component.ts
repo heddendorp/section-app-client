@@ -1,8 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { GetTutorHubInfoGQL, GetTutorHubInfoQuery, GetTutorHubEventsQuery, GetTutorHubEventsGQL, GetUsersGQL, GetUsersQuery, MembershipStatus } from '@tumi/legacy-app/generated/generated';
+import {
+  GetTutorHubInfoGQL,
+  GetTutorHubInfoQuery,
+  GetTutorHubEventsQuery,
+  GetTutorHubEventsGQL,
+  GetUsersGQL,
+  GetUsersQuery,
+  MembershipStatus,
+} from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-import { BehaviorSubject, map, Observable, shareReplay, Subject, tap, takeUntil, debounceTime } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  shareReplay,
+  Subject,
+  tap,
+  takeUntil,
+  debounceTime,
+} from 'rxjs';
 
 @Component({
   selector: 'app-tutor-hub',
@@ -10,18 +27,24 @@ import { BehaviorSubject, map, Observable, shareReplay, Subject, tap, takeUntil,
   styleUrls: ['./tutor-hub.component.scss'],
 })
 export class TutorHubComponent implements OnInit, OnDestroy {
-  public tutorHubData$: Observable<GetTutorHubInfoQuery['currentTenant']['tutorHub']>;
-  public events$: Observable<GetTutorHubEventsQuery['currentTenant']['tutorHubEvents']>;
+  public tutorHubData$: Observable<
+    GetTutorHubInfoQuery['currentTenant']['tutorHub']
+  >;
+  public events$: Observable<
+    GetTutorHubEventsQuery['currentTenant']['tutorHubEvents']
+  >;
   public eventsLoading$ = new BehaviorSubject(true);
   public searchedTutors$: Observable<GetUsersQuery['users']>;
   private getTutorHubEventsRef;
-  
+
   public filterForm: UntypedFormGroup;
   private loadUsersReference;
   public currentSearch = '';
   public searchLoading$ = new BehaviorSubject(false);
   private destroyed$ = new Subject();
-  public range: { start: DateTime, end: DateTime } = this.calculateStartEnd(DateTime.now());
+  public range: { start: DateTime; end: DateTime } = this.calculateStartEnd(
+    DateTime.now()
+  );
 
   public leaderboardToggle = false;
 
@@ -29,31 +52,37 @@ export class TutorHubComponent implements OnInit, OnDestroy {
     private getTutorHubInfo: GetTutorHubInfoGQL,
     private getTutorHubEvents: GetTutorHubEventsGQL,
     private loadUsers: GetUsersGQL,
-    private fb: UntypedFormBuilder,
-    ) {
-    
+    private fb: UntypedFormBuilder
+  ) {
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
-    this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(map(({ data }) => data.currentTenant.tutorHub));
+    this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
+      map(({ data }) => data.currentTenant.tutorHub)
+    );
 
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch();
     this.events$ = this.getTutorHubEventsRef.valueChanges.pipe(
       map(({ data }) => data.currentTenant.tutorHubEvents),
       tap(() => this.eventsLoading$.next(false))
     );
-    
+
     this.filterForm = this.fb.group({
       search: [''],
     });
     this.loadUsersReference = this.loadUsers.watch({
       pageLength: 5,
       pageIndex: 0,
-      statusList: [MembershipStatus.Full, MembershipStatus.Trial, MembershipStatus.Alumni, MembershipStatus.Sponsor],
-      emptyOnEmptySearch: true
+      statusList: [
+        MembershipStatus.Full,
+        MembershipStatus.Trial,
+        MembershipStatus.Alumni,
+        MembershipStatus.Sponsor,
+      ],
+      emptyOnEmptySearch: true,
     });
     this.searchedTutors$ = this.loadUsersReference.valueChanges.pipe(
       map(({ data }) => data.users),
-      tap(() => {        
-        this.searchLoading$.next(false)
+      tap(() => {
+        this.searchLoading$.next(false);
       }),
       shareReplay(1)
     );
@@ -65,8 +94,9 @@ export class TutorHubComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$),
         debounceTime(500),
         tap(() => {
-          this.searchLoading$.next(true)
-        }))
+          this.searchLoading$.next(true);
+        })
+      )
       .subscribe((value) => this.loadUsersReference.refetch(value));
   }
 
@@ -75,10 +105,10 @@ export class TutorHubComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  updateRange(range: { start: DateTime, end: DateTime }) {  
+  updateRange(range: { start: DateTime; end: DateTime }) {
     this.eventsLoading$.next(true);
     this.getTutorHubEventsRef.refetch({
-      range
+      range,
     });
   }
 

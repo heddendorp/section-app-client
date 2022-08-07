@@ -21,7 +21,7 @@ export class SemesterNavigatorComponent implements OnInit {
   public end: DateTime | undefined;
 
   @Input()
-  calculateStartEnd!: (date: DateTime) => { start: DateTime; end: DateTime; };
+  calculateStartEnd!: (date: DateTime) => { start: DateTime; end: DateTime };
 
   @Output()
   rangeEmitter = new EventEmitter();

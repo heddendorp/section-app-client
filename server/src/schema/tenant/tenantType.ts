@@ -128,8 +128,8 @@ builder.prismaObject('Tenant', {
           where: {
             publicationState: { not: PublicationState.DRAFT },
             eventTemplate: {
-              tenantId: context.tenantId
-            }
+              tenantId: context.tenantId,
+            },
           },
           orderBy: { createdAt: 'desc' },
           take: 5,
@@ -145,11 +145,11 @@ builder.prismaObject('Tenant', {
                 firstName: true,
                 lastName: true,
                 picture: true,
-              }
-            }
-          }
+              },
+            },
+          },
         });
-        console.log(newEvents)
+        console.log(newEvents);
 
         return {
           activeOrganizers,
@@ -188,7 +188,7 @@ builder.prismaObject('Tenant', {
             },
             excludeFromStatistics: false,
             start: rangeQuery,
-            publicationState: { not: PublicationState.DRAFT }
+            publicationState: { not: PublicationState.DRAFT },
           },
         });
         const registrationCount = await prisma.eventRegistration.count({
@@ -199,7 +199,7 @@ builder.prismaObject('Tenant', {
               },
               excludeFromStatistics: false,
               start: rangeQuery,
-              publicationState: { not: PublicationState.DRAFT }
+              publicationState: { not: PublicationState.DRAFT },
             },
             status: RegistrationStatus.SUCCESSFUL,
           },
@@ -251,7 +251,7 @@ builder.prismaObject('Tenant', {
             };
           })
         );
-        
+
         const creatorLeaderboard = await Promise.all(
           (
             await prisma.tumiEvent.groupBy({
@@ -299,7 +299,7 @@ builder.prismaObject('Tenant', {
           registrationCount,
           eventCount,
           organizerLeaderboard,
-          creatorLeaderboard
+          creatorLeaderboard,
         };
       },
     }),

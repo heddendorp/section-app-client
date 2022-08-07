@@ -75,9 +75,7 @@
             (event.userIsRegistered || event.userIsOrganizer))
         "
         [expanded]="
-          (isAdmin$ | async) ||
-          event.userIsRegistered ||
-          event.userIsOrganizer
+          (isAdmin$ | async) || event.userIsRegistered || event.userIsOrganizer
         "
       >
         <mat-expansion-panel-header>

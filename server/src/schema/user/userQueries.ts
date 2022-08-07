@@ -20,12 +20,20 @@ builder.queryFields((t) => ({
       pageIndex: t.arg.int(),
       pageLength: t.arg.int(),
       onlyWithPurchase: t.arg.boolean(),
-      emptyOnEmptySearch: t.arg.boolean({ defaultValue: false })
+      emptyOnEmptySearch: t.arg.boolean({ defaultValue: false }),
     },
     resolve: async (
       query,
       root,
-      { statusList, roleList, search, pageLength, pageIndex, onlyWithPurchase, emptyOnEmptySearch },
+      {
+        statusList,
+        roleList,
+        search,
+        pageLength,
+        pageIndex,
+        onlyWithPurchase,
+        emptyOnEmptySearch,
+      },
       context,
       info
     ) => {

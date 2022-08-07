@@ -38,7 +38,9 @@ const routes: Routes = [
   {
     path: 'tutor-hub',
     loadChildren: () =>
-      import('./modules/tutor-hub/tutor-hub.module').then((m) => m.TutorHubModule),
+      import('./modules/tutor-hub/tutor-hub.module').then(
+        (m) => m.TutorHubModule
+      ),
   },
   {
     path: 'shop',
