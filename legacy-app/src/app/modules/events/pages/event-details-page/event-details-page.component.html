@@ -70,12 +70,12 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         *ngIf="
-          permissions.isAdmin() ||
+          (isAdmin$ | async) ||
           (event.participantText.length > 10 &&
             (event.userIsRegistered || event.userIsOrganizer))
         "
         [expanded]="
-          permissions.isAdmin() ||
+          (isAdmin$ | async) ||
           event.userIsRegistered ||
           event.userIsOrganizer
         "

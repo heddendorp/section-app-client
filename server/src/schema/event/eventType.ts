@@ -229,7 +229,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     activeRegistration: t.prismaField({
       type: 'EventRegistration',
       nullable: true,
-      resolve: async (query, parent, args, context, info) => {
+      authScopes: { public: true },
+      unauthorizedResolver: () => null,
+      resolve: async (query, parent, args, context, info) => {        
         return prisma.eventRegistration.findFirst({
           ...query,
           where: {
