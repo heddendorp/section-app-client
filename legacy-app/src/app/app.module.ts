@@ -80,7 +80,7 @@ import * as Sentry from '@sentry/angular';
     }),
     FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: environment.production && environment.version !== 'test',
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
@@ -158,7 +158,7 @@ import * as Sentry from '@sentry/angular';
       useValue: { appearance: 'outline' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
-    environment.production
+    environment.production && environment.version !== 'test'
       ? [
           {
             provide: ErrorHandler,
@@ -208,7 +208,11 @@ export class AppModule {
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
-    if (environment.production && isPlatformBrowser(platform)) {
+    if (
+      environment.production &&
+      isPlatformBrowser(platform) &&
+      environment.version !== 'test'
+    ) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
     updates.versionUpdates

@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "dotenv -e .env.development -- ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "test": "dotenv -e .env.test -- yarn prisma migrate reset --skip-seed --force && dotenv -e .env.test -- yarn prisma db push --accept-data-loss && dotenv -e .env.test -- yarn prisma db seed && dotenv -e .env.test -- ts-node-dev --no-notify --respawn --transpile-only src/server",
     "dev:full-db": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",
     "clean": "rimraf dist",
-    "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma",
+    "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma && copyfiles -u 2 src/assets/** dist/assets",
     "build": "yarn clean && yarn generate && tsc && yarn copy",
     "build:production": "yarn clean && yarn generate && tsc -p tsconfig.production.json && yarn copy",
     "generate": "yarn generate:prisma",
@@ -17,7 +18,7 @@
     "docker:down": "docker-compose down",
     "prisma:seed-dev": "dotenv -e .env.development -- ts-node prisma/seed.ts",
     "prisma:reset-dev": "dotenv -e .env.development -- yarn prisma db push --accept-data-loss",
-    "test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force && dotenv -e .env.test -- jest -i --detectOpenHandles",
+    "test-old": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force && dotenv -e .env.test -- jest -i --detectOpenHandles",
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },
   "dependencies": {

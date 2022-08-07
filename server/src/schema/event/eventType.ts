@@ -659,7 +659,10 @@ export const eventType = builder.prismaObject('TumiEvent', {
         const intro = `Hi,<br/>thank you for signing up for the event on ${date.weekdayLong}!`;
 
         let template = fs
-          .readFileSync(__dirname + '\\mailTemplate.mjml', 'utf8')
+          .readFileSync(
+            __dirname + '..\\..\\assets' + '\\mailTemplate.mjml',
+            'utf8'
+          )
           .replaceAll('%title%', event.title)
           .replaceAll('%preview%', intro)
           .replaceAll('%intro%', intro)

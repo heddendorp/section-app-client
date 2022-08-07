@@ -6,6 +6,7 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
+import { seedIds, templates, users } from './constants';
 
 const prisma = new PrismaClient();
 
@@ -39,11 +40,14 @@ async function runSeed() {
   const adminUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e525fa8b3b00698092a8',
-      email: 'test1@esn.world',
+      email: users.adminUser.email,
       email_verified: true,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: users.adminUser.firstName,
+      lastName: users.adminUser.lastName,
       picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'LOCAL',
+      birthdate: faker.date.birthdate(),
     },
   });
 
@@ -63,11 +67,14 @@ async function runSeed() {
   const memberUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e55d5fb02e006980888a',
-      email: 'test2@esn.world',
+      email: users.memberUser.email,
       email_verified: true,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: users.memberUser.firstName,
+      lastName: users.memberUser.lastName,
       picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'LOCAL',
+      birthdate: faker.date.birthdate(),
     },
   });
 
@@ -87,11 +94,14 @@ async function runSeed() {
   const regularUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e56f989f180070ddff85',
-      email: 'test3@esn.world',
+      email: users.regularUser.email,
       email_verified: true,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: users.regularUser.firstName,
+      lastName: users.regularUser.lastName,
       picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'EXCHANGE',
+      birthdate: faker.date.birthdate(),
     },
   });
   await prisma.usersOfTenants.create({
@@ -103,53 +113,52 @@ async function runSeed() {
     },
   });
 
+  /**
+   * Test user also available in auth0
+   * password: testuser4!
+   */
+  const unfinishedUser = await prisma.user.create({
+    data: {
+      authId: 'auth0|6231ed02c45d1100696d2a10',
+      email: 'test4@esn.world',
+      email_verified: true,
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      picture: faker.internet.avatar(),
+    },
+  });
+  await prisma.usersOfTenants.create({
+    data: {
+      role: Role.USER,
+      status: MembershipStatus.NONE,
+      tenant: { connect: { id: tumiTenant.id } },
+      user: { connect: { id: unfinishedUser.id } },
+    },
+  });
+
   const testTemplate = await prisma.eventTemplate.create({
     data: {
-      comment: 'This is a test template',
-      description: 'This is a test template',
+      ...templates.testTemplate,
       duration: 60,
       finances: {},
       icon: 'test-tube',
       location: faker.address.nearbyGPSCoordinate().join(','),
-      organizerText: 'This is a test template',
-      participantText: 'This is a test template',
       tenant: { connect: { id: tumiTenant.id } },
-      title: 'Test Template',
     },
   });
 
   await prisma.eventTemplate.create({
     data: {
-      comment: 'This is a test template',
-      description: 'This is a test template',
+      ...templates.secondTemplate,
       duration: 60,
       finances: {},
       icon: 'test-tube',
       location: faker.address.nearbyGPSCoordinate().join(','),
-      organizerText: 'This is a test template',
-      participantText: 'This is a test template',
       tenant: { connect: { id: tumiTenant.id } },
-      title: 'Use test template',
     },
   });
 
   const startDate = faker.date.soon(10);
-  const testEvent = await prisma.tumiEvent.create({
-    data: {
-      createdBy: { connect: { id: adminUser.id } },
-      description: 'This is a test event',
-      end: faker.date.soon(1, startDate.toString()),
-      eventTemplate: { connect: { id: testTemplate.id } },
-      icon: 'test-tube',
-      location: faker.address.nearbyGPSCoordinate().join(','),
-      organizer: { connect: { id: tumiOrganizer.id } },
-      organizerText: 'This is a test event',
-      participantText: 'This is a test event',
-      registrationMode: RegistrationMode.STRIPE,
-      start: startDate,
-      title: 'Test Event',
-    },
-  });
   await prisma.tumiEvent.create({
     data: {
       createdBy: { connect: { id: adminUser.id } },
@@ -162,6 +171,42 @@ async function runSeed() {
       organizerText: 'This is a test event',
       participantText: 'This is a test event',
       registrationMode: RegistrationMode.STRIPE,
+      start: startDate,
+      title: 'Internal draft Event',
+    },
+  });
+  const stripeEvent = await prisma.tumiEvent.create({
+    data: {
+      id: seedIds.testEvent,
+      createdBy: { connect: { id: adminUser.id } },
+      description: 'This is a test event',
+      end: faker.date.soon(1, startDate.toString()),
+      eventTemplate: { connect: { id: testTemplate.id } },
+      icon: 'test-tube',
+      location: faker.address.nearbyGPSCoordinate().join(','),
+      organizer: { connect: { id: tumiOrganizer.id } },
+      organizerText: 'This is a test event',
+      participantText: 'This is a test event',
+      registrationMode: RegistrationMode.STRIPE,
+      start: startDate,
+      title: 'Test Event',
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
+    },
+  });
+  const freeEvent = await prisma.tumiEvent.create({
+    data: {
+      id: seedIds.freeEvent,
+      createdBy: { connect: { id: adminUser.id } },
+      description: 'This is a test event',
+      end: faker.date.soon(1, startDate.toString()),
+      eventTemplate: { connect: { id: testTemplate.id } },
+      icon: 'test-tube',
+      location: faker.address.nearbyGPSCoordinate().join(','),
+      organizer: { connect: { id: tumiOrganizer.id } },
+      organizerText: 'This is a test event',
+      participantText: 'This is a test event',
+      registrationMode: RegistrationMode.ONLINE,
       start: startDate,
       title: 'Test Event',
       publicationState: PublicationState.PUBLIC,

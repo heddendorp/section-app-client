@@ -1,4 +1,4 @@
-FROM node:17 as builder
+FROM node:18 as builder
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
@@ -10,8 +10,9 @@ RUN yarn install
 COPY legacy-app legacy-app/
 COPY shared shared/
 ARG VERSION=DOCKER_VERSION
+ARG CONFIGURATION=production
 RUN sed -i "s|PROD_VERSION|$VERSION|g" legacy-app/src/environments/environment.prod.ts
-RUN yarn workspace @tumi/legacy-app build --source-map
+RUN yarn workspace @tumi/legacy-app build --source-map --configuration $CONFIGURATION
 
 FROM nginx:1.23.1-alpine
 COPY legacy-app/nginx.conf /etc/nginx/nginx.conf
