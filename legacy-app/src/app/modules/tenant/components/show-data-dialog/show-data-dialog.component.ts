@@ -69,14 +69,14 @@ export class ShowDataDialogComponent {
 
   get user1() {
     if (this.data?.data?.userId) {
-      return `/tenant/users/${this.data.data.userId}`;
+      return `/profile/${this.data.data.userId}`;
     }
     return null;
   }
 
   get user2() {
     if (this.data?.oldData?.userId) {
-      return `/tenant/users/${this.data.oldData.userId}`;
+      return `/profile/${this.data.oldData.userId}`;
     }
     return null;
   }

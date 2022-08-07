@@ -1,6 +1,6 @@
 <div
   [class]="
-    'flex flex-col border p-2 h-full md:h-auto rounded-md relative ' +
+    'flex flex-col border p-2 h-full rounded-md relative ' +
     (isCurrentUser
       ? isOrganizer
         ? 'bg-green-100'
@@ -13,11 +13,16 @@
   <div>
     <span class="font-bold mr-2">
       <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
-      <span *ngIf="!isAnonymous || isOrganizer">
-        <a class="font-bold" [routerLink]="'/tenant/users/' + userId">{{
-          userFullName
-        }}</a>
-      </span>
+
+      <app-user-chip
+        size="xs"
+        *ngIf="!isAnonymous || isOrganizer"
+        [id]="userId"
+        [picture]="userPicture"
+        [name]="userFullName"
+        [status]="userStatus"
+      >
+      </app-user-chip>
     </span>
     <span *ngIf="isOrganizer" class="font-mono mr-2 bg-slate-200 px-1 rounded"
       >organizer</span
@@ -28,7 +33,7 @@
       >★</span
     >
   </div>
-  <span class="break-words">{{ comment }}</span>
+  <span class="break-words whitespace-pre-wrap">{{ comment }}</span>
   <div class="absolute right-1 bottom-1">
     <button
       type="button"

@@ -7,5 +7,6 @@ query tenantLoadEvents($search: String, $before: DateTime, $after: DateTime) {
     end
     createdAt
     publicationState
+    icon
   }
 }

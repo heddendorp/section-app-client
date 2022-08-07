@@ -2,17 +2,20 @@
   <img [src]="event.icon | iconURL" mat-list-avatar />
   <h3 mat-line>{{ event.title }}</h3>
   <p mat-line>
-    {{ event.start | date: 'mediumDate' }}
-    <span *ngIf="showTime">{{ event.start | date: 'shortTime' }}</span>
-    <span *ngIf="showTime || isMultiDay()"> -</span>
-    <span *ngIf="isMultiDay()"> {{ event.end | date: 'mediumDate' }}</span>
-    <span *ngIf="showTime"> {{ event.end | date: 'shortTime' }}</span>
+    <span>{{ formatDate(event.start, event.end) }}</span>
     <span *ngIf="event.participantRatingCount > 0">
-      <span class="ml-1 rounded px-1 bg-amber-400 text-white"
+      <span class="ml-2 rounded px-1 bg-amber-400 text-white !text-xs"
         >{{ event.participantRating | number: '1.1-1' }} ★ ({{
           event.participantRatingCount
         }})
       </span></span
     >
+  </p>
+  <p
+    *ngIf="event.ratingPending"
+    class="!text-xs !mt-0.5 text-amber-600 !font-bold"
+    mat-line
+  >
+    Rate now!
   </p>
 </a>

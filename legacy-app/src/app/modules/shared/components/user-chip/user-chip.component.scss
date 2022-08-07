@@ -1,0 +1,59 @@
+.chip {
+  @apply bg-slate-200 align-middle;
+  &.full {
+    @apply bg-purple-100 outline-purple-600 outline-[0.12em] outline;
+  }
+  &.trial {
+    @apply bg-purple-50 outline-purple-400 outline-[0.12em] outline-dashed;
+  }
+}
+
+.picture-container {
+  @apply h-full aspect-1;
+
+  img {
+    @apply h-full;
+  }
+}
+
+.xs {
+  @apply h-5 leading-5 rounded-[20px] items-stretch;
+
+  .name-container {
+    @apply mx-0.5;
+  }
+}
+
+.sm {
+  @apply h-[2em] rounded-[2em];
+
+  .name-container {
+    @apply mx-2;
+  }
+
+  .name {
+    @apply text-[90%];
+  }
+}
+
+.md {
+  @apply h-[3em] rounded-[3em];
+
+  .name-container {
+    @apply mx-3;
+  }
+
+  .name {
+    @apply font-semibold;
+  }
+
+  .name {
+    @apply text-[90%];
+    line-height: initial;
+  }
+
+  .tel {
+    @apply text-[85%] mt-1;
+    line-height: initial;
+  }
+}

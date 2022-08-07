@@ -26,7 +26,6 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     GetRegistrationCountQuery['registrationCount']
   >;
   public displayedColumns = [
-    'action',
     'event',
     'user',
     'created',

@@ -53,6 +53,12 @@ Table User {
   transactions Transaction [not null]
   createdEvents TumiEvent [not null]
   tenants UsersOfTenants [not null]
+  bio String
+  country String
+  homeUniversity String
+  instagram String
+  position String
+  studyProgram String
 
   Note: 'One User of the app'
 }

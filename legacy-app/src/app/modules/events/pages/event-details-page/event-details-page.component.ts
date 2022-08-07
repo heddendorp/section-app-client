@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -30,6 +36,7 @@ import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/per
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
 import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-details-page',
@@ -49,10 +56,13 @@ export class EventDetailsPageComponent implements OnDestroy {
   private destroyed$ = new Subject();
 
   public ratingExpanded$ = new BehaviorSubject(false);
+  @ViewChild('rater')
+  private raterRef: ElementRef | undefined;
 
   constructor(
     private title: Title,
     private route: ActivatedRoute,
+    private router: Router,
     public auth: AuthService,
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
@@ -102,6 +112,10 @@ export class EventDetailsPageComponent implements OnDestroy {
       map(({ data }) => !!data.currentUser),
       shareReplay(1)
     );
+
+    if (router.url.includes('checkin')) {
+      this.showCode();
+    }
   }
 
   ngOnDestroy(): void {
@@ -130,7 +144,7 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   async showCode() {
     const event = await firstValueFrom(this.event$);
-    if (event?.activeRegistration) {
+    if (event?.activeRegistration && !event.activeRegistration?.didAttend) {
       this.dialog.open(QrDisplayDialogComponent, {
         data: {
           id: event.activeRegistration.id,
@@ -160,5 +174,12 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   expandRatingPanel() {
     this.ratingExpanded$.next(!this.ratingExpanded$.value);
+    setTimeout(() => {
+      if (this.ratingExpanded$.value) {
+        document
+          .querySelector('#rater')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   }
 }

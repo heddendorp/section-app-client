@@ -3,26 +3,41 @@
   *ngIf="(user$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">
-  <div fxLayout="row" fxLayoutGap="1rem">
+  <div class="flex flex-row gap-1 items-center mb-4">
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <h1 class="font-bold">{{ user.fullName }}</h1>
+    <app-user-chip
+      size="sm"
+      [id]="user.id"
+      [picture]="user.picture"
+      [name]="user.fullName"
+      [status]="user.currentTenant?.status + ''"
+    >
+    </app-user-chip>
+
     <div fxFlex="noshrink"></div>
-    <button mat-stroked-button (click)="updateUser(user)">Update Role</button>
+    <button
+      mat-flat-button
+      class="modern"
+      color="primary"
+      (click)="updateUser(user)"
+    >
+      Update role
+    </button>
   </div>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
-    <p>TUMi app UserID:</p>
+    <p>User ID:</p>
     <p class="select-all font-mono">{{ user.id }}</p>
     <p>First name:</p>
     <p>{{ user.firstName }}</p>
-    <p>Last Name:</p>
+    <p>Last name:</p>
     <p>{{ user.lastName }}</p>
     <p>Role:</p>
     <p>{{ user.currentTenant?.role | titlecase }}</p>
     <p>Status:</p>
     <p>{{ user.currentTenant?.status | titlecase }}</p>
-    <p>email:</p>
+    <p>Email:</p>
     <p>{{ user.email }}</p>
     <p>Auth0 ID:</p>
     <p class="break-all">{{ user.authId }}</p>
@@ -39,28 +54,64 @@
       [checked]="user.esnCardOverride"
       (change)="updateEsnCard($event)"
     ></mat-slide-toggle>
-    <h2 gdColumn="-1/1" class="my-2">Registrations</h2>
+    <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
   </div>
-  <div
-    [class.opacity-60]="registration.status === RegistrationStatus.Cancelled"
-    class="my-4"
-    *ngFor="let registration of user.eventRegistrations"
-  >
-    <p class="max-w-full break-words font-bold" gdColumn="-1/1">
-      {{ registration.event.title }}
-    </p>
-    <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
-      <p>Type:</p>
-      <p>{{ registration.type | titlecase }}</p>
-      <p>Status:</p>
-      <p>{{ registration.status | titlecase }}</p>
-      <p>Registration date:</p>
-      <p>{{ registration.createdAt | date: 'medium' }}</p>
-      <p>Event start:</p>
-      <p>{{ registration.event.start | date: 'medium' }}</p>
-      <p>Checkin date:</p>
-      <p>{{ registration.checkInTime | date: 'medium' }}</p>
-    </div>
-  </div>
+
+  <mat-table [dataSource]="user.eventRegistrations" class="w-full mt-4">
+    <ng-container matColumnDef="event">
+      <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        <app-event-chip
+          [id]="registration.event.id"
+          [icon]="registration.event.icon"
+          [title]="registration.event.title"
+        ></app-event-chip>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="eventStart">
+      <mat-header-cell *matHeaderCellDef>Event start</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        {{ registration.event.start | date: 'mediumDate' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        {{ registration.type | titlecase }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        {{ registration.status | titlecase }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="registrationDate">
+      <mat-header-cell *matHeaderCellDef>Registration date</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        {{ registration.createdAt | date: 'mediumDate' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="checkInDate">
+      <mat-header-cell *matHeaderCellDef>Check in date</mat-header-cell>
+      <mat-cell *matCellDef="let registration">
+        {{ registration.checkInTime | date: 'medium' }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      matRipple
+      *matRowDef="let registration; columns: displayedColumns"
+      routerLink="/tenant/registrations/{{ registration.id }}"
+      class="cursor-pointer hover:bg-gray-100"
+      [class.opacity-50]="registration.status === RegistrationStatus.Cancelled"
+    ></mat-row>
+  </mat-table>
 </main>
 <!--<pre>{{ user$ | async | json }}</pre>-->

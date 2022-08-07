@@ -1,0 +1,19 @@
+.background {
+  &.full {
+    @apply bg-purple-600;
+  }
+
+  &.trial {
+    @apply bg-purple-400;
+  }
+}
+
+.picture {
+  &.full {
+    @apply border-purple-600 border-[12px] border-double;
+  }
+
+  &.trial {
+    @apply border-purple-400 border-4;
+  }
+}

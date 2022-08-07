@@ -157,6 +157,8 @@
                 [rating]="rating.rating || 0"
                 [userId]="rating.user.id"
                 [userFullName]="rating.user.fullName"
+                [userPicture]="rating.user.picture"
+                [userStatus]="rating.user.currentTenant?.status || ''"
               ></app-rating-item>
             </div>
           </div>

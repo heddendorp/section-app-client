@@ -42,7 +42,11 @@
       end of the event
     </p>
   </div>
-  <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem" class="mb-8">
+  <div class="flex flex-col md:flex-row gap-4 mb-8">
+    <a mat-flat-button (click)="generateMail()" class="modern" color="primary">
+      <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+      <span>Generate mail template</span>
+    </a>
     <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
       <mat-icon svgIcon="icon-copy"></mat-icon>
       <span>Copy mails of organizers</span>
@@ -77,95 +81,52 @@
     </li>
   </ul>
   <h2 class="mb-2 mt-6">Organizers</h2>
-  <app-grid>
-    <div
-      *ngFor="let registration of event.organizerRegistrations"
-      fxLayout="row"
-      fxLayoutGap="1rem"
-    >
-      <div class="relative">
-        <img
-          [src]="registration.user.picture"
-          referrerpolicy="no-referrer"
-          class="w-12 rounded"
-        />
-      </div>
-      <div>
-        <p>
-          {{ registration.user.fullName }}
-          <span
-            *ngIf="registration.user.id === event.createdBy.id"
-            class="ml-2 rounded border border-gray-700 bg-blue-600 bg-opacity-10 px-2 text-sm"
-          >
-            Event Creator
-          </span>
-        </p>
-        <a
-          *ngIf="registration.user.phone"
-          href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
-          target="_blank"
-          class="underline decoration-dotted text-slate-500 font-light"
-          >{{ registration.user.phone }}</a
-        >
-      </div>
+  <div class="flex flex-col md:flex-row flex-wrap gap-4">
+    <div *ngFor="let registration of event.organizerRegistrations">
+      <app-user-chip
+        size="md"
+        [id]="registration.user.id"
+        [picture]="registration.user.picture"
+        [name]="registration.user.fullName"
+        [phone]="registration.user.phone || ''"
+        [status]="registration.user.currentTenant?.status + ''"
+        [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
+      >
+      </app-user-chip>
     </div>
-  </app-grid>
+  </div>
   <h2 class="mt-4 mb-2">Participants</h2>
-  <app-grid>
+  <div class="flex flex-col md:flex-row flex-wrap gap-4">
     <div
+      class="flex flex-row gap-1 items-center"
       *ngFor="let registration of event.participantRegistrations"
-      fxLayout="column"
-      fxLayout.gt-sm="row"
-      fxLayoutGap="1rem"
     >
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <div class="relative">
-          <img
-            [src]="registration.user.picture"
-            referrerpolicy="no-referrer"
-            class="w-12 rounded"
-          />
-          <mat-icon
-            *ngIf="registration.checkInTime; else cross"
-            svgIcon="icon-checkmark"
-            class="absolute bottom-0 -right-3"
-          ></mat-icon>
-          <ng-template #cross>
-            <mat-icon
-              svgIcon="icon-delete-sign"
-              class="absolute bottom-0 -right-3"
-            ></mat-icon>
-          </ng-template>
-        </div>
-        <div fxFlex>
-          <p>{{ registration.user.fullName }}</p>
-          <a
-            *ngIf="registration.user.phone"
-            href="https://wa.me/{{ registration.user.phone.replace('+', '') }}"
-            target="_blank"
-            class="underline decoration-dotted text-slate-500 font-light"
-            >{{ registration.user.phone }}</a
-          >
-        </div>
-        <ng-container *ngIf="!registration.checkInTime">
-          <button
-            mat-icon-button
-            class="modern"
-            (click)="checkin(registration.id)"
-            *appIfRole="[Role.Admin]"
-          >
-            <mat-icon svgIcon="icon-checked"></mat-icon>
-          </button>
-        </ng-container>
+      <div class="flex-1">
+        <app-user-chip
+          size="md"
+          [id]="registration.user.id"
+          [picture]="registration.user.picture"
+          [name]="registration.user.fullName"
+          [phone]="registration.user.phone || ''"
+          [checkedIn]="!!registration.checkInTime"
+          [status]="registration.user.currentTenant?.status + ''"
+        >
+        </app-user-chip>
       </div>
-      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
-        <div>
-          <div *ngFor="let submission of registration.submissions">
-            <p class="font-bold">{{ submission.submissionItem.name }}</p>
-            <p>{{ submission.data.value }}</p>
-          </div>
-        </div>
+      <ng-container *ngIf="!registration.checkInTime">
+        <button
+          mat-icon-button
+          class="modern"
+          (click)="checkin(registration.id)"
+          *appIfRole="[Role.Admin]"
+        >
+          <mat-icon svgIcon="icon-checked"></mat-icon>
+        </button>
+      </ng-container>
+      <div *ngFor="let submission of registration.submissions">
+        <p class="font-bold">{{ submission.submissionItem.name }}</p>
+        <p>{{ submission.data.value }}</p>
       </div>
     </div>
-  </app-grid>
+  </div>
 </main>

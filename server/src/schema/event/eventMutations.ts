@@ -100,6 +100,7 @@ builder.mutationFields((t) => ({
           coordinates: template.coordinates ?? undefined,
           location: template.location,
           googlePlaceId: template.googlePlaceId,
+          googlePlaceUrl: template.googlePlaceUrl,
           participantText: template.participantText,
           organizerText: template.organizerText,
           insuranceDescription: template.insuranceDescription,

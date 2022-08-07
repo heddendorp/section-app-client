@@ -1,5 +1,5 @@
 <div
-  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4 h-full"
+  class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4 h-full shadow"
 >
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
     <mat-icon
@@ -7,7 +7,7 @@
       class="text-secondary-default bg-secondary-on card-icon"
     ></mat-icon>
     <h2 class="font-bold">
-      {{ isOrganized ? 'Organized' : 'Your' }} events
+      {{ title }}
       <span class="font-light">({{ events.length }})</span>
     </h2>
   </div>
@@ -27,7 +27,7 @@
       *ngFor="let event of futureEvents()"
       [event]="event"
     ></app-event-list-item>
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="pastEvents().length > 0">
       <mat-expansion-panel-header matRipple>
         <mat-panel-title>
           <div

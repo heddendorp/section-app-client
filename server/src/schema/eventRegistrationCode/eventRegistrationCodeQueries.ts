@@ -5,6 +5,8 @@ builder.queryFields((t) => ({
   eventRegistrationCodes: t.prismaField({
     type: ['EventRegistrationCode'],
     args: {
+      pageIndex: t.arg.int(),
+      pageLength: t.arg.int(),
       includePrivate: t.arg.boolean({ defaultValue: false }),
       includePassed: t.arg.boolean({ defaultValue: false }),
       includeUsed: t.arg.boolean({ defaultValue: false }),
@@ -13,9 +15,20 @@ builder.queryFields((t) => ({
     resolve: async (
       query,
       root,
-      { includePrivate, includePassed, includeUsed, orderByEvent },
+      {
+        pageIndex,
+        pageLength,
+        includePrivate,
+        includePassed,
+        includeUsed,
+        orderByEvent,
+      },
       context
     ) => {
+      let page = {};
+      if (typeof pageIndex === 'number' && typeof pageLength === 'number') {
+        page = { skip: pageIndex * pageLength, take: pageLength };
+      }
       return prisma.eventRegistrationCode.findMany({
         ...query,
         where: {
@@ -26,6 +39,7 @@ builder.queryFields((t) => ({
             ? {}
             : { targetEvent: { start: { gt: new Date() } } }),
         },
+        ...page,
         orderBy: orderByEvent
           ? { targetEvent: { start: 'asc' } }
           : { createdAt: 'desc' },
@@ -42,6 +56,11 @@ builder.queryFields((t) => ({
         where: { id },
         ...query,
       });
+    },
+  }),
+  eventRegistrationCodeCount: t.int({
+    resolve: async (root, args, context) => {
+      return prisma.eventRegistrationCode.count();
     },
   }),
 }));
