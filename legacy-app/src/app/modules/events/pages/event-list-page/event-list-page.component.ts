@@ -64,7 +64,7 @@ export class EventListPageComponent implements OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         map((value) => {
-          this.loading$.next(true)
+          this.loading$.next(true);
           if (value === 0) {
             this.selectedMonthLabel = 'Upcoming Events';
             this.startOfMonth = undefined;
@@ -83,11 +83,11 @@ export class EventListPageComponent implements OnDestroy {
           return {
             after: this.startOfMonth.startOf('week').toJSDate(),
             before: this.endOfMonth.endOf('week').toJSDate(),
-          }
+          };
         }),
-        debounceTime(500), 
+        debounceTime(500)
       )
-      .subscribe((parameters: any) => {  
+      .subscribe((parameters: any) => {
         return this.loadEventsQueryRef.refetch(parameters).then(() => {
           this.loading$.next(false);
         });
