@@ -12,7 +12,11 @@
     <ng-container matColumnDef="event">
       <th mat-header-cell *matHeaderCellDef>Event</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.targetEvent.title }}
+        <app-event-chip
+          [id]="element.targetEvent.id"
+          [icon]="element.targetEvent.icon"
+          [title]="element.targetEvent.title"
+        ></app-event-chip>
       </td>
     </ng-container>
 
@@ -20,7 +24,7 @@
       <th mat-header-cell *matHeaderCellDef>Creator</th>
       <td mat-cell *matCellDef="let element">
         <app-user-chip
-          size="xs"
+          size="sm"
           [id]="element.creator.id"
           [picture]="element.creator.picture"
           [name]="element.creator.fullName"
@@ -34,7 +38,7 @@
       <th mat-header-cell *matHeaderCellDef>Receiver</th>
       <td mat-cell *matCellDef="let element">
         <app-user-chip
-          size="xs"
+          size="sm"
           *ngIf="element.registrationCreated?.user"
           [id]="element.registrationCreated?.user?.id"
           [picture]="element.registrationCreated?.user?.picture"
@@ -76,4 +80,10 @@
       [routerLink]="['.', row.id]"
     ></tr>
   </table>
+  <mat-paginator
+    [length]="codesCount$ | async"
+    [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
 </main>

@@ -130,7 +130,7 @@ builder.queryFields((t) => ({
             },
           },
         },
-        orderBy: { start: 'asc' },
+        orderBy: { start: 'desc' },
       });
       const user2Events = await prisma.tumiEvent.findMany({
         ...query,
@@ -149,7 +149,7 @@ builder.queryFields((t) => ({
             },
           },
         },
-        orderBy: { start: 'asc' },
+        orderBy: { start: 'desc' },
       });
       return user1Events.filter((e) =>
         user2Events.some((e2) => e2.id === e.id)

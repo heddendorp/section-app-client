@@ -6,6 +6,7 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
     event {
       title
       id
+      icon
     }
     user {
       id
@@ -40,10 +41,17 @@ query getRegistrationForAdmin($id: ID!) {
       id
       start
       end
+      icon
     }
     user {
       id
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     transaction {
       id
@@ -82,8 +90,10 @@ query getCancelledRegistrations {
   }
 }
 
-query getEventRegistrationCodes {
+query getEventRegistrationCodes($pageLength: Int, $pageIndex: Int) {
   eventRegistrationCodes(
+    pageIndex: $pageIndex
+    pageLength: $pageLength
     includePrivate: true
     includePassed: true
     includeUsed: true
@@ -95,6 +105,7 @@ query getEventRegistrationCodes {
     targetEvent {
       id
       title
+      icon
     }
     creator {
       id
@@ -138,6 +149,7 @@ query getEventRegistrationCode($registrationId: ID!) {
       title
       start
       end
+      icon
     }
     creator {
       id
@@ -229,4 +241,8 @@ query getEventRegistrationCode($registrationId: ID!) {
       }
     }
   }
+}
+
+query getEventRegistrationCodeCount {
+  eventRegistrationCodeCount
 }

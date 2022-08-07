@@ -167,6 +167,7 @@ query loadUser($id: ID!) {
         title
         start
         end
+        icon
       }
     }
   }
@@ -211,6 +212,7 @@ query getUsers(
     lastName
     email
     position
+    picture
     currentTenant {
       userId
       tenantId

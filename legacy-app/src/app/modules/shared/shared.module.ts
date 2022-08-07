@@ -41,6 +41,7 @@ import { RouterModule } from '@angular/router';
 import { RateEventComponent } from './components/rate-event/rate-event.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { UserChipComponent } from './components/user-chip/user-chip.component';
+import { EventChipComponent } from './components/event-chip/event-chip.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { UserChipComponent } from './components/user-chip/user-chip.component';
     RateEventComponent,
     RatingComponent,
     UserChipComponent,
+    EventChipComponent,
   ],
   imports: [
     RouterModule,
@@ -114,6 +116,7 @@ import { UserChipComponent } from './components/user-chip/user-chip.component';
     RateEventComponent,
     RatingComponent,
     UserChipComponent,
+    EventChipComponent,
   ],
   providers: [DatePipe],
 })

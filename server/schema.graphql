@@ -422,7 +422,8 @@ type Query {
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
   eventRegistrationCode(id: ID!): EventRegistrationCode!
-  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
+  eventRegistrationCodeCount: Int!
+  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false, pageIndex: Int, pageLength: Int): [EventRegistrationCode!]!
   eventTemplate(id: ID!): EventTemplate!
   eventTemplateCategories: [EventTemplateCategory!]!
   eventTemplates(onlyWithoutCategory: Boolean): [EventTemplate!]!
@@ -631,6 +632,7 @@ type TumiEvent {
   insuranceDescription: String!
   internalEvent: Boolean!
   location: String!
+  mailTemplate: String!
   needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!

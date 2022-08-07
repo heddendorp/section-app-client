@@ -10,6 +10,9 @@ import {
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
+import * as fs from 'fs';
+import { marked } from 'marked';
+import mjml2html from 'mjml';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -33,7 +36,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
-    googlePlaceUrl: t.string({
+    googlePlaceUrl: t.exposeString('googlePlaceUrl', {
       nullable: true,
       resolve: (event, args, context) => {
         if (event.googlePlaceUrl) return event.googlePlaceUrl;
@@ -472,6 +475,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
               },
             },
           },
+          orderBy: {
+            lastName: 'asc',
+          },
         });
       },
     }),
@@ -638,6 +644,72 @@ export const eventType = builder.prismaObject('TumiEvent', {
           },
         });
         return currentRegistrationNum < parent.organizerLimit;
+      },
+    }),
+    mailTemplate: t.string({
+      resolve: async (event, args, context) => {
+        const participatedText = marked(event.participantText);
+
+        const [icon, style] = (event.icon ?? '').split(':');
+        const iconUrl = `https://img.icons8.com/${style ?? 'fluency'}/64/${
+          icon ?? 'cancel-2'
+        }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
+
+        const date = DateTime.fromJSDate(event.start).setLocale('en-US');
+        const intro = `Hi,<br/>thank you for signing up for the event on ${date.weekdayLong}!`;
+
+        let template = fs
+          .readFileSync(__dirname + '\\mailTemplate.mjml', 'utf8')
+          .replaceAll('%title%', event.title)
+          .replaceAll('%preview%', intro)
+          .replaceAll('%intro%', intro)
+          .replaceAll('%weekday%', date.weekdayLong)
+          .replaceAll('%icon%', iconUrl)
+          .replaceAll('%url%', `https://tumi.esn.world/events/${event.id}`)
+          .replaceAll('%location%', event.location)
+          .replaceAll('%time%', date.toFormat('HH:mm'))
+          .replaceAll('%body%', participatedText);
+
+        const imgSrcMatch = /<img[^>]+src="([^">]+)"/gm.exec(
+          marked(event.description)
+        );
+        if (imgSrcMatch) {
+          template = template
+            .replaceAll('%photo%', imgSrcMatch[1])
+            .replace('<!--', '')
+            .replace('-->', '');
+        }
+        const organizerMails = await prisma.tumiEvent
+          .findUnique({ where: { id: event.id } })
+          .registrations({
+            where: {
+              type: RegistrationType.ORGANIZER,
+              status: RegistrationStatus.SUCCESSFUL,
+            },
+            select: { user: { select: { email: true } } },
+          })
+          .then((r) => r.map((re) => re.user.email));
+
+        const participantMails = await prisma.tumiEvent
+          .findUnique({ where: { id: event.id } })
+          .registrations({
+            where: {
+              type: RegistrationType.PARTICIPANT,
+              status: RegistrationStatus.SUCCESSFUL,
+            },
+            select: { user: { select: { email: true } } },
+          })
+          .then((r) => r.map((re) => re.user.email));
+
+        let email = 'To: events@esn-tumi.de\n';
+        email += `Cc: ${organizerMails.join(';')}\n`;
+        email += `Bcc: ${participantMails.join(';')}\n`;
+        email += `Subject: [TUMi] ${event.title}\n`;
+        email += 'X-Unsent: 1\n';
+        email += 'Content-Type: text/html; charset=utf-8\n\n';
+        email += mjml2html(template).html;
+
+        return email;
       },
     }),
   }),

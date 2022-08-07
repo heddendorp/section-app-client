@@ -23,6 +23,15 @@ export class TenantUserInfoPageComponent {
   public user$: Observable<LoadUserQuery['user']>;
   public RegistrationStatus = RegistrationStatus;
 
+  public displayedColumns = [
+    'event',
+    'eventStart',
+    'type',
+    'status',
+    'registrationDate',
+    'checkInDate',
+  ];
+
   constructor(
     private loadUserQuery: LoadUserGQL,
     private route: ActivatedRoute,

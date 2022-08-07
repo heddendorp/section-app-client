@@ -2,14 +2,15 @@
   [routerLink]="'/profile/' + id"
   class="chip {{ size }} {{
     status | lowercase
-  }} box-border inline-flex flex-row items-center {{
-    picture ? 'pr-1' : 'px-1'
-  }}"
+  }} box-border inline-flex flex-row items-center {{ picture ? '' : 'pl-1' }}"
 >
   <div class="picture-container relative" *ngIf="picture">
     <img
       [src]="picture"
-      class="picture rounded-full bg-white z-10 {{ status | lowercase }}"
+      class="picture rounded-full bg-white z-10 {{
+        status | lowercase
+      }} bg-gray-200"
+      style="text-indent: -10000px"
       referrerpolicy="no-referrer"
     />
     <ng-container *ngIf="checkedIn !== null">
@@ -26,7 +27,7 @@
       </ng-template>
     </ng-container>
   </div>
-  <div class="flex flex-col max-w-[16em]">
+  <div class="name-container flex flex-col max-w-[16em]" *ngIf="name">
     <div class="name whitespace-nowrap text-ellipsis overflow-hidden">
       <span>{{ name }}</span>
       <span

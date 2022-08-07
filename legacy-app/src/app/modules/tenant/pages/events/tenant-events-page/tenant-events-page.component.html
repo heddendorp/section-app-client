@@ -46,7 +46,11 @@
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.title }}
+        <app-event-chip
+          [id]="element.id"
+          [icon]="element.icon"
+          [title]="element.title"
+        ></app-event-chip>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="date">
@@ -59,7 +63,7 @@
     <mat-row
       matRipple
       *matRowDef="let row; columns: displayedColumns"
-      routerLink="/event/{{ row.id }}"
+      routerLink="/events/{{ row.id }}"
       class="cursor-pointer hover:bg-gray-100"
     ></mat-row>
   </mat-table>

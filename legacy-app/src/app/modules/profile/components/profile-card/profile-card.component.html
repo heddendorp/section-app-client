@@ -16,14 +16,15 @@
       <img
         src="/assets/logos/full_white.svg"
         alt="ESN TUMi Logo"
-        class="w-24 object-contain"
+        class="w-20 md:w-24 object-contain"
       />
     </div>
     <img
       [src]="profile.picture"
       class="picture rounded-full h-[128px] w-[128px] border-white bg-white border-[3px] z-10 {{
         profile.currentTenant?.status | lowercase
-      }}"
+      }} bg-gray-200"
+      style="text-indent: -10000px"
       referrerpolicy="no-referrer"
     />
     <div class="text-3xl font-bold mt-4">{{ profile.fullName }}</div>
@@ -44,7 +45,9 @@
       {{ profile.country }}
     </div>
     <div class="mt-3">
-      <span *ngIf="profile.bio">{{ profile.bio }}</span>
+      <span *ngIf="profile.bio" class="whitespace-pre-wrap">{{
+        profile.bio
+      }}</span>
       <span *ngIf="!profile.bio" class="text-gray-400 italic">no bio</span>
     </div>
     <ng-container *ngIf="profile.organizedEventsCount > 0">
@@ -55,7 +58,7 @@
             {{ profile.organizedEventsCount }}
           </div>
           <div class="text-sm">
-            event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized
+            event{{ profile.organizedEventsCount === 1 ? '' : 's' }} tutored
           </div>
         </div>
         <div *ngIf="profile.createdEventsCount > 0">

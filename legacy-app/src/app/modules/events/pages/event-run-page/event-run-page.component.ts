@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-event-run-page',
@@ -21,6 +22,7 @@ export class EventRunPageComponent implements OnDestroy {
   public event$: Observable<LoadEventForRunningQuery['event']>;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
+
   constructor(
     private title: Title,
     private loadEvent: LoadEventForRunningGQL,
@@ -45,6 +47,10 @@ export class EventRunPageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
+  async checkin(id: string) {
+    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
+  }
+
   async copyOrganizerMails() {
     const event = await firstValueFrom(this.event$);
     if (!event) return;
@@ -65,6 +71,7 @@ export class EventRunPageComponent implements OnDestroy {
     };
     attempt();
   }
+
   async copyParticipantMails() {
     const event = await firstValueFrom(this.event$);
     if (!event) return;
@@ -108,7 +115,15 @@ export class EventRunPageComponent implements OnDestroy {
     attempt();
   }
 
-  async checkin(id: string) {
-    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
+  async generateMail() {
+    const event = await firstValueFrom(this.event$);
+
+    const a = window.document.createElement('a');
+    const utf8_blob = new Blob([event.mailTemplate], { endings: 'native' });
+    a.href = window.URL.createObjectURL(utf8_blob);
+    a.download = `${event.title}.eml`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
