@@ -18,9 +18,19 @@ jobs:
       - name: Build the stack
         run: docker-compose up -d
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/Cypress
+            node_modules
+          key: my-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - run: npm i cypress
+
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
+          install: false
           record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
