@@ -7,10 +7,14 @@ export const users = {
   adminUser: {
     email: 'test1@esn.world',
     password: 'testuser1!',
+    firstName: 'Test',
+    lastName: 'Admin',
   },
   memberUser: {
     email: 'test2@esn.world',
     password: 'testuser2!',
+    firstName: 'Test',
+    lastName: 'Member',
   },
   regularUser: {
     email: 'test3@esn.world',

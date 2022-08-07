@@ -40,11 +40,14 @@ async function runSeed() {
   const adminUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e525fa8b3b00698092a8',
-      email: 'test1@esn.world',
+      email: users.adminUser.email,
       email_verified: true,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: users.adminUser.firstName,
+      lastName: users.adminUser.lastName,
       picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'LOCAL',
+      birthdate: faker.date.birthdate(),
     },
   });
 
@@ -64,11 +67,14 @@ async function runSeed() {
   const memberUser = await prisma.user.create({
     data: {
       authId: 'auth0|6231e55d5fb02e006980888a',
-      email: 'test2@esn.world',
+      email: users.memberUser.email,
       email_verified: true,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: users.memberUser.firstName,
+      lastName: users.memberUser.lastName,
       picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'LOCAL',
+      birthdate: faker.date.birthdate(),
     },
   });
 
