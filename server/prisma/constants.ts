@@ -1,6 +1,25 @@
 export const seedIds = {
   testEvent: 'c8d54510-ecb1-4ccf-944e-1d80e7b5e6ca',
-  testTemplate: '2261485d-0944-427b-8783-d05943721b36',
+  freeEvent: 'c116ac1e-57bc-4ad6-bc0d-5a68a23e5ab0',
+};
+
+export const templates = {
+  testTemplate: {
+    id: '2261485d-0944-427b-8783-d05943721b36',
+    comment: 'This is a test template',
+    description: 'This is a test template',
+    organizerText: 'This is a test template',
+    participantText: 'This is a test template',
+    title: 'Test Template',
+  },
+  secondTemplate: {
+    id: '7a6971bc-bd56-47b5-babd-8606737f1ae9',
+    comment: 'This is a second template',
+    description: 'This is a second template',
+    organizerText: 'This is a second template',
+    participantText: 'This is a second template',
+    title: 'Second Template',
+  },
 };
 
 export const users = {

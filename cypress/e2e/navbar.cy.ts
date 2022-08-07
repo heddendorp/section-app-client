@@ -30,6 +30,15 @@ describe('navbar', () => {
       it('should show the menu', () => {
         cy.get('.mat-nav-list').should('be.visible');
       });
+      it('should show the menu button', () => {
+        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').should(
+          'be.visible'
+        );
+      });
+      it('should hide the menu when pressing the button', () => {
+        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').click();
+        cy.get('.mat-nav-list').should('not.be.visible');
+      });
     });
   });
 });

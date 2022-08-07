@@ -6,7 +6,7 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
-import { seedIds, users } from './constants';
+import { seedIds, templates, users } from './constants';
 
 const prisma = new PrismaClient();
 
@@ -138,37 +138,44 @@ async function runSeed() {
 
   const testTemplate = await prisma.eventTemplate.create({
     data: {
-      id: seedIds.testTemplate,
-      comment: 'This is a test template',
-      description: 'This is a test template',
+      ...templates.testTemplate,
       duration: 60,
       finances: {},
       icon: 'test-tube',
       location: faker.address.nearbyGPSCoordinate().join(','),
-      organizerText: 'This is a test template',
-      participantText: 'This is a test template',
       tenant: { connect: { id: tumiTenant.id } },
-      title: 'Test Template',
     },
   });
 
   await prisma.eventTemplate.create({
     data: {
-      comment: 'This is a test template',
-      description: 'This is a test template',
+      ...templates.secondTemplate,
       duration: 60,
       finances: {},
       icon: 'test-tube',
       location: faker.address.nearbyGPSCoordinate().join(','),
-      organizerText: 'This is a test template',
-      participantText: 'This is a test template',
       tenant: { connect: { id: tumiTenant.id } },
-      title: 'Use test template',
     },
   });
 
   const startDate = faker.date.soon(10);
-  const testEvent = await prisma.tumiEvent.create({
+  await prisma.tumiEvent.create({
+    data: {
+      createdBy: { connect: { id: adminUser.id } },
+      description: 'This is a test event',
+      end: faker.date.soon(1, startDate.toString()),
+      eventTemplate: { connect: { id: testTemplate.id } },
+      icon: 'test-tube',
+      location: faker.address.nearbyGPSCoordinate().join(','),
+      organizer: { connect: { id: tumiOrganizer.id } },
+      organizerText: 'This is a test event',
+      participantText: 'This is a test event',
+      registrationMode: RegistrationMode.STRIPE,
+      start: startDate,
+      title: 'Internal draft Event',
+    },
+  });
+  const stripeEvent = await prisma.tumiEvent.create({
     data: {
       id: seedIds.testEvent,
       createdBy: { connect: { id: adminUser.id } },
@@ -183,10 +190,13 @@ async function runSeed() {
       registrationMode: RegistrationMode.STRIPE,
       start: startDate,
       title: 'Test Event',
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
     },
   });
-  await prisma.tumiEvent.create({
+  const freeEvent = await prisma.tumiEvent.create({
     data: {
+      id: seedIds.freeEvent,
       createdBy: { connect: { id: adminUser.id } },
       description: 'This is a test event',
       end: faker.date.soon(1, startDate.toString()),
@@ -196,7 +206,7 @@ async function runSeed() {
       organizer: { connect: { id: tumiOrganizer.id } },
       organizerText: 'This is a test event',
       participantText: 'This is a test event',
-      registrationMode: RegistrationMode.STRIPE,
+      registrationMode: RegistrationMode.ONLINE,
       start: startDate,
       title: 'Test Event',
       publicationState: PublicationState.PUBLIC,
