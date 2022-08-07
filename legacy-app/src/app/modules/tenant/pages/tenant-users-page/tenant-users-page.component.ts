@@ -52,8 +52,6 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   constructor(
     private title: Title,
     private loadUsers: GetUsersGQL,
-    private dialog: MatDialog,
-    private updateMutation: UpdateUserGQL,
     private fb: UntypedFormBuilder,
     private clipboard: Clipboard
   ) {

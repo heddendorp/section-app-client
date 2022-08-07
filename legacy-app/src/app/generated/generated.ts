@@ -844,6 +844,7 @@ export type QueryUserSearchResultNumArgs = {
 
 
 export type QueryUsersArgs = {
+  emptyOnEmptySearch?: InputMaybe<Scalars['Boolean']>;
   onlyWithPurchase?: InputMaybe<Scalars['Boolean']>;
   pageIndex?: InputMaybe<Scalars['Int']>;
   pageLength?: InputMaybe<Scalars['Int']>;
@@ -1854,10 +1855,11 @@ export type GetUsersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   pageIndex?: InputMaybe<Scalars['Int']>;
   pageLength?: InputMaybe<Scalars['Int']>;
+  emptyOnEmptySearch?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, email: string, position?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
 
 export type GetStatisticsQueryVariables = Exact<{
   range?: InputMaybe<DateRangeInput>;
@@ -4672,17 +4674,19 @@ export const GetOrganizersDocument = gql`
     }
   }
 export const GetUsersDocument = gql`
-    query getUsers($roleList: [Role!], $statusList: [MembershipStatus!], $search: String, $pageIndex: Int, $pageLength: Int) {
+    query getUsers($roleList: [Role!], $statusList: [MembershipStatus!], $search: String, $pageIndex: Int, $pageLength: Int, $emptyOnEmptySearch: Boolean) {
   users(
     roleList: $roleList
     statusList: $statusList
     search: $search
     pageIndex: $pageIndex
     pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
   ) {
     id
     firstName
     lastName
+    fullName
     email
     position
     picture

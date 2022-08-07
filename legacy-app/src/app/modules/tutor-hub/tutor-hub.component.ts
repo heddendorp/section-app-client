@@ -1,25 +1,35 @@
-import { Component } from '@angular/core';
-import { GetTutorHubInfoGQL, GetTutorHubInfoQuery, GetTutorHubEventsQuery, GetTutorHubEventsGQL } from '@tumi/legacy-app/generated/generated';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { GetTutorHubInfoGQL, GetTutorHubInfoQuery, GetTutorHubEventsQuery, GetTutorHubEventsGQL, GetUsersGQL, GetUsersQuery, MembershipStatus } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay, Subject, tap, takeUntil, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-tutor-hub',
   templateUrl: './tutor-hub.component.html',
   styleUrls: ['./tutor-hub.component.scss'],
 })
-export class TutorHubComponent {
+export class TutorHubComponent implements OnInit, OnDestroy {
   public tutorHubData$: Observable<GetTutorHubInfoQuery['currentTenant']['tutorHub']>;
   public events$: Observable<GetTutorHubEventsQuery['currentTenant']['tutorHubEvents']>;
   public eventsLoading$ = new BehaviorSubject(true);
+  public searchedTutors$: Observable<GetUsersQuery['users']>;
 
   private getTutorHubEventsRef;
+  
+  public filterForm: UntypedFormGroup;
+  private loadUsersReference;
+  public currentSearch = '';
+  public searchLoading$ = new BehaviorSubject(false);
+  private destroyed$ = new Subject();
 
   public range: { start: DateTime, end: DateTime } = this.calculateStartEnd(DateTime.now());
 
   constructor(
     private getTutorHubInfo: GetTutorHubInfoGQL,
-    private getTutorHubEvents: GetTutorHubEventsGQL
+    private getTutorHubEvents: GetTutorHubEventsGQL,
+    private loadUsers: GetUsersGQL,
+    private fb: UntypedFormBuilder,
     ) {
     
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
@@ -30,6 +40,39 @@ export class TutorHubComponent {
       map(({ data }) => data.currentTenant.tutorHubEvents),
       tap(() => this.eventsLoading$.next(false))
     );
+    
+    this.filterForm = this.fb.group({
+      search: [''],
+    });
+    this.loadUsersReference = this.loadUsers.watch({
+      pageLength: 5,
+      pageIndex: 0,
+      statusList: [MembershipStatus.Full, MembershipStatus.Trial, MembershipStatus.Alumni, MembershipStatus.Sponsor],
+      emptyOnEmptySearch: true
+    });
+    this.searchedTutors$ = this.loadUsersReference.valueChanges.pipe(
+      map(({ data }) => data.users),
+      tap(() => {        
+        this.searchLoading$.next(false)
+      }),
+      shareReplay(1)
+    );
+  }
+
+  ngOnInit(): void {
+    this.filterForm.valueChanges
+      .pipe(
+        takeUntil(this.destroyed$),
+        debounceTime(500),
+        tap(() => {
+          this.searchLoading$.next(true)
+        }))
+      .subscribe((value) => this.loadUsersReference.refetch(value));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   updateRange(range: { start: DateTime, end: DateTime }) {  

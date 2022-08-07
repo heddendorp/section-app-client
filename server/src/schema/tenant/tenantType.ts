@@ -64,9 +64,9 @@ builder.prismaObject('Tenant', {
           },
           orderBy: {
             user: {
-              lastName: 'asc'
-            }
-          }
+              lastName: 'asc',
+            },
+          },
         });
 
         const now = DateTime.now();
@@ -122,6 +122,7 @@ builder.prismaObject('Tenant', {
             },
           },
         });
+
         return {
           activeOrganizers,
           usersWithPositions,
@@ -129,7 +130,7 @@ builder.prismaObject('Tenant', {
         };
       },
     }),
-    
+
     tutorHubEvents: t.field({
       type: 'JSON',
       args: {
@@ -172,10 +173,60 @@ builder.prismaObject('Tenant', {
             status: RegistrationStatus.SUCCESSFUL,
           },
         });
-        const leaderboard;
+
+        const organizerLeaderboard = await Promise.all(
+          (
+            await prisma.eventRegistration.groupBy({
+              by: ['userId'],
+              where: {
+                type: RegistrationType.ORGANIZER,
+                status: RegistrationStatus.SUCCESSFUL,
+                event: {
+                  eventTemplate: {
+                    tenantId: context.tenant.id,
+                  },
+                  excludeFromStatistics: false,
+                  start: rangeQuery,
+                },
+              },
+              _count: { id: true },
+              take: 10,
+              orderBy: {
+                _count: {
+                  id: 'desc',
+                },
+              },
+            })
+          ).map(async (agg) => {
+            return {
+              count: agg._count.id,
+              ...(await prisma.usersOfTenants.findFirst({
+                where: {
+                  tenantId: context.tenant.id,
+                  user: { id: agg.userId },
+                },
+                select: {
+                  status: true,
+                  user: {
+                    select: {
+                      id: true,
+                      firstName: true,
+                      lastName: true,
+                      picture: true,
+                    },
+                  },
+                },
+              })),
+            };
+          })
+        );
+
+        console.log(organizerLeaderboard);
+
         return {
           registrationCount,
           eventCount,
+          organizerLeaderboard,
         };
       },
     }),
