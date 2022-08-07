@@ -251,11 +251,55 @@ builder.prismaObject('Tenant', {
             };
           })
         );
+        
+        const creatorLeaderboard = await Promise.all(
+          (
+            await prisma.tumiEvent.groupBy({
+              by: ['creatorId'],
+              where: {
+                eventTemplate: {
+                  tenantId: context.tenant.id,
+                },
+                excludeFromStatistics: false,
+                start: rangeQuery,
+              },
+              _count: { id: true },
+              take: 10,
+              orderBy: {
+                _count: {
+                  id: 'desc',
+                },
+              },
+            })
+          ).map(async (agg) => {
+            return {
+              count: agg._count.id,
+              ...(await prisma.usersOfTenants.findFirst({
+                where: {
+                  tenantId: context.tenant.id,
+                  user: { id: agg.creatorId },
+                },
+                select: {
+                  status: true,
+                  user: {
+                    select: {
+                      id: true,
+                      firstName: true,
+                      lastName: true,
+                      picture: true,
+                    },
+                  },
+                },
+              })),
+            };
+          })
+        );
 
         return {
           registrationCount,
           eventCount,
           organizerLeaderboard,
+          creatorLeaderboard
         };
       },
     }),

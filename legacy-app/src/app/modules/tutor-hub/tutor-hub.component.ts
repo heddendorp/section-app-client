@@ -14,7 +14,6 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   public events$: Observable<GetTutorHubEventsQuery['currentTenant']['tutorHubEvents']>;
   public eventsLoading$ = new BehaviorSubject(true);
   public searchedTutors$: Observable<GetUsersQuery['users']>;
-
   private getTutorHubEventsRef;
   
   public filterForm: UntypedFormGroup;
@@ -22,8 +21,9 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   public currentSearch = '';
   public searchLoading$ = new BehaviorSubject(false);
   private destroyed$ = new Subject();
-
   public range: { start: DateTime, end: DateTime } = this.calculateStartEnd(DateTime.now());
+
+  public leaderboardToggle = false;
 
   constructor(
     private getTutorHubInfo: GetTutorHubInfoGQL,

@@ -17,8 +17,8 @@ import { DateTime } from 'luxon';
 export class SemesterNavigatorComponent implements OnInit {
   public semesterOffset = 0;
   public semesterText = 'Current semester';
-  public start: DateTime = DateTime.now();
-  public end: DateTime = DateTime.now();
+  public start: DateTime | undefined;
+  public end: DateTime | undefined;
 
   @Input()
   calculateStartEnd!: (date: DateTime) => { start: DateTime; end: DateTime; };
@@ -55,6 +55,16 @@ export class SemesterNavigatorComponent implements OnInit {
     this.rangeEmitter.emit({
       start: this.start,
       end: this.end,
+    });
+  }
+
+  allTime() {
+    this.semesterOffset = 0;
+    this.semesterText = 'All time';
+
+    this.rangeEmitter.emit({
+      start: null,
+      end: null,
     });
   }
 }
