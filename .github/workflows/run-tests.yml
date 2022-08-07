@@ -6,7 +6,6 @@ jobs:
   cypress-run:
     name: Run Tests
     runs-on: ubuntu-latest
-    container: cypress/included:10.4.0
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.10.0
@@ -22,7 +21,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          install: false
           record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
