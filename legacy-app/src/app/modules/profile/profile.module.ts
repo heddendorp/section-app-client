@@ -13,7 +13,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
 import { EventListComponent } from './components/event-list/event-list.component';
-import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { PublicProfilePageComponent } from './pages/public-profile-page/public-profile-page.component';
 
@@ -27,7 +26,6 @@ import { PublicProfilePageComponent } from './pages/public-profile-page/public-p
     ProfilePageComponent,
     PublicProfilePageComponent,
     EventListComponent,
-    EventListItemComponent,
     ProfileCardComponent,
   ],
   imports: [

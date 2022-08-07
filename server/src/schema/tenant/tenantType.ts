@@ -3,6 +3,7 @@ import { builder } from '../../builder';
 import prisma from '../../client';
 import {
   MembershipStatus,
+  PublicationState,
   RegistrationStatus,
   RegistrationType,
 } from '../../generated/prisma';
@@ -85,10 +86,10 @@ builder.prismaObject('Tenant', {
             });
           }
         }
-        const outputArray: any[] = [];
+        const birthdayArray: any[] = [];
         birthDayMap.forEach((users, birthday: string) => {
           if (users.length > 0) {
-            outputArray.push({
+            birthdayArray.push({
               birthday,
               users,
             });
@@ -123,10 +124,38 @@ builder.prismaObject('Tenant', {
           },
         });
 
+        const newEvents = await prisma.tumiEvent.findMany({
+          where: {
+            publicationState: { not: PublicationState.DRAFT },
+            eventTemplate: {
+              tenantId: context.tenantId
+            }
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+          select: {
+            id: true,
+            icon: true,
+            title: true,
+            start: true,
+            end: true,
+            createdBy: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                picture: true,
+              }
+            }
+          }
+        });
+        console.log(newEvents)
+
         return {
           activeOrganizers,
           usersWithPositions,
-          birthdays: outputArray,
+          newEvents,
+          birthdays: birthdayArray,
         };
       },
     }),
@@ -159,6 +188,7 @@ builder.prismaObject('Tenant', {
             },
             excludeFromStatistics: false,
             start: rangeQuery,
+            publicationState: { not: PublicationState.DRAFT }
           },
         });
         const registrationCount = await prisma.eventRegistration.count({
@@ -169,6 +199,7 @@ builder.prismaObject('Tenant', {
               },
               excludeFromStatistics: false,
               start: rangeQuery,
+              publicationState: { not: PublicationState.DRAFT }
             },
             status: RegistrationStatus.SUCCESSFUL,
           },
@@ -220,8 +251,6 @@ builder.prismaObject('Tenant', {
             };
           })
         );
-
-        console.log(organizerLeaderboard);
 
         return {
           registrationCount,

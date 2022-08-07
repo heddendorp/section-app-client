@@ -14,8 +14,12 @@
   <p
     *ngIf="event.ratingPending"
     class="!text-xs !mt-0.5 text-amber-600 !font-bold"
-    mat-line
   >
     Rate now!
+  </p>
+  <p *ngIf="event.createdBy" class="!text-xs !mt-1" mat-line>    
+    <app-user-chip size="xs" [id]="event.createdBy.id" [picture]="event.createdBy.picture"
+    name="{{ event.createdBy.firstName }} {{ event.createdBy.lastName }}">
+  </app-user-chip>
   </p>
 </a>

@@ -43,6 +43,7 @@ import { RatingComponent } from './components/rating/rating.component';
 import { UserChipComponent } from './components/user-chip/user-chip.component';
 import { EventChipComponent } from './components/event-chip/event-chip.component';
 import { MatRippleModule } from '@angular/material/core';
+import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MatRippleModule } from '@angular/material/core';
     RatingComponent,
     UserChipComponent,
     EventChipComponent,
+    EventListItemComponent,
   ],
   imports: [
     RouterModule,
@@ -79,6 +81,7 @@ import { MatRippleModule } from '@angular/material/core';
     MatIconModule,
     MatInputModule,
     MatCardModule,
+    MatListModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
@@ -119,6 +122,7 @@ import { MatRippleModule } from '@angular/material/core';
     RatingComponent,
     UserChipComponent,
     EventChipComponent,
+    EventListItemComponent,
   ],
   providers: [DatePipe],
 })
