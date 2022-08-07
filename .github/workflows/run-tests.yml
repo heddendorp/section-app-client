@@ -16,8 +16,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-#      - name: Build the stack
-#        run: docker-compose up -d
+      - name: Build the stack
+        run: docker-compose up -d
 
       - name: Cypress run
         uses: cypress-io/github-action@v4
