@@ -50,9 +50,11 @@ Cypress.Commands.add(
       cy.contains('Continue').click();
       cy.get('#password').type(password);
       cy.contains('Continue').click();
-      if (cy.contains('Not now')) {
-        cy.contains('Not now').click();
-      }
+      cy.url().then((url) => {
+        if (url.includes('mfa')) {
+          cy.contains('Not now').click();
+        }
+      });
     });
     // cy.url().should('contain', '/home');
     // },
