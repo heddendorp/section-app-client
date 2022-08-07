@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 
+
 builder.queryFields((t) => ({
   tenants: t.prismaField({
     type: ['Tenant'],

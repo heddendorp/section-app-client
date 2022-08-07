@@ -36,6 +36,11 @@ const routes: Routes = [
       import('./modules/page/page.module').then((m) => m.PageModule),
   },
   {
+    path: 'tutor-hub',
+    loadChildren: () =>
+      import('./modules/tutor-hub/tutor-hub.module').then((m) => m.TutorHubModule),
+  },
+  {
     path: 'shop',
     loadChildren: () =>
       import('./modules/shop/shop.module').then((m) => m.ShopModule),

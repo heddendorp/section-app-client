@@ -571,6 +571,8 @@ type Tenant {
   privacyPolicyPage: String!
   shortName: String!
   tacPage: String
+  tutorHub: JSON!
+  tutorHubEvents(range: DateRangeInput): JSON!
   users: [UsersOfTenants!]!
 }
 

@@ -42,6 +42,7 @@ import { RateEventComponent } from './components/rate-event/rate-event.component
 import { RatingComponent } from './components/rating/rating.component';
 import { UserChipComponent } from './components/user-chip/user-chip.component';
 import { EventChipComponent } from './components/event-chip/event-chip.component';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { EventChipComponent } from './components/event-chip/event-chip.component
     ReactiveFormsModule,
     GoogleMapsModule,
     HttpClientJsonpModule,
+    MatRippleModule,
   ],
   exports: [
     DataItemsCollectorComponent,
