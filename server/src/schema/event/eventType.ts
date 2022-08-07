@@ -36,7 +36,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
-    googlePlaceUrl: t.exposeString('googlePlaceUrl', {
+    googlePlaceUrl: t.string({
       nullable: true,
       resolve: (event, args, context) => {
         if (event.googlePlaceUrl) return event.googlePlaceUrl;
