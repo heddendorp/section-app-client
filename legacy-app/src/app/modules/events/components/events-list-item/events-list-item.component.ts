@@ -6,12 +6,12 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 
 @Component({
-  selector: 'app-event-list-item',
-  templateUrl: './event-list-item.component.html',
-  styleUrls: ['./event-list-item.component.scss'],
+  selector: 'app-events-list-item',
+  templateUrl: './events-list-item.component.html',
+  styleUrls: ['./events-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventListItemComponent {
+export class EventsListItemComponent {
   @Input() public event: EventListQuery['events'][0] | null = null;
   public RegistrationMode = RegistrationMode;
   public MembershipStatus = MembershipStatus;

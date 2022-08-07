@@ -11,8 +11,8 @@ import { EventRunPageComponent } from './pages/event-run-page/event-run-page.com
 import { EventCheckinPageComponent } from './pages/event-checkin-page/event-checkin-page.component';
 import { EventReceiptsPageComponent } from './pages/event-receipts-page/event-receipts-page.component';
 import { EventHeaderComponent } from './components/event-header/event-header.component';
-import { EventListComponent } from './components/event-list/event-list.component';
-import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
+import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 import { MoveEventDialogComponent } from './components/move-event-dialog/move-event-dialog.component';
 import { QrDisplayDialogComponent } from './components/qr-display-dialog/qr-display-dialog.component';
 import { SelectOrganizerDialogComponent } from './components/select-organizer-dialog/select-organizer-dialog.component';
@@ -53,8 +53,8 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     EventCheckinPageComponent,
     EventReceiptsPageComponent,
     EventHeaderComponent,
-    EventListComponent,
-    EventListItemComponent,
+    EventsListComponent,
+    EventsListItemComponent,
     MoveEventDialogComponent,
     QrDisplayDialogComponent,
     SelectOrganizerDialogComponent,

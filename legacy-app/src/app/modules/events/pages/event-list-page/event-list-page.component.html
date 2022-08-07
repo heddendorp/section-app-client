@@ -145,10 +145,10 @@
           <mat-icon svgIcon="icon-search"></mat-icon>
         </button>
       </div>
-      <app-event-list
+      <app-events-list
         *ngIf="events$ | async as events"
         [events]="events"
-      ></app-event-list>
+      ></app-events-list>
 
       <div
         *ngIf="(events$ | async)?.length === 0"
