@@ -8,13 +8,13 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   firstValueFrom,
   map,
   Observable,
   startWith,
   Subject,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -58,33 +58,38 @@ export class EventListPageComponent implements OnDestroy {
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
 
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.events),
-      tap(() => this.loading$.next(false))
+      map(({ data }) => data.events)
     );
     this.selectedMonth.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        tap(() => this.loading$.next(true))
-      )
-      .subscribe((value) => {
-        if (value === 0) {
-          this.selectedMonthLabel = 'Upcoming Events';
-          this.startOfMonth = undefined;
-          this.endOfMonth = undefined;
-          return this.loadEventsQueryRef.refetch({
-            after: new Date(),
-            before: null,
+        map((value) => {
+          this.loading$.next(true);
+          if (value === 0) {
+            this.selectedMonthLabel = 'Upcoming Events';
+            this.startOfMonth = undefined;
+            this.endOfMonth = undefined;
+            return {
+              after: new Date(),
+              before: null,
+            };
+          }
+          this.startOfMonth = DateTime.fromObject({
+            year: this.selectedMonth.value.year,
+            month: this.selectedMonth.value.month,
           });
-        }
-        this.startOfMonth = DateTime.fromObject({
-          year: this.selectedMonth.value.year,
-          month: this.selectedMonth.value.month,
-        });
-        this.endOfMonth = this.startOfMonth.endOf('month');
-        this.selectedMonthLabel = this.startOfMonth.toFormat('LLLL yyyy');
-        return this.loadEventsQueryRef.refetch({
-          after: this.startOfMonth.startOf('week').toJSDate(),
-          before: this.endOfMonth.endOf('week').toJSDate(),
+          this.endOfMonth = this.startOfMonth.endOf('month');
+          this.selectedMonthLabel = this.startOfMonth.toFormat('LLLL yyyy');
+          return {
+            after: this.startOfMonth.startOf('week').toJSDate(),
+            before: this.endOfMonth.endOf('week').toJSDate(),
+          };
+        }),
+        debounceTime(500)
+      )
+      .subscribe((parameters: any) => {
+        return this.loadEventsQueryRef.refetch(parameters).then(() => {
+          this.loading$.next(false);
         });
       });
 
@@ -109,6 +114,7 @@ export class EventListPageComponent implements OnDestroy {
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
       map(([events, hideFull, filterEvents]) => {
+        this.loading$.next(false);
         let filteredEvents = events;
         if (hideFull) {
           filteredEvents = events.filter(

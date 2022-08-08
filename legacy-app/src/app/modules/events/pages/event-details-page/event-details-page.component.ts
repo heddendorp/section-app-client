@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -26,7 +20,6 @@ import {
   RegisterForEventGQL,
   RegistrationMode,
   RegistrationType,
-  Role,
   SubmitEventFeedbackGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
@@ -51,13 +44,12 @@ export class EventDetailsPageComponent implements OnDestroy {
   public eventOver$: Observable<boolean>;
   public eventStarted$: Observable<boolean>;
   public hasAccount$: Observable<boolean>;
+  public isAdmin$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
   public ratingExpanded$ = new BehaviorSubject(false);
-  @ViewChild('rater')
-  private raterRef: ElementRef | undefined;
 
   constructor(
     private title: Title,
@@ -112,6 +104,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       map(({ data }) => !!data.currentUser),
       shareReplay(1)
     );
+    this.isAdmin$ = permissions.isAdmin();
 
     if (router.url.includes('checkin')) {
       this.showCode();

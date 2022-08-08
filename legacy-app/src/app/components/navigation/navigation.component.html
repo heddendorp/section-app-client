@@ -60,21 +60,21 @@
         <!--        </a>-->
         <a
           mat-list-item
+          routerLink="tutor-hub"
+          routerLinkActive="active"
+          *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+        >
+          <mat-icon svgIcon="icon-hub"></mat-icon>
+          <span>Tutor Hub</span>
+        </a>
+        <a
+          mat-list-item
           routerLink="event-templates"
           routerLinkActive="active"
           *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
         >
           <mat-icon svgIcon="icon-template"></mat-icon>
           <span>Event Templates</span>
-        </a>
-        <a
-          mat-list-item
-          href="https://esntumi.sharepoint.com/:f:/s/Board/EqlZb4OcQgNArN8drmSYCKMBAe9OxW7iaYjHmQl6J-bg5A?e=rALt2f"
-          target="_blank"
-          *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
-        >
-          <mat-icon svgIcon="icon-user-manual"></mat-icon>
-          <span>Tutor Guide</span>
         </a>
         <a
           mat-list-item

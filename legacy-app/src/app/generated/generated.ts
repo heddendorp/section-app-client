@@ -844,6 +844,7 @@ export type QueryUserSearchResultNumArgs = {
 
 
 export type QueryUsersArgs = {
+  emptyOnEmptySearch?: InputMaybe<Scalars['Boolean']>;
   onlyWithPurchase?: InputMaybe<Scalars['Boolean']>;
   pageIndex?: InputMaybe<Scalars['Int']>;
   pageLength?: InputMaybe<Scalars['Int']>;
@@ -982,7 +983,14 @@ export type Tenant = {
   privacyPolicyPage: Scalars['String'];
   shortName: Scalars['String'];
   tacPage?: Maybe<Scalars['String']>;
+  tutorHub: Scalars['JSON'];
+  tutorHubEvents: Scalars['JSON'];
   users: Array<UsersOfTenants>;
+};
+
+
+export type TenantTutorHubEventsArgs = {
+  range?: InputMaybe<DateRangeInput>;
 };
 
 export type Transaction = {
@@ -1267,6 +1275,18 @@ export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+
+export type GetTutorHubInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTutorHubInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, tutorHub: any } };
+
+export type GetTutorHubEventsQueryVariables = Exact<{
+  range?: InputMaybe<DateRangeInput>;
+}>;
+
+
+export type GetTutorHubEventsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, tutorHubEvents: any } };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -1835,10 +1855,11 @@ export type GetUsersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   pageIndex?: InputMaybe<Scalars['Int']>;
   pageLength?: InputMaybe<Scalars['Int']>;
+  emptyOnEmptySearch?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', userSearchResultNum: number, users: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, email: string, position?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null }> };
 
 export type GetStatisticsQueryVariables = Exact<{
   range?: InputMaybe<DateRangeInput>;
@@ -1937,6 +1958,45 @@ export const GetTenantInfoDocument = gql`
   })
   export class GetTenantInfoGQL extends Apollo.Query<GetTenantInfoQuery, GetTenantInfoQueryVariables> {
     override document = GetTenantInfoDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetTutorHubInfoDocument = gql`
+    query getTutorHubInfo {
+  currentTenant {
+    id
+    name
+    tutorHub
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetTutorHubInfoGQL extends Apollo.Query<GetTutorHubInfoQuery, GetTutorHubInfoQueryVariables> {
+    override document = GetTutorHubInfoDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetTutorHubEventsDocument = gql`
+    query getTutorHubEvents($range: DateRangeInput) {
+  currentTenant {
+    id
+    tutorHubEvents(range: $range)
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetTutorHubEventsGQL extends Apollo.Query<GetTutorHubEventsQuery, GetTutorHubEventsQueryVariables> {
+    override document = GetTutorHubEventsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4614,17 +4674,19 @@ export const GetOrganizersDocument = gql`
     }
   }
 export const GetUsersDocument = gql`
-    query getUsers($roleList: [Role!], $statusList: [MembershipStatus!], $search: String, $pageIndex: Int, $pageLength: Int) {
+    query getUsers($roleList: [Role!], $statusList: [MembershipStatus!], $search: String, $pageIndex: Int, $pageLength: Int, $emptyOnEmptySearch: Boolean) {
   users(
     roleList: $roleList
     statusList: $statusList
     search: $search
     pageIndex: $pageIndex
     pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
   ) {
     id
     firstName
     lastName
+    fullName
     email
     position
     picture

@@ -199,6 +199,7 @@ query getUsers(
   $search: String
   $pageIndex: Int
   $pageLength: Int
+  $emptyOnEmptySearch: Boolean
 ) {
   users(
     roleList: $roleList
@@ -206,10 +207,12 @@ query getUsers(
     search: $search
     pageIndex: $pageIndex
     pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
   ) {
     id
     firstName
     lastName
+    fullName
     email
     position
     picture
