@@ -149,6 +149,9 @@ const graphQLServer = createServer({
       if (tenantName === 'beta') {
         tenantName = 'tumi';
       }
+      if (tenantName === 'experiments') {
+        tenantName = 'tumi';
+      }
       if (tenantName === 'dev') {
         tenantName = 'tumi';
       }
