@@ -249,11 +249,9 @@ app.use('/go', shortRouter());
 app.use('/graphql', graphQLServer);
 app.use(socialRouter);
 app.get('/metrics', async (_, res) => {
-  console.log('Getting metrics');
   const metrics = await prisma.$metrics.json({
     globalLabels: { app_version: process.env.VERSION ?? 'development' },
   });
-  console.log(metrics);
   res.send(metrics);
 });
 app.get('/prom-metrics', async (_, res) => {
