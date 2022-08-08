@@ -42,7 +42,7 @@
     "@angular/compiler-cli": "^14.1.1",
     "@graphql-codegen/cli": "^2.11.3",
     "@graphql-codegen/typescript-apollo-angular": "^3.5.2",
-    "@graphql-codegen/typescript-operations": "^2.5.2",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
     "@tailwindcss/typography": "^0.5.4",
     "@types/jasmine": "~4.0.3",
     "@types/luxon": "^3.0.0",
