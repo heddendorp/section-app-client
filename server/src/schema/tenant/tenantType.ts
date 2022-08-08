@@ -28,7 +28,7 @@ builder.prismaObject('Tenant', {
       type: 'JSON',
       authScopes: { member: true },
       unauthorizedResolver: () => {},
-      resolve: async (query, tenant, args, context) => {
+      resolve: async (tenant, args, context) => {
         const activeOrganizerIds = (
           await prisma.eventRegistration.groupBy({
             by: ['userId'],
@@ -128,7 +128,7 @@ builder.prismaObject('Tenant', {
           where: {
             publicationState: { not: PublicationState.DRAFT },
             eventTemplate: {
-              tenantId: context.tenantId,
+              tenantId: tenant.id,
             },
           },
           orderBy: { createdAt: 'desc' },
@@ -156,7 +156,7 @@ builder.prismaObject('Tenant', {
           usersWithPositions,
           newEvents,
           birthdays: birthdayArray,
-        };
+        } as any;
       },
     }),
 
@@ -165,7 +165,7 @@ builder.prismaObject('Tenant', {
       args: {
         range: t.arg({ type: dateRangeInputType }),
       },
-      resolve: async (query, { range }, context, info) => {
+      resolve: async (root, { range }, context, info) => {
         let rangeQuery: { gte?: Date; lte?: Date } = {};
         if (range) {
           if (range.start) {
@@ -300,7 +300,7 @@ builder.prismaObject('Tenant', {
           eventCount,
           organizerLeaderboard,
           creatorLeaderboard,
-        };
+        } as any;
       },
     }),
   }),
