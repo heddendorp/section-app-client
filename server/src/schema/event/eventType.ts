@@ -662,7 +662,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
 
         let template = fs
           .readFileSync(
-            __dirname + '..\\..\\assets' + '\\mailTemplate.mjml',
+            __dirname + '\\..\\..\\assets' + '\\mailTemplate.mjml',
             'utf8'
           )
           .replaceAll('%title%', event.title)
