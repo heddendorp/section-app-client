@@ -7,7 +7,8 @@ import { InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TenantHeaderInterceptor } from './tenant-header.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,11 @@ import { HttpClientModule } from '@angular/common/http';
         };
       },
       deps: [HttpLink],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TenantHeaderInterceptor,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],
