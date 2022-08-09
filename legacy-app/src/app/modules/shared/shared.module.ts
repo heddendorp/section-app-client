@@ -44,6 +44,7 @@ import { UserChipComponent } from './components/user-chip/user-chip.component';
 import { EventChipComponent } from './components/event-chip/event-chip.component';
 import { MatRippleModule } from '@angular/material/core';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { EventListItemComponent } from './components/event-list-item/event-list-
     GoogleMapsModule,
     HttpClientJsonpModule,
     MatRippleModule,
+    MatTooltipModule,
   ],
   exports: [
     DataItemsCollectorComponent,

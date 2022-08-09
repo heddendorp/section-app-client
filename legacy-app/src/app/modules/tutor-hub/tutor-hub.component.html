@@ -171,6 +171,7 @@
           *ngFor="let tenantUser of tutorHubData.activeOrganizers"
           size="fit"
           [id]="tenantUser.user.id"
+          name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
           [picture]="tenantUser.user.picture"
         >
         </app-user-chip>
