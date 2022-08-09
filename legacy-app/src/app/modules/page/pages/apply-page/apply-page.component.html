@@ -179,11 +179,13 @@
               class="flex flex-col sm:flex-row gap-8 sm:gap-16 justify-center my-2"
             >
               <div>
-                <div class="counter">220+</div>
+                <div class="counter" *ngIf="(events$ | async) === null">220+</div>
+                <div class="counter" *ngIf="events$ | async as events">{{ events.eventCount }}</div>
                 <div class="text-sm">Events</div>
               </div>
               <div>
-                <div class="counter">7800+</div>
+                <div class="counter" *ngIf="(events$ | async) === null">7800+</div>
+                <div class="counter" *ngIf="events$ | async as events">{{ events.registrationCount }}</div>
                 <div class="text-sm">Teilnehmer</div>
               </div>
             </div>
