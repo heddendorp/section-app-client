@@ -8,11 +8,12 @@
   <div class="picture-container relative" *ngIf="picture">
     <img
       [src]="picture"
-      class="picture rounded-full bg-white z-10 {{
+      class="picture rounded-full z-10 {{
         status | lowercase
-      }} bg-gray-200"
+      }} bg-gray-100"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
+      onerror="this.src='assets/images/defaultUser.jpg'"
     />
     <ng-container *ngIf="checkedIn !== null">
       <mat-icon

@@ -21,11 +21,12 @@
     </div>
     <img
       [src]="profile.picture"
-      class="picture rounded-full h-[128px] w-[128px] border-white bg-white border-[3px] z-10 {{
+      class="picture rounded-full h-[128px] w-[128px] border-white border-[3px] z-10 {{
         profile.currentTenant?.status | lowercase
-      }} bg-gray-200"
+      }}"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
+      onerror="this.src='assets/images/defaultUser.jpg'"
     />
     <div class="text-3xl font-bold mt-4">{{ profile.fullName }}</div>
     <div
