@@ -4,10 +4,10 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
     ></a>
     <div fxFlex="grow"></div>
-    <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator">
+    <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator || event.userIsOrganizer">
       <mat-icon svgIcon="icon-edit"></mat-icon
     ></a>
-    <div *ngIf="!event.userIsCreator">
+    <div *ngIf="!(event.userIsCreator || event.userIsOrganizer)">
       <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
         <mat-icon svgIcon="icon-edit"></mat-icon
       ></a>
