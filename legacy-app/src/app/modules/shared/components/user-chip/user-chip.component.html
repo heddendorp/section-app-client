@@ -28,7 +28,10 @@
       </ng-template>
     </ng-container>
   </div>
-  <div class="name-container flex flex-col max-w-[16em]" *ngIf="name && size !== 'fit'">
+  <div
+    class="name-container flex flex-col max-w-[16em]"
+    *ngIf="name && size !== 'fit'"
+  >
     <div class="name whitespace-nowrap text-ellipsis overflow-hidden">
       <span>{{ name }}</span>
       <span
