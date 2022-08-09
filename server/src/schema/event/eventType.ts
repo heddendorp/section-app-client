@@ -259,6 +259,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
+        includePending: t.arg.boolean({ defaultValue: true }),
         includeNoShows: t.arg.boolean({ defaultValue: true }),
       },
       query: (args, context) => {
@@ -268,9 +269,13 @@ export const eventType = builder.prismaObject('TumiEvent', {
         return {
           where: {
             type: RegistrationType.PARTICIPANT,
-            ...(args.includeCancelled
-              ? {}
-              : { status: { not: RegistrationStatus.CANCELLED } }),
+            status: {
+              in: [
+                RegistrationStatus.SUCCESSFUL,
+                ...(args.includeCancelled ? [RegistrationStatus.CANCELLED] : []),
+                ...(args.includePending ? [RegistrationStatus.PENDING] : [])
+              ]
+            },
             ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
           },
           orderBy: [

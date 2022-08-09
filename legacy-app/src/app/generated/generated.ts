@@ -1110,6 +1110,7 @@ export type TumiEventOwnRegistrationsArgs = {
 export type TumiEventParticipantRegistrationsArgs = {
   includeCancelled?: InputMaybe<Scalars['Boolean']>;
   includeNoShows?: InputMaybe<Scalars['Boolean']>;
+  includePending?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -2710,7 +2711,7 @@ export const LoadEventForRunningDocument = gql`
         id
       }
     }
-    participantRegistrations {
+    participantRegistrations(includePending: false) {
       id
       checkInTime
       transaction {
