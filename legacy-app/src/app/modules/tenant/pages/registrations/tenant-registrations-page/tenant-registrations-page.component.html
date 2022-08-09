@@ -12,10 +12,10 @@
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <app-event-chip
-        [id]="element.event.id"
-        [icon]="element.event.icon"
-        [title]="element.event.title"
-      ></app-event-chip>
+          [id]="element.event.id"
+          [icon]="element.event.icon"
+          [title]="element.event.title"
+        ></app-event-chip>
       </mat-cell>
     </ng-container>
 
@@ -24,13 +24,13 @@
       <mat-cell *matCellDef="let element">
         <div class="p-0.5">
           <app-user-chip
-          size="sm"
-          [id]="element.user.id"
-          [picture]="element.user.picture"
-          [name]="element.user.fullName"
-          [status]="element.user.currentTenant?.status + ''"
-        >
-        </app-user-chip>
+            size="sm"
+            [id]="element.user.id"
+            [picture]="element.user.picture"
+            [name]="element.user.fullName"
+            [status]="element.user.currentTenant?.status + ''"
+          >
+          </app-user-chip>
         </div>
       </mat-cell>
     </ng-container>
