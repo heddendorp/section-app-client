@@ -466,21 +466,19 @@ export const eventType = builder.prismaObject('TumiEvent', {
       },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
-        return prisma.user.findMany({
-          ...query,
-          where: {
-            eventRegistrations: {
-              some: {
-                event: { id: parent.id },
-                type: RegistrationType.ORGANIZER,
-                status: { not: RegistrationStatus.CANCELLED },
-              },
-            },
+        return (await prisma.eventRegistration.findMany({
+          where: {            
+            event: { id: parent.id },
+            type: RegistrationType.ORGANIZER,
+            status: { not: RegistrationStatus.CANCELLED },
           },
           orderBy: {
-            lastName: 'asc',
+            createdAt: 'asc',
           },
-        });
+          include: {
+            user: true
+          }
+        })).map(r => r.user);
       },
     }),
     couldBeOrganizer: t.boolean({
