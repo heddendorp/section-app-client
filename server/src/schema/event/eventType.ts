@@ -272,9 +272,11 @@ export const eventType = builder.prismaObject('TumiEvent', {
             status: {
               in: [
                 RegistrationStatus.SUCCESSFUL,
-                ...(args.includeCancelled ? [RegistrationStatus.CANCELLED] : []),
-                ...(args.includePending ? [RegistrationStatus.PENDING] : [])
-              ]
+                ...(args.includeCancelled
+                  ? [RegistrationStatus.CANCELLED]
+                  : []),
+                ...(args.includePending ? [RegistrationStatus.PENDING] : []),
+              ],
             },
             ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
           },
