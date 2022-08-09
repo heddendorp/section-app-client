@@ -12,17 +12,18 @@
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <app-event-chip
-          [id]="element.event.id"
-          [icon]="element.event.icon"
-          [title]="element.event.title"
-        ></app-event-chip>
+        [id]="element.event.id"
+        [icon]="element.event.icon"
+        [title]="element.event.title"
+      ></app-event-chip>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="user">
       <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <app-user-chip
+        <div class="p-0.5">
+          <app-user-chip
           size="sm"
           [id]="element.user.id"
           [picture]="element.user.picture"
@@ -30,6 +31,7 @@
           [status]="element.user.currentTenant?.status + ''"
         >
         </app-user-chip>
+        </div>
       </mat-cell>
     </ng-container>
 
@@ -44,7 +46,7 @@
       <mat-header-cell *matHeaderCellDef>Payment Status</mat-header-cell>
       <mat-cell *matCellDef="let element">
         {{ element.transaction?.stripePayment?.status }}
-        <span *ngIf="!element.transaction">No transaction</span>
+        <span *ngIf="!element.transaction">–</span>
       </mat-cell>
     </ng-container>
 
