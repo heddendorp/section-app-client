@@ -8,7 +8,7 @@
     *ngIf="purchases$ | async as purchases"
     mat-table
     [dataSource]="purchases"
-    class="w-full"
+    class="w-fit sm:w-full"
   >
     <ng-container matColumnDef="event">
       <th mat-header-cell *matHeaderCellDef>Event</th>

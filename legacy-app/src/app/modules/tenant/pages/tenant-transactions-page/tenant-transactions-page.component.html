@@ -43,7 +43,7 @@
     *ngIf="transactions$ | async as users"
     mat-table
     [dataSource]="users"
-    class="w-full"
+    class="w-fit sm:w-full"
   >
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>User Name</th>

@@ -6,7 +6,7 @@
   <mat-table
     *ngIf="registrations$ | async as registrations"
     [dataSource]="registrations"
-    class="w-full"
+    class="w-fit sm:w-full"
   >
     <ng-container matColumnDef="event">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
