@@ -26,7 +26,7 @@ export class TenantEditPageComponent {
     private fb: UntypedFormBuilder,
     private updateTenant: UpdateTenantGQL,
     private loadTenant: GetTenantForEditGQL,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {
     this.editForm = this.fb.group({
       imprintPage: ['', Validators.required],
@@ -59,7 +59,7 @@ export class TenantEditPageComponent {
           },
         })
         .toPromise();
-        this.snackBar.open('Tenant saved ✔️');
+      this.snackBar.open('Tenant saved ✔️');
     }
   }
 }

@@ -657,7 +657,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
           icon ?? 'cancel-2'
         }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
 
-        const date = DateTime.fromJSDate(event.start).setLocale('en-US').setZone('Europe/Berlin');
+        const date = DateTime.fromJSDate(event.start)
+          .setLocale('en-US')
+          .setZone('Europe/Berlin');
         const intro = `Hi,<br/>thank you for signing up for the event on ${date.weekdayLong}!`;
 
         let template = fs
