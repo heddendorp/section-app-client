@@ -101,7 +101,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
     "prettier": "^2.7.1",
-    "prisma": "^4.2.0",
+    "prisma": "^4.2.1",
     "prisma-dbml-generator": "^0.9.1",
     "rimraf": "^3.0.2",
     "rrule": "^2.7.1",
