@@ -1,6 +1,7 @@
 <a
   matRipple
   [routerLink]="'/profile/' + id"
+  [matTooltip]="size === 'fit' ? name : ''"
   class="chip {{ size }} {{
     status | lowercase
   }} box-border inline-flex flex-row items-center {{ picture ? '' : 'pl-1' }}"
@@ -8,11 +9,10 @@
   <div class="picture-container relative" *ngIf="picture">
     <img
       [src]="picture"
-      class="picture rounded-full bg-white z-10 {{
-        status | lowercase
-      }} bg-gray-200"
+      class="picture rounded-full z-10 {{ status | lowercase }} bg-white"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
+      onerror="this.src='assets/images/defaultUser.jpg'"
     />
     <ng-container *ngIf="checkedIn !== null">
       <mat-icon
@@ -28,7 +28,10 @@
       </ng-template>
     </ng-container>
   </div>
-  <div class="name-container flex flex-col max-w-[16em]" *ngIf="name">
+  <div
+    class="name-container flex flex-col max-w-[16em]"
+    *ngIf="name && size !== 'fit'"
+  >
     <div class="name whitespace-nowrap text-ellipsis overflow-hidden">
       <span>{{ name }}</span>
       <span

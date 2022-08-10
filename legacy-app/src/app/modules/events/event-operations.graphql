@@ -218,7 +218,7 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
-    participantRegistrations {
+    participantRegistrations(includePending: false) {
       id
       checkInTime
       transaction {

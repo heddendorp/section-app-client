@@ -69,7 +69,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
       search: [''],
     });
     this.loadUsersReference = this.loadUsers.watch({
-      pageLength: 5,
+      pageLength: 20,
       pageIndex: 0,
       statusList: [
         MembershipStatus.Full,
