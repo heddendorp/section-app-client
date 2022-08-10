@@ -57,9 +57,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set outputs
-        id: vars
-        run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
+#      - name: Set outputs
+#        id: vars
+#        run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
 
       - name: Set output
         id: vars

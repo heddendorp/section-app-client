@@ -62,9 +62,9 @@ jobs:
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
 
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=sha_short::${GITHUB_REF#refs/*/}
+#      - name: Set output
+#        id: vars
+#        run: echo ::set-output name=sha_short::${GITHUB_REF#refs/*/}
 
       - name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
