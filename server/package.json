@@ -62,7 +62,7 @@
     "marked": "^4.0.18",
     "mjml": "^4.13.0",
     "node-cron": "^3.0.1",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.2.10",
     "pdf2pic": "^2.1.4",
     "prom-client": "^14.0.1",
     "qrcode": "^1.5.1",
