@@ -259,6 +259,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
+        includePending: t.arg.boolean({ defaultValue: true }),
         includeNoShows: t.arg.boolean({ defaultValue: true }),
       },
       query: (args, context) => {
@@ -268,9 +269,15 @@ export const eventType = builder.prismaObject('TumiEvent', {
         return {
           where: {
             type: RegistrationType.PARTICIPANT,
-            ...(args.includeCancelled
-              ? {}
-              : { status: { not: RegistrationStatus.CANCELLED } }),
+            status: {
+              in: [
+                RegistrationStatus.SUCCESSFUL,
+                ...(args.includeCancelled
+                  ? [RegistrationStatus.CANCELLED]
+                  : []),
+                ...(args.includePending ? [RegistrationStatus.PENDING] : []),
+              ],
+            },
             ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
           },
           orderBy: [
@@ -466,21 +473,21 @@ export const eventType = builder.prismaObject('TumiEvent', {
       },
       unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
-        return prisma.user.findMany({
-          ...query,
-          where: {
-            eventRegistrations: {
-              some: {
-                event: { id: parent.id },
-                type: RegistrationType.ORGANIZER,
-                status: { not: RegistrationStatus.CANCELLED },
-              },
+        return (
+          await prisma.eventRegistration.findMany({
+            where: {
+              event: { id: parent.id },
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
             },
-          },
-          orderBy: {
-            lastName: 'asc',
-          },
-        });
+            orderBy: {
+              createdAt: 'asc',
+            },
+            include: {
+              user: true,
+            },
+          })
+        ).map((r) => r.user);
       },
     }),
     couldBeOrganizer: t.boolean({
@@ -657,7 +664,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
           icon ?? 'cancel-2'
         }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
 
-        const date = DateTime.fromJSDate(event.start).setLocale('en-US');
+        const date = DateTime.fromJSDate(event.start)
+          .setLocale('en-US')
+          .setZone('Europe/Berlin');
         const intro = `Hi,<br/>thank you for signing up for the event on ${date.weekdayLong}!`;
 
         let template = fs

@@ -653,7 +653,7 @@ type TumiEvent {
   participantRatingCount: Int
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
-  participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true): [EventRegistration!]!
+  participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true, includePending: Boolean = true): [EventRegistration!]!
   participantSignup: [String!]!
   participantText: String!
   participantsAttended: Int!

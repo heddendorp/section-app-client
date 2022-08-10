@@ -16,11 +16,18 @@
   }
 }
 
+.fit {
+  @apply w-full rounded-full;
+  .picture-container {
+    @apply w-full;
+  }
+}
+
 .xs {
   @apply h-5 leading-5 rounded-[20px] items-stretch;
 
   .name-container {
-    @apply ml-0.5 mr-1;
+    @apply ml-[0.18em] mr-1;
   }
 }
 
