@@ -15,7 +15,7 @@ describe('The event details page', () => {
     it('should not show the info for participants', () => {
       cy.get('app-event-details-page')
         .contains('Info for participants')
-        .should('not.be.visible');
+        .should('not.exist');
     });
     it('should not show the manage button', () => {
       cy.get('[routerlink="manage"]').should('not.exist');

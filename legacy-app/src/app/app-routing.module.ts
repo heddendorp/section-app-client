@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
+import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
 
 const routes: Routes = [
   { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
@@ -13,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'event-templates',
-    canLoad: [AuthGuard],
+    canLoad: [AuthGuard, MemberGuard],
     loadChildren: () =>
       import('./modules/event-templates/event-templates.module').then(
         (m) => m.EventTemplatesModule
