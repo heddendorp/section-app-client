@@ -38,7 +38,7 @@ export const calendarRouter = () => {
             title: event.location,
             geo: {
               lat: event.coordinates?.lat,
-              lon: event.coordinates?.lon && event.coordinates?.lng,
+              lon: event.coordinates?.lon ?? event.coordinates?.lng,
             },
           },
         };
@@ -98,7 +98,10 @@ export const calendarRouter = () => {
         addon = {
           location: {
             title: event.location,
-            geo: { lat: event.coordinates?.lat, lon: event.coordinates?.lon },
+            geo: {
+              lat: event.coordinates?.lat,
+              lon: event.coordinates?.lon ?? event.coordinates?.lng,
+            },
           },
         };
       }
