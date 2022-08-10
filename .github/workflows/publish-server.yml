@@ -62,6 +62,10 @@ jobs:
         id: vars
         run: echo "::set-output name=sha_short::sha-$(git rev-parse --short HEAD)"
 
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=sha_short::${GITHUB_REF#refs/*/}
+
       - name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
 
@@ -100,6 +104,8 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
             type=sha
 
       - uses: satackey/action-docker-layer-caching@v0.0.11
