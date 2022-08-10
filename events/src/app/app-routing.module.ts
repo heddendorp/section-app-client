@@ -32,7 +32,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
-  { path: 'invite', loadChildren: () => import('./modules/invite/invite.module').then(m => m.InviteModule) },
+  {
+    path: 'invite',
+    loadChildren: () =>
+      import('./modules/invite/invite.module').then((m) => m.InviteModule),
+  },
 ];
 
 @NgModule({
