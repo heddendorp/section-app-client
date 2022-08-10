@@ -1,3 +1,29 @@
+# [4.3.0](https://github.com/heddendorp/tumi/compare/4.2.1...4.3.0) (2022-08-10)
+
+
+### Bug Fixes
+
+* **legacy-app:** Always show info for participants to admins [#37](https://github.com/heddendorp/tumi/issues/37) ([#316](https://github.com/heddendorp/tumi/issues/316)) ([939260c](https://github.com/heddendorp/tumi/commit/939260c10ee0929332e095ab4b04cae4ba13170f))
+* **legacy-app:** Minor fixes and tweaks ([#324](https://github.com/heddendorp/tumi/issues/324)) ([80c5b49](https://github.com/heddendorp/tumi/commit/80c5b498cd15bd1d0ca2c9dbd8c7ad195212ec00)), closes [#83](https://github.com/heddendorp/tumi/issues/83) [#71](https://github.com/heddendorp/tumi/issues/71) [#253](https://github.com/heddendorp/tumi/issues/253)
+* **legacy-app:** voting component naming ([5445a9e](https://github.com/heddendorp/tumi/commit/5445a9ee621ed5374feb96ace25ab7fb7517b357))
+* **server:** allow setting of tenant via header ([c7c754d](https://github.com/heddendorp/tumi/commit/c7c754d800ac2de38bc13adc50f9540d8fbaeab3))
+* **server:** correct path for the mail template ([ed81dc7](https://github.com/heddendorp/tumi/commit/ed81dc771de54477a084c2bf1881246d8cb7daa0))
+* **server:** fix type errors ([6417d27](https://github.com/heddendorp/tumi/commit/6417d279d2f3bc88d1630f1975979d73526b3517))
+* **server:** fix type errors ([bf48e0e](https://github.com/heddendorp/tumi/commit/bf48e0eec49c847a08642d88e0601c0dea1e2b0b))
+* **server:** Fix type issues ([bb3952a](https://github.com/heddendorp/tumi/commit/bb3952a33e92020591a677871ad88add10b08c93))
+* **server:** make sure experiments work ([d61163b](https://github.com/heddendorp/tumi/commit/d61163be9df15296b86bfd9ad8ae61037a8f1afb))
+* **server:** rollback node upgrade ([a14581c](https://github.com/heddendorp/tumi/commit/a14581c90a382e062e0055aac4b5962084cbc2cd))
+
+
+### Features
+
+* **legacy-app:** Email templates ([#315](https://github.com/heddendorp/tumi/issues/315)) ([7220d02](https://github.com/heddendorp/tumi/commit/7220d0220a7157c73a092af81a1b1b80026814ba)), closes [#82](https://github.com/heddendorp/tumi/issues/82)
+* **legacy-app:** User profiles rework ([#314](https://github.com/heddendorp/tumi/issues/314)) ([704990c](https://github.com/heddendorp/tumi/commit/704990cad29ea6222d6f82bf30d45905e5855bf2)), closes [#113](https://github.com/heddendorp/tumi/issues/113) [#126](https://github.com/heddendorp/tumi/issues/126) [#113](https://github.com/heddendorp/tumi/issues/113)
+* set up e2e testing ([#317](https://github.com/heddendorp/tumi/issues/317)) ([540a130](https://github.com/heddendorp/tumi/commit/540a130640e5e109e84dbeba1f2a052a32d8cc00))
+* Tutor hub [#271](https://github.com/heddendorp/tumi/issues/271) ([#319](https://github.com/heddendorp/tumi/issues/319)) ([4920d52](https://github.com/heddendorp/tumi/commit/4920d52709cfdf36a0e06e0e674de742e1524b67)), closes [#187](https://github.com/heddendorp/tumi/issues/187)
+
+
+
 ## [4.2.1](https://github.com/heddendorp/tumi/compare/v4.2.0...v4.2.1) (2022-08-04)
 
 ### Bug Fixes
