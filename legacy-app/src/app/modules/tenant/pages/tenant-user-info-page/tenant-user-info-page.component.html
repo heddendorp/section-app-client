@@ -1,6 +1,5 @@
 <mat-progress-bar
-  class="!absolute"
-  mode="indeterminate"
+    mode="indeterminate"
   *ngIf="(user$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">

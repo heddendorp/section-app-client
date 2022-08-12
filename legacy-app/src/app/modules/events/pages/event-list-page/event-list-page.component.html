@@ -18,14 +18,13 @@
   </button>
 </mat-toolbar>
 <mat-progress-bar
-  class="!absolute"
-  mode="indeterminate"
+    mode="indeterminate"
   *ngIf="loading$ | async"
 ></mat-progress-bar>
 <div class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer" routerLink="/page/apply">
   <div class="flex items-center justify-between flex-wrap">
     <div class="w-0 flex-1 flex items-center">
-      <span class="flex p-2 rounded-lg bg-indigo-800 text-white">
+      <span class="flex p-2 rounded-lg bg-indigo-700 text-white">
         <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>        
       </span>
       <p class="ml-3 font-medium text-white truncate">

@@ -310,4 +310,9 @@ $tumi-dark-theme: mat.define-dark-theme(
     background: white !important;
     @apply shadow-sm;
   }
+  mat-progress-bar {
+    position: absolute !important;
+    z-index: 1000 !important;
+    @apply sm:max-w-[calc(100vw-96px)];
+  }
 }

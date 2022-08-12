@@ -1,7 +1,5 @@
 <mat-progress-bar
-  class="!absolute"
-  mode="indeterminate"
-  *ngIf="(profile$ | async) === null"
+    mode="indeterminate"
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
   <app-profile-card
@@ -180,8 +178,45 @@
     >
       <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
       Logout
-    </button>
-    
+    </button>    
   </div>
-  
+  <div
+    class="w-full flex items-center justify-center gap-6 text-base text-slate-500 mb-4"
+  >
+    <a
+      href="https://t.me/+PtNU9JqOE19lZjMy"
+      target="_blank"
+      class="hover:text-slate-400"
+    >
+      <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+    </a>
+    <a
+      href="https://www.instagram.com/tumi.esn/"
+      target="_blank"
+      class="hover:text-slate-400"
+    >
+      <mat-icon svgIcon="icon-instagram-new"></mat-icon>
+    </a>
+    <a
+      href="https://www.youtube.com/channel/UCkzJDWIa9J6OqsvZXuGsh9w"
+      target="_blank"
+      class="hover:text-slate-400"
+    >
+      <mat-icon svgIcon="icon-youtube-play"></mat-icon>
+    </a>
+    <a
+      href="https://www.facebook.com/esntumi.munchen"
+      target="_blank"
+      class="hover:text-slate-400"
+    >
+      <mat-icon svgIcon="icon-facebook-new-2"></mat-icon>
+    </a>
+    <a
+      href="https://github.com/heddendorp/tumi"
+      target="_blank"
+      class="hover:text-slate-400"
+    >
+      <mat-icon svgIcon="icon-github"></mat-icon>
+    </a>
+  </div>
 </main>

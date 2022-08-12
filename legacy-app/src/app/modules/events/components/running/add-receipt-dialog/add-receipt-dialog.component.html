@@ -14,8 +14,7 @@
       <img [src]="url" class="max-h-full" />
     </div>
     <mat-progress-bar
-  class="!absolute"
-      *ngIf="uploadProgress$ | async"
+        *ngIf="uploadProgress$ | async"
       mode="determinate"
       [value]="uploadProgress$ | async"
     ></mat-progress-bar>
