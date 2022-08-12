@@ -4,16 +4,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          default: '#0053db',
+          default: '#4f46e5',
           on: '#ffffff',
-          container: '#dae1ff',
-          onContainer: '#00164d',
+          container: '#f3f4f6',
+          onContainer: '#312e81',
         },
         secondary: {
           default: '#585e71',
           on: '#ffffff',
-          container: '#dde1f9',
-          onContainer: '#161b2c',
+          container: '#ffffff',
+          onContainer: '#111827',
           defaultDark: '#c1c6dd',
           onDark: '#2b3042',
           containerDark: '#414659',

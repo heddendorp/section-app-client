@@ -12,6 +12,7 @@ on:
   push:
     branches:
       - main
+      - design
 #    # Publish semver tags as releases.
 #    tags: ['v*.*.*']
     paths:

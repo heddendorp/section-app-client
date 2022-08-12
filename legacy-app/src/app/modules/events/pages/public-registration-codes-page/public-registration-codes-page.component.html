@@ -1,9 +1,14 @@
+<mat-toolbar color="white">
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+  Public Registration Codes
+</mat-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(registrationCodes$ | async) === null"
 ></mat-progress-bar>
 <main class="text-surface-on p-4">
-  <h1 class="mb-4">Public registration codes</h1>
   <p class="mb-6">
     You can find some short-notice spots for TUMi events here that others want
     to give away. Please make sure to check out the event before registering.

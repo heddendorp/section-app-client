@@ -4,9 +4,9 @@
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">
   <app-profile-card [profile]="profile"></app-profile-card>
-  <div class="m-4 overflow-hidden">
+  <div class="m-4">
     <div
-      class="bg-secondary-container text-secondary-onContainer app-event-list rounded-2xl p-4 h-full"
+      class="bg-secondary-container text-secondary-onContainer shadow-xl rounded-2xl p-4 h-full"
       *ngIf="commonEvents$ | async as events"
     >
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">

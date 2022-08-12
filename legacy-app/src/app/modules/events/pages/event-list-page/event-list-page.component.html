@@ -1,33 +1,41 @@
+<mat-toolbar color="white" class="sticky top-0 z-10"> 
+  <div *ngIf="searchEnabled" class="w-full text-base">
+    <mat-form-field class="w-full" appearance="standard">
+      <input #searchbar matInput [formControl]="filterEvents" type="search" />
+    </mat-form-field>
+  </div>
+  <div *ngIf="!searchEnabled" class="w-full flex flex-row items-center justify-between sm:justify-start">   
+    <button mat-icon-button (click)="previousMonth()">
+      <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
+    </button>
+    <div class="whitespace-nowrap ml-2 mr-2">{{ selectedMonthLabel }}</div>
+    <button mat-icon-button (click)="nextMonth()">
+      <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
+    </button>
+  </div>
+  <button mat-icon-button class="modern" (click)="initSearch()">
+    <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
+  </button>
+</mat-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="loading$ | async"
 ></mat-progress-bar>
-<main class="text-surface-on p-4">
+<main class="text-surface-on p-4">  
+  <a
+    mat-fab
+    routerLink="/event-templates"
+    class="extended-fab"
+  >
+    <mat-icon svgIcon="icon-add"></mat-icon>
+    <span class="label">Add Event</span>
+  </a>
   <div
     fxLayout="column-reverse"
     fxLayout.gt-md="row"
     fxLayoutGap="1rem"
     class="mb-4"
   >
-    <div fxFlex="noshrink">
-      <div class="flex flex-row items-end justify-between sm:justify-start">
-        <button mat-icon-button (click)="previousMonth()">
-          <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
-        </button>
-        <div class="whitespace-nowrap ml-2 mr-2 text-[1.5rem] font-semibold">{{ selectedMonthLabel }}</div>
-        <button mat-icon-button (click)="nextMonth()">
-          <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
-        </button>
-      </div>
-      <mat-form-field
-        class="mt-2 -mb-6 w-full"
-        [style.display]="searchEnabled ? '' : 'none'"
-      >
-        <mat-label>Search for an event</mat-label>
-        <input #searchbar matInput [formControl]="filterEvents" type="search" />
-        <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
-      </mat-form-field>
-    </div>
     <!--<div
       fxFlex="grow"
       class="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1"
@@ -132,18 +140,24 @@
       <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
-          class="modern mb-4"
+          class="modern"
           (click)="toggleSelectedView()"
         >
           <mat-icon svgIcon="icon-calendar"></mat-icon>
           <span>Calendar view</span>
         </button>
+        <a
+          *appIfRole="[Role.User, Role.Admin]"
+          mat-stroked-button
+          class="modern"
+          routerLink="codes"
+        >
+          <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
+          ><span>Codes</span>
+        </a>
         <mat-slide-toggle [formControl]="hideFullEvents">
           Hide full
         </mat-slide-toggle>
-        <button mat-icon-button class="modern" (click)="initSearch()">
-          <mat-icon svgIcon="icon-search"></mat-icon>
-        </button>
       </div>
       <app-events-list
         *ngIf="events$ | async as events"
@@ -176,12 +190,21 @@
       <div fxLayout="row" fxLayoutGap="1rem" class="mb-4 w-full items-center">
         <button
           mat-stroked-button
-          class="modern mb-4"
+          class="modern"
           (click)="toggleSelectedView()"
         >
           <mat-icon svgIcon="icon-list"></mat-icon>
           <span>List view</span>
         </button>
+        <a
+          *appIfRole="[Role.User, Role.Admin]"
+          mat-stroked-button
+          class="modern"
+          routerLink="codes"
+        >
+          <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
+          ><span>Codes</span>
+        </a>
         <mat-slide-toggle [formControl]="hideFullEvents">
           Hide full
         </mat-slide-toggle>

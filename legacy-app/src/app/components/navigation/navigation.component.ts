@@ -15,7 +15,6 @@ import {
 } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
@@ -55,19 +54,6 @@ export class NavigationComponent {
         e.preventDefault();
         this.installEvent$.next(e as Event & { prompt: () => Promise<void> });
       });
-    }
-  }
-
-  async closeSidenav(drawer: MatSidenav): Promise<void> {
-    const isHandset = await this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .pipe(
-        map((result) => result.matches),
-        first()
-      )
-      .toPromise();
-    if (isHandset) {
-      await drawer.close();
     }
   }
 }

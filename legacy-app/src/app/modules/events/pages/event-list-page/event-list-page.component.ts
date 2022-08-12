@@ -155,6 +155,7 @@ export class EventListPageComponent implements OnDestroy {
   initSearch(): void {
     if (this.searchEnabled) {
       this.searchEnabled = false;
+      this.filterEvents.setValue('');
     } else {
       this.searchEnabled = true;
       setTimeout(() => {

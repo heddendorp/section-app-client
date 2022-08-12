@@ -3,8 +3,9 @@
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4">
-  <a mat-fab routerLink="scan">
+  <a mat-fab routerLink="scan" class="extended-fab">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+    <span class="label">Scan code</span>
   </a>
   <div fxLayout="row" fxLayoutGap="1rem" class="mb-4">
     <a mat-icon-button routerLink="..">
