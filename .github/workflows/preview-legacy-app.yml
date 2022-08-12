@@ -132,7 +132,6 @@ jobs:
     environment:
       name: development
       url: https://dev.esn.world
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Azure Login
@@ -163,7 +162,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: deploy
-    if: github.ref == 'refs/heads/release'
 
     steps:
       - name: Checkout repository
