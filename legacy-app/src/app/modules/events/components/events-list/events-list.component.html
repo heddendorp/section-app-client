@@ -1,4 +1,4 @@
-<app-grid minWidth="450px">
+<app-grid minWidth="350px">
   <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
     <span
       *ngIf="
@@ -7,7 +7,11 @@
           (event.start | date: 'shortDate')
       "
       gdColumn="-1/1"
-      >{{ event.start | date: 'longDate' }}</span
+      class="text-lg mt-2"
+      >
+        <span class="font-[400]">{{ event.start | date: 'EEEE' }}, </span>
+        <span class="font-semibold">{{ event.start | date: 'd LLLL' }}</span>
+      </span
     >
     <app-events-list-item
       [event]="event"

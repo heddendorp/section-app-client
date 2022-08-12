@@ -14,19 +14,19 @@
 
   &.registered,
   &.organizer {
-    @apply bg-green-100;
+    @apply bg-green-200;
     @apply text-black;
   }
   &.draft {
-    @apply bg-red-100;
+    @apply bg-yellow-200;
     @apply text-black;
   }
   &.organizers {
-    @apply bg-blue-100;
+    @apply bg-blue-200;
     @apply text-black;
   }
   &.approval {
-    @apply bg-yellow-100;
+    @apply bg-violet-200;
     @apply text-black;
   }
 }

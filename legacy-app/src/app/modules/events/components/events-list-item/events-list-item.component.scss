@@ -1,11 +1,25 @@
-div {
+.publication-state {
+  @apply h-10 flex items-center px-5;
+
   &.draft {
-    @apply bg-red-100;
+    @apply bg-yellow-200;
+    &::before {
+      @apply text-yellow-800 font-semibold;
+      content: 'Draft';
+    }
   }
   &.organizers {
-    @apply bg-blue-100;
+    @apply bg-blue-200;
+    &::before {
+      @apply text-blue-800 font-semibold;
+      content: 'Visible to tutors';
+    }
   }
   &.approval {
-    @apply bg-yellow-100;
+    @apply bg-violet-200;
+    &::before {
+      @apply text-purple-800 font-semibold;
+      content: 'Ready for approval';
+    }
   }
 }

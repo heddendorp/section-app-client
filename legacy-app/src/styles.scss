@@ -227,7 +227,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   .cdk-overlay-pane.modern {
     mat-dialog-container {
-      @apply rounded-3xl p-6 bg-surface-default text-surface-on;
+      @apply rounded-3xl p-6 bg-primary-container text-surface-on;
     }
   }
   .mat-flat-button.modern {
