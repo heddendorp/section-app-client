@@ -2,7 +2,7 @@
   Tutor Hub
 </mat-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(tutorHubData$ | async) === null"
 ></mat-progress-bar>
 <div
@@ -144,7 +144,8 @@
   >
     <div class="!absolute top-0 left-0 w-full">
       <mat-progress-bar
-          mode="indeterminate"
+  class="!absolute"
+        mode="indeterminate"
         *ngIf="searchLoading$ | async"
       ></mat-progress-bar>
     </div>

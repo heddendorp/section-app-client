@@ -50,22 +50,10 @@
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
-          routerLink="/events"
+          routerLink="/page/faq"
         >
-          <mat-icon svgIcon="icon-overtime"></mat-icon>
-          <span>See all events</span>
-        </a>
-        <a
-          *ngIf="loggedIn$ | async"
-          fxFlex="noshrink"
-          class="cursor-pointer rounded border border-gray-500 bg-gray-700 p-2 hover:bg-gray-600"
-          fxLayout="row"
-          fxLayoutGap="1rem"
-          fxLayoutAlign="start center"
-          routerLink="/profile"
-        >
-          <mat-icon svgIcon="icon-contact-card"></mat-icon>
-          <span>Open profile</span>
+          <mat-icon svgIcon="icon-faq"></mat-icon>
+          <span>Frequently Asked Questions</span>
         </a>
       </div>
       <h2 class="mt-8 text-2xl font-bold">Upcoming Events</h2>
