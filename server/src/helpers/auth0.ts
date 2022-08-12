@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import fetch from 'node-fetch';
+import fetch from 'node-fetch-native';
 
 export class Auth0 {
   private token: string | undefined;
