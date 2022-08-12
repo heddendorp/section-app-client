@@ -27,7 +27,7 @@
     "v8n": "^1.5.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.6.7",
+    "@remix-run/dev": "^1.6.8",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "autoprefixer": "^10.4.8",
