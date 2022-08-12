@@ -308,6 +308,6 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   mat-toolbar {
     background: white !important;
-    @apply shadow;
+    @apply shadow-sm;
   }
 }

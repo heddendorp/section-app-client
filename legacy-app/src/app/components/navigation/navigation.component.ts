@@ -13,7 +13,6 @@ import {
   share,
   shareReplay,
 } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -40,8 +39,7 @@ export class NavigationComponent {
   constructor(
     public auth: AuthService,
     private breakpointObserver: BreakpointObserver,
-    private getTenantInfo: GetTenantInfoGQL,
-    @Inject(DOCUMENT) public document: Document
+    private getTenantInfo: GetTenantInfoGQL
   ) {
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
     this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));

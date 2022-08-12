@@ -7,7 +7,7 @@ module.exports = {
           default: '#4f46e5',
           on: '#ffffff',
           container: '#f3f4f6',
-          onContainer: '#312e81',
+          onContainer: '#111827',
         },
         secondary: {
           default: '#585e71',

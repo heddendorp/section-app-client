@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -15,6 +15,8 @@ import { UpdateProfileDialogComponent } from '../../components/update-profile-di
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -34,7 +36,9 @@ export class ProfilePageComponent implements OnDestroy {
     private updateUserInformationMutation: UpdateUserInformationGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public auth: AuthService,
+    @Inject(DOCUMENT) public document: Document
   ) {
     this.title.setTitle('TUMi - Profile');
     this.profileQueryRef = this.profileQuery.watch();

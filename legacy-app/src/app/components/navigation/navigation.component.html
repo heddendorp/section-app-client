@@ -49,6 +49,15 @@
         <span>Tutor Hub</span>
       </a>
       <a
+        class="nav-item desktop-only" matRipple
+        routerLink="event-templates"
+        routerLinkActive="active"
+        *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      >
+        <mat-icon svgIcon="icon-template"></mat-icon>
+        <span>Event Templates</span>
+      </a>
+      <a
         class="nav-item" matRipple
         routerLink="tenant"
         routerLinkActive="active"
@@ -65,8 +74,7 @@
         <mat-icon svgIcon="icon-software-installer"></mat-icon>
         <span>Install the TUMi app</span>
       </button>   
-      <div class="flex-1 hidden sm:block"></div> 
-      
+      <div class="flex-1 hidden sm:block"></div>      
       <a
         class="nav-item flex justify-center sm:px-1" matRipple
         routerLink="profile"
@@ -77,7 +85,7 @@
     </div>
   </div>
   <div class="flex-1 flex flex-col mb-12 sm:mb-0 sm:ml-24 overflow-hidden bg-primary-container">
-    <div class="overflow-auto">
+    <div class="overflow-auto h-full">
       <div
       *ngIf="outstandingRating$ | async"
       class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
