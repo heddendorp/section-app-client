@@ -90,7 +90,7 @@
     "@typescript-eslint/parser": "5.33.0",
     "apollo-server-plugin-base": "^3.6.2",
     "copyfiles": "^2.4.1",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.5",
     "dotenv-cli": "^6.0.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
