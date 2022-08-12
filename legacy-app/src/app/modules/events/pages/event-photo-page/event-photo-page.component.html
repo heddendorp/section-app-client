@@ -1,8 +1,10 @@
 <mat-progress-bar
+  class="!absolute"
   mode="indeterminate"
   *ngIf="(photos$ | async) === null"
 ></mat-progress-bar>
 <mat-progress-bar
+  class="!absolute"
   *ngIf="uploading$ | async"
   [mode]="(uploadMode$ | async) ?? 'indeterminate'"
   [value]="uploadProgress$ | async"

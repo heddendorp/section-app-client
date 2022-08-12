@@ -40,6 +40,7 @@
         <span>Start payment and register</span>
       </button>
       <mat-progress-bar
+  class="!absolute"
         mode="indeterminate"
         *ngIf="processing | async"
       ></mat-progress-bar>
@@ -137,6 +138,7 @@
         Give up spot
       </button>
       <mat-progress-bar
+  class="!absolute"
         class="mt-4"
         mode="indeterminate"
         *ngIf="processing | async"

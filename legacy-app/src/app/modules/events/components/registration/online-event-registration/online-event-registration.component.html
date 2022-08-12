@@ -21,6 +21,7 @@
         Register now!
       </button>
       <mat-progress-bar
+  class="!absolute"
         class="mt-4"
         mode="indeterminate"
         *ngIf="processing | async"
@@ -51,6 +52,7 @@
           Give up spot
         </button>
         <mat-progress-bar
+  class="!absolute"
           class="mt-4"
           mode="indeterminate"
           *ngIf="processing | async"
