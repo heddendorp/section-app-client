@@ -1,6 +1,8 @@
-<mat-toolbar color="white">
-  Tutor Hub
-</mat-toolbar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <div class="reset-scroll">Tutor Hub</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(tutorHubData$ | async) === null"

@@ -1,22 +1,24 @@
-<mat-toolbar color="white" class="sticky top-0 z-10"> 
-  <div *ngIf="searchEnabled" class="w-full text-base">
-    <mat-form-field class="w-full" appearance="standard">
-      <input #searchbar matInput [formControl]="filterEvents" type="search" />
-    </mat-form-field>
-  </div>
-  <div *ngIf="!searchEnabled" class="w-full flex flex-row items-center justify-between sm:justify-start">   
-    <button mat-icon-button (click)="previousMonth()">
-      <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
+<app-reactive-toolbar>
+  <mat-toolbar color="white"> 
+    <div *ngIf="searchEnabled" class="w-full text-base">
+      <mat-form-field class="w-full" appearance="standard">
+        <input #searchbar matInput [formControl]="filterEvents" type="search" />
+      </mat-form-field>
+    </div>
+    <div *ngIf="!searchEnabled" class="w-full flex flex-row items-center justify-between sm:justify-start">   
+      <button mat-icon-button (click)="previousMonth()">
+        <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
+      </button>
+      <div class="whitespace-nowrap ml-2 mr-2 reset-scroll">{{ selectedMonthLabel }}</div>
+      <button mat-icon-button (click)="nextMonth()">
+        <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
+      </button>
+    </div>
+    <button mat-icon-button class="modern" (click)="initSearch()">
+      <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
     </button>
-    <div class="whitespace-nowrap ml-2 mr-2">{{ selectedMonthLabel }}</div>
-    <button mat-icon-button (click)="nextMonth()">
-      <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
-    </button>
-  </div>
-  <button mat-icon-button class="modern" (click)="initSearch()">
-    <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
-  </button>
-</mat-toolbar>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
     mode="indeterminate"
   *ngIf="loading$ | async"

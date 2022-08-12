@@ -1,16 +1,18 @@
-<mat-toolbar color="white" class="sticky top-0 z-10"> 
-  <div *ngIf="searchEnabled" class="w-full text-base">
-    <mat-form-field class="w-full" appearance="standard">
-      <input #searchbar matInput [formControl]="searchControl" type="search" />
-    </mat-form-field>
-  </div>
-  <div *ngIf="!searchEnabled" class="flex-1">   
-    Event Templates
-  </div>
-  <button mat-icon-button class="modern" (click)="initSearch()">
-    <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
-  </button>
-</mat-toolbar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white"> 
+    <div *ngIf="searchEnabled" class="w-full text-base">
+      <mat-form-field class="w-full" appearance="standard">
+        <input #searchbar matInput [formControl]="searchControl" type="search" />
+      </mat-form-field>
+    </div>
+    <div *ngIf="!searchEnabled" class="flex-1 reset-scroll">   
+      Event Templates
+    </div>
+    <button mat-icon-button class="modern" (click)="initSearch()">
+      <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
+    </button>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
     mode="indeterminate"
   *ngIf="(templateCategories$ | async) === null"
