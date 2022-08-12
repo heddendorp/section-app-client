@@ -139,6 +139,7 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   public async toggleSelectedView() {
+    const filterValue = this.filterEvents.value;
     const selectedView = await firstValueFrom(this.selectedView$);
     let newSelectedView;
     if (selectedView === 'list') {
@@ -150,6 +151,9 @@ export class EventListPageComponent implements OnDestroy {
     this.router.navigateByUrl(
       this.router.url.replace(selectedView, newSelectedView)
     );
+    setTimeout(() => {
+      this.filterEvents.setValue(filterValue);
+    })
   }
 
   initSearch(): void {
