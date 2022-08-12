@@ -21,7 +21,7 @@ img {
 }
 
 .event-card {
-  @apply min-w-[80vw] max-w-[80vw] sm:min-w-[270px] sm:max-w-[270px];
+  @apply min-w-[75vw] max-w-[75vw] sm:min-w-[270px] sm:max-w-[270px];
   @apply snap-center;
 
   .mat-card-image {

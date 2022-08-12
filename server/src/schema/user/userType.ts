@@ -220,6 +220,7 @@ builder.prismaObject('User', {
       resolve: async (user, args, context) =>
         prisma.tumiEvent.count({
           where: {
+            excludeFromStatistics: false,
             registrations: {
               some: {
                 user: { id: user.id },
@@ -246,6 +247,7 @@ builder.prismaObject('User', {
       resolve: async (user, args, context) =>
         prisma.tumiEvent.count({
           where: {
+            excludeFromStatistics: false,
             createdBy: { id: user.id },
           },
         }),

@@ -56,7 +56,7 @@
   <mat-table
     *ngIf="users$ | async as users"
     [dataSource]="users"
-    class="w-full mt-4"
+    class="w-fit sm:w-full mt-4"
   >
     <ng-container matColumnDef="profile">
       <mat-header-cell *matHeaderCellDef>Profile</mat-header-cell>
