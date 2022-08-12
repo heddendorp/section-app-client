@@ -1,21 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { concat, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
+import { concat, firstValueFrom, map, Observable, of } from 'rxjs';
 import {
   CreateEventTemplateGQL,
-  GetEventTemplateCategoriesGQL,
-  GetEventTemplatesGQL,
-  GetEventTemplatesQuery,
   GetLonelyEventTemplatesGQL,
   GetLonelyEventTemplatesQuery,
   GetTemplateCategoriesWithTemplatesGQL,
   GetTemplateCategoriesWithTemplatesQuery,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/change-template-category-dialog/change-template-category-dialog.component';
 import { FormControl } from '@angular/forms';
 import { combineLatest } from 'rxjs';
 import { Router } from '@angular/router';
@@ -34,6 +30,9 @@ export class TemplateListPageComponent {
   public eventTemplates$: Observable<
     GetLonelyEventTemplatesQuery['eventTemplates']
   >;
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
+  public searchEnabled = false;
   public searchControl = new FormControl('');
   private eventTemplateQuery;
 
@@ -107,6 +106,18 @@ export class TemplateListPageComponent {
         '/event-templates',
         response?.data?.createEventTemplate.id,
       ]);
+    }
+  }
+
+  initSearch(): void {
+    if (this.searchEnabled) {
+      this.searchEnabled = false;
+      this.searchControl.setValue('');
+    } else {
+      this.searchEnabled = true;
+      setTimeout(() => {
+        this.searchBar.nativeElement.focus();
+      });
     }
   }
 }
