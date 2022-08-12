@@ -22,6 +22,18 @@
   mode="indeterminate"
   *ngIf="loading$ | async"
 ></mat-progress-bar>
+<div class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer" routerLink="/page/apply">
+  <div class="flex items-center justify-between flex-wrap">
+    <div class="w-0 flex-1 flex items-center">
+      <span class="flex p-2 rounded-lg bg-indigo-800 text-white">
+        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>        
+      </span>
+      <p class="ml-3 font-medium text-white truncate">
+        <span> Apply as a TUMi tutor! </span>
+      </p>
+    </div>
+  </div>
+</div>
 <main class="text-surface-on p-4">  
   <a
     mat-fab

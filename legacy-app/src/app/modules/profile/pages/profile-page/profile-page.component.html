@@ -164,9 +164,15 @@
         </div>
       </div>
     </div>
-    
+  </div>
+
+  <div class="mt-4 mb-2 p-4 flex flex-row gap-2">
+    <a class="modern w-full" color="primary" mat-raised-button routerLink="/page/feedback">
+      <mat-icon svgIcon="icon-feedback"></mat-icon>
+      <span>Give Feedback</span>
+    </a>
     <button
-    class="modern w-full !mt-4 !mb-2"
+    class="modern w-full"
     color="accent"
     mat-raised-button
     *ngIf="this.auth.isAuthenticated$ | async"
@@ -175,5 +181,7 @@
       <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
       Logout
     </button>
+    
   </div>
+  
 </main>
