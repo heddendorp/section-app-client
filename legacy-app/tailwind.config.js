@@ -50,12 +50,34 @@ module.exports = {
         outline: { default: '#75767f', dark: '#8f909a' },
       },
       fontFamily: {
-        display: ['Josefin Sans', 'sans-serif'],
+        display: ['General Sans', 'sans-serif'],
       },
+      fontWeight: {
+        hairline: 100,
+        thin: 200,
+        light: 300,
+        normal: 450,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        black: 900,
+      }
     },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
+      sans: ['General Sans', 'sans-serif'],
     },
+    fontWeight: {
+      hairline: 100,
+      thin: 200,
+      light: 300,
+      normal: 450,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      extrabold: 800,
+      black: 900,
+    }
   },
   variants: {
     extend: {},

@@ -27,7 +27,7 @@
     [src]="event.icon | iconURL"
     class="bg-surface-default mx-auto mb-4 rounded-2xl p-1 lg:mb-8"
   />
-  <h1 class="mb-2">{{ event.title }}</h1>
+  <div class="text-2xl font-semibold my-4">{{ event.title }}</div>
   <ng-container *ngIf="!isSingleDayEvent(); else singleDayEvent">
     <p>Starts: {{ event.start | date: 'medium' }}</p>
     <p>Ends: {{ event.end | date: 'medium' }}</p>
