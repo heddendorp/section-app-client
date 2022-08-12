@@ -162,7 +162,7 @@
       </mat-icon>
       <h2 class="font-bold">Tutors</h2>
     </div>
-    <form [formGroup]="filterForm" class="text-sm">
+    <form [formGroup]="filterForm" class="text-sm mb-2">
       <mat-form-field class="-mb-4 w-full">
         <mat-label>Search for a tutor</mat-label>
         <input matInput formControlName="search" type="search" #searchInput />
@@ -170,7 +170,7 @@
       </mat-form-field>
     </form>
     <ng-container *ngIf="!searchInput.value">
-      <div class="grid grid-cols-7 sm:grid-cols-8 2xl:grid-cols-9 gap-2 mt-2">
+      <app-grid minWidth="36px" gap="0.5rem">
         <app-user-chip
           *ngFor="let tenantUser of tutorHubData.activeOrganizers"
           size="fit"
@@ -179,13 +179,13 @@
           [picture]="tenantUser.user.picture"
         >
         </app-user-chip>
-      </div>
+      </app-grid>
       <div class="italic text-gray-500 text-sm mt-3">
         Active tutors of the last three months.
       </div>
     </ng-container>
     <ng-container *ngIf="searchInput.value">
-      <div class="flex flex-wrap gap-2 items-center mt-2">
+      <div class="flex flex-wrap gap-2 items-center">
         <app-user-chip
           *ngFor="let user of searchedTutors$ | async"
           size="sm"
