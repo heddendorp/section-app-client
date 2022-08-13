@@ -12,10 +12,10 @@ describe('the templates page', () => {
       cy.loginByAuth0Api(users.regularUser);
       cy.wait(1000);
     });
-    // it('does not load the templates page', () => {
-    //   cy.visit('/event-templates');
-    //   cy.get('app-template-list-page').should('not.exist');
-    // });
+    it('does not load the templates page', () => {
+      cy.visit('/event-templates');
+      cy.get('app-template-list-page').should('not.exist');
+    });
   });
   context('when the user is logged in as a member', () => {
     beforeEach(() => {

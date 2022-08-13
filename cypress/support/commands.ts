@@ -39,24 +39,34 @@
 Cypress.Commands.add(
   'loginByAuth0Api',
   (args: { email: string; password: string }) => {
-    // cy.session(args, () => {
-    cy.visit('/');
-    cy.get('button').contains('Log in').click();
-    cy.origin('https://tumi.eu.auth0.com', { args }, ({ email, password }) => {
-      cy.reload();
-      cy.get('#username').type(email);
-      cy.contains('Continue').click();
-      cy.get('#password').type(password);
-      cy.contains('Continue').click();
-      cy.wait(500);
-      cy.url().then((url) => {
-        if (url.includes('https://tumi.eu.auth0.com')) {
-          cy.contains('Not now').click();
+    cy.session(args, () => {
+      cy.visit('/');
+      cy.get('button').contains('Log in').click();
+      cy.origin(
+        'https://tumi.eu.auth0.com',
+        { args },
+        ({ email, password }) => {
+          // cy.reload();
+          cy.get('#username').type(email);
+          cy.contains('Continue').click();
+          cy.get('#password').type(password);
+          cy.contains('Continue').click();
+          cy.wait(500);
+          cy.url().then((url) => {
+            if (url.includes('https://tumi.eu.auth0.com')) {
+              cy.contains('Not now').click();
+            }
+          });
         }
-      });
+      );
+      // cy.url().should('contain', '/home');
     });
-    // cy.url().should('contain', '/home');
-    // });
+    cy.reload();
+    cy.visit('/');
+    cy.get('[data-testid="profile-link"]', { timeout: 10000 }).should(
+      'be.visible'
+    );
+
     // {
     // validate() {
     //   cy.request('/api/user').its('status').should('eq', 200);

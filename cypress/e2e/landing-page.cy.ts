@@ -8,13 +8,4 @@ describe('The Landing Page', () => {
     cy.visit('/');
     cy.url().should('include', '/events');
   });
-  it('shows the Test Event', () => {
-    cy.visit('/events');
-    cy.get('app-event-list-item').contains('Test Event');
-  });
-  it('should allow navigating to the test event', () => {
-    cy.visit('/events');
-    cy.get('app-event-list-item').contains('Test Event').click();
-    cy.url().should('include', seedIds.testEvent);
-  });
 });
