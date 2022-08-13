@@ -40,7 +40,6 @@ export class EventReceiptsPageComponent implements OnDestroy {
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
       map(({ data }) => data.costItem),
       map((costItem) => {
-        console.log(costItem.receipts);
         return {
           ...costItem,
           receipts: costItem.receipts.map((receipt) => {
