@@ -1,14 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  MembershipStatus,
-  Role,
-} from '../../generated/generated';
-import {
-  map,
-  Observable,
-  ReplaySubject,
-  shareReplay,
-} from 'rxjs';
+import { MembershipStatus, Role } from '../../generated/generated';
+import { map, Observable, ReplaySubject, shareReplay } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '@auth0/auth0-angular';
 

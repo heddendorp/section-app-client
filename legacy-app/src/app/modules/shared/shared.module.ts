@@ -71,7 +71,7 @@ import { FooterComponent } from './components/footer/footer.component';
     EventChipComponent,
     EventListItemComponent,
     ReactiveToolbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     RouterModule,
@@ -130,7 +130,7 @@ import { FooterComponent } from './components/footer/footer.component';
     EventChipComponent,
     EventListItemComponent,
     ReactiveToolbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   providers: [DatePipe],
 })

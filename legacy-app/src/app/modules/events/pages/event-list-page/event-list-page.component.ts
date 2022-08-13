@@ -137,7 +137,7 @@ export class EventListPageComponent implements OnDestroy {
       })
     );
     this.loadEventsQueryRef.startPolling(60 * 1000);
-    
+
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
     this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
     this.outstandingRating$ = tenantChanges.pipe(

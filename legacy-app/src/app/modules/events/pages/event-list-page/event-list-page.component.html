@@ -41,9 +41,11 @@
         <mat-icon svgIcon="icon-star"></mat-icon>
       </span>
       <p class="ml-3 font-medium text-white leading-tight">
-        <span>Please rate events you took part in recently!
+        <span
+          >Please rate events you took part in recently!
 
-          <a class="underline">Go to Profile &rarr; </a></span>
+          <a class="underline">Go to Profile &rarr; </a></span
+        >
       </p>
     </div>
   </div>
@@ -64,7 +66,12 @@
   </div>
 </div>
 <main class="text-surface-on p-4 sm:px-8">
-  <a mat-fab routerLink="/event-templates" class="extended-fab" *appIfRole="[Role.User, Role.Admin]">
+  <a
+    mat-fab
+    routerLink="/event-templates"
+    class="extended-fab"
+    *appIfRole="[Role.User, Role.Admin]"
+  >
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add Event</span>
   </a>
