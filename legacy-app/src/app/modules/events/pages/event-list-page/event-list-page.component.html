@@ -64,7 +64,7 @@
   </div>
 </div>
 <main class="text-surface-on p-4">
-  <a mat-fab routerLink="/event-templates" class="extended-fab">
+  <a mat-fab routerLink="/event-templates" class="extended-fab" *appIfRole="[Role.User, Role.Admin]">
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add Event</span>
   </a>
