@@ -51,5 +51,7 @@
       >{{ phone }}</a
     >
   </div>
-  <ng-content></ng-content>
+  <div (click)="$event.preventDefault(); $event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
 </a>

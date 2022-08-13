@@ -197,6 +197,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   *:before,
   *:after {
     box-sizing: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
   h1 {
     @apply text-2xl font-display;
