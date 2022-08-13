@@ -6,10 +6,7 @@
     <div class="flex-1 truncate">Run {{ event.title }}</div>
   </ng-container>
 </mat-toolbar>
-<mat-progress-bar
-    mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="(event$ | async) === null"></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="p-4 flex flex-col gap-8">
   <a mat-fab routerLink="scan" class="extended-fab">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
@@ -18,11 +15,7 @@
   <div *ngIf="event.costItems.length" class="mb-8 rounded border-2 p-2">
     <h2 class="font-bold">Required receipts</h2>
     <mat-nav-list>
-      <a
-        mat-list-item
-        *ngFor="let costItem of event.costItems"
-        routerLink="receipts/{{ costItem.id }}"
-      >
+      <a mat-list-item *ngFor="let costItem of event.costItems" routerLink="receipts/{{ costItem.id }}">
         <mat-icon svgIcon="icon-cash-receipt" mat-list-icon></mat-icon>
         <h1 mat-line>
           {{ costItem.name }}
@@ -63,104 +56,63 @@
       <span>Copy mails of checked in users</span>
     </button>
   </div>
-  
+
   <ul
-    class="bg-secondary-container text-primary-onContainer rounded-2xl shadow-xl divide-y-2 divide-gray-600 divide-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
-  >
-  <li class="p-4">
-    <p class="font-extrabold md:text-2xl">
-      {{ event.participantRegistrationCount }}
-    </p>
-    <p class="mt-1 font-medium md:text-xl">Registrations</p>
-  </li>
+    class="bg-secondary-container text-primary-onContainer rounded-2xl shadow-xl divide-y-2 divide-gray-600 divide-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2">
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">
+        {{ event.participantRegistrationCount }}
+      </p>
+      <p class="mt-1 font-medium md:text-xl">Registrations</p>
+    </li>
 
-  <li class="p-4">
-    <p class="font-extrabold md:text-2xl">{{ event.participantsAttended }}</p>
-    <p class="mt-1 font-medium md:text-xl">Users checked in</p>
-  </li>
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">{{ event.participantsAttended }}</p>
+      <p class="mt-1 font-medium md:text-xl">Users checked in</p>
+    </li>
 
-  <li class="p-4">
-    <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
-    <p class="mt-1 font-medium md:text-xl">Participant spots</p>
-  </li>    
+    <li class="p-4">
+      <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
+      <p class="mt-1 font-medium md:text-xl">Participant spots</p>
+    </li>
   </ul>
 
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
-      <mat-icon
-        svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
-      >
+  <div class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" class="mb-4">
+      <mat-icon svgIcon="icon-conference" class="text-secondary-default bg-secondary-on card-icon">
       </mat-icon>
       <h2 class="font-bold">Organizers</h2>
     </div>
     <div class="flex flex-col md:flex-row flex-wrap gap-4">
       <div *ngFor="let registration of event.organizerRegistrations">
-        <app-user-chip
-          size="md"
-          [id]="registration.user.id"
-          [picture]="registration.user.picture"
-          [name]="registration.user.fullName"
-          [phone]="registration.user.phone || ''"
+        <app-user-chip size="md" [id]="registration.user.id" [picture]="registration.user.picture"
+          [name]="registration.user.fullName" [phone]="registration.user.phone || ''"
           [status]="registration.user.currentTenant?.status + ''"
-          [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
-        >
+          [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''">
         </app-user-chip>
       </div>
     </div>
   </div>
 
-  
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
-      <mat-icon
-        svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
-      >
+  <div class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" class="mb-4">
+      <mat-icon svgIcon="icon-conference" class="text-secondary-default bg-secondary-on card-icon">
       </mat-icon>
       <h2 class="font-bold">Participants</h2>
     </div>
     <div class="flex flex-col md:flex-row flex-wrap gap-4">
-      <div
-        class="flex flex-row gap-1 items-center"
-        *ngFor="let registration of event.participantRegistrations"
-      >
+      <div class="flex flex-row gap-1 items-center" *ngFor="let registration of event.participantRegistrations">
         <div class="flex-1">
-          <app-user-chip
-            size="md"
-            [id]="registration.user.id"
-            [picture]="registration.user.picture"
-            [name]="registration.user.fullName"
-            [phone]="registration.user.phone || ''"
-            [checkedIn]="!!registration.checkInTime"
-            [status]="registration.user.currentTenant?.status + ''"
-          >
+          <app-user-chip size="md" [id]="registration.user.id" [picture]="registration.user.picture"
+            [name]="registration.user.fullName" [phone]="registration.user.phone || ''"
+            [checkedIn]="!!registration.checkInTime" [status]="registration.user.currentTenant?.status + ''">
+            <ng-container *ngIf="!registration.checkInTime">
+              <button mat-icon-button class="modern" (click)="checkin(registration.id)" *appIfRole="[Role.Admin]">
+                <mat-icon svgIcon="icon-checked"></mat-icon>
+              </button>
+            </ng-container>
           </app-user-chip>
         </div>
-        <ng-container *ngIf="!registration.checkInTime">
-          <button
-            mat-icon-button
-            class="modern"
-            (click)="checkin(registration.id)"
-            *appIfRole="[Role.Admin]"
-          >
-            <mat-icon svgIcon="icon-checked"></mat-icon>
-          </button>
-        </ng-container>
         <div *ngFor="let submission of registration.submissions">
           <p class="font-bold">{{ submission.submissionItem.name }}</p>
           <p>{{ submission.data.value }}</p>
