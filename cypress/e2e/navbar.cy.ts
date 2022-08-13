@@ -15,6 +15,7 @@ describe('navbar', () => {
       });
       it('should show the events menu item', () => {
         cy.get('[data-testid="events-nav-item"]').should('be.visible');
+        cy.percySnapshot();
       });
       it('should not show text in the events menu item', () => {
         cy.get('[data-testid="events-nav-item"]')
@@ -34,6 +35,7 @@ describe('navbar', () => {
       });
       it('should show the events menu item', () => {
         cy.get('[data-testid="events-nav-item"]').should('be.visible');
+        cy.percySnapshot();
       });
       it('should show text in the events menu item', () => {
         cy.get('[data-testid="events-nav-item"]')

@@ -11,6 +11,7 @@ describe('The event details page', () => {
     it('should show the event description', () => {
       cy.get('app-event-details-page').contains('Description');
       cy.get('app-event-details-page').contains('This is a test event');
+      cy.percySnapshot();
     });
     it('should not show the info for participants', () => {
       cy.get('app-event-details-page')

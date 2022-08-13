@@ -1,5 +1,3 @@
-import { seedIds } from '../../server/prisma/constants';
-
 describe('The Landing Page', () => {
   it('successfully loads', () => {
     cy.visit('/');

@@ -9,5 +9,6 @@ describe('The Profile Page', () => {
     cy.get('app-profile-page').contains(
       `${users.regularUser.firstName} ${users.regularUser.lastName}`
     );
+    cy.percySnapshot();
   });
 });
