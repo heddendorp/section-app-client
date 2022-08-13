@@ -313,4 +313,9 @@ $tumi-dark-theme: mat.define-dark-theme(
     z-index: 1000 !important;
     @apply sm:max-w-[calc(100vw-96px)];
   }
+  @media only percy {
+    .hide-in-percy {
+      visibility: hidden;
+    }
+  }
 }
