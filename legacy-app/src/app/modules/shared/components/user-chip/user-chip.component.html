@@ -38,12 +38,12 @@
       <span>{{ name }}</span>
       <span
         *ngIf="tag"
-        class="px-1 rounded-lg bg-white text-xs font-light ml-1"
+        class="px-1 rounded-lg bg-white text-xs ml-1"
         >{{ tag }}</span
       >
     </div>
     <a
-      class="tel underline decoration-dotted font-light whitespace-nowrap"
+      class="tel underline decoration-dotted font-[350] whitespace-nowrap"
       href="https://wa.me/{{ phone.replace('+', '') }}"
       target="blank"
       (click)="$event.stopPropagation()"

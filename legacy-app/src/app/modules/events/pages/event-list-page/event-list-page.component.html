@@ -31,15 +31,33 @@
   *ngIf="loading$ | async"
 ></mat-progress-bar>
 <div
+  *ngIf="outstandingRating$ | async"
+  class="bg-yellow-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
+  routerLink="/profile"
+>
+  <div class="flex items-center justify-between flex-wrap">
+    <div class="w-0 flex-1 flex items-center">
+      <span class="flex p-2 rounded-lg bg-yellow-600 text-white">
+        <mat-icon svgIcon="icon-star"></mat-icon>
+      </span>
+      <p class="ml-3 font-medium text-white leading-tight">
+        <span>Please rate events you took part in recently!
+
+          <a class="underline">Go to Profile &rarr; </a></span>
+      </p>
+    </div>
+  </div>
+</div>
+<div
   class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
   routerLink="/page/apply"
 >
   <div class="flex items-center justify-between flex-wrap">
     <div class="w-0 flex-1 flex items-center">
-      <span class="flex p-2 rounded-lg bg-indigo-700 text-white">
+      <span class="flex p-2 rounded-lg bg-indigo-600 text-white">
         <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
       </span>
-      <p class="ml-3 font-medium text-white truncate">
+      <p class="ml-3 font-medium text-white leading-tight">
         <span> Werde ein Teil von TUMi! </span>
       </p>
     </div>

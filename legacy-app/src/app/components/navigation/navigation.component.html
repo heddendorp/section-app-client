@@ -107,17 +107,6 @@
     class="bg-primary-container mb-12 flex flex-1 flex-col overflow-hidden sm:mb-0 sm:ml-24"
   >
     <div id="window-content" class="h-full overflow-auto">
-      <div
-        *ngIf="outstandingRating$ | async"
-        class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
-        data-testid="outstanding-rating-container"
-      >
-        <p class="text-center text-sm font-medium">
-          Please rate events you took part in recently!
-
-          <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
-        </p>
-      </div>
       <router-outlet></router-outlet>
     </div>
   </div>
