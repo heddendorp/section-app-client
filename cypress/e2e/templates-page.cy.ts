@@ -27,9 +27,7 @@ describe('the templates page', () => {
       cy.get('app-template-list-page').should('exist');
     });
     it('does not show the create template button', () => {
-      cy.get('app-template-list-page')
-        .contains('Add new Template')
-        .should('not.exist');
+      cy.get('[data-testid="create-template-button"]').should('not.exist');
     });
   });
   context('when the user is logged in as an admin', () => {
@@ -42,7 +40,7 @@ describe('the templates page', () => {
       cy.get('app-template-list-page').should('exist');
     });
     it('shows the create template button', () => {
-      cy.get('app-template-list-page').contains('Add new template');
+      cy.get('[data-testid="create-template-button"]').should('be.visible');
     });
   });
 });

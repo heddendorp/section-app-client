@@ -10,14 +10,16 @@ describe('navbar', () => {
       it('should show the login button', () => {
         cy.get('app-auth-button').contains('Log in').should('be.visible');
       });
-      it('should show the menu button', () => {
-        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').should(
-          'be.visible'
-        );
-      });
       it('should show the menu', () => {
-        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').click();
-        cy.get('.mat-nav-list').should('be.visible');
+        cy.get('[data-testid="navigation"]').should('be.visible');
+      });
+      it('should show the events menu item', () => {
+        cy.get('[data-testid="events-nav-item"]').should('be.visible');
+      });
+      it('should not show text in the events menu item', () => {
+        cy.get('[data-testid="events-nav-item"]')
+          .contains('Events')
+          .should('not.be.visible');
       });
     });
     context('when the user is on a laptop', () => {
@@ -28,16 +30,15 @@ describe('navbar', () => {
         cy.get('app-auth-button').contains('Log in').should('be.visible');
       });
       it('should show the menu', () => {
-        cy.get('.mat-nav-list').should('be.visible');
+        cy.get('[data-testid="navigation"]').should('be.visible');
       });
-      it('should show the menu button', () => {
-        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').should(
-          'be.visible'
-        );
+      it('should show the events menu item', () => {
+        cy.get('[data-testid="events-nav-item"]').should('be.visible');
       });
-      it('should hide the menu when pressing the button', () => {
-        cy.get('.mat-toolbar > .flex-row > .mat-icon-button').click();
-        cy.get('.mat-nav-list').should('not.be.visible');
+      it('should show text in the events menu item', () => {
+        cy.get('[data-testid="events-nav-item"]')
+          .contains('Events')
+          .should('be.visible');
       });
     });
   });
