@@ -7,6 +7,7 @@ declare global {
        * @example cy.dataCy('greeting')
        */
       loginByAuth0Api(username: string, password: string): Chainable;
+      waitForLoad(): Chainable;
     }
   }
 }

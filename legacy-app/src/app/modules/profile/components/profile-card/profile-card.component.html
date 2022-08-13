@@ -1,12 +1,12 @@
 <div
-  class="bg-slate-200 p-8 lg:py-14 relative"
+  class="relative bg-slate-200 p-8 lg:py-14"
   fxLayout="column"
   fxLayoutAlign="space-evenly center"
   fxLayoutGap="2rem"
   *ngIf="profile"
 >
   <div
-    class="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center relative overflow-hidden max-w-[90vw] w-[90vw] sm:w-[400px] text-center"
+    class="relative flex w-[90vw] max-w-[90vw] flex-col items-center overflow-hidden rounded-lg bg-white p-4 text-center shadow-lg sm:w-[400px]"
   >
     <div
       class="background absolute top-0 left-0 w-full h-[80px] bg-blue-500 flex items-center p-4 justify-between {{
@@ -16,7 +16,7 @@
       <img
         src="/assets/logos/full_white.svg"
         alt="ESN TUMi Logo"
-        class="w-20 md:w-24 object-contain"
+        class="w-20 object-contain md:w-24"
       />
     </div>
     <img
@@ -26,9 +26,10 @@
       }} bg-white"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
+      data-testid="profile-picture"
       onerror="this.src='assets/images/defaultUser.jpg'"
     />
-    <div class="text-3xl font-bold mt-4">{{ profile.fullName }}</div>
+    <div class="mt-4 text-3xl font-bold">{{ profile.fullName }}</div>
     <div
       *ngIf="
         position(profile.position, profile.currentTenant?.status) as position
@@ -42,22 +43,22 @@
         >{{ position }}</span
       >
     </div>
-    <div *ngIf="profile.country" class="italic my-1 text-sm">
+    <div *ngIf="profile.country" class="my-1 text-sm italic">
       {{ profile.country }}
     </div>
     <div class="mt-3">
       <span *ngIf="profile.bio" class="whitespace-pre-wrap">{{
         profile.bio
       }}</span>
-      <span *ngIf="!profile.bio" class="text-gray-400 italic">no bio</span>
+      <span *ngIf="!profile.bio" class="italic text-gray-400">no bio</span>
     </div>
     <ng-container *ngIf="profile.organizedEventsCount > 0">
-      <mat-divider class="w-full !my-4"></mat-divider>
+      <mat-divider class="!my-4 w-full"></mat-divider>
       <div
-        class="w-full my-4 flex flex-row justify-evenly sm:gap-16 sm:justify-center"
+        class="my-4 flex w-full flex-row justify-evenly sm:justify-center sm:gap-16"
       >
         <div>
-          <div class="text-3xl font-extrabold mb-1">
+          <div class="mb-1 text-3xl font-extrabold">
             {{ profile.organizedEventsCount }}
           </div>
           <div class="text-sm">
@@ -65,7 +66,7 @@
           </div>
         </div>
         <div *ngIf="profile.createdEventsCount > 0">
-          <div class="text-3xl font-extrabold mb-1">
+          <div class="mb-1 text-3xl font-extrabold">
             {{ profile.createdEventsCount }}
           </div>
           <div class="text-sm">
@@ -74,7 +75,7 @@
         </div>
       </div>
     </ng-container>
-    <mat-divider class="w-full !my-4"></mat-divider>
+    <mat-divider class="!my-4 w-full"></mat-divider>
     <div class="flex flex-col items-center gap-1 text-sm">
       <div class="">
         <span
@@ -95,7 +96,7 @@
       </div>
       <div
         *ngIf="profile.instagram"
-        class="flex items-center gap-1 text-pink-600 mt-1"
+        class="mt-1 flex items-center gap-1 text-pink-600"
       >
         <mat-icon
           svgIcon="icon-instagram-new"
@@ -114,7 +115,7 @@
       </button>
     </div>
   </div>
-  <div class="block sm:absolute top-4 right-4">
+  <div class="top-4 right-4 block sm:absolute">
     <a
       mat-flat-button
       class="modern"

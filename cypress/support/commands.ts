@@ -36,6 +36,10 @@
 //   }
 // }
 
+Cypress.Commands.add('waitForLoad', () => {
+  cy.get('mat-progress-bar', { timeout: 15000 }).should('not.exist');
+});
+
 Cypress.Commands.add(
   'loginByAuth0Api',
   (args: { email: string; password: string }) => {

@@ -3,6 +3,7 @@ import { seedIds } from '../../server/prisma/constants';
 describe('The Events Page', () => {
   beforeEach(() => {
     cy.visit('/events');
+    cy.waitForLoad();
   });
   context('when the user is not logged in', () => {
     it('successfully loads', () => {
