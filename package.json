@@ -17,7 +17,7 @@
     "docker:down": "docker-compose down",
     "test": "yarn docker:up && yarn cypress:open && yarn docker:down",
     "test:dev": "yarn docker:up --build && yarn cypress:open && yarn docker:down",
-    "test:percy": "yarn docker:up --build && set PERCY_TOKEN=c397ca5bb874794a39daf35df8ea253936ba583c3bbd665b4f330c62f15585cf && percy exec -- cypress run && yarn docker:down",
+    "test:percy": "dotenv -- percy exec -- cypress run",
     "events": "yarn workspace @tumi/events dev",
     "legacy-app": "yarn workspace @tumi/legacy-app start:app",
     "server": "yarn workspace @tumi/server dev",
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@percy/cli": "^1.9.0",
     "@percy/cypress": "^3.1.2",
-    "cypress": "^10.4.0"
+    "cypress": "^10.4.0",
+    "dotenv-cli": "^6.0.0"
   }
 }

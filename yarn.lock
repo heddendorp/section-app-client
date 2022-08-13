@@ -24198,6 +24198,7 @@ __metadata:
     "@percy/cypress": ^3.1.2
     concurrently: ^7.3.0
     cypress: ^10.4.0
+    dotenv-cli: ^6.0.0
   languageName: unknown
   linkType: soft
 

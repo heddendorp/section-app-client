@@ -50,6 +50,9 @@ Cypress.Commands.add(
           cy.get('#username').type(email);
           cy.contains('Continue').click();
           cy.get('#password').type(password);
+          cy.on('uncaught:exception', (err) => {
+            return false;
+          });
           cy.contains('Continue').click();
           cy.wait(500);
           cy.url().then((url) => {
@@ -63,7 +66,8 @@ Cypress.Commands.add(
     });
     cy.reload();
     cy.visit('/');
-    cy.get('[data-testid="profile-link"]', { timeout: 10000 }).should(
+    cy.wait(500);
+    cy.get('[data-testid="profile-link"]', { timeout: 15000 }).should(
       'be.visible'
     );
 
