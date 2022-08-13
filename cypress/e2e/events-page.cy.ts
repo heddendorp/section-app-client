@@ -7,6 +7,7 @@ describe('The Events Page', () => {
   context('when the user is not logged in', () => {
     it('successfully loads', () => {
       cy.get('app-event-list-page').should('exist');
+      cy.percySnapshot();
     });
     it('shows the Test Event', () => {
       cy.get('app-events-list-item').contains('Test Event');
