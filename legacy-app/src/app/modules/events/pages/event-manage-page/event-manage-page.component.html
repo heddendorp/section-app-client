@@ -1,29 +1,23 @@
+<mat-toolbar color="white">
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+  <ng-container *ngIf="event$ | async as event">
+    <div class="flex-1 truncate">Manage {{ event.title }}</div>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-flat-button
+      color="accent"
+      class="modern"
+      >Go to template</a
+    >
+  </ng-container>
+</mat-toolbar>
 <mat-progress-bar
     mode="indeterminate"
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="event$ | async as event" class="p-4">
-  <div
-    fxLayout="column"
-    fxLayout.gt-xs="row"
-    fxLayoutGap="1rem"
-    fxLayoutAlign="space-between"
-    class="mb-4"
-  >
-    <div class="flex flex-row items-center">
-      <a routerLink=".." mat-icon-button>
-        <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-      </a>
-      <h1>Manage {{ event.title }}</h1>
-    </div>
-    <a
-      routerLink="/event-templates/{{ event.eventTemplate.id }}"
-      mat-stroked-button
-      class="modern"
-      >Go to template</a
-    >
-  </div>
-
+<main *ngIf="event$ | async as event" class="py-4 px-1 sm:p-4">
   <mat-accordion [multi]="true">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>

@@ -1,9 +1,16 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">Purchase Details</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
     mode="indeterminate"
   *ngIf="(purchase$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="purchase$ | async as purchase">
-  <h1 class="font-bold">Purchase details</h1>
   <h2>Payment</h2>
   <p>Status: {{ purchase.transaction?.stripePayment?.status }}</p>
   <p>

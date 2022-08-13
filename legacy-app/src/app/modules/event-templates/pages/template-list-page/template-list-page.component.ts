@@ -20,7 +20,6 @@ import { Router } from '@angular/router';
   selector: 'app-template-list-page',
   templateUrl: './template-list-page.component.html',
   styleUrls: ['./template-list-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateListPageComponent {
   public Role = Role;

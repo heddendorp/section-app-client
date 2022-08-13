@@ -1,17 +1,21 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">Events <span
+      class="font-light"
+      *ngIf="(events$ | async)?.length as transactionCount"
+    >
+      ({{ transactionCount }})
+    </span></div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
     mode="indeterminate"
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <h1 class="mb-2 font-bold">
-    Events
-    <span
-      class="font-light"
-      *ngIf="(events$ | async)?.length as transactionCount"
-    >
-      ({{ transactionCount }})
-    </span>
-  </h1>
   <form
     [formGroup]="filterForm"
     fxLayout.gt-md="row"
