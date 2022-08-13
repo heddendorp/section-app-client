@@ -1,5 +1,5 @@
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="bg-surface-default">

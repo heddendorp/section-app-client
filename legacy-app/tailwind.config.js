@@ -62,7 +62,7 @@ module.exports = {
         bold: 700,
         extrabold: 800,
         black: 900,
-      }
+      },
     },
     fontFamily: {
       sans: ['General Sans', 'sans-serif'],
@@ -77,7 +77,7 @@ module.exports = {
       bold: 700,
       extrabold: 800,
       black: 900,
-    }
+    },
   },
   variants: {
     extend: {},

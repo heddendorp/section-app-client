@@ -14,7 +14,7 @@
   </ng-container>
 </mat-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="py-4 px-1 sm:p-4">

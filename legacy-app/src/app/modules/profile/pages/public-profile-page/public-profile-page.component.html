@@ -1,5 +1,5 @@
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="profile$ | async as profile">

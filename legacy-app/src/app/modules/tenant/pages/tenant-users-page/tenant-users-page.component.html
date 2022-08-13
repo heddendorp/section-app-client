@@ -3,14 +3,16 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Registered Users
-    <span class="font-light" *ngIf="userNum$ | async as userNum"
-      >({{ userNum }})</span
-    ></div>
+    <div class="reset-scroll">
+      Registered Users
+      <span class="font-light" *ngIf="userNum$ | async as userNum"
+        >({{ userNum }})</span
+      >
+    </div>
   </mat-toolbar>
 </app-reactive-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(users$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">

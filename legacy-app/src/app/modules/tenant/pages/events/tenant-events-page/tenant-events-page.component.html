@@ -3,16 +3,19 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Events <span
-      class="font-light"
-      *ngIf="(events$ | async)?.length as transactionCount"
-    >
-      ({{ transactionCount }})
-    </span></div>
+    <div class="reset-scroll">
+      Events
+      <span
+        class="font-light"
+        *ngIf="(events$ | async)?.length as transactionCount"
+      >
+        ({{ transactionCount }})
+      </span>
+    </div>
   </mat-toolbar>
 </app-reactive-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">

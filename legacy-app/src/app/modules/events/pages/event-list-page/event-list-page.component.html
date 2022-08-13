@@ -1,33 +1,43 @@
 <app-reactive-toolbar>
-  <mat-toolbar color="white"> 
+  <mat-toolbar color="white">
     <div *ngIf="searchEnabled" class="w-full text-base">
       <mat-form-field class="w-full" appearance="standard">
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
       </mat-form-field>
     </div>
-    <div *ngIf="!searchEnabled" class="w-full flex flex-row items-center justify-between sm:justify-start">   
+    <div
+      *ngIf="!searchEnabled"
+      class="w-full flex flex-row items-center justify-between sm:justify-start"
+    >
       <button mat-icon-button (click)="previousMonth()">
         <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
       </button>
-      <div class="whitespace-nowrap ml-2 mr-2 reset-scroll">{{ selectedMonthLabel }}</div>
+      <div class="whitespace-nowrap ml-2 mr-2 reset-scroll">
+        {{ selectedMonthLabel }}
+      </div>
       <button mat-icon-button (click)="nextMonth()">
         <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
       </button>
     </div>
     <button mat-icon-button class="modern" (click)="initSearch()">
-      <mat-icon [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"></mat-icon>
+      <mat-icon
+        [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"
+      ></mat-icon>
     </button>
   </mat-toolbar>
 </app-reactive-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="loading$ | async"
 ></mat-progress-bar>
-<div class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer" routerLink="/page/apply">
+<div
+  class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
+  routerLink="/page/apply"
+>
   <div class="flex items-center justify-between flex-wrap">
     <div class="w-0 flex-1 flex items-center">
       <span class="flex p-2 rounded-lg bg-indigo-700 text-white">
-        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>        
+        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
       </span>
       <p class="ml-3 font-medium text-white truncate">
         <span> Werde ein Teil von TUMi! </span>
@@ -36,11 +46,7 @@
   </div>
 </div>
 <main class="text-surface-on p-4">
-  <a
-    mat-fab
-    routerLink="/event-templates"
-    class="extended-fab"
-  >
+  <a mat-fab routerLink="/event-templates" class="extended-fab">
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add Event</span>
   </a>
@@ -50,7 +56,7 @@
     fxLayoutGap="1rem"
     class="mb-4"
   > -->
-    <!--<div
+  <!--<div
       fxFlex="grow"
       class="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1"
     >
@@ -115,7 +121,7 @@
         </div>
       </div>
     </div>-->
-    <!--<div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
+  <!--<div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
         <div class="h-full bg-gray-100 p-4">
           <h4 class="text-lg font-bold">The Party animals are back!</h4>
@@ -137,7 +143,7 @@
         </div>
       </div>
     </div>-->
-    <!--<div
+  <!--<div
       fxFlex="grow"
       class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
     >
@@ -166,7 +172,7 @@
           <span>List view</span>
         </ng-container>
       </ng-container>
-    </button>    
+    </button>
     <a
       *appIfRole="[Role.User, Role.Admin]"
       mat-stroked-button

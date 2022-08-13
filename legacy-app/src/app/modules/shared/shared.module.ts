@@ -69,7 +69,7 @@ import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive
     UserChipComponent,
     EventChipComponent,
     EventListItemComponent,
-    ReactiveToolbarComponent
+    ReactiveToolbarComponent,
   ],
   imports: [
     RouterModule,
@@ -127,7 +127,7 @@ import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive
     UserChipComponent,
     EventChipComponent,
     EventListItemComponent,
-    ReactiveToolbarComponent
+    ReactiveToolbarComponent,
   ],
   providers: [DatePipe],
 })

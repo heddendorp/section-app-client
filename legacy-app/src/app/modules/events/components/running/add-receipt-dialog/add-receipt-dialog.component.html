@@ -14,7 +14,7 @@
       <img [src]="url" class="max-h-full" />
     </div>
     <mat-progress-bar
-        *ngIf="uploadProgress$ | async"
+      *ngIf="uploadProgress$ | async"
       mode="determinate"
       [value]="uploadProgress$ | async"
     ></mat-progress-bar>
@@ -27,7 +27,12 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-dialog-close mat-flat-button class="modern">Close</button>
-  <button mat-raised-button color="primary" class="modern" (click)="fileInput.click()">
+  <button
+    mat-raised-button
+    color="primary"
+    class="modern"
+    (click)="fileInput.click()"
+  >
     Select file
   </button>
   <button

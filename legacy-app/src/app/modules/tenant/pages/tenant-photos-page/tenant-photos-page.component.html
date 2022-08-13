@@ -7,7 +7,7 @@
   </mat-toolbar>
 </app-reactive-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(photos$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="photos$ | async as photos" class="p-4">

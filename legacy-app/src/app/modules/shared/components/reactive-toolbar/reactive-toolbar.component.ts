@@ -1,15 +1,30 @@
 import { AfterViewInit, Component, HostBinding } from '@angular/core';
-import { distinctUntilChanged, filter, fromEvent, map, pairwise, share, throttleTime, tap } from 'rxjs';
-import { trigger, state, transition, style, animate } from '@angular/animations';
+import {
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  map,
+  pairwise,
+  share,
+  throttleTime,
+  tap,
+} from 'rxjs';
+import {
+  trigger,
+  state,
+  transition,
+  style,
+  animate,
+} from '@angular/animations';
 
 enum VisibilityState {
   Visible = 'visible',
-  Hidden = 'hidden'
+  Hidden = 'hidden',
 }
 
 enum Direction {
   Up = 'Up',
-  Down = 'Down'
+  Down = 'Down',
 }
 
 @Component({
@@ -26,9 +41,9 @@ enum Direction {
         VisibilityState.Visible,
         style({ opacity: 1, transform: 'translateY(0)' })
       ),
-      transition('* => *', animate('200ms ease-in'))
-    ])
-  ]
+      transition('* => *', animate('200ms ease-in')),
+    ]),
+  ],
 })
 export class ReactiveToolbarComponent implements AfterViewInit {
   public isVisible = true;
@@ -39,7 +54,9 @@ export class ReactiveToolbarComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const windowContent = document.getElementById('window-content') as HTMLElement;
+    const windowContent = document.getElementById(
+      'window-content'
+    ) as HTMLElement;
     const scroll$ = fromEvent(windowContent, 'scroll').pipe(
       throttleTime(10),
       map(() => windowContent.scrollTop),
@@ -50,11 +67,11 @@ export class ReactiveToolbarComponent implements AfterViewInit {
     );
 
     const goingUp$ = scroll$.pipe(
-      filter(direction => direction === Direction.Up)
+      filter((direction) => direction === Direction.Up)
     );
 
     const goingDown$ = scroll$.pipe(
-      filter(direction => direction === Direction.Down)
+      filter((direction) => direction === Direction.Down)
     );
 
     goingUp$.subscribe(() => {
@@ -64,10 +81,12 @@ export class ReactiveToolbarComponent implements AfterViewInit {
       this.isVisible = false;
     });
 
-    const resetScroll = windowContent.querySelector('.reset-scroll') as HTMLDivElement;
+    const resetScroll = windowContent.querySelector(
+      '.reset-scroll'
+    ) as HTMLDivElement;
     if (resetScroll) {
       resetScroll.onclick = () => {
-        windowContent.scrollTo({top: 0, behavior: 'smooth'});
+        windowContent.scrollTo({ top: 0, behavior: 'smooth' });
       };
     }
   }

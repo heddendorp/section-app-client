@@ -1,9 +1,9 @@
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(photos$ | async) === null"
 ></mat-progress-bar>
 <mat-progress-bar
-    *ngIf="uploading$ | async"
+  *ngIf="uploading$ | async"
   [mode]="(uploadMode$ | async) ?? 'indeterminate'"
   [value]="uploadProgress$ | async"
 ></mat-progress-bar>

@@ -42,10 +42,10 @@ export class EventsListItemComponent {
 
   public freeSpotsStyling(freeParticipantSpots: string) {
     if (freeParticipantSpots.includes('full')) {
-      return 'bg-red-200 text-red-800'
+      return 'bg-red-200 text-red-800';
     }
     if (freeParticipantSpots.includes('Many')) {
-      return 'bg-green-200 text-green-800'
+      return 'bg-green-200 text-green-800';
     }
     return 'bg-orange-200 text-orange-800';
   }

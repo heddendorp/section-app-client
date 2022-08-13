@@ -7,7 +7,7 @@
   </mat-toolbar>
 </app-reactive-toolbar>
 <mat-progress-bar
-    mode="indeterminate"
+  mode="indeterminate"
   *ngIf="(user$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">
@@ -62,7 +62,10 @@
     <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
   </div>
 
-  <mat-table [dataSource]="user.eventRegistrations" class="w-fit sm:w-full mt-4">
+  <mat-table
+    [dataSource]="user.eventRegistrations"
+    class="w-fit sm:w-full mt-4"
+  >
     <ng-container matColumnDef="event">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let registration">

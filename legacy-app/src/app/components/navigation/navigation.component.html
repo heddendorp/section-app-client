@@ -1,29 +1,31 @@
 <div class="flex flex-col sm:flex-row relative h-[100vh]">
   <div
-    class="
-    sidenav
-    flex flex-row sm:flex-col
-    w-full h-12 sm:h-full sm:w-24
-    bg-indigo-600 text-white
-    bottom-0 sm:bottom-auto
-    fixed"
-  >  
-    <a matRipple class="hidden sm:flex items-center h-[64px] min-h-[64px] bg-indigo-700 w-full mb-4" routerLink="/events">
+    class="sidenav flex flex-row sm:flex-col w-full h-12 sm:h-full sm:w-24 bg-indigo-600 text-white bottom-0 sm:bottom-auto fixed"
+  >
+    <a
+      matRipple
+      class="hidden sm:flex items-center h-[64px] min-h-[64px] bg-indigo-700 w-full mb-4"
+      routerLink="/events"
+    >
       <img class="m-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
     </a>
-    <div class="flex-1 flex items-center flex-row h-full sm:flex-col sm:mx-2 gap-0 sm:gap-3">
+    <div
+      class="flex-1 flex items-center flex-row h-full sm:flex-col sm:mx-2 gap-0 sm:gap-3"
+    >
       <a class="nav-item" matRipple routerLink="home" routerLinkActive="active">
         <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
       </a>
       <a
-        class="nav-item" matRipple
+        class="nav-item"
+        matRipple
         routerLink="events"
         routerLinkActive="active"
       >
         <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
       </a>
       <a
-        class="nav-item desktop-only" matRipple
+        class="nav-item desktop-only"
+        matRipple
         routerLink="page/apply"
         routerLinkActive="active"
       >
@@ -48,7 +50,8 @@
       <!--          <span>About us</span>-->
       <!--        </a>-->
       <a
-        class="nav-item" matRipple
+        class="nav-item"
+        matRipple
         routerLink="tutor-hub"
         routerLinkActive="active"
         *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
@@ -57,7 +60,8 @@
         <span>Tutor Hub</span>
       </a>
       <a
-        class="nav-item desktop-only" matRipple
+        class="nav-item desktop-only"
+        matRipple
         routerLink="event-templates"
         routerLinkActive="active"
         *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
@@ -66,7 +70,8 @@
         <span>Event Templates</span>
       </a>
       <a
-        class="nav-item" matRipple
+        class="nav-item"
+        matRipple
         routerLink="tenant"
         routerLinkActive="active"
         *appIfRole="[Role.Admin]"
@@ -81,29 +86,32 @@
       >
         <mat-icon svgIcon="icon-software-installer"></mat-icon>
         <span>Install the TUMi app</span>
-      </button>   
-      <div class="flex-1 hidden sm:block"></div>      
+      </button>
+      <div class="flex-1 hidden sm:block"></div>
       <a
-        class="nav-item flex justify-center sm:px-1" matRipple
+        class="nav-item flex justify-center sm:px-1"
+        matRipple
         routerLink="profile"
       >
         <app-auth-button></app-auth-button>
       </a>
     </div>
   </div>
-  <div class="flex-1 flex flex-col mb-12 sm:mb-0 sm:ml-24 overflow-hidden bg-primary-container">
+  <div
+    class="flex-1 flex flex-col mb-12 sm:mb-0 sm:ml-24 overflow-hidden bg-primary-container"
+  >
     <div id="window-content" class="overflow-auto h-full">
       <div
-      *ngIf="outstandingRating$ | async"
-      class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
-    >
-      <p class="text-center text-sm font-medium">
-        Please rate events you took part in recently!
+        *ngIf="outstandingRating$ | async"
+        class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
+      >
+        <p class="text-center text-sm font-medium">
+          Please rate events you took part in recently!
 
-        <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
-      </p>
-    </div>
-    <router-outlet></router-outlet>
+          <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
+        </p>
+      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

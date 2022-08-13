@@ -8,11 +8,10 @@
       "
       gdColumn="-1/1"
       class="text-lg mt-2"
-      >
-        <span class="font-[400]">{{ event.start | date: 'EEEE' }}, </span>
-        <span class="font-semibold">{{ event.start | date: 'd LLLL' }}</span>
-      </span
     >
+      <span class="font-[400]">{{ event.start | date: 'EEEE' }}, </span>
+      <span class="font-semibold">{{ event.start | date: 'd LLLL' }}</span>
+    </span>
     <app-events-list-item
       [event]="event"
       class="block h-full"

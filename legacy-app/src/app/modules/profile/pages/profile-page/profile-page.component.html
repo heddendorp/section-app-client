@@ -63,7 +63,7 @@
     </div>
     <div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-    >    
+    >
       <div
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -78,13 +78,28 @@
         <h2 class="font-bold">ESNcard</h2>
       </div>
       <ng-container *ngIf="profile.hasESNCard">
-        <p>You have an ESNcard! You will now enjoy a discount on most of our events. Check out all the offers on <a href="https://esncard.org/" class="text-blue-600" target="blank">ESNcard.org</a>!</p>
+        <p>
+          You have an ESNcard! You will now enjoy a discount on most of our
+          events. Check out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
       </ng-container>
       <ng-container *ngIf="!profile.hasESNCard">
         <p class="mb-4">
-          With an ESNcard, you can enjoy a discount on most of our events. Check out all the offers on <a href="https://esncard.org/" class="text-blue-600" target="blank">ESNcard.org</a>!
-        </p>  
-        <a mat-flat-button color="accent" class="modern" routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60">
+          With an ESNcard, you can enjoy a discount on most of our events. Check
+          out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
+        <a
+          mat-flat-button
+          color="accent"
+          class="modern"
+          routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60"
+        >
           Get an ESNcard!
         </a>
       </ng-container>
@@ -166,25 +181,30 @@
   </div>
 
   <div class="mt-4 mb-2 p-4 flex flex-row gap-2">
-    <a class="modern w-full" color="primary" mat-raised-button routerLink="/page/feedback">
+    <a
+      class="modern w-full"
+      color="primary"
+      mat-raised-button
+      routerLink="/page/feedback"
+    >
       <mat-icon svgIcon="icon-feedback"></mat-icon>
       <span>Give Feedback</span>
     </a>
     <button
-    class="modern w-full"
-    color="accent"
-    mat-raised-button
-    *ngIf="this.auth.isAuthenticated$ | async"
-    (click)="auth.logout({ returnTo: document.location.origin })"
+      class="modern w-full"
+      color="accent"
+      mat-raised-button
+      *ngIf="this.auth.isAuthenticated$ | async"
+      (click)="auth.logout({ returnTo: document.location.origin })"
     >
       <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
       Logout
-    </button>    
+    </button>
   </div>
-  <div class="w-full flex flex-col gap-8 items-center mt-12 mb-8 text-base text-slate-500">
-    <div
-      class="w-full flex justify-center gap-6"
-    >
+  <div
+    class="w-full flex flex-col gap-8 items-center mt-12 mb-8 text-base text-slate-500"
+  >
+    <div class="w-full flex justify-center gap-6">
       <a
         href="https://t.me/+PtNU9JqOE19lZjMy"
         target="_blank"

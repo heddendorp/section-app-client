@@ -10,7 +10,10 @@
   </a>
 </ng-container>
 <ng-template #loggedOut>
-  <div class="flex flex-row items-center justify-center w-full" (click)="auth.loginWithRedirect()">
+  <div
+    class="flex flex-row items-center justify-center w-full"
+    (click)="auth.loginWithRedirect()"
+  >
     <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
     <span>&nbsp;Log in</span>
   </div>

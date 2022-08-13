@@ -153,7 +153,7 @@ export class EventListPageComponent implements OnDestroy {
     );
     setTimeout(() => {
       this.filterEvents.setValue(filterValue);
-    })
+    });
   }
 
   initSearch(): void {
