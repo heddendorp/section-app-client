@@ -1,18 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import {
-  GetTenantInfoGQL,
-  GetTenantInfoQuery,
-  MembershipStatus,
-  Role,
-} from '../../generated/generated';
-import {
-  first,
-  map,
-  Observable,
-  ReplaySubject,
-  share,
-  shareReplay,
-} from 'rxjs';
+import { Component } from '@angular/core';
+import { MembershipStatus, Role } from '../../generated/generated';
+import { map, Observable, ReplaySubject, shareReplay } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -24,8 +12,6 @@ import { AuthService } from '@auth0/auth0-angular';
 export class NavigationComponent {
   public Role = Role;
   public MembershipStatus = MembershipStatus;
-  public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
-  public outstandingRating$: Observable<boolean>;
   public installEvent$ = new ReplaySubject<
     Event & { prompt: () => Promise<void> }
   >(1);
@@ -38,14 +24,8 @@ export class NavigationComponent {
 
   constructor(
     public auth: AuthService,
-    private breakpointObserver: BreakpointObserver,
-    private getTenantInfo: GetTenantInfoGQL
+    private breakpointObserver: BreakpointObserver
   ) {
-    const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
-    this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
-    this.outstandingRating$ = tenantChanges.pipe(
-      map(({ data }) => data.currentUser?.outstandingRating ?? false)
-    );
     const { defaultView } = document;
     if (defaultView) {
       defaultView.addEventListener('beforeinstallprompt', (e) => {

@@ -46,6 +46,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive-toolbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive
     EventChipComponent,
     EventListItemComponent,
     ReactiveToolbarComponent,
+    FooterComponent,
   ],
   imports: [
     RouterModule,
@@ -128,6 +130,7 @@ import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive
     EventChipComponent,
     EventListItemComponent,
     ReactiveToolbarComponent,
+    FooterComponent,
   ],
   providers: [DatePipe],
 })

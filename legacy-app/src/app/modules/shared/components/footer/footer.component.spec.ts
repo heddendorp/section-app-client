@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReactiveToolbarComponent } from './reactive-toolbar.component';
+import { FooterComponent } from './footer.component';
 
-describe('ReactiveToolbarComponent', () => {
-  let component: ReactiveToolbarComponent;
-  let fixture: ComponentFixture<ReactiveToolbarComponent>;
+describe('FooterComponent', () => {
+  let component: FooterComponent;
+  let fixture: ComponentFixture<FooterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReactiveToolbarComponent],
+      declarations: [FooterComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReactiveToolbarComponent);
+    fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

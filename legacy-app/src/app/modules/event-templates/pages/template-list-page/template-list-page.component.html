@@ -29,6 +29,7 @@
     mat-fab
     class="extended-fab"
     (click)="createTemplate()"
+    *appIfRole="[Role.Admin]"
     data-testid="create-template-button"
   >
     <mat-icon svgIcon="icon-add"></mat-icon>

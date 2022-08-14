@@ -3,6 +3,8 @@ import { Title } from '@angular/platform-browser';
 import {
   EventListGQL,
   EventListQuery,
+  GetTenantInfoGQL,
+  GetTenantInfoQuery,
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import {
@@ -12,6 +14,7 @@ import {
   firstValueFrom,
   map,
   Observable,
+  share,
   startWith,
   Subject,
   takeUntil,
@@ -42,6 +45,9 @@ export class EventListPageComponent implements OnDestroy {
   private loadEventsQueryRef;
   private destroy$ = new Subject();
 
+  public outstandingRating$: Observable<boolean>;
+  public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
+
   @ViewChild('searchbar')
   private searchBar!: ElementRef;
   public searchEnabled = false;
@@ -51,7 +57,8 @@ export class EventListPageComponent implements OnDestroy {
     private title: Title,
     private eventListStateService: EventListStateService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private getTenantInfo: GetTenantInfoGQL
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - Events');
@@ -130,6 +137,12 @@ export class EventListPageComponent implements OnDestroy {
       })
     );
     this.loadEventsQueryRef.startPolling(60 * 1000);
+
+    const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
+    this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
+    this.outstandingRating$ = tenantChanges.pipe(
+      map(({ data }) => data.currentUser?.outstandingRating ?? false)
+    );
   }
 
   ngOnDestroy(): void {
