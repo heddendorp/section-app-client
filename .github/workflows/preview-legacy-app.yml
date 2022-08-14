@@ -12,22 +12,13 @@ on:
   push:
     branches:
       - main
-      - design
-#    # Publish semver tags as releases.
-#    tags: ['v*.*.*']
+#      - design
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'
       - '.github/workflows/preview-legacy-app.yml'
       - 'infrastructure/legacy-app.yml'
       - 'yarn.lock'
-#  pull_request:
-#    paths:
-#      - 'legacy-app/**'
-#      - 'Dockerfile-Legacy'
-#      - '.github/workflows/preview-legacy-app.yml'
-#      - 'infrastructure/legacy-app.yml'
-#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty
