@@ -16,7 +16,7 @@
     gdGap="1rem"
   >
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
       <div
         fxLayout="row"
@@ -38,12 +38,11 @@
         <p>{{ profile.phone ?? 'not saved' }}</p>
         <p>Birthday:</p>
         <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
-        <p>ESNcard:</p>
-        <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
         <button
-          mat-raised-button
+          mat-flat-button
+          color="accent"
           class="modern"
           (click)="updateUserInformation()"
         >
@@ -62,8 +61,8 @@
         are registered for.
       </p>
     </div>
-    <!--<div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
       <div
         fxLayout="row"
@@ -72,27 +71,39 @@
         class="mb-6"
       >
         <mat-icon
-          svgIcon="icon-card-in-use"
+          svgIcon="icon-membership-card"
           class="text-secondary-default bg-secondary-on card-icon"
-        ></mat-icon>
-        <h2 class="font-bold">Payment Information</h2>
+        >
+        </mat-icon>
+        <h2 class="font-bold">ESNcard</h2>
       </div>
-      <p class="mb-4">
-        To register for paid events, you can add a payment method here. It will
-        show up when registering.
-      </p>
-      <ng-container *ngIf="profile.currentTenant?.stripeData?.paymentMethodId">
-        <p>✔️ All good, we have a payment method saved for you</p>
-        <p class="mb-4">
-          If you wish, you can go through the process again to change your
-          payment method
+      <ng-container *ngIf="profile.hasESNCard">
+        <p>
+          You have an ESNcard! You will now enjoy a discount on most of our
+          events. Check out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
         </p>
       </ng-container>
-
-      <button mat-flat-button color="accent" (click)="setupStripePayment()">
-        Set payment method
-      </button>
-    </div>-->
+      <ng-container *ngIf="!profile.hasESNCard">
+        <p class="mb-4">
+          With an ESNcard, you can enjoy a discount on most of our events. Check
+          out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
+        <a
+          mat-flat-button
+          color="accent"
+          class="modern"
+          routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60"
+        >
+          Get an ESNcard!
+        </a>
+      </ng-container>
+    </div>
     <div
       *ngIf="(eventsToRate$ | async)?.length"
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
@@ -145,7 +156,7 @@
       (claimRequest)="claimEvent()"
     ></app-event-list>
     <div
-      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow"
+      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
       <div
@@ -156,7 +167,7 @@
       >
         <mat-icon
           svgIcon="icon-conference"
-          class="text-primary-default card-icon bg-white"
+          class="text-secondary-default card-icon bg-white"
         ></mat-icon>
         <h2 class="font-bold">Section membership</h2>
       </div>
@@ -168,4 +179,27 @@
       </div>
     </div>
   </div>
+
+  <div class="mt-4 mb-2 p-4 flex flex-row gap-2">
+    <a
+      class="modern w-full"
+      color="primary"
+      mat-raised-button
+      routerLink="/page/feedback"
+    >
+      <mat-icon svgIcon="icon-feedback"></mat-icon>
+      <span>Give Feedback</span>
+    </a>
+    <button
+      class="modern w-full"
+      color="accent"
+      mat-raised-button
+      *ngIf="this.auth.isAuthenticated$ | async"
+      (click)="auth.logout({ returnTo: document.location.origin })"
+    >
+      <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
+      Logout
+    </button>
+  </div>
+  <app-footer></app-footer>
 </main>

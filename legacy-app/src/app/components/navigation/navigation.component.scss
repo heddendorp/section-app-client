@@ -1,17 +1,8 @@
-.sidenav-container {
-  height: 100%;
-}
-
-.sidenav {
-  width: 280px;
-  @apply p-4 bg-surface-default text-variant-on;
-}
-
 @media print {
   .sidenav {
     display: none;
   }
-  mat-toolbar {
+  mat-x {
     display: none;
   }
   button {
@@ -22,28 +13,26 @@
   }
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
-}
+.nav-item {
+  @apply flex-col items-center w-0 flex-1 sm:flex-initial sm:w-full h-full sm:h-auto sm:rounded-xl sm:py-2 justify-center text-indigo-200;
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-mat-nav-list {
-  .active {
-    @apply bg-secondary-container text-secondary-onContainer;
+  &.desktop-only {
+    @apply hidden sm:flex;
   }
-  a,
-  button {
-    @apply rounded-full overflow-hidden font-medium text-variant-on;
-    .mat-list-item-content {
-      @apply p-4;
-    }
-    mat-icon {
-      @apply w-6 h-6 mr-3;
-    }
+
+  &:not(.desktop-only) {
+    @apply flex;
+  }
+
+  span {
+    @apply hidden sm:block mt-0.5 sm:mt-2 text-xs text-center leading-tight;
+  }
+
+  &:hover {
+    @apply text-white;
+  }
+
+  &.active {
+    @apply bg-indigo-800 text-white;
   }
 }

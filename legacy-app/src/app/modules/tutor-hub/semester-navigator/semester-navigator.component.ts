@@ -19,6 +19,7 @@ export class SemesterNavigatorComponent implements OnInit {
   public semesterText = 'Current semester';
   public start: DateTime | undefined;
   public end: DateTime | undefined;
+  public isAllTime = false;
 
   @Input()
   calculateStartEnd!: (date: DateTime) => { start: DateTime; end: DateTime };
@@ -31,12 +32,20 @@ export class SemesterNavigatorComponent implements OnInit {
   }
 
   prevSemester() {
-    this.semesterOffset--;
+    if (this.isAllTime) {
+      this.isAllTime = false;
+    } else {
+      this.semesterOffset--;
+    }
     this.update();
   }
 
   nextSemester() {
-    this.semesterOffset++;
+    if (this.isAllTime) {
+      this.isAllTime = false;
+    } else {
+      this.semesterOffset++;
+    }
     this.update();
   }
 
@@ -59,8 +68,8 @@ export class SemesterNavigatorComponent implements OnInit {
   }
 
   allTime() {
-    this.semesterOffset = 0;
     this.semesterText = 'All time';
+    this.isAllTime = true;
 
     this.rangeEmitter.emit({
       start: null,

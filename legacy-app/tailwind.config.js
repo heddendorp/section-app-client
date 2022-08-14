@@ -4,16 +4,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          default: '#0053db',
+          default: '#4f46e5',
           on: '#ffffff',
-          container: '#dae1ff',
-          onContainer: '#00164d',
+          container: '#f3f4f6',
+          onContainer: '#111827',
         },
         secondary: {
           default: '#585e71',
           on: '#ffffff',
-          container: '#dde1f9',
-          onContainer: '#161b2c',
+          container: '#ffffff',
+          onContainer: '#111827',
           defaultDark: '#c1c6dd',
           onDark: '#2b3042',
           containerDark: '#414659',
@@ -50,11 +50,33 @@ module.exports = {
         outline: { default: '#75767f', dark: '#8f909a' },
       },
       fontFamily: {
-        display: ['Josefin Sans', 'sans-serif'],
+        display: ['General Sans', 'sans-serif'],
+      },
+      fontWeight: {
+        hairline: 100,
+        thin: 200,
+        light: 300,
+        normal: 450,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        black: 900,
       },
     },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
+      sans: ['General Sans', 'sans-serif'],
+    },
+    fontWeight: {
+      hairline: 100,
+      thin: 200,
+      light: 300,
+      normal: 450,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      extrabold: 800,
+      black: 900,
     },
   },
   variants: {

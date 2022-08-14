@@ -1,20 +1,22 @@
-<main class="p-4">
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <a routerLink=".." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
-    <h1>Edit event</h1>
-    <div fxFlex></div>
+<mat-toolbar color="white">
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+  <ng-container *ngIf="event$ | async as event">
+    <div class="flex-1 truncate">Edit {{ event.title }}</div>
     <a
       routerLink="/event-templates/{{ event.eventTemplate.id }}"
-      mat-stroked-button
+      mat-flat-button
+      color="accent"
       class="modern"
-      *ngIf="event$ | async as event"
       >Go to template</a
     >
-  </div>
-
-  <div class="my-8 rounded-lg border-2 py-4 px-4">
+  </ng-container>
+</mat-toolbar>
+<main class="py-4 px-1 sm:p-4">
+  <div
+    class="bg-secondary-container text-primary-onContainer rounded-2xl py-4 px-1 sm:p-4 shadow-xl"
+  >
     <mat-tab-group
       mat-stretch-tabs
       animationDuration="300ms"
@@ -93,7 +95,7 @@
                 class="modern"
                 color="primary"
               >
-                Save Changes
+                Save changes
               </button>
             </div>
           </form>
@@ -264,6 +266,7 @@
                     <button
                       mat-flat-button
                       color="warn"
+                      class="modern"
                       [disabled]="i === 0"
                       (click)="removePrice(i)"
                       type="button"
@@ -330,7 +333,7 @@
                 color="primary"
                 [disabled]="editingProhibited$ | async"
               >
-                Save Changes
+                Save changes
               </button>
             </div>
           </form>
@@ -443,7 +446,7 @@
                 class="modern"
                 color="primary"
               >
-                Save Changes
+                Save changes
               </button>
             </div>
           </form>

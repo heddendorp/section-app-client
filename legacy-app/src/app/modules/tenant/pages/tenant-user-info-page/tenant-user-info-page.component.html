@@ -1,12 +1,17 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">User Information</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(user$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="user$ | async as user">
   <div class="flex flex-row gap-1 items-center mb-4">
-    <a routerLink=".." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
     <app-user-chip
       size="sm"
       [id]="user.id"
@@ -57,7 +62,10 @@
     <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
   </div>
 
-  <mat-table [dataSource]="user.eventRegistrations" class="w-full mt-4">
+  <mat-table
+    [dataSource]="user.eventRegistrations"
+    class="w-fit sm:w-full mt-4"
+  >
     <ng-container matColumnDef="event">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let registration">

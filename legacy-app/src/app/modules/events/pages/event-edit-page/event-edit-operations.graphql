@@ -7,6 +7,8 @@ query loadEventForEdit($id: ID!) {
     disableDeregistration
     end
     eventOrganizerId
+    excludeFromRatings
+    excludeFromStatistics
     icon
     id
     insuranceDescription

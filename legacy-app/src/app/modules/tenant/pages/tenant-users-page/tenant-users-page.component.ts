@@ -9,7 +9,6 @@ import {
   GetUsersQuery,
   MembershipStatus,
   Role,
-  UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
@@ -22,7 +21,6 @@ import {
   takeUntil,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Clipboard } from '@angular/cdk/clipboard';
 

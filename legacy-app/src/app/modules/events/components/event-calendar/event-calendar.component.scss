@@ -3,7 +3,7 @@
 }
 
 .event {
-  @apply bg-gray-200;
+  @apply bg-gray-200 relative overflow-hidden;
   outline-offset: -1px;
 
   &.future-registration {
@@ -12,21 +12,32 @@
     @apply italic;
   }
 
-  &.registered,
-  &.organizer {
-    @apply bg-green-100;
+  &.registered {
+    @apply bg-green-200;
     @apply text-black;
+    &::before {
+      @apply absolute left-0 h-full w-1 bg-green-600;
+      content: ' ';
+    }
+  }
+  &.organizer {
+    @apply bg-blue-200;
+    @apply text-black;
+    &::before {
+      @apply absolute left-0 h-full w-1 bg-blue-600;
+      content: ' ';
+    }
   }
   &.draft {
-    @apply bg-red-100;
+    @apply bg-yellow-200;
     @apply text-black;
   }
   &.organizers {
-    @apply bg-blue-100;
+    @apply bg-blue-200;
     @apply text-black;
   }
   &.approval {
-    @apply bg-yellow-100;
+    @apply bg-violet-200;
     @apply text-black;
   }
 }

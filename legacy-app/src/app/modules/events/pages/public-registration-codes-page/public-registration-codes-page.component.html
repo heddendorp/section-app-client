@@ -1,9 +1,14 @@
+<mat-toolbar color="white">
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+  Public Registration Codes
+</mat-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(registrationCodes$ | async) === null"
 ></mat-progress-bar>
 <main class="text-surface-on p-4">
-  <h1 class="mb-4">Public registration codes</h1>
   <p class="mb-6">
     You can find some short-notice spots for TUMi events here that others want
     to give away. Please make sure to check out the event before registering.
@@ -12,46 +17,34 @@
     <p *ngIf="(registrationCodes$ | async)?.length === 0">
       Currently there are no public registration codes
     </p>
-    <div
-      fxLayout="row"
-      class="text-surface-on relative h-full"
-      *ngFor="let code of registrationCodes$ | async"
-    >
-      <div
-        class="border-outline-default rounded-l-2xl border bg-gray-100 p-4 pr-20"
-        fxLayout="column"
-        fxLayoutAlign="center"
+    <app-grid minWidth="350px">
+      <a
+        *ngFor="let code of registrationCodes$ | async"
+        routerLink="/events/{{ code.targetEvent.id }}"
+        class="event text-surface-on relative h-full bg-white rounded-lg shadow flex flex-col"
+        matRipple
       >
-        <img
-          [src]="code.targetEvent.icon | iconURL"
-          [alt]="code.targetEvent.icon"
-          class="w-28"
-          height="7rem"
-          width="7rem"
-        />
-      </div>
-      <div
-        class="border-outline-default bg-surface-default -ml-16 w-full rounded-2xl border p-4"
-      >
-        <p class="mb-2 font-bold">{{ code.targetEvent.title }}</p>
-        <div class="mb-1 flex items-center gap-1">
-          <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
-          <span>{{ code.targetEvent.start | date: 'short' }}</span>
-        </div>
-        <div
-          fxLayout.gt-xs="row"
-          fxLayout="column"
-          fxLayoutGap=".5rem"
-          class="mt-1"
-        >
-          <a
-            mat-stroked-button
-            class="modern"
-            routerLink="/events/{{ code.targetEvent.id }}"
-            target="_blank"
-          >
-            Check out event
-          </a>
+        <div class="w-full pt-2 px-4 pb-4 flex flex-col gap-2">
+          <div class="flex flex-row gap-2 items-center">
+            <img
+              [src]="code.targetEvent.icon | iconURL"
+              alt=""
+              class="w-12 h-12"
+            />
+            <div class="text-base font-semibold leading-tight">
+              {{ code.targetEvent.title }}
+            </div>
+          </div>
+
+          <div class="mt-auto flex items-center gap-1">
+            <mat-icon
+              class="ml-2"
+              svgIcon="icon-calendar"
+              style="width: 18px"
+            ></mat-icon>
+            <span>{{ code.targetEvent.start | date: 'short' }}</span>
+          </div>
+
           <a
             mat-flat-button
             class="modern"
@@ -62,7 +55,7 @@
             Use code
           </a>
         </div>
-      </div>
-    </div>
+      </a>
+    </app-grid>
   </div>
 </main>

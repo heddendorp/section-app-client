@@ -1,31 +1,44 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <div *ngIf="searchEnabled" class="w-full text-base">
+      <mat-form-field class="w-full" appearance="standard">
+        <input
+          #searchbar
+          matInput
+          [formControl]="searchControl"
+          type="search"
+        />
+      </mat-form-field>
+    </div>
+    <div *ngIf="!searchEnabled" class="reset-scroll flex-1">
+      Event Templates
+    </div>
+    <button mat-icon-button class="modern" (click)="initSearch()">
+      <mat-icon
+        [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"
+      ></mat-icon>
+    </button>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(templateCategories$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <div
-    fxLayout="column"
-    fxLayout.gt-sm="row"
-    fxLayoutAlign="space-between center"
-    class="mb-4"
+  <button
+    mat-fab
+    class="extended-fab"
+    (click)="createTemplate()"
+    *appIfRole="[Role.Admin]"
+    data-testid="create-template-button"
   >
-    <h1>Event Templates</h1>
-    <button
-      (click)="createTemplate()"
-      mat-flat-button
-      color="accent"
-      class="modern"
-      *appIfRole="[Role.Admin]"
-    >
-      <mat-icon svgIcon="icon-add"></mat-icon>
-      <span>Add new template</span>
-    </button>
+    <mat-icon svgIcon="icon-add"></mat-icon>
+    <span class="label">Create new template</span>
+  </button>
+  <div class="mb-4">
+    Select an event template to create a new event from. If you want to create a
+    brand-new template, please contact the Event Manager.
   </div>
-  <mat-form-field class="mb-4 w-full">
-    <mat-label>Search</mat-label>
-    <input matInput placeholder="Search" [formControl]="searchControl" />
-    <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
-  </mat-form-field>
   <mat-accordion [multi]="!!searchControl.value">
     <mat-expansion-panel
       *ngFor="let category of templateCategories$ | async"

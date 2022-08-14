@@ -1,9 +1,9 @@
 <div
   gdColumns="repeat(7, calc(100% / 7))"
-  class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0"
+  class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0 sm:shadow-lg"
 >
   <div
-    class="border-t border-l bg-slate-100 p-1"
+    class="border-t border-l bg-slate-400 text-white p-1"
     *ngFor="let weekday of weekdays"
   >
     <p class="text-center">{{ weekday }}</p>
@@ -14,7 +14,7 @@
       *ngFor="let day of week.days"
       (click)="showDayDialog(day.events)"
       class="day flex flex-col border-t border-l cursor-pointer pb-0.5 {{
-        day.today ? 'bg-blue-100' : ''
+        day.today ? 'bg-blue-100' : 'bg-white'
       }}"
     >
       <p class="text-center text-sm md:text-base">

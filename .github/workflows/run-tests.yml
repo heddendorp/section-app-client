@@ -22,7 +22,7 @@ jobs:
         continue-on-error: true
 
       - name: Build the stack
-        run: docker-compose up -d
+        run: docker-compose up -d --build
 
       - uses: c-hive/gha-yarn-cache@v2
 
@@ -30,6 +30,8 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           record: true
+          command-prefix: percy exec --
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

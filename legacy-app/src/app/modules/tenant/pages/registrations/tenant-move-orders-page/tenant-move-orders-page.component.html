@@ -1,3 +1,11 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">Registration Codes</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(codes$ | async) === null"

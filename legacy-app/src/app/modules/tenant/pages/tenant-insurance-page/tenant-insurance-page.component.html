@@ -1,9 +1,16 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">Insurance Dashboard</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(events$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4">
-  <h1>Events for insurance</h1>
   <section class="select-all">
     <p *ngFor="let event of events$ | async">
       {{ event.title }}&nbsp;({{ event.start | date: 'd.M.y' }})<br />

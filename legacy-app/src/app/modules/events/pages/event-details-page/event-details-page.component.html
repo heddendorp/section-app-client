@@ -10,7 +10,7 @@
     *ngIf="event.userIsOrganizer"
   >
     <mat-icon svgIcon="icon-user-shield"></mat-icon>
-    <span class="label">Run Event</span>
+    <span class="label">Run event</span>
   </a>
   <button
     mat-fab
@@ -234,7 +234,7 @@
   <div class="p-6 text-sm lg:px-12">
     <p>{{ event.organizer.text }}</p>
   </div>
-  <div class="bg-secondary-container text-secondary-onContainer p-6 lg:p-12">
+  <div class="bg-primary-container text-secondary-onContainer p-6 lg:p-12">
     <ng-template #noRegistration>
       <h2>You can not sign up for this event</h2>
       <ng-container *ngIf="(hasAccount$ | async) === false">
@@ -291,7 +291,7 @@
       event.couldBeOrganizer &&
       event.registrationMode !== RegistrationMode.External
     "
-    class="bg-secondary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12"
+    class="bg-primary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12"
   >
     <h2 class="mb-4 font-bold">Sign up as organizer</h2>
     <app-check-registration-time [event]="event">

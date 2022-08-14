@@ -1,10 +1,10 @@
 .chip {
-  @apply bg-slate-200 align-middle;
+  @apply bg-slate-200 align-middle box-content;
   &.full {
-    @apply bg-purple-100 outline-purple-600 outline-[0.12em] outline;
+    @apply bg-purple-100 border-purple-600 border-[0.12em];
   }
   &.trial {
-    @apply bg-purple-50 outline-purple-400 outline-[0.12em] outline-dashed;
+    @apply bg-purple-50 border-purple-400 border-[0.12em] border-dashed;
   }
 }
 
@@ -60,7 +60,7 @@
   }
 
   .tel {
-    @apply text-[85%] mt-1;
+    @apply text-[85%];
     line-height: initial;
   }
 }

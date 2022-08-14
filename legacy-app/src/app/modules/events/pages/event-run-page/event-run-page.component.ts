@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-event-run-page',

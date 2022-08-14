@@ -1,48 +1,22 @@
+<mat-toolbar color="white">
+  <a routerLink=".." mat-icon-button>
+    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+  </a>
+  <ng-container *ngIf="event$ | async as event">
+    <div class="flex-1 truncate">Run {{ event.title }}</div>
+  </ng-container>
+</mat-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="event$ | async as event" class="p-4">
-  <a mat-fab routerLink="scan">
+<main *ngIf="event$ | async as event" class="p-4 flex flex-col gap-8">
+  <a mat-fab routerLink="scan" class="extended-fab">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+    <span class="label">Scan code</span>
   </a>
-  <div fxLayout="row" fxLayoutGap="1rem" class="mb-4">
-    <a mat-icon-button routerLink="..">
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
-    <h1>{{ event.title }}</h1>
-  </div>
-  <div *ngIf="event.costItems.length" class="mb-8 rounded border-2 p-2">
-    <h2 class="font-bold">Required receipts</h2>
-    <mat-nav-list>
-      <a
-        mat-list-item
-        *ngFor="let costItem of event.costItems"
-        routerLink="receipts/{{ costItem.id }}"
-      >
-        <mat-icon svgIcon="icon-cash-receipt" mat-list-icon></mat-icon>
-        <h1 mat-line>
-          {{ costItem.name }}
-        </h1>
-        <p mat-line>
-          for {{ costItem.amount | currency: 'EUR' }} (
-          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
-          with receipts)
-        </p>
-      </a>
-    </mat-nav-list>
-    <p class="mt-2">Click an entry to see and add receipts</p>
-    <p class="mb-2">
-      You can upload multiple photos of receipts for each entry, please make
-      sure to add all receipts with their data to make sure we can pay you back.
-    </p>
-    <p class="font-bold text-red-500">
-      KEEP ALL ORIGINAL RECEIPTS! <br />
-      TUMi is not yet fully digital so make sure to collect any tickets at the
-      end of the event
-    </p>
-  </div>
-  <div class="flex flex-col md:flex-row gap-4 mb-8">
+
+  <div class="flex flex-col md:flex-row gap-4">
     <a mat-flat-button (click)="generateMail()" class="modern" color="primary">
       <mat-icon svgIcon="icon-new-post"></mat-icon>
       <span>Generate mail template</span>
@@ -60,8 +34,54 @@
       <span>Copy mails of checked in users</span>
     </button>
   </div>
+
+  <div
+    *ngIf="event.costItems.length"
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
+    >
+      <mat-icon
+        svgIcon="icon-cash-receipt"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Required receipts</h2>
+    </div>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let costItem of event.costItems"
+        routerLink="receipts/{{ costItem.id }}"
+      >
+        <h1 mat-line>
+          {{ costItem.name }}
+        </h1>
+        <p mat-line>
+          for {{ costItem.amount | currency: 'EUR' }} (
+          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
+          with receipts)
+        </p>
+      </a>
+    </mat-nav-list>
+    <p class="mb-2">
+      You can upload multiple photos of receipts for each entry. Please make
+      sure to add all receipts! After you upload a receipt, please write the
+      Finance Coordinator to initiate the refund.
+    </p>
+    <p class="font-bold text-red-500">
+      KEEP ALL ORIGINAL RECEIPTS! <br />
+      TUMi is not yet fully digital, so make sure to collect any tickets at the
+      end of the event.
+    </p>
+  </div>
+
   <ul
-    class="mt-8 divide-y-2 divide-gray-600 divide-opacity-25 border-2 border-gray-600 border-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2 sm:border-l-0 sm:border-r-0"
+    class="bg-secondary-container text-primary-onContainer rounded-2xl shadow-xl divide-y-2 divide-gray-600 divide-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
   >
     <li class="p-4">
       <p class="font-extrabold md:text-2xl">
@@ -77,55 +97,89 @@
 
     <li class="p-4">
       <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
-      <p class="mt-1 font-medium md:text-xl">Participant Spots</p>
+      <p class="mt-1 font-medium md:text-xl">Participant spots</p>
     </li>
   </ul>
-  <h2 class="mb-2 mt-6">Organizers</h2>
-  <div class="flex flex-col md:flex-row flex-wrap gap-4">
-    <div *ngFor="let registration of event.organizerRegistrations">
-      <app-user-chip
-        size="md"
-        [id]="registration.user.id"
-        [picture]="registration.user.picture"
-        [name]="registration.user.fullName"
-        [phone]="registration.user.phone || ''"
-        [status]="registration.user.currentTenant?.status + ''"
-        [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
-      >
-      </app-user-chip>
-    </div>
-  </div>
-  <h2 class="mt-4 mb-2">Participants</h2>
-  <div class="flex flex-col md:flex-row flex-wrap gap-4">
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
     <div
-      class="flex flex-row gap-1 items-center"
-      *ngFor="let registration of event.participantRegistrations"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
     >
-      <div class="flex-1">
+      <mat-icon
+        svgIcon="icon-conference"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Organizers</h2>
+    </div>
+    <div class="flex flex-col md:flex-row flex-wrap gap-4">
+      <div *ngFor="let registration of event.organizerRegistrations">
         <app-user-chip
           size="md"
           [id]="registration.user.id"
           [picture]="registration.user.picture"
           [name]="registration.user.fullName"
           [phone]="registration.user.phone || ''"
-          [checkedIn]="!!registration.checkInTime"
           [status]="registration.user.currentTenant?.status + ''"
+          [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
         >
         </app-user-chip>
       </div>
-      <ng-container *ngIf="!registration.checkInTime">
-        <button
-          mat-icon-button
-          class="modern"
-          (click)="checkin(registration.id)"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-checked"></mat-icon>
-        </button>
-      </ng-container>
-      <div *ngFor="let submission of registration.submissions">
-        <p class="font-bold">{{ submission.submissionItem.name }}</p>
-        <p>{{ submission.data.value }}</p>
+    </div>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
+    >
+      <mat-icon
+        svgIcon="icon-conference"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Participants</h2>
+    </div>
+    <div class="flex flex-col md:flex-row flex-wrap gap-4">
+      <div
+        class="flex flex-row gap-1 items-center"
+        *ngFor="let registration of event.participantRegistrations"
+      >
+        <div class="flex-1">
+          <app-user-chip
+            size="md"
+            [id]="registration.user.id"
+            [picture]="registration.user.picture"
+            [name]="registration.user.fullName"
+            [phone]="registration.user.phone || ''"
+            [checkedIn]="!!registration.checkInTime"
+            [status]="registration.user.currentTenant?.status + ''"
+          >
+            <ng-container *ngIf="!registration.checkInTime">
+              <button
+                mat-icon-button
+                class="modern"
+                (click)="checkin(registration.id)"
+                *appIfRole="[Role.Admin]"
+              >
+                <mat-icon svgIcon="icon-checked"></mat-icon>
+              </button>
+            </ng-container>
+          </app-user-chip>
+        </div>
+        <div *ngFor="let submission of registration.submissions">
+          <p class="font-bold">{{ submission.submissionItem.name }}</p>
+          <p>{{ submission.data.value }}</p>
+        </div>
       </div>
     </div>
   </div>

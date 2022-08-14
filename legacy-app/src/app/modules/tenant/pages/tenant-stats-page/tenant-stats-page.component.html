@@ -1,9 +1,16 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div class="reset-scroll">Statistics HQ</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="(statistics$ | async) === null"
 ></mat-progress-bar>
 <main class="p-4" *ngIf="statistics$ | async as statistics">
-  <h1 class="mb-4 font-mono font-black">Statistics HQ</h1>
   <mat-form-field [formGroup]="rangeControl">
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="picker">

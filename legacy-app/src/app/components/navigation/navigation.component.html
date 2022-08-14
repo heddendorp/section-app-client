@@ -1,207 +1,113 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav {{ (isHandset$ | async) ? 'rounded-r-2xl' : '' }}"
-    fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
+<div class="relative flex h-[100vh] flex-col sm:flex-row">
+  <div
+    class="sidenav fixed bottom-0 flex h-12 w-full flex-row z-50 bg-indigo-600 text-white sm:bottom-auto sm:h-full sm:w-24 sm:flex-col"
+    data-testid="navigation"
   >
-    <div class="h-full w-full" fxLayout="column">
-      <!--      <p class="font-bold text-lg ml-4" fxFlex="noshrink">Menu</p>-->
-      <mat-nav-list (click)="closeSidenav(drawer)">
-        <a mat-list-item routerLink="home" routerLinkActive="active">
-          <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="events"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
-        </a>
-        <a
-          *appIfRole="[Role.User, Role.Admin]"
-          mat-list-item
-          routerLink="events/codes"
-          routerLinkActive="active"
-        >
-          <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
-          ><span>Registration Codes</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60"
-        >
-          <mat-icon svgIcon="icon-membership-card"></mat-icon>
-          <span>Get an ESNcard</span>
-        </a>
-        <a mat-list-item routerLink="/page/apply" routerLinkActive="active">
-          <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon
-          ><span>Apply as a TUMi Tutor</span>
-        </a>
-        <!--        <a mat-list-item routerLink="shop" routerLinkActive="active">-->
-        <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
-        <!--          <span>The TUMi shop</span>-->
-        <!--        </a>-->
-        <!--<a
-          mat-list-item
-          routerLink="basket"
-          routerLinkActive="active"
-          *appIfRole="[Role.User, Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
-          <span>Shopping basket</span>
-        </a>-->
-        <!--        <a mat-list-item routerLink="page/about" routerLinkActive="active">-->
-        <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
-        <!--          <span>About us</span>-->
-        <!--        </a>-->
-        <a
-          mat-list-item
-          routerLink="tutor-hub"
-          routerLinkActive="active"
-          *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
-        >
-          <mat-icon svgIcon="icon-hub"></mat-icon>
-          <span>Tutor Hub</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="event-templates"
-          routerLinkActive="active"
-          *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
-        >
-          <mat-icon svgIcon="icon-template"></mat-icon>
-          <span>Event Templates</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="tenant"
-          routerLinkActive="active"
-          *appIfRole="[Role.Admin]"
-        >
-          <mat-icon svgIcon="icon-maintenance"></mat-icon>
-          <span>Management</span>
-        </a>
-        <a mat-list-item routerLink="page/feedback" routerLinkActive="active">
-          <mat-icon svgIcon="icon-feedback"></mat-icon>
-          <span>Give Feedback</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/page/faq"
-          *ngIf="(tenant$ | async)?.faqPage"
-          routerLinkActive="active"
-        >
-          <mat-icon svgIcon="icon-faq"></mat-icon>
-          <span>FAQ</span>
-        </a>
-        <button
-          mat-list-item
-          *ngIf="installEvent$ | async as event"
-          (click)="event.prompt()"
-        >
-          <mat-icon svgIcon="icon-software-installer"></mat-icon>
-          <span>Install the TUMi app</span>
-        </button>
-        <a
-          mat-list-item
-          *ngIf="this.auth.isAuthenticated$ | async"
-          (click)="auth.logout({ returnTo: document.location.origin })"
-        >
-          <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
-          <span>Log out</span>
-        </a>
-      </mat-nav-list>
-      <div fxFlex="grow"></div>
-      <div class="mx-auto mb-2">
-        <a routerLink="/page/imprint">Imprint</a> /
-        <a routerLink="/page/privacy">Privacy policy</a>
-      </div>
-      <div class="mx-auto mb-4">
-        <a routerLink="/page/tac">Terms + Conditions</a>
-      </div>
-    </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary" style="padding-right: 0">
-      <div class="flex flex-row items-center relative h-full w-full">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-          style="line-height: normal"
-        >
-          <mat-icon
-            aria-label="Side nav toggle icon"
-            svgIcon="icon-menu"
-          ></mat-icon>
-        </button>
-        <a routerLink="/events">
-          <h1 style="margin-top: 4px">{{ (tenant$ | async)?.name }}</h1>
-        </a>
-        <div fxFlex="grow"></div>
-        <app-auth-button></app-auth-button>
-      </div>
-    </mat-toolbar>
-    <div
-      *ngIf="outstandingRating$ | async"
-      class="bg-secondary-containerDark text-secondary-onContainerDark px-4 py-3"
+    <a
+      matRipple
+      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+      routerLink="/events"
     >
-      <p class="text-center text-sm font-medium">
-        Please rate events you took part in recently!
-
-        <a class="underline" routerLink="/profile"> Go to Profile &rarr; </a>
-      </p>
+      <img class="m-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+    </a>
+    <div
+      class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
+    >
+      <a class="nav-item" matRipple routerLink="home" routerLinkActive="active">
+        <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
+      </a>
+      <a
+        class="nav-item"
+        matRipple
+        routerLink="events"
+        routerLinkActive="active"
+        data-testid="events-nav-item"
+      >
+        <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+      </a>
+      <a
+        class="nav-item desktop-only"
+        matRipple
+        routerLink="page/apply"
+        routerLinkActive="active"
+        data-testid="apply-nav-item"
+      >
+        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
+        <span>Apply as a TUMi tutor</span>
+      </a>
+      <!--        <a class="nav-item" matRipple routerLink="shop" routerLinkActive="active">-->
+      <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
+      <!--          <span>The TUMi shop</span>-->
+      <!--        </a>-->
+      <!--<a
+        class="nav-item" matRipple
+        routerLink="basket"
+        routerLinkActive="active"
+        *appIfRole="[Role.User, Role.Admin]"
+      >
+        <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
+        <span>Shopping basket</span>
+      </a>-->
+      <!--        <a class="nav-item" matRipple routerLink="page/about" routerLinkActive="active">-->
+      <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
+      <!--          <span>About us</span>-->
+      <!--        </a>-->
+      <a
+        class="nav-item"
+        matRipple
+        routerLink="tutor-hub"
+        routerLinkActive="active"
+        data-testid="tutor-hub-nav-item"
+        *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      >
+        <mat-icon svgIcon="icon-hub"></mat-icon>
+        <span>Tutor Hub</span>
+      </a>
+      <a
+        class="nav-item desktop-only"
+        matRipple
+        routerLink="event-templates"
+        routerLinkActive="active"
+        data-testid="event-templates-nav-item"
+        *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      >
+        <mat-icon svgIcon="icon-template"></mat-icon>
+        <span>Event Templates</span>
+      </a>
+      <a
+        class="nav-item"
+        matRipple
+        routerLink="tenant"
+        routerLinkActive="active"
+        data-testid="manage-nav-item"
+        *appIfRole="[Role.Admin]"
+      >
+        <mat-icon svgIcon="icon-maintenance"></mat-icon>
+        <span>Management</span>
+      </a>
+      <button
+        class="nav-item"
+        *ngIf="installEvent$ | async as event"
+        (click)="event.prompt()"
+      >
+        <mat-icon svgIcon="icon-software-installer"></mat-icon>
+        <span>Install the TUMi app</span>
+      </button>
+      <div class="hidden flex-1 sm:block"></div>
+      <a
+        class="nav-item flex justify-center sm:px-1"
+        matRipple
+        routerLink="profile"
+      >
+        <app-auth-button></app-auth-button>
+      </a>
     </div>
-    <router-outlet></router-outlet>
-    <div class="grow"></div>
-    <div class="relative mt-8 flex-shrink-0 bg-slate-800">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6">
-        <div
-          class="flex items-center justify-between py-6 md:justify-start md:space-x-10"
-        >
-          <div class="flex justify-start lg:w-0 lg:flex-1">
-            <p class="text-slate-100">©️ 2022 ESN TUMi e.V.</p>
-          </div>
-          <!--      <nav class="hidden space-x-10 md:flex"></nav>-->
-          <div
-            class="items-center justify-end space-x-4 md:flex md:flex-1 lg:w-0"
-          >
-            <a
-              href="https://t.me/+PtNU9JqOE19lZjMy"
-              target="_blank"
-              class="text-base text-slate-300 hover:text-slate-100"
-            >
-              <mat-icon svgIcon="icon-telegram-app"></mat-icon>
-            </a>
-            <a
-              href="https://www.instagram.com/tumi.esn/"
-              target="_blank"
-              class="text-base text-slate-300 hover:text-slate-100"
-            >
-              <mat-icon svgIcon="icon-instagram-new"></mat-icon>
-            </a>
-            <a
-              href="https://www.facebook.com/esntumi.munchen"
-              target="_blank"
-              class="text-base text-slate-300 hover:text-slate-100"
-            >
-              <mat-icon svgIcon="icon-facebook-new-2"></mat-icon>
-            </a>
-            <a
-              href="https://github.com/heddendorp/tumi"
-              target="_blank"
-              class="text-base text-slate-300 hover:text-slate-100"
-            >
-              <mat-icon svgIcon="icon-github"></mat-icon>
-            </a>
-          </div>
-        </div>
-      </div>
+  </div>
+  <div
+    class="bg-primary-container mb-12 flex flex-1 flex-col overflow-hidden sm:mb-0 sm:ml-24"
+  >
+    <div id="window-content" class="h-full overflow-auto">
+      <router-outlet></router-outlet>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>
