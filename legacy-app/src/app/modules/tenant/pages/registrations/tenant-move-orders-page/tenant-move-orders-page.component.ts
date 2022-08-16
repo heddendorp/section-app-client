@@ -41,7 +41,7 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
     private getEventRegistrationCodesGQL: GetEventRegistrationCodesGQL,
     private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL
   ) {
-    this.title.setTitle('TUMi - manage registrations');
+    this.title.setTitle('Registration Codes - TUMi');
     this.ordersQueryRef = this.getEventRegistrationCodesGQL.watch({
       pageLength: 20,
       pageIndex: 0,

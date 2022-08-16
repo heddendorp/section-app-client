@@ -27,6 +27,7 @@ export class TenantEventTemplateCategoriesPageComponent {
     private loadEventCategoriesForAdminGQL: LoadEventCategoriesForAdminGQL,
     private createEventTemplateCategoryGQL: CreateEventTemplateCategoryGQL
   ) {
+    this.title.setTitle('Event Template Categories - TUMi');
     this.eventTemplateCategoriesQueryRef =
       this.loadEventCategoriesForAdminGQL.watch();
     this.eventTemplateCategories$ =

@@ -101,7 +101,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private getEventTemplatesGQL: GetEventTemplatesGQL,
     public permission: PermissionsService
   ) {
-    this.title.setTitle('TUMi - edit event');
     this.publicationForm = this.fb.group({
       publicationState: ['', Validators.required],
     });
@@ -140,6 +139,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       // @ts-ignore
       switchMap((ref) => ref.valueChanges),
       map(({ data }) => data.event),
+      tap((event) => this.title.setTitle(`Edit ${event.title} - TUMi`)),
       shareReplay(1)
     );
     this.organizers$ = this.route.paramMap.pipe(

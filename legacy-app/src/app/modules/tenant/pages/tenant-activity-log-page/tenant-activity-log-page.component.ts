@@ -26,7 +26,7 @@ export class TenantActivityLogPageComponent implements OnDestroy {
     private loadLogQuery: GetLogsGQL,
     private dialog: MatDialog
   ) {
-    this.title.setTitle('TUMi - manage registrations');
+    this.title.setTitle('Activity Log - TUMi');
     this.logsQueryRef = this.loadLogQuery.watch();
     this.logsQueryRef.startPolling(5000);
     this.logs$ = this.logsQueryRef.valueChanges.pipe(

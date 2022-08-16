@@ -5,6 +5,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-purchase-details-page',
@@ -16,8 +17,10 @@ export class TenantPurchaseDetailsPageComponent {
   public purchase$: Observable<GetPurchaseQuery['purchase']>;
   constructor(
     private getPurchaseGQL: GetPurchaseGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private title: Title
   ) {
+    this.title.setTitle('Purchase Details - TUMi');
     this.purchase$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>

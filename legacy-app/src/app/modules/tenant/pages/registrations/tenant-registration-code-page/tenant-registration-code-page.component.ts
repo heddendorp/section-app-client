@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   GetEventRegistrationCodeGQL,
@@ -19,8 +20,10 @@ export class TenantRegistrationCodePageComponent {
 
   constructor(
     private eventRegistrationCodeGQL: GetEventRegistrationCodeGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private title: Title
   ) {
+    this.title.setTitle('Registration Code - TUMi');
     this.eventRegistrationCode$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>

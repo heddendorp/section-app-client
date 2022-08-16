@@ -12,7 +12,7 @@ import {
   UpdateEventTemplateGQL,
   UpdateTemplateLocationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { first, firstValueFrom, map, Observable, switchMap, tap } from 'rxjs';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,12 +46,16 @@ export class TemplateDetailsPageComponent {
     private getEventTemplateCategoriesGQL: GetEventTemplateCategoriesGQL,
     private updateEventTemplateCategoryAssignmentGQL: UpdateEventTemplateCategoryAssignmentGQL
   ) {
-    this.title.setTitle('TUMi - Event template');
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
         this.getEventTemplate
           .watch({ id: params.get('templateId') ?? '' })
-          .valueChanges.pipe(map(({ data }) => data.eventTemplate))
+          .valueChanges.pipe(
+            map(({ data }) => data.eventTemplate),
+            tap((eventTemplate) =>
+              this.title.setTitle(`${eventTemplate.title} - TUMi`)
+            )
+          )
       )
     );
   }
