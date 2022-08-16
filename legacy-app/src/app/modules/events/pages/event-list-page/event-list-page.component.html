@@ -32,6 +32,7 @@
 ></mat-progress-bar>
 <div
   *ngIf="outstandingRating$ | async"
+  @grow
   class="bg-yellow-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
   routerLink="/profile"
 >

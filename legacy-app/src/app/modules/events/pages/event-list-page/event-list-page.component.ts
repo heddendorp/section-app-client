@@ -24,11 +24,20 @@ import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-event-list-page',
   templateUrl: './event-list-page.component.html',
   styleUrls: ['./event-list-page.component.scss'],
+  animations: [
+    trigger('grow', [
+      transition(':enter', [
+        style({ height: '0px', paddingTop: '0', paddingBottom: '0', opacity: '0' }),
+        animate('0.5s ease-in')
+      ]),
+    ])
+  ]
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
