@@ -24,7 +24,7 @@
   "dependencies": {
     "@angular/google-maps": "^14.1.2",
     "@azure/storage-blob": "^12.11.0",
-    "@envelop/auth0": "^3.4.2",
+    "@envelop/auth0": "^3.5.0",
     "@envelop/core": "^2.4.2",
     "@envelop/graphql-jit": "^4.4.2",
     "@envelop/response-cache": "^3.0.2",
