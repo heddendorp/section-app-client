@@ -31,7 +31,7 @@ export class NewUserPageComponent implements OnInit {
     private currentUser: GetCurrentUserGQL,
     private router: Router
   ) {
-    this.title.setTitle('TUMi - welcome');
+    this.title.setTitle('Welcome - TUMi');
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

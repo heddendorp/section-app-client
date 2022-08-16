@@ -7,6 +7,7 @@ import {
   LoadEventsWithRatingQuery,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-event-bookings-page',
@@ -17,7 +18,8 @@ export class TenantEventBookingsPageComponent {
   public events$: Observable<LoadEventsWithBookingQuery['events']>;
   public displayedColumns = ['event', 'start', 'spots', 'registrations'];
 
-  constructor(private loadEventsWithBookingGQL: LoadEventsWithBookingGQL) {
+  constructor(private loadEventsWithBookingGQL: LoadEventsWithBookingGQL, private title: Title) {
+    this.title.setTitle('Event Bookings - TUMi');
     this.events$ = this.loadEventsWithBookingGQL
       .watch({ after: new Date(/*2022, 2, 0*/) })
       .valueChanges.pipe(

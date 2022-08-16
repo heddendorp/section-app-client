@@ -13,6 +13,7 @@ import {
   TenantLoadEventsGQL,
   TenantLoadEventsQuery,
 } from '@tumi/legacy-app/generated/generated';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-events-page',
@@ -37,7 +38,8 @@ export class TenantEventsPageComponent implements OnInit, OnDestroy {
   private loadEventsRef;
   private destroyed$ = new Subject();
 
-  constructor(private tenantLoadEventsGQL: TenantLoadEventsGQL) {
+  constructor(private tenantLoadEventsGQL: TenantLoadEventsGQL, private title: Title) {
+    this.title.setTitle('Event List - TUMi');
     this.loadEventsRef = this.tenantLoadEventsGQL.watch();
     this.events$ = this.loadEventsRef.valueChanges.pipe(
       map((res) => res.data.events)

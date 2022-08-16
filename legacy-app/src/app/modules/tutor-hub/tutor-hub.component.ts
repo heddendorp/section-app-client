@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import {
   GetTutorHubInfoGQL,
   GetTutorHubInfoQuery,
@@ -49,11 +50,14 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   public leaderboardToggle = false;
 
   constructor(
+    private title: Title,
     private getTutorHubInfo: GetTutorHubInfoGQL,
     private getTutorHubEvents: GetTutorHubEventsGQL,
     private loadUsers: GetUsersGQL,
     private fb: UntypedFormBuilder
   ) {
+    this.title.setTitle('Tutor Hub - TUMi');
+
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
     this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
       map(({ data }) => data.currentTenant.tutorHub)

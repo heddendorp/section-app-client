@@ -45,7 +45,7 @@ export class ProfilePageComponent implements OnDestroy {
     public auth: AuthService,
     @Inject(DOCUMENT) public document: Document
   ) {
-    this.title.setTitle('TUMi - Profile');
+    this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(

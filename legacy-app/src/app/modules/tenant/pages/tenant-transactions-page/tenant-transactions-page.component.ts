@@ -6,6 +6,7 @@ import {
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-transactions-page',
@@ -36,7 +37,8 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
   private loadTransactionsRef;
   private destroyed$ = new Subject();
 
-  constructor(private loadTransactionsGQL: LoadTransactionsGQL) {
+  constructor(private loadTransactionsGQL: LoadTransactionsGQL, private title: Title) {
+    this.title.setTitle('Transactions - TUMi');
     this.loadTransactionsRef = this.loadTransactionsGQL.watch({
       take: 20,
       skip: 0,
