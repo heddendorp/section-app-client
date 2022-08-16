@@ -139,7 +139,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       // @ts-ignore
       switchMap((ref) => ref.valueChanges),
       map(({ data }) => data.event),
-      tap((event) => (this.title.setTitle(`Edit ${event.title} - TUMi`))),
+      tap((event) => this.title.setTitle(`Edit ${event.title} - TUMi`)),
       shareReplay(1)
     );
     this.organizers$ = this.route.paramMap.pipe(

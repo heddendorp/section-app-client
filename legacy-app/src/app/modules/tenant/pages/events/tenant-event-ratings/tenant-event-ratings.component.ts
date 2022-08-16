@@ -16,7 +16,10 @@ export class TenantEventRatingsComponent {
   public events$: Observable<LoadEventsWithRatingQuery['events']>;
   public displayedColumns = ['event', 'organizer', 'participant'];
 
-  constructor(private loadEventsWithRatingGQL: LoadEventsWithRatingGQL, private title: Title) {
+  constructor(
+    private loadEventsWithRatingGQL: LoadEventsWithRatingGQL,
+    private title: Title
+  ) {
     this.title.setTitle('Ratings - TUMi');
     this.events$ = this.loadEventsWithRatingGQL
       .watch({ after: DateTime.local().minus({ months: 1 }).toJSDate() })

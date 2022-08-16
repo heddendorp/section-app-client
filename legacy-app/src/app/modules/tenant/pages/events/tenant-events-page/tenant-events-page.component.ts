@@ -38,7 +38,10 @@ export class TenantEventsPageComponent implements OnInit, OnDestroy {
   private loadEventsRef;
   private destroyed$ = new Subject();
 
-  constructor(private tenantLoadEventsGQL: TenantLoadEventsGQL, private title: Title) {
+  constructor(
+    private tenantLoadEventsGQL: TenantLoadEventsGQL,
+    private title: Title
+  ) {
     this.title.setTitle('Event List - TUMi');
     this.loadEventsRef = this.tenantLoadEventsGQL.watch();
     this.events$ = this.loadEventsRef.valueChanges.pipe(

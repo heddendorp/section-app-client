@@ -52,8 +52,10 @@ export class TemplateDetailsPageComponent {
           .watch({ id: params.get('templateId') ?? '' })
           .valueChanges.pipe(
             map(({ data }) => data.eventTemplate),
-            tap((eventTemplate) => (this.title.setTitle(`${eventTemplate.title} - TUMi`))),
-      )
+            tap((eventTemplate) =>
+              this.title.setTitle(`${eventTemplate.title} - TUMi`)
+            )
+          )
       )
     );
   }

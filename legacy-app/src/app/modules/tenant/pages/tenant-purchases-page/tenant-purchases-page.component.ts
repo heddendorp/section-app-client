@@ -28,7 +28,10 @@ export class TenantPurchasesPageComponent implements OnDestroy {
     'status',
   ];
   private loadPurchasesRef;
-  constructor(private loadPurchasesGQL: GetTenantPurchasesGQL, private title: Title) {
+  constructor(
+    private loadPurchasesGQL: GetTenantPurchasesGQL,
+    private title: Title
+  ) {
     this.title.setTitle('Purchases - TUMi');
     this.loadPurchasesRef = this.loadPurchasesGQL.watch();
     this.purchases$ = this.loadPurchasesRef.valueChanges.pipe(

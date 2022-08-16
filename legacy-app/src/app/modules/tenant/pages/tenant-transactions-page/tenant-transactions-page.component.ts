@@ -37,7 +37,10 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
   private loadTransactionsRef;
   private destroyed$ = new Subject();
 
-  constructor(private loadTransactionsGQL: LoadTransactionsGQL, private title: Title) {
+  constructor(
+    private loadTransactionsGQL: LoadTransactionsGQL,
+    private title: Title
+  ) {
     this.title.setTitle('Transactions - TUMi');
     this.loadTransactionsRef = this.loadTransactionsGQL.watch({
       take: 20,

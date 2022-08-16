@@ -35,7 +35,7 @@ export class EventRunPageComponent implements OnDestroy {
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      tap((event) => (this.title.setTitle(`Run ${event.title} - TUMi`))),
+      tap((event) => this.title.setTitle(`Run ${event.title} - TUMi`))
     );
     this.loadEventQueryRef.startPolling(5000);
   }

@@ -48,7 +48,7 @@ export class TenantUserInfoPageComponent {
             .valueChanges
       ),
       map(({ data }) => data.user),
-      tap((user) => (this.title.setTitle(`User ${user.fullName} - TUMi`)))
+      tap((user) => this.title.setTitle(`User ${user.fullName} - TUMi`))
     );
   }
 
