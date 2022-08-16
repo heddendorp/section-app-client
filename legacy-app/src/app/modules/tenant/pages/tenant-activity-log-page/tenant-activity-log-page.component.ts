@@ -42,6 +42,6 @@ export class TenantActivityLogPageComponent implements OnDestroy {
   }
 
   showDetails(log: GetLogsQuery['logs'][0]): void {
-    this.dialog.open(ShowDataDialogComponent, { data: log });
+    this.dialog.open(ShowDataDialogComponent, { data: log, panelClass: 'modern' });
   }
 }

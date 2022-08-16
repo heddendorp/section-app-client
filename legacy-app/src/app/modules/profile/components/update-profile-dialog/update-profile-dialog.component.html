@@ -52,13 +52,14 @@
       <input matInput formControlName="instagram" type="text" />
     </mat-form-field>
   </mat-dialog-content>
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
-    <button mat-flat-button mat-dialog-close>Cancel</button>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+    <button mat-flat-button mat-dialog-close class="modern">Cancel</button>
     <button
       mat-flat-button
       color="primary"
       [disabled]="profileForm.invalid"
       type="submit"
+      class="modern"
     >
       Save
     </button>

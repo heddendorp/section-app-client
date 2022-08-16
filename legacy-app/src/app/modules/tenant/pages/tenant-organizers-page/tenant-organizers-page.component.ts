@@ -35,7 +35,7 @@ export class TenantOrganizersPageComponent implements OnInit {
 
   async addOrganizer() {
     const data = await this.dialog
-      .open(NewOrganizerDialogComponent)
+      .open(NewOrganizerDialogComponent, { panelClass: 'modern' })
       .afterClosed()
       .toPromise();
     if (data) {

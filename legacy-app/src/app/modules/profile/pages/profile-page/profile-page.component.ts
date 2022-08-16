@@ -92,7 +92,7 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateProfileDialogComponent, { data: { profile } })
+        .open(UpdateProfileDialogComponent, { data: { profile }, panelClass: 'modern' })
         .afterClosed()
     );
     if (result && profile) {
@@ -106,7 +106,7 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateUserInformationDialogComponent, { data: { profile } })
+        .open(UpdateUserInformationDialogComponent, { data: { profile }, panelClass: 'modern' })
         .afterClosed()
     );
     if (result && profile) {
@@ -120,7 +120,7 @@ export class ProfilePageComponent implements OnDestroy {
   }
 
   claimEvent(code?: string): void {
-    this.dialog.open(ClaimEventDialogComponent, { data: { code } });
+    this.dialog.open(ClaimEventDialogComponent, { data: { code }, panelClass: 'modern' });
   }
 
   async saveRating(

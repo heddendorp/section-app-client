@@ -155,7 +155,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
   }
 
   moveEvent(): void {
-    this.dialog.open(MoveEventDialogComponent, { data: { event: this.event } });
+    this.dialog.open(MoveEventDialogComponent, { data: { event: this.event }, panelClass: 'modern' });
   }
 
   registerAdditionalData($event: unknown): void {
