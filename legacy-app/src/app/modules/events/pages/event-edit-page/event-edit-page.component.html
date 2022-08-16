@@ -373,7 +373,7 @@
         </div>
       </mat-tab>
       <mat-tab label="Organizers">
-        <div class="p-4">
+        <div class="p-4" *ngIf="event$ | async as event">
           <div
             fxLayoutGap="1rem"
             fxLayout="row"
@@ -389,29 +389,27 @@
               <mat-icon svgIcon="icon-add"></mat-icon>
             </button>
           </div>
-
-          <mat-list class="max-w-lg">
-            <mat-list-item
-              *ngFor="
-                let registration of (event$ | async)?.organizerRegistrations
-              "
-            >
-              <img
-                [src]="registration.user.picture"
-                alt="Image"
-                referrerpolicy="no-referrer"
-                mat-list-avatar
-              />
-              <p mat-line>{{ registration.user.fullName }}</p>
-              <button
-                mat-icon-button
-                (click)="removeUser(registration.id)"
-                [disabled]="editingProhibited$ | async"
-              >
-                <mat-icon svgIcon="icon-delete-sign"></mat-icon>
-              </button>
-            </mat-list-item>
-          </mat-list>
+          <div class="flex flex-col gap-2">
+            <app-user-chip
+            size="md"
+            *ngFor="
+                  let registration of (event$ | async)?.organizerRegistrations
+                "
+            [id]="registration.user.id"
+            [picture]="registration.user.picture"
+            [name]="registration.user.fullName"
+            [status]="registration.user.currentTenant?.status + ''"
+            [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
+          >
+          <button
+                  mat-icon-button
+                  (click)="removeUser(registration.id)"
+                  [disabled]="editingProhibited$ | async"
+                >
+                  <mat-icon svgIcon="icon-delete-sign"></mat-icon>
+                </button>
+          </app-user-chip>
+          </div>          
         </div>
       </mat-tab>
       <mat-tab label="Publication">
