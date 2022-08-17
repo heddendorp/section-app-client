@@ -15,9 +15,7 @@ export class EventListItemComponent {
   formatDate(start: Scalars['DateTime'], end: Scalars['DateTime']) {
     const startDate = DateTime.fromISO(start);
     // Subtract 1min from end date to prevent midnight from counting as an extra day
-    const endDate = DateTime.fromISO(end)
-      .minus({ minutes: 1 })
-      .startOf('day');
+    const endDate = DateTime.fromISO(end).minus({ minutes: 1 }).startOf('day');
 
     if (startDate.year === endDate.year) {
       if (startDate.month === endDate.month) {

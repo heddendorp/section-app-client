@@ -20,15 +20,17 @@ export class EventCalendarComponent implements OnChanges {
   @Input() events: EventListQuery['events'] | null = null;
   @Input() firstDate?: DateTime;
   @Input() lastDate?: DateTime;
-  public weeks: {
-    days: {
-      date: string;
-      month: string;
-      startOfMonth: boolean;
-      today: boolean;
-      events: (EventListQuery['events'][0] & { daySpan: number})[];
-    }[];
-  }[] | null = null;
+  public weeks:
+    | {
+        days: {
+          date: string;
+          month: string;
+          startOfMonth: boolean;
+          today: boolean;
+          events: (EventListQuery['events'][0] & { daySpan: number })[];
+        }[];
+      }[]
+    | null = null;
   public weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   public numberOfEventsPerCell = 5;
@@ -67,7 +69,7 @@ export class EventCalendarComponent implements OnChanges {
           month: string;
           today: boolean;
           startOfMonth: boolean;
-          events: (EventListQuery['events'][0] & { daySpan: number})[];
+          events: (EventListQuery['events'][0] & { daySpan: number })[];
         }[];
       } = {
         days: [],
@@ -81,38 +83,60 @@ export class EventCalendarComponent implements OnChanges {
       ) {
         const currentDay = firstDayOfWeek.plus({ days: k });
         const indexMoveMap = new Map<string, number>();
-        const eventsForDay = events.filter(
-          (event: EventListQuery['events'][0]) => {
+        const eventsForDay = events
+          .filter((event: EventListQuery['events'][0]) => {
             const start = DateTime.fromISO(event.start);
             const end = DateTime.fromISO(event.end);
             // return events which overlap with the current day
-            return end >= currentDay.plus({ minutes: 1}) && start <= currentDay.endOf('day');
-          }
-        ).map((event: EventListQuery['events'][0], index: number) => {
-          const dayStart = DateTime.fromISO(event.start).startOf('day');
-          const dayEnd = DateTime.fromISO(event.end).minus({ minutes: 1}).endOf('day');
-          let calendarDays = Math.round(dayEnd.diff(dayStart, 'days').days);
-          let dayIndex = null;
-          let daySpan = 1;
+            return (
+              end >= currentDay.plus({ minutes: 1 }) &&
+              start <= currentDay.endOf('day')
+            );
+          })
+          .map((event: EventListQuery['events'][0], index: number) => {
+            const dayStart = DateTime.fromISO(event.start).startOf('day');
+            const dayEnd = DateTime.fromISO(event.end)
+              .minus({ minutes: 1 })
+              .endOf('day');
+            let calendarDays = Math.round(dayEnd.diff(dayStart, 'days').days);
+            let dayIndex = null;
+            let daySpan = 1;
 
-          if (calendarDays > 1) {
-            // if this day is a Monday, reset index
-            if (currentDay.weekday === 1 || !multiDayEvents.has(event.id) ) {
-              multiDayEvents.set(event.id, index);
-              calendarDays = Math.round((lastDayOfWeek < dayEnd ? lastDayOfWeek : dayEnd).diff(dayStart < firstDayOfWeek ? firstDayOfWeek : dayStart, 'days').days);
-              daySpan = calendarDays;
-            } else {
-              daySpan = 0;
+            if (calendarDays > 1) {
+              // if this day is a Monday, reset index
+              if (currentDay.weekday === 1 || !multiDayEvents.has(event.id)) {
+                multiDayEvents.set(event.id, index);
+                calendarDays = Math.round(
+                  (lastDayOfWeek < dayEnd ? lastDayOfWeek : dayEnd).diff(
+                    dayStart < firstDayOfWeek ? firstDayOfWeek : dayStart,
+                    'days'
+                  ).days
+                );
+                daySpan = calendarDays;
+              } else {
+                daySpan = 0;
+              }
+              indexMoveMap.set(
+                event.id,
+                multiDayEvents.get(event.id) as number
+              );
             }
-            indexMoveMap.set(event.id, multiDayEvents.get(event.id) as number);
-          }
 
-          return { ...event, index: dayIndex, daySpan  };
-        });
+            return { ...event, index: dayIndex, daySpan };
+          });
         // reorder so the events are correctly sorted by index
         for (const [eventId, newIndex] of indexMoveMap) {
-          eventsForDay.splice(newIndex, 0, eventsForDay.splice(eventsForDay.findIndex((event: (EventListQuery['events'][0])) => event.id === eventId), 1)[0]);
-        }    
+          eventsForDay.splice(
+            newIndex,
+            0,
+            eventsForDay.splice(
+              eventsForDay.findIndex(
+                (event: EventListQuery['events'][0]) => event.id === eventId
+              ),
+              1
+            )[0]
+          );
+        }
 
         week.days.push({
           date: currentDay.toFormat('d'),
@@ -141,7 +165,9 @@ export class EventCalendarComponent implements OnChanges {
   public showDayDialog(events: EventListQuery['events']) {
     if (events.length === 0) return;
     const sortedEvents = [...events];
-    sortedEvents.sort((a, b) => a.start < b.start ? -1 : a.start > b.start ? 1 : 0)
+    sortedEvents.sort((a, b) =>
+      a.start < b.start ? -1 : a.start > b.start ? 1 : 0
+    );
     this.dialog.open(EventCalendarDayDialogComponent, {
       width: '600px',
       maxWidth: '100vw',

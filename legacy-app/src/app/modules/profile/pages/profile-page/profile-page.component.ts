@@ -56,7 +56,7 @@ export class ProfilePageComponent implements OnDestroy {
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
     );
-    
+
     this.profileEventsQueryRef = this.profileEventsQuery.watch();
     this.profileEvents$ = this.profileEventsQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
@@ -104,7 +104,10 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateProfileDialogComponent, { data: { profile }, panelClass: 'modern' })
+        .open(UpdateProfileDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (result && profile) {
@@ -118,7 +121,10 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateUserInformationDialogComponent, { data: { profile }, panelClass: 'modern' })
+        .open(UpdateUserInformationDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (result && profile) {
@@ -132,7 +138,10 @@ export class ProfilePageComponent implements OnDestroy {
   }
 
   claimEvent(code?: string): void {
-    this.dialog.open(ClaimEventDialogComponent, { data: { code }, panelClass: 'modern' });
+    this.dialog.open(ClaimEventDialogComponent, {
+      data: { code },
+      panelClass: 'modern',
+    });
   }
 
   async saveRating(

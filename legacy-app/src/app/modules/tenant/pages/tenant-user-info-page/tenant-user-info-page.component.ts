@@ -52,7 +52,10 @@ export class TenantUserInfoPageComponent {
   async updateUser(user: GetUsersQuery['users'][0]) {
     const newUser = await firstValueFrom(
       this.dialog
-        .open(UpdateUserDialogComponent, { data: { user }, panelClass: 'modern' })
+        .open(UpdateUserDialogComponent, {
+          data: { user },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (newUser) {

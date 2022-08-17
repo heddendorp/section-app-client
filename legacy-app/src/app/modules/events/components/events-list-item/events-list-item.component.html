@@ -1,15 +1,24 @@
 <a
   routerLink="/events/{{ event?.id }}"
-  class="event text-surface-on relative h-full {{ event ? 'bg-white' : 'skeleton bg-slate-50'}} rounded-lg shadow flex flex-col
+  class="event text-surface-on relative h-full {{
+    event ? 'bg-white' : 'skeleton bg-slate-50'
+  }} rounded-lg shadow flex flex-col
   {{ event?.userIsRegistered ? 'participant' : '' }}
   {{ event?.userIsOrganizer ? 'organizer' : '' }}"
   matRipple
 >
   <div class="w-full pt-2 px-4 pb-4 flex flex-col gap-2">
     <div class="flex flex-row gap-2 items-center">
-      <img *ngIf="event" [src]="event.icon | iconURL" alt="" class="w-12 h-12" />
+      <img
+        *ngIf="event"
+        [src]="event.icon | iconURL"
+        alt=""
+        class="w-12 h-12"
+      />
       <div *ngIf="!event" class="skeleton w-12 h-12"></div>
-      <div *ngIf="event" class="text-base font-semibold leading-tight">{{ event.title }}</div>
+      <div *ngIf="event" class="text-base font-semibold leading-tight">
+        {{ event.title }}
+      </div>
       <div *ngIf="!event" class="skeleton">Event Title Phantom</div>
     </div>
 
@@ -97,9 +106,7 @@
           tutors</span
         >
       </ng-container>
-      <span
-        *ngIf="!event"
-        class="skeleton rounded-2xl px-2 py-1"
+      <span *ngIf="!event" class="skeleton rounded-2xl px-2 py-1"
         >Event state phantom</span
       >
     </div>

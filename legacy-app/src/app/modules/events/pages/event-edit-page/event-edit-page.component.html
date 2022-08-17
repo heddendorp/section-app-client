@@ -391,25 +391,27 @@
           </div>
           <div class="flex flex-col gap-2">
             <app-user-chip
-            size="md"
-            *ngFor="
-                  let registration of (event$ | async)?.organizerRegistrations
-                "
-            [id]="registration.user.id"
-            [picture]="registration.user.picture"
-            [name]="registration.user.fullName"
-            [status]="registration.user.currentTenant?.status + ''"
-            [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
-          >
-          <button
-                  mat-icon-button
-                  (click)="removeUser(registration.id)"
-                  [disabled]="editingProhibited$ | async"
-                >
-                  <mat-icon svgIcon="icon-delete-sign"></mat-icon>
-                </button>
-          </app-user-chip>
-          </div>          
+              size="md"
+              *ngFor="
+                let registration of (event$ | async)?.organizerRegistrations
+              "
+              [id]="registration.user.id"
+              [picture]="registration.user.picture"
+              [name]="registration.user.fullName"
+              [status]="registration.user.currentTenant?.status + ''"
+              [tag]="
+                registration.user.id === event.createdBy.id ? 'Creator' : ''
+              "
+            >
+              <button
+                mat-icon-button
+                (click)="removeUser(registration.id)"
+                [disabled]="editingProhibited$ | async"
+              >
+                <mat-icon svgIcon="icon-delete-sign"></mat-icon>
+              </button>
+            </app-user-chip>
+          </div>
         </div>
       </mat-tab>
       <mat-tab label="Publication">

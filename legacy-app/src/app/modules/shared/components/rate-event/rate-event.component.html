@@ -5,7 +5,12 @@
   [formGroup]="ratingForm"
   (ngSubmit)="onSubmit()"
 >
-  <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap=".5rem" routerLink="/events/{{event.id}}">
+  <a
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap=".5rem"
+    routerLink="/events/{{ event.id }}"
+  >
     <img
       src="{{ event.icon | iconURL }}"
       class="bg-secondary-on w-16 rounded-lg p-1"
@@ -31,14 +36,15 @@
   >
     Hide my name
   </mat-checkbox>
-  <p *ngIf="event.userIsOrganizer" class="text-gray-600 flex items-center">    
+  <p *ngIf="event.userIsOrganizer" class="text-gray-600 flex items-center">
     <mat-icon
-    svgIcon="icon-invisible"
-    class="mr-2 min-w-[18px] max-w-[18px]"
-  ></mat-icon>
-  <span>
-    Organizer ratings are only visible to other organizers. Please suggest what could be done better next time.
-  </span>
+      svgIcon="icon-invisible"
+      class="mr-2 min-w-[18px] max-w-[18px]"
+    ></mat-icon>
+    <span>
+      Organizer ratings are only visible to other organizers. Please suggest
+      what could be done better next time.
+    </span>
   </p>
   <button
     class="modern save-button"

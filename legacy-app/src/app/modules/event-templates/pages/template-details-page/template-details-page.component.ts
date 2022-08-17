@@ -93,7 +93,7 @@ export class TemplateDetailsPageComponent {
   async editTemplate() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const update = await this.dialog
-      .open(EventFormDialogComponent, { 
+      .open(EventFormDialogComponent, {
         data: { template },
         width: '600px',
         maxWidth: '100vw',
@@ -132,7 +132,7 @@ export class TemplateDetailsPageComponent {
       this.dialog
         .open(ChangeTemplateCategoryDialogComponent, {
           data: { categories: categories.data.eventTemplateCategories },
-          panelClass: 'modern'
+          panelClass: 'modern',
         })
         .afterClosed()
     );
@@ -150,7 +150,10 @@ export class TemplateDetailsPageComponent {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const location = await firstValueFrom(
       await this.dialog
-        .open(SelectLocationDialogComponent, { minWidth: '50vw', panelClass: 'modern' })
+        .open(SelectLocationDialogComponent, {
+          minWidth: '50vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (location && template) {

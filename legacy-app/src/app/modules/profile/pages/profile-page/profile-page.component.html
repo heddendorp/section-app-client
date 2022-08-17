@@ -143,7 +143,7 @@
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
-    <ng-container *ngIf="(profileEvents$ | async) as profileEvents">
+    <ng-container *ngIf="profileEvents$ | async as profileEvents">
       <app-event-list
         title="Organized events"
         [events]="profileEvents.organizedEvents"
@@ -207,7 +207,5 @@
 </main>
 
 <ng-template #loading>
-  <app-profile-card
-    [hideEditButton]="true"
-  ></app-profile-card>
+  <app-profile-card [hideEditButton]="true"></app-profile-card>
 </ng-template>

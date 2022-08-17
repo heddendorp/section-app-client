@@ -321,9 +321,8 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
 }
 
-
 @layer components {
   .skeleton {
-    @apply animate-pulse bg-slate-200 text-transparent rounded-md cursor-default
+    @apply animate-pulse bg-slate-200 text-transparent rounded-md cursor-default;
   }
 }

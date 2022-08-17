@@ -14,17 +14,15 @@
         <span class="font-semibold">{{ event.start | date: 'd LLLL' }}</span>
       </span>
       <app-events-list-item
-      [event]="event"
-      class="block h-full"
-    ></app-events-list-item>
+        [event]="event"
+        class="block h-full"
+      ></app-events-list-item>
     </ng-container>
   </ng-container>
   <ng-container *ngIf="!events">
     <ng-container *ngFor="let event of [].constructor(3)">
-      <div  gdColumn="-1/1">
-        <span class="skeleton text-lg mt-2"
-          >Weekday, XX XXXXX
-        </span>
+      <div gdColumn="-1/1">
+        <span class="skeleton text-lg mt-2">Weekday, XX XXXXX </span>
       </div>
       <app-events-list-item
         *ngFor="let event of [].constructor(2)"

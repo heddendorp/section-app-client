@@ -10,9 +10,7 @@
         />
       </mat-form-field>
     </div>
-    <div *ngIf="!searchEnabled" resetScroll class="flex-1">
-      Event Templates
-    </div>
+    <div *ngIf="!searchEnabled" resetScroll class="flex-1">Event Templates</div>
     <button mat-icon-button class="modern" (click)="initSearch()">
       <mat-icon
         [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"

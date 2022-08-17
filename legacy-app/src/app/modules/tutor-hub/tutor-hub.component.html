@@ -30,7 +30,9 @@
       >
         <div class="flex flex-col items-center">
           <div class="text-3xl font-extrabold mb-1">
-            <span *ngIf="events$ | async as events; else eventCounter">{{ events.eventCount }}</span>
+            <span *ngIf="events$ | async as events; else eventCounter">{{
+              events.eventCount
+            }}</span>
             <ng-template #eventCounter>
               <span class="skeleton">XXX</span>
             </ng-template>
@@ -41,13 +43,17 @@
         </div>
         <div class="flex flex-col items-center">
           <div class="text-3xl font-extrabold mb-1">
-            <span *ngIf="events$ | async as events; else registrationCounter">{{ events.registrationCount }}</span>
+            <span *ngIf="events$ | async as events; else registrationCounter">{{
+              events.registrationCount
+            }}</span>
             <ng-template #registrationCounter>
               <span class="skeleton">XXXX</span>
             </ng-template>
           </div>
           <div class="text-sm">
-            participant{{ (events$ | async)?.registrationCount === 1 ? '' : 's' }}
+            participant{{
+              (events$ | async)?.registrationCount === 1 ? '' : 's'
+            }}
           </div>
         </div>
       </div>
@@ -92,12 +98,15 @@
           </div>
         </div>
         <div class="grid grid-cols-[3ch_auto_auto] gap-2 text-sm">
-          <ng-container *ngIf="events$ | async as events; else leaderboardSkeleton">
+          <ng-container
+            *ngIf="events$ | async as events; else leaderboardSkeleton"
+          >
             <ng-container
               *ngFor="
                 let entry of leaderboardToggle
                   ? events.creatorLeaderboard
-                  : events.organizerLeaderboard | slice:0:(leaderboardExpanded ? 30 : 10);
+                  : (events.organizerLeaderboard
+                    | slice: 0:(leaderboardExpanded ? 30 : 10));
                 let i = index
               "
             >
@@ -115,13 +124,10 @@
           </ng-container>
           <ng-template #leaderboardSkeleton>
             <ng-container
-              *ngFor="
-                let entry of [].constructor(10);
-                let i = index
-              "
+              *ngFor="let entry of [].constructor(10); let i = index"
             >
               <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
-              <div class="skeleton h-6 w-36 rounded-[24px]"></div>   
+              <div class="skeleton h-6 w-36 rounded-[24px]"></div>
               <div class="skeleton ml-auto font-medium">XX</div>
             </ng-container>
           </ng-template>
@@ -162,7 +168,7 @@
       ></app-event-list-item>
     </mat-nav-list>
     <ng-template #skeleton1>
-      <mat-nav-list>      
+      <mat-nav-list>
         <app-event-list-item
           *ngFor="let event of [].constructor(6)"
         ></app-event-list-item>
@@ -201,18 +207,25 @@
     </form>
     <ng-container *ngIf="!searchInput.value">
       <app-grid minWidth="35px" gap="0.5rem">
-        <ng-container *ngIf="tutorHubData$ | async as tutorHubData; else skeleton2">
+        <ng-container
+          *ngIf="tutorHubData$ | async as tutorHubData; else skeleton2"
+        >
           <app-user-chip
             *ngFor="let tenantUser of tutorHubData.activeOrganizers"
             size="fit"
             [id]="tenantUser.user.id"
-            name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
+            name="{{ tenantUser.user.firstName }} {{
+              tenantUser.user.lastName
+            }}"
             [picture]="tenantUser.user.picture"
           >
           </app-user-chip>
         </ng-container>
         <ng-template #skeleton2>
-          <div *ngFor="let tutor of [].constructor(90)" class="skeleton rounded-full aspect-1"></div>
+          <div
+            *ngFor="let tutor of [].constructor(90)"
+            class="skeleton rounded-full aspect-1"
+          ></div>
         </ng-template>
       </app-grid>
       <div class="italic text-gray-500 text-sm mt-3">
@@ -251,7 +264,9 @@
       <h2 class="font-bold">Birthdays</h2>
     </div>
     <div class="flex flex-col gap-4">
-      <ng-container *ngIf="tutorHubData$ | async as tutorHubData; else skeleton3">
+      <ng-container
+        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton3"
+      >
         <div *ngIf="tutorHubData.birthdays.length === 0">
           No upcoming birthdays in the next week
         </div>
@@ -298,14 +313,18 @@
       <h2 class="font-bold">Who’s Who</h2>
     </div>
     <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 text-sm">
-      <ng-container *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4">
+      <ng-container
+        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4"
+      >
         <div *ngFor="let tenantUser of tutorHubData.usersWithPositions">
           <div class="font-medium mb-0.5">{{ tenantUser.user.position }}</div>
           <app-user-chip
             size="xs"
             [id]="tenantUser.user.id"
             [picture]="tenantUser.user.picture"
-            name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
+            name="{{ tenantUser.user.firstName }} {{
+              tenantUser.user.lastName
+            }}"
             [status]="tenantUser.status || ''"
           >
           </app-user-chip>
@@ -316,8 +335,8 @@
           <div class="font-medium mb-0.5">
             <span class="skeleton">XXX XXXXXXXX XX</span>
           </div>
-          <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>  
-        </div>      
+          <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
+        </div>
       </ng-template>
     </div>
   </div>

@@ -10,21 +10,18 @@
   </div>
   <ng-container *ngIf="!weeks">
     <div
-    *ngFor="let day of [].constructor(28)"
-    (click)="showDayDialog(day.events)"
-    class="day flex flex-col border-t border-l pb-0.5"
-  >
-    <div class="text-center text-sm md:text-base">
-      <span class="skeleton">XX</span>
+      *ngFor="let day of [].constructor(28)"
+      (click)="showDayDialog(day.events)"
+      class="day flex flex-col border-t border-l pb-0.5"
+    >
+      <div class="text-center text-sm md:text-base">
+        <span class="skeleton">XX</span>
+      </div>
+      <div
+        *ngFor="let event of [].constructor(numberOfEventsPerCell)"
+        class="skeleton h-4 md:h-6 rounded mx-0.5"
+      ></div>
     </div>
-    <div
-      *ngFor="
-        let event of [].constructor(numberOfEventsPerCell)
-      "
-      class="skeleton h-4 md:h-6 rounded mx-0.5"
-    ></div>
-  </div>
-    
   </ng-container>
   <ng-container *ngIf="weeks">
     <ng-container *ngFor="let week of weeks">
@@ -37,7 +34,11 @@
         [style.z-index]="7 - weekDayIndex"
       >
         <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
-        <div matRipple class="w-full h-full !absolute cursor-pointer z-50" *ngIf="day.events.length > 0"></div>
+        <div
+          matRipple
+          class="w-full h-full !absolute cursor-pointer z-50"
+          *ngIf="day.events.length > 0"
+        ></div>
         <p class="text-center text-sm md:text-base">
           <span
             *ngIf="day.startOfMonth"
@@ -63,8 +64,12 @@
             isRegistrationOpen(event) ? '' : 'future-registration'
           }}"
           [style.visibility]="event.daySpan === 0 ? 'hidden' : 'visible'"
-          [style.width]="event.daySpan > 1 ? 'calc(' + (event.daySpan * 100) + '% - 0.125rem)' : ''"
-          >
+          [style.width]="
+            event.daySpan > 1
+              ? 'calc(' + event.daySpan * 100 + '% - 0.125rem)'
+              : ''
+          "
+        >
           <img
             [src]="event.icon | iconURL"
             alt="{{ event.icon }}"

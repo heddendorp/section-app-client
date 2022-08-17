@@ -196,9 +196,7 @@
   </div>
   <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
-      <app-events-list
-        [events]="events$ | async"
-      ></app-events-list>
+      <app-events-list [events]="events$ | async"></app-events-list>
       <div
         *ngIf="(events$ | async)?.length === 0"
         class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
