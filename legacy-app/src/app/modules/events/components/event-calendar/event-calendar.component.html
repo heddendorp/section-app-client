@@ -10,13 +10,15 @@
   </div>
   <ng-container *ngFor="let week of weeks">
     <div
-      matRipple
-      *ngFor="let day of week.days"
+      *ngFor="let day of week.days; let weekDayIndex = index"
       (click)="showDayDialog(day.events)"
-      class="day flex flex-col border-t border-l cursor-pointer pb-0.5 {{
+      class="day flex flex-col border-t border-l pb-0.5 {{
         day.today ? 'bg-blue-100' : 'bg-white'
-      }}"
+      }} relative"
+      [style.z-index]="7 - weekDayIndex"
     >
+      <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
+      <div matRipple class="w-full h-full !absolute cursor-pointer z-50" *ngIf="day.events.length > 0"></div>
       <p class="text-center text-sm md:text-base">
         <span
           *ngIf="day.startOfMonth"
@@ -41,7 +43,9 @@
         }} {{ event.userIsOrganizer ? 'organizer' : '' }} {{
           isRegistrationOpen(event) ? '' : 'future-registration'
         }}"
-      >
+        [style.visibility]="event.daySpan === 0 ? 'hidden' : 'visible'"
+        [style.width]="event.daySpan > 1 ? 'calc(' + (event.daySpan * 100) + '% - 0.125rem)' : ''"
+        >
         <img
           [src]="event.icon | iconURL"
           alt="{{ event.icon }}"
@@ -61,7 +65,7 @@
           >+{{ day.events.length - numberOfEventsPerCell + 1 }}</span
         >
       </div>
-      <!-- Phantom to force the height to be exactly 4 events -->
+      <!-- Phantom to force the height to be exactly n events -->
       <ng-container *ngIf="day.events.length < numberOfEventsPerCell">
         <div
           *ngFor="
@@ -69,7 +73,7 @@
               numberOfEventsPerCell - day.events.length
             )
           "
-          class="invisible flex rounded bg-gray-200 h-4 md:h-6"
+          class="invisible h-4 md:h-6"
         ></div>
       </ng-container>
     </div>
