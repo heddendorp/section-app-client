@@ -1,6 +1,6 @@
 <a
   routerLink="/events/{{ event?.id }}"
-  class="event text-surface-on relative h-full {{ event ? 'bg-white' : 'bg-slate-50'}} rounded-lg shadow flex flex-col
+  class="event text-surface-on relative h-full {{ event ? 'bg-white' : 'skeleton bg-slate-50'}} rounded-lg shadow flex flex-col
   {{ event?.userIsRegistered ? 'participant' : '' }}
   {{ event?.userIsOrganizer ? 'organizer' : '' }}"
   matRipple
