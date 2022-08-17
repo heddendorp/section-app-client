@@ -5,13 +5,13 @@
   [formGroup]="ratingForm"
   (ngSubmit)="onSubmit()"
 >
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap=".5rem">
+  <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap=".5rem" routerLink="/events/{{event.id}}">
     <img
       src="{{ event.icon | iconURL }}"
       class="bg-secondary-on w-16 rounded-lg p-1"
     />
     <p>{{ event.title }}</p>
-  </div>
+  </a>
   <app-rating formControlName="rating"></app-rating>
   <mat-form-field>
     <mat-label>Leave a comment</mat-label>
