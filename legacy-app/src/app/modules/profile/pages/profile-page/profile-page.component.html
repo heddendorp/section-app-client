@@ -138,23 +138,25 @@
       </div>
     </div>
     <app-event-list
-      title="Organized events"
-      [events]="profile.organizedEvents"
-      [isOrganized]="true"
-      *ngIf="profile.organizedEvents.length"
-    ></app-event-list>
-    <app-event-list
-      title="Created events"
-      [events]="profile.createdEvents"
-      [isOrganized]="true"
-      *ngIf="profile.createdEvents.length"
-    ></app-event-list>
-    <app-event-list
       title="Participated events"
-      [events]="profile.participatedEvents"
+      [events]="(profileEvents$ | async)?.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
+    <ng-container *ngIf="(profileEvents$ | async) as profileEvents">
+      <app-event-list
+        title="Organized events"
+        [events]="profileEvents.organizedEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.organizedEvents.length"
+      ></app-event-list>
+      <app-event-list
+        title="Created events"
+        [events]="profileEvents.createdEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.createdEvents.length"
+      ></app-event-list>
+    </ng-container>
     <div
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"

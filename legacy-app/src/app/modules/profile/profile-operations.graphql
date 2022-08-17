@@ -67,6 +67,14 @@ query userProfile {
         paymentMethodId
       }
     }
+    organizedEventsCount
+    createdEventsCount
+  }
+}
+
+query userProfileEvents {
+  currentUser {
+    id
     createdEvents {
       id
       title
@@ -102,8 +110,6 @@ query userProfile {
       participantRating
       participantRatingCount
     }
-    organizedEventsCount
-    createdEventsCount
   }
 }
 
