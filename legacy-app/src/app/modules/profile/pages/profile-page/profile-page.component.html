@@ -2,7 +2,7 @@
   mode="indeterminate"
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="profile$ | async as profile">
+<main *ngIf="profile$ | async as profile; else loading">
   <app-profile-card
     [profile]="profile"
     (edit)="updateProfile()"
@@ -203,3 +203,9 @@
   </div>
   <app-footer></app-footer>
 </main>
+
+<ng-template #loading>
+  <app-profile-card
+    [hideEditButton]="true"
+  ></app-profile-card>
+</ng-template>

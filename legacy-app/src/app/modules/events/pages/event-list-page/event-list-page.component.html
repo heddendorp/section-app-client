@@ -76,12 +76,6 @@
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add Event</span>
   </a>
-  <!-- <div
-    fxLayout="column-reverse"
-    fxLayout.gt-md="row"
-    fxLayoutGap="1rem"
-    class="mb-4"
-  > -->
   <!--<div
       fxFlex="grow"
       class="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1"
@@ -169,18 +163,6 @@
         </div>
       </div>
     </div>-->
-  <!--<div
-      fxFlex="grow"
-      class="border-2 border-outline-default rounded-2xl p-4 bg-primary-container text-primary-onContainer"
-    >
-      <h1 class="font-bold mb-2">App navigation issues</h1>
-      <p class="mb-4">
-        We're aware of issues with the app navigation. Sometimes the app will
-        not change the page when you click. One mitigation is to reload the page
-        after clicking. We're working on a fix.
-      </p>
-    </div>-->
-  <!-- </div> -->
   <div class="flex flex-row flex-wrap gap-4 mt-2 mb-6 w-full items-center">
     <button
       mat-flat-button
@@ -215,8 +197,7 @@
   <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
       <app-events-list
-        *ngIf="events$ | async as events"
-        [events]="events"
+        [events]="events$ | async"
       ></app-events-list>
       <div
         *ngIf="(events$ | async)?.length === 0"
@@ -242,8 +223,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="'calendar'">
       <app-event-calendar
-        *ngIf="events$ | async as events"
-        [events]="events"
+        [events]="events$ | async"
         [firstDate]="startOfMonth"
         [lastDate]="endOfMonth"
       ></app-event-calendar>
