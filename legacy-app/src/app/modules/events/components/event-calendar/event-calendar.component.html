@@ -18,8 +18,12 @@
         <span class="skeleton">XX</span>
       </div>
       <div
-        *ngFor="let event of [].constructor(numberOfEventsPerCell)"
+        *ngFor="let event of [].constructor(2)"
         class="skeleton h-4 md:h-6 rounded mx-0.5"
+      ></div>
+      <div
+        *ngFor="let event of [].constructor(numberOfEventsPerCell - 2)"
+        class="invisible h-4 md:h-6 rounded mx-0.5"
       ></div>
     </div>
   </ng-container>

@@ -32,13 +32,15 @@
         <span class="text-blue-700 font-semibold">Internal</span>
       </ng-container>
 
-      <mat-icon
-        class="ml-2"
-        svgIcon="icon-clock"
-        style="width: 18px"
-      ></mat-icon>
-      <span *ngIf="event">{{ event.start | date: 'shortTime' }}</span>
-      <span *ngIf="!event" class="skeleton">XX:XX</span>
+      <ng-container *ngIf="event">
+        <mat-icon
+          class="ml-2"
+          svgIcon="icon-clock"
+          style="width: 18px"
+        ></mat-icon>
+        <span>{{ event.start | date: 'shortTime' }}</span>
+      </ng-container>
+      <span *ngIf="!event" class="skeleton">XX XX:XX</span>
 
       <ng-container *ngIf="defaultPrice()">
         <mat-icon
