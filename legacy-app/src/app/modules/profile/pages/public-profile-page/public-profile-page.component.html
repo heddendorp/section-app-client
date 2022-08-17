@@ -15,8 +15,12 @@
         ></mat-icon>
         <h2 class="font-bold">
           <span>Common past events </span>
-          <span *ngIf="profile$ | async as profile">with {{ profile.firstName }}</span>
-          <span *ngIf="commonEvents$ | async as events" class="font-light"> ({{ events.length }})</span>
+          <span *ngIf="profile$ | async as profile"
+            >with {{ profile.firstName }}</span
+          >
+          <span *ngIf="commonEvents$ | async as events" class="font-light">
+            ({{ events.length }})</span
+          >
         </h2>
       </div>
       <mat-nav-list>
