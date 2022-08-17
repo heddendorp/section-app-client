@@ -16,6 +16,7 @@
   <mat-form-field>
     <mat-label>Leave a comment</mat-label>
     <textarea
+      rows="6"
       formControlName="comment"
       matInput
       placeholder="I liked about the event ..."
@@ -30,8 +31,14 @@
   >
     Hide my name
   </mat-checkbox>
-  <p *ngIf="event.userIsOrganizer">
-    You where an organizer for this event, please rate it from that perspective.
+  <p *ngIf="event.userIsOrganizer" class="text-gray-600 flex items-center">    
+    <mat-icon
+    svgIcon="icon-invisible"
+    class="mr-2 min-w-[18px] max-w-[18px]"
+  ></mat-icon>
+  <span>
+    Organizer ratings are only visible to other organizers. Please suggest what could be done better next time.
+  </span>
   </p>
   <button
     class="modern save-button"
