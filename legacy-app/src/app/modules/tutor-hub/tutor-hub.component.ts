@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
@@ -47,6 +48,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   );
 
   public leaderboardToggle = false;
+  public leaderboardExpanded = false;
 
   constructor(
     private getTutorHubInfo: GetTutorHubInfoGQL,

@@ -97,7 +97,7 @@
               *ngFor="
                 let entry of leaderboardToggle
                   ? events.creatorLeaderboard
-                  : events.organizerLeaderboard;
+                  : events.organizerLeaderboard | slice:0:(leaderboardExpanded ? 30 : 10);
                 let i = index
               "
             >
@@ -125,6 +125,15 @@
               <div class="skeleton ml-auto font-medium">XX</div>
             </ng-container>
           </ng-template>
+        </div>
+        <div class="mt-1">
+          <a
+            matRipple
+            *ngIf="!leaderboardExpanded"
+            (click)="leaderboardExpanded = true"
+            class="text-blue-700 cursor-pointer text-xs"
+            >show more</a
+          >
         </div>
       </ng-container>
     </ng-container>
