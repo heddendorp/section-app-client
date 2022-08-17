@@ -80,14 +80,5 @@ export class ReactiveToolbarComponent implements AfterViewInit {
     goingDown$.subscribe(() => {
       this.isVisible = false;
     });
-
-    const resetScroll = windowContent.querySelector(
-      '.reset-scroll'
-    ) as HTMLDivElement;
-    if (resetScroll) {
-      resetScroll.onclick = () => {
-        windowContent.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-    }
   }
 }

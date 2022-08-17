@@ -4,7 +4,8 @@
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
     <div
-      class="flex-1 truncate reset-scroll"
+      resetScroll
+      class="flex-1 truncate"
       *ngIf="costItem$ | async as costItem"
     >
       {{ costItem.name }} ({{ costItem.event.title }})
