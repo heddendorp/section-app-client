@@ -297,7 +297,8 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   a.extended-fab,
   button.extended-fab {
-    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-20 rounded-xl;
+    // on responsive, add the height of the navbar (3.5rem)
+    @apply right-4 px-4 w-auto bottom-[4.5rem] sm:bottom-4 fixed z-20 rounded-xl;
     .mat-button-wrapper {
       @apply flex;
     }
