@@ -19,7 +19,7 @@
         <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
       </button>
     </div>
-    <button mat-icon-button class="modern" (click)="initSearch()">
+    <button mat-icon-button class="modern" (click)="initSearch()" (document:keydown.control.f)="initSearch(); $event.preventDefault()">
       <mat-icon
         [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"
       ></mat-icon>
