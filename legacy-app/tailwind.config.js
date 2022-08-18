@@ -66,6 +66,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['General Sans', 'sans-serif'],
+      mono: ['SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', 'monospace']
     },
     fontWeight: {
       hairline: 100,
