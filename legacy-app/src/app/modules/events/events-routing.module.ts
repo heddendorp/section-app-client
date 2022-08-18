@@ -37,7 +37,7 @@ const routes: Routes = [
   {
     path: 'codes',
     canActivate: [AuthGuard],
-    component: PublicRegistrationCodesPageComponent,
+    component: EventListPageComponent,
   },
   { path: ':eventId', component: EventDetailsPageComponent },
   {

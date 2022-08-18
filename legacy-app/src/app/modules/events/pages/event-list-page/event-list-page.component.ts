@@ -26,11 +26,12 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   animate,
-  state,
   style,
   transition,
   trigger,
 } from '@angular/animations';
+import { PublicRegistrationCodesPageComponent } from '../public-registration-codes-page/public-registration-codes-page.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-list-page',
@@ -78,7 +79,8 @@ export class EventListPageComponent implements OnDestroy {
     private eventListStateService: EventListStateService,
     private route: ActivatedRoute,
     private router: Router,
-    private getTenantInfo: GetTenantInfoGQL
+    private getTenantInfo: GetTenantInfoGQL,
+    private dialog: MatDialog
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('TUMi - Events');
@@ -163,6 +165,10 @@ export class EventListPageComponent implements OnDestroy {
     this.outstandingRating$ = tenantChanges.pipe(
       map(({ data }) => data.currentUser?.outstandingRating ?? false)
     );
+    
+    if (router.url.includes('codes')) {
+      this.showCodesDialog();
+    }
   }
 
   ngOnDestroy(): void {
@@ -235,5 +241,14 @@ export class EventListPageComponent implements OnDestroy {
       prevMonth.year,
       prevMonth.month,
     ]);
+  }
+
+  showCodesDialog() {
+    this.dialog.open(PublicRegistrationCodesPageComponent, {
+      width: '600px',
+      maxWidth: '100vw',
+      autoFocus: false,
+      panelClass: 'modern',
+    });
   }
 }

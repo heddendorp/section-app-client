@@ -1,21 +1,17 @@
-<mat-toolbar color="white">
-  <a routerLink=".." mat-icon-button>
-    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-  </a>
-  Public Registration Codes
-</mat-toolbar>
 <mat-progress-bar
   mode="indeterminate"
+  class="!relative"
   *ngIf="(registrationCodes$ | async) === null"
 ></mat-progress-bar>
-<main class="text-surface-on p-4">
+<div mat-dialog-content mat-dialog-close class="text-surface-on p-4">
+  <h1 class="mb-4">Public Registration Codes</h1>
   <p class="mb-6">
-    You can find some short-notice spots for TUMi events here that others want
-    to give away. Please make sure to check out the event before registering.
+    Here you can find some short-notice spots for events here that others want
+    to give away. Please make sure to check out the event before registering!
   </p>
   <div fxLayout="column" fxLayoutGap="1rem">
-    <p *ngIf="(registrationCodes$ | async)?.length === 0">
-      Currently there are no public registration codes
+    <p *ngIf="(registrationCodes$ | async)?.length === 0" class="text-center italic text-gray-600">
+      Currently there are no public registration codes. Check again later!
     </p>
     <app-grid minWidth="350px">
       <a
@@ -58,4 +54,4 @@
       </a>
     </app-grid>
   </div>
-</main>
+</div>

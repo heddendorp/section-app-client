@@ -181,15 +181,15 @@
         </ng-container>
       </ng-container>
     </button>
-    <a
+    <button
       *appIfRole="[Role.User, Role.Admin]"
       mat-stroked-button
       class="modern"
-      routerLink="codes"
+      (click)="showCodesDialog()"
     >
       <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
       ><span>Codes</span>
-    </a>
+    </button>
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
     </mat-slide-toggle>
