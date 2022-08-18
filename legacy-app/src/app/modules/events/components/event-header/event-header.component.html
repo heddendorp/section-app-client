@@ -25,16 +25,11 @@
       ></a>
     </ng-container>
   </div>
-  <div class="w-40 h-40 sm:w-48 sm:h-48 bg-surface-default rounded-2xl mx-auto mb-6 lg:mb-8 overflow-hidden">
-    <img
-      *ngIf="event"
-      [src]="event.icon | iconURL"
-      class="w-full h-full p-2"
-    />
-    <div
-      *ngIf="!event"
-      class="skeleton w-full h-full"
-    ></div>
+  <div
+    class="w-40 h-40 sm:w-48 sm:h-48 bg-surface-default rounded-2xl mx-auto mb-6 lg:mb-8 overflow-hidden"
+  >
+    <img *ngIf="event" [src]="event.icon | iconURL" class="w-full h-full p-2" />
+    <div *ngIf="!event" class="skeleton w-full h-full"></div>
   </div>
   <div class="text-2xl font-semibold my-4">
     <span *ngIf="event">{{ event.title }}</span>
@@ -63,7 +58,9 @@
     </div>
   </ng-container>
   <ng-container
-    *ngIf="event && event.participantRatingCount && event.participantRatingCount > 0"
+    *ngIf="
+      event && event.participantRatingCount && event.participantRatingCount > 0
+    "
   >
     <div class="flex items-center gap-2">
       <div class="text-center" style="width: 18px">★</div>

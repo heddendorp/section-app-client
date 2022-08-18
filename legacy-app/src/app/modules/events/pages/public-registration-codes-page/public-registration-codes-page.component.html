@@ -10,7 +10,10 @@
     to give away. Please make sure to check out the event before registering!
   </p>
   <div fxLayout="column" fxLayoutGap="1rem">
-    <p *ngIf="(registrationCodes$ | async)?.length === 0" class="text-center italic text-gray-600">
+    <p
+      *ngIf="(registrationCodes$ | async)?.length === 0"
+      class="text-center italic text-gray-600"
+    >
       Currently there are no public registration codes. Check again later!
     </p>
     <app-grid minWidth="350px">

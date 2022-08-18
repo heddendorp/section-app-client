@@ -34,7 +34,7 @@
   </app-event-header>
   <!--  TODO: get rid of the 10 character check here -->
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
-    <mat-accordion displayMode="flat" [multi]="true">      
+    <mat-accordion displayMode="flat" [multi]="true">
       <ng-container *ngIf="event$ | async as event; else skeleton">
         <mat-expansion-panel
           data-testid="event-description"
@@ -79,7 +79,9 @@
               (event.userIsRegistered || event.userIsOrganizer))
           "
           [expanded]="
-            (isAdmin$ | async) || event.userIsRegistered || event.userIsOrganizer
+            (isAdmin$ | async) ||
+            event.userIsRegistered ||
+            event.userIsOrganizer
           "
         >
           <mat-expansion-panel-header>
@@ -128,7 +130,11 @@
               fxLayoutGap="1rem"
               *ngIf="(event$ | async)?.activeRegistration?.didAttend"
             >
-              <img src="{{ 'approval' | iconURL }}" alt="approval" class="w-10" />
+              <img
+                src="{{ 'approval' | iconURL }}"
+                alt="approval"
+                class="w-10"
+              />
               <span class="text-lg font-bold"
                 >You are checked in to the event!</span
               >
@@ -237,9 +243,14 @@
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Description</mat-panel-title>
-          </mat-expansion-panel-header>          
+          </mat-expansion-panel-header>
           <div class="w-full flex flex-col gap-2">
-            <div *ngFor="let line of [].constructor(12)" class="skeleton w-full h-6">T</div>
+            <div
+              *ngFor="let line of [].constructor(12)"
+              class="skeleton w-full h-6"
+            >
+              T
+            </div>
           </div>
         </mat-expansion-panel>
       </ng-template>

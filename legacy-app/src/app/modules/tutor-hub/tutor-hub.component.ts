@@ -133,7 +133,9 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   }
 
   getLeaderboard(events: any) {
-    const leaderboard = this.leaderboardToggle ? events.creatorLeaderboard : events.organizerLeaderboard;
+    const leaderboard = this.leaderboardToggle
+      ? events.creatorLeaderboard
+      : events.organizerLeaderboard;
     return leaderboard.slice(0, this.leaderboardExpanded ? 30 : 10);
   }
 }
