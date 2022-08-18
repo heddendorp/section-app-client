@@ -362,6 +362,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           displayAttribute: 'title',
           title: 'Select Template',
         },
+        panelClass: 'modern',
       })
       .afterClosed()
       .toPromise();
