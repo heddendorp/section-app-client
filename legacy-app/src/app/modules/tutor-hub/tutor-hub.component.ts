@@ -20,6 +20,7 @@ import {
   tap,
   takeUntil,
   debounceTime,
+  firstValueFrom,
 } from 'rxjs';
 
 @Component({
@@ -129,5 +130,10 @@ export class TutorHubComponent implements OnInit, OnDestroy {
       start,
       end,
     };
+  }
+
+  getLeaderboard(events: any) {
+    const leaderboard = this.leaderboardToggle ? events.creatorLeaderboard : events.organizerLeaderboard;
+    return leaderboard.slice(0, this.leaderboardExpanded ? 30 : 10);
   }
 }

@@ -102,13 +102,7 @@
             *ngIf="events$ | async as events; else leaderboardSkeleton"
           >
             <ng-container
-              *ngFor="
-                let entry of leaderboardToggle
-                  ? events.creatorLeaderboard
-                  : (events.organizerLeaderboard
-                    | slice: 0:(leaderboardExpanded ? 30 : 10));
-                let i = index
-              "
+              *ngFor="let entry of getLeaderboard(events); let i = index"
             >
               <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
               <app-user-chip
@@ -135,10 +129,9 @@
         <div class="mt-1">
           <a
             matRipple
-            *ngIf="!leaderboardExpanded"
-            (click)="leaderboardExpanded = true"
+            (click)="leaderboardExpanded = !leaderboardExpanded"
             class="text-blue-700 cursor-pointer text-xs"
-            >show more</a
+            >show {{ leaderboardExpanded ? 'less' : 'more'}}</a
           >
         </div>
       </ng-container>

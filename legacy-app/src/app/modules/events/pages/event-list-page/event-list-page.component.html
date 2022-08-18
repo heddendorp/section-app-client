@@ -1,5 +1,5 @@
 <app-reactive-toolbar>
-  <mat-toolbar color="white">
+  <mat-toolbar color="white" class="!px-2 sm:!px-4">
     <div *ngIf="searchEnabled" class="w-full text-base">
       <mat-form-field class="w-full" appearance="standard">
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
