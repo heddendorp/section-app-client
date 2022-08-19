@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/node';
 import cors from 'cors';
 import * as Tracing from '@sentry/tracing';
 import compression from 'compression';
-import { socialRouter } from './helpers/socialImage';
 import { webhookRouter } from './helpers/webhooks';
 import { calendarRouter } from './helpers/calendars';
 import { qrRouter } from './helpers/qrCode';
@@ -247,7 +246,7 @@ app.use('/cal', calendarRouter());
 app.use('/qr', qrRouter());
 app.use('/go', shortRouter());
 app.use('/graphql', graphQLServer);
-app.use(socialRouter);
+// app.use(socialRouter);
 app.get('/metrics', async (_, res) => {
   const metrics = await prisma.$metrics.json({
     globalLabels: { app_version: process.env.VERSION ?? 'development' },
