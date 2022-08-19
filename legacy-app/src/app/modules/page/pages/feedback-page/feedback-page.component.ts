@@ -8,6 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 export class FeedbackPageComponent {
   constructor(private title: Title) {
-    this.title.setTitle('TUMi - feedback');
+    this.title.setTitle('Feedback - TUMi');
   }
 }

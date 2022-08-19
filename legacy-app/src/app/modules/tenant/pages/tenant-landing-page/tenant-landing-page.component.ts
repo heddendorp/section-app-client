@@ -8,6 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 export class TenantLandingPageComponent {
   constructor(private title: Title) {
-    this.title.setTitle('TUMi - manage');
+    this.title.setTitle('Management - TUMi');
   }
 }

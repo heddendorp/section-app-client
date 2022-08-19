@@ -4,6 +4,7 @@ import {
   LoadPublicRegistrationCodesGQL,
   LoadPublicRegistrationCodesQuery,
 } from '@tumi/legacy-app/generated/generated';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-public-registration-codes-page',
@@ -15,8 +16,10 @@ export class PublicRegistrationCodesPageComponent {
     LoadPublicRegistrationCodesQuery['eventRegistrationCodes']
   >;
   constructor(
-    private loadPublicRegistrationCodesGQL: LoadPublicRegistrationCodesGQL
+    private loadPublicRegistrationCodesGQL: LoadPublicRegistrationCodesGQL,
+    private title: Title
   ) {
+    this.title.setTitle('Registration Codes - TUMi');
     this.registrationCodes$ = this.loadPublicRegistrationCodesGQL
       .watch()
       .valueChanges.pipe(map((result) => result.data.eventRegistrationCodes));

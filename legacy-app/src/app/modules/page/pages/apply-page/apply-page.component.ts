@@ -23,7 +23,7 @@ export class ApplyPageComponent {
 
     private getTutorHubEvents: GetTutorHubEventsGQL
   ) {
-    this.title.setTitle('TUMi - Apply');
+    this.title.setTitle('Apply - TUMi');
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch({
       range: {
         start: DateTime.fromObject({ year: 2022, month: 4, day: 1 }),

@@ -6,6 +6,7 @@ import {
 import { map, Observable } from 'rxjs';
 import * as Highcharts from 'highcharts';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-stats-page',
@@ -28,7 +29,8 @@ export class TenantStatsPageComponent implements OnDestroy {
   private getStatisticsRef;
   private rangeSubscription;
 
-  constructor(private getStatistics: GetStatisticsGQL) {
+  constructor(private getStatistics: GetStatisticsGQL, private title: Title) {
+    this.title.setTitle('Statistics - TUMi');
     this.getStatisticsRef = this.getStatistics.watch();
     this.rangeSubscription = this.rangeControl.valueChanges.subscribe(
       (value) => {
