@@ -111,6 +111,6 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "volta": {
-    "node": "17.9.1"
+    "node": "18.7.0"
   }
 }
