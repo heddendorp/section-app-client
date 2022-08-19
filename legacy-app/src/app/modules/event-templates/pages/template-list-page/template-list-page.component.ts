@@ -96,7 +96,12 @@ export class TemplateListPageComponent {
     const categories = await firstValueFrom(this.templateCategories$);
     const template = await firstValueFrom(
       this.dialog
-        .open(EventFormDialogComponent, { data: { categories } })
+        .open(EventFormDialogComponent, {
+          data: { categories },
+          width: '600px',
+          maxWidth: '100vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (template) {

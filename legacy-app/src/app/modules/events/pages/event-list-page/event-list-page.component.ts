@@ -24,11 +24,27 @@ import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { PublicRegistrationCodesPageComponent } from '../public-registration-codes-page/public-registration-codes-page.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-list-page',
   templateUrl: './event-list-page.component.html',
   styleUrls: ['./event-list-page.component.scss'],
+  animations: [
+    trigger('grow', [
+      transition(':enter', [
+        style({
+          height: '0px',
+          paddingTop: '0',
+          paddingBottom: '0',
+          opacity: '0',
+        }),
+        animate('0.5s ease-in'),
+      ]),
+    ]),
+  ],
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
@@ -58,7 +74,8 @@ export class EventListPageComponent implements OnDestroy {
     private eventListStateService: EventListStateService,
     private route: ActivatedRoute,
     private router: Router,
-    private getTenantInfo: GetTenantInfoGQL
+    private getTenantInfo: GetTenantInfoGQL,
+    private dialog: MatDialog
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('Events - TUMi');
@@ -143,6 +160,10 @@ export class EventListPageComponent implements OnDestroy {
     this.outstandingRating$ = tenantChanges.pipe(
       map(({ data }) => data.currentUser?.outstandingRating ?? false)
     );
+
+    if (router.url.includes('codes')) {
+      this.showCodesDialog();
+    }
   }
 
   ngOnDestroy(): void {
@@ -215,5 +236,14 @@ export class EventListPageComponent implements OnDestroy {
       prevMonth.year,
       prevMonth.month,
     ]);
+  }
+
+  showCodesDialog() {
+    this.dialog.open(PublicRegistrationCodesPageComponent, {
+      width: '600px',
+      maxWidth: '100vw',
+      autoFocus: false,
+      panelClass: 'modern',
+    });
   }
 }

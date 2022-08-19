@@ -1,28 +1,30 @@
-import { AfterViewInit, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   distinctUntilChanged,
-  filter,
   fromEvent,
   map,
+  Observable,
   pairwise,
   share,
+  Subscription,
   throttleTime,
-  tap,
+  partition,
+  merge,
 } from 'rxjs';
-import {
-  trigger,
-  state,
-  transition,
-  style,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style } from '@angular/animations';
 
 enum VisibilityState {
   Visible = 'visible',
   Hidden = 'hidden',
 }
 
-enum Direction {
+enum ScrollDirection {
   Up = 'Up',
   Down = 'Down',
 }
@@ -32,7 +34,7 @@ enum Direction {
   templateUrl: './reactive-toolbar.component.html',
   styleUrls: ['./reactive-toolbar.component.scss'],
   animations: [
-    trigger('toggle', [
+    trigger('header', [
       state(
         VisibilityState.Hidden,
         style({ opacity: 0, transform: 'translateY(-100%)' })
@@ -41,53 +43,52 @@ enum Direction {
         VisibilityState.Visible,
         style({ opacity: 1, transform: 'translateY(0)' })
       ),
-      transition('* => *', animate('200ms ease-in')),
     ]),
   ],
 })
-export class ReactiveToolbarComponent implements AfterViewInit {
-  public isVisible = true;
+export class ReactiveToolbarComponent implements OnInit, OnDestroy {
+  private scrollSubscription: Subscription | null = null;
+  visibility = VisibilityState.Visible;
+  scrollUp$: Observable<ScrollDirection>;
+  scrollDown$: Observable<ScrollDirection>;
 
-  @HostBinding('@toggle')
-  get toggle(): VisibilityState {
-    return this.isVisible ? VisibilityState.Visible : VisibilityState.Hidden;
-  }
-
-  ngAfterViewInit() {
-    const windowContent = document.getElementById(
-      'window-content'
-    ) as HTMLElement;
-    const scroll$ = fromEvent(windowContent, 'scroll').pipe(
+  constructor(private zone: NgZone, private cdr: ChangeDetectorRef) {
+    const scroll$ = fromEvent(window, 'scroll').pipe(
       throttleTime(10),
-      map(() => windowContent.scrollTop),
+      map(() => window.pageYOffset),
       pairwise(),
-      map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
+      map(
+        ([y1, y2]): ScrollDirection =>
+          y2 < y1 ? ScrollDirection.Up : ScrollDirection.Down
+      ),
       distinctUntilChanged(),
       share()
     );
-
-    const goingUp$ = scroll$.pipe(
-      filter((direction) => direction === Direction.Up)
+    [this.scrollUp$, this.scrollDown$] = partition(
+      scroll$,
+      (scrollDirection: ScrollDirection) =>
+        scrollDirection === ScrollDirection.Up
     );
+  }
 
-    const goingDown$ = scroll$.pipe(
-      filter((direction) => direction === Direction.Down)
-    );
-
-    goingUp$.subscribe(() => {
-      this.isVisible = true;
-    });
-    goingDown$.subscribe(() => {
-      this.isVisible = false;
-    });
-
-    const resetScroll = windowContent.querySelector(
-      '.reset-scroll'
-    ) as HTMLDivElement;
-    if (resetScroll) {
-      resetScroll.onclick = () => {
-        windowContent.scrollTo({ top: 0, behavior: 'smooth' });
-      };
+  ngOnInit() {
+    // disable on iOS due to elastic scroll issues
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      return;
     }
+
+    this.zone.runOutsideAngular(() => {
+      this.scrollSubscription = merge(
+        this.scrollUp$.pipe(map(() => VisibilityState.Visible)),
+        this.scrollDown$.pipe(map(() => VisibilityState.Hidden))
+      ).subscribe((visibility) => {
+        this.visibility = visibility;
+        this.cdr.detectChanges();
+      });
+    });
+  }
+
+  ngOnDestroy() {
+    this.scrollSubscription?.unsubscribe();
   }
 }

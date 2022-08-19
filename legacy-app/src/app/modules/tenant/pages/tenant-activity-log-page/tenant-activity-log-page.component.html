@@ -3,13 +3,13 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Activity Log</div>
+    <div resetScroll>Activity Log</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(logs$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(logs$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <mat-list class="my-2">
     <mat-list-item *ngFor="let stat of stats$ | async">

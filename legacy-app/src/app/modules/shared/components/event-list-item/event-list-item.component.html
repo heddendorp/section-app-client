@@ -1,4 +1,4 @@
-<a mat-list-item routerLink="/events/{{ event.id }}">
+<a *ngIf="event" mat-list-item routerLink="/events/{{ event.id }}">
   <img [src]="event.icon | iconURL" mat-list-avatar />
   <h3 mat-line>{{ event.title }}</h3>
   <p mat-line>
@@ -25,5 +25,12 @@
       name="{{ event.createdBy.firstName }} {{ event.createdBy.lastName }}"
     >
     </app-user-chip>
+  </p>
+</a>
+<a *ngIf="!event" mat-list-item>
+  <div class="skeleton !rounded-full" mat-list-avatar></div>
+  <h3 mat-line class="skeleton">Phantom Title</h3>
+  <p mat-line>
+    <span class="skeleton">XXX XX, XXXX</span>
   </p>
 </a>

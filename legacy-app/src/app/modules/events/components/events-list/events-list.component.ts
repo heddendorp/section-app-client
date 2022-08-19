@@ -7,7 +7,7 @@ import { EventListQuery } from '@tumi/legacy-app/generated/generated';
   styleUrls: ['./events-list.component.scss'],
 })
 export class EventsListComponent {
-  @Input() events: EventListQuery['events'] = [];
+  @Input() events: EventListQuery['events'] | null = null;
 
   public getId(index: number, event: EventListQuery['events'][0]): string {
     return event.id;

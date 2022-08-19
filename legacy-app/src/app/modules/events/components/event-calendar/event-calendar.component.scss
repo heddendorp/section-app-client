@@ -13,7 +13,7 @@
   }
 
   &.registered {
-    @apply bg-green-200;
+    @apply bg-green-100;
     @apply text-black;
     &::before {
       @apply absolute left-0 h-full w-1 bg-green-600;
@@ -21,7 +21,7 @@
     }
   }
   &.organizer {
-    @apply bg-blue-200;
+    @apply bg-blue-100;
     @apply text-black;
     &::before {
       @apply absolute left-0 h-full w-1 bg-blue-600;
@@ -29,15 +29,15 @@
     }
   }
   &.draft {
-    @apply bg-yellow-200;
+    @apply bg-yellow-100;
     @apply text-black;
   }
   &.organizers {
-    @apply bg-blue-200;
+    @apply bg-blue-100;
     @apply text-black;
   }
   &.approval {
-    @apply bg-violet-200;
+    @apply bg-violet-100;
     @apply text-black;
   }
 }

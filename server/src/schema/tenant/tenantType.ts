@@ -221,7 +221,7 @@ builder.prismaObject('Tenant', {
                 },
               },
               _count: { id: true },
-              take: 15,
+              take: 30,
               orderBy: {
                 _count: {
                   id: 'desc',
@@ -264,7 +264,7 @@ builder.prismaObject('Tenant', {
                 start: rangeQuery,
               },
               _count: { id: true },
-              take: 15,
+              take: 30,
               orderBy: {
                 _count: {
                   id: 'desc',

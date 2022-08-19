@@ -1,4 +1,4 @@
-<div class="relative flex h-[100vh] flex-col sm:flex-row">
+<div class="relative flex flex-col sm:flex-row">
   <div
     class="sidenav fixed bottom-0 flex h-12 w-full flex-row z-50 bg-indigo-600 text-white sm:bottom-auto sm:h-full sm:w-24 sm:flex-col"
     data-testid="navigation"
@@ -8,7 +8,7 @@
       class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
       routerLink="/events"
     >
-      <img class="m-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+      <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
     </a>
     <div
       class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
@@ -103,11 +103,7 @@
       </a>
     </div>
   </div>
-  <div
-    class="bg-primary-container mb-12 flex flex-1 flex-col overflow-hidden sm:mb-0 sm:ml-24"
-  >
-    <div id="window-content" class="h-full overflow-auto">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="mb-12 flex flex-1 flex-col sm:mb-0 sm:ml-24">
+    <router-outlet></router-outlet>
   </div>
 </div>

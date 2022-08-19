@@ -3,13 +3,13 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Events with ratings</div>
+    <div resetScroll>Events with ratings</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(events$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(events$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <div class="mb-4 text-sm">Showing events of the last month.</div>
   <table

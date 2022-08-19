@@ -12,7 +12,7 @@ on:
   push:
     branches:
       - main
-#      - design
+      - design
     paths:
       - 'legacy-app/**'
       - 'Dockerfile-Legacy'

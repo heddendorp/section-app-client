@@ -47,11 +47,13 @@ import { EventListItemComponent } from './components/event-list-item/event-list-
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive-toolbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ResetScrollDirective } from './directives/reset-scroll.directive';
 
 @NgModule({
   declarations: [
     IfRoleDirective,
     IfStatusDirective,
+    ResetScrollDirective,
     DataItemsCollectorComponent,
     DataItemsManagerComponent,
     GridComponent,
@@ -106,6 +108,7 @@ import { FooterComponent } from './components/footer/footer.component';
     IconURLPipe,
     IfRoleDirective,
     IfStatusDirective,
+    ResetScrollDirective,
     LocationAutocompleteComponent,
     MarkdownFieldComponent,
     MatButtonModule,
