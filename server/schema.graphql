@@ -166,7 +166,7 @@ type EventRegistration {
   rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
-  transactions(directions: [TransactionDirection!] = [TUMI_TO_EXTERNAL, EXTERNAL_TO_TUMI, TUMI_TO_USER, USER_TO_TUMI, USER_TO_EXTERNAL, EXTERNAL_TO_USER, USER_TO_USER]): [Transaction!]!
+  transactions(directions: [TransactionDirection!]): [Transaction!]!
   type: RegistrationType!
   user: User!
   userComment: String
@@ -435,9 +435,9 @@ type Query {
   registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
-  transactionCount(range: DateRangeInput, search: String): Int!
-  transactionSumAmount(range: DateRangeInput, search: String): Float!
-  transactions(range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
+  transactionCount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Int!
+  transactionSumAmount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Float!
+  transactions(directions: [TransactionDirection!], range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
   user(id: ID!): User!
   userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
   users(emptyOnEmptySearch: Boolean = false, onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!

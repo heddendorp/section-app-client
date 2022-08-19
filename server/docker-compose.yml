@@ -6,13 +6,13 @@ services:
   db:
     image: postgres:13
     restart: always
-    container_name: integration-tests-prisma
+    container_name: dev-db
     ports:
       - '5433:5432'
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
-      POSTGRES_DB: tests
+      POSTGRES_DB: dev
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     hostname: azurite
