@@ -34,11 +34,11 @@
     class="name-container flex flex-col max-w-[16em]"
     *ngIf="name && size !== 'fit'"
   >
-    <div class="name whitespace-nowrap text-ellipsis overflow-hidden">
-      <span>{{ name }}</span>
+    <div class="name flex items-center">
+      <span class="whitespace-nowrap text-ellipsis overflow-hidden">{{ name }}</span>
       <span
         *ngIf="tag"
-        class="px-1 rounded-lg bg-white text-xs ml-1 font-normal"
+        class="px-1 rounded-lg bg-white text-xs ml-1 font-normal -mr-[0.2em]"
         >{{ tag }}</span
       >
     </div>
