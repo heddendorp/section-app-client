@@ -17,11 +17,7 @@ import {
   partition,
   merge,
 } from 'rxjs';
-import {
-  trigger,
-  state,
-  style,
-} from '@angular/animations';
+import { trigger, state, style } from '@angular/animations';
 
 enum VisibilityState {
   Visible = 'visible',
@@ -46,7 +42,7 @@ enum ScrollDirection {
       state(
         VisibilityState.Visible,
         style({ opacity: 1, transform: 'translateY(0)' })
-      )
+      ),
     ]),
   ],
 })
@@ -56,7 +52,7 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
   scrollUp$: Observable<ScrollDirection>;
   scrollDown$: Observable<ScrollDirection>;
 
-  constructor(private zone: NgZone, private cdr: ChangeDetectorRef) {    
+  constructor(private zone: NgZone, private cdr: ChangeDetectorRef) {
     const scroll$ = fromEvent(window, 'scroll').pipe(
       throttleTime(10),
       map(() => window.pageYOffset),
@@ -77,7 +73,7 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // disable on iOS due to elastic scroll issues
-    if (/iPad|iPhone|iPod/.test(navigator.userAgent)){
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
       return;
     }
 
