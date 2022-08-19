@@ -33,7 +33,7 @@
   </div>
   <div class="text-2xl font-semibold my-4">
     <span *ngIf="event">{{ event.title }}</span>
-    <span *ngIf="!event" class="skeleton">Event Title Phantom XXXXXXXXXXX</span>
+    <span *ngIf="!event" class="skeleton block sm:w-[30rem]">Event Title</span>
   </div>
   <ng-container *ngIf="event && !isSingleDayEvent(); else singleDayEvent">
     <p>Starts: {{ event.start | date: 'medium' }}</p>
