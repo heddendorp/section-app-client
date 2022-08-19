@@ -11,11 +11,11 @@
       {{ costItem.name }} ({{ costItem.event.title }})
     </div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(costItem$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(costItem$ | async) === null"
-></mat-progress-bar>
 <main *ngIf="costItem$ | async as costItem" class="p-4 flex flex-col gap-4">
   <button mat-fab class="extended-fab" (click)="addReceipt()">
     <mat-icon svgIcon="icon-add"></mat-icon>

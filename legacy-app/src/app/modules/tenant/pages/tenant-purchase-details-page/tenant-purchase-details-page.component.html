@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Purchase Details</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(purchase$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(purchase$ | async) === null"
-></mat-progress-bar>
 <main class="p-4" *ngIf="purchase$ | async as purchase">
   <h2>Payment</h2>
   <p>Status: {{ purchase.transaction?.stripePayment?.status }}</p>

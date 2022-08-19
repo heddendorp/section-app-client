@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Registration Code</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(eventRegistrationCode$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(eventRegistrationCode$ | async) === null"
-></mat-progress-bar>
 <main class="space-y-2 p-4 lg:p-8">
   <p>The ultimate information center 😎</p>
   <div

@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Activity Log</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(logs$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(logs$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <mat-list class="my-2">
     <mat-list-item *ngFor="let stat of stats$ | async">

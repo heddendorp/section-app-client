@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>All Photos</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(photos$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(photos$ | async) === null"
-></mat-progress-bar>
 <main *ngIf="photos$ | async as photos" class="p-4">
   <div
     class="w-full"

@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Events with booked spots</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(events$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(events$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <table
     *ngIf="events$ | async as events"

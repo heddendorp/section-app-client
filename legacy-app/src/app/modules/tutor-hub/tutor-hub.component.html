@@ -2,11 +2,11 @@
   <mat-toolbar color="white">
     <div resetScroll>Tutor Hub</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(tutorHubData$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(tutorHubData$ | async) === null"
-></mat-progress-bar>
 <div
   class="m-4"
   gdAuto

@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Insurance Dashboard</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(events$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(events$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <section class="select-all">
     <p *ngFor="let event of events$ | async">

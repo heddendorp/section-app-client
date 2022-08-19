@@ -5,11 +5,11 @@
     </a>
     <div resetScroll>Refunds</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(refunds$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(refunds$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <table
     *ngIf="refunds$ | async as refunds"

@@ -30,11 +30,11 @@
       ></mat-icon>
     </button>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="loading$ | async"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="loading$ | async"
-></mat-progress-bar>
 <div
   *ngIf="outstandingRating$ | async"
   @grow
