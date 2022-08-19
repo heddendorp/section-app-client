@@ -24,7 +24,7 @@ export class TenantOrganizersPageComponent implements OnInit {
     private getOrganizers: GetOrganizersGQL,
     private createOrganizer: CreateOrganizerGQL
   ) {
-    this.title.setTitle('TUMi - manage organizers');
+    this.title.setTitle('Event Organizers - TUMi');
     this.organizersQuery = this.getOrganizers.watch();
     this.organizers$ = this.organizersQuery.valueChanges.pipe(
       map(({ data }) => data.eventOrganizers)
@@ -35,7 +35,7 @@ export class TenantOrganizersPageComponent implements OnInit {
 
   async addOrganizer() {
     const data = await this.dialog
-      .open(NewOrganizerDialogComponent)
+      .open(NewOrganizerDialogComponent, { panelClass: 'modern' })
       .afterClosed()
       .toPromise();
     if (data) {

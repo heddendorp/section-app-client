@@ -4,6 +4,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 import {
   GetTenantForEditGQL,
   GetTenantForEditQuery,
@@ -24,8 +26,11 @@ export class TenantEditPageComponent {
   constructor(
     private fb: UntypedFormBuilder,
     private updateTenant: UpdateTenantGQL,
-    private loadTenant: GetTenantForEditGQL
+    private loadTenant: GetTenantForEditGQL,
+    private snackBar: MatSnackBar,
+    private title: Title
   ) {
+    this.title.setTitle('Edit Tenant - TUMi');
     this.editForm = this.fb.group({
       imprintPage: ['', Validators.required],
       privacyPolicyPage: ['', Validators.required],
@@ -43,6 +48,7 @@ export class TenantEditPageComponent {
   }
 
   async saveTenant() {
+    this.snackBar.open('Saving tenant ⏳', undefined, { duration: 0 });
     const tenant = await firstValueFrom(this.tenant$);
     const formValue = this.editForm.value;
     if (tenant) {
@@ -56,7 +62,7 @@ export class TenantEditPageComponent {
           },
         })
         .toPromise();
-    } else {
+      this.snackBar.open('Tenant saved ✔️');
     }
   }
 }

@@ -67,24 +67,30 @@ query loadEventsWithBooking($after: DateTime) {
 }
 
 query loadEventsWithRating($after: DateTime) {
-  events(after: $after) {
+  events(after: $after, reverseOrder: true) {
     id
     title
     start
     icon
-    participantRatings
-    organizerRatings
-    participantRegistrations {
-      id
-      status
-      rating
+    participantRating
+    participantRatingCount
+    organizerRating
+    organizerRatingCount
+    ratings {
       userComment
-    }
-    organizerRegistrations {
-      id
-      status
       rating
-      userComment
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
     }
     organizer {
       id
@@ -126,6 +132,8 @@ query loadUser($id: ID!) {
     university
     hasESNCard
     esnCardOverride
+    position
+    picture
     currentTenant(userId: $id) {
       userId
       tenantId
@@ -159,6 +167,7 @@ query loadUser($id: ID!) {
         title
         start
         end
+        icon
       }
     }
   }
@@ -190,6 +199,7 @@ query getUsers(
   $search: String
   $pageIndex: Int
   $pageLength: Int
+  $emptyOnEmptySearch: Boolean
 ) {
   users(
     roleList: $roleList
@@ -197,11 +207,15 @@ query getUsers(
     search: $search
     pageIndex: $pageIndex
     pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
   ) {
     id
     firstName
     lastName
+    fullName
     email
+    position
+    picture
     currentTenant {
       userId
       tenantId
@@ -344,7 +358,15 @@ mutation updateESNcard($userId: ID!, $override: Boolean!) {
   }
 }
 
-mutation updateUser($id: ID!, $role: Role!, $status: MembershipStatus!) {
+mutation updateUser(
+  $id: ID!
+  $position: String
+  $role: Role!
+  $status: MembershipStatus!
+) {
+  updateUserPosition(userId: $id, position: $position) {
+    position
+  }
   updateUserRole(userId: $id, role: $role) {
     userId
     tenantId

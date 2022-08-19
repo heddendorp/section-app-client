@@ -1,21 +1,22 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { concat, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
+import { concat, firstValueFrom, map, Observable, of } from 'rxjs';
 import {
   CreateEventTemplateGQL,
-  GetEventTemplateCategoriesGQL,
-  GetEventTemplatesGQL,
-  GetEventTemplatesQuery,
   GetLonelyEventTemplatesGQL,
   GetLonelyEventTemplatesQuery,
   GetTemplateCategoriesWithTemplatesGQL,
   GetTemplateCategoriesWithTemplatesQuery,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/change-template-category-dialog/change-template-category-dialog.component';
 import { FormControl } from '@angular/forms';
 import { combineLatest } from 'rxjs';
 import { Router } from '@angular/router';
@@ -24,7 +25,6 @@ import { Router } from '@angular/router';
   selector: 'app-template-list-page',
   templateUrl: './template-list-page.component.html',
   styleUrls: ['./template-list-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateListPageComponent {
   public Role = Role;
@@ -34,6 +34,9 @@ export class TemplateListPageComponent {
   public eventTemplates$: Observable<
     GetLonelyEventTemplatesQuery['eventTemplates']
   >;
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
+  public searchEnabled = false;
   public searchControl = new FormControl('');
   private eventTemplateQuery;
 
@@ -46,7 +49,7 @@ export class TemplateListPageComponent {
     private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
     private router: Router
   ) {
-    this.title.setTitle('TUMi - Event templates');
+    this.title.setTitle('Event Templates - TUMi');
     this.eventTemplateQuery = this.loadTemplates.watch(
       {},
       { fetchPolicy: 'cache-and-network' }
@@ -93,7 +96,12 @@ export class TemplateListPageComponent {
     const categories = await firstValueFrom(this.templateCategories$);
     const template = await firstValueFrom(
       this.dialog
-        .open(EventFormDialogComponent, { data: { categories } })
+        .open(EventFormDialogComponent, {
+          data: { categories },
+          width: '600px',
+          maxWidth: '100vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (template) {
@@ -107,6 +115,18 @@ export class TemplateListPageComponent {
         '/event-templates',
         response?.data?.createEventTemplate.id,
       ]);
+    }
+  }
+
+  initSearch(): void {
+    if (this.searchEnabled) {
+      this.searchEnabled = false;
+      this.searchControl.setValue('');
+    } else {
+      this.searchEnabled = true;
+      setTimeout(() => {
+        this.searchBar.nativeElement.focus();
+      });
     }
   }
 }

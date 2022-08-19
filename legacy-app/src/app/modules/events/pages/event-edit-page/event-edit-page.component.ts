@@ -101,7 +101,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private getEventTemplatesGQL: GetEventTemplatesGQL,
     public permission: PermissionsService
   ) {
-    this.title.setTitle('TUMi - edit event');
     this.publicationForm = this.fb.group({
       publicationState: ['', Validators.required],
     });
@@ -140,6 +139,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       // @ts-ignore
       switchMap((ref) => ref.valueChanges),
       map(({ data }) => data.event),
+      tap((event) => this.title.setTitle(`Edit ${event.title} - TUMi`)),
       shareReplay(1)
     );
     this.organizers$ = this.route.paramMap.pipe(
@@ -285,6 +285,21 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }
         }
       });
+    this.coreInformationForm
+      .get('shouldBeReportedToInsurance')
+      ?.valueChanges.pipe(
+        startWith(
+          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value
+        ),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {
+          this.coreInformationForm.get('insuranceDescription')?.enable();
+        } else {
+          this.coreInformationForm.get('insuranceDescription')?.disable();
+        }
+      });
     loader.dismiss();
   }
 
@@ -347,6 +362,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           displayAttribute: 'title',
           title: 'Select Template',
         },
+        panelClass: 'modern',
       })
       .afterClosed()
       .toPromise();
@@ -374,7 +390,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await this.event$.pipe(first()).toPromise();
     const location = await firstValueFrom(
       this.dialog
-        .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+        .open(SelectLocationDialogComponent, {
+          minWidth: '50vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (location && event) {
@@ -402,8 +421,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       await this.updatePublicationMutation
         .mutate({ id: event.id, state })
         .toPromise();
+      this.snackBar.open('Event saved ✔️');
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async onSubmit() {
@@ -420,9 +439,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       if (data) {
         delete data.updateEventGeneralInfo.__typename;
         this.generalInformationForm.patchValue(data.updateEventGeneralInfo);
+        this.snackBar.open('Event saved ✔️');
       }
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async onCoreSubmit() {
@@ -462,8 +481,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }),
         });
       }
+      this.snackBar.open('Event saved ✔️');
     }
-    this.snackBar.open('Event saved ✔️');
   }
 
   async reloadEvent() {

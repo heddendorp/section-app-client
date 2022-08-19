@@ -13,7 +13,12 @@ export const dateRangeInputType = builder.inputType('DateRangeInput', {
 
 export const prepareSearchString = (search) => {
   if (search) {
-    return search.replaceAll(' ', '+') + ':*';
+    let res = search.replace(new RegExp(/(?<=[a-z]) (?=[a-z])/gi), '+');
+    if (!res.includes(' ')) {
+      res += ':*';
+    }
+    res = res.replace(new RegExp(/ *[\|\&] *$/gi), '');
+    return res;
   }
   return search;
 };

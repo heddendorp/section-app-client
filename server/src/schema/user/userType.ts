@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import {
   EnrollmentStatus,
+  MembershipStatus,
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
@@ -10,25 +11,87 @@ import prisma from '../../client';
 
 builder.prismaObject('User', {
   findUnique: (user) => ({ id: user.id }),
+  grantScopes: async (user, context) => {
+    const userOfTenant = await prisma.usersOfTenants.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: user.id,
+          tenantId: context.tenant.id,
+        },
+      },
+      rejectOnNotFound: false,
+    });
+    if (
+      userOfTenant?.status !== MembershipStatus.NONE ||
+      context.user?.id === user.id
+    ) {
+      return ['tutorProfile', 'self'];
+    }
+    if (context.user?.id === user.id) {
+      return ['self'];
+    }
+    return [];
+  },
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     authId: t.exposeString('authId'),
     firstName: t.exposeString('firstName'),
     lastName: t.exposeString('lastName'),
-    birthdate: t.expose('birthdate', { type: 'DateTime', nullable: true }),
+    birthdate: t.expose('birthdate', {
+      type: 'DateTime',
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true,
+      },
+      unauthorizedResolver: () => null,
+    }),
     picture: t.exposeString('picture'),
-    phone: t.exposeString('phone', { nullable: true }),
+    phone: t.exposeString('phone', {
+      nullable: true,
+      authScopes: {
+        $granted: 'tutorProfile',
+        member: true,
+      },
+      unauthorizedResolver: () => null,
+    }),
     university: t.exposeString('university', { nullable: true }),
-    iban: t.exposeString('iban', { nullable: true }),
-    paypal: t.exposeString('paypal', { nullable: true }),
+    iban: t.exposeString('iban', {
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true,
+      },
+      unauthorizedResolver: () => null,
+    }),
+    paypal: t.exposeString('paypal', {
+      nullable: true,
+      authScopes: {
+        $granted: 'self',
+        admin: true,
+      },
+      unauthorizedResolver: () => null,
+    }),
     emailVerified: t.exposeBoolean('email_verified'),
-    email: t.exposeString('email'),
+    email: t.exposeString('email', {
+      authScopes: {
+        $granted: 'self',
+        member: true,
+      },
+      unauthorizedResolver: () => '',
+    }),
     calendarToken: t.exposeString('calendarToken'),
     esnCardOverride: t.exposeBoolean('esnCardOverride'),
     transactions: t.relation('transactions'),
     createdTransactions: t.relation('createdTransactions'),
     enrolmentStatus: t.expose('enrolmentStatus', { type: EnrollmentStatus }),
+    bio: t.exposeString('bio', { nullable: true }),
+    country: t.exposeString('country', { nullable: true }),
+    homeUniversity: t.exposeString('homeUniversity', { nullable: true }),
+    instagram: t.exposeString('instagram', { nullable: true }),
+    position: t.exposeString('position', { nullable: true }),
+    studyProgram: t.exposeString('studyProgram', { nullable: true }),
     purchases: t.relation('purchases', {
       args: {
         skipCancelled: t.arg.boolean({ defaultValue: false }),
@@ -153,7 +216,47 @@ builder.prismaObject('User', {
         });
       },
     }),
-    eventRegistrations: t.relation('eventRegistrations'),
+    organizedEventsCount: t.int({
+      resolve: async (user, args, context) =>
+        prisma.tumiEvent.count({
+          where: {
+            excludeFromStatistics: false,
+            registrations: {
+              some: {
+                user: { id: user.id },
+                type: RegistrationType.ORGANIZER,
+                status: RegistrationStatus.SUCCESSFUL,
+              },
+            },
+          },
+        }),
+    }),
+    createdEvents: t.prismaField({
+      type: ['TumiEvent'],
+      resolve: async (query, user, args, context) => {
+        return prisma.tumiEvent.findMany({
+          ...query,
+          where: {
+            createdBy: { id: user.id },
+          },
+          orderBy: { start: 'asc' },
+        });
+      },
+    }),
+    createdEventsCount: t.int({
+      resolve: async (user, args, context) =>
+        prisma.tumiEvent.count({
+          where: {
+            excludeFromStatistics: false,
+            createdBy: { id: user.id },
+          },
+        }),
+    }),
+    eventRegistrations: t.relation('eventRegistrations', {
+      query: (args, context) => ({
+        orderBy: [{ event: { start: 'desc' } }],
+      }),
+    }),
     hasESNCard: t.boolean({
       resolve: async (source, args, context) => {
         if (source.esnCardOverride) {
@@ -195,5 +298,10 @@ export const updateUserInputType = builder.inputType('UpdateUserInput', {
     birthdate: t.field({ type: 'DateTime' }),
     phone: t.string(),
     enrolmentStatus: t.field({ type: EnrollmentStatus }),
+    bio: t.string(),
+    country: t.string(),
+    homeUniversity: t.string(),
+    instagram: t.string(),
+    studyProgram: t.string(),
   }),
 });

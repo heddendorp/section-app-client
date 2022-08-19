@@ -15,6 +15,12 @@
       <div class="text-xs">{{ costItem.calculationInfo }}</div>
       <div class="flex flex-row gap-1">
         <div
+          *ngIf="costItem.notSubsidized"
+          class="rounded bg-red-500 px-2 text-white text-xs"
+        >
+          not subsidized
+        </div>
+        <div
           *ngIf="costItem.onInvoice"
           class="rounded bg-green-500 px-2 text-white text-xs"
         >

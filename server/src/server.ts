@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/node';
 import cors from 'cors';
 import * as Tracing from '@sentry/tracing';
 import compression from 'compression';
-import { socialRouter } from './helpers/socialImage';
 import { webhookRouter } from './helpers/webhooks';
 import { calendarRouter } from './helpers/calendars';
 import { qrRouter } from './helpers/qrCode';
@@ -106,6 +105,7 @@ const graphQLServer = createServer({
   schema,
   context: async ({ req }) => ({
     auth0,
+    req,
   }),
   plugins: [
     enableIf(isProd, useSentry({ trackResolvers: false })),
@@ -139,13 +139,19 @@ const graphQLServer = createServer({
       extendContextField: 'token',
     }),
     useExtendContext(async (context) => {
-      const url = new URL(context.req.headers.origin);
-      const hostName = url.hostname;
-      let tenantName = hostName.split('.')[0];
+      let tenantName = context.req.headers['x-tumi-tenant'];
+      if (!tenantName) {
+        const url = new URL(context.req.headers.origin);
+        const hostName = url.hostname;
+        tenantName = hostName.split('.')[0];
+      }
       if (tenantName === 'localhost') {
         tenantName = 'tumi';
       }
       if (tenantName === 'beta') {
+        tenantName = 'tumi';
+      }
+      if (tenantName === 'experiments') {
         tenantName = 'tumi';
       }
       if (tenantName === 'dev') {
@@ -240,13 +246,11 @@ app.use('/cal', calendarRouter());
 app.use('/qr', qrRouter());
 app.use('/go', shortRouter());
 app.use('/graphql', graphQLServer);
-app.use(socialRouter);
+// app.use(socialRouter);
 app.get('/metrics', async (_, res) => {
-  console.log('Getting metrics');
   const metrics = await prisma.$metrics.json({
     globalLabels: { app_version: process.env.VERSION ?? 'development' },
   });
-  console.log(metrics);
   res.send(metrics);
 });
 app.get('/prom-metrics', async (_, res) => {

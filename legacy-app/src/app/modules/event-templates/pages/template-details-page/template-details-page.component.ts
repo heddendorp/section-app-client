@@ -12,7 +12,7 @@ import {
   UpdateEventTemplateGQL,
   UpdateTemplateLocationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { first, firstValueFrom, map, Observable, switchMap, tap } from 'rxjs';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,12 +46,16 @@ export class TemplateDetailsPageComponent {
     private getEventTemplateCategoriesGQL: GetEventTemplateCategoriesGQL,
     private updateEventTemplateCategoryAssignmentGQL: UpdateEventTemplateCategoryAssignmentGQL
   ) {
-    this.title.setTitle('TUMi - Event template');
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
         this.getEventTemplate
           .watch({ id: params.get('templateId') ?? '' })
-          .valueChanges.pipe(map(({ data }) => data.eventTemplate))
+          .valueChanges.pipe(
+            map(({ data }) => data.eventTemplate),
+            tap((eventTemplate) =>
+              this.title.setTitle(`${eventTemplate.title} - TUMi`)
+            )
+          )
       )
     );
   }
@@ -62,6 +66,9 @@ export class TemplateDetailsPageComponent {
     if (template?.id) {
       const eventData = await this.dialog
         .open(CreateEventDialogComponent, {
+          width: '600px',
+          maxWidth: '100vw',
+          panelClass: 'modern',
           data: { template, organizers: data.eventOrganizers },
         })
         .afterClosed()
@@ -90,7 +97,12 @@ export class TemplateDetailsPageComponent {
   async editTemplate() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const update = await this.dialog
-      .open(EventFormDialogComponent, { data: { template } })
+      .open(EventFormDialogComponent, {
+        data: { template },
+        width: '600px',
+        maxWidth: '100vw',
+        panelClass: 'modern',
+      })
       .afterClosed()
       .toPromise();
     if (update && template) {
@@ -124,6 +136,7 @@ export class TemplateDetailsPageComponent {
       this.dialog
         .open(ChangeTemplateCategoryDialogComponent, {
           data: { categories: categories.data.eventTemplateCategories },
+          panelClass: 'modern',
         })
         .afterClosed()
     );
@@ -141,10 +154,12 @@ export class TemplateDetailsPageComponent {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const location = await firstValueFrom(
       await this.dialog
-        .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+        .open(SelectLocationDialogComponent, {
+          minWidth: '50vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
-    console.log(location);
     if (location && template) {
       await firstValueFrom(
         this.updateLocationMutation.mutate({

@@ -25,7 +25,7 @@ export class TenantRefundsPageComponent implements OnDestroy {
     private title: Title,
     private cancelledRegistrationsGQL: GetCancelledRegistrationsGQL
   ) {
-    this.title.setTitle('TUMi - manage registrations');
+    this.title.setTitle('Refunds - TUMi');
     this.refundsQueryRef = this.cancelledRegistrationsGQL.watch();
     this.refundsQueryRef.startPolling(5000);
     this.refunds$ = this.refundsQueryRef.valueChanges.pipe(

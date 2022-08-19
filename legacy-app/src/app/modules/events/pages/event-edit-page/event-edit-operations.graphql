@@ -3,10 +3,15 @@ query loadEventForEdit($id: ID!) {
     coordinates
     couldBeOrganizer
     couldBeParticipant
+    createdBy {
+      id
+    }
     description
     disableDeregistration
     end
     eventOrganizerId
+    excludeFromRatings
+    excludeFromStatistics
     icon
     id
     insuranceDescription
@@ -45,8 +50,14 @@ query loadEventForEdit($id: ID!) {
     organizerRegistrations {
       id
       user {
+        id
         picture
         fullName
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
     organizers {

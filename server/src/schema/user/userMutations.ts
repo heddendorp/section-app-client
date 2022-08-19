@@ -13,8 +13,11 @@ builder.mutationFields((t) => ({
       input: t.arg({ required: true, type: createUserInputType }),
     },
     resolve: async (query, root, { input }, context) => {
-      const { email, email_verified, picture } =
-        await context.auth0.getUserInfo(context.token?.sub ?? '');
+      const { email, email_verified, picture } = await context.auth0.getProfile(
+        context.req.headers['authorization'] ?? ''
+      );
+
+      input.phone = input.phone?.replaceAll(' ', '');
       return prisma.user.upsert({
         ...query,
         where: {
@@ -58,6 +61,19 @@ builder.mutationFields((t) => ({
         data: removeEmpty(input),
       });
     },
+  }),
+  updateUserPosition: t.prismaField({
+    type: 'User',
+    args: {
+      userId: t.arg.id({ required: true }),
+      position: t.arg.string(),
+    },
+    resolve: async (query, parent, args, context, info) =>
+      prisma.user.update({
+        ...query,
+        where: { id: args.userId },
+        data: { position: args.position },
+      }),
   }),
   updateESNCard: t.prismaField({
     type: 'User',

@@ -1,25 +1,25 @@
-<div class="flex h-full absolute right-0">
-  <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-    <a routerLink="/profile" class="p-3 aspect-1">
-      <img
-        [src]="userPicture"
-        class="rounded-lg border border-white h-full w-full"
-        style="text-indent: -10000px"
-        referrerpolicy="no-referrer"
-      />
-    </a>
-  </ng-container>
-  <ng-template #loggedOut>
-    <div class="flex items-center mr-2">
-      <button
-        class="modern"
-        mat-flat-button
-        color="white"
-        (click)="auth.loginWithRedirect()"
-      >
-        <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
-        Log in
-      </button>
-    </div>
-  </ng-template>
-</div>
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+  <a
+    routerLink="/profile"
+    class="aspect-1 h-full p-3"
+    data-testid="profile-link"
+  >
+    <img
+      [src]="userPicture"
+      class="h-full rounded-full bg-gray-200"
+      style="text-indent: -10000px"
+      routerLinkActive="active"
+      referrerpolicy="no-referrer"
+    />
+  </a>
+</ng-container>
+<ng-template #loggedOut>
+  <button
+    data-testid="login-button"
+    class="flex w-full flex-row items-center justify-center"
+    (click)="auth.loginWithRedirect()"
+  >
+    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+    <span>&nbsp;Log in</span>
+  </button>
+</ng-template>

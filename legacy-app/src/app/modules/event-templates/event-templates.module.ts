@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ChangeTemplateCategoryDialogComponent } from './components/change-template-category-dialog/change-template-category-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
+import { FinancePlannerPriceModelComponent } from './components/finance-planner/finance-planner-price-model/finance-planner-price-model.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
     CreateEventDialogComponent,
     EventFormDialogComponent,
     FinancePlannerComponent,
+    FinancePlannerPriceModelComponent,
     NewFinanceEntryDialogComponent,
     TemplateListEntryComponent,
     ChangeTemplateCategoryDialogComponent,

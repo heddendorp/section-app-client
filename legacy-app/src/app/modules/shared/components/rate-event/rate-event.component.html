@@ -1,0 +1,61 @@
+<form
+  fxLayout="column"
+  fxLayoutGap="1rem"
+  *ngIf="event"
+  [formGroup]="ratingForm"
+  (ngSubmit)="onSubmit()"
+>
+  <a
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap=".5rem"
+    routerLink="/events/{{ event.id }}"
+  >
+    <img
+      src="{{ event.icon | iconURL }}"
+      class="bg-secondary-on w-16 rounded-lg p-1"
+    />
+    <p>{{ event.title }}</p>
+  </a>
+  <app-rating formControlName="rating"></app-rating>
+  <mat-form-field>
+    <mat-label>Leave a comment</mat-label>
+    <textarea
+      rows="6"
+      formControlName="comment"
+      matInput
+      placeholder="I liked about the event ..."
+    ></textarea>
+    <mat-hint>
+      Tell us about what you liked and what could have been better!</mat-hint
+    >
+  </mat-form-field>
+  <mat-checkbox
+    formControlName="anonymousRating"
+    *ngIf="!event.userIsOrganizer"
+  >
+    Hide my name
+  </mat-checkbox>
+  <p *ngIf="event.userIsOrganizer" class="text-gray-600 flex items-center">
+    <mat-icon
+      svgIcon="icon-invisible"
+      class="mr-2 min-w-[18px] max-w-[18px]"
+    ></mat-icon>
+    <span>
+      Organizer ratings are only visible to other organizers. Please suggest
+      what could be done better next time.
+    </span>
+  </p>
+  <button
+    class="modern save-button"
+    mat-flat-button
+    color="primary"
+    [disabled]="ratingForm.invalid || isSaving"
+  >
+    <mat-icon *ngIf="isSaving" class="saving">
+      <mat-spinner></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!isSaving" svgIcon="icon-sent"></mat-icon>
+    <span>Submit feedback</span>
+  </button>
+</form>

@@ -7,11 +7,12 @@ import {
   UpdateEsNcardGQL,
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { tap, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { UpdateUserDialogComponent } from '@tumi/legacy-app/modules/tenant/components/update-user-dialog/update-user-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-user-info-page',
@@ -23,12 +24,22 @@ export class TenantUserInfoPageComponent {
   public user$: Observable<LoadUserQuery['user']>;
   public RegistrationStatus = RegistrationStatus;
 
+  public displayedColumns = [
+    'event',
+    'eventStart',
+    'type',
+    'status',
+    'registrationDate',
+    'checkInDate',
+  ];
+
   constructor(
     private loadUserQuery: LoadUserGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private updateMutation: UpdateUserGQL,
-    private updateCardMutation: UpdateEsNcardGQL
+    private updateCardMutation: UpdateEsNcardGQL,
+    private title: Title
   ) {
     this.user$ = this.route.paramMap.pipe(
       switchMap(
@@ -36,14 +47,18 @@ export class TenantUserInfoPageComponent {
           this.loadUserQuery.watch({ id: params.get('userId') ?? '' })
             .valueChanges
       ),
-      map(({ data }) => data.user)
+      map(({ data }) => data.user),
+      tap((user) => this.title.setTitle(`User ${user.fullName} - TUMi`))
     );
   }
 
   async updateUser(user: GetUsersQuery['users'][0]) {
     const newUser = await firstValueFrom(
       this.dialog
-        .open(UpdateUserDialogComponent, { data: { user } })
+        .open(UpdateUserDialogComponent, {
+          data: { user },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (newUser) {
@@ -52,6 +67,7 @@ export class TenantUserInfoPageComponent {
           id: user.id,
           role: newUser.role,
           status: newUser.status,
+          position: newUser.position || null,
         })
       );
     }

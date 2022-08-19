@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
@@ -18,9 +18,5 @@ RUN yarn workspace @tumi/party-animals build
 
 COPY party-animals/prisma/schema.prisma ./party-animals/build/schema.prisma
 
-#FROM node:16
-#WORKDIR /root/
-# Bundle app source
-#COPY --from=builder /usr/src/app/dist dist
 EXPOSE 3000
 CMD [ "yarn", "workspace", "@tumi/party-animals", "start" ]

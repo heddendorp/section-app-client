@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
+  BehaviorSubject,
   filter,
   first,
   firstValueFrom,
@@ -8,6 +9,7 @@ import {
   shareReplay,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
@@ -18,6 +20,7 @@ import {
   RegisterForEventGQL,
   RegistrationMode,
   RegistrationType,
+  SubmitEventFeedbackGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +29,7 @@ import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/per
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
 import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-details-page',
@@ -40,19 +44,24 @@ export class EventDetailsPageComponent implements OnDestroy {
   public eventOver$: Observable<boolean>;
   public eventStarted$: Observable<boolean>;
   public hasAccount$: Observable<boolean>;
+  public isAdmin$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
 
+  public ratingExpanded$ = new BehaviorSubject(false);
+
   constructor(
     private title: Title,
     private route: ActivatedRoute,
+    private router: Router,
     public auth: AuthService,
     private loadEvent: LoadEventGQL,
     private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
+    private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
-    private permissions: PermissionsService,
+    public permissions: PermissionsService,
     private snackbar: MatSnackBar
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
@@ -61,7 +70,12 @@ export class EventDetailsPageComponent implements OnDestroy {
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      shareReplay(1)
+      shareReplay(1),
+      tap((event) => {
+        if (!event.activeRegistration?.rating) {
+          this.ratingExpanded$.next(true);
+        }
+      })
     );
     firstValueFrom(this.event$).then((event) => {
       this.title.setTitle(`${event.title} - TUMi`);
@@ -90,6 +104,11 @@ export class EventDetailsPageComponent implements OnDestroy {
       map(({ data }) => !!data.currentUser),
       shareReplay(1)
     );
+    this.isAdmin$ = permissions.isAdmin();
+
+    if (router.url.includes('checkin')) {
+      this.showCode();
+    }
   }
 
   ngOnDestroy(): void {
@@ -118,14 +137,43 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   async showCode() {
     const event = await firstValueFrom(this.event$);
-    if (event?.activeRegistration) {
+    if (event?.activeRegistration && !event.activeRegistration?.didAttend) {
       this.dialog.open(QrDisplayDialogComponent, {
         data: {
           id: event.activeRegistration.id,
           event: event.title,
           user: event.activeRegistration.user.fullName,
         },
+        panelClass: 'modern',
       });
     }
+  }
+
+  async saveRating(
+    $event: { rating: number; comment: string; anonymousRating: boolean },
+    id: string
+  ) {
+    await firstValueFrom(
+      this.submitEventFeedbackGQL.mutate({
+        id,
+        anonymousRating: $event.anonymousRating,
+        rating: $event.rating,
+        comment: $event.comment,
+      })
+    );
+    this.loadEventQueryRef.refetch();
+
+    this.ratingExpanded$.next(false);
+  }
+
+  expandRatingPanel() {
+    this.ratingExpanded$.next(!this.ratingExpanded$.value);
+    setTimeout(() => {
+      if (this.ratingExpanded$.value) {
+        document
+          .querySelector('#rater')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   }
 }

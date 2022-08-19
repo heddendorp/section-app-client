@@ -2,37 +2,21 @@
   mode="indeterminate"
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="profile$ | async as profile">
+<main *ngIf="profile$ | async as profile; else loading">
+  <app-profile-card
+    [profile]="profile"
+    (edit)="updateProfile()"
+    [hideEditButton]="false"
+  ></app-profile-card>
   <div
-    class="bg-tertiary-containerDark text-tertiary-onContainerDark p-8 lg:py-14"
-    fxLayout="column"
-    fxLayoutAlign="space-evenly center"
-    fxLayoutGap="2rem"
-  >
-    <img
-      [src]="profile.picture"
-      class="rounded-lg shadow-lg"
-      referrerpolicy="no-referrer"
-    />
-    <div fxLayout="column" class="max-w-md">
-      <h2 class="mb-4 text-3xl font-bold">
-        Hey {{ profile.firstName }}! <span class="text-white">👋</span>
-      </h2>
-      <p>
-        We're excited to see you here! This is your profile, giving you an
-        overview of all things TUMi.
-      </p>
-    </div>
-  </div>
-  <div
-    class="m-4 overflow-hidden"
+    class="m-4"
     gdAuto
     gdColumns="100%"
     gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
     gdGap="1rem"
   >
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
       <div
         fxLayout="row"
@@ -45,37 +29,54 @@
           class="text-secondary-default bg-secondary-on card-icon"
         >
         </mat-icon>
-        <h2 class="font-bold">General Information</h2>
+        <h2 class="font-bold">Private Information</h2>
       </div>
       <div gdAuto gdColumns="1fr 2fr" gdGap="0 1rem" class="mb-2">
-        <p>Name:</p>
-        <p>{{ profile.fullName }}</p>
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
-        <p>ESNcard:</p>
-        <p>{{ profile.hasESNCard ? 'Yes' : 'No' }}</p>
+        <p>Birthday:</p>
+        <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
-        <button mat-raised-button class="modern" (click)="updateProfile()">
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern"
+          (click)="updateUserInformation()"
+        >
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
         </button>
       </div>
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 
-      <p class="select-all break-words font-mono" style="max-width: 80vw">
-        https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+      <p
+        class="text-sm text-secondary-default select-all break-words font-mono tracking-tight flex items-center"
+      >
+        <mat-icon
+          svgIcon="icon-chain"
+          class="mr-2 min-w-[18] max-w-[18px]"
+        ></mat-icon>
+        <span class="truncate">
+          https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+        </span>
       </p>
 
       <p class="text-sm">
-        You can use this url to subscribe to a calendar feed of the events you
-        are registered for.
+        You can use this link to subscribe to an iCal feed of the events you are
+        registered for.
+        <a
+          class="underline"
+          href="https://help.hospitable.com/en/articles/4605516-how-can-i-add-the-ical-feed-to-the-calendar-on-my-device#:~:text=How%20to%20add%20the%20iCal%20feed%20to%20the%20calendar%20on%20my%20device%3F"
+          target="blank"
+          >Here</a
+        >'s a how-to.
       </p>
     </div>
-    <!--<div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
       <div
         fxLayout="row"
@@ -84,27 +85,39 @@
         class="mb-6"
       >
         <mat-icon
-          svgIcon="icon-card-in-use"
+          svgIcon="icon-membership-card"
           class="text-secondary-default bg-secondary-on card-icon"
-        ></mat-icon>
-        <h2 class="font-bold">Payment Information</h2>
+        >
+        </mat-icon>
+        <h2 class="font-bold">ESNcard</h2>
       </div>
-      <p class="mb-4">
-        To register for paid events, you can add a payment method here. It will
-        show up when registering.
-      </p>
-      <ng-container *ngIf="profile.currentTenant?.stripeData?.paymentMethodId">
-        <p>✔️ All good, we have a payment method saved for you</p>
-        <p class="mb-4">
-          If you wish, you can go through the process again to change your
-          payment method
+      <ng-container *ngIf="profile.hasESNCard">
+        <p>
+          You have an ESNcard! You will now enjoy a discount on most of our
+          events. Check out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
         </p>
       </ng-container>
-
-      <button mat-flat-button color="accent" (click)="setupStripePayment()">
-        Set payment method
-      </button>
-    </div>-->
+      <ng-container *ngIf="!profile.hasESNCard">
+        <p class="mb-4">
+          With an ESNcard, you can enjoy a discount on most of our events. Check
+          out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
+        <a
+          mat-flat-button
+          color="accent"
+          class="modern"
+          routerLink="/events/998851e2-17af-482c-99cb-99a29b543d60"
+        >
+          Get an ESNcard!
+        </a>
+      </ng-container>
+    </div>
     <div
       *ngIf="(eventsToRate$ | async)?.length"
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
@@ -139,17 +152,27 @@
       </div>
     </div>
     <app-event-list
-      [events]="profile.organizedEvents"
-      [isOrganized]="true"
-      *ngIf="profile.organizedEvents.length"
-    ></app-event-list>
-    <app-event-list
-      [events]="profile.participatedEvents"
+      title="Participated events"
+      [events]="(profileEvents$ | async)?.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
+    <ng-container *ngIf="profileEvents$ | async as profileEvents">
+      <app-event-list
+        title="Organized events"
+        [events]="profileEvents.organizedEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.organizedEvents.length"
+      ></app-event-list>
+      <app-event-list
+        title="Created events"
+        [events]="profileEvents.createdEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.createdEvents.length"
+      ></app-event-list>
+    </ng-container>
     <div
-      class="bg-primary-container text-primary-onContainer rounded-2xl p-4"
+      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
       <div
@@ -160,16 +183,43 @@
       >
         <mat-icon
           svgIcon="icon-conference"
-          class="text-primary-default card-icon bg-white"
+          class="text-secondary-default card-icon bg-white"
         ></mat-icon>
         <h2 class="font-bold">Section membership</h2>
       </div>
       <div>
         Current status:
-        <div class="black text-8xl text-center">
+        <div class="black text-7xl text-center">
           {{ profile.currentTenant?.status | uppercase }}
         </div>
       </div>
     </div>
   </div>
+
+  <div class="mt-4 mb-2 p-4 flex flex-row gap-2">
+    <a
+      class="modern w-full"
+      color="primary"
+      mat-raised-button
+      routerLink="/page/feedback"
+    >
+      <mat-icon svgIcon="icon-feedback"></mat-icon>
+      <span>Give Feedback</span>
+    </a>
+    <button
+      class="modern w-full"
+      color="accent"
+      mat-raised-button
+      *ngIf="this.auth.isAuthenticated$ | async"
+      (click)="auth.logout({ returnTo: document.location.origin })"
+    >
+      <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
+      Logout
+    </button>
+  </div>
+  <app-footer></app-footer>
 </main>
+
+<ng-template #loading>
+  <app-profile-card [hideEditButton]="true"></app-profile-card>
+</ng-template>

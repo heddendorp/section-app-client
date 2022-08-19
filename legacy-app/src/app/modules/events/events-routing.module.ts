@@ -9,22 +9,41 @@ import { EventRunPageComponent } from '@tumi/legacy-app/modules/events/pages/eve
 import { EventPhotoPageComponent } from '@tumi/legacy-app/modules/events/pages/event-photo-page/event-photo-page.component';
 import { EventCheckinPageComponent } from '@tumi/legacy-app/modules/events/pages/event-checkin-page/event-checkin-page.component';
 import { EventReceiptsPageComponent } from '@tumi/legacy-app/modules/events/pages/event-receipts-page/event-receipts-page.component';
-import { PublicRegistrationCodesPageComponent } from '@tumi/legacy-app/modules/events/pages/public-registration-codes-page/public-registration-codes-page.component';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'list',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
+    path: 'list/:year/:month',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
+    path: 'calendar',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+  },
+  {
+    path: 'calendar/:year/:month',
     pathMatch: 'full',
     component: EventListPageComponent,
   },
   {
     path: 'codes',
     canActivate: [AuthGuard],
-    component: PublicRegistrationCodesPageComponent,
+    component: EventListPageComponent,
   },
   { path: ':eventId', component: EventDetailsPageComponent },
+  {
+    path: ':eventId/checkin',
+    canActivate: [AuthGuard],
+    component: EventDetailsPageComponent,
+  },
   {
     path: ':eventId/edit',
     canActivate: [AuthGuard, MemberGuard],
@@ -54,6 +73,10 @@ const routes: Routes = [
     path: ':eventId/manage',
     canActivate: [AuthGuard, AdminGuard],
     component: EventManagePageComponent,
+  },
+  {
+    path: '**',
+    component: EventListPageComponent,
   },
 ];
 

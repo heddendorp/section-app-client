@@ -157,7 +157,7 @@
     <button
       mat-flat-button
       color="primary"
-      class="h-24"
+      class="h-24 modern"
       (click)="checkInUser()"
       [disabled]="
         (currentRegistration$ | async) === null ||
@@ -167,6 +167,6 @@
     >
       Check in
     </button>
-    <a routerLink=".." mat-flat-button color="warn">Back</a>
+    <a routerLink=".." mat-flat-button class="modern">Back</a>
   </div>
 </main>

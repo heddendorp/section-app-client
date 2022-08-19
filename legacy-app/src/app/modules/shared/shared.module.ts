@@ -36,11 +36,24 @@ import { MarkdownModule } from 'ngx-markdown';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
+import { RatingItemComponent } from './components/rating-item/rating-item.component';
+import { RouterModule } from '@angular/router';
+import { RateEventComponent } from './components/rate-event/rate-event.component';
+import { RatingComponent } from './components/rating/rating.component';
+import { UserChipComponent } from './components/user-chip/user-chip.component';
+import { EventChipComponent } from './components/event-chip/event-chip.component';
+import { MatRippleModule } from '@angular/material/core';
+import { EventListItemComponent } from './components/event-list-item/event-list-item.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive-toolbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ResetScrollDirective } from './directives/reset-scroll.directive';
 
 @NgModule({
   declarations: [
     IfRoleDirective,
     IfStatusDirective,
+    ResetScrollDirective,
     DataItemsCollectorComponent,
     DataItemsManagerComponent,
     GridComponent,
@@ -53,8 +66,17 @@ import { MatCardModule } from '@angular/material/card';
     IconURLPipe,
     NewDataItemDialogComponent,
     SelectWithAutocompleteDialogComponent,
+    RatingItemComponent,
+    RateEventComponent,
+    RatingComponent,
+    UserChipComponent,
+    EventChipComponent,
+    EventListItemComponent,
+    ReactiveToolbarComponent,
+    FooterComponent,
   ],
   imports: [
+    RouterModule,
     CommonModule,
     FlexLayoutModule,
     MarkdownModule,
@@ -66,12 +88,15 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatInputModule,
     MatCardModule,
+    MatListModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
     GoogleMapsModule,
     HttpClientJsonpModule,
+    MatRippleModule,
+    MatTooltipModule,
   ],
   exports: [
     DataItemsCollectorComponent,
@@ -83,6 +108,7 @@ import { MatCardModule } from '@angular/material/card';
     IconURLPipe,
     IfRoleDirective,
     IfStatusDirective,
+    ResetScrollDirective,
     LocationAutocompleteComponent,
     MarkdownFieldComponent,
     MatButtonModule,
@@ -100,6 +126,14 @@ import { MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     PhotoDetailsDialogComponent,
     SelectLocationDialogComponent,
+    RatingItemComponent,
+    RateEventComponent,
+    RatingComponent,
+    UserChipComponent,
+    EventChipComponent,
+    EventListItemComponent,
+    ReactiveToolbarComponent,
+    FooterComponent,
   ],
   providers: [DatePipe],
 })

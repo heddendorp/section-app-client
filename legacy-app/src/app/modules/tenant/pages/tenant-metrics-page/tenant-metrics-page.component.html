@@ -1,13 +1,20 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="
-    (counters$ | async) === null ||
-    (gauges$ | async) === null ||
-    (histograms$ | async) === null
-  "
-></mat-progress-bar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>Prisma Metrics</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="
+      (counters$ | async) === null ||
+      (gauges$ | async) === null ||
+      (histograms$ | async) === null
+    "
+  ></mat-progress-bar>
+</app-reactive-toolbar>
 <main class="p-4">
-  <h1 class="mb-4">Prisma Metrics</h1>
   <h2 class="mb-2">Counters</h2>
   <app-grid minWidth="200px">
     <div *ngFor="let counter of counters$ | async" class="border p-2">

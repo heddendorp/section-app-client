@@ -27,7 +27,8 @@ export class NewFinanceEntryDialogComponent implements OnDestroy, OnInit {
       type: ['', Validators.required],
       description: ['', Validators.required],
       details: [''],
-      prepaid: [false, Validators.required],
+      notSubsidized: [false, Validators.required],
+      onInvoice: [false, Validators.required],
     });
   }
 

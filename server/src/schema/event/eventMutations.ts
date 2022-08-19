@@ -24,8 +24,14 @@ builder.mutationFields((t) => ({
       id: t.arg.id({ required: true }),
       rating: t.arg.int({ required: true }),
       comment: t.arg.string({ defaultValue: '' }),
+      anonymousRating: t.arg.boolean({ defaultValue: true }),
     },
-    resolve: async (query, root, { id, rating, comment }, context) => {
+    resolve: async (
+      query,
+      root,
+      { id, rating, comment, anonymousRating },
+      context
+    ) => {
       const registration = await prisma.eventRegistration.findFirst({
         where: {
           status: { not: RegistrationStatus.CANCELLED },
@@ -50,6 +56,7 @@ builder.mutationFields((t) => ({
               where: { id: registration.id },
               data: {
                 rating,
+                anonymousRating: anonymousRating ?? true,
                 userComment: comment,
               },
             },
@@ -93,6 +100,7 @@ builder.mutationFields((t) => ({
           coordinates: template.coordinates ?? undefined,
           location: template.location,
           googlePlaceId: template.googlePlaceId,
+          googlePlaceUrl: template.googlePlaceUrl,
           participantText: template.participantText,
           organizerText: template.organizerText,
           insuranceDescription: template.insuranceDescription,
@@ -316,7 +324,8 @@ builder.mutationFields((t) => ({
         description: string;
         value: number;
         type: string;
-        prepaid: boolean;
+        onInvoice: boolean;
+        notSubsidized: boolean;
         details: string;
         scale?: number;
       }[];
@@ -333,18 +342,19 @@ builder.mutationFields((t) => ({
               break;
             case 'participant':
               amount = item.value * allParticipants;
-              calculationInfo = `${allParticipants} x ${item.value}€ per participant`;
+              calculationInfo = `${allParticipants} × ${item.value}€ per participant`;
               break;
             default:
               amount =
                 item.value * Math.ceil(allParticipants / (item.scale ?? 1));
               calculationInfo = `${Math.ceil(
                 allParticipants / (item.scale ?? 1)
-              )} x ${item.value}€ per ${item.scale ?? 1} participants`;
+              )} × ${item.value}€ per ${item.scale ?? 1} participants`;
           }
           return {
             eventId,
-            onInvoice: item.prepaid,
+            notSubsidized: item.notSubsidized,
+            onInvoice: item.onInvoice,
             amount: amount,
             calculationInfo,
             details: item.details,

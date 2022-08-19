@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { GetEventTemplateQuery } from '@tumi/legacy-app/generated/generated';
-import { Observable, of } from 'rxjs';
+import { Observable, of, startWith, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-event-form-dialog',
@@ -19,9 +20,10 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./event-form-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventFormDialogComponent {
+export class EventFormDialogComponent implements OnInit, OnDestroy {
   public dialogForm: UntypedFormGroup;
   public iconFieldValue: Observable<string>;
+  private destroyed$ = new Subject();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -55,10 +57,25 @@ export class EventFormDialogComponent {
     }
   }
 
+  async ngOnInit() {
+    this.dialogForm
+      .get('shouldBeReportedToInsurance')
+      ?.valueChanges.pipe(
+        startWith(this.dialogForm.get('shouldBeReportedToInsurance')?.value),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((shouldBeReportedToInsurance) => {
+        if (shouldBeReportedToInsurance) {
+          this.dialogForm.get('insuranceDescription')?.enable();
+        } else {
+          this.dialogForm.get('insuranceDescription')?.disable();
+        }
+      });
+  }
+
   onSubmit(): void {
     if (this.dialogForm.valid) {
       const templateValue = this.dialogForm.value;
-      console.log(templateValue.location);
       if (templateValue.location?.place_id) {
         // templateValue.coordinates = templateValue.location.position;
         const map = new google.maps.Map(document.createElement('div'));
@@ -83,5 +100,10 @@ export class EventFormDialogComponent {
       }
     } else {
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

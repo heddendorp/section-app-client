@@ -37,7 +37,6 @@ import {
 } from '@angular/service-worker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './modules/shared/shared.module';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
@@ -46,6 +45,7 @@ import { concat, filter, first, interval } from 'rxjs';
 import { IconToastComponent } from '@tumi/legacy-app/modules/shared/components/icon-toast/icon-toast.component';
 import { Settings } from 'luxon';
 import * as Sentry from '@sentry/angular';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent, AuthButtonComponent],
@@ -80,12 +80,12 @@ import * as Sentry from '@sentry/angular';
     }),
     FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: environment.production && environment.version !== 'test',
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    MatSidenavModule,
+    MatRippleModule,
   ],
   providers: [
     Title,
@@ -158,7 +158,7 @@ import * as Sentry from '@sentry/angular';
       useValue: { appearance: 'outline' },
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
-    environment.production
+    environment.production && environment.version !== 'test'
       ? [
           {
             provide: ErrorHandler,
@@ -208,7 +208,11 @@ export class AppModule {
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
     const updateChecksOnceAppStable$ = concat(appIsStable$, updateCheckTimer$);
-    if (environment.production && isPlatformBrowser(platform)) {
+    if (
+      environment.production &&
+      isPlatformBrowser(platform) &&
+      environment.version !== 'test'
+    ) {
       updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
     }
     updates.versionUpdates

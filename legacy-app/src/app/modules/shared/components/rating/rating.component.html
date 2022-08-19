@@ -1,0 +1,13 @@
+<div
+  class="rounded border border-gray-300 p-2 transition-all hover:border-gray-700"
+>
+  <div fxLayout="row" fxLayoutGap=".5rem">
+    <mat-icon
+      [class.saturate-0]="((currentValue | async) ?? 0) < rating"
+      svgIcon="icon-star-2"
+      *ngFor="let rating of elements"
+      (click)="setRating(rating)"
+    ></mat-icon>
+  </div>
+  <p class="text-sm text-gray-700 italic">More stars are better</p>
+</div>

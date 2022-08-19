@@ -1,0 +1,120 @@
+<a
+  routerLink="/events/{{ event?.id }}"
+  class="event text-surface-on relative h-full {{
+    event ? 'bg-white' : 'skeleton bg-slate-50'
+  }} rounded-lg shadow flex flex-col
+  {{ event?.userIsRegistered ? 'participant' : '' }}
+  {{ event?.userIsOrganizer ? 'organizer' : '' }}"
+  matRipple
+>
+  <div class="w-full pt-2 px-4 pb-4 flex flex-col gap-2">
+    <div class="flex flex-row gap-2 items-center">
+      <img
+        *ngIf="event"
+        [src]="event.icon | iconURL"
+        alt=""
+        class="w-12 h-12"
+      />
+      <div *ngIf="!event" class="skeleton w-12 h-12"></div>
+      <div *ngIf="event" class="text-base font-semibold leading-tight">
+        {{ event.title }}
+      </div>
+      <div *ngIf="!event" class="skeleton">Event Title Phantom</div>
+    </div>
+
+    <div class="mt-auto flex items-center gap-1">
+      <ng-container *ngIf="event && event.internalEvent">
+        <mat-icon
+          svgIcon="icon-user-lock"
+          style="width: 18px"
+          class="ml-2 text-blue-700"
+        ></mat-icon>
+        <span class="text-blue-700 font-semibold">Internal</span>
+      </ng-container>
+
+      <ng-container *ngIf="event">
+        <mat-icon
+          class="ml-2"
+          svgIcon="icon-clock"
+          style="width: 18px"
+        ></mat-icon>
+        <span>{{ event.start | date: 'shortTime' }}</span>
+      </ng-container>
+      <span *ngIf="!event" class="skeleton">XX XX:XX</span>
+
+      <ng-container *ngIf="defaultPrice()">
+        <mat-icon
+          svgIcon="icon-price-tag-euro"
+          style="width: 18px"
+          class="ml-2"
+        ></mat-icon>
+        <span>{{ defaultPrice().amount | currency: 'EUR' }}</span>
+      </ng-container>
+    </div>
+
+    <div class="font-semibold inline-flex items-center gap-1">
+      <ng-container *ngIf="event">
+        <ng-container *ngIf="event.userIsOrganizer || event.userIsRegistered">
+          <span
+            *ngIf="event.userIsOrganizer"
+            class="rounded-2xl px-2 py-1 inline-flex items-center gap-1 bg-blue-600 text-white"
+          >
+            <mat-icon
+              svgIcon="icon-checked"
+              style="min-width: 18px; max-width: 18px"
+            ></mat-icon>
+            <span>Organizer</span>
+          </span>
+          <span
+            *ngIf="event.userIsRegistered"
+            class="rounded-2xl px-2 py-1 inline-flex items-center gap-1 bg-green-600 text-white"
+          >
+            <mat-icon
+              svgIcon="icon-checked"
+              style="min-width: 18px; max-width: 18px"
+            ></mat-icon>
+            <span>Registered</span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!event.userIsOrganizer && !event.userIsRegistered">
+          <span
+            *ngIf="!notYetOpen()"
+            class="rounded-2xl px-2 py-1 {{
+              freeSpotsStyling(event.freeParticipantSpots)
+            }}"
+            >● {{ event.freeParticipantSpots }}</span
+          >
+          <span
+            class="rounded-xl px-2 py-1 inline-flex items-center gap-1 bg-gray-200 text-gray-800"
+            *ngIf="notYetOpen()"
+          >
+            <mat-icon
+              svgIcon="icon-lock"
+              style="min-width: 18px; max-width: 18px"
+            ></mat-icon>
+            <span>Opens {{ event.registrationStart | date: 'shortDate' }}</span>
+          </span>
+        </ng-container>
+        <span
+          *ngIf="
+            event?.couldBeOrganizer &&
+            RegistrationMode.External !== event.registrationMode
+          "
+          class="ml-2 {{ tutorSpotsClass() }}"
+        >
+          {{ event?.organizersRegistered ?? 0 }}/{{
+            event?.organizerLimit ?? 0
+          }}
+          tutors</span
+        >
+      </ng-container>
+      <span *ngIf="!event" class="skeleton rounded-2xl px-2 py-1"
+        >Event state phantom</span
+      >
+    </div>
+  </div>
+  <div
+    *ngIf="event && event.publicationState !== 'PUBLIC'"
+    class="w-full publication-state {{ event.publicationState | lowercase }}"
+  ></div>
+</a>

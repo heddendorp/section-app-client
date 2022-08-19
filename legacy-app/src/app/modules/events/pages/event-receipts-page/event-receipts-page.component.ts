@@ -32,7 +32,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private dialog: MatDialog,
     private sanitizer: DomSanitizer
   ) {
-    this.title.setTitle('TUMi - event receipts');
+    this.title.setTitle('Event Receipts - TUMi');
     this.loadCostItemQueryRef = this.loadCostItem.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' })
@@ -40,7 +40,6 @@ export class EventReceiptsPageComponent implements OnDestroy {
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
       map(({ data }) => data.costItem),
       map((costItem) => {
-        console.log(costItem.receipts);
         return {
           ...costItem,
           receipts: costItem.receipts.map((receipt) => {
@@ -74,7 +73,10 @@ export class EventReceiptsPageComponent implements OnDestroy {
     const costItem = await firstValueFrom(this.costItem$);
     if (costItem) {
       await this.dialog
-        .open(AddReceiptDialogComponent, { data: { costItem } })
+        .open(AddReceiptDialogComponent, {
+          data: { costItem },
+          panelClass: 'modern',
+        })
         .afterClosed();
     }
   }

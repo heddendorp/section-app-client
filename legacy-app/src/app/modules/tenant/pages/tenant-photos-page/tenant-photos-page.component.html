@@ -1,9 +1,16 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(photos$ | async) === null"
-></mat-progress-bar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>All Photos</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(photos$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
 <main *ngIf="photos$ | async as photos" class="p-4">
-  <h1 class="mb-4 font-bold">All Photos</h1>
   <div
     class="w-full"
     gdAuto="dense"

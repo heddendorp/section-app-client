@@ -9,7 +9,6 @@ import {
   GetUsersQuery,
   MembershipStatus,
   Role,
-  UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
@@ -22,7 +21,6 @@ import {
   takeUntil,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Clipboard } from '@angular/cdk/clipboard';
 
@@ -36,12 +34,12 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public users$: Observable<GetUsersQuery['users']>;
   public userNum$: Observable<GetUsersQuery['userSearchResultNum']>;
   public displayedColumns = [
+    'profile',
     'firstName',
     'lastName',
     'email',
     'status',
     'role',
-    'action',
   ];
   public filterForm: UntypedFormGroup;
   public MembershipStatus = MembershipStatus;
@@ -52,12 +50,10 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   constructor(
     private title: Title,
     private loadUsers: GetUsersGQL,
-    private dialog: MatDialog,
-    private updateMutation: UpdateUserGQL,
     private fb: UntypedFormBuilder,
     private clipboard: Clipboard
   ) {
-    this.title.setTitle('TUMi - manage users');
+    this.title.setTitle('Users - TUMi');
     this.loadUsersReference = this.loadUsers.watch({
       pageLength: 20,
       pageIndex: 0,

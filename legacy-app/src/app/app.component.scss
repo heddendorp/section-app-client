@@ -5,4 +5,7 @@
   .mat-expansion-indicator::after {
     @apply border-slate-600;
   }
+  .mat-list-text h3 {
+    font-weight: 600 !important;
+  }
 }

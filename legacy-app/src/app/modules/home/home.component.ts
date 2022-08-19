@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import {
   GetHomePageDataGQL,
   GetHomePageDataQuery,
@@ -15,7 +16,9 @@ export class HomeComponent {
   public events$: Observable<GetHomePageDataQuery['events']>;
   public loggedIn$: Observable<boolean>;
 
-  constructor(private q: GetHomePageDataGQL) {
+  constructor(private q: GetHomePageDataGQL, private title: Title) {
+    this.title.setTitle('Home - TUMi');
+
     this.events$ = this.q
       .watch()
       .valueChanges.pipe(map(({ data }) => data.events));

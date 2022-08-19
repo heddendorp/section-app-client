@@ -20,11 +20,20 @@ builder.queryFields((t) => ({
       pageIndex: t.arg.int(),
       pageLength: t.arg.int(),
       onlyWithPurchase: t.arg.boolean(),
+      emptyOnEmptySearch: t.arg.boolean({ defaultValue: false }),
     },
     resolve: async (
       query,
       root,
-      { statusList, roleList, search, pageLength, pageIndex, onlyWithPurchase },
+      {
+        statusList,
+        roleList,
+        search,
+        pageLength,
+        pageIndex,
+        onlyWithPurchase,
+        emptyOnEmptySearch,
+      },
       context,
       info
     ) => {
@@ -37,6 +46,8 @@ builder.queryFields((t) => ({
         OR.push({ firstName: { search: prepareSearchString(search) } });
         OR.push({ lastName: { search: prepareSearchString(search) } });
         OR.push({ email: { search: prepareSearchString(search) } });
+      } else if (emptyOnEmptySearch) {
+        return [];
       }
       return prisma.user.findMany({
         ...query,

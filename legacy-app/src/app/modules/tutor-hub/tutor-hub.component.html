@@ -1,0 +1,373 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <div resetScroll>Tutor Hub</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(tutorHubData$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
+<div
+  class="m-4"
+  gdAuto
+  gdColumns="100%"
+  gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
+  gdColumns.gt-md="calc(33.33% - 0.5rem) calc(33.33% - 0.5rem) calc(33.33% - 0.5rem)"
+  gdGap="1rem"
+>
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl relative overflow-hidden"
+  >
+    <app-semester-navigator
+      [calculateStartEnd]="calculateStartEnd"
+      (rangeEmitter)="updateRange($event)"
+    >
+    </app-semester-navigator>
+    <mat-divider></mat-divider>
+    <ng-container>
+      <div
+        class="my-4 flex flex-row justify-evenly sm:gap-16 sm:justify-center"
+      >
+        <div class="flex flex-col items-center">
+          <div class="text-3xl font-extrabold mb-1">
+            <span *ngIf="events$ | async as events; else eventCounter">{{
+              events.eventCount
+            }}</span>
+            <ng-template #eventCounter>
+              <span class="skeleton">XXX</span>
+            </ng-template>
+          </div>
+          <div class="text-sm">
+            event{{ (events$ | async)?.eventCount === 1 ? '' : 's' }}
+          </div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="text-3xl font-extrabold mb-1">
+            <span *ngIf="events$ | async as events; else registrationCounter">{{
+              events.registrationCount
+            }}</span>
+            <ng-template #registrationCounter>
+              <span class="skeleton">XXXX</span>
+            </ng-template>
+          </div>
+          <div class="text-sm">
+            participant{{
+              (events$ | async)?.registrationCount === 1 ? '' : 's'
+            }}
+          </div>
+        </div>
+      </div>
+      <ng-container>
+        <mat-divider></mat-divider>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="1rem"
+          class="my-4"
+        >
+          <mat-icon
+            svgIcon="icon-leaderboard"
+            class="text-secondary-default bg-secondary-on card-icon"
+          >
+          </mat-icon>
+          <div>
+            <h2 class="font-bold">Leaderboard</h2>
+            <div class="text-xs -mt-0.5">
+              <a
+                matRipple
+                (click)="leaderboardToggle = false"
+                [class]="
+                  !leaderboardToggle
+                    ? 'font-bold'
+                    : 'text-blue-700 cursor-pointer'
+                "
+                >tutored</a
+              >
+              ·
+              <a
+                matRipple
+                (click)="leaderboardToggle = true"
+                [class]="
+                  leaderboardToggle
+                    ? 'font-bold'
+                    : 'text-blue-700 cursor-pointer'
+                "
+                >created</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-[3ch_auto_auto] gap-2 text-sm">
+          <ng-container
+            *ngIf="events$ | async as events; else leaderboardSkeleton"
+          >
+            <ng-container
+              *ngFor="let entry of getLeaderboard(events); let i = index"
+            >
+              <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
+              <app-user-chip
+                size="xs"
+                [id]="entry.user.id"
+                [picture]="entry.user.picture"
+                name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
+                [status]="entry.status || ''"
+              >
+              </app-user-chip>
+              <div class="ml-auto font-medium">{{ entry.count }}</div>
+            </ng-container>
+          </ng-container>
+          <ng-template #leaderboardSkeleton>
+            <ng-container
+              *ngFor="let entry of [].constructor(10); let i = index"
+            >
+              <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
+              <div class="skeleton h-6 w-36 rounded-[24px]"></div>
+              <div class="skeleton ml-auto font-medium">XX</div>
+            </ng-container>
+          </ng-template>
+        </div>
+        <div class="mt-1">
+          <a
+            matRipple
+            (click)="leaderboardExpanded = !leaderboardExpanded"
+            class="text-blue-700 cursor-pointer text-xs"
+            >show {{ leaderboardExpanded ? 'less' : 'more' }}</a
+          >
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-1"
+    >
+      <mat-icon
+        svgIcon="icon-calendar-plus"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Recently created events</h2>
+    </div>
+    <mat-nav-list *ngIf="tutorHubData$ | async as tutorHubData; else skeleton1">
+      <app-event-list-item
+        *ngFor="let event of tutorHubData.newEvents"
+        [event]="event"
+      ></app-event-list-item>
+    </mat-nav-list>
+    <ng-template #skeleton1>
+      <mat-nav-list>
+        <app-event-list-item
+          *ngFor="let event of [].constructor(6)"
+        ></app-event-list-item>
+      </mat-nav-list>
+    </ng-template>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl relative overflow-hidden"
+  >
+    <div class="!absolute top-0 left-0 w-full">
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="searchLoading$ | async"
+      ></mat-progress-bar>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-2"
+    >
+      <mat-icon
+        svgIcon="icon-conference"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Tutors</h2>
+    </div>
+    <form [formGroup]="filterForm" class="text-sm mb-2">
+      <mat-form-field class="-mb-4 w-full">
+        <mat-label>Search for a tutor</mat-label>
+        <input matInput formControlName="search" type="search" #searchInput />
+        <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
+      </mat-form-field>
+    </form>
+    <ng-container *ngIf="!searchInput.value">
+      <app-grid minWidth="35px" gap="0.5rem">
+        <ng-container
+          *ngIf="tutorHubData$ | async as tutorHubData; else skeleton2"
+        >
+          <app-user-chip
+            *ngFor="let tenantUser of tutorHubData.activeOrganizers"
+            size="fit"
+            [id]="tenantUser.user.id"
+            name="{{ tenantUser.user.firstName }} {{
+              tenantUser.user.lastName
+            }}"
+            [picture]="tenantUser.user.picture"
+          >
+          </app-user-chip>
+        </ng-container>
+        <ng-template #skeleton2>
+          <div
+            *ngFor="let tutor of [].constructor(90)"
+            class="skeleton rounded-full aspect-1"
+          ></div>
+        </ng-template>
+      </app-grid>
+      <div class="italic text-gray-500 text-sm mt-3">
+        Active tutors of the last three months.
+      </div>
+    </ng-container>
+    <ng-container *ngIf="searchInput.value">
+      <div class="flex flex-wrap gap-2 items-center">
+        <app-user-chip
+          *ngFor="let user of searchedTutors$ | async"
+          size="sm"
+          [id]="user.id"
+          [picture]="user.picture"
+          [name]="user.fullName"
+          [status]="user.currentTenant?.status + ''"
+        >
+        </app-user-chip>
+      </div>
+    </ng-container>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
+    >
+      <mat-icon
+        svgIcon="icon-birthday"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Birthdays</h2>
+    </div>
+    <div class="flex flex-col gap-4">
+      <ng-container
+        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton3"
+      >
+        <div *ngIf="tutorHubData.birthdays.length === 0">
+          No upcoming birthdays in the next week
+        </div>
+        <div *ngFor="let birthday of tutorHubData.birthdays">
+          <div class="font-bold mb-1">{{ birthday.birthday }}</div>
+          <div class="flex flex-wrap gap-2 items-center ml-4">
+            <app-user-chip
+              *ngFor="let user of birthday.users"
+              size="sm"
+              [id]="user.id"
+              [picture]="user.picture"
+              name="{{ user.firstName }} {{ user.lastName }}"
+              [status]="user.status"
+            >
+            </app-user-chip>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #skeleton3>
+        <div *ngFor="let birthday of [].constructor(3)">
+          <div class="font-bold mb-1">
+            <span class="skeleton">XXXXXX XX</span>
+          </div>
+          <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
+    >
+      <mat-icon
+        svgIcon="icon-group-background-selected"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Who’s Who</h2>
+    </div>
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 text-sm">
+      <ng-container
+        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4"
+      >
+        <div *ngFor="let tenantUser of tutorHubData.usersWithPositions">
+          <div class="font-medium mb-0.5">{{ tenantUser.user.position }}</div>
+          <app-user-chip
+            size="xs"
+            [id]="tenantUser.user.id"
+            [picture]="tenantUser.user.picture"
+            name="{{ tenantUser.user.firstName }} {{
+              tenantUser.user.lastName
+            }}"
+            [status]="tenantUser.status || ''"
+          >
+          </app-user-chip>
+        </div>
+      </ng-container>
+      <ng-template #skeleton4>
+        <div *ngFor="let position of [].constructor(10)">
+          <div class="font-medium mb-0.5">
+            <span class="skeleton">XXX XXXXXXXX XX</span>
+          </div>
+          <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-1"
+    >
+      <mat-icon
+        svgIcon="icon-user-manual"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Resources</h2>
+    </div>
+    <mat-nav-list>
+      <!-- replace in the future with db model -->
+      <a
+        mat-list-item
+        href="https://esntumi.sharepoint.com/:f:/s/Board/EqlZb4OcQgNArN8drmSYCKMBAe9OxW7iaYjHmQl6J-bg5A?e=rALt2f"
+        target="_blank"
+      >
+        <img [src]="'user-manual' | iconURL" alt="Image" mat-list-avatar />
+        <p mat-line>Tutor Guide</p>
+      </a>
+      <a
+        mat-list-item
+        href="https://app.slack.com/client/T30TKAENN/"
+        target="_blank"
+      >
+        <img [src]="'slack-new:color' | iconURL" alt="Image" mat-list-avatar />
+        <p mat-line>Slack</p>
+      </a>
+    </mat-nav-list>
+  </div>
+</div>

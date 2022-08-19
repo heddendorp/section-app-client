@@ -19,10 +19,6 @@
 .cancelled {
   opacity: 0.5;
 
-  button.modern {
-    display: none;
-  }
-
   .tag {
     @apply bg-gray-200;
   }

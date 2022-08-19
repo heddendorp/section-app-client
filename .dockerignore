@@ -132,3 +132,7 @@ dist
 
 #git
 .git/
+
+# cypress
+cypress/screenshots
+cypress/videos

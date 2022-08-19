@@ -16,6 +16,7 @@ import {
 } from './generated/prisma';
 import { createSentryWrapper } from '@pothos/tracing-sentry';
 import TracingPlugin, { isRootField } from '@pothos/plugin-tracing';
+import { Request } from 'express';
 
 const traceResolver = createSentryWrapper({
   includeArgs: true,
@@ -24,6 +25,7 @@ const traceResolver = createSentryWrapper({
 
 export const builder = new SchemaBuilder<{
   Context: {
+    req: Request;
     token?: { sub: string };
     auth0: Auth0;
     tenant: Tenant;
@@ -60,8 +62,9 @@ export const builder = new SchemaBuilder<{
   authScopes: async (context) => ({
     authenticated: !!context.auth0,
     public: !!context.user,
-    member: context.userOfTenant?.status !== MembershipStatus.NONE,
-    admin: context.userOfTenant?.role === Role.ADMIN,
+    member:
+      !!context.user && context.userOfTenant?.status !== MembershipStatus.NONE,
+    admin: !!context.user && context.userOfTenant?.role === Role.ADMIN,
   }),
   tracing: {
     default: (config) => isRootField(config),

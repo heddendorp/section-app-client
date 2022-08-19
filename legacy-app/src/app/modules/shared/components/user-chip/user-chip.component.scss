@@ -1,0 +1,66 @@
+.chip {
+  @apply bg-slate-200 align-middle box-content;
+  &.full {
+    @apply bg-purple-100 border-purple-600 border-[0.12em];
+  }
+  &.trial {
+    @apply bg-purple-50 border-purple-400 border-[0.12em] border-dashed;
+  }
+}
+
+.picture-container {
+  @apply h-full aspect-1;
+
+  img {
+    @apply h-full;
+  }
+}
+
+.fit {
+  @apply w-full rounded-full;
+  .picture-container {
+    @apply w-full;
+  }
+}
+
+.xs {
+  @apply h-5 leading-5 rounded-[20px] items-stretch;
+
+  .name-container {
+    @apply ml-[0.18em] mr-1;
+  }
+}
+
+.sm {
+  @apply h-[2em] rounded-[2em];
+
+  .name-container {
+    @apply mx-2;
+  }
+
+  .name {
+    @apply text-[90%];
+  }
+}
+
+.md {
+  @apply h-[3em] rounded-[3em];
+
+  .name-container {
+    @apply mx-3;
+  }
+
+  .name {
+    @apply font-semibold;
+  }
+
+  .name {
+    @apply text-[90%];
+    line-height: initial;
+  }
+
+  .tel {
+    @apply text-[85%];
+    line-height: initial;
+  }
+}

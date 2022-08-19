@@ -28,7 +28,7 @@
   <div class="bg-gray-800 text-gray-50">
     <div class="p-4">
       <h1
-        class="mt-4 mb-4 bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-3xl font-bold leading-snug text-transparent md:mt-0 md:text-6xl"
+        class="my-4 bg-gradient-to-br from-blue-300 to-blue-500 bg-clip-text text-3xl font-bold !leading-snug text-transparent md:mt-0 md:text-6xl"
       >
         Exchange, better!
       </h1>
@@ -37,11 +37,9 @@
         you are an incoming student, doing your international mobility or a
         local student wanting to broaden your horizon. <br />
         We are a registered Association (Verein) with close connections to our
-        friends in the TUM Global & Alumni Office. Our focus is
-        <span class="font-bold">
-          the promotion of international spirit, tolerance in all facets of
-          culture and the fostering of international understanding.
-        </span>
+        friends in the TUM Global & Alumni Office. Our focus is the promotion of
+        international spirit, tolerance in all facets of culture and the
+        fostering of international understanding.
       </p>
       <div fxLayout="row" fxLayoutGap=".5rem" class="mt-4 max-w-md">
         <a
@@ -50,25 +48,13 @@
           fxLayout="row"
           fxLayoutGap="1rem"
           fxLayoutAlign="start center"
-          routerLink="/events"
+          routerLink="/page/faq"
         >
-          <mat-icon svgIcon="icon-overtime"></mat-icon>
-          <span>See all events</span>
-        </a>
-        <a
-          *ngIf="loggedIn$ | async"
-          fxFlex="noshrink"
-          class="cursor-pointer rounded border border-gray-500 bg-gray-700 p-2 hover:bg-gray-600"
-          fxLayout="row"
-          fxLayoutGap="1rem"
-          fxLayoutAlign="start center"
-          routerLink="/profile"
-        >
-          <mat-icon svgIcon="icon-contact-card"></mat-icon>
-          <span>Open profile</span>
+          <mat-icon svgIcon="icon-faq"></mat-icon>
+          <span>Frequently Asked Questions</span>
         </a>
       </div>
-      <h2 class="mt-8 text-2xl font-bold">Upcoming events</h2>
+      <h2 class="mt-8 text-2xl font-bold">Upcoming Events</h2>
     </div>
     <div
       class="flex w-full snap-x gap-12 overflow-x-auto pb-8 pt-4"
@@ -80,7 +66,7 @@
         class="relative shrink-0 cursor-pointer snap-start scroll-ml-6 first:pl-6 last:pr-[calc(100%-21.5rem)]"
       >
         <div
-          class="rounded-2xl border bg-gray-600 p-4"
+          class="rounded-2xl border bg-gray-600 p-4 text-center"
           fxLayout="column"
           fxLayoutAlign="start center"
         >
@@ -99,7 +85,7 @@
         <div
           *ngFor="let event of events$ | async"
           routerLink="/events/{{ event.id }}"
-          class="cursor-pointer rounded-2xl border bg-gray-600 p-4 hover:bg-gray-700"
+          class="cursor-pointer rounded-2xl border bg-gray-600 p-4 hover:bg-gray-700 text-center"
           fxLayout="column"
           fxLayoutAlign="start center"
         >
@@ -137,12 +123,12 @@
   <div
     gdAuto
     gdGap="2rem"
-    gdColumns="repeat(auto-fit, minmax(min(100%, 150px), 1fr))"
+    gdColumns="repeat(auto-fit, minmax(min(100%, 100px), 1fr))"
     gdAlignRows="center"
     gdAlignColumns="center"
-    style="max-width: 2000px"
+    style="max-width: 1280px"
   >
-    <img src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
+    <img class="p-4" src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
     <img src="/assets/logos/esn_dark.svg" alt="ESN Logo" />
     <img src="/assets/logos/supporters/lei.png" alt="LEI Logo" />
     <img src="/assets/logos/supporters/daad.svg" alt="DAAD Logo" />
@@ -159,4 +145,44 @@
     We are only able to do what we do because of amazing support from public
     institutions, student associations and our university.
   </p>
+  <h1
+    class="mt-8 mb-4 bg-fuchsia-700 bg-clip-text text-2xl font-bold leading-normal text-transparent md:text-3xl"
+  >
+    Technical support
+  </h1>
+  <div
+    gdAuto
+    gdGap="2rem"
+    gdColumns="repeat(auto-fit, minmax(min(100%, 100px), 1fr))"
+    gdAlignRows="center"
+    gdAlignColumns="center"
+    style="max-width: 1280px"
+  >
+    <a
+      width="150"
+      height="50"
+      href="https://auth0.com/?utm_source=oss&utm_medium=gp&utm_campaign=oss"
+      target="_blank"
+      alt="Single Sign On & Token Based Authentication - Auth0"
+      ><img
+        width="150"
+        height="50"
+        alt="JWT Auth for open source projects"
+        src="//cdn.auth0.com/oss/badges/a0-badge-dark.png"
+    /></a>
+    <div>
+      <a href="https://www.browserstack.com/" target="_blank"
+        ><img
+          src="/assets/logos/supporters/browserstack_logo.svg"
+          alt="Browserstack Logo"
+          width="150px"
+      /></a>
+      <span class="text-sm">Device-tested using BrowserStack</span>
+    </div>
+  </div>
+  <p class="my-8 max-w-5xl leading-normal md:text-lg">
+    This app is supported by generous service providers that have a heart for
+    open source and non profit projects.
+  </p>
+  <app-footer></app-footer>
 </footer>

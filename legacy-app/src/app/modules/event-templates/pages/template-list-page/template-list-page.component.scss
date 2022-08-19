@@ -1,5 +1,4 @@
-a {
-  img.mat-list-avatar {
-    border-radius: 0;
-  }
+.counter {
+  @apply absolute right-0 bottom-0 text-xs bg-white border-gray-400 border-[1px] rounded-full w-[18px] h-[18px] box-border text-center font-medium tracking-tighter;
+  font-size: 0.7rem;
 }

@@ -2,7 +2,7 @@
   "name": "tumi",
   "license": "MIT",
   "private": true,
-  "version": "4.1.1",
+  "version": "4.4.0",
   "workspaces": [
     "events",
     "server",
@@ -12,6 +12,12 @@
     "shared/*"
   ],
   "scripts": {
+    "cypress:open": "cypress open",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "test": "yarn docker:up && yarn cypress:open && yarn docker:down",
+    "test:dev": "yarn docker:up --build && yarn cypress:open && yarn docker:down",
+    "test:percy": "dotenv -- percy exec -- cypress run",
     "events": "yarn workspace @tumi/events dev",
     "legacy-app": "yarn workspace @tumi/legacy-app start:app",
     "server": "yarn workspace @tumi/server dev",
@@ -20,6 +26,8 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
     "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build",
     "release:draft": "conventional-github-releaser -p angular --draft",
+    "recommended-version": "conventional-recommended-bump -p angular",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "release": "conventional-github-releaser -p angular"
   },
   "engines": {
@@ -27,10 +35,20 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.2.2"
+    "concurrently": "^7.3.0"
   },
   "resolutions": {
     "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
-    "nexus-prisma@0.36.0-next.2": "patch:nexus-prisma@npm:0.36.0-next.2#.yarn/patches/nexus-prisma-npm-0.36.0-next.2-32f64a026a"
+    "nexus-prisma@0.36.0-next.2": "patch:nexus-prisma@npm:0.36.0-next.2#.yarn/patches/nexus-prisma-npm-0.36.0-next.2-32f64a026a",
+    "@whatwg-node/fetch": "patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch"
+  },
+  "volta": {
+    "node": "17.9.1"
+  },
+  "devDependencies": {
+    "@percy/cli": "^1.9.1",
+    "@percy/cypress": "^3.1.2",
+    "cypress": "^10.6.0",
+    "dotenv-cli": "^6.0.0"
   }
 }

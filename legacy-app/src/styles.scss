@@ -3,40 +3,19 @@
 @use '@angular/material' as mat;
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'General Sans';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/inter/v11/UcCo3FwrK3iLTcviYwY.woff2)
-    format('woff2');
+  src: url('assets/fonts/GeneralSans-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'General Sans';
   font-style: italic;
-  font-variation-settings: 'slnt' -10;
   font-weight: 100 900;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/inter/v11/UcCo3FwrK3iLTcviYwY.woff2)
-    format('woff2');
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/josefinsans/v24/Qw3aZQNVED7rKGKxtqIqX5EUDXx4.woff2)
-    format('woff2');
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: italic;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/josefinsans/v24/Qw3EZQNVED7rKGKxtqIqX5EUCEx6XHg.woff2)
-    format('woff2');
+  src: url('assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
 }
 
 @import 'tailwindcss/base';
@@ -161,11 +140,13 @@ $tumi-app-accent: mat.define-palette($secondary-palette);
 $tumi-app-warn: mat.define-palette($error-palette);
 
 $tumi-typography: mat.define-typography-config(
-  $font-family: 'inter, sans-serif',
+  $font-family: 'General Sans, sans-serif',
+  $body-1: mat.define-typography-level(14px, 20px, 450),
 );
 
 $tumi-display-typography: mat.define-typography-config(
-  $font-family: 'Josefin Sans, sans-serif',
+  $font-family: 'General Sans, sans-serif',
+  $body-1: mat.define-typography-level(14px, 20px, 450),
 );
 
 // Create the theme object. A theme consists of configurations for individual
@@ -202,6 +183,7 @@ $tumi-dark-theme: mat.define-dark-theme(
 @layer base {
   html {
     box-sizing: border-box;
+    font-weight: 450;
   }
   //html,
   //body {
@@ -215,6 +197,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   *:before,
   *:after {
     box-sizing: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
   h1 {
     @apply text-2xl font-display;
@@ -243,7 +226,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   .cdk-overlay-pane.modern {
     mat-dialog-container {
-      @apply rounded-3xl p-6 bg-surface-default text-surface-on;
+      @apply rounded-3xl p-6 bg-primary-container text-surface-on;
     }
   }
   .mat-flat-button.modern {
@@ -293,5 +276,53 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   .bg-blur {
     backdrop-filter: blur(16px) saturate(180%);
+  }
+  .mat-list-avatar {
+    border-radius: 0 !important;
+  }
+  .save-button {
+    .mat-icon {
+      mat-spinner {
+        height: 24px !important;
+        width: 24px !important;
+        circle {
+          @apply stroke-gray-400;
+        }
+        svg {
+          height: 24px !important;
+          width: 24px !important;
+        }
+      }
+    }
+  }
+  a.extended-fab,
+  button.extended-fab {
+    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-20 rounded-xl;
+    .mat-button-wrapper {
+      @apply flex;
+    }
+    .label {
+      @apply ml-1;
+    }
+  }
+  mat-toolbar {
+    background: white !important;
+    @apply shadow-sm;
+  }
+  mat-progress-bar {
+    position: absolute !important;
+    z-index: 1000 !important;
+    @apply sm:max-w-[calc(100vw-96px)];
+  }
+  @media only percy {
+    .hide-in-percy {
+      visibility: hidden;
+    }
+  }
+}
+
+@layer components {
+  .skeleton {
+    @apply animate-pulse bg-slate-200 text-transparent rounded-md cursor-default box-decoration-clone;
   }
 }

@@ -50,7 +50,6 @@ export class EventManagePageComponent implements OnDestroy {
     'paid',
     'registered',
     'checkIn',
-    'remove',
     'expand',
   ];
   expandedRegistration?: TumiEvent;
@@ -63,13 +62,13 @@ export class EventManagePageComponent implements OnDestroy {
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute
   ) {
-    this.title.setTitle('TUMi - manage event');
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.event)
+      map(({ data }) => data.event),
+      tap((event) => this.title.setTitle(`Manage ${event.title} - TUMi`))
     );
     this.feeShare$ = this.event$.pipe(
       map((event) =>
@@ -192,5 +191,16 @@ export class EventManagePageComponent implements OnDestroy {
       })
     );
     this.loadEventQueryRef.refetch();
+  }
+
+  getStatusOfRegistration(registration: any) {
+    console.log(registration);
+    if (registration.status === '"SUCCESSFUL"') return 'successful';
+    if (registration.cancellationReason) {
+      if (registration.cancellationReason.includes('moved')) return 'moved';
+      if (registration.cancellationReason.includes('given up'))
+        return 'deregistered';
+    }
+    return registration.status.toLowerCase();
   }
 }

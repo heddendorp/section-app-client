@@ -25,7 +25,7 @@ export class MemberGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.isMember();
+    return this.permissions.isMember();
   }
   canLoad(
     route: Route,
@@ -35,14 +35,6 @@ export class MemberGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.isMember();
-  }
-  isMember() {
-    return this.permissions.hasStatus([
-      MembershipStatus.Alumni,
-      MembershipStatus.Full,
-      MembershipStatus.Sponsor,
-      MembershipStatus.Trial,
-    ]);
+    return this.permissions.isMember();
   }
 }

@@ -11,10 +11,11 @@
     (dataSubmission)="registerAdditionalData($event)"
   >
     <ng-container *ngIf="event.participantRegistrationPossible.option">
-      <p class="pb-4">You can register for this event online</p>
+      <p class="pb-4">You can register for this event here.</p>
       <button
         mat-raised-button
         color="primary"
+        class="modern"
         (click)="register()"
         [disabled]="processing | async"
       >

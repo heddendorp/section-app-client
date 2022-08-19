@@ -119,6 +119,55 @@
 
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
+        <mat-panel-title> Ratings </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="flex flex-col gap-3">
+        <ng-container *ngFor="let event of template.eventInstances">
+          <div
+            *ngIf="
+              (event.participantRatingCount &&
+                event.participantRatingCount > 0) ||
+              (event.organizerRatingCount && event.organizerRatingCount > 0)
+            "
+            class="flex flex-col gap-2"
+          >
+            <a routerLink="/events/{{ event.id }}" class="text-base">
+              <span class="font-bold">{{ event.title }}</span>
+              <span class="font-light ml-2">{{
+                event.start | date: 'shortDate'
+              }}</span>
+              <div
+                *ngIf="
+                  event.participantRatingCount &&
+                  event.participantRatingCount > 0
+                "
+                class="inline-block ml-2 text-xs rounded px-1 bg-amber-400 text-white"
+              >
+                {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                  event.participantRatingCount
+                }})
+              </div>
+            </a>
+            <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
+              <app-rating-item
+                *ngFor="let rating of event.ratings"
+                [isOrganizer]="rating.type === 'ORGANIZER'"
+                [comment]="rating.userComment || ''"
+                [isAnonymous]="rating.anonymousRating"
+                [rating]="rating.rating || 0"
+                [userId]="rating.user.id"
+                [userFullName]="rating.user.fullName"
+                [userPicture]="rating.user.picture"
+                [userStatus]="rating.user.currentTenant?.status || ''"
+              ></app-rating-item>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
         <mat-panel-title> Events </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
@@ -128,7 +177,9 @@
           *ngFor="let event of template.eventInstances"
         >
           <h3 mat-line>{{ event.title }}</h3>
-          <p mat-line>{{ event.start | date: 'medium' }}</p>
+          <p mat-line>
+            {{ event.start | date: 'medium' }}
+          </p>
         </a>
       </mat-nav-list>
     </mat-expansion-panel>

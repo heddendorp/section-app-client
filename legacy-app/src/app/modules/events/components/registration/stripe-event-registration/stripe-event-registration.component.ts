@@ -71,8 +71,9 @@ export class StripeEventRegistrationComponent implements OnChanges {
   get canDeregister() {
     return (
       this.lastDeregistration > new Date() ||
-      (this.event?.participantLimit ?? 0) <
-        (this.event?.participantRegistrationCount ?? 0)
+      (new Date() < this.event?.start &&
+        (this.event?.participantLimit ?? 0) <
+          (this.event?.participantRegistrationCount ?? 0))
     );
   }
 
@@ -154,7 +155,10 @@ export class StripeEventRegistrationComponent implements OnChanges {
   }
 
   moveEvent(): void {
-    this.dialog.open(MoveEventDialogComponent, { data: { event: this.event } });
+    this.dialog.open(MoveEventDialogComponent, {
+      data: { event: this.event },
+      panelClass: 'modern',
+    });
   }
 
   registerAdditionalData($event: unknown): void {

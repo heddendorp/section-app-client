@@ -1,40 +1,54 @@
-<div *ngIf="event" fxFlex="column">
+<div fxFlex="column">
   <div fxLayout="row">
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
     ></a>
-    <div fxFlex="grow"></div>
-    <a routerLink="edit" mat-icon-button *ngIf="event.userIsCreator">
-      <mat-icon svgIcon="icon-edit"></mat-icon
-    ></a>
-    <div *ngIf="!event.userIsCreator">
-      <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
+    <ng-container *ngIf="event">
+      <div fxFlex="grow"></div>
+      <a
+        routerLink="edit"
+        mat-icon-button
+        *ngIf="event.userIsCreator || event.userIsOrganizer"
+      >
         <mat-icon svgIcon="icon-edit"></mat-icon
       ></a>
-    </div>
-    <a routerLink="manage" mat-icon-button *appIfRole="[Role.Admin]">
-      <mat-icon svgIcon="icon-administrative-tools"></mat-icon
-    ></a>
-    <a routerLink="run" mat-icon-button *appIfRole="[Role.Admin]">
-      <mat-icon svgIcon="icon-user-shield"></mat-icon
-    ></a>
+      <div *ngIf="!(event.userIsCreator || event.userIsOrganizer)">
+        <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
+          <mat-icon svgIcon="icon-edit"></mat-icon
+        ></a>
+      </div>
+      <a routerLink="manage" mat-icon-button *appIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-administrative-tools"></mat-icon
+      ></a>
+      <a routerLink="run" mat-icon-button *appIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-user-shield"></mat-icon
+      ></a>
+    </ng-container>
   </div>
-  <img
-    [src]="event.icon | iconURL"
-    class="bg-surface-default mx-auto mb-4 rounded-2xl p-1 lg:mb-8"
-  />
-  <h1 class="mb-2">{{ event.title }}</h1>
-  <ng-container *ngIf="!isSingleDayEvent(); else singleDayEvent">
+  <div
+    class="w-40 h-40 sm:w-48 sm:h-48 bg-surface-default rounded-2xl mx-auto mb-6 lg:mb-8 overflow-hidden"
+  >
+    <img *ngIf="event" [src]="event.icon | iconURL" class="w-full h-full p-2" />
+    <div *ngIf="!event" class="skeleton w-full h-full"></div>
+  </div>
+  <div class="text-2xl font-semibold my-4">
+    <span *ngIf="event">{{ event.title }}</span>
+    <span *ngIf="!event" class="skeleton block sm:w-[30rem]">Event Title</span>
+  </div>
+  <ng-container *ngIf="event && !isSingleDayEvent(); else singleDayEvent">
     <p>Starts: {{ event.start | date: 'medium' }}</p>
     <p>Ends: {{ event.end | date: 'medium' }}</p>
   </ng-container>
   <ng-template #singleDayEvent>
-    <div class="flex items-center gap-2">
+    <div *ngIf="event" class="flex items-center gap-2">
       <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
       <span
         >{{ event.start | date: 'medium' }} -
         {{ event.end | date: 'mediumTime' }}</span
       >
+    </div>
+    <div *ngIf="!event">
+      <span class="skeleton">Phantom, XX XXX XXXX, XX:XX – XX:XX</span>
     </div>
   </ng-template>
   <ng-container *ngIf="bestPrice">
@@ -43,6 +57,22 @@
       {{ bestPrice.amount | currency: 'EUR' }}
     </div>
   </ng-container>
+  <ng-container
+    *ngIf="
+      event && event.participantRatingCount && event.participantRatingCount > 0
+    "
+  >
+    <div class="flex items-center gap-2">
+      <div class="text-center" style="width: 18px">★</div>
+      <span
+        >{{ event.participantRating | number: '1.1-1' }} ({{
+          event.participantRatingCount
+        }}
+        rating{{ event.participantRatingCount === 1 ? '' : 's' }})</span
+      >
+    </div>
+  </ng-container>
+
   <ng-container *ngIf="canShare">
     <div class="mt-4">
       <button

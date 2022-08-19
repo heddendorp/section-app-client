@@ -24,7 +24,7 @@ export class EventHeaderComponent {
     );
   }
   get canShare() {
-    return !!navigator.share;
+    return this.event && !!navigator.share;
   }
 
   shareEvent() {

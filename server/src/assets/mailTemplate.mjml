@@ -1,0 +1,110 @@
+<mjml>
+  <mj-head>
+    <mj-title>[TUMi] - %title%</mj-title>
+    <mj-preview>%preview%</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-all>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="150%" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-text>
+    </mj-attributes>
+    <mj-style inline="inline">
+      .body-section {
+        -webkit-box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+      }
+      .text-link {
+        color: #5e6ebf
+      }
+      .footer-link {
+        color: #888888
+      }
+    </mj-style>
+
+  </mj-head>
+  <mj-body background-color="#E7E7E7" width="600px">
+    <mj-section full-width="full-width" background-color="#4338CA" padding-bottom="0">
+      <mj-column width="100%">
+        <mj-image src="https://i.imgur.com/UgtccuF.png" alt="" align="center" width="200px" padding-bottom="32px" />
+        <!--<mj-image src="%photo%" width="600px" alt="" padding="0" href="%url%" />-->
+      </mj-column>
+    </mj-section>
+    <mj-wrapper padding-top="0" padding-bottom="0" css-class="body-section">
+      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px">
+        <mj-column width="100%">
+        	<mj-social color="#212b35" font-weight="bold" font-size="24px" icon-size="32px">
+             <mj-social-element src="%icon%">
+              <span>&nbsp;%title%</span>
+            </mj-social-element>
+          </mj-social>
+          <mj-text color="#637381">
+          <p>
+            %intro%
+          </p>
+          %body%
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      
+      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px" padding-top="0">
+        <mj-column width="100%">
+          <mj-divider border-color="#DFE3E8" border-width="1px" />
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px" padding-top="0">
+        <mj-column width="100%">
+          <mj-text color="#637381">
+            <b>Meeting point:</b> %location%<br/>
+            <b>Meeting time:</b> %time%
+          </mj-text>
+          <mj-button background-color="#5e6ebf" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="%url%/checkin" width="300px">
+            Check In
+          </mj-button>          
+          <mj-text color="#637381" font-size="12px" padding-top="30px">
+            At the event, please check in with one of the tutors by presenting your QR code. We look forward to seeing you!
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+    </mj-wrapper>
+
+    <mj-wrapper full-width="full-width">
+      <mj-section>
+        <mj-column width="100%" padding="0">          
+          <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
+            <mj-social-element href="https://t.me/+PtNU9JqOE19lZjMy" src="https://img.icons8.com/color/128/telegram-app--v1.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2" background-color="transparent">
+            </mj-social-element>
+            <mj-social-element href="https://www.instagram.com/tumi.esn/" src="https://img.icons8.com/color-glass/128/instagram.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2" background-color="transparent">
+            </mj-social-element>
+            <mj-social-element href="https://www.facebook.com/esntumi.munchen" src="https://img.icons8.com/color/128/facebook.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2" background-color="transparent">
+            </mj-social-element>
+            <mj-social-element href="https://www.youtube.com/channel/UCkzJDWIa9J6OqsvZXuGsh9w" src="https://img.icons8.com/color/128/youtube-play.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2" background-color="transparent">
+            </mj-social-element>
+          </mj-social>
+          <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
+            You are receiving this email because you signed up for an event on <a href="https://tumi.esn.world">tumi.esn.world</a>.
+          </mj-text>
+          <mj-text color="#445566" font-size="11px" align="center" line-height="16px">
+            <b>ESN TUMi e.V.</b><br/>
+            c/o TUM Global and Alumni Office<br/>
+            Arcisstraße 21<br/>
+            80333 München, Germany<br/>
+            <a href="https://tumi.esn.world">tumi.esn.world</a><br/>
+            <a href="https://www.international.tum.de/global/campuslife/">international.tum.de/global/campuslife</a>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section padding-top="0">
+        <mj-group>
+          <mj-column width="100%" padding-right="0">
+            <mj-text color="#445566" font-size="11px" align="center" line-height="16px" font-weight="bold">
+              <a class="footer-link" href="https://tumi.esn.world/page/privacy">Privacy Policy</a>
+            </mj-text>
+          </mj-column>
+        </mj-group>
+
+      </mj-section>
+    </mj-wrapper>
+
+  </mj-body>
+</mjml>

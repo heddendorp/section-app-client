@@ -31,7 +31,7 @@ export class NewUserPageComponent implements OnInit {
     private currentUser: GetCurrentUserGQL,
     private router: Router
   ) {
-    this.title.setTitle('TUMi - welcome');
+    this.title.setTitle('Welcome - TUMi');
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -39,7 +39,13 @@ export class NewUserPageComponent implements OnInit {
       university: ['', Validators.required],
       enrolmentStatus: ['', Validators.required],
       birthdate: [null, Validators.required],
-      phone: ['', Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/)], // Allow spaces in validation, strip them server-side
+      phone: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\s*[+]\s*([0-9]\s*)+$/),
+        ]),
+      ], // Allow spaces in validation, strip them server-side
     });
   }
 

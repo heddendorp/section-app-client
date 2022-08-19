@@ -1,7 +1,15 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>Edit Tenant</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
 <main class="p-4">
   <form [formGroup]="editForm">
     <mat-form-field class="w-full">
-      <mat-label>About us Page</mat-label>
+      <mat-label>"About Us" Page</mat-label>
       <textarea matInput formControlName="aboutPage" rows="10"></textarea>
     </mat-form-field>
     <mat-form-field class="w-full">
@@ -17,7 +25,7 @@
       <textarea matInput formControlName="imprintPage" rows="10"></textarea>
     </mat-form-field>
     <mat-form-field class="w-full">
-      <mat-label>Frequently asked questions</mat-label>
+      <mat-label>Frequently Asked Questions</mat-label>
       <textarea matInput formControlName="faqPage" rows="10"></textarea>
     </mat-form-field>
     <mat-form-field class="w-full">
@@ -26,6 +34,7 @@
     </mat-form-field>
     <button
       type="submit"
+      class="modern"
       mat-flat-button
       color="primary"
       [disabled]="editForm.invalid"

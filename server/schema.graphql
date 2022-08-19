@@ -25,6 +25,7 @@ type CostItem {
   eventId: ID!
   id: ID!
   name: String!
+  notSubsidized: Boolean!
   onInvoice: Boolean!
   receipts: [Receipt!]!
   submittedAmount: Decimal!
@@ -150,6 +151,7 @@ type EventOrganizer {
 }
 
 type EventRegistration {
+  anonymousRating: Boolean!
   belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
@@ -241,6 +243,7 @@ type EventTemplate {
 
 type EventTemplateCategory {
   createdAt: DateTime!
+  eventCount: Int!
   icon: String!
   id: ID!
   name: String!
@@ -304,7 +307,7 @@ type Mutation {
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
-  rateEvent(comment: String = "", id: ID!, rating: Int!): TumiEvent!
+  rateEvent(anonymousRating: Boolean = true, comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
@@ -318,6 +321,7 @@ type Mutation {
   updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
+  updateUserPosition(position: String, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
   updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
   useRegistrationCode(id: ID!, price: JSON): EventRegistrationCode!
@@ -406,6 +410,7 @@ enum PurchaseStatus {
 
 type Query {
   blobUploadKey: String!
+  commonEvents(id: ID!): [TumiEvent!]!
   costItem(id: ID!): CostItem!
   costItems(eventId: ID): [CostItem!]!
   currentTenant: Tenant!
@@ -413,11 +418,12 @@ type Query {
   event(id: ID!): TumiEvent!
   eventOrganizers: [EventOrganizer!]!
   eventRegistrationCode(id: ID!): EventRegistrationCode!
-  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false): [EventRegistrationCode!]!
+  eventRegistrationCodeCount: Int!
+  eventRegistrationCodes(includePassed: Boolean = false, includePrivate: Boolean = false, includeUsed: Boolean = false, orderByEvent: Boolean = false, pageIndex: Int, pageLength: Int): [EventRegistrationCode!]!
   eventTemplate(id: ID!): EventTemplate!
   eventTemplateCategories: [EventTemplateCategory!]!
   eventTemplates(onlyWithoutCategory: Boolean): [EventTemplate!]!
-  events(after: DateTime, before: DateTime, limit: Int): [TumiEvent!]!
+  events(after: DateTime, before: DateTime, limit: Int, reverseOrder: Boolean, search: String): [TumiEvent!]!
   logStats: [ActivityLogStat!]!
   logs: [ActivityLog!]!
   photoShareKey: String!
@@ -434,7 +440,7 @@ type Query {
   transactions(range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
   user(id: ID!): User!
   userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
-  users(onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
+  users(emptyOnEmptySearch: Boolean = false, onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
 }
 
 type Receipt {
@@ -560,6 +566,8 @@ type Tenant {
   privacyPolicyPage: String!
   shortName: String!
   tacPage: String
+  tutorHub: JSON!
+  tutorHubEvents(range: DateRangeInput): JSON!
   users: [UsersOfTenants!]!
 }
 
@@ -636,12 +644,15 @@ type TumiEvent {
   icon: String!
   id: ID!
   insuranceDescription: String!
+  internalEvent: Boolean!
   location: String!
+  mailTemplate: String!
   needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
-  organizerRatings: Float
+  organizerRating: Float
+  organizerRatingCount: Int
   organizerRegistrationPossible: Boolean!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
@@ -650,10 +661,11 @@ type TumiEvent {
   organizersRegistered: Int!
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
-  participantRatings: Float
+  participantRating: Float
+  participantRatingCount: Int
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
-  participantRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
+  participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true, includePending: Boolean = true): [EventRegistration!]!
   participantSignup: [String!]!
   participantText: String!
   participantsAttended: Int!
@@ -661,6 +673,8 @@ type TumiEvent {
   plannedSpend: Decimal!
   prices: JSON
   publicationState: PublicationState!
+  ratingPending: Boolean!
+  ratings: [EventRegistration!]!
   refundFeesPaid: Decimal!
   registrationLink: String
   registrationMode: RegistrationMode!
@@ -737,19 +751,28 @@ input UpdateTenantInput {
 }
 
 input UpdateUserInput {
+  bio: String
   birthdate: DateTime
+  country: String
   enrolmentStatus: EnrolmentStatus
   firstName: String
+  homeUniversity: String
+  instagram: String
   lastName: String
   phone: String
+  studyProgram: String
   university: String
 }
 
 type User {
   authId: String!
+  bio: String
   birthdate: DateTime
   calendarToken: String!
+  country: String
   createdAt: DateTime!
+  createdEvents: [TumiEvent!]!
+  createdEventsCount: Int!
   createdTransactions: [Transaction!]!
   currentTenant(userId: ID): UsersOfTenants
   email: String!
@@ -761,17 +784,22 @@ type User {
   fullName: String!
   hasESNCard: Boolean!
   hasEsnCard: Boolean!
+  homeUniversity: String
   iban: String
   id: ID!
+  instagram: String
   lastName: String!
   organizedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
+  organizedEventsCount: Int!
   outstandingRating: Boolean!
   participatedEvents(hideCancelled: Boolean = false): [TumiEvent!]!
   paypal: String
   phone: String
   picture: String!
+  position: String
   profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
+  studyProgram: String
   transactions: [Transaction!]!
   university: String
 }

@@ -1,0 +1,46 @@
+<div
+  [class]="
+    'flex flex-col border p-2 h-full rounded-md relative ' +
+    (isCurrentUser
+      ? isOrganizer
+        ? 'bg-green-100'
+        : 'bg-green-50'
+      : isOrganizer
+      ? 'bg-slate-100'
+      : 'bg-slate-50')
+  "
+>
+  <div>
+    <span class="font-bold mr-2">
+      <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
+
+      <app-user-chip
+        size="xs"
+        *ngIf="!isAnonymous || isOrganizer"
+        [id]="userId"
+        [picture]="userPicture"
+        [name]="userFullName"
+        [status]="userStatus"
+        [tag]="isOrganizer ? 'organizer' : ''"
+      >
+      </app-user-chip>
+    </span>
+  </div>
+  <div class="mb-2">
+    <span *ngFor="let _ of [].constructor(rating)" class="text-amber-400"
+      >★</span
+    >
+  </div>
+  <span class="break-words whitespace-pre-wrap">{{ comment }}</span>
+  <div class="absolute right-1 bottom-1">
+    <button
+      type="button"
+      *ngIf="isCurrentUser"
+      class="modern"
+      mat-icon-button
+      (click)="edit.emit()"
+    >
+      <mat-icon svgIcon="icon-edit"></mat-icon>
+    </button>
+  </div>
+</div>

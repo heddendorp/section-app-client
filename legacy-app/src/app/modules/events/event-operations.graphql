@@ -20,6 +20,8 @@ query loadEvent($id: ID!) {
     registrationMode
     registrationLink
     freeParticipantSpots
+    excludeFromRatings
+    ratingPending
     prices
     location
     coordinates
@@ -27,6 +29,12 @@ query loadEvent($id: ID!) {
     createdBy {
       id
       fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
     submissionItems(submissionTime: REGISTRATION) {
       id
@@ -66,6 +74,9 @@ query loadEvent($id: ID!) {
         id
         fullName
       }
+      userComment
+      rating
+      anonymousRating
     }
     organizerLimit
     organizerSignup
@@ -76,6 +87,22 @@ query loadEvent($id: ID!) {
     userIsOrganizer
     userIsCreator
     participantLimit
+    ratings {
+      userComment
+      rating
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
     participantRegistrationCount
     couldBeOrganizer
     couldBeParticipant
@@ -83,7 +110,28 @@ query loadEvent($id: ID!) {
       id
       fullName
       phone
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
     }
+    participantRegistrations(includeNoShows: false) {
+      id
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    participantRating
+    participantRatingCount
   }
 }
 
@@ -136,6 +184,7 @@ query loadEventForRunning($id: ID!) {
     participantLimit
     participantRegistrationCount
     participantsAttended
+    mailTemplate
     createdBy {
       id
       fullName
@@ -149,6 +198,11 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
     costItems(hideOnInvoice: true) {
@@ -161,7 +215,7 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
-    participantRegistrations {
+    participantRegistrations(includePending: false) {
       id
       checkInTime
       transactions {
@@ -185,6 +239,11 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
       }
     }
   }
@@ -435,5 +494,6 @@ query eventList($after: DateTime, $before: DateTime) {
     registrationMode
     userIsRegistered
     userIsOrganizer
+    internalEvent
   }
 }

@@ -1,5 +1,6 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
+import { RegistrationStatus, RegistrationType } from '../../generated/prisma';
 
 export const eventTemplateType = builder.prismaObject('EventTemplate', {
   findUnique: (eventTemplate) => ({
@@ -34,6 +35,8 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
         prisma.eventRegistration
           .aggregate({
             where: {
+              status: { not: RegistrationStatus.CANCELLED },
+              type: RegistrationType.PARTICIPANT,
               event: {
                 eventTemplate: {
                   id: eventTemplate.id,
@@ -52,6 +55,8 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
       resolve: async (eventTemplate) =>
         prisma.eventRegistration.count({
           where: {
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.PARTICIPANT,
             event: {
               eventTemplate: {
                 id: eventTemplate.id,

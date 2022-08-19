@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+} from '@angular/core';
 import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
   UpdateProfileGQL,
+  UpdateUserInformationGQL,
+  UserProfileEventsGQL,
+  UserProfileEventsQuery,
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
@@ -10,9 +18,12 @@ import { first, firstValueFrom, map, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { UpdateProfileDialogComponent } from '@tumi/legacy-app/modules/profile/components/update-profile-dialog/update-profile-dialog.component';
+import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/components/claim-event-dialog/claim-event-dialog.component';
+import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
+import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -21,25 +32,37 @@ import { ClaimEventDialogComponent } from '@tumi/legacy-app/modules/profile/comp
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
+  public profileEvents$: Observable<UserProfileEventsQuery['currentUser']>;
   public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
+  public profileEventsQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
     private title: Title,
     private profileQuery: UserProfileGQL,
+    private profileEventsQuery: UserProfileEventsGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
+    private updateUserInformationMutation: UpdateUserInformationGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public auth: AuthService,
+    @Inject(DOCUMENT) public document: Document
   ) {
-    this.title.setTitle('TUMi - profile');
+    this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
     );
-    this.eventsToRate$ = this.profile$.pipe(
+
+    this.profileEventsQueryRef = this.profileEventsQuery.watch();
+    this.profileEvents$ = this.profileEventsQueryRef.valueChanges.pipe(
+      map(({ data }) => data.currentUser)
+    );
+
+    this.eventsToRate$ = this.profileEvents$.pipe(
       map((profile) => [
         ...(profile?.participatedEvents.filter((event) => event?.needsRating) ??
           []),
@@ -64,6 +87,7 @@ export class ProfilePageComponent implements OnDestroy {
   }
   ngOnDestroy(): void {
     this.profileQueryRef.stopPolling();
+    this.profileEventsQueryRef.stopPolling();
   }
 
   /*async setupStripePayment() {
@@ -80,7 +104,10 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateProfileDialogComponent, { data: { profile } })
+        .open(UpdateProfileDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (result && profile) {
@@ -90,14 +117,41 @@ export class ProfilePageComponent implements OnDestroy {
     }
   }
 
-  claimEvent(code?: string): void {
-    this.dialog.open(ClaimEventDialogComponent, { data: { code } });
+  async updateUserInformation() {
+    const profile = await firstValueFrom(this.profile$);
+    const result = await firstValueFrom(
+      this.dialog
+        .open(UpdateUserInformationDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
+        .afterClosed()
+    );
+    if (result && profile) {
+      await firstValueFrom(
+        this.updateUserInformationMutation.mutate({
+          input: result,
+          userId: profile.id,
+        })
+      );
+    }
   }
 
-  async saveRating($event: { rating: number; comment: string }, id: string) {
+  claimEvent(code?: string): void {
+    this.dialog.open(ClaimEventDialogComponent, {
+      data: { code },
+      panelClass: 'modern',
+    });
+  }
+
+  async saveRating(
+    $event: { rating: number; comment: string; anonymousRating: boolean },
+    id: string
+  ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
         id,
+        anonymousRating: $event.anonymousRating,
         rating: $event.rating,
         comment: $event.comment,
       })

@@ -1,9 +1,16 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(logs$ | async) === null"
-></mat-progress-bar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>Activity Log</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(logs$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
 <main class="p-4">
-  <h1>Activity Log</h1>
   <mat-list class="my-2">
     <mat-list-item *ngFor="let stat of stats$ | async">
       <h3 mat-line>{{ stat.message }}</h3>
@@ -14,7 +21,7 @@
     *ngIf="logs$ | async as orders"
     mat-table
     [dataSource]="orders"
-    class="w-full"
+    class="w-fit sm:w-full"
   >
     <ng-container matColumnDef="created">
       <th mat-header-cell *matHeaderCellDef>Created</th>

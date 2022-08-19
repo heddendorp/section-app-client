@@ -11,6 +11,9 @@ import {
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
+import * as fs from 'fs';
+import { marked } from 'marked';
+import mjml2html from 'mjml';
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -34,12 +37,28 @@ export const eventType = builder.prismaObject('TumiEvent', {
     prices: t.expose('prices', { type: 'JSON', nullable: true }),
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
-    googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
+    googlePlaceUrl: t.string({
+      nullable: true,
+      resolve: (event, args, context) => {
+        if (event.googlePlaceUrl) return event.googlePlaceUrl;
+        if (event.location && event.googlePlaceId) {
+          return `https://www.google.com/maps/search/?api=1&query=${event.location}&query_place_id=${event.googlePlaceId}`;
+        }
+        return null;
+      },
+    }),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
-    organizerText: t.exposeString('organizerText'),
+    organizerText: t.exposeString('organizerText', {
+      authScopes: { member: true },
+      unauthorizedResolver: () => '',
+    }),
     organizerSignup: t.exposeStringList('organizerSignup'),
+    internalEvent: t.boolean({
+      resolve: (event, args, context) =>
+        !event.participantSignup.includes(MembershipStatus.NONE),
+    }),
     participantSignup: t.exposeStringList('participantSignup'),
     participantLimit: t.exposeInt('participantLimit'),
     organizerLimit: t.exposeInt('organizerLimit'),
@@ -84,16 +103,36 @@ export const eventType = builder.prismaObject('TumiEvent', {
           return 'Many free spots';
         } else if (quota < 0.8) {
           return 'Some spots left';
-        } else if (quota < 1) {
-          return 'Few spots left';
         } else if (
           event.participantLimit - event.participantRegistrationCount ===
           1
         ) {
           return 'One spot left';
+        } else if (quota < 1) {
+          return 'Few spots left';
         } else {
           return 'Event is full';
         }
+      },
+    }),
+    ratingPending: t.boolean({
+      resolve: async (source, args, context) => {
+        const registrations = await prisma.tumiEvent
+          .findUnique({ where: { id: source.id } })
+          .registrations({
+            where: {
+              event: {
+                excludeFromRatings: false,
+                end: {
+                  lt: new Date(),
+                },
+              },
+              user: { id: context.user?.id },
+              status: RegistrationStatus.SUCCESSFUL,
+              rating: null,
+            },
+          });
+        return registrations.length > 0;
       },
     }),
     needsRating: t.boolean({
@@ -111,14 +150,14 @@ export const eventType = builder.prismaObject('TumiEvent', {
                 },
               },
               user: { id: context.user?.id },
-              status: { not: RegistrationStatus.CANCELLED },
+              status: RegistrationStatus.SUCCESSFUL,
               rating: null,
             },
           });
         return registrations.length > 0;
       },
     }),
-    participantRatings: t.float({
+    participantRating: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration
@@ -138,7 +177,22 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .then(({ _avg: { rating } }) => rating);
       },
     }),
-    organizerRatings: t.float({
+    participantRatingCount: t.int({
+      nullable: true,
+      resolve: async (source, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.PARTICIPANT,
+            rating: {
+              not: null,
+            },
+          },
+        });
+      },
+    }),
+    organizerRating: t.float({
       nullable: true,
       resolve: async (source, args, context) => {
         return prisma.eventRegistration
@@ -158,9 +212,26 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .then(({ _avg: { rating } }) => rating);
       },
     }),
+    organizerRatingCount: t.int({
+      nullable: true,
+      resolve: async (source, args, context) => {
+        return prisma.eventRegistration.count({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+            type: RegistrationType.ORGANIZER,
+            rating: {
+              not: null,
+            },
+          },
+        });
+      },
+    }),
     activeRegistration: t.prismaField({
       type: 'EventRegistration',
       nullable: true,
+      authScopes: { public: true },
+      unauthorizedResolver: () => null,
       resolve: async (query, parent, args, context, info) => {
         return prisma.eventRegistration.findFirst({
           ...query,
@@ -189,20 +260,35 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantRegistrations: t.relation('registrations', {
       args: {
         includeCancelled: t.arg.boolean({ defaultValue: false }),
+        includePending: t.arg.boolean({ defaultValue: true }),
+        includeNoShows: t.arg.boolean({ defaultValue: true }),
       },
-      query: (args, context) => ({
-        where: {
-          type: RegistrationType.PARTICIPANT,
-          ...(args.includeCancelled
-            ? {}
-            : { status: { not: RegistrationStatus.CANCELLED } }),
-        },
-        orderBy: [
-          { status: 'asc' },
-          { checkInTime: 'desc' },
-          { user: { lastName: 'asc' } },
-        ],
-      }),
+      query: (args, context) => {
+        const { status } = context.userOfTenant ?? {};
+        // limit non-members to just 30
+        const limit = status && status !== MembershipStatus.NONE ? 0 : 30;
+        return {
+          where: {
+            type: RegistrationType.PARTICIPANT,
+            status: {
+              in: [
+                RegistrationStatus.SUCCESSFUL,
+                ...(args.includeCancelled
+                  ? [RegistrationStatus.CANCELLED]
+                  : []),
+                ...(args.includePending ? [RegistrationStatus.PENDING] : []),
+              ],
+            },
+            ...(args.includeNoShows ? {} : { checkInTime: { not: null } }),
+          },
+          orderBy: [
+            { status: 'asc' },
+            { checkInTime: 'desc' },
+            { user: { lastName: 'asc' } },
+          ],
+          ...(limit ? { take: limit } : {}),
+        };
+      },
     }),
     organizerRegistrations: t.relation('registrations', {
       query: (args, context) => ({
@@ -211,6 +297,22 @@ export const eventType = builder.prismaObject('TumiEvent', {
           status: { not: RegistrationStatus.CANCELLED },
         },
       }),
+    }),
+    ratings: t.relation('registrations', {
+      query: (args, context) => {
+        const { role, status } = context.userOfTenant ?? {};
+        return {
+          where: {
+            ...(!status || status === MembershipStatus.NONE
+              ? { type: RegistrationType.PARTICIPANT }
+              : { status: { not: RegistrationStatus.CANCELLED } }),
+            rating: {
+              not: null,
+            },
+          },
+          orderBy: [{ type: 'asc' }, { user: { lastName: 'asc' } }],
+        };
+      },
     }),
     amountCollected: t.field({
       type: 'Decimal',
@@ -382,19 +484,26 @@ export const eventType = builder.prismaObject('TumiEvent', {
     }),
     organizers: t.prismaField({
       type: ['User'],
+      authScopes: {
+        authenticated: true,
+      },
+      unauthorizedResolver: () => [],
       resolve: async (query, parent, args, context) => {
-        return prisma.user.findMany({
-          ...query,
-          where: {
-            eventRegistrations: {
-              some: {
-                event: { id: parent.id },
-                type: RegistrationType.ORGANIZER,
-                status: { not: RegistrationStatus.CANCELLED },
-              },
+        return (
+          await prisma.eventRegistration.findMany({
+            where: {
+              event: { id: parent.id },
+              type: RegistrationType.ORGANIZER,
+              status: { not: RegistrationStatus.CANCELLED },
             },
-          },
-        });
+            orderBy: {
+              createdAt: 'asc',
+            },
+            include: {
+              user: true,
+            },
+          })
+        ).map((r) => r.user);
       },
     }),
     couldBeOrganizer: t.boolean({
@@ -560,6 +669,77 @@ export const eventType = builder.prismaObject('TumiEvent', {
           },
         });
         return currentRegistrationNum < parent.organizerLimit;
+      },
+    }),
+    mailTemplate: t.string({
+      resolve: async (event, args, context) => {
+        const participatedText = marked(event.participantText);
+
+        const [icon, style] = (event.icon ?? '').split(':');
+        const iconUrl = `https://img.icons8.com/${style ?? 'fluency'}/64/${
+          icon ?? 'cancel-2'
+        }.png?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
+
+        const date = DateTime.fromJSDate(event.start)
+          .setLocale('en-US')
+          .setZone('Europe/Berlin');
+        const intro = `Hi,<br/>thank you for signing up for the event on ${date.weekdayLong}!`;
+
+        let template = fs
+          .readFileSync(
+            __dirname + '/../../assets' + '/mailTemplate.mjml',
+            'utf8'
+          )
+          .replaceAll('%title%', event.title)
+          .replaceAll('%preview%', intro)
+          .replaceAll('%intro%', intro)
+          .replaceAll('%weekday%', date.weekdayLong)
+          .replaceAll('%icon%', iconUrl)
+          .replaceAll('%url%', `https://tumi.esn.world/events/${event.id}`)
+          .replaceAll('%location%', event.location)
+          .replaceAll('%time%', date.toFormat('HH:mm'))
+          .replaceAll('%body%', participatedText);
+
+        const imgSrcMatch = /<img[^>]+src="([^">]+)"/gm.exec(
+          marked(event.description)
+        );
+        if (imgSrcMatch) {
+          template = template
+            .replaceAll('%photo%', imgSrcMatch[1])
+            .replace('<!--', '')
+            .replace('-->', '');
+        }
+        const organizerMails = await prisma.tumiEvent
+          .findUnique({ where: { id: event.id } })
+          .registrations({
+            where: {
+              type: RegistrationType.ORGANIZER,
+              status: RegistrationStatus.SUCCESSFUL,
+            },
+            select: { user: { select: { email: true } } },
+          })
+          .then((r) => r.map((re) => re.user.email));
+
+        const participantMails = await prisma.tumiEvent
+          .findUnique({ where: { id: event.id } })
+          .registrations({
+            where: {
+              type: RegistrationType.PARTICIPANT,
+              status: RegistrationStatus.SUCCESSFUL,
+            },
+            select: { user: { select: { email: true } } },
+          })
+          .then((r) => r.map((re) => re.user.email));
+
+        let email = 'To: events@esn-tumi.de\n';
+        email += `Cc: ${organizerMails.join(';')}\n`;
+        email += `Bcc: ${participantMails.join(';')}\n`;
+        email += `Subject: [TUMi] ${event.title}\n`;
+        email += 'X-Unsent: 1\n';
+        email += 'Content-Type: text/html; charset=utf-8\n\n';
+        email += mjml2html(template).html;
+
+        return email;
       },
     }),
   }),

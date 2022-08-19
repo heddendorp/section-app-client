@@ -1,17 +1,24 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(transactions$ | async) === null"
-></mat-progress-bar>
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>
+      Transactions
+      <span
+        class="font-light"
+        *ngIf="transactionCount$ | async as transactionCount"
+      >
+        ({{ transactionCount }})
+      </span>
+    </div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(transactions$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
 <main class="p-4">
-  <h1 class="mb-2 font-bold">
-    Transactions
-    <span
-      class="font-light"
-      *ngIf="transactionCount$ | async as transactionCount"
-    >
-      ({{ transactionCount }})
-    </span>
-  </h1>
   <h2>Sum amount: {{ sumAmount$ | async | currency: 'EUR' }}</h2>
   <form
     [formGroup]="filterForm"
@@ -36,13 +43,14 @@
         formControlName="search"
         placeholder="Search by event title"
       />
+      <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
     </mat-form-field>
   </form>
   <table
     *ngIf="transactions$ | async as users"
     mat-table
     [dataSource]="users"
-    class="w-full"
+    class="w-fit sm:w-full"
   >
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>User Name</th>

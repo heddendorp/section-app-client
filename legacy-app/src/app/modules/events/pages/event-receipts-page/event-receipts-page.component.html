@@ -1,16 +1,25 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(costItem$ | async) === null"
-></mat-progress-bar>
-<main *ngIf="costItem$ | async as costItem" class="p-4">
-  <div fxLayout="row" fxLayoutGap="1rem" class="mb-8">
-    <a mat-icon-button routerLink="../..">
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink="../.." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <h1>{{ costItem.name }} ({{ costItem.event.title }})</h1>
-  </div>
-  <button mat-raised-button (click)="addReceipt()" class="mb-4">
-    Add receipt
+    <div
+      resetScroll
+      class="flex-1 truncate"
+      *ngIf="costItem$ | async as costItem"
+    >
+      {{ costItem.name }} ({{ costItem.event.title }})
+    </div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(costItem$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
+<main *ngIf="costItem$ | async as costItem" class="p-4 flex flex-col gap-4">
+  <button mat-fab class="extended-fab" (click)="addReceipt()">
+    <mat-icon svgIcon="icon-add"></mat-icon>
+    <span class="label">Add receipt</span>
   </button>
   <app-grid minWidth="500px">
     <div *ngFor="let receipt of costItem.receipts">

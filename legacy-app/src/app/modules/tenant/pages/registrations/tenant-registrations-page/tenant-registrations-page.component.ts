@@ -26,7 +26,6 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     GetRegistrationCountQuery['registrationCount']
   >;
   public displayedColumns = [
-    'action',
     'event',
     'user',
     'created',
@@ -40,7 +39,7 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     private getRegistrationsGQL: GetRegistrationsGQL,
     private getRegistrationCountGQL: GetRegistrationCountGQL
   ) {
-    this.title.setTitle('TUMi - manage registrations');
+    this.title.setTitle('Registrations - TUMi');
     this.registrationsQueryRef = this.getRegistrationsGQL.watch({
       pageLength: 20,
       pageIndex: 0,

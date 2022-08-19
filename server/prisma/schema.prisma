@@ -72,6 +72,12 @@ model User {
   transactions        Transaction[]
   createdEvents       TumiEvent[]
   tenants             UsersOfTenants[]
+  bio                 String?
+  country             String?
+  homeUniversity      String?
+  instagram           String?
+  position            String?
+  studyProgram        String?
 }
 
 model Invite {
@@ -350,6 +356,7 @@ model CostItem {
   confirmed       Boolean       @default(false)
   details         String?
   onInvoice       Boolean
+  notSubsidized   Boolean       @default(false)
   complete        Boolean       @default(false)
   event           TumiEvent     @relation(fields: [eventId], references: [id])
   receipts        Receipt[]
@@ -399,6 +406,7 @@ model EventRegistration {
   status                RegistrationStatus     @default(SUCCESSFUL)
   registrationCodeId    String?                @db.Uuid
   rating                Int?
+  anonymousRating       Boolean                @default(true)
   userComment           String?
   transactionId         String?                @unique @db.Uuid
   event                 TumiEvent              @relation(fields: [eventId], references: [id])

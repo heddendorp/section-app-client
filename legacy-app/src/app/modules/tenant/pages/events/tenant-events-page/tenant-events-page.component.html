@@ -1,0 +1,78 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <a routerLink=".." mat-icon-button>
+      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
+    </a>
+    <div resetScroll>
+      Events
+      <span
+        class="font-light"
+        *ngIf="(events$ | async)?.length as transactionCount"
+      >
+        ({{ transactionCount }})
+      </span>
+    </div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(events$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
+<main class="p-4">
+  <form
+    [formGroup]="filterForm"
+    fxLayout.gt-md="row"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <mat-form-field formGroupName="range">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input formControlName="start" matStartDate placeholder="Start date" />
+        <input formControlName="end" matEndDate placeholder="End date" />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Search by event title</mat-label>
+      <input
+        matInput
+        formControlName="search"
+        placeholder="Search by event title"
+      />
+      <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
+    </mat-form-field>
+  </form>
+  <mat-table
+    *ngIf="events$ | async as users"
+    mat-table
+    [dataSource]="users"
+    class="w-fit sm:w-full"
+  >
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <app-event-chip
+          [id]="element.id"
+          [icon]="element.icon"
+          [title]="element.title"
+        ></app-event-chip>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.start | date }}
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      matRipple
+      *matRowDef="let row; columns: displayedColumns"
+      routerLink="/events/{{ row.id }}"
+      class="cursor-pointer hover:bg-gray-100"
+    ></mat-row>
+  </mat-table>
+</main>
