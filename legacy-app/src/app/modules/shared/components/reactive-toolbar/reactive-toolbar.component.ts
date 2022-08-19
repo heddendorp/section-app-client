@@ -16,6 +16,7 @@ import {
   throttleTime,
   partition,
   merge,
+  filter,
 } from 'rxjs';
 import {
   trigger,
@@ -66,6 +67,7 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
     const scroll$ = fromEvent(windowContent, 'scroll').pipe(
       throttleTime(10),
       map(() => windowContent.scrollTop),
+      filter((y) => y >= 0 && y <= windowContent.scrollHeight - windowContent.offsetHeight),
       pairwise(),
       map(
         ([y1, y2]): ScrollDirection =>
