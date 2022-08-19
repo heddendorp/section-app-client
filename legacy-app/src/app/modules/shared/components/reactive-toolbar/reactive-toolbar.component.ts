@@ -16,14 +16,11 @@ import {
   throttleTime,
   partition,
   merge,
-  filter,
 } from 'rxjs';
 import {
   trigger,
   state,
-  transition,
   style,
-  animate,
 } from '@angular/animations';
 
 enum VisibilityState {
@@ -49,8 +46,7 @@ enum ScrollDirection {
       state(
         VisibilityState.Visible,
         style({ opacity: 1, transform: 'translateY(0)' })
-      ),
-      transition('* => *', animate('200ms ease-in')),
+      )
     ]),
   ],
 })
@@ -64,13 +60,10 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
     const windowContent = document.getElementById(
       'window-content'
     ) as HTMLElement;
+    
     const scroll$ = fromEvent(windowContent, 'scroll').pipe(
       throttleTime(10),
       map(() => windowContent.scrollTop),
-      filter(
-        (y) =>
-          y >= 0 && y <= windowContent.scrollHeight - windowContent.offsetHeight
-      ),
       pairwise(),
       map(
         ([y1, y2]): ScrollDirection =>
@@ -87,6 +80,11 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // disable on iOS due to elastic scroll issues
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)){
+      return;
+    }
+
     this.zone.runOutsideAngular(() => {
       this.scrollSubscription = merge(
         this.scrollUp$.pipe(map(() => VisibilityState.Visible)),

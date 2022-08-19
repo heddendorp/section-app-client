@@ -5,3 +5,7 @@
   z-index: 999;
   display: block;
 }
+
+.reactive-toolbar {
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in
+}
