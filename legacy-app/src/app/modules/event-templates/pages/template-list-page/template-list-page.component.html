@@ -10,20 +10,23 @@
         />
       </mat-form-field>
     </div>
-    <div *ngIf="!searchEnabled" class="reset-scroll flex-1">
-      Event Templates
-    </div>
-    <button mat-icon-button class="modern" (click)="initSearch()">
+    <div *ngIf="!searchEnabled" resetScroll class="flex-1">Event Templates</div>
+    <button
+      mat-icon-button
+      class="modern"
+      (click)="initSearch()"
+      (document:keydown.control.f)="initSearch(); $event.preventDefault()"
+    >
       <mat-icon
         [svgIcon]="searchEnabled ? 'icon-cancel' : 'icon-search'"
       ></mat-icon>
     </button>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(templateCategories$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(templateCategories$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <button
     mat-fab

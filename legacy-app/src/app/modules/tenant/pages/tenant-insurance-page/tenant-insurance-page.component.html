@@ -3,13 +3,13 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Insurance Dashboard</div>
+    <div resetScroll>Insurance Dashboard</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(events$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(events$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <section class="select-all">
     <p *ngFor="let event of events$ | async">

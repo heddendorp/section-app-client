@@ -362,6 +362,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           displayAttribute: 'title',
           title: 'Select Template',
         },
+        panelClass: 'modern',
       })
       .afterClosed()
       .toPromise();
@@ -389,7 +390,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await this.event$.pipe(first()).toPromise();
     const location = await firstValueFrom(
       this.dialog
-        .open(SelectLocationDialogComponent, { minWidth: '50vw' })
+        .open(SelectLocationDialogComponent, {
+          minWidth: '50vw',
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (location && event) {

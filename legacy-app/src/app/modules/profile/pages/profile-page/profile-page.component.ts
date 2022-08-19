@@ -9,6 +9,8 @@ import {
   SubmitEventFeedbackGQL,
   UpdateProfileGQL,
   UpdateUserInformationGQL,
+  UserProfileEventsGQL,
+  UserProfileEventsQuery,
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
@@ -30,12 +32,15 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
+  public profileEvents$: Observable<UserProfileEventsQuery['currentUser']>;
   public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
+  public profileEventsQueryRef;
   public MembershipStatus = MembershipStatus;
   constructor(
     private title: Title,
     private profileQuery: UserProfileGQL,
+    private profileEventsQuery: UserProfileEventsGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
     private updateUserInformationMutation: UpdateUserInformationGQL,
@@ -51,7 +56,13 @@ export class ProfilePageComponent implements OnDestroy {
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser)
     );
-    this.eventsToRate$ = this.profile$.pipe(
+
+    this.profileEventsQueryRef = this.profileEventsQuery.watch();
+    this.profileEvents$ = this.profileEventsQueryRef.valueChanges.pipe(
+      map(({ data }) => data.currentUser)
+    );
+
+    this.eventsToRate$ = this.profileEvents$.pipe(
       map((profile) => [
         ...(profile?.participatedEvents.filter((event) => event?.needsRating) ??
           []),
@@ -76,6 +87,7 @@ export class ProfilePageComponent implements OnDestroy {
   }
   ngOnDestroy(): void {
     this.profileQueryRef.stopPolling();
+    this.profileEventsQueryRef.stopPolling();
   }
 
   /*async setupStripePayment() {
@@ -92,7 +104,10 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateProfileDialogComponent, { data: { profile } })
+        .open(UpdateProfileDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (result && profile) {
@@ -106,7 +121,10 @@ export class ProfilePageComponent implements OnDestroy {
     const profile = await firstValueFrom(this.profile$);
     const result = await firstValueFrom(
       this.dialog
-        .open(UpdateUserInformationDialogComponent, { data: { profile } })
+        .open(UpdateUserInformationDialogComponent, {
+          data: { profile },
+          panelClass: 'modern',
+        })
         .afterClosed()
     );
     if (result && profile) {
@@ -120,7 +138,10 @@ export class ProfilePageComponent implements OnDestroy {
   }
 
   claimEvent(code?: string): void {
-    this.dialog.open(ClaimEventDialogComponent, { data: { code } });
+    this.dialog.open(ClaimEventDialogComponent, {
+      data: { code },
+      panelClass: 'modern',
+    });
   }
 
   async saveRating(

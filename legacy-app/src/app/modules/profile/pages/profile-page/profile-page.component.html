@@ -2,7 +2,7 @@
   mode="indeterminate"
   *ngIf="(profile$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="profile$ | async as profile">
+<main *ngIf="profile$ | async as profile; else loading">
   <app-profile-card
     [profile]="profile"
     (edit)="updateProfile()"
@@ -52,13 +52,27 @@
       </div>
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 
-      <p class="select-all break-words font-mono" style="max-width: 80vw">
-        https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+      <p
+        class="text-sm text-secondary-default select-all break-words font-mono tracking-tight flex items-center"
+      >
+        <mat-icon
+          svgIcon="icon-chain"
+          class="mr-2 min-w-[18] max-w-[18px]"
+        ></mat-icon>
+        <span class="truncate">
+          https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+        </span>
       </p>
 
       <p class="text-sm">
-        You can use this url to subscribe to a calendar feed of the events you
-        are registered for.
+        You can use this link to subscribe to an iCal feed of the events you are
+        registered for.
+        <a
+          class="underline"
+          href="https://help.hospitable.com/en/articles/4605516-how-can-i-add-the-ical-feed-to-the-calendar-on-my-device#:~:text=How%20to%20add%20the%20iCal%20feed%20to%20the%20calendar%20on%20my%20device%3F"
+          target="blank"
+          >Here</a
+        >'s a how-to.
       </p>
     </div>
     <div
@@ -138,23 +152,25 @@
       </div>
     </div>
     <app-event-list
-      title="Organized events"
-      [events]="profile.organizedEvents"
-      [isOrganized]="true"
-      *ngIf="profile.organizedEvents.length"
-    ></app-event-list>
-    <app-event-list
-      title="Created events"
-      [events]="profile.createdEvents"
-      [isOrganized]="true"
-      *ngIf="profile.createdEvents.length"
-    ></app-event-list>
-    <app-event-list
       title="Participated events"
-      [events]="profile.participatedEvents"
+      [events]="(profileEvents$ | async)?.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
+    <ng-container *ngIf="profileEvents$ | async as profileEvents">
+      <app-event-list
+        title="Organized events"
+        [events]="profileEvents.organizedEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.organizedEvents.length"
+      ></app-event-list>
+      <app-event-list
+        title="Created events"
+        [events]="profileEvents.createdEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.createdEvents.length"
+      ></app-event-list>
+    </ng-container>
     <div
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
@@ -203,3 +219,7 @@
   </div>
   <app-footer></app-footer>
 </main>
+
+<ng-template #loading>
+  <app-profile-card [hideEditButton]="true"></app-profile-card>
+</ng-template>

@@ -3,13 +3,13 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Event Template Categories</div>
+    <div resetScroll>Event Template Categories</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(eventTemplateCategories$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(eventTemplateCategories$ | async) === null"
-></mat-progress-bar>
 <main class="w-full p-4">
   <button mat-flat-button color="primary" (click)="addCategory()">
     Add new

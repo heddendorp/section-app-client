@@ -3,7 +3,7 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">
+    <div resetScroll>
       Transactions
       <span
         class="font-light"
@@ -13,11 +13,11 @@
       </span>
     </div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(transactions$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(transactions$ | async) === null"
-></mat-progress-bar>
 <main class="p-4">
   <h2>Sum amount: {{ sumAmount$ | async | currency: 'EUR' }}</h2>
   <form

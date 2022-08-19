@@ -6,6 +6,6 @@
   display: block;
 }
 
-::ng-deep .reset-scroll {
-  @apply cursor-pointer;
+.reactive-toolbar {
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
 }

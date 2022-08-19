@@ -19,7 +19,7 @@ export class EventListComponent implements OnInit {
   @Output() claimRequest = new EventEmitter<String>();
   @Input() title: string = '';
   @Input() isOrganized: boolean = false;
-  @Input() events: any[] = new Array<any>();
+  @Input() events: any[] | null | undefined = null;
 
   ngOnInit(): void {}
 
@@ -39,12 +39,14 @@ export class EventListComponent implements OnInit {
   }
 
   futureEvents() {
+    if (!this.events) return [];
     return this.events
       .filter(this.isFuture)
       .sort((e1, e2) => this.compareEventTime(e2, e1));
   }
 
   pastEvents() {
+    if (!this.events) return [];
     return this.events
       .filter((e) => !this.isFuture(e))
       .sort(this.compareEventTime);

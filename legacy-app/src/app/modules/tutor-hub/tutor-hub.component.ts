@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -20,6 +21,7 @@ import {
   tap,
   takeUntil,
   debounceTime,
+  firstValueFrom,
 } from 'rxjs';
 
 @Component({
@@ -48,6 +50,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   );
 
   public leaderboardToggle = false;
+  public leaderboardExpanded = false;
 
   constructor(
     private title: Title,
@@ -131,5 +134,12 @@ export class TutorHubComponent implements OnInit, OnDestroy {
       start,
       end,
     };
+  }
+
+  getLeaderboard(events: any) {
+    const leaderboard = this.leaderboardToggle
+      ? events.creatorLeaderboard
+      : events.organizerLeaderboard;
+    return leaderboard.slice(0, this.leaderboardExpanded ? 30 : 10);
   }
 }

@@ -3,13 +3,13 @@
     <a routerLink=".." mat-icon-button>
       <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
     </a>
-    <div class="reset-scroll">Statistics HQ</div>
+    <div resetScroll>Statistics HQ</div>
   </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(statistics$ | async) === null"
+  ></mat-progress-bar>
 </app-reactive-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(statistics$ | async) === null"
-></mat-progress-bar>
 <main class="p-4" *ngIf="statistics$ | async as statistics">
   <mat-form-field [formGroup]="rangeControl">
     <mat-label>Enter a date range</mat-label>
