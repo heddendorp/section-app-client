@@ -28,7 +28,7 @@ export class TenantPhotosPageComponent implements OnDestroy {
     private loadPhotosQuery: LoadAllPhotosGQL,
     private dialog: MatDialog
   ) {
-    this.title.setTitle('TUMi - all photos');
+    this.title.setTitle('Photos - TUMi');
     this.photosQueryRef = this.loadPhotosQuery.watch();
     this.photos$ = this.photosQueryRef.valueChanges.pipe(
       map(({ data }) => data.photos)

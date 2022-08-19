@@ -78,7 +78,7 @@ export class EventListPageComponent implements OnDestroy {
     private dialog: MatDialog
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
-    this.title.setTitle('TUMi - Events');
+    this.title.setTitle('Events - TUMi');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
 
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(

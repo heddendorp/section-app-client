@@ -53,7 +53,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder,
     private clipboard: Clipboard
   ) {
-    this.title.setTitle('TUMi - manage users');
+    this.title.setTitle('Users - TUMi');
     this.loadUsersReference = this.loadUsers.watch({
       pageLength: 20,
       pageIndex: 0,

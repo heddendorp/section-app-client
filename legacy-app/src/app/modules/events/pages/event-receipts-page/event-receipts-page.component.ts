@@ -32,7 +32,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private dialog: MatDialog,
     private sanitizer: DomSanitizer
   ) {
-    this.title.setTitle('TUMi - event receipts');
+    this.title.setTitle('Event Receipts - TUMi');
     this.loadCostItemQueryRef = this.loadCostItem.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' })

@@ -6,7 +6,7 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, map, Observable, Subject } from 'rxjs';
+import { firstValueFrom, map, Observable, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
 
@@ -29,13 +29,13 @@ export class EventRunPageComponent implements OnDestroy {
     private clipboard: Clipboard,
     private checkInMutation: CheckInUserGQL
   ) {
-    this.title.setTitle('TUMi - run event');
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.event)
+      map(({ data }) => data.event),
+      tap((event) => this.title.setTitle(`Run ${event.title} - TUMi`))
     );
     this.loadEventQueryRef.startPolling(5000);
   }
