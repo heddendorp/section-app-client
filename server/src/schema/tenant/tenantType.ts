@@ -298,7 +298,7 @@ builder.prismaObject('Tenant', {
         const addRanking = (leaderboard: any): any => {
           let currentRank = 1;
           let currentCount = Number.MAX_VALUE;
-          for(const [i, entry] of leaderboard.entries()) {
+          for (const [i, entry] of leaderboard.entries()) {
             if (entry.count < currentCount) {
               currentRank = i + 1;
               currentCount = entry.count;
