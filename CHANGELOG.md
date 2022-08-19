@@ -1,19 +1,15 @@
 # [4.4.0](https://github.com/heddendorp/tumi/compare/v4.3.0...v4.4.0) (2022-08-19)
 
-
 ### Bug Fixes
 
-* **server:** correct locations for calendar export ([80c917a](https://github.com/heddendorp/tumi/commit/80c917a425afaeecce9e425b7d42cc857df797c4))
-* **server:** correct locations for calendar export ([eec8dcb](https://github.com/heddendorp/tumi/commit/eec8dcbd5fb465f749abe3bd6f614ae96d67eac7))
-* **server:** update node fetch package to compatible version ([16ecb37](https://github.com/heddendorp/tumi/commit/16ecb3735193610a5941c1066d24ee388faedead))
-
+- **server:** correct locations for calendar export ([80c917a](https://github.com/heddendorp/tumi/commit/80c917a425afaeecce9e425b7d42cc857df797c4))
+- **server:** correct locations for calendar export ([eec8dcb](https://github.com/heddendorp/tumi/commit/eec8dcbd5fb465f749abe3bd6f614ae96d67eac7))
+- **server:** update node fetch package to compatible version ([16ecb37](https://github.com/heddendorp/tumi/commit/16ecb3735193610a5941c1066d24ee388faedead))
 
 ### Features
 
-* **legacy-app:** add supporter logos ([a836951](https://github.com/heddendorp/tumi/commit/a836951b25c06b452bd3d868a877cdb0b77207d3))
-* Major design overhaul ([#343](https://github.com/heddendorp/tumi/issues/343)) ([11c3631](https://github.com/heddendorp/tumi/commit/11c363180d848c041670f2a9135ddd272f4cc793)), closes [#228](https://github.com/heddendorp/tumi/issues/228) [#320](https://github.com/heddendorp/tumi/issues/320)
-
-
+- **legacy-app:** add supporter logos ([a836951](https://github.com/heddendorp/tumi/commit/a836951b25c06b452bd3d868a877cdb0b77207d3))
+- Major design overhaul ([#343](https://github.com/heddendorp/tumi/issues/343)) ([11c3631](https://github.com/heddendorp/tumi/commit/11c363180d848c041670f2a9135ddd272f4cc793)), closes [#228](https://github.com/heddendorp/tumi/issues/228) [#320](https://github.com/heddendorp/tumi/issues/320)
 
 # [4.3.0](https://github.com/heddendorp/tumi/compare/4.2.1...4.3.0) (2022-08-10)
 
