@@ -56,14 +56,10 @@ export class ReactiveToolbarComponent implements OnInit, OnDestroy {
   scrollUp$: Observable<ScrollDirection>;
   scrollDown$: Observable<ScrollDirection>;
 
-  constructor(private zone: NgZone, private cdr: ChangeDetectorRef) {
-    const windowContent = document.getElementById(
-      'window-content'
-    ) as HTMLElement;
-    
-    const scroll$ = fromEvent(windowContent, 'scroll').pipe(
+  constructor(private zone: NgZone, private cdr: ChangeDetectorRef) {    
+    const scroll$ = fromEvent(window, 'scroll').pipe(
       throttleTime(10),
-      map(() => windowContent.scrollTop),
+      map(() => window.pageYOffset),
       pairwise(),
       map(
         ([y1, y2]): ScrollDirection =>

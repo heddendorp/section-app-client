@@ -9,9 +9,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class ResetScrollDirective {
   @HostListener('click') onClick() {
-    document
-      .getElementById('window-content')
-      ?.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   constructor(private el: ElementRef) {}
