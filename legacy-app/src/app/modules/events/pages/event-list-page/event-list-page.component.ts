@@ -61,6 +61,8 @@ export class EventListPageComponent implements OnDestroy {
   private loadEventsQueryRef;
   private destroy$ = new Subject();
 
+  public serverTimeZone = DateTime.local({ locale: 'en-GB'}).offsetNameShort;
+  public timeOffset = Math.abs(DateTime.local().offset + new Date().getTimezoneOffset())/60; 
   public outstandingRating$: Observable<boolean>;
   public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
 

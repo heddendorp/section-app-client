@@ -260,10 +260,10 @@
     <div class="p-6 text-sm lg:px-12">
       <p>{{ event.organizer.text }}</p>
     </div>
-    <div class="bg-primary-container text-secondary-onContainer p-6 lg:p-12">
+    <div class="bg-primary-container text-secondary-onContainer p-6 lg:p-12 relative">
       <ng-template #noRegistration>
         <h2>You can not sign up for this event</h2>
-        <ng-container *ngIf="(hasAccount$ | async) === false">
+        <ng-container *ngIf="(auth.isAuthenticated$ | async) === false">
           <p class="my-4">
             To sign up for events, please log in or create an account.
           </p>
@@ -317,9 +317,9 @@
         event.couldBeOrganizer &&
         event.registrationMode !== RegistrationMode.External
       "
-      class="bg-primary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12"
+      class="bg-primary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12 relative"
     >
-      <h2 class="mb-4 font-bold">Sign up as organizer</h2>
+      <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
       <app-check-registration-time [event]="event">
         <div
           fxLayout.gt-md="row"

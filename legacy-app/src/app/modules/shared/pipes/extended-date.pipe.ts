@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { DateTime } from 'luxon';
 
 @Pipe({
   name: 'date',
@@ -18,6 +19,6 @@ export class ExtendDatePipe implements PipeTransform {
 
   transform(value: any, format = 'medium') {
     format = this.customFormats[format] || format;
-    return this.datePipe.transform(value, format);
+    return this.datePipe.transform(value, format, DateTime.local().offsetNameShort);
   }
 }
