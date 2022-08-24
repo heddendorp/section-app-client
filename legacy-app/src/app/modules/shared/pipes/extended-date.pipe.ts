@@ -19,6 +19,10 @@ export class ExtendDatePipe implements PipeTransform {
 
   transform(value: any, format = 'medium') {
     format = this.customFormats[format] || format;
-    return this.datePipe.transform(value, format, DateTime.local().offsetNameShort);
+    return this.datePipe.transform(
+      value,
+      format,
+      DateTime.local().offsetNameShort
+    );
   }
 }

@@ -46,7 +46,10 @@
         <mat-icon svgIcon="icon-time-machine"></mat-icon>
       </span>
       <p class="ml-3 font-medium text-white leading-tight">
-        <span>All times in {{ serverTimeZone }}. Your device time differs by {{timeOffset}} hour{{timeOffset === 1 ? '' : 's'}}.</span>
+        <span
+          >All times in {{ serverTimeZone }}. Your device time differs by
+          {{ timeOffset }} hour{{ timeOffset === 1 ? '' : 's' }}.</span
+        >
       </p>
     </div>
   </div>

@@ -260,7 +260,9 @@
     <div class="p-6 text-sm lg:px-12">
       <p>{{ event.organizer.text }}</p>
     </div>
-    <div class="bg-primary-container text-secondary-onContainer p-6 lg:p-12 relative">
+    <div
+      class="bg-primary-container text-secondary-onContainer p-6 lg:p-12 relative"
+    >
       <ng-template #noRegistration>
         <h2>You can not sign up for this event</h2>
         <ng-container *ngIf="(auth.isAuthenticated$ | async) === false">
