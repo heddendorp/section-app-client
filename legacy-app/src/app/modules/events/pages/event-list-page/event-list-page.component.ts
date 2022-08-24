@@ -63,7 +63,7 @@ export class EventListPageComponent implements OnDestroy {
 
   public serverTimeZone = DateTime.local({ locale: 'en-GB' }).offsetNameShort;
   public timeOffset =
-    Math.abs(DateTime.local().offset + new Date().getTimezoneOffset()) / 60;
+    Math.abs(-new Date().getTimezoneOffset() - DateTime.local().offset) / 60;
   public outstandingRating$: Observable<boolean>;
   public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
 
