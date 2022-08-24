@@ -35,10 +35,7 @@
     *ngIf="loading$ | async"
   ></mat-progress-bar>
 </app-reactive-toolbar>
-<div
-  *ngIf="timeOffset !== 0"
-  class="bg-orange-500 mx-auto py-3 px-6 lg:px-8"
->
+<div *ngIf="timeOffset !== 0" class="bg-orange-500 mx-auto py-3 px-6 lg:px-8">
   <div class="flex items-center justify-between flex-wrap">
     <div class="w-0 flex-1 flex items-center">
       <span class="flex p-2 rounded-lg bg-orange-600 text-white">
