@@ -35,7 +35,6 @@
         class="day flex flex-col border-t border-l pb-0.5 {{
           day.today ? 'bg-blue-100' : ''
         }} relative"
-        [style.z-index]="7 - weekDayIndex"
       >
         <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
         <div
@@ -60,7 +59,7 @@
                 : numberOfEventsPerCell
             )
           "
-          class="event select-none flex items-center rounded text-xs md:text-sm mx-0.5 {{
+          class="event select-none flex items-center rounded text-xs md:text-sm mx-0.5 z-10 {{
             tutorSpotsClass(event)
           }} {{ event.publicationState | lowercase }} {{
             event.userIsRegistered ? 'registered' : ''
