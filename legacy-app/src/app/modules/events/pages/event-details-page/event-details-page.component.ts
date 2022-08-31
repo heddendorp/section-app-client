@@ -14,7 +14,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
 import {
-  GetCurrentUserGQL,
   LoadEventGQL,
   LoadEventQuery,
   RegisterForEventGQL,
@@ -23,13 +22,12 @@ import {
   SubmitEventFeedbackGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
 import { AuthService } from '@auth0/auth0-angular';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-details-page',
@@ -43,7 +41,6 @@ export class EventDetailsPageComponent implements OnDestroy {
   public bestPrice$: Observable<Price>;
   public eventOver$: Observable<boolean>;
   public eventStarted$: Observable<boolean>;
-  public hasAccount$: Observable<boolean>;
   public isAdmin$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
@@ -57,7 +54,6 @@ export class EventDetailsPageComponent implements OnDestroy {
     private router: Router,
     public auth: AuthService,
     private loadEvent: LoadEventGQL,
-    private loadCurrentUser: GetCurrentUserGQL,
     private registerForEvent: RegisterForEventGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
@@ -100,10 +96,6 @@ export class EventDetailsPageComponent implements OnDestroy {
       )
     );
     this.loadEventQueryRef.startPolling(30000);
-    this.hasAccount$ = this.loadCurrentUser.watch().valueChanges.pipe(
-      map(({ data }) => !!data.currentUser),
-      shareReplay(1)
-    );
     this.isAdmin$ = permissions.isAdmin();
 
     if (router.url.includes('checkin')) {

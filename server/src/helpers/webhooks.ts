@@ -79,6 +79,17 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
             break;
           }
+          if (!paymentIntent.charges) {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(paymentIntent)),
+                message: 'No charges found for payment intent',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            break;
+          }
           const charge = paymentIntent.charges.data[0];
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
@@ -139,6 +150,17 @@ export const webhookRouter = (prisma: PrismaClient) => {
               data: {
                 data: JSON.parse(JSON.stringify(paymentIntent)),
                 message: 'No database payment found for incoming event',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            break;
+          }
+          if (!paymentIntent.charges) {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(paymentIntent)),
+                message: 'No charges found for payment intent',
                 severity: 'WARNING',
                 category: 'webhook',
               },

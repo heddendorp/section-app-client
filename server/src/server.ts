@@ -21,6 +21,7 @@ import { useGraphQlJit } from '@envelop/graphql-jit';
 import { useSentry } from '@envelop/sentry';
 import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
+import { Settings } from 'luxon';
 
 declare global {
   namespace NodeJS {
@@ -34,6 +35,9 @@ global.__rootdir__ = __dirname || process.cwd();
 const isProd = process.env.NODE_ENV === 'production';
 
 const app = express();
+
+Settings.defaultLocale = 'en';
+Settings.defaultZone = 'Europe/Berlin';
 
 Sentry.init({
   dsn: 'https://c8db9c4c39354afba335461b01c35418@o541164.ingest.sentry.io/6188953',
