@@ -101,10 +101,8 @@
           <ng-container
             *ngIf="events$ | async as events; else leaderboardSkeleton"
           >
-            <ng-container
-              *ngFor="let entry of getLeaderboard(events); let i = index"
-            >
-              <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
+            <ng-container *ngFor="let entry of getLeaderboard(events)">
+              <div class="w-8 text-end pr-3">{{ entry.rank }}</div>
               <app-user-chip
                 size="xs"
                 [id]="entry.user.id"
