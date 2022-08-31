@@ -152,6 +152,10 @@ query getRegistrationCodeInfo($code: ID!) {
       belongsToCurrentUser
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           status
@@ -195,6 +199,10 @@ mutation useRegistrationCode($id: ID!, $price: JSON) {
       belongsToCurrentUser
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           status

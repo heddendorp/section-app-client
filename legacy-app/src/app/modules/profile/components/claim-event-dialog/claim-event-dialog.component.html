@@ -53,17 +53,19 @@
         *ngIf="code.registrationCreated.belongsToCurrentUser; else codeClaimed"
       >
         <p>You claimed this code already ✅</p>
-        <ng-container
+        <!--        TODO: fix with new transactions-->
+        <!--<ng-container
           *ngIf="
             code.registrationCreated?.transaction?.stripePayment?.status ===
             'incomplete'
           "
-        >
-          <p>
-            Payment for this event is still missing, please finalize your
-            registration by paying now
-          </p>
-          <button
+        >-->
+        <p>
+          Payment for this event is still missing, please finalize your
+          registration by paying now
+        </p>
+        <!--          TODO: fix this button with new transactions-->
+        <!--<button
             mat-raised-button
             color="primary"
             (click)="
@@ -74,8 +76,8 @@
             "
           >
             Pay for registration
-          </button>
-        </ng-container>
+          </button>-->
+        <!--</ng-container>-->
       </ng-container>
       <ng-template #codeClaimed>
         <p>

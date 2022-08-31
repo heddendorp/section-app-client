@@ -48,6 +48,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive-toolbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ResetScrollDirective } from './directives/reset-scroll.directive';
+import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { ResetScrollDirective } from './directives/reset-scroll.directive';
     EventListItemComponent,
     ReactiveToolbarComponent,
     FooterComponent,
+    TransactionListComponent,
   ],
   imports: [
     RouterModule,
@@ -134,6 +136,7 @@ import { ResetScrollDirective } from './directives/reset-scroll.directive';
     EventListItemComponent,
     ReactiveToolbarComponent,
     FooterComponent,
+    TransactionListComponent,
   ],
   providers: [DatePipe],
 })

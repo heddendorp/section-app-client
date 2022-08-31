@@ -448,7 +448,8 @@
               <td>{{ registration.user.email }}</td>
               <td>{{ registration.user.phone }}</td>
               <td>{{ registration.checkInTime | date: 'short' }}</td>
-              <td *ngIf="!last">
+              <!--              TODO: fix calculation with new transactions-->
+              <!--<td *ngIf="!last">
                 {{
                   ((registration.transaction?.stripePayment
                     ?.netLessRefundAmount ??
@@ -465,7 +466,7 @@
                     ((lastUserFeeShare$ | async) ?? 0)) /
                     100 | currency: 'EUR'
                 }}
-              </td>
+              </td>-->
             </tr>
           </tbody>
         </table>

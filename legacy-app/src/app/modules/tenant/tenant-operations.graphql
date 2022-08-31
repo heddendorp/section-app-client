@@ -31,7 +31,7 @@ query loadTransactions(
     id
     amount
     createdAt
-    amount
+    type
     eventRegistration {
       id
       event {
@@ -156,6 +156,10 @@ query loadUser($id: ID!) {
       }
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           status
@@ -282,6 +286,10 @@ query getTenantPurchases {
     }
     transactions {
       id
+      status
+      direction
+      amount
+      type
       stripePayment {
         id
         status
@@ -305,6 +313,10 @@ query getPurchase($id: ID!) {
     }
     transactions {
       id
+      status
+      direction
+      amount
+      type
       stripePayment {
         id
         status

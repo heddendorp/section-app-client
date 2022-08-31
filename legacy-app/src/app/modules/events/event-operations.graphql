@@ -61,6 +61,9 @@ query loadEvent($id: ID!) {
       transactions {
         id
         status
+        direction
+        amount
+        type
         stripePayment {
           id
           createdAt
@@ -220,6 +223,10 @@ query loadEventForRunning($id: ID!) {
       checkInTime
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           status
@@ -309,6 +316,10 @@ query getRegistration($id: ID!) {
     id
     transactions {
       id
+      status
+      direction
+      amount
+      type
       stripePayment {
         id
         status
@@ -397,6 +408,10 @@ query loadEventForManagement($id: ID!) {
       cancellationReason
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           status

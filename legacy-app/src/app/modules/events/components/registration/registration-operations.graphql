@@ -24,6 +24,10 @@ mutation registerForEvent(
       cancellationReason
       transactions {
         id
+        status
+        direction
+        amount
+        type
         stripePayment {
           id
           createdAt

@@ -7,15 +7,15 @@
   {{ event?.userIsOrganizer ? 'organizer' : '' }}"
   matRipple
 >
-  <div class="w-full pt-2 px-4 pb-4 flex flex-col gap-2">
-    <div class="flex flex-row gap-2 items-center">
+  <div class="flex w-full flex-col gap-2 px-4 pt-2 pb-4">
+    <div class="flex flex-row items-center gap-2">
       <img
         *ngIf="event"
         [src]="event.icon | iconURL"
         alt=""
-        class="w-12 h-12"
+        class="h-12 w-12"
       />
-      <div *ngIf="!event" class="skeleton w-12 h-12"></div>
+      <div *ngIf="!event" class="skeleton h-12 w-12"></div>
       <div *ngIf="event" class="text-base font-semibold leading-tight">
         {{ event.title }}
       </div>
@@ -29,7 +29,7 @@
           style="width: 18px"
           class="ml-2 text-blue-700"
         ></mat-icon>
-        <span class="text-blue-700 font-semibold">Internal</span>
+        <span class="font-semibold text-blue-700">Internal</span>
       </ng-container>
 
       <ng-container *ngIf="event">
@@ -52,12 +52,12 @@
       </ng-container>
     </div>
 
-    <div class="font-semibold inline-flex items-center gap-1">
+    <div class="inline-flex items-center gap-1 font-semibold">
       <ng-container *ngIf="event">
         <ng-container *ngIf="event.userIsOrganizer || event.userIsRegistered">
           <span
             *ngIf="event.userIsOrganizer"
-            class="rounded-2xl px-2 py-1 inline-flex items-center gap-1 bg-blue-600 text-white"
+            class="inline-flex items-center gap-1 rounded-2xl bg-blue-600 px-2 py-1 text-white"
           >
             <mat-icon
               svgIcon="icon-checked"
@@ -67,7 +67,7 @@
           </span>
           <span
             *ngIf="event.userIsRegistered"
-            class="rounded-2xl px-2 py-1 inline-flex items-center gap-1 bg-green-600 text-white"
+            class="inline-flex items-center gap-1 rounded-2xl bg-green-600 px-2 py-1 text-white"
           >
             <mat-icon
               svgIcon="icon-checked"
@@ -85,7 +85,7 @@
             >● {{ event.freeParticipantSpots }}</span
           >
           <span
-            class="rounded-xl px-2 py-1 inline-flex items-center gap-1 bg-gray-200 text-gray-800"
+            class="inline-flex items-center gap-1 rounded-xl bg-gray-200 px-2 py-1 text-gray-800"
             *ngIf="notYetOpen()"
           >
             <mat-icon
@@ -102,8 +102,8 @@
           "
           class="ml-2 {{ tutorSpotsClass() }}"
         >
-          {{ event?.organizersRegistered ?? 0 }}/{{
-            event?.organizerLimit ?? 0
+          {{ event?.organizersRegistered }}/{{
+            event?.organizerLimit
           }}
           tutors</span
         >

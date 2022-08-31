@@ -1,10 +1,7 @@
 <div *ngIf="event" class="my-2">
   <p class="mb-4">
     Free spots:
-    {{
-      (event?.participantLimit ?? 0) -
-        (event?.participantRegistrationCount ?? 0)
-    }}
+    {{ event.participantLimit - event.participantRegistrationCount }}
   </p>
   <app-check-additional-data
     [event]="event"

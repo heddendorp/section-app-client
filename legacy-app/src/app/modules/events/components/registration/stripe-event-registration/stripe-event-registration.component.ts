@@ -52,16 +52,17 @@ export class StripeEventRegistrationComponent implements OnChanges {
   }
 
   get lastPayment() {
-    if (
-      !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    ) {
-      return new Date();
-    }
-    return DateTime.fromISO(
-      this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    )
-      .plus({ hours: 1 })
-      .toJSDate();
+    //  TODO: implement with new transactions
+    // if (
+    //   !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    // ) {
+    return new Date();
+    // }
+    // return DateTime.fromISO(
+    //   this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    // )
+    //   .plus({ hours: 1 })
+    //   .toJSDate();
   }
 
   get canDeregisterInTime() {

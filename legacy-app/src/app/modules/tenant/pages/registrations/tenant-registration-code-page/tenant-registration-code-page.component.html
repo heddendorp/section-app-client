@@ -56,7 +56,7 @@
           </td>
           <td colspan="2">
             <a
-              class="w-full modern"
+              class="modern w-full"
               href="/events/{{ code.targetEvent.id }}/manage"
               mat-stroked-button
             >
@@ -134,88 +134,20 @@
         </tr>
 
         <tr>
-          <ng-container
-            *ngIf="code.registrationToRemove?.transaction?.stripePayment"
-          >
-            <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
-              <span> Payment status: </span>
-              <span>{{
-                code.registrationToRemove?.transaction?.stripePayment?.status
-              }}</span>
-              <span> Payment method: </span>
-              <span>{{
-                code.registrationToRemove?.transaction?.stripePayment
-                  ?.paymentMethodType
-              }}</span>
-              <a
-                gdColumn="span 2"
-                mat-stroked-button
-                href="https://dashboard.stripe.com/payments/{{
-                  code.registrationToRemove?.transaction?.stripePayment
-                    ?.paymentIntent
-                }}"
-                >Open in stripe</a
-              >
-            </td>
-            <td>
-              <p>Events</p>
-              <p
-                *ngFor="
-                  let event of code.registrationToRemove?.transaction
-                    ?.stripePayment?.events
-                "
-              >
-                {{ event.name }} - {{ event.date | date: 'medium' }}
-              </p>
-            </td>
-          </ng-container>
-          <ng-container
-            *ngIf="!code.registrationToRemove?.transaction?.stripePayment"
-          >
-            <td colspan="2">No payment for this registration</td>
-          </ng-container>
-          <ng-container
-            *ngIf="code.registrationCreated?.transaction?.stripePayment"
-          >
-            <td gdAuto gdColumns="max-content auto" gdGap=".5rem">
-              <span> Payment status: </span>
-              <span>{{
-                code.registrationCreated?.transaction?.stripePayment?.status
-              }}</span>
-              <span> Payment method: </span>
-              <span>
-                {{
-                  code.registrationCreated?.transaction?.stripePayment
-                    ?.paymentMethodType
-                }}
-              </span>
-              <a
-                gdColumn="span 2"
-                mat-stroked-button
-                href="https://dashboard.stripe.com/payments/{{
-                  code.registrationCreated?.transaction?.stripePayment
-                    ?.paymentIntent
-                }}"
-                >Open in stripe</a
-              >
-            </td>
-            <td>
-              <p>Events</p>
-              <p
-                *ngFor="
-                  let event of code.registrationCreated?.transaction
-                    ?.stripePayment?.events
-                "
-              >
-                {{ event.name }} - {{ event.date | date: 'medium' }}
-              </p>
-            </td>
-          </ng-container>
-          <ng-container
-            *ngIf="!code.registrationCreated?.transaction?.stripePayment"
-          >
-            <td colspan="2">No payment for this registration</td>
-          </ng-container>
+          <td colspan="2">
+            <!--            TODO: check use of transactions list-->
+            <app-transaction-list
+              *ngIf="code.registrationToRemove"
+              [transactions]="code.registrationToRemove.transactions"
+            ></app-transaction-list>
+          </td>
+          <td colspan="2">
+            <!--              TODO: check transaction list-->
+            <app-transaction-list
+              *ngIf="code.registrationCreated"
+              [transactions]="code.registrationCreated.transactions"
+            ></app-transaction-list>
+          </td>
         </tr>
         <ng-container *ngIf="code.connectedRegistrations.length">
           <tr>
@@ -239,11 +171,12 @@
               }})
             </td>
             <td>
+              <!--              TODO: Check use of transactions list-->
               <p>
                 Payment:
-                {{ registration.transaction?.stripePayment?.status }} ({{
-                  registration.transaction?.stripePayment?.paymentMethodType
-                }})
+                <app-transaction-list
+                  [transactions]="registration.transactions"
+                ></app-transaction-list>
               </p>
             </td>
           </tr>
