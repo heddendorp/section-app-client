@@ -63,7 +63,7 @@
     "prom-client": "^14.1.0",
     "qrcode": "^1.5.1",
     "sharp": "^0.30.7",
-    "stripe": "^10.6.0",
+    "stripe": "^10.7.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
