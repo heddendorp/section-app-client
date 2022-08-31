@@ -35,9 +35,25 @@
     *ngIf="loading$ | async"
   ></mat-progress-bar>
 </app-reactive-toolbar>
+<div *ngIf="timeOffset !== 0" class="bg-orange-500 mx-auto py-3 px-6 lg:px-8">
+  <div class="flex items-center justify-between flex-wrap">
+    <div class="w-0 flex-1 flex items-center">
+      <span class="flex p-2 rounded-lg bg-orange-600 text-white">
+        <mat-icon svgIcon="icon-time-machine"></mat-icon>
+      </span>
+      <p class="ml-3 font-medium text-white leading-tight">
+        <span
+          >All times in {{ serverTimeZone }}. Your device time differs by
+          {{ timeOffset }} hour{{ timeOffset === 1 ? '' : 's' }}.</span
+        >
+      </p>
+    </div>
+  </div>
+</div>
 <div
   *ngIf="outstandingRating$ | async"
   @grow
+  matRipple
   class="bg-yellow-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
   routerLink="/profile"
 >
@@ -57,6 +73,7 @@
   </div>
 </div>
 <div
+  matRipple
   class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
   routerLink="/page/apply"
 >
