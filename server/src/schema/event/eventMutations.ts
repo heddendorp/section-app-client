@@ -354,7 +354,7 @@ builder.mutationFields((t) => ({
           return {
             eventId,
             notSubsidized: item.notSubsidized,
-            onInvoice: item.onInvoice,
+            onInvoice: item.onInvoice ?? false,
             amount: amount,
             calculationInfo,
             details: item.details,
