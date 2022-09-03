@@ -2,6 +2,7 @@ FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 RUN apt-get update && apt-get install ghostscript graphicsmagick -y
+RUN npm install pm2 -g
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
@@ -14,7 +15,6 @@ COPY server server/
 # If you are building your code for production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 RUN yarn workspace @tumi/server build:production
-RUN npm install pm2 -g
 
 EXPOSE 3333
 CMD [ "pm2-runtime", "server/dist/server.js" ]
