@@ -29,8 +29,8 @@ describe('The event details page', () => {
   context('when the user is an admin', () => {
     beforeEach(() => {
       cy.loginByAuth0Api(users.adminUser);
-      cy.wait(1000);
       cy.visit(`/events/${seedIds.testEvent}`);
+      cy.waitForLoad();
     });
     it('should show the event title', () => {
       cy.get('app-event-header').contains('Test Event');

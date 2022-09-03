@@ -35,6 +35,7 @@
 //     }
 //   }
 // }
+import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('waitForLoad', () => {
   cy.get('mat-progress-bar', { timeout: 15000 }).should('not.exist');

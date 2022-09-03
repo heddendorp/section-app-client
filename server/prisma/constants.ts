@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 export const seedIds = {
   testEvent: 'c8d54510-ecb1-4ccf-944e-1d80e7b5e6ca',
   freeEvent: 'c116ac1e-57bc-4ad6-bc0d-5a68a23e5ab0',
@@ -19,6 +21,28 @@ export const templates = {
     organizerText: 'This is a second template',
     participantText: 'This is a second template',
     title: 'Second Template',
+  },
+  paidTemplate: {
+    id: 'c58ce57b-0e91-4e14-ba24-43121937d8fd',
+    comment: 'This is a template for a paid event',
+    description: 'This is a testing event that costs money',
+    organizerText: 'Organizer text',
+    participantText: 'Participant text',
+    title: 'Paid Event',
+    icon: 'money',
+    location: faker.address.nearbyGPSCoordinate().join(','),
+  },
+};
+
+export const events = {
+  paidEvent: {
+    description: templates.paidTemplate.description,
+    organizerText: templates.paidTemplate.organizerText,
+    participantText: templates.paidTemplate.participantText,
+    title: templates.paidTemplate.title,
+    icon: templates.paidTemplate.icon,
+    location: templates.paidTemplate.location,
+    id: '804b5fd7-42b8-425c-938b-1f3695d0c5b5',
   },
 };
 

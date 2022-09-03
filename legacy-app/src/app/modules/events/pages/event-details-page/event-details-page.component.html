@@ -37,7 +37,7 @@
     <mat-accordion displayMode="flat" [multi]="true">
       <ng-container *ngIf="event$ | async as event; else skeleton">
         <mat-expansion-panel
-          data-testid="event-description"
+          data-testId="event-description"
           [expanded]="
             (!event.userIsRegistered && !event.userIsOrganizer) ||
             event.participantText.length < 10
@@ -89,12 +89,12 @@
           </mat-expansion-panel-header>
           <div>
             <div class="mb-4" *ngIf="eventStarted$ | async">
-              <a routerLink="./photos" mat-stroked-button class="w-full modern">
+              <a routerLink="./photos" mat-stroked-button class="modern w-full">
                 Photos for this event
               </a>
             </div>
             <div
-              class="lg:text-lg rounded-lg bg-slate-100 border-2 p-4 mt-2 mb-6"
+              class="mt-2 mb-6 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
               *ngIf="event.location"
             >
               <div class="mb-2">
@@ -139,7 +139,7 @@
                 >You are checked in to the event!</span
               >
             </div>
-            <div class="my-2 lg:text-lg rounded-lg">
+            <div class="my-2 rounded-lg lg:text-lg">
               <mat-divider class="!my-4"></mat-divider>
               <div class="mb-2">
                 <b>Organizers</b>
@@ -165,7 +165,7 @@
                 <div class="my-2">
                   <b>Participants</b>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center">
+                <div class="flex flex-wrap items-center gap-2">
                   <app-user-chip
                     *ngFor="let registration of event.participantRegistrations"
                     size="sm"
@@ -200,7 +200,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Ratings</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
+          <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
             <app-rating-item
               *ngFor="let rating of event.ratings"
               [isOrganizer]="rating.type === 'ORGANIZER'"
@@ -222,7 +222,7 @@
               (ratingExpanded$ | async) &&
               event.activeRegistration?.status === 'SUCCESSFUL'
             "
-            class="bg-slate-50 rounded-md p-2 border"
+            class="rounded-md border bg-slate-50 p-2"
             id="rater"
           >
             <app-rate-event
@@ -244,10 +244,10 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Description</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="w-full flex flex-col gap-2">
+          <div class="flex w-full flex-col gap-2">
             <div
               *ngFor="let line of [].constructor(12)"
-              class="skeleton w-full h-6"
+              class="skeleton h-6 w-full"
             >
               T
             </div>
@@ -261,7 +261,8 @@
       <p>{{ event.organizer.text }}</p>
     </div>
     <div
-      class="bg-primary-container text-secondary-onContainer p-6 lg:p-12 relative"
+      class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
+      data-testId="event-signup-section"
     >
       <ng-template #noRegistration>
         <h2>You can not sign up for this event</h2>
@@ -319,7 +320,8 @@
         event.couldBeOrganizer &&
         event.registrationMode !== RegistrationMode.External
       "
-      class="bg-primary-container text-secondary-onContainer border-secondary-onContainer border-t-2 p-6 lg:p-12 relative"
+      data-testId="event-organizer-section"
+      class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
     >
       <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
       <app-check-registration-time [event]="event">
@@ -332,7 +334,7 @@
           <button
             mat-raised-button
             color="primary"
-            class="w-full modern"
+            class="modern w-full"
             [disabled]="!event.organizerRegistrationPossible"
             (click)="registerAsOrganizer()"
           >

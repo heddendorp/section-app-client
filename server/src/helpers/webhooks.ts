@@ -12,7 +12,6 @@ import {
   TransactionType,
 } from '../generated/prisma';
 import InputJsonObject = Prisma.InputJsonObject;
-
 const stripe: Stripe.Stripe = require('stripe')(process.env['STRIPE_KEY']);
 
 export const webhookRouter = (prisma: PrismaClient) => {
@@ -28,17 +27,21 @@ export const webhookRouter = (prisma: PrismaClient) => {
     async (request, response, next) => {
       const sig = request.headers['stripe-signature'] as string;
 
-      let event;
-      try {
-        event = stripe.webhooks.constructEvent(
-          request.body,
-          sig,
-          process.env.STRIPE_WH_SECRET ?? ''
-        );
-      } catch (err: any) {
-        console.error(err);
-        response.status(400).send(`Webhook Error: ${err.message}`);
-        return;
+      let event = request.body;
+      if (process.env['NODE_ENV'] !== 'test') {
+        try {
+          event = stripe.webhooks.constructEvent(
+            request.body,
+            sig,
+            process.env.STRIPE_WH_SECRET ?? ''
+          );
+        } catch (err: any) {
+          console.error(err);
+          response.status(400).send(`Webhook Error: ${err.message}`);
+          return;
+        }
+      } else {
+        console.log('not checking stripe signature in test environment');
       }
       console.log(event.type);
       switch (event.type) {

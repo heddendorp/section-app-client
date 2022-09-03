@@ -264,7 +264,7 @@ builder.mutationFields((t) => ({
                 currency: 'EUR',
                 name: event.title,
                 description: 'Registration fee for event',
-                tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
+                tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
               },
             ],
             'book',

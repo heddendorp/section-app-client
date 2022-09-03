@@ -51,7 +51,7 @@ export class RegistrationService {
             currency: 'EUR',
             quantity: 1,
             name: registrationCode.targetEvent.title,
-            tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
+            tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
             description: 'Registration code fee for event',
           },
         ],

@@ -33,6 +33,12 @@ services:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: tests
+  stripe:
+    image: stripe/stripe-cli:latest
+    environment:
+      STRIPE_API_KEY: sk_test_qNFI4mD2kNWlhYxNRSmN3VSZ
+      STRIPE_DEVICE_NAME: integration-tests
+    command: "listen --forward-to http://server:3333/webhooks/stripe"
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     hostname: azurite

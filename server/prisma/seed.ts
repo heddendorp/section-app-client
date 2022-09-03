@@ -6,7 +6,7 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
-import { seedIds, templates, users } from './constants';
+import { events, seedIds, templates, users } from './constants';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +22,7 @@ async function runSeed() {
     data: {
       name: 'ESN TUMi e.V.',
       tenant: { connect: { id: tumiTenant.id } },
-      text: 'text',
+      text: 'This event is organized by the student association ESN TUMi München e.V.',
     },
   });
 
@@ -147,6 +147,15 @@ async function runSeed() {
     },
   });
 
+  const paidTemplate = await prisma.eventTemplate.create({
+    data: {
+      ...templates.paidTemplate,
+      duration: 60,
+      finances: {},
+      tenant: { connect: { id: tumiTenant.id } },
+    },
+  });
+
   await prisma.eventTemplate.create({
     data: {
       ...templates.secondTemplate,
@@ -175,6 +184,7 @@ async function runSeed() {
       title: 'Internal draft Event',
     },
   });
+
   const stripeEvent = await prisma.tumiEvent.create({
     data: {
       id: seedIds.testEvent,
@@ -194,6 +204,7 @@ async function runSeed() {
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
     },
   });
+
   const freeEvent = await prisma.tumiEvent.create({
     data: {
       id: seedIds.freeEvent,
@@ -211,6 +222,36 @@ async function runSeed() {
       title: 'Test Event',
       publicationState: PublicationState.PUBLIC,
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
+    },
+  });
+
+  const paidStartDate = faker.date.soon(10);
+  const paidEvent = await prisma.tumiEvent.create({
+    data: {
+      ...events.paidEvent,
+      organizer: { connect: { id: tumiOrganizer.id } },
+      eventTemplate: { connect: { id: paidTemplate.id } },
+      start: paidStartDate,
+      end: faker.date.soon(1, paidStartDate.toString()),
+      createdBy: { connect: { id: adminUser.id } },
+      registrationMode: RegistrationMode.STRIPE,
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [
+        MembershipStatus.NONE,
+        MembershipStatus.FULL,
+        MembershipStatus.TRIAL,
+      ],
+      participantLimit: 10,
+      prices: {
+        options: [
+          {
+            amount: '7.5',
+            defaultPrice: true,
+            esnCardRequired: false,
+            allowedStatusList: ['NONE', 'TRIAL', 'FULL', 'SPONSOR', 'ALUMNI'],
+          },
+        ],
+      },
     },
   });
 }
