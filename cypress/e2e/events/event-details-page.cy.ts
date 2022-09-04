@@ -1,4 +1,4 @@
-import { seedIds, users } from '../../server/prisma/constants';
+import { seedIds, users } from '../../../server/prisma/constants';
 
 describe('The event details page', () => {
   context('when the user is not logged in', () => {
