@@ -5,7 +5,7 @@ import {
   useLoaderData,
   useTransition,
 } from '@remix-run/react';
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import { createRegistration } from '~/services/registrations.server';
 import { useState } from 'react';
@@ -44,7 +44,7 @@ export default function RegistrationForm() {
   const [esnMember, setEsnMember] = useState(false);
   const transition = useTransition();
   const actionData = useActionData();
-  return (
+  /*return (
     <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
       <p className="mt-4 mb-8 md:text-lg">
@@ -52,8 +52,8 @@ export default function RegistrationForm() {
         has passed. You can still take part in the TUMi orientation weeks.
       </p>
     </section>
-  );
-  /*return (
+  );*/
+  return (
     <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
       <p className="mt-4 mb-8 md:text-lg">
@@ -65,7 +65,7 @@ export default function RegistrationForm() {
         well in munich.
       </p>
       <Form method="post" className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="md:col-span-2">
+        {/*<div className="md:col-span-2">
           <div
             className="border-l-4 border-red-500 bg-red-900 p-4 text-red-100"
             role="alert"
@@ -76,7 +76,7 @@ export default function RegistrationForm() {
               Only if spots become free, you can get one.
             </p>
           </div>
-        </div>
+        </div>*/}
         {actionData?.errors.form ? (
           <div className="md:col-span-2">
             <ValidationMessage
@@ -297,8 +297,8 @@ export default function RegistrationForm() {
             <option value="">Select your status</option>
             <option value="l">Local Student</option>
             <option value="i">International degree student</option>
-            <option value="o">Exchange Student (arrived in 2021)</option>
-            <option value="e">Exchange Student (arrived in 2022)</option>
+            <option value="o">Exchange Student (starting in october)</option>
+            <option value="e">Exchange Student (started before october)</option>
           </select>
           <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
             Status
@@ -521,7 +521,7 @@ export default function RegistrationForm() {
               className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
             />
             <span className="ml-3">
-              In understand, that once I receive my spot confirmation I have to
+              I understand, that once I receive my spot confirmation I have to
               pay 65 euro within 24h to confirm it. Otherwise I will be excluded
               from Party Animals.
             </span>
@@ -611,5 +611,5 @@ export default function RegistrationForm() {
         </button>
       </Form>
     </section>
-  );*/
+  );
 }

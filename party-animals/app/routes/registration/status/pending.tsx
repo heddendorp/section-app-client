@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import { db } from '~/utils/db.server';
 import { useLoaderData } from '@remix-run/react';
@@ -35,9 +35,11 @@ export default function RegistrationStatusPending() {
       </p>
       <p className="mt-2 lg:text-lg">
         The rounds of admission are: <br />
-        the 23rd of march, <br />
-        the 25th of march <br />
-        and the 27th of march. <br />
+        <ul className="list-inside list-disc">
+          <li>the 23rd of march</li>
+          <li>the 25th of march</li>
+          <li>the 27th of march</li>
+        </ul>
         Check your mail or this page to see if you got a spot.
       </p>
     </section>

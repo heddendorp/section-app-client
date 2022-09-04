@@ -107,14 +107,14 @@ export default function Registration() {
               to keep the groups diverse and balanced.
             </p>
           </div>
-          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+          {/*<div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Are you worried?</strong>
             <p>
               We would not have brought back Party Animals if we did not think
               that it would work and be great. We are confident that it will not
               be impacted by the pandemic.
             </p>
-          </div>
+          </div>*/}
           <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Where can I find out more?</strong>
             <p>
@@ -140,7 +140,7 @@ export default function Registration() {
                   alt=""
                 />
               </a>
-              <a href="https://t.me/+HBTPL-NHXXZiYWQy" target="_blank">
+              <a href="https://t.me/+GDxAsMO1m7VlZTBk" target="_blank">
                 <img
                   src={itemURL('telegram-app:fluency')}
                   className="w-8"
@@ -159,7 +159,7 @@ export default function Registration() {
               </a>
             </div>
           </div>
-          {/*<div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>What's next?</strong>
             <p>
               Keep the following dates in mind:
@@ -176,7 +176,7 @@ export default function Registration() {
               </ul>
               Check your mails to confirm your registration.
             </p>
-          </div>*/}
+          </div>
         </div>
         <Link
           to="/"

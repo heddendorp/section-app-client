@@ -44,6 +44,36 @@ export default function Index() {
           </div>
         </div>
       </section>
+      <section className="font-culture bg-slate-200 p-4 py-8 sm:p-8">
+        <h2 className="mb-4 text-2xl font-black md:text-4xl">
+          Not a big party person?
+        </h2>
+        <div className="flex flex-row space-x-2">
+          <div className="flex flex-col space-y-4">
+            <p className="mb-4 md:text-lg">
+              No worries! For the first time this semester we have just the
+              thing for you! <br /> Check out the{' '}
+              <strong>Culture Creatures</strong> a five day program of cultural
+              events and activities.
+            </p>
+            <div>
+              <a
+                className="mt-4 h-12 bg-slate-900 p-4 px-8 font-medium uppercase tracking-wider text-white"
+                href="https://tumi.esn.world/events"
+              >
+                LEARN MORE
+              </a>
+            </div>
+          </div>
+          <div className="grow">
+            <img
+              className="mx-auto hidden h-36 sm:block"
+              src={itemURL('venus-de-milo:laces')}
+              alt=""
+            />
+          </div>
+        </div>
+      </section>
       <section className="pa-schedule p-4 py-8 sm:p-8">
         <h2 className="mb-4 text-2xl font-black md:text-4xl">Schedule</h2>
         <p className="mb-4 md:text-lg">
@@ -61,21 +91,45 @@ export default function Index() {
               className="w-16"
             />
             <div>
-              <strong>Sat 02.04.</strong>
+              <strong>Sat 01.10.</strong>
               <p>Kick-off</p>
               <p>Noon and evening</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
-              src={itemURL('handshake:nolan')}
+              src={itemURL('food-and-wine:nolan')}
+              alt="food-and-wine:nolan"
+              className="w-16"
+            />
+            <div>
+              <strong>Sat 01.10.</strong>
+              <p>Dinner</p>
+              <p>Food and a drink on us!</p>
+            </div>
+          </div>
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+            <img
+              src={itemURL('compass:nolan')}
               alt="handshake:nolan"
               className="w-16"
             />
             <div>
-              <strong>Sat 02.04.</strong>
-              <p>Dinner</p>
-              <p>Food and a drink on us!</p>
+              <strong>Sun 02.10.</strong>
+              <p>City Rally</p>
+              <p>Morning + Noon</p>
+            </div>
+          </div>
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+            <img
+              src={itemURL('cocktail:nolan')}
+              alt="handshake:nolan"
+              className="w-16"
+            />
+            <div>
+              <strong>Sun 02.10.</strong>
+              <p>Cocktail Party</p>
+              <p>Evening</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2 sm:col-span-2">
@@ -85,9 +139,21 @@ export default function Index() {
               className="w-16"
             />
             <div>
-              <strong>Sun 03.04. - Mon 04.04.</strong>
+              <strong>Mon 03.10. - Tue 04.10.</strong>
               <p>Castle Trip + party</p>
               <p>Morning till noon</p>
+            </div>
+          </div>
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+            <img
+              src={itemURL('treasure-map:nolan')}
+              alt="handshake:nolan"
+              className="w-16"
+            />
+            <div>
+              <strong>Wed 05.10.</strong>
+              <p>Treasure Hunt</p>
+              <p>Morning</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
@@ -97,21 +163,21 @@ export default function Index() {
               className="w-16"
             />
             <div>
-              <strong>Tue 05.04.</strong>
+              <strong>Wed 05.10.</strong>
               <p>TUM welcome event</p>
               <p>13:00 - 14:30</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
-              src={itemURL('city-buildings:nolan')}
-              alt="handshake:nolan"
+              src={itemURL('question-mark:nolan')}
+              alt="question-mark:nolan"
               className="w-16"
             />
             <div>
               <strong>Different days</strong>
-              <p>City Rally</p>
-              <p>All day</p>
+              <p>Pub quiz</p>
+              <p>Evening</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
@@ -128,13 +194,13 @@ export default function Index() {
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
-              src={itemURL('food:nolan')}
+              src={itemURL('homebrew:nolan')}
               alt="handshake:nolan"
               className="w-16"
             />
             <div>
               <strong>Different days</strong>
-              <p>International Dinner</p>
+              <p>Pub Crawl</p>
               <p>Evening</p>
             </div>
           </div>
@@ -146,21 +212,21 @@ export default function Index() {
             />
             <div>
               <strong>Different days</strong>
-              <p>Erdinger Brewery Tour</p>
+              <p>Brewery Tour</p>
             </div>
           </div>
-          {/*<div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
+          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
-              src={itemURL('confetti:nolan')}
-              alt="handshake:nolan"
+              src={itemURL('city:nolan')}
+              alt="world-map:nolan"
               className="w-16"
             />
             <div>
-              <strong>Thu 07.04</strong>
-              <p>Semester Opening Party</p>
-              <p>Evening</p>
+              <strong>Sat 08.10</strong>
+              <p>City Trip</p>
+              <p>All day</p>
             </div>
-          </div>*/}
+          </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
               src={itemURL('trophy:nolan')}
@@ -168,32 +234,20 @@ export default function Index() {
               className="w-16"
             />
             <div>
-              <strong>Fri 08.04</strong>
+              <strong>Sun 09.10</strong>
               <p>Beerlympics</p>
               <p>All day</p>
             </div>
           </div>
           <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
             <img
-              src={itemURL('world-map:nolan')}
-              alt="world-map:nolan"
-              className="w-16"
-            />
-            <div>
-              <strong>Sat 09.04</strong>
-              <p>City Trip</p>
-              <p>All day</p>
-            </div>
-          </div>
-          <div className="flex flex-row space-x-4 rounded-lg border border-slate-100 border-opacity-20 p-2">
-            <img
-              src={itemURL('trekking:nolan')}
+              src={itemURL('circled:nolan')}
               alt="handshake:nolan"
               className="w-16"
             />
             <div>
-              <strong>Sun 10.04</strong>
-              <p>Hike to Andechs</p>
+              <strong>Tue 11.10</strong>
+              <p>Beerlympics backup date</p>
               <p>All day</p>
             </div>
           </div>
@@ -233,7 +287,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -256,12 +310,36 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
+          </div>*/}
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
-                src="/images/party.jpg"
+                src="/images/tutors/gavin.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  Join the Black Badgers!
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  With boss badgers Omar and David
+                </h5>
+
+                <p className="text-md mt-1 text-white">
+                  Hey guys! <br />
+                  Come join us and be part of the beautiful, brilliant and
+                  bombastic Black Badgers. You'll have an amazing time together
+                  partying, experiencing German culture and making amazing new
+                  friends from all over the world.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
+                src="/images/castle.jpg"
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">
@@ -283,7 +361,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -306,8 +384,34 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
+                src="/images/tutors/board.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  (A part of) the TUMi board
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  We'll make sure you have a good time getting started
+                </h5>
+
+                <p className="text-md mt-1 text-white">
+                  In the beginning of september we travelled to small bavarian
+                  town and stayed in a very cold 200 year old house to get away
+                  form the city. <br /> Why? We needed to sit down and plan the
+                  best possible nine days that can kick off{' '}
+                  <strong>your</strong> exchange. We're excited to be welcoming
+                  you to Munich and Germany and we're looking forward to meeting
+                  you!
+                </p>
+              </div>
+            </div>
+          </div>
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -329,12 +433,12 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
-                src="/images/lake.jpg"
+                src="/images/brewery.jpg"
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">
@@ -383,7 +487,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -405,8 +509,31 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
+                src="/images/tutors/orga.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  Join the Red Rhinos!
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  And alpha Rhinos Pedro and Tung
+                </h5>
+                <p className="text-md mt-1 text-white">
+                  Our Students once said: <br />
+                  "Red Rhinos: the great herd I've always wanted to be a part
+                  of" and "you guys have made this semester the craziest
+                  experience in my life". These sentences make up our promise to
+                  you from the Red Rhinos for the ultimate Erasmus experience.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -435,12 +562,12 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
-                src="/images/dinner.jpg"
+                src="/images/rally.jpg"
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">

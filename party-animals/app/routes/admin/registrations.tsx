@@ -1,5 +1,5 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
+import { useFetcher } from '@remix-run/react';
 import { authenticator } from '~/services/auth.server';
 import {
   Priority,
@@ -130,7 +130,7 @@ export default function AdminRegistrations() {
   );
   const registrationsToday = registrations.filter(
     (registration) =>
-      new Date().getDay() === new Date(registration.createdAt).getDay()
+      new Date().getDate() === new Date(registration.createdAt).getDate()
   );
   const mapGender = (short: string) => {
     switch (short) {
