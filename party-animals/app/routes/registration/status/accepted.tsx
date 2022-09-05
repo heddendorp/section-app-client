@@ -60,9 +60,9 @@ export default function () {
           <div>
             <h4 className="text-lg font-bold">PARTEY! 👯</h4>
             <p className="mb-4">
-              We will get started on the 2nd of April and are looking forward to
-              meeting you in person. You will get to know your group and spend
-              the afternoon and evening with your friends.
+              We will get started on the 1st of October and are looking forward
+              to meeting you in person. You will get to know your group and
+              spend the afternoon and evening with your friends.
             </p>
           </div>
         </div>

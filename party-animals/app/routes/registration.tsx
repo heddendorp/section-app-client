@@ -83,9 +83,16 @@ export default function Registration() {
                 Party Animals is a program with a lot of contact which we
                 believe is crucial for making friends. Thus, we require you to{' '}
                 <strong>
-                  be fully vaccinated against or recently recovered from
-                  COVID-19
+                  classify as fully vaccinated according to german law
                 </strong>
+                . You can find out more{' '}
+                <a
+                  className="text-blue-300 underline visited:text-purple-300 hover:text-blue-500"
+                  href="https://www.bmi.bund.de/SharedDocs/faqs/EN/topics/civil-protection/coronavirus/travel-restrictions-border-control/IV-restrictions-applying-to-air-and-sea-travel-outside-of-europe/what-rules-apply-for-fully-vaccinated-people.html"
+                  target="_blank"
+                >
+                  here
+                </a>
                 . <br />
                 In case of new regulations parts of the program could be moved,
                 substituted or canceled. We do our best to replace it as
@@ -165,13 +172,13 @@ export default function Registration() {
               Keep the following dates in mind:
               <ul className="list-inside list-disc">
                 <li>
-                  <strong>20.03. 18:00</strong>: Applications close
+                  <strong>20.09. 18:00</strong>: Applications close
                 </li>
                 <li>
-                  <strong>23.03. 18:00</strong>: First round of admissions
+                  <strong>23.09. 18:00</strong>: First round of admissions
                 </li>
                 <li>
-                  <strong>25.03. 18:00</strong>: Second round of admissions
+                  <strong>25.09. 18:00</strong>: Second round of admissions
                 </li>
               </ul>
               Check your mails to confirm your registration.

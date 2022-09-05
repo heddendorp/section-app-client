@@ -590,7 +590,7 @@ export default function RegistrationForm() {
             />
             <span>
               I understand, that TUMi will create the groups. And I cannot
-              influence in which group I will end up, or who will be my mates
+              influence in which group I will end up, or who my mates will be
               (this is to ensure diversity)
             </span>
           </div>
@@ -634,9 +634,15 @@ export default function RegistrationForm() {
               className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
             />
             <span>
-              I confirm that I am either recovered from COVID-19 in the last 4
-              months or I have been vaccinated with a vaccine recognized by the
-              EU.
+              I confirm that I classify as fully vaccinated according to german
+              law. You can find out more{' '}
+              <a
+                className="text-blue-300 underline visited:text-purple-300 hover:text-blue-500"
+                href="https://www.bmi.bund.de/SharedDocs/faqs/EN/topics/civil-protection/coronavirus/travel-restrictions-border-control/IV-restrictions-applying-to-air-and-sea-travel-outside-of-europe/what-rules-apply-for-fully-vaccinated-people.html"
+                target="_blank"
+              >
+                here
+              </a>
             </span>
           </div>
           {actionData?.errors.vax ? (

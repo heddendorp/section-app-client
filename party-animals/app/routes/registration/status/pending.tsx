@@ -36,9 +36,9 @@ export default function RegistrationStatusPending() {
       <p className="mt-2 lg:text-lg">
         The rounds of admission are: <br />
         <ul className="list-inside list-disc">
-          <li>the 23rd of march</li>
-          <li>the 25th of march</li>
-          <li>the 27th of march</li>
+          <li>the 23rd of september</li>
+          <li>the 25th of september</li>
+          <li>the 27th of september</li>
         </ul>
         Check your mail or this page to see if you got a spot.
       </p>

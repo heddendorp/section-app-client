@@ -262,6 +262,12 @@ export default function AdminRegistrations() {
                   <p>{registration.esnSection}</p>
                 </>
               )}
+              {registration.languages && (
+                <>
+                  <p>Languages</p>
+                  <p>{registration.languages}</p>
+                </>
+              )}
               <strong className="col-span-2">Party Animal</strong>
               <p>Size</p>
               <p>{registration.size.toUpperCase()}</p>
