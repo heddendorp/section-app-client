@@ -380,7 +380,30 @@ export default function RegistrationForm() {
           ) : null}
         </label>
         <label
-          className="relative block rounded-lg border-2 border-gray-200 p-3 md:col-span-2"
+          className="relative block rounded-lg border-2 border-gray-200 p-3"
+          htmlFor="languages"
+        >
+          <input
+            className="peer w-full border-none bg-transparent px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+            id="languages"
+            name="languages"
+            type="text"
+            required
+            defaultValue={actionData?.values?.languages}
+            placeholder="Languages"
+          />
+          <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
+            Indicate non-english languages (with levels) you speak
+          </span>
+          {actionData?.errors.languages ? (
+            <ValidationMessage
+              isSubmitting={transition.state === 'submitting'}
+              error={actionData?.errors?.languages}
+            />
+          ) : null}
+        </label>
+        <label
+          className="relative block rounded-lg border-2 border-gray-200 p-3"
           htmlFor="dinner"
         >
           <select
@@ -391,10 +414,31 @@ export default function RegistrationForm() {
             className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
           >
             <option value="">Select your food option</option>
-            <option value="meat">German meat dish with beef</option>
-            <option value="asparagus">Asparagus and potatoes</option>
+            <option value="schnitzel">
+              Wiener Schnitzel of "Schwäbisch-Hällisches Landschwein" (pork)
+              with lemon wedge, wild cranberries and fried potatoes, served with
+              a small seasonal salad
+            </option>
+            <option value="fish">
+              Breaded redfish fillet with lemon wedge, homemade remoulade sauce
+              and colourfully garnished potato salad
+            </option>
             <option value="spatzle">
-              Traditional "Käsespätzle" (Cheese noodles)
+              Creamy cheese dumplings "Allgäu style" with homemade fried onions
+              and small seasonal salad
+            </option>
+            <option value="pork">
+              Young pork roast with dark beer sauce, potato dumplings and local
+              coleslaw
+            </option>
+            <option value="pasta">
+              "Pasta sheep's cheese" with fresh market vegetables and herb
+              tomato sauce
+            </option>
+            <option value="salad">
+              "Salad Vienna" - colourful leaf salads with tomatoes, cucumbers,
+              egg, served with golden-brown fried chicken breast, lime dip and
+              garlic bread
             </option>
           </select>
           <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -522,7 +566,7 @@ export default function RegistrationForm() {
             />
             <span className="ml-3">
               I understand, that once I receive my spot confirmation I have to
-              pay 65 euro within 24h to confirm it. Otherwise I will be excluded
+              pay 90 euro within 24h to confirm it. Otherwise I will be excluded
               from Party Animals.
             </span>
           </div>
@@ -546,7 +590,7 @@ export default function RegistrationForm() {
             />
             <span>
               I understand, that TUMi will create the groups. And I cannot
-              influence in which group you will end up, or who will be my mates
+              influence in which group I will end up, or who will be my mates
               (this is to ensure diversity)
             </span>
           </div>

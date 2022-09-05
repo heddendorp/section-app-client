@@ -22,7 +22,8 @@ export default function Index() {
             <strong>Party Animals</strong>!<br />
             If 9 days of being a party animal sound a little intense to you or
             you would prefer to get started on you own time, check out the
-            extensive program of single events in our orientationweeks.
+            extensive program of single events in our Orientationweeks or
+            consider signing up for Culture Creatures.
           </p>
           <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
             <Link
@@ -41,6 +42,14 @@ export default function Index() {
                 Check out the Orientationweeks
               </span>
             </a>
+            <a
+              className="inline-block rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+              href="https://tumi.esn.world/events/be4d31e9-c9c3-4269-a3f6-0c8a8eb87dea"
+            >
+              <span className="block rounded-full bg-slate-800 px-8 py-3 text-center text-lg font-bold hover:bg-transparent">
+                Learn about Culture Creatures
+              </span>
+            </a>
           </div>
         </div>
       </section>
@@ -49,17 +58,22 @@ export default function Index() {
           Not a big party person?
         </h2>
         <div className="flex flex-row space-x-2">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 sm:max-w-[66vw]">
             <p className="mb-4 md:text-lg">
               No worries! For the first time this semester we have just the
               thing for you! <br /> Check out the{' '}
               <strong>Culture Creatures</strong> a five day program of cultural
-              events and activities.
+              events and activities. <br />
+              You want to find friends for the term (and life) without partying
+              for nine days? The schedule features events like a city trip, an
+              overnight stay in a city other than Munich, cultural events, a
+              hike and several dinners – all of it with the same group for five
+              consecutive days.
             </p>
             <div>
               <a
                 className="mt-4 h-12 bg-slate-900 p-4 px-8 font-medium uppercase tracking-wider text-white"
-                href="https://tumi.esn.world/events"
+                href="https://tumi.esn.world/events/be4d31e9-c9c3-4269-a3f6-0c8a8eb87dea"
               >
                 LEARN MORE
               </a>
@@ -319,18 +333,20 @@ export default function Index() {
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">
-                  Join the Black Badgers!
+                  Become a Party Animal!
                 </h4>
                 <h5 className="mb-4 text-lg text-slate-200">
-                  With boss badgers Omar and David
+                  And get going with Gavin
                 </h5>
 
                 <p className="text-md mt-1 text-white">
-                  Hey guys! <br />
-                  Come join us and be part of the beautiful, brilliant and
-                  bombastic Black Badgers. You'll have an amazing time together
-                  partying, experiencing German culture and making amazing new
-                  friends from all over the world.
+                  For nine long days and longer nights, you will join a group of
+                  twenty exchange students from all parts of the world, guided
+                  by five locals like me, who can show you all the ins and outs
+                  of the student life in Munich. All the high-energy parties and
+                  consequent shared hangovers are great ways to find your
+                  people, to share new experiences, laugh and cry with during
+                  your stay here and form lasting connections for years to come.
                 </p>
               </div>
             </div>
@@ -400,9 +416,9 @@ export default function Index() {
                 </h5>
 
                 <p className="text-md mt-1 text-white">
-                  In the beginning of september we travelled to small bavarian
+                  In the beginning of September we travelled to small Bavarian
                   town and stayed in a very cold 200 year old house to get away
-                  form the city. <br /> Why? We needed to sit down and plan the
+                  from the city. <br /> Why? We needed to sit down and plan the
                   best possible nine days that can kick off{' '}
                   <strong>your</strong> exchange. We're excited to be welcoming
                   you to Munich and Germany and we're looking forward to meeting
