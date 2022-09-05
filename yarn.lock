@@ -3784,18 +3784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/core@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "@envelop/core@npm:2.5.0"
-  dependencies:
-    "@envelop/types": 2.3.1
-  peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 69bf82ce49b1d31d931a27a952e844a51dca86013acde33eb19709f2670f3389bb31a61fd7843b1b1a3836eb69400bfffb6152558d3892b69484184532bacde3
-  languageName: node
-  linkType: hard
-
-"@envelop/core@npm:^2.6.0":
+"@envelop/core@npm:2.6.0":
   version: 2.6.0
   resolution: "@envelop/core@npm:2.6.0"
   dependencies:
@@ -3858,15 +3847,6 @@ __metadata:
     "@sentry/node": ^6 || ^7
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: 750fcdecec5f1b5d575e44f6971640abb1ec017e7eb23900833aa4f9eb83fee22711d5aea681ad3e53f7c7b07833d660efc86da072c9002ec482194575006a76
-  languageName: node
-  linkType: hard
-
-"@envelop/types@npm:2.3.1":
-  version: 2.3.1
-  resolution: "@envelop/types@npm:2.3.1"
-  peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 945a5e5a37d7ddce78b3f5ee9b5a51009ef3ecbda12341245c0558e46fc13aff548ad7d54deb0cad91487a874f1456ffd4786c928b45425ec153159ac6045d54
   languageName: node
   linkType: hard
 
