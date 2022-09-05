@@ -362,17 +362,16 @@ export default function Index() {
                   "A never-ending party!"
                 </h4>
                 <h5 className="mb-4 text-lg text-slate-200">
-                  We'll make sure you have a good time getting started
+                  Make your exchange experience unforgettable from the very
+                  start
                 </h5>
 
                 <p className="text-md mt-1 text-white">
-                  Join us for unforgettable impressions of Munich by night!
-                  Brought to you by dedicated students from our local ESN
-                  sections. Just like you, they want nothing more than to make
-                  our time in Bavaria’s capital so enjoyable, that we will look
-                  back onto it forever. And trust us, they can! Do not miss out
-                  on this wonderful experience, where we truly put the “Party”
-                  in Party Animals!
+                  Create an unforgettable impressions of Bavaria’s fairy-tale
+                  landscape. This is a huge opportunity to spend a night in an
+                  actual castle. Join us where Knights and Princesses have
+                  partied centuries ago. So don’t hesitate and sign up for Party
+                  Animals.
                 </p>
               </div>
             </div>
@@ -401,6 +400,32 @@ export default function Index() {
               </div>
             </div>
           </div>*/}
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
+                src="/images/brewery.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  "Came for the alcohol, stayed for the friends"
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  Spend some chill time with us and your new friends
+                </h5>
+
+                <p className="text-md mt-1 text-white">
+                  Beer in Munich is more than just a drink, it’s a centuries old
+                  tradition, some might even say it is a religion. So naturally,
+                  as every semester during Party Animals, we will organize a
+                  tour in one of the many beautiful breweries in Munich. You’ll
+                  get to know this integral part of Bavarian culture and have a
+                  taste at different kinds of beer afterwards, while enjoying
+                  some pretzels and white sausages.
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
@@ -450,31 +475,6 @@ export default function Index() {
               </div>
             </div>
           </div>*/}
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
-            <div className="block h-full overflow-hidden rounded-xl bg-white">
-              <img
-                className="h-auto w-full object-cover"
-                src="/images/brewery.jpg"
-              />
-              <div className="h-full bg-gray-900 p-4">
-                <h4 className="text-lg font-bold text-white">
-                  "Came for the alcohol, stayed for the friends"
-                </h4>
-                <h5 className="mb-4 text-lg text-slate-200">
-                  Spend some chill time with us and your new friends
-                </h5>
-
-                <p className="text-md mt-1 text-white">
-                  As traditional every semester, during Party Animals we also
-                  organize a walking tour to one of the many beautiful lakes
-                  around Munich. As seen above, no matter how cold or warm, the
-                  event is a blast! This is just a small tease, to get you
-                  excited about the beautiful summer months to come during your
-                  stay!
-                </p>
-              </div>
-            </div>
-          </div>
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
@@ -507,6 +507,34 @@ export default function Index() {
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
+                src="/images/tutors/penguin.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  Join the Pink Penguins!
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  Go hard with Cem and Gerry
+                </h5>
+                <p className="text-md mt-1 text-white">
+                  Hello, future Pink Penguin🐧, my name is Cem (📸on the left)
+                  and I was born and raised in Bayern, but have turkish roots. I
+                  had my Erasmus semester in Aarhus, DK and being a Party Animal
+                  (-Tutor) the 2nd time with Gerry (📸on the right).
+                  <br />
+                  You will definitely come for the party 🎉, but what's more
+                  important: you're going to stay for the good friends you´ll
+                  make during that time. Join the legendary Pink Penguins to be
+                  part of the madness we create and experience how to party in
+                  the 👑CemPions League🍻.
+                </p>
+              </div>
+            </div>
+          </div>*/}
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
                 src="/images/tutors/rhino.jpg"
               />
               <div className="h-full bg-gray-900 p-4">
@@ -526,7 +554,7 @@ export default function Index() {
               </div>
             </div>
           </div>*/}
-          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+          {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
                 className="h-auto w-full object-cover"
@@ -548,7 +576,7 @@ export default function Index() {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
           {/*<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
             <div className="block h-full overflow-hidden rounded-xl bg-white">
               <img
@@ -587,20 +615,47 @@ export default function Index() {
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">
-                  "The joy of multinational bonding"
+                  Get to know Munich!
                 </h4>
                 <h5 className="mb-4 text-lg text-slate-200">
-                  Get to know people and culture from all over the world
+                  Explore the beautiful city together with your new friends
                 </h5>
 
                 <p className="text-md mt-1 text-white">
-                  Because we are experienced, we know that you should never
-                  drink on an empty stomach. That is why, one of our events,
-                  called "International Dinner" is so beloved! Every participant
-                  is encouraged to cook something from their own culture, so
-                  that in only one evening you would have tried delicious food
-                  from more than 10-15 different countries! Join us, to bring
-                  the yummy in your tummy (aka TUMi, pun intended).
+                  Having arrived in Munich, you will not only want to meet new
+                  people, but also explore the beautiful city. In our city
+                  rally, you’ll get to know many of the great places in Munich
+                  in a fun and competitive way together with your fellow Party
+                  Animals.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl">
+            <div className="block h-full overflow-hidden rounded-xl bg-white">
+              <img
+                className="h-auto w-full object-cover"
+                src="/images/pub-crawl.jpg"
+              />
+              <div className="h-full bg-gray-900 p-4">
+                <h4 className="text-lg font-bold text-white">
+                  Join the Purple Panthers!
+                </h4>
+                <h5 className="mb-4 text-lg text-slate-200">
+                  With leading panther Morgane
+                </h5>
+                <p className="text-md mt-1 text-white">
+                  Hi everyone, I'm Morgane and I will be leading the Purple
+                  Panthers 🟣 <br /> Like you, I arrived in Munich as an
+                  exchange student two years ago and am now doing my master's in
+                  theoretical physics here full time. I come from Strasbourg,
+                  France, though I have been told my accent probably wouldn't
+                  tell you (unless I've had a few too many). <br /> Join us and
+                  make friends, maybe for a life or at least for the semester,
+                  like I did and continue to do. There is to me nothing more
+                  enriching than meeting people from all kinds of countries and
+                  cultures but it is also just important to have fun and that is
+                  what we plan to do! 💪
                 </p>
               </div>
             </div>
