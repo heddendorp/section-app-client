@@ -271,6 +271,16 @@ export default function Index() {
           of party animals!
         </p>
       </section>
+      <section className="aspect-[21/9]">
+        <iframe
+          src="https://www.youtube.com/embed/_ja3GL1LvMM?vq=hd1080&autoplay=1&loop=1&modestbranding=1&rel=0&iv_load_policy=3&controls=0&disablekb=1&playlist=_ja3GL1LvMM"
+          height="100%"
+          width="100%"
+          title="PA trailer"
+          frameBorder="0"
+          allowFullScreen
+        ></iframe>
+      </section>
       <section className="bg-slate-800 p-4 sm:p-8">
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1 shadow-xl sm:col-span-2">
