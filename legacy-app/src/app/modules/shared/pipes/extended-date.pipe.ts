@@ -22,7 +22,7 @@ export class ExtendDatePipe implements PipeTransform {
     return this.datePipe.transform(
       value,
       format,
-      DateTime.local().offsetNameShort
+      DateTime.fromJSDate(value).offsetNameShort
     );
   }
 }
