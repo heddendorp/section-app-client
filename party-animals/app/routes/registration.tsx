@@ -20,7 +20,7 @@ export default function Registration() {
           we have for you and follow the instructions to sign up. It's going to
           be awesome having you on board.
           <br />
-          The cost of party animals is 90 EUR per person, payable after we offer
+          The cost of party animals is 89 EUR per person, payable after we offer
           you a spot. This includes the cost of all activities and travels. We
           cannot cover additional drinks and food that you may want during the
           events though.

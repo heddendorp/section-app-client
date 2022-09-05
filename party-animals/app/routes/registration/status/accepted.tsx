@@ -40,7 +40,7 @@ export default function () {
             <h4 className="text-lg font-bold">Pay!</h4>
             <p>
               To take part in Party Animals we need you to pay the participation
-              fee of 90 euro. If you don't pay, we will give your spot to
+              fee of 89 euro. If you don't pay, we will give your spot to
               someone on the waitlist.
             </p>
             <Outlet />

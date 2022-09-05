@@ -566,7 +566,7 @@ export default function RegistrationForm() {
             />
             <span className="ml-3">
               I understand, that once I receive my spot confirmation I have to
-              pay 90 euro within 24h to confirm it. Otherwise I will be excluded
+              pay 89 euro within 24h to confirm it. Otherwise I will be excluded
               from Party Animals.
             </span>
           </div>
