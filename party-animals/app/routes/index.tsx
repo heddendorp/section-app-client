@@ -493,22 +493,22 @@ export default function Index() {
               />
               <div className="h-full bg-gray-900 p-4">
                 <h4 className="text-lg font-bold text-white">
-                  Join the Pink Penguins!
+                  Join the Green Goats!
                 </h4>
                 <h5 className="mb-4 text-lg text-slate-200">
                   Go hard with Cem and Gerry
                 </h5>
                 <p className="text-md mt-1 text-white">
-                  Hello, future Pink Penguin🐧, my name is Cem (📸on the left)
-                  and I was born and raised in Bayern, but have turkish roots. I
-                  had my Erasmus semester in Aarhus, DK and being a Party Animal
-                  (-Tutor) the 2nd time with Gerry (📸on the right).
+                  Hello, future Party Animal, my name is Gerry (📸on the right)
+                  and I was born and raised in Romania. I had my Erasmus
+                  semester in Tallinn, Estonia and am now going to be a Party
+                  Animal (-Tutor) for the 3rd time! First time was with my
+                  fellow TUMi Tutor Cem (📸on the left).
                   <br />
                   You will definitely come for the party 🎉, but what's more
                   important: you're going to stay for the good friends you´ll
-                  make during that time. Join the legendary Pink Penguins to be
-                  part of the madness we create and experience how to party in
-                  the 👑CemPions League🍻.
+                  make during that time. Come with TUMi and be a part of the
+                  madness we create!
                 </p>
               </div>
             </div>
