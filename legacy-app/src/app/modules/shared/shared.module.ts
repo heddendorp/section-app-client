@@ -135,7 +135,7 @@ import { ResetScrollDirective } from './directives/reset-scroll.directive';
     ReactiveToolbarComponent,
     FooterComponent,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, ExtendDatePipe],
 })
 export class SharedModule {
   constructor(registry: MatIconRegistry, san: DomSanitizer) {
