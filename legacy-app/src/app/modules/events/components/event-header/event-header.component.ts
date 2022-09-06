@@ -21,7 +21,8 @@ export class EventHeaderComponent {
   isSingleDayEvent() {
     return (
       this.event &&
-      DateTime.fromISO(this.event.start).day === DateTime.fromISO(this.event.end).day
+      DateTime.fromISO(this.event.start).day ===
+        DateTime.fromISO(this.event.end).day
     );
   }
   get canShare() {
