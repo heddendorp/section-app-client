@@ -1,8 +1,0 @@
-mutation CreateInvites($emails: [String!]!, $status: MembershipStatus!) {
-  createInvites(emails: $emails, status: $status) {
-    id
-    email
-    status
-    createdAt
-  }
-}
