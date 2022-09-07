@@ -1,5 +1,5 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
+import { useFetcher } from '@remix-run/react';
 import { authenticator } from '~/services/auth.server';
 import {
   Priority,
@@ -130,7 +130,7 @@ export default function AdminRegistrations() {
   );
   const registrationsToday = registrations.filter(
     (registration) =>
-      new Date().getDay() === new Date(registration.createdAt).getDay()
+      new Date().getDate() === new Date(registration.createdAt).getDate()
   );
   const mapGender = (short: string) => {
     switch (short) {
@@ -151,9 +151,9 @@ export default function AdminRegistrations() {
       case 'i':
         return 'International degree student';
       case 'o':
-        return 'Exchange Student (arrived in 2021)';
+        return 'Exchange Student (started before october)';
       case 'e':
-        return 'Exchange Student (arrived in 2022)';
+        return 'Exchange Student (starting in october)';
     }
   };
   const getCountry = (code: string) => {
@@ -260,6 +260,12 @@ export default function AdminRegistrations() {
                 <>
                   <p>ESN Section</p>
                   <p>{registration.esnSection}</p>
+                </>
+              )}
+              {registration.languages && (
+                <>
+                  <p>Languages</p>
+                  <p>{registration.languages}</p>
                 </>
               )}
               <strong className="col-span-2">Party Animal</strong>

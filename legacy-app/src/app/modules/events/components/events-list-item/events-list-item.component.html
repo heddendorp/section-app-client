@@ -78,7 +78,10 @@
         </ng-container>
         <ng-container *ngIf="!event.userIsOrganizer && !event.userIsRegistered">
           <span
-            *ngIf="!notYetOpen()"
+            *ngIf="
+              !notYetOpen() &&
+              RegistrationMode.External !== event.registrationMode
+            "
             class="rounded-2xl px-2 py-1 {{
               freeSpotsStyling(event.freeParticipantSpots)
             }}"
@@ -92,7 +95,7 @@
               svgIcon="icon-lock"
               style="min-width: 18px; max-width: 18px"
             ></mat-icon>
-            <span>Opens {{ event.registrationStart | date: 'shortDate' }}</span>
+            <span>Opens {{ registrationDate() }}</span>
           </span>
         </ng-container>
         <span
@@ -113,6 +116,7 @@
       >
     </div>
   </div>
+  <div fxFlex="noshrink"></div>
   <div
     *ngIf="event && event.publicationState !== 'PUBLIC'"
     class="w-full publication-state {{ event.publicationState | lowercase }}"

@@ -1,8 +1,0 @@
-query getEventList {
-  events {
-    id
-    title
-    start
-    icon
-  }
-}

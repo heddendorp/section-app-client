@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import { db } from '~/utils/db.server';
 import { Outlet, useLoaderData } from '@remix-run/react';
@@ -40,7 +40,7 @@ export default function () {
             <h4 className="text-lg font-bold">Pay!</h4>
             <p>
               To take part in Party Animals we need you to pay the participation
-              fee of 65 euro. If you don't pay, we will give your spot to
+              fee of 89 euro. If you don't pay, we will give your spot to
               someone on the waitlist.
             </p>
             <Outlet />
@@ -60,9 +60,9 @@ export default function () {
           <div>
             <h4 className="text-lg font-bold">PARTEY! 👯</h4>
             <p className="mb-4">
-              We will get started on the 2nd of April and are looking forward to
-              meeting you in person. You will get to know your group and spend
-              the afternoon and evening with your friends.
+              We will get started on the 1st of October and are looking forward
+              to meeting you in person. You will get to know your group and
+              spend the afternoon and evening with your friends.
             </p>
           </div>
         </div>

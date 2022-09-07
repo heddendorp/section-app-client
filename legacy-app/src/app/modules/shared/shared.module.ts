@@ -138,7 +138,7 @@ import { TransactionListComponent } from './components/transaction-list/transact
     FooterComponent,
     TransactionListComponent,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, ExtendDatePipe],
 })
 export class SharedModule {
   constructor(registry: MatIconRegistry, san: DomSanitizer) {

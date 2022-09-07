@@ -4,6 +4,8 @@ import {
   MembershipStatus,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
+import { ExtendDatePipe } from '../../../../modules/shared/pipes/extended-date.pipe';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-events-list-item',
@@ -16,8 +18,21 @@ export class EventsListItemComponent {
   public RegistrationMode = RegistrationMode;
   public MembershipStatus = MembershipStatus;
 
+  constructor(private datePipe: ExtendDatePipe) {}
+
   public notYetOpen() {
     return new Date(this.event?.registrationStart) > new Date();
+  }
+
+  public registrationDate() {
+    if (!this.event) {
+      return '';
+    }
+    const date = DateTime.fromISO(this.event.registrationStart);
+    if (date.startOf('day') <= DateTime.local().startOf('day')) {
+      return date.toFormat('HH:mm');
+    }
+    return this.datePipe.transform(this.event.registrationStart, 'shortDate');
   }
 
   public defaultPrice() {

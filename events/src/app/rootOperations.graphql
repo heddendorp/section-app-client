@@ -1,6 +1,0 @@
-query RootInfo {
-  currentUser {
-    id
-    profileComplete
-  }
-}

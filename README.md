@@ -30,8 +30,6 @@ Check this out for the frontend application that is currently the _TUMi app_. Yo
 
 The server used by all projects but Party Animals for data access
 
-### [Events App](./events)
-
 ### [Experiments](./experiments)
 
 ### [Party Animals](./party-animals)

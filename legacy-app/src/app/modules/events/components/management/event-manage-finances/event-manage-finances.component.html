@@ -4,9 +4,10 @@
   </div>
   <div
     *ngFor="let costItem of data.costItems"
-    class="flex flex-row gap-1 items-start"
+    class="flex flex-row items-start gap-1"
+    data-testId="cost-items"
   >
-    <div class="flex flex-col flex-grow gap-1">
+    <div class="flex flex-grow flex-col gap-1">
       <div>
         <span class="font-bold">{{ costItem.name }}</span> ({{
           costItem.amount | currency: 'EUR'
@@ -16,19 +17,19 @@
       <div class="flex flex-row gap-1">
         <div
           *ngIf="costItem.notSubsidized"
-          class="rounded bg-red-500 px-2 text-white text-xs"
+          class="rounded bg-red-500 px-2 text-xs text-white"
         >
           not subsidized
         </div>
         <div
           *ngIf="costItem.onInvoice"
-          class="rounded bg-green-500 px-2 text-white text-xs"
+          class="rounded bg-green-500 px-2 text-xs text-white"
         >
           on invoice
         </div>
         <div
           *ngIf="costItem.submittedAmount"
-          class="rounded bg-yellow-500 px-2 text-white text-xs"
+          class="rounded bg-yellow-500 px-2 text-xs text-white"
         >
           submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
         </div>
@@ -48,6 +49,7 @@
   mat-flat-button
   color="accent"
   class="modern"
+  data-testId="update-cost-items"
   (click)="getFromTemplate()"
 >
   <mat-icon svgIcon="icon-approve-and-update"></mat-icon>

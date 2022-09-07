@@ -5,7 +5,7 @@ import {
   useLoaderData,
   useTransition,
 } from '@remix-run/react';
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import { createRegistration } from '~/services/registrations.server';
 import { useState } from 'react';
@@ -44,7 +44,7 @@ export default function RegistrationForm() {
   const [esnMember, setEsnMember] = useState(false);
   const transition = useTransition();
   const actionData = useActionData();
-  return (
+  /*return (
     <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
       <p className="mt-4 mb-8 md:text-lg">
@@ -52,8 +52,8 @@ export default function RegistrationForm() {
         has passed. You can still take part in the TUMi orientation weeks.
       </p>
     </section>
-  );
-  /*return (
+  );*/
+  return (
     <section className="bg-slate-800 p-4 text-white md:p-8">
       <h2 className=" text-2xl font-black md:text-4xl">Registration</h2>
       <p className="mt-4 mb-8 md:text-lg">
@@ -65,7 +65,7 @@ export default function RegistrationForm() {
         well in munich.
       </p>
       <Form method="post" className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="md:col-span-2">
+        {/*<div className="md:col-span-2">
           <div
             className="border-l-4 border-red-500 bg-red-900 p-4 text-red-100"
             role="alert"
@@ -76,7 +76,7 @@ export default function RegistrationForm() {
               Only if spots become free, you can get one.
             </p>
           </div>
-        </div>
+        </div>*/}
         {actionData?.errors.form ? (
           <div className="md:col-span-2">
             <ValidationMessage
@@ -297,8 +297,8 @@ export default function RegistrationForm() {
             <option value="">Select your status</option>
             <option value="l">Local Student</option>
             <option value="i">International degree student</option>
-            <option value="o">Exchange Student (arrived in 2021)</option>
-            <option value="e">Exchange Student (arrived in 2022)</option>
+            <option value="o">Exchange Student (started before october)</option>
+            <option value="e">Exchange Student (starting in october)</option>
           </select>
           <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
             Status
@@ -380,7 +380,30 @@ export default function RegistrationForm() {
           ) : null}
         </label>
         <label
-          className="relative block rounded-lg border-2 border-gray-200 p-3 md:col-span-2"
+          className="relative block rounded-lg border-2 border-gray-200 p-3"
+          htmlFor="languages"
+        >
+          <input
+            className="peer w-full border-none bg-transparent px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+            id="languages"
+            name="languages"
+            type="text"
+            required
+            defaultValue={actionData?.values?.languages}
+            placeholder="Languages"
+          />
+          <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
+            Indicate non-english languages (with levels) you speak
+          </span>
+          {actionData?.errors.languages ? (
+            <ValidationMessage
+              isSubmitting={transition.state === 'submitting'}
+              error={actionData?.errors?.languages}
+            />
+          ) : null}
+        </label>
+        <label
+          className="relative block rounded-lg border-2 border-gray-200 p-3"
           htmlFor="dinner"
         >
           <select
@@ -391,10 +414,31 @@ export default function RegistrationForm() {
             className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
           >
             <option value="">Select your food option</option>
-            <option value="meat">German meat dish with beef</option>
-            <option value="asparagus">Asparagus and potatoes</option>
+            <option value="schnitzel">
+              Wiener Schnitzel of "Schwäbisch-Hällisches Landschwein" (pork)
+              with lemon wedge, wild cranberries and fried potatoes, served with
+              a small seasonal salad
+            </option>
+            <option value="fish">
+              Breaded redfish fillet with lemon wedge, homemade remoulade sauce
+              and colourfully garnished potato salad
+            </option>
             <option value="spatzle">
-              Traditional "Käsespätzle" (Cheese noodles)
+              Creamy cheese dumplings "Allgäu style" with homemade fried onions
+              and small seasonal salad
+            </option>
+            <option value="pork">
+              Young pork roast with dark beer sauce, potato dumplings and local
+              coleslaw
+            </option>
+            <option value="pasta">
+              "Pasta sheep's cheese" with fresh market vegetables and herb
+              tomato sauce
+            </option>
+            <option value="salad">
+              "Salad Vienna" - colourful leaf salads with tomatoes, cucumbers,
+              egg, served with golden-brown fried chicken breast, lime dip and
+              garlic bread
             </option>
           </select>
           <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
@@ -521,8 +565,8 @@ export default function RegistrationForm() {
               className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
             />
             <span className="ml-3">
-              In understand, that once I receive my spot confirmation I have to
-              pay 65 euro within 24h to confirm it. Otherwise I will be excluded
+              I understand, that once I receive my spot confirmation I have to
+              pay 89 euro within 24h to confirm it. Otherwise I will be excluded
               from Party Animals.
             </span>
           </div>
@@ -546,7 +590,7 @@ export default function RegistrationForm() {
             />
             <span>
               I understand, that TUMi will create the groups. And I cannot
-              influence in which group you will end up, or who will be my mates
+              influence in which group I will end up, or who my mates will be
               (this is to ensure diversity)
             </span>
           </div>
@@ -590,9 +634,15 @@ export default function RegistrationForm() {
               className="h-6 w-6 rounded-md border border-2 border-gray-200 bg-slate-800"
             />
             <span>
-              I confirm that I am either recovered from COVID-19 in the last 4
-              months or I have been vaccinated with a vaccine recognized by the
-              EU.
+              I confirm that I classify as fully vaccinated according to german
+              law. You can find out more{' '}
+              <a
+                className="text-blue-300 underline visited:text-purple-300 hover:text-blue-500"
+                href="https://www.bmi.bund.de/SharedDocs/faqs/EN/topics/civil-protection/coronavirus/travel-restrictions-border-control/IV-restrictions-applying-to-air-and-sea-travel-outside-of-europe/what-rules-apply-for-fully-vaccinated-people.html"
+                target="_blank"
+              >
+                here
+              </a>
             </span>
           </div>
           {actionData?.errors.vax ? (
@@ -611,5 +661,5 @@ export default function RegistrationForm() {
         </button>
       </Form>
     </section>
-  );*/
+  );
 }

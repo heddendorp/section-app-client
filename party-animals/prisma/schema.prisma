@@ -66,6 +66,7 @@ model Registration {
   status             String
   diet               String
   esnSection         String?
+  languages          String?
   // PA data
   dinner             String
   size               String

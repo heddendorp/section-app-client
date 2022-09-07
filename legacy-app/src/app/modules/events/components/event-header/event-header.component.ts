@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { LoadEventQuery, Role } from '@tumi/legacy-app/generated/generated';
+import { DateTime } from 'luxon';
 import { Price } from '../../../../../../../shared/data-types';
 
 @Component({
@@ -20,7 +21,8 @@ export class EventHeaderComponent {
   isSingleDayEvent() {
     return (
       this.event &&
-      new Date(this.event.start).getDay() === new Date(this.event.end).getDay()
+      DateTime.fromISO(this.event.start).day ===
+        DateTime.fromISO(this.event.end).day
     );
   }
   get canShare() {

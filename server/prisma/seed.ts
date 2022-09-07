@@ -140,7 +140,17 @@ async function runSeed() {
     data: {
       ...templates.testTemplate,
       duration: 60,
-      finances: {},
+      finances: {
+        items: [
+          {
+            type: 'participant',
+            value: 33,
+            details: '',
+            prepaid: false,
+            description: 'Basic-Paket + Extrakugeln + Anmeldegebühr',
+          },
+        ],
+      },
       icon: 'test-tube',
       location: faker.address.nearbyGPSCoordinate().join(','),
       tenant: { connect: { id: tumiTenant.id } },
@@ -199,7 +209,7 @@ async function runSeed() {
       participantText: 'This is a test event',
       registrationMode: RegistrationMode.STRIPE,
       start: startDate,
-      title: 'Test Event',
+      title: 'Stripe Event',
       publicationState: PublicationState.PUBLIC,
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
     },

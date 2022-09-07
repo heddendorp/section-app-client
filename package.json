@@ -2,7 +2,7 @@
   "name": "tumi",
   "license": "MIT",
   "private": true,
-  "version": "4.4.0",
+  "version": "4.5.1",
   "workspaces": [
     "events",
     "server",
@@ -35,18 +35,19 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.4.0"
   },
   "resolutions": {
     "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
     "nexus-prisma@0.36.0-next.2": "patch:nexus-prisma@npm:0.36.0-next.2#.yarn/patches/nexus-prisma-npm-0.36.0-next.2-32f64a026a",
-    "@whatwg-node/fetch": "patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch"
+    "@whatwg-node/fetch": "patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch",
+    "@envelop/core": "2.6.0"
   },
   "volta": {
     "node": "17.9.1"
   },
   "devDependencies": {
-    "@percy/cli": "^1.10.0",
+    "@percy/cli": "^1.10.1",
     "@percy/cypress": "^3.1.2",
     "@testing-library/cypress": "^8.0.3",
     "cypress": "^10.7.0",

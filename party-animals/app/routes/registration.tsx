@@ -20,7 +20,7 @@ export default function Registration() {
           we have for you and follow the instructions to sign up. It's going to
           be awesome having you on board.
           <br />
-          The cost of party animals is 65 EUR per person, payable after we offer
+          The cost of party animals is 89 EUR per person, payable after we offer
           you a spot. This includes the cost of all activities and travels. We
           cannot cover additional drinks and food that you may want during the
           events though.
@@ -83,9 +83,16 @@ export default function Registration() {
                 Party Animals is a program with a lot of contact which we
                 believe is crucial for making friends. Thus, we require you to{' '}
                 <strong>
-                  be fully vaccinated against or recently recovered from
-                  COVID-19
+                  classify as fully vaccinated according to german law
                 </strong>
+                . You can find out more{' '}
+                <a
+                  className="text-blue-300 underline visited:text-purple-300 hover:text-blue-500"
+                  href="https://www.bmi.bund.de/SharedDocs/faqs/EN/topics/civil-protection/coronavirus/travel-restrictions-border-control/IV-restrictions-applying-to-air-and-sea-travel-outside-of-europe/what-rules-apply-for-fully-vaccinated-people.html"
+                  target="_blank"
+                >
+                  here
+                </a>
                 . <br />
                 In case of new regulations parts of the program could be moved,
                 substituted or canceled. We do our best to replace it as
@@ -107,14 +114,14 @@ export default function Registration() {
               to keep the groups diverse and balanced.
             </p>
           </div>
-          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+          {/*<div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Are you worried?</strong>
             <p>
               We would not have brought back Party Animals if we did not think
               that it would work and be great. We are confident that it will not
               be impacted by the pandemic.
             </p>
-          </div>
+          </div>*/}
           <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>Where can I find out more?</strong>
             <p>
@@ -140,7 +147,7 @@ export default function Registration() {
                   alt=""
                 />
               </a>
-              <a href="https://t.me/+HBTPL-NHXXZiYWQy" target="_blank">
+              <a href="https://t.me/+GDxAsMO1m7VlZTBk" target="_blank">
                 <img
                   src={itemURL('telegram-app:fluency')}
                   className="w-8"
@@ -159,24 +166,24 @@ export default function Registration() {
               </a>
             </div>
           </div>
-          {/*<div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
+          <div className="rounded-lg border border-white bg-gray-300 bg-opacity-10 p-4">
             <strong>What's next?</strong>
             <p>
               Keep the following dates in mind:
               <ul className="list-inside list-disc">
                 <li>
-                  <strong>20.03. 18:00</strong>: Applications close
+                  <strong>20.09. 18:00</strong>: Applications close
                 </li>
                 <li>
-                  <strong>23.03. 18:00</strong>: First round of admissions
+                  <strong>23.09. 18:00</strong>: First round of admissions
                 </li>
                 <li>
-                  <strong>25.03. 18:00</strong>: Second round of admissions
+                  <strong>25.09. 18:00</strong>: Second round of admissions
                 </li>
               </ul>
               Check your mails to confirm your registration.
             </p>
-          </div>*/}
+          </div>
         </div>
         <Link
           to="/"
