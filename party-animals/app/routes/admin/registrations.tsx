@@ -151,9 +151,9 @@ export default function AdminRegistrations() {
       case 'i':
         return 'International degree student';
       case 'o':
-        return 'Exchange Student (arrived in 2021)';
+        return 'Exchange Student (started before october)';
       case 'e':
-        return 'Exchange Student (arrived in 2022)';
+        return 'Exchange Student (starting in october)';
     }
   };
   const getCountry = (code: string) => {
