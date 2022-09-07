@@ -1,33 +1,26 @@
 ## [4.5.1](https://github.com/heddendorp/tumi/compare/v4.5.0...v4.5.1) (2022-09-07)
 
-
 ### Bug Fixes
 
-* **legacy-app:** use correct date format ([f6621bb](https://github.com/heddendorp/tumi/commit/f6621bb0aa6f99ce83ec0b2ca9254f99fc3d18d8))
-
-
+- **legacy-app:** use correct date format ([f6621bb](https://github.com/heddendorp/tumi/commit/f6621bb0aa6f99ce83ec0b2ca9254f99fc3d18d8))
 
 # [4.5.0](https://github.com/heddendorp/tumi/compare/v4.4.0...v4.5.0) (2022-09-07)
 
-
 ### Bug Fixes
 
-* github actions ([a3da514](https://github.com/heddendorp/tumi/commit/a3da5146f69870117eead40ef700c41e41209fba))
-* **legacy-app:** date off by one error ([9dab49b](https://github.com/heddendorp/tumi/commit/9dab49b443b6fa12cd010003afcd6fb900472968))
-* **legacy-app:** don't show spots on external events ([84f3b46](https://github.com/heddendorp/tumi/commit/84f3b46b15fb6f90f8cf120e4ff053a2b57a3e79))
-* **legacy-app:** Finances can be updated from template ([#388](https://github.com/heddendorp/tumi/issues/388)) ([119594d](https://github.com/heddendorp/tumi/commit/119594d3d0c9042c12dd4831ee6f499cc69a9d66))
-* **legacy-app:** Proper leaderboard ranking ([#367](https://github.com/heddendorp/tumi/issues/367)) ([3940982](https://github.com/heddendorp/tumi/commit/3940982c87801c0d2ed4b40a7402b1fb9cc9bf33))
-* **legacy-app:** Time zone always to CET [#373](https://github.com/heddendorp/tumi/issues/373) ([#374](https://github.com/heddendorp/tumi/issues/374)) ([9adadb5](https://github.com/heddendorp/tumi/commit/9adadb55320e1af24640d8a301f51f91babec248))
-
+- github actions ([a3da514](https://github.com/heddendorp/tumi/commit/a3da5146f69870117eead40ef700c41e41209fba))
+- **legacy-app:** date off by one error ([9dab49b](https://github.com/heddendorp/tumi/commit/9dab49b443b6fa12cd010003afcd6fb900472968))
+- **legacy-app:** don't show spots on external events ([84f3b46](https://github.com/heddendorp/tumi/commit/84f3b46b15fb6f90f8cf120e4ff053a2b57a3e79))
+- **legacy-app:** Finances can be updated from template ([#388](https://github.com/heddendorp/tumi/issues/388)) ([119594d](https://github.com/heddendorp/tumi/commit/119594d3d0c9042c12dd4831ee6f499cc69a9d66))
+- **legacy-app:** Proper leaderboard ranking ([#367](https://github.com/heddendorp/tumi/issues/367)) ([3940982](https://github.com/heddendorp/tumi/commit/3940982c87801c0d2ed4b40a7402b1fb9cc9bf33))
+- **legacy-app:** Time zone always to CET [#373](https://github.com/heddendorp/tumi/issues/373) ([#374](https://github.com/heddendorp/tumi/issues/374)) ([9adadb5](https://github.com/heddendorp/tumi/commit/9adadb55320e1af24640d8a301f51f91babec248))
 
 ### Features
 
-* Further design improvements ([#355](https://github.com/heddendorp/tumi/issues/355)) ([cf222cd](https://github.com/heddendorp/tumi/commit/cf222cdce0836c394e3b7b36a790d75af13c1e45)), closes [#191](https://github.com/heddendorp/tumi/issues/191) [#213](https://github.com/heddendorp/tumi/issues/213) [#110](https://github.com/heddendorp/tumi/issues/110) [#345](https://github.com/heddendorp/tumi/issues/345)
-* **party-animals:** add languages and vaccination info ([85fca0c](https://github.com/heddendorp/tumi/commit/85fca0c6df3570272a2d78edaa976b62982d6344))
-* **party-animals:** add trailer video ([64ad040](https://github.com/heddendorp/tumi/commit/64ad04048aa3c50041b7d68b32fc2a5b8e4f4379))
-* **party-animals:** update for next semester ([be0f09f](https://github.com/heddendorp/tumi/commit/be0f09f94922ddca32859511ad4b8384e5a22811))
-
-
+- Further design improvements ([#355](https://github.com/heddendorp/tumi/issues/355)) ([cf222cd](https://github.com/heddendorp/tumi/commit/cf222cdce0836c394e3b7b36a790d75af13c1e45)), closes [#191](https://github.com/heddendorp/tumi/issues/191) [#213](https://github.com/heddendorp/tumi/issues/213) [#110](https://github.com/heddendorp/tumi/issues/110) [#345](https://github.com/heddendorp/tumi/issues/345)
+- **party-animals:** add languages and vaccination info ([85fca0c](https://github.com/heddendorp/tumi/commit/85fca0c6df3570272a2d78edaa976b62982d6344))
+- **party-animals:** add trailer video ([64ad040](https://github.com/heddendorp/tumi/commit/64ad04048aa3c50041b7d68b32fc2a5b8e4f4379))
+- **party-animals:** update for next semester ([be0f09f](https://github.com/heddendorp/tumi/commit/be0f09f94922ddca32859511ad4b8384e5a22811))
 
 # [4.4.0](https://github.com/heddendorp/tumi/compare/v4.3.0...v4.4.0) (2022-08-19)
 
