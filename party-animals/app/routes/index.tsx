@@ -377,7 +377,7 @@ export default function Index() {
                 </h5>
 
                 <p className="text-md mt-1 text-white">
-                  Create an unforgettable impressions of Bavaria’s fairy-tale
+                  Create an unforgettable memories of Bavaria’s fairy-tale
                   landscape. This is a huge opportunity to spend a night in an
                   actual castle. Join us where Knights and Princesses have
                   partied centuries ago. So don’t hesitate and sign up for Party

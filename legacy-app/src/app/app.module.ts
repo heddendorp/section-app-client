@@ -204,7 +204,7 @@ export class AppModule {
         }
       });
     // set default Luxon locale
-    Settings.defaultLocale = 'en'; // must be 'en' and not 'en-GB'
+    Settings.defaultLocale = 'en';
     Settings.defaultZone = 'Europe/Berlin';
     const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
     const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
