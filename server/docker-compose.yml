@@ -6,7 +6,6 @@ services:
   db:
     image: postgres:13
     restart: always
-    container_name: dev-db
     ports:
       - '5433:5432'
     environment:
@@ -21,3 +20,9 @@ services:
     ports:
       - "10000:10000"
       - "10001:10001"
+  stripe:
+    image: stripe/stripe-cli:latest
+    environment:
+      STRIPE_API_KEY: sk_test_qNFI4mD2kNWlhYxNRSmN3VSZ
+      STRIPE_DEVICE_NAME: integration-tests
+    command: "listen --forward-to http://server:3333/webhooks/stripe"

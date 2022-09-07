@@ -1,17 +1,17 @@
-import { seedIds, users } from '../../../server/prisma/constants';
+import { events, seedIds, users } from '../../../server/prisma/constants';
 
 describe('The event details page', () => {
   context('when the user is not logged in', () => {
     beforeEach(() => {
-      cy.visit(`/events/${seedIds.testEvent}`);
+      cy.visit(`/events/${events.stripeEvent.id}`);
       cy.waitForLoad();
     });
     it('should show the event title', () => {
-      cy.get('app-event-header').contains('Test Event');
+      cy.get('app-event-header').contains(events.stripeEvent.title);
     });
     it('should show the event description', () => {
       cy.get('app-event-details-page').contains('Description');
-      cy.get('app-event-details-page').contains('This is a test event');
+      cy.get('app-event-details-page').contains(events.stripeEvent.description);
       cy.percySnapshot('Event Details Page');
     });
     it('should not show the info for participants', () => {
@@ -29,15 +29,15 @@ describe('The event details page', () => {
   context('when the user is an admin', () => {
     beforeEach(() => {
       cy.loginByAuth0Api(users.adminUser);
-      cy.visit(`/events/${seedIds.testEvent}`);
+      cy.visit(`/events/${events.stripeEvent.id}`);
       cy.waitForLoad();
     });
     it('should show the event title', () => {
-      cy.get('app-event-header').contains('Test Event');
+      cy.get('app-event-header').contains(events.stripeEvent.title);
     });
     it('should show the event description', () => {
       cy.get('app-event-details-page').contains('Description');
-      cy.get('app-event-details-page').contains('This is a test event');
+      cy.get('app-event-details-page').contains(events.stripeEvent.description);
     });
     it('should show the info for participants', () => {
       cy.get('app-event-details-page')

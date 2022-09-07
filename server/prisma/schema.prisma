@@ -134,8 +134,8 @@ model StripePayment {
   shipping              Json?
   transactionId         String?                @unique @db.Uuid
   transactions          Transaction[]
-  eventRegistration     EventRegistration?
-  eventRegistrationCode EventRegistrationCode?
+  eventRegistration     EventRegistration? @ignore
+  eventRegistrationCode EventRegistrationCode? @ignore
   purchase              Purchase?
 }
 
@@ -410,7 +410,7 @@ model EventRegistration {
   userComment           String?
   transactionId         String?                @unique @db.Uuid
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
-  payment               StripePayment?         @relation(fields: [paymentId], references: [id])
+  payment               StripePayment?         @ignore @relation(fields: [paymentId], references: [id])
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
   transactions          Transaction[]
   user                  User                   @relation(fields: [userId], references: [id])

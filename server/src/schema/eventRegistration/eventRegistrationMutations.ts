@@ -246,14 +246,16 @@ builder.mutationFields((t) => ({
           throw new GraphQLYogaError('Registration mode not supported');
         }
       });
+      console.log(registration);
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT &&
         registration
       ) {
-        const baseUrl = process.env.DEV
-          ? `http://localhost:4200/events/${eventId}`
-          : `https://tumi.esn.world/events/${eventId}`;
+        const baseUrl =
+          process.env.DEV || process.env.NODE_ENV === 'test'
+            ? `http://localhost:4200/events/${eventId}`
+            : `https://tumi.esn.world/events/${eventId}`;
         try {
           const transaction = await RegistrationService.createPayment(
             context,

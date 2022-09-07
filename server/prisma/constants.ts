@@ -12,7 +12,9 @@ export const templates = {
     description: 'This is a test template',
     organizerText: 'This is a test template',
     participantText: 'This is a test template',
-    title: 'Test Template',
+    title: 'Test Event',
+    icon: 'test-tube',
+    location: faker.address.nearbyGPSCoordinate().join(','),
   },
   secondTemplate: {
     id: '7a6971bc-bd56-47b5-babd-8606737f1ae9',
@@ -44,6 +46,15 @@ export const events = {
     location: templates.paidTemplate.location,
     id: '804b5fd7-42b8-425c-938b-1f3695d0c5b5',
   },
+  stripeEvent: {
+    description: templates.testTemplate.description,
+    organizerText: templates.testTemplate.organizerText,
+    participantText: templates.testTemplate.participantText,
+    title: templates.testTemplate.title,
+    icon: templates.testTemplate.icon,
+    location: templates.testTemplate.location,
+    id: 'c8d54510-ecb1-4ccf-944e-1d80e7b5e6ca',
+  },
 };
 
 export const users = {
@@ -68,5 +79,12 @@ export const users = {
   unfinishedUser: {
     email: 'test4@esn.world',
     password: 'testuser4!',
+  },
+};
+
+export const cards = {
+  visa: {
+    number: '4242424242424242',
+    cvc: '123',
   },
 };

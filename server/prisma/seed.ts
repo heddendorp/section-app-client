@@ -11,6 +11,19 @@ import { events, seedIds, templates, users } from './constants';
 const prisma = new PrismaClient();
 
 async function runSeed() {
+  // Clean up DB
+  await prisma.stripeUserData.deleteMany();
+  await prisma.stripePayment.deleteMany();
+  await prisma.transaction.deleteMany();
+  await prisma.eventRegistrationCode.deleteMany();
+  await prisma.eventRegistration.deleteMany();
+  await prisma.tumiEvent.deleteMany();
+  await prisma.eventTemplate.deleteMany();
+  await prisma.usersOfTenants.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.eventOrganizer.deleteMany();
+  await prisma.tenant.deleteMany();
+
   const tumiTenant = await prisma.tenant.create({
     data: {
       name: 'ESN TUMi e.V.',
@@ -151,8 +164,6 @@ async function runSeed() {
           },
         ],
       },
-      icon: 'test-tube',
-      location: faker.address.nearbyGPSCoordinate().join(','),
       tenant: { connect: { id: tumiTenant.id } },
     },
   });
@@ -197,19 +208,13 @@ async function runSeed() {
 
   const stripeEvent = await prisma.tumiEvent.create({
     data: {
-      id: seedIds.testEvent,
+      ...events.stripeEvent,
       createdBy: { connect: { id: adminUser.id } },
-      description: 'This is a test event',
       end: faker.date.soon(1, startDate.toString()),
       eventTemplate: { connect: { id: testTemplate.id } },
-      icon: 'test-tube',
-      location: faker.address.nearbyGPSCoordinate().join(','),
       organizer: { connect: { id: tumiOrganizer.id } },
-      organizerText: 'This is a test event',
-      participantText: 'This is a test event',
       registrationMode: RegistrationMode.STRIPE,
       start: startDate,
-      title: 'Stripe Event',
       publicationState: PublicationState.PUBLIC,
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
     },

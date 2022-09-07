@@ -25,7 +25,7 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
         }),
       },
       query: ({ directions }) => ({
-        where: { direction: { in: directions ?? [] } },
+        where: directions ? { direction: { in: directions } } : {},
       }),
     }),
     checkInTime: t.expose('checkInTime', { type: 'DateTime', nullable: true }),

@@ -7,6 +7,7 @@ import {
   PrismaClient,
   PurchaseStatus,
   RegistrationStatus,
+  StripePayment,
   TransactionDirection,
   TransactionStatus,
   TransactionType,
@@ -28,21 +29,23 @@ export const webhookRouter = (prisma: PrismaClient) => {
       const sig = request.headers['stripe-signature'] as string;
 
       let event = request.body;
-      if (process.env['NODE_ENV'] !== 'test') {
-        try {
-          event = stripe.webhooks.constructEvent(
-            request.body,
-            sig,
-            process.env.STRIPE_WH_SECRET ?? ''
-          );
-        } catch (err: any) {
-          console.error(err);
-          response.status(400).send(`Webhook Error: ${err.message}`);
-          return;
-        }
-      } else {
-        console.log('not checking stripe signature in test environment');
+      // if (process.env['NODE_ENV'] !== 'test') {
+      try {
+        event = stripe.webhooks.constructEvent(
+          request.body,
+          sig,
+          process.env.STRIPE_WH_SECRET ?? ''
+        );
+      } catch (err: any) {
+        console.error(err);
+        response.status(400).send(`Webhook Error: ${err.message}`);
+        return;
       }
+      // } else {
+      //   event = JSON.parse(event.toString());
+      //   console.log('not checking stripe signature in test environment');
+      //   console.log(event);
+      // }
       console.log(event.type);
       switch (event.type) {
         case 'checkout.session.completed': {
@@ -70,6 +73,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           console.log('Processing event: payment_intent.processing');
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -147,6 +151,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -238,8 +243,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
             break;
           }
           let transaction;
-          if (payment.transaction.length === 1) {
-            transaction = payment.transaction[0];
+          if (payment && payment.transactions.length === 1) {
+            transaction = payment.transactions[0];
             await prisma.transaction.update({
               where: { id: transaction.id },
               data: {
@@ -444,6 +449,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           console.log('Processing event: payment_intent.payment_failed');
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -509,6 +515,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -691,6 +698,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               : charge.payment_intent?.id;
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -752,6 +760,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
             include: { transactions: true },
+            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
