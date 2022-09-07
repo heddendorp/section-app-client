@@ -30,15 +30,14 @@ export default function RegistrationStatusPending() {
         You registered for Party Animals!
       </h2>
       <p className="lg:text-lg">
-        You are currently on the waiting list and we will contact you if a spot
-        opens up.
+        You have signed up successfully. We will reach out during the admission
+        rounds if we where able to find a place for you.
       </p>
       <p className="mt-2 lg:text-lg">
         The rounds of admission are: <br />
         <ul className="list-inside list-disc">
           <li>the 23rd of september</li>
           <li>the 25th of september</li>
-          <li>the 27th of september</li>
         </ul>
         Check your mail or this page to see if you got a spot.
       </p>
