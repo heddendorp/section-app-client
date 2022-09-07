@@ -33,6 +33,16 @@ export default function RegistrationStatusPending() {
         You have signed up successfully. We will reach out during the admission
         rounds if we where able to find a place for you.
       </p>
+      <p className="lg:text-lg">
+        In case anything changes for you please reach out to us via{' '}
+        <a
+          href="mailto:questions@esn-tumi.de?subject=[Party Animals] "
+          target="_blank"
+        >
+          questions@esn-tumi.de
+        </a>{' '}
+        and inform us about your current situation.
+      </p>
       <p className="mt-2 lg:text-lg">
         The rounds of admission are: <br />
         <ul className="list-inside list-disc">
