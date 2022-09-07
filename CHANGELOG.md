@@ -1,3 +1,12 @@
+## [4.5.1](https://github.com/heddendorp/tumi/compare/v4.5.0...v4.5.1) (2022-09-07)
+
+
+### Bug Fixes
+
+* **legacy-app:** use correct date format ([f6621bb](https://github.com/heddendorp/tumi/commit/f6621bb0aa6f99ce83ec0b2ca9254f99fc3d18d8))
+
+
+
 # [4.5.0](https://github.com/heddendorp/tumi/compare/v4.4.0...v4.5.0) (2022-09-07)
 
 
