@@ -38,7 +38,7 @@
     "@angular-eslint/eslint-plugin-template": "14.0.3",
     "@angular-eslint/schematics": "14.0.3",
     "@angular-eslint/template-parser": "14.0.3",
-    "@angular/cli": "^14.2.1",
+    "@angular/cli": "^14.2.2",
     "@angular/compiler-cli": "^14.2.0",
     "@graphql-codegen/cli": "^2.12.0",
     "@graphql-codegen/typescript-apollo-angular": "^3.5.3",
