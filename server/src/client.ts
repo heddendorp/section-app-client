@@ -2,7 +2,6 @@ import { PrismaClient } from './generated/prisma';
 
 const prisma = new PrismaClient({
   errorFormat: 'pretty',
-  rejectOnNotFound: true,
 });
 if (process.env.NODE_ENV !== 'production') {
   prisma.$use(async (params, next) => {

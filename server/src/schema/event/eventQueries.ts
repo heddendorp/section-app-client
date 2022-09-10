@@ -18,7 +18,7 @@ builder.queryFields((t) => ({
       id: t.arg.id({ required: true }),
     },
     resolve: async (query, parent, args, context, info) =>
-      prisma.tumiEvent.findUnique({
+      prisma.tumiEvent.findUniqueOrThrow({
         ...query,
         where: { id: args.id },
       }),

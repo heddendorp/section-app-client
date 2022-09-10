@@ -10,6 +10,9 @@ builder.queryFields((t) => ({
   currentTenant: t.prismaField({
     type: 'Tenant',
     resolve: async (query, root, args, ctx, info) =>
-      prisma.tenant.findUnique({ ...query, where: { id: ctx.tenant.id } }),
+      prisma.tenant.findUniqueOrThrow({
+        ...query,
+        where: { id: ctx.tenant.id },
+      }),
   }),
 }));

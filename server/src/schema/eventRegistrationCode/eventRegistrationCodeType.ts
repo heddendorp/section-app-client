@@ -15,7 +15,7 @@ export const eventRegistrationCodeType = builder.prismaObject(
       creator: t.prismaField({
         type: 'User',
         resolve: (query, parent, args, context, info) => {
-          return prisma.user.findUnique({
+          return prisma.user.findUniqueOrThrow({
             where: { id: parent.createdById },
             ...query,
           });

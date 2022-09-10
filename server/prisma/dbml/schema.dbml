@@ -397,7 +397,6 @@ Table EventRegistration {
   rating Int
   anonymousRating Boolean [not null, default: true]
   userComment String
-  transactionId String [unique]
   event TumiEvent [not null]
   eventRegistrationCode EventRegistrationCode
   transactions Transaction [not null]
@@ -416,7 +415,6 @@ Table EventRegistrationCode {
   status RegistrationStatus [not null, default: 'PENDING']
   sepaAllowed Boolean [not null, default: false]
   targetEvent TumiEvent [not null]
-  payment StripePayment
   connectedRegistrations EventRegistration [not null]
 }
 
@@ -639,8 +637,6 @@ Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
 Ref: EventRegistration.userId > User.id
 
 Ref: EventRegistrationCode.eventId > TumiEvent.id [delete: Cascade]
-
-Ref: EventRegistrationCode.paymentId - StripePayment.id
 
 Ref: EventSubmissionItem.eventId > TumiEvent.id
 
