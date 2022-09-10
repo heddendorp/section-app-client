@@ -1,3 +1,18 @@
+## [4.5.3](https://github.com/heddendorp/tumi/compare/v4.5.2...v4.5.3) (2022-09-10)
+
+### Features
+
+- **legacy-app:** add event collection ([b5e8a76](https://github.com/heddendorp/tumi/commit/b5e8a7689800fab3be0f794edba99b1a836824aa))
+- **legacy-app:** add promo banners ([#409](https://github.com/heddendorp/tumi/issues/409)) ([a9f50fb](https://github.com/heddendorp/tumi/commit/a9f50fb977a920922d6952b388fb06db134dc6e2))
+
+## [4.5.2](https://github.com/heddendorp/tumi/compare/v4.5.1...v4.5.2) (2022-09-10)
+
+### Bug Fixes
+
+- **legacy-app:** remove day from mediumDate ([91cc4e9](https://github.com/heddendorp/tumi/commit/91cc4e97e6e8b91978ddb25a17ffed480d6bdad3))
+- **legacy-app:** use correct telegram link ([9b73a87](https://github.com/heddendorp/tumi/commit/9b73a874a1a0f1c7ca4a24a170c989422d8db8a3))
+- **party-animals:** correctly ask for student status ([4591429](https://github.com/heddendorp/tumi/commit/459142977c3ba71a95175b047749290cc9ca87d1))
+
 ## [4.5.1](https://github.com/heddendorp/tumi/compare/v4.5.0...v4.5.1) (2022-09-07)
 
 ### Bug Fixes

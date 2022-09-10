@@ -61,7 +61,7 @@
   <body class="bg-primary-container pb-8">
     <app-root>
       <img
-        class="w-[33vw] max-w-[192px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        class="fixed top-1/2 left-1/2 w-[33vw] max-w-[192px] -translate-x-1/2 -translate-y-1/2 transform"
         src="/assets/logos/star-color.svg"
         alt="ESN Star"
       />
@@ -69,7 +69,12 @@
     <noscript
       >Please enable JavaScript to continue using this application.</noscript
     >
-    <script async defer src="https://data.esn.world/latest.js"></script>
+    <script
+      data-collect-dnt="true"
+      async
+      src="https://data.esn.world/latest.js"
+    ></script>
+    <script async src="https://data.esn.world/auto-events.js"></script>
     <noscript
       ><img
         src="https://data.esn.world/noscript.gif"

@@ -2,7 +2,7 @@
   "name": "tumi",
   "license": "MIT",
   "private": true,
-  "version": "4.5.1",
+  "version": "4.5.3",
   "workspaces": [
     "events",
     "server",
@@ -47,7 +47,7 @@
     "node": "17.9.1"
   },
   "devDependencies": {
-    "@percy/cli": "^1.10.1",
+    "@percy/cli": "^1.10.2",
     "@percy/cypress": "^3.1.2",
     "@testing-library/cypress": "^8.0.3",
     "cypress": "^10.7.0",
