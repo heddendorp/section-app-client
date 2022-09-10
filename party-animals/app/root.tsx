@@ -1,5 +1,12 @@
-import type { MetaFunction } from "@remix-run/node";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import type { MetaFunction } from '@remix-run/node';
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from '@remix-run/react';
 import styles from './styles/app.css';
 
 export const meta: MetaFunction = () => {
@@ -30,11 +37,8 @@ export function ErrorBoundary({ error }: { error: Error }) {
       <body>
         <h1>Something went wrong</h1>
         <Scripts />
-        <script
-          async
-          defer
-          src="https://scripts.simpleanalyticscdn.com/latest.js"
-        />
+        <script async src="https://data.esn.world/latest.js" />
+        <script async src="https://data.esn.world/auto-events.js"></script>
         <noscript>
           <img
             src="https://queue.simpleanalyticscdn.com/noscript.gif"
