@@ -6516,6 +6516,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     express: ^4.18.1
     express-jwt: ^7.7.5
+    fs-jetpack: ^4.3.1
     graphql: ^16.6.0
     graphql-scalars: ^1.18.0
     ical-generator: ^3.5.1
@@ -13572,7 +13573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-jetpack@npm:4.3.1":
+"fs-jetpack@npm:4.3.1, fs-jetpack@npm:^4.3.1":
   version: 4.3.1
   resolution: "fs-jetpack@npm:4.3.1"
   dependencies:
