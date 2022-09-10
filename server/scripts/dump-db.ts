@@ -15,6 +15,15 @@ async function main() {
   const shoppingCart = await prisma.shoppingCart.findMany();
   const stripePayment = await prisma.stripePayment.findMany();
   const transaction = await prisma.transaction.findMany();
+  const richTransaction = await prisma.transaction.findMany({
+    include: {
+      stripePayment: true,
+      purchase: true,
+      eventRegistration: true,
+      eventRegistrationCode: true,
+      costItem: true,
+    },
+  });
   const refundedRegistration = await prisma.refundedRegistration.findMany();
   const usersOfTenants = await prisma.usersOfTenants.findMany();
   const eventOrganizer = await prisma.eventOrganizer.findMany();
@@ -41,6 +50,7 @@ async function main() {
   storageFolder.write('shoppingCart.json', shoppingCart);
   storageFolder.write('stripePayment.json', stripePayment);
   storageFolder.write('transaction.json', transaction);
+  storageFolder.write('richTransaction.json', richTransaction);
   storageFolder.write('refundedRegistration.json', refundedRegistration);
   storageFolder.write('usersOfTenants.json', usersOfTenants);
   storageFolder.write('eventOrganizer.json', eventOrganizer);
