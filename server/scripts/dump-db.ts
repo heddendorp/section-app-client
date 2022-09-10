@@ -5,7 +5,7 @@ const prisma = new PrismaClient({
   rejectOnNotFound: true,
 });
 
-const storageFolder = jetpack.cwd('storage');
+const storageFolder = jetpack.dir('storage', { empty: true });
 
 async function main() {
   const tenant = await prisma.tenant.findMany();
