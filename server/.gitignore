@@ -6,3 +6,5 @@ server/.env
 # Keep out generated files
 /src/generated
 src/utils.ts
+
+storage
