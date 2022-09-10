@@ -15,9 +15,7 @@ Table Tenant {
   organizers EventOrganizer [not null]
   eventTemplates EventTemplate [not null]
   eventTemplateCategories EventTemplateCategory [not null]
-  Invite Invite [not null]
   products Product [not null]
-  refundedRegistrations RefundedRegistration [not null]
   transactions Transaction [not null]
   users UsersOfTenants [not null]
 
@@ -43,8 +41,6 @@ Table User {
   partyAnimals Boolean [not null, default: false]
   enrolmentStatus EnrollmentStatus [not null, default: 'NONE']
   eventRegistrations EventRegistration [not null]
-  createdInvites Invite [not null]
-  redeemedInvites Invite [not null]
   photos PhotoShare [not null]
   productImages ProductImage [not null]
   purchases Purchase [not null]
@@ -61,20 +57,6 @@ Table User {
   studyProgram String
 
   Note: 'One User of the app'
-}
-
-Table Invite {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  email String [not null]
-  status MembershipStatus [not null, default: 'NONE']
-  redeemedAt DateTime
-  tenantId String [not null]
-  creatorId String [not null]
-  redeemerId String
-  creator User [not null]
-  redeemedBy User
-  tenant Tenant [not null]
 }
 
 Table StripeUserData {
@@ -118,7 +100,6 @@ Table StripePayment {
   refundedAmount Decimal [default: 0]
   status String [not null]
   shipping Json
-  transactionId String [unique]
   transactions Transaction [not null]
   purchase Purchase
 }
@@ -137,7 +118,8 @@ Table Transaction {
   status TransactionStatus [not null, default: 'PENDING']
   amount Decimal [not null]
   costItemId String
-  onUserBalance Boolean [not null, default: false]
+  onSendingBalance Boolean [not null, default: false]
+  onReceivingBalance Boolean [not null, default: false]
   costItem CostItem
   createdBy User [not null]
   tenant Tenant [not null]
@@ -148,20 +130,6 @@ Table Transaction {
   purchase Purchase
   stripePaymentId String
   stripePayment StripePayment
-}
-
-Table RefundedRegistration {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  eventId String [not null]
-  userId String [not null]
-  registrationId String [not null]
-  tenantId String [not null]
-  chargeId String [not null]
-  refundId String [not null]
-  tenant Tenant [not null]
-
-  Note: 'To be removed soon'
 }
 
 Table UsersOfTenants {
@@ -312,7 +280,6 @@ Table Purchase {
   userId String [not null]
   paymentId String [unique]
   cancellationReason String
-  transactionId String [unique, not null]
   payment StripePayment
   transactions Transaction [not null]
   user User [not null]
@@ -560,12 +527,6 @@ Enum TransactionStatus {
   CANCELLED
 }
 
-Ref: Invite.creatorId > User.id
-
-Ref: Invite.redeemerId > User.id
-
-Ref: Invite.tenantId > Tenant.id
-
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
@@ -583,8 +544,6 @@ Ref: Transaction.eventRegistrationId > EventRegistration.id
 Ref: Transaction.purchaseId > Purchase.id
 
 Ref: Transaction.stripePaymentId > StripePayment.id
-
-Ref: RefundedRegistration.tenantId > Tenant.id
 
 Ref: UsersOfTenants.tenantId > Tenant.id
 

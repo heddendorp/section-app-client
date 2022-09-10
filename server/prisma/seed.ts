@@ -12,17 +12,31 @@ const prisma = new PrismaClient();
 
 async function runSeed() {
   // Clean up DB
+  await prisma.invite.deleteMany();
   await prisma.stripeUserData.deleteMany();
   await prisma.stripePayment.deleteMany();
+  await prisma.purchase.deleteMany();
   await prisma.transaction.deleteMany();
   await prisma.eventRegistrationCode.deleteMany();
   await prisma.eventRegistration.deleteMany();
+  await prisma.receipt.deleteMany();
+  await prisma.costItem.deleteMany();
+  await prisma.photoShare.deleteMany();
   await prisma.tumiEvent.deleteMany();
   await prisma.eventTemplate.deleteMany();
+  await prisma.eventTemplateCategory.deleteMany();
+  await prisma.shoppingCart.deleteMany();
   await prisma.usersOfTenants.deleteMany();
+  await prisma.productImage.deleteMany();
   await prisma.user.deleteMany();
   await prisma.eventOrganizer.deleteMany();
+  await prisma.refundedRegistration.deleteMany();
+  await prisma.lineItem.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.eventSubmission.deleteMany();
+  await prisma.eventSubmissionItem.deleteMany();
   await prisma.tenant.deleteMany();
+  console.log('DB cleaned up');
 
   const tumiTenant = await prisma.tenant.create({
     data: {
