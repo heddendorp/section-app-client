@@ -22,7 +22,7 @@
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },
   "dependencies": {
-    "@angular/google-maps": "^14.2.0",
+    "@angular/google-maps": "^14.2.1",
     "@azure/storage-blob": "^12.11.0",
     "@envelop/auth0": "^3.6.0",
     "@envelop/core": "^2.6.0",
@@ -32,8 +32,8 @@
     "@graphql-hive/client": "^0.18.3",
     "@graphql-yoga/node": "^2.13.13",
     "@pathcheck/dcc-sdk": "^0.0.27",
-    "@pothos/core": "^3.20.0",
-    "@pothos/plugin-prisma": "^3.32.0",
+    "@pothos/core": "^3.21.0",
+    "@pothos/plugin-prisma": "^3.33.0",
     "@pothos/plugin-scope-auth": "3.13.0",
     "@pothos/plugin-simple-objects": "^3.5.0",
     "@pothos/plugin-tracing": "^0.4.0",
@@ -63,7 +63,7 @@
     "prom-client": "^14.1.0",
     "qrcode": "^1.5.1",
     "sharp": "^0.31.0",
-    "stripe": "^10.7.0",
+    "stripe": "^10.8.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
@@ -79,7 +79,7 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/lodash": "^4.14.184",
     "@types/luxon": "^3.0.1",
-    "@types/node": "^18.7.15",
+    "@types/node": "^18.7.16",
     "@types/node-cron": "^3.0.4",
     "@types/prettier": "^2.7.0",
     "@types/qrcode": "^1.5.0",
@@ -102,10 +102,10 @@
     "rimraf": "^3.0.2",
     "rrule": "^2.7.1",
     "supertest": "^6.2.4",
-    "ts-jest": "^28.0.8",
+    "ts-jest": "^29.0.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "~4.8.2"
+    "typescript": "~4.8.3"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
