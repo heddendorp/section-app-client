@@ -7,12 +7,12 @@
     </div>
     <div
       *ngIf="!searchEnabled"
-      class="w-full flex flex-row items-center justify-between sm:justify-start"
+      class="flex w-full flex-row items-center justify-between sm:justify-start"
     >
       <button mat-icon-button (click)="previousMonth()">
         <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
       </button>
-      <div resetScroll class="whitespace-nowrap ml-2 mr-2">
+      <div resetScroll class="ml-2 mr-2 whitespace-nowrap">
         {{ selectedMonthLabel }}
       </div>
       <button mat-icon-button (click)="nextMonth()">
@@ -35,13 +35,13 @@
     *ngIf="loading$ | async"
   ></mat-progress-bar>
 </app-reactive-toolbar>
-<div *ngIf="timeOffset !== 0" class="bg-orange-500 mx-auto py-3 px-6 lg:px-8">
-  <div class="flex items-center justify-between flex-wrap">
-    <div class="w-0 flex-1 flex items-center">
-      <span class="flex p-2 rounded-lg bg-orange-600 text-white">
+<div *ngIf="timeOffset !== 0" class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
+  <div class="flex flex-wrap items-center justify-between">
+    <div class="flex w-0 flex-1 items-center">
+      <span class="flex rounded-lg bg-orange-600 p-2 text-white">
         <mat-icon svgIcon="icon-time-machine"></mat-icon>
       </span>
-      <p class="ml-3 font-medium text-white leading-tight">
+      <p class="ml-3 font-medium leading-tight text-white">
         <span
           >All times in {{ serverTimeZone }}. Your device time differs by
           {{ timeOffset }} hour{{ timeOffset === 1 ? '' : 's' }}.</span
@@ -54,15 +54,15 @@
   *ngIf="outstandingRating$ | async"
   @grow
   matRipple
-  class="bg-yellow-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
+  class="mx-auto cursor-pointer bg-yellow-500 py-3 px-6 lg:px-8"
   routerLink="/profile"
 >
-  <div class="flex items-center justify-between flex-wrap">
-    <div class="w-0 flex-1 flex items-center">
-      <span class="flex p-2 rounded-lg bg-yellow-600 text-white">
+  <div class="flex flex-wrap items-center justify-between">
+    <div class="flex w-0 flex-1 items-center">
+      <span class="flex rounded-lg bg-yellow-600 p-2 text-white">
         <mat-icon svgIcon="icon-star"></mat-icon>
       </span>
-      <p class="ml-3 font-medium text-white leading-tight">
+      <p class="ml-3 font-medium leading-tight text-white">
         <span
           >Please rate events you took part in recently!
 
@@ -98,19 +98,22 @@
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add Event</span>
   </a>
-  <!--<div
-      fxFlex="grow"
-      class="rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-1"
-    >
+  <div
+    fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayoutGap="1rem"
+    fxLayoutGap.gt-md="2rem"
+  >
+    <div fxFlex="grow" class="rounded-2xl bg-black p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-white p-4">
+        <div class="h-full bg-black p-4 text-white md:p-8">
           <h4 class="text-lg font-bold">Welcome to TUMi!</h4>
-          <h5 class="mb-4 text-lg text-slate-800" fxHide.lt-sm>
+          <h5 class="mb-4 text-lg text-slate-200" fxHide.lt-sm>
             Join us on other platforms to stay informed!
           </h5>
 
           <div
-            fxLayout.gt-md="row"
+            fxLayout.gt-sm="row"
             fxLayout="column-reverse"
             fxLayoutGap="1rem"
           >
@@ -122,7 +125,8 @@
               </p>
               <div fxFlex="grow"></div>
               <a
-                href="https://t.me/+PtNU9JqOE19lZjMy"
+                href="https://t.me/+GDxAsMO1m7VlZTBk"
+                target="_blank"
                 mat-flat-button
                 color="primary"
                 class="modern"
@@ -151,6 +155,7 @@
               <div fxFlex="grow"></div>
               <a
                 href="https://www.instagram.com/tumi.esn/"
+                target="_blank"
                 mat-flat-button
                 color="primary"
                 class="modern"
@@ -162,30 +167,33 @@
           </div>
         </div>
       </div>
-    </div>-->
-  <!--<div fxFlex="grow" class="rounded-2xl bg-outline-default p-1">
+    </div>
+    <div fxFlex="grow" class="rounded-2xl bg-black p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-gray-100 p-4">
-          <h4 class="text-lg font-bold">The Party animals are back!</h4>
+        <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
+          <h4 class="text-lg font-bold">🎉&nbsp;The Party animals are back!</h4>
           <p class="text-md mt-1 mb-6">
             The best way to get started in Munich is finally making a return.
             Come together in groups of 25 students and enjoy 9 days of exciting
             activities and fun. Make friends for your stay in munich and beyond.
           </p>
+          <div fxFlex="grow"></div>
           <a
             class="inline-block w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             href="https://party-animals.esn.world"
+            target="_blank"
           >
             <span
-              class="block text-center rounded-full bg-gray-100 px-8 py-3 text-lg font-bold hover:bg-transparent"
+              class="block rounded-full bg-gray-900 px-8 py-1 text-center text-lg font-bold hover:bg-transparent"
             >
               Learn more!
             </span>
           </a>
         </div>
       </div>
-    </div>-->
-  <div class="flex flex-row flex-wrap gap-4 mt-2 mb-6 w-full items-center">
+    </div>
+  </div>
+  <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
     <button
       mat-flat-button
       color="accent"
