@@ -1,3 +1,13 @@
+## [4.5.3](https://github.com/heddendorp/tumi/compare/v4.5.2...v4.5.3) (2022-09-10)
+
+
+### Features
+
+* **legacy-app:** add event collection ([b5e8a76](https://github.com/heddendorp/tumi/commit/b5e8a7689800fab3be0f794edba99b1a836824aa))
+* **legacy-app:** add promo banners ([#409](https://github.com/heddendorp/tumi/issues/409)) ([a9f50fb](https://github.com/heddendorp/tumi/commit/a9f50fb977a920922d6952b388fb06db134dc6e2))
+
+
+
 ## [4.5.2](https://github.com/heddendorp/tumi/compare/v4.5.1...v4.5.2) (2022-09-10)
 
 ### Bug Fixes
