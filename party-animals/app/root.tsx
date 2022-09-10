@@ -69,7 +69,12 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <script async defer src="https://data.esn.world/latest.js"></script>
+        <script
+          data-collect-dnt="true"
+          async
+          src="https://data.esn.world/latest.js"
+        />
+        <script async src="https://data.esn.world/auto-events.js"></script>
         <noscript>
           <img
             src="https://data.esn.world/noscript.gif"
