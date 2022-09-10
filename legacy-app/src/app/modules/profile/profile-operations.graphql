@@ -156,6 +156,7 @@ query getRegistrationCodeInfo($code: ID!) {
         direction
         amount
         type
+        subject
         stripePayment {
           id
           status
@@ -203,6 +204,7 @@ mutation useRegistrationCode($id: ID!, $price: JSON) {
         direction
         amount
         type
+        subject
         stripePayment {
           id
           status

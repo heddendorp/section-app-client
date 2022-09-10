@@ -128,6 +128,32 @@ async function runSeed() {
 
   /**
    * Test user also available in auth0
+   * password: testuser5!
+   */
+  const regularUser2 = await prisma.user.create({
+    data: {
+      authId: 'auth0|631ccaaba28ffb8fe3e497e3',
+      email: users.regularUser2.email,
+      email_verified: true,
+      firstName: users.regularUser2.firstName,
+      lastName: users.regularUser2.lastName,
+      picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'EXCHANGE',
+      birthdate: faker.date.birthdate(),
+    },
+  });
+  await prisma.usersOfTenants.create({
+    data: {
+      role: Role.USER,
+      status: MembershipStatus.NONE,
+      tenant: { connect: { id: tumiTenant.id } },
+      user: { connect: { id: regularUser2.id } },
+    },
+  });
+
+  /**
+   * Test user also available in auth0
    * password: testuser4!
    */
   const unfinishedUser = await prisma.user.create({
@@ -241,6 +267,7 @@ async function runSeed() {
   });
 
   const paidStartDate = faker.date.soon(10);
+  const paidStartDate2 = faker.date.soon(10);
   const paidEvent = await prisma.tumiEvent.create({
     data: {
       ...events.paidEvent,
@@ -248,6 +275,34 @@ async function runSeed() {
       eventTemplate: { connect: { id: paidTemplate.id } },
       start: paidStartDate,
       end: faker.date.soon(1, paidStartDate.toString()),
+      createdBy: { connect: { id: adminUser.id } },
+      registrationMode: RegistrationMode.STRIPE,
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [
+        MembershipStatus.NONE,
+        MembershipStatus.FULL,
+        MembershipStatus.TRIAL,
+      ],
+      participantLimit: 10,
+      prices: {
+        options: [
+          {
+            amount: '7.5',
+            defaultPrice: true,
+            esnCardRequired: false,
+            allowedStatusList: ['NONE', 'TRIAL', 'FULL', 'SPONSOR', 'ALUMNI'],
+          },
+        ],
+      },
+    },
+  });
+  const paidEvent2 = await prisma.tumiEvent.create({
+    data: {
+      ...events.paidEvent2,
+      organizer: { connect: { id: tumiOrganizer.id } },
+      eventTemplate: { connect: { id: paidTemplate.id } },
+      start: paidStartDate2,
+      end: faker.date.soon(1, paidStartDate2.toString()),
       createdBy: { connect: { id: adminUser.id } },
       registrationMode: RegistrationMode.STRIPE,
       publicationState: PublicationState.PUBLIC,

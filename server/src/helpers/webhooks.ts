@@ -270,6 +270,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 direction: TransactionDirection.TUMI_TO_EXTERNAL,
                 subject: `Stripe fees for ${transaction.id}`,
                 amount: balanceTransaction.fee / 100,
+                status: TransactionStatus.CONFIRMED,
                 user: {
                   connect: {
                     id: transaction.userId,
@@ -283,6 +284,11 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 tenant: {
                   connect: {
                     id: transaction.tenantId,
+                  },
+                },
+                stripePayment: {
+                  connect: {
+                    id: payment.id,
                   },
                 },
                 ...(transaction.eventRegistrationId
@@ -806,6 +812,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               await prisma.transaction.create({
                 data: {
                   subject: `Refund for ${stripePayment.transactions[0].eventRegistrationId}`,
+                  status: TransactionStatus.CONFIRMED,
                   user: {
                     connect: { id: stripePayment.transactions[0].userId },
                   },

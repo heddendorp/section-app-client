@@ -134,8 +134,6 @@ model StripePayment {
   shipping              Json?
   transactionId         String?                @unique @db.Uuid
   transactions          Transaction[]
-  eventRegistration     EventRegistration? @ignore
-  eventRegistrationCode EventRegistrationCode? @ignore
   purchase              Purchase?
 }
 
@@ -402,15 +400,12 @@ model EventRegistration {
   checkInTime           DateTime?
   manualCheckin         Boolean                @default(false)
   cancellationReason    String?
-  paymentId             String?                @unique @ignore @db.Uuid
   status                RegistrationStatus     @default(SUCCESSFUL)
   registrationCodeId    String?                @db.Uuid
   rating                Int?
   anonymousRating       Boolean                @default(true)
   userComment           String?
-  transactionId         String?                @unique @db.Uuid
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
-  payment               StripePayment?         @ignore @relation(fields: [paymentId], references: [id])
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
   transactions          Transaction[]
   user                  User                   @relation(fields: [userId], references: [id])
@@ -429,7 +424,6 @@ model EventRegistrationCode {
   paymentId              String?             @unique @ignore @db.Uuid
   sepaAllowed            Boolean             @default(false)
   targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  payment                StripePayment?      @relation(fields: [paymentId], references: [id])
   connectedRegistrations EventRegistration[]
 }
 

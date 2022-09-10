@@ -12,10 +12,13 @@ import {
 export class TransactionListComponent {
   @Input() transactions: Array<
     Required<
-      Pick<Transaction, 'id' | 'direction' | 'status' | 'amount' | 'type'> & {
-        stripePayment: Required<Pick<StripePayment, 'id'>>;
-      }
-    >
+      Pick<
+        Transaction,
+        'id' | 'direction' | 'status' | 'amount' | 'type' | 'subject'
+      >
+    > & {
+      stripePayment?: Required<Pick<StripePayment, 'id'>> | null;
+    }
   > = [];
   constructor() {}
 }

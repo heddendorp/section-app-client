@@ -64,6 +64,7 @@ query loadEvent($id: ID!) {
         direction
         amount
         type
+        subject
         stripePayment {
           id
           createdAt
@@ -227,6 +228,7 @@ query loadEventForRunning($id: ID!) {
         direction
         amount
         type
+        subject
         stripePayment {
           id
           status
@@ -320,6 +322,7 @@ query getRegistration($id: ID!) {
       direction
       amount
       type
+      subject
       stripePayment {
         id
         status
@@ -406,20 +409,14 @@ query loadEventForManagement($id: ID!) {
       createdAt
       status
       cancellationReason
+      balance
       transactions {
         id
         status
         direction
         amount
         type
-        stripePayment {
-          id
-          status
-          paymentMethodType
-          netAmount
-          refundedAmount
-          netLessRefundAmount
-        }
+        subject
       }
       checkInTime
       didAttend

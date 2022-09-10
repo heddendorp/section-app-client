@@ -120,8 +120,6 @@ Table StripePayment {
   shipping Json
   transactionId String [unique]
   transactions Transaction [not null]
-  eventRegistration EventRegistration
-  eventRegistrationCode EventRegistrationCode
   purchase Purchase
 }
 
@@ -401,7 +399,6 @@ Table EventRegistration {
   userComment String
   transactionId String [unique]
   event TumiEvent [not null]
-  payment StripePayment
   eventRegistrationCode EventRegistrationCode
   transactions Transaction [not null]
   user User [not null]
@@ -636,8 +633,6 @@ Ref: PhotoShare.creatorId > User.id
 Ref: PhotoShare.eventId > TumiEvent.id
 
 Ref: EventRegistration.eventId > TumiEvent.id
-
-Ref: EventRegistration.paymentId - StripePayment.id
 
 Ref: EventRegistration.registrationCodeId > EventRegistrationCode.id
 

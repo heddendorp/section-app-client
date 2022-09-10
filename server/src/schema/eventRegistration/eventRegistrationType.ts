@@ -1,8 +1,10 @@
 import { builder } from '../../builder';
 import {
+  Prisma,
   RegistrationStatus,
   RegistrationType,
   TransactionDirection,
+  TransactionStatus,
 } from '../../generated/prisma';
 import prisma from '../../client';
 
@@ -26,7 +28,55 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
       },
       query: ({ directions }) => ({
         where: directions ? { direction: { in: directions } } : {},
+        orderBy: { createdAt: 'desc' },
       }),
+    }),
+    balance: t.field({
+      type: 'Decimal',
+      description: 'The sum of all transactions related to this registration',
+      resolve: async (source, args, context) => {
+        return Promise.all([
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.USER_TO_TUMI,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_EXTERNAL,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_USER,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+        ])
+          .then((aggregations) =>
+            aggregations.map(
+              (aggregation) => aggregation._sum.amount?.toNumber() ?? 0
+            )
+          )
+          .then(
+            ([incoming, fees, refunds]) =>
+              new Prisma.Decimal(incoming - fees - refunds)
+          );
+      },
     }),
     checkInTime: t.expose('checkInTime', { type: 'DateTime', nullable: true }),
     manualCheckin: t.expose('manualCheckin', { type: 'Boolean' }),

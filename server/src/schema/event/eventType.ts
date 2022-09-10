@@ -8,6 +8,7 @@ import {
   RegistrationType,
   SubmissionTime,
   TransactionDirection,
+  TransactionStatus,
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
@@ -324,6 +325,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               eventRegistration: {
                 event: { id: source.id },
               },
+              status: TransactionStatus.CONFIRMED,
             },
             _sum: { amount: true },
           })
@@ -341,6 +343,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               eventRegistration: {
                 event: { id: source.id },
               },
+              status: TransactionStatus.CONFIRMED,
             },
             _sum: { amount: true },
           }),
@@ -350,6 +353,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               eventRegistration: {
                 event: { id: source.id },
               },
+              status: TransactionStatus.CONFIRMED,
             },
             _sum: { amount: true },
           }),
@@ -359,6 +363,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               eventRegistration: {
                 event: { id: source.id },
               },
+              status: TransactionStatus.CONFIRMED,
             },
             _sum: { amount: true },
           }),
@@ -384,6 +389,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               eventRegistration: {
                 event: { id: source.id },
               },
+              status: TransactionStatus.CONFIRMED,
             },
             _sum: { amount: true },
           })
@@ -394,23 +400,20 @@ export const eventType = builder.prismaObject('TumiEvent', {
     refundFeesPaid: t.field({
       type: 'Decimal',
       resolve: async (source, args, context) => {
-        return prisma.stripePayment
+        return prisma.transaction
           .aggregate({
             where: {
-              transactions: {
-                some: {
-                  eventRegistration: {
-                    event: { id: source.id },
-                    status: RegistrationStatus.CANCELLED,
-                  },
-                },
+              eventRegistration: {
+                event: { id: source.id },
+                status: RegistrationStatus.CANCELLED,
               },
+              direction: TransactionDirection.TUMI_TO_EXTERNAL,
+              status: TransactionStatus.CONFIRMED,
             },
-            _sum: { feeAmount: true },
+            _sum: { amount: true },
           })
           .then(
-            (aggregations) =>
-              (aggregations._sum.feeAmount?.toNumber() ?? 0) / 100
+            (aggregations) => (aggregations._sum.amount?.toNumber() ?? 0) / 100
           )
           .then((amount) => new Prisma.Decimal(amount));
       },

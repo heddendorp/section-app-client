@@ -46,6 +46,15 @@ export const events = {
     location: templates.paidTemplate.location,
     id: '804b5fd7-42b8-425c-938b-1f3695d0c5b5',
   },
+  paidEvent2: {
+    description: templates.paidTemplate.description,
+    organizerText: templates.paidTemplate.organizerText,
+    participantText: templates.paidTemplate.participantText,
+    title: templates.paidTemplate.title + ' 2',
+    icon: templates.paidTemplate.icon,
+    location: templates.paidTemplate.location,
+    id: '804b5fd7-42b8-425c-938b-1f3695d0c5b6',
+  },
   stripeEvent: {
     description: templates.testTemplate.description,
     organizerText: templates.testTemplate.organizerText,
@@ -74,7 +83,13 @@ export const users = {
     email: 'test3@esn.world',
     password: 'testuser3!',
     firstName: 'Test',
-    lastName: 'User',
+    lastName: 'User 3',
+  },
+  regularUser2: {
+    email: 'test5@esn.world',
+    password: 'testuser5!',
+    firstName: 'Test',
+    lastName: 'User 5',
   },
   unfinishedUser: {
     email: 'test4@esn.world',

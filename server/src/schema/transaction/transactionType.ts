@@ -22,7 +22,7 @@ builder.prismaObject('Transaction', {
     isMembershipFee: t.exposeBoolean('isMembershipFee'),
     direction: t.expose('direction', { type: TransactionDirection }),
     purchase: t.relation('purchase'),
-    stripePayment: t.relation('stripePayment'),
+    stripePayment: t.relation('stripePayment', { nullable: true }),
     subject: t.exposeString('subject'),
     tenant: t.relation('tenant'),
     tenantId: t.exposeID('tenantId'),

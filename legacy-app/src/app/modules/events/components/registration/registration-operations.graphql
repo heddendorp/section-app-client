@@ -28,6 +28,7 @@ mutation registerForEvent(
         direction
         amount
         type
+        subject
         stripePayment {
           id
           createdAt

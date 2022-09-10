@@ -1,6 +1,10 @@
 import { builder } from '../../builder';
 import { dateRangeInputType, prepareSearchString } from '../helperFunctions';
-import { Prisma, TransactionDirection } from '../../generated/prisma';
+import {
+  Prisma,
+  TransactionDirection,
+  TransactionStatus,
+} from '../../generated/prisma';
 import TransactionWhereInput = Prisma.TransactionWhereInput;
 import prisma from '../../client';
 
@@ -44,7 +48,7 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
-        direction: { in: directions ?? [] },
+        ...(directions ? { direction: { in: directions } } : {}),
         createdAt: rangeQuery,
         ...(search
           ? {
@@ -59,6 +63,7 @@ builder.queryFields((t) => ({
         where,
         ...(take ? { take } : {}),
         ...(skip ? { skip } : {}),
+        orderBy: { createdAt: 'desc' },
       });
     },
   }),
@@ -92,7 +97,7 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
-        direction: { in: directions ?? [] },
+        ...(directions ? { direction: { in: directions } } : {}),
         createdAt: rangeQuery,
         ...(search
           ? {
@@ -105,6 +110,73 @@ builder.queryFields((t) => ({
       return prisma.transaction.count({
         where,
       });
+    },
+  }),
+  transactionNetAmount: t.field({
+    type: 'Decimal',
+    args: {
+      range: t.arg({
+        type: dateRangeInputType,
+      }),
+    },
+    resolve: (parent, { range }, context, info) => {
+      let rangeQuery: { gte?: Date; lte?: Date } = {};
+      if (range) {
+        if (range.start) {
+          rangeQuery = {
+            ...rangeQuery,
+            gte: range.start,
+          };
+        }
+        if (range.end) {
+          rangeQuery = {
+            ...rangeQuery,
+            lte: range.end,
+          };
+        }
+      }
+      const where: TransactionWhereInput = {
+        tenant: {
+          id: context.tenant.id,
+        },
+        createdAt: rangeQuery,
+      };
+      return Promise.all([
+        prisma.transaction.aggregate({
+          where: {
+            ...where,
+            direction: {
+              in: [
+                TransactionDirection.USER_TO_TUMI,
+                TransactionDirection.EXTERNAL_TO_TUMI,
+              ],
+            },
+            status: TransactionStatus.CONFIRMED,
+          },
+          _sum: { amount: true },
+        }),
+        prisma.transaction.aggregate({
+          where: {
+            ...where,
+            direction: {
+              in: [
+                TransactionDirection.TUMI_TO_USER,
+                TransactionDirection.TUMI_TO_EXTERNAL,
+              ],
+            },
+            status: TransactionStatus.CONFIRMED,
+          },
+          _sum: { amount: true },
+        }),
+      ])
+        .then((aggregations) =>
+          aggregations.map(
+            (aggregation) => aggregation._sum.amount?.toNumber() ?? 0
+          )
+        )
+        .then(
+          ([incoming, outgoing]) => new Prisma.Decimal(incoming - outgoing)
+        );
     },
   }),
   transactionSumAmount: t.float({
@@ -137,8 +209,8 @@ builder.queryFields((t) => ({
         tenant: {
           id: context.tenant.id,
         },
-        direction: { in: directions ?? [] },
         createdAt: rangeQuery,
+        ...(directions ? { direction: { in: directions } } : {}),
         ...(search
           ? {
               eventRegistration: {

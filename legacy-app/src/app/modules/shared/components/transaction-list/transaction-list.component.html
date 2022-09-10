@@ -1,1 +1,8 @@
-<p>transaction-list works!</p>
+<table class="scroll-auto">
+  <tr *ngFor="let transaction of transactions">
+    <td class="px-1">{{ transaction.subject }}</td>
+    <td class="px-1">{{ transaction.direction }}</td>
+    <td class="px-1">{{ transaction.status }}</td>
+    <td class="px-1">{{ transaction.amount | currency: 'EUR' }}</td>
+  </tr>
+</table>

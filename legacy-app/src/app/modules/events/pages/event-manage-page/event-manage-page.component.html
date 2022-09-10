@@ -139,12 +139,7 @@
             <th mat-header-cell *matHeaderCellDef>Paid</th>
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-slate-200">
-                {{
-                  (registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) /
-                    100 | currency: 'EUR'
-                }}
+                {{ registration.balance | currency: 'EUR' }}
               </span>
             </td>
           </ng-container>
@@ -226,21 +221,9 @@
                     <p>{{ registration.user.email }}</p>
 
                     <p>Payment status:</p>
-                    <p>
-                      <span class="tag bg-gray-200">{{
-                        registration.transaction?.stripePayment?.status
-                      }}</span>
-                      <span class="tag bg-gray-200">{{
-                        registration.transaction?.stripePayment
-                          ?.paymentMethodType
-                      }}</span>
-                      <span
-                        class="tag bg-gray-200"
-                        *ngIf="registration.status === 'CANCELLED'"
-                      >
-                        {{ registration.cancellationReason }}
-                      </span>
-                    </p>
+                    <app-transaction-list
+                      [transactions]="registration.transactions"
+                    ></app-transaction-list>
                   </div>
                   <a
                     routerLink="/tenant/registrations/{{ registration.id }}"
@@ -263,11 +246,7 @@
                   <mat-menu #menu="matMenu">
                     <button
                       mat-menu-item
-                      [disabled]="
-                        (registration.transaction?.stripePayment?.netAmount ??
-                          0) ===
-                        0
-                      "
+                      [disabled]="!(registration.balance > 0)"
                       (click)="kickWithRefund(registration.id)"
                     >
                       Cancel with refund

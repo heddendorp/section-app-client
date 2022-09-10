@@ -152,6 +152,9 @@ type EventOrganizer {
 
 type EventRegistration {
   anonymousRating: Boolean!
+
+  """The sum of all transactions related to this registration"""
+  balance: Decimal!
   belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
@@ -436,6 +439,7 @@ type Query {
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
   transactionCount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Int!
+  transactionNetAmount(range: DateRangeInput): Decimal!
   transactionSumAmount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Float!
   transactions(directions: [TransactionDirection!], range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
   user(id: ID!): User!
@@ -585,7 +589,7 @@ type Transaction {
   isMembershipFee: Boolean!
   purchase: Purchase!
   status: TransactionStatus!
-  stripePayment: StripePayment!
+  stripePayment: StripePayment
   subject: String!
   tenant: Tenant!
   tenantId: ID!
