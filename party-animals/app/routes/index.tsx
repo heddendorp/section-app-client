@@ -273,7 +273,7 @@ export default function Index() {
       </section>
       <section className="aspect-[21/9]">
         <iframe
-          src="https://www.youtube.com/embed/_ja3GL1LvMM?vq=hd1080&autoplay=1&loop=1&modestbranding=1&rel=0&iv_load_policy=3&controls=0&disablekb=1&playlist=_ja3GL1LvMM"
+          src="https://www.youtube.com/embed/_ja3GL1LvMM?vq=hd1080&mute=1&loop=1&modestbranding=1&rel=0&iv_load_policy=3&controls=0&disablekb=1&playlist=_ja3GL1LvMM"
           height="100%"
           width="100%"
           title="PA trailer"
