@@ -37,7 +37,11 @@ export function ErrorBoundary({ error }: { error: Error }) {
       <body>
         <h1>Something went wrong</h1>
         <Scripts />
-        <script async src="https://data.esn.world/latest.js" />
+        <script
+          data-collect-dnt="true"
+          async
+          src="https://data.esn.world/latest.js"
+        />
         <script async src="https://data.esn.world/auto-events.js"></script>
         <noscript>
           <img
