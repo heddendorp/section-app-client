@@ -150,8 +150,13 @@ query getRegistrationCodeInfo($code: ID!) {
     registrationCreated {
       id
       belongsToCurrentUser
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status
@@ -193,8 +198,13 @@ mutation useRegistrationCode($id: ID!, $price: JSON) {
     registrationCreated {
       id
       belongsToCurrentUser
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status

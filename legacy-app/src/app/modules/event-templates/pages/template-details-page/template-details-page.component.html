@@ -52,8 +52,8 @@
         <p class="mt-4 font-bold sm:mt-0">Category</p>
         <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
           <ng-container *ngIf="template.category">
-            <img class="h-8" [src]="template.category?.icon ?? '' | iconURL" />
-            <h3>{{ template.category?.name }}</h3>
+            <img class="h-8" [src]="template.category.icon | iconURL" />
+            <h3>{{ template.category.name }}</h3>
           </ng-container>
           <ng-container *ngIf="!template.category">
             <h3>Uncategorized</h3>
@@ -133,7 +133,7 @@
           >
             <a routerLink="/events/{{ event.id }}" class="text-base">
               <span class="font-bold">{{ event.title }}</span>
-              <span class="font-light ml-2">{{
+              <span class="ml-2 font-light">{{
                 event.start | date: 'shortDate'
               }}</span>
               <div
@@ -141,14 +141,14 @@
                   event.participantRatingCount &&
                   event.participantRatingCount > 0
                 "
-                class="inline-block ml-2 text-xs rounded px-1 bg-amber-400 text-white"
+                class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
               >
                 {{ event.participantRating | number: '1.1-1' }} ★ ({{
                   event.participantRatingCount
                 }})
               </div>
             </a>
-            <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
+            <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
               <app-rating-item
                 *ngFor="let rating of event.ratings"
                 [isOrganizer]="rating.type === 'ORGANIZER'"

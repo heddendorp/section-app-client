@@ -31,7 +31,10 @@ query loadTransactions(
     id
     amount
     createdAt
-    amount
+    type
+    subject
+    status
+    direction
     eventRegistration {
       id
       event {
@@ -46,6 +49,7 @@ query loadTransactions(
   }
   transactionCount(range: $range, search: $search)
   transactionSumAmount(range: $range, search: $search)
+  transactionNetAmount(range: $range)
 }
 
 query loadEventsWithBooking($after: DateTime) {
@@ -154,8 +158,13 @@ query loadUser($id: ID!) {
         id
         createdAt
       }
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status
@@ -280,8 +289,13 @@ query getTenantPurchases {
       fullName
       university
     }
-    transaction {
+    transactions {
       id
+      status
+      direction
+      amount
+      type
+      subject
       stripePayment {
         id
         status
@@ -303,8 +317,13 @@ query getPurchase($id: ID!) {
       fullName
       university
     }
-    transaction {
+    transactions {
       id
+      status
+      direction
+      amount
+      type
+      subject
       stripePayment {
         id
         status

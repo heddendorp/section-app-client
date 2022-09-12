@@ -306,10 +306,10 @@ builder.mutationFields((t) => ({
       eventId: t.arg.id({ required: true }),
     },
     resolve: async (query, root, { eventId }, context) => {
-      const event = await prisma.tumiEvent.findUnique({
+      const event = await prisma.tumiEvent.findUniqueOrThrow({
         where: { id: eventId },
       });
-      const template = await prisma.eventTemplate.findUnique({
+      const template = await prisma.eventTemplate.findUniqueOrThrow({
         where: { id: event?.eventTemplateId },
       });
       if (

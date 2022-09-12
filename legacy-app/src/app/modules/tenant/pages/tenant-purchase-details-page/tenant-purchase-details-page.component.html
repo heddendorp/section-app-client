@@ -12,13 +12,10 @@
 </app-reactive-toolbar>
 <main class="p-4" *ngIf="purchase$ | async as purchase">
   <h2>Payment</h2>
-  <p>Status: {{ purchase.transaction?.stripePayment?.status }}</p>
-  <p>
-    Amount:
-    {{
-      (purchase.transaction?.stripePayment?.amount ?? 0) / 100 | currency: 'EUR'
-    }}
-  </p>
+  <!--  TODO: check use of transactions list-->
+  <app-transaction-list
+    [transactions]="purchase.transactions"
+  ></app-transaction-list>
   <h2>Items</h2>
   <mat-list>
     <mat-list-item *ngFor="let item of purchase.items">

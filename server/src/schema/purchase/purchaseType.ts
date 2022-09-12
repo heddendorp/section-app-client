@@ -10,7 +10,6 @@ export const purchaseType = builder.prismaObject('Purchase', {
     userId: t.exposeID('userId'),
     items: t.relation('items'),
     status: t.expose('status', { type: PurchaseStatus }),
-    transaction: t.relation('transaction'),
-    transactionId: t.exposeID('transactionId'),
+    transactions: t.relation('transactions'),
   }),
 });

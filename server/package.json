@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env.development -- ts-node-dev --no-notify --respawn --transpile-only src/server",
-    "test": "dotenv -e .env.test -- yarn prisma migrate reset --skip-seed --force && dotenv -e .env.test -- yarn prisma db push --accept-data-loss && dotenv -e .env.test -- yarn prisma db seed && dotenv -e .env.test -- ts-node-dev --no-notify --respawn --transpile-only src/server",
-    "dev:full-db": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "dev": "dotenv -e .env.development -- ts-node-dev --no-notify --respawn src/server",
+    "test": "yarn prisma:reset-test && dotenv -e .env.test -- ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "dev:full-db": "ts-node-dev --no-notify --respawn src/server",
     "start": "node dist/server",
     "clean": "rimraf dist",
     "copy": "copyfiles -u 3 src/generated/prisma/** dist/generated/prisma && copyfiles -u 2 src/assets/** dist/assets",
@@ -17,7 +17,10 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "prisma:seed-dev": "dotenv -e .env.development -- ts-node prisma/seed.ts",
+    "prisma:studio-dev": "dotenv -e .env.development -- prisma studio",
     "prisma:reset-dev": "dotenv -e .env.development -- yarn prisma db push --accept-data-loss",
+    "prisma:reset-test": "dotenv -e .env.test -- yarn prisma migrate reset --skip-seed --force && dotenv -e .env.test -- yarn prisma db push --accept-data-loss && dotenv -e .env.test -- yarn prisma db seed",
+    "prisma:seed-test": "dotenv -e .env.test -- yarn prisma db seed",
     "test-old": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force && dotenv -e .env.test -- jest -i --detectOpenHandles",
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },

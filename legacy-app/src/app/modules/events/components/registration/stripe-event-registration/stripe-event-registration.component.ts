@@ -12,6 +12,7 @@ import {
   LoadEventQuery,
   RegisterForEventGQL,
   SubmissionItemType,
+  TransactionDirection,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
 import { Price } from '../../../../../../../../shared/data-types';
@@ -52,16 +53,17 @@ export class StripeEventRegistrationComponent implements OnChanges {
   }
 
   get lastPayment() {
-    if (
-      !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    ) {
-      return new Date();
-    }
-    return DateTime.fromISO(
-      this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    )
-      .plus({ hours: 1 })
-      .toJSDate();
+    //  TODO: implement with new transactions
+    // if (
+    //   !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    // ) {
+    return new Date();
+    // }
+    // return DateTime.fromISO(
+    //   this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
+    // )
+    //   .plus({ hours: 1 })
+    //   .toJSDate();
   }
 
   get canDeregisterInTime() {
@@ -87,6 +89,13 @@ export class StripeEventRegistrationComponent implements OnChanges {
     );
   }
 
+  get activeStripePayment() {
+    const payment = this.event?.activeRegistration?.transactions?.find(
+      (transaction) => transaction.direction === TransactionDirection.UserToTumi
+    )?.stripePayment;
+    return payment;
+  }
+
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['event']) {
       const prices = await firstValueFrom(
@@ -110,18 +119,25 @@ export class StripeEventRegistrationComponent implements OnChanges {
     if (this.event) {
       let data;
       try {
-        const res = (await firstValueFrom(
+        const res = await firstValueFrom(
           this.registerForEventGQL.mutate({
             eventId: this.event.id,
             price: this.priceControl.value,
             submissions: this.infoCollected$.value,
           })
-        )) as unknown as any;
+        );
         data = res.data;
 
-        this.openPaymentSession(
-          data?.registerForEvent.activeRegistration?.payment?.checkoutSession
-        );
+        const payment =
+          data?.registerForEvent.activeRegistration?.transactions?.find(
+            (transaction) =>
+              transaction.direction === TransactionDirection.UserToTumi
+          )?.stripePayment;
+
+        if (!payment) {
+          throw new Error('No payment found');
+        }
+        await this.openPaymentSession(payment.checkoutSession);
       } catch (e: unknown) {
         this.processing.next(false);
         if (e instanceof Error) {

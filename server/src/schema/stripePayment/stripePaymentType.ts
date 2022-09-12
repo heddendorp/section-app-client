@@ -32,8 +32,7 @@ export const stripePaymentType = builder.prismaObject('StripePayment', {
           )
         ),
     }),
-    transaction: t.relation('transaction'),
-    transactionId: t.exposeID('transactionId'),
+    transactions: t.relation('transactions'),
     checkoutSession: t.exposeString('checkoutSession'),
   }),
 });

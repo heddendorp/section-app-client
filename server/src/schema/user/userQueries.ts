@@ -113,7 +113,7 @@ builder.queryFields((t) => ({
       id: t.arg.id({ required: true }),
     },
     resolve: async (query, root, args, ctx, info) =>
-      prisma.user.findUnique({ ...query, where: { id: args.id } }),
+      prisma.user.findUniqueOrThrow({ ...query, where: { id: args.id } }),
   }),
   currentUser: t.prismaField({
     type: 'User',

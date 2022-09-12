@@ -52,7 +52,7 @@ builder.queryFields((t) => ({
       id: t.arg.id({ required: true }),
     },
     resolve: async (query, root, { id }, context) => {
-      return prisma.eventRegistrationCode.findUnique({
+      return prisma.eventRegistrationCode.findUniqueOrThrow({
         where: { id },
         ...query,
       });
