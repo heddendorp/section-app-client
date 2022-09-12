@@ -1,18 +1,14 @@
 # [5.0.0](https://github.com/heddendorp/tumi/compare/v4.5.3...v5.0.0) (2022-09-12)
 
-
 ### Bug Fixes
 
-* **legacy-app:** improve website metrics ([2ffd8a6](https://github.com/heddendorp/tumi/commit/2ffd8a6a6a24d419f93bea389d87d3bd0ae30d9d))
-* **party-animals:** improve website metrics ([5491d09](https://github.com/heddendorp/tumi/commit/5491d09050319328d9a698e72735f21a68fb081f))
-* **party-animals:** mute video ([7be91a2](https://github.com/heddendorp/tumi/commit/7be91a2f821b5909577f234a209c543683bd3315))
-
+- **legacy-app:** improve website metrics ([2ffd8a6](https://github.com/heddendorp/tumi/commit/2ffd8a6a6a24d419f93bea389d87d3bd0ae30d9d))
+- **party-animals:** improve website metrics ([5491d09](https://github.com/heddendorp/tumi/commit/5491d09050319328d9a698e72735f21a68fb081f))
+- **party-animals:** mute video ([7be91a2](https://github.com/heddendorp/tumi/commit/7be91a2f821b5909577f234a209c543683bd3315))
 
 ### Features
 
-* **ops:** finish db-save and restore scripts ([a053c3d](https://github.com/heddendorp/tumi/commit/a053c3dc39e6dbebbd684961ab0981e75ba31500))
-
-
+- **ops:** finish db-save and restore scripts ([a053c3d](https://github.com/heddendorp/tumi/commit/a053c3dc39e6dbebbd684961ab0981e75ba31500))
 
 ## [4.5.3](https://github.com/heddendorp/tumi/compare/v4.5.2...v4.5.3) (2022-09-10)
 
