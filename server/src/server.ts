@@ -267,4 +267,4 @@ app.get('/prom-metrics', async (_, res) => {
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
-process.env.NODE_ENV !== 'test' && app.listen(port, async () => {});
+app.listen(port, async () => {});

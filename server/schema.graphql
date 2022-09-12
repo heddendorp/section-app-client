@@ -152,6 +152,9 @@ type EventOrganizer {
 
 type EventRegistration {
   anonymousRating: Boolean!
+
+  """The sum of all transactions related to this registration"""
+  balance: Decimal!
   belongsToCurrentUser: Boolean!
   cancellationReason: String
   checkInTime: DateTime
@@ -166,8 +169,7 @@ type EventRegistration {
   rating: Int
   status: RegistrationStatus!
   submissions: [EventSubmission!]!
-  transaction: Transaction
-  transactionId: ID
+  transactions(directions: [TransactionDirection!]): [Transaction!]!
   type: RegistrationType!
   user: User!
   userComment: String
@@ -189,8 +191,6 @@ type EventRegistrationCode {
   status: RegistrationStatus!
   targetEvent: TumiEvent!
   targetEventId: ID!
-  transaction: Transaction!
-  transactionId: ID
 }
 
 type EventSubmission {
@@ -399,8 +399,7 @@ type Purchase {
   id: ID!
   items: [LineItem!]!
   status: PurchaseStatus!
-  transaction: Transaction!
-  transactionId: ID!
+  transactions: [Transaction!]!
   user: User!
   userId: ID!
 }
@@ -439,9 +438,10 @@ type Query {
   registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
-  transactionCount(range: DateRangeInput, search: String): Int!
-  transactionSumAmount(range: DateRangeInput, search: String): Float!
-  transactions(range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
+  transactionCount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Int!
+  transactionNetAmount(range: DateRangeInput): Decimal!
+  transactionSumAmount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Float!
+  transactions(directions: [TransactionDirection!], range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
   user(id: ID!): User!
   userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
   users(emptyOnEmptySearch: Boolean = false, onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!
@@ -531,8 +531,7 @@ type StripePayment {
   refundedAmount: Decimal
   shipping: JSON
   status: String!
-  transaction: Transaction!
-  transactionId: ID!
+  transactions: [Transaction!]!
 }
 
 type StripeUserData {
@@ -584,18 +583,35 @@ type Transaction {
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID
+  direction: TransactionDirection!
   eventRegistration: EventRegistration
   id: ID!
   isMembershipFee: Boolean!
-  partner: String
   purchase: Purchase!
-  stripePayment: StripePayment!
+  status: TransactionStatus!
+  stripePayment: StripePayment
   subject: String!
   tenant: Tenant!
   tenantId: ID!
-  type: String!
+  type: TransactionType!
   user: User
   userId: ID
+}
+
+enum TransactionDirection {
+  EXTERNAL_TO_TUMI
+  EXTERNAL_TO_USER
+  TUMI_TO_EXTERNAL
+  TUMI_TO_USER
+  USER_TO_EXTERNAL
+  USER_TO_TUMI
+  USER_TO_USER
+}
+
+enum TransactionStatus {
+  CANCELLED
+  CONFIRMED
+  PENDING
 }
 
 enum TransactionType {

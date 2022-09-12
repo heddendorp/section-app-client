@@ -1,4 +1,4 @@
-import { seedIds } from '../../../server/prisma/constants';
+import { events, seedIds } from '../../../server/prisma/constants';
 
 describe('The Events Page', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('The Events Page', () => {
       cy.get('app-event-list-page').should('exist');
     });
     it('shows the Test Event', () => {
-      cy.get('app-events-list-item').contains('Test Event');
+      cy.get('app-events-list-item').contains(events.stripeEvent.title);
       cy.percySnapshot();
     });
     it('should allow navigating to the test event', () => {

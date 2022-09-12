@@ -45,7 +45,7 @@ builder.mutationFields((t) => ({
       info
     ) => {
       let isKick = false;
-      const registration = await prisma.eventRegistration.findUnique({
+      const registration = await prisma.eventRegistration.findUniqueOrThrow({
         where: { id: registrationId },
       });
       if (
@@ -54,7 +54,7 @@ builder.mutationFields((t) => ({
       ) {
         throw new GraphQLYogaError('Only admins can deregister other users');
       }
-      const event = await prisma.tumiEvent.findUnique({
+      const event = await prisma.tumiEvent.findUniqueOrThrow({
         where: { id: registration?.eventId },
       });
       if (
@@ -246,14 +246,16 @@ builder.mutationFields((t) => ({
           throw new GraphQLYogaError('Registration mode not supported');
         }
       });
+      console.log(registration);
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT &&
         registration
       ) {
-        const baseUrl = process.env.DEV
-          ? `http://localhost:4200/events/${eventId}`
-          : `https://tumi.esn.world/events/${eventId}`;
+        const baseUrl =
+          process.env.DEV || process.env.NODE_ENV === 'test'
+            ? `http://localhost:4200/events/${eventId}`
+            : `https://tumi.esn.world/events/${eventId}`;
         try {
           const transaction = await RegistrationService.createPayment(
             context,
@@ -264,7 +266,7 @@ builder.mutationFields((t) => ({
                 currency: 'EUR',
                 name: event.title,
                 description: 'Registration fee for event',
-                tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
+                tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
               },
             ],
             'book',
@@ -277,7 +279,7 @@ builder.mutationFields((t) => ({
               id: registration.id,
             },
             data: {
-              transaction: {
+              transactions: {
                 connect: {
                   id: transaction.id,
                 },

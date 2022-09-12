@@ -11,6 +11,8 @@ import {
   Role,
   SubmissionItemType,
   SubmissionTime,
+  TransactionDirection,
+  TransactionStatus,
   TransactionType,
 } from '../generated/prisma';
 
@@ -26,3 +28,5 @@ builder.enumType(Role, { name: 'Role' });
 builder.enumType(SubmissionItemType, { name: 'SubmissionItemType' });
 builder.enumType(SubmissionTime, { name: 'SubmissionTime' });
 builder.enumType(TransactionType, { name: 'TransactionType' });
+builder.enumType(TransactionDirection, { name: 'TransactionDirection' });
+builder.enumType(TransactionStatus, { name: 'TransactionStatus' });

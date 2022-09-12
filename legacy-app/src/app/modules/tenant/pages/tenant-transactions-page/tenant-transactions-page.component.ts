@@ -15,10 +15,13 @@ import { Title } from '@angular/platform-browser';
 })
 export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
   public displayedColumns = [
-    'name',
-    'event',
+    'subject',
     'amount',
+    'direction',
+    'status',
     'date',
+    'user',
+    'event',
     // 'role',
     // 'action',
   ];
@@ -27,6 +30,7 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     LoadTransactionsQuery['transactionCount']
   >;
   public sumAmount$: Observable<LoadTransactionsQuery['transactionSumAmount']>;
+  public netAmount$: Observable<LoadTransactionsQuery['transactionNetAmount']>;
   public filterForm = new FormGroup({
     range: new FormGroup({
       start: new FormControl(),
@@ -54,6 +58,9 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     );
     this.sumAmount$ = this.loadTransactionsRef.valueChanges.pipe(
       map((res) => res.data.transactionSumAmount)
+    );
+    this.netAmount$ = this.loadTransactionsRef.valueChanges.pipe(
+      map((res) => res.data.transactionNetAmount)
     );
   }
 

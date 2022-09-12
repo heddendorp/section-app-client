@@ -22,8 +22,13 @@ mutation registerForEvent(
       type
       status
       cancellationReason
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           createdAt

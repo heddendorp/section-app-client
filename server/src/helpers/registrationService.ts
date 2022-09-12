@@ -4,6 +4,7 @@ import {
   RegistrationStatus,
   RegistrationType,
   Tenant,
+  TransactionDirection,
   TransactionType,
   User,
   UsersOfTenants,
@@ -50,7 +51,7 @@ export class RegistrationService {
             currency: 'EUR',
             quantity: 1,
             name: registrationCode.targetEvent.title,
-            tax_rates: ['txr_1KFJcK4EBOHRwndErPETnHSR'],
+            tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
             description: 'Registration code fee for event',
           },
         ],
@@ -64,7 +65,7 @@ export class RegistrationService {
         data: {
           event: { connect: { id: registrationCode.targetEvent.id } },
           user: { connect: { id: userId } },
-          transaction: { connect: { id: transaction.id } },
+          transactions: { connect: { id: transaction.id } },
           status: RegistrationStatus.PENDING,
           type: RegistrationType.PARTICIPANT,
           eventRegistrationCode: { connect: { id: registrationCode.id } },
@@ -77,8 +78,8 @@ export class RegistrationService {
       return prisma.eventRegistrationCode.update({
         where: { id: registrationCodeId },
         data: {
+          status: RegistrationStatus.SUCCESSFUL,
           registrationCreatedId: registration.id,
-          transactionId: transaction.id,
         },
       });
     } else if (
@@ -191,11 +192,12 @@ export class RegistrationService {
     return prisma.transaction.create({
       data: {
         type: TransactionType.STRIPE,
+        direction: TransactionDirection.USER_TO_TUMI,
         subject: `Fee for: ${items.map((item) => item.name).join(',')}`,
         createdBy: { connect: { id: userId } },
         user: { connect: { id: userId } },
         tenant: { connect: { id: context.tenant.id } },
-        amount: (session.amount_total ?? 0) / -100,
+        amount: (session.amount_total ?? 0) / 100,
         stripePayment: {
           create: {
             amount: session.amount_total ?? 0,
@@ -234,7 +236,10 @@ export class RegistrationService {
       where: { id: registrationId },
       include: {
         event: true,
-        transaction: { include: { stripePayment: true } },
+        transactions: {
+          where: { direction: TransactionDirection.USER_TO_TUMI },
+          include: { stripePayment: true },
+        },
       },
     });
     if (!registration) {
@@ -242,13 +247,29 @@ export class RegistrationService {
     }
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
       if (withRefund) {
-        const payment = registration.transaction?.stripePayment;
+        const payment = registration.transactions[0]?.stripePayment;
         if (!payment) {
           throw new Error('Payment not found');
         }
         try {
-          await this.stripe.refunds.create({
+          const refund = await this.stripe.refunds.create({
             payment_intent: payment.paymentIntent,
+          });
+          await prisma.transaction.create({
+            data: {
+              direction: TransactionDirection.TUMI_TO_USER,
+              type: TransactionType.STRIPE,
+              subject: `Refund for registration ${registrationId}`,
+              createdBy: { connect: { id: context.user?.id ?? '' } },
+              user: { connect: { id: registration.userId } },
+              tenant: { connect: { id: context.tenant.id } },
+              amount: refund.amount / 100,
+              stripePayment: {
+                connect: {
+                  id: payment.id,
+                },
+              },
+            },
           });
         } catch (e) {
           console.error(e);

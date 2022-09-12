@@ -60,12 +60,13 @@
         <p class="">
           {{ registration.user.fullName }}
         </p>
-        <p *ngIf="registration.transaction?.stripePayment">
+        <!--        TODO: fix with new transactions-->
+        <!--<p *ngIf="registration.transaction?.stripePayment">
           Payment status:
           <span class="rounded bg-gray-200 px-2 font-mono">{{
             registration.transaction?.stripePayment?.status
           }}</span>
-        </p>
+        </p>-->
       </div>
       <div>
         <p class="text-lg">Event</p>
@@ -157,7 +158,7 @@
     <button
       mat-flat-button
       color="primary"
-      class="h-24 modern"
+      class="modern h-24"
       (click)="checkInUser()"
       [disabled]="
         (currentRegistration$ | async) === null ||

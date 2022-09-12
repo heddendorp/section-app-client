@@ -1,5 +1,11 @@
 import { builder } from '../../builder';
-import { RegistrationStatus, RegistrationType } from '../../generated/prisma';
+import {
+  Prisma,
+  RegistrationStatus,
+  RegistrationType,
+  TransactionDirection,
+  TransactionStatus,
+} from '../../generated/prisma';
 import prisma from '../../client';
 
 export const eventRegistrationType = builder.prismaObject('EventRegistration', {
@@ -14,8 +20,64 @@ export const eventRegistrationType = builder.prismaObject('EventRegistration', {
     userId: t.exposeID('userId'),
     event: t.relation('event'),
     eventId: t.exposeID('eventId'),
-    transaction: t.relation('transaction', { nullable: true }),
-    transactionId: t.exposeID('transactionId', { nullable: true }),
+    transactions: t.relation('transactions', {
+      args: {
+        directions: t.arg({
+          type: [TransactionDirection],
+        }),
+      },
+      query: ({ directions }) => ({
+        where: directions ? { direction: { in: directions } } : {},
+        orderBy: { createdAt: 'desc' },
+      }),
+    }),
+    balance: t.field({
+      type: 'Decimal',
+      description: 'The sum of all transactions related to this registration',
+      resolve: async (source, args, context) => {
+        return Promise.all([
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.USER_TO_TUMI,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_EXTERNAL,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+          prisma.transaction.aggregate({
+            where: {
+              direction: TransactionDirection.TUMI_TO_USER,
+              eventRegistration: {
+                id: source.id,
+              },
+              status: TransactionStatus.CONFIRMED,
+            },
+            _sum: { amount: true },
+          }),
+        ])
+          .then((aggregations) =>
+            aggregations.map(
+              (aggregation) => aggregation._sum.amount?.toNumber() ?? 0
+            )
+          )
+          .then(
+            ([incoming, fees, refunds]) =>
+              new Prisma.Decimal(incoming - fees - refunds)
+          );
+      },
+    }),
     checkInTime: t.expose('checkInTime', { type: 'DateTime', nullable: true }),
     manualCheckin: t.expose('manualCheckin', { type: 'Boolean' }),
     status: t.expose('status', { type: RegistrationStatus }),

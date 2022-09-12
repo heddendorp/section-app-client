@@ -18,8 +18,13 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
         status
       }
     }
-    transaction {
+    transactions {
       id
+      status
+      direction
+      amount
+      type
+      subject
       stripePayment {
         id
         status
@@ -53,8 +58,13 @@ query getRegistrationForAdmin($id: ID!) {
         status
       }
     }
-    transaction {
+    transactions {
       id
+      status
+      direction
+      amount
+      type
+      subject
       stripePayment {
         id
         status
@@ -177,8 +187,13 @@ query getEventRegistrationCode($registrationId: ID!) {
           status
         }
       }
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status
@@ -203,8 +218,13 @@ query getEventRegistrationCode($registrationId: ID!) {
           status
         }
       }
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status
@@ -229,8 +249,13 @@ query getEventRegistrationCode($registrationId: ID!) {
           status
         }
       }
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status

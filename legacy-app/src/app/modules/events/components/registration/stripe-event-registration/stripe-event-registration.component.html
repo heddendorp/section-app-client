@@ -56,45 +56,29 @@
   </ng-container>
   <ng-container *ngIf="event.userIsRegistered">
     <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
-    <p
-      *ngIf="
-        event.activeRegistration?.transaction?.stripePayment?.status !==
-        'incomplete'
-      "
-    >
+    <!--    TODO: check with new transactions-->
+    <p *ngIf="activeStripePayment?.status !== 'incomplete'">
       ✔️ You have a spot on this event.
     </p>
-    <ng-container
-      *ngIf="
-        event.activeRegistration?.transaction?.stripePayment?.status ===
-        'incomplete'
-      "
-    >
+    <!--    TODO: check with new transactions-->
+    <ng-container *ngIf="activeStripePayment?.status === 'incomplete'">
       <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
       <p>
         Please make sure to complete you payment by
         {{ lastPayment | date: 'mediumTime' }} or we will have to cancel your
         registration
       </p>
+      <!--      TODO: check with new transactions-->
       <button
         mat-flat-button
         color="primary"
-        (click)="
-          openPaymentSession(
-            event.activeRegistration?.transaction?.stripePayment
-              ?.checkoutSession
-          )
-        "
+        (click)="openPaymentSession(activeStripePayment?.checkoutSession)"
       >
         Finalize event payment
       </button>
     </ng-container>
-    <ng-container
-      *ngIf="
-        event.activeRegistration?.transaction?.stripePayment?.status ===
-        'processing'
-      "
-    >
+    <!--    TODO: check with new transactions-->
+    <ng-container *ngIf="activeStripePayment?.status === 'processing'">
       <p>
         Your payment is currently processing, once it was successful you can
         give the event away or give up you spot.

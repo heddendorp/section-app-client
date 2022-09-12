@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Create Event: {{ data.template?.title }}</h1>
+<h1 mat-dialog-title>Create Event: {{ data.template.title }}</h1>
 <form [formGroup]="eventDataForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content class="space-y-2">
     <mat-form-field class="w-full">
@@ -11,7 +11,7 @@
       <input matInput formControlName="end" type="datetime-local" />
       <mat-hint
         >The end of the event will automatically be set to
-        {{ data.template?.duration }}h after the start</mat-hint
+        {{ data.template.duration }}h after the start</mat-hint
       >
       <mat-error>You have to specify when the event will end</mat-error>
     </mat-form-field>

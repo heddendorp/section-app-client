@@ -58,12 +58,13 @@ query loadEvent($id: ID!) {
       id
       didAttend
       status
-      #      openMoveOrders {
-      #        id
-      #      }
-      transactionId
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           createdAt
@@ -221,8 +222,13 @@ query loadEventForRunning($id: ID!) {
     participantRegistrations(includePending: false) {
       id
       checkInTime
-      transaction {
+      transactions {
         id
+        status
+        direction
+        amount
+        type
+        subject
         stripePayment {
           id
           status
@@ -310,8 +316,13 @@ mutation deleteReceipt($receiptId: ID!) {
 query getRegistration($id: ID!) {
   registration(id: $id) {
     id
-    transaction {
+    transactions {
       id
+      status
+      direction
+      amount
+      type
+      subject
       stripePayment {
         id
         status
@@ -398,16 +409,14 @@ query loadEventForManagement($id: ID!) {
       createdAt
       status
       cancellationReason
-      transaction {
+      balance
+      transactions {
         id
-        stripePayment {
-          id
-          status
-          paymentMethodType
-          netAmount
-          refundedAmount
-          netLessRefundAmount
-        }
+        status
+        direction
+        amount
+        type
+        subject
       }
       checkInTime
       didAttend

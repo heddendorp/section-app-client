@@ -6,11 +6,38 @@ import {
   PublicationState,
 } from '../src/generated/prisma';
 import { faker } from '@faker-js/faker';
-import { seedIds, templates, users } from './constants';
+import { events, seedIds, templates, users } from './constants';
 
 const prisma = new PrismaClient();
 
 async function runSeed() {
+  // Clean up DB
+  await prisma.invite.deleteMany();
+  await prisma.stripeUserData.deleteMany();
+  await prisma.stripePayment.deleteMany();
+  await prisma.purchase.deleteMany();
+  await prisma.transaction.deleteMany();
+  await prisma.eventRegistrationCode.deleteMany();
+  await prisma.eventRegistration.deleteMany();
+  await prisma.receipt.deleteMany();
+  await prisma.costItem.deleteMany();
+  await prisma.photoShare.deleteMany();
+  await prisma.tumiEvent.deleteMany();
+  await prisma.eventTemplate.deleteMany();
+  await prisma.eventTemplateCategory.deleteMany();
+  await prisma.shoppingCart.deleteMany();
+  await prisma.usersOfTenants.deleteMany();
+  await prisma.productImage.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.eventOrganizer.deleteMany();
+  await prisma.refundedRegistration.deleteMany();
+  await prisma.lineItem.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.eventSubmission.deleteMany();
+  await prisma.eventSubmissionItem.deleteMany();
+  await prisma.tenant.deleteMany();
+  console.log('DB cleaned up');
+
   const tumiTenant = await prisma.tenant.create({
     data: {
       name: 'ESN TUMi e.V.',
@@ -22,7 +49,7 @@ async function runSeed() {
     data: {
       name: 'ESN TUMi e.V.',
       tenant: { connect: { id: tumiTenant.id } },
-      text: 'text',
+      text: 'This event is organized by the student association ESN TUMi München e.V.',
     },
   });
 
@@ -115,6 +142,32 @@ async function runSeed() {
 
   /**
    * Test user also available in auth0
+   * password: testuser5!
+   */
+  const regularUser2 = await prisma.user.create({
+    data: {
+      authId: 'auth0|631ccaaba28ffb8fe3e497e3',
+      email: users.regularUser2.email,
+      email_verified: true,
+      firstName: users.regularUser2.firstName,
+      lastName: users.regularUser2.lastName,
+      picture: faker.internet.avatar(),
+      university: 'tum',
+      enrolmentStatus: 'EXCHANGE',
+      birthdate: faker.date.birthdate(),
+    },
+  });
+  await prisma.usersOfTenants.create({
+    data: {
+      role: Role.USER,
+      status: MembershipStatus.NONE,
+      tenant: { connect: { id: tumiTenant.id } },
+      user: { connect: { id: regularUser2.id } },
+    },
+  });
+
+  /**
+   * Test user also available in auth0
    * password: testuser4!
    */
   const unfinishedUser = await prisma.user.create({
@@ -151,8 +204,15 @@ async function runSeed() {
           },
         ],
       },
-      icon: 'test-tube',
-      location: faker.address.nearbyGPSCoordinate().join(','),
+      tenant: { connect: { id: tumiTenant.id } },
+    },
+  });
+
+  const paidTemplate = await prisma.eventTemplate.create({
+    data: {
+      ...templates.paidTemplate,
+      duration: 60,
+      finances: {},
       tenant: { connect: { id: tumiTenant.id } },
     },
   });
@@ -185,25 +245,21 @@ async function runSeed() {
       title: 'Internal draft Event',
     },
   });
+
   const stripeEvent = await prisma.tumiEvent.create({
     data: {
-      id: seedIds.testEvent,
+      ...events.stripeEvent,
       createdBy: { connect: { id: adminUser.id } },
-      description: 'This is a test event',
       end: faker.date.soon(1, startDate.toString()),
       eventTemplate: { connect: { id: testTemplate.id } },
-      icon: 'test-tube',
-      location: faker.address.nearbyGPSCoordinate().join(','),
       organizer: { connect: { id: tumiOrganizer.id } },
-      organizerText: 'This is a test event',
-      participantText: 'This is a test event',
       registrationMode: RegistrationMode.STRIPE,
       start: startDate,
-      title: 'Stripe Event',
       publicationState: PublicationState.PUBLIC,
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
     },
   });
+
   const freeEvent = await prisma.tumiEvent.create({
     data: {
       id: seedIds.freeEvent,
@@ -221,6 +277,65 @@ async function runSeed() {
       title: 'Test Event',
       publicationState: PublicationState.PUBLIC,
       participantSignup: [MembershipStatus.NONE, MembershipStatus.FULL],
+    },
+  });
+
+  const paidStartDate = faker.date.soon(10);
+  const paidStartDate2 = faker.date.soon(10);
+  const paidEvent = await prisma.tumiEvent.create({
+    data: {
+      ...events.paidEvent,
+      organizer: { connect: { id: tumiOrganizer.id } },
+      eventTemplate: { connect: { id: paidTemplate.id } },
+      start: paidStartDate,
+      end: faker.date.soon(1, paidStartDate.toString()),
+      createdBy: { connect: { id: adminUser.id } },
+      registrationMode: RegistrationMode.STRIPE,
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [
+        MembershipStatus.NONE,
+        MembershipStatus.FULL,
+        MembershipStatus.TRIAL,
+      ],
+      participantLimit: 10,
+      prices: {
+        options: [
+          {
+            amount: '7.5',
+            defaultPrice: true,
+            esnCardRequired: false,
+            allowedStatusList: ['NONE', 'TRIAL', 'FULL', 'SPONSOR', 'ALUMNI'],
+          },
+        ],
+      },
+    },
+  });
+  const paidEvent2 = await prisma.tumiEvent.create({
+    data: {
+      ...events.paidEvent2,
+      organizer: { connect: { id: tumiOrganizer.id } },
+      eventTemplate: { connect: { id: paidTemplate.id } },
+      start: paidStartDate2,
+      end: faker.date.soon(1, paidStartDate2.toString()),
+      createdBy: { connect: { id: adminUser.id } },
+      registrationMode: RegistrationMode.STRIPE,
+      publicationState: PublicationState.PUBLIC,
+      participantSignup: [
+        MembershipStatus.NONE,
+        MembershipStatus.FULL,
+        MembershipStatus.TRIAL,
+      ],
+      participantLimit: 10,
+      prices: {
+        options: [
+          {
+            amount: '7.5',
+            defaultPrice: true,
+            esnCardRequired: false,
+            allowedStatusList: ['NONE', 'TRIAL', 'FULL', 'SPONSOR', 'ALUMNI'],
+          },
+        ],
+      },
     },
   });
 }

@@ -25,7 +25,7 @@ export const productType = builder.prismaObject('Product', {
     leadImage: t.prismaField({
       type: 'ProductImage',
       resolve: async (query, parent, args, context, info) => {
-        return prisma.productImage.findUnique({
+        return prisma.productImage.findUniqueOrThrow({
           ...query,
           where: {
             id: parent.leadImageId ?? '',
