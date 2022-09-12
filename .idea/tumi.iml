@@ -6,6 +6,20 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/party-animals/app/styles" />
+      <excludeFolder url="file://$MODULE_DIR$/.yarn/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/cypress/screenshots" />
+      <excludeFolder url="file://$MODULE_DIR$/cypress/videos" />
+      <excludeFolder url="file://$MODULE_DIR$/experiments/.angular/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/experiments/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/legacy-app/.angular/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/legacy-app/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/party-animals/app/generated/prisma" />
+      <excludeFolder url="file://$MODULE_DIR$/party-animals/public/build" />
+      <excludeFolder url="file://$MODULE_DIR$/party-animals/.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/party-animals/build" />
+      <excludeFolder url="file://$MODULE_DIR$/server/src/generated" />
+      <excludeFolder url="file://$MODULE_DIR$/server/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/server/storage-22-9-12" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
