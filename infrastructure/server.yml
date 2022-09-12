@@ -36,6 +36,10 @@ template:
       secretRef: photo-storage-token
     - name: STORAGE_CONNECTION_STRING
       secretRef: storage-connection-string
+    - name: FULL_TAX_RATE
+      secretRef: full-tax-rate
+    - name: REDUCED_TAX_RATE
+      secretRef: reduced-tax-rate
     resources:
       cpu: 1
       memory: 2Gi
