@@ -576,8 +576,8 @@ export const webhookRouter = (prisma: PrismaClient) => {
             break;
           }
           let transaction;
-          if (payment.transaction.length === 1) {
-            transaction = payment.transaction[0];
+          if (payment.transactions.length === 1) {
+            transaction = payment.transactions[0];
             await prisma.transaction.update({
               where: { id: transaction.id },
               data: {
