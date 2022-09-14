@@ -71,7 +71,7 @@
       <div>
         <p class="text-lg">Event</p>
         <p>
-          {{ registration.event?.title }}
+          {{ registration.event.title }}
         </p>
         <p class="text-red-500" *ngIf="registrationLoading$ | async">
           This data can not verify the ticket wasn't used before. Info is

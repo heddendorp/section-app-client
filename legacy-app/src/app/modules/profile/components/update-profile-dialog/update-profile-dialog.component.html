@@ -24,10 +24,7 @@
       <mat-label>Country</mat-label>
       <input matInput formControlName="country" type="text" />
     </mat-form-field>
-    <mat-form-field
-      class="w-full"
-      [hintLabel]="(bio.value?.length || 0) + '/150'"
-    >
+    <mat-form-field class="w-full" [hintLabel]="bio.value.length + '/150'">
       <mat-label>Bio</mat-label>
       <textarea
         #bio

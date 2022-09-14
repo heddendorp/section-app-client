@@ -8,13 +8,15 @@ const routes: Routes = [
   { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
   {
     path: 'profile',
-    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+    // canLoad: [AuthGuard],
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: 'event-templates',
-    canLoad: [AuthGuard, MemberGuard],
+    canActivate: [AuthGuard, MemberGuard],
+    // canLoad: [AuthGuard, MemberGuard],
     loadChildren: () =>
       import('./modules/event-templates/event-templates.module').then(
         (m) => m.EventTemplatesModule
@@ -27,7 +29,8 @@ const routes: Routes = [
   },
   {
     path: 'tenant',
-    canLoad: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, AdminGuard],
+    // canLoad: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./modules/tenant/tenant.module').then((m) => m.TenantModule),
   },

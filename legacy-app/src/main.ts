@@ -7,10 +7,6 @@ import * as Sentry from '@sentry/angular';
 import { BrowserTracing } from '@sentry/tracing';
 import { getActiveTransaction } from '@sentry/angular';
 
-window.addEventListener('load', () => {
-  console.log('page is fully loaded');
-});
-
 let bootstrapSpan: any = null;
 
 if (environment.production) {
