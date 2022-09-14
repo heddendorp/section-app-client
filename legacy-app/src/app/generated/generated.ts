@@ -1306,18 +1306,6 @@ export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
-export type GetTutorHubInfoQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTutorHubInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, tutorHub: any } };
-
-export type GetTutorHubEventsQueryVariables = Exact<{
-  range?: InputMaybe<DateRangeInput>;
-}>;
-
-
-export type GetTutorHubEventsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, tutorHubEvents: any } };
-
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
 }>;
@@ -1947,6 +1935,18 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUserPosition: { __typename?: 'User', position?: string | null }, updateUserRole: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role }, updateUserStatus: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } };
 
+export type GetTutorHubInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTutorHubInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, tutorHub: any } };
+
+export type GetTutorHubEventsQueryVariables = Exact<{
+  range?: InputMaybe<DateRangeInput>;
+}>;
+
+
+export type GetTutorHubEventsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, tutorHubEvents: any } };
+
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
   currentUser {
@@ -1993,45 +1993,6 @@ export const GetTenantInfoDocument = gql`
   })
   export class GetTenantInfoGQL extends Apollo.Query<GetTenantInfoQuery, GetTenantInfoQueryVariables> {
     override document = GetTenantInfoDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetTutorHubInfoDocument = gql`
-    query getTutorHubInfo {
-  currentTenant {
-    id
-    name
-    tutorHub
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetTutorHubInfoGQL extends Apollo.Query<GetTutorHubInfoQuery, GetTutorHubInfoQueryVariables> {
-    override document = GetTutorHubInfoDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetTutorHubEventsDocument = gql`
-    query getTutorHubEvents($range: DateRangeInput) {
-  currentTenant {
-    id
-    tutorHubEvents(range: $range)
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetTutorHubEventsGQL extends Apollo.Query<GetTutorHubEventsQuery, GetTutorHubEventsQueryVariables> {
-    override document = GetTutorHubEventsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -5072,6 +5033,45 @@ export const UpdateUserDocument = gql`
   })
   export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
     override document = UpdateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetTutorHubInfoDocument = gql`
+    query getTutorHubInfo {
+  currentTenant {
+    id
+    name
+    tutorHub
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetTutorHubInfoGQL extends Apollo.Query<GetTutorHubInfoQuery, GetTutorHubInfoQueryVariables> {
+    override document = GetTutorHubInfoDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetTutorHubEventsDocument = gql`
+    query getTutorHubEvents($range: DateRangeInput) {
+  currentTenant {
+    id
+    tutorHubEvents(range: $range)
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetTutorHubEventsGQL extends Apollo.Query<GetTutorHubEventsQuery, GetTutorHubEventsQueryVariables> {
+    override document = GetTutorHubEventsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

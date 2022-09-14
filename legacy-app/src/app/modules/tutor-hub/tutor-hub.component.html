@@ -16,7 +16,7 @@
   gdGap="1rem"
 >
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl relative overflow-hidden"
+    class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
   >
     <app-semester-navigator
       [calculateStartEnd]="calculateStartEnd"
@@ -26,10 +26,10 @@
     <mat-divider></mat-divider>
     <ng-container>
       <div
-        class="my-4 flex flex-row justify-evenly sm:gap-16 sm:justify-center"
+        class="my-4 flex flex-row justify-evenly sm:justify-center sm:gap-16"
       >
         <div class="flex flex-col items-center">
-          <div class="text-3xl font-extrabold mb-1">
+          <div class="mb-1 text-3xl font-extrabold">
             <span *ngIf="events$ | async as events; else eventCounter">{{
               events.eventCount
             }}</span>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex flex-col items-center">
-          <div class="text-3xl font-extrabold mb-1">
+          <div class="mb-1 text-3xl font-extrabold">
             <span *ngIf="events$ | async as events; else registrationCounter">{{
               events.registrationCount
             }}</span>
@@ -72,7 +72,7 @@
           </mat-icon>
           <div>
             <h2 class="font-bold">Leaderboard</h2>
-            <div class="text-xs -mt-0.5">
+            <div class="-mt-0.5 text-xs">
               <a
                 matRipple
                 (click)="leaderboardToggle = false"
@@ -102,7 +102,7 @@
             *ngIf="events$ | async as events; else leaderboardSkeleton"
           >
             <ng-container *ngFor="let entry of getLeaderboard(events)">
-              <div class="w-8 text-end pr-3">{{ entry.rank }}</div>
+              <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
               <app-user-chip
                 size="xs"
                 [id]="entry.user.id"
@@ -118,7 +118,7 @@
             <ng-container
               *ngFor="let entry of [].constructor(10); let i = index"
             >
-              <div class="w-8 text-end pr-3">{{ i + 1 }}.</div>
+              <div class="w-8 pr-3 text-end">{{ i + 1 }}.</div>
               <div class="skeleton h-6 w-36 rounded-[24px]"></div>
               <div class="skeleton ml-auto font-medium">XX</div>
             </ng-container>
@@ -128,7 +128,7 @@
           <a
             matRipple
             (click)="leaderboardExpanded = !leaderboardExpanded"
-            class="text-blue-700 cursor-pointer text-xs"
+            class="cursor-pointer text-xs text-blue-700"
             >show {{ leaderboardExpanded ? 'less' : 'more' }}</a
           >
         </div>
@@ -168,7 +168,7 @@
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl relative overflow-hidden"
+    class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
   >
     <div class="!absolute top-0 left-0 w-full">
       <mat-progress-bar
@@ -189,7 +189,7 @@
       </mat-icon>
       <h2 class="font-bold">Tutors</h2>
     </div>
-    <form [formGroup]="filterForm" class="text-sm mb-2">
+    <form [formGroup]="filterForm" class="mb-2 text-sm">
       <mat-form-field class="-mb-4 w-full">
         <mat-label>Search for a tutor</mat-label>
         <input matInput formControlName="search" type="search" #searchInput />
@@ -215,16 +215,16 @@
         <ng-template #skeleton2>
           <div
             *ngFor="let tutor of [].constructor(90)"
-            class="skeleton rounded-full aspect-1"
+            class="skeleton aspect-1 rounded-full"
           ></div>
         </ng-template>
       </app-grid>
-      <div class="italic text-gray-500 text-sm mt-3">
+      <div class="mt-3 text-sm italic text-gray-500">
         Active tutors of the last three months.
       </div>
     </ng-container>
     <ng-container *ngIf="searchInput.value">
-      <div class="flex flex-wrap gap-2 items-center">
+      <div class="flex flex-wrap items-center gap-2">
         <app-user-chip
           *ngFor="let user of searchedTutors$ | async"
           size="sm"
@@ -262,8 +262,8 @@
           No upcoming birthdays in the next week
         </div>
         <div *ngFor="let birthday of tutorHubData.birthdays">
-          <div class="font-bold mb-1">{{ birthday.birthday }}</div>
-          <div class="flex flex-wrap gap-2 items-center ml-4">
+          <div class="mb-1 font-bold">{{ birthday.birthday }}</div>
+          <div class="ml-4 flex flex-wrap items-center gap-2">
             <app-user-chip
               *ngFor="let user of birthday.users"
               size="sm"
@@ -278,7 +278,7 @@
       </ng-container>
       <ng-template #skeleton3>
         <div *ngFor="let birthday of [].constructor(3)">
-          <div class="font-bold mb-1">
+          <div class="mb-1 font-bold">
             <span class="skeleton">XXXXXX XX</span>
           </div>
           <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
@@ -303,12 +303,12 @@
       </mat-icon>
       <h2 class="font-bold">Who’s Who</h2>
     </div>
-    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 text-sm">
+    <div class="grid grid-cols-1 gap-4 text-sm 2xl:grid-cols-2">
       <ng-container
         *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4"
       >
         <div *ngFor="let tenantUser of tutorHubData.usersWithPositions">
-          <div class="font-medium mb-0.5">{{ tenantUser.user.position }}</div>
+          <div class="mb-0.5 font-medium">{{ tenantUser.user.position }}</div>
           <app-user-chip
             size="xs"
             [id]="tenantUser.user.id"
@@ -323,7 +323,7 @@
       </ng-container>
       <ng-template #skeleton4>
         <div *ngFor="let position of [].constructor(10)">
-          <div class="font-medium mb-0.5">
+          <div class="mb-0.5 font-medium">
             <span class="skeleton">XXX XXXXXXXX XX</span>
           </div>
           <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>

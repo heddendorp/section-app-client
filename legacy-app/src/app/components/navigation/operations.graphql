@@ -9,18 +9,3 @@ query getTenantInfo {
     outstandingRating
   }
 }
-
-query getTutorHubInfo {
-  currentTenant {
-    id
-    name
-    tutorHub
-  }
-}
-
-query getTutorHubEvents($range: DateRangeInput) {
-  currentTenant {
-    id
-    tutorHubEvents(range: $range)
-  }
-}

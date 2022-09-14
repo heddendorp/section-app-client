@@ -149,7 +149,6 @@ builder.prismaObject('Tenant', {
             },
           },
         });
-        console.log(newEvents);
 
         return {
           activeOrganizers,
@@ -295,22 +294,22 @@ builder.prismaObject('Tenant', {
           })
         );
 
-        const addRanking = (leaderboard: any): any => {
-          let currentRank = 1;
-          let currentCount = Number.MAX_VALUE;
-          for (const [i, entry] of leaderboard.entries()) {
-            if (entry.count < currentCount) {
-              currentRank = i + 1;
-              currentCount = entry.count;
-              entry.rank = `${currentRank}.`;
-            } else {
-              entry.rank = `${currentRank}=`;
-              if (i > 0) {
-                leaderboard[i - 1].rank = `${currentRank}=`;
-              }
-            }
-          }
-          return leaderboard;
+        const addRanking = (leaderboard: any[]): any[] => {
+          return leaderboard.map((entry) => {
+            return {
+              ...entry,
+              rank: `${
+                leaderboard.findIndex(
+                  (compare) => compare.count === entry.count
+                ) + 1
+              }${
+                leaderboard.filter((compare) => compare.count === entry.count)
+                  .length > 1
+                  ? '='
+                  : '.'
+              }`,
+            };
+          });
         };
 
         return {
