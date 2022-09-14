@@ -601,20 +601,20 @@ export const webhookRouter = (prisma: PrismaClient) => {
               RegistrationStatus.CANCELLED
           ) {
             await prisma.eventRegistration.update({
-              where: { id: payment.transaction.eventRegistration.id },
+              where: { id: transaction.eventRegistration.id },
               data: {
                 status: RegistrationStatus.CANCELLED,
                 cancellationReason: 'Payment intent timed out',
               },
             });
             await prisma.tumiEvent.update({
-              where: { id: payment.transaction.eventRegistration.eventId },
+              where: { id: transaction.eventRegistration.eventId },
               data: { participantRegistrationCount: { decrement: 1 } },
             });
           }
-          if (payment.transaction.purchase) {
+          if (transaction.purchase) {
             await prisma.purchase.update({
-              where: { id: payment.transaction.purchase.id },
+              where: { id: transaction.purchase.id },
               data: {
                 status: PurchaseStatus.CANCELLED,
                 cancellationReason: 'Payment intent timed out',
@@ -678,7 +678,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                   },
                 });
                 await prisma.tumiEvent.update({
-                  where: { id: payment.transaction.eventRegistration.eventId },
+                  where: { id: transaction.eventRegistration.eventId },
                   data: { participantRegistrationCount: { decrement: 1 } },
                 });
               }
