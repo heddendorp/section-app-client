@@ -78,7 +78,7 @@ export const createEventTemplateInput = builder.inputType(
       description: t.string({ required: true }),
       duration: t.field({ required: true, type: 'Decimal' }),
       icon: t.string({ required: true }),
-      insuranceDescription: t.string({ required: true }),
+      insuranceDescription: t.string({ defaultValue: '' }),
       location: t.string({ required: true }),
       googlePlaceId: t.string({ required: true }),
       googlePlaceUrl: t.string({ required: true }),
