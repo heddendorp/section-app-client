@@ -1,8 +1,6 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
-    <a routerLink=".." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
+    <app-back-button></app-back-button>
     <div resetScroll>
       Registered Users
       <span class="font-light" *ngIf="userNum$ | async as userNum"
@@ -63,7 +61,7 @@
   <mat-table
     *ngIf="users$ | async as users"
     [dataSource]="users"
-    class="w-fit sm:w-full mt-4"
+    class="mt-4 w-fit sm:w-full"
   >
     <ng-container matColumnDef="profile">
       <mat-header-cell *matHeaderCellDef>Profile</mat-header-cell>

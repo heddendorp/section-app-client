@@ -6,11 +6,14 @@
     "legacy-app": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
+        "@schematics/angular": {
+          "component": {
+            "style": "scss",
+            "changeDetection": "OnPush"
+          },
+          "application": {
+            "strict": true
+          }
         }
       },
       "root": "",

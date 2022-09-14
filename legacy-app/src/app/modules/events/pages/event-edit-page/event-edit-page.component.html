@@ -1,7 +1,5 @@
 <mat-toolbar color="white">
-  <a routerLink=".." mat-icon-button>
-    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-  </a>
+  <app-back-button></app-back-button>
   <ng-container *ngIf="event$ | async as event">
     <div class="flex-1 truncate">Edit {{ event.title }}</div>
     <a
@@ -15,7 +13,7 @@
 </mat-toolbar>
 <main class="py-4 px-1 sm:p-4">
   <div
-    class="bg-secondary-container text-primary-onContainer rounded-2xl py-4 px-1 sm:p-4 shadow-xl"
+    class="bg-secondary-container text-primary-onContainer rounded-2xl py-4 px-1 shadow-xl sm:p-4"
   >
     <mat-tab-group
       mat-stretch-tabs

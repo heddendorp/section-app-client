@@ -1,7 +1,5 @@
 <mat-toolbar color="white">
-  <a routerLink=".." mat-icon-button>
-    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-  </a>
+  <app-back-button></app-back-button>
   <ng-container *ngIf="event$ | async as event">
     <div class="flex-1 truncate">Run {{ event.title }}</div>
   </ng-container>
@@ -10,13 +8,13 @@
   mode="indeterminate"
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
-<main *ngIf="event$ | async as event" class="p-4 flex flex-col gap-8">
+<main *ngIf="event$ | async as event" class="flex flex-col gap-8 p-4">
   <a mat-fab routerLink="scan" class="extended-fab">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
     <span class="label">Scan code</span>
   </a>
 
-  <div class="flex flex-col md:flex-row gap-4">
+  <div class="flex flex-col gap-4 md:flex-row">
     <a mat-flat-button (click)="generateMail()" class="modern" color="primary">
       <mat-icon svgIcon="icon-new-post"></mat-icon>
       <span>Generate mail template</span>
@@ -81,7 +79,7 @@
   </div>
 
   <ul
-    class="bg-secondary-container text-primary-onContainer rounded-2xl shadow-xl divide-y-2 divide-gray-600 divide-opacity-25 sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
+    class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
   >
     <li class="p-4">
       <p class="font-extrabold md:text-2xl">
@@ -117,7 +115,7 @@
       </mat-icon>
       <h2 class="font-bold">Organizers</h2>
     </div>
-    <div class="flex flex-col md:flex-row flex-wrap gap-4">
+    <div class="flex flex-col flex-wrap gap-4 md:flex-row">
       <div *ngFor="let registration of event.organizerRegistrations">
         <app-user-chip
           size="md"
@@ -149,9 +147,9 @@
       </mat-icon>
       <h2 class="font-bold">Participants</h2>
     </div>
-    <div class="flex flex-col md:flex-row flex-wrap gap-4">
+    <div class="flex flex-col flex-wrap gap-4 md:flex-row">
       <div
-        class="flex flex-row gap-1 items-center"
+        class="flex flex-row items-center gap-1"
         *ngFor="let registration of event.participantRegistrations"
       >
         <div class="flex-1">

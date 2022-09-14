@@ -49,6 +49,7 @@ import { ReactiveToolbarComponent } from './components/reactive-toolbar/reactive
 import { FooterComponent } from './components/footer/footer.component';
 import { ResetScrollDirective } from './directives/reset-scroll.directive';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { TransactionListComponent } from './components/transaction-list/transact
     ReactiveToolbarComponent,
     FooterComponent,
     TransactionListComponent,
+    BackButtonComponent,
   ],
   imports: [
     RouterModule,
@@ -137,6 +139,7 @@ import { TransactionListComponent } from './components/transaction-list/transact
     ReactiveToolbarComponent,
     FooterComponent,
     TransactionListComponent,
+    BackButtonComponent,
   ],
   providers: [DatePipe, ExtendDatePipe],
 })
