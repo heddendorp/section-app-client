@@ -291,6 +291,19 @@ builder.mutationFields((t) => ({
       id: t.arg.id({ required: true }),
     },
     resolve: async (query, root, { id }, context) => {
+      await prisma.eventRegistration.deleteMany({
+        where: {
+          event: { id: id },
+          OR: [
+            {
+              type: RegistrationType.ORGANIZER,
+            },
+            {
+              status: RegistrationStatus.CANCELLED,
+            },
+          ],
+        },
+      });
       return prisma.tumiEvent.delete({
         ...query,
         where: {
