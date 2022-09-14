@@ -59,7 +59,7 @@ input CreateEventTemplateInput {
   googlePlaceId: String!
   googlePlaceUrl: String!
   icon: String!
-  insuranceDescription: String!
+  insuranceDescription: String = ""
   location: String!
   organizerText: String!
   participantText: String!
@@ -91,6 +91,16 @@ input CreateSubmissionItemInput {
   required: Boolean!
   submissionTime: SubmissionTime!
   type: SubmissionItemType!
+}
+
+input CreateTransactionInput {
+  amount: Float!
+  comment: String
+  direction: TransactionDirection!
+  status: TransactionStatus! = CONFIRMED
+  subject: String!
+  type: TransactionType!
+  userId: String
 }
 
 input CreateUserInput {
@@ -302,6 +312,7 @@ type Mutation {
   createReceipt(costItemId: ID!, input: CreateReceiptInput!): Receipt!
   createRegistrationCode(eventId: ID!, isPublic: Boolean = false, registrationId: ID, sepaAllowed: Boolean = false): EventRegistrationCode!
   createSubmissionItem(input: CreateSubmissionItemInput!, target: String = "event", targetId: ID!): EventSubmissionItem!
+  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   createUser(input: CreateUserInput!): User!
   deleteCostItem(id: ID!): CostItem!
   deleteEvent(id: ID!): TumiEvent!
@@ -438,10 +449,9 @@ type Query {
   registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
   statistics(range: DateRangeInput, tenantId: ID): Statistics!
   tenants: [Tenant!]!
-  transactionCount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Int!
+  transactionCount(directions: [TransactionDirection!], range: DateRangeInput, search: String, status: [TransactionStatus!] = [CONFIRMED], types: [TransactionType!]): Int!
   transactionNetAmount(range: DateRangeInput): Decimal!
-  transactionSumAmount(directions: [TransactionDirection!], range: DateRangeInput, search: String): Float!
-  transactions(directions: [TransactionDirection!], range: DateRangeInput, search: String, skip: Int, take: Int): [Transaction!]!
+  transactions(directions: [TransactionDirection!]! = [], range: DateRangeInput, search: String, skip: Int, status: [TransactionStatus!]! = [CONFIRMED], take: Int, types: [TransactionType!]! = []): [Transaction!]!
   user(id: ID!): User!
   userSearchResultNum(roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): Int!
   users(emptyOnEmptySearch: Boolean = false, onlyWithPurchase: Boolean, pageIndex: Int, pageLength: Int, roleList: [Role!] = [USER, ADMIN], search: String, statusList: [MembershipStatus!] = [NONE, TRIAL, FULL, SPONSOR, ALUMNI]): [User!]!

@@ -1,0 +1,7 @@
+query SearchUserForTransaction($search: String) {
+  users(search: $search, pageLength: 10) {
+    id
+    fullName
+    email
+  }
+}

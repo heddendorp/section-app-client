@@ -37,6 +37,8 @@ import { NewEventTemplateCategoryDialogComponent } from './components/new-event-
 import { TenantTransactionsPageComponent } from './pages/tenant-transactions-page/tenant-transactions-page.component';
 import { TenantEventsPageComponent } from './pages/events/tenant-events-page/tenant-events-page.component';
 import { MatRippleModule } from '@angular/material/core';
+import { CreateTransactionDialogComponent } from './components/create-transaction-dialog/create-transaction-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { MatRippleModule } from '@angular/material/core';
     NewEventTemplateCategoryDialogComponent,
     TenantTransactionsPageComponent,
     TenantEventsPageComponent,
+    CreateTransactionDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -79,6 +82,7 @@ import { MatRippleModule } from '@angular/material/core';
     TenantRoutingModule,
     MatDatepickerModule,
     MatRippleModule,
+    MatAutocompleteModule,
   ],
 })
 export class TenantModule {}

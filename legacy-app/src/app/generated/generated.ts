@@ -82,7 +82,7 @@ export type CreateEventTemplateInput = {
   googlePlaceId: Scalars['String'];
   googlePlaceUrl: Scalars['String'];
   icon: Scalars['String'];
-  insuranceDescription: Scalars['String'];
+  insuranceDescription?: InputMaybe<Scalars['String']>;
   location: Scalars['String'];
   organizerText: Scalars['String'];
   participantText: Scalars['String'];
@@ -114,6 +114,16 @@ export type CreateSubmissionItemInput = {
   required: Scalars['Boolean'];
   submissionTime: SubmissionTime;
   type: SubmissionItemType;
+};
+
+export type CreateTransactionInput = {
+  amount: Scalars['Float'];
+  comment?: InputMaybe<Scalars['String']>;
+  direction: TransactionDirection;
+  status?: TransactionStatus;
+  subject: Scalars['String'];
+  type: TransactionType;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -344,6 +354,7 @@ export type Mutation = {
   createReceipt: Receipt;
   createRegistrationCode: EventRegistrationCode;
   createSubmissionItem: EventSubmissionItem;
+  createTransaction: Transaction;
   createUser: User;
   deleteCostItem: CostItem;
   deleteEvent: TumiEvent;
@@ -437,6 +448,11 @@ export type MutationCreateSubmissionItemArgs = {
   input: CreateSubmissionItemInput;
   target?: InputMaybe<Scalars['String']>;
   targetId: Scalars['ID'];
+};
+
+
+export type MutationCreateTransactionArgs = {
+  createTransactionInput: CreateTransactionInput;
 };
 
 
@@ -715,7 +731,6 @@ export type Query = {
   tenants: Array<Tenant>;
   transactionCount: Scalars['Int'];
   transactionNetAmount: Scalars['Decimal'];
-  transactionSumAmount: Scalars['Float'];
   transactions: Array<Transaction>;
   user: User;
   userSearchResultNum: Scalars['Int'];
@@ -819,6 +834,8 @@ export type QueryTransactionCountArgs = {
   directions?: InputMaybe<Array<TransactionDirection>>;
   range?: InputMaybe<DateRangeInput>;
   search?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Array<TransactionStatus>>;
+  types?: InputMaybe<Array<TransactionType>>;
 };
 
 
@@ -827,19 +844,14 @@ export type QueryTransactionNetAmountArgs = {
 };
 
 
-export type QueryTransactionSumAmountArgs = {
-  directions?: InputMaybe<Array<TransactionDirection>>;
-  range?: InputMaybe<DateRangeInput>;
-  search?: InputMaybe<Scalars['String']>;
-};
-
-
 export type QueryTransactionsArgs = {
-  directions?: InputMaybe<Array<TransactionDirection>>;
+  directions?: Array<TransactionDirection>;
   range?: InputMaybe<DateRangeInput>;
   search?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  status?: Array<TransactionStatus>;
   take?: InputMaybe<Scalars['Int']>;
+  types?: Array<TransactionType>;
 };
 
 
@@ -1741,6 +1753,13 @@ export type DeleteSubmissionItemMutationVariables = Exact<{
 
 export type DeleteSubmissionItemMutation = { __typename?: 'Mutation', deleteSubmissionItem: { __typename?: 'EventSubmissionItem', id: string } };
 
+export type SearchUserForTransactionQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type SearchUserForTransactionQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, fullName: string, email: string }> };
+
 export type TenantLoadEventsQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['DateTime']>;
@@ -1814,6 +1833,19 @@ export type GetEventRegistrationCodeCountQueryVariables = Exact<{ [key: string]:
 
 export type GetEventRegistrationCodeCountQuery = { __typename?: 'Query', eventRegistrationCodeCount: number };
 
+export type LoadTransactionsQueryVariables = Exact<{
+  range?: InputMaybe<DateRangeInput>;
+  search?: InputMaybe<Scalars['String']>;
+  directions?: InputMaybe<Array<TransactionDirection> | TransactionDirection>;
+  types?: InputMaybe<Array<TransactionType> | TransactionType>;
+  status?: InputMaybe<Array<TransactionStatus> | TransactionStatus>;
+  take?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type LoadTransactionsQuery = { __typename?: 'Query', transactionCount: number, transactionNetAmount: any, transactions: Array<{ __typename?: 'Transaction', id: string, amount: any, createdAt: any, type: TransactionType, subject: string, status: TransactionStatus, direction: TransactionDirection, eventRegistration?: { __typename?: 'EventRegistration', id: string, event: { __typename?: 'TumiEvent', id: string, title: string } } | null, user?: { __typename?: 'User', id: string, fullName: string } | null }> };
+
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
 }>;
@@ -1825,16 +1857,6 @@ export type LoadEventsForInsuranceQueryVariables = Exact<{ [key: string]: never;
 
 
 export type LoadEventsForInsuranceQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, shouldBeReportedToInsurance: boolean, insuranceDescription: string, organizerLimit: number, participantLimit: number, publicationState: PublicationState, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
-
-export type LoadTransactionsQueryVariables = Exact<{
-  range?: InputMaybe<DateRangeInput>;
-  search?: InputMaybe<Scalars['String']>;
-  take?: InputMaybe<Scalars['Int']>;
-  skip?: InputMaybe<Scalars['Int']>;
-}>;
-
-
-export type LoadTransactionsQuery = { __typename?: 'Query', transactionCount: number, transactionSumAmount: number, transactionNetAmount: any, transactions: Array<{ __typename?: 'Transaction', id: string, amount: any, createdAt: any, type: TransactionType, subject: string, status: TransactionStatus, direction: TransactionDirection, eventRegistration?: { __typename?: 'EventRegistration', id: string, event: { __typename?: 'TumiEvent', id: string, title: string } } | null, user?: { __typename?: 'User', id: string, fullName: string } | null }> };
 
 export type LoadEventsWithBookingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']>;
@@ -4009,6 +4031,26 @@ export const DeleteSubmissionItemDocument = gql`
       super(apollo);
     }
   }
+export const SearchUserForTransactionDocument = gql`
+    query SearchUserForTransaction($search: String) {
+  users(search: $search, pageLength: 10) {
+    id
+    fullName
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchUserForTransactionGQL extends Apollo.Query<SearchUserForTransactionQuery, SearchUserForTransactionQueryVariables> {
+    override document = SearchUserForTransactionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const TenantLoadEventsDocument = gql`
     query tenantLoadEvents($search: String, $before: DateTime, $after: DateTime) {
   events(search: $search, before: $before, after: $after) {
@@ -4452,6 +4494,57 @@ export const GetEventRegistrationCodeCountDocument = gql`
       super(apollo);
     }
   }
+export const LoadTransactionsDocument = gql`
+    query loadTransactions($range: DateRangeInput, $search: String, $directions: [TransactionDirection!], $types: [TransactionType!], $status: [TransactionStatus!], $take: Int, $skip: Int) {
+  transactions(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+    take: $take
+    skip: $skip
+  ) {
+    id
+    amount
+    createdAt
+    type
+    subject
+    status
+    direction
+    eventRegistration {
+      id
+      event {
+        id
+        title
+      }
+    }
+    user {
+      id
+      fullName
+    }
+  }
+  transactionCount(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+  )
+  transactionNetAmount(range: $range)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadTransactionsGQL extends Apollo.Query<LoadTransactionsQuery, LoadTransactionsQueryVariables> {
+    override document = LoadTransactionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreateOrganizerDocument = gql`
     mutation createOrganizer($input: NewOrganizerInput!) {
   createEventOrganizer(newOrganizerInput: $input) {
@@ -4494,44 +4587,6 @@ export const LoadEventsForInsuranceDocument = gql`
   })
   export class LoadEventsForInsuranceGQL extends Apollo.Query<LoadEventsForInsuranceQuery, LoadEventsForInsuranceQueryVariables> {
     override document = LoadEventsForInsuranceDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LoadTransactionsDocument = gql`
-    query loadTransactions($range: DateRangeInput, $search: String, $take: Int, $skip: Int) {
-  transactions(range: $range, search: $search, take: $take, skip: $skip) {
-    id
-    amount
-    createdAt
-    type
-    subject
-    status
-    direction
-    eventRegistration {
-      id
-      event {
-        id
-        title
-      }
-    }
-    user {
-      id
-      fullName
-    }
-  }
-  transactionCount(range: $range, search: $search)
-  transactionSumAmount(range: $range, search: $search)
-  transactionNetAmount(range: $range)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LoadTransactionsGQL extends Apollo.Query<LoadTransactionsQuery, LoadTransactionsQueryVariables> {
-    override document = LoadTransactionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

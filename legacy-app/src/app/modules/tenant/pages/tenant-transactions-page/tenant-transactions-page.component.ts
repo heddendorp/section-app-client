@@ -2,11 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   LoadTransactionsGQL,
   LoadTransactionsQuery,
+  TransactionDirection,
+  TransactionStatus,
+  TransactionType,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateTransactionDialogComponent } from '@tumi/legacy-app/modules/tenant/components/create-transaction-dialog/create-transaction-dialog.component';
 
 @Component({
   selector: 'app-tenant-transactions-page',
@@ -18,18 +23,16 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     'subject',
     'amount',
     'direction',
+    'type',
     'status',
     'date',
     'user',
     'event',
-    // 'role',
-    // 'action',
   ];
   public transactions$: Observable<LoadTransactionsQuery['transactions']>;
   public transactionCount$: Observable<
     LoadTransactionsQuery['transactionCount']
   >;
-  public sumAmount$: Observable<LoadTransactionsQuery['transactionSumAmount']>;
   public netAmount$: Observable<LoadTransactionsQuery['transactionNetAmount']>;
   public filterForm = new FormGroup({
     range: new FormGroup({
@@ -37,12 +40,19 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
       end: new FormControl(),
     }),
     search: new FormControl(''),
+    status: new FormControl([TransactionStatus.Confirmed]),
+    directions: new FormControl<TransactionDirection[]>(Object.values([])),
+    types: new FormControl<TransactionType[]>(Object.values([])),
   });
   private loadTransactionsRef;
   private destroyed$ = new Subject();
+  public TransactionDirection = TransactionDirection;
+  public TransactionType = TransactionType;
+  public TransactionStatus = TransactionStatus;
 
   constructor(
     private loadTransactionsGQL: LoadTransactionsGQL,
+    private dialog: MatDialog,
     private title: Title
   ) {
     this.title.setTitle('Transactions - TUMi');
@@ -55,9 +65,6 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     );
     this.transactionCount$ = this.loadTransactionsRef.valueChanges.pipe(
       map((res) => res.data.transactionCount)
-    );
-    this.sumAmount$ = this.loadTransactionsRef.valueChanges.pipe(
-      map((res) => res.data.transactionSumAmount)
     );
     this.netAmount$ = this.loadTransactionsRef.valueChanges.pipe(
       map((res) => res.data.transactionNetAmount)
@@ -74,8 +81,15 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
             end: value.range?.end,
           },
           search: value.search ?? undefined,
+          status: value.status,
+          directions: value.directions,
+          types: value.types,
         });
       });
+  }
+
+  openCreateTransactionDialog() {
+    this.dialog.open(CreateTransactionDialogComponent, { minWidth: '70vw' });
   }
 
   updatePage($event: PageEvent): void {
