@@ -920,6 +920,7 @@ export type Statistics = {
   __typename?: 'Statistics';
   checkinHistory: Scalars['JSON'];
   checkins: Scalars['Int'];
+  localStatusDistribution: Scalars['JSON'];
   paidEvents: Scalars['Int'];
   paidRegistrations: Scalars['Int'];
   registrationHistory: Scalars['JSON'];
@@ -1901,7 +1902,7 @@ export type GetStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type GetStatisticsQuery = { __typename?: 'Query', statistics: { __typename?: 'Statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: any, registrationHistory: any, checkinHistory: any, userEventDistribution: any, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: any, userStatusDistribution: any } };
+export type GetStatisticsQuery = { __typename?: 'Query', statistics: { __typename?: 'Statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: any, registrationHistory: any, checkinHistory: any, userEventDistribution: any, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: any, userStatusDistribution: any, localStatusDistribution: any } };
 
 export type GetLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4859,6 +4860,7 @@ export const GetStatisticsDocument = gql`
     paidEvents
     userUniversityDistribution
     userStatusDistribution
+    localStatusDistribution
   }
 }
     `;

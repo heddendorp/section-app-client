@@ -499,6 +499,7 @@ type ShoppingCart {
 type Statistics {
   checkinHistory: JSON!
   checkins: Int!
+  localStatusDistribution: JSON!
   paidEvents: Int!
   paidRegistrations: Int!
   registrationHistory: JSON!

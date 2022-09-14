@@ -278,6 +278,27 @@ builder.queryFields((t) => ({
               count: entry._count.enrolmentStatus,
             })) as any
         );
+      const localStatusDistribution = await prisma.usersOfTenants
+        .groupBy({
+          where: {
+            tenant: {
+              ...(tenantId ? { id: tenantId } : {}),
+            },
+            user: {
+              createdAt: rangeQuery,
+              enrolmentStatus: 'LOCAL',
+            },
+          },
+          by: ['status'],
+          _count: { status: true },
+        })
+        .then(
+          (res) =>
+            res.map((entry) => ({
+              status: entry.status,
+              count: entry._count.status,
+            })) as any
+        );
       const userHistory = await prisma.usersOfTenants
         .findMany({
           where: {
@@ -333,6 +354,7 @@ builder.queryFields((t) => ({
         userEventDistribution,
         userUniversityDistribution,
         userStatusDistribution,
+        localStatusDistribution,
         userHistory,
         registrationHistory,
         checkinHistory,

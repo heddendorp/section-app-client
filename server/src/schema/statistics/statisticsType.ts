@@ -16,6 +16,7 @@ export const statisticsType = builder.simpleObject('Statistics', {
     userEventDistribution: t.field({ type: 'JSON' }),
     userUniversityDistribution: t.field({ type: 'JSON' }),
     userStatusDistribution: t.field({ type: 'JSON' }),
+    localStatusDistribution: t.field({ type: 'JSON' }),
     userHistory: t.field({ type: 'JSON' }),
     registrationHistory: t.field({ type: 'JSON' }),
     checkinHistory: t.field({ type: 'JSON' }),

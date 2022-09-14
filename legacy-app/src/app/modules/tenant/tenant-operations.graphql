@@ -260,6 +260,7 @@ query getStatistics($range: DateRangeInput, $tenantId: ID) {
     #      averageEventCost
     userUniversityDistribution
     userStatusDistribution
+    localStatusDistribution
   }
 }
 
