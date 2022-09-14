@@ -1,8 +1,6 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
-    <a routerLink=".." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
+    <app-back-button></app-back-button>
     <div resetScroll>Events with ratings</div>
   </mat-toolbar>
   <mat-progress-bar
@@ -89,7 +87,7 @@
       <td colspan="3" mat-cell *matCellDef="let element">
         <div
           *ngIf="element.ratings.length"
-          class="my-4 flex flex-col md:flex-row flex-wrap gap-4"
+          class="my-4 flex flex-col flex-wrap gap-4 md:flex-row"
         >
           <app-rating-item
             *ngFor="let rating of element.ratings"

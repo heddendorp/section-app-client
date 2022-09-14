@@ -1,7 +1,5 @@
 <mat-toolbar color="white">
-  <a routerLink=".." mat-icon-button>
-    <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-  </a>
+  <app-back-button></app-back-button>
   <ng-container *ngIf="event$ | async as event">
     <div class="flex-1 truncate">Manage {{ event.title }}</div>
     <a

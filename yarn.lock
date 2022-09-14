@@ -5034,6 +5034,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ng-web-apis/common@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@ng-web-apis/common@npm:2.0.1"
+  dependencies:
+    tslib: ^2.2.0
+  peerDependencies:
+    "@angular/common": ">=12.0.0"
+    "@angular/core": ">=12.0.0"
+    rxjs: ">=6.4.0"
+  checksum: 571a535c0442992a773658284d2848255023dc1331b7925706e7938a61d8ded78e6dbbc4df78a23b9860421299ae1d55d26ca3d605814acb119c62164812399b
+  languageName: node
+  linkType: hard
+
 "@ngtools/webpack@npm:14.2.2":
   version: 14.2.2
   resolution: "@ngtools/webpack@npm:14.2.2"
@@ -6416,6 +6429,7 @@ __metadata:
     "@graphql-codegen/cli": ^2.12.0
     "@graphql-codegen/typescript-apollo-angular": ^3.5.3
     "@graphql-codegen/typescript-operations": ^2.5.3
+    "@ng-web-apis/common": ^2.0.1
     "@sentry/angular": ^7.12.1
     "@sentry/tracing": ^7.12.1
     "@stripe/stripe-js": ^1.36.0
@@ -6436,6 +6450,7 @@ __metadata:
     backoff-rxjs: ^7.0.0
     concurrently: ^7.4.0
     eslint: ^8.23.0
+    eslint-config-prettier: ^8.5.0
     graphql: ^16.6.0
     highcharts: ^10.2.1
     highcharts-angular: ^3.0.0

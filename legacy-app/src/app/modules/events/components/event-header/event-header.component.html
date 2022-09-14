@@ -1,8 +1,6 @@
 <div fxFlex="column">
   <div fxLayout="row">
-    <a routerLink=".." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon
-    ></a>
+    <app-back-button></app-back-button>
     <ng-container *ngIf="event">
       <div fxFlex="grow"></div>
       <a
@@ -26,12 +24,12 @@
     </ng-container>
   </div>
   <div
-    class="w-40 h-40 sm:w-48 sm:h-48 bg-surface-default rounded-2xl mx-auto mb-6 lg:mb-8 overflow-hidden"
+    class="bg-surface-default mx-auto mb-6 h-40 w-40 overflow-hidden rounded-2xl sm:h-48 sm:w-48 lg:mb-8"
   >
-    <img *ngIf="event" [src]="event.icon | iconURL" class="w-full h-full p-2" />
-    <div *ngIf="!event" class="skeleton w-full h-full"></div>
+    <img *ngIf="event" [src]="event.icon | iconURL" class="h-full w-full p-2" />
+    <div *ngIf="!event" class="skeleton h-full w-full"></div>
   </div>
-  <div class="text-2xl font-semibold my-4">
+  <div class="my-4 text-2xl font-semibold">
     <span *ngIf="event">{{ event.title }}</span>
     <span *ngIf="!event" class="skeleton block sm:w-[30rem]">Event Title</span>
   </div>

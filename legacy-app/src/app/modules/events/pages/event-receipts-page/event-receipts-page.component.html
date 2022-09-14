@@ -1,8 +1,6 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
-    <a routerLink="../.." mat-icon-button>
-      <mat-icon svgIcon="icon-circled-chevron-left"></mat-icon>
-    </a>
+    <app-back-button></app-back-button>
     <div
       resetScroll
       class="flex-1 truncate"
@@ -16,7 +14,7 @@
     *ngIf="(costItem$ | async) === null"
   ></mat-progress-bar>
 </app-reactive-toolbar>
-<main *ngIf="costItem$ | async as costItem" class="p-4 flex flex-col gap-4">
+<main *ngIf="costItem$ | async as costItem" class="flex flex-col gap-4 p-4">
   <button mat-fab class="extended-fab" (click)="addReceipt()">
     <mat-icon svgIcon="icon-add"></mat-icon>
     <span class="label">Add receipt</span>
