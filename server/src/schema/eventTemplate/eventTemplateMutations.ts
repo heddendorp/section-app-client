@@ -22,7 +22,7 @@ builder.mutationFields((t) => ({
         ...query,
         data: {
           ...args.input,
-          insuranceDescription: args.input.insuranceDescription && undefined,
+          insuranceDescription: args.input.insuranceDescription || undefined,
           categoryId: undefined,
           finances: {},
           category: { connect: { id: args.input.categoryId } },
