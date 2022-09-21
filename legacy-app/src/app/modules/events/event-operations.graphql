@@ -219,7 +219,7 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
-    submissionItems{
+    submissionItems {
       id
       name
     }

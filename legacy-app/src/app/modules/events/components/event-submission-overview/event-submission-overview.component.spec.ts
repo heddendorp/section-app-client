@@ -8,9 +8,8 @@ describe('EventSubmissionOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventSubmissionOverviewComponent ]
-    })
-    .compileComponents();
+      declarations: [EventSubmissionOverviewComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EventSubmissionOverviewComponent);
     component = fixture.componentInstance;
