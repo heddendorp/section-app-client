@@ -14,8 +14,7 @@ export const getStripeSession = async (
   priceId: string,
   domainUrl: string,
   description: string,
-  metadata: Stripe.MetadataParam,
-  email: string
+  metadata: Stripe.MetadataParam
 ): Promise<string | null> => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
     apiVersion: '2022-08-01',
@@ -35,7 +34,6 @@ export const getStripeSession = async (
     line_items: lineItems,
     success_url: `${domainUrl}/registration/status`,
     cancel_url: `${domainUrl}/payment/cancelled`,
-    customer_email: email,
     payment_intent_data: {
       description,
       metadata,

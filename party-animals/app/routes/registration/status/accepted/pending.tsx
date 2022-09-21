@@ -58,8 +58,7 @@ export const action: ActionFunction = async ({ request }) => {
       userId: user.id,
       userEmail: user.email,
       userName: `${user.firstName} ${user.lastName}`,
-    },
-    user.email
+    }
   );
   if (!stripeRedirectUrl) {
     console.error('Failed to get stripe session');
