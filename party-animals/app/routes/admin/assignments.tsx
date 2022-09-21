@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import {
   Group,
@@ -48,11 +48,11 @@ const spaceForSizeInGroup = (group: Registration[], size: string) => {
   const alreadyInGroup = shirtSizeInGroup(group, size);
   switch (size) {
     case 's':
-      return alreadyInGroup < 7;
+      return alreadyInGroup < 6;
     case 'm':
-      return alreadyInGroup < 16;
+      return alreadyInGroup < 12;
     case 'l':
-      return alreadyInGroup < 5;
+      return alreadyInGroup < 10;
     case 'xl':
       return alreadyInGroup < 2;
     default:
@@ -145,8 +145,10 @@ export const loader: LoaderFunction = async ({ request }) => {
               if (
                 spaceForSizeInGroup(assignments[group.id], registration.size)
               ) {
-                assignments[group.id].push(registration);
-                assigned = true;
+                if (assignments[group.id].length < 20) {
+                  assignments[group.id].push(registration);
+                  assigned = true;
+                }
               }
             }
           }
