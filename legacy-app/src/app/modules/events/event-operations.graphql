@@ -219,6 +219,10 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
+    submissionItems{
+      id
+      name
+    }
     participantRegistrations(includePending: false) {
       id
       checkInTime

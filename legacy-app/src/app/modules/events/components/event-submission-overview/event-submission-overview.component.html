@@ -1,0 +1,15 @@
+<div class="flex flex-col flex-wrap gap-4 md:flex-row">
+  <div
+    class="flex flex-row items-center gap-1"
+    *ngFor="let submissionItem of registrationStats$ | async"
+  >
+    <div class="flex-1">
+      {{ submissionItem.submissionItemName }}
+      <ul class="list-inside list-disc">
+        <li *ngFor="let choice of submissionItem.choiceCounts">
+          {{ choice.choice }}: {{ choice.count }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

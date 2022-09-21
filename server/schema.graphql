@@ -59,7 +59,7 @@ input CreateEventTemplateInput {
   googlePlaceId: String!
   googlePlaceUrl: String!
   icon: String!
-  insuranceDescription: String!
+  insuranceDescription: String = ""
   location: String!
   organizerText: String!
   participantText: String!

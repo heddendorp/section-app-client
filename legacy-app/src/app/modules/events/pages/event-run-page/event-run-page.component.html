@@ -181,4 +181,25 @@
       </div>
     </div>
   </div>
+  <div
+    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-4"
+    >
+      <mat-icon
+        svgIcon="icon-conference"
+        class="text-secondary-default bg-secondary-on card-icon"
+      >
+      </mat-icon>
+      <h2 class="font-bold">Data Submissions</h2>
+    </div>
+    <app-event-submission-overview
+      [registrations]="event.participantRegistrations"
+      [submissionItems]="event.submissionItems"
+    ></app-event-submission-overview>
+  </div>
 </main>
