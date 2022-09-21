@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
 import { db } from '~/utils/db.server';
 import { PaymentStatus, Registration, Status, User } from '~/generated/prisma';
 import { authenticator } from '~/services/auth.server';
@@ -58,7 +58,8 @@ export const action: ActionFunction = async ({ request }) => {
       userId: user.id,
       userEmail: user.email,
       userName: `${user.firstName} ${user.lastName}`,
-    }
+    },
+    user.email
   );
   if (!stripeRedirectUrl) {
     console.error('Failed to get stripe session');

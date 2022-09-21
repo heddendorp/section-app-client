@@ -49,7 +49,7 @@ export default function () {
         <div className="flex flex-col items-center space-y-4 md:flex-row md:space-x-4">
           <img src={itemURL('2-circle:nolan')} alt="1st" className="w-24" />
           <div>
-            <h4 className="text-lg font-bold">Get to know you group!</h4>
+            <h4 className="text-lg font-bold">Get to know your group!</h4>
             <p className="mb-4">
               After payment we will invite you to your group chat on whatsapp.
             </p>
