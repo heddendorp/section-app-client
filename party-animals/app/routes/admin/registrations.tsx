@@ -294,6 +294,12 @@ export default function AdminRegistrations() {
                   <p>{registration?.group?.name ?? 'Not assigned'}</p>
                 </>
               )}
+              {registration.group && registration.paymentStatus === 'PENDING' && (
+                <>
+                  <p>⚠️Warning⚠️</p>
+                  <p>This registration has a group but is not paid.</p>
+                </>
+              )}
             </div>
             <div className="grow" />
             <Menu as="div" className="relative mb-4 inline-block text-left">

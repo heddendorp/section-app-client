@@ -1,8 +1,8 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import { Group, Registration, Role, User } from '~/generated/prisma';
 import { db } from '~/utils/db.server';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -26,24 +26,61 @@ export const loader: LoaderFunction = async ({ request }) => {
   return Promise.all([registrations, countries, groups]);
 };
 
+const mapRegistrationDate = (
+  registration: any
+): Registration & { user: User; group?: Group } => ({
+  ...registration,
+  createdAt: new Date(registration.createdAt),
+  user: {
+    ...registration.user,
+    createdAt: new Date(registration.user.createdAt),
+  },
+  group: registration.group
+    ? {
+        ...registration.group,
+        createdAt: new Date(registration.group.createdAt),
+      }
+    : undefined,
+});
+
 export default function () {
+  // parse query params
+  const query = new URLSearchParams(useLocation().search);
   const [registrations, countries, groups] =
     useLoaderData<
       [(Registration & { user: User; group?: Group })[], any[], Group[]]
     >();
   // selected registrationStatus
-  const [registrationStatus, setRegistrationStatus] = useState<string>('');
+  const [registrationStatus, setRegistrationStatus] = useState<string>(
+    query.get('registrationStatus') || ''
+  );
   // selected group
-  const [group, setGroup] = useState<string>('');
+  const [group, setGroup] = useState<string>(query.get('group') || '');
   // selected paymentStatus
-  const [paymentStatus, setPaymentStatus] = useState<string>('');
+  const [paymentStatus, setPaymentStatus] = useState<string>(
+    query.get('paymentStatus') || ''
+  );
   // filtered registrations
-  const [filteredRegistrations, setFilteredRegistrations] =
-    useState<(Registration & { user: User; group?: Group })[]>(registrations);
+  const [filteredRegistrations, setFilteredRegistrations] = useState<
+    (Registration & { user: User; group?: Group })[]
+  >(registrations.map(mapRegistrationDate));
+
+  // deadline date
+  const [deadlineDate, setDeadlineDate] = useState<string>(
+    new Date(new Date().setUTCHours(18, 0, 0)).toLocaleString('de-DE')
+  );
 
   useEffect(() => {
+    const filterObject = {
+      registrationStatus,
+      group,
+      paymentStatus,
+    };
+    // set query params
+    const queryParams = new URLSearchParams(filterObject);
+    window.history.replaceState({}, '', `?${queryParams}`);
     setFilteredRegistrations(
-      registrations.filter((registration) => {
+      registrations.map(mapRegistrationDate).filter((registration) => {
         if (
           registrationStatus &&
           registration.registrationStatus !== registrationStatus
@@ -57,6 +94,7 @@ export default function () {
       })
     );
   }, [registrationStatus, group, paymentStatus, registrations]);
+
   const mapGender = (short: string) => {
     switch (short) {
       case 'm':
@@ -89,10 +127,10 @@ export default function () {
   ) => {
     const number = registration.phone.replace(/[ +]/g, '');
     const message = encodeURIComponent(`Hey there ${registration.callBy}!
-It seems like you are missing your payment for your the party animals spot. Please pay your registration fee at the following link:
+It seems like we didn't get your payment for your the party animals spot yet. Please pay your registration fee at the following link:
 https://party-animals.esn.world/registration/status 
 This is also where you can see your registration status, if the payment is confirmed here you are good to go.
-*The payment deadline is today at 18:00 CET* if you do not pay or contact us we will cancel your spot.
+The *payment deadline is ${deadlineDate} CET* if you do not pay or contact us we will cancel your spot.
 Should you not be able to take part in the program anymore, please contact us at questions@esn-tumi.de and we will cancel your spot.
 Best, 
 Your TUMi party animals team`);
@@ -105,13 +143,14 @@ Your TUMi party animals team`);
         <p className="mb-4">This is for sending mails and stuff</p>
         <div className="space-x-4 md:flex">
           <label
-            className="relative block rounded-lg border-2 border-gray-200 p-3"
+            className="relative block w-32 rounded-lg border-2 border-gray-200 p-3"
             htmlFor="status"
           >
             <select
               id="status"
               onChange={(event) => setRegistrationStatus(event.target.value)}
               className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+              defaultValue={registrationStatus}
             >
               <option value="">All</option>
               <option value="ACCEPTED">Accepted</option>
@@ -131,6 +170,7 @@ Your TUMi party animals team`);
               id="group"
               onChange={(event) => setGroup(event.target.value)}
               className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+              defaultValue={group}
             >
               <option value="">All</option>
               {groups.map((group) => (
@@ -151,6 +191,7 @@ Your TUMi party animals team`);
               id="paymentStatus"
               onChange={(event) => setPaymentStatus(event.target.value)}
               className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+              defaultValue={paymentStatus}
             >
               <option value="">All</option>
               <option value="PENDING">pending</option>
@@ -158,6 +199,20 @@ Your TUMi party animals team`);
             </select>
             <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
               Payment Status
+            </span>
+          </label>
+          <label
+            htmlFor="deadLineDate"
+            className="relative block w-40 rounded-lg border-2 border-gray-200 p-3"
+          >
+            <input
+              type="tex"
+              onChange={(event) => setDeadlineDate(event.target.value)}
+              className="peer w-full border-none bg-slate-800 px-0 pt-3.5 pb-0 text-sm placeholder-transparent focus:ring-0"
+              defaultValue={deadlineDate}
+            />
+            <span className="absolute left-3 -translate-y-1/3 text-xs font-medium text-gray-200 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:-translate-y-1/3 peer-focus:text-xs">
+              Deadline Date
             </span>
           </label>
         </div>
