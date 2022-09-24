@@ -65,7 +65,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     organizerLimit: t.exposeInt('organizerLimit'),
     publicationState: t.expose('publicationState', { type: PublicationState }),
     participantRegistrationCount: t.exposeInt('participantRegistrationCount'),
-    eventRegistrationCodes: t.relation('eventRegistrationCodes'),
+    eventRegistrationCodes: t.relation('eventRegistrationCodes', {
+      query: () => ({ orderBy: { createdAt: 'desc' } }),
+    }),
     insuranceDescription: t.exposeString('insuranceDescription'),
     shouldBeReportedToInsurance: t.exposeBoolean('shouldBeReportedToInsurance'),
     countedParticipantRegistrations: t.int({

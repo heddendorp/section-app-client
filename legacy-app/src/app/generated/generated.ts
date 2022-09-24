@@ -349,6 +349,7 @@ export type Mutation = {
   deleteEvent: TumiEvent;
   deleteEventTemplateCategory: EventTemplateCategory;
   deleteReceipt: Receipt;
+  deleteRegistrationCode: EventRegistrationCode;
   deleteSubmissionItem: EventSubmissionItem;
   deleteTemplate: EventTemplate;
   deregisterFromEvent: TumiEvent;
@@ -461,6 +462,11 @@ export type MutationDeleteEventTemplateCategoryArgs = {
 
 
 export type MutationDeleteReceiptArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteRegistrationCodeArgs = {
   id: Scalars['ID'];
 };
 
@@ -1503,13 +1509,6 @@ export type CheckInUserMutationVariables = Exact<{
 
 export type CheckInUserMutation = { __typename?: 'Mutation', checkInUser: { __typename?: 'EventRegistration', id: string, checkInTime?: any | null, didAttend: boolean } };
 
-export type LoadEventForManagementQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, refundFeesPaid: any, plannedSpend: any, submittedSpend: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, balance: any, checkInTime?: any | null, didAttend: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
-
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1614,6 +1613,20 @@ export type RemoveSubmissionFromEventMutationVariables = Exact<{
 
 
 export type RemoveSubmissionFromEventMutation = { __typename?: 'Mutation', deleteSubmissionItem: { __typename?: 'EventSubmissionItem', id: string, event: { __typename?: 'TumiEvent', id: string, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string }> } } };
+
+export type LoadEventForManagementQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, refundFeesPaid: any, plannedSpend: any, submittedSpend: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, balance: any, checkInTime?: any | null, didAttend: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
+
+export type DeleteRegistrationCodeMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteRegistrationCodeMutation = { __typename?: 'Mutation', deleteRegistrationCode: { __typename?: 'EventRegistrationCode', id: string } };
 
 export type GetPhotosOfEventQueryVariables = Exact<{
   eventId: Scalars['ID'];
@@ -2935,107 +2948,6 @@ export const CheckInUserDocument = gql`
       super(apollo);
     }
   }
-export const LoadEventForManagementDocument = gql`
-    query loadEventForManagement($id: ID!) {
-  event(id: $id) {
-    id
-    title
-    icon
-    start
-    amountCollected
-    netAmountCollected
-    feesPaid
-    refundFeesPaid
-    plannedSpend
-    submittedSpend
-    participantLimit
-    participantRegistrationCount
-    participantsAttended
-    costItems {
-      id
-      name
-      submittedAmount
-      amount
-    }
-    eventTemplate {
-      id
-      title
-    }
-    eventRegistrationCodes {
-      id
-      isPublic
-      status
-      registrationToRemoveId
-      registrationCreatedId
-    }
-    organizerRegistrations {
-      id
-      createdAt
-      status
-      user {
-        id
-        fullName
-        picture
-        email
-        currentTenant {
-          userId
-          tenantId
-          status
-        }
-      }
-    }
-    participantRegistrations(includeCancelled: true) {
-      id
-      createdAt
-      status
-      cancellationReason
-      balance
-      transactions {
-        id
-        status
-        direction
-        amount
-        type
-        subject
-      }
-      checkInTime
-      didAttend
-      submissions {
-        id
-        data
-        submissionItem {
-          id
-          name
-        }
-      }
-      user {
-        id
-        fullName
-        picture
-        email
-        phone
-        university
-        currentTenant {
-          userId
-          tenantId
-          status
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LoadEventForManagementGQL extends Apollo.Query<LoadEventForManagementQuery, LoadEventForManagementQueryVariables> {
-    override document = LoadEventForManagementDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const GetUserPaymentStatusDocument = gql`
     query GetUserPaymentStatus {
   currentUser {
@@ -3448,6 +3360,126 @@ export const RemoveSubmissionFromEventDocument = gql`
   })
   export class RemoveSubmissionFromEventGQL extends Apollo.Mutation<RemoveSubmissionFromEventMutation, RemoveSubmissionFromEventMutationVariables> {
     override document = RemoveSubmissionFromEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadEventForManagementDocument = gql`
+    query loadEventForManagement($id: ID!) {
+  event(id: $id) {
+    id
+    title
+    icon
+    start
+    amountCollected
+    netAmountCollected
+    feesPaid
+    refundFeesPaid
+    plannedSpend
+    submittedSpend
+    participantLimit
+    participantRegistrationCount
+    participantsAttended
+    costItems {
+      id
+      name
+      submittedAmount
+      amount
+    }
+    eventTemplate {
+      id
+      title
+    }
+    eventRegistrationCodes {
+      id
+      createdAt
+      isPublic
+      status
+      registrationToRemoveId
+      registrationCreatedId
+    }
+    organizerRegistrations {
+      id
+      createdAt
+      status
+      user {
+        id
+        fullName
+        picture
+        email
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    participantRegistrations(includeCancelled: true) {
+      id
+      createdAt
+      status
+      cancellationReason
+      balance
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+      }
+      checkInTime
+      didAttend
+      submissions {
+        id
+        data
+        submissionItem {
+          id
+          name
+        }
+      }
+      user {
+        id
+        fullName
+        picture
+        email
+        phone
+        university
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadEventForManagementGQL extends Apollo.Query<LoadEventForManagementQuery, LoadEventForManagementQueryVariables> {
+    override document = LoadEventForManagementDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteRegistrationCodeDocument = gql`
+    mutation deleteRegistrationCode($id: ID!) {
+  deleteRegistrationCode(id: $id) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteRegistrationCodeGQL extends Apollo.Mutation<DeleteRegistrationCodeMutation, DeleteRegistrationCodeMutationVariables> {
+    override document = DeleteRegistrationCodeDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

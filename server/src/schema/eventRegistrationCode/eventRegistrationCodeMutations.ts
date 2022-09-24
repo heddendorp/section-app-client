@@ -78,4 +78,17 @@ builder.mutationFields((t) => ({
       });
     },
   }),
+  deleteRegistrationCode: t.prismaField({
+    authScopes: { admin: true },
+    type: 'EventRegistrationCode',
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    resolve: async (query, root, { id }, context) => {
+      return prisma.eventRegistrationCode.delete({
+        ...query,
+        where: { id },
+      });
+    },
+  }),
 }));

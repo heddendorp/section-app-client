@@ -307,6 +307,7 @@ type Mutation {
   deleteEvent(id: ID!): TumiEvent!
   deleteEventTemplateCategory(categoryId: ID!): EventTemplateCategory!
   deleteReceipt(id: ID!): Receipt!
+  deleteRegistrationCode(id: ID!): EventRegistrationCode!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
