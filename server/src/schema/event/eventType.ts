@@ -610,6 +610,13 @@ export const eventType = builder.prismaObject('TumiEvent', {
               gte: DateTime.local().startOf('day').toJSDate(),
             },
             event: { registrationMode: RegistrationMode.STRIPE },
+            NOT: {
+              event: {
+                title: {
+                  contains: 'ESNcard',
+                },
+              },
+            },
             status: { not: RegistrationStatus.CANCELLED },
           },
         });
