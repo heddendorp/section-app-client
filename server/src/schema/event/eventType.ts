@@ -538,8 +538,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         ) {
           if (process.env.DEV) {
             console.info(
-              'Organizer signup not possible because of missing status ' +
-                status
+              'Signup not possible because of missing status ' + status
             );
           }
           return false;
@@ -602,6 +601,27 @@ export const eventType = builder.prismaObject('TumiEvent', {
           return {
             option: false,
             reason: 'You are already registered for this event!',
+          };
+        }
+        const registrationNumToday = await prisma.eventRegistration.count({
+          where: {
+            userId: context.user?.id,
+            createdAt: {
+              gte: DateTime.local().startOf('day').toJSDate(),
+            },
+            event: { registrationMode: RegistrationMode.STRIPE },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (registrationNumToday >= 3) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because there are already 3 registrations today`
+            );
+          }
+          return {
+            option: false,
+            reason: 'You have already registered for 3 events today!',
           };
         }
         if (parent.participantRegistrationCount >= parent.participantLimit) {

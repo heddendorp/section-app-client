@@ -8,6 +8,7 @@ import {
   RegistrationType,
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
+import { DateTime } from 'luxon';
 
 builder.mutationFields((t) => ({
   checkInUser: t.prismaField({
@@ -184,6 +185,21 @@ builder.mutationFields((t) => ({
             });
           });
         }
+        const registrationNumToday = await prisma.eventRegistration.count({
+          where: {
+            userId: context.user?.id,
+            createdAt: {
+              gte: DateTime.local().startOf('day').toJSDate(),
+            },
+            event: { registrationMode: RegistrationMode.STRIPE },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (registrationNumToday >= 3) {
+          throw new GraphQLYogaError(
+            'You have reached the maximum number of registrations (3) for today'
+          );
+        }
         /*if (
           event.organizerLimit > 1 &&
           registrationType === RegistrationType.ORGANIZER
@@ -246,7 +262,6 @@ builder.mutationFields((t) => ({
           throw new GraphQLYogaError('Registration mode not supported');
         }
       });
-      console.log(registration);
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT &&
