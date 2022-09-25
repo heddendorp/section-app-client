@@ -252,24 +252,8 @@ export class RegistrationService {
           throw new Error('Payment not found');
         }
         try {
-          const refund = await this.stripe.refunds.create({
+          await this.stripe.refunds.create({
             payment_intent: payment.paymentIntent,
-          });
-          await prisma.transaction.create({
-            data: {
-              direction: TransactionDirection.TUMI_TO_USER,
-              type: TransactionType.STRIPE,
-              subject: `Refund for registration ${registrationId}`,
-              createdBy: { connect: { id: context.user?.id ?? '' } },
-              user: { connect: { id: registration.userId } },
-              tenant: { connect: { id: context.tenant.id } },
-              amount: refund.amount / 100,
-              stripePayment: {
-                connect: {
-                  id: payment.id,
-                },
-              },
-            },
           });
         } catch (e) {
           console.error(e);
