@@ -823,7 +823,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     connect: { id: stripePayment.transactions[0].tenantId },
                   },
                   direction: TransactionDirection.TUMI_TO_USER,
-                  amount: charge.amount_refunded,
+                  amount: charge.amount_refunded / 100,
                   type: TransactionType.STRIPE,
                   eventRegistration: {
                     connect: {
