@@ -304,6 +304,7 @@ builder.mutationFields((t) => ({
           ],
         },
       });
+      await prisma.costItem.deleteMany({ where: { event: { id } } });
       return prisma.tumiEvent.delete({
         ...query,
         where: {
