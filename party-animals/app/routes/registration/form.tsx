@@ -65,7 +65,7 @@ export default function RegistrationForm() {
         well in munich.
       </p>
       <Form method="post" className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/*<div className="md:col-span-2">
+        <div className="md:col-span-2">
           <div
             className="border-l-4 border-red-500 bg-red-900 p-4 text-red-100"
             role="alert"
@@ -76,7 +76,7 @@ export default function RegistrationForm() {
               Only if spots become free, you can get one.
             </p>
           </div>
-        </div>*/}
+        </div>
         {actionData?.errors.form ? (
           <div className="md:col-span-2">
             <ValidationMessage

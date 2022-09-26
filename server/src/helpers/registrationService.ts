@@ -220,6 +220,43 @@ export class RegistrationService {
     });
   }
 
+  static async cancelPayment(
+    registrationId: string,
+    context: {
+      token?: { sub: string };
+      auth0: Auth0;
+      tenant: Tenant;
+      user?: User;
+      userOfTenant?: UsersOfTenants;
+    }
+  ) {
+    const registration = await prisma.eventRegistration.findUnique({
+      where: { id: registrationId },
+      include: {
+        event: true,
+        transactions: {
+          where: { direction: TransactionDirection.USER_TO_TUMI },
+          include: { stripePayment: true },
+        },
+      },
+    });
+    if (!registration) {
+      throw new Error('Registration not found');
+    }
+    if (registration.event.registrationMode === RegistrationMode.STRIPE) {
+      const payment = registration.transactions[0]?.stripePayment;
+      if (!payment) {
+        throw new Error('Payment not found');
+      }
+      try {
+        await this.stripe.checkout.sessions.expire(payment.checkoutSession);
+      } catch (e) {
+        console.error(e);
+        Sentry.captureException(e);
+      }
+    }
+  }
+
   static async cancelRegistration(
     registrationId: string,
     withRefund: boolean,
@@ -252,24 +289,8 @@ export class RegistrationService {
           throw new Error('Payment not found');
         }
         try {
-          const refund = await this.stripe.refunds.create({
+          await this.stripe.refunds.create({
             payment_intent: payment.paymentIntent,
-          });
-          await prisma.transaction.create({
-            data: {
-              direction: TransactionDirection.TUMI_TO_USER,
-              type: TransactionType.STRIPE,
-              subject: `Refund for registration ${registrationId}`,
-              createdBy: { connect: { id: context.user?.id ?? '' } },
-              user: { connect: { id: registration.userId } },
-              tenant: { connect: { id: context.tenant.id } },
-              amount: refund.amount / 100,
-              stripePayment: {
-                connect: {
-                  id: payment.id,
-                },
-              },
-            },
           });
         } catch (e) {
           console.error(e);

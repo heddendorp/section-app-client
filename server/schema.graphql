@@ -302,6 +302,7 @@ enum MembershipStatus {
 
 type Mutation {
   addOrganizerToEvent(eventId: ID!, userId: ID!): TumiEvent!
+  cancelPayment(registrationId: ID!): TumiEvent!
   changeEventPublication(eventId: ID!, publicationState: PublicationState!): TumiEvent!
   checkInUser(manualCheckin: Boolean = false, registrationId: ID!): EventRegistration!
   createEventFromTemplate(input: CreateEventFromTemplateInput!, templateId: ID!): TumiEvent!
@@ -318,6 +319,7 @@ type Mutation {
   deleteEvent(id: ID!): TumiEvent!
   deleteEventTemplateCategory(categoryId: ID!): EventTemplateCategory!
   deleteReceipt(id: ID!): Receipt!
+  deleteRegistrationCode(id: ID!): EventRegistrationCode!
   deleteSubmissionItem(id: ID!): EventSubmissionItem!
   deleteTemplate(templateId: ID!): EventTemplate!
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!

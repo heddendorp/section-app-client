@@ -6,8 +6,10 @@ import {
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
+  TransactionDirection,
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
+import { DateTime } from 'luxon';
 
 builder.mutationFields((t) => ({
   checkInUser: t.prismaField({
@@ -97,6 +99,35 @@ builder.mutationFields((t) => ({
       );
     },
   }),
+  cancelPayment: t.prismaField({
+    type: 'TumiEvent',
+    args: {
+      registrationId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, parent, { registrationId }, context, info) => {
+      const registration = await prisma.eventRegistration.findUniqueOrThrow({
+        where: { id: registrationId },
+        include: {
+          event: { select: { registrationMode: true } },
+          transactions: {
+            where: { direction: TransactionDirection.USER_TO_TUMI },
+            include: { stripePayment: true },
+          },
+        },
+      });
+      if (registration?.event?.registrationMode === RegistrationMode.STRIPE) {
+        await RegistrationService.cancelPayment(registrationId, context);
+        await prisma.eventRegistration.update({
+          where: { id: registrationId },
+          data: { status: RegistrationStatus.CANCELLED },
+        });
+      }
+      return prisma.tumiEvent.findUniqueOrThrow({
+        ...query,
+        where: { id: registration.eventId },
+      });
+    },
+  }),
   registerForEvent: t.prismaField({
     authScopes: { public: true },
     type: 'TumiEvent',
@@ -184,6 +215,28 @@ builder.mutationFields((t) => ({
             });
           });
         }
+        const registrationNumToday = await prisma.eventRegistration.count({
+          where: {
+            userId: context.user?.id,
+            createdAt: {
+              gte: DateTime.local().startOf('day').toJSDate(),
+            },
+            event: { registrationMode: RegistrationMode.STRIPE },
+            NOT: {
+              event: {
+                title: {
+                  contains: 'ESNcard',
+                },
+              },
+            },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        if (registrationNumToday >= 3) {
+          throw new GraphQLYogaError(
+            'You have reached the maximum number of registrations (3) for today'
+          );
+        }
         /*if (
           event.organizerLimit > 1 &&
           registrationType === RegistrationType.ORGANIZER
@@ -246,7 +299,6 @@ builder.mutationFields((t) => ({
           throw new GraphQLYogaError('Registration mode not supported');
         }
       });
-      console.log(registration);
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT &&

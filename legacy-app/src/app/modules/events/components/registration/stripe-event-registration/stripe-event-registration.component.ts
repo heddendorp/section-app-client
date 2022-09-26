@@ -8,8 +8,10 @@ import {
 } from '@angular/forms';
 import { DateTime } from 'luxon';
 import {
+  CancelPaymentGQL,
   DeregisterFromEventGQL,
   LoadEventQuery,
+  MutationCancelPaymentArgs,
   RegisterForEventGQL,
   SubmissionItemType,
   TransactionDirection,
@@ -39,6 +41,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
   constructor(
     private registerForEventGQL: RegisterForEventGQL,
     private deregisterFromEventGQL: DeregisterFromEventGQL,
+    private cancelPaymentGQL: CancelPaymentGQL,
     private dialog: MatDialog,
     private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
@@ -53,17 +56,12 @@ export class StripeEventRegistrationComponent implements OnChanges {
   }
 
   get lastPayment() {
-    //  TODO: implement with new transactions
-    // if (
-    //   !this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    // ) {
-    return new Date();
-    // }
-    // return DateTime.fromISO(
-    //   this.event?.activeRegistration?.transaction?.stripePayment?.createdAt
-    // )
-    //   .plus({ hours: 1 })
-    //   .toJSDate();
+    if (!this.activeStripePayment) {
+      return new Date();
+    }
+    return DateTime.fromISO(this.activeStripePayment?.createdAt)
+      .plus({ hours: 1 })
+      .toJSDate();
   }
 
   get canDeregisterInTime() {
@@ -110,6 +108,28 @@ export class StripeEventRegistrationComponent implements OnChanges {
     }
     if (changes['bestPrice']) {
       this.priceControl.setValue(this.bestPrice);
+    }
+  }
+
+  async cancelPayment() {
+    this.processing.next(true);
+    if (this.event && this.event.activeRegistration) {
+      try {
+        await firstValueFrom(
+          this.cancelPaymentGQL.mutate({
+            registrationId: this.event.activeRegistration.id,
+          })
+        );
+        this.processing.next(false);
+      } catch (e: unknown) {
+        this.processing.next(false);
+        if (e instanceof Error) {
+          this.snackBar.open(`❗ There was an error: ${e.message}`, undefined, {
+            duration: 10000,
+          });
+          this.processing.next(false);
+        }
+      }
     }
   }
 

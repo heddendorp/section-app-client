@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CheckInUserGQL,
   CreateEventRegistrationCodeGQL,
+  DeleteRegistrationCodeGQL,
   DeregisterFromEventGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
@@ -60,7 +61,8 @@ export class EventManagePageComponent implements OnDestroy {
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private checkInMutation: CheckInUserGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
@@ -202,5 +204,11 @@ export class EventManagePageComponent implements OnDestroy {
         return 'deregistered';
     }
     return registration.status.toLowerCase();
+  }
+
+  async deleteRegistrationCode(id: string) {
+    confirm('Are you sure you want to delete this registration code?') &&
+      (await firstValueFrom(this.deleteRegistrationCodeGQL.mutate({ id })));
+    this.loadEventQueryRef.refetch();
   }
 }

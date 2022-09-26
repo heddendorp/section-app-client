@@ -1,8 +1,17 @@
 <table class="scroll-auto">
   <tr *ngFor="let transaction of transactions">
     <td class="px-1">{{ transaction.subject }}</td>
-    <td class="px-1">{{ transaction.direction }}</td>
-    <td class="px-1">{{ transaction.status }}</td>
+    <td class="px-1">{{ transaction.direction | snakeCase }}</td>
+    <td class="px-1">{{ transaction.status | snakeCase }}</td>
     <td class="px-1">{{ transaction.amount | currency: 'EUR' }}</td>
+    <td class="px-1" *ngIf="transaction.stripePayment?.paymentIntent">
+      <a
+        href="https://dashboard.stripe.com/payments/{{
+          transaction.stripePayment?.paymentIntent
+        }}"
+      >
+        <mat-icon svgIcon="icon-stripe"></mat-icon>
+      </a>
+    </td>
   </tr>
 </table>

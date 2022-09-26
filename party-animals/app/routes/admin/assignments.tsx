@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node';
 import { authenticator } from '~/services/auth.server';
 import {
   Group,
@@ -11,6 +11,7 @@ import {
 import { db } from '~/utils/db.server';
 import { Form, useLoaderData } from '@remix-run/react';
 import { itemURL } from '~/utils';
+import { Popover } from '@headlessui/react';
 
 const prioToNum = (prio: Priority) => {
   switch (prio) {
@@ -48,11 +49,11 @@ const spaceForSizeInGroup = (group: Registration[], size: string) => {
   const alreadyInGroup = shirtSizeInGroup(group, size);
   switch (size) {
     case 's':
-      return alreadyInGroup < 7;
+      return alreadyInGroup < 6;
     case 'm':
-      return alreadyInGroup < 16;
+      return alreadyInGroup < 12;
     case 'l':
-      return alreadyInGroup < 5;
+      return alreadyInGroup < 10;
     case 'xl':
       return alreadyInGroup < 2;
     default:
@@ -145,8 +146,10 @@ export const loader: LoaderFunction = async ({ request }) => {
               if (
                 spaceForSizeInGroup(assignments[group.id], registration.size)
               ) {
-                assignments[group.id].push(registration);
-                assigned = true;
+                if (assignments[group.id].length < 20) {
+                  assignments[group.id].push(registration);
+                  assigned = true;
+                }
               }
             }
           }
@@ -234,6 +237,28 @@ export const action: ActionFunction = async ({ request }) => {
       await db.registration.updateMany({
         where: { id: { in: registrationIdsArray } },
         data: { registrationStatus: Status.ACCEPTED, groupId: group.id },
+      });
+      break;
+    }
+    case 'pinUser': {
+      const groupId = formData.get('groupId');
+      if (typeof groupId !== 'string') {
+        throw new Error('No groupId specified');
+      }
+      const group = await db.group.findUnique({
+        where: { id: groupId },
+        include: { registrations: true },
+      });
+      if (!group) {
+        throw new Error('Group not found');
+      }
+      const registrationId = formData.get('registrationId');
+      if (typeof registrationId !== 'string') {
+        throw new Error('No registrationId specified');
+      }
+      await db.registration.update({
+        where: { id: registrationId },
+        data: { groupId: group.id },
       });
       break;
     }
@@ -371,6 +396,37 @@ export default function AdminAssignments() {
                       </div>
                     </div>
                     <div className="grow" />
+                    <Popover className="relative">
+                      <Popover.Button>💭</Popover.Button>
+
+                      <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                        <div className="overflow-hidden rounded-lg shadow-lg ring-2 ring-white ring-opacity-5">
+                          <div className="relative grid gap-8 bg-gray-800 p-7">
+                            <p>{registration.expectations}</p>
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Popover>
+                    <Form method="patch">
+                      <input
+                        type="hidden"
+                        name="action"
+                        defaultValue="pinUser"
+                      />
+                      <input
+                        type="hidden"
+                        name="groupId"
+                        defaultValue={group.id}
+                      />
+                      <input
+                        type="hidden"
+                        name="registrationId"
+                        defaultValue={registration.id}
+                      />
+                      <button>
+                        <img src={itemURL('pin:fluency')} className="w-8" />
+                      </button>
+                    </Form>
                     <img
                       className="h-8 rounded-full"
                       referrerPolicy="no-referrer"

@@ -50,6 +50,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ResetScrollDirective } from './directives/reset-scroll.directive';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
+import { SnakeCasePipe } from '@tumi/legacy-app/modules/shared/pipes/snake-case.pipe';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
     FooterComponent,
     TransactionListComponent,
     BackButtonComponent,
+    SnakeCasePipe,
   ],
   imports: [
     RouterModule,
@@ -140,6 +142,7 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
     FooterComponent,
     TransactionListComponent,
     BackButtonComponent,
+    SnakeCasePipe,
   ],
   providers: [DatePipe, ExtendDatePipe],
 })

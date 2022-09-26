@@ -65,17 +65,27 @@
       <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
       <p>
         Please make sure to complete you payment by
-        {{ lastPayment | date: 'mediumTime' }} or we will have to cancel your
-        registration
+        {{ lastPayment | date: 'mediumTime' }} or your registration will be
+        canceled automatically.
       </p>
-      <!--      TODO: check with new transactions-->
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="openPaymentSession(activeStripePayment?.checkoutSession)"
-      >
-        Finalize event payment
-      </button>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+        <button
+          mat-flat-button
+          color="primary"
+          class="modern"
+          (click)="openPaymentSession(activeStripePayment?.checkoutSession)"
+        >
+          Finalize event payment
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="cancelPayment()"
+          class="modern"
+        >
+          Cancel your registration and payment
+        </button>
+      </div>
     </ng-container>
     <!--    TODO: check with new transactions-->
     <ng-container *ngIf="activeStripePayment?.status === 'processing'">

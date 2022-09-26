@@ -219,6 +219,10 @@ query loadEventForRunning($id: ID!) {
         id
       }
     }
+    submissionItems {
+      id
+      name
+    }
     participantRegistrations(includePending: false) {
       id
       checkInTime
@@ -349,99 +353,6 @@ mutation checkInUser($id: ID!, $manual: Boolean) {
     id
     checkInTime
     didAttend
-  }
-}
-
-query loadEventForManagement($id: ID!) {
-  event(id: $id) {
-    id
-    title
-    icon
-    start
-    #financial
-    amountCollected
-    netAmountCollected
-    feesPaid
-    refundFeesPaid
-    plannedSpend
-    submittedSpend
-    participantLimit
-    participantRegistrationCount
-    participantsAttended
-    #registrations
-    costItems {
-      id
-      name
-      submittedAmount
-      amount
-    }
-    # template
-    eventTemplate {
-      id
-      title
-    }
-    eventRegistrationCodes {
-      id
-      isPublic
-      status
-      registrationToRemoveId
-      registrationCreatedId
-    }
-    organizerRegistrations {
-      id
-      createdAt
-      status
-      #      paymentStatus
-      user {
-        id
-        fullName
-        picture
-        email
-        currentTenant {
-          userId
-          tenantId
-          status
-        }
-      }
-    }
-    participantRegistrations(includeCancelled: true) {
-      id
-      createdAt
-      status
-      cancellationReason
-      balance
-      transactions {
-        id
-        status
-        direction
-        amount
-        type
-        subject
-      }
-      checkInTime
-      didAttend
-      submissions {
-        id
-        data
-        submissionItem {
-          id
-          name
-        }
-      }
-      user {
-        id
-        fullName
-        picture
-        email
-        phone
-        university
-        currentTenant {
-          userId
-          tenantId
-          status
-        }
-      }
-    }
   }
 }
 

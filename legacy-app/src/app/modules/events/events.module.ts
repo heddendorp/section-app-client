@@ -41,6 +41,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicRegistrationCodesPageComponent } from './pages/public-registration-codes-page/public-registration-codes-page.component';
 import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
 import { EventCalendarDayDialogComponent } from './components/event-calendar/event-calendar-day-dialog/event-calendar-day-dialog';
+import { EventSubmissionOverviewComponent } from './components/event-submission-overview/event-submission-overview.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { EventCalendarDayDialogComponent } from './components/event-calendar/eve
     PublicRegistrationCodesPageComponent,
     EventCalendarComponent,
     EventCalendarDayDialogComponent,
+    EventSubmissionOverviewComponent,
   ],
   imports: [
     CommonModule,

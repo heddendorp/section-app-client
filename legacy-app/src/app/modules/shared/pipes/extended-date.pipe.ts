@@ -17,6 +17,9 @@ export class ExtendDatePipe implements PipeTransform {
 
   transform(value: any, format = 'medium') {
     format = this.customFormats[format] || format;
+    if (typeof value === 'object') {
+      return DateTime.fromJSDate(value).toFormat(format);
+    }
     return DateTime.fromISO(value).toFormat(format);
   }
 }

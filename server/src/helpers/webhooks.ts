@@ -595,7 +595,19 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
             });
           }
+          if (!transaction) {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(paymentIntent)),
+                oldData: JSON.parse(JSON.stringify(stripePayment)),
+                message: "Transaction for payment intent wasn't found",
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+          }
           if (
+            transaction &&
             transaction.eventRegistration &&
             transaction.eventRegistration.status !==
               RegistrationStatus.CANCELLED
@@ -612,7 +624,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
               data: { participantRegistrationCount: { decrement: 1 } },
             });
           }
-          if (transaction.purchase) {
+          if (transaction && transaction.purchase) {
             await prisma.purchase.update({
               where: { id: transaction.purchase.id },
               data: {
@@ -621,7 +633,10 @@ export const webhookRouter = (prisma: PrismaClient) => {
               },
             });
           }
-          if (transaction.eventRegistration.eventRegistrationCode) {
+          if (
+            transaction &&
+            transaction.eventRegistration.eventRegistrationCode
+          ) {
             if (
               transaction.eventRegistration.eventRegistrationCode
                 .registrationToRemoveId
@@ -823,7 +838,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     connect: { id: stripePayment.transactions[0].tenantId },
                   },
                   direction: TransactionDirection.TUMI_TO_USER,
-                  amount: charge.amount_refunded,
+                  amount: charge.amount_refunded / 100,
                   type: TransactionType.STRIPE,
                   eventRegistration: {
                     connect: {
