@@ -6,6 +6,7 @@ import {
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
+  TransactionDirection,
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import { DateTime } from 'luxon';
@@ -96,6 +97,35 @@ builder.mutationFields((t) => ({
         isKick,
         context
       );
+    },
+  }),
+  cancelPayment: t.prismaField({
+    type: 'TumiEvent',
+    args: {
+      registrationId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, parent, { registrationId }, context, info) => {
+      const registration = await prisma.eventRegistration.findUniqueOrThrow({
+        where: { id: registrationId },
+        include: {
+          event: { select: { registrationMode: true } },
+          transactions: {
+            where: { direction: TransactionDirection.USER_TO_TUMI },
+            include: { stripePayment: true },
+          },
+        },
+      });
+      if (registration?.event?.registrationMode === RegistrationMode.STRIPE) {
+        await RegistrationService.cancelPayment(registrationId, context);
+        await prisma.eventRegistration.update({
+          where: { id: registrationId },
+          data: { status: RegistrationStatus.CANCELLED },
+        });
+      }
+      return prisma.tumiEvent.findUniqueOrThrow({
+        ...query,
+        where: { id: registration.eventId },
+      });
     },
   }),
   registerForEvent: t.prismaField({

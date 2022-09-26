@@ -334,6 +334,7 @@ export enum MembershipStatus {
 export type Mutation = {
   __typename?: 'Mutation';
   addOrganizerToEvent: TumiEvent;
+  cancelPayment: TumiEvent;
   changeEventPublication: TumiEvent;
   checkInUser: EventRegistration;
   createEventFromTemplate: TumiEvent;
@@ -378,6 +379,11 @@ export type Mutation = {
 export type MutationAddOrganizerToEventArgs = {
   eventId: Scalars['ID'];
   userId: Scalars['ID'];
+};
+
+
+export type MutationCancelPaymentArgs = {
+  registrationId: Scalars['ID'];
 };
 
 
@@ -1429,6 +1435,13 @@ export type RegisterForEventMutationVariables = Exact<{
 
 export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutSession: string, paymentIntent: string } | null }> } | null, organizers: Array<{ __typename?: 'User', fullName: string }> } };
 
+export type CancelPaymentMutationVariables = Exact<{
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type CancelPaymentMutation = { __typename?: 'Mutation', cancelPayment: { __typename?: 'TumiEvent', id: string, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutSession: string, paymentIntent: string } | null }> } | null } };
+
 export type LoadEventQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2458,6 +2471,46 @@ export const RegisterForEventDocument = gql`
   })
   export class RegisterForEventGQL extends Apollo.Mutation<RegisterForEventMutation, RegisterForEventMutationVariables> {
     override document = RegisterForEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CancelPaymentDocument = gql`
+    mutation cancelPayment($registrationId: ID!) {
+  cancelPayment(registrationId: $registrationId) {
+    id
+    activeRegistration {
+      id
+      type
+      status
+      cancellationReason
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          createdAt
+          amount
+          status
+          checkoutSession
+          paymentIntent
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CancelPaymentGQL extends Apollo.Mutation<CancelPaymentMutation, CancelPaymentMutationVariables> {
+    override document = CancelPaymentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
