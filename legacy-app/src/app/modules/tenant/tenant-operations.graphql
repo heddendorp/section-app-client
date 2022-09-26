@@ -328,6 +328,7 @@ query getPurchase($id: ID!) {
       stripePayment {
         id
         status
+        paymentIntent
         paymentMethodType
         events
         shipping

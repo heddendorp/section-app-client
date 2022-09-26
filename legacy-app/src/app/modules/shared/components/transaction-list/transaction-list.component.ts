@@ -17,7 +17,9 @@ export class TransactionListComponent {
         'id' | 'direction' | 'status' | 'amount' | 'type' | 'subject'
       >
     > & {
-      stripePayment?: Required<Pick<StripePayment, 'id'>> | null;
+      stripePayment?: Required<
+        Pick<StripePayment, 'id' | 'paymentIntent'>
+      > | null;
     }
   > = [];
   constructor() {}
