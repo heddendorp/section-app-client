@@ -16,184 +16,162 @@ import InputJsonObject = Prisma.InputJsonObject;
 const stripe: Stripe.Stripe = require('stripe')(process.env['STRIPE_KEY']);
 
 export const webhookRouter = (prisma: PrismaClient) => {
-  const cancelPayment = async (stripePayment, object) =>
-    {
-      if (!stripePayment) {
-        await prisma.activityLog.create({
-          data: {
-            data: JSON.parse(JSON.stringify(object)),
-            message: 'No database payment found for incoming event',
-            severity: 'WARNING',
-            category: 'webhook',
-          },
-        });
-        return;
-      }
-      let payment;
-      if (Array.isArray(stripePayment.events)) {
-        payment = await prisma.stripePayment.update({
-          where: { id: stripePayment.id },
-          data: {
-            status: object.status,
-            events: [
-              ...stripePayment.events,
-              {
-                type: 'payment.canceled',
-                name: 'canceled',
-                date: Date.now(),
-              },
-            ],
-          },
-          include: {
-            transactions: {
-              where: { direction: TransactionDirection.USER_TO_TUMI },
-              include: {
-                eventRegistration: {
-                  include: {
-                    eventRegistrationCode: true,
-                  },
-                },
-                purchase: true,
-              },
-            },
-          },
-        });
-      } else {
-        await prisma.activityLog.create({
-          data: {
-            data: JSON.parse(JSON.stringify(object)),
-            oldData: JSON.parse(JSON.stringify(stripePayment)),
-            message: 'Saved payment events are not an array',
-            severity: 'WARNING',
-            category: 'webhook',
-          },
-        });
-        return;
-      }
-      let transaction;
-      if (payment.transactions.length === 1) {
-        transaction = payment.transactions[0];
-        await prisma.transaction.update({
-          where: { id: transaction.id },
-          data: {
-            status: TransactionStatus.CANCELLED,
-          },
-        });
-      } else {
-        await prisma.activityLog.create({
-          data: {
-            data: JSON.parse(JSON.stringify(object)),
-            oldData: JSON.parse(JSON.stringify(stripePayment)),
-            message: 'Transaction for payment intent is not singular',
-            severity: 'WARNING',
-            category: 'webhook',
-          },
-        });
-      }
-      if (!transaction) {
-        await prisma.activityLog.create({
-          data: {
-            data: JSON.parse(JSON.stringify(object)),
-            oldData: JSON.parse(JSON.stringify(stripePayment)),
-            message: "Transaction for payment intent wasn't found",
-            severity: 'WARNING',
-            category: 'webhook',
-          },
-        });
-      }
-      if (
-        transaction &&
-        transaction.eventRegistration &&
-        transaction.eventRegistration.status !==
-        RegistrationStatus.CANCELLED
-      ) {
-        await prisma.eventRegistration.update({
-          where: { id: transaction.eventRegistration.id },
-          data: {
-            status: RegistrationStatus.CANCELLED,
-            cancellationReason: 'Payment intent timed out',
-          },
-        });
-      }
-      if (transaction && transaction.purchase) {
-        await prisma.purchase.update({
-          where: { id: transaction.purchase.id },
-          data: {
-            status: PurchaseStatus.CANCELLED,
-            cancellationReason: 'Payment intent timed out',
-          },
-        });
-      }
-      if (
-        transaction &&
-        transaction.eventRegistration.eventRegistrationCode
-      ) {
-        if (
-          transaction.eventRegistration.eventRegistrationCode
-            .registrationToRemoveId
-        ) {
-          const registrationToRemove =
-            await prisma.eventRegistration.findUnique({
-              where: {
-                id: transaction.eventRegistration.eventRegistrationCode
-                  .registrationToRemoveId,
-              },
-            });
-          if (
-            registrationToRemove &&
-            registrationToRemove?.status !== RegistrationStatus.SUCCESSFUL
-          ) {
-            await prisma.eventRegistration.update({
-              where: {
-                id: registrationToRemove.id,
-              },
-              data: {
-                status: RegistrationStatus.SUCCESSFUL,
-                cancellationReason: null,
-              },
-            });
-          }
-        }
-
-        if (
-          transaction.eventRegistration.eventRegistrationCode
-            .registrationCreatedId
-        ) {
-          const registrationCreated =
-            await prisma.eventRegistration.findUnique({
-              where: {
-                id: transaction.eventRegistration.eventRegistrationCode
-                  .registrationCreatedId,
-              },
-            });
-          if (
-            registrationCreated &&
-            registrationCreated?.status !== RegistrationStatus.CANCELLED
-          ) {
-            await prisma.eventRegistration.update({
-              where: {
-                id: registrationCreated.id,
-              },
-              data: {
-                status: RegistrationStatus.CANCELLED,
-                cancellationReason: 'Payment for move failed',
-              },
-            });
-          }
-        }
-        await prisma.eventRegistrationCode.update({
-          where: {
-            id: transaction.eventRegistration.eventRegistrationCode.id,
-          },
-          data: {
-            registrationCreatedId: null,
-            status: RegistrationStatus.PENDING,
-          },
-        });
-      }
+  const cancelPayment = async (stripePayment, object) => {
+    if (!stripePayment) {
+      await prisma.activityLog.create({
+        data: {
+          data: JSON.parse(JSON.stringify(object)),
+          message: 'No database payment found for incoming event',
+          severity: 'WARNING',
+          category: 'webhook',
+        },
+      });
       return;
     }
-  ;
+    const payment = await prisma.stripePayment.update({
+      where: { id: stripePayment.id },
+      data: {
+        status: object.status,
+        events: [
+          ...(Array.isArray(stripePayment.events) ? stripePayment.events : []),
+          {
+            type: object.object,
+            name: 'canceled',
+            date: Date.now(),
+          },
+        ],
+      },
+      include: {
+        transactions: {
+          where: { direction: TransactionDirection.USER_TO_TUMI },
+          include: {
+            eventRegistration: {
+              include: {
+                eventRegistrationCode: true,
+              },
+            },
+            purchase: true,
+          },
+        },
+      },
+    });
+    let transaction;
+    if (payment.transactions.length === 1) {
+      transaction = payment.transactions[0];
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: TransactionStatus.CANCELLED,
+        },
+      });
+    } else {
+      await prisma.activityLog.create({
+        data: {
+          data: JSON.parse(JSON.stringify(object)),
+          oldData: JSON.parse(JSON.stringify(stripePayment)),
+          message: 'Transaction for payment intent is not singular',
+          severity: 'WARNING',
+          category: 'webhook',
+        },
+      });
+    }
+    if (!transaction) {
+      await prisma.activityLog.create({
+        data: {
+          data: JSON.parse(JSON.stringify(object)),
+          oldData: JSON.parse(JSON.stringify(stripePayment)),
+          message: "Transaction for payment intent wasn't found",
+          severity: 'WARNING',
+          category: 'webhook',
+        },
+      });
+    }
+    if (
+      transaction &&
+      transaction.eventRegistration &&
+      transaction.eventRegistration.status !== RegistrationStatus.CANCELLED
+    ) {
+      await prisma.eventRegistration.update({
+        where: { id: transaction.eventRegistration.id },
+        data: {
+          status: RegistrationStatus.CANCELLED,
+          cancellationReason: 'Payment intent timed out',
+        },
+      });
+    }
+    if (transaction && transaction.purchase) {
+      await prisma.purchase.update({
+        where: { id: transaction.purchase.id },
+        data: {
+          status: PurchaseStatus.CANCELLED,
+          cancellationReason: 'Payment intent timed out',
+        },
+      });
+    }
+    if (transaction && transaction.eventRegistration.eventRegistrationCode) {
+      if (
+        transaction.eventRegistration.eventRegistrationCode
+          .registrationToRemoveId
+      ) {
+        const registrationToRemove = await prisma.eventRegistration.findUnique({
+          where: {
+            id: transaction.eventRegistration.eventRegistrationCode
+              .registrationToRemoveId,
+          },
+        });
+        if (
+          registrationToRemove &&
+          registrationToRemove?.status !== RegistrationStatus.SUCCESSFUL
+        ) {
+          await prisma.eventRegistration.update({
+            where: {
+              id: registrationToRemove.id,
+            },
+            data: {
+              status: RegistrationStatus.SUCCESSFUL,
+              cancellationReason: null,
+            },
+          });
+        }
+      }
+
+      if (
+        transaction.eventRegistration.eventRegistrationCode
+          .registrationCreatedId
+      ) {
+        const registrationCreated = await prisma.eventRegistration.findUnique({
+          where: {
+            id: transaction.eventRegistration.eventRegistrationCode
+              .registrationCreatedId,
+          },
+        });
+        if (
+          registrationCreated &&
+          registrationCreated?.status !== RegistrationStatus.CANCELLED
+        ) {
+          await prisma.eventRegistration.update({
+            where: {
+              id: registrationCreated.id,
+            },
+            data: {
+              status: RegistrationStatus.CANCELLED,
+              cancellationReason: 'Payment for move failed',
+            },
+          });
+        }
+      }
+      await prisma.eventRegistrationCode.update({
+        where: {
+          id: transaction.eventRegistration.eventRegistrationCode.id,
+        },
+        data: {
+          registrationCreatedId: null,
+          status: RegistrationStatus.PENDING,
+        },
+      });
+    }
+    return;
+  };
   const router = express.Router();
   router.use((err, req, res, next) => {
     console.error(err.stack);
@@ -251,7 +229,9 @@ export const webhookRouter = (prisma: PrismaClient) => {
         }
         case 'checkout.session.expired': {
           const session: Stripe.Stripe.Checkout.Session = event.data.object;
-          const stripePayment = prisma.stripePayment.findUnique({where:{checkoutSession:session.id}});
+          const stripePayment = prisma.stripePayment.findUnique({
+            where: { checkoutSession: session.id },
+          });
           if (!stripePayment) {
             await prisma.activityLog.create({
               data: {
