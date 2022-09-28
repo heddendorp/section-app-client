@@ -132,7 +132,7 @@ builder.prismaObject('User', {
               rating: null,
             },
           });
-        return registrations.length > 0;
+        return (registrations?.length ?? 0) > 0;
       },
     }),
     hasEsnCard: t.boolean({

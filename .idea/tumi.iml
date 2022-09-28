@@ -17,7 +17,6 @@
       <excludeFolder url="file://$MODULE_DIR$/party-animals/public/build" />
       <excludeFolder url="file://$MODULE_DIR$/party-animals/.cache" />
       <excludeFolder url="file://$MODULE_DIR$/party-animals/build" />
-      <excludeFolder url="file://$MODULE_DIR$/server/src/generated" />
       <excludeFolder url="file://$MODULE_DIR$/server/dist" />
       <excludeFolder url="file://$MODULE_DIR$/server/storage-22-9-12" />
     </content>
