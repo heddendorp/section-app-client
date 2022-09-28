@@ -41,7 +41,6 @@ export type CostItem = {
   amount: Scalars['Decimal'];
   calculationInfo: Scalars['String'];
   complete: Scalars['Boolean'];
-  confirmed: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   details?: Maybe<Scalars['String']>;
   event: TumiEvent;
@@ -52,7 +51,6 @@ export type CostItem = {
   onInvoice: Scalars['Boolean'];
   receipts: Array<Receipt>;
   submittedAmount: Scalars['Decimal'];
-  transactions: Array<Transaction>;
 };
 
 export type CreateEventFromTemplateInput = {
@@ -1033,8 +1031,6 @@ export type Transaction = {
   __typename?: 'Transaction';
   amount: Scalars['Decimal'];
   comment?: Maybe<Scalars['String']>;
-  costItem: CostItem;
-  costItemId?: Maybe<Scalars['ID']>;
   createdAt: Scalars['DateTime'];
   createdBy: User;
   creatorId?: Maybe<Scalars['ID']>;
@@ -1043,6 +1039,7 @@ export type Transaction = {
   id: Scalars['ID'];
   isMembershipFee: Scalars['Boolean'];
   purchase: Purchase;
+  receipts: Array<Receipt>;
   status: TransactionStatus;
   stripePayment?: Maybe<StripePayment>;
   subject: Scalars['String'];
@@ -1084,6 +1081,7 @@ export type TumiEvent = {
   costItems: Array<CostItem>;
   couldBeOrganizer: Scalars['Boolean'];
   couldBeParticipant: Scalars['Boolean'];
+  /** @deprecated has become the default */
   countedParticipantRegistrations: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   createdBy: User;

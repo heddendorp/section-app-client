@@ -15,14 +15,12 @@ import prom from 'prom-client';
 import { useAuth0 } from '@envelop/auth0';
 import { Plugin, useExtendContext } from '@envelop/core';
 import { useHive } from '@graphql-hive/client';
-import { setupCronjob } from './helpers/cronjobs';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
 import { useSentry } from '@envelop/sentry';
 import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
 import { Settings } from 'luxon';
-import { RegistrationMode } from './generated/prisma';
 
 declare global {
   namespace NodeJS {
@@ -74,7 +72,6 @@ Sentry.init({
 const register = new prom.Registry();
 prom.collectDefaultMetrics({ register });
 
-setupCronjob(prisma);
 const auth0 = new Auth0();
 
 const tracingPlugin: Plugin = {

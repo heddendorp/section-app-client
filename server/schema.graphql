@@ -18,7 +18,6 @@ type CostItem {
   amount: Decimal!
   calculationInfo: String!
   complete: Boolean!
-  confirmed: Boolean!
   createdAt: DateTime!
   details: String
   event: TumiEvent!
@@ -29,7 +28,6 @@ type CostItem {
   onInvoice: Boolean!
   receipts: [Receipt!]!
   submittedAmount: Decimal!
-  transactions: [Transaction!]!
 }
 
 input CreateEventFromTemplateInput {
@@ -591,8 +589,6 @@ type Tenant {
 type Transaction {
   amount: Decimal!
   comment: String
-  costItem: CostItem!
-  costItemId: ID
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID
@@ -601,6 +597,7 @@ type Transaction {
   id: ID!
   isMembershipFee: Boolean!
   purchase: Purchase!
+  receipts: [Receipt!]!
   status: TransactionStatus!
   stripePayment: StripePayment
   subject: String!
@@ -641,7 +638,7 @@ type TumiEvent {
   costItems(hideOnInvoice: Boolean = false): [CostItem!]!
   couldBeOrganizer: Boolean!
   couldBeParticipant: Boolean!
-  countedParticipantRegistrations: Int!
+  countedParticipantRegistrations: Int! @deprecated(reason: "has become the default")
   createdAt: DateTime!
   createdBy: User!
   creatorId: ID!

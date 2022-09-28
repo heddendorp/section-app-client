@@ -384,10 +384,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                       },
                     },
                   });
-                await prisma.tumiEvent.update({
-                  where: { id: removedRegistration.eventId },
-                  data: { participantRegistrationCount: { decrement: 1 } },
-                });
                 if (removedRegistration.transactions[0]?.stripePayment) {
                   if (
                     !removedRegistration.transactions[0].stripePayment
@@ -650,10 +646,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 cancellationReason: 'Payment intent timed out',
               },
             });
-            await prisma.tumiEvent.update({
-              where: { id: transaction.eventRegistration.eventId },
-              data: { participantRegistrationCount: { decrement: 1 } },
-            });
           }
           if (transaction && transaction.purchase) {
             await prisma.purchase.update({
@@ -692,10 +684,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     cancellationReason: null,
                   },
                 });
-                await prisma.tumiEvent.update({
-                  where: { id: transaction.eventRegistration.eventId },
-                  data: { participantRegistrationCount: { increment: 1 } },
-                });
               }
             }
 
@@ -722,10 +710,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     status: RegistrationStatus.CANCELLED,
                     cancellationReason: 'Payment for move failed',
                   },
-                });
-                await prisma.tumiEvent.update({
-                  where: { id: transaction.eventRegistration.eventId },
-                  data: { participantRegistrationCount: { decrement: 1 } },
                 });
               }
             }
@@ -812,7 +796,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
             include: { transactions: true },
-            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({

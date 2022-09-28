@@ -64,20 +64,23 @@ export const eventType = builder.prismaObject('TumiEvent', {
     participantLimit: t.exposeInt('participantLimit'),
     organizerLimit: t.exposeInt('organizerLimit'),
     publicationState: t.expose('publicationState', { type: PublicationState }),
-    participantRegistrationCount: t.exposeInt('participantRegistrationCount'),
+    participantRegistrationCount: t.relationCount('registrations', {
+      where: {
+        type: RegistrationType.PARTICIPANT,
+        status: { not: RegistrationStatus.CANCELLED },
+      },
+    }),
     eventRegistrationCodes: t.relation('eventRegistrationCodes', {
       query: () => ({ orderBy: { createdAt: 'desc' } }),
     }),
     insuranceDescription: t.exposeString('insuranceDescription'),
     shouldBeReportedToInsurance: t.exposeBoolean('shouldBeReportedToInsurance'),
-    countedParticipantRegistrations: t.int({
-      resolve: async (event, args, context) =>
-        prisma.eventRegistration.count({
-          where: {
-            event: { id: event.id },
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        }),
+    countedParticipantRegistrations: t.relationCount('registrations', {
+      where: {
+        type: RegistrationType.PARTICIPANT,
+        status: { not: RegistrationStatus.CANCELLED },
+      },
+      deprecationReason:'has become the default'
     }),
     submissionItems: t.relation('submissionItems', {
       args: {
@@ -100,16 +103,19 @@ export const eventType = builder.prismaObject('TumiEvent', {
     eventTemplateId: t.exposeID('eventTemplateId'),
     freeParticipantSpots: t.string({
       resolve: async (event, args, context) => {
-        const quota =
-          event.participantRegistrationCount / event.participantLimit;
+        const participantCount = await prisma.eventRegistration.count({
+          where: {
+            event: { id: event.id },
+            type: RegistrationType.PARTICIPANT,
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+        });
+        const quota = participantCount / event.participantLimit;
         if (quota < 0.5) {
           return 'Many free spots';
         } else if (quota < 0.8) {
           return 'Some spots left';
-        } else if (
-          event.participantLimit - event.participantRegistrationCount ===
-          1
-        ) {
+        } else if (event.participantLimit - participantCount === 1) {
           return 'One spot left';
         } else if (quota < 1) {
           return 'Few spots left';
@@ -590,7 +596,6 @@ export const eventType = builder.prismaObject('TumiEvent', {
             eventId: parent.id,
             status: { not: RegistrationStatus.CANCELLED },
           },
-          rejectOnNotFound: false,
         });
         if (previousRegistration) {
           if (process.env.DEV) {
@@ -631,10 +636,20 @@ export const eventType = builder.prismaObject('TumiEvent', {
             reason: 'You have already registered for 3 events today!',
           };
         }
-        if (parent.participantRegistrationCount >= parent.participantLimit) {
+        const eventParticipantRegistrations =
+          await prisma.eventRegistration.count({
+            where: {
+              event: {
+                id: parent.id,
+              },
+              status: { not: RegistrationStatus.CANCELLED },
+              type: RegistrationType.PARTICIPANT,
+            },
+          });
+        if (eventParticipantRegistrations >= parent.participantLimit) {
           if (process.env.DEV) {
             console.info(
-              `Can't register because to many people are on event ${parent.participantRegistrationCount} >= ${parent.participantLimit}`
+              `Can't register because to many people are on event ${eventParticipantRegistrations} >= ${parent.participantLimit}`
             );
           }
           return {

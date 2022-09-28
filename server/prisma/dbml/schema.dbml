@@ -117,10 +117,9 @@ Table Transaction {
   direction TransactionDirection [not null]
   status TransactionStatus [not null, default: 'PENDING']
   amount Decimal [not null]
-  costItemId String
   onSendingBalance Boolean [not null, default: false]
   onReceivingBalance Boolean [not null, default: false]
-  costItem CostItem
+  receipts Receipt [not null]
   createdBy User [not null]
   tenant Tenant [not null]
   user User
@@ -221,9 +220,9 @@ Table TumiEvent {
   coordinates Json
   prices Json
   registrationStart DateTime [default: `now()`, not null]
+  organizerRegistrationStart DateTime [default: `now()`, not null]
   insuranceDescription String [not null, default: '']
   shouldBeReportedToInsurance Boolean [not null, default: true]
-  participantRegistrationCount Int [not null, default: 0]
   disableDeregistration Boolean [not null, default: false]
   excludeFromStatistics Boolean [not null, default: false]
   excludeFromRatings Boolean [not null, default: false]
@@ -310,14 +309,13 @@ Table CostItem {
   actualAmount Decimal
   amount Decimal [not null]
   calculationInfo String [not null]
-  confirmed Boolean [not null, default: false]
+  completed Boolean [not null, default: false]
   details String
   onInvoice Boolean [not null]
   notSubsidized Boolean [not null, default: false]
   complete Boolean [not null, default: false]
   event TumiEvent [not null]
   receipts Receipt [not null]
-  transactions Transaction [not null]
 }
 
 Table Receipt {
@@ -331,8 +329,10 @@ Table Receipt {
   md5 String
   preview String
   type String
+  confirmed Boolean [not null, default: false]
   costItem CostItem [not null]
   user User [not null]
+  transactions Transaction [not null]
 }
 
 Table PhotoShare {
@@ -422,6 +422,11 @@ Table ActivityLog {
   involvedUser String
   severity LogSeverity [not null]
   category String [not null, default: 'general']
+}
+
+Table ReceiptToTransaction {
+  receiptsId String [ref: > Receipt.id]
+  transactionsId String [ref: > Transaction.id]
 }
 
 Enum Role {
@@ -530,8 +535,6 @@ Enum TransactionStatus {
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
-
-Ref: Transaction.costItemId > CostItem.id
 
 Ref: Transaction.creatorId > User.id
 
