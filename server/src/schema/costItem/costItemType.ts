@@ -14,11 +14,9 @@ export const costItemType = builder.prismaObject('CostItem', {
     details: t.exposeString('details', { nullable: true }),
     amount: t.expose('amount', { type: 'Decimal' }),
     actualAmount: t.expose('actualAmount', { type: 'Decimal', nullable: true }),
-    confirmed: t.exposeBoolean('confirmed'),
     complete: t.exposeBoolean('complete'),
     onInvoice: t.exposeBoolean('onInvoice'),
     notSubsidized: t.exposeBoolean('notSubsidized'),
-    transactions: t.relation('transactions'),
     receipts: t.relation('receipts'),
     submittedAmount: t.field({
       type: 'Decimal',

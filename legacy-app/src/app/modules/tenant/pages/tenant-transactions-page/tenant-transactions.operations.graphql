@@ -1,0 +1,46 @@
+query loadTransactions(
+  $range: DateRangeInput
+  $search: String
+  $directions: [TransactionDirection!]
+  $types: [TransactionType!]
+  $status: [TransactionStatus!]
+  $take: Int
+  $skip: Int
+) {
+  transactions(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+    take: $take
+    skip: $skip
+  ) {
+    id
+    amount
+    createdAt
+    type
+    subject
+    status
+    direction
+    eventRegistration {
+      id
+      event {
+        id
+        title
+      }
+    }
+    user {
+      id
+      fullName
+    }
+  }
+  transactionCount(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+  )
+  transactionNetAmount(range: $range)
+}

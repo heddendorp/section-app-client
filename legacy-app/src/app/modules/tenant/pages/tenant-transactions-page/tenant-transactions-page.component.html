@@ -17,7 +17,6 @@
   ></mat-progress-bar>
 </app-reactive-toolbar>
 <main class="p-4">
-  <h2>Sum amount: {{ sumAmount$ | async | currency: 'EUR' }}</h2>
   <h2>Net amount: {{ netAmount$ | async | currency: 'EUR' }}</h2>
   <p>
     The net amount calculates the sum of all transactions towards TUMi minus all
@@ -29,6 +28,49 @@
     fxLayout="column"
     fxLayoutGap="1rem"
   >
+    <mat-form-field>
+      <mat-label>Transaction Direction</mat-label>
+      <mat-select formControlName="directions" multiple>
+        <mat-option [value]="TransactionDirection.TumiToUser"
+          >TUMi to User</mat-option
+        >
+        <mat-option [value]="TransactionDirection.TumiToExternal"
+          >TUMi to External</mat-option
+        >
+        <mat-option [value]="TransactionDirection.UserToTumi"
+          >User to TUMi</mat-option
+        >
+        <mat-option [value]="TransactionDirection.ExternalToTumi"
+          >External to TUMi</mat-option
+        >
+        <mat-option [value]="TransactionDirection.UserToUser"
+          >User to User</mat-option
+        >
+        <mat-option [value]="TransactionDirection.UserToExternal"
+          >User to External</mat-option
+        >
+        <mat-option [value]="TransactionDirection.ExternalToUser"
+          >External to User</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Transaction Type</mat-label>
+      <mat-select formControlName="types" multiple>
+        <mat-option [value]="TransactionType.Stripe">Stripe</mat-option>
+        <mat-option [value]="TransactionType.Cash">Cash</mat-option>
+        <mat-option [value]="TransactionType.Transfer">Transfer</mat-option>
+        <mat-option [value]="TransactionType.Paypal">PayPal</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Transaction Status</mat-label>
+      <mat-select formControlName="status" multiple>
+        <mat-option [value]="TransactionStatus.Pending">Pending</mat-option>
+        <mat-option [value]="TransactionStatus.Confirmed">Confirmed</mat-option>
+        <mat-option [value]="TransactionStatus.Cancelled">Cancelled</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field formGroupName="range">
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker">
@@ -48,6 +90,16 @@
       />
       <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
     </mat-form-field>
+    <button
+      (click)="openCreateTransactionDialog()"
+      type="button"
+      mat-stroked-button
+      class="modern"
+      fxFlexAlign="start"
+    >
+      <mat-icon svgIcon="icon-add"></mat-icon>
+      <span>Add transaction</span>
+    </button>
   </form>
   <table
     *ngIf="transactions$ | async as users"
@@ -68,21 +120,90 @@
     <ng-container matColumnDef="direction">
       <th mat-header-cell *matHeaderCellDef>Direction</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.direction }}
+        <ng-container [ngSwitch]="element.direction">
+          <p
+            *ngSwitchCase="TransactionDirection.TumiToUser"
+            class="text-red-500"
+          >
+            TUMi ➡️ User
+          </p>
+          <p
+            *ngSwitchCase="TransactionDirection.TumiToExternal"
+            class="text-red-500"
+          >
+            TUMi ➡️ External
+          </p>
+          <p
+            *ngSwitchCase="TransactionDirection.UserToTumi"
+            class="text-green-500"
+          >
+            User ➡️ TUMi
+          </p>
+          <p
+            *ngSwitchCase="TransactionDirection.ExternalToTumi"
+            class="text-green-500"
+          >
+            External ➡️ TUMi
+          </p>
+          <p *ngSwitchCase="TransactionDirection.UserToUser">User ➡️ User</p>
+          <p *ngSwitchCase="TransactionDirection.UserToExternal">
+            User ➡️ External
+          </p>
+          <p *ngSwitchCase="TransactionDirection.ExternalToUser">
+            External ➡️ User
+          </p>
+        </ng-container>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.status }}
+        <ng-container [ngSwitch]="element.status">
+          <mat-icon
+            *ngSwitchCase="TransactionStatus.Pending"
+            svgIcon="icon-connection-status-off"
+          ></mat-icon>
+          <mat-icon
+            *ngSwitchCase="TransactionStatus.Cancelled"
+            svgIcon="icon-cancel-2"
+          ></mat-icon>
+          <mat-icon
+            *ngSwitchCase="TransactionStatus.Confirmed"
+            svgIcon="icon-ok"
+          ></mat-icon>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container [ngSwitch]="element.type">
+          <mat-icon
+            *ngSwitchCase="TransactionType.Stripe"
+            svgIcon="icon-stripe"
+          ></mat-icon>
+          <mat-icon
+            *ngSwitchCase="TransactionType.Cash"
+            svgIcon="icon-cash"
+          ></mat-icon>
+          <mat-icon
+            *ngSwitchCase="TransactionType.Paypal"
+            svgIcon="icon-paypal"
+          ></mat-icon>
+          <mat-icon
+            *ngSwitchCase="TransactionType.Transfer"
+            svgIcon="icon-online-money-transfer"
+          ></mat-icon>
+        </ng-container>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="event">
-      <th mat-header-cell *matHeaderCellDef>Event</th>
+      <th mat-header-cell *matHeaderCellDef>Event/Comment</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.eventRegistration?.event?.title }}
+        {{ element.eventRegistration?.event?.title ?? element.comment }}
       </td>
     </ng-container>
 
@@ -96,7 +217,7 @@
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Date</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.createdAt | date }}
+        {{ element.createdAt | date: 'short' }}
       </td>
     </ng-container>
 

@@ -3,6 +3,7 @@ import prisma from '../../client';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import {
   MembershipStatus,
+  Prisma,
   RegistrationMode,
   RegistrationStatus,
   RegistrationType,
@@ -172,72 +173,73 @@ builder.mutationFields((t) => ({
           eventId,
           status: { not: RegistrationStatus.CANCELLED },
         },
-        rejectOnNotFound: false,
       });
       if (ownRegistration) {
         throw new GraphQLYogaError(
           'You are already registered for this event!'
         );
       }
-      let registration;
-      await prisma.$transaction(async (prisma) => {
-        if (registrationType === RegistrationType.PARTICIPANT) {
-          const registrationCountEvent = await prisma.tumiEvent.update({
-            where: { id: eventId },
-            data: { participantRegistrationCount: { increment: 1 } },
-          });
-          if (
-            (registrationCountEvent.participantRegistrationCount ?? 0) >
-            event.participantLimit
-          ) {
-            throw new GraphQLYogaError('Registration for this event is full!');
+      const registration = await prisma.$transaction(
+        async (prisma) => {
+          if (registrationType === RegistrationType.PARTICIPANT) {
+            const registrationCount = await prisma.eventRegistration.count({
+              where: {
+                event: { id: event.id },
+                status: { not: RegistrationStatus.CANCELLED },
+                type: RegistrationType.PARTICIPANT,
+              },
+            });
+            if (registrationCount > event.participantLimit) {
+              throw new GraphQLYogaError(
+                'Registration for this event is full!'
+              );
+            }
+          } else {
+            const registeredUsers = await prisma.eventRegistration.count({
+              where: {
+                eventId,
+                type: registrationType ?? undefined,
+                status: { not: RegistrationStatus.CANCELLED },
+              },
+            });
+            if (registeredUsers >= event.organizerLimit) {
+              throw new GraphQLYogaError(
+                'Event does not have an available spot!'
+              );
+            }
           }
-        } else {
-          const registeredUsers = await prisma.eventRegistration.count({
+          const submissionArray: { submissionItem: any; data: any }[] = [];
+          if (submissions) {
+            Object.entries(submissions).forEach(([key, value]) => {
+              submissionArray.push({
+                submissionItem: { connect: { id: key } },
+                data: { value },
+              });
+            });
+          }
+          const registrationNumToday = await prisma.eventRegistration.count({
             where: {
-              eventId,
-              type: registrationType ?? undefined,
+              userId: context.user?.id,
+              createdAt: {
+                gte: DateTime.local().startOf('day').toJSDate(),
+              },
+              event: { registrationMode: RegistrationMode.STRIPE },
+              NOT: {
+                event: {
+                  title: {
+                    contains: 'ESNcard',
+                  },
+                },
+              },
               status: { not: RegistrationStatus.CANCELLED },
             },
           });
-          if (registeredUsers >= event.organizerLimit) {
+          if (registrationNumToday >= 3) {
             throw new GraphQLYogaError(
-              'Event does not have an available spot!'
+              'You have reached the maximum number of registrations (3) for today'
             );
           }
-        }
-        const submissionArray: { submissionItem: any; data: any }[] = [];
-        if (submissions) {
-          Object.entries(submissions).forEach(([key, value]) => {
-            submissionArray.push({
-              submissionItem: { connect: { id: key } },
-              data: { value },
-            });
-          });
-        }
-        const registrationNumToday = await prisma.eventRegistration.count({
-          where: {
-            userId: context.user?.id,
-            createdAt: {
-              gte: DateTime.local().startOf('day').toJSDate(),
-            },
-            event: { registrationMode: RegistrationMode.STRIPE },
-            NOT: {
-              event: {
-                title: {
-                  contains: 'ESNcard',
-                },
-              },
-            },
-            status: { not: RegistrationStatus.CANCELLED },
-          },
-        });
-        if (registrationNumToday >= 3) {
-          throw new GraphQLYogaError(
-            'You have reached the maximum number of registrations (3) for today'
-          );
-        }
-        /*if (
+          /*if (
           event.organizerLimit > 1 &&
           registrationType === RegistrationType.ORGANIZER
         ) {
@@ -264,41 +266,43 @@ builder.mutationFields((t) => ({
             );
           }
         }*/
-        if (
-          event?.registrationMode === RegistrationMode.STRIPE &&
-          registrationType === RegistrationType.PARTICIPANT
-        ) {
-          registration = await prisma.eventRegistration.create({
-            data: {
-              user: { connect: { id: context.user?.id } },
-              event: { connect: { id: eventId } },
-              status: RegistrationStatus.PENDING,
-              type: registrationType,
-              // payment: { connect: { id: payment.id } },
-              submissions: {
-                create: submissionArray,
+          if (
+            event?.registrationMode === RegistrationMode.STRIPE &&
+            registrationType === RegistrationType.PARTICIPANT
+          ) {
+            return prisma.eventRegistration.create({
+              data: {
+                user: { connect: { id: context.user?.id } },
+                event: { connect: { id: eventId } },
+                status: RegistrationStatus.PENDING,
+                type: registrationType,
+                // payment: { connect: { id: payment.id } },
+                submissions: {
+                  create: submissionArray,
+                },
               },
-            },
-          });
-        } else if (
-          event?.registrationMode === RegistrationMode.ONLINE ||
-          registrationType === RegistrationType.ORGANIZER
-        ) {
-          await prisma.eventRegistration.create({
-            data: {
-              user: { connect: { id: context.user?.id } },
-              event: { connect: { id: eventId } },
-              status: RegistrationStatus.SUCCESSFUL,
-              type: registrationType ?? undefined,
-              submissions: {
-                create: submissionArray,
+            });
+          } else if (
+            event?.registrationMode === RegistrationMode.ONLINE ||
+            registrationType === RegistrationType.ORGANIZER
+          ) {
+            return prisma.eventRegistration.create({
+              data: {
+                user: { connect: { id: context.user?.id } },
+                event: { connect: { id: eventId } },
+                status: RegistrationStatus.SUCCESSFUL,
+                type: registrationType ?? undefined,
+                submissions: {
+                  create: submissionArray,
+                },
               },
-            },
-          });
-        } else {
-          throw new GraphQLYogaError('Registration mode not supported');
-        }
-      });
+            });
+          } else {
+            throw new GraphQLYogaError('Registration mode not supported');
+          }
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
+      );
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&
         registrationType === RegistrationType.PARTICIPANT &&
@@ -349,6 +353,14 @@ builder.mutationFields((t) => ({
           });
         } catch (e) {
           console.log(e);
+          await prisma.activityLog.create({
+            data: {
+              data: JSON.parse(JSON.stringify(e)),
+              message: 'Payment creation for registration failed',
+              severity: 'ERROR',
+              category: 'eventRegistration',
+            },
+          });
           await prisma.eventRegistration.update({
             where: {
               id: registration.id,
@@ -358,16 +370,7 @@ builder.mutationFields((t) => ({
               cancellationReason: 'Payment creation failed',
             },
           });
-          if (registrationType === RegistrationType.PARTICIPANT) {
-            await prisma.tumiEvent.update({
-              where: { id: eventId },
-              data: { participantRegistrationCount: { decrement: 1 } },
-            });
-          }
         }
-      }
-      if (!event) {
-        throw new GraphQLYogaError('Event not found');
       }
       return event;
     },
