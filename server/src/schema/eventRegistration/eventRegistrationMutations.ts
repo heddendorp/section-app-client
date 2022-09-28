@@ -149,6 +149,7 @@ builder.mutationFields((t) => ({
       info
     ) => {
       const event = await prisma.tumiEvent.findUnique({
+        ...query,
         where: { id: eventId },
       });
       if (!event) {
