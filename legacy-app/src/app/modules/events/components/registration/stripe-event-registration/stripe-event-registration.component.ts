@@ -11,7 +11,6 @@ import {
   CancelPaymentGQL,
   DeregisterFromEventGQL,
   LoadEventQuery,
-  MutationCancelPaymentArgs,
   RegisterForEventGQL,
   SubmissionItemType,
   TransactionDirection,
@@ -60,7 +59,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
       return new Date();
     }
     return DateTime.fromISO(this.activeStripePayment?.createdAt)
-      .plus({ hours: 1 })
+      .plus({ minutes: 30 })
       .toJSDate();
   }
 

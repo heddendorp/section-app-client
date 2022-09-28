@@ -108,7 +108,7 @@ model StripePayment {
   events            Json
   feeAmount         Decimal?
   netAmount         Decimal?
-  paymentIntent     String        @unique
+  paymentIntent     String?        @unique
   paymentMethod     String?
   paymentMethodType String?
   refundedAmount    Decimal?      @default(0)

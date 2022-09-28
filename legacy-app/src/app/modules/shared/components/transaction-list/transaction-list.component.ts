@@ -1,8 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  StripePayment,
-  Transaction,
-} from '@tumi/legacy-app/generated/generated';
+import { Component, Input } from '@angular/core';
+import { Transaction } from '@tumi/legacy-app/generated/generated';
 
 @Component({
   selector: 'app-transaction-list',
@@ -17,10 +14,9 @@ export class TransactionListComponent {
         'id' | 'direction' | 'status' | 'amount' | 'type' | 'subject'
       >
     > & {
-      stripePayment?: Required<
-        Pick<StripePayment, 'id' | 'paymentIntent'>
-      > | null;
+      stripePayment?: { id: string; paymentIntent?: string | null } | null;
     }
   > = [];
+
   constructor() {}
 }

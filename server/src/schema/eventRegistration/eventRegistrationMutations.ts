@@ -308,16 +308,25 @@ builder.mutationFields((t) => ({
           process.env.DEV || process.env.NODE_ENV === 'test'
             ? `http://localhost:4200/events/${eventId}`
             : `https://tumi.esn.world/events/${eventId}`;
+        const [icon, style] = (event?.icon ?? '').split(':');
+        const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
+          icon ?? 'cancel-2'
+        }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
         try {
           const transaction = await RegistrationService.createPayment(
             context,
             [
               {
-                amount: price.amount * 100,
+                price_data: {
+                  currency: 'EUR',
+                  unit_amount: price.amount * 100,
+                  product_data: {
+                    name: event.title,
+                    description: 'Registration fee for event',
+                    images: [iconURL],
+                  },
+                },
                 quantity: 1,
-                currency: 'EUR',
-                name: event.title,
-                description: 'Registration fee for event',
                 tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
               },
             ],

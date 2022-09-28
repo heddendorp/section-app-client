@@ -94,7 +94,7 @@ Table StripePayment {
   events Json [not null, note: 'Array of events with their timestamps']
   feeAmount Decimal
   netAmount Decimal
-  paymentIntent String [unique, not null]
+  paymentIntent String [unique]
   paymentMethod String
   paymentMethodType String
   refundedAmount Decimal [default: 0]
