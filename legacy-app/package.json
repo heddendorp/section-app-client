@@ -25,7 +25,7 @@
     "@angular/google-maps": "^14.2.2",
     "@angular/material": "^14.2.2",
     "@angular/material-luxon-adapter": "^14.2.2",
-    "@angular/platform-browser": "^14.2.3",
+    "@angular/platform-browser": "^14.2.4",
     "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@angular/service-worker": "^14.2.3",
