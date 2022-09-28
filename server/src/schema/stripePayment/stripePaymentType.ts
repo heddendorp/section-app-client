@@ -8,7 +8,7 @@ export const stripePaymentType = builder.prismaObject('StripePayment', {
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
-    paymentIntent: t.exposeString('paymentIntent'),
+    paymentIntent: t.exposeString('paymentIntent', { nullable: true }),
     paymentMethod: t.exposeString('paymentMethod', { nullable: true }),
     paymentMethodType: t.exposeString('paymentMethodType', { nullable: true }),
     status: t.exposeString('status'),

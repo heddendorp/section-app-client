@@ -14,6 +14,7 @@ import { DateTime } from 'luxon';
 import prisma from '../client';
 import * as Sentry from '@sentry/node';
 import { Auth0 } from './auth0';
+import * as crypto from 'crypto';
 
 export class RegistrationService {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -176,18 +177,25 @@ export class RegistrationService {
     if (allowSepa) {
       payment_method_types.push('sepa_debit');
     }
+    const id = crypto.randomUUID();
     const session = await this.stripe.checkout.sessions.create({
       mode: 'payment',
       customer: customerId,
       line_items: items,
       payment_method_types,
       payment_intent_data: {
-        description: `Fee for: ${items.map((item) => item.name).join(',')}`,
+        description: `Fee for: ${items
+          .map((item) => item.price_data?.product_data?.name)
+          .join(',')}`,
+        metadata: {
+          stripePaymentId: id,
+        },
       },
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
-      expires_at: Math.round(DateTime.now().plus({ hours: 1 }).toSeconds()),
+      expires_at: Math.round(DateTime.now().plus({ minutes: 30 }).toSeconds()),
+      consent_collection: { terms_of_service: 'required' },
     });
     return prisma.transaction.create({
       data: {
@@ -200,16 +208,13 @@ export class RegistrationService {
         amount: (session.amount_total ?? 0) / 100,
         stripePayment: {
           create: {
+            id,
             amount: session.amount_total ?? 0,
-            paymentIntent:
-              typeof session.payment_intent === 'string'
-                ? session.payment_intent
-                : session.payment_intent?.id || '',
             checkoutSession: session.id,
             status: 'incomplete',
             events: [
               {
-                type: 'payment_intent.created',
+                type: 'session.created',
                 name: 'created',
                 date: Date.now(),
               },
@@ -285,7 +290,7 @@ export class RegistrationService {
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
       if (withRefund) {
         const payment = registration.transactions[0]?.stripePayment;
-        if (!payment) {
+        if (!payment || !payment.paymentIntent) {
           throw new Error('Payment not found');
         }
         try {

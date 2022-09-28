@@ -135,7 +135,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               rating: null,
             },
           });
-        return registrations.length > 0;
+        return (registrations?.length ?? 0) > 0;
       },
     }),
     needsRating: t.boolean({
@@ -157,7 +157,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               rating: null,
             },
           });
-        return registrations.length > 0;
+        return (registrations?.length ?? 0) > 0;
       },
     }),
     participantRating: t.float({
@@ -461,7 +461,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               status: { not: RegistrationStatus.CANCELLED },
             },
           })
-          .then((registrations) => registrations.length > 0);
+          .then((registrations) => (registrations?.length ?? 0) > 0);
       },
     }),
     userIsCreator: t.boolean({
@@ -484,7 +484,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
               status: { not: RegistrationStatus.CANCELLED },
             },
           })
-          .then((organizers) => organizers.length > 0);
+          .then((organizers) => (organizers?.length ?? 0) > 0);
       },
     }),
     organizers: t.prismaField({
@@ -748,7 +748,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             },
             select: { user: { select: { email: true } } },
           })
-          .then((r) => r.map((re) => re.user.email));
+          .then((r) => r?.map((re) => re.user.email));
 
         const participantMails = await prisma.tumiEvent
           .findUnique({ where: { id: event.id } })
@@ -759,11 +759,11 @@ export const eventType = builder.prismaObject('TumiEvent', {
             },
             select: { user: { select: { email: true } } },
           })
-          .then((r) => r.map((re) => re.user.email));
+          .then((r) => r?.map((re) => re.user.email));
 
         let email = 'To: events@esn-tumi.de\n';
-        email += `Cc: ${organizerMails.join(';')}\n`;
-        email += `Bcc: ${participantMails.join(';')}\n`;
+        email += `Cc: ${organizerMails?.join(';')}\n`;
+        email += `Bcc: ${participantMails?.join(';')}\n`;
         email += `Subject: [TUMi] ${event.title}\n`;
         email += 'X-Unsent: 1\n';
         email += 'Content-Type: text/html; charset=utf-8\n\n';

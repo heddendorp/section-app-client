@@ -538,7 +538,7 @@ type StripePayment {
   id: ID!
   netAmount: Decimal
   netLessRefundAmount: Decimal!
-  paymentIntent: String!
+  paymentIntent: String
   paymentMethod: String
   paymentMethodType: String
   refundedAmount: Decimal

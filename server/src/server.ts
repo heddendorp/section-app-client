@@ -22,6 +22,7 @@ import { useSentry } from '@envelop/sentry';
 import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
 import { Settings } from 'luxon';
+import { RegistrationMode } from './generated/prisma';
 
 declare global {
   namespace NodeJS {

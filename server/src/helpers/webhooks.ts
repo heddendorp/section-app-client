@@ -50,31 +50,40 @@ export const webhookRouter = (prisma: PrismaClient) => {
       switch (event.type) {
         case 'checkout.session.completed': {
           const session: Stripe.Stripe.Checkout.Session = event.data.object;
-          if (
-            typeof session.setup_intent === 'string' &&
-            typeof session.client_reference_id === 'string'
-          ) {
+          if (typeof session.setup_intent === 'string') {
             const setupIntent = await stripe.setupIntents.retrieve(
               session.setup_intent
             );
             if (typeof setupIntent.payment_method === 'string') {
               await prisma.stripeUserData.update({
-                where: { id: session.client_reference_id },
+                where: { id: session.client_reference_id ?? undefined },
                 data: {
                   paymentMethodId: setupIntent.payment_method,
                 },
               });
             }
           }
+          if (typeof session.payment_intent === 'string') {
+            await prisma.stripePayment.update({
+              where: { checkoutSession: session.id },
+              data: { paymentIntent: session.payment_intent },
+            });
+          }
           break;
         }
         case 'payment_intent.processing': {
           const paymentIntent: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.processing');
-          const stripePayment = await prisma.stripePayment.findUnique({
-            where: { paymentIntent: paymentIntent.id },
-            rejectOnNotFound: false,
-          });
+          let stripePayment: StripePayment | null;
+          if (paymentIntent.metadata.stripePaymentId) {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { id: paymentIntent.metadata.stripePaymentId },
+            });
+          } else {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { paymentIntent: paymentIntent.id },
+            });
+          }
           if (!stripePayment) {
             await prisma.activityLog.create({
               data: {
@@ -149,10 +158,16 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
             break;
           }
-          const stripePayment = await prisma.stripePayment.findUnique({
-            where: { paymentIntent: paymentIntent.id },
-            rejectOnNotFound: false,
-          });
+          let stripePayment: StripePayment | null;
+          if (paymentIntent.metadata.stripePaymentId) {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { id: paymentIntent.metadata.stripePaymentId },
+            });
+          } else {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { paymentIntent: paymentIntent.id },
+            });
+          }
           if (!stripePayment) {
             await prisma.activityLog.create({
               data: {
@@ -374,51 +389,67 @@ export const webhookRouter = (prisma: PrismaClient) => {
                   data: { participantRegistrationCount: { decrement: 1 } },
                 });
                 if (removedRegistration.transactions[0]?.stripePayment) {
-                  try {
-                    await stripe.refunds.create({
-                      payment_intent:
-                        removedRegistration.transactions[0].stripePayment
-                          .paymentIntent,
-                    });
-                    await prisma.transaction.create({
-                      data: {
-                        subject: `Refund for ${removedRegistration.id}`,
-                        tenant: {
-                          connect: {
-                            id: removedRegistration.transactions[0].tenantId,
-                          },
-                        },
-                        direction: TransactionDirection.TUMI_TO_USER,
-                        status: TransactionStatus.CONFIRMED,
-                        amount: removedRegistration.transactions[0].amount,
-                        type: TransactionType.STRIPE,
-                        user: { connect: { id: removedRegistration.userId } },
-                        createdBy: {
-                          connect: { id: removedRegistration.userId },
-                        },
-                        eventRegistration: {
-                          connect: { id: removedRegistration.id },
-                        },
-                        stripePayment: {
-                          connect: {
-                            id: removedRegistration.transactions[0]
-                              .stripePayment.id,
-                          },
-                        },
-                      },
-                    });
-                  } catch (e) {
+                  if (
+                    !removedRegistration.transactions[0].stripePayment
+                      .paymentIntent
+                  ) {
                     await prisma.activityLog.create({
                       data: {
-                        message: `Refund failed during registration move`,
+                        data: JSON.parse(JSON.stringify(removedRegistration)),
+                        oldData: JSON.parse(JSON.stringify(payment)),
+                        message:
+                          'Transaction to refund is missing payment intent',
+                        severity: 'ERROR',
                         category: 'webhook',
-                        data: e as InputJsonObject,
-                        oldData: JSON.parse(
-                          JSON.stringify(removedRegistration)
-                        ),
-                        severity: LogSeverity.ERROR,
                       },
                     });
+                  } else {
+                    try {
+                      await stripe.refunds.create({
+                        payment_intent:
+                          removedRegistration.transactions[0].stripePayment
+                            .paymentIntent,
+                      });
+                      await prisma.transaction.create({
+                        data: {
+                          subject: `Refund for ${removedRegistration.id}`,
+                          tenant: {
+                            connect: {
+                              id: removedRegistration.transactions[0].tenantId,
+                            },
+                          },
+                          direction: TransactionDirection.TUMI_TO_USER,
+                          status: TransactionStatus.CONFIRMED,
+                          amount: removedRegistration.transactions[0].amount,
+                          type: TransactionType.STRIPE,
+                          user: { connect: { id: removedRegistration.userId } },
+                          createdBy: {
+                            connect: { id: removedRegistration.userId },
+                          },
+                          eventRegistration: {
+                            connect: { id: removedRegistration.id },
+                          },
+                          stripePayment: {
+                            connect: {
+                              id: removedRegistration.transactions[0]
+                                .stripePayment.id,
+                            },
+                          },
+                        },
+                      });
+                    } catch (e) {
+                      await prisma.activityLog.create({
+                        data: {
+                          message: `Refund failed during registration move`,
+                          category: 'webhook',
+                          data: e as InputJsonObject,
+                          oldData: JSON.parse(
+                            JSON.stringify(removedRegistration)
+                          ),
+                          severity: LogSeverity.ERROR,
+                        },
+                      });
+                    }
                   }
                 }
               }
