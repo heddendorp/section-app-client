@@ -1,3 +1,45 @@
+# [5.1.0](https://github.com/heddendorp/tumi/compare/v5.0.0...v5.1.0) (2022-09-28)
+
+
+### Bug Fixes
+
+* **app:** add notice for PA/CC ([bd44253](https://github.com/heddendorp/tumi/commit/bd442535c329aafb57aa934f4ad0b9a7c4664b41))
+* **app:** change transaction list to show lowercase info ([a1bb466](https://github.com/heddendorp/tumi/commit/a1bb466d2a4a2d2bd4aca457310293ff3b53f53e))
+* **ci:** make sure version is available in release step ([a102921](https://github.com/heddendorp/tumi/commit/a1029210bb5b16fb0919a03ca6e11bcc6ee8b271))
+* **legacy-app:** try to log users in before failing navigation ([5aedd9d](https://github.com/heddendorp/tumi/commit/5aedd9d6f66ccdf9c220044cf1d2329f192872ac))
+* **party-animals:** add email to stripe checkout ([b2b8406](https://github.com/heddendorp/tumi/commit/b2b8406b2d267ac35fffe0707e1ddd08fc8c5493))
+* **party-animals:** make sure groups don't overflow ([97db862](https://github.com/heddendorp/tumi/commit/97db8623ec7b6e3001593ca7bba4529625463fac))
+* **party-animals:** remove email from checkout session ([157df0c](https://github.com/heddendorp/tumi/commit/157df0cf8559a7e7229ca4c5fee28c7e1ce51e0d))
+* **server:** add tax rate to deployment ([e84e39c](https://github.com/heddendorp/tumi/commit/e84e39caee62319f34ff4493f5b3e7b9a25afaf9))
+* **server:** allow deleting events if there are only organizer or cancelled registrations ([0af787d](https://github.com/heddendorp/tumi/commit/0af787dac8b47efae7384208a4d02c0f5d0d3f42))
+* **server:** delete events even if costitems are connected ([21cab60](https://github.com/heddendorp/tumi/commit/21cab600973725c39b3dae7d32981dcfc12148b5))
+* **server:** don't count ESNcard in registration limit ([467d614](https://github.com/heddendorp/tumi/commit/467d614560896367600a36a2c988ceba859761d7))
+* **server:** double transaction creation on refund ([f0902b7](https://github.com/heddendorp/tumi/commit/f0902b72f378a2557250d4c2596bc88df23111cf))
+* **server:** fix insuranceDescription type ([1fa860a](https://github.com/heddendorp/tumi/commit/1fa860a48e1119239df38ccb46d456e20906adce))
+* **server:** fix ranking function in the tutor hub ([b5c6848](https://github.com/heddendorp/tumi/commit/b5c684870104421946f3506a68066adc6e2252d1))
+* **server:** fix webhook handling if transaction is missing ([cf5f113](https://github.com/heddendorp/tumi/commit/cf5f113e3a5ba89661c249d6e7a8f806b7b72e87))
+* **server:** make insurance description optional when creating an event template ([5cb011c](https://github.com/heddendorp/tumi/commit/5cb011ca5b23455d9ca09bfc8baf98ff92169cc7))
+* **server:** record correct refund amounts ([e89672f](https://github.com/heddendorp/tumi/commit/e89672f0f9dc0c0d67fb2a362dc82a902de39ea7))
+* **server:** webhooks correctly resolve the transaction affected ([5e3a3fd](https://github.com/heddendorp/tumi/commit/5e3a3fd7901adee6d8e527f44c77fb332c6b099c))
+* **server:** webhooks handle canceled payments correctly ([1f28c89](https://github.com/heddendorp/tumi/commit/1f28c8971626d671a0cbbc963184b9b47a010da0))
+
+
+### Features
+
+* **app:** add link to stripe transaction for payments ([9c0e30d](https://github.com/heddendorp/tumi/commit/9c0e30d2a38a0d3549b964ee81c586043e9ad723))
+* **app:** add option to delete registration codes ([35851cb](https://github.com/heddendorp/tumi/commit/35851cb6f0ea0a721b00d58238de499b66368137))
+* **app:** allow users to cancel pending payments ([46bfd3e](https://github.com/heddendorp/tumi/commit/46bfd3e9603afbb835324f09eaca391b4d227036))
+* **app:** require tac acceptance and update stripe api ([2fcfbf0](https://github.com/heddendorp/tumi/commit/2fcfbf0b801c3223596210debafd40293bd313d8))
+* **legacy-app:** add distribution of status for local students ([46789a7](https://github.com/heddendorp/tumi/commit/46789a70650fe064c523d572d1ed9bb99e1bb5e8))
+* **legacy-app:** add overview for eventsubmissions ([#429](https://github.com/heddendorp/tumi/issues/429)) ([9c854e5](https://github.com/heddendorp/tumi/commit/9c854e5ee494b6c1c9c8d58a0a82ece735295b7d))
+* **legacy-app:** improved back navigation by using the state when possible ([ced4242](https://github.com/heddendorp/tumi/commit/ced4242cb0286b96ab435e186a8eee940af610c3))
+* **legacy-app:** improved back navigation by using the state when possible ([c12fc6e](https://github.com/heddendorp/tumi/commit/c12fc6edb933879bb8188e82e71a370961ebefa3))
+* **party-animals:** add convenience features ([851ca7e](https://github.com/heddendorp/tumi/commit/851ca7e7754a5a69afcc47a61f045073a436579d))
+* **party-animals:** add option to pin one user ([1dbbe66](https://github.com/heddendorp/tumi/commit/1dbbe66e7cc4e812a022f2f6f364524eeca5f836))
+* **server:** limit users to three registrations per day ([12449a3](https://github.com/heddendorp/tumi/commit/12449a36a0c139a74cd14a6218b9eacd19209ef5))
+
+
+
 # [5.0.0](https://github.com/heddendorp/tumi/compare/v4.5.3...v5.0.0) (2022-09-12)
 
 ### Bug Fixes
