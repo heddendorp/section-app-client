@@ -92,12 +92,13 @@ builder.mutationFields((t) => ({
           },
         });
       }
-      return RegistrationService.cancelRegistration(
+      await RegistrationService.cancelRegistration(
         registrationId,
         withRefund ?? false,
         isKick,
         context
       );
+      return prisma.tumiEvent.findUniqueOrThrow({...query, where:{id: event.id}})
     },
   }),
   cancelPayment: t.prismaField({
