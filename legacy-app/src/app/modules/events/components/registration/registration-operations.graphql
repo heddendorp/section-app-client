@@ -45,8 +45,8 @@ mutation registerForEvent(
   }
 }
 
-mutation cancelPayment($registrationId: ID!){
-  cancelPayment(registrationId: $registrationId){
+mutation cancelPayment($registrationId: ID!) {
+  cancelPayment(registrationId: $registrationId) {
     id
     activeRegistration {
       id
