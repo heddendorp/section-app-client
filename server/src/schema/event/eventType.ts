@@ -80,7 +80,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         type: RegistrationType.PARTICIPANT,
         status: { not: RegistrationStatus.CANCELLED },
       },
-      deprecationReason:'has become the default'
+      deprecationReason: 'has become the default',
     }),
     submissionItems: t.relation('submissionItems', {
       args: {

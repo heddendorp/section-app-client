@@ -7,7 +7,15 @@ query loadTransactions(
   $take: Int
   $skip: Int
 ) {
-  transactions(range: $range, search: $search, directions: $directions, types: $types, status: $status, take: $take, skip: $skip) {
+  transactions(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+    take: $take
+    skip: $skip
+  ) {
     id
     amount
     createdAt
@@ -27,6 +35,12 @@ query loadTransactions(
       fullName
     }
   }
-  transactionCount(range: $range, search: $search, directions: $directions, types: $types, status: $status)
+  transactionCount(
+    range: $range
+    search: $search
+    directions: $directions
+    types: $types
+    status: $status
+  )
   transactionNetAmount(range: $range)
 }
