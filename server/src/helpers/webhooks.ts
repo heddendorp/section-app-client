@@ -16,7 +16,7 @@ import InputJsonObject = Prisma.InputJsonObject;
 const stripe: Stripe.Stripe = require('stripe')(process.env['STRIPE_KEY']);
 
 export const webhookRouter = (prisma: PrismaClient) => {
-  const cancelPayment = async (stripePayment, object) => {
+  const cancelPayment = async (stripePayment: StripePayment|null, object) => {
     if (!stripePayment) {
       await prisma.activityLog.create({
         data: {
@@ -229,20 +229,9 @@ export const webhookRouter = (prisma: PrismaClient) => {
         }
         case 'checkout.session.expired': {
           const session: Stripe.Stripe.Checkout.Session = event.data.object;
-          const stripePayment = prisma.stripePayment.findUnique({
+          const stripePayment = await prisma.stripePayment.findUnique({
             where: { checkoutSession: session.id },
           });
-          if (!stripePayment) {
-            await prisma.activityLog.create({
-              data: {
-                data: JSON.parse(JSON.stringify(session)),
-                message: 'No database payment found for incoming event',
-                severity: 'WARNING',
-                category: 'webhook',
-              },
-            });
-            break;
-          }
           await cancelPayment(stripePayment, session);
           break;
         }
