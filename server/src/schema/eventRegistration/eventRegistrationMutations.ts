@@ -98,7 +98,10 @@ builder.mutationFields((t) => ({
         isKick,
         context
       );
-      return prisma.tumiEvent.findUniqueOrThrow({...query, where:{id: event.id}})
+      return prisma.tumiEvent.findUniqueOrThrow({
+        ...query,
+        where: { id: event.id },
+      });
     },
   }),
   cancelPayment: t.prismaField({

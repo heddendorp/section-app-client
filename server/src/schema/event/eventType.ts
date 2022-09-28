@@ -248,7 +248,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             user: { id: context.user?.id },
             event: { id: parent.id },
             status: { not: RegistrationStatus.CANCELLED },
-          }
+          },
         });
       },
     }),
