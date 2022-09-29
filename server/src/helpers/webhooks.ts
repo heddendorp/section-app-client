@@ -16,7 +16,7 @@ import InputJsonObject = Prisma.InputJsonObject;
 const stripe: Stripe.Stripe = require('stripe')(process.env['STRIPE_KEY']);
 
 export const webhookRouter = (prisma: PrismaClient) => {
-  const cancelPayment = async (stripePayment: StripePayment|null, object) => {
+  const cancelPayment = async (stripePayment: StripePayment | null, object) => {
     if (!stripePayment) {
       await prisma.activityLog.create({
         data: {
