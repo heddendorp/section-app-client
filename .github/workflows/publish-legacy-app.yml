@@ -125,7 +125,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ steps.build-and-push.outputs.digest }}
+            VERSION=${{ steps.vars.outputs.sha_short }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
@@ -193,7 +193,7 @@ jobs:
       - name: Prepare yarn
         uses: actions/setup-node@v3
         with:
-          node-version: '17'
+          node-version: '18'
           cache: 'yarn'
 
       - name: Install dependencies
