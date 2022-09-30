@@ -1,3 +1,27 @@
+# [5.2.0](https://github.com/heddendorp/tumi/compare/v5.1.0...v5.2.0) (2022-09-30)
+
+
+### Bug Fixes
+
+* **app:** add language meta tag ([50f2aec](https://github.com/heddendorp/tumi/commit/50f2aec2e467619373bae29b77ca21d8400e1e21))
+* **server:** add vision key ([1fdcc9a](https://github.com/heddendorp/tumi/commit/1fdcc9ad170aceb332c8112e2e8231314ecfb6b3))
+* **server:** allow early organizer registrations ([461c52c](https://github.com/heddendorp/tumi/commit/461c52cb57f3c937426d2cf74906f750db2b9c09))
+* **server:** handle new expiring sessions correctly ([1fd94cf](https://github.com/heddendorp/tumi/commit/1fd94cf60daa5a7389b0610e8c41926303b370a9))
+* **server:** handle new expiring sessions correctly ([fb1baf0](https://github.com/heddendorp/tumi/commit/fb1baf0567230b7cc54a1f73c7bcac0990e96c40))
+* **server:** handle new expiring sessions correctly ([ff18478](https://github.com/heddendorp/tumi/commit/ff18478c9ac48dd60dadc464eea6937a24769ae2))
+* **server:** spread query into return of the deregistration function ([e7e5b03](https://github.com/heddendorp/tumi/commit/e7e5b036a4482617134876ab2ee72b0bc9b366c8))
+* **server:** spread query into return of the registration function ([42b1cf0](https://github.com/heddendorp/tumi/commit/42b1cf061d5f567063589b1db467f033b69855c5))
+* **server:** use smart cropping and keep content type ([b56e927](https://github.com/heddendorp/tumi/commit/b56e927cd70c7b227e541076f096d7bae968b57c))
+
+
+### Features
+
+* **app:** add organizer registration start ([d125a15](https://github.com/heddendorp/tumi/commit/d125a151315650ac5b99f579933648f73b9483d1)), closes [#402](https://github.com/heddendorp/tumi/issues/402)
+* **app:** allow changing the profile picture ([b36c26d](https://github.com/heddendorp/tumi/commit/b36c26d8759d231aefbcb2ecf9b32495269d90a4))
+* **server:** update schema and go back to registration counting for spots ([68c9d7f](https://github.com/heddendorp/tumi/commit/68c9d7f29ce6d0f9307d6fa25592c323f87296f3))
+
+
+
 # [5.1.0](https://github.com/heddendorp/tumi/compare/v5.0.0...v5.1.0) (2022-09-28)
 
 ### Bug Fixes
