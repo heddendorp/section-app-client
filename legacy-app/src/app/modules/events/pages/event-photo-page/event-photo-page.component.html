@@ -31,7 +31,10 @@
       <span class="label">Add Images</span>
     </button>
   </div>
-  <h1 class="mb-4 font-bold">Photos for {{ (event$ | async)?.title }}</h1>
+  <h1 class="mb-2 font-bold">Photos for {{ (event$ | async)?.title }}</h1>
+  <p class="mb-4">
+    Use this to exchange photos with other participants in this event.
+  </p>
   <div
     class="w-full"
     gdAuto="dense"
@@ -56,7 +59,13 @@
       >
         {{ photo.creator.fullName }}
       </p>
-      <img [src]="photo.src" class="h-full w-full object-cover" />
+      <img
+        [src]="photo.src"
+        class="h-full w-full object-cover"
+        height="{{ photo.rows * 400 }}"
+        width="{{ photo.cols * 400 }}"
+        loading="lazy"
+      />
     </div>
   </div>
 </main>

@@ -34,7 +34,13 @@
         {{ photo.event.title }} <br />
         - {{ photo.creator.fullName }}
       </p>
-      <img [src]="photo.src" class="h-full w-full object-cover" />
+      <img
+        [src]="photo.src"
+        class="h-full w-full object-cover"
+        height="{{ photo.rows * 400 }}"
+        width="{{ photo.cols * 400 }}"
+        loading="lazy"
+      />
     </div>
   </div>
 </main>

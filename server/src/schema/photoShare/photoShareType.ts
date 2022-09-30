@@ -19,13 +19,13 @@ export const photoShareType = builder.prismaObject('PhotoShare', {
     type: t.exposeString('type'),
     src: t.string({
       resolve: (source) =>
-        `/storage/tumi-photos/${encodeURIComponent(
+        `${process.env.DEV?'https://storetumi.blob.core.windows.net':'/storage'}/tumi-photos/${encodeURIComponent(
           source.container
-        )}/${encodeURIComponent(source.originalBlob)}`,
+        )}/${encodeURIComponent(source.previewBlob ?? source.originalBlob)}`,
     }),
     original: t.string({
       resolve: (source) =>
-        `/storage/tumi-photos/${encodeURIComponent(
+        `${process.env.DEV?'https://storetumi.blob.core.windows.net':'/storage'}/tumi-photos/${encodeURIComponent(
           source.container
         )}/${encodeURIComponent(source.originalBlob)}`,
     }),

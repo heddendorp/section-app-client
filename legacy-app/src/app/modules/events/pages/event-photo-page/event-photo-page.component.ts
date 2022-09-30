@@ -144,6 +144,9 @@ export class EventPhotoPageComponent implements OnDestroy {
             blobServiceClient.getContainerClient(container);
           const blockBlobClient = containerClient.getBlockBlobClient(blob);
           await blockBlobClient.uploadBrowserData(file, {
+            blobHTTPHeaders: {
+              blobContentType: file.type,
+            },
             onProgress: (event) => {
               const newUploads = [...uploads.value];
               newUploads[index] = (event.loadedBytes / file.size) * 100;

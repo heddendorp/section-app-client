@@ -64,8 +64,8 @@
               [name]="event.createdBy.fullName"
               [status]="event.createdBy.currentTenant?.status + ''"
             >
-            </app-user-chip
-            >, they can answer any questions.
+            </app-user-chip>
+            , they can answer any questions.
           </p>
           <markdown
             [data]="event.organizerText"
@@ -88,9 +88,15 @@
             <mat-panel-title>Info for participants</mat-panel-title>
           </mat-expansion-panel-header>
           <div>
-            <div class="mb-4" *ngIf="eventStarted$ | async">
-              <a routerLink="./photos" mat-stroked-button class="modern w-full">
-                Photos for this event
+            <div class="mb-4">
+              <a
+                routerLink="./photos"
+                mat-flat-button
+                color="primary"
+                class="modern w-full"
+              >
+                <mat-icon svgIcon="icon-gallery"></mat-icon>
+                <span>Photos for this event</span>
               </a>
             </div>
             <div
