@@ -40,6 +40,8 @@ template:
       secretRef: full-tax-rate
     - name: REDUCED_TAX_RATE
       secretRef: reduced-tax-rate
+    - name: VISION_KEY
+      secretRef: vision-key
     resources:
       cpu: 1
       memory: 2Gi
