@@ -49,6 +49,23 @@
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
         </button>
+        <input
+          type="file"
+          hidden
+          #fileInput
+          accept="image/*"
+          (change)="addFile($event)"
+        />
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern"
+          (click)="fileInput.click()"
+          [disabled]="uploading$ | async"
+        >
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+          Change Profile picture
+        </button>
       </div>
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 

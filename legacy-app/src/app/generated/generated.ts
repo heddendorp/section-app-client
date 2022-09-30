@@ -377,6 +377,7 @@ export type Mutation = {
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
   updateUser: User;
+  updateUserPicture: User;
   updateUserPosition: User;
   updateUserRole: UsersOfTenants;
   updateUserStatus: UsersOfTenants;
@@ -594,6 +595,12 @@ export type MutationUpdateUserArgs = {
 };
 
 
+export type MutationUpdateUserPictureArgs = {
+  file: Scalars['String'];
+  userId: Scalars['ID'];
+};
+
+
 export type MutationUpdateUserPositionArgs = {
   position?: InputMaybe<Scalars['String']>;
   userId: Scalars['ID'];
@@ -732,6 +739,7 @@ export type Query = {
   logs: Array<ActivityLog>;
   photoShareKey: Scalars['String'];
   photos: Array<PhotoShare>;
+  profileUploadKey: Scalars['String'];
   purchase: Purchase;
   purchases: Array<Purchase>;
   registration: EventRegistration;
@@ -1694,6 +1702,19 @@ export type RegisterUserMutationVariables = Exact<{
 
 
 export type RegisterUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string } };
+
+export type GetProfileUploadKeyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProfileUploadKeyQuery = { __typename?: 'Query', profileUploadKey: string };
+
+export type UpdateUserPictureMutationVariables = Exact<{
+  userId: Scalars['ID'];
+  file: Scalars['String'];
+}>;
+
+
+export type UpdateUserPictureMutation = { __typename?: 'Mutation', updateUserPicture: { __typename?: 'User', id: string, picture: string } };
 
 export type GetPhotoJourneyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3718,6 +3739,41 @@ export const RegisterUserDocument = gql`
   })
   export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
     override document = RegisterUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetProfileUploadKeyDocument = gql`
+    query getProfileUploadKey {
+  profileUploadKey
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetProfileUploadKeyGQL extends Apollo.Query<GetProfileUploadKeyQuery, GetProfileUploadKeyQueryVariables> {
+    override document = GetProfileUploadKeyDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserPictureDocument = gql`
+    mutation updateUserPicture($userId: ID!, $file: String!) {
+  updateUserPicture(userId: $userId, file: $file) {
+    id
+    picture
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserPictureGQL extends Apollo.Mutation<UpdateUserPictureMutation, UpdateUserPictureMutationVariables> {
+    override document = UpdateUserPictureDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

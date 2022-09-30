@@ -670,6 +670,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/cognitiveservices-computervision@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@azure/cognitiveservices-computervision@npm:8.2.0"
+  dependencies:
+    "@azure/ms-rest-js": ^2.0.4
+    tslib: ^1.10.0
+  checksum: 7c91ba11727ca350a8173e26ac80b3732a4ecf92f9c50f320ed61e8c5f7c95618b5563a42bab9a59d84523723099fb4f8e23c30126158fc9fac00be402364c51
+  languageName: node
+  linkType: hard
+
 "@azure/core-auth@npm:^1.1.4, @azure/core-auth@npm:^1.3.0":
   version: 1.3.2
   resolution: "@azure/core-auth@npm:1.3.2"
@@ -766,6 +776,23 @@ __metadata:
     uuid: ^3.2.1
     xml2js: ^0.4.19
   checksum: 6b63019dcdbd479245b87a338bad8598bae5e6e83ff6ada612dd172ac82c0f5cfd4f307789fa22148db3a1d65e0e2ef6562a5247336c214bff5216b7a0cb0476
+  languageName: node
+  linkType: hard
+
+"@azure/ms-rest-js@npm:^2.0.4":
+  version: 2.6.2
+  resolution: "@azure/ms-rest-js@npm:2.6.2"
+  dependencies:
+    "@azure/core-auth": ^1.1.4
+    abort-controller: ^3.0.0
+    form-data: ^2.5.0
+    node-fetch: ^2.6.7
+    tough-cookie: ^3.0.1
+    tslib: ^1.10.0
+    tunnel: 0.0.6
+    uuid: ^8.3.2
+    xml2js: ^0.4.19
+  checksum: de650dfc3928a2036923fb3bf50e0324f9f36f5d320ca6d128005b1345ad80b39ab3410073ac35fb137dec4c7d799c602b1cafdf9573b3432b6b8eee8a1e39f8
   languageName: node
   linkType: hard
 
@@ -6452,6 +6479,7 @@ __metadata:
   dependencies:
     "@angular/google-maps": ^14.2.3
     "@apollo/utils.logger": ^1.0.0
+    "@azure/cognitiveservices-computervision": ^8.2.0
     "@azure/storage-blob": ^12.11.0
     "@envelop/auth0": ^3.6.0
     "@envelop/core": ^2.6.0
@@ -13518,7 +13546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^2.3.2":
+"form-data@npm:^2.3.2, form-data@npm:^2.5.0":
   version: 2.5.1
   resolution: "form-data@npm:2.5.1"
   dependencies:
@@ -14916,6 +14944,13 @@ __metadata:
   dependencies:
     loose-envify: ^1.0.0
   checksum: cc3182d793aad82a8d1f0af697b462939cb46066ec48bbf1707c150ad5fad6406137e91a262022c269702e01621f35ef60269f6c0d7fd178487959809acdfb14
+  languageName: node
+  linkType: hard
+
+"ip-regex@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "ip-regex@npm:2.1.0"
+  checksum: 331d95052aa53ce245745ea0fc3a6a1e2e3c8d6da65fa8ea52bf73768c1b22a9ac50629d1d2b08c04e7b3ac4c21b536693c149ce2c2615ee4796030e5b3e3cba
   languageName: node
   linkType: hard
 
@@ -23247,6 +23282,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tough-cookie@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "tough-cookie@npm:3.0.1"
+  dependencies:
+    ip-regex: ^2.1.0
+    psl: ^1.1.28
+    punycode: ^2.1.1
+  checksum: 796f6239bce5674a1267b19f41972a2602a2a23715817237b5922b0dc2343512512eea7d41d29210a4ec545f8ef32173bbbf01277dd8ec3ae3841b19cbe69f67
+  languageName: node
+  linkType: hard
+
 "tough-cookie@npm:^4.0.0":
   version: 4.0.0
   resolution: "tough-cookie@npm:4.0.0"
@@ -23463,7 +23509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.2, tslib@npm:^1.9.3":
+"tslib@npm:^1.10.0, tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.2, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd

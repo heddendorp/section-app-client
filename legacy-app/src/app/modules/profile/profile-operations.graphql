@@ -10,6 +10,17 @@ mutation RegisterUser($userInput: CreateUserInput!) {
 #  }
 #}
 
+query getProfileUploadKey{
+  profileUploadKey
+}
+
+mutation updateUserPicture($userId: ID!, $file: String!){
+  updateUserPicture(userId: $userId, file: $file){
+    id
+    picture
+  }
+}
+
 query getPhotoJourney {
   currentUser {
     eventRegistrations {

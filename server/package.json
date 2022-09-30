@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@angular/google-maps": "^14.2.3",
+    "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/storage-blob": "^12.11.0",
     "@envelop/auth0": "^3.6.0",
     "@envelop/core": "^2.6.0",

@@ -19,7 +19,6 @@ builder.prismaObject('User', {
           tenantId: context.tenant.id,
         },
       },
-      rejectOnNotFound: false,
     });
     if (
       userOfTenant?.status !== MembershipStatus.NONE ||

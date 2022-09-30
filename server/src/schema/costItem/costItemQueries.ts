@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import { costItemType } from './costItemType';
 import prisma from '../../client';
+import { BlobServiceClient, ContainerSASPermissions } from '@azure/storage-blob';
 
 builder.queryFields((t) => ({
   costItems: t.prismaField({
@@ -35,7 +36,14 @@ builder.queryFields((t) => ({
   }),
   blobUploadKey: t.string({
     authScopes: { member: true },
-    // TODO: this should be generated on the fly
-    resolve: () => process.env['BLOB_SAS_TOKEN'] ?? '',
+    resolve: async () =>
+      BlobServiceClient.fromConnectionString(
+        process.env.STORAGE_CONNECTION_STRING ?? ''
+      )
+        .getContainerClient('tumi')
+        .generateSasUrl({
+          permissions: ContainerSASPermissions.parse('c'),
+          expiresOn: new Date(Date.now() + 3600 * 1000),
+        }),
   }),
 }));

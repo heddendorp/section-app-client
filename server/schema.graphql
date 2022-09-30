@@ -335,6 +335,7 @@ type Mutation {
   updateTemplateLocation(location: UpdateTemplateLocationInput!, templateId: ID!): EventTemplate!
   updateTenant(id: ID!, updateTenantInput: UpdateTenantInput!): Tenant!
   updateUser(input: UpdateUserInput!, userId: ID!): User!
+  updateUserPicture(file: String!, userId: ID!): User!
   updateUserPosition(position: String, userId: ID!): User!
   updateUserRole(role: Role!, userId: ID!): UsersOfTenants!
   updateUserStatus(status: MembershipStatus!, userId: ID!): UsersOfTenants!
@@ -442,6 +443,7 @@ type Query {
   logs: [ActivityLog!]!
   photoShareKey: String!
   photos(eventId: ID): [PhotoShare!]!
+  profileUploadKey: String!
   purchase(id: ID!): Purchase!
   purchases(limitToOwn: Boolean): [Purchase!]!
   registration(id: ID!): EventRegistration!

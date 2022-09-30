@@ -1,8 +1,12 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
-import { Role, MembershipStatus, PurchaseStatus } from '../../generated/prisma';
+import { MembershipStatus, PurchaseStatus, Role } from '../../generated/prisma';
 import { GraphQLYogaError } from '@graphql-yoga/node';
 import { prepareSearchString } from '../helperFunctions';
+import {
+  BlobServiceClient,
+  ContainerSASPermissions,
+} from '@azure/storage-blob';
 
 builder.queryFields((t) => ({
   users: t.prismaField({
@@ -132,5 +136,17 @@ builder.queryFields((t) => ({
         where: { id },
       });
     },
+  }),
+  profileUploadKey: t.string({
+    authScopes: { member: true },
+    resolve: async () =>
+      BlobServiceClient.fromConnectionString(
+        process.env.STORAGE_CONNECTION_STRING ?? ''
+      )
+        .getContainerClient('tumi-profile')
+        .generateSasUrl({
+          permissions: ContainerSASPermissions.parse('c'),
+          expiresOn: new Date(Date.now() + 3600 * 1000),
+        }),
   }),
 }));

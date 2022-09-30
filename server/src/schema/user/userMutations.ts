@@ -2,6 +2,17 @@ import { builder } from '../../builder';
 import prisma from '../../client';
 import { createUserInputType, updateUserInputType } from './userType';
 import { removeEmpty } from '../helperFunctions';
+import { BlobServiceClient } from '@azure/storage-blob';
+import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
+import { ApiKeyCredentials } from '@azure/ms-rest-js';
+import sharp = require("sharp");
+
+const key = process.env.VISION_KEY;
+const computerVisionClient = new ComputerVisionClient(
+  // @ts-ignore
+  new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }),
+  'https://tumi-vision.cognitiveservices.azure.com/'
+);
 
 builder.mutationFields((t) => ({
   createUser: t.prismaField({
@@ -74,6 +85,77 @@ builder.mutationFields((t) => ({
         where: { id: args.userId },
         data: { position: args.position },
       }),
+  }),
+  updateUserPicture: t.prismaField({
+    type: 'User',
+    args: {
+      userId: t.arg.id({ required: true }),
+      file: t.arg.string({ required: true }),
+    },
+    resolve: async (query, parent, args, context, info) => {
+      const container = args.userId;
+      const blob = args.file;
+      const client = BlobServiceClient.fromConnectionString(
+        process.env.STORAGE_CONNECTION_STRING ?? ''
+      )
+        .getContainerClient(`tumi-profile/${container}`)
+        .getBlockBlobClient(blob);
+      const processedClient = BlobServiceClient.fromConnectionString(
+        process.env.STORAGE_CONNECTION_STRING ?? ''
+      )
+        .getContainerClient(`tumi-profile/${container}`)
+        .getBlockBlobClient(blob+'-cropped');
+      const blobResponse = await client.downloadToBuffer();
+      try {
+        const processedImage = sharp(blobResponse);
+        const { data, info } = await processedImage
+          .rotate()
+          .jpeg()
+          .toBuffer({ resolveWithObject: true });
+        const image = await computerVisionClient.generateThumbnailInStream(
+          450,
+          450,
+          data
+        );
+        const chunks: any[] = [];
+        const thumbnailStream = image.readableStreamBody;
+        if (!thumbnailStream) {
+          throw new Error('No thumbnail stream');
+        }
+        thumbnailStream.on('data', (chunk) => {
+          chunks.push(chunk);
+        });
+        try {
+          const buffer = await new Promise<Buffer>((resolve, reject) => {
+            thumbnailStream.on('end', () => {
+              resolve(Buffer.concat(chunks));
+            });
+            thumbnailStream.on('error', (err) => {
+              reject(err);
+            });
+          });
+          await processedClient.uploadData(buffer);
+          return prisma.user.update({
+            ...query,
+            where: { id: args.userId },
+            data: { picture: `/storage/tumi-profile/${encodeURIComponent(
+                container
+              )}/${encodeURIComponent(blob)}-cropped` },
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      return prisma.user.update({
+        ...query,
+        where: { id: args.userId },
+        data: { picture: `/storage/tumi-profile/${encodeURIComponent(
+            container
+          )}/${encodeURIComponent(blob)}` },
+      });
+    },
   }),
   updateESNCard: t.prismaField({
     type: 'User',
