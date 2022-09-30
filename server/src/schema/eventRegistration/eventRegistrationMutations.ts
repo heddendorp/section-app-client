@@ -98,7 +98,10 @@ builder.mutationFields((t) => ({
         isKick,
         context
       );
-      return prisma.tumiEvent.findUniqueOrThrow({...query, where:{id: event.id}})
+      return prisma.tumiEvent.findUniqueOrThrow({
+        ...query,
+        where: { id: event.id },
+      });
     },
   }),
   cancelPayment: t.prismaField({
@@ -156,8 +159,14 @@ builder.mutationFields((t) => ({
       if (!event) {
         throw new GraphQLYogaError('Event not found');
       }
-      if (event.registrationStart > new Date()) {
-        throw new GraphQLYogaError('Registration is not open yet');
+      if (registrationType === RegistrationType.ORGANIZER) {
+        if (event.organizerRegistrationStart > new Date()) {
+          throw new GraphQLYogaError('Registration is not open yet');
+        }
+      } else {
+        if (event.registrationStart > new Date()) {
+          throw new GraphQLYogaError('Registration is not open yet');
+        }
       }
       const { status } = context.userOfTenant ?? {};
       const allowedStatus =
