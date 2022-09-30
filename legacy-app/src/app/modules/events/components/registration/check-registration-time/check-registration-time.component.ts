@@ -16,7 +16,7 @@ import { DateTime } from 'luxon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckRegistrationTimeComponent implements OnChanges {
-  @Input() public event: LoadEventQuery['event'] | null = null;
+  @Input() public registrationStart: string | null = null;
   public registrationOpen$: Observable<boolean>;
   public remainingTime$: Observable<string>;
   private registrationStart$ = new ReplaySubject<DateTime>(1);
@@ -46,9 +46,9 @@ export class CheckRegistrationTimeComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['event']) {
+    if (changes['registrationStart']) {
       this.registrationStart$.next(
-        DateTime.fromISO(changes['event'].currentValue.registrationStart)
+        DateTime.fromISO(changes['registrationStart'].currentValue)
       );
     }
   }

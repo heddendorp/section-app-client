@@ -117,6 +117,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       insuranceDescription: ['', Validators.required],
       shouldBeReportedToInsurance: ['', Validators.required],
       registrationStart: ['', Validators.required],
+      organizerRegistrationStart: ['', Validators.required],
       disableDeregistration: [false, Validators.required],
       excludeFromRatings: [false, Validators.required],
       excludeFromStatistics: [false, Validators.required],
@@ -247,6 +248,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           start: DateTime.fromISO(event.start).toISO({ includeOffset: false }),
           end: DateTime.fromISO(event.end).toISO({ includeOffset: false }),
           registrationStart: DateTime.fromISO(event.registrationStart).toISO({
+            includeOffset: false,
+          }),
+          organizerRegistrationStart: DateTime.fromISO(
+            event.organizerRegistrationStart
+          ).toISO({
             includeOffset: false,
           }),
         },

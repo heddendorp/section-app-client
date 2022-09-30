@@ -668,6 +668,7 @@ type TumiEvent {
   organizerRating: Float
   organizerRatingCount: Int
   organizerRegistrationPossible: Boolean!
+  organizerRegistrationStart: DateTime!
   organizerRegistrations: [EventRegistration!]!
   organizerSignup: [String!]!
   organizerText: String!
@@ -712,6 +713,7 @@ input UpdateCoreEventInput {
   icon: String
   insuranceDescription: String
   organizerLimit: Int
+  organizerRegistrationStart: DateTime
   organizerSignup: [MembershipStatus!]
   participantLimit: Int
   participantSignup: [MembershipStatus!]

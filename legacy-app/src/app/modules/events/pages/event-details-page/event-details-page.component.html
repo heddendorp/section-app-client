@@ -283,7 +283,9 @@
       </ng-template>
       <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
         <h2 class="mb-4 font-bold">Registration</h2>
-        <app-check-registration-time [event]="event">
+        <app-check-registration-time
+          [registrationStart]="event.registrationStart"
+        >
           <ng-container [ngSwitch]="event.registrationMode">
             <app-external-event-registration
               *ngSwitchCase="RegistrationMode.External"
@@ -314,7 +316,9 @@
       class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
     >
       <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
-      <app-check-registration-time [event]="event">
+      <app-check-registration-time
+        [registrationStart]="event.organizerRegistrationStart"
+      >
         <div
           fxLayout.gt-md="row"
           fxLayout="column"

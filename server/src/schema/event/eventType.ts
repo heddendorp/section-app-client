@@ -30,6 +30,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
     start: t.expose('start', { type: 'DateTime' }),
     end: t.expose('end', { type: 'DateTime' }),
     registrationStart: t.expose('registrationStart', { type: 'DateTime' }),
+    organizerRegistrationStart: t.expose('organizerRegistrationStart', {
+      type: 'DateTime',
+    }),
     description: t.exposeString('description'),
     disableDeregistration: t.exposeBoolean('disableDeregistration'),
     excludeFromStatistics: t.exposeBoolean('excludeFromStatistics'),
@@ -248,7 +251,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             user: { id: context.user?.id },
             event: { id: parent.id },
             status: { not: RegistrationStatus.CANCELLED },
-          }
+          },
         });
       },
     }),
@@ -848,6 +851,7 @@ export const updateCoreEventInputType = builder.inputType(
       registrationLink: t.string(),
       registrationMode: t.field({ type: RegistrationMode }),
       registrationStart: t.field({ type: 'DateTime' }),
+      organizerRegistrationStart: t.field({ type: 'DateTime' }),
       shouldBeReportedToInsurance: t.boolean(),
       eventOrganizerId: t.id({ required: true }),
       start: t.field({ type: 'DateTime' }),

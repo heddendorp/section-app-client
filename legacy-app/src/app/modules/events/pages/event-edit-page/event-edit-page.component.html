@@ -145,6 +145,18 @@
                 />
                 <mat-hint>Define the opening of event registration</mat-hint>
               </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Organizer Registration Start</mat-label>
+                <input
+                  matInput
+                  formControlName="organizerRegistrationStart"
+                  type="datetime-local"
+                />
+                <mat-hint
+                  >Define the opening of event registration for
+                  organizers</mat-hint
+                >
+              </mat-form-field>
               <mat-checkbox formControlName="disableDeregistration">
                 Disable deregistration and moves
               </mat-checkbox>

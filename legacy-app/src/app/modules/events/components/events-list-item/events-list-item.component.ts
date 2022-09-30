@@ -21,6 +21,9 @@ export class EventsListItemComponent {
   constructor(private datePipe: ExtendDatePipe) {}
 
   public notYetOpen() {
+    if (this.event?.couldBeOrganizer) {
+      return new Date(this.event?.organizerRegistrationStart) > new Date();
+    }
     return new Date(this.event?.registrationStart) > new Date();
   }
 
@@ -28,7 +31,9 @@ export class EventsListItemComponent {
     if (!this.event) {
       return '';
     }
-    const date = DateTime.fromISO(this.event.registrationStart);
+    const date = this.event.couldBeOrganizer
+      ? DateTime.fromISO(this.event.organizerRegistrationStart)
+      : DateTime.fromISO(this.event.registrationStart);
     if (date.startOf('day') <= DateTime.local().startOf('day')) {
       return date.toFormat('HH:mm');
     }
