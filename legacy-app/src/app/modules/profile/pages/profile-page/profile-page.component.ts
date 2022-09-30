@@ -199,6 +199,9 @@ export class ProfilePageComponent implements OnDestroy {
         blobServiceClient.getContainerClient(container);
       const blockBlobClient = containerClient.getBlockBlobClient(blob);
       await blockBlobClient.uploadBrowserData(file, {
+        blobHTTPHeaders: {
+          blobContentType: file.type,
+        },
         onProgress: (event) => {
           this.uploadProgress$.next((event.loadedBytes / file.size) * 100);
         },

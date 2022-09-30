@@ -5,7 +5,7 @@ import { removeEmpty } from '../helperFunctions';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
 import { ApiKeyCredentials } from '@azure/ms-rest-js';
-import sharp = require("sharp");
+import sharp = require('sharp');
 
 const key = process.env.VISION_KEY;
 const computerVisionClient = new ComputerVisionClient(
@@ -104,7 +104,8 @@ builder.mutationFields((t) => ({
         process.env.STORAGE_CONNECTION_STRING ?? ''
       )
         .getContainerClient(`tumi-profile/${container}`)
-        .getBlockBlobClient(blob+'-cropped');
+        .getBlockBlobClient(blob + '-cropped');
+      const properties = await client.getProperties();
       const blobResponse = await client.downloadToBuffer();
       try {
         const processedImage = sharp(blobResponse);
@@ -115,7 +116,8 @@ builder.mutationFields((t) => ({
         const image = await computerVisionClient.generateThumbnailInStream(
           450,
           450,
-          data
+          data,
+          { smartCropping: true }
         );
         const chunks: any[] = [];
         const thumbnailStream = image.readableStreamBody;
@@ -134,13 +136,17 @@ builder.mutationFields((t) => ({
               reject(err);
             });
           });
-          await processedClient.uploadData(buffer);
+          await processedClient.uploadData(buffer, {
+            blobHTTPHeaders: { blobContentType: properties.contentType },
+          });
           return prisma.user.update({
             ...query,
             where: { id: args.userId },
-            data: { picture: `/storage/tumi-profile/${encodeURIComponent(
+            data: {
+              picture: `/storage/tumi-profile/${encodeURIComponent(
                 container
-              )}/${encodeURIComponent(blob)}-cropped` },
+              )}/${encodeURIComponent(blob)}-cropped`,
+            },
           });
         } catch (err) {
           console.error(err);
@@ -151,9 +157,11 @@ builder.mutationFields((t) => ({
       return prisma.user.update({
         ...query,
         where: { id: args.userId },
-        data: { picture: `/storage/tumi-profile/${encodeURIComponent(
+        data: {
+          picture: `/storage/tumi-profile/${encodeURIComponent(
             container
-          )}/${encodeURIComponent(blob)}` },
+          )}/${encodeURIComponent(blob)}`,
+        },
       });
     },
   }),
