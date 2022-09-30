@@ -9,11 +9,12 @@ import {
   MembershipStatus,
   SubmitEventFeedbackGQL,
   UpdateProfileGQL,
-  UpdateUserInformationGQL, UpdateUserPictureGQL,
+  UpdateUserInformationGQL,
+  UpdateUserPictureGQL,
   UserProfileEventsGQL,
   UserProfileEventsQuery,
   UserProfileGQL,
-  UserProfileQuery
+  UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { BehaviorSubject, first, firstValueFrom, map, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
@@ -175,13 +176,15 @@ export class ProfilePageComponent implements OnDestroy {
       const files = Array.from(target.files).filter((file) =>
         file.type.startsWith('image/')
       );
-      if(!files.length){
+      if (!files.length) {
         this.uploadProgress$.next(0);
         this.uploading$.next(false);
         return;
       }
       const file = files[0];
-      const { data } = await firstValueFrom(this.getProfileUploadKeyGQL.fetch());
+      const { data } = await firstValueFrom(
+        this.getProfileUploadKeyGQL.fetch()
+      );
       this.uploadMode$.next('determinate');
       this.uploadProgress$.next(0);
       const reader = new FileReader();
@@ -195,8 +198,7 @@ export class ProfilePageComponent implements OnDestroy {
       const blobServiceClient = new BlobServiceClient(data.profileUploadKey);
       const container = user.id;
       const blob = this.randomId() + '|' + file.name;
-      const containerClient =
-        blobServiceClient.getContainerClient(container);
+      const containerClient = blobServiceClient.getContainerClient(container);
       const blockBlobClient = containerClient.getBlockBlobClient(blob);
       await blockBlobClient.uploadBrowserData(file, {
         onProgress: (event) => {
@@ -205,7 +207,9 @@ export class ProfilePageComponent implements OnDestroy {
       });
       reader.readAsDataURL(file);
       await imagePromise;
-      await firstValueFrom(this.updateUserPictureGQL.mutate({userId:user.id, file:blob}))
+      await firstValueFrom(
+        this.updateUserPictureGQL.mutate({ userId: user.id, file: blob })
+      );
     }
     this.uploadProgress$.next(0);
     this.uploading$.next(false);
