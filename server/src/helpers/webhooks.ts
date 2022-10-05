@@ -273,7 +273,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           const charge = paymentIntent.charges.data[0];
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntent.id },
+              where: { id: stripePayment.id },
               data: {
                 status: paymentIntent.status,
                 shipping: paymentIntent.shipping
@@ -367,7 +367,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           if (Array.isArray(stripePayment.events)) {
             try {
               payment = await prisma.stripePayment.update({
-                where: { paymentIntent: paymentIntent.id },
+                where: { id: stripePayment.id },
                 data: {
                   status: paymentIntent.status,
                   shipping: paymentIntent.shipping
@@ -724,7 +724,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
               : charge.payment_intent?.id;
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
-            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -740,7 +739,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           let payment;
           if (Array.isArray(stripePayment.events)) {
             payment = await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntentId },
+              where: { id: stripePayment.id },
               data: {
                 status: charge.status,
                 events: [
@@ -809,7 +808,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntentId },
+              where: { id: stripePayment.id },
               data: {
                 status: 'refunded',
                 refundedAmount: { increment: charge.amount_refunded },
