@@ -1841,7 +1841,7 @@ export type GetRegistrationsQueryVariables = Exact<{
 }>;
 
 
-export type GetRegistrationsQuery = { __typename?: 'Query', registrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, type: RegistrationType, event: { __typename?: 'TumiEvent', title: string, id: string, icon: string }, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, netAmount?: any | null } | null }> }> };
+export type GetRegistrationsQuery = { __typename?: 'Query', registrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, type: RegistrationType, balance: any, event: { __typename?: 'TumiEvent', title: string, id: string, icon: string }, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, netAmount?: any | null } | null }> }> };
 
 export type GetRegistrationForAdminQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -4290,6 +4290,7 @@ export const GetRegistrationsDocument = gql`
     id
     createdAt
     type
+    balance
     event {
       title
       id

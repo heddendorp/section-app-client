@@ -3,6 +3,7 @@ query getRegistrations($pageLength: Int, $pageIndex: Int) {
     id
     createdAt
     type
+    balance
     event {
       title
       id

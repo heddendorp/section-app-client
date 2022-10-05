@@ -49,10 +49,11 @@
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>Payment Status</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Transactions</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.transaction?.stripePayment?.status }}
-        <span *ngIf="!element.transaction">–</span>
+        <app-transaction-list
+          [transactions]="element.transactions"
+        ></app-transaction-list>
       </mat-cell>
     </ng-container>
 
@@ -66,10 +67,7 @@
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{
-          (element.transaction?.stripePayment?.netAmount ?? 0) / 100
-            | currency: 'EUR'
-        }}
+        {{ element.balance | currency: 'EUR' }}
       </mat-cell>
     </ng-container>
 
