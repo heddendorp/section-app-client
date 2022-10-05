@@ -44,16 +44,27 @@ export class RegistrationService {
       registrationCode?.targetEvent?.registrationMode ===
       RegistrationMode.STRIPE
     ) {
+      const [icon, style] = (registrationCode.targetEvent?.icon ?? '').split(
+        ':'
+      );
+      const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
+        icon ?? 'cancel-2'
+      }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
       const transaction = await this.createPayment(
         context,
         [
           {
-            amount: price.amount * 100,
-            currency: 'EUR',
+            price_data: {
+              currency: 'EUR',
+              unit_amount: price.amount * 100,
+              product_data: {
+                name: registrationCode.targetEvent.title,
+                description: 'Registration fee for event move',
+                images: [iconURL],
+              },
+            },
             quantity: 1,
-            name: registrationCode.targetEvent.title,
             tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
-            description: 'Registration code fee for event',
           },
         ],
         'book',
