@@ -214,6 +214,10 @@ export class RegistrationService {
           create: {
             id,
             amount: session.amount_total ?? 0,
+            paymentIntent:
+              (typeof session.payment_intent === 'string'
+                ? session.payment_intent
+                : session.payment_intent?.id) ?? undefined,
             checkoutSession: session.id,
             status: 'incomplete',
             events: [
