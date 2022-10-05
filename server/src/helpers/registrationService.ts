@@ -196,7 +196,7 @@ export class RegistrationService {
       success_url: successUrl,
       expires_at: Math.round(
         DateTime.now()
-          .plus(longPaymentTimeout ? { hours: 24 } : { minutes: 30 })
+          .plus(longPaymentTimeout ? { hours: 23 } : { minutes: 30 })
           .toSeconds()
       ),
       consent_collection: { terms_of_service: 'required' },
