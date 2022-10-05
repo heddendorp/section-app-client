@@ -84,4 +84,8 @@ export class TenantUserInfoPageComponent {
         .toPromise();
     }
   }
+
+  waLink(phone?: string | null) {
+    return `https://wa.me/${phone?.replace('+', '')}`;
+  }
 }

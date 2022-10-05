@@ -185,7 +185,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
       const sig = request.headers['stripe-signature'] as string;
 
       let event = request.body;
-      // if (process.env['NODE_ENV'] !== 'test') {
       try {
         event = stripe.webhooks.constructEvent(
           request.body,
@@ -197,11 +196,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
         response.status(400).send(`Webhook Error: ${err.message}`);
         return;
       }
-      // } else {
-      //   event = JSON.parse(event.toString());
-      //   console.log('not checking stripe signature in test environment');
-      //   console.log(event);
-      // }
       console.log(event.type);
       switch (event.type) {
         case 'checkout.session.completed': {

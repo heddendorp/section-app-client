@@ -14,6 +14,7 @@ query loadEventForManagement($id: ID!) {
     participantLimit
     participantRegistrationCount
     participantsAttended
+    registrationMode
     #registrations
     costItems {
       id
@@ -87,6 +88,23 @@ query loadEventForManagement($id: ID!) {
           tenantId
           status
         }
+      }
+    }
+  }
+}
+
+mutation restorePayment($registrationId: ID!){
+  restorePayment(registrationId: $registrationId){
+    id
+    participantRegistrations{
+      id
+      transactions{
+        id
+        status
+        direction
+        amount
+        type
+        subject
       }
     }
   }

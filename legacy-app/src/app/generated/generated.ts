@@ -365,6 +365,7 @@ export type Mutation = {
   deregisterFromEvent: TumiEvent;
   rateEvent: TumiEvent;
   registerForEvent: TumiEvent;
+  restorePayment: TumiEvent;
   updateCostItemsFromTemplate: TumiEvent;
   updateESNCard: User;
   updateEventCoreInfo: TumiEvent;
@@ -521,6 +522,11 @@ export type MutationRegisterForEventArgs = {
   price?: InputMaybe<Scalars['JSON']>;
   registrationType?: InputMaybe<RegistrationType>;
   submissions?: InputMaybe<Scalars['JSON']>;
+};
+
+
+export type MutationRestorePaymentArgs = {
+  registrationId: Scalars['ID'];
 };
 
 
@@ -1652,7 +1658,14 @@ export type LoadEventForManagementQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, refundFeesPaid: any, plannedSpend: any, submittedSpend: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, balance: any, checkInTime?: any | null, didAttend: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
+export type LoadEventForManagementQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, amountCollected: any, netAmountCollected: any, feesPaid: any, refundFeesPaid: any, plannedSpend: any, submittedSpend: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, registrationMode: RegistrationMode, costItems: Array<{ __typename?: 'CostItem', id: string, name: string, submittedAmount: any, amount: any }>, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, eventRegistrationCodes: Array<{ __typename?: 'EventRegistrationCode', id: string, createdAt: any, isPublic: boolean, status: RegistrationStatus, registrationToRemoveId?: string | null, registrationCreatedId?: string | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, createdAt: any, status: RegistrationStatus, cancellationReason?: string | null, balance: any, checkInTime?: any | null, didAttend: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, phone?: string | null, university?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
+
+export type RestorePaymentMutationVariables = Exact<{
+  registrationId: Scalars['ID'];
+}>;
+
+
+export type RestorePaymentMutation = { __typename?: 'Mutation', restorePayment: { __typename?: 'TumiEvent', id: string, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string }> }> } };
 
 export type DeleteRegistrationCodeMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3480,6 +3493,7 @@ export const LoadEventForManagementDocument = gql`
     participantLimit
     participantRegistrationCount
     participantsAttended
+    registrationMode
     costItems {
       id
       name
@@ -3561,6 +3575,35 @@ export const LoadEventForManagementDocument = gql`
   })
   export class LoadEventForManagementGQL extends Apollo.Query<LoadEventForManagementQuery, LoadEventForManagementQueryVariables> {
     override document = LoadEventForManagementDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RestorePaymentDocument = gql`
+    mutation restorePayment($registrationId: ID!) {
+  restorePayment(registrationId: $registrationId) {
+    id
+    participantRegistrations {
+      id
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RestorePaymentGQL extends Apollo.Mutation<RestorePaymentMutation, RestorePaymentMutationVariables> {
+    override document = RestorePaymentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

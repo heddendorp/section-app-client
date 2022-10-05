@@ -323,6 +323,7 @@ type Mutation {
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
   rateEvent(anonymousRating: Boolean = true, comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
+  restorePayment(registrationId: ID!): TumiEvent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateEventCoreInfo(eventId: ID!, input: UpdateCoreEventInput!): TumiEvent!

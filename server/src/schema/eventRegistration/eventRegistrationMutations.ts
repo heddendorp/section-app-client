@@ -11,6 +11,7 @@ import {
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import { DateTime } from 'luxon';
+import JsonArray = Prisma.JsonArray;
 
 builder.mutationFields((t) => ({
   checkInUser: t.prismaField({
@@ -101,6 +102,96 @@ builder.mutationFields((t) => ({
       return prisma.tumiEvent.findUniqueOrThrow({
         ...query,
         where: { id: event.id },
+      });
+    },
+  }),
+  restorePayment: t.prismaField({
+    type: 'TumiEvent',
+    args: {
+      registrationId: t.arg.id({ required: true }),
+    },
+    resolve: async (query, parent, { registrationId }, context, info) => {
+      const registration = await prisma.eventRegistration.findUniqueOrThrow({
+        where: { id: registrationId },
+        include: {
+          event: true,
+          user: {
+            include: {
+              tenants: true,
+            },
+          },
+        },
+      });
+      const userOfTenant = registration.user.tenants.find(
+        (tenant) => tenant.tenantId === context.tenant.id
+      );
+      const prices = (registration.event.prices ?? { options: [] }) as {
+        options: {
+          amount: string;
+          defaultPrice: boolean;
+          esnCardRequired: boolean;
+          allowedStatusList: MembershipStatus[];
+        }[];
+      };
+      // sort prices by price
+      prices.options.sort(
+        (a, b) => parseFloat(a.amount) - parseFloat(b.amount)
+      );
+      const price = prices.options.find((option) =>
+        option.allowedStatusList.includes(
+          userOfTenant?.status ?? MembershipStatus.NONE
+        )
+      );
+      if (!price) {
+        throw new GraphQLYogaError('No price found for this user');
+      }
+      const baseUrl =
+        process.env.DEV || process.env.NODE_ENV === 'test'
+          ? `http://localhost:4200/events/${registration.event.id}`
+          : `https://tumi.esn.world/events/${registration.event.id}`;
+      const [icon, style] = (registration.event?.icon ?? '').split(':');
+      const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
+        icon ?? 'cancel-2'
+      }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
+      const transaction = await RegistrationService.createPayment(
+        context,
+        [
+          {
+            price_data: {
+              currency: 'EUR',
+              unit_amount: parseFloat(price.amount) * 100,
+              product_data: {
+                name: registration.event.title,
+                description: 'Registration fee for event',
+                images: [iconURL],
+              },
+            },
+            quantity: 1,
+            tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
+          },
+        ],
+        'book',
+        `${baseUrl}?cancel=true`,
+        `${baseUrl}?success=true`,
+        context.user?.id ?? '',
+        false,
+        true
+      );
+      await prisma.eventRegistration.update({
+        where: {
+          id: registration.id,
+        },
+        data: {
+          transactions: {
+            connect: {
+              id: transaction.id,
+            },
+          },
+        },
+      });
+      return prisma.tumiEvent.findUniqueOrThrow({
+        ...query,
+        where: { id: registration.event.id },
       });
     },
   }),
@@ -250,33 +341,6 @@ builder.mutationFields((t) => ({
               'You have reached the maximum number of registrations (3) for today'
             );
           }
-          /*if (
-          event.organizerLimit > 1 &&
-          registrationType === RegistrationType.ORGANIZER
-        ) {
-          const userIsNewbie =
-            context.user?.createdAt &&
-            context.user?.createdAt > new Date(2022, 1, 1);
-          const sameStatusRegistrations = await prisma.eventRegistration.count({
-            where: {
-              eventId,
-              type: RegistrationType.ORGANIZER,
-              status: { not: RegistrationStatus.CANCELLED },
-              user: {
-                createdAt: userIsNewbie
-                  ? { gte: new Date(2022, 1, 1) }
-                  : { lte: new Date(2022, 1, 1) },
-              },
-            },
-          });
-          if (event.organizerLimit - 1 - sameStatusRegistrations <= 0) {
-            throw new GraphQLYogaError(
-              `Event does not have an organizer spot for ${
-                userIsNewbie ? 'newbies' : 'oldies'
-              }!`
-            );
-          }
-        }*/
           if (
             event?.registrationMode === RegistrationMode.STRIPE &&
             registrationType === RegistrationType.PARTICIPANT
@@ -312,7 +376,11 @@ builder.mutationFields((t) => ({
             throw new GraphQLYogaError('Registration mode not supported');
           }
         },
-        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
+        {
+          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          maxWait: 5000,
+          timeout: 10000,
+        }
       );
       if (
         event?.registrationMode === RegistrationMode.STRIPE &&

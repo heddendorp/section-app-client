@@ -134,7 +134,8 @@ export class RegistrationService {
     cancelUrl: string,
     successUrl: string,
     userId: string,
-    allowSepa = false
+    allowSepa = false,
+    longPaymentTimeout = false
   ) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -193,7 +194,11 @@ export class RegistrationService {
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
-      expires_at: Math.round(DateTime.now().plus({ minutes: 30 }).toSeconds()),
+      expires_at: Math.round(
+        DateTime.now()
+          .plus(longPaymentTimeout ? { hours: 24 } : { minutes: 30 })
+          .toSeconds()
+      ),
       consent_collection: { terms_of_service: 'required' },
     });
     return prisma.transaction.create({

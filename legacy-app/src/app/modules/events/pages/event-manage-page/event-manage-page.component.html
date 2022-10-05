@@ -235,6 +235,17 @@
                   <button
                     mat-stroked-button
                     class="modern"
+                    *ngIf="
+                      event.registrationMode == 'STRIPE' &&
+                      !registration.transactions.length
+                    "
+                    (click)="restorePayment(registration.id)"
+                  >
+                    <span>Restore Payment</span>
+                  </button>
+                  <button
+                    mat-stroked-button
+                    class="modern"
                     color="warn"
                     [matMenuTriggerFor]="menu"
                   >

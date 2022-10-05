@@ -7,6 +7,7 @@ import {
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
   RegistrationStatus,
+  RestorePaymentGQL,
   TumiEvent,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
@@ -62,7 +63,8 @@ export class EventManagePageComponent implements OnDestroy {
     private checkInMutation: CheckInUserGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute,
-    private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL
+    private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
+    private restorePaymentGQL: RestorePaymentGQL
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
@@ -210,5 +212,9 @@ export class EventManagePageComponent implements OnDestroy {
     confirm('Are you sure you want to delete this registration code?') &&
       (await firstValueFrom(this.deleteRegistrationCodeGQL.mutate({ id })));
     this.loadEventQueryRef.refetch();
+  }
+
+  async restorePayment(id: string) {
+    await firstValueFrom(this.restorePaymentGQL.mutate({ registrationId: id }));
   }
 }
