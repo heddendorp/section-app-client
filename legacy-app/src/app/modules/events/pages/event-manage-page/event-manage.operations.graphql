@@ -79,6 +79,7 @@ query loadEventForManagement($id: ID!) {
       user {
         id
         fullName
+        firstName
         picture
         email
         phone
