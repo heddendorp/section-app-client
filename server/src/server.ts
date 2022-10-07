@@ -185,7 +185,7 @@ const graphQLServer = createServer({
           },
           include: {
             tenants: { where: { tenantId: tenant.id } },
-          }
+          },
         });
         if (user && !user.tenants.length) {
           try {
@@ -212,7 +212,7 @@ const graphQLServer = createServer({
               },
               include: {
                 tenants: { where: { tenantId: tenant.id } },
-              }
+              },
             });
           }
         }

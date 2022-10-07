@@ -94,12 +94,12 @@ query loadEventForManagement($id: ID!) {
   }
 }
 
-mutation restorePayment($registrationId: ID!){
-  restorePayment(registrationId: $registrationId){
+mutation restorePayment($registrationId: ID!) {
+  restorePayment(registrationId: $registrationId) {
     id
-    participantRegistrations{
+    participantRegistrations {
       id
-      transactions{
+      transactions {
         id
         status
         direction
