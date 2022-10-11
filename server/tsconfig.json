@@ -9,6 +9,7 @@
     "paths": {},
     "types": ["node", "jest"],
     "target": "es2020",
+    "module": "commonjs",
     "moduleResolution": "node"
   },
   "include": ["src/**/*"]
