@@ -5,7 +5,8 @@ import { removeEmpty } from '../helperFunctions';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
 import { ApiKeyCredentials } from '@azure/ms-rest-js';
-import sharp = require('sharp');
+import sharp from 'sharp';
+
 
 const key = process.env.VISION_KEY;
 const computerVisionClient = new ComputerVisionClient(
