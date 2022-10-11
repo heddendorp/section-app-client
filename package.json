@@ -50,7 +50,7 @@
     "@percy/cli": "^1.11.0",
     "@percy/cypress": "^3.1.2",
     "@testing-library/cypress": "^8.0.3",
-    "cypress": "^10.9.0",
+    "cypress": "^10.10.0",
     "dotenv-cli": "^6.0.0"
   }
 }
