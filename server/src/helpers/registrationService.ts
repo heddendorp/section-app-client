@@ -44,16 +44,27 @@ export class RegistrationService {
       registrationCode?.targetEvent?.registrationMode ===
       RegistrationMode.STRIPE
     ) {
+      const [icon, style] = (registrationCode.targetEvent?.icon ?? '').split(
+        ':'
+      );
+      const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
+        icon ?? 'cancel-2'
+      }.svg?token=9b757a847e9a44b7d84dc1c200a3b92ecf6274b2`;
       const transaction = await this.createPayment(
         context,
         [
           {
-            amount: price.amount * 100,
-            currency: 'EUR',
+            price_data: {
+              currency: 'EUR',
+              unit_amount: price.amount * 100,
+              product_data: {
+                name: registrationCode.targetEvent.title,
+                description: 'Registration fee for event move',
+                images: [iconURL],
+              },
+            },
             quantity: 1,
-            name: registrationCode.targetEvent.title,
             tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
-            description: 'Registration code fee for event',
           },
         ],
         'book',
@@ -123,7 +134,8 @@ export class RegistrationService {
     cancelUrl: string,
     successUrl: string,
     userId: string,
-    allowSepa = false
+    allowSepa = false,
+    longPaymentTimeout = false
   ) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -182,7 +194,11 @@ export class RegistrationService {
       submit_type: submitType,
       cancel_url: cancelUrl,
       success_url: successUrl,
-      expires_at: Math.round(DateTime.now().plus({ minutes: 30 }).toSeconds()),
+      expires_at: Math.round(
+        DateTime.now()
+          .plus(longPaymentTimeout ? { hours: 23 } : { minutes: 30 })
+          .toSeconds()
+      ),
       consent_collection: { terms_of_service: 'required' },
     });
     return prisma.transaction.create({
@@ -198,6 +214,10 @@ export class RegistrationService {
           create: {
             id,
             amount: session.amount_total ?? 0,
+            paymentIntent:
+              (typeof session.payment_intent === 'string'
+                ? session.payment_intent
+                : session.payment_intent?.id) ?? undefined,
             checkoutSession: session.id,
             status: 'incomplete',
             events: [

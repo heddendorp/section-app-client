@@ -185,7 +185,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
       const sig = request.headers['stripe-signature'] as string;
 
       let event = request.body;
-      // if (process.env['NODE_ENV'] !== 'test') {
       try {
         event = stripe.webhooks.constructEvent(
           request.body,
@@ -197,11 +196,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
         response.status(400).send(`Webhook Error: ${err.message}`);
         return;
       }
-      // } else {
-      //   event = JSON.parse(event.toString());
-      //   console.log('not checking stripe signature in test environment');
-      //   console.log(event);
-      // }
       console.log(event.type);
       switch (event.type) {
         case 'checkout.session.completed': {
@@ -273,7 +267,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           const charge = paymentIntent.charges.data[0];
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntent.id },
+              where: { id: stripePayment.id },
               data: {
                 status: paymentIntent.status,
                 shipping: paymentIntent.shipping
@@ -367,7 +361,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           if (Array.isArray(stripePayment.events)) {
             try {
               payment = await prisma.stripePayment.update({
-                where: { paymentIntent: paymentIntent.id },
+                where: { id: stripePayment.id },
                 data: {
                   status: paymentIntent.status,
                   shipping: paymentIntent.shipping
@@ -434,7 +428,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
             await prisma.activityLog.create({
               data: {
                 data: JSON.parse(JSON.stringify(paymentIntent)),
-                oldData: JSON.parse(JSON.stringify(stripePayment)),
+                oldData: JSON.parse(JSON.stringify(payment)),
                 message: 'Transaction for payment intent is not singular',
                 severity: 'WARNING',
                 category: 'webhook',
@@ -646,7 +640,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
           console.log('Processing event: payment_intent.payment_failed');
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntent.id },
-            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -725,7 +718,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
               : charge.payment_intent?.id;
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
-            rejectOnNotFound: false,
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
@@ -741,7 +733,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           let payment;
           if (Array.isArray(stripePayment.events)) {
             payment = await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntentId },
+              where: { id: stripePayment.id },
               data: {
                 status: charge.status,
                 events: [
@@ -810,7 +802,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
           if (Array.isArray(stripePayment.events)) {
             await prisma.stripePayment.update({
-              where: { paymentIntent: paymentIntentId },
+              where: { id: stripePayment.id },
               data: {
                 status: 'refunded',
                 refundedAmount: { increment: charge.amount_refunded },

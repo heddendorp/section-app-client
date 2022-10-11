@@ -135,6 +135,9 @@ input DateRangeInput {
   start: DateTime
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
 scalar DateTime
 
 scalar Decimal
@@ -264,6 +267,9 @@ type EventTemplateCategory {
   tenantId: ID!
 }
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
 scalar JSON
 
 type LineItem {
@@ -323,6 +329,7 @@ type Mutation {
   deregisterFromEvent(registrationId: ID!, withRefund: Boolean = true): TumiEvent!
   rateEvent(anonymousRating: Boolean = true, comment: String = "", id: ID!, rating: Int!): TumiEvent!
   registerForEvent(eventId: ID!, price: JSON, registrationType: RegistrationType = PARTICIPANT, submissions: JSON): TumiEvent!
+  restorePayment(registrationId: ID!): TumiEvent!
   updateCostItemsFromTemplate(eventId: ID!): TumiEvent!
   updateESNCard(esnCardOverride: Boolean!, id: ID!): User!
   updateEventCoreInfo(eventId: ID!, input: UpdateCoreEventInput!): TumiEvent!
@@ -654,7 +661,7 @@ type TumiEvent {
   excludeFromRatings: Boolean!
   excludeFromStatistics: Boolean!
   feesPaid: Decimal!
-  freeParticipantSpots: String!
+  freeParticipantSpots: String! @deprecated(reason: "Use participantLimit and participantRegistrationCount instead")
   googlePlaceId: String
   googlePlaceUrl: String
   icon: String!
@@ -663,12 +670,11 @@ type TumiEvent {
   internalEvent: Boolean!
   location: String!
   mailTemplate: String!
-  needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
   organizerRating: Float
-  organizerRatingCount: Int
+  organizerRatingCount: Int!
   organizerRegistrationPossible: Boolean!
   organizerRegistrationStart: DateTime!
   organizerRegistrations: [EventRegistration!]!
@@ -679,7 +685,7 @@ type TumiEvent {
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
   participantRating: Float
-  participantRatingCount: Int
+  participantRatingCount: Int!
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true, includePending: Boolean = true): [EventRegistration!]!
