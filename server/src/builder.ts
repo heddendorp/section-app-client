@@ -4,7 +4,7 @@ import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 import PrismaPlugin from '@pothos/plugin-prisma';
 import prisma from './client';
 import PrismaTypes from './generated/pothos-types';
-import { GraphQLJSON } from 'graphql-scalars';
+import { DateTimeResolver, JSONResolver } from 'graphql-scalars';
 import { Auth0 } from './helpers/auth0';
 import {
   MembershipStatus,
@@ -75,20 +75,8 @@ export const builder = new SchemaBuilder<{
   },
 });
 
-builder.scalarType('JSON', {
-  serialize: GraphQLJSON.serialize,
-  parseValue: GraphQLJSON.parseValue,
-});
-builder.scalarType('DateTime', {
-  serialize: (value) => value.toJSON(),
-  parseValue: (value) => {
-    if (typeof value === 'string') {
-      return new Date(value);
-    } else {
-      throw new Error(`Invalid DateTime: ${value}`);
-    }
-  },
-});
+builder.addScalarType('JSON', JSONResolver, {});
+builder.addScalarType('DateTime', DateTimeResolver, {});
 builder.scalarType('Decimal', {
   serialize: (value) => value.toString(),
   parseValue: (value) => {

@@ -12,14 +12,7 @@ import prisma from '../../client';
 builder.prismaObject('User', {
   findUnique: (user) => ({ id: user.id }),
   grantScopes: async (user, context) => {
-    const userOfTenant = await prisma.usersOfTenants.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: user.id,
-          tenantId: context.tenant.id,
-        },
-      },
-    });
+    const userOfTenant = context.userOfTenant;
     if (
       userOfTenant?.status !== MembershipStatus.NONE ||
       context.user?.id === user.id
@@ -46,7 +39,14 @@ builder.prismaObject('User', {
       },
       unauthorizedResolver: () => null,
     }),
-    picture: t.exposeString('picture'),
+    picture: t.string({
+      resolve: (user) => {
+        if(user.picture.includes('/storage/') && process.env.DEV){
+          return user.picture.replace('/storage/', 'https://storetumi.blob.core.windows.net/');
+        }
+        return user.picture;
+      },
+    }),
     phone: t.exposeString('phone', {
       nullable: true,
       authScopes: {
