@@ -72,9 +72,9 @@ export class ProfilePageComponent implements OnDestroy {
 
     this.eventsToRate$ = this.profileEvents$.pipe(
       map((profile) => [
-        ...(profile?.participatedEvents.filter((event) => event?.needsRating) ??
+        ...(profile?.participatedEvents.filter((event) => event?.ratingPending) ??
           []),
-        ...(profile?.organizedEvents.filter((event) => event?.needsRating) ??
+        ...(profile?.organizedEvents.filter((event) => event?.ratingPending) ??
           []),
       ])
     );

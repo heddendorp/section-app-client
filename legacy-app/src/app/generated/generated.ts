@@ -1122,7 +1122,6 @@ export type TumiEvent = {
   internalEvent: Scalars['Boolean'];
   location: Scalars['String'];
   mailTemplate: Scalars['String'];
-  needsRating: Scalars['Boolean'];
   netAmountCollected: Scalars['Decimal'];
   organizer: EventOrganizer;
   organizerLimit: Scalars['Int'];
@@ -1745,7 +1744,7 @@ export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typenam
 export type UserProfileEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileEventsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, createdEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, needsRating: boolean, participantRating?: number | null, participantRatingCount: number }>, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount: number }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, needsRating: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount: number }> } | null };
+export type UserProfileEventsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, createdEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, participantRating?: number | null, participantRatingCount: number }>, organizedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount: number }>, participatedEvents: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, ratingPending: boolean, userIsOrganizer: boolean, participantRating?: number | null, participantRatingCount: number }> } | null };
 
 export type UserProfilePublicQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1769,7 +1768,7 @@ export type SubmitEventFeedbackMutationVariables = Exact<{
 }>;
 
 
-export type SubmitEventFeedbackMutation = { __typename?: 'Mutation', rateEvent: { __typename?: 'TumiEvent', id: string, needsRating: boolean } };
+export type SubmitEventFeedbackMutation = { __typename?: 'Mutation', rateEvent: { __typename?: 'TumiEvent', id: string, ratingPending: boolean } };
 
 export type UseRegistrationCodeMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3924,7 +3923,6 @@ export const UserProfileEventsDocument = gql`
       start
       end
       ratingPending
-      needsRating
       participantRating
       participantRatingCount
     }
@@ -3935,7 +3933,6 @@ export const UserProfileEventsDocument = gql`
       start
       end
       ratingPending
-      needsRating
       userIsOrganizer
       participantRating
       participantRatingCount
@@ -3947,7 +3944,6 @@ export const UserProfileEventsDocument = gql`
       start
       end
       ratingPending
-      needsRating
       userIsOrganizer
       participantRating
       participantRatingCount
@@ -4060,7 +4056,7 @@ export const SubmitEventFeedbackDocument = gql`
     comment: $comment
   ) {
     id
-    needsRating
+    ratingPending
   }
 }
     `;

@@ -93,7 +93,6 @@ query userProfileEvents {
       start
       end
       ratingPending
-      needsRating
       participantRating
       participantRatingCount
     }
@@ -104,7 +103,6 @@ query userProfileEvents {
       start
       end
       ratingPending
-      needsRating
       userIsOrganizer
       participantRating
       participantRatingCount
@@ -116,7 +114,6 @@ query userProfileEvents {
       start
       end
       ratingPending
-      needsRating
       userIsOrganizer
       participantRating
       participantRatingCount
@@ -198,7 +195,7 @@ mutation submitEventFeedback(
     comment: $comment
   ) {
     id
-    needsRating
+    ratingPending
   }
 }
 

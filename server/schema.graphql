@@ -670,7 +670,6 @@ type TumiEvent {
   internalEvent: Boolean!
   location: String!
   mailTemplate: String!
-  needsRating: Boolean!
   netAmountCollected: Decimal!
   organizer: EventOrganizer!
   organizerLimit: Int!
