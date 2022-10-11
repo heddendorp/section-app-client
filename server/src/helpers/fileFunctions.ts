@@ -1,4 +1,3 @@
-import { Stream } from 'stream';
 import ReadableStream = NodeJS.ReadableStream;
 
 export async function stream2buffer(stream: ReadableStream): Promise<Buffer> {

@@ -6,8 +6,8 @@ import {
   TransactionStatus,
   TransactionType,
 } from '../../generated/prisma';
-import TransactionWhereInput = Prisma.TransactionWhereInput;
 import prisma from '../../client';
+import TransactionWhereInput = Prisma.TransactionWhereInput;
 
 builder.queryFields((t) => ({
   transactions: t.prismaField({

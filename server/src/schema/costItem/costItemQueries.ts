@@ -1,7 +1,10 @@
 import { builder } from '../../builder';
 import { costItemType } from './costItemType';
 import prisma from '../../client';
-import { BlobServiceClient, ContainerSASPermissions } from '@azure/storage-blob';
+import {
+  BlobServiceClient,
+  ContainerSASPermissions,
+} from '@azure/storage-blob';
 
 builder.queryFields((t) => ({
   costItems: t.prismaField({

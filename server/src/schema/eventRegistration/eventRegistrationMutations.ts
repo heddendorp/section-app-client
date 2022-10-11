@@ -11,7 +11,6 @@ import {
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import { DateTime } from 'luxon';
-import JsonArray = Prisma.JsonArray;
 
 builder.mutationFields((t) => ({
   checkInUser: t.prismaField({

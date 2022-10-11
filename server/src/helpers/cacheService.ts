@@ -49,6 +49,7 @@ class CacheService {
       return JSON.parse(tenant);
     }
   }
+
   public async getUserMembershipStatus(
     userId: string,
     context: Context

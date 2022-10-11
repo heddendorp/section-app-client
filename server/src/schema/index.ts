@@ -18,7 +18,6 @@ import './receipt';
 import './eventSubmission';
 import './eventSubmissionItem';
 import './shoppingCart';
-import './shoppingCart';
 import './lineItem';
 import './tenant';
 import './transaction';
