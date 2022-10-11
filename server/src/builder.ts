@@ -24,16 +24,16 @@ const traceResolver = createSentryWrapper({
 });
 
 export type Context = {
-    req: Request;
-    token?: { sub: string };
-    auth0: Auth0;
-    tenant: Tenant;
-    user?: User;
-    userOfTenant?: UsersOfTenants;
-}
+  req: Request;
+  token?: { sub: string };
+  auth0: Auth0;
+  tenant: Tenant;
+  user?: User;
+  userOfTenant?: UsersOfTenants;
+};
 
 export const builder = new SchemaBuilder<{
-    Context: Context;
+  Context: Context;
   PrismaTypes: PrismaTypes;
   Scalars: {
     DateTime: {

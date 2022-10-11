@@ -105,7 +105,8 @@ export const eventType = builder.prismaObject('TumiEvent', {
     eventTemplate: t.relation('eventTemplate'),
     eventTemplateId: t.exposeID('eventTemplateId'),
     freeParticipantSpots: t.string({
-      deprecationReason:'Use participantLimit and participantRegistrationCount instead',
+      deprecationReason:
+        'Use participantLimit and participantRegistrationCount instead',
       resolve: async (event, args, context) => {
         const participantCount = await prisma.eventRegistration.count({
           where: {
@@ -526,7 +527,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
         status: { not: RegistrationStatus.CANCELLED },
         type: RegistrationType.PARTICIPANT,
         checkInTime: { not: null },
-      }
+      },
     }),
     participantRegistrationPossible: t.field({
       type: 'JSON',
@@ -628,7 +629,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
       where: {
         status: { not: RegistrationStatus.CANCELLED },
         type: RegistrationType.ORGANIZER,
-      }
+      },
     }),
     organizerRegistrationPossible: t.boolean({
       resolve: async (parent, args, context) => {
@@ -655,7 +656,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
             userId: context.user.id,
             eventId: parent.id,
             status: { not: RegistrationStatus.CANCELLED },
-          }
+          },
         });
         if (previousRegistration) {
           if (process.env.DEV) {
