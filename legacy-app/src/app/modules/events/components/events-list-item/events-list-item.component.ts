@@ -70,7 +70,10 @@ export class EventsListItemComponent {
     return 'bg-orange-200 text-orange-800';
   }
 
-  public freeSpotsString(participantRegistrationCount: number, participantLimit: number) {
+  public freeSpotsString(
+    participantRegistrationCount: number,
+    participantLimit: number
+  ) {
     const quota = participantRegistrationCount / participantLimit;
     if (quota < 0.5) {
       return 'Many free spots';

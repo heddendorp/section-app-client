@@ -83,9 +83,20 @@
               RegistrationMode.External !== event.registrationMode
             "
             class="rounded-2xl px-2 py-1 {{
-              freeSpotsStyling(freeSpotsString(event.participantRegistrationCount, event.participantLimit))
+              freeSpotsStyling(
+                freeSpotsString(
+                  event.participantRegistrationCount,
+                  event.participantLimit
+                )
+              )
             }}"
-            >● {{ freeSpotsString(event.participantRegistrationCount, event.participantLimit) }}</span
+            >●
+            {{
+              freeSpotsString(
+                event.participantRegistrationCount,
+                event.participantLimit
+              )
+            }}</span
           >
           <span
             class="inline-flex items-center gap-1 rounded-xl bg-gray-200 px-2 py-1 text-gray-800"
