@@ -1,6 +1,6 @@
 import { createClient, RedisClientType } from 'redis';
 import { Context } from '../builder';
-import { MembershipStatus } from '../generated/prisma';
+import { MembershipStatus, Tenant } from '../generated/prisma';
 import prisma from '../client';
 
 class CacheService {
@@ -26,6 +26,29 @@ class CacheService {
     }
   }
 
+  public async getTenantFromShortName(shortName: string): Promise<Tenant> {
+    if (this.redisError) {
+      return prisma.tenant.findUniqueOrThrow({
+        where: {
+          shortName,
+        },
+      });
+    } else {
+      const tenant = await this.client.get(`tenant:${shortName}`);
+      if (!tenant) {
+        const tenant = await prisma.tenant.findUniqueOrThrow({
+          where: {
+            shortName,
+          },
+        });
+        await this.client.set(`tenant:${shortName}`, JSON.stringify(tenant), {
+          EX: 60 * 60 * 24,
+        });
+        return tenant;
+      }
+      return JSON.parse(tenant);
+    }
+  }
   public async getUserMembershipStatus(
     userId: string,
     context: Context
