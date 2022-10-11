@@ -173,7 +173,7 @@ builder.mutationFields((t) => ({
         'book',
         `${baseUrl}?cancel=true`,
         `${baseUrl}?success=true`,
-        context.user?.id ?? '',
+        registration.userId,
         false,
         true
       );

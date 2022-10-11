@@ -21,6 +21,7 @@ import { useSentry } from '@envelop/sentry';
 import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
 import { Settings } from 'luxon';
+import CacheService from './helpers/cacheService';
 
 declare global {
   namespace NodeJS {
@@ -114,7 +115,7 @@ const graphQLServer = createServer({
     enableIf(isProd, tracingPlugin),
     useHive({
       enabled: true,
-      debug: process.env.NODE_ENV !== 'production', // or false
+      debug: !!process.env.DEV, // or false
       token: process.env.HIVE_TOKEN ?? '',
       reporting: {
         // feel free to set dummy values here
@@ -164,11 +165,7 @@ const graphQLServer = createServer({
       }
       let tenant;
       try {
-        tenant = await prisma.tenant.findUnique({
-          where: {
-            shortName: tenantName,
-          },
-        });
+        tenant = await CacheService.getTenantFromShortName(tenantName);
       } catch (e) {
         console.error(e);
         console.log(tenantName);
@@ -186,7 +183,6 @@ const graphQLServer = createServer({
           include: {
             tenants: { where: { tenantId: tenant.id } },
           },
-          rejectOnNotFound: false,
         });
         if (user && !user.tenants.length) {
           try {
@@ -214,7 +210,6 @@ const graphQLServer = createServer({
               include: {
                 tenants: { where: { tenantId: tenant.id } },
               },
-              rejectOnNotFound: false,
             });
           }
         }
@@ -226,7 +221,7 @@ const graphQLServer = createServer({
     useResponseCache({
       ttl: 2000,
       includeExtensionMetadata: true,
-      session: (context) => String(context.user?.id),
+      session: (context) => String(context.user?.id ?? 'public'),
     }),
   ],
   parserCache: true,

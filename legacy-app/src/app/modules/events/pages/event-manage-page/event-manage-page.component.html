@@ -243,6 +243,18 @@
                   >
                     <span>Restore Payment</span>
                   </button>
+                  <a
+                    [href]="getWAUrl(registration, event)"
+                    target="_blank"
+                    mat-stroked-button
+                    class="modern"
+                    *ngIf="
+                      event.registrationMode == 'STRIPE' &&
+                      !registration.transactions.length
+                    "
+                  >
+                    Send WA message
+                  </a>
                   <button
                     mat-stroked-button
                     class="modern"

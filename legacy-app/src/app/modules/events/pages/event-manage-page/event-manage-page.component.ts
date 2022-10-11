@@ -214,6 +214,16 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.refetch();
   }
 
+  getWAUrl(registration: any, event: any) {
+    const url = `https://wa.me/${registration.user.phone.replace(
+      '+',
+      ''
+    )}?text=${encodeURIComponent(
+      `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at https://tumi.esn.world/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`
+    )}`;
+    return url;
+  }
+
   async restorePayment(id: string) {
     await firstValueFrom(this.restorePaymentGQL.mutate({ registrationId: id }));
   }

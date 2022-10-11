@@ -269,9 +269,10 @@ query eventList($after: DateTime, $before: DateTime) {
     registrationStart
     organizerRegistrationStart
     prices
-    freeParticipantSpots
     organizerLimit
     organizersRegistered
+    participantRegistrationCount
+    participantLimit
     couldBeOrganizer
     publicationState
     registrationMode
