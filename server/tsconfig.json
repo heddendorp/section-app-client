@@ -7,7 +7,9 @@
     "strict": true,
     "noImplicitAny": false,
     "paths": {},
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "target": "es2020",
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"]
 }

@@ -15,6 +15,7 @@ builder.queryFields((t) => ({
       prisma.photoShare.findMany({
         ...query,
         ...(args.eventId ? { where: { eventId: args.eventId } } : {}),
+        orderBy: [{ event: { start: 'desc' } }, { createdAt: 'desc' }],
       }),
   }),
   photoShareKey: t.string({

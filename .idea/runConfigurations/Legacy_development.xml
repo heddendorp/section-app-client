@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Legacy development" type="CompoundRunConfigurationType">
+    <toRun name="dev legacy" type="js.build_tools.npm" />
+    <toRun name="dev:full-db" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
