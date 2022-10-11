@@ -1,29 +1,18 @@
 import { builder } from '../../builder';
 import {
   EnrollmentStatus,
-  MembershipStatus,
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
+import ScopeService from '../../helpers/scopeService';
 
 builder.prismaObject('User', {
   findUnique: (user) => ({ id: user.id }),
-  grantScopes: async (user, context) => {
-    const userOfTenant = context.userOfTenant;
-    if (
-      userOfTenant?.status !== MembershipStatus.NONE ||
-      context.user?.id === user.id
-    ) {
-      return ['tutorProfile', 'self'];
-    }
-    if (context.user?.id === user.id) {
-      return ['self'];
-    }
-    return [];
-  },
+  grantScopes: async (user, context) =>
+    ScopeService.getScopesForUser(user.id, context),
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
@@ -34,15 +23,18 @@ builder.prismaObject('User', {
       type: 'DateTime',
       nullable: true,
       authScopes: {
-        $granted: 'self',
+        $granted: 'ownProfile',
         admin: true,
       },
       unauthorizedResolver: () => null,
     }),
     picture: t.string({
       resolve: (user) => {
-        if(user.picture.includes('/storage/') && process.env.DEV){
-          return user.picture.replace('/storage/', 'https://storetumi.blob.core.windows.net/');
+        if (user.picture.includes('/storage/') && process.env.DEV) {
+          return user.picture.replace(
+            '/storage/',
+            'https://storetumi.blob.core.windows.net/'
+          );
         }
         return user.picture;
       },
@@ -50,7 +42,7 @@ builder.prismaObject('User', {
     phone: t.exposeString('phone', {
       nullable: true,
       authScopes: {
-        $granted: 'tutorProfile',
+        $granted: 'memberProfile',
         member: true,
       },
       unauthorizedResolver: () => null,
@@ -59,7 +51,7 @@ builder.prismaObject('User', {
     iban: t.exposeString('iban', {
       nullable: true,
       authScopes: {
-        $granted: 'self',
+        $granted: 'ownProfile',
         admin: true,
       },
       unauthorizedResolver: () => null,
@@ -67,7 +59,7 @@ builder.prismaObject('User', {
     paypal: t.exposeString('paypal', {
       nullable: true,
       authScopes: {
-        $granted: 'self',
+        $granted: 'ownProfile',
         admin: true,
       },
       unauthorizedResolver: () => null,
@@ -75,7 +67,7 @@ builder.prismaObject('User', {
     emailVerified: t.exposeBoolean('email_verified'),
     email: t.exposeString('email', {
       authScopes: {
-        $granted: 'self',
+        $granted: 'ownProfile',
         member: true,
       },
       unauthorizedResolver: () => '',

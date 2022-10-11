@@ -661,7 +661,7 @@ type TumiEvent {
   excludeFromRatings: Boolean!
   excludeFromStatistics: Boolean!
   feesPaid: Decimal!
-  freeParticipantSpots: String!
+  freeParticipantSpots: String! @deprecated(reason: "Use participantLimit and participantRegistrationCount instead")
   googlePlaceId: String
   googlePlaceUrl: String
   icon: String!
@@ -675,7 +675,7 @@ type TumiEvent {
   organizer: EventOrganizer!
   organizerLimit: Int!
   organizerRating: Float
-  organizerRatingCount: Int
+  organizerRatingCount: Int!
   organizerRegistrationPossible: Boolean!
   organizerRegistrationStart: DateTime!
   organizerRegistrations: [EventRegistration!]!
@@ -686,7 +686,7 @@ type TumiEvent {
   ownRegistrations(includeCancelled: Boolean = false): [EventRegistration!]!
   participantLimit: Int!
   participantRating: Float
-  participantRatingCount: Int
+  participantRatingCount: Int!
   participantRegistrationCount: Int!
   participantRegistrationPossible: JSON!
   participantRegistrations(includeCancelled: Boolean = false, includeNoShows: Boolean = true, includePending: Boolean = true): [EventRegistration!]!

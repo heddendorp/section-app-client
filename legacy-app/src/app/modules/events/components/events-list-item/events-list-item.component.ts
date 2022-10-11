@@ -69,4 +69,19 @@ export class EventsListItemComponent {
     }
     return 'bg-orange-200 text-orange-800';
   }
+
+  public freeSpotsString(participantRegistrationCount: number, participantLimit: number) {
+    const quota = participantRegistrationCount / participantLimit;
+    if (quota < 0.5) {
+      return 'Many free spots';
+    } else if (quota < 0.8) {
+      return 'Some spots left';
+    } else if (participantLimit - participantRegistrationCount === 1) {
+      return 'One spot left';
+    } else if (quota < 1) {
+      return 'Few spots left';
+    } else {
+      return 'Event is full';
+    }
+  }
 }

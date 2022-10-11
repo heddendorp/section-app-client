@@ -145,7 +145,7 @@ export class EventListPageComponent implements OnDestroy {
         let filteredEvents = events;
         if (hideFull) {
           filteredEvents = events.filter(
-            (event) => event.freeParticipantSpots !== 'Event is full'
+            (event) => event.participantRegistrationCount < event.participantLimit
           );
         }
         if (filterEvents) {
