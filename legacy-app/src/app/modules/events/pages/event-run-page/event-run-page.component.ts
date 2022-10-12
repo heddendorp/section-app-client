@@ -55,7 +55,10 @@ export class EventRunPageComponent implements OnDestroy {
     if (!event) return;
     const pending = this.clipboard.beginCopy(
       event.organizerRegistrations
-        .map((registration) => registration.user.email)
+        .map(
+          (registration) =>
+            registration.user.communicationEmail || registration.user.email
+        )
         .join(';')
     );
     let remainingAttempts = 3;
@@ -76,7 +79,10 @@ export class EventRunPageComponent implements OnDestroy {
     if (!event) return;
     const pending = this.clipboard.beginCopy(
       event.participantRegistrations
-        .map((registration) => registration.user.email)
+        .map(
+          (registration) =>
+            registration.user.communicationEmail || registration.user.email
+        )
         .join(';')
     );
     let remainingAttempts = 3;
@@ -98,7 +104,10 @@ export class EventRunPageComponent implements OnDestroy {
     const pending = this.clipboard.beginCopy(
       event.participantRegistrations
         .filter((registration) => registration.checkInTime)
-        .map((registration) => registration.user.email)
+        .map(
+          (registration) =>
+            registration.user.communicationEmail || registration.user.email
+        )
         .join(';')
     );
     let remainingAttempts = 3;
@@ -116,7 +125,6 @@ export class EventRunPageComponent implements OnDestroy {
 
   async generateMail() {
     const event = await firstValueFrom(this.event$);
-
     const a = window.document.createElement('a');
     const utf8_blob = new Blob([event.mailTemplate], { endings: 'native' });
     a.href = window.URL.createObjectURL(utf8_blob);

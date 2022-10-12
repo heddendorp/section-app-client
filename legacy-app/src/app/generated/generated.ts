@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
   Decimal: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -1251,6 +1250,7 @@ export type UpdateTenantInput = {
 export type UpdateUserInput = {
   bio?: InputMaybe<Scalars['String']>;
   birthdate?: InputMaybe<Scalars['DateTime']>;
+  communicationEmail?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
   enrolmentStatus?: InputMaybe<EnrolmentStatus>;
   firstName?: InputMaybe<Scalars['String']>;
@@ -1268,6 +1268,7 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   birthdate?: Maybe<Scalars['DateTime']>;
   calendarToken: Scalars['String'];
+  communicationEmail?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   createdEvents: Array<TumiEvent>;
@@ -1499,7 +1500,7 @@ export type LoadEventForRunningQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForRunningQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, mailTemplate: string, createdBy: { __typename?: 'User', id: string, fullName: string }, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: any | null, user: { __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, costItems: Array<{ __typename?: 'CostItem', id: string, amount: any, actualAmount?: any | null, submittedAmount: any, name: string, receipts: Array<{ __typename?: 'Receipt', id: string }> }>, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: any | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string } | null }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, email: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
+export type LoadEventForRunningQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, mailTemplate: string, createdBy: { __typename?: 'User', id: string, fullName: string }, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: any | null, user: { __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, email: string, communicationEmail?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, costItems: Array<{ __typename?: 'CostItem', id: string, amount: any, actualAmount?: any | null, submittedAmount: any, name: string, receipts: Array<{ __typename?: 'Receipt', id: string }> }>, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: any | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string } | null }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, email: string, communicationEmail?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
 
 export type GetCostItemQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1739,7 +1740,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, communicationEmail?: string | null, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null } | null };
 
 export type UserProfileEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1792,7 +1793,7 @@ export type UpdateUserInformationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserInformationMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, phone?: string | null, enrolmentStatus: EnrolmentStatus } };
+export type UpdateUserInformationMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, phone?: string | null, enrolmentStatus: EnrolmentStatus, communicationEmail?: string | null } };
 
 export type UserRolesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2669,6 +2670,7 @@ export const LoadEventForRunningDocument = gql`
         phone
         picture
         email
+        communicationEmail
         currentTenant {
           userId
           tenantId
@@ -2719,6 +2721,7 @@ export const LoadEventForRunningDocument = gql`
         phone
         picture
         email
+        communicationEmail
         currentTenant {
           userId
           tenantId
@@ -3872,6 +3875,7 @@ export const UserProfileDocument = gql`
     picture
     emailVerified
     email
+    communicationEmail
     phone
     university
     iban
@@ -4147,6 +4151,7 @@ export const UpdateUserInformationDocument = gql`
     id
     phone
     enrolmentStatus
+    communicationEmail
   }
 }
     `;

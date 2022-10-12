@@ -72,6 +72,14 @@ builder.prismaObject('User', {
       },
       unauthorizedResolver: () => '',
     }),
+    communicationEmail: t.exposeString('communicationEmail', {
+      nullable: true,
+      authScopes: {
+        $granted: 'ownProfile',
+        member: true,
+      },
+      unauthorizedResolver: () => '',
+    }),
     calendarToken: t.exposeString('calendarToken'),
     esnCardOverride: t.exposeBoolean('esnCardOverride'),
     transactions: t.relation('transactions'),
@@ -286,6 +294,7 @@ export const updateUserInputType = builder.inputType('UpdateUserInput', {
     firstName: t.string(),
     lastName: t.string(),
     university: t.string(),
+    communicationEmail: t.string(),
     birthdate: t.field({ type: 'DateTime' }),
     phone: t.string(),
     enrolmentStatus: t.field({ type: EnrollmentStatus }),

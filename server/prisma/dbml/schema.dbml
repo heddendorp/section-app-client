@@ -29,6 +29,7 @@ Table User {
   firstName String [not null]
   lastName String [not null]
   email String [not null]
+  communicationEmail String
   birthdate DateTime
   email_verified Boolean [not null]
   picture String [not null]

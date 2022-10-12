@@ -731,9 +731,13 @@ export const eventType = builder.prismaObject('TumiEvent', {
               type: RegistrationType.PARTICIPANT,
               status: RegistrationStatus.SUCCESSFUL,
             },
-            select: { user: { select: { email: true } } },
+            select: {
+              user: { select: { email: true, communicationEmail: true } },
+            },
           })
-          .then((r) => r?.map((re) => re.user.email));
+          .then((r) =>
+            r?.map((re) => re.user.communicationEmail || re.user.email)
+          );
 
         let email = 'To: events@esn-tumi.de\n';
         email += `Cc: ${organizerMails?.join(';')}\n`;

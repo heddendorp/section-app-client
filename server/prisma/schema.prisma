@@ -48,6 +48,7 @@ model User {
   firstName           String
   lastName            String
   email               String
+  communicationEmail  String?
   birthdate           DateTime?
   email_verified      Boolean
   picture             String

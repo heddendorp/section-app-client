@@ -28,6 +28,7 @@ export class UpdateUserInformationDialogComponent {
   ) {
     this.profileForm = this.fb.group({
       enrolmentStatus: ['', Validators.required],
+      communicationEmail: [''],
       phone: [
         '',
         Validators.compose([
@@ -36,7 +37,10 @@ export class UpdateUserInformationDialogComponent {
         ]),
       ], // Allow spaces in validation, strip them server-side
     });
-    this.profileForm.patchValue({ ...this.data.profile });
+    this.profileForm.patchValue({
+      ...this.data.profile,
+      communicationEmail: this.data.profile?.email || this.data.profile?.email,
+    });
   }
 
   submit(): void {
@@ -44,6 +48,7 @@ export class UpdateUserInformationDialogComponent {
       this.dialog.close({
         ...this.profileForm.value,
         phone: this.profileForm.value.phone || null,
+        communicationEmail: this.profileForm.value.communicationEmail || null,
       });
     }
   }

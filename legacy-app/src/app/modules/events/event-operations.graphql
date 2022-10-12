@@ -61,6 +61,7 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        communicationEmail
         currentTenant {
           userId
           tenantId
@@ -111,6 +112,7 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        communicationEmail
         currentTenant {
           userId
           tenantId

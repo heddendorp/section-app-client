@@ -54,6 +54,7 @@ query userProfile {
     picture
     emailVerified
     email
+    communicationEmail
     phone
     university
     iban
@@ -250,5 +251,6 @@ mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
     id
     phone
     enrolmentStatus
+    communicationEmail
   }
 }
