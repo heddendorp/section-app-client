@@ -78,7 +78,16 @@ export const builder = new SchemaBuilder<{
 });
 
 builder.addScalarType('JSON', JSONResolver, {});
-builder.addScalarType('DateTime', DateTimeResolver, {});
+builder.scalarType('DateTime', {
+  serialize: (value) => value.toJSON(),
+  parseValue: (value) => {
+    if (typeof value === 'string') {
+      return new Date(value);
+    } else {
+      throw new Error(`Invalid DateTime: ${value}`);
+    }
+  },
+});
 builder.scalarType('Decimal', {
   serialize: (value) => value.toString(),
   parseValue: (value) => {
