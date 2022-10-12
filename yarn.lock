@@ -453,17 +453,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:^14.2.5":
-  version: 14.2.5
-  resolution: "@angular/platform-browser-dynamic@npm:14.2.5"
+"@angular/platform-browser-dynamic@npm:^14.2.6":
+  version: 14.2.6
+  resolution: "@angular/platform-browser-dynamic@npm:14.2.6"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 14.2.5
-    "@angular/compiler": 14.2.5
-    "@angular/core": 14.2.5
-    "@angular/platform-browser": 14.2.5
-  checksum: 45061335e170bd59e69a2489c39c0ddb1d564c6504c59b733a7cc6b4fad7818cdde791facac98e204865cc1f697e9e1da1cc2bf5bfeb9097cd2c7fb15a00d0eb
+    "@angular/common": 14.2.6
+    "@angular/compiler": 14.2.6
+    "@angular/core": 14.2.6
+    "@angular/platform-browser": 14.2.6
+  checksum: cd0478489439d4145ce6da7615e4a3975efa555cc59291500b90db1532301aa9b5ed81d713586b584587db2b1f708d56650009cdf10019961df9963cb3919dcb
   languageName: node
   linkType: hard
 
@@ -6367,7 +6367,7 @@ __metadata:
     "@angular/core": ^14.2.5
     "@angular/forms": ^14.2.5
     "@angular/platform-browser": ^14.2.5
-    "@angular/platform-browser-dynamic": ^14.2.5
+    "@angular/platform-browser-dynamic": ^14.2.6
     "@angular/router": ^14.2.5
     "@apollo/client": ~3.6.10
     "@graphql-codegen/cli": ^2.13.6
@@ -6427,7 +6427,7 @@ __metadata:
     "@angular/material": ^14.2.4
     "@angular/material-luxon-adapter": ^14.2.4
     "@angular/platform-browser": ^14.2.5
-    "@angular/platform-browser-dynamic": ^14.2.5
+    "@angular/platform-browser-dynamic": ^14.2.6
     "@angular/router": ^14.2.5
     "@angular/service-worker": ^14.2.5
     "@apollo/client": ~3.6.10

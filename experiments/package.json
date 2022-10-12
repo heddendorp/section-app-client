@@ -21,7 +21,7 @@
     "@angular/core": "^14.2.5",
     "@angular/forms": "^14.2.5",
     "@angular/platform-browser": "^14.2.5",
-    "@angular/platform-browser-dynamic": "^14.2.5",
+    "@angular/platform-browser-dynamic": "^14.2.6",
     "@angular/router": "^14.2.5",
     "@apollo/client": "~3.6.10",
     "apollo-angular": "^4.0.1",
