@@ -1,35 +1,30 @@
 # [5.3.0](https://github.com/heddendorp/tumi/compare/v5.2.0...v5.3.0) (2022-10-12)
 
-
 ### Bug Fixes
 
-* **app:** improve registration overview ([4ea73f1](https://github.com/heddendorp/tumi/commit/4ea73f1337759b3c726dfe073d20156e52435f90))
-* **app:** remove old rating field ([08c066a](https://github.com/heddendorp/tumi/commit/08c066a04cbe4310548ee6c90874da05b49ecdc6))
-* **server:** fix date parsing ([a651005](https://github.com/heddendorp/tumi/commit/a651005652a9fa302a1da07a06c651b0db30a510))
-* **server:** fix node module use ([0a7c472](https://github.com/heddendorp/tumi/commit/0a7c472f2b8d7561d3c1b28ea7c329c236e8d715))
-* **server:** fixes long timeout stripe sessions ([8e9a4fd](https://github.com/heddendorp/tumi/commit/8e9a4fd6b5deabc6d7e7a7dfc90250c4a4bb363c))
-* **server:** improve debug logging for double transactions ([0c2f505](https://github.com/heddendorp/tumi/commit/0c2f50590de112efb7257b9d3e7d75f95762e6e4))
-* **server:** order shared photos ([ec1269a](https://github.com/heddendorp/tumi/commit/ec1269a0eda7a3330728efda02b54f41d09ddfd0))
-* **server:** performance improvements ([429145a](https://github.com/heddendorp/tumi/commit/429145a49ff430eb977619c452492bff8f160450))
-* **server:** update stripe api for registrations codes ([fe32fb4](https://github.com/heddendorp/tumi/commit/fe32fb4034871708e2f20ba420d9f8a1f42c8f43))
-* **server:** use stripe payment id to retrieve payment if possible ([4553634](https://github.com/heddendorp/tumi/commit/45536345f34fcca21ed8b28d02832eb17a6d35e9))
-* **server:** uses correct user for payment creation ([43b9d30](https://github.com/heddendorp/tumi/commit/43b9d304dd19c8d3078d6c1b50a9685d27b1e05c))
-
+- **app:** improve registration overview ([4ea73f1](https://github.com/heddendorp/tumi/commit/4ea73f1337759b3c726dfe073d20156e52435f90))
+- **app:** remove old rating field ([08c066a](https://github.com/heddendorp/tumi/commit/08c066a04cbe4310548ee6c90874da05b49ecdc6))
+- **server:** fix date parsing ([a651005](https://github.com/heddendorp/tumi/commit/a651005652a9fa302a1da07a06c651b0db30a510))
+- **server:** fix node module use ([0a7c472](https://github.com/heddendorp/tumi/commit/0a7c472f2b8d7561d3c1b28ea7c329c236e8d715))
+- **server:** fixes long timeout stripe sessions ([8e9a4fd](https://github.com/heddendorp/tumi/commit/8e9a4fd6b5deabc6d7e7a7dfc90250c4a4bb363c))
+- **server:** improve debug logging for double transactions ([0c2f505](https://github.com/heddendorp/tumi/commit/0c2f50590de112efb7257b9d3e7d75f95762e6e4))
+- **server:** order shared photos ([ec1269a](https://github.com/heddendorp/tumi/commit/ec1269a0eda7a3330728efda02b54f41d09ddfd0))
+- **server:** performance improvements ([429145a](https://github.com/heddendorp/tumi/commit/429145a49ff430eb977619c452492bff8f160450))
+- **server:** update stripe api for registrations codes ([fe32fb4](https://github.com/heddendorp/tumi/commit/fe32fb4034871708e2f20ba420d9f8a1f42c8f43))
+- **server:** use stripe payment id to retrieve payment if possible ([4553634](https://github.com/heddendorp/tumi/commit/45536345f34fcca21ed8b28d02832eb17a6d35e9))
+- **server:** uses correct user for payment creation ([43b9d30](https://github.com/heddendorp/tumi/commit/43b9d304dd19c8d3078d6c1b50a9685d27b1e05c))
 
 ### Features
 
-* **app:** add communication email ([5816bd9](https://github.com/heddendorp/tumi/commit/5816bd977b758b8ac8b264c1dec6659320513a33)), closes [#471](https://github.com/heddendorp/tumi/issues/471)
-* **app:** add option to restore payment for a registration ([aab53e4](https://github.com/heddendorp/tumi/commit/aab53e4f724d05a7ddef67a4ebc99dd379f260ac))
-* **app:** improve and update image sharing ([141b176](https://github.com/heddendorp/tumi/commit/141b176e0859e35c880ff991c663649ca7514c02))
-* **app:** send WA payment message ([06463f4](https://github.com/heddendorp/tumi/commit/06463f493b4b3eef83f517424ff78bde3649436b))
-* **server:** performance improvements and redis cache ([8f5bf70](https://github.com/heddendorp/tumi/commit/8f5bf70815d2a7379cdc5021d2d0f03d3de572dd))
-
+- **app:** add communication email ([5816bd9](https://github.com/heddendorp/tumi/commit/5816bd977b758b8ac8b264c1dec6659320513a33)), closes [#471](https://github.com/heddendorp/tumi/issues/471)
+- **app:** add option to restore payment for a registration ([aab53e4](https://github.com/heddendorp/tumi/commit/aab53e4f724d05a7ddef67a4ebc99dd379f260ac))
+- **app:** improve and update image sharing ([141b176](https://github.com/heddendorp/tumi/commit/141b176e0859e35c880ff991c663649ca7514c02))
+- **app:** send WA payment message ([06463f4](https://github.com/heddendorp/tumi/commit/06463f493b4b3eef83f517424ff78bde3649436b))
+- **server:** performance improvements and redis cache ([8f5bf70](https://github.com/heddendorp/tumi/commit/8f5bf70815d2a7379cdc5021d2d0f03d3de572dd))
 
 ### Performance Improvements
 
-* **server:** cache tenant lookup ([c3ac076](https://github.com/heddendorp/tumi/commit/c3ac0769fab8c5d6dcfd3f68e22431460deb5dc1))
-
-
+- **server:** cache tenant lookup ([c3ac076](https://github.com/heddendorp/tumi/commit/c3ac0769fab8c5d6dcfd3f68e22431460deb5dc1))
 
 # [5.2.0](https://github.com/heddendorp/tumi/compare/v5.1.0...v5.2.0) (2022-09-30)
 
