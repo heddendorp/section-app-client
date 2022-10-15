@@ -24,7 +24,7 @@
     "experiments": "yarn workspace @tumi/experiments dev",
     "party-animals": "yarn workspace @tumi/party-animals dev",
     "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
-    "build:all": "yarn workspace @tumi/server build && yarn workspace @tumi/events build && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build",
+    "build:all": "yarn workspace @tumi/server build:production && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build",
     "release:draft": "conventional-github-releaser -p angular --draft",
     "recommended-version": "conventional-recommended-bump -p angular",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
@@ -50,7 +50,7 @@
     "@percy/cli": "^1.11.0",
     "@percy/cypress": "^3.1.2",
     "@testing-library/cypress": "^8.0.3",
-    "cypress": "^10.9.0",
+    "cypress": "^10.10.0",
     "dotenv-cli": "^6.0.0"
   }
 }
