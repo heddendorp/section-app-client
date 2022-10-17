@@ -3759,18 +3759,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/response-cache@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@envelop/response-cache@npm:4.0.1"
+"@envelop/response-cache@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@envelop/response-cache@npm:4.0.2"
   dependencies:
     "@graphql-tools/utils": ^8.8.0
     fast-json-stable-stringify: ^2.1.0
     lru-cache: ^6.0.0
     tslib: ^2.4.0
   peerDependencies:
-    "@envelop/core": ^3.0.1
+    "@envelop/core": ^3.0.2
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: aa249caf9c7d0ab26297629a62d5d5c65be8aee5e601dfdbeb1172892268f3a5be1da92ceecfd37d09cd46f10f4080f9778569aa5cda28506d9671b069fcc85a
+  checksum: 928028ee295b55586c1a762d20beb5d81343867028ed6bd4cbfd8ccf6c6156a837b39ecf05e94e981a14d00f0423388d28b65d457c852f939cf5e89095f9f9c5
   languageName: node
   linkType: hard
 
@@ -6531,7 +6531,7 @@ __metadata:
     "@envelop/auth0": ^4.0.1
     "@envelop/core": ^3.0.1
     "@envelop/graphql-jit": ^5.0.1
-    "@envelop/response-cache": ^4.0.1
+    "@envelop/response-cache": ^4.0.2
     "@envelop/sentry": ^4.0.1
     "@faker-js/faker": ^7.6.0
     "@graphql-hive/client": ^0.19.0
