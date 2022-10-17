@@ -3737,13 +3737,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/on-resolve@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "@envelop/on-resolve@npm:2.0.1"
+"@envelop/on-resolve@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@envelop/on-resolve@npm:2.0.2"
   peerDependencies:
-    "@envelop/core": ^3.0.1
+    "@envelop/core": ^3.0.2
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 6d3cb05390f16cf039b145b773cbaec239cdb9a649f34032508d45d141108af1d24f4eb7d7fb45c70a5d53419814a6a3d6a8630d554521c746a491fcab195fd6
+  checksum: c518e4cae75691d93858bb5dd354dfb394fc416799a6889eea9fa436c6f6b8016264a731464ccfa96069e0068b6f4c9f93a81f343570465ef6e733046fbb4711
   languageName: node
   linkType: hard
 
@@ -3774,17 +3774,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/sentry@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@envelop/sentry@npm:4.0.1"
+"@envelop/sentry@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@envelop/sentry@npm:4.0.2"
   dependencies:
-    "@envelop/on-resolve": ^2.0.0
+    "@envelop/on-resolve": ^2.0.2
     tslib: ^2.4.0
   peerDependencies:
-    "@envelop/core": ^3.0.1
+    "@envelop/core": ^3.0.2
     "@sentry/node": ^6 || ^7
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 841a7125b282363d93b28b166e2152bb6950f64f2d9ffcaffa7be044bb20100301061390482fdabc4e6ccd8ed18fa695b839446c28b78383390ed967cf516fbf
+  checksum: 1420c14c5b3de16e4916e047d80fe5bc6a92778083b280119ad7c9a406e4fc623537b3623333b2ee98f62866c97acf534edc3097ad053867634691e307e95b78
   languageName: node
   linkType: hard
 
@@ -6532,7 +6532,7 @@ __metadata:
     "@envelop/core": ^3.0.1
     "@envelop/graphql-jit": ^5.0.1
     "@envelop/response-cache": ^4.0.1
-    "@envelop/sentry": ^4.0.1
+    "@envelop/sentry": ^4.0.2
     "@faker-js/faker": ^7.6.0
     "@graphql-hive/client": ^0.19.0
     "@graphql-yoga/node": ^2.13.13
