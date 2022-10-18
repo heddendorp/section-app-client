@@ -3723,17 +3723,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/graphql-jit@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@envelop/graphql-jit@npm:5.0.1"
+"@envelop/graphql-jit@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@envelop/graphql-jit@npm:5.0.2"
   dependencies:
     graphql-jit: ^0.7.0
     lru-cache: ^6.0.0
     tslib: ^2.4.0
   peerDependencies:
-    "@envelop/core": ^3.0.1
+    "@envelop/core": ^3.0.2
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: cbf4a2c2c4e1ebb7a10ffe4fdcd9bc2cf5f8c81195034552baa82aa839001ca9cae487c2c1b1fa990728637114fede6be12861f31fb9cac1346c0126f2c5df3c
+  checksum: 405b64e0c4a22cc4e413a6f2699d198c39a12db1f29e35a83c7c7a428ff70edc3633210d83127d631a298134776651bcaee73afa2d2e3e631ff443463f782734
   languageName: node
   linkType: hard
 
@@ -6530,7 +6530,7 @@ __metadata:
     "@azure/storage-blob": ^12.11.0
     "@envelop/auth0": ^4.0.1
     "@envelop/core": ^3.0.1
-    "@envelop/graphql-jit": ^5.0.1
+    "@envelop/graphql-jit": ^5.0.2
     "@envelop/response-cache": ^4.0.1
     "@envelop/sentry": ^4.0.1
     "@faker-js/faker": ^7.6.0

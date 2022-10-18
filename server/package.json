@@ -30,7 +30,7 @@
     "@azure/storage-blob": "^12.11.0",
     "@envelop/auth0": "^4.0.1",
     "@envelop/core": "^3.0.1",
-    "@envelop/graphql-jit": "^5.0.1",
+    "@envelop/graphql-jit": "^5.0.2",
     "@envelop/response-cache": "^4.0.1",
     "@envelop/sentry": "^4.0.1",
     "@graphql-hive/client": "^0.19.0",
