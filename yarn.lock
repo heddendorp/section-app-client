@@ -6591,7 +6591,7 @@ __metadata:
     moment: ^2.29.4
     moment-timezone: ^0.5.38
     node-cron: ^3.0.2
-    node-fetch-native: ^0.1.7
+    node-fetch-native: ^0.1.8
     pdf2pic: ^2.1.4
     prettier: ^2.7.1
     prisma: ^4.4.0
@@ -19045,10 +19045,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch-native@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "node-fetch-native@npm:0.1.7"
-  checksum: 0e342f2e26b1c4970fc0c88469661813ad3f755df8ecd42cfacfc781e5a1a5de363fe50b9e9227d98a43368660e791af7a5f7a6566329caaeb7ea21017410539
+"node-fetch-native@npm:^0.1.8":
+  version: 0.1.8
+  resolution: "node-fetch-native@npm:0.1.8"
+  checksum: 1cea29dc30e9b570b5510656f41050e7d2df70acc41937911d4374c404ac35b4592d6b6959a81f336f00f2d74b321d039b80d8a1b62eaaa395747733bc31c799
   languageName: node
   linkType: hard
 
