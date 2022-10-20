@@ -4027,9 +4027,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-hive/client@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@graphql-hive/client@npm:0.19.0"
+"@graphql-hive/client@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "@graphql-hive/client@npm:0.20.0"
   dependencies:
     "@graphql-hive/core": ^0.2.2
     "@graphql-tools/utils": ^8.0.0
@@ -4038,7 +4038,7 @@ __metadata:
     tiny-lru: 8.0.2
   peerDependencies:
     graphql: ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 73f202d4c0889cf70e5f768418f3a752f4a4b7006ee99fb1caea9511402349477a85e02c717f947005bea00cad118cd16df920a141848c79619042f22e4b0a2f
+  checksum: cd84f2981bff07d946d2d9ee20b905c62d1d572b5b4aaabca705da5ef71e160cb29c6ea7bfa9e000b59c4af8373c9a3bc11456017216321881e27b93119a1a32
   languageName: node
   linkType: hard
 
@@ -6534,7 +6534,7 @@ __metadata:
     "@envelop/response-cache": ^4.0.1
     "@envelop/sentry": ^4.0.1
     "@faker-js/faker": ^7.6.0
-    "@graphql-hive/client": ^0.19.0
+    "@graphql-hive/client": ^0.20.0
     "@graphql-yoga/node": ^2.13.13
     "@pathcheck/dcc-sdk": ^0.0.27
     "@pothos/core": ^3.22.6
