@@ -22,7 +22,7 @@
     "@angular/forms": "^14.2.6",
     "@angular/platform-browser": "^14.2.6",
     "@angular/platform-browser-dynamic": "^14.2.6",
-    "@angular/router": "^14.2.6",
+    "@angular/router": "^14.2.7",
     "@apollo/client": "^3.7.0",
     "apollo-angular": "^4.1.0",
     "graphql": "^16.6.0",
