@@ -3698,16 +3698,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/auth0@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@envelop/auth0@npm:4.0.1"
+"@envelop/auth0@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@envelop/auth0@npm:4.0.2"
   dependencies:
     jsonwebtoken: ^8.5.1
     jwks-rsa: ^2.0.1
     tslib: ^2.4.0
   peerDependencies:
-    "@envelop/core": ^3.0.1
-  checksum: d66c9ac64a2c5031c4174472ac1ce91fc609f0b6693e9b687db79d55ec5d720cc58d6c5f0b765f3ed789a1a3160841f1c61b592ae9df57ce8d4f825a1e1ac802
+    "@envelop/core": ^3.0.2
+  checksum: 5178cdb518a231d59e3fb7beb8cb59f3227155ad5f16cf80c1b197b3227bcb9fd9cddae1910353e34b6a5865dde3f316c0875b029a8d2e4674fb2354b21a1760
   languageName: node
   linkType: hard
 
@@ -6528,7 +6528,7 @@ __metadata:
     "@apollo/utils.logger": ^1.0.0
     "@azure/cognitiveservices-computervision": ^8.2.0
     "@azure/storage-blob": ^12.11.0
-    "@envelop/auth0": ^4.0.1
+    "@envelop/auth0": ^4.0.2
     "@envelop/core": ^3.0.1
     "@envelop/graphql-jit": ^5.0.1
     "@envelop/response-cache": ^4.0.1

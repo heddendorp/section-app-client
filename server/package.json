@@ -28,7 +28,7 @@
     "@angular/google-maps": "^14.2.5",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/storage-blob": "^12.11.0",
-    "@envelop/auth0": "^4.0.1",
+    "@envelop/auth0": "^4.0.2",
     "@envelop/core": "^3.0.1",
     "@envelop/graphql-jit": "^5.0.1",
     "@envelop/response-cache": "^4.0.1",
