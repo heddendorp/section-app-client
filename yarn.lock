@@ -395,17 +395,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:^14.2.6":
-  version: 14.2.6
-  resolution: "@angular/forms@npm:14.2.6"
+"@angular/forms@npm:^14.2.7":
+  version: 14.2.7
+  resolution: "@angular/forms@npm:14.2.7"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 14.2.6
-    "@angular/core": 14.2.6
-    "@angular/platform-browser": 14.2.6
+    "@angular/common": 14.2.7
+    "@angular/core": 14.2.7
+    "@angular/platform-browser": 14.2.7
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: c6b514325c4d5cefd9d3d220f6bd8bf53160a98fa965405e2f134e4b41271bdbf77f98cd7c8d625d1ed5b7972f948dae8a01e464ec1b644ac468d86f0d9e1463
+  checksum: 956a181acff81bb91e19e08699612c3a60193c002f90f305df503877ffb7d9294cd950f7b549685aab545801aab856ca802835390b1c8fa0f75ea8aff7753476
   languageName: node
   linkType: hard
 
@@ -6375,7 +6375,7 @@ __metadata:
     "@angular/compiler": ^14.2.6
     "@angular/compiler-cli": ^14.2.6
     "@angular/core": ^14.2.6
-    "@angular/forms": ^14.2.6
+    "@angular/forms": ^14.2.7
     "@angular/platform-browser": ^14.2.6
     "@angular/platform-browser-dynamic": ^14.2.6
     "@angular/router": ^14.2.6
@@ -6432,7 +6432,7 @@ __metadata:
     "@angular/compiler-cli": ^14.2.6
     "@angular/core": ^14.2.6
     "@angular/flex-layout": ^14.0.0-beta.41
-    "@angular/forms": ^14.2.6
+    "@angular/forms": ^14.2.7
     "@angular/google-maps": ^14.2.5
     "@angular/material": ^14.2.5
     "@angular/material-luxon-adapter": ^14.2.5
