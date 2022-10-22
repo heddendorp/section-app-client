@@ -5,7 +5,7 @@ configuration:
     targetPort: 4000
 template:
   containers:
-  - image: ghcr.io/heddendorp/tumi/legacy-app:main
+  - image: ghcr.io/esn-tumi/app/legacy-app:main
     name: legacy-app-image
     resources:
       cpu: 0.25
