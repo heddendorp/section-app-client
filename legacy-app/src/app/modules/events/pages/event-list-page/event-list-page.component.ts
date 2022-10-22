@@ -27,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PublicRegistrationCodesPageComponent } from '../public-registration-codes-page/public-registration-codes-page.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 
 @Component({
   selector: 'app-event-list-page',
@@ -79,7 +80,8 @@ export class EventListPageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private getTenantInfo: GetTenantInfoGQL,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private permissionsService: PermissionsService
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('Events - TUMi');
