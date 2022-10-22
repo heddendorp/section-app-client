@@ -51,6 +51,7 @@ export class EventListPageComponent implements OnDestroy {
   public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
   public hideFullEvents = new UntypedFormControl(false);
+  public hideFullTutorEvents = new UntypedFormControl(false);
   public filterEvents = new UntypedFormControl('');
   public selectedMonth = new UntypedFormControl(null);
   public selectedMonthLabel = 'Upcoming Events';
@@ -157,6 +158,32 @@ export class EventListPageComponent implements OnDestroy {
         return filteredEvents;
       })
     );
+
+    this.events$ = combineLatest([
+      events$,
+      this.hideFullTutorEvents.valueChanges.pipe(
+        startWith(this.hideFullTutorEvents.value)
+      ),
+      this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
+    ]).pipe(
+      map(([events, hideFull, filterEvents]) => {
+        this.loading$.next(false);
+        let filteredEvents = events;
+        if (hideFull) {
+          filteredEvents = events.filter(
+            (event) =>
+              event.organizersRegistered < event.organizerLimit
+          );
+        }
+        if (filterEvents) {
+          filteredEvents = filteredEvents.filter((event) =>
+            event.title.toLowerCase().includes(filterEvents.toLowerCase())
+          );
+        }
+        return filteredEvents;
+      })
+    );
+
     this.loadEventsQueryRef.startPolling(60 * 1000);
 
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
