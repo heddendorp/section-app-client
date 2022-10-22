@@ -350,7 +350,11 @@
             {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
               code.status
             }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}&nbsp;
-            <button mat-icon-button (click)="deleteRegistrationCode(code.id)">
+            <button
+              mat-icon-button
+              (click)="deleteRegistrationCode(code.id)"
+              [disabled]="code.status == 'SUCCESSFUL'"
+            >
               ❌
             </button>
           </p>

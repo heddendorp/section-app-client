@@ -5,7 +5,7 @@ configuration:
     targetPort: 3000
 template:
   containers:
-  - image: ghcr.io/heddendorp/tumi/party-animals:main
+  - image: ghcr.io/esn-tumi/app/party-animals:main
     name: party-animals
     env:
     - name: DATABASE_URL

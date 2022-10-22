@@ -9,14 +9,12 @@ const routes: Routes = [
   {
     path: 'profile',
     canActivate: [AuthGuard],
-    // canLoad: [AuthGuard],
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: 'event-templates',
     canActivate: [AuthGuard, MemberGuard],
-    // canLoad: [AuthGuard, MemberGuard],
     loadChildren: () =>
       import('./modules/event-templates/event-templates.module').then(
         (m) => m.EventTemplatesModule
@@ -30,7 +28,6 @@ const routes: Routes = [
   {
     path: 'tenant',
     canActivate: [AuthGuard, AdminGuard],
-    // canLoad: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./modules/tenant/tenant.module').then((m) => m.TenantModule),
   },
@@ -41,6 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'tutor-hub',
+    canActivate: [AuthGuard, MemberGuard],
     loadChildren: () =>
       import('./modules/tutor-hub/tutor-hub.module').then(
         (m) => m.TutorHubModule

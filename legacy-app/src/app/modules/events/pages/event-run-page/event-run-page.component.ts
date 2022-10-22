@@ -133,4 +133,29 @@ export class EventRunPageComponent implements OnDestroy {
     a.click();
     document.body.removeChild(a);
   }
+
+  async copyNonCheckedMails() {
+    const event = await firstValueFrom(this.event$);
+    if (!event) return;
+    const pending = this.clipboard.beginCopy(
+      event.participantRegistrations
+        .filter((registration) => !registration.checkInTime)
+        .map(
+          (registration) =>
+            registration.user.communicationEmail || registration.user.email
+        )
+        .join(';')
+    );
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
+  }
 }

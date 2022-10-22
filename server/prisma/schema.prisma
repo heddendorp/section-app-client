@@ -382,16 +382,16 @@ model EventRegistration {
 }
 
 model EventRegistrationCode {
-  id                     String              @id @default(uuid()) @db.Uuid
-  createdAt              DateTime            @default(now())
-  createdById            String              @db.Uuid
-  registrationToRemoveId String?             @unique @db.Uuid
-  registrationCreatedId  String?             @db.Uuid
-  isPublic               Boolean             @default(false)
-  eventId                String              @db.Uuid
-  status                 RegistrationStatus  @default(PENDING)
-  sepaAllowed            Boolean             @default(false)
-  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  id                     String                 @id @default(uuid()) @db.Uuid
+  createdAt              DateTime               @default(now())
+  createdById            String                 @db.Uuid
+  registrationToRemoveId String?                @unique @db.Uuid
+  registrationCreatedId  String?                @db.Uuid
+  isPublic               Boolean                @default(false)
+  eventId                String                 @db.Uuid
+  status                 RegistrationCodeStatus @default(OPEN)
+  sepaAllowed            Boolean                @default(false)
+  targetEvent            TumiEvent              @relation(fields: [eventId], references: [id], onDelete: Cascade)
   connectedRegistrations EventRegistration[]
 }
 
@@ -488,6 +488,13 @@ enum RegistrationType {
 }
 
 enum RegistrationStatus {
+  PENDING
+  SUCCESSFUL
+  CANCELLED
+}
+
+enum RegistrationCodeStatus {
+  OPEN
   PENDING
   SUCCESSFUL
   CANCELLED

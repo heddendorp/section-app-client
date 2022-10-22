@@ -30,6 +30,8 @@ import { ChangeTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/
 export class TemplateDetailsPageComponent {
   public Role = Role;
 
+  private recommendedPrice: number | undefined;
+
   public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   constructor(
     private title: Title,
@@ -69,7 +71,11 @@ export class TemplateDetailsPageComponent {
           width: '600px',
           maxWidth: '100vw',
           panelClass: 'modern',
-          data: { template, organizers: data.eventOrganizers },
+          data: {
+            template,
+            organizers: data.eventOrganizers,
+            recommendedPrice: this.recommendedPrice,
+          },
         })
         .afterClosed()
         .toPromise();
@@ -173,5 +179,9 @@ export class TemplateDetailsPageComponent {
         })
       );
     }
+  }
+
+  updateRecommendedPrice(price: number) {
+    this.recommendedPrice = price;
   }
 }

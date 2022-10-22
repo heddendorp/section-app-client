@@ -243,6 +243,8 @@ type EventTemplate {
   id: ID!
   insuranceDescription: String!
   location: String!
+  medianOrganizerCount: Int!
+  medianParticipantCount: Int!
   organizerText: String!
   participantRating: Float
   participantRatingCount: Int

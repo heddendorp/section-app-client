@@ -29,6 +29,42 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     eventInstanceCount: t.relationCount('eventInstances'),
     tenant: t.relation('tenant'),
     category: t.relation('category', { nullable: true }),
+    medianParticipantCount: t.int({
+      resolve: async (eventTemplate) =>
+        prisma.tumiEvent
+          .findMany({
+            where: {
+              eventTemplateId: eventTemplate.id,
+            },
+            select: {
+              participantLimit: true,
+            },
+            orderBy: [{ participantLimit: 'asc' }],
+          })
+          .then((events) => {
+            const count = events.length;
+            const middle = Math.floor(count / 2);
+            return events[middle].participantLimit;
+          }),
+    }),
+    medianOrganizerCount: t.int({
+      resolve: async (eventTemplate) =>
+        prisma.tumiEvent
+          .findMany({
+            where: {
+              eventTemplateId: eventTemplate.id,
+            },
+            select: {
+              organizerLimit: true,
+            },
+            orderBy: [{ participantLimit: 'asc' }],
+          })
+          .then((events) => {
+            const count = events.length;
+            const middle = Math.floor(count / 2);
+            return events[middle].organizerLimit;
+          }),
+    }),
     participantRating: t.float({
       nullable: true,
       resolve: async (eventTemplate) =>

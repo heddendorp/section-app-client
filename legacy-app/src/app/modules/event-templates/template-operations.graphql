@@ -129,6 +129,8 @@ query getEventTemplate($id: ID!) {
     finances
     insuranceDescription
     shouldBeReportedToInsurance
+    medianParticipantCount
+    medianOrganizerCount
     category {
       id
       name
