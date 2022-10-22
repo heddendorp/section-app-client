@@ -35,6 +35,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     public data: {
       template: GetEventTemplateQuery['eventTemplate'];
       organizers: GetOrganizerOptionsQuery['eventOrganizers'];
+      recommendedPrice: number;
     },
     private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<CreateEventDialogComponent>
@@ -42,11 +43,17 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required],
-      price: ['', Validators.required],
+      price: [this.data.recommendedPrice, Validators.required],
       registrationLink: ['', Validators.required],
       registrationMode: ['', Validators.required],
-      participantLimit: ['', Validators.required],
-      organizerLimit: ['', Validators.required],
+      participantLimit: [
+        this.data.template.medianParticipantCount,
+        Validators.required,
+      ],
+      organizerLimit: [
+        this.data.template.medianOrganizerCount,
+        Validators.required,
+      ],
       eventOrganizerId: ['', Validators.required],
       excludeFromRatings: [false, Validators.required],
       excludeFromStatistics: [false, Validators.required],
