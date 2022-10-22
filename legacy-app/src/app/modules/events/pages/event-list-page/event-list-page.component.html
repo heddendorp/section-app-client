@@ -241,6 +241,9 @@
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
     </mat-slide-toggle>
+    <mat-slide-toggle [formControl]="hideFullTutorEvents">
+      Hide full (Tutor)
+    </mat-slide-toggle>
   </div>
   <ng-container [ngSwitch]="selectedView$ | async">
     <ng-container *ngSwitchCase="'list'">
