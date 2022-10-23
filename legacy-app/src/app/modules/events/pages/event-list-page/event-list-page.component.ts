@@ -72,6 +72,7 @@ export class EventListPageComponent implements OnDestroy {
   @ViewChild('searchbar')
   private searchBar!: ElementRef;
   public searchEnabled = false;
+  public isMember$ = this.permissionsService.isMember();
 
   constructor(
     private loadEventsQuery: EventListGQL,
@@ -173,8 +174,7 @@ export class EventListPageComponent implements OnDestroy {
         let filteredEvents = events;
         if (hideFull) {
           filteredEvents = events.filter(
-            (event) =>
-              event.organizersRegistered < event.organizerLimit
+            (event) => event.organizersRegistered < event.organizerLimit
           );
         }
         if (filterEvents) {

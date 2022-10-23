@@ -241,7 +241,10 @@
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
     </mat-slide-toggle>
-    <mat-slide-toggle [formControl]="hideFullTutorEvents" *ngIF="permissionsService.isMember() | async">
+    <mat-slide-toggle
+      [formControl]="hideFullTutorEvents"
+      *ngIf="isMember$ | async"
+    >
       Hide full (Tutor)
     </mat-slide-toggle>
   </div>
