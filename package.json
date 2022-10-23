@@ -44,7 +44,8 @@
     "@envelop/core": "2.6.0"
   },
   "volta": {
-    "node": "17.9.1"
+    "node": "17.9.1",
+    "yarn": "3.2.4"
   },
   "devDependencies": {
     "@percy/cli": "^1.11.0",

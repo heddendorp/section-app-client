@@ -207,6 +207,49 @@ export const eventType = builder.prismaObject('TumiEvent', {
         },
       },
     }),
+    signupVelocity: t.float({
+      resolve: async (source) => {
+        const eventRegistrations = await prisma.eventRegistration.findMany({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+          select: {
+            createdAt: true,
+          },
+        });
+
+        const event = await prisma.event.findUnique({
+          where: {
+            event: { id: source.id },
+            status: { not: RegistrationStatus.CANCELLED },
+          },
+          select: {
+            participantLimit: true,
+            registrationStart: true,
+          },
+        });
+        const registrationTimes = eventRegistrations.createdAt;
+        const maxParticipants = event.participantLimit;
+        const registrationStart = event.registrationStart;
+        const critUserCount = Math.floor(maxParticipants * 0.75);
+        const critRegistrationTime = registrationTimes[critUserCount - 1];
+
+        const registrationStartLuxon = DateTime.fromJSDate(registrationStart);
+        const critRegistrationTimeLuxon =
+          DateTime.fromJSDate(critRegistrationTime);
+
+        const timespan = critRegistrationTimeLuxon.diff(
+          registrationStartLuxon,
+          'minutes'
+        );
+
+        return critUserCount / timespan.minutes;
+      },
+    }),
     activeRegistration: t.prismaField({
       type: 'EventRegistration',
       nullable: true,
