@@ -146,6 +146,26 @@
                 }})
               </div>
             </a>
+            <p>
+              Signup Velocity:
+              <span class="px-2">
+                <strong>75%:&nbsp;</strong>
+                {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
+                &nbsp;({{ event.signupVelocity.threequartersTime }})
+              </span>
+              <span class="px-2">
+                <strong>50%:&nbsp;</strong>
+                {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
+                  event.signupVelocity.fiftyTime
+                }})
+              </span>
+              <span class="px-2">
+                <strong>25%:&nbsp;</strong>
+                {{ event.signupVelocity.quarter | number }}&nbsp;s/h &nbsp;({{
+                  event.signupVelocity.quarterTime
+                }})
+              </span>
+            </p>
             <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
               <app-rating-item
                 *ngFor="let rating of event.ratings"

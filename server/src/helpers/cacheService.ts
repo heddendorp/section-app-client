@@ -61,7 +61,7 @@ class CacheService {
       return this.calculateSignupVelocity(eventId);
     } else {
       const signupVelocity = await this.client.get(`signupVelocity:${eventId}`);
-      if (!signupVelocity) {
+      if (true) {
         const velocities = await this.calculateSignupVelocity(eventId);
         await this.client.set(
           `signupVelocity:${eventId}`,
@@ -70,7 +70,7 @@ class CacheService {
         );
         return velocities;
       }
-      return JSON.parse(signupVelocity);
+      // return JSON.parse(signupVelocity);
     }
   }
 
@@ -116,30 +116,52 @@ class CacheService {
         const critRegistrationTimeLuxon = DateTime.fromJSDate(
           critRegistrationTimes[i]
         );
-        const diff = critRegistrationTimeLuxon.diff(
-          registrationStartLuxon,
-          'hours'
-        );
-        timespan[i] = diff.hours;
+        timespan[i] = critRegistrationTimeLuxon.diff(registrationStartLuxon, [
+          'hours',
+          'minutes',
+          'seconds',
+        ]);
       }
     }
 
-    const velocities = {
-      quarter: timespan[0]
-        ? Math.round((critUserCount[0] / timespan[0]) * 100) / 100
+    return {
+      quarter: timespan[0]?.as('hours')
+        ? Math.round((critUserCount[0] / timespan[0].as('hours')) * 100) / 100
         : null,
-      fifty: timespan[1]
-        ? Math.round((critUserCount[1] / timespan[1]) * 100) / 100
+      quarterTime: timespan[0]
+        ? `${timespan[0].hours}:${timespan[0].minutes}:${Math.round(
+            timespan[0].seconds
+          )}h`
         : null,
-      threequarters: timespan[2]
-        ? Math.round((critUserCount[2] / timespan[2]) * 100) / 100
+      quarterCount: critUserCount[0],
+      fifty: timespan[1]?.as('hours')
+        ? Math.round((critUserCount[1] / timespan[1].as('hours')) * 100) / 100
         : null,
-      ninety: timespan[3]
-        ? Math.round((critUserCount[3] / timespan[3]) * 100) / 100
+      fiftyTime: timespan[1]?.as('minutes')
+        ? `${timespan[1].hours}:${timespan[1].minutes}:${Math.round(
+            timespan[1].seconds
+          )}h`
         : null,
+      fiftyCount: critUserCount[1],
+      threequarters: timespan[2]?.as('hours')
+        ? Math.round((critUserCount[2] / timespan[2].as('hours')) * 100) / 100
+        : null,
+      threequartersTime: timespan[2]?.as('minutes')
+        ? `${timespan[2].hours}:${timespan[2].minutes}:${Math.round(
+            timespan[2].seconds
+          )}h`
+        : null,
+      threequartersCount: critUserCount[2],
+      ninety: timespan[3]?.as('hours')
+        ? Math.round((critUserCount[3] / timespan[3].as('hours')) * 100) / 100
+        : null,
+      ninetyTime: timespan[3]?.as('minutes')
+        ? `${timespan[3].hours}:${timespan[3].minutes}:${Math.round(
+            timespan[3].seconds
+          )}h`
+        : null,
+      ninetyCount: critUserCount[3],
     };
-
-    return velocities;
   }
 
   public async getUserMembershipStatus(

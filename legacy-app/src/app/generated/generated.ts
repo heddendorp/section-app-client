@@ -1156,7 +1156,7 @@ export type TumiEvent = {
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
   shouldBeReportedToInsurance: Scalars['Boolean'];
-  signupVelocity?: Maybe<SignupVelocities>;
+  signupVelocity: SignupVelocities;
   start: Scalars['DateTime'];
   submissionItems: Array<EventSubmissionItem>;
   submittedSpend: Scalars['Decimal'];
@@ -1343,9 +1343,17 @@ export type UsersOfTenants = {
 export type SignupVelocities = {
   __typename?: 'signupVelocities';
   fifty?: Maybe<Scalars['Float']>;
+  fiftyCount?: Maybe<Scalars['Int']>;
+  fiftyTime?: Maybe<Scalars['String']>;
   ninety?: Maybe<Scalars['Float']>;
+  ninetyCount?: Maybe<Scalars['Int']>;
+  ninetyTime?: Maybe<Scalars['String']>;
   quarter?: Maybe<Scalars['Float']>;
+  quarterCount?: Maybe<Scalars['Int']>;
+  quarterTime?: Maybe<Scalars['String']>;
   threequarters?: Maybe<Scalars['Float']>;
+  threequartersCount?: Maybe<Scalars['Int']>;
+  threequartersTime?: Maybe<Scalars['String']>;
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1436,7 +1444,7 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: any, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, signupVelocity: { __typename?: 'signupVelocities', quarter?: number | null, quarterTime?: string | null, quarterCount?: number | null, fifty?: number | null, fiftyTime?: string | null, fiftyCount?: number | null, threequarters?: number | null, threequartersTime?: string | null, threequartersCount?: number | null }, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2364,6 +2372,17 @@ export const GetEventTemplateDocument = gql`
       participantRatingCount
       organizerRating
       organizerRatingCount
+      signupVelocity {
+        quarter
+        quarterTime
+        quarterCount
+        fifty
+        fiftyTime
+        fiftyCount
+        threequarters
+        threequartersTime
+        threequartersCount
+      }
       ratings {
         userComment
         rating
