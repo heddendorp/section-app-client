@@ -489,6 +489,13 @@ Enum RegistrationStatus {
   CANCELLED
 }
 
+Enum RegistrationCodeStatus {
+  OPEN
+  PENDING
+  SUCCESSFUL
+  CANCELLED
+}
+
 Enum PurchaseStatus {
   PENDING
   PAID
