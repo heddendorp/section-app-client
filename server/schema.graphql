@@ -243,6 +243,8 @@ type EventTemplate {
   id: ID!
   insuranceDescription: String!
   location: String!
+  medianOrganizerCount: Int!
+  medianParticipantCount: Int!
   organizerText: String!
   participantRating: Float
   participantRatingCount: Int
@@ -700,6 +702,7 @@ type TumiEvent {
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
   shouldBeReportedToInsurance: Boolean!
+  signupVelocity: signupVelocities!
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   submittedSpend: Decimal!
@@ -837,4 +840,19 @@ type UsersOfTenants {
   tenantId: ID!
   user: User!
   userId: ID!
+}
+
+type signupVelocities {
+  fifty: Float
+  fiftyCount: Int
+  fiftyTime: String
+  ninety: Float
+  ninetyCount: Int
+  ninetyTime: String
+  quarter: Float
+  quarterCount: Int
+  quarterTime: String
+  threequarters: Float
+  threequartersCount: Int
+  threequartersTime: String
 }

@@ -15,6 +15,24 @@ import prisma from '../../client';
 import * as fs from 'fs';
 import { marked } from 'marked';
 import mjml2html from 'mjml';
+import CacheService from '../../helpers/cacheService';
+
+const signupVelocities = builder.simpleObject('signupVelocities', {
+  fields: (t) => ({
+    quarter: t.float({ nullable: true }),
+    quarterTime: t.string({ nullable: true }),
+    quarterCount: t.int({ nullable: true }),
+    fifty: t.float({ nullable: true }),
+    fiftyTime: t.string({ nullable: true }),
+    fiftyCount: t.int({ nullable: true }),
+    threequarters: t.float({ nullable: true }),
+    threequartersTime: t.string({ nullable: true }),
+    threequartersCount: t.int({ nullable: true }),
+    ninety: t.float({ nullable: true }),
+    ninetyTime: t.string({ nullable: true }),
+    ninetyCount: t.int({ nullable: true }),
+  }),
+});
 
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
@@ -206,6 +224,10 @@ export const eventType = builder.prismaObject('TumiEvent', {
           not: null,
         },
       },
+    }),
+    signupVelocity: t.field({
+      type: signupVelocities,
+      resolve: async (event) => CacheService.getSignupVelocity(event.id),
     }),
     activeRegistration: t.prismaField({
       type: 'EventRegistration',

@@ -5,7 +5,7 @@
 @font-face {
   font-family: 'General Sans';
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 200 700;
   font-display: swap;
   src: url('assets/fonts/GeneralSans-Variable.woff2') format('woff2');
 }
@@ -13,7 +13,7 @@
 @font-face {
   font-family: 'General Sans';
   font-style: italic;
-  font-weight: 100 900;
+  font-weight: 200 700;
   font-display: swap;
   src: url('assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
 }
@@ -183,7 +183,7 @@ $tumi-dark-theme: mat.define-dark-theme(
 @layer base {
   html {
     box-sizing: border-box;
-    font-weight: 450;
+    font-weight: 400;
   }
   //html,
   //body {
@@ -297,7 +297,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   a.extended-fab,
   button.extended-fab {
-    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-20 rounded-xl;
+    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-50 rounded-xl;
     .mat-button-wrapper {
       @apply flex;
     }

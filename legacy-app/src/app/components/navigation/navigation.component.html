@@ -1,111 +1,104 @@
-<div class="relative flex flex-col sm:flex-row">
-  <div
-    class="sidenav fixed bottom-0 z-50 flex h-12 w-full flex-row bg-indigo-600 text-white sm:top-0 sm:h-full sm:w-[6rem] sm:flex-col"
-    data-testid="navigation"
+<div
+  class="sidenav fixed bottom-0 z-50 flex h-12 w-full flex-row bg-indigo-600 text-white sm:top-0 sm:h-full sm:w-[6rem] sm:flex-col"
+  data-testid="navigation"
+>
+  <a
+    matRipple
+    class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+    routerLink="/events"
   >
-    <a
-      matRipple
-      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
-      routerLink="/events"
-    >
-      <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+    <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+  </a>
+  <div
+    class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
+  >
+    <a class="nav-item" matRipple routerLink="home" routerLinkActive="active">
+      <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
     </a>
-    <div
-      class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
+    <a
+      class="nav-item"
+      matRipple
+      routerLink="events"
+      routerLinkActive="active"
+      data-testid="events-nav-item"
     >
-      <a class="nav-item" matRipple routerLink="home" routerLinkActive="active">
-        <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
-      </a>
-      <a
-        class="nav-item"
-        matRipple
-        routerLink="events"
-        routerLinkActive="active"
-        data-testid="events-nav-item"
-      >
-        <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
-      </a>
-      <!--<a
-        class="nav-item desktop-only"
-        matRipple
-        routerLink="page/apply"
-        routerLinkActive="active"
-        data-testid="apply-nav-item"
-      >
-        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
-        <span>Apply as a TUMi tutor</span>
-      </a>-->
-      <!--        <a class="nav-item" matRipple routerLink="shop" routerLinkActive="active">-->
-      <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
-      <!--          <span>The TUMi shop</span>-->
-      <!--        </a>-->
-      <!--<a
-        class="nav-item" matRipple
-        routerLink="basket"
-        routerLinkActive="active"
-        *appIfRole="[Role.User, Role.Admin]"
-      >
-        <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
-        <span>Shopping basket</span>
-      </a>-->
-      <!--        <a class="nav-item" matRipple routerLink="page/about" routerLinkActive="active">-->
-      <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
-      <!--          <span>About us</span>-->
-      <!--        </a>-->
-      <a
-        class="nav-item"
-        matRipple
-        routerLink="tutor-hub"
-        routerLinkActive="active"
-        data-testid="tutor-hub-nav-item"
-        *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
-      >
-        <mat-icon svgIcon="icon-hub"></mat-icon>
-        <span>Tutor Hub</span>
-      </a>
-      <a
-        class="nav-item desktop-only"
-        matRipple
-        routerLink="event-templates"
-        routerLinkActive="active"
-        data-testid="event-templates-nav-item"
-        *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
-      >
-        <mat-icon svgIcon="icon-template"></mat-icon>
-        <span>Event Templates</span>
-      </a>
-      <a
-        class="nav-item"
-        matRipple
-        routerLink="tenant"
-        routerLinkActive="active"
-        data-testid="manage-nav-item"
-        *appIfRole="[Role.Admin]"
-      >
-        <mat-icon svgIcon="icon-maintenance"></mat-icon>
-        <span>Management</span>
-      </a>
-      <button
-        class="nav-item"
-        *ngIf="installEvent$ | async as event"
-        (click)="event.prompt()"
-      >
-        <mat-icon svgIcon="icon-software-installer"></mat-icon>
-        <span>Install the TUMi app</span>
-      </button>
-      <div class="hidden flex-1 sm:block"></div>
-      <a
-        class="nav-item flex justify-center sm:px-1"
-        matRipple
-        routerLink="profile"
-      >
-        <app-auth-button></app-auth-button>
-      </a>
-    </div>
-  </div>
-  <div
-    class="mb-12 flex flex-1 flex-col sm:mb-0 sm:ml-[6rem] sm:w-[calc(100%-6rem)]"
-  >
-    <router-outlet></router-outlet>
+      <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+    </a>
+    <!--<a
+      class="nav-item desktop-only"
+      matRipple
+      routerLink="page/apply"
+      routerLinkActive="active"
+      data-testid="apply-nav-item"
+    >
+      <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
+      <span>Apply as a TUMi tutor</span>
+    </a>-->
+    <!--        <a class="nav-item" matRipple routerLink="shop" routerLinkActive="active">-->
+    <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
+    <!--          <span>The TUMi shop</span>-->
+    <!--        </a>-->
+    <!--<a
+      class="nav-item" matRipple
+      routerLink="basket"
+      routerLinkActive="active"
+      *appIfRole="[Role.User, Role.Admin]"
+    >
+      <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
+      <span>Shopping basket</span>
+    </a>-->
+    <!--        <a class="nav-item" matRipple routerLink="page/about" routerLinkActive="active">-->
+    <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
+    <!--          <span>About us</span>-->
+    <!--        </a>-->
+    <a
+      class="nav-item"
+      matRipple
+      routerLink="tutor-hub"
+      routerLinkActive="active"
+      data-testid="tutor-hub-nav-item"
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+    >
+      <mat-icon svgIcon="icon-hub"></mat-icon>
+      <span>Tutor Hub</span>
+    </a>
+    <a
+      class="nav-item desktop-only"
+      matRipple
+      routerLink="event-templates"
+      routerLinkActive="active"
+      data-testid="event-templates-nav-item"
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+    >
+      <mat-icon svgIcon="icon-template"></mat-icon>
+      <span>Event Templates</span>
+    </a>
+    <a
+      class="nav-item"
+      matRipple
+      routerLink="tenant"
+      routerLinkActive="active"
+      data-testid="manage-nav-item"
+      *appIfRole="[Role.Admin]"
+    >
+      <mat-icon svgIcon="icon-maintenance"></mat-icon>
+      <span>Management</span>
+    </a>
+    <button
+      class="nav-item"
+      *ngIf="installEvent$ | async as event"
+      (click)="event.prompt()"
+    >
+      <mat-icon svgIcon="icon-software-installer"></mat-icon>
+      <span>Install the TUMi app</span>
+    </button>
+    <div class="hidden flex-1 sm:block"></div>
+    <a
+      class="nav-item flex justify-center sm:px-1"
+      matRipple
+      routerLink="profile"
+    >
+      <app-auth-button></app-auth-button>
+    </a>
   </div>
 </div>

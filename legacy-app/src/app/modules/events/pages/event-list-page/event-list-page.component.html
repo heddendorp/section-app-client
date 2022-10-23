@@ -192,7 +192,7 @@
         </div>
       </div>
     </div>-->
-    <div fxFlex="grow" class="rounded-2xl bg-black p-1">
+    <!--<div fxFlex="grow" class="rounded-2xl bg-black p-1">
       <div class="block h-full overflow-hidden rounded-xl bg-white">
         <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
           <h4 class="text-lg font-bold">⚠️&nbsp;Please note!</h4>
@@ -209,7 +209,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
   <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
     <button
@@ -240,6 +240,12 @@
     </button>
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
+    </mat-slide-toggle>
+    <mat-slide-toggle
+      [formControl]="hideFullTutorEvents"
+      *ngIf="isMember$ | async"
+    >
+      Hide full (Tutor)
     </mat-slide-toggle>
   </div>
   <ng-container [ngSwitch]="selectedView$ | async">

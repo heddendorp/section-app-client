@@ -27,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PublicRegistrationCodesPageComponent } from '../public-registration-codes-page/public-registration-codes-page.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 
 @Component({
   selector: 'app-event-list-page',
@@ -51,6 +52,7 @@ export class EventListPageComponent implements OnDestroy {
   public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
   public hideFullEvents = new UntypedFormControl(false);
+  public hideFullTutorEvents = new UntypedFormControl(false);
   public filterEvents = new UntypedFormControl('');
   public selectedMonth = new UntypedFormControl(null);
   public selectedMonthLabel = 'Upcoming Events';
@@ -70,6 +72,7 @@ export class EventListPageComponent implements OnDestroy {
   @ViewChild('searchbar')
   private searchBar!: ElementRef;
   public searchEnabled = false;
+  public isMember$ = this.permissionsService.isMember();
 
   constructor(
     private loadEventsQuery: EventListGQL,
@@ -78,7 +81,8 @@ export class EventListPageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private getTenantInfo: GetTenantInfoGQL,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private permissionsService: PermissionsService
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.title.setTitle('Events - TUMi');
@@ -138,15 +142,23 @@ export class EventListPageComponent implements OnDestroy {
       this.hideFullEvents.valueChanges.pipe(
         startWith(this.hideFullEvents.value)
       ),
+      this.hideFullTutorEvents.valueChanges.pipe(
+        startWith(this.hideFullTutorEvents.value)
+      ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
-      map(([events, hideFull, filterEvents]) => {
+      map(([events, hideFull, hideFullTutors, filterEvents]) => {
         this.loading$.next(false);
         let filteredEvents = events;
         if (hideFull) {
           filteredEvents = events.filter(
             (event) =>
               event.participantRegistrationCount < event.participantLimit
+          );
+        }
+        if (hideFullTutors) {
+          filteredEvents = events.filter(
+            (event) => event.organizersRegistered < event.organizerLimit
           );
         }
         if (filterEvents) {
@@ -157,6 +169,7 @@ export class EventListPageComponent implements OnDestroy {
         return filteredEvents;
       })
     );
+
     this.loadEventsQueryRef.startPolling(60 * 1000);
 
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());

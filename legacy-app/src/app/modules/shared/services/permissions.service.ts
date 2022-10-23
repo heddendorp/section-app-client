@@ -5,7 +5,16 @@ import {
   UserRolesGQL,
   UserRolesQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { filter, map, Observable, of, skipUntil, switchMap } from 'rxjs';
+import {
+  distinct,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  skipUntil,
+  switchMap,
+} from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
 import { Price } from '../../../../../../shared/data-types';
 
@@ -46,7 +55,8 @@ export class PermissionsService {
             );
           })
         );
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
@@ -66,7 +76,8 @@ export class PermissionsService {
             return allowList.includes(user.currentTenant?.role ?? Role.User);
           })
         );
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
