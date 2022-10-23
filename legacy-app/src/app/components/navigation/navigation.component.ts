@@ -34,4 +34,8 @@ export class NavigationComponent {
       });
     }
   }
+
+  preventProp($event: MouseEvent) {
+    $event.stopPropagation();
+  }
 }
