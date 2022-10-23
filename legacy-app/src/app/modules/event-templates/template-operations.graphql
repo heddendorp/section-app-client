@@ -144,6 +144,17 @@ query getEventTemplate($id: ID!) {
       participantRatingCount
       organizerRating
       organizerRatingCount
+      signupVelocity {
+        quarter
+        quarterTime
+        quarterCount
+        fifty
+        fiftyTime
+        fiftyCount
+        threequarters
+        threequartersTime
+        threequartersCount
+      }
       ratings {
         userComment
         rating
