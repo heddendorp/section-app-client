@@ -10,8 +10,10 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -22,6 +24,7 @@ import {
   Observable,
   ReplaySubject,
   startWith,
+  tap,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewFinanceEntryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/new-finance-entry-dialog/new-finance-entry-dialog.component';
@@ -58,6 +61,7 @@ export interface PriceModel {
 })
 export class FinancePlannerComponent implements OnChanges {
   @Input() public template: GetEventTemplateQuery['eventTemplate'] | undefined;
+  @Output() public recommendedPriceChange = new EventEmitter<number>();
   public displayedColumns = [
     'description',
     'value',
@@ -83,7 +87,7 @@ export class FinancePlannerComponent implements OnChanges {
     });
     this.forecastResult$ = combineLatest([
       this.items$,
-      this.forecastForm.valueChanges,
+      this.forecastForm.valueChanges.pipe(startWith(this.forecastForm.value)),
     ]).pipe(
       map(([items, info]) => {
         const numberOfPeople = info.organizers + info.participants;
@@ -153,6 +157,11 @@ export class FinancePlannerComponent implements OnChanges {
           minPriceModel,
           maxPriceModel,
         };
+      }),
+      tap((result) => {
+        this.recommendedPriceChange.emit(
+          Math.ceil(result.maxPriceModel.participantFee)
+        );
       })
     );
   }
@@ -220,6 +229,12 @@ export class FinancePlannerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['template'] && changes['template'].firstChange) {
       this.items$.next(changes['template'].currentValue.finances.items);
+      this.forecastForm
+        .get('participants')
+        ?.setValue(changes['template'].currentValue.medianParticipantCount);
+      this.forecastForm
+        .get('organizers')
+        ?.setValue(changes['template'].currentValue.medianOrganizerCount);
     }
   }
 

@@ -22,6 +22,7 @@ import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
 import { Settings } from 'luxon';
 import CacheService from './helpers/cacheService';
+import { Context } from './builder';
 
 declare global {
   namespace NodeJS {
@@ -221,7 +222,7 @@ const graphQLServer = createServer({
     useResponseCache({
       ttl: 2000,
       includeExtensionMetadata: true,
-      session: (context) => String(context.user?.id ?? 'public'),
+      session: (context: Context) => String(context.user?.id ?? 'public'),
     }),
   ],
   parserCache: true,

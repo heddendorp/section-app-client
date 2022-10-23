@@ -35,7 +35,7 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.4.0"
+    "concurrently": "^7.5.0"
   },
   "resolutions": {
     "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
@@ -45,10 +45,10 @@
   },
   "volta": {
     "node": "17.9.1",
-    "yarn": "3.2.4"
+    "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@percy/cli": "^1.11.0",
+    "@percy/cli": "^1.12.0",
     "@percy/cypress": "^3.1.2",
     "@testing-library/cypress": "^8.0.3",
     "cypress": "^10.10.0",
