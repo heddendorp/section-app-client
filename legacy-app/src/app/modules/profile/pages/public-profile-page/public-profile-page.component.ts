@@ -5,7 +5,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-public-profile-page',
   templateUrl: './public-profile-page.component.html',
@@ -19,8 +19,7 @@ export class PublicProfilePageComponent {
   constructor(
     private title: Title,
     private profileQuery: UserProfilePublicGQL,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {
     this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
