@@ -8,10 +8,14 @@
             (event.start | date: 'shortDate')
         "
         gdColumn="-1/1"
-        class="text-lg mt-2"
+        class="mt-4 text-base leading-tight"
       >
-        <span class="font-[400]">{{ event.start | date: 'EEEE' }}, </span>
-        <span class="font-semibold">{{ event.start | date: 'd LLLL' }}</span>
+        <span class="font-medium text-black"
+          >{{ event.start | date: 'EEE ' }}
+        </span>
+        <span class="font-medium text-black">{{
+          event.start | date: 'd. MMM'
+        }}</span>
       </span>
       <app-events-list-item
         [event]="event"
@@ -22,7 +26,9 @@
   <ng-container *ngIf="!events">
     <ng-container *ngFor="let event of [].constructor(3)">
       <div gdColumn="-1/1">
-        <span class="skeleton text-lg mt-2">Weekday, XX XXXXX </span>
+        <span class="skeleton mt-4 text-base leading-tight"
+          >Weekday, XX XXXXX
+        </span>
       </div>
       <app-events-list-item
         *ngFor="let event of [].constructor(2)"
