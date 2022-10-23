@@ -1,135 +1,179 @@
 <a
   routerLink="/events/{{ event?.id }}"
-  class="event text-surface-on relative h-full {{
-    event ? 'bg-white' : 'skeleton bg-slate-50'
-  }} rounded-lg shadow flex flex-col
+  class="event text-surface-on relative h-full rounded-3xl border border-black/10 flex flex-col justify-between {{
+    event ? 'bg-white' : 'skeleton bg-zinc-50'
+  }}
+  {{ event?.publicationState | lowercase }}
   {{ event?.userIsRegistered ? 'participant' : '' }}
   {{ event?.userIsOrganizer ? 'organizer' : '' }}"
   matRipple
 >
-  <div class="flex w-full flex-col gap-2 px-4 pt-2 pb-4">
-    <div class="flex flex-row items-center gap-2">
-      <img
-        *ngIf="event"
-        [src]="event.icon | iconURL"
-        alt=""
-        class="h-12 w-12"
-      />
-      <div *ngIf="!event" class="skeleton h-12 w-12"></div>
-      <div *ngIf="event" class="text-base font-semibold leading-tight">
-        {{ event.title }}
-      </div>
-      <div *ngIf="!event" class="skeleton">Event Title Phantom</div>
-    </div>
-
-    <div class="mt-auto flex items-center gap-1">
-      <ng-container *ngIf="event && event.internalEvent">
-        <mat-icon
-          svgIcon="icon-user-lock"
-          style="width: 18px"
-          class="ml-2 text-blue-700"
-        ></mat-icon>
-        <span class="font-semibold text-blue-700">Internal</span>
-      </ng-container>
-
-      <ng-container *ngIf="event">
-        <mat-icon
-          class="ml-2"
-          svgIcon="icon-clock"
-          style="width: 18px"
-        ></mat-icon>
-        <span>{{ event.start | date: 'shortTime' }}</span>
-      </ng-container>
-      <span *ngIf="!event" class="skeleton">XX XX:XX</span>
-
-      <ng-container *ngIf="defaultPrice()">
-        <mat-icon
-          svgIcon="icon-price-tag-euro"
-          style="width: 18px"
-          class="ml-2"
-        ></mat-icon>
-        <span>{{ defaultPrice().amount | currency: 'EUR' }}</span>
-      </ng-container>
-    </div>
-
-    <div class="inline-flex items-center gap-1 font-semibold">
-      <ng-container *ngIf="event">
-        <ng-container *ngIf="event.userIsOrganizer || event.userIsRegistered">
-          <span
-            *ngIf="event.userIsOrganizer"
-            class="inline-flex items-center gap-1 rounded-2xl bg-blue-600 px-2 py-1 text-white"
-          >
-            <mat-icon
-              svgIcon="icon-checked"
-              style="min-width: 18px; max-width: 18px"
-            ></mat-icon>
-            <span>Organizer</span>
-          </span>
-          <span
-            *ngIf="event.userIsRegistered"
-            class="inline-flex items-center gap-1 rounded-2xl bg-green-600 px-2 py-1 text-white"
-          >
-            <mat-icon
-              svgIcon="icon-checked"
-              style="min-width: 18px; max-width: 18px"
-            ></mat-icon>
-            <span>Registered</span>
-          </span>
-        </ng-container>
-        <ng-container *ngIf="!event.userIsOrganizer && !event.userIsRegistered">
-          <span
-            *ngIf="
-              !notYetOpen() &&
-              RegistrationMode.External !== event.registrationMode
-            "
-            class="rounded-2xl px-2 py-1 {{
-              freeSpotsStyling(
-                freeSpotsString(
+  <div class="flex h-full w-full flex-col gap-4 p-5">
+    <ng-container *ngIf="event">
+      <ng-container
+        *ngIf="RegistrationMode.External !== event.registrationMode"
+      >
+        <div class="inline-flex items-center gap-2 font-medium">
+          <ng-container *ngIf="event.userIsOrganizer || event.userIsRegistered">
+            <span
+              *ngIf="event.userIsOrganizer"
+              class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-blue-600 pl-[0.625rem] pr-3 text-white"
+            >
+              <mat-icon
+                svgIcon="icon-checked"
+                style="width: 1rem; height: 1rem"
+              ></mat-icon>
+              <span>Organizer</span>
+            </span>
+            <span
+              *ngIf="event.userIsRegistered"
+              class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-green-600 pl-[0.625rem] pr-3 text-white"
+            >
+              <mat-icon
+                svgIcon="icon-checked"
+                style="width: 1rem; height: 1rem"
+              ></mat-icon>
+              <span>Registered</span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="!event.userIsRegistered">
+            <div
+              *ngIf="!notYetOpen()"
+              class="inline-flex h-8 items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3 {{
+                freeSpotsStyling(
                   event.participantRegistrationCount,
                   event.participantLimit
                 )
-              )
-            }}"
-            >●
-            {{
-              freeSpotsString(
-                event.participantRegistrationCount,
-                event.participantLimit
-              )
-            }}</span
-          >
-          <span
-            class="inline-flex items-center gap-1 rounded-xl bg-gray-200 px-2 py-1 text-gray-800"
-            *ngIf="notYetOpen()"
-          >
-            <mat-icon
-              svgIcon="icon-lock"
-              style="min-width: 18px; max-width: 18px"
-            ></mat-icon>
-            <span>Opens {{ registrationDate() }}</span>
-          </span>
-        </ng-container>
-        <span
-          *ngIf="
-            event?.couldBeOrganizer &&
-            RegistrationMode.External !== event.registrationMode
-          "
-          class="ml-2 {{ tutorSpotsClass() }}"
-        >
-          {{ event.organizersRegistered }}/{{
-            event.organizerLimit
-          }}
-          tutors</span
-        >
+              }}"
+            >
+              <mat-icon
+                [svgIcon]="
+                  freeSpotsIcon(
+                    event.participantRegistrationCount,
+                    event.participantLimit
+                  )
+                "
+                style="width: 1rem; height: 1rem"
+              ></mat-icon>
+              <span>
+                {{
+                  freeSpotsString(
+                    event.participantRegistrationCount,
+                    event.participantLimit,
+                    event.couldBeOrganizer
+                  )
+                }}
+              </span>
+            </div>
+            <div
+              class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-zinc-300 pl-[0.625rem] pr-3 text-zinc-800"
+              *ngIf="notYetOpen()"
+            >
+              <mat-icon
+                svgIcon="icon-lock"
+                style="width: 1rem; height: 1rem"
+              ></mat-icon>
+              <span>Opens {{ registrationDate() }}</span>
+            </div>
+          </ng-container>
+        </div>
       </ng-container>
-      <span *ngIf="!event" class="skeleton rounded-2xl px-2 py-1"
-        >Event state phantom</span
-      >
+    </ng-container>
+    <div
+      *ngIf="!event"
+      class="skeleton inline-flex h-8 w-fit items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3"
+    >
+      <span>Event state phantom</span>
+    </div>
+    <div class="flex w-full flex-col gap-2">
+      <div class="inline leading-tight">
+        <img
+          *ngIf="event"
+          [src]="event.icon | iconURL"
+          alt=""
+          class="mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
+        />
+        <div
+          *ngIf="!event"
+          class="skeleton mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
+        ></div>
+        <p
+          *ngIf="event"
+          class="inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
+        >
+          <span>{{ event.title }}</span>
+        </p>
+        <div
+          *ngIf="!event"
+          class="skeleton inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
+        >
+          Event Title Phantom
+        </div>
+      </div>
+
+      <div class="mt-auto flex items-center gap-3">
+        <ng-container *ngIf="event && event.internalEvent">
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-user-lock"
+              style="width: 1rem; height: 1rem"
+              class="text-blue-700"
+            ></mat-icon>
+            <span class="text-base font-medium text-blue-700">Internal</span>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="event">
+          <div
+            *ngIf="
+              event?.couldBeOrganizer &&
+              RegistrationMode.External !== event.registrationMode
+            "
+          >
+            <span class="{{ tutorSpotsClass() }}">
+              {{ event.organizersRegistered }}/{{
+                event.organizerLimit
+              }}
+              tutors</span
+            >
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="event">
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-clock"
+              style="width: 1rem; height: 1rem"
+            ></mat-icon>
+            <span class="text-base font-medium">{{
+              event.start | date: 'shortTime'
+            }}</span>
+          </div>
+        </ng-container>
+        <span *ngIf="!event" class="skeleton">XX XX:XX</span>
+
+        <ng-container *ngIf="defaultPrice()">
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-price-tag-euro"
+              style="width: 1rem; height: 1rem"
+            ></mat-icon>
+            <span class="text-base font-medium">{{
+              defaultPrice().amount | currency: 'EUR'
+            }}</span>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
-  <div fxFlex="noshrink"></div>
+  <!-- <div fxFlex="noshrink"></div> -->
   <div
     *ngIf="event && event.publicationState !== 'PUBLIC'"
-    class="w-full publication-state {{ event.publicationState | lowercase }}"
-  ></div>
+    class="publication-state w-full flex items-center px-5 py-4 {{
+      event.publicationState | lowercase
+    }}"
+    ><p class="font-medium leading-tight">{{
+      publicationStateString(event.publicationState)
+    }}</p></div
+  >
 </a>

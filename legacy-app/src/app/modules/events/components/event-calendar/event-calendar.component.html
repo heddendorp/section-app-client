@@ -3,7 +3,7 @@
   class="-ml-4 -mr-4 border-r border-b md:-ml-0 md:-mr-0 sm:shadow-lg relative bg-white"
 >
   <div
-    class="border-t border-l bg-slate-400 text-white p-1 sticky top-0 z-50"
+    class="border-t border-l bg-slate-400 text-white p-1 sticky top-0 z-20"
     *ngFor="let weekday of weekdays"
   >
     <p class="text-center">{{ weekday }}</p>
@@ -39,7 +39,7 @@
         <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
         <div
           matRipple
-          class="w-full h-full !absolute cursor-pointer z-50"
+          class="w-full h-full !absolute cursor-pointer z-20"
           *ngIf="day.events.length > 0"
         ></div>
         <p class="text-center text-sm md:text-base">
