@@ -16,6 +16,15 @@ import * as fs from 'fs';
 import { marked } from 'marked';
 import mjml2html from 'mjml';
 
+const signupVelocities = builder.simpleObject('signupVelocities', {
+  fields: (t) => ({
+    quarter: t.float(),
+    fifty: t.float(),
+    threequarters: t.float(),
+    ninety: t.float(),
+  }),
+});
+
 export const eventType = builder.prismaObject('TumiEvent', {
   findUnique: (event) => ({ id: event.id }),
   fields: (t) => ({
@@ -207,8 +216,9 @@ export const eventType = builder.prismaObject('TumiEvent', {
         },
       },
     }),
-    signupVelocity: t.float({
+    signupVelocity: t.field({
       nullable: true,
+      type: signupVelocities,
       resolve: async (event) => {
         const eventRegistrations = await prisma.eventRegistration.findMany({
           where: {
@@ -227,22 +237,40 @@ export const eventType = builder.prismaObject('TumiEvent', {
         );
         const maxParticipants = event.participantLimit;
         const registrationStart = event.registrationStart;
-        const critUserCount = Math.floor(maxParticipants * 0.75);
-        const critRegistrationTime = registrationTimes[critUserCount - 1];
-        if (!critRegistrationTime) {
-          return null;
+        // Crit registration time at 25, 50, 75 and 90 percent of the registrations
+        const critUserPercentile = [25, 50, 75, 90];
+        const critRegistrationTimes = Array(critUserPercentile.length);
+        const timespan = Array(critUserPercentile.length);
+        const critUserCount = Array(critUserPercentile.length);
+        const registrationStartLuxon = DateTime.fromJSDate(registrationStart);
+        for (let i = 0; i < critUserPercentile.length; i++) {
+          critUserCount[i] = Math.round(
+            (critUserPercentile[i] / 100) * maxParticipants
+          );
+          critRegistrationTimes[i] = registrationTimes[critUserCount[i] - 1];
+
+          if (!critRegistrationTimes[i]) {
+            timespan[i] = null;
+          } else {
+            const critRegistrationTimeLuxon = DateTime.fromJSDate(
+              critRegistrationTimes[i]
+            );
+            const diff = critRegistrationTimeLuxon.diff(
+              registrationStartLuxon,
+              'minutes'
+            );
+            timespan[i] = diff.minutes;
+          }
         }
 
-        const registrationStartLuxon = DateTime.fromJSDate(registrationStart);
-        const critRegistrationTimeLuxon =
-          DateTime.fromJSDate(critRegistrationTime);
+        const velocities = {
+          quarter: round((critUserCount[0] / timespan[0]) * 100) / 100,
+          fifty: round((critUserCount[1] / timespan[1]) * 100) / 100,
+          threequarters: round((critUserCount[2] / timespan[2]) * 100) / 100,
+          ninety: round((critUserCount[3] / timespan[3]) * 100) / 100,
+        };
 
-        const timespan = critRegistrationTimeLuxon.diff(
-          registrationStartLuxon,
-          'minutes'
-        );
-
-        return Math.round((critUserCount / timespan.minutes) * 100) / 100;
+        return velocities;
       },
     }),
     activeRegistration: t.prismaField({
