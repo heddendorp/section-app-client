@@ -702,6 +702,7 @@ type TumiEvent {
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
   shouldBeReportedToInsurance: Boolean!
+  signupVelocity: Float
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   submittedSpend: Decimal!

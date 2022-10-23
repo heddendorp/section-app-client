@@ -1156,6 +1156,7 @@ export type TumiEvent = {
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
   shouldBeReportedToInsurance: Scalars['Boolean'];
+  signupVelocity?: Maybe<Scalars['Float']>;
   start: Scalars['DateTime'];
   submissionItems: Array<EventSubmissionItem>;
   submittedSpend: Scalars['Decimal'];
