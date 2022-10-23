@@ -1156,7 +1156,7 @@ export type TumiEvent = {
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime'];
   shouldBeReportedToInsurance: Scalars['Boolean'];
-  signupVelocity?: Maybe<Scalars['Float']>;
+  signupVelocity?: Maybe<SignupVelocities>;
   start: Scalars['DateTime'];
   submissionItems: Array<EventSubmissionItem>;
   submittedSpend: Scalars['Decimal'];
@@ -1338,6 +1338,14 @@ export type UsersOfTenants = {
   tenantId: Scalars['ID'];
   user: User;
   userId: Scalars['ID'];
+};
+
+export type SignupVelocities = {
+  __typename?: 'signupVelocities';
+  fifty?: Maybe<Scalars['Float']>;
+  ninety?: Maybe<Scalars['Float']>;
+  quarter?: Maybe<Scalars['Float']>;
+  threequarters?: Maybe<Scalars['Float']>;
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;

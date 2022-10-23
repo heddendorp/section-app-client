@@ -702,7 +702,7 @@ type TumiEvent {
   registrationMode: RegistrationMode!
   registrationStart: DateTime!
   shouldBeReportedToInsurance: Boolean!
-  signupVelocity: Float
+  signupVelocity: signupVelocities
   start: DateTime!
   submissionItems(submissionTime: SubmissionTime): [EventSubmissionItem!]!
   submittedSpend: Decimal!
@@ -840,4 +840,11 @@ type UsersOfTenants {
   tenantId: ID!
   user: User!
   userId: ID!
+}
+
+type signupVelocities {
+  fifty: Float
+  ninety: Float
+  quarter: Float
+  threequarters: Float
 }

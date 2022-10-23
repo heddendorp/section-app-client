@@ -1,7 +1,13 @@
 import { createClient, RedisClientType } from 'redis';
 import { Context } from '../builder';
-import { MembershipStatus, Tenant } from '../generated/prisma';
+import {
+  MembershipStatus,
+  RegistrationStatus,
+  RegistrationType,
+  Tenant,
+} from '../generated/prisma';
 import prisma from '../client';
+import { DateTime } from 'luxon';
 
 class CacheService {
   private client: RedisClientType;
@@ -48,6 +54,92 @@ class CacheService {
       }
       return JSON.parse(tenant);
     }
+  }
+
+  public async getSignupVelocity(eventId: string) {
+    if (this.redisError) {
+      return this.calculateSignupVelocity(eventId);
+    } else {
+      const signupVelocity = await this.client.get(`signupVelocity:${eventId}`);
+      if (!signupVelocity) {
+        const velocities = await this.calculateSignupVelocity(eventId);
+        await this.client.set(
+          `signupVelocity:${eventId}`,
+          JSON.stringify(velocities),
+          { EX: 60 * 60 * 24 }
+        );
+        return velocities;
+      }
+      return JSON.parse(signupVelocity);
+    }
+  }
+
+  private async calculateSignupVelocity(eventId: string) {
+    const event = await prisma.tumiEvent.findUniqueOrThrow({
+      where: {
+        id: eventId,
+      },
+    });
+    const eventRegistrations = await prisma.eventRegistration.findMany({
+      where: {
+        event: { id: event.id },
+        status: { not: RegistrationStatus.CANCELLED },
+        type: RegistrationType.PARTICIPANT,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+      select: {
+        createdAt: true,
+      },
+    });
+    const registrationTimes = eventRegistrations.map(
+      (registration) => registration.createdAt
+    );
+    const maxParticipants = event.participantLimit;
+    const registrationStart = event.registrationStart;
+    // Crit registration time at 25, 50, 75 and 90 percent of the registrations
+    const critUserPercentile = [25, 50, 75, 90];
+    const critRegistrationTimes = Array(critUserPercentile.length);
+    const timespan = Array(critUserPercentile.length);
+    const critUserCount = Array(critUserPercentile.length);
+    const registrationStartLuxon = DateTime.fromJSDate(registrationStart);
+    for (let i = 0; i < critUserPercentile.length; i++) {
+      critUserCount[i] = Math.round(
+        (critUserPercentile[i] / 100) * maxParticipants
+      );
+      critRegistrationTimes[i] = registrationTimes[critUserCount[i] - 1];
+
+      if (!critRegistrationTimes[i]) {
+        timespan[i] = null;
+      } else {
+        const critRegistrationTimeLuxon = DateTime.fromJSDate(
+          critRegistrationTimes[i]
+        );
+        const diff = critRegistrationTimeLuxon.diff(
+          registrationStartLuxon,
+          'hours'
+        );
+        timespan[i] = diff.hours;
+      }
+    }
+
+    const velocities = {
+      quarter: timespan[0]
+        ? Math.round((critUserCount[0] / timespan[0]) * 100) / 100
+        : null,
+      fifty: timespan[1]
+        ? Math.round((critUserCount[1] / timespan[1]) * 100) / 100
+        : null,
+      threequarters: timespan[2]
+        ? Math.round((critUserCount[2] / timespan[2]) * 100) / 100
+        : null,
+      ninety: timespan[3]
+        ? Math.round((critUserCount[3] / timespan[3]) * 100) / 100
+        : null,
+    };
+
+    return velocities;
   }
 
   public async getUserMembershipStatus(

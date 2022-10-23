@@ -142,9 +142,12 @@ export class EventListPageComponent implements OnDestroy {
       this.hideFullEvents.valueChanges.pipe(
         startWith(this.hideFullEvents.value)
       ),
+      this.hideFullTutorEvents.valueChanges.pipe(
+        startWith(this.hideFullTutorEvents.value)
+      ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
-      map(([events, hideFull, filterEvents]) => {
+      map(([events, hideFull, hideFullTutors, filterEvents]) => {
         this.loading$.next(false);
         let filteredEvents = events;
         if (hideFull) {
@@ -153,26 +156,7 @@ export class EventListPageComponent implements OnDestroy {
               event.participantRegistrationCount < event.participantLimit
           );
         }
-        if (filterEvents) {
-          filteredEvents = filteredEvents.filter((event) =>
-            event.title.toLowerCase().includes(filterEvents.toLowerCase())
-          );
-        }
-        return filteredEvents;
-      })
-    );
-
-    this.events$ = combineLatest([
-      events$,
-      this.hideFullTutorEvents.valueChanges.pipe(
-        startWith(this.hideFullTutorEvents.value)
-      ),
-      this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
-    ]).pipe(
-      map(([events, hideFull, filterEvents]) => {
-        this.loading$.next(false);
-        let filteredEvents = events;
-        if (hideFull) {
+        if (hideFullTutors) {
           filteredEvents = events.filter(
             (event) => event.organizersRegistered < event.organizerLimit
           );
