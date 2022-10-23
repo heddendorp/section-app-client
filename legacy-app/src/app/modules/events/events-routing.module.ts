@@ -11,6 +11,7 @@ import { EventCheckinPageComponent } from '@tumi/legacy-app/modules/events/pages
 import { EventReceiptsPageComponent } from '@tumi/legacy-app/modules/events/pages/event-receipts-page/event-receipts-page.component';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
+import { CheckEventIdGuard } from '@tumi/legacy-app/modules/events/guards/check-event-id.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: EventListPageComponent },
@@ -41,7 +42,7 @@ const routes: Routes = [
   },
   {
     path: ':eventId',
-    canActivate: [],
+    canActivate: [CheckEventIdGuard],
     children: [
       { path: '', pathMatch: 'full', component: EventDetailsPageComponent },
       {
