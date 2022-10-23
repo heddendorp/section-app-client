@@ -16,10 +16,10 @@ import {
   UserProfileGQL,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { BehaviorSubject, first, firstValueFrom, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, first, firstValueFrom, map, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
@@ -63,7 +63,7 @@ export class ProfilePageComponent implements OnDestroy {
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentUser)
+      map(({ data, error }) => data.currentUser)
     );
 
     this.profileEventsQueryRef = this.profileEventsQuery.watch();
