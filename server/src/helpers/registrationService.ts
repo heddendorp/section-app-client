@@ -205,7 +205,9 @@ export class RegistrationService {
       data: {
         type: TransactionType.STRIPE,
         direction: TransactionDirection.USER_TO_TUMI,
-        subject: `Fee for: ${items.map((item) => item.price_data?.product_data?.name).join(',')}`,
+        subject: `Fee for: ${items
+          .map((item) => item.price_data?.product_data?.name)
+          .join(',')}`,
         createdBy: { connect: { id: userId } },
         user: { connect: { id: userId } },
         tenant: { connect: { id: context.tenant.id } },
