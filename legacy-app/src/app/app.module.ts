@@ -46,10 +46,15 @@ import { IconToastComponent } from '@tumi/legacy-app/modules/shared/components/i
 import { Settings } from 'luxon';
 import * as Sentry from '@sentry/angular';
 import { MatRippleModule } from '@angular/material/core';
-import { PageNotFoundComponent } from './modules/shared/pages/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, NavigationComponent, AuthButtonComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    NavigationComponent,
+    AuthButtonComponent,
+    PageNotFoundComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

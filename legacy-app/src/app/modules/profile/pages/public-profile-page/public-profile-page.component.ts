@@ -30,11 +30,8 @@ export class PublicProfilePageComponent {
     );
 
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
-      map(({ data, errors }) => {
-        if (errors) {
-          router.navigate(['404'])
-        }
-        return data.user
+      map(({ data }) => {
+        return data.user;
       }),
       tap((user) => {
         this.title.setTitle(`${user.fullName} - TUMi`);
