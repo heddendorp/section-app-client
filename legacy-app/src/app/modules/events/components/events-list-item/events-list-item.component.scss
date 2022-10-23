@@ -1,36 +1,29 @@
 .event {
-  &.organizer::before {
-    @apply absolute left-0 h-full w-[6px] bg-blue-600;
-    content: ' ';
+  &.organizer {
+    @apply border-4 border-blue-600 bg-blue-50;
   }
-  &.participant::before {
-    @apply absolute left-0 h-full w-[6px] bg-green-600;
-    content: ' ';
+  &.participant {
+    @apply border-4 border-green-600 bg-green-50;
+  }
+  &.draft {
+    @apply bg-amber-50;
+  }
+  &.organizers {
+    @apply bg-blue-50;
+  }
+  &.approval {
+    @apply bg-violet-50;
   }
 }
 
 .publication-state {
-  @apply h-10 flex items-center px-5;
-
   &.draft {
-    @apply bg-yellow-200;
-    &::before {
-      @apply text-yellow-800 font-semibold;
-      content: 'Draft';
-    }
+    @apply bg-amber-300 text-amber-800;
   }
   &.organizers {
-    @apply bg-blue-200;
-    &::before {
-      @apply text-blue-800 font-semibold;
-      content: 'Visible to tutors';
-    }
+    @apply bg-blue-300 text-blue-800;
   }
   &.approval {
-    @apply bg-violet-200;
-    &::before {
-      @apply text-purple-800 font-semibold;
-      content: 'Ready for approval';
-    }
+    @apply bg-violet-300 text-violet-800;
   }
 }

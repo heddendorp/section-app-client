@@ -21,9 +21,9 @@ export class EventsListItemComponent {
   constructor(private datePipe: ExtendDatePipe) {}
 
   public notYetOpen() {
-    if (this.event?.couldBeOrganizer) {
+    /*if (this.event?.couldBeOrganizer) {
       return new Date(this.event?.organizerRegistrationStart) > new Date();
-    }
+    }*/
     return new Date(this.event?.registrationStart) > new Date();
   }
 
@@ -31,11 +31,9 @@ export class EventsListItemComponent {
     if (!this.event) {
       return '';
     }
-    const date = this.event.couldBeOrganizer
-      ? DateTime.fromISO(this.event.organizerRegistrationStart)
-      : DateTime.fromISO(this.event.registrationStart);
+    const date = DateTime.fromISO(this.event.registrationStart);
     if (date.startOf('day') <= DateTime.local().startOf('day')) {
-      return date.toFormat('HH:mm');
+      return `at ${date.toFormat('HH:mm')}`;
     }
     return this.datePipe.transform(this.event.registrationStart, 'shortDate');
   }
@@ -52,39 +50,81 @@ export class EventsListItemComponent {
       return '';
     }
     if (this.event.organizersRegistered / this.event.organizerLimit < 0.1) {
-      return 'text-red-500 font-semibold';
+      return 'text-red-600 font-medium';
     }
     if (this.event.organizersRegistered >= this.event.organizerLimit) {
-      return 'text-slate-500 font-normal';
+      return 'text-zinc-600 font-medium';
     }
-    return 'text-yellow-500 font-semibold';
+    return 'text-amber-600 font-medium';
   }
 
-  public freeSpotsStyling(freeParticipantSpots: string) {
-    if (freeParticipantSpots.includes('full')) {
-      return 'bg-red-200 text-red-800';
-    }
-    if (freeParticipantSpots.includes('Many')) {
-      return 'bg-green-200 text-green-800';
-    }
-    return 'bg-orange-200 text-orange-800';
-  }
-
-  public freeSpotsString(
+  public freeSpotsStyling(
     participantRegistrationCount: number,
     participantLimit: number
   ) {
     const quota = participantRegistrationCount / participantLimit;
     if (quota < 0.5) {
+      return 'bg-green-300 text-green-800';
+    } else if (quota < 0.8) {
+      return 'bg-amber-300 text-amber-800';
+    } else if (quota < 1) {
+      return 'bg-orange-300 text-orange-800';
+    } else if (participantLimit - participantRegistrationCount === 1) {
+      return 'bg-red-300 text-red-800';
+    } else {
+      return 'bg-zinc-300 text-zinc-800';
+    }
+  }
+
+  public freeSpotsIcon(
+    participantRegistrationCount: number,
+    participantLimit: number
+  ) {
+    const quota = participantRegistrationCount / participantLimit;
+    if (quota < 0.5) {
+      return 'icon-0-percents';
+    } else if (quota < 0.8) {
+      return 'icon-50-percents';
+    } else if (quota < 1) {
+      return 'icon-50-percents';
+    } else if (participantLimit - participantRegistrationCount === 1) {
+      return 'icon-360-degrees';
+    } else {
+      return 'icon-360-degrees';
+    }
+  }
+
+  public freeSpotsString(
+    participantRegistrationCount: number,
+    participantLimit: number,
+    couldBeOrganizer: boolean
+  ) {
+    const quota = participantRegistrationCount / participantLimit;
+    if (couldBeOrganizer) {
+      return `${participantRegistrationCount}/${participantLimit}`;
+    }
+    if (quota < 0.5) {
       return 'Many free spots';
     } else if (quota < 0.8) {
       return 'Some spots left';
-    } else if (participantLimit - participantRegistrationCount === 1) {
-      return 'One spot left';
     } else if (quota < 1) {
       return 'Few spots left';
+    } else if (participantLimit - participantRegistrationCount === 1) {
+      return 'One spot left';
     } else {
       return 'Event is full';
+    }
+  }
+
+  public publicationStateString(publicationState: string) {
+    if (publicationState === 'DRAFT') {
+      return 'Draft';
+    } else if (publicationState === 'APPROVAL') {
+      return 'Ready for approval';
+    } else if (publicationState === 'ORGANIZERS') {
+      return 'Visible to tutors';
+    } else {
+      return;
     }
   }
 }
