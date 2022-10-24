@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.3",
-    "@types/react": "^18.0.21",
+    "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.6",
     "autoprefixer": "^10.4.12",
     "concurrently": "^7.5.0",
