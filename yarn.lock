@@ -6528,7 +6528,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     remix-auth: ^3.3.0
-    remix-auth-auth0: 1.4.0
+    remix-auth-auth0: 1.4.1
     stripe: ^10.15.0
     tailwindcss: ^3.2.1
     typescript: ~4.8.4
@@ -21316,7 +21316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.1.0, react-dom@npm:^18.2.0":
+"react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -21733,28 +21733,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remix-auth-auth0@npm:1.4.0":
-  version: 1.4.0
-  resolution: "remix-auth-auth0@npm:1.4.0"
+"remix-auth-auth0@npm:1.4.1":
+  version: 1.4.1
+  resolution: "remix-auth-auth0@npm:1.4.1"
   dependencies:
-    remix-auth-oauth2: ^1.2.2
+    remix-auth-oauth2: ^1.3.0
   peerDependencies:
     remix-auth: ^3.x
-  checksum: 0b0c351cd8a1f58ff362cc1174e953a863c1b5eec6b6cab5ae76313130c88de93a455db33b63d997359edaca18a9e31bfe4ab56d2d7d88bfa8f689db1dd9d852
+  checksum: 5a514b1b1aaa4dbf519d8ae12cbe87041615e1abbd379d3b416770cfcc4e418145c82a875661baf34d2d2dc7e119ad3845e1cc01735358422472d44171b7339e
   languageName: node
   linkType: hard
 
-"remix-auth-oauth2@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "remix-auth-oauth2@npm:1.2.2"
+"remix-auth-oauth2@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "remix-auth-oauth2@npm:1.3.0"
   dependencies:
     debug: ^4.3.4
-    react-dom: ^18.1.0
     remix-auth: ^3.2.2
     uuid: ^8.3.2
   peerDependencies:
     "@remix-run/server-runtime": ^1.0.0
-  checksum: f52e37e9b5e5ecf3b10769c7d58b992989189100dbed3b1a05efb3b619da1177b90287776c51a72951846511752410dc9293e9428ef74688d06e20e9d7bf0256
+  checksum: d126981faf54e764f6df05b2a075a7e98e4ef8d3115de6475fdb817a5da46d729ac6659dadad17df6363fda55ed010b089ad42a9568cc2416a6450de2d2287eb
   languageName: node
   linkType: hard
 
