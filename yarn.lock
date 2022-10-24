@@ -6402,7 +6402,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.7
     "@types/jasmine": ~4.3.0
     "@types/luxon": ^3.0.2
-    "@types/node": ^18.11.3
+    "@types/node": ^18.11.4
     "@types/prettier": ^2.7.1
     "@typescript-eslint/eslint-plugin": 5.40.1
     "@typescript-eslint/parser": 5.40.1
@@ -6473,7 +6473,7 @@ __metadata:
     "@types/d3-selection": ^3.0.3
     "@types/jasmine": ~4.3.0
     "@types/luxon": ^3.0.2
-    "@types/node": 18.11.3
+    "@types/node": 18.11.4
     "@types/prettier": ^2.7.1
     "@typescript-eslint/eslint-plugin": 5.40.1
     "@typescript-eslint/parser": 5.40.1
@@ -6574,7 +6574,7 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.9
     "@types/lodash": ^4.14.186
     "@types/luxon": ^3.0.2
-    "@types/node": ^18.11.3
+    "@types/node": ^18.11.4
     "@types/node-cron": ^3.0.4
     "@types/prettier": ^2.7.1
     "@types/qrcode": ^1.5.0
@@ -7170,10 +7170,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.11.3, @types/node@npm:^18.11.3":
-  version: 18.11.3
-  resolution: "@types/node@npm:18.11.3"
-  checksum: 3a2a9142d891a90a195c296149bf64a69cc0abcc42f543be911ab22b2e0ead85ff077f90af92f0f13f6e3e5e72501469200fd753dfd1101825d4646a89d3ee47
+"@types/node@npm:18.11.4, @types/node@npm:^18.11.4":
+  version: 18.11.4
+  resolution: "@types/node@npm:18.11.4"
+  checksum: 1de782b4eef4a5115396ae62137f248390ee5d1d9e9eeb49599714554cce1328af43da31bc28e7bab5a0ef859538a584a907b26163a59b42bc87b8317dc00bb8
   languageName: node
   linkType: hard
 
