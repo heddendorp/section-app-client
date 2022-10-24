@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
+import { PageNotFoundComponent } from '@tumi/legacy-app/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'events' },
   { path: 'about', pathMatch: 'full', redirectTo: 'page/about' },
   {
     path: 'profile',
@@ -61,7 +63,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
-  { path: '**', redirectTo: 'events' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
