@@ -28,6 +28,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { ProgressBarMode } from '@angular/material/progress-bar';
+import { DateTime } from 'luxon';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -78,7 +79,14 @@ export class ProfilePageComponent implements OnDestroy {
         ) ?? []),
         ...(profile?.organizedEvents.filter((event) => event?.ratingPending) ??
           []),
-      ])
+      ]),
+      map((events) =>
+        events.filter(
+          (event) =>
+            DateTime.fromISO(event?.end).plus({ days: 7 }).toJSDate() >
+            new Date()
+        )
+      )
     );
 
     this.route.queryParamMap.pipe(first()).subscribe((queryMap) => {
