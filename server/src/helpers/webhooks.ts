@@ -565,33 +565,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                           removedRegistration.transactions[0].stripePayment
                             .paymentIntent,
                       });
-                      await prisma.transaction.create({
-                        data: {
-                          subject: `Refund for ${removedRegistration.id}`,
-                          tenant: {
-                            connect: {
-                              id: removedRegistration.transactions[0].tenantId,
-                            },
-                          },
-                          direction: TransactionDirection.TUMI_TO_USER,
-                          status: TransactionStatus.CONFIRMED,
-                          amount: removedRegistration.transactions[0].amount,
-                          type: TransactionType.STRIPE,
-                          user: { connect: { id: removedRegistration.userId } },
-                          createdBy: {
-                            connect: { id: removedRegistration.userId },
-                          },
-                          eventRegistration: {
-                            connect: { id: removedRegistration.id },
-                          },
-                          stripePayment: {
-                            connect: {
-                              id: removedRegistration.transactions[0]
-                                .stripePayment.id,
-                            },
-                          },
-                        },
-                      });
                     } catch (e) {
                       await prisma.activityLog.create({
                         data: {
