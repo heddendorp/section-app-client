@@ -262,3 +262,36 @@ app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
 
 app.listen(port, async () => {});
+
+async function fixTransactions() {
+  const registrations = await prisma.eventRegistration.findMany({
+    include: { transactions: true },
+  });
+  console.log(`Found ${registrations.length} registrations`);
+  let count = 0;
+  for (const registration of registrations) {
+    console.log(`Progress: ${count++}/${registrations.length}`);
+    for (const transaction of registration.transactions) {
+      const existingTransactions = await prisma.transaction.count({
+        where: {
+          subject: transaction.subject,
+          amount: transaction.amount,
+          direction: transaction.direction,
+          id: { in: registration.transactions.map((t) => t.id) },
+        },
+      });
+      if (existingTransactions > 1) {
+        console.log(`-- Deleting transaction ${transaction.id}`);
+        await prisma.transaction.delete({
+          where: {
+            id: transaction.id,
+          },
+        });
+      } else {
+        console.log(`++ Keeping transaction ${transaction.id}`);
+      }
+    }
+  }
+  console.log('Done');
+}
+// fixTransactions();
