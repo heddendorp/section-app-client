@@ -1,7 +1,0 @@
-.intro {
-  background: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%),
-    linear-gradient(#91959e 0, #424242 250px);
-  background-blend-mode: multiply;
-  color: white;
-  padding: 4rem 2rem 2rem;
-}
