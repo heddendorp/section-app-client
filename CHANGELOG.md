@@ -1,3 +1,27 @@
+# [5.4.0](https://github.com/heddendorp/tumi/compare/v5.3.0...v5.4.0) (2022-10-25)
+
+
+### Bug Fixes
+
+* **app:** add routing if resources are not found ([#520](https://github.com/heddendorp/tumi/issues/520)) ([eaeec10](https://github.com/heddendorp/tumi/commit/eaeec10a132b7e630418c408e2bddbc8a1c08882))
+* **app:** disable registration code delete if it was used ([eb5b4d2](https://github.com/heddendorp/tumi/commit/eb5b4d2fe4cf35602d13007b05d64785bd4ae8f3))
+* **app:** fix z-index of calendar and fab button ([#510](https://github.com/heddendorp/tumi/issues/510)) ([#518](https://github.com/heddendorp/tumi/issues/518)) ([9030c85](https://github.com/heddendorp/tumi/commit/9030c85b91d74bfb09ff717d67cb8575e91e3210))
+* **app:** make full tutor spots toggle work ([1eca1f5](https://github.com/heddendorp/tumi/commit/1eca1f5a2678de631b5b3b33e84b48bbea472259))
+* **app:** prevent clicking through navbar ([d211ab5](https://github.com/heddendorp/tumi/commit/d211ab5d615d11f1786dc64e475fd5d00f61b03f))
+* **app:** reduce events to rate in profile ([9ceaf1e](https://github.com/heddendorp/tumi/commit/9ceaf1ea5cdce3ee496cdadc49b1a8f89a8e85b9))
+* **server:** prevent double refund transactions for registration moves ([a479919](https://github.com/heddendorp/tumi/commit/a479919de7e85ee6d577386922c4a4479f8d9c89))
+* **server:** prevent double stripe fee transactions ([d5362f8](https://github.com/heddendorp/tumi/commit/d5362f86fe32dc669c191fb587ec181eb20b1664))
+
+
+### Features
+
+* **app:** add default price to event creation ([fee8af5](https://github.com/heddendorp/tumi/commit/fee8af587f5d703ef12ac5ba6227ea2162250d0a))
+* **app:** Add signup velocity ([#519](https://github.com/heddendorp/tumi/issues/519)) ([a6e499f](https://github.com/heddendorp/tumi/commit/a6e499fe6eb72d5b8c871d578556f2b5c2a0b46b))
+* **app:** added hide full tutor button ([#505](https://github.com/heddendorp/tumi/issues/505)) ([c0e61b4](https://github.com/heddendorp/tumi/commit/c0e61b4a1695e3d20d2a08b8fa3dee0041e38ba4))
+* **app:** show footer on all pages ([c84be02](https://github.com/heddendorp/tumi/commit/c84be022d5580a96c33ae9869e7eb038638e5a2d))
+
+
+
 # [5.3.0](https://github.com/heddendorp/tumi/compare/v5.2.0...v5.3.0) (2022-10-12)
 
 ### Bug Fixes
