@@ -1,3 +1,12 @@
+## [5.4.1](https://github.com/heddendorp/tumi/compare/v5.4.0...v5.4.1) (2022-10-25)
+
+
+### Bug Fixes
+
+* **app:** add simple analytics badge ([2741a50](https://github.com/heddendorp/tumi/commit/2741a50f0cc6c85cc316948fbe0b87cc50d43adb))
+
+
+
 # [5.4.0](https://github.com/heddendorp/tumi/compare/v5.3.0...v5.4.0) (2022-10-25)
 
 
