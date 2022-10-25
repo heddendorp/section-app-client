@@ -438,53 +438,62 @@ export const webhookRouter = (prisma: PrismaClient) => {
           }
 
           if (transaction) {
-            await prisma.transaction.create({
-              data: {
-                type: TransactionType.STRIPE,
+            const existingFeeTransaction = await prisma.transaction.findFirst({
+              where: {
                 direction: TransactionDirection.TUMI_TO_EXTERNAL,
-                subject: `Stripe fees for ${transaction.id}`,
                 amount: balanceTransaction.fee / 100,
-                status: TransactionStatus.CONFIRMED,
-                user: {
-                  connect: {
-                    id: transaction.userId,
-                  },
-                },
-                createdBy: {
-                  connect: {
-                    id: transaction.userId,
-                  },
-                },
-                tenant: {
-                  connect: {
-                    id: transaction.tenantId,
-                  },
-                },
-                stripePayment: {
-                  connect: {
-                    id: payment.id,
-                  },
-                },
-                ...(transaction.eventRegistrationId
-                  ? {
-                      eventRegistration: {
-                        connect: {
-                          id: transaction.eventRegistrationId,
-                        },
-                      },
-                    }
-                  : {}),
-                ...(transaction.purchaseId
-                  ? {
-                      purchase: {
-                        connect: {
-                          id: transaction.purchaseId,
-                        },
-                      },
-                    }
-                  : {}),
+                stripePayment: { id: payment.id },
               },
             });
+            if (!existingFeeTransaction) {
+              await prisma.transaction.create({
+                data: {
+                  type: TransactionType.STRIPE,
+                  direction: TransactionDirection.TUMI_TO_EXTERNAL,
+                  subject: `Stripe fees for ${transaction.id}`,
+                  amount: balanceTransaction.fee / 100,
+                  status: TransactionStatus.CONFIRMED,
+                  user: {
+                    connect: {
+                      id: transaction.userId,
+                    },
+                  },
+                  createdBy: {
+                    connect: {
+                      id: transaction.userId,
+                    },
+                  },
+                  tenant: {
+                    connect: {
+                      id: transaction.tenantId,
+                    },
+                  },
+                  stripePayment: {
+                    connect: {
+                      id: payment.id,
+                    },
+                  },
+                  ...(transaction.eventRegistrationId
+                    ? {
+                        eventRegistration: {
+                          connect: {
+                            id: transaction.eventRegistrationId,
+                          },
+                        },
+                      }
+                    : {}),
+                  ...(transaction.purchaseId
+                    ? {
+                        purchase: {
+                          connect: {
+                            id: transaction.purchaseId,
+                          },
+                        },
+                      }
+                    : {}),
+                },
+              });
+            }
           }
 
           if (transaction.eventRegistration) {
