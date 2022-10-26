@@ -483,17 +483,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:^14.2.7":
-  version: 14.2.7
-  resolution: "@angular/router@npm:14.2.7"
+"@angular/router@npm:^14.2.8":
+  version: 14.2.8
+  resolution: "@angular/router@npm:14.2.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 14.2.7
-    "@angular/core": 14.2.7
-    "@angular/platform-browser": 14.2.7
+    "@angular/common": 14.2.8
+    "@angular/core": 14.2.8
+    "@angular/platform-browser": 14.2.8
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 12c7d9e2c08cff33609e7391081a74473cfa777ff5d1e0f9d6c085a93b9499aa83876d4ff64e213ac4ca749e9ff548421aca85ca8e39f239de1ac09296f886c8
+  checksum: dfc2770f7d0d754cd858c4b417298c549b9a730a005133fee3fb222d351d2d3937f7e8e8fdf49e33ede1d4eabccf6867fdfacd501e00489bd723f770af131197
   languageName: node
   linkType: hard
 
@@ -5624,7 +5624,7 @@ __metadata:
     "@angular/material-luxon-adapter": ^14.2.5
     "@angular/platform-browser": ^14.2.7
     "@angular/platform-browser-dynamic": ^14.2.7
-    "@angular/router": ^14.2.7
+    "@angular/router": ^14.2.8
     "@angular/service-worker": ^14.2.7
     "@apollo/client": ^3.7.0
     "@auth0/auth0-angular": ^1.11.0
