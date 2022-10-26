@@ -436,20 +436,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material@npm:^14.2.5":
-  version: 14.2.5
-  resolution: "@angular/material@npm:14.2.5"
+"@angular/material@npm:^14.2.6":
+  version: 14.2.6
+  resolution: "@angular/material@npm:14.2.6"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/animations": ^14.0.0 || ^15.0.0
-    "@angular/cdk": 14.2.5
+    "@angular/cdk": 14.2.6
     "@angular/common": ^14.0.0 || ^15.0.0
     "@angular/core": ^14.0.0 || ^15.0.0
     "@angular/forms": ^14.0.0 || ^15.0.0
     "@angular/platform-browser": ^14.0.0 || ^15.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 17f8ee1153f43b0c4f34d8edd0e8222ffb791fadad7dfe1b388f3974369b39eaf72904c7d52af27f55ec9a7f593b56b852450cbdaf82e8620d89be1054aa4b5a
+  checksum: 5638a6b505ee35374256ae817e6787250d1d23c171e168bc49660db50fda223a8f773756bf0e200b6bfcaf1816cc73495e26691cd4e2d1effa21fa14b268ad81
   languageName: node
   linkType: hard
 
@@ -5620,7 +5620,7 @@ __metadata:
     "@angular/flex-layout": ^14.0.0-beta.41
     "@angular/forms": ^14.2.7
     "@angular/google-maps": ^14.2.5
-    "@angular/material": ^14.2.5
+    "@angular/material": ^14.2.6
     "@angular/material-luxon-adapter": ^14.2.5
     "@angular/platform-browser": ^14.2.7
     "@angular/platform-browser-dynamic": ^14.2.7
