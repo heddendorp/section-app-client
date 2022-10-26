@@ -26,7 +26,7 @@
     "@angular/material": "^14.2.5",
     "@angular/material-luxon-adapter": "^14.2.5",
     "@angular/platform-browser": "^14.2.7",
-    "@angular/platform-browser-dynamic": "^14.2.7",
+    "@angular/platform-browser-dynamic": "^14.2.8",
     "@angular/router": "^14.2.7",
     "@angular/service-worker": "^14.2.7",
     "@apollo/client": "^3.7.0",

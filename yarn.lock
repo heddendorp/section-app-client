@@ -453,17 +453,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser-dynamic@npm:^14.2.7":
-  version: 14.2.7
-  resolution: "@angular/platform-browser-dynamic@npm:14.2.7"
+"@angular/platform-browser-dynamic@npm:^14.2.8":
+  version: 14.2.8
+  resolution: "@angular/platform-browser-dynamic@npm:14.2.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 14.2.7
-    "@angular/compiler": 14.2.7
-    "@angular/core": 14.2.7
-    "@angular/platform-browser": 14.2.7
-  checksum: 3976749e072239d66ca328ca6835abf16db70ee18e3d2a3b5673cb792d00a99c4105449c95bc6001de5828f9c4efc123b593f604ac6c27f7b8f3eef4b887cbca
+    "@angular/common": 14.2.8
+    "@angular/compiler": 14.2.8
+    "@angular/core": 14.2.8
+    "@angular/platform-browser": 14.2.8
+  checksum: e93a8e5104f236545e21fbde3a19f51e0a28403d29cda2538d4d919570aa2675f2dfc816cf2547f794b23b139f2e752db64c0e494f6810cec8ffb700353b83c6
   languageName: node
   linkType: hard
 
@@ -5623,7 +5623,7 @@ __metadata:
     "@angular/material": ^14.2.5
     "@angular/material-luxon-adapter": ^14.2.5
     "@angular/platform-browser": ^14.2.7
-    "@angular/platform-browser-dynamic": ^14.2.7
+    "@angular/platform-browser-dynamic": ^14.2.8
     "@angular/router": ^14.2.7
     "@angular/service-worker": ^14.2.7
     "@apollo/client": ^3.7.0
