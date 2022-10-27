@@ -43,6 +43,9 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
           })
           .then((events) => {
             const count = events.length;
+            if (count === 0) {
+              return 22;
+            }
             const middle = Math.floor(count / 2);
             return events[middle].participantLimit;
           }),
@@ -61,6 +64,9 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
           })
           .then((events) => {
             const count = events.length;
+            if (count === 0) {
+              return 3;
+            }
             const middle = Math.floor(count / 2);
             return events[middle].organizerLimit;
           }),
