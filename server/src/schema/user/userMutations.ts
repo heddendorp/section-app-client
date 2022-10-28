@@ -37,11 +37,14 @@ builder.mutationFields((t) => ({
         update: {
           email,
           email_verified,
-          picture,
           ...input,
+          firstName: input.firstName.trim(),
+          lastName: input.lastName.trim(),
         },
         create: {
           ...input,
+          firstName: input.firstName.trim(),
+          lastName: input.lastName.trim(),
           authId: context.token?.sub ?? '',
           email,
           email_verified,
