@@ -39,11 +39,12 @@ builder.mutationFields((t) => ({
     args: {
       registrationId: t.arg.id({ required: true }),
       withRefund: t.arg.boolean({ defaultValue: true }),
+      refundFees: t.arg.boolean({ defaultValue: true }),
     },
     resolve: async (
       query,
       parent,
-      { registrationId, withRefund },
+      { registrationId, withRefund, refundFees },
       context,
       info
     ) => {
@@ -96,6 +97,7 @@ builder.mutationFields((t) => ({
         registrationId,
         withRefund ?? false,
         isKick,
+        refundFees ?? true,
         context
       );
       return prisma.tumiEvent.findUniqueOrThrow({

@@ -507,6 +507,7 @@ export type MutationDeleteTemplateArgs = {
 
 
 export type MutationDeregisterFromEventArgs = {
+  refundFees?: InputMaybe<Scalars['Boolean']>;
   registrationId: Scalars['ID'];
   withRefund?: InputMaybe<Scalars['Boolean']>;
 };
@@ -1571,6 +1572,7 @@ export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { 
 export type DeregisterFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID'];
   withRefund?: InputMaybe<Scalars['Boolean']>;
+  refundFees?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -2968,8 +2970,12 @@ export const GetUserPaymentStatusDocument = gql`
     }
   }
 export const DeregisterFromEventDocument = gql`
-    mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean) {
-  deregisterFromEvent(registrationId: $registrationId, withRefund: $withRefund) {
+    mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean, $refundFees: Boolean) {
+  deregisterFromEvent(
+    registrationId: $registrationId
+    withRefund: $withRefund
+    refundFees: $refundFees
+  ) {
     id
     participantRegistrations(includeCancelled: true) {
       id
