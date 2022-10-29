@@ -276,6 +276,7 @@ export class RegistrationService {
     registrationId: string,
     withRefund: boolean,
     isKick: boolean,
+    refundFees: boolean,
     context: {
       token?: { sub: string };
       auth0: Auth0;
@@ -303,9 +304,11 @@ export class RegistrationService {
         if (!payment || !payment.paymentIntent) {
           throw new Error('Payment not found');
         }
+        console.log(payment.netAmount?.toNumber());
         try {
           await this.stripe.refunds.create({
             payment_intent: payment.paymentIntent,
+            ...(refundFees ? {} : { amount: payment.netAmount?.toNumber() }),
           });
         } catch (e) {
           console.error(e);

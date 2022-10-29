@@ -274,6 +274,13 @@
                     </button>
                     <button
                       mat-menu-item
+                      [disabled]="!(registration.balance > 0)"
+                      (click)="kickWithRefund(registration.id, false)"
+                    >
+                      Cancel with refund less fees
+                    </button>
+                    <button
+                      mat-menu-item
                       [disabled]="registration.didAttend"
                       (click)="kick(registration.id)"
                     >

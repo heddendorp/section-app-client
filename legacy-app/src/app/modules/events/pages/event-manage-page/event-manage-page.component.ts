@@ -111,7 +111,7 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
-  async kickWithRefund(registrationId: string, covid = false) {
+  async kickWithRefund(registrationId: string, refundFees = true) {
     const event = await firstValueFrom(this.event$);
     const proceed = confirm('Are you sure you want to remove this user?');
     if (event && proceed) {
@@ -119,6 +119,7 @@ export class EventManagePageComponent implements OnDestroy {
         await firstValueFrom(
           this.deregisterFromEventGQL.mutate({
             withRefund: true,
+            refundFees,
             registrationId,
           })
         );

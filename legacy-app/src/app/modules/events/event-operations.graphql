@@ -231,10 +231,11 @@ query GetUserPaymentStatus {
   }
 }
 
-mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean) {
+mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean, $refundFees: Boolean) {
   deregisterFromEvent(
     registrationId: $registrationId
     withRefund: $withRefund
+    refundFees: $refundFees
   ) {
     id
     participantRegistrations(includeCancelled: true) {
