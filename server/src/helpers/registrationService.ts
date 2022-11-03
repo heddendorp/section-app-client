@@ -73,22 +73,34 @@ export class RegistrationService {
         userId,
         registrationCode.sepaAllowed
       );
-      const registration = await prisma.eventRegistration.create({
-        data: {
-          event: { connect: { id: registrationCode.targetEvent.id } },
-          user: { connect: { id: userId } },
-          transactions: { connect: { id: transaction.id } },
-          status: RegistrationStatus.PENDING,
-          type: RegistrationType.PARTICIPANT,
-          eventRegistrationCode: { connect: { id: registrationCode.id } },
-        },
-      });
-      return prisma.eventRegistrationCode.update({
-        where: { id: registrationCodeId },
-        data: {
-          status: RegistrationStatus.SUCCESSFUL,
-          registrationCreatedId: registration.id,
-        },
+      await prisma.$transaction(async (prisma) => {
+        const registrationCode = await prisma.eventRegistrationCode.findUnique({
+          where: { id: registrationCodeId },
+          include: { targetEvent: true },
+        });
+        if (!registrationCode) {
+          throw new Error('Registration code not found');
+        }
+        if (registrationCode.status !== RegistrationStatus.PENDING) {
+          throw new Error('Registration code not available anymore');
+        }
+        const registration = await prisma.eventRegistration.create({
+          data: {
+            event: { connect: { id: registrationCode.targetEvent.id } },
+            user: { connect: { id: userId } },
+            transactions: { connect: { id: transaction.id } },
+            status: RegistrationStatus.PENDING,
+            type: RegistrationType.PARTICIPANT,
+            eventRegistrationCode: { connect: { id: registrationCode.id } },
+          },
+        });
+        return prisma.eventRegistrationCode.update({
+          where: { id: registrationCodeId },
+          data: {
+            status: RegistrationStatus.SUCCESSFUL,
+            registrationCreatedId: registration.id,
+          },
+        });
       });
     } else if (
       registrationCode?.targetEvent?.registrationMode ===
