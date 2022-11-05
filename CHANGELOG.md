@@ -1,3 +1,22 @@
+# [5.5.0](https://github.com/heddendorp/tumi/compare/v5.4.1...v5.5.0) (2022-11-05)
+
+
+### Bug Fixes
+
+* **app:** make buttons in event run page wrap ([#541](https://github.com/heddendorp/tumi/issues/541)) ([4bc54cc](https://github.com/heddendorp/tumi/commit/4bc54cc8abeb60b3af202d85574d2a2a9e3cfa63))
+* **app:** make sure event details load even when not signed in ([8ae984b](https://github.com/heddendorp/tumi/commit/8ae984bc7868d4f4544ef3fe0f17be6dc33d107c))
+* **server:** check registration codes before allowing them ([e7ee73b](https://github.com/heddendorp/tumi/commit/e7ee73bc2e7c8f81c29421bdd4c5e97f3c498223))
+* **server:** downgrade @envelop/sentry for compatibility ([132827d](https://github.com/heddendorp/tumi/commit/132827d2c80e086c76c150dfd74f6476f9ad3f3f))
+* **server:** prevent crash on event templates with no assigned events ([6cec249](https://github.com/heddendorp/tumi/commit/6cec2497c2a1189d5383642a26b67f5323c4e826))
+* **server:** trim user name fields on creation ([#540](https://github.com/heddendorp/tumi/issues/540)) ([1a7a77f](https://github.com/heddendorp/tumi/commit/1a7a77f714310118db5cbd60aba6f34ed19f56ec))
+
+
+### Features
+
+* add option to refund without stripe fees ([#543](https://github.com/heddendorp/tumi/issues/543)) ([aff3738](https://github.com/heddendorp/tumi/commit/aff3738eb93a2fc7d45b46022da066e8fb6cb03d))
+
+
+
 ## [5.4.1](https://github.com/heddendorp/tumi/compare/v5.4.0...v5.4.1) (2022-10-25)
 
 
