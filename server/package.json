@@ -32,7 +32,7 @@
     "@envelop/core": "^3.0.3",
     "@envelop/graphql-jit": "^5.0.3",
     "@envelop/response-cache": "^4.0.3",
-    "@envelop/sentry": "^4.0.3",
+    "@envelop/sentry": "4.0.2",
     "@graphql-hive/client": "^0.21.0",
     "@graphql-yoga/node": "^2.13.13",
     "@pathcheck/dcc-sdk": "^0.0.27",
