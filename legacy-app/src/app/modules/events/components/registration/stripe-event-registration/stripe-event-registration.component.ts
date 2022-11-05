@@ -11,6 +11,7 @@ import {
   CancelPaymentGQL,
   DeregisterFromEventGQL,
   LoadEventQuery,
+  LoadUserForEventQuery,
   RegisterForEventGQL,
   SubmissionItemType,
   TransactionDirection,
@@ -29,7 +30,7 @@ import { environment } from '../../../../../../environments/environment';
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
-  @Input() public user: LoadEventQuery['currentUser'] | null = null;
+  @Input() public user: LoadUserForEventQuery['currentUser'] | null = null;
   @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
   public priceControl = new UntypedFormControl(null, Validators.required);

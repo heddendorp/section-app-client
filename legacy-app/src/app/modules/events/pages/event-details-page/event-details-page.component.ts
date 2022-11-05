@@ -16,6 +16,8 @@ import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/compon
 import {
   LoadEventGQL,
   LoadEventQuery,
+  LoadUserForEventGQL,
+  LoadUserForEventQuery,
   RegisterForEventGQL,
   RegistrationMode,
   RegistrationType,
@@ -37,7 +39,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
-  public user$: Observable<LoadEventQuery['currentUser']>;
+  public user$: Observable<LoadUserForEventQuery['currentUser']>;
   public bestPrice$: Observable<Price>;
   public eventOver$: Observable<boolean>;
   public eventStarted$: Observable<boolean>;
@@ -45,7 +47,6 @@ export class EventDetailsPageComponent implements OnDestroy {
   public RegistrationMode = RegistrationMode;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
-
   public ratingExpanded$ = new BehaviorSubject(false);
 
   constructor(
@@ -54,6 +55,7 @@ export class EventDetailsPageComponent implements OnDestroy {
     private router: Router,
     public auth: AuthService,
     private loadEvent: LoadEventGQL,
+    private loadUserForEventGQL: LoadUserForEventGQL,
     private registerForEvent: RegisterForEventGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
@@ -83,7 +85,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       filter((prices) => prices.length > 0),
       map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b)))
     );
-    this.user$ = this.loadEventQueryRef.valueChanges.pipe(
+    this.user$ = this.loadUserForEventGQL.watch().valueChanges.pipe(
       map(({ data }) => data.currentUser),
       shareReplay(1)
     );

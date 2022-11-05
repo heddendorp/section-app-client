@@ -1,9 +1,4 @@
 query loadEvent($id: ID!) {
-  currentUser {
-    id
-    hasESNCard
-    university
-  }
   event(id: $id) {
     id
     title
@@ -137,5 +132,13 @@ query loadEvent($id: ID!) {
     }
     participantRating
     participantRatingCount
+  }
+}
+
+query loadUserForEvent{
+  currentUser {
+    id
+    hasESNCard
+    university
   }
 }
