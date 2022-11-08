@@ -34,7 +34,7 @@
     "@azure/storage-blob": "^12.12.0",
     "@ng-web-apis/common": "^2.0.1",
     "@sentry/angular": "^7.17.4",
-    "@sentry/tracing": "^7.17.4",
+    "@sentry/tracing": "^7.18.0",
     "@stripe/stripe-js": "^1.42.1",
     "apollo-angular": "^4.1.0",
     "azure-maps-rest": "^2.1.0",
