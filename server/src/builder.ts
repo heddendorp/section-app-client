@@ -65,7 +65,9 @@ export const builder = new SchemaBuilder<{
     authenticated: !!context.auth0,
     public: !!context.user,
     member:
-      !!context.user && context.userOfTenant?.status !== MembershipStatus.NONE,
+      !!context.user &&
+      (context.userOfTenant?.status !== MembershipStatus.NONE ||
+        context.userOfTenant?.role === Role.ADMIN),
     admin: !!context.user && context.userOfTenant?.role === Role.ADMIN,
   }),
   tracing: {
