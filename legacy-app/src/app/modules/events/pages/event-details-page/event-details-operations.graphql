@@ -117,19 +117,6 @@ query loadEvent($id: ID!) {
         status
       }
     }
-    participantRegistrations(includeNoShows: false) {
-      id
-      user {
-        id
-        fullName
-        picture
-        currentTenant {
-          userId
-          tenantId
-          status
-        }
-      }
-    }
     participantRating
     participantRatingCount
   }

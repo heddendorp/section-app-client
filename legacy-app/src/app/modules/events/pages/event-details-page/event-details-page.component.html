@@ -166,33 +166,6 @@
                 Please contact them in case of any issues. We're looking forward
                 to seeing you soon!
               </p>
-              <ng-container *ngIf="event.participantRegistrations.length > 0">
-                <mat-divider class="!my-4"></mat-divider>
-                <div class="my-2">
-                  <b>Participants</b>
-                </div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <app-user-chip
-                    *ngFor="let registration of event.participantRegistrations"
-                    size="sm"
-                    [id]="registration.user.id"
-                    [picture]="registration.user.picture"
-                    [name]="registration.user.fullName"
-                    [status]="registration.user.currentTenant?.status + ''"
-                  >
-                  </app-user-chip>
-                  <span
-                    *ngIf="
-                      event.participantRegistrationCount >
-                      event.participantRegistrations.length
-                    "
-                    >+{{
-                      event.participantRegistrationCount -
-                        event.participantRegistrations.length
-                    }}</span
-                  >
-                </div>
-              </ng-container>
             </div>
           </div>
         </mat-expansion-panel>
