@@ -56,7 +56,7 @@ export class RegistrationService {
           {
             price_data: {
               currency: 'EUR',
-              unit_amount: price.amount * 100,
+              unit_amount: Math.round(price.amount * 100),
               product_data: {
                 name: registrationCode.targetEvent.title,
                 description: 'Registration fee for event move',
