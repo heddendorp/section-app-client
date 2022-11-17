@@ -160,7 +160,7 @@ builder.mutationFields((t) => ({
           {
             price_data: {
               currency: 'EUR',
-              unit_amount: parseFloat(price.amount) * 100,
+              unit_amount: Math.round(parseFloat(price.amount) * 100),
               product_data: {
                 name: registration.event.title,
                 description: 'Registration fee for event',
