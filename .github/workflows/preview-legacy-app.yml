@@ -12,6 +12,7 @@ on:
   push:
     branches:
       - main
+      - feat/angular_15_update
 #      - design
     paths:
       - 'legacy-app/**'
