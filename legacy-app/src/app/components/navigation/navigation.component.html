@@ -1,5 +1,5 @@
 <div
-  class="sidenav fixed bottom-0 z-50 flex h-12 w-full flex-row bg-indigo-600 text-white sm:top-0 sm:h-full sm:w-[6rem] sm:flex-col"
+  class="sidenav fixed bottom-0 z-50 flex h-16 w-full flex-row bg-indigo-600 text-white sm:top-0 sm:h-full sm:w-[6rem] sm:flex-col"
   data-testid="navigation"
   (click)="preventProp($event)"
 >
@@ -13,17 +13,16 @@
   <div
     class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
   >
-    <a class="nav-item" matRipple routerLink="home" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home"></mat-icon><span>Home</span>
+    <a class="nav-item" routerLink="home" routerLinkActive="active">
+      <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
     </a>
     <a
       class="nav-item"
-      matRipple
       routerLink="events"
       routerLinkActive="active"
       data-testid="events-nav-item"
     >
-      <mat-icon svgIcon="icon-overtime"></mat-icon><span>Events</span>
+      <mat-icon svgIcon="icon-overtime" matRipple></mat-icon><span>Events</span>
     </a>
     <!--<a
       class="nav-item desktop-only"
@@ -54,35 +53,32 @@
     <!--        </a>-->
     <a
       class="nav-item"
-      matRipple
       routerLink="tutor-hub"
       routerLinkActive="active"
       data-testid="tutor-hub-nav-item"
       *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
     >
-      <mat-icon svgIcon="icon-hub"></mat-icon>
+      <mat-icon svgIcon="icon-hub" matRipple></mat-icon>
       <span>Tutor Hub</span>
     </a>
     <a
       class="nav-item desktop-only"
-      matRipple
       routerLink="event-templates"
       routerLinkActive="active"
       data-testid="event-templates-nav-item"
       *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
     >
-      <mat-icon svgIcon="icon-template"></mat-icon>
+      <mat-icon svgIcon="icon-template" matRipple></mat-icon>
       <span>Event Templates</span>
     </a>
     <a
       class="nav-item"
-      matRipple
       routerLink="tenant"
       routerLinkActive="active"
       data-testid="manage-nav-item"
       *appIfRole="[Role.Admin]"
     >
-      <mat-icon svgIcon="icon-maintenance"></mat-icon>
+      <mat-icon svgIcon="icon-maintenance" matRipple></mat-icon>
       <span>Management</span>
     </a>
     <button
@@ -90,7 +86,7 @@
       *ngIf="installEvent$ | async as event"
       (click)="event.prompt()"
     >
-      <mat-icon svgIcon="icon-software-installer"></mat-icon>
+      <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
       <span>Install the TUMi app</span>
     </button>
     <div class="hidden flex-1 sm:block"></div>

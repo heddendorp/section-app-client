@@ -300,7 +300,7 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
   a.extended-fab,
   button.extended-fab {
-    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-50 rounded-xl;
+    @apply right-4 px-4 w-auto bottom-20 sm:bottom-4 fixed z-50 rounded-xl;
     .mat-button-wrapper {
       @apply flex;
     }
