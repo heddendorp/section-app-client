@@ -28,7 +28,6 @@ import {
 } from '@angular/material/legacy-snack-bar';
 import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarkdownModule } from 'ngx-markdown';
 import {
   ServiceWorkerModule,
@@ -84,7 +83,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
         ],
       },
     }),
-    FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production && environment.version !== 'test',
       // Register the ServiceWorker as soon as the app is stable

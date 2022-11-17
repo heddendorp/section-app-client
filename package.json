@@ -48,10 +48,10 @@
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@percy/cli": "^1.13.0",
+    "@percy/cli": "^1.14.0",
     "@percy/cypress": "^3.1.2",
-    "@testing-library/cypress": "^8.0.3",
-    "cypress": "^10.11.0",
+    "@testing-library/cypress": "^8.0.7",
+    "cypress": "^11.1.0",
     "dotenv-cli": "^6.0.0"
   }
 }

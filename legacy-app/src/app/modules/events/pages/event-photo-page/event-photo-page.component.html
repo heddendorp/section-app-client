@@ -36,22 +36,14 @@
     Use this to exchange photos with other participants in this event.
   </p>
   <div
-    class="w-full"
-    gdAuto="dense"
-    gdAlignColumns="stretch"
-    gdAlignRows="stretch"
-    gdGap="1rem"
-    gdColumns="repeat(2, 1fr)"
-    gdColumns.gt-sm="repeat(3, 1fr)"
-    gdColumns.gt-md="repeat(4, 1fr)"
-    gdColumns.gt-lg="repeat(6, 1fr)"
+    class="w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
     *ngIf="photos$ | async as photos"
   >
     <div
       *ngFor="let photo of photos"
-      gdColumn="span {{ photo.cols }}"
-      gdRow="span {{ photo.rows }}"
-      class="relative"
+      class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
+        photo.rows > 1 ? 'row-span-2' : ''
+      }}"
       (click)="openPhoto(photo)"
     >
       <p

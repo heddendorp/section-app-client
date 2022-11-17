@@ -43,11 +43,11 @@ $light-primary-text: white;
 
 $primary-palette: (
   50: #e3f2fd,
-  100: theme('colors.primary.container'),
+  100: #f3f4f6,
   200: #90caf9,
   300: #64b5f6,
   400: #42a5f5,
-  500: theme('colors.primary.default'),
+  500: #4f46e5,
   600: #1e88e5,
   700: #1976d2,
   800: #1565c0,
@@ -58,11 +58,11 @@ $primary-palette: (
   A700: #2962ff,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.primary.onContainer'),
+    100: #111827,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.primary.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -76,11 +76,11 @@ $primary-palette: (
 
 $secondary-palette: (
   50: #fce4ec,
-  100: theme('colors.secondary.container'),
+  100: #ffffff,
   200: #f48fb1,
   300: #f06292,
   400: #ec407a,
-  500: theme('colors.secondary.default'),
+  500: #585e71,
   600: #d81b60,
   700: #c2185b,
   800: #ad1457,
@@ -91,11 +91,11 @@ $secondary-palette: (
   A700: #c51162,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.secondary.onContainer'),
+    100: #111827,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.secondary.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -108,11 +108,11 @@ $secondary-palette: (
 );
 $error-palette: (
   50: #ffebee,
-  100: theme('colors.error.container'),
+  100: #ffdad4,
   200: #ef9a9a,
   300: #e57373,
   400: #ef5350,
-  500: theme('colors.error.default'),
+  500: #ba1b1b,
   600: #e53935,
   700: #d32f2f,
   800: #c62828,
@@ -123,11 +123,11 @@ $error-palette: (
   A700: #d50000,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.error.onContainer'),
+    100: #410001,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.error.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -149,11 +149,6 @@ $tumi-app-accent: mat.define-palette($secondary-palette);
 $tumi-app-warn: mat.define-palette($error-palette);
 
 $tumi-typography: mat.define-legacy-typography-config(
-  $font-family: 'General Sans, sans-serif',
-  $body-1: mat.define-typography-level(14px, 20px, 450),
-);
-
-$tumi-display-typography: mat.define-legacy-typography-config(
   $font-family: 'General Sans, sans-serif',
   $body-1: mat.define-typography-level(14px, 20px, 450),
 );
@@ -185,7 +180,6 @@ $tumi-dark-theme: mat.define-dark-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-legacy-component-themes($tumi-app-theme);
-@include mat.toolbar-typography($tumi-display-typography);
 
 /* You can add global styles to this file, and also import other style files */
 

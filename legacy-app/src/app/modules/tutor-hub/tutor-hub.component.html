@@ -7,14 +7,7 @@
     *ngIf="(tutorHubData$ | async) === null"
   ></mat-progress-bar>
 </app-reactive-toolbar>
-<div
-  class="m-4"
-  gdAuto
-  gdColumns="100%"
-  gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
-  gdColumns.gt-md="calc(33.33% - 0.5rem) calc(33.33% - 0.5rem) calc(33.33% - 0.5rem)"
-  gdGap="1rem"
->
+<div class="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
   <div
     class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
   >
@@ -63,7 +56,7 @@
           fxLayout="row"
           fxLayoutAlign="start center"
           fxLayoutGap="1rem"
-          class="my-4"
+          class="my-4 flex flex-row items-center gap-4"
         >
           <mat-icon
             svgIcon="icon-leaderboard"
@@ -139,12 +132,7 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-1"
-    >
+    <div class="mb-1 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-calendar-plus"
         class="text-secondary-default bg-secondary-on card-icon"
@@ -176,12 +164,7 @@
         *ngIf="searchLoading$ | async"
       ></mat-progress-bar>
     </div>
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-2"
-    >
+    <div class="mb-2 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-conference"
         class="text-secondary-default bg-secondary-on card-icon"
@@ -220,7 +203,8 @@
         </ng-template>
       </app-grid>
       <div class="mt-3 text-sm italic text-gray-500">
-        Active tutors of the last three months.
+        {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active tutors of
+        the last three months.
       </div>
     </ng-container>
     <ng-container *ngIf="searchInput.value">
@@ -241,12 +225,7 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
+    <div class="mb-4 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-birthday"
         class="text-secondary-default bg-secondary-on card-icon"
@@ -290,12 +269,7 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
+    <div class="mb-4 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-group-background-selected"
         class="text-secondary-default bg-secondary-on card-icon"
@@ -335,12 +309,7 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-1"
-    >
+    <div class="mb-1 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-user-manual"
         class="text-secondary-default bg-secondary-on card-icon"
