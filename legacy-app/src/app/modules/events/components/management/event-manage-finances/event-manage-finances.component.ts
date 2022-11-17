@@ -12,7 +12,7 @@ import {
   UpdateCostItemsFromTemplateGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'app-event-manage-finances',

@@ -6,7 +6,7 @@ import {
   GetCostItemQuery,
   GetCostItemQueryVariables,
 } from '@tumi/legacy-app/generated/generated';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AddReceiptDialogComponent } from '@tumi/legacy-app/modules/events/components/running/add-receipt-dialog/add-receipt-dialog.component';
 import { QueryRef } from 'apollo-angular';

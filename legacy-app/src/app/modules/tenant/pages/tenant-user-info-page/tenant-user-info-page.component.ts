@@ -8,9 +8,9 @@ import {
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { tap, firstValueFrom, map, Observable, switchMap } from 'rxjs';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { UpdateUserDialogComponent } from '@tumi/legacy-app/modules/tenant/components/update-user-dialog/update-user-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 

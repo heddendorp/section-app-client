@@ -26,7 +26,7 @@ import { EventListStateService } from '@tumi/legacy-app/services/event-list-stat
 import { ActivatedRoute, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PublicRegistrationCodesPageComponent } from '../public-registration-codes-page/public-registration-codes-page.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 
 @Component({

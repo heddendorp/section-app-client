@@ -18,7 +18,7 @@ import {
   EventSubmissionItem,
   SubmissionItemType,
 } from '@tumi/legacy-app/generated/generated';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'app-data-items-collector',

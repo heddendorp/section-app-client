@@ -22,12 +22,12 @@ import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats
 import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
 import { TenantUsersPageComponent } from './pages/tenant-users-page/tenant-users-page.component';
 import { TenantOrganizersPageComponent } from './pages/tenant-organizers-page/tenant-organizers-page.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { TenantEventRatingsComponent } from './pages/events/tenant-event-ratings/tenant-event-ratings.component';
 import { TenantEventBookingsPageComponent } from './pages/events/tenant-event-bookings-page/tenant-event-bookings-page.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -38,7 +38,7 @@ import { TenantTransactionsPageComponent } from './pages/tenant-transactions-pag
 import { TenantEventsPageComponent } from './pages/events/tenant-events-page/tenant-events-page.component';
 import { MatRippleModule } from '@angular/material/core';
 import { CreateTransactionDialogComponent } from './components/create-transaction-dialog/create-transaction-dialog.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 
 @NgModule({
   declarations: [

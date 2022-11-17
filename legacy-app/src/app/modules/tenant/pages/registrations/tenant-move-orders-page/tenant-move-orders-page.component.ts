@@ -12,7 +12,7 @@ import {
   GetEventRegistrationCodeCountQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 
 @Component({
   selector: 'app-tenant-move-orders-page',

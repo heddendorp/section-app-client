@@ -12,12 +12,12 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { ProgressBarMode } from '@angular/material/progress-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { LegacyProgressBarMode as ProgressBarMode } from '@angular/material/legacy-progress-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { BlobServiceClient } from '@azure/storage-blob';
 import {
   CreatePhotoShareGQL,

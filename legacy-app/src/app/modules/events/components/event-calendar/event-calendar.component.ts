@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
 import { EventCalendarDayDialogComponent } from './event-calendar-day-dialog/event-calendar-day-dialog';

@@ -20,7 +20,7 @@ import {
   GetRegistrationCodeInfoQuery,
   UseRegistrationCodeGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
