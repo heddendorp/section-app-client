@@ -9,24 +9,12 @@ template:
     name: legacy-app-image
     resources:
       cpu: 0.25
-      memory: 0.5Gi
+      memory: 0.1Gi
   scale:
     minReplicas: 0
-    maxReplicas: 5
+    maxReplicas: 3
     rules:
     - name: http-rule
       http:
         metadata:
           concurrentRequests: 500
-#    - name: cpu-scaling-rule
-#      custom:
-#        type: cpu
-#        metadata:
-#          type: Utilization
-#          value: 80
-#    - name: memory-scaling-rule
-#      custom:
-#        type: memory
-#        metadata:
-#          type: Utilization
-#          value: 80
