@@ -5386,6 +5386,7 @@ __metadata:
     "@types/d3-selection": ^3.0.3
     "@types/jasmine": ~4.3.0
     "@types/luxon": ^3.1.0
+    "@types/marked": ^4
     "@types/node": 18.11.9
     "@types/prettier": ^2.7.1
     "@typescript-eslint/eslint-plugin": ^5.44.0
@@ -5407,6 +5408,7 @@ __metadata:
     karma-jasmine: ~5.1.0
     karma-jasmine-html-reporter: ~2.0.0
     luxon: ^3.1.0
+    marked: ^4.2.3
     ngx-markdown: ^15.0.0
     postcss: ^8.4.19
     prettier: ^2.7.1
@@ -5874,6 +5876,13 @@ __metadata:
   version: 3.1.0
   resolution: "@types/luxon@npm:3.1.0"
   checksum: 04768029342ad76fc2a9339436c143ea64797b35cf9b03ddded787c13eae30f0ca1246e51c2c5365ed912f98068e13a967a3931b137eb4585248a0ad7ec3fa86
+  languageName: node
+  linkType: hard
+
+"@types/marked@npm:^4":
+  version: 4.0.7
+  resolution: "@types/marked@npm:4.0.7"
+  checksum: 4907b6a606578cd864bad429aca3c234591e6ed56bd141c575140487269b825a480ace9a85e4d003d1de1f007004c9d9b2fe600038ded5bba75aef59118e58d5
   languageName: node
   linkType: hard
 
