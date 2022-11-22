@@ -1,16 +1,13 @@
 <div
-  gdAuto
-  gdGap="1rem"
-  gdColumns="max-content 1fr"
-  class="p-4 border box-border rounded-lg"
+  class="box-border grid grid-cols-[max-content_1fr] gap-4 rounded-lg border p-4"
 >
   <div class="contents">
     <p class="font-bold">{{ name }}</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-slate-200">
+    <p class="ml-auto rounded bg-slate-200 px-1 font-semibold">
       {{ result.participantFee | currency: 'EUR' }}
     </p>
     <p class="font-medium">Income</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-green-200">
+    <p class="ml-auto rounded bg-green-200 px-1 font-semibold">
       {{ result.income | currency: 'EUR' }}
     </p>
     <div class="contents text-xs">
@@ -36,7 +33,7 @@
       </p>
     </div>
     <p class="font-medium">Expenses</p>
-    <p class="ml-auto font-semibold rounded px-1 bg-red-200">
+    <p class="ml-auto rounded bg-red-200 px-1 font-semibold">
       {{ result.expenses | currency: 'EUR' }}
     </p>
     <div class="contents text-xs">
