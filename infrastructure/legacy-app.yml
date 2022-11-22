@@ -9,7 +9,7 @@ template:
     name: legacy-app-image
     resources:
       cpu: 0.25
-      memory: 0.1Gi
+      memory: 0.5Gi
   scale:
     minReplicas: 0
     maxReplicas: 3
