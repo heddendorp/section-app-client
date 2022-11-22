@@ -658,7 +658,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@auth0/auth0-angular@npm:^1.11.0":
+"@auth0/auth0-angular@npm:^1.11.1":
   version: 1.11.1
   resolution: "@auth0/auth0-angular@npm:1.11.1"
   dependencies:
@@ -2612,9 +2612,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-hive/client@npm:^0.21.1":
-  version: 0.21.1
-  resolution: "@graphql-hive/client@npm:0.21.1"
+"@graphql-hive/client@npm:^0.21.2":
+  version: 0.21.2
+  resolution: "@graphql-hive/client@npm:0.21.2"
   dependencies:
     "@graphql-hive/core": ^0.2.2
     "@graphql-tools/utils": ^8.12.0
@@ -2623,7 +2623,7 @@ __metadata:
     tiny-lru: 8.0.2
   peerDependencies:
     graphql: ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 8b573f2f1a62a5c78193e27e3c07fd081163f60a91efcdb72264320ae700c693924a2dce1a7bcb9f871ba282fb5ca1255dd18052fdff1978d10d38fc964b8367
+  checksum: e80fbc09d722ca4a552bcb2cab6e0fd3f0ae3fc5e7baf8696eee19f576f9a3e71573afa57441836c88140faa932fc37b0280224728abce10291c9fa516b78203
   languageName: node
   linkType: hard
 
@@ -4656,18 +4656,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pothos/core@npm:^3.22.9":
-  version: 3.22.9
-  resolution: "@pothos/core@npm:3.22.9"
+"@pothos/core@npm:^3.23.0":
+  version: 3.23.0
+  resolution: "@pothos/core@npm:3.23.0"
   peerDependencies:
     graphql: ">=15.1.0"
-  checksum: 04a107fed2f4a929e9dbc387f102d44c640c814c54ee4d3f2a8261f942e399b722ed5a3e03809dbb69d90c3348a7f86a01b9a76ab86ac050efe2143e44bcaaba
+  checksum: 554b397732bbe77f66dd857fa898c2f67f82cd76728567f78169c8c51296fd46cb095ad611ea3ad2faf3755deb6253b41334bad7149a45866531cd658815015c
   languageName: node
   linkType: hard
 
-"@pothos/plugin-prisma@npm:^3.35.8":
-  version: 3.35.8
-  resolution: "@pothos/plugin-prisma@npm:3.35.8"
+"@pothos/plugin-prisma@npm:^3.36.0":
+  version: 3.36.0
+  resolution: "@pothos/plugin-prisma@npm:3.36.0"
   dependencies:
     "@prisma/generator-helper": ^4.5.0
   peerDependencies:
@@ -4677,7 +4677,7 @@ __metadata:
     typescript: ">=4.7.2"
   bin:
     prisma-pothos-types: bin/generator.js
-  checksum: 1a4c644718e3fc332728f570ee14d6ad129351fa45b6708687f941edfd2c1bc6e2f0544b977ed30e7fed6b8d0a5d1895c42b64c85d18f8b784c34bb763e5d9b6
+  checksum: c73ff498499b19fbc21c163c60df91aa79c5702d26ac7ff0278aa4623cf0e9e96eb99a9d9ee29bc4a8ddd2a9a3042eb3b272f7427fc2151a052e209c47d0a97b
   languageName: node
   linkType: hard
 
@@ -5093,99 +5093,99 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/angular@npm:^7.19.0":
-  version: 7.20.0
-  resolution: "@sentry/angular@npm:7.20.0"
+"@sentry/angular@npm:^7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/angular@npm:7.20.1"
   dependencies:
-    "@sentry/browser": 7.20.0
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/browser": 7.20.1
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     tslib: ^2.0.0
   peerDependencies:
     "@angular/common": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
     "@angular/core": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
     "@angular/router": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
     rxjs: ^6.5.5 || ^7.x
-  checksum: 30336e81d22d0d8e77b1d322c327bd3755640546008b332854ae34c6b0589a2b3d283c5a3bd924f4faf3e6f49cf24e05d377b8ce9dc6e64246e1a480c3ccc406
+  checksum: d5135d8b6d893b3617216ce48e6525ffea4d4caab7a91233d58c11746e035adc05e02e75cf826a90b2e9db4d276eaac82870df13b438ecd3945b3558a8cd8a3f
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.20.0":
-  version: 7.20.0
-  resolution: "@sentry/browser@npm:7.20.0"
+"@sentry/browser@npm:7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/browser@npm:7.20.1"
   dependencies:
-    "@sentry/core": 7.20.0
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/core": 7.20.1
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     tslib: ^1.9.3
-  checksum: 740903325b83d6e1776040424eec2223a32a1fe2e785b9c3903ae985096f2ce0cc3bc8da0868b05fbac36e5d41518b997948df6a6135454809b9f2a673f6ca6f
+  checksum: 316d1d9b754348a4766ef3161e5cd95d6212620e0a89a557b6fb1b4508d654573f4b6bcb990c9486a92ae4b3703c0f08fcd9cc00ca928b5c0dc0c4509f766151
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.20.0":
-  version: 7.20.0
-  resolution: "@sentry/core@npm:7.20.0"
+"@sentry/core@npm:7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/core@npm:7.20.1"
   dependencies:
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     tslib: ^1.9.3
-  checksum: 3998605dff85a56f83efaae747567b76941d4b6de9a30202f280d50ad38fb176ed8560067f122238fb1170c133dfc9a063ae71ee66b6ebd639977b44f3f8311c
+  checksum: 3ef702321335c71652f57c2531d367cf6bbc739bb93b7cb807ae7a3a8f3a56defe481cab8adfcaaa2a1f0bc95353401bc815fc4eafe03e651528799c1645eea7
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.19.0":
-  version: 7.20.0
-  resolution: "@sentry/integrations@npm:7.20.0"
+"@sentry/integrations@npm:^7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/integrations@npm:7.20.1"
   dependencies:
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 9e364567481d5f0788af43e1feef03d9cfc58c4c83532c6eecf40f6a8586e72302b6f8c0fa77a392c9ee4aece50ab4de4aa6b9a7f72dc7e7712884e5de476374
+  checksum: dbdbbe9ebcefa77ec936199eab834fba98d812df5f30e600f9e7317c434fb78299e8b56493d5a93518b0c0a0af664848fa6aa53fcf67a5df43d6010b23e00407
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^7.19.0":
-  version: 7.20.0
-  resolution: "@sentry/node@npm:7.20.0"
+"@sentry/node@npm:^7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/node@npm:7.20.1"
   dependencies:
-    "@sentry/core": 7.20.0
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/core": 7.20.1
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     cookie: ^0.4.1
     https-proxy-agent: ^5.0.0
     lru_map: ^0.3.3
     tslib: ^1.9.3
-  checksum: b88709bb3e432ec987a1745c4cf567cc89dce009db2bec192743f9d4493cceab5c7d4f09b9133e359309fee37d29a70823467cfeaf21602d5dc7b01999e2a662
+  checksum: 2a1d996bc3861cda3c384224dc951e5a1e8727907065d1f2b1ed8e307e46b3f34aad2ec7610f76fdb088533bae61a8a428cb7c420c4666f1adbd5ecea529c9bb
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.19.0":
-  version: 7.20.0
-  resolution: "@sentry/tracing@npm:7.20.0"
+"@sentry/tracing@npm:^7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/tracing@npm:7.20.1"
   dependencies:
-    "@sentry/core": 7.20.0
-    "@sentry/types": 7.20.0
-    "@sentry/utils": 7.20.0
+    "@sentry/core": 7.20.1
+    "@sentry/types": 7.20.1
+    "@sentry/utils": 7.20.1
     tslib: ^1.9.3
-  checksum: 12a13c374b113081faffedf772fee36e4a0d5f9f06c0d11023d18bb836002d6394532751e4254b43eb9c6b44e69894533be46a8180fa734feb711f82af485e30
+  checksum: 18e2d2a6fa57e7240e16edd18bd11312c245655151e51b8a8e743afdedb2781333411d701abaea31d2e92e56b04cca3df525a0eeeb5380163d5eaa349493f144
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.20.0":
-  version: 7.20.0
-  resolution: "@sentry/types@npm:7.20.0"
-  checksum: eb012cb9cd83b2747ffb256e9d1f783c5508b54f78e45a2714090bd6d44e472b5f8655c4614e9cf4da042b0ec277675cf9dd2ab7d864e04e58d1b67c43289ff9
+"@sentry/types@npm:7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/types@npm:7.20.1"
+  checksum: 452a5b0f1fc8a04c1f34f511f99d6dc369595e3f1b90e3c6deb7f347f8adb5a6fb608707cc2eab4efb532af147394d59a6b2685c5581e63c0cb1d945c6b54ff3
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.20.0":
-  version: 7.20.0
-  resolution: "@sentry/utils@npm:7.20.0"
+"@sentry/utils@npm:7.20.1":
+  version: 7.20.1
+  resolution: "@sentry/utils@npm:7.20.1"
   dependencies:
-    "@sentry/types": 7.20.0
+    "@sentry/types": 7.20.1
     tslib: ^1.9.3
-  checksum: 510753d5afce22a521f5780ab87767ed1496eb24bad6adda14848abef69dac8aa3d3168d8bc861ddf7d7af4f7476b70e1d84405991ec5b000008743d63ad3820
+  checksum: 2b407435991500eea23cebe8072ecd407da79c3c004f5589624eaa2f1865a1a5ad1641bd2e391b40643ee651cbfdc1e9e142896b6c6093dcf459cb77625b095c
   languageName: node
   linkType: hard
 
@@ -5370,14 +5370,14 @@ __metadata:
     "@angular/router": ^15.0.0
     "@angular/service-worker": ^15.0.0
     "@apollo/client": ^3.7.1
-    "@auth0/auth0-angular": ^1.11.0
+    "@auth0/auth0-angular": ^1.11.1
     "@azure/storage-blob": ^12.12.0
     "@graphql-codegen/cli": ^2.13.12
     "@graphql-codegen/typescript-apollo-angular": ^3.5.6
     "@graphql-codegen/typescript-operations": ^2.5.7
     "@ng-web-apis/common": ^2.1.0
-    "@sentry/angular": ^7.19.0
-    "@sentry/tracing": ^7.19.0
+    "@sentry/angular": ^7.20.1
+    "@sentry/tracing": ^7.20.1
     "@stripe/stripe-js": ^1.44.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/line-clamp": ^0.4.2
@@ -5388,13 +5388,13 @@ __metadata:
     "@types/luxon": ^3.1.0
     "@types/node": 18.11.9
     "@types/prettier": ^2.7.1
-    "@typescript-eslint/eslint-plugin": ^5.43.0
-    "@typescript-eslint/parser": ^5.43.0
+    "@typescript-eslint/eslint-plugin": ^5.44.0
+    "@typescript-eslint/parser": ^5.44.0
     apollo-angular: ^4.1.1
     autoprefixer: ^10.4.13
     azure-maps-rest: ^2.1.0
     backoff-rxjs: ^7.0.0
-    concurrently: ^7.5.0
+    concurrently: ^7.6.0
     eslint: ^8.28.0
     eslint-config-prettier: ^8.5.0
     graphql: ^16.6.0
@@ -5407,7 +5407,7 @@ __metadata:
     karma-jasmine: ~5.1.0
     karma-jasmine-html-reporter: ~2.0.0
     luxon: ^3.1.0
-    ngx-markdown: ^14.0.1
+    ngx-markdown: ^15.0.0
     postcss: ^8.4.19
     prettier: ^2.7.1
     prettier-plugin-tailwindcss: ^0.1.13
@@ -5434,20 +5434,20 @@ __metadata:
     "@envelop/response-cache": ^4.0.3
     "@envelop/sentry": 4.0.3
     "@faker-js/faker": ^7.6.0
-    "@graphql-hive/client": ^0.21.1
+    "@graphql-hive/client": ^0.21.2
     "@graphql-yoga/node": ^2.13.13
     "@pathcheck/dcc-sdk": ^0.0.27
-    "@pothos/core": ^3.22.9
-    "@pothos/plugin-prisma": ^3.35.8
+    "@pothos/core": ^3.23.0
+    "@pothos/plugin-prisma": ^3.36.0
     "@pothos/plugin-scope-auth": 3.16.0
     "@pothos/plugin-simple-objects": ^3.6.7
     "@pothos/plugin-tracing": ^0.5.7
     "@pothos/tracing-sentry": ^0.7.8
     "@prisma/client": ^4.6.1
     "@sendgrid/mail": ^7.7.0
-    "@sentry/integrations": ^7.19.0
-    "@sentry/node": ^7.19.0
-    "@sentry/tracing": ^7.19.0
+    "@sentry/integrations": ^7.20.1
+    "@sentry/node": ^7.20.1
+    "@sentry/tracing": ^7.20.1
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.12
@@ -5465,7 +5465,7 @@ __metadata:
     "@types/rimraf": ^3.0.2
     "@types/sharp": ^0.31.0
     "@types/supertest": ^2.0.12
-    "@typescript-eslint/parser": 5.43.0
+    "@typescript-eslint/parser": 5.44.0
     apollo-server-plugin-base: ^3.7.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
@@ -5473,7 +5473,7 @@ __metadata:
     dayjs: ^1.11.6
     dotenv-cli: ^6.0.0
     es6-promise-pool: ^2.5.0
-    eslint: ^8.27.0
+    eslint: ^8.28.0
     eslint-config-prettier: ^8.5.0
     express: ^4.18.2
     express-jwt: ^7.7.7
@@ -5486,7 +5486,7 @@ __metadata:
     jwks-rsa: ^3.0.0
     lodash: ^4.17.21
     luxon: ^3.1.0
-    marked: ^4.2.2
+    marked: ^4.2.3
     mjml: ^4.13.0
     moment: ^2.29.4
     moment-timezone: ^0.5.39
@@ -5877,13 +5877,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked@npm:^4.0.3":
-  version: 4.0.7
-  resolution: "@types/marked@npm:4.0.7"
-  checksum: 4907b6a606578cd864bad429aca3c234591e6ed56bd141c575140487269b825a480ace9a85e4d003d1de1f007004c9d9b2fe600038ded5bba75aef59118e58d5
-  languageName: node
-  linkType: hard
-
 "@types/mime@npm:*":
   version: 3.0.1
   resolution: "@types/mime@npm:3.0.1"
@@ -6159,7 +6152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.43.0":
+"@typescript-eslint/eslint-plugin@npm:^5.44.0":
   version: 5.44.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.44.0"
   dependencies:
@@ -6182,24 +6175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:5.43.0":
-  version: 5.43.0
-  resolution: "@typescript-eslint/parser@npm:5.43.0"
-  dependencies:
-    "@typescript-eslint/scope-manager": 5.43.0
-    "@typescript-eslint/types": 5.43.0
-    "@typescript-eslint/typescript-estree": 5.43.0
-    debug: ^4.3.4
-  peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: a28e0ef2807f1c3381c6dc1d9ddfd83ea8db657d3f808511adf13023b469ed64fc09619e05d7f68746b05ea68770a0882883c77ce908682965ba266f95e168c9
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/parser@npm:^5.43.0":
+"@typescript-eslint/parser@npm:5.44.0, @typescript-eslint/parser@npm:^5.44.0":
   version: 5.44.0
   resolution: "@typescript-eslint/parser@npm:5.44.0"
   dependencies:
@@ -8424,9 +8400,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:^7.5.0":
-  version: 7.5.0
-  resolution: "concurrently@npm:7.5.0"
+"concurrently@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "concurrently@npm:7.6.0"
   dependencies:
     chalk: ^4.1.0
     date-fns: ^2.29.1
@@ -8440,7 +8416,7 @@ __metadata:
   bin:
     conc: dist/bin/concurrently.js
     concurrently: dist/bin/concurrently.js
-  checksum: 7886e1c8559d2699ae1b62be8aca5d56c226966e252a2b9dd6077b3c1fd5397e98ef537c040fffa1de50418bd2616746eb9dd589a31ffb9056d4758b850a865b
+  checksum: f705c9a7960f1b16559ca64958043faeeef6385c0bf30a03d1375e15ab2d96dba4f8166f1bbbb1c85e8da35ca0ce3c353875d71dff2aa132b2357bb533b3332e
   languageName: node
   linkType: hard
 
@@ -10166,10 +10142,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-toolkit@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "emoji-toolkit@npm:6.6.0"
-  checksum: 8f7a7216626d5d5cdb0505906dfd44cbe65cee76c8a9a15a3dfc20736fe98f457db23874376ec6e643da93fcb83a6c9dbc58cae76d24fb77e76dd87f06991ce2
+"emoji-toolkit@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "emoji-toolkit@npm:7.0.0"
+  checksum: 0e1ad04dbbbd1ab6d0c735ed2ab24deb8ba2b9d9901367c5a7b12cf7c1f35803cd6082af26e96f7a2bd7371d8af7493aa24664e54df365729fdf6785f28860e3
   languageName: node
   linkType: hard
 
@@ -10669,55 +10645,6 @@ __metadata:
   version: 3.3.0
   resolution: "eslint-visitor-keys@npm:3.3.0"
   checksum: d59e68a7c5a6d0146526b0eec16ce87fbf97fe46b8281e0d41384224375c4e52f5ffb9e16d48f4ea50785cde93f766b0c898e31ab89978d88b0e1720fbfb7808
-  languageName: node
-  linkType: hard
-
-"eslint@npm:^8.27.0":
-  version: 8.27.0
-  resolution: "eslint@npm:8.27.0"
-  dependencies:
-    "@eslint/eslintrc": ^1.3.3
-    "@humanwhocodes/config-array": ^0.11.6
-    "@humanwhocodes/module-importer": ^1.0.1
-    "@nodelib/fs.walk": ^1.2.8
-    ajv: ^6.10.0
-    chalk: ^4.0.0
-    cross-spawn: ^7.0.2
-    debug: ^4.3.2
-    doctrine: ^3.0.0
-    escape-string-regexp: ^4.0.0
-    eslint-scope: ^7.1.1
-    eslint-utils: ^3.0.0
-    eslint-visitor-keys: ^3.3.0
-    espree: ^9.4.0
-    esquery: ^1.4.0
-    esutils: ^2.0.2
-    fast-deep-equal: ^3.1.3
-    file-entry-cache: ^6.0.1
-    find-up: ^5.0.0
-    glob-parent: ^6.0.2
-    globals: ^13.15.0
-    grapheme-splitter: ^1.0.4
-    ignore: ^5.2.0
-    import-fresh: ^3.0.0
-    imurmurhash: ^0.1.4
-    is-glob: ^4.0.0
-    is-path-inside: ^3.0.3
-    js-sdsl: ^4.1.4
-    js-yaml: ^4.1.0
-    json-stable-stringify-without-jsonify: ^1.0.1
-    levn: ^0.4.1
-    lodash.merge: ^4.6.2
-    minimatch: ^3.1.2
-    natural-compare: ^1.4.0
-    optionator: ^0.9.1
-    regexpp: ^3.2.0
-    strip-ansi: ^6.0.1
-    strip-json-comments: ^3.1.0
-    text-table: ^0.2.0
-  bin:
-    eslint: bin/eslint.js
-  checksum: 153b022d309e1b647a73b1bb0fa98912add699b06e279084155f23c6f2b5fc5abd05411fc1ba81608a24bbfaf044ca079544c16fffa6fc987b8f676c9960a2c4
   languageName: node
   linkType: hard
 
@@ -14662,12 +14589,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.0.17, marked@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "marked@npm:4.2.2"
+"marked@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "marked@npm:4.2.3"
   bin:
     marked: bin/marked.js
-  checksum: 1593e0632ff8dee1b9c8b669f26c8ce41e675bcb08ef75052845d4943db2c4d887edacd5b2120cf99a2cc06e9fbffc346ebaf98a7555273fda6a935adbfacf50
+  checksum: 21b9f6cc4e7695b5e1f251b7b6c98fdc29c25f7ee6c8f4d5c51654856ea36d6222e9a5a227a9b89ccba717dcf7a722022f099aa0dc7caad8e041c996906c23d0
   languageName: node
   linkType: hard
 
@@ -15530,25 +15457,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-markdown@npm:^14.0.1":
-  version: 14.0.1
-  resolution: "ngx-markdown@npm:14.0.1"
+"ngx-markdown@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "ngx-markdown@npm:15.0.0"
   dependencies:
-    "@types/marked": ^4.0.3
     clipboard: ^2.0.11
-    emoji-toolkit: ^6.6.0
+    emoji-toolkit: ^7.0.0
     katex: ^0.16.0
-    marked: ^4.0.17
     mermaid: ^9.1.2
     prismjs: ^1.28.0
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ^14.0.0
-    "@angular/core": ^14.0.0
-    "@angular/platform-browser": ^14.0.0
+    "@angular/common": ^15.0.0
+    "@angular/core": ^15.0.0
+    "@angular/platform-browser": ^15.0.0
+    "@types/marked": ^4.0.3
+    marked: ^4.0.17
     rxjs: ^6.5.3 || ^7.4.0
-    zone.js: ^0.11.4
-  checksum: 81534d920d7bd908e90c2ab8dd65ed5785861e064b3e5517d1a008e95a7a3adc8c4071539456e64842e38f10857a30b5decb747b35f5571eb380845044b07124
+    zone.js: ~0.11.4 || ~0.12.0
+  dependenciesMeta:
+    clipboard:
+      optional: true
+    emoji-toolkit:
+      optional: true
+    katex:
+      optional: true
+    mermaid:
+      optional: true
+    prismjs:
+      optional: true
+  checksum: cad59f91c54260312b340bc52418be50ce8c01ae727aae9104bb97b12808300cd6a2306b151afeb75c4ee44859fd93f604c47c15d533baf3156391db84b8d07f
   languageName: node
   linkType: hard
 
@@ -19098,7 +19036,7 @@ __metadata:
     "@percy/cli": ^1.14.0
     "@percy/cypress": ^3.1.2
     "@testing-library/cypress": ^8.0.7
-    concurrently: ^7.5.0
+    concurrently: ^7.6.0
     cypress: ^11.1.0
     dotenv-cli: ^6.0.0
   languageName: unknown
