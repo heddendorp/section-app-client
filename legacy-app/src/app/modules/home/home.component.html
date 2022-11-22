@@ -41,34 +41,22 @@
         international spirit, tolerance in all facets of culture and the
         fostering of international understanding.
       </p>
-      <div fxLayout="row" fxLayoutGap=".5rem" class="mt-4 max-w-md">
-        <a
-          fxFlex="noshrink"
-          class="cursor-pointer rounded border border-gray-500 bg-gray-700 p-2 hover:bg-gray-600"
-          fxLayout="row"
-          fxLayoutGap="1rem"
-          fxLayoutAlign="start center"
-          routerLink="/page/faq"
-        >
+      <div class="dark-button mt-4 flex max-w-md flex-row gap-2">
+        <a mat-stroked-button class="modern" routerLink="/page/faq">
           <mat-icon svgIcon="icon-faq"></mat-icon>
-          <span>Frequently Asked Questions</span>
+          Frequently Asked Questions
         </a>
       </div>
       <h2 class="mt-8 text-2xl font-bold">Upcoming Events</h2>
     </div>
-    <div
-      class="flex w-full snap-x gap-12 overflow-x-auto pb-8 pt-4"
-      fxHide.gt-xs
-    >
+    <div class="flex w-full snap-x gap-12 overflow-x-auto pb-8 pt-4 sm:hidden">
       <div
         *ngFor="let event of events$ | async"
         routerLink="/events/{{ event.id }}"
         class="relative shrink-0 cursor-pointer snap-start scroll-ml-6 first:pl-6 last:pr-[calc(100%-21.5rem)]"
       >
         <div
-          class="rounded-2xl border bg-gray-600 p-4 text-center"
-          fxLayout="column"
-          fxLayoutAlign="start center"
+          class="flex flex-col items-center rounded-2xl border bg-gray-600 p-4 text-center"
         >
           <img
             src="{{ event.icon | iconURL }}"
@@ -80,14 +68,12 @@
         </div>
       </div>
     </div>
-    <div class="w-full p-4" fxHide.xs>
+    <div class="hidden w-full p-4 sm:block">
       <app-grid minWidth="300px">
         <div
           *ngFor="let event of events$ | async"
           routerLink="/events/{{ event.id }}"
-          class="cursor-pointer rounded-2xl border bg-gray-600 p-4 text-center hover:bg-gray-700"
-          fxLayout="column"
-          fxLayoutAlign="start center"
+          class="flex cursor-pointer flex-col items-center rounded-2xl border bg-gray-600 p-4 text-center hover:bg-gray-700"
         >
           <img
             src="{{ event.icon | iconURL }}"
@@ -121,12 +107,7 @@
     With friends
   </h1>
   <div
-    gdAuto
-    gdGap="2rem"
-    gdColumns="repeat(auto-fit, minmax(min(100%, 100px), 1fr))"
-    gdAlignRows="center"
-    gdAlignColumns="center"
-    style="max-width: 1280px"
+    class="grid max-w-4xl grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3"
   >
     <img class="p-4" src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
     <img src="/assets/logos/esn_dark.svg" alt="ESN Logo" />
@@ -134,11 +115,19 @@
     <img src="/assets/logos/supporters/daad.svg" alt="DAAD Logo" />
     <div>
       <span class="mx-auto text-sm">Supported by</span>
-      <img src="/assets/logos/supporters/BMBF.svg" alt="BMBF Logo" />
+      <img
+        src="/assets/logos/supporters/BMBF.svg"
+        alt="BMBF Logo"
+        class="h-full max-h-full w-full max-w-full"
+      />
     </div>
     <div>
       <span class="mx-auto text-sm">Supported by</span>
-      <img src="/assets/logos/supporters/AA.svg" alt="AA Logo" />
+      <img
+        src="/assets/logos/supporters/AA.svg"
+        alt="AA Logo"
+        class="h-full max-h-full w-full max-w-full"
+      />
     </div>
   </div>
   <p class="mt-8 max-w-5xl leading-normal md:text-lg">
@@ -151,16 +140,9 @@
     Technical support
   </h1>
   <div
-    gdAuto
-    gdGap="2rem"
-    gdColumns="repeat(auto-fit, minmax(min(100%, 100px), 1fr))"
-    gdAlignRows="center"
-    gdAlignColumns="center"
-    style="max-width: 1280px"
+    class="grid max-w-4xl grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3"
   >
     <a
-      width="150"
-      height="50"
       href="https://auth0.com/?utm_source=oss&utm_medium=gp&utm_campaign=oss"
       target="_blank"
       alt="Single Sign On & Token Based Authentication - Auth0"
@@ -179,6 +161,7 @@
         loading="lazy"
         referrerpolicy="no-referrer"
         crossorigin="anonymous"
+        alt="Simple Analytics"
     /></a>
     <div>
       <a href="https://www.browserstack.com/" target="_blank"

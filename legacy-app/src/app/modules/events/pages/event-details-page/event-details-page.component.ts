@@ -23,11 +23,11 @@ import {
   RegistrationType,
   SubmitEventFeedbackGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TraceClassDecorator } from '@sentry/angular';
 import { AuthService } from '@auth0/auth0-angular';
 

@@ -10,7 +10,7 @@ import {
   GetRegistrationsGQL,
   GetRegistrationsQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { Title } from '@angular/platform-browser';
 import { map, Observable } from 'rxjs';
 

@@ -9,7 +9,7 @@ import {
   MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,

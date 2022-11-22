@@ -26,7 +26,7 @@ import {
   startWith,
   tap,
 } from 'rxjs';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NewFinanceEntryDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/new-finance-entry-dialog/new-finance-entry-dialog.component';
 
 interface CostItem {

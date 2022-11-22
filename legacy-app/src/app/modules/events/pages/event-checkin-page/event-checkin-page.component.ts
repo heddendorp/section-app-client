@@ -25,7 +25,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
 import { exponentialBackoffDelay } from 'backoff-rxjs/dist/utils';
 import { retryBackoff } from 'backoff-rxjs';

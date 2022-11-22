@@ -10,7 +10,7 @@ import {
   RegisterForEventGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
 
 @Component({

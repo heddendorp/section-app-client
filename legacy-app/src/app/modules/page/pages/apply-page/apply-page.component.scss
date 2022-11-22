@@ -24,24 +24,25 @@ img {
   @apply min-w-[75vw] max-w-[75vw] sm:min-w-[270px] sm:max-w-[270px];
   @apply snap-center;
 
-  .mat-card-image {
+  .mat-mdc-card-image {
     max-width: unset;
     aspect-ratio: 5/4;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   ::ng-deep .mat-card-header-text {
     margin: 0;
 
-    .mat-card-title {
+    .mat-mdc-card-title {
       @apply font-bold;
     }
 
-    .mat-card-subtitle {
+    .mat-mdc-card-subtitle {
       @apply font-semibold;
     }
   }
 
-  .mat-card-content {
+  .mat-mdc-card-content {
     @apply space-y-2;
     @apply tracking-tight;
     // hyphens: auto;

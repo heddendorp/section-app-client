@@ -150,7 +150,7 @@ const graphQLServer = createServer({
         tenantName = hostName.split('.')[0];
       }
       if (tenantName === 'localhost') {
-        tenantName = 'augsburg';
+        tenantName = 'tumi';
       }
       if (tenantName === 'beta') {
         tenantName = 'tumi';

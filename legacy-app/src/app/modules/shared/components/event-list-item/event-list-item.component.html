@@ -1,10 +1,10 @@
 <a *ngIf="event" mat-list-item routerLink="/events/{{ event.id }}">
-  <img [src]="event.icon | iconURL" mat-list-avatar />
-  <h3 mat-line>{{ event.title }}</h3>
-  <p mat-line>
+  <img [src]="event.icon | iconURL" matListItemAvatar />
+  <h3 matListItemTitle>{{ event.title }}</h3>
+  <p matListItemLine>
     <span>{{ formatDate(event.start, event.end) }}</span>
     <span *ngIf="event.participantRatingCount > 0">
-      <span class="ml-2 rounded px-1 bg-amber-400 text-white !text-xs"
+      <span class="ml-2 rounded bg-amber-400 px-1 !text-xs text-white"
         >{{ event.participantRating | number: '1.1-1' }} ★ ({{
           event.participantRatingCount
         }})
@@ -13,11 +13,11 @@
   </p>
   <p
     *ngIf="event.ratingPending"
-    class="!text-xs !mt-0.5 text-amber-600 !font-medium"
+    class="!mt-0.5 !text-xs !font-medium text-amber-600"
   >
     Rate now!
   </p>
-  <p *ngIf="event.createdBy" class="!text-xs !mt-1" mat-line>
+  <p *ngIf="event.createdBy" class="!mt-1 !text-xs" matListItemLine>
     <app-user-chip
       size="xs"
       [id]="event.createdBy.id"
@@ -28,9 +28,9 @@
   </p>
 </a>
 <a *ngIf="!event" mat-list-item>
-  <div class="skeleton !rounded-full" mat-list-avatar></div>
-  <h3 mat-line class="skeleton">Phantom Title</h3>
-  <p mat-line>
+  <div class="skeleton !rounded-full" matListItemAvatar></div>
+  <h3 matListItemTitle class="skeleton">Phantom Title</h3>
+  <p matListItemLine>
     <span class="skeleton">XXX XX, XXXX</span>
   </p>
 </a>

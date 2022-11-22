@@ -23,10 +23,10 @@ import { AuthButtonComponent } from './components/auth-button/auth-button.compon
 import { environment } from '../environments/environment';
 import { onError } from '@apollo/client/link/error';
 import {
-  MAT_LEGACY_SNACK_BAR_DEFAULT_OPTIONS as MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatLegacySnackBar as MatSnackBar,
-} from '@angular/material/legacy-snack-bar';
-import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+} from '@angular/material/snack-bar';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { MarkdownModule } from 'ngx-markdown';
 import {

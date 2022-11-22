@@ -52,12 +52,7 @@
       </div>
       <ng-container>
         <mat-divider></mat-divider>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="1rem"
-          class="my-4 flex flex-row items-center gap-4"
-        >
+        <div class="my-4 flex flex-row items-center gap-4">
           <mat-icon
             svgIcon="icon-leaderboard"
             class="text-secondary-default bg-secondary-on card-icon"
@@ -324,16 +319,20 @@
         href="https://esntumi.sharepoint.com/:f:/s/Board/EqlZb4OcQgNArN8drmSYCKMBAe9OxW7iaYjHmQl6J-bg5A?e=rALt2f"
         target="_blank"
       >
-        <img [src]="'user-manual' | iconURL" alt="Image" mat-list-avatar />
-        <p mat-line>Tutor Guide</p>
+        <img [src]="'user-manual' | iconURL" alt="Image" matListItemAvatar />
+        <p matListItemTitle>Tutor Guide</p>
       </a>
       <a
         mat-list-item
         href="https://app.slack.com/client/T30TKAENN/"
         target="_blank"
       >
-        <img [src]="'slack-new:color' | iconURL" alt="Image" mat-list-avatar />
-        <p mat-line>Slack</p>
+        <img
+          [src]="'slack-new:color' | iconURL"
+          alt="Image"
+          matListItemAvatar
+        />
+        <p matListItemTitle>Slack</p>
       </a>
     </mat-nav-list>
   </div>

@@ -21,7 +21,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({

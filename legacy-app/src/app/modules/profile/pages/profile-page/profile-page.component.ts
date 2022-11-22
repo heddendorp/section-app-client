@@ -18,16 +18,16 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { BehaviorSubject, first, firstValueFrom, map, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
-import { LegacyProgressBarMode as ProgressBarMode } from '@angular/material/legacy-progress-bar';
+import { ProgressBarMode } from '@angular/material/progress-bar';
 import { DateTime } from 'luxon';
 @Component({
   selector: 'app-profile-page',

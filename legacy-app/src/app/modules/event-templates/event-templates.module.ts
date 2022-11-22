@@ -12,10 +12,10 @@ import { TemplateListEntryComponent } from './components/template-list-entry/tem
 import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { ChangeTemplateCategoryDialogComponent } from './components/change-template-category-dialog/change-template-category-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { FinancePlannerPriceModelComponent } from './components/finance-planner/finance-planner-price-model/finance-planner-price-model.component';
 
 @NgModule({

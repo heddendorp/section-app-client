@@ -32,7 +32,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryRef } from 'apollo-angular';
 import {
@@ -50,7 +50,7 @@ import {
 } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { SelectLocationDialogComponent } from '@tumi/legacy-app/modules/shared/components/select-location-dialog/select-location-dialog.component';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import {
   SelectWithAutocompleteDialogComponent,

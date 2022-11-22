@@ -3,13 +3,17 @@
   class="!relative"
   *ngIf="(registrationCodes$ | async) === null"
 ></mat-progress-bar>
-<div mat-dialog-content mat-dialog-close class="text-surface-on p-4">
-  <h1 class="mb-4">Public Registration Codes</h1>
+<h1 mat-dialog-title>Public Registration Codes</h1>
+<div
+  mat-dialog-content
+  mat-dialog-close="undefined"
+  class="text-surface-on p-4"
+>
   <p class="mb-6">
     Here you can find some short-notice spots for events here that others want
     to give away. Please make sure to check out the event before registering!
   </p>
-  <div fxLayout="column" fxLayoutGap="1rem">
+  <div class="flex flex-col gap-4">
     <p
       *ngIf="(registrationCodes$ | async)?.length === 0"
       class="text-center italic text-gray-600"
@@ -20,15 +24,15 @@
       <a
         *ngFor="let code of registrationCodes$ | async"
         routerLink="/events/{{ code.targetEvent.id }}"
-        class="event text-surface-on relative h-full bg-white rounded-lg shadow flex flex-col"
+        class="event text-surface-on relative flex h-full flex-col rounded-lg bg-white shadow"
         matRipple
       >
-        <div class="w-full pt-2 px-4 pb-4 flex flex-col gap-2">
-          <div class="flex flex-row gap-2 items-center">
+        <div class="flex w-full flex-col gap-2 px-4 pt-2 pb-4">
+          <div class="flex flex-row items-center gap-2">
             <img
               [src]="code.targetEvent.icon | iconURL"
               alt=""
-              class="w-12 h-12"
+              class="h-12 w-12"
             />
             <div class="text-base font-semibold leading-tight">
               {{ code.targetEvent.title }}
