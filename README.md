@@ -1,10 +1,9 @@
-[![Build Docker for the legacy app](https://github.com/heddendorp/tumi/actions/workflows/publish-legacy-app.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/publish-legacy-app.yml) [![Deploy preview of legacy app](https://github.com/heddendorp/tumi/actions/workflows/preview-legacy-app.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/preview-legacy-app.yml) [![Build Docker for Server](https://github.com/heddendorp/tumi/actions/workflows/publish-server.yml/badge.svg)](https://github.com/heddendorp/tumi/actions/workflows/publish-server.yml)
+# TUMi app
 
-# ESN TUMi
+### OR: the ESN section app
 
-The main repository of the webservice that make TUMi work the way it does.
-The main code for the TUMi app can be found here together with some other projects like the website for Party Animals.
-Additionally, there is a new serverside rendered version of the TUMi app and a small projects for experiments.
+A web application to help ESN sections manage themselves, their events and payments.
+Includes loads of features very specific to ESN sections and is open for anyone to be used.
 
 ## Contributing
 
@@ -15,6 +14,83 @@ at the **Good first issue** tag.
 
 This repository follows the [conventional commits](https://conventionalcommits.org/). Please make sure to work you commit
 messages according to the guidelines.
+
+## Local setup
+
+Follow this guide to get the project up and running on your local machine.
+
+Clone the project
+```bash
+  git clone https://github.com/esn-tumi/app.git
+  cd app
+  # Install all dependencies
+  yarn install
+```
+
+### Run the client
+
+Go to the project directory
+
+```bash
+  cd legacy-app
+```
+
+#### Without local server (for frontend only)
+
+This uses the server running on `server.esn.world` which is also used by the live version.
+
+```bash
+  yarn dev:light
+```
+
+If you need changes in the server and don't want to implement them yourself server you can line
+out what the API should return for you feature and open an issue.
+
+#### With local server
+
+To fetch data you need to have the **server** running on localhost as well.
+
+```bash
+  yarn dev
+```
+
+### Run the server
+
+The server requires a running instance of Postgres. You can use docker to run it:
+
+```bash
+docker run --name tumi-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+To intialize or reset the database run the following commands:
+```bash
+cd server
+yarn prisma:reset-dev
+```
+This command will drop the entire database and re-create it with the latest schema and seed data.   
+If you want to inspect the data in the database run the following command:
+```bash
+yarn prisma:studio-dev
+```
+
+Then you can run the server with:
+```bash
+cd server
+yarn install
+yarn dev
+```
+
+### Test accounts
+You can sign up with any personal email address. However, if you want to use the test accounts, you can use the following credentials:
+#### Admin
+email: `test1@esn.world`   
+password: `testuser1!`
+
+#### Section member
+email: `test2@esn.world`   
+password: `testuser2!`
+
+**Watch out**: sometimes it is surprisingly hard to log out of the app, make sure to clear the entire application storage in you dev tools and log out form [tumi.esn.world](https://tumi.esn.world/profile) if your users seems to get stuck.
 
 ## Projects
 
@@ -28,11 +104,7 @@ Check this out for the frontend application that is currently the _TUMi app_. Yo
 
 #### [Server](./server/README.md)
 
-The server used by all projects but Party Animals for data access
-
-### [Experiments](./experiments)
-
-### [Party Animals](./party-animals)
+The server used for data access.
 
 ## Tech Stack
 
@@ -42,17 +114,7 @@ The server used by all projects but Party Animals for data access
 
 ### Server
 
-**Server:** Node, Express, Graphql Yoga, Prisma, Nexus
-
-### Party Animals
-
-Here there is no specific difference betweeen server and client,
-it is built on remix which is based on react.
-Also in play is prisma for db connection.
-
-### Experiments
-
-**Client:** Angular, Apollo Angular, TailwindCSS
+**Server:** Node, Express, Graphql Yoga, Prisma, pothos-graphql
 
 ### Authentication
 
