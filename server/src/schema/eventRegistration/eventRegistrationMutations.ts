@@ -292,7 +292,7 @@ builder.mutationFields((t) => ({
                 type: RegistrationType.PARTICIPANT,
               },
             });
-            if (registrationCount > event.participantLimit) {
+            if (registrationCount >= event.participantLimit) {
               throw new GraphQLYogaError(
                 'Registration for this event is full!'
               );
