@@ -149,6 +149,9 @@ const graphQLServer = createServer({
         const hostName = url.hostname;
         tenantName = hostName.split('.')[0];
       }
+      if (context.req.headers.origin.includes('esn-karlsruhe.de')) {
+        tenantName = 'karlsruhe';
+      }
       if (tenantName === 'localhost') {
         tenantName = 'augsburg';
       }
