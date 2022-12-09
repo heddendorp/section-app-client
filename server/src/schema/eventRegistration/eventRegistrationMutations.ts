@@ -1,6 +1,5 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
-import { GraphQLYogaError } from '@graphql-yoga/node';
 import {
   MembershipStatus,
   Prisma,
@@ -11,6 +10,7 @@ import {
 } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import { DateTime } from 'luxon';
+import { GraphQLError } from 'graphql';
 
 builder.mutationFields((t) => ({
   checkInUser: t.prismaField({
@@ -56,7 +56,7 @@ builder.mutationFields((t) => ({
         registration?.userId !== context.user?.id &&
         context.userOfTenant?.role !== 'ADMIN'
       ) {
-        throw new GraphQLYogaError('Only admins can deregister other users');
+        throw new GraphQLError('Only admins can deregister other users');
       }
       const event = await prisma.tumiEvent.findUniqueOrThrow({
         where: { id: registration?.eventId },
@@ -65,7 +65,7 @@ builder.mutationFields((t) => ({
         event.start.getTime() < new Date().getTime() &&
         context.userOfTenant?.role !== 'ADMIN'
       ) {
-        throw new GraphQLYogaError(
+        throw new GraphQLError(
           'You can not deregister from an event after it has started'
         );
       }
@@ -144,7 +144,7 @@ builder.mutationFields((t) => ({
         )
       );
       if (!price) {
-        throw new GraphQLYogaError('No price found for this user');
+        throw new GraphQLError('No price found for this user');
       }
       const baseUrl =
         process.env.DEV || process.env.NODE_ENV === 'test'
@@ -249,15 +249,15 @@ builder.mutationFields((t) => ({
         where: { id: eventId },
       });
       if (!event) {
-        throw new GraphQLYogaError('Event not found');
+        throw new GraphQLError('Event not found');
       }
       if (registrationType === RegistrationType.ORGANIZER) {
         if (event.organizerRegistrationStart > new Date()) {
-          throw new GraphQLYogaError('Registration is not open yet');
+          throw new GraphQLError('Registration is not open yet');
         }
       } else {
         if (event.registrationStart > new Date()) {
-          throw new GraphQLYogaError('Registration is not open yet');
+          throw new GraphQLError('Registration is not open yet');
         }
       }
       const { status } = context.userOfTenant ?? {};
@@ -266,7 +266,7 @@ builder.mutationFields((t) => ({
           ? event?.participantSignup
           : event?.organizerSignup;
       if (!allowedStatus?.includes(status ?? MembershipStatus.NONE)) {
-        throw new GraphQLYogaError(
+        throw new GraphQLError(
           'User does not fulfill the requirements to sign up!'
         );
       }
@@ -278,9 +278,7 @@ builder.mutationFields((t) => ({
         },
       });
       if (ownRegistration) {
-        throw new GraphQLYogaError(
-          'You are already registered for this event!'
-        );
+        throw new GraphQLError('You are already registered for this event!');
       }
       const registration = await prisma.$transaction(
         async (tx) => {
@@ -293,9 +291,7 @@ builder.mutationFields((t) => ({
               },
             });
             if (registrationCount >= event.participantLimit) {
-              throw new GraphQLYogaError(
-                'Registration for this event is full!'
-              );
+              throw new GraphQLError('Registration for this event is full!');
             }
           } else {
             const registeredUsers = await tx.eventRegistration.count({
@@ -306,9 +302,7 @@ builder.mutationFields((t) => ({
               },
             });
             if (registeredUsers >= event.organizerLimit) {
-              throw new GraphQLYogaError(
-                'Event does not have an available spot!'
-              );
+              throw new GraphQLError('Event does not have an available spot!');
             }
           }
           const submissionArray: { submissionItem: any; data: any }[] = [];
@@ -338,7 +332,7 @@ builder.mutationFields((t) => ({
             },
           });
           if (registrationNumToday >= 3) {
-            throw new GraphQLYogaError(
+            throw new GraphQLError(
               'You have reached the maximum number of registrations (3) for today'
             );
           }
@@ -374,7 +368,7 @@ builder.mutationFields((t) => ({
               },
             });
           } else {
-            throw new GraphQLYogaError('Registration mode not supported');
+            throw new GraphQLError('Registration mode not supported');
           }
         },
         {

@@ -9,7 +9,7 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
-import { createServer, enableIf, GraphQLYogaError } from '@graphql-yoga/node';
+import { createYoga } from 'graphql-yoga';
 import { schema } from './schema';
 import prom from 'prom-client';
 import { useAuth0 } from '@envelop/auth0';
@@ -23,6 +23,7 @@ import { print } from 'graphql/language';
 import { Settings } from 'luxon';
 import CacheService from './helpers/cacheService';
 import { Context } from './builder';
+import { GraphQLError } from 'graphql';
 
 declare global {
   namespace NodeJS {
@@ -105,15 +106,15 @@ const tracingPlugin: Plugin = {
   },
 };
 
-const graphQLServer = createServer({
+const graphQLServer = createYoga({
   schema,
-  context: async ({ req }) => ({
+  context: async ({ request }) => ({
     auth0,
-    req,
+    req: request,
   }),
   plugins: [
-    enableIf(isProd, useSentry({ trackResolvers: false })),
-    enableIf(isProd, tracingPlugin),
+    // enableIf(isProd, useSentry({ trackResolvers: false })),
+    // enableIf(isProd, tracingPlugin),
     useHive({
       enabled: true,
       debug: !!process.env.DEV, // or false
@@ -175,8 +176,8 @@ const graphQLServer = createServer({
         console.log(tenantName);
         console.log(context.req.headers.origin);
         console.log(context.req.headers.host);
-        throw new GraphQLYogaError('Tenant not found', {
-          error: e,
+        throw new GraphQLError('Tenant not found', {
+          extensions: { error: e },
         });
       }
       if (context.token) {

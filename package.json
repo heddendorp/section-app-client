@@ -35,13 +35,8 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.6.0"
-  },
-  "resolutions": {
-    "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
-    "nexus-prisma@0.36.0-next.2": "patch:nexus-prisma@npm:0.36.0-next.2#.yarn/patches/nexus-prisma-npm-0.36.0-next.2-32f64a026a",
-    "@whatwg-node/fetch": "patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch",
-    "@envelop/core": "2.6.0"
+    "concurrently": "^7.6.0",
+    "graphql-yoga": "^3.1.1"
   },
   "volta": {
     "node": "18.12.1",

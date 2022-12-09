@@ -15,7 +15,6 @@ import {
   updateEventLocationInputType,
   updateGeneralEventInputType,
 } from './eventType';
-import { GraphQLYogaError } from '@graphql-yoga/node';
 
 builder.mutationFields((t) => ({
   rateEvent: t.prismaField({
@@ -80,9 +79,7 @@ builder.mutationFields((t) => ({
         where: { id: templateId },
       });
       if (!template) {
-        throw new GraphQLYogaError(
-          'Template with the given ID could not be found'
-        );
+        throw new GraphQLError('Template with the given ID could not be found');
       }
       return prisma.tumiEvent.create({
         data: {
@@ -331,7 +328,7 @@ builder.mutationFields((t) => ({
         Array.isArray(template.finances) ||
         !Array.isArray(template.finances?.items)
       ) {
-        throw new GraphQLYogaError('No items found in template finances');
+        throw new GraphQLError('No items found in template finances');
       }
       await prisma.costItem.deleteMany({ where: { event: { id: eventId } } });
       const items = template.finances?.items as {

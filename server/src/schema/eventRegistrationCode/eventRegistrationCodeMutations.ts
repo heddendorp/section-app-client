@@ -1,8 +1,8 @@
 import { builder } from '../../builder';
-import { GraphQLYogaError } from '@graphql-yoga/node';
 import { RegistrationMode } from '../../generated/prisma';
 import { RegistrationService } from '../../helpers/registrationService';
 import prisma from '../../client';
+import { GraphQLError } from 'graphql';
 
 builder.mutationFields((t) => ({
   useRegistrationCode: t.prismaField({
@@ -17,7 +17,7 @@ builder.mutationFields((t) => ({
         include: { targetEvent: true },
       });
       if (!registrationCode) {
-        throw new GraphQLYogaError(
+        throw new GraphQLError(
           'Registration code could not be found for: ' + id
         );
       }
@@ -27,9 +27,7 @@ builder.mutationFields((t) => ({
       ) {
         const priceAllowed = !!price;
         if (!priceAllowed) {
-          throw new GraphQLYogaError(
-            'Price received is not valid in this context'
-          );
+          throw new GraphQLError('Price received is not valid in this context');
         }
       }
       const baseUrl = process.env.DEV
