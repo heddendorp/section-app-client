@@ -35,7 +35,7 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies(mat.define-typography-config( $font-family: 'General Sans, sans-serif',
+@include mat.all-component-typographies(mat.define-typography-config($font-family: 'General Sans, sans-serif',
 $body-2: mat.define-typography-level(14px, 20px, 450),));
 @include mat.core();
 
@@ -157,24 +157,24 @@ $tumi-typography: mat.define-typography-config(
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $tumi-app-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-    typography: $tumi-typography,
-  )
+    (
+      color: (
+        primary: $tumi-app-primary,
+        accent: $tumi-app-accent,
+        warn: $tumi-app-warn,
+      ),
+      typography: $tumi-typography,
+    )
 );
 
 $tumi-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-  )
+    (
+      color: (
+        primary: $tumi-app-primary,
+        accent: $tumi-app-accent,
+        warn: $tumi-app-warn,
+      ),
+    )
 );
 
 // Include theme styles for core and each component used in your app.
@@ -184,11 +184,17 @@ $tumi-dark-theme: mat.define-dark-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+// Fix for outlined material fields with tailwind
+.mdc-notched-outline__notch {
+  border-right: none;
+}
+
 @layer base {
   html {
     box-sizing: border-box;
     font-weight: 400;
   }
+
   //html,
   //body {
   //  height: 100%;
@@ -197,64 +203,80 @@ $tumi-dark-theme: mat.define-dark-theme(
     margin: 0;
     @apply font-sans;
   }
+
   *,
   *:before,
   *:after {
     box-sizing: inherit;
     -webkit-tap-highlight-color: transparent;
   }
+
   h1 {
     @apply text-2xl font-display;
   }
+
   h2 {
     @apply text-xl font-display;
   }
+
   h3 {
     @apply text-lg;
   }
+
   mat-icon.mat-icon.card-icon {
     @apply w-8 lg:w-10 h-8 lg:h-10 p-1 rounded-lg;
   }
+
   markdown {
     img {
       @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
     }
   }
+
   .dark-button {
     @include mat.button-color($tumi-dark-theme);
     @include mat.fab-color($tumi-dark-theme);
     @include mat.icon-button-color($tumi-dark-theme);
   }
+
   .photo-view {
     mat-dialog-container {
       padding: 0;
     }
   }
+
   .cdk-overlay-pane.modern {
     .mat-mdc-dialog-container .mdc-dialog__surface {
       @apply rounded-3xl bg-primary-container text-primary-onContainer;
     }
   }
+
   .mat-mdc-button-base.modern {
-      @apply rounded-full;
+    @apply rounded-full;
   }
+
   mat-panel-title {
     @apply lg:text-lg font-bold;
   }
+
   .bg-blur {
     backdrop-filter: blur(16px) saturate(180%);
   }
+
   .mat-mdc-list-item-avatar {
     border-radius: 0 !important;
   }
+
   .save-button {
     .mat-icon {
       mat-spinner {
         height: 24px !important;
         width: 24px !important;
+
         circle {
           @apply stroke-gray-400;
         }
+
         svg {
           height: 24px !important;
           width: 24px !important;
@@ -262,22 +284,26 @@ $tumi-dark-theme: mat.define-dark-theme(
       }
     }
   }
+
   mat-toolbar {
     background: white !important;
     @apply shadow-sm;
   }
+
   /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
   mat-progress-bar {
     position: absolute !important;
     z-index: 1000 !important;
     @apply sm:max-w-[calc(100vw-96px)];
   }
+
   @media only percy {
     .hide-in-percy {
       visibility: hidden;
     }
   }
 }
+
 
 @layer components {
   .skeleton {
