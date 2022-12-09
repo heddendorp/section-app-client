@@ -114,6 +114,7 @@ const graphQLServer = createYoga({
   fetchAPI: createFetch({
     useNodeFetch: true,
   }),
+  batching: true,
   plugins: [
     // enableIf(isProd, useSentry({ trackResolvers: false })),
     // enableIf(isProd, tracingPlugin),

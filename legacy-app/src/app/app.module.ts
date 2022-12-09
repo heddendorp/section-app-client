@@ -17,7 +17,7 @@ import {
   HttpClientModule,
   HttpHeaders,
 } from '@angular/common/http';
-import { HttpLink } from 'apollo-angular/http';
+import { HttpBatchLink, HttpLink } from 'apollo-angular/http';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AuthButtonComponent } from './components/auth-button/auth-button.component';
 import { environment } from '../environments/environment';
@@ -100,7 +100,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
+      useFactory: (httpLink: HttpBatchLink) => {
         const http = httpLink.create({
           uri: environment.useApiPath
             ? '/graphql'
@@ -155,7 +155,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
           cache,
         };
       },
-      deps: [HttpLink],
+      deps: [HttpBatchLink],
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
