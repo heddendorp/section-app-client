@@ -18,7 +18,7 @@
     "docker:down": "docker-compose down",
     "prisma:seed-dev": "dotenv -e .env.development -- ts-node prisma/seed.ts",
     "prisma:studio-dev": "dotenv -e .env.development -- prisma studio",
-    "prisma:reset-dev": "dotenv -e .env.development -- yarn prisma db push --accept-data-loss",
+    "prisma:reset-dev": "dotenv -e .env.development -- yarn prisma migrate reset --skip-seed --force && dotenv -e .env.development -- yarn prisma db push --accept-data-loss && dotenv -e .env.development -- yarn prisma db seed",
     "prisma:reset-test": "dotenv -e .env.test -- yarn prisma migrate reset --skip-seed --force && dotenv -e .env.test -- yarn prisma db push --accept-data-loss && dotenv -e .env.test -- yarn prisma db seed",
     "prisma:seed-test": "dotenv -e .env.test -- yarn prisma db seed",
     "test-old": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force && dotenv -e .env.test -- jest -i --detectOpenHandles",

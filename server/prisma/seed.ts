@@ -12,7 +12,6 @@ const prisma = new PrismaClient();
 
 async function runSeed() {
   // Clean up DB
-  await prisma.invite.deleteMany();
   await prisma.stripeUserData.deleteMany();
   await prisma.stripePayment.deleteMany();
   await prisma.purchase.deleteMany();
@@ -30,7 +29,6 @@ async function runSeed() {
   await prisma.productImage.deleteMany();
   await prisma.user.deleteMany();
   await prisma.eventOrganizer.deleteMany();
-  await prisma.refundedRegistration.deleteMany();
   await prisma.lineItem.deleteMany();
   await prisma.product.deleteMany();
   await prisma.eventSubmission.deleteMany();
