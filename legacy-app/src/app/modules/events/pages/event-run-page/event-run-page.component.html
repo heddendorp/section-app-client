@@ -9,9 +9,9 @@
   *ngIf="(event$ | async) === null"
 ></mat-progress-bar>
 <main *ngIf="event$ | async as event" class="flex flex-col gap-8 p-4">
-  <a mat-fab routerLink="scan" class="extended-fab">
+  <a mat-fab extended routerLink="scan">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
-    <span class="label">Scan code</span>
+    Scan code
   </a>
 
   <div class="flex flex-col flex-wrap gap-4 md:flex-row">
@@ -64,8 +64,8 @@
           {{ costItem.name }}
         </h1>
         <p mat-line>
-          for {{ costItem.amount | currency: 'EUR' }} (
-          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
+          for {{ costItem.amount | currency : 'EUR' }} (
+          {{ costItem.submittedAmount | currency : 'EUR' }} already submitted
           with receipts)
         </p>
       </a>

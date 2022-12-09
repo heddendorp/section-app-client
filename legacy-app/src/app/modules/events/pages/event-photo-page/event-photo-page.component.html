@@ -24,11 +24,11 @@
     <button
       [disabled]="uploading$ | async"
       mat-fab
-      class="extended-fab"
+      extended
       (click)="fileInput.click()"
     >
       <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
-      <span class="label">Add Images</span>
+      Add Images
     </button>
   </div>
   <h1 class="mb-2 font-bold">Photos for {{ (event$ | async)?.title }}</h1>
@@ -36,7 +36,7 @@
     Use this to exchange photos with other participants in this event.
   </p>
   <div
-    class="w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+    class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
     *ngIf="photos$ | async as photos"
   >
     <div

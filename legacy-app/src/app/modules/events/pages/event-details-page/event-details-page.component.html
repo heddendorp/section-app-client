@@ -4,26 +4,21 @@
 ></mat-progress-bar>
 <main class="bg-surface-default">
   <ng-container *ngIf="event$ | async as event">
-    <a
-      mat-fab
-      routerLink="run"
-      class="extended-fab"
-      *ngIf="event.userIsOrganizer"
-    >
+    <a mat-fab routerLink="run" extended *ngIf="event.userIsOrganizer">
       <mat-icon svgIcon="icon-user-shield"></mat-icon>
-      <span class="label">Run event</span>
+      Run event
     </a>
     <button
       mat-fab
       (click)="showCode()"
-      class="extended-fab"
+      extended
       *ngIf="
         event.userIsRegistered &&
         !((eventOver$ | async) && event.activeRegistration?.didAttend)
       "
     >
       <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
-      <span class="label">Check in</span>
+      Check in
     </button>
   </ng-container>
   <app-event-header
@@ -105,7 +100,7 @@
             >
               <div class="mb-2">
                 <b>Meeting point:</b> {{ event.location }} at
-                {{ event.start | date: 'mediumTime' }}
+                {{ event.start | date : 'mediumTime' }}
               </div>
               <a
                 class="modern"
