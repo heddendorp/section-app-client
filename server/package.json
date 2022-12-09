@@ -31,7 +31,7 @@
     "@envelop/core": "^3.0.4",
     "@envelop/graphql-jit": "^5.0.4",
     "@envelop/response-cache": "^4.0.4",
-    "@envelop/sentry": "4.0.4",
+    "@envelop/sentry": "5.0.0",
     "@graphql-hive/client": "^0.21.4",
     "@pathcheck/dcc-sdk": "^0.0.27",
     "@pothos/core": "^3.23.1",

@@ -15,16 +15,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1500.0":
-  version: 0.1500.0
-  resolution: "@angular-devkit/architect@npm:0.1500.0"
-  dependencies:
-    "@angular-devkit/core": 15.0.0
-    rxjs: 6.6.7
-  checksum: 338c6c4848b764b406d712f4d39d037b628606b724bfed3fd67483443a505ba1345e609eaf74f528b73fb08f0304085e094ec52288be1d2804a02c30467b2cd7
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/architect@npm:0.1500.3":
   version: 0.1500.3
   resolution: "@angular-devkit/architect@npm:0.1500.3"
@@ -35,14 +25,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^15.0.0":
-  version: 15.0.0
-  resolution: "@angular-devkit/build-angular@npm:15.0.0"
+"@angular-devkit/build-angular@npm:^15.0.3":
+  version: 15.0.3
+  resolution: "@angular-devkit/build-angular@npm:15.0.3"
   dependencies:
     "@ampproject/remapping": 2.2.0
-    "@angular-devkit/architect": 0.1500.0
-    "@angular-devkit/build-webpack": 0.1500.0
-    "@angular-devkit/core": 15.0.0
+    "@angular-devkit/architect": 0.1500.3
+    "@angular-devkit/build-webpack": 0.1500.3
+    "@angular-devkit/core": 15.0.3
     "@babel/core": 7.20.2
     "@babel/generator": 7.20.4
     "@babel/helper-annotate-as-pure": 7.18.6
@@ -53,7 +43,7 @@ __metadata:
     "@babel/runtime": 7.20.1
     "@babel/template": 7.18.10
     "@discoveryjs/json-ext": 0.5.7
-    "@ngtools/webpack": 15.0.0
+    "@ngtools/webpack": 15.0.3
     ansi-colors: 4.1.3
     autoprefixer: 10.4.13
     babel-loader: 9.1.0
@@ -83,7 +73,6 @@ __metadata:
     piscina: 3.2.0
     postcss: 8.4.19
     postcss-loader: 7.0.1
-    regenerator-runtime: 0.13.10
     resolve-url-loader: 5.0.0
     rxjs: 6.6.7
     sass: 1.56.1
@@ -128,38 +117,20 @@ __metadata:
       optional: true
     tailwindcss:
       optional: true
-  checksum: b0031656b2a548cb7df813e563c667f8e8446259b77b0746965f1288e457d210dae00291cfa97048c67aadad00aaee35349a4760c6752681bf746eb02ef1fc01
+  checksum: 94da3efdcbbb01ba04113c1616a29eb49259ee82317d1fb520725a6d7c29d8bfc61fc6f80ef407005ed5d9661a22f9194eddbe10098326287feb7d7990d89bd2
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-webpack@npm:0.1500.0":
-  version: 0.1500.0
-  resolution: "@angular-devkit/build-webpack@npm:0.1500.0"
+"@angular-devkit/build-webpack@npm:0.1500.3":
+  version: 0.1500.3
+  resolution: "@angular-devkit/build-webpack@npm:0.1500.3"
   dependencies:
-    "@angular-devkit/architect": 0.1500.0
+    "@angular-devkit/architect": 0.1500.3
     rxjs: 6.6.7
   peerDependencies:
     webpack: ^5.30.0
     webpack-dev-server: ^4.0.0
-  checksum: a4ff2a4cfe11199856b69fc17cb7d0a86aac30bfcf82269fb9ff13118e0da45ea0e1fb2ed34e0baa836708e717b6dce4e29ee48983af5aa299b884bfdcb913bc
-  languageName: node
-  linkType: hard
-
-"@angular-devkit/core@npm:15.0.0":
-  version: 15.0.0
-  resolution: "@angular-devkit/core@npm:15.0.0"
-  dependencies:
-    ajv: 8.11.0
-    ajv-formats: 2.1.1
-    jsonc-parser: 3.2.0
-    rxjs: 6.6.7
-    source-map: 0.7.4
-  peerDependencies:
-    chokidar: ^3.5.2
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 86a4d042be45442e12274bbcb92e1ffa8aeaac5a8a71211a7fc9b02496da05315a333021d0735579094706e35271b699dc368625a05fce1512bbcef1049f5d7a
+  checksum: cb1652b64a777aa541f0824e4cfc0cfaba78b200410a73639fe5d6aa31c2bdfb0547541a0eee9feb30a13aae70abd97fdc86cf23553e3b0867d70d8b431a33d3
   languageName: node
   linkType: hard
 
@@ -2338,16 +2309,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/on-resolve@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@envelop/on-resolve@npm:2.0.4"
-  peerDependencies:
-    "@envelop/core": ^3.0.4
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 94c2f9ddccd1cf176181c65521ce1dd814e5c759ef17c3dbf2cdbe28791985754872511b2377e7c357d964b187dc271b96309513eaa19034759f741c81c7ba1d
-  languageName: node
-  linkType: hard
-
 "@envelop/parser-cache@npm:5.0.4":
   version: 5.0.4
   resolution: "@envelop/parser-cache@npm:5.0.4"
@@ -2376,17 +2337,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@envelop/sentry@npm:4.0.4":
-  version: 4.0.4
-  resolution: "@envelop/sentry@npm:4.0.4"
+"@envelop/sentry@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@envelop/sentry@npm:5.0.0"
   dependencies:
-    "@envelop/on-resolve": ^2.0.4
     tslib: ^2.4.0
   peerDependencies:
     "@envelop/core": ^3.0.4
     "@sentry/node": ^6 || ^7
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 80c24434a83ac7e5d15ed69b21663fb0204be7a394f2f14ae59901a253455cb620209aee9f1a446ea046ba23edf1c90a79fcca581795e960b902234c3e439731
+  checksum: f59ca07fbf32dcdaa8c386d9ef7627d6f6ae762e9e5ecf7397de9cfc0a8d8fbf204f8216c6e03ae59b1517b032d9e68fbe36193c9ec2d2da8fdce1418a308265
   languageName: node
   linkType: hard
 
@@ -4317,14 +4277,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngtools/webpack@npm:15.0.0":
-  version: 15.0.0
-  resolution: "@ngtools/webpack@npm:15.0.0"
+"@ngtools/webpack@npm:15.0.3":
+  version: 15.0.3
+  resolution: "@ngtools/webpack@npm:15.0.3"
   peerDependencies:
     "@angular/compiler-cli": ^15.0.0
     typescript: ~4.8.2
     webpack: ^5.54.0
-  checksum: c7026804764f090d3b4bded50eddf6856432a388c3cd5ba776d86264044e1087a1d5a5c69305e1e1fc9258fe1a8fbf6a44f0cae9cc67211ce26e5fea0537f7f7
+  checksum: 830bba1e9bd45e2ee44e533a746253712c900d3c5bc6f0351f7ee25bb965bd07a00a7fcb1c67cf428a6536c88eafa132f633e44530f987fa4c209c14f56378ec
   languageName: node
   linkType: hard
 
@@ -5399,7 +5359,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/legacy-app@workspace:legacy-app"
   dependencies:
-    "@angular-devkit/build-angular": ^15.0.0
+    "@angular-devkit/build-angular": ^15.0.3
     "@angular-eslint/builder": 15.1.0
     "@angular-eslint/eslint-plugin": 15.1.0
     "@angular-eslint/eslint-plugin-template": 15.1.0
@@ -5484,7 +5444,7 @@ __metadata:
     "@envelop/core": ^3.0.4
     "@envelop/graphql-jit": ^5.0.4
     "@envelop/response-cache": ^4.0.4
-    "@envelop/sentry": 4.0.4
+    "@envelop/sentry": 5.0.0
     "@faker-js/faker": ^7.6.0
     "@graphql-hive/client": ^0.21.4
     "@pathcheck/dcc-sdk": ^0.0.27
@@ -17302,13 +17262,6 @@ __metadata:
   version: 1.4.2
   resolution: "regenerate@npm:1.4.2"
   checksum: 3317a09b2f802da8db09aa276e469b57a6c0dd818347e05b8862959c6193408242f150db5de83c12c3fa99091ad95fb42a6db2c3329bfaa12a0ea4cbbeb30cb0
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:0.13.10":
-  version: 0.13.10
-  resolution: "regenerator-runtime@npm:0.13.10"
-  checksum: 09893f5a9e82932642d9a999716b6c626dc53ef2a01307c952ebbf8e011802360163a37c304c18a6c358548be5a72b448e37209954a18696f21e438c81cbb4b9
   languageName: node
   linkType: hard
 
