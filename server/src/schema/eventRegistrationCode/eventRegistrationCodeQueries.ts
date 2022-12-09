@@ -32,12 +32,14 @@ builder.queryFields((t) => ({
       return prisma.eventRegistrationCode.findMany({
         ...query,
         where: {
-          targetEvent: { eventTemplate: { tenant: { id: context.tenant.id } } },
+          targetEvent: {
+            eventTemplate: {
+              tenant: { id: context.tenant.id },
+              ...(includePassed ? {} : { start: { gt: new Date() } }),
+            },
+          },
           ...(includePrivate ? {} : { isPublic: true }),
           ...(includeUsed ? {} : { registrationCreatedId: null }),
-          ...(includePassed
-            ? {}
-            : { targetEvent: { start: { gt: new Date() } } }),
         },
         ...page,
         orderBy: orderByEvent
@@ -60,7 +62,15 @@ builder.queryFields((t) => ({
   }),
   eventRegistrationCodeCount: t.int({
     resolve: async (root, args, context) => {
-      return prisma.eventRegistrationCode.count();
+      return prisma.eventRegistrationCode.count({
+        where: {
+          targetEvent: {
+            eventTemplate: {
+              tenant: { id: context.tenant.id },
+            },
+          },
+        },
+      });
     },
   }),
 }));
