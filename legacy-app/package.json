@@ -75,7 +75,7 @@
     "@typescript-eslint/parser": "^5.44.0",
     "autoprefixer": "^10.4.13",
     "concurrently": "^7.6.0",
-    "eslint": "^8.28.0",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.1",

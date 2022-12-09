@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 import { builder } from '../../builder';
 import prisma from '../../client';
 import {
+  HomePageStrategy,
   MembershipStatus,
   PublicationState,
   RegistrationStatus,
@@ -23,6 +24,8 @@ builder.prismaObject('Tenant', {
     aboutPage: t.exposeString('aboutPage'),
     faqPage: t.exposeString('faqPage', { nullable: true }),
     tacPage: t.exposeString('tacPage', { nullable: true }),
+    homePageStrategy: t.expose('homePageStrategy', { type: HomePageStrategy }),
+    homePageLink: t.exposeString('homePageLink', { nullable: true }),
 
     tutorHub: t.field({
       type: 'JSON',

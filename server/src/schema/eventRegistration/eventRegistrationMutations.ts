@@ -283,9 +283,9 @@ builder.mutationFields((t) => ({
         );
       }
       const registration = await prisma.$transaction(
-        async (prisma) => {
+        async (tx) => {
           if (registrationType === RegistrationType.PARTICIPANT) {
-            const registrationCount = await prisma.eventRegistration.count({
+            const registrationCount = await tx.eventRegistration.count({
               where: {
                 event: { id: event.id },
                 status: { not: RegistrationStatus.CANCELLED },
@@ -298,7 +298,7 @@ builder.mutationFields((t) => ({
               );
             }
           } else {
-            const registeredUsers = await prisma.eventRegistration.count({
+            const registeredUsers = await tx.eventRegistration.count({
               where: {
                 eventId,
                 type: registrationType ?? undefined,
@@ -320,7 +320,7 @@ builder.mutationFields((t) => ({
               });
             });
           }
-          const registrationNumToday = await prisma.eventRegistration.count({
+          const registrationNumToday = await tx.eventRegistration.count({
             where: {
               userId: context.user?.id,
               createdAt: {
@@ -346,7 +346,7 @@ builder.mutationFields((t) => ({
             event?.registrationMode === RegistrationMode.STRIPE &&
             registrationType === RegistrationType.PARTICIPANT
           ) {
-            return prisma.eventRegistration.create({
+            return tx.eventRegistration.create({
               data: {
                 user: { connect: { id: context.user?.id } },
                 event: { connect: { id: eventId } },
@@ -362,7 +362,7 @@ builder.mutationFields((t) => ({
             event?.registrationMode === RegistrationMode.ONLINE ||
             registrationType === RegistrationType.ORGANIZER
           ) {
-            return prisma.eventRegistration.create({
+            return tx.eventRegistration.create({
               data: {
                 user: { connect: { id: context.user?.id } },
                 event: { connect: { id: eventId } },

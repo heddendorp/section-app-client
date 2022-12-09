@@ -25,7 +25,6 @@
     "prepare-test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate reset --force"
   },
   "dependencies": {
-    "@angular/google-maps": "^15.0.0",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/storage-blob": "^12.12.0",
     "@envelop/auth0": "^4.0.3",
@@ -42,7 +41,7 @@
     "@pothos/plugin-simple-objects": "^3.6.7",
     "@pothos/plugin-tracing": "^0.5.7",
     "@pothos/tracing-sentry": "^0.7.8",
-    "@prisma/client": "^4.6.1",
+    "@prisma/client": "^4.7.1",
     "@sendgrid/mail": "^7.7.0",
     "@sentry/integrations": "^7.20.1",
     "@sentry/node": "^7.20.1",
@@ -103,7 +102,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
     "prettier": "^2.7.1",
-    "prisma": "^4.6.1",
+    "prisma": "^4.7.1",
     "prisma-dbml-generator": "^0.9.1",
     "rimraf": "^3.0.2",
     "rrule": "^2.7.1",

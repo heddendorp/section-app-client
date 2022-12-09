@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
-  previewFeatures = ["interactiveTransactions", "fullTextSearch", "metrics", "filteredRelationCount"]
+  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount"]
 }
 
 generator pothos {
@@ -30,6 +30,8 @@ model Tenant {
   faqPage                 String?
   imprintPage             String                  @default("")
   privacyPolicyPage       String                  @default("")
+  homePageStrategy        HomePageStrategy        @default(STATIC)
+  homePageLink            String?
   tacPage                 String?
   organizers              EventOrganizer[]
   eventTemplates          EventTemplate[]
@@ -542,4 +544,11 @@ enum TransactionStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+enum HomePageStrategy {
+  LINK
+  STATIC
+  MARKDOWN
+  NONE
 }

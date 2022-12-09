@@ -1,6 +1,7 @@
 import { builder } from '../builder';
 import {
   EnrollmentStatus,
+  HomePageStrategy,
   LogSeverity,
   MembershipStatus,
   PublicationState,
@@ -30,3 +31,4 @@ builder.enumType(SubmissionTime, { name: 'SubmissionTime' });
 builder.enumType(TransactionType, { name: 'TransactionType' });
 builder.enumType(TransactionDirection, { name: 'TransactionDirection' });
 builder.enumType(TransactionStatus, { name: 'TransactionStatus' });
+builder.enumType(HomePageStrategy, { name: 'HomePageStrategy' });

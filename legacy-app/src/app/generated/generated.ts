@@ -309,6 +309,13 @@ export type EventTemplateCategory = {
   tenantId: Scalars['ID'];
 };
 
+export enum HomePageStrategy {
+  Link = 'LINK',
+  Markdown = 'MARKDOWN',
+  None = 'NONE',
+  Static = 'STATIC'
+}
+
 export type LineItem = {
   __typename?: 'LineItem';
   cancellationReason?: Maybe<Scalars['String']>;
@@ -1028,6 +1035,8 @@ export type Tenant = {
   aboutPage: Scalars['String'];
   createdAt: Scalars['DateTime'];
   faqPage?: Maybe<Scalars['String']>;
+  homePageLink?: Maybe<Scalars['String']>;
+  homePageStrategy: HomePageStrategy;
   id: Scalars['ID'];
   imprintPage: Scalars['String'];
   name: Scalars['String'];
@@ -1246,6 +1255,8 @@ export type UpdateTemplateLocationInput = {
 export type UpdateTenantInput = {
   aboutPage?: InputMaybe<Scalars['String']>;
   faqPage?: InputMaybe<Scalars['String']>;
+  homePageLink?: InputMaybe<Scalars['String']>;
+  homePageStrategy?: InputMaybe<HomePageStrategy>;
   imprintPage?: InputMaybe<Scalars['String']>;
   privacyPolicyPage?: InputMaybe<Scalars['String']>;
   tacPage?: InputMaybe<Scalars['String']>;

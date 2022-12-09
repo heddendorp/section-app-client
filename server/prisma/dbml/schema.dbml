@@ -11,6 +11,8 @@ Table Tenant {
   faqPage String
   imprintPage String [not null, default: '']
   privacyPolicyPage String [not null, default: '']
+  homePageStrategy HomePageStrategy [not null, default: 'STATIC']
+  homePageLink String
   tacPage String
   organizers EventOrganizer [not null]
   eventTemplates EventTemplate [not null]
@@ -538,6 +540,13 @@ Enum TransactionStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+Enum HomePageStrategy {
+  LINK
+  STATIC
+  MARKDOWN
+  NONE
 }
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
