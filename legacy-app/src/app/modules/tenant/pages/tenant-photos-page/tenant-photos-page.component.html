@@ -10,7 +10,7 @@
 </app-reactive-toolbar>
 <main *ngIf="photos$ | async as photos" class="p-4">
   <div
-    class="w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+    class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
     *ngIf="photos$ | async as photos"
   >
     <div

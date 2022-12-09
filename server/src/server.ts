@@ -9,21 +9,21 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
-import { createYoga } from 'graphql-yoga';
+import { createYoga, YogaInitialContext } from 'graphql-yoga';
 import { schema } from './schema';
 import prom from 'prom-client';
-import { useAuth0 } from '@envelop/auth0';
+import { useAuth0, UserPayload } from '@envelop/auth0';
 import { Plugin, useExtendContext } from '@envelop/core';
 import { useHive } from '@graphql-hive/client';
 import { useResponseCache } from '@envelop/response-cache';
 import { useGraphQlJit } from '@envelop/graphql-jit';
-import { useSentry } from '@envelop/sentry';
 import { AttributeNames } from '@pothos/tracing-sentry';
 import { print } from 'graphql/language';
 import { Settings } from 'luxon';
 import CacheService from './helpers/cacheService';
 import { Context } from './builder';
 import { GraphQLError } from 'graphql';
+import { createFetch } from '@whatwg-node/fetch';
 
 declare global {
   namespace NodeJS {
@@ -108,120 +108,108 @@ const tracingPlugin: Plugin = {
 
 const graphQLServer = createYoga({
   schema,
-  context: async ({ request }) => ({
+  context: {
     auth0,
-    req: request,
+  },
+  fetchAPI: createFetch({
+    useNodeFetch: true,
   }),
   plugins: [
     // enableIf(isProd, useSentry({ trackResolvers: false })),
     // enableIf(isProd, tracingPlugin),
     useHive({
-      enabled: true,
+      enabled: isProd,
       debug: !!process.env.DEV, // or false
       token: process.env.HIVE_TOKEN ?? '',
-      reporting: {
-        // feel free to set dummy values here
-        author: 'Author of the schema version',
-        commit: 'git sha or any identifier',
-      },
-      usage: {
-        clientInfo(context: any) {
-          const name = context.req.headers['x-graphql-client-name'];
-          const version = context.req.headers['x-graphql-client-version'];
-          if (name && version) {
-            return {
-              name,
-              version,
-            };
-          }
-          return null;
-        },
-      },
     }),
     useAuth0({
       domain: 'tumi.eu.auth0.com',
       audience: 'esn.events',
       extendContextField: 'token',
     }),
-    useExtendContext(async (context) => {
-      let tenantName = context.req.headers['x-tumi-tenant'];
-      if (!tenantName) {
-        const url = new URL(context.req.headers.origin);
-        const hostName = url.hostname;
-        tenantName = hostName.split('.')[0];
-      }
-      if (context.req.headers.origin.includes('esn-karlsruhe.de')) {
-        tenantName = 'karlsruhe';
-      }
-      if (tenantName === 'localhost') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'beta') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'experiments') {
-        tenantName = 'tumi';
-      }
-      if (tenantName === 'dev') {
-        tenantName = 'tumi';
-      }
-      if (tenantName.includes('deploy-preview')) {
-        tenantName = 'tumi';
-      }
-      let tenant;
-      try {
-        tenant = await CacheService.getTenantFromShortName(tenantName);
-      } catch (e) {
-        console.error(e);
-        console.log(tenantName);
-        console.log(context.req.headers.origin);
-        console.log(context.req.headers.host);
-        throw new GraphQLError('Tenant not found', {
-          extensions: { error: e },
-        });
-      }
-      if (context.token) {
-        let user = await prisma.user.findUnique({
-          where: {
-            authId: context.token.sub,
-          },
-          include: {
-            tenants: { where: { tenantId: tenant.id } },
-          },
-        });
-        if (user && !user.tenants.length) {
-          try {
-            user = await prisma.user.update({
-              where: {
-                id: user.id,
-              },
-              data: {
-                tenants: {
-                  create: {
-                    tenantId: tenant.id,
+    useExtendContext(
+      async (context: YogaInitialContext & { token?: UserPayload }) => {
+        let tenantName = context.request.headers['x-tumi-tenant'];
+        if (!tenantName) {
+          const url = new URL(context.request.headers.get('origin') ?? '');
+          const hostName = url.hostname;
+          tenantName = hostName.split('.')[0];
+        }
+        if (
+          context.request.headers.get('origin')?.includes('esn-karlsruhe.de')
+        ) {
+          tenantName = 'karlsruhe';
+        }
+        if (tenantName === 'localhost') {
+          tenantName = 'tumi';
+        }
+        if (tenantName === 'beta') {
+          tenantName = 'tumi';
+        }
+        if (tenantName === 'experiments') {
+          tenantName = 'tumi';
+        }
+        if (tenantName === 'dev') {
+          tenantName = 'tumi';
+        }
+        if (tenantName.includes('deploy-preview')) {
+          tenantName = 'tumi';
+        }
+        let tenant;
+        try {
+          tenant = await CacheService.getTenantFromShortName(tenantName);
+        } catch (e) {
+          console.error(e);
+          console.log(tenantName);
+          console.log(context.request.headers.get('origin'));
+          console.log(context.request.headers.get('host'));
+          throw new GraphQLError('Tenant not found', {
+            extensions: { error: e },
+          });
+        }
+        if (context.token) {
+          let user = await prisma.user.findUnique({
+            where: {
+              authId: context.token.sub,
+            },
+            include: {
+              tenants: { where: { tenantId: tenant.id } },
+            },
+          });
+          if (user && !user.tenants.length) {
+            try {
+              user = await prisma.user.update({
+                where: {
+                  id: user.id,
+                },
+                data: {
+                  tenants: {
+                    create: {
+                      tenantId: tenant.id,
+                    },
                   },
                 },
-              },
-              include: {
-                tenants: { where: { tenantId: tenant.id } },
-              },
-            });
-          } catch (e) {
-            console.error(e);
-            user = await prisma.user.findUnique({
-              where: {
-                authId: context.token.sub,
-              },
-              include: {
-                tenants: { where: { tenantId: tenant.id } },
-              },
-            });
+                include: {
+                  tenants: { where: { tenantId: tenant.id } },
+                },
+              });
+            } catch (e) {
+              console.error(e);
+              user = await prisma.user.findUnique({
+                where: {
+                  authId: context.token.sub,
+                },
+                include: {
+                  tenants: { where: { tenantId: tenant.id } },
+                },
+              });
+            }
           }
+          return { ...context, tenant, user, userOfTenant: user?.tenants[0] };
         }
-        return { ...context, tenant, user, userOfTenant: user?.tenants[0] };
+        return { ...context, tenant };
       }
-      return { ...context, tenant };
-    }),
+    ),
     useGraphQlJit(),
     useResponseCache({
       ttl: 2000,
@@ -232,6 +220,7 @@ const graphQLServer = createYoga({
   parserCache: true,
   validationCache: true,
   maskedErrors: false,
+  graphqlEndpoint: '/graphql',
 });
 
 app.use(Sentry.Handlers.requestHandler());
@@ -247,7 +236,9 @@ app.use(express.json());
 app.use('/cal', calendarRouter());
 app.use('/qr', qrRouter());
 app.use('/go', shortRouter());
-app.use('/graphql', graphQLServer);
+app.use('/graphql', async (req, res, next) => {
+  await graphQLServer.handle(req, res, next);
+});
 // app.use(socialRouter);
 app.get('/metrics', async (_, res) => {
   const metrics = await prisma.$metrics.json({
@@ -298,4 +289,5 @@ async function fixTransactions() {
   }
   console.log('Done');
 }
+
 // fixTransactions();

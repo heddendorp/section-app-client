@@ -5517,6 +5517,7 @@ __metadata:
     "@types/sharp": ^0.31.0
     "@types/supertest": ^2.0.12
     "@typescript-eslint/parser": 5.46.0
+    "@whatwg-node/fetch": ^0.5.3
     apollo-server-plugin-base: ^3.7.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
@@ -6612,7 +6613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/fetch@npm:0.5.3, @whatwg-node/fetch@npm:^0.5.0":
+"@whatwg-node/fetch@npm:0.5.3, @whatwg-node/fetch@npm:^0.5.0, @whatwg-node/fetch@npm:^0.5.3":
   version: 0.5.3
   resolution: "@whatwg-node/fetch@npm:0.5.3"
   dependencies:
