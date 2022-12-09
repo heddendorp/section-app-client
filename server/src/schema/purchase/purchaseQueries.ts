@@ -10,13 +10,20 @@ builder.queryFields((t) => ({
     resolve: async (query, parent, args, context, info) => {
       return prisma.purchase.findMany({
         ...query,
-        ...(args.limitToOwn
-          ? {
-              where: {
+        where: {
+          ...(args.limitToOwn
+            ? {
                 userId: context.user?.id,
+              }
+            : {}),
+          user: {
+            tenants: {
+              some: {
+                tenantId: context.tenant.id,
               },
-            }
-          : {}),
+            },
+          },
+        },
         orderBy: {
           createdAt: 'desc',
         },
