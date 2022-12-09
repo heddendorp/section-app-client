@@ -135,7 +135,6 @@ jobs:
       name: production
       url: https://server.esn.world
     needs: build
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Azure Login
