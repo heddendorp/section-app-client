@@ -13,9 +13,35 @@
   <div
     class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
   >
-    <a class="nav-item" routerLink="home" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
-    </a>
+    <ng-container
+      *ngIf="tenantInfo$ | async as tenant"
+      [ngSwitch]="tenant.homePageStrategy"
+    >
+      <a
+        *ngSwitchCase="HomePageStrategy.Static"
+        class="nav-item"
+        routerLink="home"
+        routerLinkActive="active"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+      <a
+        *ngSwitchCase="HomePageStrategy.Markdown"
+        class="nav-item"
+        routerLink="/page/about"
+        routerLinkActive="active"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+      <a
+        *ngSwitchCase="HomePageStrategy.Link"
+        class="nav-item"
+        [href]="tenant.homePageLink"
+        target="_blank"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+    </ng-container>
     <a
       class="nav-item"
       routerLink="events"

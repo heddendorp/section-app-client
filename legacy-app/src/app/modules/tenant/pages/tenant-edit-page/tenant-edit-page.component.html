@@ -6,6 +6,33 @@
 </app-reactive-toolbar>
 <main class="p-4">
   <form [formGroup]="editForm">
+    <div class="flex flex-row gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Home Page Strategy</mat-label>
+        <mat-select formControlName="homePageStrategy">
+          <mat-option [value]="HomePageStrategy.Link">
+            Link to a page
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.Markdown">
+            Render the "About Us" markdown
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.Static">
+            Use a static page (needs code)
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.None">
+            Don't show the home page link
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Home page link</mat-label>
+        <input
+          matInput
+          placeholder="Target of the home page button"
+          formControlName="homePageLink"
+        />
+      </mat-form-field>
+    </div>
     <mat-form-field class="w-full">
       <mat-label>"About Us" Page</mat-label>
       <textarea matInput formControlName="aboutPage" rows="10"></textarea>

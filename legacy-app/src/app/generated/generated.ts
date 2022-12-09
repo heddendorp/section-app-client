@@ -1376,7 +1376,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __type
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -1987,7 +1987,7 @@ export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User',
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null } };
+export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
 
 export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2037,7 +2037,7 @@ export type UpdateTenantMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null } };
+export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
 
 export type UpdateEsNcardMutationVariables = Exact<{
   userId: Scalars['ID'];
@@ -2102,6 +2102,8 @@ export const GetTenantInfoDocument = gql`
     id
     name
     faqPage
+    homePageStrategy
+    homePageLink
   }
   currentUser {
     id
@@ -5034,6 +5036,8 @@ export const GetTenantForEditDocument = gql`
     privacyPolicyPage
     faqPage
     tacPage
+    homePageLink
+    homePageStrategy
   }
 }
     `;
@@ -5286,6 +5290,8 @@ export const UpdateTenantDocument = gql`
     privacyPolicyPage
     aboutPage
     tacPage
+    homePageLink
+    homePageStrategy
   }
 }
     `;
