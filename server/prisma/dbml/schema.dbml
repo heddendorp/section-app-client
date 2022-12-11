@@ -12,6 +12,7 @@ Table Tenant {
   imprintPage String [not null, default: '']
   privacyPolicyPage String [not null, default: '']
   homePageStrategy HomePageStrategy [not null, default: 'STATIC']
+  stripeConnectAccountId String
   homePageLink String
   tacPage String
   organizers EventOrganizer [not null]
