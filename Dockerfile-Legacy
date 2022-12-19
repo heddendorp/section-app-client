@@ -14,7 +14,7 @@ ARG CONFIGURATION=production
 RUN sed -i "s|PROD_VERSION|$VERSION|g" legacy-app/src/environments/environment.prod.ts
 RUN yarn workspace @tumi/legacy-app build --source-map --configuration $CONFIGURATION
 
-FROM nginx:1.23.1-alpine
+FROM nginx:1.23.3-alpine
 COPY legacy-app/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/legacy-app/dist/legacy-app /usr/share/nginx/html
 COPY legacy-app/.well-kown /usr/share/nginx/html/.well-known
