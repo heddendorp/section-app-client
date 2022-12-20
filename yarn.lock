@@ -5460,6 +5460,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:7.28.0":
+  version: 7.28.0
+  resolution: "@sentry/core@npm:7.28.0"
+  dependencies:
+    "@sentry/types": 7.28.0
+    "@sentry/utils": 7.28.0
+    tslib: ^1.9.3
+  checksum: 46316388b60b212caf9ceffd5d5c09c67082c2d0b48edfc6c70d7045cabd0f2c9669a7e3e609c042ff029d41edeea07121934202bdff6b1ec370285b293c48e3
+  languageName: node
+  linkType: hard
+
 "@sentry/integrations@npm:^7.17.4":
   version: 7.17.4
   resolution: "@sentry/integrations@npm:7.17.4"
@@ -5487,15 +5498,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/tracing@npm:7.17.4"
+"@sentry/tracing@npm:^7.28.0":
+  version: 7.28.0
+  resolution: "@sentry/tracing@npm:7.28.0"
   dependencies:
-    "@sentry/core": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/core": 7.28.0
+    "@sentry/types": 7.28.0
+    "@sentry/utils": 7.28.0
     tslib: ^1.9.3
-  checksum: 30e70c557449657487ca704e8c9980124b8cedfe6665f8239843731c6ffe4eff4a6148f81d314bd383078845991663d0f158d3a932edd09e4569fa097aa5e99c
+  checksum: 4851b719ccc3cc85c347857961f7933acec0abe085952b392efddcdba0a6f2ff314deab48b18a3722779cfac3ea0a023aa88c99f700e7c0ac7d523c11d88509c
   languageName: node
   linkType: hard
 
@@ -5506,6 +5517,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.28.0":
+  version: 7.28.0
+  resolution: "@sentry/types@npm:7.28.0"
+  checksum: 722d31939c4e7d29108b5bccdb7b277c57e5f839cd14bdf0d0efe5a70d31bf629ad28f43fcef16d44d648e9d5b4ac0a6b3c386f698153a40cb2667f8e80a1ce9
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.17.4":
   version: 7.17.4
   resolution: "@sentry/utils@npm:7.17.4"
@@ -5513,6 +5531,16 @@ __metadata:
     "@sentry/types": 7.17.4
     tslib: ^1.9.3
   checksum: dee909f9c3102700bee730b492f1ad0680eb52ebee1a48f242fa830bdd7b3d7344ad90ab0f7e3909d4d86a3493d98d06da1b314c74fb5d311b5acda2f0264c07
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.28.0":
+  version: 7.28.0
+  resolution: "@sentry/utils@npm:7.28.0"
+  dependencies:
+    "@sentry/types": 7.28.0
+    tslib: ^1.9.3
+  checksum: fdb0eac647b91a6c204a3e592aeb100996b13eaf30be4f36cb70c26dfe222957ccf56f695b41bd2abe270679aa5db3080df8d68f8d0e59628b5519fbbf824802
   languageName: node
   linkType: hard
 
@@ -5698,7 +5726,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^2.5.6
     "@ng-web-apis/common": ^2.0.1
     "@sentry/angular": ^7.17.4
-    "@sentry/tracing": ^7.17.4
+    "@sentry/tracing": ^7.28.0
     "@stripe/stripe-js": ^1.42.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/line-clamp": ^0.4.2
@@ -5768,7 +5796,7 @@ __metadata:
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.17.4
     "@sentry/node": ^7.17.4
-    "@sentry/tracing": ^7.17.4
+    "@sentry/tracing": ^7.28.0
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.12
