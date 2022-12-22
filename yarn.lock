@@ -5420,32 +5420,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/angular@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/angular@npm:7.17.4"
+"@sentry/angular@npm:^7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/angular@npm:7.28.1"
   dependencies:
-    "@sentry/browser": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/browser": 7.28.1
+    "@sentry/types": 7.28.1
+    "@sentry/utils": 7.28.1
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/common": 10.x || 11.x || 12.x || 13.x || 14.x
-    "@angular/core": 10.x || 11.x || 12.x || 13.x || 14.x
-    "@angular/router": 10.x || 11.x || 12.x || 13.x || 14.x
+    "@angular/common": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
+    "@angular/core": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
+    "@angular/router": 10.x || 11.x || 12.x || 13.x || 14.x || 15.x
     rxjs: ^6.5.5 || ^7.x
-  checksum: 048f6ee45a3a404f2000108bd51599a93cf2ba4a2035aa25d94762effe2bc52d5314a70d81ad01fedb4218ca0c312677519fda5513643e6de7d95190750d9865
+  checksum: 42675bf23c1fb81615ad70fbe07527e6f8796f303cdf583ebd6387abd1170f9ac00d0f192423bd7083ce20b3dba35ac6f78d0733057c9d39334c9a7958d375eb
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/browser@npm:7.17.4"
+"@sentry/browser@npm:7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/browser@npm:7.28.1"
   dependencies:
-    "@sentry/core": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/core": 7.28.1
+    "@sentry/replay": 7.28.1
+    "@sentry/types": 7.28.1
+    "@sentry/utils": 7.28.1
     tslib: ^1.9.3
-  checksum: 9bdac67401edc2ba4abd7fa7928d192c001555efd029d0a6fac4664b75877a4f9d7177a3ef99033de69ca6888dde509bc06fc1879eaab9abf6a676ae532b2408
+  checksum: 6cbafc58a08a47db078a56b41544cb483f3898a980db37449cf81553776ac2e1716d9006a9bdc08027ce1666a88eddf20e54ee65870cfcb16f22f61905af000a
   languageName: node
   linkType: hard
 
@@ -5457,6 +5458,17 @@ __metadata:
     "@sentry/utils": 7.17.4
     tslib: ^1.9.3
   checksum: 674921d165fa25837fc090c416db56210d1d3e2f530a474f29b76f6fcb8bb878d53fca5c47c2cc7e3d029c396111b7282c55f81fdef2e0a74a84258c206eb74c
+  languageName: node
+  linkType: hard
+
+"@sentry/core@npm:7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/core@npm:7.28.1"
+  dependencies:
+    "@sentry/types": 7.28.1
+    "@sentry/utils": 7.28.1
+    tslib: ^1.9.3
+  checksum: 8c9e89f8a4efe84a925b5e626828dd90a714b7c017503b04d7bf754fd7e402f0ed6449250d3c03a40493b6fc2323f804f172c6b792fe2003531afdc578f1587a
   languageName: node
   linkType: hard
 
@@ -5487,6 +5499,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/replay@npm:7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/replay@npm:7.28.1"
+  dependencies:
+    "@sentry/core": 7.28.1
+    "@sentry/types": 7.28.1
+    "@sentry/utils": 7.28.1
+  peerDependencies:
+    "@sentry/browser": ">=7.24.0"
+  checksum: e47d40d5e6044b78aba3d0612dcf03240bb0d507106bb9e111c1beae60a1c972112c6ff442393cc2c47aed77079f645bd4614069315c4f44a1bb7514bb09b0dc
+  languageName: node
+  linkType: hard
+
 "@sentry/tracing@npm:^7.17.4":
   version: 7.17.4
   resolution: "@sentry/tracing@npm:7.17.4"
@@ -5506,6 +5531,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/types@npm:7.28.1"
+  checksum: 57dcd5737e29990b15c1d723c47b125d325ead0766e2729c3bd0f499f6e034a9ff81b9474546ea6ecd2216b4956dbdcf342ecc13ef5a202468fd732ffb687cbf
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.17.4":
   version: 7.17.4
   resolution: "@sentry/utils@npm:7.17.4"
@@ -5513,6 +5545,16 @@ __metadata:
     "@sentry/types": 7.17.4
     tslib: ^1.9.3
   checksum: dee909f9c3102700bee730b492f1ad0680eb52ebee1a48f242fa830bdd7b3d7344ad90ab0f7e3909d4d86a3493d98d06da1b314c74fb5d311b5acda2f0264c07
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.28.1":
+  version: 7.28.1
+  resolution: "@sentry/utils@npm:7.28.1"
+  dependencies:
+    "@sentry/types": 7.28.1
+    tslib: ^1.9.3
+  checksum: 83a6b66b879a827f5656db02cdd23362f3158746a8da42c1683d8d5d0e5ff8ba8e74058ff8d3dea8924a9f307b74c3e021e26167b9296707f7afe08971c7f4ae
   languageName: node
   linkType: hard
 
@@ -5697,7 +5739,7 @@ __metadata:
     "@graphql-codegen/typescript-apollo-angular": ^3.5.6
     "@graphql-codegen/typescript-operations": ^2.5.6
     "@ng-web-apis/common": ^2.0.1
-    "@sentry/angular": ^7.17.4
+    "@sentry/angular": ^7.28.1
     "@sentry/tracing": ^7.17.4
     "@stripe/stripe-js": ^1.42.1
     "@tailwindcss/aspect-ratio": ^0.4.2
