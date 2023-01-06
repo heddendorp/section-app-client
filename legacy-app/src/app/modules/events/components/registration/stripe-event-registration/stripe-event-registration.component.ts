@@ -20,8 +20,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Price } from '../../../../../../../../shared/data-types';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
-import { loadStripe } from '@stripe/stripe-js/pure';
-import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-stripe-event-registration',

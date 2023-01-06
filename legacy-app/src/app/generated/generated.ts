@@ -1798,7 +1798,7 @@ export type GetRegistrationCodeInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetRegistrationCodeInfoQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, status: RegistrationStatus, registrationCreated?: { __typename?: 'EventRegistration', id: string, belongsToCurrentUser: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, checkoutSession: string } | null }> } | null, targetEvent: { __typename?: 'TumiEvent', id: string, registrationMode: RegistrationMode, title: string, start: any, prices?: any | null } } };
+export type GetRegistrationCodeInfoQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, status: RegistrationStatus, registrationCreated?: { __typename?: 'EventRegistration', id: string, belongsToCurrentUser: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, checkoutUrl?: string | null } | null }> } | null, targetEvent: { __typename?: 'TumiEvent', id: string, registrationMode: RegistrationMode, title: string, start: any, prices?: any | null } } };
 
 export type SubmitEventFeedbackMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -4086,7 +4086,7 @@ export const GetRegistrationCodeInfoDocument = gql`
         stripePayment {
           id
           status
-          checkoutSession
+          checkoutUrl
         }
       }
     }
