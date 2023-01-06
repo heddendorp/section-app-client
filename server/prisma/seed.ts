@@ -114,6 +114,7 @@ async function runSeed() {
 
   /**
    * Test user also available in auth0
+   * email: test3@esn.world
    * password: testuser3!
    */
   const regularUser = await prisma.user.create({

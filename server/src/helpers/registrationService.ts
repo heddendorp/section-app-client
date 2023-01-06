@@ -164,6 +164,9 @@ export class RegistrationService {
       if (!context.tenant.stripeConnectAccountId) {
         throw new Error('Stripe connect account not configured');
       }
+      if (!context.tenant.stripeReducedTaxRate) {
+        throw new Error('Stripe reduced tax ID not configured');
+      }
       const customer = await this.stripe.customers.create(
         {
           name: `${user?.firstName} ${user?.lastName}`,
@@ -245,6 +248,7 @@ export class RegistrationService {
                 ? session.payment_intent
                 : session.payment_intent?.id) ?? undefined,
             checkoutSession: session.id,
+            checkoutUrl: session.url,
             status: 'incomplete',
             events: [
               {
@@ -283,15 +287,19 @@ export class RegistrationService {
       throw new Error('Registration not found');
     }
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
+      if (!context.tenant.stripeConnectAccountId) {
+        throw new Error('Stripe connect account not configured');
+      }
       const payment = registration.transactions[0]?.stripePayment;
       if (!payment) {
         throw new Error('Payment not found');
       }
       try {
-        await this.stripe.checkout.sessions.expire(payment.checkoutSession);
+        await this.stripe.checkout.sessions.expire(payment.checkoutSession, {stripeAccount: context.tenant.stripeConnectAccountId});
       } catch (e) {
         console.error(e);
         Sentry.captureException(e);
+        throw new Error('Could not cancel payment');
       }
     }
   }

@@ -24,5 +24,5 @@ services:
     image: stripe/stripe-cli:latest
     environment:
       STRIPE_API_KEY: sk_test_qNFI4mD2kNWlhYxNRSmN3VSZ
-      STRIPE_DEVICE_NAME: integration-tests
-    command: "listen --forward-to http://server:3333/webhooks/stripe"
+      STRIPE_DEVICE_NAME: development-mode
+    command: "listen --forward-to http://host.docker.internal:3333/webhooks/stripe"

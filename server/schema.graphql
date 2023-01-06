@@ -544,7 +544,8 @@ type Statistics {
 
 type StripePayment {
   amount: Decimal!
-  checkoutSession: String!
+  checkoutSession: String! @deprecated(reason: "Use checkoutUrl instead")
+  checkoutUrl: String
   createdAt: DateTime!
   events: JSON!
   feeAmount: Decimal

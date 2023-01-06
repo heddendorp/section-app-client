@@ -32,6 +32,8 @@ model Tenant {
   privacyPolicyPage       String                  @default("")
   homePageStrategy        HomePageStrategy        @default(STATIC)
   stripeConnectAccountId  String?
+  stripeReducedTaxRate    String?
+  stripeRegularTaxRate    String?
   homePageLink            String?
   tacPage                 String?
   organizers              EventOrganizer[]
@@ -108,6 +110,7 @@ model StripePayment {
   createdAt         DateTime      @default(now())
   amount            Decimal
   checkoutSession   String        @unique
+  checkoutUrl       String?
   /// Array of events with their timestamps
   events            Json
   feeAmount         Decimal?

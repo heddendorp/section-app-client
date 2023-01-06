@@ -34,7 +34,7 @@ mutation registerForEvent(
           createdAt
           amount
           status
-          checkoutSession
+          checkoutUrl
           paymentIntent
         }
       }

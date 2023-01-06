@@ -157,7 +157,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
         if (!payment) {
           throw new Error('No payment found');
         }
-        await this.openPaymentSession(payment.checkoutSession);
+        await this.openPaymentSession(payment.checkoutUrl);
       } catch (e: unknown) {
         this.processing.next(false);
         if (e instanceof Error) {
@@ -201,10 +201,10 @@ export class StripeEventRegistrationComponent implements OnChanges {
     this.infoCollected$.next($event);
   }
 
-  async openPaymentSession(checkoutSession = '') {
-    const stripe = await loadStripe(environment.stripeKey);
-    if (stripe) {
-      await stripe.redirectToCheckout({ sessionId: checkoutSession });
+  async openPaymentSession(checkoutSession:string|null = '') {
+    if(!checkoutSession){
+      return;
     }
+    location.href = checkoutSession;
   }
 }
