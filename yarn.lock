@@ -5727,7 +5727,7 @@ __metadata:
     karma-coverage: ~2.2.0
     karma-jasmine: ~5.1.0
     karma-jasmine-html-reporter: ~2.0.0
-    luxon: ^3.1.0
+    luxon: ^3.2.1
     ngx-markdown: ^14.0.1
     postcss: ^8.4.18
     prettier: ^2.7.1
@@ -5806,7 +5806,7 @@ __metadata:
     jsonwebtoken: ^8.5.1
     jwks-rsa: ^3.0.0
     lodash: ^4.17.21
-    luxon: ^3.1.0
+    luxon: ^3.2.1
     marked: ^4.2.2
     mjml: ^4.13.0
     moment: ^2.29.4
@@ -14918,10 +14918,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "luxon@npm:3.1.0"
-  checksum: f8a850b759ba7a2e009d904c522ed7bc264bf4add57578f8948e52a0ed96b627b025b5aad8032295b570ae19fac41f0ffab91bdb128715fb0cc020798a7ba886
+"luxon@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "luxon@npm:3.2.1"
+  checksum: 3fa3def2c5f5d3032b4c46220c4da8aeb467ac979888fc9d2557adcd22195f93516b4ad5909a75862bec8dc6ddc0953b0f38e6d2f4a8ab8450ddc531a83cf20d
   languageName: node
   linkType: hard
 

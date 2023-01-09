@@ -42,7 +42,7 @@
     "graphql": "^16.6.0",
     "highcharts": "^10.3.1",
     "highcharts-angular": "^3.0.0",
-    "luxon": "^3.1.0",
+    "luxon": "^3.2.1",
     "ngx-markdown": "^14.0.1",
     "qr-scanner": "^1.4.1",
     "rxjs": "~7.5.7",
