@@ -98,110 +98,6 @@
     <mat-icon svgIcon="icon-add"></mat-icon>
     Add Event
   </a>
-  <div class="flex flex-col gap-4 md:flex-row md:gap-8">
-    <div class="grow rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8">
-          <h4 class="text-lg font-bold">Welcome to TUMi!</h4>
-          <h5 class="mb-4 text-lg text-slate-200" fxHide.lt-sm>
-            Join us on other platforms to stay informed!
-          </h5>
-
-          <div class="flex flex-col-reverse gap-4 md:flex-row">
-            <div class="flex flex-col gap-2 sm:w-1/2">
-              <p class="hidden text-lg sm:inline">Telegram</p>
-              <p class="hidden sm:inline">
-                Join the telegram group to stay informed and connect with other
-                students.
-              </p>
-              <div class="grow"></div>
-              <a
-                href="https://t.me/+GDxAsMO1m7VlZTBk"
-                target="_blank"
-                mat-flat-button
-                color="primary"
-                class="modern"
-              >
-                <mat-icon svgIcon="icon-telegram-app"></mat-icon>
-                <span>Join the telegram group</span>
-              </a>
-            </div>
-            <div class="flex flex-col gap-2 sm:w-1/2">
-              <p class="hidden text-lg sm:inline">Instagram</p>
-              <p>
-                Use our hashtag
-                <span
-                  class="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text font-bold text-transparent"
-                >
-                  #tumilove
-                </span>
-                and tag us at
-                <span
-                  class="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text font-bold text-transparent"
-                >
-                  @tumi.esn
-                </span>
-                to share your experiences!
-              </p>
-              <div class="grow"></div>
-              <a
-                href="https://www.instagram.com/tumi.esn/"
-                target="_blank"
-                mat-flat-button
-                color="primary"
-                class="modern"
-              >
-                <mat-icon svgIcon="icon-instagram-new"></mat-icon>
-                <span>Follow us</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--<div fxFlex="grow" class="rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
-          <h4 class="text-lg font-bold">🎉&nbsp;The Party animals are back!</h4>
-          <p class="text-md mt-1 mb-6">
-            The best way to get started in Munich is finally making a return.
-            Come together in groups of 25 students and enjoy 9 days of exciting
-            activities and fun. Make friends for your stay in munich and beyond.
-          </p>
-          <div fxFlex="grow"></div>
-          <a
-            class="inline-block w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-            href="https://party-animals.esn.world"
-            target="_blank"
-          >
-            <span
-              class="block rounded-full bg-gray-900 px-8 py-1 text-center text-lg font-bold hover:bg-transparent"
-            >
-              Learn more!
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>-->
-    <!--<div fxFlex="grow" class="rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
-          <h4 class="text-lg font-bold">⚠️&nbsp;Please note!</h4>
-          <p class="text-md mt-1 mb-6">
-            To make the registration process a little more fair we are limiting
-            you to only sign up for 3 (paid) events per day. This is to make
-            sure that everyone has a chance to participate in the events. <br />
-            The counter is reset every day.
-            <br />
-            <br />
-            <strong>Please mind:</strong> If you are in the Party Animals or
-            Culture Creatures program, please don't sign up for events during
-            that time, we will keep you busy.
-          </p>
-        </div>
-      </div>
-    </div>-->
-  </div>
   <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
     <ng-container [ngSwitch]="selectedView$ | async">
       <ng-container *ngSwitchCase="'list'">
@@ -251,6 +147,7 @@
       <div
         *ngIf="(events$ | async)?.length === 0"
         class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
+        data-cy="no-events"
       >
         <div
           fxLayout="row"

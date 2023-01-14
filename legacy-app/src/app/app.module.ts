@@ -46,6 +46,7 @@ import { Settings } from 'luxon';
 import * as Sentry from '@sentry/angular';
 import { MatRippleModule } from '@angular/material/core';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,12 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     MatRippleModule,
   ],
   providers: [
+    Title,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TenantHeaderInterceptor,
+      multi: true,
+    },
     Title,
     {
       provide: HTTP_INTERCEPTORS,

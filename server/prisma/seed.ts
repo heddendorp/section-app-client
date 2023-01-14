@@ -40,6 +40,8 @@ async function runSeed() {
     data: {
       name: 'ESN TUMi e.V.',
       shortName: 'tumi',
+      stripeReducedTaxRate: 'txr_1LdGYR4EBOHRwndEsyXR0QD6',
+      stripeConnectAccountId: 'acct_10469P4EBOHRwndE',
     },
   });
 
@@ -55,6 +57,8 @@ async function runSeed() {
     data: {
       name: 'ESN Test',
       shortName: 'test',
+      stripeReducedTaxRate: 'txr_1MNDalLsLZbE8D0v9JSMLaW4',
+      stripeConnectAccountId: 'acct_1MDCWiLsLZbE8D0v',
     },
   });
 
@@ -82,6 +86,34 @@ async function runSeed() {
       status: MembershipStatus.FULL,
       tenant: { connect: { id: tumiTenant.id } },
       user: { connect: { id: adminUser.id } },
+    },
+  });
+
+  /**
+   * Test user also available in auth0
+   * email: test6@esn.world
+   * password: testuser6!
+   */
+  const newTenantAdminUser = await prisma.user.create({
+    data: {
+      authId: 'auth0|63b84bc22ad107217b71a8d3',
+      email: users.newTenantAdmin.email,
+      email_verified: true,
+      firstName: users.newTenantAdmin.firstName,
+      lastName: users.newTenantAdmin.lastName,
+      picture: faker.internet.avatar(),
+      university: 'other',
+      enrolmentStatus: 'LOCAL',
+      birthdate: faker.date.birthdate(),
+    },
+  });
+
+  await prisma.usersOfTenants.create({
+    data: {
+      role: Role.ADMIN,
+      status: MembershipStatus.FULL,
+      tenant: { connect: { id: testTenant.id } },
+      user: { connect: { id: newTenantAdminUser.id } },
     },
   });
 

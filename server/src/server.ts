@@ -130,7 +130,7 @@ const graphQLServer = createYoga({
     }),
     useExtendContext(
       async (context: YogaInitialContext & { token?: UserPayload }) => {
-        let tenantName = context.request.headers['x-tumi-tenant'];
+        let tenantName = context.request.headers.get('x-tumi-tenant');
         if (!tenantName) {
           const url = new URL(context.request.headers.get('origin') ?? '');
           const hostName = url.hostname;
@@ -142,12 +142,6 @@ const graphQLServer = createYoga({
           tenantName = 'karlsruhe';
         }
         if (tenantName === 'localhost') {
-          tenantName = 'tumi';
-        }
-        if (tenantName === 'beta') {
-          tenantName = 'tumi';
-        }
-        if (tenantName === 'experiments') {
           tenantName = 'tumi';
         }
         if (tenantName === 'dev') {

@@ -1,7 +1,7 @@
 import { cards, events, users } from '../../../server/prisma/constants';
 
 before(() => {
-  cy.exec('docker compose exec -w /usr/src/app server yarn prisma:seed-test');
+  cy.seedDB();
 });
 describe('Event Participant Registration', () => {
   context('when user is not logged in', () => {
