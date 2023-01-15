@@ -1,34 +1,27 @@
-<main class="p-6" fxLayout="column">
-  <div
-    fxLayout="row"
-    fxLayoutGap="1rem"
-    class="mb-4"
-    fxLayoutAlign="start center"
-  >
+<main class="flex flex-col p-6">
+  <div class="mb-4 flex flex-row items-center gap-4">
     <app-back-button></app-back-button>
     <div>
       <h1>User check in</h1>
       <p>You can scan TUMi QR codes and COVID certificates</p>
     </div>
   </div>
-  <section fxFlex="grow" fxLayout="column">
+  <section class="flex grow flex-col">
     <div
-      fxLayout="row"
-      fxLayoutGap=".5rem"
       *ngIf="event$ | async as event"
-      class="mb-2"
+      class="mb-2 flex flex-row items-center gap-2"
     >
-      <div fxFlex="33" fxLayout="column" fxLayoutAlign="start center">
+      <div class="flex w-1/3 flex-col items-center">
         <p class="text-lg font-bold">{{ event.participantLimit }}</p>
         <p>spots</p>
       </div>
-      <div fxFlex="33" fxLayout="column" fxLayoutAlign="start center">
+      <div class="flex w-1/3 flex-col items-center">
         <p class="text-lg font-bold">
           {{ event.participantRegistrationCount }}
         </p>
         <p>registered</p>
       </div>
-      <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start center">
+      <div class="flex shrink-0 flex-col items-center">
         <p class="text-lg font-bold">{{ event.participantsAttended }}</p>
         <p>checked</p>
       </div>
@@ -76,13 +69,13 @@
           loading...
         </p>
       </div>
-      <div fxFlex="grow"></div>
+      <div class="grow"></div>
       <div
         class="rounded bg-red-700 py-2 px-4 font-bold text-white"
         *ngIf="registration.didAttend"
       >
         User is already checked in for this event! <br />
-        Checkin at: {{ registration.checkInTime | date: 'medium' }}
+        Checkin at: {{ registration.checkInTime | date : 'medium' }}
       </div>
       <div
         class="rounded bg-red-700 py-2 px-4 font-bold text-white"
@@ -107,7 +100,7 @@
           </p>
           <p>
             Received {{ certificate.vaccination.relativeDate }} on
-            {{ certificate.vaccination.date | date: 'mediumDate' }}
+            {{ certificate.vaccination.date | date : 'mediumDate' }}
           </p>
         </ng-container>
         <ng-container *ngIf="certificate.test">
@@ -128,12 +121,12 @@
           <p class="text-lg">Recovered</p>
           <p>
             Positive test taken {{ certificate.recovery.relativeDate }} on
-            {{ certificate.recovery.date | date: 'mediumDate' }}
+            {{ certificate.recovery.date | date : 'mediumDate' }}
           </p>
           <p>
             Valid from
-            {{ certificate.recovery.validFrom | date: 'mediumDate' }} to
-            {{ certificate.recovery.validUntil | date: 'mediumDate' }}
+            {{ certificate.recovery.validFrom | date : 'mediumDate' }} to
+            {{ certificate.recovery.validUntil | date : 'mediumDate' }}
           </p>
         </ng-container>
       </div>
@@ -147,16 +140,11 @@
       </button>
     </ng-container>
   </section>
-  <div
-    fxFlexAlign="end"
-    fxLayout="column"
-    fxLayoutGap="3rem"
-    class="mt-6 w-full"
-  >
+  <div class="mt-6 flex w-full flex-col justify-end gap-12">
     <button
       mat-flat-button
       color="primary"
-      class="modern h-24"
+      class="h-24"
       (click)="checkInUser()"
       [disabled]="
         (currentRegistration$ | async) === null ||
