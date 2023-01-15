@@ -26,7 +26,7 @@ builder.mutationFields((t) => ({
           status: args.createTransactionInput.status,
           type: args.createTransactionInput.type,
           ...(args.createTransactionInput.userId
-            ? { user: { id: args.createTransactionInput.userId } }
+            ? { user: { connect: { id: args.createTransactionInput.userId } } }
             : {}),
           tenant: {
             connect: {

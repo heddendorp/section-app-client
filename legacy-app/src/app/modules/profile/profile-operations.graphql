@@ -169,7 +169,7 @@ query getRegistrationCodeInfo($code: ID!) {
         stripePayment {
           id
           status
-          checkoutSession
+          checkoutUrl
         }
       }
     }

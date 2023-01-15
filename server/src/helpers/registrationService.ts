@@ -161,11 +161,20 @@ export class RegistrationService {
     let customerId;
     // TODO: Check all ?. uses
     if (!user?.tenants[0].stripeData) {
-      const customer = await this.stripe.customers.create({
-        name: `${user?.firstName} ${user?.lastName}`,
-        email: user?.email,
-        metadata: { userId: user?.id ?? '', tenantId: context.tenant.id },
-      });
+      if (!context.tenant.stripeConnectAccountId) {
+        throw new Error('Stripe connect account not configured');
+      }
+      if (!context.tenant.stripeReducedTaxRate) {
+        throw new Error('Stripe reduced tax ID not configured');
+      }
+      const customer = await this.stripe.customers.create(
+        {
+          name: `${user?.firstName} ${user?.lastName}`,
+          email: user?.email,
+          metadata: { userId: user?.id ?? '', tenantId: context.tenant.id },
+        },
+        { stripeAccount: context.tenant.stripeConnectAccountId }
+      );
       await prisma.stripeUserData.create({
         data: {
           usersOfTenantsTenantId: context.tenant.id,
@@ -190,29 +199,35 @@ export class RegistrationService {
       payment_method_types.push('sepa_debit');
     }
     const id = crypto.randomUUID();
-    const session = await this.stripe.checkout.sessions.create({
-      mode: 'payment',
-      customer: customerId,
-      line_items: items,
-      payment_method_types,
-      payment_intent_data: {
-        description: `Fee for: ${items
-          .map((item) => item.price_data?.product_data?.name)
-          .join(',')}`,
-        metadata: {
-          stripePaymentId: id,
+    if (!context.tenant.stripeConnectAccountId) {
+      throw new Error('Stripe connect account not configured');
+    }
+    const session = await this.stripe.checkout.sessions.create(
+      {
+        mode: 'payment',
+        customer: customerId,
+        line_items: items,
+        payment_method_types,
+        payment_intent_data: {
+          description: `Fee for: ${items
+            .map((item) => item.price_data?.product_data?.name)
+            .join(',')}`,
+          metadata: {
+            stripePaymentId: id,
+          },
         },
+        submit_type: submitType,
+        cancel_url: cancelUrl,
+        success_url: successUrl,
+        expires_at: Math.round(
+          DateTime.now()
+            .plus(longPaymentTimeout ? { hours: 23 } : { minutes: 30 })
+            .toSeconds()
+        ),
+        consent_collection: { terms_of_service: 'required' },
       },
-      submit_type: submitType,
-      cancel_url: cancelUrl,
-      success_url: successUrl,
-      expires_at: Math.round(
-        DateTime.now()
-          .plus(longPaymentTimeout ? { hours: 23 } : { minutes: 30 })
-          .toSeconds()
-      ),
-      consent_collection: { terms_of_service: 'required' },
-    });
+      { stripeAccount: context.tenant.stripeConnectAccountId }
+    );
     return prisma.transaction.create({
       data: {
         type: TransactionType.STRIPE,
@@ -233,6 +248,7 @@ export class RegistrationService {
                 ? session.payment_intent
                 : session.payment_intent?.id) ?? undefined,
             checkoutSession: session.id,
+            checkoutUrl: session.url,
             status: 'incomplete',
             events: [
               {
@@ -271,15 +287,19 @@ export class RegistrationService {
       throw new Error('Registration not found');
     }
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
+      if (!context.tenant.stripeConnectAccountId) {
+        throw new Error('Stripe connect account not configured');
+      }
       const payment = registration.transactions[0]?.stripePayment;
       if (!payment) {
         throw new Error('Payment not found');
       }
       try {
-        await this.stripe.checkout.sessions.expire(payment.checkoutSession);
+        await this.stripe.checkout.sessions.expire(payment.checkoutSession, {stripeAccount: context.tenant.stripeConnectAccountId});
       } catch (e) {
         console.error(e);
         Sentry.captureException(e);
+        throw new Error('Could not cancel payment');
       }
     }
   }

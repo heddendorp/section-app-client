@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -9,6 +9,7 @@ import { Title } from '@angular/platform-browser';
 import {
   GetTenantForEditGQL,
   GetTenantForEditQuery,
+  HomePageStrategy,
   UpdateTenantGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { first, firstValueFrom, map, Observable, shareReplay } from 'rxjs';
@@ -21,6 +22,7 @@ import { first, firstValueFrom, map, Observable, shareReplay } from 'rxjs';
 })
 export class TenantEditPageComponent {
   public editForm: UntypedFormGroup;
+  public HomePageStrategy = HomePageStrategy;
   public tenant$: Observable<GetTenantForEditQuery['currentTenant']>;
 
   constructor(
@@ -37,6 +39,8 @@ export class TenantEditPageComponent {
       aboutPage: ['', Validators.required],
       faqPage: [''],
       tacPage: [''],
+      homePageStrategy: ['', Validators.required],
+      homePageLink: [''],
     });
     this.tenant$ = this.loadTenant.fetch().pipe(
       map(({ data }) => data.currentTenant),
@@ -59,6 +63,7 @@ export class TenantEditPageComponent {
             ...formValue,
             faqPage: formValue.faqPage || null,
             tacPage: formValue.tacPage || null,
+            homePageLink: formValue.homePageLink || null,
           },
         })
         .toPromise();

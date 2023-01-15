@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "../node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -40,8 +40,12 @@
                 "output": "/"
               }
             ],
-            "styles": ["src/styles.scss"],
-            "scripts": ["../node_modules/marked/marked.min.js"],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": [
+              "../node_modules/marked/marked.min.js"
+            ],
             "serviceWorker": true
           },
           "configurations": {
@@ -73,7 +77,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1mb",
-                  "maximumError": "1.7mb"
+                  "maximumError": "1.8mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -134,15 +138,23 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
@@ -155,5 +167,13 @@
       "@schematics/angular"
     ],
     "analytics": "30b0fc40-4110-4c47-a065-19ae8badc1a6"
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }

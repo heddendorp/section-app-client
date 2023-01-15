@@ -1,7 +1,7 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white" class="!px-2 sm:!px-4">
     <div *ngIf="searchEnabled" class="w-full text-base">
-      <mat-form-field class="w-full" appearance="standard">
+      <mat-form-field class="w-full">
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
       </mat-form-field>
     </div>
@@ -10,13 +10,13 @@
       class="flex w-full flex-row items-center justify-between sm:justify-start"
     >
       <button mat-icon-button (click)="previousMonth()">
-        <mat-icon svgIcon="icon-back" style="height: 16px"></mat-icon>
+        <mat-icon svgIcon="icon-back"></mat-icon>
       </button>
       <div resetScroll class="ml-2 mr-2 whitespace-nowrap">
         {{ selectedMonthLabel }}
       </div>
       <button mat-icon-button (click)="nextMonth()">
-        <mat-icon svgIcon="icon-forward" style="height: 16px"></mat-icon>
+        <mat-icon svgIcon="icon-forward"></mat-icon>
       </button>
     </div>
     <button
@@ -91,152 +91,45 @@
 <main class="text-surface-on p-4 sm:px-8">
   <a
     mat-fab
+    extended
     routerLink="/event-templates"
-    class="extended-fab"
     *appIfRole="[Role.User, Role.Admin]"
   >
     <mat-icon svgIcon="icon-add"></mat-icon>
-    <span class="label">Add Event</span>
+    Add Event
   </a>
-  <div
-    fxLayout="column"
-    fxLayout.gt-md="row"
-    fxLayoutGap="1rem"
-    fxLayoutGap.gt-md="2rem"
-  >
-    <div fxFlex="grow" class="rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8">
-          <h4 class="text-lg font-bold">Welcome to TUMi!</h4>
-          <h5 class="mb-4 text-lg text-slate-200" fxHide.lt-sm>
-            Join us on other platforms to stay informed!
-          </h5>
-
-          <div
-            fxLayout.gt-sm="row"
-            fxLayout="column-reverse"
-            fxLayoutGap="1rem"
-          >
-            <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
-              <p class="text-lg" fxHide.lt-sm>Telegram</p>
-              <p fxHide.lt-sm>
-                Join the telegram group to stay informed and connect with other
-                students.
-              </p>
-              <div fxFlex="grow"></div>
-              <a
-                href="https://t.me/+GDxAsMO1m7VlZTBk"
-                target="_blank"
-                mat-flat-button
-                color="primary"
-                class="modern"
-              >
-                <mat-icon svgIcon="icon-telegram-app"></mat-icon>
-                <span>Join the telegram group</span>
-              </a>
-            </div>
-            <div fxFlex="50" fxLayout="column" fxLayoutGap=".5rem">
-              <p class="text-lg" fxHide.lt-sm>Instagram</p>
-              <p>
-                Use our hashtag
-                <span
-                  class="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text font-bold text-transparent"
-                >
-                  #tumilove
-                </span>
-                and tag us at
-                <span
-                  class="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text font-bold text-transparent"
-                >
-                  @tumi.esn
-                </span>
-                to share your experiences!
-              </p>
-              <div fxFlex="grow"></div>
-              <a
-                href="https://www.instagram.com/tumi.esn/"
-                target="_blank"
-                mat-flat-button
-                color="primary"
-                class="modern"
-              >
-                <mat-icon svgIcon="icon-instagram-new"></mat-icon>
-                <span>Follow us</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--<div fxFlex="grow" class="rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
-          <h4 class="text-lg font-bold">🎉&nbsp;The Party animals are back!</h4>
-          <p class="text-md mt-1 mb-6">
-            The best way to get started in Munich is finally making a return.
-            Come together in groups of 25 students and enjoy 9 days of exciting
-            activities and fun. Make friends for your stay in munich and beyond.
-          </p>
-          <div fxFlex="grow"></div>
-          <a
-            class="inline-block w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[4px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-            href="https://party-animals.esn.world"
-            target="_blank"
-          >
-            <span
-              class="block rounded-full bg-gray-900 px-8 py-1 text-center text-lg font-bold hover:bg-transparent"
-            >
-              Learn more!
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>-->
-    <!--<div fxFlex="grow" class="rounded-2xl bg-black p-1">
-      <div class="block h-full overflow-hidden rounded-xl bg-white">
-        <div class="h-full bg-black p-4 text-white md:p-8" fxLayout="column">
-          <h4 class="text-lg font-bold">⚠️&nbsp;Please note!</h4>
-          <p class="text-md mt-1 mb-6">
-            To make the registration process a little more fair we are limiting
-            you to only sign up for 3 (paid) events per day. This is to make
-            sure that everyone has a chance to participate in the events. <br />
-            The counter is reset every day.
-            <br />
-            <br />
-            <strong>Please mind:</strong> If you are in the Party Animals or
-            Culture Creatures program, please don't sign up for events during
-            that time, we will keep you busy.
-          </p>
-        </div>
-      </div>
-    </div>-->
-  </div>
   <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
-    <button
-      mat-flat-button
-      color="accent"
-      class="modern w-full sm:w-auto"
-      (click)="toggleSelectedView()"
-    >
-      <ng-container [ngSwitch]="selectedView$ | async">
-        <ng-container *ngSwitchCase="'list'">
+    <ng-container [ngSwitch]="selectedView$ | async">
+      <ng-container *ngSwitchCase="'list'">
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern w-full sm:w-auto"
+          (click)="toggleSelectedView()"
+        >
           <mat-icon svgIcon="icon-calendar"></mat-icon>
-          <span>Calendar view</span>
-        </ng-container>
-        <ng-container *ngSwitchCase="'calendar'">
-          <mat-icon svgIcon="icon-list"></mat-icon>
-          <span>List view</span>
-        </ng-container>
+          Calendar view
+        </button>
       </ng-container>
-    </button>
+      <ng-container *ngSwitchCase="'calendar'">
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern w-full sm:w-auto"
+          (click)="toggleSelectedView()"
+        >
+          <mat-icon svgIcon="icon-list"></mat-icon>
+          List view
+        </button>
+      </ng-container>
+    </ng-container>
     <button
       *appIfRole="[Role.User, Role.Admin]"
       mat-stroked-button
       class="modern"
       (click)="showCodesDialog()"
     >
-      <mat-icon svgIcon="icon-transfer-between-users"></mat-icon
-      ><span>Codes</span>
+      <mat-icon svgIcon="icon-transfer-between-users"></mat-icon>Codes
     </button>
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
@@ -254,6 +147,7 @@
       <div
         *ngIf="(events$ | async)?.length === 0"
         class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
+        data-cy="no-events"
       >
         <div
           fxLayout="row"

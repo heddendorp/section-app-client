@@ -17,7 +17,7 @@ import {
   HttpClientModule,
   HttpHeaders,
 } from '@angular/common/http';
-import { HttpLink } from 'apollo-angular/http';
+import { HttpBatchLink, HttpLink } from 'apollo-angular/http';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AuthButtonComponent } from './components/auth-button/auth-button.component';
 import { environment } from '../environments/environment';
@@ -28,7 +28,6 @@ import {
 } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarkdownModule } from 'ngx-markdown';
 import {
   ServiceWorkerModule,
@@ -47,6 +46,7 @@ import { Settings } from 'luxon';
 import * as Sentry from '@sentry/angular';
 import { MatRippleModule } from '@angular/material/core';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
         ],
       },
     }),
-    FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production && environment.version !== 'test',
       // Register the ServiceWorker as soon as the app is stable
@@ -97,12 +96,18 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     Title,
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: TenantHeaderInterceptor,
+      multi: true,
+    },
+    Title,
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,
       multi: true,
     },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
+      useFactory: (httpLink: HttpBatchLink) => {
         const http = httpLink.create({
           uri: environment.useApiPath
             ? '/graphql'
@@ -157,7 +162,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
           cache,
         };
       },
-      deps: [HttpLink],
+      deps: [HttpBatchLink],
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

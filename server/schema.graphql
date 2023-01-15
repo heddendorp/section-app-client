@@ -266,6 +266,13 @@ type EventTemplateCategory {
   tenantId: ID!
 }
 
+enum HomePageStrategy {
+  LINK
+  MARKDOWN
+  NONE
+  STATIC
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -537,7 +544,8 @@ type Statistics {
 
 type StripePayment {
   amount: Decimal!
-  checkoutSession: String!
+  checkoutSession: String! @deprecated(reason: "Use checkoutUrl instead")
+  checkoutUrl: String
   createdAt: DateTime!
   events: JSON!
   feeAmount: Decimal
@@ -582,6 +590,8 @@ type Tenant {
   aboutPage: String!
   createdAt: DateTime!
   faqPage: String
+  homePageLink: String
+  homePageStrategy: HomePageStrategy!
   id: ID!
   imprintPage: String!
   name: String!
@@ -769,6 +779,8 @@ input UpdateTemplateLocationInput {
 input UpdateTenantInput {
   aboutPage: String
   faqPage: String
+  homePageLink: String
+  homePageStrategy: HomePageStrategy
   imprintPage: String
   privacyPolicyPage: String
   tacPage: String

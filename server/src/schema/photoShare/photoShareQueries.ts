@@ -14,7 +14,10 @@ builder.queryFields((t) => ({
     resolve: async (query, parent, args, context, info) =>
       prisma.photoShare.findMany({
         ...query,
-        ...(args.eventId ? { where: { eventId: args.eventId } } : {}),
+        where: {
+          ...(args.eventId ? { eventId: args.eventId } : {}),
+          event: { eventTemplate: { tenantId: context.tenant.id } },
+        },
         orderBy: [{ event: { start: 'desc' } }, { createdAt: 'desc' }],
       }),
   }),

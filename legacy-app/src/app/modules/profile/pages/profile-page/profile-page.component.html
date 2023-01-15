@@ -9,7 +9,7 @@
     [hideEditButton]="false"
   ></app-profile-card>
   <div
-    class="m-4"
+    class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2"
     gdAuto
     gdColumns="100%"
     gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
@@ -22,7 +22,7 @@
         fxLayout="row"
         fxLayoutAlign="start center"
         fxLayoutGap="1rem"
-        class="mb-6"
+        class="mb-6 flex flex-row items-center"
       >
         <mat-icon
           svgIcon="icon-contact-card"
@@ -70,7 +70,7 @@
       <h3 class="mt-6 font-bold">Calendar integration</h3>
 
       <p
-        class="text-sm text-secondary-default select-all break-words font-mono tracking-tight flex items-center"
+        class="text-secondary-default flex select-all items-center break-words font-mono text-sm tracking-tight"
       >
         <mat-icon
           svgIcon="icon-chain"
@@ -206,14 +206,14 @@
       </div>
       <div>
         Current status:
-        <div class="black text-7xl text-center">
+        <div class="black text-center text-7xl">
           {{ profile.currentTenant?.status | uppercase }}
         </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-4 mb-2 p-4 flex flex-row gap-2">
+  <div class="mt-4 mb-2 flex flex-row gap-2 p-4">
     <a
       class="modern w-full"
       color="primary"

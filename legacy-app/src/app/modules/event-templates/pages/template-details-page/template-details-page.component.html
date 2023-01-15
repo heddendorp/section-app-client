@@ -5,19 +5,13 @@
 <main class="p-4" *ngIf="eventTemplate$ | async as template">
   <app-back-button></app-back-button>
 
-  <mat-card class="my-4">
-    <mat-card-title>
-      <img [src]="template.icon | iconURL" class="float-right w-16" />
-      <h1>{{ template.title }}</h1>
-    </mat-card-title>
+  <mat-card appearance="outlined" class="my-4">
+    <mat-card-header>
+      <img [src]="template.icon | iconURL" mat-card-avatar />
+      <mat-card-title>{{ template.title }} </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-      <div
-        gdAuto
-        gdColumns="1fr"
-        gdColumns.gt-xs="1fr 4fr"
-        gdGap.gt-xs="2rem 1rem"
-        class="my-2"
-      >
+      <div class="my-2 grid gap-4 sm:grid-cols-[1fr_4fr]">
         <p class="font-bold">Location</p>
         <div>
           <a
@@ -48,7 +42,7 @@
           </div>
         </div>
         <p class="mt-4 font-bold sm:mt-0">Category</p>
-        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+        <div class="flex flex-row items-center gap-4">
           <ng-container *ngIf="template.category">
             <img class="h-8" [src]="template.category.icon | iconURL" />
             <h3>{{ template.category.name }}</h3>
@@ -63,26 +57,24 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <div class="my-2 gap-2" fxLayout="column" fxLayout.gt-sm="row">
-        <button
-          class="modern"
-          color="primary"
-          mat-flat-button
-          (click)="createEvent()"
-        >
-          <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-          Create event from this template
-        </button>
-        <button
-          class="modern"
-          color="accent"
-          mat-flat-button
-          (click)="editTemplate()"
-        >
-          <mat-icon svgIcon="icon-edit"></mat-icon>
-          Edit
-        </button>
-      </div>
+      <button
+        class="modern"
+        color="primary"
+        mat-flat-button
+        (click)="createEvent()"
+      >
+        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+        Create event from this template
+      </button>
+      <button
+        class="modern"
+        color="accent"
+        mat-flat-button
+        (click)="editTemplate()"
+      >
+        <mat-icon svgIcon="icon-edit"></mat-icon>
+        Edit
+      </button>
     </mat-card-actions>
   </mat-card>
 
@@ -194,8 +186,8 @@
           routerLink="/events/{{ event.id }}"
           *ngFor="let event of template.eventInstances"
         >
-          <h3 mat-line>{{ event.title }}</h3>
-          <p mat-line>
+          <h3 matListItemTitle>{{ event.title }}</h3>
+          <p matListItemLine>
             {{ event.start | date: 'medium' }}
           </p>
         </a>

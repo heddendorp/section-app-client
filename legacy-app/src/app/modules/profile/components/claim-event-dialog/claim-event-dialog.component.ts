@@ -24,8 +24,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
-import { loadStripe } from '@stripe/stripe-js';
-import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-claim-event-dialog',
@@ -85,7 +83,6 @@ export class ClaimEventDialogComponent {
   async tryClaim() {
     this.processing$.next(true);
     this.error$.next('');
-    const stripe = await loadStripe(environment.stripeKey);
     try {
       const { data } = await firstValueFrom(
         this.useRegistrationCodeGQL.mutate({
@@ -94,7 +91,7 @@ export class ClaimEventDialogComponent {
         })
       );
 
-      if (data && stripe) {
+      if (data) {
         //TODO: fix this logic with new transactions
         // stripe.redirectToCheckout({
         //   sessionId:
@@ -112,12 +109,9 @@ export class ClaimEventDialogComponent {
     this.processing$.next(false);
   }
 
-  async openCheckout(checkoutSession = '') {
-    const stripe = await loadStripe(environment.stripeKey);
-    if (stripe) {
-      stripe.redirectToCheckout({
-        sessionId: checkoutSession,
-      });
+  async openCheckout(checkoutSession: string|null = '') {
+    if (checkoutSession) {
+      location.href = checkoutSession;
     }
   }
 }

@@ -309,6 +309,13 @@ export type EventTemplateCategory = {
   tenantId: Scalars['ID'];
 };
 
+export enum HomePageStrategy {
+  Link = 'LINK',
+  Markdown = 'MARKDOWN',
+  None = 'NONE',
+  Static = 'STATIC'
+}
+
 export type LineItem = {
   __typename?: 'LineItem';
   cancellationReason?: Maybe<Scalars['String']>;
@@ -981,7 +988,9 @@ export type Statistics = {
 export type StripePayment = {
   __typename?: 'StripePayment';
   amount: Scalars['Decimal'];
+  /** @deprecated Use checkoutUrl instead */
   checkoutSession: Scalars['String'];
+  checkoutUrl?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   events: Scalars['JSON'];
   feeAmount?: Maybe<Scalars['Decimal']>;
@@ -1028,6 +1037,8 @@ export type Tenant = {
   aboutPage: Scalars['String'];
   createdAt: Scalars['DateTime'];
   faqPage?: Maybe<Scalars['String']>;
+  homePageLink?: Maybe<Scalars['String']>;
+  homePageStrategy: HomePageStrategy;
   id: Scalars['ID'];
   imprintPage: Scalars['String'];
   name: Scalars['String'];
@@ -1246,6 +1257,8 @@ export type UpdateTemplateLocationInput = {
 export type UpdateTenantInput = {
   aboutPage?: InputMaybe<Scalars['String']>;
   faqPage?: InputMaybe<Scalars['String']>;
+  homePageLink?: InputMaybe<Scalars['String']>;
+  homePageStrategy?: InputMaybe<HomePageStrategy>;
   imprintPage?: InputMaybe<Scalars['String']>;
   privacyPolicyPage?: InputMaybe<Scalars['String']>;
   tacPage?: InputMaybe<Scalars['String']>;
@@ -1365,7 +1378,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __type
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -1482,7 +1495,7 @@ export type RegisterForEventMutationVariables = Exact<{
 }>;
 
 
-export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutSession: string, paymentIntent?: string | null } | null }> } | null, organizers: Array<{ __typename?: 'User', fullName: string }> } };
+export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, checkoutUrl?: string | null, paymentIntent?: string | null } | null }> } | null, organizers: Array<{ __typename?: 'User', fullName: string }> } };
 
 export type CancelPaymentMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1598,7 +1611,7 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutSession: string } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> } };
+export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> } };
 
 export type LoadUserForEventQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1785,7 +1798,7 @@ export type GetRegistrationCodeInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetRegistrationCodeInfoQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, status: RegistrationStatus, registrationCreated?: { __typename?: 'EventRegistration', id: string, belongsToCurrentUser: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, checkoutSession: string } | null }> } | null, targetEvent: { __typename?: 'TumiEvent', id: string, registrationMode: RegistrationMode, title: string, start: any, prices?: any | null } } };
+export type GetRegistrationCodeInfoQuery = { __typename?: 'Query', eventRegistrationCode: { __typename?: 'EventRegistrationCode', id: string, status: RegistrationStatus, registrationCreated?: { __typename?: 'EventRegistration', id: string, belongsToCurrentUser: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, checkoutUrl?: string | null } | null }> } | null, targetEvent: { __typename?: 'TumiEvent', id: string, registrationMode: RegistrationMode, title: string, start: any, prices?: any | null } } };
 
 export type SubmitEventFeedbackMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1976,7 +1989,7 @@ export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User',
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null } };
+export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
 
 export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2026,7 +2039,7 @@ export type UpdateTenantMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null } };
+export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
 
 export type UpdateEsNcardMutationVariables = Exact<{
   userId: Scalars['ID'];
@@ -2091,6 +2104,8 @@ export const GetTenantInfoDocument = gql`
     id
     name
     faqPage
+    homePageStrategy
+    homePageLink
   }
   currentUser {
     id
@@ -2552,7 +2567,7 @@ export const RegisterForEventDocument = gql`
           createdAt
           amount
           status
-          checkoutSession
+          checkoutUrl
           paymentIntent
         }
       }
@@ -3134,7 +3149,7 @@ export const LoadEventDocument = gql`
           amount
           status
           paymentIntent
-          checkoutSession
+          checkoutUrl
         }
       }
       user {
@@ -4071,7 +4086,7 @@ export const GetRegistrationCodeInfoDocument = gql`
         stripePayment {
           id
           status
-          checkoutSession
+          checkoutUrl
         }
       }
     }
@@ -5023,6 +5038,8 @@ export const GetTenantForEditDocument = gql`
     privacyPolicyPage
     faqPage
     tacPage
+    homePageLink
+    homePageStrategy
   }
 }
     `;
@@ -5275,6 +5292,8 @@ export const UpdateTenantDocument = gql`
     privacyPolicyPage
     aboutPage
     tacPage
+    homePageLink
+    homePageStrategy
   }
 }
     `;

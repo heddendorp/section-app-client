@@ -1,12 +1,12 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 import { MembershipStatus, PurchaseStatus, Role } from '../../generated/prisma';
-import { GraphQLYogaError } from '@graphql-yoga/node';
 import { prepareSearchString } from '../helperFunctions';
 import {
   BlobServiceClient,
   ContainerSASPermissions,
 } from '@azure/storage-blob';
+import { GraphQLError } from 'graphql';
 
 builder.queryFields((t) => ({
   users: t.prismaField({
@@ -126,7 +126,7 @@ builder.queryFields((t) => ({
       const id = ctx.user?.id;
       if (!id) {
         if (!ctx.token?.sub) {
-          throw new GraphQLYogaError('Not authenticated');
+          throw new GraphQLError('Not authenticated');
         } else {
           return null;
         }

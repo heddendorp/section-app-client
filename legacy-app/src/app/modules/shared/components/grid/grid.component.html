@@ -1,10 +1,9 @@
 <div
   class="grid"
-  gdAuto
-  gdColumns="repeat(auto-fit, minmax(min(100%, {{ minWidth }}), {{
-    maxWidth
-  }}))"
-  [gdGap]="gap"
+  style="grid-template-columns: repeat(auto-fit, minmax(min(100%, {{
+    minWidth
+  }}), {{ maxWidth }}))"
+  [style.grid-gap]="gap"
 >
   <ng-content></ng-content>
 </div>

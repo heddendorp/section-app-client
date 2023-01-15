@@ -61,7 +61,10 @@ builder.queryFields((t) => ({
     },
     resolve: async (root, { statusList }, context) => {
       return prisma.eventRegistration.count({
-        where: { status: { in: statusList ?? undefined } },
+        where: {
+          status: { in: statusList ?? undefined },
+          event: { eventTemplate: { tenant: { id: context.tenant.id } } },
+        },
       });
     },
   }),

@@ -25,7 +25,6 @@ import { OnlineEventRegistrationComponent } from './components/registration/onli
 import { StripeEventRegistrationComponent } from './components/registration/stripe-event-registration/stripe-event-registration.component';
 import { AddReceiptDialogComponent } from './components/running/add-receipt-dialog/add-receipt-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
 import { SharedModule } from '@tumi/legacy-app/modules/shared/shared.module';
@@ -77,7 +76,6 @@ import { EventSubmissionOverviewComponent } from './components/event-submission-
     EventsRoutingModule,
     SharedModule,
     MatDatepickerModule,
-    FlexLayoutModule,
     ReactiveFormsModule,
     MarkdownModule.forChild(),
     MatExpansionModule,

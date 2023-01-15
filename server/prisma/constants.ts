@@ -73,6 +73,12 @@ export const users = {
     firstName: 'Test',
     lastName: 'Admin',
   },
+  newTenantAdmin: {
+    email: 'test6@esn.world',
+    password: 'testuser6!',
+    firstName: 'New Test',
+    lastName: 'Admin',
+  },
   memberUser: {
     email: 'test2@esn.world',
     password: 'testuser2!',

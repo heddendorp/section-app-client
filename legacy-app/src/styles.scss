@@ -27,6 +27,16 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies(mat.define-typography-config($font-family: 'General Sans, sans-serif',
+$body-2: mat.define-typography-level(14px, 20px, 450),));
 @include mat.core();
 
 $dark-primary-text: rgba(black, 0.87);
@@ -34,11 +44,11 @@ $light-primary-text: white;
 
 $primary-palette: (
   50: #e3f2fd,
-  100: theme('colors.primary.container'),
+  100: #f3f4f6,
   200: #90caf9,
   300: #64b5f6,
   400: #42a5f5,
-  500: theme('colors.primary.default'),
+  500: #4f46e5,
   600: #1e88e5,
   700: #1976d2,
   800: #1565c0,
@@ -49,11 +59,11 @@ $primary-palette: (
   A700: #2962ff,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.primary.onContainer'),
+    100: #111827,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.primary.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -67,11 +77,11 @@ $primary-palette: (
 
 $secondary-palette: (
   50: #fce4ec,
-  100: theme('colors.secondary.container'),
+  100: #ffffff,
   200: #f48fb1,
   300: #f06292,
   400: #ec407a,
-  500: theme('colors.secondary.default'),
+  500: #585e71,
   600: #d81b60,
   700: #c2185b,
   800: #ad1457,
@@ -82,11 +92,11 @@ $secondary-palette: (
   A700: #c51162,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.secondary.onContainer'),
+    100: #111827,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.secondary.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -99,11 +109,11 @@ $secondary-palette: (
 );
 $error-palette: (
   50: #ffebee,
-  100: theme('colors.error.container'),
+  100: #ffdad4,
   200: #ef9a9a,
   300: #e57373,
   400: #ef5350,
-  500: theme('colors.error.default'),
+  500: #ba1b1b,
   600: #e53935,
   700: #d32f2f,
   800: #c62828,
@@ -114,11 +124,11 @@ $error-palette: (
   A700: #d50000,
   contrast: (
     50: $dark-primary-text,
-    100: theme('colors.error.onContainer'),
+    100: #410001,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: theme('colors.error.on'),
+    500: #ffffff,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -141,50 +151,50 @@ $tumi-app-warn: mat.define-palette($error-palette);
 
 $tumi-typography: mat.define-typography-config(
   $font-family: 'General Sans, sans-serif',
-  $body-1: mat.define-typography-level(14px, 20px, 450),
-);
-
-$tumi-display-typography: mat.define-typography-config(
-  $font-family: 'General Sans, sans-serif',
-  $body-1: mat.define-typography-level(14px, 20px, 450),
+  $body-2: mat.define-typography-level(14px, 20px, 450),
 );
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $tumi-app-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-    typography: $tumi-typography,
-  )
+    (
+      color: (
+        primary: $tumi-app-primary,
+        accent: $tumi-app-accent,
+        warn: $tumi-app-warn,
+      ),
+      typography: $tumi-typography,
+    )
 );
 
 $tumi-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-  )
+    (
+      color: (
+        primary: $tumi-app-primary,
+        accent: $tumi-app-accent,
+        warn: $tumi-app-warn,
+      ),
+    )
 );
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($tumi-app-theme);
-@include mat.toolbar-typography($tumi-display-typography);
 
 /* You can add global styles to this file, and also import other style files */
+
+// Fix for outlined material fields with tailwind
+.mdc-notched-outline__notch {
+  border-right: none;
+}
 
 @layer base {
   html {
     box-sizing: border-box;
     font-weight: 400;
   }
+
   //html,
   //body {
   //  height: 100%;
@@ -193,101 +203,80 @@ $tumi-dark-theme: mat.define-dark-theme(
     margin: 0;
     @apply font-sans;
   }
+
   *,
   *:before,
   *:after {
     box-sizing: inherit;
     -webkit-tap-highlight-color: transparent;
   }
+
   h1 {
     @apply text-2xl font-display;
   }
+
   h2 {
     @apply text-xl font-display;
   }
+
   h3 {
     @apply text-lg;
   }
+
   mat-icon.mat-icon.card-icon {
     @apply w-8 lg:w-10 h-8 lg:h-10 p-1 rounded-lg;
   }
+
   markdown {
     img {
       @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
     }
   }
+
   .dark-button {
     @include mat.button-color($tumi-dark-theme);
+    @include mat.fab-color($tumi-dark-theme);
+    @include mat.icon-button-color($tumi-dark-theme);
   }
+
   .photo-view {
     mat-dialog-container {
       padding: 0;
     }
   }
+
   .cdk-overlay-pane.modern {
-    mat-dialog-container {
-      @apply rounded-3xl p-6 bg-primary-container text-surface-on;
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+      @apply rounded-3xl bg-primary-container text-primary-onContainer;
     }
   }
-  .mat-flat-button.modern {
+
+  .mat-mdc-button-base.modern {
     @apply rounded-full;
-    &.mat-primary {
-      @apply bg-primary-default text-primary-on;
-    }
-    .mat-button-wrapper {
-      mat-icon {
-        @apply mr-2 ml-0;
-      }
-      span {
-        @apply mr-2;
-      }
-    }
   }
-  .mat-stroked-button.modern {
-    @apply rounded-full;
-    &.mat-primary {
-      @apply border-primary-default text-primary-default;
-    }
-    .mat-button-wrapper {
-      mat-icon {
-        @apply mr-2 ml-0;
-      }
-      span {
-        @apply mr-2;
-      }
-    }
-  }
-  .mat-raised-button.modern {
-    @apply rounded-full;
-    &.mat-primary {
-      @apply bg-primary-default text-primary-on;
-    }
-    .mat-button-wrapper {
-      mat-icon {
-        @apply mr-2 ml-0;
-      }
-      span {
-        @apply mr-2;
-      }
-    }
-  }
+
   mat-panel-title {
     @apply lg:text-lg font-bold;
   }
+
   .bg-blur {
     backdrop-filter: blur(16px) saturate(180%);
   }
-  .mat-list-avatar {
+
+  .mat-mdc-list-item-avatar {
     border-radius: 0 !important;
   }
+
   .save-button {
     .mat-icon {
       mat-spinner {
         height: 24px !important;
         width: 24px !important;
+
         circle {
           @apply stroke-gray-400;
         }
+
         svg {
           height: 24px !important;
           width: 24px !important;
@@ -295,31 +284,26 @@ $tumi-dark-theme: mat.define-dark-theme(
       }
     }
   }
-  a.extended-fab,
-  button.extended-fab {
-    @apply right-4 px-4 w-auto bottom-16 sm:bottom-4 fixed z-50 rounded-xl;
-    .mat-button-wrapper {
-      @apply flex;
-    }
-    .label {
-      @apply ml-1;
-    }
-  }
+
   mat-toolbar {
     background: white !important;
     @apply shadow-sm;
   }
+
+  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
   mat-progress-bar {
     position: absolute !important;
     z-index: 1000 !important;
     @apply sm:max-w-[calc(100vw-96px)];
   }
+
   @media only percy {
     .hide-in-percy {
       visibility: hidden;
     }
   }
 }
+
 
 @layer components {
   .skeleton {

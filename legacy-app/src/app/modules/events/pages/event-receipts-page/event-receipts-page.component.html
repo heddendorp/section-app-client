@@ -15,9 +15,9 @@
   ></mat-progress-bar>
 </app-reactive-toolbar>
 <main *ngIf="costItem$ | async as costItem" class="flex flex-col gap-4 p-4">
-  <button mat-fab class="extended-fab" (click)="addReceipt()">
+  <button mat-fab extended (click)="addReceipt()">
     <mat-icon svgIcon="icon-add"></mat-icon>
-    <span class="label">Add receipt</span>
+    Add receipt
   </button>
   <app-grid minWidth="500px">
     <div *ngFor="let receipt of costItem.receipts">
@@ -31,7 +31,7 @@
         height="500px"
       ></object>
       <p class="mt-2">
-        <span class="font-bold">{{ receipt.amount | currency: 'EUR' }}</span>
+        <span class="font-bold">{{ receipt.amount | currency : 'EUR' }}</span>
         <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
       </p>
       <div

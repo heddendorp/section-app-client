@@ -3,6 +3,8 @@ query getTenantInfo {
     id
     name
     faqPage
+    homePageStrategy
+    homePageLink
   }
   currentUser {
     id

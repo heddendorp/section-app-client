@@ -19,7 +19,6 @@ import { LocationAutocompleteComponent } from './components/location-autocomplet
 import { MarkdownFieldComponent } from './components/markdown-field/markdown-field.component';
 import { PhotoDetailsDialogComponent } from './components/photo-details-dialog/photo-details-dialog.component';
 import { SelectLocationDialogComponent } from './components/select-location-dialog/select-location-dialog.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material/input';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
@@ -84,7 +83,6 @@ import { SnakeCasePipe } from '@tumi/legacy-app/modules/shared/pipes/snake-case.
   imports: [
     RouterModule,
     CommonModule,
-    FlexLayoutModule,
     MarkdownModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -108,7 +106,6 @@ import { SnakeCasePipe } from '@tumi/legacy-app/modules/shared/pipes/snake-case.
     DataItemsCollectorComponent,
     DataItemsManagerComponent,
     ExtendDatePipe,
-    FlexLayoutModule,
     GridComponent,
     IconToastComponent,
     IconURLPipe,

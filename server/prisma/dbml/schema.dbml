@@ -11,6 +11,11 @@ Table Tenant {
   faqPage String
   imprintPage String [not null, default: '']
   privacyPolicyPage String [not null, default: '']
+  homePageStrategy HomePageStrategy [not null, default: 'STATIC']
+  stripeConnectAccountId String
+  stripeReducedTaxRate String
+  stripeRegularTaxRate String
+  homePageLink String
   tacPage String
   organizers EventOrganizer [not null]
   eventTemplates EventTemplate [not null]
@@ -92,6 +97,7 @@ Table StripePayment {
   createdAt DateTime [default: `now()`, not null]
   amount Decimal [not null]
   checkoutSession String [unique, not null]
+  checkoutUrl String
   events Json [not null, note: 'Array of events with their timestamps']
   feeAmount Decimal
   netAmount Decimal
@@ -538,6 +544,13 @@ Enum TransactionStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+Enum HomePageStrategy {
+  LINK
+  STATIC
+  MARKDOWN
+  NONE
 }
 
 Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)

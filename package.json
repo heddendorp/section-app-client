@@ -4,10 +4,7 @@
   "private": true,
   "version": "5.5.1",
   "workspaces": [
-    "events",
     "server",
-    "experiments",
-    "party-animals",
     "legacy-app",
     "shared/*"
   ],
@@ -16,15 +13,14 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "test": "yarn docker:up && yarn cypress:open && yarn docker:down",
-    "test:dev": "yarn docker:up --build && yarn cypress:open && yarn docker:down",
+    "test:dev": "yarn workspace @tumi/server docker:up && yarn open-tests:dev && yarn workspace @tumi/server docker:down",
+    "test:docker": "yarn docker:up --build && yarn cypress:open --e2e && yarn docker:down",
     "test:percy": "dotenv -- percy exec -- cypress run",
-    "events": "yarn workspace @tumi/events dev",
-    "legacy-app": "yarn workspace @tumi/legacy-app start:app",
+    "open-tests:dev": "concurrently --names 'SERVER,ANGULAR,CYPRESS' -k -c 'auto' \"yarn server\"  \"yarn legacy-app\" \"yarn workspace @tumi/server prisma:reset-dev ; yarn cypress:open --e2e --config baseUrl=http://localhost:4200 --env dev=true\"",
+    "legacy-app": "yarn workspace @tumi/legacy-app dev",
     "server": "yarn workspace @tumi/server dev",
-    "experiments": "yarn workspace @tumi/experiments dev",
-    "party-animals": "yarn workspace @tumi/party-animals dev",
-    "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn events\"",
-    "build:all": "yarn workspace @tumi/server build:production && yarn workspace @tumi/experiments build && yarn workspace @tumi/party-animals build",
+    "dev": "concurrently --kill-others-on-fail --names 'SERVER,ANGULAR' \"yarn server\"  \"yarn legacy-app\"",
+    "build:all": "yarn workspace @tumi/server build:production && yarn workspace @tumi/legacy-app build",
     "release:draft": "conventional-github-releaser -p angular --draft",
     "recommended-version": "conventional-recommended-bump -p angular",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
@@ -35,23 +31,19 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.5.0"
-  },
-  "resolutions": {
-    "@angular/material@13.2.5": "patch:@angular/material@npm:13.2.5#.yarn/patches/@angular-material-npm-13.2.5-2e28f1d69c",
-    "nexus-prisma@0.36.0-next.2": "patch:nexus-prisma@npm:0.36.0-next.2#.yarn/patches/nexus-prisma-npm-0.36.0-next.2-32f64a026a",
-    "@whatwg-node/fetch": "patch:@whatwg-node/fetch@npm:0.2.6#.yarn/patches/@whatwg-node-fetch-npm-0.2.6-ae351f1418.patch",
-    "@envelop/core": "2.6.0"
+    "concurrently": "^7.6.0"
   },
   "volta": {
-    "node": "17.9.1",
+    "node": "18.12.1",
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@percy/cli": "^1.13.0",
+    "@percy/cli": "^1.17.0",
     "@percy/cypress": "^3.1.2",
-    "@testing-library/cypress": "^8.0.3",
-    "cypress": "^10.11.0",
-    "dotenv-cli": "^6.0.0"
+    "@playwright/test": "^1.29.2",
+    "@testing-library/cypress": "^9.0.0",
+    "cypress": "^12.3.0",
+    "dotenv-cli": "^6.0.0",
+    "wait-on": "^7.0.1"
   }
 }

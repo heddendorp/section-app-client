@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
-  previewFeatures = ["interactiveTransactions", "fullTextSearch", "metrics", "filteredRelationCount"]
+  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount"]
 }
 
 generator pothos {
@@ -30,6 +30,11 @@ model Tenant {
   faqPage                 String?
   imprintPage             String                  @default("")
   privacyPolicyPage       String                  @default("")
+  homePageStrategy        HomePageStrategy        @default(STATIC)
+  stripeConnectAccountId  String?
+  stripeReducedTaxRate    String?
+  stripeRegularTaxRate    String?
+  homePageLink            String?
   tacPage                 String?
   organizers              EventOrganizer[]
   eventTemplates          EventTemplate[]
@@ -105,6 +110,7 @@ model StripePayment {
   createdAt         DateTime      @default(now())
   amount            Decimal
   checkoutSession   String        @unique
+  checkoutUrl       String?
   /// Array of events with their timestamps
   events            Json
   feeAmount         Decimal?
@@ -542,4 +548,11 @@ enum TransactionStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+enum HomePageStrategy {
+  LINK
+  STATIC
+  MARKDOWN
+  NONE
 }

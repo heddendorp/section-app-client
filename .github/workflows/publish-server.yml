@@ -7,10 +7,12 @@ name: Build Docker for Server
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '43 11 * * *'
+#  schedule:
+#    - cron: '43 11 * * *'
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - feat/angular_15_update
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
     paths:
@@ -19,14 +21,6 @@ on:
       - '.github/workflows/publish-server.yml'
       - 'infrastructure/server.yml'
       - 'yarn.lock'
-#  pull_request:
-#    branches: [ main ]
-#    paths:
-#      - 'server/**'
-#      - 'Dockerfile-Server'
-#      - '.github/workflows/publish-server.yml'
-#      - 'infrastructure/server.yml'
-#      - 'yarn.lock'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -141,7 +135,6 @@ jobs:
       name: production
       url: https://server.esn.world
     needs: build
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Azure Login

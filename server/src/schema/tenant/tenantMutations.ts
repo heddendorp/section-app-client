@@ -1,6 +1,7 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
 import { removeEmpty } from '../helperFunctions';
+import { HomePageStrategy } from '../../generated/prisma';
 
 builder.mutationFields((t) => ({
   updateTenant: t.prismaField({
@@ -25,5 +26,7 @@ const updateTenantInputType = builder.inputType('UpdateTenantInput', {
     aboutPage: t.string(),
     faqPage: t.string(),
     tacPage: t.string(),
+    homePageStrategy: t.field({ type: HomePageStrategy }),
+    homePageLink: t.string(),
   }),
 });

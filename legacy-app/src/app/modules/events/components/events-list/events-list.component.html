@@ -7,8 +7,7 @@
           (events[i - 1].start | date: 'shortDate') !==
             (event.start | date: 'shortDate')
         "
-        gdColumn="-1/1"
-        class="mt-4 text-base leading-tight"
+        class="col-span-full mt-4 text-base leading-tight"
       >
         <span class="font-medium text-black"
           >{{ event.start | date: 'EEE ' }}
@@ -25,7 +24,7 @@
   </ng-container>
   <ng-container *ngIf="!events">
     <ng-container *ngFor="let event of [].constructor(3)">
-      <div gdColumn="-1/1">
+      <div class="col-span-full">
         <span class="skeleton mt-4 text-base leading-tight"
           >Weekday, XX XXXXX
         </span>

@@ -67,7 +67,7 @@ query loadEvent($id: ID!) {
           amount
           status
           paymentIntent
-          checkoutSession
+          checkoutUrl
         }
       }
       user {

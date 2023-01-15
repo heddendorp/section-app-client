@@ -8,6 +8,7 @@ import {
   PurchaseStatus,
   RegistrationStatus,
   StripePayment,
+  Transaction,
   TransactionDirection,
   TransactionStatus,
   TransactionType,
@@ -302,8 +303,45 @@ export const webhookRouter = (prisma: PrismaClient) => {
         case 'payment_intent.succeeded': {
           const eventObject: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.succeeded');
+          let stripePayment: (StripePayment & { transactions: (Transaction & { tenant: { stripeConnectAccountId: string | null; }; })[]; }) | null;
+          if (eventObject.metadata.stripePaymentId) {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { id: eventObject.metadata.stripePaymentId },
+              include:{transactions:{include:{tenant:{select:{stripeConnectAccountId:true}}}}}
+            });
+          } else {
+            stripePayment = await prisma.stripePayment.findUnique({
+              where: { paymentIntent: eventObject.id },
+              include:{transactions:{include:{tenant:{select:{stripeConnectAccountId:true}}}}}
+            });
+          }
+          if (!stripePayment) {
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(eventObject)),
+                message: 'No database payment found for incoming event',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            break;
+          }
+          if(!stripePayment.transactions[0].tenant.stripeConnectAccountId){
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(eventObject)),
+                oldData: JSON.parse(JSON.stringify(stripePayment)),
+                message: 'No stripe connect account id found for transaction',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            throw new Error('No stripe connect account id found for transaction');
+            break;
+          }
+          const stripeAccount = stripePayment.transactions[0].tenant.stripeConnectAccountId;
           const paymentIntent = await stripe.paymentIntents.retrieve(
-            eventObject.id
+            eventObject.id, {stripeAccount}
           );
           if (paymentIntent.status !== 'succeeded') {
             await prisma.activityLog.create({
@@ -311,27 +349,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
                 data: JSON.parse(JSON.stringify(paymentIntent)),
                 oldData: JSON.parse(JSON.stringify(eventObject)),
                 message: 'Payment intent status is not succeeded',
-                severity: 'WARNING',
-                category: 'webhook',
-              },
-            });
-            break;
-          }
-          let stripePayment: StripePayment | null;
-          if (paymentIntent.metadata.stripePaymentId) {
-            stripePayment = await prisma.stripePayment.findUnique({
-              where: { id: paymentIntent.metadata.stripePaymentId },
-            });
-          } else {
-            stripePayment = await prisma.stripePayment.findUnique({
-              where: { paymentIntent: paymentIntent.id },
-            });
-          }
-          if (!stripePayment) {
-            await prisma.activityLog.create({
-              data: {
-                data: JSON.parse(JSON.stringify(paymentIntent)),
-                message: 'No database payment found for incoming event',
                 severity: 'WARNING',
                 category: 'webhook',
               },
@@ -353,7 +370,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
           let balanceTransaction;
           if (typeof charge?.balance_transaction === 'string') {
             balanceTransaction = await stripe.balanceTransactions.retrieve(
-              charge.balance_transaction
+              charge.balance_transaction, {stripeAccount}
             );
           } else {
             balanceTransaction = charge?.balance_transaction;
@@ -548,7 +565,7 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     include: {
                       transactions: {
                         where: { direction: TransactionDirection.USER_TO_TUMI },
-                        include: { stripePayment: true },
+                        include: { stripePayment: true, tenant:{select:{stripeConnectAccountId:true}} },
                       },
                     },
                   });
@@ -569,11 +586,14 @@ export const webhookRouter = (prisma: PrismaClient) => {
                     });
                   } else {
                     try {
+                      if(!removedRegistration.transactions[0].tenant.stripeConnectAccountId){
+                        throw new Error('Tenant does not have a stripe connect account id')
+                      }
                       await stripe.refunds.create({
                         payment_intent:
                           removedRegistration.transactions[0].stripePayment
                             .paymentIntent,
-                      });
+                      }, { stripeAccount: removedRegistration.transactions[0].tenant.stripeConnectAccountId });
                     } catch (e) {
                       await prisma.activityLog.create({
                         data: {
@@ -671,8 +691,25 @@ export const webhookRouter = (prisma: PrismaClient) => {
         case 'payment_intent.canceled': {
           const eventObject: Stripe.Stripe.PaymentIntent = event.data.object;
           console.log('Processing event: payment_intent.canceled');
+          const stripePayment = await prisma.stripePayment.findUnique({
+            where: { paymentIntent: eventObject.id },
+            include:{transactions:{include:{tenant:{select:{stripeConnectAccountId:true}}}}}
+          });
+          if(!stripePayment?.transactions[0]?.tenant.stripeConnectAccountId){
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(eventObject)),
+                message: 'No account id found for incoming event',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            throw new Error('No account id found for incoming event')
+            break;
+          }
+          const stripeAccount = stripePayment.transactions[0].tenant.stripeConnectAccountId;
           const paymentIntent = await stripe.paymentIntents.retrieve(
-            eventObject.id
+            eventObject.id, {stripeAccount}
           );
           if (paymentIntent.status !== 'canceled') {
             await prisma.activityLog.create({
@@ -686,9 +723,6 @@ export const webhookRouter = (prisma: PrismaClient) => {
             });
             break;
           }
-          const stripePayment = await prisma.stripePayment.findUnique({
-            where: { paymentIntent: paymentIntent.id },
-          });
           await cancelPayment(stripePayment, paymentIntent);
           break;
         }
@@ -754,19 +788,18 @@ export const webhookRouter = (prisma: PrismaClient) => {
         case 'charge.refunded': {
           const eventObject: Stripe.Stripe.Charge = event.data.object;
           console.log('Processing event: charge.refunded');
-          const charge = await stripe.charges.retrieve(eventObject.id);
           const paymentIntentId =
-            typeof charge.payment_intent === 'string'
-              ? charge.payment_intent
-              : charge.payment_intent?.id;
+            typeof eventObject.payment_intent === 'string'
+              ? eventObject.payment_intent
+              : eventObject.payment_intent?.id;
           const stripePayment = await prisma.stripePayment.findUnique({
             where: { paymentIntent: paymentIntentId },
-            include: { transactions: true },
+            include: { transactions: {include:{tenant:{select:{stripeConnectAccountId:true}}}} },
           });
           if (!stripePayment) {
             await prisma.activityLog.create({
               data: {
-                data: JSON.parse(JSON.stringify(charge)),
+                data: JSON.parse(JSON.stringify(eventObject)),
                 message: 'No database payment found for incoming event',
                 severity: 'WARNING',
                 category: 'webhook',
@@ -775,10 +808,24 @@ export const webhookRouter = (prisma: PrismaClient) => {
             console.debug('No database payment found for incoming event');
             break;
           }
+          if(!stripePayment?.transactions[0]?.tenant.stripeConnectAccountId){
+            await prisma.activityLog.create({
+              data: {
+                data: JSON.parse(JSON.stringify(eventObject)),
+                message: 'No account id found for incoming event',
+                severity: 'WARNING',
+                category: 'webhook',
+              },
+            });
+            throw new Error('No account id found for incoming event')
+            break;
+          }
+          const stripeAccount = stripePayment.transactions[0].tenant.stripeConnectAccountId;
+          const charge = await stripe.charges.retrieve(eventObject.id, {stripeAccount});
           let balanceTransaction;
           if (typeof charge?.balance_transaction === 'string') {
             balanceTransaction = await stripe.balanceTransactions.retrieve(
-              charge.balance_transaction
+              charge.balance_transaction, {stripeAccount}
             );
           } else {
             balanceTransaction = charge?.balance_transaction;

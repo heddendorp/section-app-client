@@ -1,8 +1,8 @@
 mat-nav-list {
-  .mat-list-avatar {
+  .mat-mdc-list-item-avatar {
     @apply bg-white bg-opacity-30 border border-white border-opacity-60;
   }
-  .mat-list-item {
+  .mat-mdc-list-item {
     max-width: calc(100vw - 2rem);
   }
 }
