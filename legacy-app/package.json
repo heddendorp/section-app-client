@@ -32,7 +32,7 @@
     "@auth0/auth0-angular": "^1.11.1",
     "@azure/storage-blob": "^12.12.0",
     "@ng-web-apis/common": "^2.1.0",
-    "@sentry/angular": "^7.30.0",
+    "@sentry/angular": "^7.32.1",
     "@sentry/tracing": "^7.30.0",
     "apollo-angular": "^4.2.0",
     "azure-maps-rest": "^2.1.0",
