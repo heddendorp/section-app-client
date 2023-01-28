@@ -3,7 +3,7 @@ If you have to select an icon in the app, most of the time, you can just write a
 
 1. Open [icons8](https://icons8.com/icons/fluency) this is the source of all the icons the app uses. You can search for the thing you want on that page.
 2. If you have found an icon, click it. And then click the **download** button.
-3. A dialog will open, in the dialog click **Link (CDN)**. You will find a section called **#### Paste this fragment into your HTML** and below some code.   
+3. A dialog will open, in the dialog click **Link (CDN)**. You will find a section called **Paste this fragment into your HTML** and below some code.   
    Occasionally there is an issue here, where below you can not see code, but again the icon you selected. In this case, select a different option and return.
 4. When you see the code it will look something like this
    ```html
