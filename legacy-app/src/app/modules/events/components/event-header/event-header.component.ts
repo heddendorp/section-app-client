@@ -16,6 +16,7 @@ import { Price } from '../../../../../../../shared/data-types';
 })
 export class EventHeaderComponent {
   public Role = Role;
+  private hostName = location.hostname;
   @Input() public event: LoadEventQuery['event'] | null = null;
   @Input() public bestPrice: Price | null = null;
   isSingleDayEvent() {
@@ -30,10 +31,10 @@ export class EventHeaderComponent {
   }
 
   shareEvent() {
-    navigator.share({
+    void navigator.share({
       title: this.event?.title,
-      text: `Check out this event on TUMi: ${this.event?.title}`,
-      url: 'https://tumi.esn.world/events/' + this.event?.id,
+      text: `Check out this event: ${this.event?.title}`,
+      url: `https://${this.hostName}/events/${this.event?.id}`,
     });
   }
 }
