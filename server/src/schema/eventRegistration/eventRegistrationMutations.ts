@@ -149,7 +149,9 @@ builder.mutationFields((t) => ({
       const baseUrl =
         process.env.DEV || process.env.NODE_ENV === 'test'
           ? `http://localhost:4200/events/${registration.event.id}`
-          : `https://tumi.esn.world/events/${registration.event.id}`;
+          : context.tenant.shortName === 'karlsruhe'
+          ? `https://ticket.esn-karlsruhe.de/events/${registration.event.id}`
+          : `https://${context.tenant.shortName}.esn.world/events/${registration.event.id}`;
       const [icon, style] = (registration.event?.icon ?? '').split(':');
       const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
         icon ?? 'cancel-2'
@@ -385,7 +387,9 @@ builder.mutationFields((t) => ({
         const baseUrl =
           process.env.DEV || process.env.NODE_ENV === 'test'
             ? `http://localhost:4200/events/${eventId}`
-            : `https://tumi.esn.world/events/${eventId}`;
+            : context.tenant.shortName === 'karlsruhe'
+            ? `https://ticket.esn-karlsruhe.de/events/${eventId}`
+            : `https://${context.tenant.shortName}.esn.world/events/${eventId}`;
         const [icon, style] = (event?.icon ?? '').split(':');
         const iconURL = `https://img.icons8.com/${style ?? 'fluency'}/300/${
           icon ?? 'cancel-2'

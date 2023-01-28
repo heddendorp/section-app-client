@@ -20,7 +20,10 @@ builder.queryFields((t) => ({
     resolve: async (query, parent, args, context, info) =>
       prisma.tumiEvent.findUniqueOrThrow({
         ...query,
-        where: { id: args.id },
+        where: {
+          id: args.id,
+          eventTemplate: { tenant: { id: context.tenant.id } },
+        },
       }),
   }),
   events: t.prismaField({

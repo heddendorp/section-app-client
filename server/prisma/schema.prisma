@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
-  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount", "clientExtensions"]
+  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount", "clientExtensions", "extendedWhereUnique"]
 }
 
 generator pothos {
