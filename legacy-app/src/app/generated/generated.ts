@@ -1410,10 +1410,15 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, profileComplete: boolean, firstName: string, lastName: string, email: string, phone?: string | null, picture: string, university?: string | null, enrolmentStatus: EnrolmentStatus, birthdate?: any | null } | null };
 
+export type GetCurrentUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserInfoQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, url: string, label: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, url: string, label: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } } };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -2138,6 +2143,25 @@ export const GetCurrentUserDocument = gql`
       super(apollo);
     }
   }
+export const GetCurrentUserInfoDocument = gql`
+    query getCurrentUserInfo {
+  currentUser {
+    id
+    outstandingRating
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetCurrentUserInfoGQL extends Apollo.Query<GetCurrentUserInfoQuery, GetCurrentUserInfoQueryVariables> {
+    override document = GetCurrentUserInfoDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetTenantInfoDocument = gql`
     query getTenantInfo {
   currentTenant {
@@ -2161,10 +2185,6 @@ export const GetTenantInfoDocument = gql`
         url
       }
     }
-  }
-  currentUser {
-    id
-    outstandingRating
   }
 }
     `;

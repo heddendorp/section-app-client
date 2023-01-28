@@ -1,3 +1,9 @@
+query getCurrentUserInfo {
+  currentUser {
+    id
+    outstandingRating
+  }
+}
 query getTenantInfo {
   currentTenant {
     id
@@ -20,9 +26,5 @@ query getTenantInfo {
         url
       }
     }
-  }
-  currentUser {
-    id
-    outstandingRating
   }
 }
