@@ -1411,7 +1411,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __type
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, url: string, label: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, url: string, label: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -2144,6 +2144,7 @@ export const GetTenantInfoDocument = gql`
     faqPage
     homePageStrategy
     homePageLink
+    communicationEmail
     settings {
       showPWAInstall
       socialLinks {
