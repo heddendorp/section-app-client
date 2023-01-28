@@ -16,10 +16,8 @@ export class PublicRegistrationCodesPageComponent {
     LoadPublicRegistrationCodesQuery['eventRegistrationCodes']
   >;
   constructor(
-    private loadPublicRegistrationCodesGQL: LoadPublicRegistrationCodesGQL,
-    private title: Title
+    private loadPublicRegistrationCodesGQL: LoadPublicRegistrationCodesGQL
   ) {
-    this.title.setTitle('Registration Codes - TUMi');
     this.registrationCodes$ = this.loadPublicRegistrationCodesGQL
       .watch()
       .valueChanges.pipe(map((result) => result.data.eventRegistrationCodes));

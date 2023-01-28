@@ -5,10 +5,17 @@ import { TemplateListPageComponent } from '@tumi/legacy-app/modules/event-templa
 import { CheckTemplateIdGuard } from '@tumi/legacy-app/modules/event-templates/guards/check-template-id.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: TemplateListPageComponent },
-  { path: ':templateId',
+  {
+    path: '',
+    pathMatch: 'full',
+    component: TemplateListPageComponent,
+    title: 'Event Templates',
+  },
+  {
+    path: ':templateId',
     canActivate: [CheckTemplateIdGuard],
-    component: TemplateDetailsPageComponent },
+    component: TemplateDetailsPageComponent,
+  },
 ];
 
 @NgModule({

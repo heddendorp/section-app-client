@@ -23,37 +23,80 @@ import { TenantTransactionsPageComponent } from '@tumi/legacy-app/modules/tenant
 import { TenantEventsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-events-page/tenant-events-page.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: TenantLandingPageComponent },
-  { path: 'organizers', component: TenantOrganizersPageComponent },
-  { path: 'users', component: TenantUsersPageComponent },
-  { path: 'users/:userId', component: TenantUserInfoPageComponent },
-  { path: 'registrations', component: TenantRegistrationsPageComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: TenantLandingPageComponent,
+    title: 'Tenant',
+  },
+  {
+    path: 'organizers',
+    component: TenantOrganizersPageComponent,
+    title: 'Organizers',
+  },
+  { path: 'users', component: TenantUsersPageComponent, title: 'Users' },
+  {
+    path: 'users/:userId',
+    component: TenantUserInfoPageComponent,
+    title: 'User Details',
+  },
+  {
+    path: 'registrations',
+    component: TenantRegistrationsPageComponent,
+    title: 'Registrations',
+  },
   {
     path: 'registrations/:registrationId',
     component: TenantRegistrationDetailsPageComponent,
+    title: 'Registration Details',
   },
-  { path: 'codes', component: TenantMoveOrdersPageComponent },
-  { path: 'codes/:codeId', component: TenantRegistrationCodePageComponent },
+  {
+    path: 'codes',
+    component: TenantMoveOrdersPageComponent,
+    title: 'Registration Codes',
+  },
+  {
+    path: 'codes/:codeId',
+    component: TenantRegistrationCodePageComponent,
+    title: 'Registration Code',
+  },
   // { path: 'refunds', component: TenantRefundsPageComponent },
-  { path: 'edit', component: TenantEditPageComponent },
-  { path: 'stats', component: TenantStatsPageComponent },
-  { path: 'logs', component: TenantActivityLogPageComponent },
-  { path: 'photos', component: TenantPhotosPageComponent },
-  { path: 'purchases', component: TenantPurchasesPageComponent },
-  { path: 'insurance', component: TenantInsurancePageComponent },
-  { path: 'ratings', component: TenantEventRatingsComponent },
-  { path: 'bookings', component: TenantEventBookingsPageComponent },
+  { path: 'edit', component: TenantEditPageComponent, title: 'Edit tenant' },
+  { path: 'stats', component: TenantStatsPageComponent, title: 'Stats' },
+  {
+    path: 'logs',
+    component: TenantActivityLogPageComponent,
+    title: 'Activity Log',
+  },
+  { path: 'photos', component: TenantPhotosPageComponent, title: 'Photos' },
+  // { path: 'purchases', component: TenantPurchasesPageComponent },
+  // { path: 'insurance', component: TenantInsurancePageComponent },
+  {
+    path: 'ratings',
+    component: TenantEventRatingsComponent,
+    title: 'Event Ratings',
+  },
+  {
+    path: 'bookings',
+    component: TenantEventBookingsPageComponent,
+    title: 'Event Bookings',
+  },
   { path: 'events', component: TenantEventsPageComponent },
   {
     path: 'event-template-categories',
     component: TenantEventTemplateCategoriesPageComponent,
+    title: 'Event Template Categories',
   },
-  { path: 'metrics', component: TenantMetricsPageComponent },
-  { path: 'transactions', component: TenantTransactionsPageComponent },
+  { path: 'metrics', component: TenantMetricsPageComponent, title: 'Metrics' },
   {
-    path: 'purchases/:purchaseId',
-    component: TenantPurchaseDetailsPageComponent,
+    path: 'transactions',
+    component: TenantTransactionsPageComponent,
+    title: 'Transactions',
   },
+  // {
+  //   path: 'purchases/:purchaseId',
+  //   component: TenantPurchaseDetailsPageComponent,
+  // },
 ];
 
 @NgModule({

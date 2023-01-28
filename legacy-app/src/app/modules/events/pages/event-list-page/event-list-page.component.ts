@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import {
   EventListGQL,
   EventListQuery,
@@ -60,23 +59,20 @@ export class EventListPageComponent implements OnDestroy {
   public endOfMonth?: DateTime;
   public Role = Role;
   public selectedView$: Observable<string>;
-  private loadEventsQueryRef;
-  private destroy$ = new Subject();
-
   public serverTimeZone = DateTime.local({ locale: 'en-GB' }).offsetNameShort;
   public timeOffset =
     Math.abs(-new Date().getTimezoneOffset() - DateTime.local().offset) / 60;
   public outstandingRating$: Observable<boolean>;
   public tenant$: Observable<GetTenantInfoQuery['currentTenant']>;
-
-  @ViewChild('searchbar')
-  private searchBar!: ElementRef;
   public searchEnabled = false;
   public isMember$ = this.permissionsService.isMember();
+  private loadEventsQueryRef;
+  private destroy$ = new Subject();
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
 
   constructor(
     private loadEventsQuery: EventListGQL,
-    private title: Title,
     private eventListStateService: EventListStateService,
     private route: ActivatedRoute,
     private router: Router,
@@ -85,7 +81,6 @@ export class EventListPageComponent implements OnDestroy {
     private permissionsService: PermissionsService
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
-    this.title.setTitle('Events - TUMi');
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
 
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(

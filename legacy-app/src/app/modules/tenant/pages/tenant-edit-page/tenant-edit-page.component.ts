@@ -5,7 +5,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title } from '@angular/platform-browser';
 import {
   GetTenantForEditGQL,
   GetTenantForEditQuery,
@@ -29,10 +28,8 @@ export class TenantEditPageComponent {
     private fb: UntypedFormBuilder,
     private updateTenant: UpdateTenantGQL,
     private loadTenant: GetTenantForEditGQL,
-    private snackBar: MatSnackBar,
-    private title: Title
+    private snackBar: MatSnackBar
   ) {
-    this.title.setTitle('Edit Tenant - TUMi');
     this.editForm = this.fb.group({
       imprintPage: ['', Validators.required],
       privacyPolicyPage: ['', Validators.required],

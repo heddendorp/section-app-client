@@ -18,11 +18,7 @@ export class TenantEventBookingsPageComponent {
   public events$: Observable<LoadEventsWithBookingQuery['events']>;
   public displayedColumns = ['event', 'start', 'spots', 'registrations'];
 
-  constructor(
-    private loadEventsWithBookingGQL: LoadEventsWithBookingGQL,
-    private title: Title
-  ) {
-    this.title.setTitle('Event Bookings - TUMi');
+  constructor(private loadEventsWithBookingGQL: LoadEventsWithBookingGQL) {
     this.events$ = this.loadEventsWithBookingGQL
       .watch({ after: new Date(/*2022, 2, 0*/) })
       .valueChanges.pipe(

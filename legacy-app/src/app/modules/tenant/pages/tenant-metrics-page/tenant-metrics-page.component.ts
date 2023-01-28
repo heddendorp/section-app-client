@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { interval, map, Observable, share, switchMap, tap } from 'rxjs';
+import { Component } from '@angular/core';
+import { interval, map, Observable, share, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-metrics-page',
@@ -15,8 +14,8 @@ export class TenantMetricsPageComponent {
   counters$: Observable<any[]>;
   gauges$: Observable<any[]>;
   histograms$: Observable<Highcharts.Options[]>;
-  constructor(private http: HttpClient, private title: Title) {
-    this.title.setTitle('Prisma Metrics - TUMi');
+
+  constructor(private http: HttpClient) {
     const metrics$ = interval(5000).pipe(
       switchMap(() => this.http.get(`${environment.server}/metrics`)),
       share()

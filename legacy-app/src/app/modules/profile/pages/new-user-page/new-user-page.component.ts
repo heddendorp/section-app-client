@@ -9,7 +9,6 @@ import {
   GetCurrentUserGQL,
   RegisterUserGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DateTime } from 'luxon';
 
@@ -25,13 +24,11 @@ export class NewUserPageComponent implements OnInit {
   startDate = DateTime.local().minus({ years: 20 }).toJSDate();
 
   constructor(
-    private title: Title,
     private registerUser: RegisterUserGQL,
     private fb: UntypedFormBuilder,
     private currentUser: GetCurrentUserGQL,
     private router: Router
   ) {
-    this.title.setTitle('Welcome - TUMi');
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

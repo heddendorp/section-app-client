@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import {
   LoadEventsWithRatingGQL,
   LoadEventsWithRatingQuery,
@@ -16,11 +15,7 @@ export class TenantEventRatingsComponent {
   public events$: Observable<LoadEventsWithRatingQuery['events']>;
   public displayedColumns = ['event', 'organizer', 'participant'];
 
-  constructor(
-    private loadEventsWithRatingGQL: LoadEventsWithRatingGQL,
-    private title: Title
-  ) {
-    this.title.setTitle('Ratings - TUMi');
+  constructor(private loadEventsWithRatingGQL: LoadEventsWithRatingGQL) {
     this.events$ = this.loadEventsWithRatingGQL
       .watch({ after: DateTime.local().minus({ months: 1 }).toJSDate() })
       .valueChanges.pipe(

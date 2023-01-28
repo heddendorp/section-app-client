@@ -1,12 +1,10 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import {
+  GetTutorHubEventsGQL,
+  GetTutorHubEventsQuery,
   GetTutorHubInfoGQL,
   GetTutorHubInfoQuery,
-  GetTutorHubEventsQuery,
-  GetTutorHubEventsGQL,
   GetUsersGQL,
   GetUsersQuery,
   MembershipStatus,
@@ -14,14 +12,13 @@ import {
 import { DateTime } from 'luxon';
 import {
   BehaviorSubject,
+  debounceTime,
   map,
   Observable,
   shareReplay,
   Subject,
-  tap,
   takeUntil,
-  debounceTime,
-  firstValueFrom,
+  tap,
 } from 'rxjs';
 
 @Component({
@@ -38,29 +35,24 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   >;
   public eventsLoading$ = new BehaviorSubject(true);
   public searchedTutors$: Observable<GetUsersQuery['users']>;
-  private getTutorHubEventsRef;
-
   public filterForm: UntypedFormGroup;
-  private loadUsersReference;
   public currentSearch = '';
   public searchLoading$ = new BehaviorSubject(false);
-  private destroyed$ = new Subject();
   public range: { start: DateTime; end: DateTime } = this.calculateStartEnd(
     DateTime.now()
   );
-
   public leaderboardToggle = false;
   public leaderboardExpanded = false;
+  private getTutorHubEventsRef;
+  private loadUsersReference;
+  private destroyed$ = new Subject();
 
   constructor(
-    private title: Title,
     private getTutorHubInfo: GetTutorHubInfoGQL,
     private getTutorHubEvents: GetTutorHubEventsGQL,
     private loadUsers: GetUsersGQL,
     private fb: UntypedFormBuilder
   ) {
-    this.title.setTitle('Tutor Hub - TUMi');
-
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
     this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
       map(({ data }) => data.currentTenant.tutorHub)

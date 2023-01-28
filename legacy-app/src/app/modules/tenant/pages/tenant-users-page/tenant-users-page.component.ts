@@ -20,7 +20,6 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { Title } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
 import { Clipboard } from '@angular/cdk/clipboard';
 
@@ -48,12 +47,10 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   constructor(
-    private title: Title,
     private loadUsers: GetUsersGQL,
     private fb: UntypedFormBuilder,
     private clipboard: Clipboard
   ) {
-    this.title.setTitle('Users - TUMi');
     this.loadUsersReference = this.loadUsers.watch({
       pageLength: 20,
       pageIndex: 0,

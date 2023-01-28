@@ -7,9 +7,14 @@ import { PublicProfilePageComponent } from './pages/public-profile-page/public-p
 import { CheckProfileIdGuard } from '@tumi/legacy-app/modules/profile/guards/check-profile-id.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: ProfilePageComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: ProfilePageComponent,
+    title: 'Profile',
+  },
   { path: 'journey', component: PhotoJourneyPageComponent },
-  { path: 'new', component: NewUserPageComponent },
+  { path: 'new', component: NewUserPageComponent, title: 'Welcome' },
   {
     path: ':userId',
     component: PublicProfilePageComponent,

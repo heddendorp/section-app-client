@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   GetRegistrationCountGQL,
   GetRegistrationCountQuery,
@@ -11,7 +6,6 @@ import {
   GetRegistrationsQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { PageEvent } from '@angular/material/paginator';
-import { Title } from '@angular/platform-browser';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -34,12 +28,11 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     'status',
   ];
   private registrationsQueryRef;
+
   constructor(
-    private title: Title,
     private getRegistrationsGQL: GetRegistrationsGQL,
     private getRegistrationCountGQL: GetRegistrationCountGQL
   ) {
-    this.title.setTitle('Registrations - TUMi');
     this.registrationsQueryRef = this.getRegistrationsGQL.watch({
       pageLength: 20,
       pageIndex: 0,

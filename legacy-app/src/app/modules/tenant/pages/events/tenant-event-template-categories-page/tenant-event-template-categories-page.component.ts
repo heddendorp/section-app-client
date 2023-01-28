@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   CreateEventTemplateCategoryGQL,
-  CreateEventTemplateCategoryMutation,
   LoadEventCategoriesForAdminGQL,
   LoadEventCategoriesForAdminQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { NewOrganizerDialogComponent } from '@tumi/legacy-app/modules/tenant/components/new-organizer-dialog/new-organizer-dialog.component';
-import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { NewEventTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/tenant/components/new-event-template-category-dialog/new-event-template-category-dialog.component';
 
@@ -21,13 +18,12 @@ export class TenantEventTemplateCategoriesPageComponent {
     LoadEventCategoriesForAdminQuery['eventTemplateCategories']
   >;
   private eventTemplateCategoriesQueryRef;
+
   constructor(
-    private title: Title,
     private dialog: MatDialog,
     private loadEventCategoriesForAdminGQL: LoadEventCategoriesForAdminGQL,
     private createEventTemplateCategoryGQL: CreateEventTemplateCategoryGQL
   ) {
-    this.title.setTitle('Event Template Categories - TUMi');
     this.eventTemplateCategoriesQueryRef =
       this.loadEventCategoriesForAdminGQL.watch();
     this.eventTemplateCategories$ =

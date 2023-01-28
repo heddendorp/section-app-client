@@ -17,7 +17,6 @@ import {
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { BehaviorSubject, first, firstValueFrom, map, Observable } from 'rxjs';
-import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
@@ -29,6 +28,7 @@ import { DOCUMENT } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { ProgressBarMode } from '@angular/material/progress-bar';
 import { DateTime } from 'luxon';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -46,8 +46,8 @@ export class ProfilePageComponent implements OnDestroy {
   public uploadMode$ = new BehaviorSubject<ProgressBarMode>('indeterminate');
   public uploading$ = new BehaviorSubject(false);
   public hostName;
+
   constructor(
-    private title: Title,
     private profileQuery: UserProfileGQL,
     private profileEventsQuery: UserProfileEventsGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
@@ -62,7 +62,6 @@ export class ProfilePageComponent implements OnDestroy {
     @Inject(DOCUMENT) public document: Document
   ) {
     this.hostName = this.document.location.hostname;
-    this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
@@ -105,6 +104,7 @@ export class ProfilePageComponent implements OnDestroy {
       }
     });
   }
+
   ngOnDestroy(): void {
     this.profileQueryRef.stopPolling();
     this.profileEventsQueryRef.stopPolling();
@@ -228,6 +228,7 @@ export class ProfilePageComponent implements OnDestroy {
     this.uploadProgress$.next(0);
     this.uploading$.next(false);
   }
+
   private randomId(): string {
     const uint32 = crypto.getRandomValues(new Uint32Array(1))[0];
     return uint32.toString(16);
