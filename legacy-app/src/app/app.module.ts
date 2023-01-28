@@ -74,7 +74,9 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
       cacheLocation: 'localstorage',
       useRefreshTokens: true,
-      audience: 'esn.events',
+      authorizationParams: {
+        audience: 'esn.events',
+      },
       httpInterceptor: {
         allowedList: [
           {

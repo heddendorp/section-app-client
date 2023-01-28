@@ -40,12 +40,12 @@
   "devDependencies": {
     "@percy/cli": "^1.17.0",
     "@percy/cypress": "^3.1.2",
-    "@playwright/test": "^1.29.2",
+    "@playwright/test": "^1.30.0",
     "@testing-library/cypress": "^9.0.0",
-    "@types/conventional-recommended-bump": "^6",
+    "@types/conventional-recommended-bump": "^6.1.0",
     "conventional-recommended-bump": "^6.1.0",
-    "cypress": "^12.3.0",
-    "dotenv-cli": "^6.0.0",
+    "cypress": "^12.4.1",
+    "dotenv-cli": "^7.0.0",
     "wait-on": "^7.0.1"
   }
 }

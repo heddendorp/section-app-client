@@ -198,7 +198,9 @@
       color="accent"
       mat-raised-button
       *ngIf="this.auth.isAuthenticated$ | async"
-      (click)="auth.logout({ returnTo: document.location.origin })"
+      (click)="
+        auth.logout({ logoutParams: { returnTo: document.location.origin } })
+      "
     >
       <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
       Logout
