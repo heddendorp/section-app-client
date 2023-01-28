@@ -12,9 +12,14 @@
     <mat-form-field class="w-full">
       <mat-label>University</mat-label>
       <mat-select formControlName="university" required>
-        <mat-option value="tum">TUM</mat-option>
-        <mat-option value="lmu">LMU</mat-option>
-        <mat-option value="hm">HM</mat-option>
+        <mat-option value="tum" data-cy="tum-option">TUM</mat-option>
+        <mat-option value="lmu">LMU München</mat-option>
+        <mat-option value="hm">Hochschule München</mat-option>
+        <mat-option value="uni-mannheim">Universität Mannheim</mat-option>
+        <mat-option value="dhbw">DHBW</mat-option>
+        <mat-option value="hs-mannheim">Hochschule Mannheim</mat-option>
+        <mat-option value="hs-augsburg">Hochschule Augsburg</mat-option>
+        <mat-option value="uni-augsburg">Universität Augsburg</mat-option>
         <mat-option value="otherUni">other university</mat-option>
         <mat-option value="other">not a student</mat-option>
       </mat-select>
