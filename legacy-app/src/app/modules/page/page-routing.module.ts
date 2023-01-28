@@ -6,7 +6,7 @@ import { ShowPagePageComponent } from '@tumi/legacy-app/modules/page/pages/show-
 
 const routes: Routes = [
   { path: 'apply', component: ApplyPageComponent },
-  { path: 'feedback', component: FeedbackPageComponent },
+  { path: 'feedback', component: FeedbackPageComponent, title: 'Feedback' },
   { path: ':page', pathMatch: 'full', component: ShowPagePageComponent },
 ];
 

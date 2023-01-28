@@ -25,14 +25,12 @@ export class EventReceiptsPageComponent implements OnDestroy {
   >;
 
   constructor(
-    private title: Title,
     private loadCostItem: GetCostItemGQL,
     private removeReceiptMutation: DeleteReceiptGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private sanitizer: DomSanitizer
   ) {
-    this.title.setTitle('Event Receipts - TUMi');
     this.loadCostItemQueryRef = this.loadCostItem.watch();
     this.route.paramMap.subscribe((params) =>
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' })

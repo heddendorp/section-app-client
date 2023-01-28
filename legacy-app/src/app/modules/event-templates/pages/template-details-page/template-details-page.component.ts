@@ -55,7 +55,7 @@ export class TemplateDetailsPageComponent {
           .valueChanges.pipe(
             map(({ data }) => data.eventTemplate),
             tap((eventTemplate) =>
-              this.title.setTitle(`${eventTemplate.title} - TUMi`)
+              this.title.setTitle(`${eventTemplate.title}`)
             )
           )
       )

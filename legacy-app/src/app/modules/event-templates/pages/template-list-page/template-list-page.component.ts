@@ -1,14 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
-import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { concat, firstValueFrom, map, Observable, of } from 'rxjs';
+import {
+  combineLatest,
+  concat,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   CreateEventTemplateGQL,
   GetLonelyEventTemplatesGQL,
@@ -18,7 +19,6 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import { FormControl } from '@angular/forms';
-import { combineLatest } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,14 +34,13 @@ export class TemplateListPageComponent {
   public eventTemplates$: Observable<
     GetLonelyEventTemplatesQuery['eventTemplates']
   >;
-  @ViewChild('searchbar')
-  private searchBar!: ElementRef;
   public searchEnabled = false;
   public searchControl = new FormControl('');
+  @ViewChild('searchbar')
+  private searchBar!: ElementRef;
   private eventTemplateQuery;
 
   constructor(
-    private title: Title,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private createTemplateMutation: CreateEventTemplateGQL,
@@ -49,7 +48,6 @@ export class TemplateListPageComponent {
     private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
     private router: Router
   ) {
-    this.title.setTitle('Event Templates - TUMi');
     this.eventTemplateQuery = this.loadTemplates.watch(
       {},
       { fetchPolicy: 'cache-and-network' }

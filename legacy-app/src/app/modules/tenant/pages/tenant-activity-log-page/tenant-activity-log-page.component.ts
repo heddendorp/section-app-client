@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ShowDataDialogComponent } from '@tumi/legacy-app/modules/tenant/components/show-data-dialog/show-data-dialog.component';
 import { GetLogsGQL, GetLogsQuery } from '@tumi/legacy-app/generated/generated';
-import { Title } from '@angular/platform-browser';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -21,12 +15,8 @@ export class TenantActivityLogPageComponent implements OnDestroy {
   public stats$: Observable<GetLogsQuery['logStats']>;
   public displayedColumns = ['created', 'message', 'level', 'details'];
   private logsQueryRef;
-  constructor(
-    private title: Title,
-    private loadLogQuery: GetLogsGQL,
-    private dialog: MatDialog
-  ) {
-    this.title.setTitle('Activity Log - TUMi');
+
+  constructor(private loadLogQuery: GetLogsGQL, private dialog: MatDialog) {
     this.logsQueryRef = this.loadLogQuery.watch();
     this.logsQueryRef.startPolling(5000);
     this.logs$ = this.logsQueryRef.valueChanges.pipe(

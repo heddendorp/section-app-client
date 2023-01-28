@@ -9,7 +9,6 @@ import {
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateTransactionDialogComponent } from '@tumi/legacy-app/modules/tenant/components/create-transaction-dialog/create-transaction-dialog.component';
 
@@ -44,18 +43,16 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     directions: new FormControl<TransactionDirection[]>(Object.values([])),
     types: new FormControl<TransactionType[]>(Object.values([])),
   });
-  private loadTransactionsRef;
-  private destroyed$ = new Subject();
   public TransactionDirection = TransactionDirection;
   public TransactionType = TransactionType;
   public TransactionStatus = TransactionStatus;
+  private loadTransactionsRef;
+  private destroyed$ = new Subject();
 
   constructor(
     private loadTransactionsGQL: LoadTransactionsGQL,
-    private dialog: MatDialog,
-    private title: Title
+    private dialog: MatDialog
   ) {
-    this.title.setTitle('Transactions - TUMi');
     this.loadTransactionsRef = this.loadTransactionsGQL.watch({
       take: 20,
       skip: 0,

@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   LoadAllPhotosGQL,
   LoadAllPhotosQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
-import { Title } from '@angular/platform-browser';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -24,11 +18,9 @@ export class TenantPhotosPageComponent implements OnDestroy {
   private photosQueryRef;
 
   constructor(
-    private title: Title,
     private loadPhotosQuery: LoadAllPhotosGQL,
     private dialog: MatDialog
   ) {
-    this.title.setTitle('Photos - TUMi');
     this.photosQueryRef = this.loadPhotosQuery.watch();
     this.photos$ = this.photosQueryRef.valueChanges.pipe(
       map(({ data }) => data.photos)

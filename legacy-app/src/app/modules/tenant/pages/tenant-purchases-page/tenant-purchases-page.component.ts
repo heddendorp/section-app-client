@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   GetTenantPurchasesGQL,
   GetTenantPurchasesQuery,
@@ -28,11 +22,8 @@ export class TenantPurchasesPageComponent implements OnDestroy {
     'status',
   ];
   private loadPurchasesRef;
-  constructor(
-    private loadPurchasesGQL: GetTenantPurchasesGQL,
-    private title: Title
-  ) {
-    this.title.setTitle('Purchases - TUMi');
+
+  constructor(private loadPurchasesGQL: GetTenantPurchasesGQL) {
     this.loadPurchasesRef = this.loadPurchasesGQL.watch();
     this.purchases$ = this.loadPurchasesRef.valueChanges.pipe(
       map((result) => result.data.purchases)

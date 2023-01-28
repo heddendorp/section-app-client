@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadEventsForInsuranceGQL,
   LoadEventsForInsuranceQuery,
@@ -15,11 +14,7 @@ import { map, Observable } from 'rxjs';
 export class TenantInsurancePageComponent {
   events$: Observable<LoadEventsForInsuranceQuery['events']>;
 
-  constructor(
-    private loadEventsForInsuranceGQL: LoadEventsForInsuranceGQL,
-    private title: Title
-  ) {
-    this.title.setTitle('Insurance - TUMi');
+  constructor(private loadEventsForInsuranceGQL: LoadEventsForInsuranceGQL) {
     this.events$ = this.loadEventsForInsuranceGQL.watch().valueChanges.pipe(
       map(({ data }) => data.events),
       map((events) =>

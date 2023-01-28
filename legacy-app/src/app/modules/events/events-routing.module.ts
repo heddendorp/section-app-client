@@ -14,31 +14,41 @@ import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
 import { CheckEventIdGuard } from '@tumi/legacy-app/modules/events/guards/check-event-id.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: EventListPageComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: EventListPageComponent,
+    title: 'Events',
+  },
   {
     path: 'list',
     pathMatch: 'full',
     component: EventListPageComponent,
+    title: 'Events',
   },
   {
     path: 'list/:year/:month',
     pathMatch: 'full',
     component: EventListPageComponent,
+    title: 'Events',
   },
   {
     path: 'calendar',
     pathMatch: 'full',
     component: EventListPageComponent,
+    title: 'Events',
   },
   {
     path: 'calendar/:year/:month',
     pathMatch: 'full',
     component: EventListPageComponent,
+    title: 'Events',
   },
   {
     path: 'codes',
     canActivate: [AuthGuard],
     component: EventListPageComponent,
+    title: 'Events',
   },
   {
     path: ':eventId',
@@ -74,6 +84,7 @@ const routes: Routes = [
         path: 'run/receipts/:costItemId',
         canActivate: [AuthGuard, MemberGuard],
         component: EventReceiptsPageComponent,
+        title: 'Receipts',
       },
       {
         path: 'manage',

@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GetRegistrationForAdminGQL,
   GetRegistrationForAdminQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-registration-details-page',
@@ -20,10 +19,8 @@ export class TenantRegistrationDetailsPageComponent {
 
   constructor(
     private getRegistrationGQL: GetRegistrationForAdminGQL,
-    private route: ActivatedRoute,
-    private title: Title
+    private route: ActivatedRoute
   ) {
-    this.title.setTitle('Registration Details - TUMi');
     this.registration$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>

@@ -76,7 +76,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       })
     );
     firstValueFrom(this.event$).then((event) => {
-      this.title.setTitle(`${event.title} - TUMi`);
+      this.title.setTitle(`${event.title}`);
     });
     this.bestPrice$ = this.event$.pipe(
       switchMap((event) =>

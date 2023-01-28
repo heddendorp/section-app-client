@@ -1,15 +1,9 @@
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import {
-  GetEventRegistrationCodesGQL,
-  GetEventRegistrationCodesQuery,
   GetEventRegistrationCodeCountGQL,
   GetEventRegistrationCodeCountQuery,
+  GetEventRegistrationCodesGQL,
+  GetEventRegistrationCodesQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -36,12 +30,11 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
     'status',
   ];
   private ordersQueryRef;
+
   constructor(
-    private title: Title,
     private getEventRegistrationCodesGQL: GetEventRegistrationCodesGQL,
     private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL
   ) {
-    this.title.setTitle('Registration Codes - TUMi');
     this.ordersQueryRef = this.getEventRegistrationCodesGQL.watch({
       pageLength: 20,
       pageIndex: 0,

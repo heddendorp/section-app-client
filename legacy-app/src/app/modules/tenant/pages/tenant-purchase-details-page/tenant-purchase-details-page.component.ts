@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GetPurchaseGQL,
   GetPurchaseQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tenant-purchase-details-page',
@@ -15,12 +14,11 @@ import { Title } from '@angular/platform-browser';
 })
 export class TenantPurchaseDetailsPageComponent {
   public purchase$: Observable<GetPurchaseQuery['purchase']>;
+
   constructor(
     private getPurchaseGQL: GetPurchaseGQL,
-    private route: ActivatedRoute,
-    private title: Title
+    private route: ActivatedRoute
   ) {
-    this.title.setTitle('Purchase Details - TUMi');
     this.purchase$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>

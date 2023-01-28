@@ -72,7 +72,7 @@ export class EventManagePageComponent implements OnDestroy {
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      tap((event) => this.title.setTitle(`Manage ${event.title} - TUMi`))
+      tap((event) => this.title.setTitle(`Manage ${event.title}`))
     );
     this.feeShare$ = this.event$.pipe(
       map((event) =>
