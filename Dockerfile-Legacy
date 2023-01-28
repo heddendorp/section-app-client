@@ -6,7 +6,7 @@ COPY legacy-app/package.json package.json yarn.lock .yarnrc.yml ./
 COPY legacy-app/package.json legacy-app/
 COPY .yarn .yarn/
 
-RUN yarn workspace @tumi/legacy-app install
+RUN yarn install
 COPY legacy-app legacy-app/
 COPY shared shared/
 ARG VERSION=DOCKER_VERSION
