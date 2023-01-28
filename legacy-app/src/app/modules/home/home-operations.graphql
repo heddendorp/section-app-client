@@ -9,3 +9,10 @@ query getHomePageData {
     id
   }
 }
+
+query getHomePageTenantInfo{
+  currentTenant {
+      id
+      shortName
+    }
+}

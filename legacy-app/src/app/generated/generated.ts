@@ -1749,6 +1749,11 @@ export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetHomePageDataQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any }>, currentUser?: { __typename?: 'User', id: string } | null };
 
+export type GetHomePageTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHomePageTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, shortName: string } };
+
 export type LoadPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3810,6 +3815,25 @@ export const GetHomePageDataDocument = gql`
   })
   export class GetHomePageDataGQL extends Apollo.Query<GetHomePageDataQuery, GetHomePageDataQueryVariables> {
     override document = GetHomePageDataDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetHomePageTenantInfoDocument = gql`
+    query getHomePageTenantInfo {
+  currentTenant {
+    id
+    shortName
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetHomePageTenantInfoGQL extends Apollo.Query<GetHomePageTenantInfoQuery, GetHomePageTenantInfoQueryVariables> {
+    override document = GetHomePageTenantInfoDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,9 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import {
-  GetHomePageDataGQL,
-  GetHomePageDataQuery,
-} from '@tumi/legacy-app/generated/generated';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { GetHomePageTenantInfoGQL } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -13,17 +9,11 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  public events$: Observable<GetHomePageDataQuery['events']>;
-  public loggedIn$: Observable<boolean>;
+  protected shortName$: Observable<string>;
 
-  constructor(private q: GetHomePageDataGQL, private title: Title) {
-    this.title.setTitle('Home - TUMi');
-
-    this.events$ = this.q
+  constructor(getHomePageTenantInfoGQL: GetHomePageTenantInfoGQL) {
+    this.shortName$ = getHomePageTenantInfoGQL
       .watch()
-      .valueChanges.pipe(map(({ data }) => data.events));
-    this.loggedIn$ = this.q
-      .watch()
-      .valueChanges.pipe(map(({ data }) => !!data.currentUser?.id));
+      .valueChanges.pipe(map(({ data }) => data.currentTenant.shortName));
   }
 }
