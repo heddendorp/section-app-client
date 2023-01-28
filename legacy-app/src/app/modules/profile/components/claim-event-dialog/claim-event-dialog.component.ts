@@ -18,6 +18,8 @@ import {
 import {
   GetRegistrationCodeInfoGQL,
   GetRegistrationCodeInfoQuery,
+  GetTenantInfoGQL,
+  GetTenantInfoQuery,
   UseRegistrationCodeGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -46,12 +48,17 @@ export class ClaimEventDialogComponent {
   );
   public processing$ = new BehaviorSubject(false);
   public error$ = new BehaviorSubject('');
+  public tenantInfo$: Observable<GetTenantInfoQuery['currentTenant']>;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { code?: string },
     private registrationCodeInfoGQL: GetRegistrationCodeInfoGQL,
     private useRegistrationCodeGQL: UseRegistrationCodeGQL,
-    private permissions: PermissionsService
+    private permissions: PermissionsService,
+    private getTenantInfoGQL: GetTenantInfoGQL
   ) {
+    this.tenantInfo$ = this.getTenantInfoGQL
+      .watch()
+      .valueChanges.pipe(map((r) => r.data.currentTenant));
     // private claimCode: ClaimEventGQL
     this.registrationCode$ = this.codeControl.valueChanges.pipe(
       startWith(this.data.code),
@@ -109,7 +116,7 @@ export class ClaimEventDialogComponent {
     this.processing$.next(false);
   }
 
-  async openCheckout(checkoutSession: string|null = '') {
+  async openCheckout(checkoutSession: string | null = '') {
     if (checkoutSession) {
       location.href = checkoutSession;
     }

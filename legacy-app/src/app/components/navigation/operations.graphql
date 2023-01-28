@@ -5,6 +5,7 @@ query getTenantInfo {
     faqPage
     homePageStrategy
     homePageLink
+    communicationEmail
     settings {
       showPWAInstall
       socialLinks {
