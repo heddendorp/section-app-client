@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
-  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount"]
+  previewFeatures = ["fullTextSearch", "metrics", "filteredRelationCount", "clientExtensions"]
 }
 
 generator pothos {
@@ -37,6 +37,7 @@ model Tenant {
   stripeReducedTaxRate    String?
   stripeRegularTaxRate    String?
   settings                Json                    @default("{}")
+  communicationEmail      String                  @default("questions@esn-tumi.de")
   organizers              EventOrganizer[]
   eventTemplates          EventTemplate[]
   eventTemplateCategories EventTemplateCategory[]

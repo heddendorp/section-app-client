@@ -19,6 +19,28 @@ builder.mutationFields((t) => ({
   }),
 }));
 
+const updateResourceLinkInputType = builder.inputType(
+  'UpdateResourceLinkInput',
+  {
+    fields: (t) => ({
+      label: t.string(),
+      url: t.string(),
+      icon: t.string(),
+    }),
+  }
+);
+
+const updateTenantSettingsInputType = builder.inputType(
+  'UpdateTenantSettingsInput',
+  {
+    fields: (t) => ({
+      socialLinks: t.field({ type: [updateResourceLinkInputType] }),
+      sectionHubLinks: t.field({ type: [updateResourceLinkInputType] }),
+      showPWAInstall: t.boolean(),
+    }),
+  }
+);
+
 const updateTenantInputType = builder.inputType('UpdateTenantInput', {
   fields: (t) => ({
     imprintPage: t.string(),
@@ -26,7 +48,9 @@ const updateTenantInputType = builder.inputType('UpdateTenantInput', {
     aboutPage: t.string(),
     faqPage: t.string(),
     tacPage: t.string(),
+    communicationEmail: t.string(),
     homePageStrategy: t.field({ type: HomePageStrategy }),
     homePageLink: t.string(),
+    settings: t.field({ type: updateTenantSettingsInputType }),
   }),
 });

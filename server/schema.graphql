@@ -507,6 +507,12 @@ enum RegistrationType {
   PARTICIPANT
 }
 
+type ResourceLink {
+  icon: String!
+  label: String!
+  url: String!
+}
+
 enum Role {
   ADMIN
   USER
@@ -588,6 +594,7 @@ enum SubmissionTime {
 
 type Tenant {
   aboutPage: String!
+  communicationEmail: String!
   createdAt: DateTime!
   faqPage: String
   homePageLink: String
@@ -597,11 +604,18 @@ type Tenant {
   name: String!
   organizers: [EventOrganizer!]!
   privacyPolicyPage: String!
+  settings: TenantSettings!
   shortName: String!
   tacPage: String
   tutorHub: JSON!
   tutorHubEvents(range: DateRangeInput): JSON!
   users: [UsersOfTenants!]!
+}
+
+type TenantSettings {
+  sectionHubLinks: [ResourceLink!]!
+  showPWAInstall: Boolean!
+  socialLinks: [ResourceLink!]!
 }
 
 type Transaction {
@@ -757,6 +771,12 @@ input UpdateGeneralEventInput {
   participantText: String
 }
 
+input UpdateResourceLinkInput {
+  icon: String
+  label: String
+  url: String
+}
+
 input UpdateTemplateInput {
   comment: String
   description: String
@@ -778,12 +798,20 @@ input UpdateTemplateLocationInput {
 
 input UpdateTenantInput {
   aboutPage: String
+  communicationEmail: String
   faqPage: String
   homePageLink: String
   homePageStrategy: HomePageStrategy
   imprintPage: String
   privacyPolicyPage: String
+  settings: UpdateTenantSettingsInput
   tacPage: String
+}
+
+input UpdateTenantSettingsInput {
+  sectionHubLinks: [UpdateResourceLinkInput!]
+  showPWAInstall: Boolean
+  socialLinks: [UpdateResourceLinkInput!]
 }
 
 input UpdateUserInput {
