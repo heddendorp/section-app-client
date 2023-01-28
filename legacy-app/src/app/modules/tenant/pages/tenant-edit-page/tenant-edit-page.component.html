@@ -33,6 +33,123 @@
         />
       </mat-form-field>
     </div>
+    <div class="flex flex-row items-center gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Communication Email</mat-label>
+        <input
+          matInput
+          placeholder="Where people can contact you"
+          formControlName="communicationEmail"
+        />
+      </mat-form-field>
+      <ng-container formGroupName="settings">
+        <mat-checkbox formControlName="showPWAInstall" class="w-full">
+          Show App download button
+        </mat-checkbox>
+      </ng-container>
+    </div>
+    <ng-container formGroupName="settings">
+      <div
+        formArrayName="socialLinks"
+        class="border-grey-600 my-4 rounded border p-4"
+      >
+        <h3>Social links</h3>
+        <p>These links will be shown in the footer of every page</p>
+        <div
+          *ngFor="let link of socialLinks.controls; let i = index"
+          class="mt-2 flex flex-row gap-4"
+          [formGroupName]="i"
+        >
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="socialLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button mat-stroked-button color="primary" (click)="addSocialLink()">
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </div>
+      <div
+        formArrayName="sectionHubLinks"
+        class="border-grey-600 my-4 rounded border p-4"
+      >
+        <h3>Resource links</h3>
+        <p>These links will be shown in the section hub resources</p>
+        <div
+          *ngFor="let link of sectionHubLinks.controls; let i = index"
+          class="mt-2 flex flex-row gap-4"
+          [formGroupName]="i"
+        >
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="sectionHubLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="addSectionHubLink()"
+        >
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </div>
+    </ng-container>
     <mat-form-field class="w-full">
       <mat-label>"About Us" Page</mat-label>
       <textarea matInput formControlName="aboutPage" rows="10"></textarea>

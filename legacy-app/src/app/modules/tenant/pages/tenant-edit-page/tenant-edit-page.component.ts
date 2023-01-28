@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  FormArray,
+  FormControl,
+  FormGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -34,18 +37,64 @@ export class TenantEditPageComponent {
       imprintPage: ['', Validators.required],
       privacyPolicyPage: ['', Validators.required],
       aboutPage: ['', Validators.required],
+      communicationEmail: ['', Validators.required],
       faqPage: [''],
       tacPage: [''],
       homePageStrategy: ['', Validators.required],
       homePageLink: [''],
+      settings: this.fb.group({
+        socialLinks: this.fb.array([]),
+        sectionHubLinks: this.fb.array([]),
+        showPWAInstall: [false, Validators.required],
+      }),
     });
     this.tenant$ = this.loadTenant.fetch().pipe(
       map(({ data }) => data.currentTenant),
       shareReplay(1)
     );
-    this.tenant$
-      .pipe(first())
-      .subscribe((tenant) => this.editForm.patchValue(tenant ?? {}));
+    this.tenant$.pipe(first()).subscribe((tenant) => {
+      this.editForm.patchValue(tenant ?? {});
+      if (tenant?.settings?.socialLinks) {
+        tenant.settings.socialLinks.forEach((socialLink) => {
+          this.addSocialLink();
+          this.socialLinks.at(-1).patchValue(socialLink);
+        });
+      }
+      if (tenant?.settings?.sectionHubLinks) {
+        tenant.settings.sectionHubLinks.forEach((sectionHubLink) => {
+          this.addSectionHubLink();
+          this.sectionHubLinks.at(-1).patchValue(sectionHubLink);
+        });
+      }
+    });
+  }
+
+  get socialLinks() {
+    return this.editForm.get('settings.socialLinks') as FormArray;
+  }
+
+  get sectionHubLinks() {
+    return this.editForm.get('settings.sectionHubLinks') as FormArray;
+  }
+
+  addSocialLink() {
+    this.socialLinks.push(
+      new FormGroup({
+        label: new FormControl('', Validators.required),
+        url: new FormControl('', Validators.required),
+        icon: new FormControl('', Validators.required),
+      })
+    );
+  }
+
+  addSectionHubLink() {
+    this.sectionHubLinks.push(
+      new FormGroup({
+        label: new FormControl('', Validators.required),
+        url: new FormControl('', Validators.required),
+        icon: new FormControl('', Validators.required),
+      })
+    );
   }
 
   async saveTenant() {

@@ -313,26 +313,14 @@
       <h2 class="font-bold">Resources</h2>
     </div>
     <mat-nav-list>
-      <!-- replace in the future with db model -->
       <a
+        *ngFor="let link of resourceLinks$ | async"
         mat-list-item
-        href="https://esntumi.sharepoint.com/:f:/s/Board/EqlZb4OcQgNArN8drmSYCKMBAe9OxW7iaYjHmQl6J-bg5A?e=rALt2f"
+        [href]="link.url"
         target="_blank"
       >
-        <img [src]="'user-manual' | iconURL" alt="Image" matListItemAvatar />
-        <p matListItemTitle>Tutor Guide</p>
-      </a>
-      <a
-        mat-list-item
-        href="https://app.slack.com/client/T30TKAENN/"
-        target="_blank"
-      >
-        <img
-          [src]="'slack-new:color' | iconURL"
-          alt="Image"
-          matListItemAvatar
-        />
-        <p matListItemTitle>Slack</p>
+        <img [src]="link.icon | iconURL" [alt]="link.label" matListItemAvatar />
+        <p matListItemTitle>{{ link.label }}</p>
       </a>
     </mat-nav-list>
   </div>

@@ -1411,7 +1411,7 @@ export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __type
 export type GetTenantInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
+export type GetTenantInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, faqPage?: string | null, homePageStrategy: HomePageStrategy, homePageLink?: string | null, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, url: string, label: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } }, currentUser?: { __typename?: 'User', id: string, outstandingRating: boolean } | null };
 
 export type CreateEventTemplateMutationVariables = Exact<{
   input: CreateEventTemplateInput;
@@ -2027,7 +2027,7 @@ export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User',
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
+export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } } };
 
 export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2077,7 +2077,7 @@ export type UpdateTenantMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy } };
+export type UpdateTenantMutation = { __typename?: 'Mutation', updateTenant: { __typename?: 'Tenant', id: string, faqPage?: string | null, imprintPage: string, privacyPolicyPage: string, aboutPage: string, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } } };
 
 export type UpdateEsNcardMutationVariables = Exact<{
   userId: Scalars['ID'];
@@ -2100,7 +2100,7 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUserPosition: 
 export type GetTutorHubInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTutorHubInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, tutorHub: any } };
+export type GetTutorHubInfoQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, tutorHub: any, settings: { __typename?: 'TenantSettings', sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } } };
 
 export type GetTutorHubEventsQueryVariables = Exact<{
   range?: InputMaybe<DateRangeInput>;
@@ -2144,6 +2144,19 @@ export const GetTenantInfoDocument = gql`
     faqPage
     homePageStrategy
     homePageLink
+    settings {
+      showPWAInstall
+      socialLinks {
+        icon
+        url
+        label
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
   }
   currentUser {
     id
@@ -5097,6 +5110,20 @@ export const GetTenantForEditDocument = gql`
     tacPage
     homePageLink
     homePageStrategy
+    communicationEmail
+    settings {
+      socialLinks {
+        label
+        icon
+        url
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+      showPWAInstall
+    }
   }
 }
     `;
@@ -5351,6 +5378,20 @@ export const UpdateTenantDocument = gql`
     tacPage
     homePageLink
     homePageStrategy
+    communicationEmail
+    settings {
+      socialLinks {
+        label
+        icon
+        url
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+      showPWAInstall
+    }
   }
 }
     `;
@@ -5419,6 +5460,13 @@ export const GetTutorHubInfoDocument = gql`
     id
     name
     tutorHub
+    settings {
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
   }
 }
     `;

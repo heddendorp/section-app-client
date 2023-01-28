@@ -36,7 +36,7 @@ model Tenant {
   stripeConnectAccountId  String?
   stripeReducedTaxRate    String?
   stripeRegularTaxRate    String?
-  settings                Json                    @default("{}")
+  settings                Json                    @default("{\"socialLinks\":[],\"sectionHubLinks\":[],\"showPWAInstall\":false}")
   communicationEmail      String                  @default("questions@esn-tumi.de")
   organizers              EventOrganizer[]
   eventTemplates          EventTemplate[]

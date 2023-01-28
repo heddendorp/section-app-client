@@ -5,6 +5,19 @@ query getTenantInfo {
     faqPage
     homePageStrategy
     homePageLink
+    settings {
+      showPWAInstall
+      socialLinks {
+        icon
+        url
+        label
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
   }
   currentUser {
     id

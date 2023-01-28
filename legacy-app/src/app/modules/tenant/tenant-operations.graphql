@@ -162,6 +162,20 @@ query getTenantForEdit {
     tacPage
     homePageLink
     homePageStrategy
+    communicationEmail
+    settings {
+      socialLinks {
+        label
+        icon
+        url
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+      showPWAInstall
+    }
   }
 }
 
@@ -341,6 +355,20 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
     tacPage
     homePageLink
     homePageStrategy
+    communicationEmail
+        settings {
+          socialLinks {
+            label
+            icon
+            url
+          }
+          sectionHubLinks {
+            label
+            icon
+            url
+          }
+          showPWAInstall
+        }
   }
 }
 

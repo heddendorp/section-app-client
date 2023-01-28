@@ -3,39 +3,12 @@
 >
   <div class="flex w-full justify-center gap-6">
     <a
-      href="https://t.me/+GDxAsMO1m7VlZTBk"
+      *ngFor="let link of (tenantInfo$ | async)?.settings?.socialLinks"
+      [href]="link.url"
       target="_blank"
-      class="hover:text-slate-400"
+      class="hover:opacity-70"
     >
-      <mat-icon svgIcon="icon-telegram-app"></mat-icon>
-    </a>
-    <a
-      href="https://www.instagram.com/tumi.esn/"
-      target="_blank"
-      class="hover:text-slate-400"
-    >
-      <mat-icon svgIcon="icon-instagram-new"></mat-icon>
-    </a>
-    <a
-      href="https://www.youtube.com/channel/UCkzJDWIa9J6OqsvZXuGsh9w"
-      target="_blank"
-      class="hover:text-slate-400"
-    >
-      <mat-icon svgIcon="icon-youtube-play"></mat-icon>
-    </a>
-    <a
-      href="https://www.facebook.com/esntumi.munchen"
-      target="_blank"
-      class="hover:text-slate-400"
-    >
-      <mat-icon svgIcon="icon-facebook-new-2"></mat-icon>
-    </a>
-    <a
-      href="https://github.com/heddendorp/tumi"
-      target="_blank"
-      class="hover:text-slate-400"
-    >
-      <mat-icon svgIcon="icon-github"></mat-icon>
+      <img [src]="link.icon | iconURL" [alt]="link.label" class="h-6" />
     </a>
   </div>
   <div class="text-center text-xs">
