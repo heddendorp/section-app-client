@@ -17,7 +17,7 @@ Table Tenant {
   stripeConnectAccountId String
   stripeReducedTaxRate String
   stripeRegularTaxRate String
-  settings Json [not null, default: '{}']
+  settings Json [not null, default: '{"socialLinks":[],"sectionHubLinks":[],"showPWAInstall":false}']
   communicationEmail String [not null, default: 'questions@esn-tumi.de']
   organizers EventOrganizer [not null]
   eventTemplates EventTemplate [not null]
