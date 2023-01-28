@@ -11,12 +11,13 @@ Table Tenant {
   faqPage String
   imprintPage String [not null, default: '']
   privacyPolicyPage String [not null, default: '']
+  tacPage String
+  homePageLink String
   homePageStrategy HomePageStrategy [not null, default: 'STATIC']
   stripeConnectAccountId String
   stripeReducedTaxRate String
   stripeRegularTaxRate String
-  homePageLink String
-  tacPage String
+  settings Json [not null, default: '{}']
   organizers EventOrganizer [not null]
   eventTemplates EventTemplate [not null]
   eventTemplateCategories EventTemplateCategory [not null]
@@ -34,7 +35,6 @@ Table User {
   firstName String [not null]
   lastName String [not null]
   email String [not null]
-  communicationEmail String
   birthdate DateTime
   email_verified Boolean [not null]
   picture String [not null]
@@ -46,6 +46,12 @@ Table User {
   university String
   partyAnimals Boolean [not null, default: false]
   enrolmentStatus EnrollmentStatus [not null, default: 'NONE']
+  bio String
+  country String
+  homeUniversity String
+  instagram String
+  studyProgram String
+  communicationEmail String
   eventRegistrations EventRegistration [not null]
   photos PhotoShare [not null]
   productImages ProductImage [not null]
@@ -55,12 +61,6 @@ Table User {
   transactions Transaction [not null]
   createdEvents TumiEvent [not null]
   tenants UsersOfTenants [not null]
-  bio String
-  country String
-  homeUniversity String
-  instagram String
-  position String
-  studyProgram String
 
   Note: 'One User of the app'
 }
@@ -84,8 +84,8 @@ Table ShoppingCart {
   createdAt DateTime [default: `now()`, not null]
   usersOfTenantsTenantId String [not null]
   usersOfTenantsUserId String [not null]
-  userOfTenant UsersOfTenants [not null]
   items LineItem [not null]
+  userOfTenant UsersOfTenants [not null]
 
   indexes {
     (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
@@ -97,7 +97,6 @@ Table StripePayment {
   createdAt DateTime [default: `now()`, not null]
   amount Decimal [not null]
   checkoutSession String [unique, not null]
-  checkoutUrl String
   events Json [not null, note: 'Array of events with their timestamps']
   feeAmount Decimal
   netAmount Decimal
@@ -107,8 +106,9 @@ Table StripePayment {
   refundedAmount Decimal [default: 0]
   status String [not null]
   shipping Json
-  transactions Transaction [not null]
+  checkoutUrl String
   purchase Purchase
+  transactions Transaction [not null]
 }
 
 Table Transaction {
@@ -126,16 +126,16 @@ Table Transaction {
   amount Decimal [not null]
   onSendingBalance Boolean [not null, default: false]
   onReceivingBalance Boolean [not null, default: false]
-  receipts Receipt [not null]
-  createdBy User [not null]
-  tenant Tenant [not null]
-  user User
-  eventRegistration EventRegistration
   eventRegistrationId String
   purchaseId String
-  purchase Purchase
   stripePaymentId String
+  createdBy User [not null]
+  eventRegistration EventRegistration
+  purchase Purchase
   stripePayment StripePayment
+  tenant Tenant [not null]
+  user User
+  receipts Receipt [not null]
 }
 
 Table UsersOfTenants {
@@ -144,10 +144,11 @@ Table UsersOfTenants {
   tenantId String [not null]
   role Role [not null, default: 'USER']
   status MembershipStatus [not null, default: 'NONE']
-  tenant Tenant [not null]
-  user User [not null]
+  position String
   cart ShoppingCart
   stripeData StripeUserData
+  tenant Tenant [not null]
+  user User [not null]
 
   indexes {
     (userId, tenantId) [pk]
@@ -197,8 +198,8 @@ Table EventTemplateCategory {
   name String [not null]
   icon String [not null]
   tenantId String [not null]
-  tenant Tenant [not null]
   templates EventTemplate [not null]
+  tenant Tenant [not null]
 
   Note: 'Category to keep an overview of event templates'
 }
@@ -227,7 +228,6 @@ Table TumiEvent {
   coordinates Json
   prices Json
   registrationStart DateTime [default: `now()`, not null]
-  organizerRegistrationStart DateTime [default: `now()`, not null]
   insuranceDescription String [not null, default: '']
   shouldBeReportedToInsurance Boolean [not null, default: true]
   disableDeregistration Boolean [not null, default: false]
@@ -235,14 +235,15 @@ Table TumiEvent {
   excludeFromRatings Boolean [not null, default: false]
   googlePlaceId String
   googlePlaceUrl String
-  createdBy User [not null]
-  organizer EventOrganizer [not null]
-  eventTemplate EventTemplate [not null]
+  organizerRegistrationStart DateTime [default: `now()`, not null]
   costItems CostItem [not null]
   registrations EventRegistration [not null]
   eventRegistrationCodes EventRegistrationCode [not null]
   submissionItems EventSubmissionItem [not null]
   photoShares PhotoShare [not null]
+  createdBy User [not null]
+  organizer EventOrganizer [not null]
+  eventTemplate EventTemplate [not null]
 
   Note: 'Actual instande of an TumiEventbased on a template'
 }
@@ -260,9 +261,9 @@ Table Product {
   publicationState PublicationState [not null, default: 'DRAFT']
   needsShippingAddress Boolean [not null, default: false]
   isActive Boolean [not null, default: true]
-  tenant Tenant [not null]
   submissionItems EventSubmissionItem [not null]
   lineItems LineItem [not null]
+  tenant Tenant [not null]
   images ProductImage [not null]
 }
 
@@ -286,10 +287,10 @@ Table Purchase {
   userId String [not null]
   paymentId String [unique]
   cancellationReason String
-  payment StripePayment
-  transactions Transaction [not null]
-  user User [not null]
   items LineItem [not null]
+  payment StripePayment
+  user User [not null]
+  transactions Transaction [not null]
 }
 
 Table LineItem {
@@ -302,10 +303,10 @@ Table LineItem {
   purchaseId String
   quantity Int [not null, default: 1]
   shoppingCartId String
+  submissions EventSubmission [not null]
   product Product [not null]
   purchase Purchase
   cart ShoppingCart
-  submissions EventSubmission [not null]
 }
 
 Table CostItem {
@@ -316,11 +317,11 @@ Table CostItem {
   actualAmount Decimal
   amount Decimal [not null]
   calculationInfo String [not null]
-  completed Boolean [not null, default: false]
   details String
   onInvoice Boolean [not null]
   notSubsidized Boolean [not null, default: false]
   complete Boolean [not null, default: false]
+  completed Boolean [not null, default: false]
   event TumiEvent [not null]
   receipts Receipt [not null]
 }
@@ -337,6 +338,9 @@ Table Receipt {
   preview String
   type String
   confirmed Boolean [not null, default: false]
+  canBeSubsidized Boolean [not null, default: true]
+  countryCode String [not null, default: 'DE']
+  taxAmount Decimal [not null, default: 0]
   costItem CostItem [not null]
   user User [not null]
   transactions Transaction [not null]
@@ -373,9 +377,9 @@ Table EventRegistration {
   userComment String
   event TumiEvent [not null]
   eventRegistrationCode EventRegistrationCode
-  transactions Transaction [not null]
   user User [not null]
   submissions EventSubmission [not null]
+  transactions Transaction [not null]
 }
 
 Table EventRegistrationCode {
@@ -388,8 +392,8 @@ Table EventRegistrationCode {
   eventId String [not null]
   status RegistrationStatus [not null, default: 'PENDING']
   sepaAllowed Boolean [not null, default: false]
-  targetEvent TumiEvent [not null]
   connectedRegistrations EventRegistration [not null]
+  targetEvent TumiEvent [not null]
 }
 
 Table EventSubmissionItem {
@@ -403,9 +407,9 @@ Table EventSubmissionItem {
   type SubmissionItemType [not null]
   data Json
   productId String
+  submissions EventSubmission [not null]
   event TumiEvent
   product Product
-  submissions EventSubmission [not null]
 }
 
 Table EventSubmission {
@@ -559,15 +563,15 @@ Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenant
 
 Ref: Transaction.creatorId > User.id
 
-Ref: Transaction.tenantId > Tenant.id
-
-Ref: Transaction.userId > User.id
-
 Ref: Transaction.eventRegistrationId > EventRegistration.id
 
 Ref: Transaction.purchaseId > Purchase.id
 
 Ref: Transaction.stripePaymentId > StripePayment.id
+
+Ref: Transaction.tenantId > Tenant.id
+
+Ref: Transaction.userId > User.id
 
 Ref: UsersOfTenants.tenantId > Tenant.id
 

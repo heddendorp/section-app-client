@@ -1291,6 +1291,7 @@ export type User = {
   createdEvents: Array<TumiEvent>;
   createdEventsCount: Scalars['Int'];
   createdTransactions: Array<Transaction>;
+  /** @deprecated Use direct properties instead */
   currentTenant?: Maybe<UsersOfTenants>;
   email: Scalars['String'];
   emailVerified: Scalars['Boolean'];
@@ -1316,6 +1317,8 @@ export type User = {
   position?: Maybe<Scalars['String']>;
   profileComplete: Scalars['Boolean'];
   purchases: Array<Purchase>;
+  role: Role;
+  status: MembershipStatus;
   studyProgram?: Maybe<Scalars['String']>;
   transactions: Array<Transaction>;
   university?: Maybe<Scalars['String']>;

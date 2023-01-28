@@ -86,7 +86,19 @@ builder.mutationFields((t) => ({
       prisma.user.update({
         ...query,
         where: { id: args.userId },
-        data: { position: args.position },
+        data: {
+          tenants: {
+            update: {
+              where: {
+                userId_tenantId: {
+                  userId: args.userId,
+                  tenantId: context.tenant.id,
+                },
+              },
+              data: { position: args.position },
+            },
+          },
+        },
       }),
   }),
   updateUserPicture: t.prismaField({

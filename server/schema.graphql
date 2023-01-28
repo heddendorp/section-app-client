@@ -812,7 +812,7 @@ type User {
   createdEvents: [TumiEvent!]!
   createdEventsCount: Int!
   createdTransactions: [Transaction!]!
-  currentTenant(userId: ID): UsersOfTenants
+  currentTenant(userId: ID): UsersOfTenants @deprecated(reason: "Use direct properties instead")
   email: String!
   emailVerified: Boolean!
   enrolmentStatus: EnrolmentStatus!
@@ -837,6 +837,8 @@ type User {
   position: String
   profileComplete: Boolean!
   purchases(skipCancelled: Boolean = false): [Purchase!]!
+  role: Role!
+  status: MembershipStatus!
   studyProgram: String
   transactions: [Transaction!]!
   university: String

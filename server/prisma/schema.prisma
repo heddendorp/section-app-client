@@ -30,12 +30,13 @@ model Tenant {
   faqPage                 String?
   imprintPage             String                  @default("")
   privacyPolicyPage       String                  @default("")
+  tacPage                 String?
+  homePageLink            String?
   homePageStrategy        HomePageStrategy        @default(STATIC)
   stripeConnectAccountId  String?
   stripeReducedTaxRate    String?
   stripeRegularTaxRate    String?
-  homePageLink            String?
-  tacPage                 String?
+  settings                Json                    @default("{}")
   organizers              EventOrganizer[]
   eventTemplates          EventTemplate[]
   eventTemplateCategories EventTemplateCategory[]
@@ -53,7 +54,6 @@ model User {
   firstName           String
   lastName            String
   email               String
-  communicationEmail  String?
   birthdate           DateTime?
   email_verified      Boolean
   picture             String
@@ -65,6 +65,12 @@ model User {
   university          String?
   partyAnimals        Boolean             @default(false)
   enrolmentStatus     EnrollmentStatus    @default(NONE)
+  bio                 String?
+  country             String?
+  homeUniversity      String?
+  instagram           String?
+  studyProgram        String?
+  communicationEmail  String?
   eventRegistrations  EventRegistration[]
   photos              PhotoShare[]
   productImages       ProductImage[]
@@ -74,12 +80,6 @@ model User {
   transactions        Transaction[]
   createdEvents       TumiEvent[]
   tenants             UsersOfTenants[]
-  bio                 String?
-  country             String?
-  homeUniversity      String?
-  instagram           String?
-  position            String?
-  studyProgram        String?
 }
 
 model StripeUserData {
@@ -99,8 +99,8 @@ model ShoppingCart {
   createdAt              DateTime       @default(now())
   usersOfTenantsTenantId String         @db.Uuid
   usersOfTenantsUserId   String         @db.Uuid
-  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
   items                  LineItem[]
+  userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
 
   @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
 }
@@ -110,7 +110,6 @@ model StripePayment {
   createdAt         DateTime      @default(now())
   amount            Decimal
   checkoutSession   String        @unique
-  checkoutUrl       String?
   /// Array of events with their timestamps
   events            Json
   feeAmount         Decimal?
@@ -121,8 +120,9 @@ model StripePayment {
   refundedAmount    Decimal?      @default(0)
   status            String
   shipping          Json?
-  transactions      Transaction[]
+  checkoutUrl       String?
   purchase          Purchase?
+  transactions      Transaction[]
 }
 
 model Transaction {
@@ -140,16 +140,16 @@ model Transaction {
   amount              Decimal
   onSendingBalance    Boolean              @default(false)
   onReceivingBalance  Boolean              @default(false)
-  receipts            Receipt[]
-  createdBy           User                 @relation("TransactionCreator", fields: [creatorId], references: [id])
-  tenant              Tenant               @relation(fields: [tenantId], references: [id])
-  user                User?                @relation(fields: [userId], references: [id])
-  eventRegistration   EventRegistration?   @relation(fields: [eventRegistrationId], references: [id])
   eventRegistrationId String?              @db.Uuid
   purchaseId          String?              @db.Uuid
-  purchase            Purchase?            @relation(fields: [purchaseId], references: [id])
   stripePaymentId     String?              @db.Uuid
+  createdBy           User                 @relation("TransactionCreator", fields: [creatorId], references: [id])
+  eventRegistration   EventRegistration?   @relation(fields: [eventRegistrationId], references: [id])
+  purchase            Purchase?            @relation(fields: [purchaseId], references: [id])
   stripePayment       StripePayment?       @relation(fields: [stripePaymentId], references: [id])
+  tenant              Tenant               @relation(fields: [tenantId], references: [id])
+  user                User?                @relation(fields: [userId], references: [id])
+  receipts            Receipt[]            @relation("ReceiptToTransaction")
 }
 
 model UsersOfTenants {
@@ -158,10 +158,11 @@ model UsersOfTenants {
   tenantId   String           @db.Uuid
   role       Role             @default(USER)
   status     MembershipStatus @default(NONE)
-  tenant     Tenant           @relation(fields: [tenantId], references: [id])
-  user       User             @relation(fields: [userId], references: [id])
+  position   String?
   cart       ShoppingCart?
   stripeData StripeUserData?
+  tenant     Tenant           @relation(fields: [tenantId], references: [id])
+  user       User             @relation(fields: [userId], references: [id])
 
   @@id([userId, tenantId])
 }
@@ -209,8 +210,8 @@ model EventTemplateCategory {
   name      String
   icon      String
   tenantId  String          @db.Uuid
-  tenant    Tenant          @relation(fields: [tenantId], references: [id])
   templates EventTemplate[]
+  tenant    Tenant          @relation(fields: [tenantId], references: [id])
 }
 
 /// Actual instande of an TumiEventbased on a template
@@ -238,7 +239,6 @@ model TumiEvent {
   coordinates                 Json?
   prices                      Json?
   registrationStart           DateTime                @default(now())
-  organizerRegistrationStart  DateTime                @default(now())
   insuranceDescription        String                  @default("")
   shouldBeReportedToInsurance Boolean                 @default(true)
   disableDeregistration       Boolean                 @default(false)
@@ -246,14 +246,15 @@ model TumiEvent {
   excludeFromRatings          Boolean                 @default(false)
   googlePlaceId               String?
   googlePlaceUrl              String?
-  createdBy                   User                    @relation(fields: [creatorId], references: [id])
-  organizer                   EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
-  eventTemplate               EventTemplate           @relation(fields: [eventTemplateId], references: [id])
+  organizerRegistrationStart  DateTime                @default(now())
   costItems                   CostItem[]
   registrations               EventRegistration[]
   eventRegistrationCodes      EventRegistrationCode[]
   submissionItems             EventSubmissionItem[]
   photoShares                 PhotoShare[]
+  createdBy                   User                    @relation(fields: [creatorId], references: [id])
+  organizer                   EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
+  eventTemplate               EventTemplate           @relation(fields: [eventTemplateId], references: [id])
 }
 
 model Product {
@@ -269,9 +270,9 @@ model Product {
   publicationState     PublicationState      @default(DRAFT)
   needsShippingAddress Boolean               @default(false)
   isActive             Boolean               @default(true)
-  tenant               Tenant                @relation(fields: [tenantId], references: [id])
   submissionItems      EventSubmissionItem[]
   lineItems            LineItem[]
+  tenant               Tenant                @relation(fields: [tenantId], references: [id])
   images               ProductImage[]
 }
 
@@ -295,10 +296,10 @@ model Purchase {
   userId             String         @db.Uuid
   paymentId          String?        @unique @db.Uuid
   cancellationReason String?
-  payment            StripePayment? @relation(fields: [paymentId], references: [id])
-  transactions       Transaction[]
-  user               User           @relation(fields: [userId], references: [id])
   items              LineItem[]
+  payment            StripePayment? @relation(fields: [paymentId], references: [id])
+  user               User           @relation(fields: [userId], references: [id])
+  transactions       Transaction[]
 }
 
 model LineItem {
@@ -311,10 +312,10 @@ model LineItem {
   purchaseId         String?           @db.Uuid
   quantity           Int               @default(1)
   shoppingCartId     String?           @db.Uuid
+  submissions        EventSubmission[]
   product            Product           @relation(fields: [productId], references: [id])
   purchase           Purchase?         @relation(fields: [purchaseId], references: [id])
   cart               ShoppingCart?     @relation(fields: [shoppingCartId], references: [id])
-  submissions        EventSubmission[]
 }
 
 model CostItem {
@@ -325,30 +326,33 @@ model CostItem {
   actualAmount    Decimal?
   amount          Decimal
   calculationInfo String
-  completed       Boolean   @default(false)
   details         String?
   onInvoice       Boolean
   notSubsidized   Boolean   @default(false)
   complete        Boolean   @default(false)
+  completed       Boolean   @default(false)
   event           TumiEvent @relation(fields: [eventId], references: [id])
   receipts        Receipt[]
 }
 
 model Receipt {
-  id           String        @id @default(uuid()) @db.Uuid
-  createdAt    DateTime      @default(now())
-  userId       String        @db.Uuid
-  costItemId   String        @db.Uuid
-  amount       Decimal
-  blob         String
-  container    String
-  md5          String?
-  preview      String?
-  type         String?
-  confirmed    Boolean       @default(false)
-  costItem     CostItem      @relation(fields: [costItemId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id              String        @id @default(uuid()) @db.Uuid
+  createdAt       DateTime      @default(now())
+  userId          String        @db.Uuid
+  costItemId      String        @db.Uuid
+  amount          Decimal
+  blob            String
+  container       String
+  md5             String?
+  preview         String?
+  type            String?
+  confirmed       Boolean       @default(false)
+  canBeSubsidized Boolean       @default(true)
+  countryCode     String        @default("DE")
+  taxAmount       Decimal       @default(0)
+  costItem        CostItem      @relation(fields: [costItemId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+  transactions    Transaction[] @relation("ReceiptToTransaction")
 }
 
 model PhotoShare {
@@ -382,9 +386,9 @@ model EventRegistration {
   userComment           String?
   event                 TumiEvent              @relation(fields: [eventId], references: [id])
   eventRegistrationCode EventRegistrationCode? @relation(fields: [registrationCodeId], references: [id])
-  transactions          Transaction[]
   user                  User                   @relation(fields: [userId], references: [id])
   submissions           EventSubmission[]
+  transactions          Transaction[]
 }
 
 model EventRegistrationCode {
@@ -397,8 +401,8 @@ model EventRegistrationCode {
   eventId                String              @db.Uuid
   status                 RegistrationStatus  @default(PENDING)
   sepaAllowed            Boolean             @default(false)
-  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   connectedRegistrations EventRegistration[]
+  targetEvent            TumiEvent           @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model EventSubmissionItem {
@@ -412,9 +416,9 @@ model EventSubmissionItem {
   type           SubmissionItemType
   data           Json?
   productId      String?            @db.Uuid
+  submissions    EventSubmission[]
   event          TumiEvent?         @relation(fields: [eventId], references: [id])
   product        Product?           @relation(fields: [productId], references: [id])
-  submissions    EventSubmission[]
 }
 
 model EventSubmission {

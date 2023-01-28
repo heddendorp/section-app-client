@@ -103,12 +103,11 @@ builder.prismaObject('Tenant', {
           where: {
             tenantId: tenant.id,
             status: { not: MembershipStatus.NONE },
-            user: {
-              position: { not: null },
-            },
+            position: { not: null },
           },
           select: {
             status: true,
+            position: true,
             user: {
               select: {
                 id: true,
@@ -116,14 +115,11 @@ builder.prismaObject('Tenant', {
                 lastName: true,
                 picture: true,
                 birthdate: true,
-                position: true,
               },
             },
           },
           orderBy: {
-            user: {
-              position: 'asc',
-            },
+            position: 'asc',
           },
         });
 

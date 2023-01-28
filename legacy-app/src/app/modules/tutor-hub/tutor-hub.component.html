@@ -277,7 +277,7 @@
         *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4"
       >
         <div *ngFor="let tenantUser of tutorHubData.usersWithPositions">
-          <div class="mb-0.5 font-medium">{{ tenantUser.user.position }}</div>
+          <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
           <app-user-chip
             size="xs"
             [id]="tenantUser.user.id"

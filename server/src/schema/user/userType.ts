@@ -1,16 +1,20 @@
 import { builder } from '../../builder';
 import {
   EnrollmentStatus,
+  MembershipStatus,
   PurchaseStatus,
   RegistrationStatus,
   RegistrationType,
+  Role,
 } from '../../generated/prisma';
 import { DateTime } from 'luxon';
 import prisma from '../../client';
 import ScopeService from '../../helpers/scopeService';
 
 builder.prismaObject('User', {
-  findUnique: (user) => ({ id: user.id }),
+  include: {
+    tenants: true,
+  },
   grantScopes: async (user, context) =>
     ScopeService.getScopesForUser(user.id, context),
   fields: (t) => ({
@@ -89,7 +93,24 @@ builder.prismaObject('User', {
     country: t.exposeString('country', { nullable: true }),
     homeUniversity: t.exposeString('homeUniversity', { nullable: true }),
     instagram: t.exposeString('instagram', { nullable: true }),
-    position: t.exposeString('position', { nullable: true }),
+    position: t.string({
+      nullable: true,
+      resolve: (user, context) =>
+        user.tenants.find((tenant) => tenant.tenantId === context.tenantId)
+          ?.position,
+    }),
+    status: t.field({
+      type: MembershipStatus,
+      resolve: (user, context) =>
+        user.tenants.find((tenant) => tenant.tenantId === context.tenantId)
+          ?.status ?? MembershipStatus.NONE,
+    }),
+    role: t.field({
+      type: Role,
+      resolve: (user, context) =>
+        user.tenants.find((tenant) => tenant.tenantId === context.tenantId)
+          ?.role ?? Role.USER,
+    }),
     studyProgram: t.exposeString('studyProgram', { nullable: true }),
     purchases: t.relation('purchases', {
       args: {
@@ -151,6 +172,7 @@ builder.prismaObject('User', {
       },
     }),
     currentTenant: t.prismaField({
+      deprecationReason: 'Use direct properties instead',
       type: 'UsersOfTenants',
       nullable: true,
       args: { userId: t.arg.id() },
