@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import {
   EventListGQL,
   EventListQuery,
+  GetCurrentUserInfoGQL,
   GetTenantInfoGQL,
   GetTenantInfoQuery,
   Role,
@@ -77,6 +78,7 @@ export class EventListPageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private getTenantInfo: GetTenantInfoGQL,
+    private getCurrentUserInfoGQL: GetCurrentUserInfoGQL,
     private dialog: MatDialog,
     private permissionsService: PermissionsService
   ) {
@@ -169,9 +171,11 @@ export class EventListPageComponent implements OnDestroy {
 
     const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
     this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
-    this.outstandingRating$ = tenantChanges.pipe(
-      map(({ data }) => data.currentUser?.outstandingRating ?? false)
-    );
+    this.outstandingRating$ = this.getCurrentUserInfoGQL
+      .watch()
+      .valueChanges.pipe(
+        map(({ data }) => data.currentUser?.outstandingRating ?? false)
+      );
 
     if (router.url.includes('codes')) {
       this.showCodesDialog();
@@ -194,7 +198,7 @@ export class EventListPageComponent implements OnDestroy {
       newSelectedView = 'list';
     }
     this.eventListStateService.setSelectedView(newSelectedView);
-    this.router.navigateByUrl(
+    void this.router.navigateByUrl(
       this.router.url.replace(selectedView, newSelectedView)
     );
     setTimeout(() => {
