@@ -12,6 +12,7 @@ COPY .yarn .yarn/
 
 RUN yarn workspace @tumi/server install
 COPY server server/
+COPY shared shared/
 # If you are building your code for production
 ARG DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 RUN yarn workspace @tumi/server build:production
