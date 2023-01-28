@@ -66,7 +66,7 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
     BrowserAnimationsModule,
     MatLuxonDateModule,
     AuthModule.forRoot({
-      domain: 'tumi.eu.auth0.com',
+      domain: 'auth.esn.world',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
       cacheLocation: 'localstorage',
       useRefreshTokens: true,
