@@ -3,13 +3,25 @@
   data-testid="navigation"
   (click)="preventProp($event)"
 >
-  <a
-    matRipple
-    class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
-    routerLink="/events"
-  >
-    <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
-  </a>
+  <ng-container *ngIf="tenantInfo$ | async as tenant">
+    <a
+      *ngIf="tenant?.settings?.brandIconUrl as brandIconUrl; else defaultLogo"
+      matRipple
+      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+      routerLink="/events"
+    >
+      <img class="p-4" [src]="brandIconUrl" alt="ESN Star" />
+    </a>
+    <ng-template #defaultLogo>
+      <a
+        matRipple
+        class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+        routerLink="/events"
+      >
+        <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+      </a>
+    </ng-template>
+  </ng-container>
   <div
     class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
   >

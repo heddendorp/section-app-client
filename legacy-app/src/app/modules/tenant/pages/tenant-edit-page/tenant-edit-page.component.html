@@ -43,6 +43,14 @@
         />
       </mat-form-field>
       <ng-container formGroupName="settings">
+        <mat-form-field class="w-full">
+          <mat-label>Brand Icon URL</mat-label>
+          <input
+            matInput
+            placeholder="Icon to display in the top left"
+            formControlName="brandIconUrl"
+          />
+        </mat-form-field>
         <mat-checkbox formControlName="showPWAInstall" class="w-full">
           Show App download button
         </mat-checkbox>

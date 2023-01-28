@@ -613,6 +613,7 @@ type Tenant {
 }
 
 type TenantSettings {
+  brandIconUrl: String
   sectionHubLinks: [ResourceLink!]!
   showPWAInstall: Boolean!
   socialLinks: [ResourceLink!]!
@@ -809,6 +810,7 @@ input UpdateTenantInput {
 }
 
 input UpdateTenantSettingsInput {
+  brandIconUrl: String
   sectionHubLinks: [UpdateResourceLinkInput!]
   showPWAInstall: Boolean
   socialLinks: [UpdateResourceLinkInput!]

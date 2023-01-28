@@ -12,5 +12,6 @@ export const tenantSettingsType = builder.simpleObject('TenantSettings', {
     socialLinks: t.field({ type: [resourceLinkType] }),
     sectionHubLinks: t.field({ type: [resourceLinkType] }),
     showPWAInstall: t.boolean(),
+    brandIconUrl: t.string({ nullable: true }),
   }),
 });

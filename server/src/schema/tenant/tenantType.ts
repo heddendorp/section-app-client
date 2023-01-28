@@ -9,8 +9,8 @@ import {
   RegistrationType,
 } from '../../generated/prisma';
 import { dateRangeInputType } from '../helperFunctions';
-import { TenantSettings } from '@tumi/schemas';
 import { tenantSettingsType } from './objects';
+import { TenantSettings } from '../../schemas';
 
 builder.prismaObject('Tenant', {
   fields: (t) => ({

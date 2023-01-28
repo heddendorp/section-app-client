@@ -175,6 +175,7 @@ query getTenantForEdit {
         url
       }
       showPWAInstall
+      brandIconUrl
     }
   }
 }
@@ -367,6 +368,7 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
             icon
             url
           }
+          brandIconUrl
           showPWAInstall
         }
   }
