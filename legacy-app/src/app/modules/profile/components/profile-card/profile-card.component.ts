@@ -31,10 +31,10 @@ export class ProfileCardComponent {
   ) {
     if (!!position || !status) return position;
     if (status === MembershipStatus.Trial) {
-      return 'TUMi Tutor (Trial Member)';
+      return 'Section Member (Trial Member)';
     }
     if (status === MembershipStatus.Full) {
-      return 'TUMi Tutor';
+      return 'Section Member';
     }
     return null;
   }
