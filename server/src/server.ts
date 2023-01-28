@@ -226,7 +226,7 @@ app.use(cors());
 app.get('/health', (req, res) => {
   res.sendStatus(200);
 });
-app.use('/webhooks', webhookRouter(prisma));
+app.use('/webhooks', webhookRouter());
 app.use(express.json());
 app.use('/cal', calendarRouter());
 app.use('/qr', qrRouter());

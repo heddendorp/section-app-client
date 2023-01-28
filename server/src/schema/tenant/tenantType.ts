@@ -9,14 +9,16 @@ import {
   RegistrationType,
 } from '../../generated/prisma';
 import { dateRangeInputType } from '../helperFunctions';
+import { TenantSettings } from '@tumi/schemas';
+import { tenantSettingsType } from './objects';
 
 builder.prismaObject('Tenant', {
-  findUnique: (tenant) => ({ id: tenant.id }),
   fields: (t) => ({
     id: t.exposeID('id'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     name: t.exposeString('name'),
     shortName: t.exposeString('shortName'),
+    communicationEmail: t.exposeString('communicationEmail'),
     organizers: t.relation('organizers'),
     users: t.relation('users'),
     imprintPage: t.exposeString('imprintPage'),
@@ -26,6 +28,10 @@ builder.prismaObject('Tenant', {
     tacPage: t.exposeString('tacPage', { nullable: true }),
     homePageStrategy: t.expose('homePageStrategy', { type: HomePageStrategy }),
     homePageLink: t.exposeString('homePageLink', { nullable: true }),
+    settings: t.field({
+      type: tenantSettingsType,
+      resolve: (tenant) => tenant.settings as TenantSettings,
+    }),
 
     tutorHub: t.field({
       type: 'JSON',
@@ -157,7 +163,6 @@ builder.prismaObject('Tenant', {
         } as any;
       },
     }),
-
     tutorHubEvents: t.field({
       type: 'JSON',
       args: {

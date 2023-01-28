@@ -948,6 +948,13 @@ export enum RegistrationType {
   Participant = 'PARTICIPANT'
 }
 
+export type ResourceLink = {
+  __typename?: 'ResourceLink';
+  icon: Scalars['String'];
+  label: Scalars['String'];
+  url: Scalars['String'];
+};
+
 export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
@@ -1035,6 +1042,7 @@ export enum SubmissionTime {
 export type Tenant = {
   __typename?: 'Tenant';
   aboutPage: Scalars['String'];
+  communicationEmail: Scalars['String'];
   createdAt: Scalars['DateTime'];
   faqPage?: Maybe<Scalars['String']>;
   homePageLink?: Maybe<Scalars['String']>;
@@ -1044,6 +1052,7 @@ export type Tenant = {
   name: Scalars['String'];
   organizers: Array<EventOrganizer>;
   privacyPolicyPage: Scalars['String'];
+  settings: TenantSettings;
   shortName: Scalars['String'];
   tacPage?: Maybe<Scalars['String']>;
   tutorHub: Scalars['JSON'];
@@ -1054,6 +1063,13 @@ export type Tenant = {
 
 export type TenantTutorHubEventsArgs = {
   range?: InputMaybe<DateRangeInput>;
+};
+
+export type TenantSettings = {
+  __typename?: 'TenantSettings';
+  sectionHubLinks: Array<ResourceLink>;
+  showPWAInstall: Scalars['Boolean'];
+  socialLinks: Array<ResourceLink>;
 };
 
 export type Transaction = {
@@ -1235,6 +1251,12 @@ export type UpdateGeneralEventInput = {
   participantText?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateResourceLinkInput = {
+  icon?: InputMaybe<Scalars['String']>;
+  label?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateTemplateInput = {
   comment?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
@@ -1256,12 +1278,20 @@ export type UpdateTemplateLocationInput = {
 
 export type UpdateTenantInput = {
   aboutPage?: InputMaybe<Scalars['String']>;
+  communicationEmail?: InputMaybe<Scalars['String']>;
   faqPage?: InputMaybe<Scalars['String']>;
   homePageLink?: InputMaybe<Scalars['String']>;
   homePageStrategy?: InputMaybe<HomePageStrategy>;
   imprintPage?: InputMaybe<Scalars['String']>;
   privacyPolicyPage?: InputMaybe<Scalars['String']>;
+  settings?: InputMaybe<UpdateTenantSettingsInput>;
   tacPage?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateTenantSettingsInput = {
+  sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
+  showPWAInstall?: InputMaybe<Scalars['Boolean']>;
+  socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
 };
 
 export type UpdateUserInput = {
