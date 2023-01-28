@@ -124,7 +124,7 @@ const graphQLServer = createYoga({
       token: process.env.HIVE_TOKEN ?? '',
     }),
     useAuth0({
-      domain: 'tumi.eu.auth0.com',
+      domain: 'auth.esn.world',
       audience: 'esn.events',
       extendContextField: 'token',
     }),

@@ -8,22 +8,11 @@
     (edit)="updateProfile()"
     [hideEditButton]="false"
   ></app-profile-card>
-  <div
-    class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2"
-    gdAuto
-    gdColumns="100%"
-    gdColumns.gt-sm="calc(50% - 0.5rem) calc(50% - 0.5rem)"
-    gdGap="1rem"
-  >
+  <div class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
     <div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-6 flex flex-row items-center"
-      >
+      <div class="mb-6 flex flex-row items-center">
         <mat-icon
           svgIcon="icon-contact-card"
           class="text-secondary-default bg-secondary-on card-icon"
@@ -31,13 +20,13 @@
         </mat-icon>
         <h2 class="font-bold">Private Information</h2>
       </div>
-      <div gdAuto gdColumns="1fr 2fr" gdGap="0 1rem" class="mb-2">
+      <div class="mb-2 grid grid-cols-[1fr_2fr] gap-x-4">
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
         <p>Phone:</p>
         <p>{{ profile.phone ?? 'not saved' }}</p>
         <p>Birthday:</p>
-        <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
+        <p>{{ profile.birthdate | date : 'mediumDate' }}</p>
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
         <button
@@ -77,7 +66,7 @@
           class="mr-2 min-w-[18] max-w-[18px]"
         ></mat-icon>
         <span class="truncate">
-          https://tumi.esn.world/cal/private/{{ profile.calendarToken }}
+          https://{{ hostName }}/cal/private/{{ profile.calendarToken }}
         </span>
       </p>
 
@@ -95,12 +84,7 @@
     <div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
     >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-6"
-      >
+      <div class="mb-6 flex flex-row items-center">
         <mat-icon
           svgIcon="icon-membership-card"
           class="text-secondary-default bg-secondary-on card-icon"
@@ -139,12 +123,7 @@
       *ngIf="(eventsToRate$ | async)?.length"
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
     >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-6"
-      >
+      <div class="mb-6 flex flex-row items-center">
         <mat-icon
           svgIcon="icon-star"
           class="text-secondary-default bg-secondary-on card-icon"
@@ -155,11 +134,7 @@
         Please take a little time to rate these events you took part in so we
         can improve.
       </p>
-      <div
-        fxLayout="column"
-        fxLayoutGap="1rem"
-        *ngIf="eventsToRate$ | async as events"
-      >
+      <div class="flex flex-col gap-4" *ngIf="eventsToRate$ | async as events">
         <app-rate-event
           *ngFor="let event of events"
           [event]="event"
@@ -192,12 +167,7 @@
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
       *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
     >
-      <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="1rem"
-        class="mb-6"
-      >
+      <div class="mb-6 flex flex-row items-center">
         <mat-icon
           svgIcon="icon-conference"
           class="text-secondary-default card-icon bg-white"

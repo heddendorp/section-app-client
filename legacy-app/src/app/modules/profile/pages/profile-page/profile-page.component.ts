@@ -45,6 +45,7 @@ export class ProfilePageComponent implements OnDestroy {
   public uploadProgress$ = new BehaviorSubject(0);
   public uploadMode$ = new BehaviorSubject<ProgressBarMode>('indeterminate');
   public uploading$ = new BehaviorSubject(false);
+  public hostName;
   constructor(
     private title: Title,
     private profileQuery: UserProfileGQL,
@@ -60,6 +61,7 @@ export class ProfilePageComponent implements OnDestroy {
     private updateUserPictureGQL: UpdateUserPictureGQL,
     @Inject(DOCUMENT) public document: Document
   ) {
+    this.hostName = this.document.location.hostname;
     this.title.setTitle('Profile - TUMi');
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
