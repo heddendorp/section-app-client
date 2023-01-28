@@ -27,7 +27,11 @@ import {
   MatSnackBar,
 } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import {
+  AuthHttpInterceptor,
+  AuthModule,
+  AuthService,
+} from '@auth0/auth0-angular';
 import { MarkdownModule } from 'ngx-markdown';
 import {
   ServiceWorkerModule,
@@ -107,7 +111,7 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
     },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpBatchLink) => {
+      useFactory: (httpLink: HttpBatchLink, authService: AuthService) => {
         const http = httpLink.create({
           uri: environment.useApiPath
             ? '/graphql'
@@ -130,15 +134,18 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
               type: 'error',
               data: graphQLErrors,
             });
-            graphQLErrors.map(({ message, locations, path }) =>
+            graphQLErrors.map(({ message, locations, path }) => {
+              if (message.includes('jwt issuer invalid')) {
+                authService.logout();
+              }
               console.log(
                 `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
                   locations,
                   null,
                   2
                 )}, Path: ${path}`
-              )
-            );
+              );
+            });
           }
 
           if (networkError) {
@@ -162,7 +169,7 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
           cache,
         };
       },
-      deps: [HttpBatchLink],
+      deps: [HttpBatchLink, AuthService],
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
