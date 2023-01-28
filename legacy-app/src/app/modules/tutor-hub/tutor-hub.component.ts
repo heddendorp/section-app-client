@@ -30,6 +30,9 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   public tutorHubData$: Observable<
     GetTutorHubInfoQuery['currentTenant']['tutorHub']
   >;
+  public resourceLinks$: Observable<
+    GetTutorHubInfoQuery['currentTenant']['settings']['sectionHubLinks']
+  >;
   public events$: Observable<
     GetTutorHubEventsQuery['currentTenant']['tutorHubEvents']
   >;
@@ -56,6 +59,9 @@ export class TutorHubComponent implements OnInit, OnDestroy {
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
     this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
       map(({ data }) => data.currentTenant.tutorHub)
+    );
+    this.resourceLinks$ = getTutorHubInfoRef.valueChanges.pipe(
+      map(({ data }) => data.currentTenant.settings.sectionHubLinks)
     );
 
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch();

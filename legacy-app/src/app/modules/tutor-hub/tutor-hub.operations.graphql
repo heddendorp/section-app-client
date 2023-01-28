@@ -3,6 +3,13 @@ query getTutorHubInfo {
     id
     name
     tutorHub
+    settings {
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
   }
 }
 

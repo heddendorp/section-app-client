@@ -107,14 +107,17 @@
       <mat-icon svgIcon="icon-maintenance" matRipple></mat-icon>
       <span>Management</span>
     </a>
-    <button
-      class="nav-item"
-      *ngIf="installEvent$ | async as event"
-      (click)="event.prompt()"
-    >
-      <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
-      <span>Install the TUMi app</span>
-    </button>
+    <ng-container *ngIf="(tenantInfo$ | async)?.settings?.showPWAInstall">
+      <button
+        class="nav-item"
+        *ngIf="installEvent$ | async as event"
+        (click)="event.prompt()"
+      >
+        <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
+        <span>Install the TUMi app</span>
+      </button>
+    </ng-container>
+
     <div class="hidden flex-1 sm:block"></div>
     <a
       class="nav-item flex justify-center sm:px-1"
