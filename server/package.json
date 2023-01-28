@@ -70,7 +70,8 @@
     "redis": "^4.5.1",
     "sharp": "^0.31.3",
     "stripe": "^10.17.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.4.1",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@apollo/utils.logger": "^2.0.0",

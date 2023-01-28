@@ -1,5 +1,5 @@
 import { PrismaClient } from './generated/prisma';
-import { TenantSettings } from '@tumi/schemas';
+import { TenantSettings } from './schemas';
 
 const prisma = new PrismaClient({
   errorFormat: 'pretty',

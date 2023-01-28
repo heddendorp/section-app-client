@@ -8,6 +8,7 @@ query getTenantInfo {
     communicationEmail
     settings {
       showPWAInstall
+      brandIconUrl
       socialLinks {
         icon
         url

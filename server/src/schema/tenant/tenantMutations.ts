@@ -37,6 +37,7 @@ const updateTenantSettingsInputType = builder.inputType(
       socialLinks: t.field({ type: [updateResourceLinkInputType] }),
       sectionHubLinks: t.field({ type: [updateResourceLinkInputType] }),
       showPWAInstall: t.boolean(),
+      brandIconUrl: t.string({ required: false }),
     }),
   }
 );

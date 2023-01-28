@@ -46,6 +46,7 @@ export class TenantEditPageComponent {
         socialLinks: this.fb.array([]),
         sectionHubLinks: this.fb.array([]),
         showPWAInstall: [false, Validators.required],
+        brandIconUrl: [''],
       }),
     });
     this.tenant$ = this.loadTenant.fetch().pipe(
@@ -110,6 +111,10 @@ export class TenantEditPageComponent {
             faqPage: formValue.faqPage || null,
             tacPage: formValue.tacPage || null,
             homePageLink: formValue.homePageLink || null,
+            settings: {
+              ...formValue.settings,
+              brandIconUrl: formValue.settings.brandIconUrl || undefined,
+            },
           },
         })
         .toPromise();
