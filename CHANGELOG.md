@@ -1,3 +1,12 @@
+## [5.6.1](https://github.com/heddendorp/tumi/compare/v5.6.0...v5.6.1) (2023-01-31)
+
+
+### Bug Fixes
+
+* update incompatible version ([9c531c8](https://github.com/heddendorp/tumi/commit/9c531c841e8aee299f7530a0a10d76e39eb1edd8))
+
+
+
 # [5.6.0](https://github.com/heddendorp/tumi/compare/v5.5.1...v5.6.0) (2023-01-31)
 
 
