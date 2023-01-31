@@ -35,8 +35,8 @@ builder.queryFields((t) => ({
           targetEvent: {
             eventTemplate: {
               tenant: { id: context.tenant.id },
-              ...(includePassed ? {} : { start: { gt: new Date() } }),
             },
+            ...(includePassed ? {} : { start: { gt: new Date() } }),
           },
           ...(includePrivate ? {} : { isPublic: true }),
           ...(includeUsed ? {} : { registrationCreatedId: null }),
