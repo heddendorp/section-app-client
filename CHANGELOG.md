@@ -1,3 +1,32 @@
+# [5.6.0](https://github.com/heddendorp/tumi/compare/v5.5.1...v5.6.0) (2023-01-31)
+
+
+### Bug Fixes
+
+* **app:** Remove event receipt upload warning text ([d0035ac](https://github.com/heddendorp/tumi/commit/d0035acb9a7ea1b9cd6e13a0a4d6d1a900ba62f5)), closes [#606](https://github.com/heddendorp/tumi/issues/606)
+* **app:** Update titles and other meta to not say TUMi ([9509b84](https://github.com/heddendorp/tumi/commit/9509b849d5b33779fa20c041a2a4b23969cfd88f)), closes [#604](https://github.com/heddendorp/tumi/issues/604)
+* load tenant config if not authenticated ([d25769c](https://github.com/heddendorp/tumi/commit/d25769ce6400823fcc8070bc06a0b3902e63b69a))
+* resolve tenant for karlsruhe ([8f0c9e6](https://github.com/heddendorp/tumi/commit/8f0c9e63cfc5c601502cfffbc84d84326c4bd83e))
+* **server:** admins should have the member permission ([39d5a87](https://github.com/heddendorp/tumi/commit/39d5a875fa78a8b535b4afe696bb81485f3a045c))
+* **server:** make sure registration codes can be loaded ([13a918b](https://github.com/heddendorp/tumi/commit/13a918b64231636f5728b26727afe3d6d26bc8f3))
+* **server:** make sure to only pass on integers to stripe ([debcfd0](https://github.com/heddendorp/tumi/commit/debcfd002245eb25e0d7316fcf2623df4db4da4b))
+* **server:** make sure to only pass on integers to stripe ([63bddc3](https://github.com/heddendorp/tumi/commit/63bddc3929b7984f80a7d57f089aecb68c5e139d))
+* **server:** make sure to only pass on integers to stripe ([84fffcc](https://github.com/heddendorp/tumi/commit/84fffcc20dac401e42050103736fd01f85bd9211))
+* **server:** prevent overbooking ([246c5b3](https://github.com/heddendorp/tumi/commit/246c5b3cbfe5706904a8ef2ee7da4fe1a6001a81))
+* **server:** set correct return url for stripe ([0b7555e](https://github.com/heddendorp/tumi/commit/0b7555e0d036b9d9a1e2b6571f6182302aa803c0))
+
+
+### Features
+
+* add option to change the brand icon ([f345427](https://github.com/heddendorp/tumi/commit/f345427b0ee4f3ff83fc4b4b1b5ef14ec7bdc483))
+* Add static home page for augsburg ([c611987](https://github.com/heddendorp/tumi/commit/c61198786723c99abf9f92227239b3e396592635)), closes [#602](https://github.com/heddendorp/tumi/issues/602)
+* Allow changing social and resource links ([8030faf](https://github.com/heddendorp/tumi/commit/8030fafdba72d07ad860168d5859fb58c36c8809)), closes [#608](https://github.com/heddendorp/tumi/issues/608) [#609](https://github.com/heddendorp/tumi/issues/609) [#610](https://github.com/heddendorp/tumi/issues/610)
+* Allow setting a contact email ([f2a523b](https://github.com/heddendorp/tumi/commit/f2a523ba923622637427a43bd8a0a90e12caafcf)), closes [#611](https://github.com/heddendorp/tumi/issues/611)
+* **app:** Add more universities ([0fe14fb](https://github.com/heddendorp/tumi/commit/0fe14fbe2a63871755b19d173e09751848917bbe)), closes [#600](https://github.com/heddendorp/tumi/issues/600)
+* update to angular 15.1 ([53c176d](https://github.com/heddendorp/tumi/commit/53c176d17eba1716a637dc558e1ca65dee58a0eb))
+
+
+
 ## [5.5.1](https://github.com/heddendorp/tumi/compare/v5.5.0...v5.5.1) (2022-11-09)
 
 
