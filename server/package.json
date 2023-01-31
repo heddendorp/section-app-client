@@ -80,7 +80,7 @@
     "@types/copyfiles": "^2.4.1",
     "@types/cors": "^2.8.13",
     "@types/eslint": "^8.4.10",
-    "@types/express": "4.17.15",
+    "@types/express": "4.17.16",
     "@types/express-jwt": "^7.4.2",
     "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.1",
