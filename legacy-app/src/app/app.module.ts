@@ -73,7 +73,7 @@ import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';
       domain: 'auth.esn.world',
       clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
       cacheLocation: 'localstorage',
-      useRefreshTokens: true,
+      // useRefreshTokens: true,
       authorizationParams: {
         audience: 'esn.events',
         redirect_uri: window.location.origin,
