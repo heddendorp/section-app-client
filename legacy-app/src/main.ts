@@ -19,7 +19,9 @@ if (environment.production) {
       release: 'legacy-app@' + environment.version,
       integrations: [
         new BrowserTracing({
-          tracingOrigins: ['localhost', 'tumi.esn.world', /^\//],
+          shouldCreateSpanForRequest(): boolean {
+            return true;
+          },
           routingInstrumentation: Sentry.routingInstrumentation,
         }),
       ],

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+} from '@angular/core';
 import {
   CheckInUserGQL,
   CreateEventRegistrationCodeGQL,
@@ -21,6 +26,7 @@ import {
   animate,
   style,
 } from '@angular/animations';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-event-manage-page',
@@ -64,7 +70,8 @@ export class EventManagePageComponent implements OnDestroy {
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute,
     private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
-    private restorePaymentGQL: RestorePaymentGQL
+    private restorePaymentGQL: RestorePaymentGQL,
+    @Inject(DOCUMENT) protected document: Document
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
@@ -220,7 +227,7 @@ export class EventManagePageComponent implements OnDestroy {
       '+',
       ''
     )}?text=${encodeURIComponent(
-      `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at https://tumi.esn.world/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`
+      `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at ${document.location.origin}/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`
     )}`;
     return url;
   }

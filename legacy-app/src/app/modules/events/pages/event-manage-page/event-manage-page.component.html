@@ -41,7 +41,7 @@
         <tbody class="select-all">
           <tr *ngFor="let costItem of event.costItems; let i = index">
             <ng-container *ngIf="i === 0">
-              <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
+              <td>{{ event.start | date : 'dd.MM.yyyy' }}</td>
               <td>{{ event.title }}</td>
             </ng-container>
             <ng-container *ngIf="i !== 0">
@@ -49,10 +49,10 @@
               <td></td>
             </ng-container>
             <td>{{ costItem.name }}</td>
-            <td>{{ costItem.submittedAmount | currency: 'EUR' }}</td>
+            <td>{{ costItem.submittedAmount | currency : 'EUR' }}</td>
           </tr>
           <tr *ngIf="event.costItems.length === 0">
-            <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
+            <td>{{ event.start | date : 'dd.MM.yyyy' }}</td>
             <td>{{ event.title }}</td>
             <td></td>
             <td></td>
@@ -62,7 +62,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ event.netAmountCollected | currency: 'EUR' }}</td>
+            <td>{{ event.netAmountCollected | currency : 'EUR' }}</td>
           </tr>
           <tr>
             <td></td>
@@ -73,7 +73,7 @@
             <td>
               {{
                 event.submittedSpend - event.netAmountCollected
-                  | currency: 'EUR'
+                  | currency : 'EUR'
               }}
             </td>
           </tr>
@@ -137,14 +137,14 @@
             <th mat-header-cell *matHeaderCellDef>Paid</th>
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-slate-200">
-                {{ registration.balance | currency: 'EUR' }}
+                {{ registration.balance | currency : 'EUR' }}
               </span>
             </td>
           </ng-container>
           <ng-container matColumnDef="registered">
             <th mat-header-cell *matHeaderCellDef>Registered</th>
             <td mat-cell *matCellDef="let registration">
-              {{ registration.createdAt | date: 'short' }}
+              {{ registration.createdAt | date : 'short' }}
             </td>
           </ng-container>
 
@@ -152,7 +152,7 @@
             <th mat-header-cell *matHeaderCellDef>Check in</th>
             <td mat-cell *matCellDef="let registration">
               <div *ngIf="registration.checkInTime">
-                {{ registration.checkInTime | date: 'short' }}
+                {{ registration.checkInTime | date : 'short' }}
               </div>
               <button
                 *ngIf="!registration.checkInTime"
@@ -351,7 +351,7 @@
       <mat-list>
         <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
           <h3 mat-line>
-            Registration code ({{ code.createdAt | date: 'short' }})
+            Registration code ({{ code.createdAt | date : 'short' }})
           </h3>
           <p mat-line>
             {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
@@ -368,11 +368,7 @@
           <p mat-line>
             Link for registration:
             <span class="select-all font-mono">
-              {{
-                environment.production
-                  ? 'https://tumi.esn.world/'
-                  : 'localhost:4200/'
-              }}profile?code={{ code.id }}
+              {{ document.location.origin }}profile?code={{ code.id }}
             </span>
           </p>
         </mat-list-item>
@@ -463,7 +459,7 @@
               <td>{{ registration.user.fullName }}</td>
               <td>{{ registration.user.email }}</td>
               <td>{{ registration.user.phone }}</td>
-              <td>{{ registration.checkInTime | date: 'short' }}</td>
+              <td>{{ registration.checkInTime | date : 'short' }}</td>
               <!--              TODO: fix calculation with new transactions-->
               <!--<td *ngIf="!last">
                 {{

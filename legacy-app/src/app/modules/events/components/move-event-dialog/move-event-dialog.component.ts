@@ -12,6 +12,7 @@ import {
   LoadRegistrationForMoveGQL,
   LoadRegistrationForMoveQuery,
 } from '@tumi/legacy-app/generated/generated';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-move-event-dialog',
@@ -28,6 +29,7 @@ export class MoveEventDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { event: LoadEventQuery['event'] },
+    @Inject(DOCUMENT) protected document: Document,
     private registrationForMoveGQL: LoadRegistrationForMoveGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL
   ) {
