@@ -342,11 +342,17 @@ export class RegistrationService {
           throw new Error('Payment not found');
         }
         console.log(payment.netAmount?.toNumber());
+        if (!context.tenant.stripeConnectAccountId) {
+          throw new Error('Stripe connect account not configured');
+        }
         try {
-          await this.stripe.refunds.create({
-            payment_intent: payment.paymentIntent,
-            ...(refundFees ? {} : { amount: payment.netAmount?.toNumber() }),
-          });
+          await this.stripe.refunds.create(
+            {
+              payment_intent: payment.paymentIntent,
+              ...(refundFees ? {} : { amount: payment.netAmount?.toNumber() }),
+            },
+            { stripeAccount: context.tenant.stripeConnectAccountId }
+          );
         } catch (e) {
           console.error(e);
           Sentry.captureException(e);
