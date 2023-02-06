@@ -109,7 +109,11 @@ const cancelPayment = async (stripePayment: StripePayment | null, object) => {
       },
     });
   }
-  if (transaction && transaction.eventRegistration.eventRegistrationCode) {
+  if (
+    transaction &&
+    transaction.eventRegistration &&
+    transaction.eventRegistration.eventRegistrationCode
+  ) {
     if (
       transaction.eventRegistration.eventRegistrationCode.registrationToRemoveId
     ) {

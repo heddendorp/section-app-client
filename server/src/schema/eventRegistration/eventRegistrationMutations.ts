@@ -170,7 +170,7 @@ builder.mutationFields((t) => ({
               },
             },
             quantity: 1,
-            tax_rates: [process.env['REDUCED_TAX_RATE'] ?? ''],
+            tax_rates: [context.tenant.stripeReducedTaxRate ?? ''],
           },
         ],
         'book',

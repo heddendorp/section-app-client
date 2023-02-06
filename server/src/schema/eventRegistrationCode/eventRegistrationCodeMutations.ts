@@ -30,9 +30,12 @@ builder.mutationFields((t) => ({
           throw new GraphQLError('Price received is not valid in this context');
         }
       }
-      const baseUrl = process.env.DEV
-        ? 'http://localhost:4200/profile'
-        : 'https://tumi.esn.world/profile';
+      const baseUrl =
+        process.env.DEV || process.env.NODE_ENV === 'test'
+          ? `http://localhost:4200/profile`
+          : context.tenant.shortName === 'karlsruhe'
+          ? `https://ticket.esn-karlsruhe.de/profile`
+          : `https://${context.tenant.shortName}.esn.world/profile`;
       return RegistrationService.registerWithCode(
         context,
         id,

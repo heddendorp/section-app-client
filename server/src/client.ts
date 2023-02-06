@@ -1,9 +1,7 @@
 import { PrismaClient } from './generated/prisma';
 import { TenantSettings } from './schemas';
 
-const prisma = new PrismaClient({
-  errorFormat: 'pretty',
-}).$extends({
+const prisma = new PrismaClient().$extends({
   result: {
     tenant: {
       settings: {
