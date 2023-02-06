@@ -5831,7 +5831,7 @@ __metadata:
     "@types/sharp": ^0.31.1
     "@types/supertest": ^2.0.12
     "@typescript-eslint/parser": 5.50.0
-    "@whatwg-node/fetch": 0.6.5
+    "@whatwg-node/fetch": 0.6.9
     apollo-server-plugin-base: ^3.7.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
@@ -6897,7 +6897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/events@npm:0.0.2":
+"@whatwg-node/events@npm:0.0.2, @whatwg-node/events@npm:^0.0.2":
   version: 0.0.2
   resolution: "@whatwg-node/events@npm:0.0.2"
   checksum: 6d491801d36967d5d62443cca6ef39d41cf882d575839d2e9d1a5f394722cd24ef84fe9e897bb72c01bd198871fda9ff0e8b1ac5aa6f3f814f87d92b7f28fdcc
@@ -6914,6 +6914,19 @@ __metadata:
     urlpattern-polyfill: ^6.0.2
     web-streams-polyfill: ^3.2.1
   checksum: 0379ba7cfadfe922f4d7ca5b56527e0af87482f0ec9a5b51b63726d76d87a13d8ffb6d2cce24090ddcd5386063fcc3ee373b5d9e63400d153fede3a19ad31afa
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@npm:0.6.9":
+  version: 0.6.9
+  resolution: "@whatwg-node/fetch@npm:0.6.9"
+  dependencies:
+    "@peculiar/webcrypto": ^1.4.0
+    "@whatwg-node/node-fetch": ^0.0.5
+    busboy: ^1.6.0
+    urlpattern-polyfill: ^6.0.2
+    web-streams-polyfill: ^3.2.1
+  checksum: cf5b95ae8f6625e2e96fc143fcc409a7974f90018f1ac2e69f651970ef251fad8de61540714f97ad3b617bd61c8dc90820bdde3da6d1417d9398a7f03b794401
   languageName: node
   linkType: hard
 
@@ -6953,6 +6966,19 @@ __metadata:
   peerDependencies:
     "@types/node": ^18.0.6
   checksum: c49372c0179e9f173f0ff658a8b5c0c88af8a5469bc8bd96402bf96f1db91034f531fb19d8a66aa6d81ecbe4f524e031c54ed3a809ca32c8a45633df2d8fad37
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/node-fetch@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@whatwg-node/node-fetch@npm:0.0.5"
+  dependencies:
+    "@whatwg-node/events": ^0.0.2
+    busboy: ^1.6.0
+    tslib: ^2.3.1
+  peerDependencies:
+    "@types/node": ^18.0.6
+  checksum: a8d0cf092d000710485f7ddba67c9ecfce96af2db6ee8241e3598b10779423bb6541e2e595566e238f2bf682d1faad7ad11d4d1644ce1dce9dba58f94ed682e7
   languageName: node
   linkType: hard
 
