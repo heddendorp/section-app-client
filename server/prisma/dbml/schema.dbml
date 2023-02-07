@@ -436,11 +436,6 @@ Table ActivityLog {
   category String [not null, default: 'general']
 }
 
-Table ReceiptToTransaction {
-  receiptsId String [ref: > Receipt.id]
-  transactionsId String [ref: > Transaction.id]
-}
-
 Enum Role {
   USER
   ADMIN

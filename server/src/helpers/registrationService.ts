@@ -162,7 +162,6 @@ export class RegistrationService {
     });
     let customerId;
     // TODO: Check all ?. uses
-    // @ts-ignore Until prisma version 4.10 with a fix for this is released
     if (!user?.tenants[0].stripeData) {
       if (!context.tenant.stripeConnectAccountId) {
         throw new Error('Stripe connect account not configured');
@@ -187,7 +186,6 @@ export class RegistrationService {
       });
       customerId = customer.id;
     } else {
-      // @ts-ignore Until prisma version 4.10 with a fix for this is released
       customerId = user.tenants[0].stripeData.customerId;
     }
     const payment_method_types: stripe.Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
@@ -294,7 +292,6 @@ export class RegistrationService {
       if (!context.tenant.stripeConnectAccountId) {
         throw new Error('Stripe connect account not configured');
       }
-      // @ts-ignore Until prisma version 4.10 with a fix for this is released
       const payment = registration.transactions[0]?.stripePayment;
       if (!payment) {
         throw new Error('Payment not found');
@@ -339,7 +336,6 @@ export class RegistrationService {
     }
     if (registration.event.registrationMode === RegistrationMode.STRIPE) {
       if (withRefund) {
-        // @ts-ignore Until prisma version 4.10 with a fix for this is released
         const payment = registration.transactions[0]?.stripePayment;
         if (!payment || !payment.paymentIntent) {
           throw new Error('Payment not found');

@@ -565,10 +565,8 @@ async function handleEvent<ReqBody>(
                 },
               },
             });
-            // @ts-ignore Until prisma version 4.10 with a fix for this is released
             if (removedRegistration.transactions[0]?.stripePayment) {
               if (
-                // @ts-ignore Until prisma version 4.10 with a fix for this is released
                 !removedRegistration.transactions[0].stripePayment.paymentIntent
               ) {
                 await prisma.activityLog.create({
@@ -583,7 +581,6 @@ async function handleEvent<ReqBody>(
               } else {
                 try {
                   if (
-                    // @ts-ignore Until prisma version 4.10 with a fix for this is released
                     !removedRegistration.transactions[0].tenant
                       .stripeConnectAccountId
                   ) {
@@ -594,7 +591,6 @@ async function handleEvent<ReqBody>(
                   await stripe.refunds.create(
                     {
                       payment_intent:
-                        // @ts-ignore Until prisma version 4.10 with a fix for this is released
                         removedRegistration.transactions[0].stripePayment
                           .paymentIntent,
                     },
