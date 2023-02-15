@@ -535,9 +535,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:3.7.5":
-  version: 3.7.5
-  resolution: "@apollo/client@npm:3.7.5"
+"@apollo/client@npm:3.7.8":
+  version: 3.7.8
+  resolution: "@apollo/client@npm:3.7.8"
   dependencies:
     "@graphql-typed-document-node/core": ^3.1.1
     "@wry/context": ^0.7.0
@@ -567,7 +567,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: c36f4469eb6a9ebc0f750a97cb201bcca725e1e98098c3d135d923e6d711ef8fa99365745b66f40744f59b78b3ffc0883ab2448ddadce89a5053033b40db8706
+  checksum: 3b12251768f7e1973b7d193d1420b01e6a0cb4b8a57bb4f65a82df48df2b8420aa9fdfeb0a4dcec4d787c1dcddaa7307611153736dff79d567be39b0dcd7f3d2
   languageName: node
   linkType: hard
 
@@ -5767,7 +5767,7 @@ __metadata:
     "@angular/platform-browser-dynamic": ^15.1.3
     "@angular/router": ^15.1.3
     "@angular/service-worker": ^15.1.3
-    "@apollo/client": 3.7.5
+    "@apollo/client": 3.7.8
     "@auth0/auth0-angular": ^2.0.1
     "@azure/storage-blob": ^12.12.0
     "@graphql-codegen/cli": ^3.0.0
