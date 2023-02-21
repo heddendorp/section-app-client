@@ -120,6 +120,15 @@ query loadEvent($id: ID!) {
     participantRating
     participantRatingCount
   }
+  currentTenant {
+    id
+    settings {
+      deregistrationOptions {
+        minimumDays
+        refundFees
+      }
+    }
+  }
 }
 
 query loadUserForEvent{

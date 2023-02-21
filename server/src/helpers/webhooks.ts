@@ -184,30 +184,30 @@ async function handleEvent<ReqBody>(
     ? { stripeAccount: stripeAccountId }
     : {};
   switch (event.type) {
-    case 'checkout.session.completed': {
-      const session: Stripe.Stripe.Checkout.Session = event.data
-        .object as Stripe.Stripe.Checkout.Session;
-      if (typeof session.setup_intent === 'string') {
-        const setupIntent = await stripe.setupIntents.retrieve(
-          session.setup_intent
-        );
-        if (typeof setupIntent.payment_method === 'string') {
-          await prisma.stripeUserData.update({
-            where: { id: session.client_reference_id ?? undefined },
-            data: {
-              paymentMethodId: setupIntent.payment_method,
-            },
-          });
-        }
-      }
-      if (typeof session.payment_intent === 'string') {
-        await prisma.stripePayment.update({
-          where: { checkoutSession: session.id },
-          data: { paymentIntent: session.payment_intent },
-        });
-      }
-      break;
-    }
+    // case 'checkout.session.completed': {
+    //   const session: Stripe.Stripe.Checkout.Session = event.data
+    //     .object as Stripe.Stripe.Checkout.Session;
+    //   if (typeof session.setup_intent === 'string') {
+    //     const setupIntent = await stripe.setupIntents.retrieve(
+    //       session.setup_intent
+    //     );
+    //     if (typeof setupIntent.payment_method === 'string') {
+    //       await prisma.stripeUserData.update({
+    //         where: { id: session.client_reference_id ?? undefined },
+    //         data: {
+    //           paymentMethodId: setupIntent.payment_method,
+    //         },
+    //       });
+    //     }
+    //   }
+    //   if (typeof session.payment_intent === 'string') {
+    //     await prisma.stripePayment.update({
+    //       where: { checkoutSession: session.id },
+    //       data: { paymentIntent: session.payment_intent },
+    //     });
+    //   }
+    //   break;
+    // }
     case 'checkout.session.expired': {
       const session: Stripe.Stripe.Checkout.Session = event.data
         .object as Stripe.Stripe.Checkout.Session;

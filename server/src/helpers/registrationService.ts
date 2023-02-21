@@ -156,20 +156,31 @@ export class RegistrationService {
       include: {
         tenants: {
           where: { tenantId: context.tenant.id },
-          include: { stripeData: true },
         },
       },
     });
-    let customerId;
     // TODO: Check all ?. uses
-    if (!user?.tenants[0].stripeData) {
-      if (!context.tenant.stripeConnectAccountId) {
-        throw new Error('Stripe connect account not configured');
+    if (!context.tenant.stripeConnectAccountId) {
+      throw new Error('Stripe connect account not configured');
+    }
+    if (!context.tenant.stripeReducedTaxRate) {
+      throw new Error('Stripe reduced tax ID not configured');
+    }
+    const customers = await this.stripe.customers.search(
+      {
+        query: `metadata['userId']:'${user?.id ?? ''}'`,
+        limit: 1,
+      },
+      {
+        stripeAccount: context.tenant.stripeConnectAccountId,
+        apiVersion: '2020-08-27',
       }
-      if (!context.tenant.stripeReducedTaxRate) {
-        throw new Error('Stripe reduced tax ID not configured');
-      }
-      const customer = await this.stripe.customers.create(
+    );
+    let customer;
+    if (customers.data.length > 0) {
+      customer = customers.data[0];
+    } else {
+      customer = await this.stripe.customers.create(
         {
           name: `${user?.firstName} ${user?.lastName}`,
           email: user?.email,
@@ -177,16 +188,6 @@ export class RegistrationService {
         },
         { stripeAccount: context.tenant.stripeConnectAccountId }
       );
-      await prisma.stripeUserData.create({
-        data: {
-          usersOfTenantsTenantId: context.tenant.id,
-          usersOfTenantsUserId: userId,
-          customerId: customer.id,
-        },
-      });
-      customerId = customer.id;
-    } else {
-      customerId = user.tenants[0].stripeData.customerId;
     }
     const payment_method_types: stripe.Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
       [
@@ -201,13 +202,10 @@ export class RegistrationService {
       payment_method_types.push('sepa_debit');
     }
     const id = crypto.randomUUID();
-    if (!context.tenant.stripeConnectAccountId) {
-      throw new Error('Stripe connect account not configured');
-    }
     const session = await this.stripe.checkout.sessions.create(
       {
         mode: 'payment',
-        customer: customerId,
+        customer: customer.id,
         line_items: items,
         payment_method_types,
         payment_intent_data: {

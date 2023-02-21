@@ -139,6 +139,11 @@ scalar DateTime
 
 scalar Decimal
 
+type DeregistrationOptions {
+  minimumDays: Int!
+  refundFees: Boolean!
+}
+
 enum EnrolmentStatus {
   EXCHANGE
   INTERNATIONAL
@@ -567,12 +572,6 @@ type StripePayment {
   transactions: [Transaction!]!
 }
 
-type StripeUserData {
-  customerId: String!
-  id: ID!
-  paymentMethodId: String
-}
-
 enum SubmissionItemType {
   BOOLEAN
   CONFIRM
@@ -614,6 +613,7 @@ type Tenant {
 
 type TenantSettings {
   brandIconUrl: String
+  deregistrationOptions: DeregistrationOptions!
   sectionHubLinks: [ResourceLink!]!
   showPWAInstall: Boolean!
   socialLinks: [ResourceLink!]!
@@ -759,6 +759,11 @@ input UpdateCoreEventInput {
   title: String
 }
 
+input UpdateDeregistrationOptionsInput {
+  minimumDays: Int
+  refundFees: Boolean
+}
+
 input UpdateEventLocationInput {
   coordinates: JSON
   googlePlaceId: String
@@ -811,6 +816,7 @@ input UpdateTenantInput {
 
 input UpdateTenantSettingsInput {
   brandIconUrl: String
+  deregistrationOptions: UpdateDeregistrationOptionsInput
   sectionHubLinks: [UpdateResourceLinkInput!]
   showPWAInstall: Boolean
   socialLinks: [UpdateResourceLinkInput!]
@@ -879,7 +885,6 @@ type UsersOfTenants {
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!
-  stripeData: StripeUserData
   tenant: Tenant!
   tenantId: ID!
   user: User!

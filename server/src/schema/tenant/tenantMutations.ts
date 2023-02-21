@@ -38,6 +38,19 @@ const updateTenantSettingsInputType = builder.inputType(
       sectionHubLinks: t.field({ type: [updateResourceLinkInputType] }),
       showPWAInstall: t.boolean(),
       brandIconUrl: t.string({ required: false }),
+      deregistrationOptions: t.field({
+        type: updateDeregistrationOptionsInputType,
+      }),
+    }),
+  }
+);
+
+const updateDeregistrationOptionsInputType = builder.inputType(
+  'UpdateDeregistrationOptionsInput',
+  {
+    fields: (t) => ({
+      refundFees: t.boolean(),
+      minimumDays: t.int(),
     }),
   }
 );

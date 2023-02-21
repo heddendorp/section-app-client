@@ -17,6 +17,7 @@ import {
 import { createSentryWrapper } from '@pothos/tracing-sentry';
 import TracingPlugin, { isRootField } from '@pothos/plugin-tracing';
 import { Request } from 'express';
+import { TenantSettings } from './schemas';
 
 const traceResolver = createSentryWrapper({
   includeArgs: true,
@@ -27,7 +28,7 @@ export type Context = {
   req: Request;
   token?: { sub: string };
   auth0: Auth0;
-  tenant: Tenant;
+  tenant: Tenant & { settings: TenantSettings };
   user?: User;
   userOfTenant?: UsersOfTenants;
 };
