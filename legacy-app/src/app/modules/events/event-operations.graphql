@@ -223,10 +223,6 @@ query GetUserPaymentStatus {
     currentTenant {
       userId
       tenantId
-      stripeData {
-        id
-        paymentMethodId
-      }
     }
   }
 }

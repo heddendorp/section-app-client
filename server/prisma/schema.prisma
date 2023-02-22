@@ -93,6 +93,7 @@ model StripeUserData {
   userOfTenant           UsersOfTenants @relation(fields: [usersOfTenantsUserId, usersOfTenantsTenantId], references: [userId, tenantId])
 
   @@unique([usersOfTenantsUserId, usersOfTenantsTenantId])
+  @@ignore
 }
 
 model ShoppingCart {
@@ -161,7 +162,7 @@ model UsersOfTenants {
   status     MembershipStatus @default(NONE)
   position   String?
   cart       ShoppingCart?
-  stripeData StripeUserData?
+  stripeData StripeUserData?  @ignore
   tenant     Tenant           @relation(fields: [tenantId], references: [id])
   user       User             @relation(fields: [userId], references: [id])
 

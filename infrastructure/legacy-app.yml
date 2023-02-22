@@ -11,8 +11,8 @@ template:
       cpu: 0.25
       memory: 0.5Gi
   scale:
-    minReplicas: 0
-    maxReplicas: 3
+    minReplicas: 1
+    maxReplicas: 1
     rules:
     - name: http-rule
       http:

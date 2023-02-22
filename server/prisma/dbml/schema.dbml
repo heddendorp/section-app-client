@@ -66,20 +66,6 @@ Table User {
   Note: 'One User of the app'
 }
 
-Table StripeUserData {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  usersOfTenantsUserId String [not null]
-  usersOfTenantsTenantId String [not null]
-  customerId String [not null]
-  paymentMethodId String
-  userOfTenant UsersOfTenants [not null]
-
-  indexes {
-    (usersOfTenantsUserId, usersOfTenantsTenantId) [unique]
-  }
-}
-
 Table ShoppingCart {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
@@ -147,7 +133,6 @@ Table UsersOfTenants {
   status MembershipStatus [not null, default: 'NONE']
   position String
   cart ShoppingCart
-  stripeData StripeUserData
   tenant Tenant [not null]
   user User [not null]
 
@@ -436,11 +421,6 @@ Table ActivityLog {
   category String [not null, default: 'general']
 }
 
-Table ReceiptToTransaction {
-  receiptsId String [ref: > Receipt.id]
-  transactionsId String [ref: > Transaction.id]
-}
-
 Enum Role {
   USER
   ADMIN
@@ -557,8 +537,6 @@ Enum HomePageStrategy {
   MARKDOWN
   NONE
 }
-
-Ref: StripeUserData.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 
 Ref: ShoppingCart.(usersOfTenantsUserId, usersOfTenantsTenantId) - UsersOfTenants.(userId, tenantId)
 

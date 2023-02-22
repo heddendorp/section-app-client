@@ -43,6 +43,10 @@ export class TenantEditPageComponent {
       homePageStrategy: ['', Validators.required],
       homePageLink: [''],
       settings: this.fb.group({
+        deregistrationOptions: this.fb.group({
+          refundFees: [true, Validators.required],
+          minimumDays: [5, Validators.required],
+        }),
         socialLinks: this.fb.array([]),
         sectionHubLinks: this.fb.array([]),
         showPWAInstall: [false, Validators.required],

@@ -69,6 +69,17 @@ builder.mutationFields((t) => ({
           'You can not deregister from an event after it has started'
         );
       }
+      if (
+        DateTime.fromJSDate(event.start) <
+          DateTime.local().plus({
+            days: context.tenant.settings.deregistrationOptions.minimumDays,
+          }) &&
+        context.userOfTenant?.role !== 'ADMIN'
+      ) {
+        throw new GraphQLError(
+          `You can not deregister from an event ${context.tenant.settings.deregistrationOptions.minimumDays} days before it starts`
+        );
+      }
       if (registration?.userId !== context.user?.id) {
         const user = await prisma.user.findUnique({
           where: { id: registration?.userId },
@@ -97,7 +108,7 @@ builder.mutationFields((t) => ({
         registrationId,
         withRefund ?? false,
         isKick,
-        refundFees ?? true,
+        refundFees ?? context.tenant.settings.deregistrationOptions.refundFees,
         context
       );
       return prisma.tumiEvent.findUniqueOrThrow({

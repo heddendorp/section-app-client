@@ -58,6 +58,23 @@
     </div>
     <ng-container formGroupName="settings">
       <div
+        formGroupName="deregistrationOptions"
+        class="flex flex-row items-center gap-4"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>Minimum days</mat-label>
+          <input
+            matInput
+            placeholder="How many days before the event can people deregister"
+            formControlName="minimumDays"
+            type="number"
+          />
+        </mat-form-field>
+        <mat-checkbox formControlName="refundFees" class="w-full">
+          Refund stripe fees on deregistration
+        </mat-checkbox>
+      </div>
+      <div
         formArrayName="socialLinks"
         class="border-grey-600 my-4 rounded border p-4"
       >

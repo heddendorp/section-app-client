@@ -28,6 +28,9 @@ import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/per
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
+  @Input() public deregistrationOptions:
+    | LoadEventQuery['currentTenant']['settings']['deregistrationOptions']
+    | null = null;
   @Input() public user: LoadUserForEventQuery['currentUser'] | null = null;
   @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
@@ -47,10 +50,12 @@ export class StripeEventRegistrationComponent implements OnChanges {
   ) {}
 
   get lastDeregistration() {
-    if (!this.event?.start) {
+    if (!this.event?.start || !this.deregistrationOptions) {
       return new Date();
     }
-    return DateTime.fromISO(this.event?.start).minus({ days: 5 }).toJSDate();
+    return DateTime.fromISO(this.event?.start)
+      .minus({ days: this.deregistrationOptions.minimumDays })
+      .toJSDate();
   }
 
   get lastPayment() {
@@ -199,8 +204,8 @@ export class StripeEventRegistrationComponent implements OnChanges {
     this.infoCollected$.next($event);
   }
 
-  async openPaymentSession(checkoutSession:string|null = '') {
-    if(!checkoutSession){
+  async openPaymentSession(checkoutSession: string | null = '') {
+    if (!checkoutSession) {
       return;
     }
     location.href = checkoutSession;

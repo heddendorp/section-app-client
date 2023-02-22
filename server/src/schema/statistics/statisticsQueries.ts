@@ -67,20 +67,6 @@ builder.queryFields((t) => ({
           createdAt: rangeQuery,
         },
       });
-      const usersWithCustomer = await prisma.usersOfTenants.count({
-        where: {
-          ...(tenantId ? { tenantId } : {}),
-          createdAt: rangeQuery,
-          stripeData: { isNot: null },
-        },
-      });
-      const usersWithPaymentMethod = await prisma.usersOfTenants.count({
-        where: {
-          ...(tenantId ? { tenantId } : {}),
-          createdAt: rangeQuery,
-          stripeData: { paymentMethodId: { not: null } },
-        },
-      });
       const registrations = await prisma.eventRegistration.count({
         where: {
           event: {
@@ -341,8 +327,6 @@ builder.queryFields((t) => ({
         .then(convertToSeries('New Checkins', 'checkInTime'));
       return {
         usersRegistered,
-        usersWithCustomer,
-        usersWithPaymentMethod,
         registrations,
         usersRegisteredEvents,
         usersRegisteredFreeEvents,

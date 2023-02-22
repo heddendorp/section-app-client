@@ -161,6 +161,12 @@ export type DateRangeInput = {
   start?: InputMaybe<Scalars['DateTime']>;
 };
 
+export type DeregistrationOptions = {
+  __typename?: 'DeregistrationOptions';
+  minimumDays: Scalars['Int'];
+  refundFees: Scalars['Boolean'];
+};
+
 export enum EnrolmentStatus {
   Exchange = 'EXCHANGE',
   International = 'INTERNATIONAL',
@@ -1013,13 +1019,6 @@ export type StripePayment = {
   transactions: Array<Transaction>;
 };
 
-export type StripeUserData = {
-  __typename?: 'StripeUserData';
-  customerId: Scalars['String'];
-  id: Scalars['ID'];
-  paymentMethodId?: Maybe<Scalars['String']>;
-};
-
 export enum SubmissionItemType {
   Boolean = 'BOOLEAN',
   Confirm = 'CONFIRM',
@@ -1068,6 +1067,7 @@ export type TenantTutorHubEventsArgs = {
 export type TenantSettings = {
   __typename?: 'TenantSettings';
   brandIconUrl?: Maybe<Scalars['String']>;
+  deregistrationOptions: DeregistrationOptions;
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean'];
   socialLinks: Array<ResourceLink>;
@@ -1239,6 +1239,11 @@ export type UpdateCoreEventInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateDeregistrationOptionsInput = {
+  minimumDays?: InputMaybe<Scalars['Int']>;
+  refundFees?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type UpdateEventLocationInput = {
   coordinates?: InputMaybe<Scalars['JSON']>;
   googlePlaceId?: InputMaybe<Scalars['String']>;
@@ -1291,6 +1296,7 @@ export type UpdateTenantInput = {
 
 export type UpdateTenantSettingsInput = {
   brandIconUrl?: InputMaybe<Scalars['String']>;
+  deregistrationOptions?: InputMaybe<UpdateDeregistrationOptionsInput>;
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']>;
   socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
@@ -1382,7 +1388,6 @@ export type UsersOfTenants = {
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
-  stripeData?: Maybe<StripeUserData>;
   tenant: Tenant;
   tenantId: Scalars['ID'];
   user: User;
@@ -1620,7 +1625,7 @@ export type CheckInUserMutation = { __typename?: 'Mutation', checkInUser: { __ty
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData?: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } | null } | null } | null };
+export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string } | null } | null };
 
 export type DeregisterFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1651,7 +1656,7 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> } };
+export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> }, currentTenant: { __typename?: 'Tenant', id: string, settings: { __typename?: 'TenantSettings', deregistrationOptions: { __typename?: 'DeregistrationOptions', minimumDays: number, refundFees: boolean } } } };
 
 export type LoadUserForEventQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1824,7 +1829,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, communicationEmail?: string | null, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, communicationEmail?: string | null, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } | null };
 
 export type UserProfileEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2034,7 +2039,7 @@ export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User',
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }> } } };
+export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, deregistrationOptions: { __typename?: 'DeregistrationOptions', refundFees: boolean, minimumDays: number } } } };
 
 export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3045,10 +3050,6 @@ export const GetUserPaymentStatusDocument = gql`
     currentTenant {
       userId
       tenantId
-      stripeData {
-        id
-        paymentMethodId
-      }
     }
   }
 }
@@ -3276,6 +3277,15 @@ export const LoadEventDocument = gql`
     }
     participantRating
     participantRatingCount
+  }
+  currentTenant {
+    id
+    settings {
+      deregistrationOptions {
+        minimumDays
+        refundFees
+      }
+    }
   }
 }
     `;
@@ -4050,9 +4060,6 @@ export const UserProfileDocument = gql`
       userId
       tenantId
       status
-      stripeData {
-        paymentMethodId
-      }
     }
     organizedEventsCount
     createdEventsCount
@@ -5145,6 +5152,10 @@ export const GetTenantForEditDocument = gql`
         label
         icon
         url
+      }
+      deregistrationOptions {
+        refundFees
+        minimumDays
       }
       showPWAInstall
       brandIconUrl

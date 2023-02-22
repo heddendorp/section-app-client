@@ -39,6 +39,9 @@ import { AuthService } from '@auth0/auth0-angular';
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
+  protected deregistrationOptions$: Observable<
+    LoadEventQuery['currentTenant']['settings']['deregistrationOptions']
+  >;
   public user$: Observable<LoadUserForEventQuery['currentUser']>;
   public bestPrice$: Observable<Price>;
   public eventOver$: Observable<boolean>;
@@ -74,6 +77,9 @@ export class EventDetailsPageComponent implements OnDestroy {
           this.ratingExpanded$.next(true);
         }
       })
+    );
+    this.deregistrationOptions$ = this.loadEventQueryRef.valueChanges.pipe(
+      map(({ data }) => data.currentTenant.settings.deregistrationOptions)
     );
     firstValueFrom(this.event$).then((event) => {
       this.title.setTitle(`${event.title}`);
