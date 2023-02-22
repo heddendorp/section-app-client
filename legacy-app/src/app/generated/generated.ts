@@ -1019,13 +1019,6 @@ export type StripePayment = {
   transactions: Array<Transaction>;
 };
 
-export type StripeUserData = {
-  __typename?: 'StripeUserData';
-  customerId: Scalars['String'];
-  id: Scalars['ID'];
-  paymentMethodId?: Maybe<Scalars['String']>;
-};
-
 export enum SubmissionItemType {
   Boolean = 'BOOLEAN',
   Confirm = 'CONFIRM',
@@ -1395,7 +1388,6 @@ export type UsersOfTenants = {
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
-  stripeData?: Maybe<StripeUserData>;
   tenant: Tenant;
   tenantId: Scalars['ID'];
   user: User;
@@ -1633,7 +1625,7 @@ export type CheckInUserMutation = { __typename?: 'Mutation', checkInUser: { __ty
 export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, stripeData?: { __typename?: 'StripeUserData', id: string, paymentMethodId?: string | null } | null } | null } | null };
+export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string } | null } | null };
 
 export type DeregisterFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID'];
@@ -1837,7 +1829,7 @@ export type GetPhotoJourneyQuery = { __typename?: 'Query', currentUser?: { __typ
 export type UserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, communicationEmail?: string | null, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus, stripeData?: { __typename?: 'StripeUserData', paymentMethodId?: string | null } | null } | null } | null };
+export type UserProfileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, fullName: string, picture: string, emailVerified: boolean, email: string, communicationEmail?: string | null, phone?: string | null, university?: string | null, iban?: string | null, paypal?: string | null, birthdate?: any | null, firstName: string, lastName: string, calendarToken: string, hasESNCard: boolean, enrolmentStatus: EnrolmentStatus, bio?: string | null, country?: string | null, homeUniversity?: string | null, instagram?: string | null, position?: string | null, studyProgram?: string | null, organizedEventsCount: number, createdEventsCount: number, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } | null };
 
 export type UserProfileEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3058,10 +3050,6 @@ export const GetUserPaymentStatusDocument = gql`
     currentTenant {
       userId
       tenantId
-      stripeData {
-        id
-        paymentMethodId
-      }
     }
   }
 }
@@ -4072,9 +4060,6 @@ export const UserProfileDocument = gql`
       userId
       tenantId
       status
-      stripeData {
-        paymentMethodId
-      }
     }
     organizedEventsCount
     createdEventsCount

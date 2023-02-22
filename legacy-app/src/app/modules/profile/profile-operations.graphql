@@ -75,9 +75,6 @@ query userProfile {
       userId
       tenantId
       status
-      stripeData {
-        paymentMethodId
-      }
     }
     organizedEventsCount
     createdEventsCount
