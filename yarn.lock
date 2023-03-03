@@ -5863,7 +5863,7 @@ __metadata:
     "@types/sharp": ^0.31.1
     "@types/supertest": ^2.0.12
     "@typescript-eslint/parser": ^5.51.0
-    "@whatwg-node/fetch": 0.6.5
+    "@whatwg-node/fetch": 0.8.2
     apollo-server-plugin-base: ^3.7.1
     compression: ^1.7.4
     copyfiles: ^2.4.1
@@ -6936,7 +6936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/events@npm:0.0.2":
+"@whatwg-node/events@npm:0.0.2, @whatwg-node/events@npm:^0.0.2":
   version: 0.0.2
   resolution: "@whatwg-node/events@npm:0.0.2"
   checksum: 6d491801d36967d5d62443cca6ef39d41cf882d575839d2e9d1a5f394722cd24ef84fe9e897bb72c01bd198871fda9ff0e8b1ac5aa6f3f814f87d92b7f28fdcc
@@ -6953,6 +6953,19 @@ __metadata:
     urlpattern-polyfill: ^6.0.2
     web-streams-polyfill: ^3.2.1
   checksum: 0379ba7cfadfe922f4d7ca5b56527e0af87482f0ec9a5b51b63726d76d87a13d8ffb6d2cce24090ddcd5386063fcc3ee373b5d9e63400d153fede3a19ad31afa
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@npm:0.8.2":
+  version: 0.8.2
+  resolution: "@whatwg-node/fetch@npm:0.8.2"
+  dependencies:
+    "@peculiar/webcrypto": ^1.4.0
+    "@whatwg-node/node-fetch": ^0.3.1
+    busboy: ^1.6.0
+    urlpattern-polyfill: ^6.0.2
+    web-streams-polyfill: ^3.2.1
+  checksum: c0acf0702a7fe6c1ab05903a9114bc0f64bd51dbe099aeeaa9d219c42d17a57fe3d4448f4947e43e64a25e5746d60dabf83066d9d3eb2d01f39b66e145a20720
   languageName: node
   linkType: hard
 
@@ -6992,6 +7005,21 @@ __metadata:
   peerDependencies:
     "@types/node": ^18.0.6
   checksum: c49372c0179e9f173f0ff658a8b5c0c88af8a5469bc8bd96402bf96f1db91034f531fb19d8a66aa6d81ecbe4f524e031c54ed3a809ca32c8a45633df2d8fad37
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/node-fetch@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@whatwg-node/node-fetch@npm:0.3.1"
+  dependencies:
+    "@whatwg-node/events": ^0.0.2
+    busboy: ^1.6.0
+    fast-querystring: ^1.1.1
+    fast-url-parser: ^1.1.3
+    tslib: ^2.3.1
+  peerDependencies:
+    "@types/node": ^18.0.6
+  checksum: a7699cec6ad06807a00ad4a3331f838efc873de4fcb9e8df3a3a49d69c9bd6e409e8c8ec9de60377fa374cf35a9ab2f8b6c612fcf3e08d4d01febc72a121fa0d
   languageName: node
   linkType: hard
 
@@ -11006,6 +11034,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-decode-uri-component@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "fast-decode-uri-component@npm:1.0.1"
+  checksum: 427a48fe0907e76f0e9a2c228e253b4d8a8ab21d130ee9e4bb8339c5ba4086235cf9576831f7b20955a752eae4b525a177ff9d5825dd8d416e7726939194fbee
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -11051,10 +11086,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-querystring@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "fast-querystring@npm:1.1.1"
+  dependencies:
+    fast-decode-uri-component: ^1.0.1
+  checksum: 86d2b75b9b299a552353532fb1a542f09730ee2a61e657d68710971d9a2afc9a3c5c7b7e106b6534f4cc506d2ff1c08ab0fda4ae614b4e7720798c9ac2a88e02
+  languageName: node
+  linkType: hard
+
 "fast-safe-stringify@npm:^2.1.1":
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
   checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
+  languageName: node
+  linkType: hard
+
+"fast-url-parser@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "fast-url-parser@npm:1.1.3"
+  dependencies:
+    punycode: ^1.3.2
+  checksum: 5043d0c4a8d775ff58504d56c096563c11b113e4cb8a2668c6f824a1cd4fb3812e2fdf76537eb24a7ce4ae7def6bd9747da630c617cf2a4b6ce0c42514e4f21c
   languageName: node
   linkType: hard
 
@@ -17011,6 +17064,13 @@ __metadata:
     end-of-stream: ^1.1.0
     once: ^1.3.1
   checksum: e42e9229fba14732593a718b04cb5e1cfef8254544870997e0ecd9732b189a48e1256e4e5478148ecb47c8511dca2b09eae56b4d0aad8009e6fac8072923cfc9
+  languageName: node
+  linkType: hard
+
+"punycode@npm:^1.3.2":
+  version: 1.4.1
+  resolution: "punycode@npm:1.4.1"
+  checksum: fa6e698cb53db45e4628559e557ddaf554103d2a96a1d62892c8f4032cd3bc8871796cae9eabc1bc700e2b6677611521ce5bb1d9a27700086039965d0cf34518
   languageName: node
   linkType: hard
 
