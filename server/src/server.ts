@@ -206,11 +206,6 @@ const graphQLServer = createYoga({
       }
     ),
     useGraphQlJit(),
-    useResponseCache({
-      ttl: 2000,
-      includeExtensionMetadata: true,
-      session: (context: Context) => String(context.user?.id ?? 'public'),
-    }),
   ],
   parserCache: true,
   validationCache: true,
@@ -240,13 +235,6 @@ app.get('/metrics', async (_, res) => {
     globalLabels: { app_version: process.env.VERSION ?? 'development' },
   });
   res.send(metrics);
-});
-app.get('/prom-metrics', async (_, res) => {
-  let prismaMetrics = await prisma.$metrics.prometheus({
-    globalLabels: { app_version: process.env.VERSION ?? 'development' },
-  });
-  let appMetrics = await register.metrics();
-  res.end(prismaMetrics + appMetrics);
 });
 app.use(Sentry.Handlers.errorHandler());
 const port = process.env.PORT || 3333;
