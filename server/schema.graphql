@@ -549,8 +549,6 @@ type Statistics {
   usersRegisteredEvents: Int!
   usersRegisteredFreeEvents: Int!
   usersRegisteredPaidEvents: Int!
-  usersWithCustomer: Int!
-  usersWithPaymentMethod: Int!
 }
 
 type StripePayment {

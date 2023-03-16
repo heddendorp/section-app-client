@@ -232,8 +232,6 @@ query getUsers(
 query getStatistics($range: DateRangeInput, $tenantId: ID) {
   statistics(range: $range, tenantId: $tenantId) {
     usersRegistered
-    usersWithCustomer
-    usersWithPaymentMethod
     registrations
     userHistory
     registrationHistory

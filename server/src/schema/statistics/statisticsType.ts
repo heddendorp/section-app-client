@@ -3,8 +3,6 @@ import { builder } from '../../builder';
 export const statisticsType = builder.simpleObject('Statistics', {
   fields: (t) => ({
     usersRegistered: t.int(),
-    usersWithCustomer: t.int(),
-    usersWithPaymentMethod: t.int(),
     registrations: t.int(),
     usersRegisteredEvents: t.int(),
     usersRegisteredFreeEvents: t.int(),

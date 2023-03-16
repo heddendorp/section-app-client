@@ -994,8 +994,6 @@ export type Statistics = {
   usersRegisteredEvents: Scalars['Int'];
   usersRegisteredFreeEvents: Scalars['Int'];
   usersRegisteredPaidEvents: Scalars['Int'];
-  usersWithCustomer: Scalars['Int'];
-  usersWithPaymentMethod: Scalars['Int'];
 };
 
 export type StripePayment = {
@@ -2064,7 +2062,7 @@ export type GetStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type GetStatisticsQuery = { __typename?: 'Query', statistics: { __typename?: 'Statistics', usersRegistered: number, usersWithCustomer: number, usersWithPaymentMethod: number, registrations: number, userHistory: any, registrationHistory: any, checkinHistory: any, userEventDistribution: any, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: any, userStatusDistribution: any, localStatusDistribution: any } };
+export type GetStatisticsQuery = { __typename?: 'Query', statistics: { __typename?: 'Statistics', usersRegistered: number, registrations: number, userHistory: any, registrationHistory: any, checkinHistory: any, userEventDistribution: any, usersRegisteredEvents: number, usersRegisteredFreeEvents: number, usersRegisteredPaidEvents: number, checkins: number, paidRegistrations: number, totalEvents: number, paidEvents: number, userUniversityDistribution: any, userStatusDistribution: any, localStatusDistribution: any } };
 
 export type GetLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5240,8 +5238,6 @@ export const GetStatisticsDocument = gql`
     query getStatistics($range: DateRangeInput, $tenantId: ID) {
   statistics(range: $range, tenantId: $tenantId) {
     usersRegistered
-    usersWithCustomer
-    usersWithPaymentMethod
     registrations
     userHistory
     registrationHistory
