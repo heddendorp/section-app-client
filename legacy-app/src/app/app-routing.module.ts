@@ -47,18 +47,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'shop',
-    loadChildren: () =>
-      import('./modules/shop/shop.module').then((m) => m.ShopModule),
-  },
-  {
-    path: 'basket',
-    loadChildren: () =>
-      import('./modules/shopping-basket/shopping-basket.module').then(
-        (m) => m.ShoppingBasketModule
-      ),
-  },
-  {
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
