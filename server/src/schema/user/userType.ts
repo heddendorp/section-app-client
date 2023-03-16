@@ -112,15 +112,6 @@ builder.prismaObject('User', {
           ?.role ?? Role.USER,
     }),
     studyProgram: t.exposeString('studyProgram', { nullable: true }),
-    purchases: t.relation('purchases', {
-      args: {
-        skipCancelled: t.arg.boolean({ defaultValue: false }),
-      },
-      query: (args, context) =>
-        args.skipCancelled
-          ? { where: { status: { not: PurchaseStatus.CANCELLED } } }
-          : {},
-    }),
     profileComplete: t.boolean({
       resolve: (source) =>
         !!(

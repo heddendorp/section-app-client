@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TenantPurchaseDetailsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-purchase-details-page/tenant-purchase-details-page.component';
 import { TenantPhotosPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-photos-page/tenant-photos-page.component';
-import { TenantPurchasesPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-purchases-page/tenant-purchases-page.component';
 import { TenantStatsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-stats-page/tenant-stats-page.component';
 import { TenantUsersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/tenant-users-page.component';
-import { TenantInsurancePageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-insurance-page/tenant-insurance-page.component';
 import { TenantUserInfoPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-user-info-page/tenant-user-info-page.component';
 import { TenantMoveOrdersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-move-orders-page/tenant-move-orders-page.component';
 import { TenantActivityLogPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-activity-log-page/tenant-activity-log-page.component';

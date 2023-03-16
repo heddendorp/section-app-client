@@ -13,11 +13,8 @@ import { TenantMoveOrdersPageComponent } from './pages/registrations/tenant-move
 import { TenantRegistrationDetailsPageComponent } from './pages/registrations/tenant-registration-details-page/tenant-registration-details-page.component';
 import { TenantActivityLogPageComponent } from './pages/tenant-activity-log-page/tenant-activity-log-page.component';
 import { TenantEditPageComponent } from './pages/tenant-edit-page/tenant-edit-page.component';
-import { TenantInsurancePageComponent } from './pages/tenant-insurance-page/tenant-insurance-page.component';
 import { TenantLandingPageComponent } from './pages/tenant-landing-page/tenant-landing-page.component';
 import { TenantPhotosPageComponent } from './pages/tenant-photos-page/tenant-photos-page.component';
-import { TenantPurchaseDetailsPageComponent } from './pages/tenant-purchase-details-page/tenant-purchase-details-page.component';
-import { TenantPurchasesPageComponent } from './pages/tenant-purchases-page/tenant-purchases-page.component';
 import { TenantStatsPageComponent } from './pages/tenant-stats-page/tenant-stats-page.component';
 import { TenantUserInfoPageComponent } from './pages/tenant-user-info-page/tenant-user-info-page.component';
 import { TenantUsersPageComponent } from './pages/tenant-users-page/tenant-users-page.component';
@@ -25,7 +22,6 @@ import { TenantOrganizersPageComponent } from './pages/tenant-organizers-page/te
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TenantRefundsPageComponent } from './pages/tenant-refunds-page/tenant-refunds-page.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TenantEventRatingsComponent } from './pages/events/tenant-event-ratings/tenant-event-ratings.component';
@@ -46,14 +42,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ShowDataDialogComponent,
     TenantActivityLogPageComponent,
     TenantEditPageComponent,
-    TenantInsurancePageComponent,
     TenantLandingPageComponent,
     TenantMoveOrdersPageComponent,
     TenantOrganizersPageComponent,
     TenantPhotosPageComponent,
-    TenantPurchaseDetailsPageComponent,
-    TenantPurchasesPageComponent,
-    TenantRefundsPageComponent,
     TenantRegistrationCodePageComponent,
     TenantRegistrationDetailsPageComponent,
     TenantRegistrationsPageComponent,

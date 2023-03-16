@@ -283,22 +283,6 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-type LineItem {
-  cancellationReason: String
-  cart: ShoppingCart!
-  cost: Decimal!
-  createdAt: DateTime!
-  id: ID!
-  pickupTime: DateTime
-  product: Product!
-  productId: ID!
-  purchase: Purchase!
-  purchaseId: ID
-  quantity: Int!
-  shoppingCartId: ID
-  submissions: [EventSubmission!]!
-}
-
 enum LogSeverity {
   DEBUG
   ERROR
@@ -384,54 +368,11 @@ type PhotoShare {
   type: String!
 }
 
-type Product {
-  availability: [MembershipStatus!]!
-  createdAt: DateTime!
-  description: String!
-  id: ID!
-  images: [ProductImage!]!
-  isActive: Boolean!
-  isESNcard: Boolean!
-  leadImage: ProductImage!
-  leadImageId: ID
-  lineItems(onlyWithPurchase: Boolean = false): [LineItem!]!
-  needsShippingAddress: Boolean!
-  prices: JSON!
-  publicationState: PublicationState!
-  tenant: Tenant!
-  tenantId: ID!
-  title: String!
-}
-
-type ProductImage {
-  container: String!
-  createdAt: DateTime!
-  creator: User!
-  creatorId: ID!
-  id: ID!
-  original: String!
-  originalBlob: String!
-  previewBlob: String
-  product: Product!
-  productId: ID!
-  src: String!
-}
-
 enum PublicationState {
   APPROVAL
   DRAFT
   ORGANIZERS
   PUBLIC
-}
-
-type Purchase {
-  createdAt: DateTime!
-  id: ID!
-  items: [LineItem!]!
-  status: PurchaseStatus!
-  transactions: [Transaction!]!
-  user: User!
-  userId: ID!
 }
 
 enum PurchaseStatus {
@@ -462,8 +403,6 @@ type Query {
   photoShareKey: String!
   photos(eventId: ID): [PhotoShare!]!
   profileUploadKey: String!
-  purchase(id: ID!): Purchase!
-  purchases(limitToOwn: Boolean): [Purchase!]!
   registration(id: ID!): EventRegistration!
   registrationCount(statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): Int!
   registrations(pageIndex: Int, pageLength: Int, statusList: [RegistrationStatus!] = [PENDING, SUCCESSFUL]): [EventRegistration!]!
@@ -521,15 +460,6 @@ type ResourceLink {
 enum Role {
   ADMIN
   USER
-}
-
-type ShoppingCart {
-  createdAt: DateTime!
-  id: ID!
-  items: [LineItem!]!
-  userOfTenant: UsersOfTenants!
-  usersOfTenantsTenantId: ID!
-  usersOfTenantsUserId: ID!
 }
 
 type Statistics {
@@ -627,7 +557,6 @@ type Transaction {
   eventRegistration: EventRegistration
   id: ID!
   isMembershipFee: Boolean!
-  purchase: Purchase!
   receipts: [Receipt!]!
   status: TransactionStatus!
   stripePayment: StripePayment
@@ -870,7 +799,6 @@ type User {
   picture: String!
   position: String
   profileComplete: Boolean!
-  purchases(skipCancelled: Boolean = false): [Purchase!]!
   role: Role!
   status: MembershipStatus!
   studyProgram: String
@@ -879,7 +807,6 @@ type User {
 }
 
 type UsersOfTenants {
-  cart: ShoppingCart!
   createdAt: DateTime!
   role: Role!
   status: MembershipStatus!

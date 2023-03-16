@@ -16,7 +16,5 @@ builder.prismaObject('UsersOfTenants', {
     tenantId: t.exposeID('tenantId'),
     status: t.expose('status', { type: MembershipStatus }),
     role: t.expose('role', { type: Role }),
-    // stripeData: t.relation('stripeData', { nullable: true }),
-    cart: t.relation('cart'),
   }),
 });

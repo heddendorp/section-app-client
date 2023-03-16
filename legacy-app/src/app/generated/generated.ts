@@ -322,23 +322,6 @@ export enum HomePageStrategy {
   Static = 'STATIC'
 }
 
-export type LineItem = {
-  __typename?: 'LineItem';
-  cancellationReason?: Maybe<Scalars['String']>;
-  cart: ShoppingCart;
-  cost: Scalars['Decimal'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  pickupTime?: Maybe<Scalars['DateTime']>;
-  product: Product;
-  productId: Scalars['ID'];
-  purchase: Purchase;
-  purchaseId?: Maybe<Scalars['ID']>;
-  quantity: Scalars['Int'];
-  shoppingCartId?: Maybe<Scalars['ID']>;
-  submissions: Array<EventSubmission>;
-};
-
 export enum LogSeverity {
   Debug = 'DEBUG',
   Error = 'ERROR',
@@ -676,63 +659,12 @@ export type PhotoShare = {
   type: Scalars['String'];
 };
 
-export type Product = {
-  __typename?: 'Product';
-  availability: Array<MembershipStatus>;
-  createdAt: Scalars['DateTime'];
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  images: Array<ProductImage>;
-  isActive: Scalars['Boolean'];
-  isESNcard: Scalars['Boolean'];
-  leadImage: ProductImage;
-  leadImageId?: Maybe<Scalars['ID']>;
-  lineItems: Array<LineItem>;
-  needsShippingAddress: Scalars['Boolean'];
-  prices: Scalars['JSON'];
-  publicationState: PublicationState;
-  tenant: Tenant;
-  tenantId: Scalars['ID'];
-  title: Scalars['String'];
-};
-
-
-export type ProductLineItemsArgs = {
-  onlyWithPurchase?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type ProductImage = {
-  __typename?: 'ProductImage';
-  container: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  creator: User;
-  creatorId: Scalars['ID'];
-  id: Scalars['ID'];
-  original: Scalars['String'];
-  originalBlob: Scalars['String'];
-  previewBlob?: Maybe<Scalars['String']>;
-  product: Product;
-  productId: Scalars['ID'];
-  src: Scalars['String'];
-};
-
 export enum PublicationState {
   Approval = 'APPROVAL',
   Draft = 'DRAFT',
   Organizers = 'ORGANIZERS',
   Public = 'PUBLIC'
 }
-
-export type Purchase = {
-  __typename?: 'Purchase';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  items: Array<LineItem>;
-  status: PurchaseStatus;
-  transactions: Array<Transaction>;
-  user: User;
-  userId: Scalars['ID'];
-};
 
 export enum PurchaseStatus {
   Cancelled = 'CANCELLED',
@@ -763,8 +695,6 @@ export type Query = {
   photoShareKey: Scalars['String'];
   photos: Array<PhotoShare>;
   profileUploadKey: Scalars['String'];
-  purchase: Purchase;
-  purchases: Array<Purchase>;
   registration: EventRegistration;
   registrationCount: Scalars['Int'];
   registrations: Array<EventRegistration>;
@@ -835,16 +765,6 @@ export type QueryEventsArgs = {
 
 export type QueryPhotosArgs = {
   eventId?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryPurchaseArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryPurchasesArgs = {
-  limitToOwn?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -966,16 +886,6 @@ export enum Role {
   User = 'USER'
 }
 
-export type ShoppingCart = {
-  __typename?: 'ShoppingCart';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  items: Array<LineItem>;
-  userOfTenant: UsersOfTenants;
-  usersOfTenantsTenantId: Scalars['ID'];
-  usersOfTenantsUserId: Scalars['ID'];
-};
-
 export type Statistics = {
   __typename?: 'Statistics';
   checkinHistory: Scalars['JSON'];
@@ -1082,7 +992,6 @@ export type Transaction = {
   eventRegistration?: Maybe<EventRegistration>;
   id: Scalars['ID'];
   isMembershipFee: Scalars['Boolean'];
-  purchase: Purchase;
   receipts: Array<Receipt>;
   status: TransactionStatus;
   stripePayment?: Maybe<StripePayment>;
@@ -1352,7 +1261,6 @@ export type User = {
   picture: Scalars['String'];
   position?: Maybe<Scalars['String']>;
   profileComplete: Scalars['Boolean'];
-  purchases: Array<Purchase>;
   role: Role;
   status: MembershipStatus;
   studyProgram?: Maybe<Scalars['String']>;
@@ -1375,14 +1283,8 @@ export type UserParticipatedEventsArgs = {
   hideCancelled?: InputMaybe<Scalars['Boolean']>;
 };
 
-
-export type UserPurchasesArgs = {
-  skipCancelled?: InputMaybe<Scalars['Boolean']>;
-};
-
 export type UsersOfTenants = {
   __typename?: 'UsersOfTenants';
-  cart: ShoppingCart;
   createdAt: Scalars['DateTime'];
   role: Role;
   status: MembershipStatus;
@@ -2068,18 +1970,6 @@ export type GetLogsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetLogsQuery = { __typename?: 'Query', logs: Array<{ __typename?: 'ActivityLog', id: string, createdAt: any, message: string, severity: string, data?: any | null, oldData?: any | null }>, logStats: Array<{ __typename?: 'ActivityLogStat', count: number, message: string }> };
-
-export type GetTenantPurchasesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTenantPurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, createdAt: any, status: PurchaseStatus, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, amount: any } | null }> }> };
-
-export type GetPurchaseQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type GetPurchaseQuery = { __typename?: 'Query', purchase: { __typename?: 'Purchase', id: string, status: PurchaseStatus, createdAt: any, user: { __typename?: 'User', id: string, email: string, fullName: string, university?: string | null }, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string, paymentIntent?: string | null, paymentMethodType?: string | null, events: any, shipping?: any | null, amount: any, netAmount?: any | null, feeAmount?: any | null } | null }>, items: Array<{ __typename?: 'LineItem', id: string, quantity: number, product: { __typename?: 'Product', id: string, title: string, leadImage: { __typename?: 'ProductImage', id: string, src: string } }, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }> }> } };
 
 export type UpdateTenantMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -5289,111 +5179,6 @@ export const GetLogsDocument = gql`
   })
   export class GetLogsGQL extends Apollo.Query<GetLogsQuery, GetLogsQueryVariables> {
     override document = GetLogsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetTenantPurchasesDocument = gql`
-    query getTenantPurchases {
-  purchases(limitToOwn: false) {
-    id
-    createdAt
-    status
-    user {
-      id
-      email
-      fullName
-      university
-    }
-    transactions {
-      id
-      status
-      direction
-      amount
-      type
-      subject
-      stripePayment {
-        id
-        status
-        amount
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetTenantPurchasesGQL extends Apollo.Query<GetTenantPurchasesQuery, GetTenantPurchasesQueryVariables> {
-    override document = GetTenantPurchasesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetPurchaseDocument = gql`
-    query getPurchase($id: ID!) {
-  purchase(id: $id) {
-    id
-    status
-    createdAt
-    status
-    user {
-      id
-      email
-      fullName
-      university
-    }
-    transactions {
-      id
-      status
-      direction
-      amount
-      type
-      subject
-      stripePayment {
-        id
-        status
-        paymentIntent
-        paymentMethodType
-        events
-        shipping
-        amount
-        netAmount
-        feeAmount
-      }
-    }
-    items {
-      id
-      quantity
-      product {
-        id
-        title
-        leadImage {
-          id
-          src
-        }
-      }
-      submissions {
-        id
-        data
-        submissionItem {
-          id
-          name
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetPurchaseGQL extends Apollo.Query<GetPurchaseQuery, GetPurchaseQueryVariables> {
-    override document = GetPurchaseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
