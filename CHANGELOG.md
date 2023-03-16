@@ -1,3 +1,29 @@
+# [5.7.0](https://github.com/heddendorp/tumi/compare/v5.6.1...v5.7.0) (2023-03-16)
+
+
+### Bug Fixes
+
+* **app:** add missing slash to registration codes ([8ae2e73](https://github.com/heddendorp/tumi/commit/8ae2e734a31e3132f7fb997838c2a6a51a4c05d0))
+* **app:** change install button ([380db85](https://github.com/heddendorp/tumi/commit/380db8519903038f2ed5b7e98800bc291910cb0f))
+* **app:** don't call for stripeData ([866446b](https://github.com/heddendorp/tumi/commit/866446b18e71fffcdccdb1aaf47514b5d19455d2))
+* **app:** remove hardcoded TUMi URLs ([5ae65c5](https://github.com/heddendorp/tumi/commit/5ae65c5901960b7b804fd03d99c7af5764e05f2a))
+* **app:** update host matching logic ([a52c306](https://github.com/heddendorp/tumi/commit/a52c30690f05d43416780c6a489f86ebad3f1179))
+* **app:** update scaling rules ([ca2870e](https://github.com/heddendorp/tumi/commit/ca2870ee61c5fbfd5195436bd46b2ef415b44ec2))
+* **app:** use root favicon ([9ecad87](https://github.com/heddendorp/tumi/commit/9ecad8732fd61afccec07da42487bcf6c62f49cd))
+* **server:** handle events of connected stripe tenants ([800cb35](https://github.com/heddendorp/tumi/commit/800cb352fd3c20ebae9e50727927242f93dccf92))
+* **server:** use correct stripe account for refunds ([6c444a2](https://github.com/heddendorp/tumi/commit/6c444a2d461a0d91d01c86267d1fc7fd6bf9de28))
+* **server:** use correct tax rate for event registration codes ([047c170](https://github.com/heddendorp/tumi/commit/047c1701e0f5c07ca27bb2484b1e0a52220be6f3))
+
+
+### Features
+
+* Add option to customize deregistration proceedings ([be24442](https://github.com/heddendorp/tumi/commit/be244420b42a65dc9669a214d5adbbb25f0c2739))
+* **app:** add favicon rewrite ([237530f](https://github.com/heddendorp/tumi/commit/237530f448039819467e64c372b8f23112a6979b))
+* **app:** Add more university options ([eeab12e](https://github.com/heddendorp/tumi/commit/eeab12e1980457716cb3444a9561bf551ee34d30))
+* **app:** add title changes for hosts ([f0ef675](https://github.com/heddendorp/tumi/commit/f0ef6751e1714cc30f672df0a491ce839d06d95d))
+
+
+
 ## [5.6.1](https://github.com/heddendorp/tumi/compare/v5.6.0...v5.6.1) (2023-01-31)
 
 
