@@ -47,7 +47,7 @@ import { Router, Scroll } from '@angular/router';
 import { concat, filter, first, interval } from 'rxjs';
 import { IconToastComponent } from '@tumi/legacy-app/modules/shared/components/icon-toast/icon-toast.component';
 import { Settings } from 'luxon';
-import * as Sentry from '@sentry/angular';
+import * as Sentry from '@sentry/angular-ivy';
 import { MatRippleModule } from '@angular/material/core';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { TenantHeaderInterceptor } from './services/tenant-header.interceptor';

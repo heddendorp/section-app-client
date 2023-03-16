@@ -242,7 +242,7 @@ async function handleEvent<ReqBody>(
         });
         break;
       }
-      if (!paymentIntent.charges) {
+      if (!paymentIntent.latest_charge) {
         await prisma.activityLog.create({
           data: {
             data: JSON.parse(JSON.stringify(paymentIntent)),
@@ -253,7 +253,13 @@ async function handleEvent<ReqBody>(
         });
         break;
       }
-      const charge = paymentIntent.charges.data[0];
+      const charge =
+        typeof paymentIntent.latest_charge === 'string'
+          ? await stripe.charges.retrieve(
+              paymentIntent.latest_charge,
+              stripeAccount
+            )
+          : paymentIntent.latest_charge;
       if (Array.isArray(stripePayment.events)) {
         await prisma.stripePayment.update({
           where: { id: stripePayment.id },
@@ -348,7 +354,7 @@ async function handleEvent<ReqBody>(
         });
         break;
       }
-      if (!paymentIntent.charges) {
+      if (!paymentIntent.latest_charge) {
         await prisma.activityLog.create({
           data: {
             data: JSON.parse(JSON.stringify(paymentIntent)),
@@ -359,7 +365,13 @@ async function handleEvent<ReqBody>(
         });
         break;
       }
-      const charge = paymentIntent.charges.data[0];
+      const charge =
+        typeof paymentIntent.latest_charge === 'string'
+          ? await stripe.charges.retrieve(
+              paymentIntent.latest_charge,
+              stripeAccount
+            )
+          : paymentIntent.latest_charge;
       let balanceTransaction;
       if (typeof charge?.balance_transaction === 'string') {
         balanceTransaction = await stripe.balanceTransactions.retrieve(

@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
-import { TraceClassDecorator } from '@sentry/angular';
+import { TraceClassDecorator } from '@sentry/angular-ivy';
 
 @Component({
   selector: 'app-root',

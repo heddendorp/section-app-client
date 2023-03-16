@@ -28,7 +28,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Price } from '../../../../../../../shared/data-types';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TraceClassDecorator } from '@sentry/angular';
+import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({

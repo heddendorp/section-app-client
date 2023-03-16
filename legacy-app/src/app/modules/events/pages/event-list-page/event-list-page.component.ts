@@ -21,7 +21,7 @@ import {
 } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { TraceClassDecorator } from '@sentry/angular';
+import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
