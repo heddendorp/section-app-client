@@ -9,14 +9,8 @@
     "shared/*"
   ],
   "scripts": {
-    "cypress:open": "cypress open",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "test": "yarn docker:up && yarn cypress:open && yarn docker:down",
-    "test:dev": "yarn workspace @tumi/server docker:up && yarn open-tests:dev && yarn workspace @tumi/server docker:down",
-    "test:docker": "yarn docker:up --build && yarn cypress:open --e2e && yarn docker:down",
-    "test:percy": "dotenv -- percy exec -- cypress run",
-    "open-tests:dev": "concurrently --names 'SERVER,ANGULAR,CYPRESS' -k -c 'auto' \"yarn server\"  \"yarn legacy-app\" \"yarn workspace @tumi/server prisma:reset-dev ; yarn cypress:open --e2e --config baseUrl=http://localhost:4200 --env dev=true\"",
     "legacy-app": "yarn workspace @tumi/legacy-app dev",
     "server": "yarn workspace @tumi/server dev",
     "dev": "concurrently --kill-others-on-fail --names 'SERVER,ANGULAR' \"yarn server\"  \"yarn legacy-app\"",
@@ -38,11 +32,8 @@
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@percy/cli": "^1.21.0",
-    "@percy/cypress": "^3.1.2",
     "@playwright/test": "^1.31.2",
     "@testing-library/cypress": "^9.0.0",
-    "cypress": "^12.8.1",
     "dotenv-cli": "^7.1.0",
     "wait-on": "^7.0.1"
   }

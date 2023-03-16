@@ -15,7 +15,6 @@ import {
   NG_VALUE_ACCESSOR,
   UntypedFormControl,
 } from '@angular/forms';
-import * as atlas from 'azure-maps-rest';
 import { HttpClient } from '@angular/common/http';
 import AutocompletePrediction = google.maps.places.AutocompletePrediction;
 import AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
