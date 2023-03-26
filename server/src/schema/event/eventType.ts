@@ -612,17 +612,17 @@ export const eventType = builder.prismaObject('TumiEvent', {
             status: { not: RegistrationStatus.CANCELLED },
           },
         });
-        // if (registrationNumToday >= 3) {
-        //   if (process.env.DEV) {
-        //     console.info(
-        //       `Can't register participant because there are already 3 registrations today`
-        //     );
-        //   }
-        //   return {
-        //     option: false,
-        //     reason: 'You have already registered for 3 events today!',
-        //   };
-        // }
+        if (registrationNumToday >= 3) {
+          if (process.env.DEV) {
+            console.info(
+              `Can't register participant because there are already 3 registrations today`
+            );
+          }
+          return {
+            option: false,
+            reason: 'You have already registered for 3 events today!',
+          };
+        }
         const eventParticipantRegistrations =
           await prisma.eventRegistration.count({
             where: {

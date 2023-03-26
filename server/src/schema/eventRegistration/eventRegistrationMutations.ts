@@ -344,11 +344,11 @@ builder.mutationFields((t) => ({
               status: { not: RegistrationStatus.CANCELLED },
             },
           });
-          // if (registrationNumToday >= 3) {
-          //   throw new GraphQLError(
-          //     'You have reached the maximum number of registrations (3) for today'
-          //   );
-          // }
+          if (registrationNumToday >= 3) {
+            throw new GraphQLError(
+              'You have reached the maximum number of registrations (3) for today'
+            );
+          }
           if (
             event?.registrationMode === RegistrationMode.STRIPE &&
             registrationType === RegistrationType.PARTICIPANT
