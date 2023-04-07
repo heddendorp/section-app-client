@@ -34,7 +34,7 @@
   "devDependencies": {
     "@playwright/test": "^1.31.2",
     "@testing-library/cypress": "^9.0.0",
-    "dotenv-cli": "^7.1.0",
+    "dotenv-cli": "^7.2.1",
     "wait-on": "^7.0.1"
   }
 }

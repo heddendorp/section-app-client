@@ -96,7 +96,7 @@
     "apollo-server-plugin-base": "^3.7.2",
     "copyfiles": "^2.4.1",
     "dayjs": "^1.11.7",
-    "dotenv-cli": "^7.1.0",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "fs-jetpack": "^5.1.0",
