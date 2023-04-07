@@ -5640,15 +5640,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.43.0":
-  version: 7.43.0
-  resolution: "@sentry/integrations@npm:7.43.0"
+"@sentry/integrations@npm:^7.47.0":
+  version: 7.47.0
+  resolution: "@sentry/integrations@npm:7.47.0"
   dependencies:
-    "@sentry/types": 7.43.0
-    "@sentry/utils": 7.43.0
+    "@sentry/types": 7.47.0
+    "@sentry/utils": 7.47.0
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 78734de425eda03f32aac79b007b3b25592df4b793b6f01fe90617c6c76d0c426d65ba89a4962904ff7cd77938cdb1a8f22a13a726af0aa2c0d2358448ad15bb
+  checksum: 227886380e14f23c58d1d33c782024aaddfbc5c185e5b3058b32fcb612d3abe7094ccbd585805ecc366c55d39dc9b4593a8c07e7bf6159c5ccea2e81406f8ad9
   languageName: node
   linkType: hard
 
@@ -5978,7 +5978,7 @@ __metadata:
     "@pothos/tracing-sentry": ^0.7.8
     "@prisma/client": ^4.11.0
     "@sendgrid/mail": ^7.7.0
-    "@sentry/integrations": ^7.43.0
+    "@sentry/integrations": ^7.47.0
     "@sentry/node": ^7.43.0
     "@sentry/tracing": ^7.43.0
     "@types/compression": ^1.7.2
