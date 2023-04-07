@@ -82,7 +82,7 @@
     "@types/eslint": "^8.21.2",
     "@types/express": "4.17.17",
     "@types/express-jwt": "^7.4.2",
-    "@types/jest": "^29.4.4",
+    "@types/jest": "^29.5.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/lodash": "^4.14.191",
     "@types/luxon": "^3.2.0",
