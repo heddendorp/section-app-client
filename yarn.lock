@@ -860,9 +860,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@auth0/auth0-angular@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@auth0/auth0-angular@npm:2.0.2"
+"@auth0/auth0-angular@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@auth0/auth0-angular@npm:2.1.0"
   dependencies:
     "@auth0/auth0-spa-js": ^2.0.1
     tslib: ^2.0.0
@@ -870,7 +870,7 @@ __metadata:
     "@angular/common": ">=13"
     "@angular/core": ">=13"
     "@angular/router": ">=13"
-  checksum: c1a288ee17412d7cf68b895ac582c8b2b4f0a0461d84302f79d1dc274e0ef631450d72076ef2774c27e6a42608ab4b6e81a65acd0363abf6693489a0fc6bd674
+  checksum: 8dadb8cd947366d9dccfa75a4e90ab7f7d2a41d7d1d333f37e43aaedbe7e05c5e2e8019b24de923a7571e10b69beaf7268768539058812c44409b91b5fd8b138
   languageName: node
   linkType: hard
 
@@ -5817,7 +5817,7 @@ __metadata:
     "@angular/router": ^15.2.6
     "@angular/service-worker": ^15.2.2
     "@apollo/client": 3.7.10
-    "@auth0/auth0-angular": ^2.0.2
+    "@auth0/auth0-angular": ^2.1.0
     "@azure/storage-blob": ^12.13.0
     "@graphql-codegen/cli": ^3.2.2
     "@graphql-codegen/typescript": ^3.0.2
