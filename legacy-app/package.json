@@ -54,7 +54,7 @@
     "@angular-eslint/eslint-plugin-template": "15.2.1",
     "@angular-eslint/schematics": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
-    "@angular/cli": "^15.2.3",
+    "@angular/cli": "^15.2.5",
     "@angular/compiler-cli": "^15.2.6",
     "@graphql-codegen/cli": "^3.3.0",
     "@graphql-codegen/typescript": "^3.0.2",
