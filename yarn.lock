@@ -545,9 +545,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:3.7.10":
-  version: 3.7.10
-  resolution: "@apollo/client@npm:3.7.10"
+"@apollo/client@npm:3.7.11":
+  version: 3.7.11
+  resolution: "@apollo/client@npm:3.7.11"
   dependencies:
     "@graphql-typed-document-node/core": ^3.1.1
     "@wry/context": ^0.7.0
@@ -555,7 +555,7 @@ __metadata:
     "@wry/trie": ^0.3.0
     graphql-tag: ^2.12.6
     hoist-non-react-statics: ^3.3.2
-    optimism: ^0.16.1
+    optimism: ^0.16.2
     prop-types: ^15.7.2
     response-iterator: ^0.2.6
     symbol-observable: ^4.0.0
@@ -577,7 +577,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: d74a68f8042e76e3a81990c79a89aefc07c8899d354f3b469591356508001005106bba0fa953652c3ec19756d44bdec6730ac98f62fa836bd76acbcb7eff42ce
+  checksum: 56fa501dc27b68b01c054ffd5642fcfedb16ee4653e819fb92d1b6cae834160f1274a961f335812f4781bbbbdf3bb6f851f07a7351f95d8945740cc79fa2d58f
   languageName: node
   linkType: hard
 
@@ -5905,7 +5905,7 @@ __metadata:
     "@angular/platform-browser-dynamic": ^15.2.6
     "@angular/router": ^15.2.6
     "@angular/service-worker": ^15.2.2
-    "@apollo/client": 3.7.10
+    "@apollo/client": 3.7.11
     "@auth0/auth0-angular": ^2.1.0
     "@azure/storage-blob": ^12.13.0
     "@graphql-codegen/cli": ^3.2.2
@@ -15659,7 +15659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"optimism@npm:^0.16.1":
+"optimism@npm:^0.16.2":
   version: 0.16.2
   resolution: "optimism@npm:0.16.2"
   dependencies:
