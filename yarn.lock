@@ -5678,15 +5678,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.43.0":
-  version: 7.43.0
-  resolution: "@sentry/tracing@npm:7.43.0"
+"@sentry/tracing@npm:^7.47.0":
+  version: 7.47.0
+  resolution: "@sentry/tracing@npm:7.47.0"
   dependencies:
-    "@sentry/core": 7.43.0
-    "@sentry/types": 7.43.0
-    "@sentry/utils": 7.43.0
-    tslib: ^1.9.3
-  checksum: 6dcbd7b1b44f4e9b68a1702bacc57554e45c9b73c20fad21b3d33d16cba9f83eaa612b8faa46e7ab9ed10c508dc896ffa0f5e14fd175aeb9466ad7ae7a75a7d0
+    "@sentry-internal/tracing": 7.47.0
+  checksum: dd21b1399811b02f759cb71b39899372ba118934f922f0db75f8e295cf2e81c9b3d7e3cb8cd9f06ed42b86d933610fac9032db37b999146116a9decaaa21ca8d
   languageName: node
   linkType: hard
 
@@ -5917,7 +5914,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^3.0.3
     "@ng-web-apis/common": ^2.1.0
     "@sentry/angular-ivy": ^7.47.0
-    "@sentry/tracing": ^7.43.0
+    "@sentry/tracing": ^7.47.0
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/line-clamp": ^0.4.2
     "@tailwindcss/typography": ^0.5.9
@@ -5980,7 +5977,7 @@ __metadata:
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.47.0
     "@sentry/node": ^7.43.0
-    "@sentry/tracing": ^7.43.0
+    "@sentry/tracing": ^7.47.0
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.13
