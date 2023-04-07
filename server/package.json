@@ -85,7 +85,7 @@
     "@types/jest": "^29.4.4",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/lodash": "^4.14.191",
-    "@types/luxon": "^3.2.0",
+    "@types/luxon": "^3.3.0",
     "@types/node": "^18.15.3",
     "@types/node-cron": "^3.0.7",
     "@types/prettier": "^2.7.2",
