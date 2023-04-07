@@ -5849,7 +5849,7 @@ __metadata:
     highcharts-angular: ^3.1.2
     jasmine-core: ~4.6.0
     luxon: ^3.3.0
-    marked: ^4.2.12
+    marked: ^4.3.0
     ngx-markdown: ^15.1.2
     postcss: ^8.4.21
     prettier: ^2.8.4
@@ -5928,7 +5928,7 @@ __metadata:
     jwks-rsa: ^3.0.1
     lodash: ^4.17.21
     luxon: ^3.3.0
-    marked: ^4.2.12
+    marked: ^4.3.0
     mjml: ^4.13.0
     moment: ^2.29.4
     moment-timezone: ^0.5.41
@@ -14169,12 +14169,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.2.12":
-  version: 4.2.12
-  resolution: "marked@npm:4.2.12"
+"marked@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "marked@npm:4.3.0"
   bin:
     marked: bin/marked.js
-  checksum: bd551cd61028ee639d4ca2ccdfcc5a6ba4227c1b143c4538f3cde27f569dcb57df8e6313560394645b418b84a7336c07ab1e438b89b6324c29d7d8cdd3102d63
+  checksum: 0db6817893952c3ec710eb9ceafb8468bf5ae38cb0f92b7b083baa13d70b19774674be04db5b817681fa7c5c6a088f61300815e4dd75a59696f4716ad69f6260
   languageName: node
   linkType: hard
 
