@@ -5942,7 +5942,7 @@ __metadata:
     ngx-markdown: ^15.1.2
     postcss: ^8.4.21
     prettier: ^2.8.7
-    prettier-plugin-tailwindcss: ^0.2.4
+    prettier-plugin-tailwindcss: ^0.2.7
     qr-scanner: ^1.4.2
     rxjs: ~7.8.0
     tailwindcss: ^3.3.1
@@ -16321,9 +16321,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "prettier-plugin-tailwindcss@npm:0.2.4"
+"prettier-plugin-tailwindcss@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "prettier-plugin-tailwindcss@npm:0.2.7"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-php": "*"
@@ -16372,7 +16372,7 @@ __metadata:
       optional: true
     prettier-plugin-twig-melody:
       optional: true
-  checksum: 9f74d1c80e9151636c748baac13e736a81ae47fa2b2aaf66f9e4691a619a565439780c39491dccb1d0df4846a011b1d69c882e733ed20525d93a84c345b8321d
+  checksum: dca201a7454e6eb32b8e5ec0b585add295c4a88fcd92d94d7dd8bdf2040c7210b12efb04764c457781467e7ecec7f32105e9dceb881736a6859c3b2a7a3ad461
   languageName: node
   linkType: hard
 
