@@ -2742,15 +2742,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "@graphql-codegen/cli@npm:3.2.2"
+"@graphql-codegen/cli@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@graphql-codegen/cli@npm:3.3.0"
   dependencies:
     "@babel/generator": ^7.18.13
     "@babel/template": ^7.18.10
     "@babel/types": ^7.18.13
     "@graphql-codegen/core": ^3.1.0
-    "@graphql-codegen/plugin-helpers": ^4.1.0
+    "@graphql-codegen/plugin-helpers": ^4.2.0
     "@graphql-tools/apollo-engine-loader": ^7.3.6
     "@graphql-tools/code-file-loader": ^7.3.17
     "@graphql-tools/git-loader": ^7.2.13
@@ -2788,7 +2788,7 @@ __metadata:
     graphql-code-generator: cjs/bin.js
     graphql-codegen: cjs/bin.js
     graphql-codegen-esm: esm/bin.js
-  checksum: b94284ac538a3504f96c7d507c140b7cfee30042209c4230ffc3068f05b6b27c75e1922b31c696363ab43e34e472ed194cc72996bbb10f59991cd2a4a35ff36e
+  checksum: 7c3ae7ba62cfb5576e6c1fc78f81a2c59d399415b9ef2ba55818af00aff2337a047a61b1cedb6e89e73dac30d9a00e57045ff6052245934bc4c5cf35c9762250
   languageName: node
   linkType: hard
 
@@ -5908,7 +5908,7 @@ __metadata:
     "@apollo/client": 3.7.10
     "@auth0/auth0-angular": ^2.1.0
     "@azure/storage-blob": ^12.13.0
-    "@graphql-codegen/cli": ^3.2.2
+    "@graphql-codegen/cli": ^3.3.0
     "@graphql-codegen/typescript": ^3.0.2
     "@graphql-codegen/typescript-apollo-angular": ^3.5.6
     "@graphql-codegen/typescript-operations": ^3.0.3
