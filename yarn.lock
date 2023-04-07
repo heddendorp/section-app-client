@@ -5144,11 +5144,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pothos/plugin-prisma@npm:^3.43.0":
-  version: 3.43.0
-  resolution: "@pothos/plugin-prisma@npm:3.43.0"
+"@pothos/plugin-prisma@npm:^3.47.2":
+  version: 3.47.2
+  resolution: "@pothos/plugin-prisma@npm:3.47.2"
   dependencies:
-    "@prisma/generator-helper": ^4.9.0
+    "@prisma/generator-helper": ^4.11.0
   peerDependencies:
     "@pothos/core": "*"
     "@prisma/client": "*"
@@ -5156,7 +5156,7 @@ __metadata:
     typescript: ">=4.7.2"
   bin:
     prisma-pothos-types: bin/generator.js
-  checksum: fcd8c334425e8e500370bba0f375954b00e1362bfe1e2d90433d8ca9a601ca7d587ca21bbe188e5739db436956efa82e53ba46d6b00627d95c681b3d743d2e6d
+  checksum: 06a7e5ecb111e635042e4d3647c4a0248546f0e9888db4941d0b38399c0cd10c33ac1ed28938c93bcc29442460e5140e00c0cd7ea0beba15d6727e244a157905
   languageName: node
   linkType: hard
 
@@ -5217,14 +5217,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/debug@npm:4.10.0":
-  version: 4.10.0
-  resolution: "@prisma/debug@npm:4.10.0"
+"@prisma/debug@npm:4.12.0":
+  version: 4.12.0
+  resolution: "@prisma/debug@npm:4.12.0"
   dependencies:
     "@types/debug": 4.1.7
     debug: 4.3.4
     strip-ansi: 6.0.1
-  checksum: 57919fd33611b8ef7670063c05bcc12e7419e11e7f56b216e52fe304299ccad0d70c3c28fde107845c5707158e0605015765b2b54b5a3618df53e1ee2aa15477
+  checksum: 0ae182634f4a25231ff946768e1da1f694b5141d21c92cb2a142580de30d67ebd1595f8575a4c63356740e415d5d64829449a4710d8421e7147016ea0acb2643
   languageName: node
   linkType: hard
 
@@ -5319,15 +5319,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/generator-helper@npm:^4.9.0":
-  version: 4.10.0
-  resolution: "@prisma/generator-helper@npm:4.10.0"
+"@prisma/generator-helper@npm:^4.11.0":
+  version: 4.12.0
+  resolution: "@prisma/generator-helper@npm:4.12.0"
   dependencies:
-    "@prisma/debug": 4.10.0
+    "@prisma/debug": 4.12.0
     "@types/cross-spawn": 6.0.2
     chalk: 4.1.2
     cross-spawn: 7.0.3
-  checksum: 9b144c7025e5302e2ba1770b3557ca3112b5681bd73705ad55503e30d6aab33078fd2a241168d53e688f0d6387a056cb08f80944a52d340faf1f748c2f92f641
+  checksum: b844fcf736c922ce39e6aa1081b7c133b921ceb5d272f51296cf7afc3128ca6085ef1594ce63045ef47a462c56e5e37b9a1094a36d5dd484f77017d6f227641f
   languageName: node
   linkType: hard
 
@@ -5930,7 +5930,7 @@ __metadata:
     "@graphql-hive/client": ^0.23.1
     "@pathcheck/dcc-sdk": ^0.0.27
     "@pothos/core": ^3.28.0
-    "@pothos/plugin-prisma": ^3.43.0
+    "@pothos/plugin-prisma": ^3.47.2
     "@pothos/plugin-scope-auth": 3.18.0
     "@pothos/plugin-simple-objects": ^3.6.7
     "@pothos/plugin-tracing": ^0.5.7
