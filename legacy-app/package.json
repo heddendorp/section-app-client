@@ -22,7 +22,7 @@
     "@angular/core": "^15.2.2",
     "@angular/forms": "^15.2.2",
     "@angular/google-maps": "^15.2.2",
-    "@angular/material": "^15.2.2",
+    "@angular/material": "^15.2.6",
     "@angular/material-luxon-adapter": "^15.2.2",
     "@angular/platform-browser": "^15.2.6",
     "@angular/platform-browser-dynamic": "^15.2.6",
