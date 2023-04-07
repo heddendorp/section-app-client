@@ -59,7 +59,7 @@
     "@graphql-codegen/cli": "^3.2.2",
     "@graphql-codegen/typescript": "^3.0.2",
     "@graphql-codegen/typescript-apollo-angular": "^3.5.6",
-    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
