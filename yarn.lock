@@ -492,19 +492,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/platform-browser@npm:^15.2.2":
-  version: 15.2.2
-  resolution: "@angular/platform-browser@npm:15.2.2"
+"@angular/platform-browser@npm:^15.2.6":
+  version: 15.2.6
+  resolution: "@angular/platform-browser@npm:15.2.6"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/animations": 15.2.2
-    "@angular/common": 15.2.2
-    "@angular/core": 15.2.2
+    "@angular/animations": 15.2.6
+    "@angular/common": 15.2.6
+    "@angular/core": 15.2.6
   peerDependenciesMeta:
     "@angular/animations":
       optional: true
-  checksum: 518a1788e2e79011802b5de8dc9ab43271683da4c00b26796f6dd77efbd47f2e7bbdd38a74eb47f0cb115ee37795af6ea4de073aa8c680d6a114293a1f8061c2
+  checksum: 10fd147ce431e15aba36832126be5d993e58e35b99ea9e38ceb70652156393e6b425d4dd7064cf191558707f0eb5070ac6cc3c218dfac63acddc57a0837ffb50
   languageName: node
   linkType: hard
 
@@ -5863,7 +5863,7 @@ __metadata:
     "@angular/google-maps": ^15.2.2
     "@angular/material": ^15.2.2
     "@angular/material-luxon-adapter": ^15.2.2
-    "@angular/platform-browser": ^15.2.2
+    "@angular/platform-browser": ^15.2.6
     "@angular/platform-browser-dynamic": ^15.2.6
     "@angular/router": ^15.2.6
     "@angular/service-worker": ^15.2.2
