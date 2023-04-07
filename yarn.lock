@@ -5135,12 +5135,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pothos/core@npm:^3.28.0":
-  version: 3.28.0
-  resolution: "@pothos/core@npm:3.28.0"
+"@pothos/core@npm:^3.29.0":
+  version: 3.29.0
+  resolution: "@pothos/core@npm:3.29.0"
   peerDependencies:
     graphql: ">=15.1.0"
-  checksum: cdd8b37827e6317392571d92274eb7ae3fa9e5965dc5cc1281bdfe0addc557920aefcc000c348b7ed08854941f196ea02e5576ec10dfc738438cb481eb789e64
+  checksum: 4a064513ad4cd1e85f524340d88603b3731d7ba841597fd89838a420b9ce0d9dfb3be8d1aafb406eac72b419525a4c5c26d80aabd6ca6b14e3cd65bbf6734ffd
   languageName: node
   linkType: hard
 
@@ -5967,7 +5967,7 @@ __metadata:
     "@faker-js/faker": ^7.6.0
     "@graphql-hive/client": ^0.23.1
     "@pathcheck/dcc-sdk": ^0.0.27
-    "@pothos/core": ^3.28.0
+    "@pothos/core": ^3.29.0
     "@pothos/plugin-prisma": ^3.47.2
     "@pothos/plugin-scope-auth": 3.18.0
     "@pothos/plugin-simple-objects": ^3.6.7
