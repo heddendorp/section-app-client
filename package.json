@@ -32,7 +32,7 @@
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@playwright/test": "^1.31.2",
+    "@playwright/test": "^1.32.2",
     "@testing-library/cypress": "^9.0.0",
     "dotenv-cli": "^7.2.1",
     "wait-on": "^7.0.1"
