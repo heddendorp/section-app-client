@@ -361,15 +361,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/core@npm:^15.2.2":
-  version: 15.2.2
-  resolution: "@angular/core@npm:15.2.2"
+"@angular/core@npm:^15.2.6":
+  version: 15.2.6
+  resolution: "@angular/core@npm:15.2.6"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     rxjs: ^6.5.3 || ^7.4.0
     zone.js: ~0.11.4 || ~0.12.0 || ~0.13.0
-  checksum: 9e45b67550936ada3459286a6a4d384b07304d896ffbbc901381405e0d907909aff8248684d8a32dc9099da3e0ec4ee2b0ed2738321960301a6f6d6c857a69fe
+  checksum: f586062d384b45fa4e3282d4b73e54efdc5e2e0c37d8310a0d72f4da7a2fd9a8d7f254ac484bd7ec334ff66902ffe974229fa98c5ca3b059f0ae42a9184f641c
   languageName: node
   linkType: hard
 
@@ -5896,7 +5896,7 @@ __metadata:
     "@angular/common": ^15.2.6
     "@angular/compiler": ^15.2.2
     "@angular/compiler-cli": ^15.2.6
-    "@angular/core": ^15.2.2
+    "@angular/core": ^15.2.6
     "@angular/forms": ^15.2.2
     "@angular/google-maps": ^15.2.2
     "@angular/material": ^15.2.6
