@@ -92,7 +92,7 @@
     "@types/qrcode": "^1.5.0",
     "@types/sharp": "^0.31.1",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/parser": "^5.55.0",
+    "@typescript-eslint/parser": "^5.57.1",
     "apollo-server-plugin-base": "^3.7.2",
     "copyfiles": "^2.4.1",
     "dayjs": "^1.11.7",
