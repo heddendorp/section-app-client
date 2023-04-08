@@ -6033,7 +6033,7 @@ __metadata:
     rimraf: ^4.4.0
     rrule: ^2.7.2
     sharp: ^0.32.0
-    stripe: ^11.14.0
+    stripe: ^12.0.0
     supertest: ^6.3.3
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
@@ -18067,13 +18067,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stripe@npm:^11.14.0":
-  version: 11.14.0
-  resolution: "stripe@npm:11.14.0"
+"stripe@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "stripe@npm:12.0.0"
   dependencies:
     "@types/node": ">=8.1.0"
     qs: ^6.11.0
-  checksum: daaee9f33e84d04d81d90ce86fd810d0b77b0700265b30e92fe86e4cf643d4281b3322be608896570a26d7231fe78d71c5e25c4122daf5c3f5eebe87dfd33952
+  checksum: 0a23417d878606b25e17a70504be0b842c9e795739405d8cd4886818d7f98c6555e8945cde6d40b741938ae617f25586b20c63e7d8863993cc4c946711dc40bd
   languageName: node
   linkType: hard
 
