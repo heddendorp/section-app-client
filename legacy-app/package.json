@@ -61,7 +61,7 @@
     "@graphql-codegen/typescript-apollo-angular": "^3.5.6",
     "@graphql-codegen/typescript-operations": "^3.0.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.9",
     "@types/d3-scale": "^4.0.3",
     "@types/d3-selection": "^3.0.5",
