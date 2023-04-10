@@ -719,7 +719,7 @@ export const eventType = builder.prismaObject('TumiEvent', {
           .replaceAll('%title%', event.title)
           .replaceAll('%preview%', intro)
           .replaceAll('%intro%', intro)
-          .replaceAll('%weekday%', date.weekdayLong)
+          .replaceAll('%weekday%', date.weekdayLong ?? '')
           .replaceAll('%icon%', iconUrl)
           .replaceAll('%url%', `https://tumi.esn.world/events/${event.id}`)
           .replaceAll('%location%', event.location)

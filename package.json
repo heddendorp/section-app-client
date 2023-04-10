@@ -25,7 +25,7 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^8.0.1"
   },
   "volta": {
     "node": "18.12.1",
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.32.2",
-    "@testing-library/cypress": "^9.0.0",
     "dotenv-cli": "^7.2.1",
     "wait-on": "^7.0.1"
   }
