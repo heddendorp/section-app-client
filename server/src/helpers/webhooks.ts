@@ -223,8 +223,11 @@ async function handleEvent<ReqBody>(
       console.log('Processing event: payment_intent.processing');
       let stripePayment: StripePayment | null;
       if (paymentIntent.metadata.stripePaymentId) {
-        stripePayment = await prisma.stripePayment.findUnique({
+        stripePayment = await prisma.stripePayment.update({
           where: { id: paymentIntent.metadata.stripePaymentId },
+          data: {
+            paymentIntent: paymentIntent.id,
+          },
         });
       } else {
         stripePayment = await prisma.stripePayment.findUnique({
@@ -305,8 +308,11 @@ async function handleEvent<ReqBody>(
           })
         | null;
       if (eventObject.metadata.stripePaymentId) {
-        stripePayment = await prisma.stripePayment.findUnique({
+        stripePayment = await prisma.stripePayment.update({
           where: { id: eventObject.metadata.stripePaymentId },
+          data: {
+            paymentIntent: eventObject.id,
+          },
           include: {
             transactions: {
               include: {
@@ -705,16 +711,30 @@ async function handleEvent<ReqBody>(
       const eventObject: Stripe.Stripe.PaymentIntent = event.data
         .object as Stripe.Stripe.PaymentIntent;
       console.log('Processing event: payment_intent.canceled');
-      const stripePayment = await prisma.stripePayment.findUnique({
-        where: { paymentIntent: eventObject.id },
-        include: {
-          transactions: {
-            include: {
-              tenant: { select: { stripeConnectAccountId: true } },
+      let stripePayment;
+      if (eventObject.metadata.stripePaymentId) {
+        stripePayment = await prisma.stripePayment.findUnique({
+          where: { id: eventObject.metadata.stripePaymentId },
+          include: {
+            transactions: {
+              include: {
+                tenant: { select: { stripeConnectAccountId: true } },
+              },
             },
           },
-        },
-      });
+        });
+      } else {
+        stripePayment = await prisma.stripePayment.findUnique({
+          where: { paymentIntent: eventObject.id },
+          include: {
+            transactions: {
+              include: {
+                tenant: { select: { stripeConnectAccountId: true } },
+              },
+            },
+          },
+        });
+      }
       if (!stripePayment?.transactions[0]?.tenant.stripeConnectAccountId) {
         await prisma.activityLog.create({
           data: {
