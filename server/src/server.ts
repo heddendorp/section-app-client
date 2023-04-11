@@ -9,7 +9,7 @@ import { qrRouter } from './helpers/qrCode';
 import { shortRouter } from './helpers/shortRouter';
 import prisma from './client';
 import { Auth0 } from './helpers/auth0';
-import { createYoga, YogaInitialContext } from 'graphql-yoga';
+import { createYoga, useErrorHandler, YogaInitialContext } from 'graphql-yoga';
 import { schema } from './schema';
 import prom from 'prom-client';
 import { useAuth0, UserPayload } from '@envelop/auth0';
@@ -108,6 +108,7 @@ const tracingPlugin: Plugin = {
 
 const graphQLServer = createYoga({
   schema,
+  // logging: 'debug',
   context: {
     auth0,
   },
@@ -118,6 +119,13 @@ const graphQLServer = createYoga({
   plugins: [
     // enableIf(isProd, useSentry({ trackResolvers: false })),
     // enableIf(isProd, tracingPlugin),
+    useErrorHandler(({ errors }) => {
+      console.log(errors);
+      errors.forEach((error) => {
+        console.log(error);
+        Sentry.captureException(error);
+      });
+    }),
     useHive({
       enabled: isProd,
       debug: !!process.env.DEV, // or false
@@ -205,7 +213,7 @@ const graphQLServer = createYoga({
         return { ...context, tenant };
       }
     ),
-    useGraphQlJit(),
+    // useGraphQlJit(),
   ],
   parserCache: true,
   validationCache: true,

@@ -35,13 +35,13 @@ export class RegistrationService {
     cancelUrl?: string,
     successUrl?: string
   ): Promise<any> {
-    const registrationCode = await prisma.eventRegistrationCode.findUnique({
-      where: { id: registrationCodeId },
-      include: { targetEvent: true },
-    });
+    const registrationCode =
+      await prisma.eventRegistrationCode.findUniqueOrThrow({
+        where: { id: registrationCodeId },
+        include: { targetEvent: true },
+      });
     if (
-      registrationCode?.targetEvent?.registrationMode ===
-      RegistrationMode.STRIPE
+      registrationCode.targetEvent.registrationMode === RegistrationMode.STRIPE
     ) {
       const [icon, style] = (registrationCode.targetEvent?.icon ?? '').split(
         ':'
@@ -75,7 +75,7 @@ export class RegistrationService {
         userId,
         registrationCode.sepaAllowed
       );
-      await prisma.$transaction(async (prisma) => {
+      return prisma.$transaction(async (prisma) => {
         const registrationCode = await prisma.eventRegistrationCode.findUnique({
           where: { id: registrationCodeId },
           include: { targetEvent: true },

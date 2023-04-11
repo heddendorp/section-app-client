@@ -1,5 +1,6 @@
 import { builder } from '../../builder';
 import prisma from '../../client';
+import { GraphQLError } from 'graphql';
 
 builder.queryFields((t) => ({
   eventRegistrationCodes: t.prismaField({
