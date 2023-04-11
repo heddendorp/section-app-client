@@ -32,7 +32,7 @@
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "@playwright/test": "^1.32.2",
+    "@playwright/test": "^1.32.3",
     "dotenv-cli": "^7.2.1",
     "wait-on": "^7.0.1"
   }
