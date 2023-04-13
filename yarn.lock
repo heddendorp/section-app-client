@@ -439,16 +439,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material-luxon-adapter@npm:^15.2.6":
-  version: 15.2.6
-  resolution: "@angular/material-luxon-adapter@npm:15.2.6"
+"@angular/material-luxon-adapter@npm:^15.2.7":
+  version: 15.2.7
+  resolution: "@angular/material-luxon-adapter@npm:15.2.7"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/core": ^15.0.0 || ^16.0.0
-    "@angular/material": 15.2.6
+    "@angular/material": 15.2.7
     luxon: ^3.0.0
-  checksum: 13230b2509f40ead843b3d59491f7d36820fd9f2d76619e4d3dc941e38fbae6a49b1a00a0424997afd7f700de8227e0a2cbba53a5e5f98098b67b6f5f4118fc2
+  checksum: 5aeb2b2001e96d84f06eccdc0648a4b34a1cc01032b6cf3ea6a37bee6ed5ff054ff2307a196247533efc846e8f072875b80587d247009b8d452d60356705597c
   languageName: node
   linkType: hard
 
@@ -5576,7 +5576,7 @@ __metadata:
     "@angular/forms": ^15.2.7
     "@angular/google-maps": ^15.2.6
     "@angular/material": ^15.2.6
-    "@angular/material-luxon-adapter": ^15.2.6
+    "@angular/material-luxon-adapter": ^15.2.7
     "@angular/platform-browser": ^15.2.6
     "@angular/platform-browser-dynamic": ^15.2.7
     "@angular/router": ^15.2.7
