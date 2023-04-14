@@ -175,6 +175,8 @@ export class TemplateDetailsPageComponent {
             googlePlaceId: location.place_id,
             googlePlaceUrl: location.url,
             location: location.structured_formatting.main_text,
+            isVirtual: location.isVirtual,
+            onlineMeetingUrl: location.onlineMeetingUrl,
           },
         })
       );

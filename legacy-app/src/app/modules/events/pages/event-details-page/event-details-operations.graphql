@@ -22,6 +22,8 @@ query loadEvent($id: ID!) {
     location
     coordinates
     googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
     createdBy {
       id
       fullName

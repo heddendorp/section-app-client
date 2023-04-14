@@ -69,6 +69,8 @@ export const eventType = builder.prismaObject('TumiEvent', {
         return null;
       },
     }),
+    onlineMeetingUrl: t.exposeString('onlineMeetingUrl', { nullable: true }),
+    isVirtual: t.exposeBoolean('isVirtual'),
     registrationLink: t.exposeString('registrationLink', { nullable: true }),
     registrationMode: t.expose('registrationMode', { type: RegistrationMode }),
     participantText: t.exposeString('participantText'),
@@ -783,6 +785,8 @@ export const updateEventLocationInputType = builder.inputType(
       coordinates: t.field({ type: 'JSON' }),
       googlePlaceId: t.string(),
       googlePlaceUrl: t.string(),
+      isVirtual: t.boolean({ required: true }),
+      onlineMeetingUrl: t.string(),
     }),
   }
 );

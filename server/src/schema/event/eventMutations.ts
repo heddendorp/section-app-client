@@ -98,6 +98,8 @@ builder.mutationFields((t) => ({
           location: template.location,
           googlePlaceId: template.googlePlaceId,
           googlePlaceUrl: template.googlePlaceUrl,
+          isVirtual: template.isVirtual,
+          onlineMeetingUrl: template.onlineMeetingUrl,
           participantText: template.participantText,
           organizerText: template.organizerText,
           insuranceDescription: template.insuranceDescription,

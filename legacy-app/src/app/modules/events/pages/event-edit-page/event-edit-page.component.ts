@@ -411,6 +411,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             coordinates: location.position,
             googlePlaceId: location.place_id,
             googlePlaceUrl: location.url,
+            isVirtual: location.isVirtual,
+            onlineMeetingUrl: location.onlineMeetingUrl,
           },
         })
       );

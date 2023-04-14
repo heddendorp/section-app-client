@@ -18,6 +18,8 @@ query loadEventForEdit($id: ID!) {
     location
     googlePlaceId
     googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
     organizerLimit
     organizerRegistrationPossible
     organizerSignup
@@ -152,6 +154,8 @@ mutation updateEventLocation(
     id
     location
     coordinates
+    isVirtual
+    onlineMeetingUrl
   }
 }
 

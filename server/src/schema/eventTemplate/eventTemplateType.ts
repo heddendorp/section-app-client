@@ -16,6 +16,8 @@ export const eventTemplateType = builder.prismaObject('EventTemplate', {
     location: t.exposeString('location'),
     googlePlaceId: t.exposeString('googlePlaceId', { nullable: true }),
     googlePlaceUrl: t.exposeString('googlePlaceUrl', { nullable: true }),
+    onlineMeetingUrl: t.exposeString('onlineMeetingUrl', { nullable: true }),
+    isVirtual: t.exposeBoolean('isVirtual'),
     coordinates: t.expose('coordinates', { type: 'JSON', nullable: true }),
     duration: t.expose('duration', { type: 'Decimal' }),
     participantText: t.exposeString('participantText'),
@@ -158,6 +160,8 @@ export const updateTemplateLocationInputType = builder.inputType(
       coordinates: t.field({ type: 'JSON' }),
       googlePlaceId: t.string(),
       googlePlaceUrl: t.string(),
+      isVirtual: t.boolean({ required: true }),
+      onlineMeetingUrl: t.string(),
     }),
   }
 );

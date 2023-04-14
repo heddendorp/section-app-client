@@ -11,9 +11,9 @@
     >
   </ng-container>
 </mat-toolbar>
-<main class="py-4 px-1 sm:p-4">
+<main class="px-1 py-4 sm:p-4">
   <div
-    class="bg-secondary-container text-primary-onContainer rounded-2xl py-4 px-1 shadow-xl sm:p-4"
+    class="bg-secondary-container text-primary-onContainer rounded-2xl px-1 py-4 shadow-xl sm:p-4"
   >
     <mat-tab-group
       mat-stretch-tabs
@@ -26,31 +26,50 @@
             class="mb-4 rounded-md border-2 p-4"
             *ngIf="event$ | async as event"
           >
-            <a
-              class="modern"
-              mat-stroked-button
-              [href]="
-                event.googlePlaceUrl
-                  ? event.googlePlaceUrl
-                  : 'https://www.google.com/maps/place/' +
-                    event.coordinates?.lat +
-                    ',' +
-                    event.coordinates?.lon
-              "
-              target="_blank"
-            >
-              <mat-icon svgIcon="icon-map-marker"></mat-icon>
-              {{ event.location }}
-            </a>
-            <button class="modern" mat-icon-button (click)="updateLocation()">
-              <mat-icon svgIcon="icon-edit"></mat-icon>
-            </button>
-            <div class="mt-2 text-xs text-slate-600">
-              <span>{{ event.googlePlaceUrl }} </span>
-              <span *ngIf="event.coordinates"
-                >({{ event.coordinates.lat }},
-                {{ event.coordinates.lon }})</span
+            <div *ngIf="!event.isVirtual">
+              <a
+                class="modern"
+                mat-stroked-button
+                [href]="
+                  event.googlePlaceUrl
+                    ? event.googlePlaceUrl
+                    : 'https://www.google.com/maps/place/' +
+                      event.coordinates?.lat +
+                      ',' +
+                      event.coordinates?.lon
+                "
+                target="_blank"
               >
+                <mat-icon svgIcon="icon-map-marker"></mat-icon>
+                {{ event.location }}
+              </a>
+              <button class="modern" mat-icon-button (click)="updateLocation()">
+                <mat-icon svgIcon="icon-edit"></mat-icon>
+              </button>
+              <div class="mt-2 text-xs text-slate-600">
+                <span>{{ event.googlePlaceUrl }} </span>
+                <span *ngIf="event.coordinates"
+                  >({{ event.coordinates.lat }},
+                  {{ event.coordinates.lon }})</span
+                >
+              </div>
+            </div>
+            <div *ngIf="event.isVirtual">
+              <a
+                class="modern"
+                mat-stroked-button
+                [href]="event.onlineMeetingUrl"
+                target="_blank"
+              >
+                <mat-icon svgIcon="icon-video-conference"></mat-icon>
+                {{ event.location }}
+              </a>
+              <button class="modern" mat-icon-button (click)="updateLocation()">
+                <mat-icon svgIcon="icon-edit"></mat-icon>
+              </button>
+              <div class="mt-2 text-xs text-slate-600">
+                <span>{{ event.onlineMeetingUrl }} </span>
+              </div>
             </div>
           </div>
 
@@ -356,14 +375,14 @@
       </mat-tab>
       <mat-tab label="Admin options" *appIfRole="[Role.Admin]">
         <div class="p-4" *ngIf="event$ | async as event">
-          <h1 class="mt-16 mb-2">Additional Data</h1>
+          <h1 class="mb-2 mt-16">Additional Data</h1>
           <app-data-items-manager
             mode="event"
             [parentId]="event.id"
             [items]="event.submissionItems"
             (reloadParent)="reloadEvent()"
           ></app-data-items-manager>
-          <h1 class="mt-16 mb-2">Change event template</h1>
+          <h1 class="mb-2 mt-16">Change event template</h1>
           <p class="mb-2">
             Connected template: {{ event.eventTemplate.title }}
           </p>
@@ -375,7 +394,7 @@
           >
             <span>Change connected template</span>
           </button>
-          <h1 class="mt-16 mb-2">Delete Event</h1>
+          <h1 class="mb-2 mt-16">Delete Event</h1>
           <button
             mat-flat-button
             class="modern"

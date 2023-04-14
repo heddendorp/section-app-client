@@ -23,6 +23,8 @@ mutation updateTemplateLocation(
     location
     coordinates
     googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
   }
 }
 
@@ -126,6 +128,8 @@ query getEventTemplate($id: ID!) {
     location
     coordinates
     googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
     finances
     insuranceDescription
     shouldBeReportedToInsurance

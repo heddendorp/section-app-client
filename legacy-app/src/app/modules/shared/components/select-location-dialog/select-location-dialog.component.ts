@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,16 +10,27 @@ import { HttpClient } from '@angular/common/http';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectLocationDialogComponent {
-  public locationControl = new UntypedFormControl(null, Validators.required);
+  public locationControl = new UntypedFormControl(null);
+  protected virtualEventControl = new FormControl(false, Validators.required);
+  protected meetingUrlControl = new FormControl('');
   public isSaving = false;
 
-  constructor(
-    private dialog: MatDialogRef<SelectLocationDialogComponent>,
-    private http: HttpClient
-  ) {}
+  constructor(private dialog: MatDialogRef<SelectLocationDialogComponent>) {}
 
   submitLocation() {
     this.isSaving = true;
+    if (this.virtualEventControl.value) {
+      this.dialog.close({
+        onlineMeetingUrl: this.meetingUrlControl.value,
+        position: {},
+        url: null,
+        isVirtual: this.virtualEventControl.value,
+        structured_formatting: {
+          main_text: 'Online Meeting',
+        },
+      });
+      return;
+    }
     const value = this.locationControl.value;
     const map = new google.maps.Map(document.createElement('div'));
     const service = new google.maps.places.PlacesService(map);
@@ -31,6 +42,8 @@ export class SelectLocationDialogComponent {
           ...value,
           url: res.url,
           position: res.geometry.location,
+          isVirtual: this.virtualEventControl.value,
+          onlineMeetingUrl: null,
         });
       }
     );

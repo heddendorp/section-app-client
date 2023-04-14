@@ -27,16 +27,12 @@
     class="text-secondary-onContainerDark bg-secondary-containerDark dark-button from-gray-600 to-gray-800 p-4 pb-20 lg:p-6 lg:pb-24"
   >
   </app-event-header>
-  <!--  TODO: get rid of the 10 character check here -->
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="true">
       <ng-container *ngIf="event$ | async as event; else skeleton">
         <mat-expansion-panel
           data-testId="event-description"
-          [expanded]="
-            (!event.userIsRegistered && !event.userIsOrganizer) ||
-            event.participantText.length < 10
-          "
+          [expanded]="!event.userIsRegistered && !event.userIsOrganizer"
         >
           <mat-expansion-panel-header>
             <mat-panel-title>Description</mat-panel-title>
@@ -95,30 +91,48 @@
               </a>
             </div>
             <div
-              class="mt-2 mb-6 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
+              class="mb-6 mt-2 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
               *ngIf="event.location"
             >
-              <div class="mb-2">
-                <b>Meeting point:</b> {{ event.location }} at
-                {{ event.start | date : 'mediumTime' }}
+              <div *ngIf="!event.isVirtual">
+                <div class="mb-2">
+                  <b>Meeting point:</b> {{ event.location }} at
+                  {{ event.start | date : 'mediumTime' }}
+                </div>
+                <a
+                  class="modern"
+                  mat-flat-button
+                  color="primary"
+                  [href]="
+                    event.googlePlaceUrl
+                      ? event.googlePlaceUrl
+                      : 'https://www.google.com/maps/place/' +
+                        event.coordinates?.lat +
+                        ',' +
+                        event.coordinates?.lon
+                  "
+                  target="_blank"
+                >
+                  <mat-icon svgIcon="icon-map-marker"></mat-icon>
+                  Open in Maps
+                </a>
               </div>
-              <a
-                class="modern"
-                mat-flat-button
-                color="primary"
-                [href]="
-                  event.googlePlaceUrl
-                    ? event.googlePlaceUrl
-                    : 'https://www.google.com/maps/place/' +
-                      event.coordinates?.lat +
-                      ',' +
-                      event.coordinates?.lon
-                "
-                target="_blank"
-              >
-                <mat-icon svgIcon="icon-map-marker"></mat-icon>
-                Open in Maps
-              </a>
+              <div *ngIf="event.isVirtual">
+                <div class="mb-2">
+                  <b>Online Meeting</b> at
+                  {{ event.start | date : 'mediumTime' }}
+                </div>
+                <a
+                  class="modern"
+                  mat-flat-button
+                  color="primary"
+                  [href]="event.onlineMeetingUrl"
+                  target="_blank"
+                >
+                  <mat-icon svgIcon="icon-video-conference"></mat-icon>
+                  Open Meeting
+                </a>
+              </div>
             </div>
             <markdown
               [data]="event.participantText"

@@ -13,7 +13,7 @@
     <mat-card-content>
       <div class="my-2 grid gap-4 sm:grid-cols-[1fr_4fr]">
         <p class="font-bold">Location</p>
-        <div>
+        <div *ngIf="!template.isVirtual">
           <a
             class="modern"
             mat-stroked-button
@@ -39,6 +39,23 @@
               >({{ template.coordinates.lat }},
               {{ template.coordinates.lon }})</span
             >
+          </div>
+        </div>
+        <div *ngIf="template.isVirtual">
+          <a
+            class="modern"
+            mat-stroked-button
+            [href]="template.onlineMeetingUrl"
+            target="_blank"
+          >
+            <mat-icon svgIcon="icon-video-conference"></mat-icon>
+            {{ template.location }}
+          </a>
+          <button class="modern" mat-icon-button (click)="updateLocation()">
+            <mat-icon svgIcon="icon-edit"></mat-icon>
+          </button>
+          <div class="mt-2 text-xs text-slate-600">
+            <span>{{ template.onlineMeetingUrl }} </span>
           </div>
         </div>
         <p class="mt-4 font-bold sm:mt-0">Category</p>
@@ -124,7 +141,7 @@
             <a routerLink="/events/{{ event.id }}" class="text-base">
               <span class="font-bold">{{ event.title }}</span>
               <span class="ml-2 font-light">{{
-                event.start | date: 'shortDate'
+                event.start | date : 'shortDate'
               }}</span>
               <div
                 *ngIf="
@@ -133,7 +150,7 @@
                 "
                 class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
               >
-                {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                {{ event.participantRating | number : '1.1-1' }} ★ ({{
                   event.participantRatingCount
                 }})
               </div>
@@ -188,7 +205,7 @@
         >
           <h3 matListItemTitle>{{ event.title }}</h3>
           <p matListItemLine>
-            {{ event.start | date: 'medium' }}
+            {{ event.start | date : 'medium' }}
           </p>
         </a>
       </mat-nav-list>
