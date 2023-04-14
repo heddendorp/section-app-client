@@ -25,16 +25,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1502.5":
-  version: 0.1502.5
-  resolution: "@angular-devkit/architect@npm:0.1502.5"
-  dependencies:
-    "@angular-devkit/core": 15.2.5
-    rxjs: 6.6.7
-  checksum: a023d182d6a363ff24c80bd076a1db43499d1643903ff622a2bb65b7e1d68b287dc11bcacb132e63d3a12aadc659d41398386eb9cad7e347de3e75ac1150f5d9
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/architect@npm:0.1502.6":
   version: 0.1502.6
   resolution: "@angular-devkit/architect@npm:0.1502.6"
@@ -45,14 +35,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^15.2.5":
-  version: 15.2.5
-  resolution: "@angular-devkit/build-angular@npm:15.2.5"
+"@angular-devkit/build-angular@npm:^15.2.6":
+  version: 15.2.6
+  resolution: "@angular-devkit/build-angular@npm:15.2.6"
   dependencies:
     "@ampproject/remapping": 2.2.0
-    "@angular-devkit/architect": 0.1502.5
-    "@angular-devkit/build-webpack": 0.1502.5
-    "@angular-devkit/core": 15.2.5
+    "@angular-devkit/architect": 0.1502.6
+    "@angular-devkit/build-webpack": 0.1502.6
+    "@angular-devkit/core": 15.2.6
     "@babel/core": 7.20.12
     "@babel/generator": 7.20.14
     "@babel/helper-annotate-as-pure": 7.18.6
@@ -64,7 +54,7 @@ __metadata:
     "@babel/runtime": 7.20.13
     "@babel/template": 7.20.7
     "@discoveryjs/json-ext": 0.5.7
-    "@ngtools/webpack": 15.2.5
+    "@ngtools/webpack": 15.2.6
     ansi-colors: 4.1.3
     autoprefixer: 10.4.13
     babel-loader: 9.1.2
@@ -138,38 +128,20 @@ __metadata:
       optional: true
     tailwindcss:
       optional: true
-  checksum: a0fd83cdffb60c4b9101fb67d11fdf54baa54d43f8d4045054562e5fa1cc740a602e30e7eb452401ba91dfc17d209d34dbe0ec28a1b3c73ddd80034af7e2f814
+  checksum: 1afa83f113bff9386a5d9af0b5e63dbb1ff99181702f8a7ff4cbbb357b8b01ddda3f74da94c994f990b98887740837ad65939f24d0426173d9c4147dc669c674
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-webpack@npm:0.1502.5":
-  version: 0.1502.5
-  resolution: "@angular-devkit/build-webpack@npm:0.1502.5"
+"@angular-devkit/build-webpack@npm:0.1502.6":
+  version: 0.1502.6
+  resolution: "@angular-devkit/build-webpack@npm:0.1502.6"
   dependencies:
-    "@angular-devkit/architect": 0.1502.5
+    "@angular-devkit/architect": 0.1502.6
     rxjs: 6.6.7
   peerDependencies:
     webpack: ^5.30.0
     webpack-dev-server: ^4.0.0
-  checksum: 940bc33944a7cbed4d93dd4b9c666fe88ad85ceb8bd77322ee4fb93db55ae522b7de28c1ab79253519ea54ee0fb1bf68dc7d9ea45e42560b220dd90d9bef74c1
-  languageName: node
-  linkType: hard
-
-"@angular-devkit/core@npm:15.2.5":
-  version: 15.2.5
-  resolution: "@angular-devkit/core@npm:15.2.5"
-  dependencies:
-    ajv: 8.12.0
-    ajv-formats: 2.1.1
-    jsonc-parser: 3.2.0
-    rxjs: 6.6.7
-    source-map: 0.7.4
-  peerDependencies:
-    chokidar: ^3.5.2
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 4f44e190ba5c2507e033270842192a6d97c0ad4ecbf18fa790208b042dcee706ab040e3ccd3223b214811492e32091b0dea2fa621a1adbed1f0108eea678a080
+  checksum: bf22db0f25a9fe27cf7f5df513e7400ea733ac8374fe015025092f00ce8e11aafe75e23cc5f7690e783b248609f2449a71c24c108c184b82577244e8ba6403f3
   languageName: node
   linkType: hard
 
@@ -4613,14 +4585,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngtools/webpack@npm:15.2.5":
-  version: 15.2.5
-  resolution: "@ngtools/webpack@npm:15.2.5"
+"@ngtools/webpack@npm:15.2.6":
+  version: 15.2.6
+  resolution: "@ngtools/webpack@npm:15.2.6"
   peerDependencies:
     "@angular/compiler-cli": ^15.0.0
     typescript: ">=4.8.2 <5.0"
     webpack: ^5.54.0
-  checksum: 22eed6294eb12b4e3e02123ececf84310ca5f30c0465d3bce92b60cad13179bf80846c3cac59b011f0fa01ad46935d8e78e66295dded7ad23e7ba696a5496cd5
+  checksum: fae38fe0c81ffc49503cf314cbb38e3256c323f6d6abc997dfee9524f32ed27e9062411186a1548a2f25d3cdf685d216ad8c3b360e4c1b6020b2cee0d4b945d1
   languageName: node
   linkType: hard
 
@@ -5560,7 +5532,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/legacy-app@workspace:legacy-app"
   dependencies:
-    "@angular-devkit/build-angular": ^15.2.5
+    "@angular-devkit/build-angular": ^15.2.6
     "@angular-eslint/builder": 15.2.1
     "@angular-eslint/eslint-plugin": 15.2.1
     "@angular-eslint/eslint-plugin-template": 15.2.1
