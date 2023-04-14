@@ -43,7 +43,7 @@
     "@pothos/tracing-sentry": "^0.7.8",
     "@prisma/client": "^4.12.0",
     "@sendgrid/mail": "^7.7.0",
-    "@sentry/integrations": "^7.47.0",
+    "@sentry/integrations": "^7.48.0",
     "@sentry/node": "^7.47.0",
     "@sentry/tracing": "^7.47.0",
     "@whatwg-node/fetch": "0.8.4",
