@@ -171,9 +171,11 @@ Table EventTemplate {
   shouldBeReportedToInsurance Boolean [not null, default: true]
   googlePlaceId String
   googlePlaceUrl String
+  onlineMeetingUrl String
   category EventTemplateCategory
   tenant Tenant [not null]
   eventInstances TumiEvent [not null]
+  isVirtual Boolean [not null, default: false]
 
   Note: 'Template that holds all information for an event that is needed to run it'
 }
@@ -221,6 +223,7 @@ Table TumiEvent {
   excludeFromRatings Boolean [not null, default: false]
   googlePlaceId String
   googlePlaceUrl String
+  onlineMeetingUrl String
   organizerRegistrationStart DateTime [default: `now()`, not null]
   costItems CostItem [not null]
   registrations EventRegistration [not null]
@@ -230,6 +233,7 @@ Table TumiEvent {
   createdBy User [not null]
   organizer EventOrganizer [not null]
   eventTemplate EventTemplate [not null]
+  isVirtual Boolean [not null, default: false]
 
   Note: 'Actual instande of an TumiEventbased on a template'
 }

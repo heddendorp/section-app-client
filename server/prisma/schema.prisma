@@ -200,9 +200,11 @@ model EventTemplate {
   shouldBeReportedToInsurance Boolean                @default(true)
   googlePlaceId               String?
   googlePlaceUrl              String?
+  onlineMeetingUrl            String?
   category                    EventTemplateCategory? @relation(fields: [categoryId], references: [id])
   tenant                      Tenant                 @relation(fields: [tenantId], references: [id])
   eventInstances              TumiEvent[]
+  isVirtual                   Boolean                @default(false)
 }
 
 /// Category to keep an overview of event templates
@@ -248,6 +250,7 @@ model TumiEvent {
   excludeFromRatings          Boolean                 @default(false)
   googlePlaceId               String?
   googlePlaceUrl              String?
+  onlineMeetingUrl            String?
   organizerRegistrationStart  DateTime                @default(now())
   costItems                   CostItem[]
   registrations               EventRegistration[]
@@ -257,6 +260,7 @@ model TumiEvent {
   createdBy                   User                    @relation(fields: [creatorId], references: [id])
   organizer                   EventOrganizer          @relation(fields: [eventOrganizerId], references: [id])
   eventTemplate               EventTemplate           @relation(fields: [eventTemplateId], references: [id])
+  isVirtual                   Boolean                 @default(false)
 }
 
 model Product {

@@ -247,9 +247,11 @@ type EventTemplate {
   icon: String!
   id: ID!
   insuranceDescription: String!
+  isVirtual: Boolean!
   location: String!
   medianOrganizerCount: Int!
   medianParticipantCount: Int!
+  onlineMeetingUrl: String
   organizerText: String!
   participantRating: Float
   participantRatingCount: Int
@@ -619,9 +621,11 @@ type TumiEvent {
   id: ID!
   insuranceDescription: String!
   internalEvent: Boolean!
+  isVirtual: Boolean!
   location: String!
   mailTemplate: String!
   netAmountCollected: Decimal!
+  onlineMeetingUrl: String
   organizer: EventOrganizer!
   organizerLimit: Int!
   organizerRating: Float
@@ -695,7 +699,9 @@ input UpdateEventLocationInput {
   coordinates: JSON
   googlePlaceId: String
   googlePlaceUrl: String
+  isVirtual: Boolean!
   location: String!
+  onlineMeetingUrl: String
 }
 
 input UpdateGeneralEventInput {
@@ -726,7 +732,9 @@ input UpdateTemplateLocationInput {
   coordinates: JSON
   googlePlaceId: String
   googlePlaceUrl: String
+  isVirtual: Boolean!
   location: String!
+  onlineMeetingUrl: String
 }
 
 input UpdateTenantInput {
