@@ -5341,15 +5341,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.47.0":
-  version: 7.47.0
-  resolution: "@sentry/integrations@npm:7.47.0"
+"@sentry/integrations@npm:^7.48.0":
+  version: 7.48.0
+  resolution: "@sentry/integrations@npm:7.48.0"
   dependencies:
-    "@sentry/types": 7.47.0
-    "@sentry/utils": 7.47.0
+    "@sentry/types": 7.48.0
+    "@sentry/utils": 7.48.0
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 227886380e14f23c58d1d33c782024aaddfbc5c185e5b3058b32fcb612d3abe7094ccbd585805ecc366c55d39dc9b4593a8c07e7bf6159c5ccea2e81406f8ad9
+  checksum: f3347e0c5b696cc14c91a5e8c63130c2c0d3971bbbe725d5e4e423fa65bda31bd56c3c0cd6ad5a667ea98a79a7a3f584c7b44cf7bad5a17dc81df7ec98c5e398
   languageName: node
   linkType: hard
 
@@ -5396,6 +5396,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.48.0":
+  version: 7.48.0
+  resolution: "@sentry/types@npm:7.48.0"
+  checksum: a2378f3ccfe0d3c28031c48edb4516e4fd77d5e709f2b758dffc4e0c98a83983a9c2f1022d2a719b14a0db9427a53f689ccae6df24644389e461152e44da1ae0
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.47.0":
   version: 7.47.0
   resolution: "@sentry/utils@npm:7.47.0"
@@ -5403,6 +5410,16 @@ __metadata:
     "@sentry/types": 7.47.0
     tslib: ^1.9.3
   checksum: d37d6299ef28c7ce32b1af7644f59ab5a5fd7a8155e97b3758c87d11a4b2cb406d4e3d2b260afcd200dadef99582f92b08ef6b89543f11611d2e034b3940d7b3
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.48.0":
+  version: 7.48.0
+  resolution: "@sentry/utils@npm:7.48.0"
+  dependencies:
+    "@sentry/types": 7.48.0
+    tslib: ^1.9.3
+  checksum: 879a2866897684b5af43fdf2946bc37f6e5d7dd4310d3cc838a3f9b59dc3ed39084e8cf90ebf5cc699946b7c280653d6bff9cf695b43203f033aee08781b787a
   languageName: node
   linkType: hard
 
@@ -5622,7 +5639,7 @@ __metadata:
     "@pothos/tracing-sentry": ^0.7.8
     "@prisma/client": ^4.12.0
     "@sendgrid/mail": ^7.7.0
-    "@sentry/integrations": ^7.47.0
+    "@sentry/integrations": ^7.48.0
     "@sentry/node": ^7.47.0
     "@sentry/tracing": ^7.47.0
     "@types/compression": ^1.7.2
