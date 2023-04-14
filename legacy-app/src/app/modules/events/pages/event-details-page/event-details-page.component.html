@@ -79,7 +79,7 @@
             <mat-panel-title>Info for participants</mat-panel-title>
           </mat-expansion-panel-header>
           <div>
-            <div class="mb-4">
+            <div class="mb-4" *ngIf="event.enablePhotoSharing">
               <a
                 routerLink="./photos"
                 mat-flat-button

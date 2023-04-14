@@ -121,6 +121,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       disableDeregistration: [false, Validators.required],
       excludeFromRatings: [false, Validators.required],
       excludeFromStatistics: [false, Validators.required],
+      enablePhotoSharing: [true, Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
       prices: this.fb.group({

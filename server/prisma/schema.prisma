@@ -248,6 +248,7 @@ model TumiEvent {
   disableDeregistration       Boolean                 @default(false)
   excludeFromStatistics       Boolean                 @default(false)
   excludeFromRatings          Boolean                 @default(false)
+  enablePhotoSharing          Boolean                 @default(true)
   googlePlaceId               String?
   googlePlaceUrl              String?
   onlineMeetingUrl            String?

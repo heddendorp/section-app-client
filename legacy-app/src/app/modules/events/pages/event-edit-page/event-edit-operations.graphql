@@ -12,6 +12,7 @@ query loadEventForEdit($id: ID!) {
     eventOrganizerId
     excludeFromRatings
     excludeFromStatistics
+    enablePhotoSharing
     icon
     id
     insuranceDescription
@@ -136,6 +137,9 @@ mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
     participantSignup
     participantLimit
     organizerLimit
+    excludeFromRatings
+    excludeFromStatistics
+    enablePhotoSharing
   }
 }
 

@@ -221,6 +221,7 @@ Table TumiEvent {
   disableDeregistration Boolean [not null, default: false]
   excludeFromStatistics Boolean [not null, default: false]
   excludeFromRatings Boolean [not null, default: false]
+  enablePhotoSharing Boolean [not null, default: true]
   googlePlaceId String
   googlePlaceUrl String
   onlineMeetingUrl String

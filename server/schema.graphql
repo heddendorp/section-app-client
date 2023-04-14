@@ -606,6 +606,7 @@ type TumiEvent {
   creatorId: ID!
   description: String!
   disableDeregistration: Boolean!
+  enablePhotoSharing: Boolean!
   end: DateTime!
   eventOrganizerId: ID!
   eventRegistrationCodes: [EventRegistrationCode!]!
@@ -670,6 +671,7 @@ type TumiEvent {
 
 input UpdateCoreEventInput {
   disableDeregistration: Boolean
+  enablePhotoSharing: Boolean
   end: DateTime
   eventOrganizerId: ID!
   excludeFromRatings: Boolean

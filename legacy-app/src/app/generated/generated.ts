@@ -1043,6 +1043,7 @@ export type TumiEvent = {
   creatorId: Scalars['ID'];
   description: Scalars['String'];
   disableDeregistration: Scalars['Boolean'];
+  enablePhotoSharing: Scalars['Boolean'];
   end: Scalars['DateTime'];
   eventOrganizerId: Scalars['ID'];
   eventRegistrationCodes: Array<EventRegistrationCode>;
@@ -1130,6 +1131,7 @@ export type TumiEventSubmissionItemsArgs = {
 
 export type UpdateCoreEventInput = {
   disableDeregistration?: InputMaybe<Scalars['Boolean']>;
+  enablePhotoSharing?: InputMaybe<Scalars['Boolean']>;
   end?: InputMaybe<Scalars['DateTime']>;
   eventOrganizerId: Scalars['ID'];
   excludeFromRatings?: InputMaybe<Scalars['Boolean']>;
@@ -1564,7 +1566,7 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> }, currentTenant: { __typename?: 'Tenant', id: string, settings: { __typename?: 'TenantSettings', deregistrationOptions: { __typename?: 'DeregistrationOptions', minimumDays: number, refundFees: boolean } } } };
+export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, organizerRegistrationStart: any, disableDeregistration: boolean, enablePhotoSharing: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: any, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> }, currentTenant: { __typename?: 'Tenant', id: string, settings: { __typename?: 'TenantSettings', deregistrationOptions: { __typename?: 'DeregistrationOptions', minimumDays: number, refundFees: boolean } } } };
 
 export type LoadUserForEventQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1576,7 +1578,7 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: any, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, icon: string, id: string, insuranceDescription: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: any, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: any, shouldBeReportedToInsurance: boolean, start: any, title: string, createdBy: { __typename?: 'User', id: string }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: any, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: any, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean, icon: string, id: string, insuranceDescription: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: any, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: any, shouldBeReportedToInsurance: boolean, start: any, title: string, createdBy: { __typename?: 'User', id: string }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: any, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
 
 export type UpdateEventTemplateConnectionMutationVariables = Exact<{
   eventId: Scalars['ID'];
@@ -1615,7 +1617,7 @@ export type UpdateCoreEventMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCoreEventMutation = { __typename?: 'Mutation', updateEventCoreInfo: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, prices?: any | null, registrationMode: RegistrationMode, registrationLink?: string | null, eventOrganizerId: string, organizerSignup: Array<string>, participantSignup: Array<string>, participantLimit: number, organizerLimit: number } };
+export type UpdateCoreEventMutation = { __typename?: 'Mutation', updateEventCoreInfo: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: any, end: any, registrationStart: any, prices?: any | null, registrationMode: RegistrationMode, registrationLink?: string | null, eventOrganizerId: string, organizerSignup: Array<string>, participantSignup: Array<string>, participantLimit: number, organizerLimit: number, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean } };
 
 export type UpdatePublicationMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3066,6 +3068,7 @@ export const LoadEventDocument = gql`
     registrationStart
     organizerRegistrationStart
     disableDeregistration
+    enablePhotoSharing
     publicationState
     description
     organizerText
@@ -3237,6 +3240,7 @@ export const LoadEventForEditDocument = gql`
     eventOrganizerId
     excludeFromRatings
     excludeFromStatistics
+    enablePhotoSharing
     icon
     id
     insuranceDescription
@@ -3421,6 +3425,9 @@ export const UpdateCoreEventDocument = gql`
     participantSignup
     participantLimit
     organizerLimit
+    excludeFromRatings
+    excludeFromStatistics
+    enablePhotoSharing
   }
 }
     `;
