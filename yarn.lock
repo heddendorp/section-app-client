@@ -5659,7 +5659,7 @@ __metadata:
     "@types/sharp": ^0.31.1
     "@types/supertest": ^2.0.12
     "@typescript-eslint/parser": ^5.59.0
-    "@whatwg-node/fetch": 0.8.4
+    "@whatwg-node/fetch": 0.8.5
     compression: ^1.7.4
     copyfiles: ^2.4.1
     cors: ^2.8.5
@@ -6651,16 +6651,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/fetch@npm:0.8.4, @whatwg-node/fetch@npm:^0.8.0, @whatwg-node/fetch@npm:^0.8.1, @whatwg-node/fetch@npm:^0.8.2, @whatwg-node/fetch@npm:^0.8.3, @whatwg-node/fetch@npm:^0.8.4":
-  version: 0.8.4
-  resolution: "@whatwg-node/fetch@npm:0.8.4"
+"@whatwg-node/fetch@npm:0.8.5":
+  version: 0.8.5
+  resolution: "@whatwg-node/fetch@npm:0.8.5"
   dependencies:
     "@peculiar/webcrypto": ^1.4.0
     "@whatwg-node/node-fetch": ^0.3.3
     busboy: ^1.6.0
-    urlpattern-polyfill: ^6.0.2
+    urlpattern-polyfill: ^7.0.0
     web-streams-polyfill: ^3.2.1
-  checksum: 7e40311424a069e5e35d580b65373d0cb63034b39cdce7089d7681d0f354bc7132d1140be5ad39478aa3dbaf62a0053fbf64d77bf3bb3f45d65d8442ef61d4ea
+  checksum: c097a2677053ba7640894f16bdcfb3a65722e409337a072b18e1eabb05e79d6c01295aca65e1f86d0404b3fb5993633cefa0399c79c52cedcc3540d690ea8b39
   languageName: node
   linkType: hard
 
@@ -6674,6 +6674,19 @@ __metadata:
     urlpattern-polyfill: ^6.0.2
     web-streams-polyfill: ^3.2.1
   checksum: cf5b95ae8f6625e2e96fc143fcc409a7974f90018f1ac2e69f651970ef251fad8de61540714f97ad3b617bd61c8dc90820bdde3da6d1417d9398a7f03b794401
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@npm:^0.8.0, @whatwg-node/fetch@npm:^0.8.1, @whatwg-node/fetch@npm:^0.8.2, @whatwg-node/fetch@npm:^0.8.3, @whatwg-node/fetch@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "@whatwg-node/fetch@npm:0.8.4"
+  dependencies:
+    "@peculiar/webcrypto": ^1.4.0
+    "@whatwg-node/node-fetch": ^0.3.3
+    busboy: ^1.6.0
+    urlpattern-polyfill: ^6.0.2
+    web-streams-polyfill: ^3.2.1
+  checksum: 7e40311424a069e5e35d580b65373d0cb63034b39cdce7089d7681d0f354bc7132d1140be5ad39478aa3dbaf62a0053fbf64d77bf3bb3f45d65d8442ef61d4ea
   languageName: node
   linkType: hard
 
@@ -18459,6 +18472,15 @@ __metadata:
   dependencies:
     braces: ^3.0.2
   checksum: 564fb223761b67ea76d015f11dfec145db98c71cc35641015d1c9ec164da494b1fab614e652a844e14a72cda31236b9c3a59b22fdcca71166c315ab059fab676
+  languageName: node
+  linkType: hard
+
+"urlpattern-polyfill@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "urlpattern-polyfill@npm:7.0.0"
+  dependencies:
+    braces: ^3.0.2
+  checksum: 82bf7f021b2438a1c127bdce3a5e3e174eb3d1a99c1b320d5e56e2197b52e3b6dfd3b69f5ed16b906825ae161dc48ae854d48d2a90a009c5651a143c0d49dc8b
   languageName: node
   linkType: hard
 
