@@ -54,7 +54,7 @@
     "express-jwt": "^8.4.1",
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.21.3",
-    "graphql-yoga": "^3.9.0",
+    "graphql-yoga": "^3.9.1",
     "ical-generator": "^4.0.0",
     "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^3.0.1",
