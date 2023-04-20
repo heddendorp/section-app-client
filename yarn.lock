@@ -532,17 +532,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/service-worker@npm:^15.2.7":
-  version: 15.2.7
-  resolution: "@angular/service-worker@npm:15.2.7"
+"@angular/service-worker@npm:^15.2.8":
+  version: 15.2.8
+  resolution: "@angular/service-worker@npm:15.2.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 15.2.7
-    "@angular/core": 15.2.7
+    "@angular/common": 15.2.8
+    "@angular/core": 15.2.8
   bin:
     ngsw-config: ngsw-config.js
-  checksum: 25035c7b32091ab27050359be18c9b96f4a1594064766007d6e951cacb35b56af0e0694bf768ef77049355da94da8c7f3e27b3389cd82b3fc32dd3f776fd937a
+  checksum: 2eba178af7e989773201f0bd087e80977a5b8782ba0e2d3d2f31e68ab069563db8d2fe856b2560bf507d069ce4b7d5723113248491403ae625abf12d498f1c40
   languageName: node
   linkType: hard
 
@@ -5617,7 +5617,7 @@ __metadata:
     "@angular/platform-browser": ^15.2.7
     "@angular/platform-browser-dynamic": ^15.2.7
     "@angular/router": ^15.2.7
-    "@angular/service-worker": ^15.2.7
+    "@angular/service-worker": ^15.2.8
     "@apollo/client": 3.7.12
     "@auth0/auth0-angular": ^2.1.0
     "@azure/storage-blob": ^12.14.0
