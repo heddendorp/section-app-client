@@ -424,9 +424,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material@npm:^15.2.7":
-  version: 15.2.7
-  resolution: "@angular/material@npm:15.2.7"
+"@angular/material@npm:^15.2.8":
+  version: 15.2.8
+  resolution: "@angular/material@npm:15.2.8"
   dependencies:
     "@material/animation": 15.0.0-canary.684e33d25.0
     "@material/auto-init": 15.0.0-canary.684e33d25.0
@@ -478,13 +478,13 @@ __metadata:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/animations": ^15.0.0 || ^16.0.0
-    "@angular/cdk": 15.2.7
+    "@angular/cdk": 15.2.8
     "@angular/common": ^15.0.0 || ^16.0.0
     "@angular/core": ^15.0.0 || ^16.0.0
     "@angular/forms": ^15.0.0 || ^16.0.0
     "@angular/platform-browser": ^15.0.0 || ^16.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: e1012dc58f99d039f4c4987bcef583f8b881a88184215f2ef004122df5d6f3d16a850563fee84bc1eff69af6fc0594c5202ab8ccf603f68c40fad847e2bf9059
+  checksum: 7a90a5136e579f9447fc7b506de54dd313a1fccf1b17bce8201e14da7b002814b960f983615e23159c71b0f4b33384d2c1a7087cde02aaf1422a5e69eee960d9
   languageName: node
   linkType: hard
 
@@ -5612,7 +5612,7 @@ __metadata:
     "@angular/core": ^15.2.7
     "@angular/forms": ^15.2.7
     "@angular/google-maps": ^15.2.7
-    "@angular/material": ^15.2.7
+    "@angular/material": ^15.2.8
     "@angular/material-luxon-adapter": ^15.2.7
     "@angular/platform-browser": ^15.2.7
     "@angular/platform-browser-dynamic": ^15.2.7
