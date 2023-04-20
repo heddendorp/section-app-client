@@ -723,6 +723,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@apollo/utils.logger@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@apollo/utils.logger@npm:3.0.0"
+  checksum: e3bd3e55e7ff86410afa2620dd767073dcf017a8d1e5ab5484fe293a42d06c38e73b5dc5ada99dbb7b9ef2919f225214f7a7d3944a1665e72d84082837359c0b
+  languageName: node
+  linkType: hard
+
 "@apollo/utils.printwithreducedwhitespace@npm:^2.0.1":
   version: 2.0.1
   resolution: "@apollo/utils.printwithreducedwhitespace@npm:2.0.1"
@@ -5661,7 +5668,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tumi/server@workspace:server"
   dependencies:
-    "@apollo/utils.logger": ^2.0.1
+    "@apollo/utils.logger": ^3.0.0
     "@azure/cognitiveservices-computervision": ^8.2.0
     "@azure/storage-blob": ^12.14.0
     "@envelop/auth0": ^4.0.6
