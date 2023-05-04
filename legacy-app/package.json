@@ -32,7 +32,7 @@
     "@auth0/auth0-angular": "^2.1.0",
     "@azure/storage-blob": "^12.14.0",
     "@ng-web-apis/common": "^2.1.0",
-    "@sentry/angular-ivy": "^7.47.0",
+    "@sentry/angular-ivy": "^7.51.0",
     "@sentry/tracing": "^7.47.0",
     "apollo-angular": "^4.2.1",
     "backoff-rxjs": "^7.0.0",
