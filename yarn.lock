@@ -5707,7 +5707,7 @@ __metadata:
     "@types/sharp": ^0.31.1
     "@types/supertest": ^2.0.12
     "@typescript-eslint/parser": ^5.59.0
-    "@whatwg-node/fetch": 0.8.4
+    "@whatwg-node/fetch": 0.9.0
     compression: ^1.7.4
     copyfiles: ^2.4.1
     cors: ^2.8.5
@@ -6699,16 +6699,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@whatwg-node/fetch@npm:0.8.4, @whatwg-node/fetch@npm:^0.8.0, @whatwg-node/fetch@npm:^0.8.1, @whatwg-node/fetch@npm:^0.8.2, @whatwg-node/fetch@npm:^0.8.3, @whatwg-node/fetch@npm:^0.8.4":
-  version: 0.8.4
-  resolution: "@whatwg-node/fetch@npm:0.8.4"
+"@whatwg-node/events@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@whatwg-node/events@npm:0.1.0"
+  checksum: 374d43ee53fcb29f178e7ad5646a88eb35987bfa6a3638eac1a50bd27e3f9f64be9069cdd13254f7b4ea53370550bf91e087b467f5f0b96d65b575a34bfe48fa
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@whatwg-node/fetch@npm:0.9.0"
   dependencies:
-    "@peculiar/webcrypto": ^1.4.0
-    "@whatwg-node/node-fetch": ^0.3.3
-    busboy: ^1.6.0
-    urlpattern-polyfill: ^6.0.2
-    web-streams-polyfill: ^3.2.1
-  checksum: 7e40311424a069e5e35d580b65373d0cb63034b39cdce7089d7681d0f354bc7132d1140be5ad39478aa3dbaf62a0053fbf64d77bf3bb3f45d65d8442ef61d4ea
+    "@whatwg-node/node-fetch": ^0.4.0
+    urlpattern-polyfill: ^8.0.0
+  checksum: 7f656101fa17dfe0df513e8663938b6168cc99106be7d32f66836200e63545633a24ea2dcda31660c3fa8411b031a9ee1a5bbf042153f78c86f63a43bca9aacf
   languageName: node
   linkType: hard
 
@@ -6722,6 +6726,19 @@ __metadata:
     urlpattern-polyfill: ^6.0.2
     web-streams-polyfill: ^3.2.1
   checksum: cf5b95ae8f6625e2e96fc143fcc409a7974f90018f1ac2e69f651970ef251fad8de61540714f97ad3b617bd61c8dc90820bdde3da6d1417d9398a7f03b794401
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/fetch@npm:^0.8.0, @whatwg-node/fetch@npm:^0.8.1, @whatwg-node/fetch@npm:^0.8.2, @whatwg-node/fetch@npm:^0.8.3, @whatwg-node/fetch@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "@whatwg-node/fetch@npm:0.8.4"
+  dependencies:
+    "@peculiar/webcrypto": ^1.4.0
+    "@whatwg-node/node-fetch": ^0.3.3
+    busboy: ^1.6.0
+    urlpattern-polyfill: ^6.0.2
+    web-streams-polyfill: ^3.2.1
+  checksum: 7e40311424a069e5e35d580b65373d0cb63034b39cdce7089d7681d0f354bc7132d1140be5ad39478aa3dbaf62a0053fbf64d77bf3bb3f45d65d8442ef61d4ea
   languageName: node
   linkType: hard
 
@@ -6748,6 +6765,19 @@ __metadata:
     fast-url-parser: ^1.1.3
     tslib: ^2.3.1
   checksum: 11bcb83eddc9276ce3c97ae63c015dc1aacaa81210bd0986a53ca5fd290fe470d3f937432e3d84cc3c0ad6e8431ef5e0a2c6115e99b1863076c13d5584c8f6fb
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/node-fetch@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@whatwg-node/node-fetch@npm:0.4.0"
+  dependencies:
+    "@whatwg-node/events": ^0.1.0
+    busboy: ^1.6.0
+    fast-querystring: ^1.1.1
+    fast-url-parser: ^1.1.3
+    tslib: ^2.3.1
+  checksum: a18dca862f3fa1e5bc6f35f5df00f99feb56fa47462e7fe516aa108740e5b7381ea215018d27e4f97752885fa4cf7d1608d1f79317f01706e9dfd571729f1f8b
   languageName: node
   linkType: hard
 
@@ -18518,6 +18548,13 @@ __metadata:
   dependencies:
     braces: ^3.0.2
   checksum: 564fb223761b67ea76d015f11dfec145db98c71cc35641015d1c9ec164da494b1fab614e652a844e14a72cda31236b9c3a59b22fdcca71166c315ab059fab676
+  languageName: node
+  linkType: hard
+
+"urlpattern-polyfill@npm:^8.0.0":
+  version: 8.0.2
+  resolution: "urlpattern-polyfill@npm:8.0.2"
+  checksum: d2cc0905a613c77e330c426e8697ee522dd9640eda79ac51160a0f6350e103f09b8c327623880989f8ba7325e8d95267b745aa280fdcc2aead80b023e16bd09d
   languageName: node
   linkType: hard
 
