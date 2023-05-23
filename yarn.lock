@@ -5347,6 +5347,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry-internal/tracing@npm:7.53.0":
+  version: 7.53.0
+  resolution: "@sentry-internal/tracing@npm:7.53.0"
+  dependencies:
+    "@sentry/core": 7.53.0
+    "@sentry/types": 7.53.0
+    "@sentry/utils": 7.53.0
+    tslib: ^1.9.3
+  checksum: 5729a18854f90d6322a75b18cc7b86f412014bd9e3dca8ca805dd233ee07bcb9558155f9c5fac3f7054dd121771f7a8f2c84a9d3d8ef4df237ba626b1f988026
+  languageName: node
+  linkType: hard
+
 "@sentry/angular-ivy@npm:^7.47.0":
   version: 7.47.0
   resolution: "@sentry/angular-ivy@npm:7.47.0"
@@ -5389,6 +5401,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:7.53.0":
+  version: 7.53.0
+  resolution: "@sentry/core@npm:7.53.0"
+  dependencies:
+    "@sentry/types": 7.53.0
+    "@sentry/utils": 7.53.0
+    tslib: ^1.9.3
+  checksum: c62e1eb9cd37fe2fd1c12e01fe1ec38319200436889a0a06ac8063b6937a386dc9a290112702c3af7d4fea3699f943fd84bf16353516d72ea97656119e7d4c00
+  languageName: node
+  linkType: hard
+
 "@sentry/integrations@npm:^7.48.0":
   version: 7.48.0
   resolution: "@sentry/integrations@npm:7.48.0"
@@ -5401,19 +5424,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^7.47.0":
-  version: 7.47.0
-  resolution: "@sentry/node@npm:7.47.0"
+"@sentry/node@npm:^7.53.0":
+  version: 7.53.0
+  resolution: "@sentry/node@npm:7.53.0"
   dependencies:
-    "@sentry-internal/tracing": 7.47.0
-    "@sentry/core": 7.47.0
-    "@sentry/types": 7.47.0
-    "@sentry/utils": 7.47.0
+    "@sentry-internal/tracing": 7.53.0
+    "@sentry/core": 7.53.0
+    "@sentry/types": 7.53.0
+    "@sentry/utils": 7.53.0
     cookie: ^0.4.1
     https-proxy-agent: ^5.0.0
     lru_map: ^0.3.3
     tslib: ^1.9.3
-  checksum: 485a3267313cf4475986a4406e213a5139f03a57be4336d088e7d9004f647ea3ff28b13eab4e49e2c0d208dbf5a9ad4188b201f60f094354bcfd0b4c9a07f5d8
+  checksum: df4a87c104a37551632452c63a27407596de8147e43acf42abdb6cbc88ab8331240b36cb6d6893bcd415b79ce88c9a1b4866e3e9d0335445487a170ba1eea6b6
   languageName: node
   linkType: hard
 
@@ -5451,6 +5474,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.53.0":
+  version: 7.53.0
+  resolution: "@sentry/types@npm:7.53.0"
+  checksum: dca71f8ba7a15e3e5c3cd5902105dcbb005452312b08e59c20201563740e40405f515a81d68a7e739ad8e59c477bd298eadec8675f224c172db810640f4e25dd
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.47.0":
   version: 7.47.0
   resolution: "@sentry/utils@npm:7.47.0"
@@ -5468,6 +5498,16 @@ __metadata:
     "@sentry/types": 7.48.0
     tslib: ^1.9.3
   checksum: 879a2866897684b5af43fdf2946bc37f6e5d7dd4310d3cc838a3f9b59dc3ed39084e8cf90ebf5cc699946b7c280653d6bff9cf695b43203f033aee08781b787a
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.53.0":
+  version: 7.53.0
+  resolution: "@sentry/utils@npm:7.53.0"
+  dependencies:
+    "@sentry/types": 7.53.0
+    tslib: ^1.9.3
+  checksum: 52656bc18d12f81a9093881a1f74001b0d936690c0f2df035e4d462dbe3881e2d56232ea727ef8fe862f58695fd76fa63776772e2e6b79df6a978ded5802cadf
   languageName: node
   linkType: hard
 
@@ -5688,7 +5728,7 @@ __metadata:
     "@prisma/client": ^4.13.0
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.48.0
-    "@sentry/node": ^7.47.0
+    "@sentry/node": ^7.53.0
     "@sentry/tracing": ^7.47.0
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
