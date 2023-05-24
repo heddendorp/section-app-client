@@ -5347,6 +5347,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry-internal/tracing@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry-internal/tracing@npm:7.53.1"
+  dependencies:
+    "@sentry/core": 7.53.1
+    "@sentry/types": 7.53.1
+    "@sentry/utils": 7.53.1
+    tslib: ^1.9.3
+  checksum: 99fadf422e619faeea436a96b37088ba10850f8e77fca10d7fea6de0c3f1d60b0e8ec1da3b9230f4213fa25f044c99aba585562447ddca0a443d7cbd88c3b81d
+  languageName: node
+  linkType: hard
+
 "@sentry/angular-ivy@npm:^7.47.0":
   version: 7.47.0
   resolution: "@sentry/angular-ivy@npm:7.47.0"
@@ -5389,6 +5401,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/core@npm:7.53.1"
+  dependencies:
+    "@sentry/types": 7.53.1
+    "@sentry/utils": 7.53.1
+    tslib: ^1.9.3
+  checksum: 5d42bc30a59cb4459eb99441b631e3f9daec5b2e98c24377aae0329127f8c474a9c32353a96e3f4765e3fb18370756e85f6b873cd26bd591e0040917b7fa9cf4
+  languageName: node
+  linkType: hard
+
 "@sentry/integrations@npm:^7.48.0":
   version: 7.48.0
   resolution: "@sentry/integrations@npm:7.48.0"
@@ -5428,12 +5451,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.47.0":
-  version: 7.47.0
-  resolution: "@sentry/tracing@npm:7.47.0"
+"@sentry/tracing@npm:^7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/tracing@npm:7.53.1"
   dependencies:
-    "@sentry-internal/tracing": 7.47.0
-  checksum: dd21b1399811b02f759cb71b39899372ba118934f922f0db75f8e295cf2e81c9b3d7e3cb8cd9f06ed42b86d933610fac9032db37b999146116a9decaaa21ca8d
+    "@sentry-internal/tracing": 7.53.1
+  checksum: 89a5e7ffd68d735462dd2ed7c3fa4a0a31032c090219196910adbaf42b6e7ddd607126deab960a566f2625396d78edcc6997315bb124affd6e0528a7500b0036
   languageName: node
   linkType: hard
 
@@ -5448,6 +5471,13 @@ __metadata:
   version: 7.48.0
   resolution: "@sentry/types@npm:7.48.0"
   checksum: a2378f3ccfe0d3c28031c48edb4516e4fd77d5e709f2b758dffc4e0c98a83983a9c2f1022d2a719b14a0db9427a53f689ccae6df24644389e461152e44da1ae0
+  languageName: node
+  linkType: hard
+
+"@sentry/types@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/types@npm:7.53.1"
+  checksum: 5f76d7d66d5df5d48f66a755e18ae133ea02a9405093b652eb4921ca62c3114343561a2d8067f2be6d9df8dd32d10e30d3ce58150f795600680e6230fb136681
   languageName: node
   linkType: hard
 
@@ -5468,6 +5498,16 @@ __metadata:
     "@sentry/types": 7.48.0
     tslib: ^1.9.3
   checksum: 879a2866897684b5af43fdf2946bc37f6e5d7dd4310d3cc838a3f9b59dc3ed39084e8cf90ebf5cc699946b7c280653d6bff9cf695b43203f033aee08781b787a
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/utils@npm:7.53.1"
+  dependencies:
+    "@sentry/types": 7.53.1
+    tslib: ^1.9.3
+  checksum: d9556f161a0eed0e1bb279bac12b99492b6212d9b6cabebbcb2d0f196f99b96c319305ec347d8f06382e2dde5782d5ba20a00f762fbfd4e8699e9100ef921804
   languageName: node
   linkType: hard
 
@@ -5627,7 +5667,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^3.0.3
     "@ng-web-apis/common": ^2.1.0
     "@sentry/angular-ivy": ^7.47.0
-    "@sentry/tracing": ^7.47.0
+    "@sentry/tracing": ^7.53.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/typography": ^0.5.9
     "@types/d3-scale": ^4.0.3
@@ -5689,7 +5729,7 @@ __metadata:
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.48.0
     "@sentry/node": ^7.47.0
-    "@sentry/tracing": ^7.47.0
+    "@sentry/tracing": ^7.53.1
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.13
