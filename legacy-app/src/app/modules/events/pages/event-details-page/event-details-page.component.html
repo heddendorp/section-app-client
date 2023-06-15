@@ -4,7 +4,12 @@
 ></mat-progress-bar>
 <main class="bg-surface-default">
   <ng-container *ngIf="event$ | async as event">
-    <a mat-fab routerLink="run" extended *ngIf="event.userIsOrganizer">
+    <a
+      mat-fab
+      routerLink="run"
+      extended
+      *ngIf="event.userIsOrganizer && !event.isVirtual"
+    >
       <mat-icon svgIcon="icon-user-shield"></mat-icon>
       Run event
     </a>
@@ -14,6 +19,7 @@
       extended
       *ngIf="
         event.userIsRegistered &&
+        !event.isVirtual &&
         !((eventOver$ | async) && event.activeRegistration?.didAttend)
       "
     >
