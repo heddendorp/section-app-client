@@ -5,7 +5,7 @@
     When claiming the event we will charge you with the participation fee and
     return it to the user that signed up for this event initially.
   </p>
-  <p class="my-2 rounded bg-gray-200 py-2 px-4 font-bold text-red-500">
+  <p class="my-2 rounded bg-gray-200 px-4 py-2 font-bold text-red-500">
     If you paid to receive the event code please contact us at
     <ng-container *ngIf="tenantInfo$ | async as tenantInfo"
       ><a href="mailto:{{ tenantInfo.communicationEmail }}">{{
@@ -69,18 +69,24 @@
           registration by paying now
         </p>
         <!--          TODO: fix this button with new transactions-->
-        <!--<button
-            mat-raised-button
-            color="primary"
-            (click)="
-              openCheckout(
-                code?.registrationCreated?.transaction?.stripePayment
-                  ?.checkoutSession
-              )
-            "
-          >
-            Pay for registration
-          </button>-->
+        <!--        <button-->
+        <!--          mat-raised-button-->
+        <!--          color="primary"-->
+        <!--          (click)="-->
+        <!--            openCheckout(-->
+        <!--              code?.registrationCreated?.transactions[0]?.stripePayment-->
+        <!--                ?.checkoutUrl ?? undefined-->
+        <!--            )-->
+        <!--          "-->
+        <!--        >-->
+        <!--          Pay for registration-->
+        <!--        </button>-->
+        <a
+          mat-flat-button
+          class="modern"
+          href="/events/{{ code?.targetEvent?.id }}"
+          >Continue to event</a
+        >
         <!--</ng-container>-->
       </ng-container>
       <ng-template #codeClaimed>
@@ -93,7 +99,7 @@
   </ng-container>
   <div
     *ngIf="error$ | async as error"
-    class="my-2 rounded bg-gray-200 py-2 px-4"
+    class="my-2 rounded bg-gray-200 px-4 py-2"
   >
     <p class="mb-2 font-bold text-red-500">Error</p>
     <p>{{ error }}</p>

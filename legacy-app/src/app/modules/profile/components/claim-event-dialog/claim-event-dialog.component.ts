@@ -116,9 +116,9 @@ export class ClaimEventDialogComponent {
     this.processing$.next(false);
   }
 
-  async openCheckout(checkoutSession: string | null = '') {
-    if (checkoutSession) {
-      location.href = checkoutSession;
-    }
-  }
+  // async openCheckout(checkoutSession?: string) {
+  //   if (checkoutSession) {
+  //     location.href = checkoutSession;
+  //   }
+  // }
 }

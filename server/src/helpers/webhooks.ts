@@ -606,6 +606,12 @@ async function handleEvent<ReqBody>(
                       'Tenant does not have a stripe connect account id'
                     );
                   }
+                  console.log('Refunding');
+                  const payment =
+                    removedRegistration.transactions[0].stripePayment;
+                  if (!payment?.paymentIntent) {
+                    throw new Error('Payment intent missing');
+                  }
                   await stripe.refunds.create(
                     {
                       payment_intent:
@@ -615,6 +621,8 @@ async function handleEvent<ReqBody>(
                     stripeAccount
                   );
                 } catch (e) {
+                  console.log('Refund failed');
+                  console.log(e);
                   await prisma.activityLog.create({
                     data: {
                       message: `Refund failed during registration move`,
