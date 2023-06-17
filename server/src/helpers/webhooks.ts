@@ -180,9 +180,10 @@ async function handleEvent<ReqBody>(
   event: Stripe.Stripe.Event,
   stripeAccountId?: string
 ) {
-  let stripeAccount: { stripeAccount: string } | {} = stripeAccountId
-    ? { stripeAccount: stripeAccountId }
-    : {};
+  let stripeAccount: { stripeAccount?: string } = {
+    stripeAccount: stripeAccountId,
+  };
+
   switch (event.type) {
     // case 'checkout.session.completed': {
     //   const session: Stripe.Stripe.Checkout.Session = event.data
@@ -992,7 +993,10 @@ export const webhookRouter = () => {
         return;
       }
       console.log(event.type);
-      await handleEvent(event);
+      const tumiTenant = await prisma.tenant.findUniqueOrThrow({
+        where: { shortName: 'tumi' },
+      });
+      await handleEvent(event, tumiTenant.stripeConnectAccountId ?? undefined);
       response.sendStatus(200);
     }
   );
