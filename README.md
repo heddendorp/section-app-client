@@ -1,10 +1,10 @@
-# TUMi app
+# MESA app (forked from TUMi app)
 
 ### OR: the ESN section app
 
 A web application to help ESN sections manage themselves, their events and payments.
 Includes loads of features very specific to ESN sections and is open for anyone to be used.
-
+<!--
 ## Contributing
 
 To find something to work on it's recommended to check the [issues](https://github.com/heddendorp/tumi/issues) and look
@@ -14,7 +14,7 @@ at the **Good first issue** tag.
 
 This repository follows the [conventional commits](https://conventionalcommits.org/). Please make sure to work you commit
 messages according to the guidelines.
-
+-->
 ## Local setup
 
 Follow this guide to get the project up and running on your local machine.
