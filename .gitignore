@@ -121,3 +121,5 @@ cypress/videos
 /test-results/
 /playwright-report/
 /playwright/.cache/
+#JetBrains
+.idea/

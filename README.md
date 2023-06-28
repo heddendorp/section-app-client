@@ -15,13 +15,34 @@ at the **Good first issue** tag.
 This repository follows the [conventional commits](https://conventionalcommits.org/). Please make sure to work you commit
 messages according to the guidelines.
 -->
+## Compose setup (Production)
+Using [Docker Compose](https://docs.docker.com/compose/) has worked well so far, because it takes care of dependencies and linking the Database.
+Recommended to use Docker Desktop to run it locally.
+### Clone the project
+```bash
+  git clone https://github.com/ESN-MESA/MESAapp
+    cd MESAapp
+```
+### Run the server
+```bash
+  docker-compose up
+```
+You can add the `-d` flag to run it in the background.
+In that case use `docker-compose stop` to stop it.
+Client will be on localhost 4000
+When making changes rebuild the image with
+```bash
+  docker-compose up --build
+```
+(necessary to make sure changes are applied)
+Below is the old setup, which is still useful for development. (Might be outdated)
 ## Local setup
 
 Follow this guide to get the project up and running on your local machine.
 
 Clone the project
 ```bash
-  git clone https://github.com/esn-tumi/app.git
+  git clone https://github.com/ESN-MESA/MESAapp
   cd app
   # Install all dependencies
   yarn install
