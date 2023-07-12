@@ -5347,6 +5347,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry-internal/tracing@npm:7.58.0":
+  version: 7.58.0
+  resolution: "@sentry-internal/tracing@npm:7.58.0"
+  dependencies:
+    "@sentry/core": 7.58.0
+    "@sentry/types": 7.58.0
+    "@sentry/utils": 7.58.0
+    tslib: ^2.4.1 || ^1.9.3
+  checksum: 78cf6c23260e3ca29cbf7a0d385fb1435b427052e365d113364265fd507681a437e5f902f63c32a2d789a0e01d7a7a1fa18299d42fd278edcf270f707c07d14c
+  languageName: node
+  linkType: hard
+
 "@sentry/angular-ivy@npm:^7.47.0":
   version: 7.47.0
   resolution: "@sentry/angular-ivy@npm:7.47.0"
@@ -5389,6 +5401,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:7.58.0":
+  version: 7.58.0
+  resolution: "@sentry/core@npm:7.58.0"
+  dependencies:
+    "@sentry/types": 7.58.0
+    "@sentry/utils": 7.58.0
+    tslib: ^2.4.1 || ^1.9.3
+  checksum: 22978404d313841a444052ad6bf281b341b60ff7f55a39f5d59d9586e473b2985cc94867035eb1dde870235b7b4194c8bbc6b9bacc84c8716d3126c8360493f3
+  languageName: node
+  linkType: hard
+
 "@sentry/integrations@npm:^7.48.0":
   version: 7.48.0
   resolution: "@sentry/integrations@npm:7.48.0"
@@ -5428,12 +5451,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.47.0":
-  version: 7.47.0
-  resolution: "@sentry/tracing@npm:7.47.0"
+"@sentry/tracing@npm:^7.58.0":
+  version: 7.58.0
+  resolution: "@sentry/tracing@npm:7.58.0"
   dependencies:
-    "@sentry-internal/tracing": 7.47.0
-  checksum: dd21b1399811b02f759cb71b39899372ba118934f922f0db75f8e295cf2e81c9b3d7e3cb8cd9f06ed42b86d933610fac9032db37b999146116a9decaaa21ca8d
+    "@sentry-internal/tracing": 7.58.0
+  checksum: 2dacaf95ca4280d42b33c68abd3fd1f02dac0912f1015e515b86fc2c9e49cefb9fff941ca14c7770f0e8cfb481ce862a9295deb35a13667d0119513d43db59fc
   languageName: node
   linkType: hard
 
@@ -5448,6 +5471,13 @@ __metadata:
   version: 7.48.0
   resolution: "@sentry/types@npm:7.48.0"
   checksum: a2378f3ccfe0d3c28031c48edb4516e4fd77d5e709f2b758dffc4e0c98a83983a9c2f1022d2a719b14a0db9427a53f689ccae6df24644389e461152e44da1ae0
+  languageName: node
+  linkType: hard
+
+"@sentry/types@npm:7.58.0":
+  version: 7.58.0
+  resolution: "@sentry/types@npm:7.58.0"
+  checksum: ec682f45b1e2444188db948e4cec93d09ab9aa531b3991f0e5b595cec237228acd8adf97fe832ff8cc348b50302d804db2cb07c70e289b9cc1dc0ddaf0095c7e
   languageName: node
   linkType: hard
 
@@ -5468,6 +5498,16 @@ __metadata:
     "@sentry/types": 7.48.0
     tslib: ^1.9.3
   checksum: 879a2866897684b5af43fdf2946bc37f6e5d7dd4310d3cc838a3f9b59dc3ed39084e8cf90ebf5cc699946b7c280653d6bff9cf695b43203f033aee08781b787a
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.58.0":
+  version: 7.58.0
+  resolution: "@sentry/utils@npm:7.58.0"
+  dependencies:
+    "@sentry/types": 7.58.0
+    tslib: ^2.4.1 || ^1.9.3
+  checksum: 6e4a21ac45df687e928de38a9ddd11a297282ae42d9177f21ca92a2ef186ef1f04a5bed9f712e9d09ef3269c363c79168883c2eb58533ec6e4b182931339dbed
   languageName: node
   linkType: hard
 
@@ -5627,7 +5667,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^3.0.3
     "@ng-web-apis/common": ^2.1.0
     "@sentry/angular-ivy": ^7.47.0
-    "@sentry/tracing": ^7.47.0
+    "@sentry/tracing": ^7.58.0
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/typography": ^0.5.9
     "@types/d3-scale": ^4.0.3
@@ -5689,7 +5729,7 @@ __metadata:
     "@sendgrid/mail": ^7.7.0
     "@sentry/integrations": ^7.48.0
     "@sentry/node": ^7.47.0
-    "@sentry/tracing": ^7.47.0
+    "@sentry/tracing": ^7.58.0
     "@types/compression": ^1.7.2
     "@types/copyfiles": ^2.4.1
     "@types/cors": ^2.8.13
@@ -18180,6 +18220,13 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.4.1 || ^1.9.3":
+  version: 2.6.0
+  resolution: "tslib@npm:2.6.0"
+  checksum: c01066038f950016a18106ddeca4649b4d76caa76ec5a31e2a26e10586a59fceb4ee45e96719bf6c715648e7c14085a81fee5c62f7e9ebee68e77a5396e5538f
   languageName: node
   linkType: hard
 
