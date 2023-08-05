@@ -1,0 +1,201 @@
+query loadEventForEdit($id: ID!) {
+  event(id: $id) {
+    coordinates
+    couldBeOrganizer
+    couldBeParticipant
+    createdBy {
+      id
+    }
+    description
+    disableDeregistration
+    end
+    eventOrganizerId
+    excludeFromRatings
+    excludeFromStatistics
+    enablePhotoSharing
+    icon
+    id
+    insuranceDescription
+    location
+    googlePlaceId
+    googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
+    organizerLimit
+    organizerRegistrationPossible
+    organizerSignup
+    organizerText
+    organizerRegistrationStart
+    participantLimit
+    participantSignup
+    participantText
+    prices
+    publicationState
+    registrationLink
+    registrationMode
+    registrationStart
+    shouldBeReportedToInsurance
+    start
+    title
+    eventTemplate {
+      id
+      title
+    }
+    submissionItems {
+      id
+      createdAt
+      required
+      submissionTime
+      type
+      instruction
+      name
+      data
+    }
+    organizerRegistrations {
+      id
+      user {
+        id
+        picture
+        fullName
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    organizers {
+      fullName
+      picture
+      id
+    }
+  }
+  currentUser {
+    id
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
+    }
+  }
+  eventOrganizers {
+    id
+    name
+  }
+}
+
+mutation updateEventTemplateConnection($eventId: ID!, $templateId: ID!) {
+  updateEventTemplateConnection(eventId: $eventId, templateId: $templateId) {
+    id
+    eventTemplate {
+      id
+      title
+    }
+  }
+}
+
+mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id) {
+    id
+  }
+}
+
+mutation addOrganizerToEvent($eventId: ID!, $userId: ID!) {
+  addOrganizerToEvent(eventId: $eventId, userId: $userId) {
+    id
+    organizers {
+      fullName
+      picture
+      id
+    }
+  }
+}
+
+mutation updateGeneralEvent($id: ID!, $data: UpdateGeneralEventInput!) {
+  updateEventGeneralInfo(eventId: $id, input: $data) {
+    id
+    description
+    organizerText
+    participantText
+  }
+}
+
+mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
+  updateEventCoreInfo(eventId: $id, input: $data) {
+    id
+    title
+    icon
+    start
+    end
+    registrationStart
+    prices
+    registrationMode
+    registrationLink
+    eventOrganizerId
+    organizerSignup
+    participantSignup
+    participantLimit
+    organizerLimit
+    excludeFromRatings
+    excludeFromStatistics
+    enablePhotoSharing
+  }
+}
+
+mutation updatePublication($id: ID!, $state: PublicationState!) {
+  changeEventPublication(eventId: $id, publicationState: $state) {
+    id
+    publicationState
+  }
+}
+
+mutation updateEventLocation(
+  $eventId: ID!
+  $update: UpdateEventLocationInput!
+) {
+  updateEventLocation(eventId: $eventId, input: $update) {
+    id
+    location
+    coordinates
+    isVirtual
+    onlineMeetingUrl
+  }
+}
+
+mutation addSubmissionToEvent(
+  $eventId: ID!
+  $submissionItem: CreateSubmissionItemInput!
+) {
+  createSubmissionItem(
+    input: $submissionItem
+    target: "event"
+    targetId: $eventId
+  ) {
+    id
+    createdAt
+    required
+    submissionTime
+    type
+    instruction
+    name
+    event {
+      id
+      submissionItems {
+        id
+      }
+    }
+  }
+}
+
+mutation removeSubmissionFromEvent($submissionItemId: ID!) {
+  deleteSubmissionItem(id: $submissionItemId) {
+    id
+    event {
+      id
+      submissionItems {
+        id
+      }
+    }
+  }
+}

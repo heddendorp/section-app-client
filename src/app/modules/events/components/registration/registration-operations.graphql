@@ -1,0 +1,74 @@
+mutation registerForEvent(
+  $eventId: ID!
+  $type: RegistrationType
+  $submissions: JSON
+  $price: JSON
+) {
+  registerForEvent(
+    eventId: $eventId
+    registrationType: $type
+    submissions: $submissions
+    price: $price
+  ) {
+    id
+    organizerRegistrationPossible
+    participantRegistrationPossible
+    organizersRegistered
+    participantRegistrationCount
+    couldBeOrganizer
+    userIsRegistered
+    activeRegistration {
+      id
+      type
+      status
+      cancellationReason
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          createdAt
+          amount
+          status
+          checkoutUrl
+          paymentIntent
+        }
+      }
+    }
+    organizers {
+      fullName
+    }
+  }
+}
+
+mutation cancelPayment($registrationId: ID!) {
+  cancelPayment(registrationId: $registrationId) {
+    id
+    activeRegistration {
+      id
+      type
+      status
+      cancellationReason
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          createdAt
+          amount
+          status
+          checkoutSession
+          paymentIntent
+        }
+      }
+    }
+  }
+}

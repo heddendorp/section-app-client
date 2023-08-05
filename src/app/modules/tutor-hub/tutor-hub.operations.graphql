@@ -1,0 +1,21 @@
+query getTutorHubInfo {
+  currentTenant {
+    id
+    name
+    tutorHub
+    settings {
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
+  }
+}
+
+query getTutorHubEvents($range: DateRangeInput) {
+  currentTenant {
+    id
+    tutorHubEvents(range: $range)
+  }
+}

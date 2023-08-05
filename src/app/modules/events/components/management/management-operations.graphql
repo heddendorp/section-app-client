@@ -1,0 +1,32 @@
+query getCostItemsForEvent($eventId: ID!) {
+  costItems(eventId: $eventId) {
+    id
+    name
+    calculationInfo
+    amount
+    notSubsidized
+    onInvoice
+    submittedAmount
+  }
+  event(id: $eventId) {
+    id
+    eventTemplate {
+      id
+      finances
+    }
+  }
+}
+
+mutation updateCostItemsFromTemplate($eventId: ID!) {
+  updateCostItemsFromTemplate(eventId: $eventId) {
+    id
+    costItems {
+      id
+      name
+      calculationInfo
+      amount
+      notSubsidized
+      onInvoice
+    }
+  }
+}

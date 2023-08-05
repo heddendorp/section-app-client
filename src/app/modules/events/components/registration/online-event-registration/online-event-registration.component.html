@@ -1,0 +1,59 @@
+<div *ngIf="event" class="my-2">
+  <p class="mb-4">
+    Free spots:
+    {{ event.participantLimit - event.participantRegistrationCount }}
+  </p>
+  <app-check-additional-data
+    [event]="event"
+    (dataSubmission)="registerAdditionalData($event)"
+  >
+    <ng-container *ngIf="event.participantRegistrationPossible.option">
+      <p class="pb-4">You can register for this event here.</p>
+      <button
+        mat-raised-button
+        color="primary"
+        class="modern"
+        (click)="register()"
+        [disabled]="processing | async"
+      >
+        Register now!
+      </button>
+      <mat-progress-bar
+        class="mt-4"
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
+    </ng-container>
+    <ng-container
+      *ngIf="
+        !event.participantRegistrationPossible.option && !event.userIsRegistered
+      "
+    >
+      <p class="whitespace-pre-wrap">
+        {{ event.participantRegistrationPossible.reason }}
+      </p>
+    </ng-container>
+    <ng-container *ngIf="event.userIsRegistered">
+      <p>✔️ You are registered for this event.</p>
+      <ng-container *ngIf="canDeregister">
+        <p class="my-2">
+          You can deregister from this event before
+          {{ lastDeregistration | date }}
+        </p>
+        <button
+          mat-flat-button
+          color="warn"
+          [disabled]="processing | async"
+          (click)="deregister()"
+        >
+          Give up spot
+        </button>
+        <mat-progress-bar
+          class="mt-4"
+          mode="indeterminate"
+          *ngIf="processing | async"
+        ></mat-progress-bar>
+      </ng-container>
+    </ng-container>
+  </app-check-additional-data>
+</div>

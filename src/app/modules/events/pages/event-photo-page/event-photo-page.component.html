@@ -1,0 +1,63 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(photos$ | async) === null"
+></mat-progress-bar>
+<mat-progress-bar
+  *ngIf="uploading$ | async"
+  [mode]="(uploadMode$ | async) ?? 'indeterminate'"
+  [value]="uploadProgress$ | async"
+></mat-progress-bar>
+<main *ngIf="photos$ | async as photos" class="p-4">
+  <input
+    type="file"
+    hidden
+    #fileInput
+    accept="image/*"
+    multiple
+    (change)="addFile($event)"
+  />
+  <div
+    class="fixed right-4 bottom-4 z-20 lg:right-8"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <button
+      [disabled]="uploading$ | async"
+      mat-fab
+      extended
+      (click)="fileInput.click()"
+    >
+      <mat-icon svgIcon="icon-add-image" class="mr-2"></mat-icon>
+      Add Images
+    </button>
+  </div>
+  <h1 class="mb-2 font-bold">Photos for {{ (event$ | async)?.title }}</h1>
+  <p class="mb-4">
+    Use this to exchange photos with other participants in this event.
+  </p>
+  <div
+    class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+    *ngIf="photos$ | async as photos"
+  >
+    <div
+      *ngFor="let photo of photos"
+      class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
+        photo.rows > 1 ? 'row-span-2' : ''
+      }}"
+      (click)="openPhoto(photo)"
+    >
+      <p
+        class="absolute bottom-0 left-0 right-0 rounded-t bg-white bg-opacity-80 p-2"
+      >
+        {{ photo.creator.fullName }}
+      </p>
+      <img
+        [src]="photo.src"
+        class="h-full w-full object-cover"
+        height="{{ photo.rows * 400 }}"
+        width="{{ photo.cols * 400 }}"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</main>

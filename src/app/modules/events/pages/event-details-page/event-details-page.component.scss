@@ -1,0 +1,11 @@
+.mat-accordion .mat-expansion-panel:first-of-type {
+  @apply rounded-t-2xl;
+}
+
+.mat-accordion .mat-expansion-panel:last-of-type {
+  @apply rounded-b-2xl;
+}
+
+a[mat-fab], button[mat-fab] {
+  @apply right-4 bottom-20 sm:bottom-4 fixed z-50;
+}

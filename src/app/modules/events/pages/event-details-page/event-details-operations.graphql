@@ -1,0 +1,143 @@
+query loadEvent($id: ID!) {
+  event(id: $id) {
+    id
+    title
+    icon
+    start
+    end
+    registrationStart
+    organizerRegistrationStart
+    disableDeregistration
+    enablePhotoSharing
+    publicationState
+    description
+    organizerText
+    organizerLimit
+    participantText
+    registrationMode
+    registrationLink
+    freeParticipantSpots
+    excludeFromRatings
+    ratingPending
+    prices
+    location
+    coordinates
+    googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
+    createdBy {
+      id
+      fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    submissionItems(submissionTime: REGISTRATION) {
+      id
+      name
+      submissionTime
+      instruction
+      required
+      type
+      data
+      ownSubmissions {
+        id
+        data
+      }
+    }
+    organizer {
+      id
+      link
+      text
+    }
+    activeRegistration {
+      id
+      didAttend
+      status
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          createdAt
+          amount
+          status
+          paymentIntent
+          checkoutUrl
+        }
+      }
+      user {
+        id
+        fullName
+      }
+      userComment
+      rating
+      anonymousRating
+    }
+    organizerLimit
+    organizerSignup
+    participantSignup
+    organizerRegistrationPossible
+    participantRegistrationPossible
+    userIsRegistered
+    userIsOrganizer
+    userIsCreator
+    participantLimit
+    ratings {
+      userComment
+      rating
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    participantRegistrationCount
+    couldBeOrganizer
+    couldBeParticipant
+    organizers {
+      id
+      fullName
+      phone
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    participantRating
+    participantRatingCount
+  }
+  currentTenant {
+    id
+    settings {
+      deregistrationOptions {
+        minimumDays
+        refundFees
+      }
+    }
+  }
+}
+
+query loadUserForEvent{
+  currentUser {
+    id
+    hasESNCard
+    university
+  }
+}

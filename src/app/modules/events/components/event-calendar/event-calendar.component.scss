@@ -1,0 +1,43 @@
+.day {
+  gap: 0.2em;
+}
+
+.event {
+  @apply bg-gray-200 relative overflow-hidden;
+  outline-offset: -1px;
+
+  &.future-registration {
+    @apply bg-slate-500;
+    @apply text-white;
+    @apply italic;
+  }
+
+  &.registered {
+    @apply bg-green-100;
+    @apply text-black;
+    &::before {
+      @apply absolute left-0 h-full w-1 bg-green-600;
+      content: ' ';
+    }
+  }
+  &.organizer {
+    @apply bg-blue-100;
+    @apply text-black;
+    &::before {
+      @apply absolute left-0 h-full w-1 bg-blue-600;
+      content: ' ';
+    }
+  }
+  &.draft {
+    @apply bg-yellow-100;
+    @apply text-black;
+  }
+  &.organizers {
+    @apply bg-blue-100;
+    @apply text-black;
+  }
+  &.approval {
+    @apply bg-violet-100;
+    @apply text-black;
+  }
+}

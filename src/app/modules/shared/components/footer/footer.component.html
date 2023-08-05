@@ -1,0 +1,19 @@
+<div
+  class="mt-auto flex w-full flex-col items-center gap-4 pt-12 pb-8 text-base text-slate-500"
+>
+  <div class="flex w-full justify-center gap-6">
+    <a
+      *ngFor="let link of (tenantInfo$ | async)?.settings?.socialLinks"
+      [href]="link.url"
+      target="_blank"
+      class="hover:opacity-70"
+    >
+      <img [src]="link.icon | iconURL" [alt]="link.label" class="h-6" />
+    </a>
+  </div>
+  <div class="text-center text-xs">
+    <a routerLink="/page/faq" class="underline">FAQ</a> |
+    <a routerLink="/page/imprint" class="underline">Imprint</a> |
+    <a routerLink="/page/privacy" class="underline">Privacy Policy</a>
+  </div>
+</div>

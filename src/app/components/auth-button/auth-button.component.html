@@ -1,0 +1,25 @@
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+  <a
+    routerLink="/profile"
+    class="aspect-1 h-full p-3"
+    data-testid="profile-link"
+  >
+    <img
+      [src]="userPicture"
+      class="h-full rounded-full bg-gray-200"
+      style="text-indent: -10000px"
+      routerLinkActive="active"
+      referrerpolicy="no-referrer"
+    />
+  </a>
+</ng-container>
+<ng-template #loggedOut>
+  <button
+    data-testid="login-button"
+    class="flex w-full flex-row items-center justify-center"
+    (click)="auth.loginWithRedirect()"
+  >
+    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+    <span>&nbsp;Log in</span>
+  </button>
+</ng-template>

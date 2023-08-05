@@ -1,0 +1,63 @@
+:host {
+}
+
+$gradient: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+.gradient {
+  background: $gradient;
+}
+
+img {
+  object-fit: cover;
+}
+
+.logo {
+  @apply w-full md:w-fit h-20 my-4 object-contain;
+}
+
+.event-cards {
+  @apply flex flex-row gap-4 mt-12 pb-2 px-8 snap-x;
+  @apply overflow-y-auto w-screen ml-[calc(50%-50vw)];
+  @apply sm:flex-wrap sm:w-[calc(100%+12vw)] sm:-ml-[6vw] sm:justify-center;
+}
+
+.event-card {
+  @apply min-w-[75vw] max-w-[75vw] sm:min-w-[270px] sm:max-w-[270px];
+  @apply snap-center;
+
+  .mat-mdc-card-image {
+    max-width: unset;
+    aspect-ratio: 5/4;
+  }
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+  ::ng-deep .mat-card-header-text {
+    margin: 0;
+
+    .mat-mdc-card-title {
+      @apply font-bold;
+    }
+
+    .mat-mdc-card-subtitle {
+      @apply font-semibold;
+    }
+  }
+
+  .mat-mdc-card-content {
+    @apply space-y-2;
+    @apply tracking-tight;
+    // hyphens: auto;
+    // text-align: justify;
+  }
+}
+
+.counter {
+  @apply text-6xl font-extrabold mb-1;
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p a {
+  @apply tracking-normal;
+  @apply text-blue-600;
+}

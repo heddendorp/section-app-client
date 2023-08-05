@@ -1,0 +1,21 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <app-back-button></app-back-button>
+    <div resetScroll>Event Organizations</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(organizers$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
+<main class="p-4">
+  <button mat-flat-button color="primary" (click)="addOrganizer()" data-cy="add-organizer-button">
+    Add new
+  </button>
+  <mat-list>
+    <mat-list-item *ngFor="let organizer of organizers$ | async">
+      <h3 mat-line>{{ organizer.name }}</h3>
+      <p mat-line>{{ organizer.text }}</p>
+    </mat-list-item>
+  </mat-list>
+</main>

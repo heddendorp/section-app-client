@@ -1,0 +1,23 @@
+<div class="mb-2 flex flex-row items-center justify-between">
+  <button mat-icon-button>
+    <mat-icon svgIcon="icon-back" (click)="prevSemester()"></mat-icon>
+  </button>
+
+  <div class="mx-2">
+    <h2 class="whitespace-nowrap">{{ semesterText }}</h2>
+    <div class="flex justify-center" *ngIf="!isAllTime">
+      <button
+        class="modern !text-xs"
+        mat-flat-button
+        color="primary"
+        (click)="allTime()"
+      >
+        all time
+      </button>
+    </div>
+  </div>
+
+  <button mat-icon-button>
+    <mat-icon svgIcon="icon-forward" (click)="nextSemester()"></mat-icon>
+  </button>
+</div>

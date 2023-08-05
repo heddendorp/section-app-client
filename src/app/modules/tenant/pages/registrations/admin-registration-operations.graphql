@@ -1,0 +1,274 @@
+query getRegistrations($pageLength: Int, $pageIndex: Int) {
+  registrations(pageIndex: $pageIndex, pageLength: $pageLength) {
+    id
+    createdAt
+    type
+    balance
+    event {
+      title
+      id
+      icon
+    }
+    user {
+      id
+      fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    transactions {
+      id
+      status
+      direction
+      amount
+      type
+      subject
+      stripePayment {
+        id
+        status
+        netAmount
+      }
+    }
+  }
+}
+
+query getRegistrationForAdmin($id: ID!) {
+  registration(id: $id) {
+    id
+    createdAt
+    type
+    status
+    cancellationReason
+    event {
+      title
+      id
+      start
+      end
+      icon
+    }
+    user {
+      id
+      fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    transactions {
+      id
+      status
+      direction
+      amount
+      type
+      subject
+      stripePayment {
+        id
+        status
+        netAmount
+        refundedAmount
+        amount
+        feeAmount
+        paymentIntent
+        paymentMethodType
+        events
+      }
+    }
+  }
+}
+
+query getRegistrationCount {
+  registrationCount
+}
+
+query getCancelledRegistrations {
+  registrations(statusList: [CANCELLED]) {
+    id
+    createdAt
+    cancellationReason
+    event {
+      title
+      id
+    }
+    user {
+      id
+      fullName
+    }
+  }
+}
+
+query getEventRegistrationCodes($pageLength: Int, $pageIndex: Int) {
+  eventRegistrationCodes(
+    pageIndex: $pageIndex
+    pageLength: $pageLength
+    includePrivate: true
+    includePassed: true
+    includeUsed: true
+  ) {
+    id
+    createdAt
+    isPublic
+    status
+    targetEvent {
+      id
+      title
+      icon
+    }
+    creator {
+      id
+      fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    registrationToRemove {
+      id
+    }
+    registrationCreated {
+      id
+      createdAt
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+  }
+}
+
+query getEventRegistrationCode($registrationId: ID!) {
+  eventRegistrationCode(id: $registrationId) {
+    id
+    createdAt
+    isPublic
+    status
+    sepaAllowed
+    targetEvent {
+      id
+      title
+      start
+      end
+      icon
+    }
+    creator {
+      id
+      email
+      fullName
+      picture
+      currentTenant {
+        userId
+        tenantId
+        status
+      }
+    }
+    connectedRegistrations {
+      id
+      createdAt
+      status
+      cancellationReason
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          status
+          paymentMethodType
+          paymentIntent
+          events
+        }
+      }
+    }
+    registrationToRemove {
+      id
+      createdAt
+      status
+      cancellationReason
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          status
+          paymentMethodType
+          paymentIntent
+          events
+        }
+      }
+    }
+    registrationCreated {
+      id
+      createdAt
+      status
+      cancellationReason
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          status
+          paymentIntent
+          paymentMethodType
+          events
+        }
+      }
+    }
+  }
+}
+
+query getEventRegistrationCodeCount {
+  eventRegistrationCodeCount
+}

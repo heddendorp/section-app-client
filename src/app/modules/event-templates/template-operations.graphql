@@ -1,0 +1,198 @@
+mutation createEventTemplate($input: CreateEventTemplateInput!) {
+  createEventTemplate(input: $input) {
+    id
+    createdAt
+  }
+}
+
+mutation createEventFromTemplate(
+  $templateId: ID!
+  $eventData: CreateEventFromTemplateInput!
+) {
+  createEventFromTemplate(templateId: $templateId, input: $eventData) {
+    id
+  }
+}
+
+mutation updateTemplateLocation(
+  $templateId: ID!
+  $update: UpdateTemplateLocationInput!
+) {
+  updateTemplateLocation(templateId: $templateId, location: $update) {
+    id
+    location
+    coordinates
+    googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
+  }
+}
+
+mutation updateEventTemplateCategoryAssignment(
+  $templateId: ID!
+  $categoryId: ID!
+) {
+  updateTemplateCategory(templateId: $templateId, categoryId: $categoryId) {
+    id
+    category {
+      id
+      name
+    }
+  }
+}
+
+mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
+  updateTemplate(templateId: $templateId, input: $update) {
+    id
+    title
+    icon
+    duration
+    description
+    organizerText
+    participantText
+    comment
+    location
+    coordinates
+    comment
+    insuranceDescription
+    shouldBeReportedToInsurance
+  }
+}
+
+mutation deleteEventTemplate($templateId: ID!) {
+  deleteTemplate(templateId: $templateId) {
+    id
+  }
+}
+
+mutation deleteTemplate($id: ID!) {
+  deleteTemplate(templateId: $id) {
+    id
+  }
+}
+
+query getEventTemplates {
+  eventTemplates {
+    id
+    title
+    icon
+  }
+}
+
+query getTemplateCategoriesWithTemplates {
+  eventTemplateCategories {
+    id
+    name
+    icon
+    eventCount
+    templateCount
+    templates {
+      id
+      title
+      icon
+      participantRating
+      participantRatingCount
+      eventInstanceCount
+    }
+  }
+}
+
+query getEventTemplateCategories {
+  eventTemplateCategories {
+    id
+    name
+    icon
+  }
+}
+
+query getLonelyEventTemplates {
+  eventTemplates(onlyWithoutCategory: true) {
+    id
+    title
+    icon
+    participantRating
+    participantRatingCount
+  }
+}
+
+query getEventTemplate($id: ID!) {
+  eventTemplate(id: $id) {
+    id
+    title
+    icon
+    duration
+    description
+    organizerText
+    participantText
+    comment
+    location
+    coordinates
+    googlePlaceUrl
+    isVirtual
+    onlineMeetingUrl
+    finances
+    insuranceDescription
+    shouldBeReportedToInsurance
+    medianParticipantCount
+    medianOrganizerCount
+    category {
+      id
+      name
+      icon
+    }
+    eventInstances {
+      id
+      title
+      start
+      participantRating
+      participantRatingCount
+      organizerRating
+      organizerRatingCount
+      signupVelocity {
+        quarter
+        quarterTime
+        quarterCount
+        fifty
+        fiftyTime
+        fiftyCount
+        threequarters
+        threequartersTime
+        threequartersCount
+      }
+      ratings {
+        userComment
+        rating
+        type
+        anonymousRating
+        user {
+          id
+          fullName
+          picture
+          currentTenant {
+            userId
+            tenantId
+            status
+          }
+        }
+      }
+      organizer {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation updateFinances($id: ID!, $finances: JSON!) {
+  updateTemplateFinances(templateId: $id, finances: $finances) {
+    id
+    finances
+  }
+}
+
+query getOrganizerOptions {
+  eventOrganizers {
+    id
+    name
+  }
+}

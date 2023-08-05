@@ -1,0 +1,213 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <app-back-button></app-back-button>
+    <div resetScroll>Edit Tenant</div>
+  </mat-toolbar>
+</app-reactive-toolbar>
+<main class="p-4">
+  <form [formGroup]="editForm">
+    <div class="flex flex-row gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Home Page Strategy</mat-label>
+        <mat-select formControlName="homePageStrategy">
+          <mat-option [value]="HomePageStrategy.Link">
+            Link to a page
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.Markdown">
+            Render the "About Us" markdown
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.Static">
+            Use a static page (needs code)
+          </mat-option>
+          <mat-option [value]="HomePageStrategy.None">
+            Don't show the home page link
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Home page link</mat-label>
+        <input
+          matInput
+          placeholder="Target of the home page button"
+          formControlName="homePageLink"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex flex-row items-center gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Communication Email</mat-label>
+        <input
+          matInput
+          placeholder="Where people can contact you"
+          formControlName="communicationEmail"
+        />
+      </mat-form-field>
+      <ng-container formGroupName="settings">
+        <mat-form-field class="w-full">
+          <mat-label>Brand Icon URL</mat-label>
+          <input
+            matInput
+            placeholder="Icon to display in the top left"
+            formControlName="brandIconUrl"
+          />
+        </mat-form-field>
+        <mat-checkbox formControlName="showPWAInstall" class="w-full">
+          Show App download button
+        </mat-checkbox>
+      </ng-container>
+    </div>
+    <ng-container formGroupName="settings">
+      <div
+        formGroupName="deregistrationOptions"
+        class="flex flex-row items-center gap-4"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>Minimum days</mat-label>
+          <input
+            matInput
+            placeholder="How many days before the event can people deregister"
+            formControlName="minimumDays"
+            type="number"
+          />
+        </mat-form-field>
+        <mat-checkbox formControlName="refundFees" class="w-full">
+          Refund stripe fees on deregistration
+        </mat-checkbox>
+      </div>
+      <div
+        formArrayName="socialLinks"
+        class="border-grey-600 my-4 rounded border p-4"
+      >
+        <h3>Social links</h3>
+        <p>These links will be shown in the footer of every page</p>
+        <div
+          *ngFor="let link of socialLinks.controls; let i = index"
+          class="mt-2 flex flex-row gap-4"
+          [formGroupName]="i"
+        >
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="socialLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button mat-stroked-button color="primary" (click)="addSocialLink()">
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </div>
+      <div
+        formArrayName="sectionHubLinks"
+        class="border-grey-600 my-4 rounded border p-4"
+      >
+        <h3>Resource links</h3>
+        <p>These links will be shown in the section hub resources</p>
+        <div
+          *ngFor="let link of sectionHubLinks.controls; let i = index"
+          class="mt-2 flex flex-row gap-4"
+          [formGroupName]="i"
+        >
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="sectionHubLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="addSectionHubLink()"
+        >
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </div>
+    </ng-container>
+    <mat-form-field class="w-full">
+      <mat-label>"About Us" Page</mat-label>
+      <textarea matInput formControlName="aboutPage" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Privacy Policy</mat-label>
+      <textarea
+        matInput
+        formControlName="privacyPolicyPage"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Imprint</mat-label>
+      <textarea matInput formControlName="imprintPage" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Frequently Asked Questions</mat-label>
+      <textarea matInput formControlName="faqPage" rows="10"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Terms and Conditions</mat-label>
+      <textarea matInput formControlName="tacPage" rows="10"></textarea>
+    </mat-form-field>
+    <button
+      type="submit"
+      class="modern"
+      mat-flat-button
+      color="primary"
+      [disabled]="editForm.invalid"
+      (click)="saveTenant()"
+    >
+      Save
+    </button>
+  </form>
+</main>

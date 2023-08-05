@@ -1,0 +1,142 @@
+<div
+  class="sidenav fixed bottom-0 z-50 flex h-16 w-full flex-row bg-indigo-600 text-white sm:top-0 sm:h-full sm:w-[6rem] sm:flex-col"
+  data-testid="navigation"
+  (click)="preventProp($event)"
+>
+  <ng-container *ngIf="tenantInfo$ | async as tenant">
+    <a
+      *ngIf="tenant?.settings?.brandIconUrl as brandIconUrl; else defaultLogo"
+      matRipple
+      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+      routerLink="/events"
+    >
+      <img class="p-4" [src]="brandIconUrl" alt="ESN Star" />
+    </a>
+    <ng-template #defaultLogo>
+      <a
+        matRipple
+        class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+        routerLink="/events"
+      >
+        <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+      </a>
+    </ng-template>
+  </ng-container>
+  <div
+    class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
+  >
+    <ng-container
+      *ngIf="tenantInfo$ | async as tenant"
+      [ngSwitch]="tenant.homePageStrategy"
+    >
+      <a
+        *ngSwitchCase="HomePageStrategy.Static"
+        class="nav-item"
+        routerLink="home"
+        routerLinkActive="active"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+      <a
+        *ngSwitchCase="HomePageStrategy.Markdown"
+        class="nav-item"
+        routerLink="/page/about"
+        routerLinkActive="active"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+      <a
+        *ngSwitchCase="HomePageStrategy.Link"
+        class="nav-item"
+        [href]="tenant.homePageLink"
+        target="_blank"
+      >
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      </a>
+    </ng-container>
+    <a
+      class="nav-item"
+      routerLink="events"
+      routerLinkActive="active"
+      data-testid="events-nav-item"
+    >
+      <mat-icon svgIcon="icon-overtime" matRipple></mat-icon><span>Events</span>
+    </a>
+    <!--<a
+      class="nav-item desktop-only"
+      matRipple
+      routerLink="page/apply"
+      routerLinkActive="active"
+      data-testid="apply-nav-item"
+    >
+      <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
+      <span>Apply as a TUMi tutor</span>
+    </a>-->
+    <!--        <a class="nav-item" matRipple routerLink="shop" routerLinkActive="active">-->
+    <!--          <mat-icon svgIcon="icon-online-shop-2"></mat-icon>-->
+    <!--          <span>The TUMi shop</span>-->
+    <!--        </a>-->
+    <!--<a
+      class="nav-item" matRipple
+      routerLink="basket"
+      routerLinkActive="active"
+      *appIfRole="[Role.User, Role.Admin]"
+    >
+      <mat-icon svgIcon="icon-shopping-basket"></mat-icon>
+      <span>Shopping basket</span>
+    </a>-->
+    <!--        <a class="nav-item" matRipple routerLink="page/about" routerLinkActive="active">-->
+    <!--          <mat-icon svgIcon="icon-information"></mat-icon>-->
+    <!--          <span>About us</span>-->
+    <!--        </a>-->
+    <a
+      class="nav-item"
+      routerLink="tutor-hub"
+      routerLinkActive="active"
+      data-testid="tutor-hub-nav-item"
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+    >
+      <mat-icon svgIcon="icon-hub" matRipple></mat-icon>
+      <span>Tutor Hub</span>
+    </a>
+    <a
+      class="nav-item desktop-only"
+      routerLink="event-templates"
+      routerLinkActive="active"
+      data-testid="event-templates-nav-item"
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+    >
+      <mat-icon svgIcon="icon-template" matRipple></mat-icon>
+      <span>Event Templates</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="tenant"
+      routerLinkActive="active"
+      data-testid="manage-nav-item"
+      *appIfRole="[Role.Admin]"
+    >
+      <mat-icon svgIcon="icon-maintenance" matRipple></mat-icon>
+      <span>Management</span>
+    </a>
+    <ng-container *ngIf="(tenantInfo$ | async)?.settings?.showPWAInstall">
+      <button
+        class="nav-item"
+        *ngIf="installEvent$ | async as event"
+        (click)="event.prompt()"
+      >
+        <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
+        <span>Install the app</span>
+      </button>
+    </ng-container>
+
+    <div class="hidden flex-1 sm:block"></div>
+    <a
+      class="nav-item flex justify-center sm:px-1"
+      matRipple
+      routerLink="profile"
+    >
+      <app-auth-button></app-auth-button>
+    </a>
+  </div>
+</div>

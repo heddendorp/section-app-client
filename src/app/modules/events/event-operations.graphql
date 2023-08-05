@@ -1,0 +1,282 @@
+query loadRegistrationForMove($registrationId: ID!) {
+  registration(id: $registrationId) {
+    id
+    eventId
+    deletingCode {
+      id
+      isPublic
+    }
+  }
+}
+
+mutation verifyCertificate($cert: String!) {
+  verifyDCC(certificate: $cert) {
+    status
+    card {
+      name
+      test
+      vaccination
+      recovery
+    }
+  }
+}
+
+mutation createEventRegistrationCode(
+  $eventId: ID!
+  $registrationId: ID
+  $isPublic: Boolean
+  $sepaAllowed: Boolean
+) {
+  createRegistrationCode(
+    eventId: $eventId
+    registrationId: $registrationId
+    isPublic: $isPublic
+    sepaAllowed: $sepaAllowed
+  ) {
+    id
+  }
+}
+
+query loadEventForRunning($id: ID!) {
+  event(id: $id) {
+    id
+    title
+    icon
+    start
+    end
+    participantLimit
+    participantRegistrationCount
+    participantsAttended
+    mailTemplate
+    createdBy {
+      id
+      fullName
+    }
+    organizerRegistrations {
+      id
+      checkInTime
+      user {
+        id
+        fullName
+        phone
+        picture
+        email
+        communicationEmail
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    costItems(hideOnInvoice: true) {
+      id
+      amount
+      actualAmount
+      submittedAmount
+      name
+      receipts {
+        id
+      }
+    }
+    submissionItems {
+      id
+      name
+    }
+    participantRegistrations(includePending: false) {
+      id
+      checkInTime
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          status
+        }
+      }
+      submissions {
+        id
+        data
+        submissionItem {
+          id
+          name
+        }
+      }
+      user {
+        id
+        fullName
+        phone
+        picture
+        email
+        communicationEmail
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+  }
+}
+
+query getCostItem($id: ID!) {
+  costItem(id: $id) {
+    id
+    name
+    amount
+    submittedAmount
+    event {
+      id
+      title
+    }
+    receipts {
+      id
+      createdAt
+      amount
+      url
+      type
+      originalUrl
+      user {
+        id
+        fullName
+      }
+    }
+  }
+}
+
+query getBlobToken {
+  blobUploadKey
+}
+
+mutation addReceipt($costItemId: ID!, $receiptInput: CreateReceiptInput!) {
+  createReceipt(costItemId: $costItemId, input: $receiptInput) {
+    id
+    amount
+    url
+    costItem {
+      id
+      receipts {
+        id
+      }
+    }
+  }
+}
+
+mutation deleteReceipt($receiptId: ID!) {
+  deleteReceipt(id: $receiptId) {
+    id
+    costItem {
+      id
+      receipts {
+        id
+      }
+    }
+  }
+}
+
+query getRegistration($id: ID!) {
+  registration(id: $id) {
+    id
+    transactions {
+      id
+      status
+      direction
+      amount
+      type
+      subject
+      stripePayment {
+        id
+        status
+      }
+    }
+    type
+    didAttend
+    checkInTime
+    event {
+      id
+      title
+      icon
+    }
+    user {
+      id
+      fullName
+      picture
+    }
+  }
+}
+
+mutation checkInUser($id: ID!, $manual: Boolean) {
+  checkInUser(registrationId: $id, manualCheckin: $manual) {
+    id
+    checkInTime
+    didAttend
+  }
+}
+
+query GetUserPaymentStatus {
+  currentUser {
+    id
+    currentTenant {
+      userId
+      tenantId
+    }
+  }
+}
+
+mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean, $refundFees: Boolean) {
+  deregisterFromEvent(
+    registrationId: $registrationId
+    withRefund: $withRefund
+    refundFees: $refundFees
+  ) {
+    id
+    participantRegistrations(includeCancelled: true) {
+      id
+      status
+    }
+    activeRegistration {
+      id
+    }
+    organizers {
+      id
+      fullName
+      picture
+    }
+    participantRegistrationCount
+    userIsRegistered
+  }
+}
+
+query loadUsersByStatus($allowList: [MembershipStatus!]!) {
+  users(statusList: $allowList) {
+    id
+    fullName
+  }
+}
+
+query eventList($after: DateTime, $before: DateTime) {
+  events(after: $after, before: $before) {
+    id
+    title
+    icon
+    start
+    end
+    registrationStart
+    organizerRegistrationStart
+    prices
+    organizerLimit
+    organizersRegistered
+    participantRegistrationCount
+    participantLimit
+    couldBeOrganizer
+    publicationState
+    registrationMode
+    userIsRegistered
+    userIsOrganizer
+    internalEvent
+  }
+}

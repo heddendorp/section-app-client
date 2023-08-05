@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "world.esn.tumi.twa",
+      "sha256_cert_fingerprints": [
+        "47:2D:6A:1E:98:26:F6:A4:B9:9D:A4:52:F3:AE:54:6C:05:D0:99:9A:74:26:E4:83:6D:F4:6C:CE:18:A6:E1:44",
+        "1C:1B:3A:AF:E3:43:8D:FC:EA:32:84:D3:67:F3:C5:00:B1:16:DE:04:56:BF:69:B3:47:32:93:6D:B8:8C:52:11"
+      ]
+    }
+  }
+]

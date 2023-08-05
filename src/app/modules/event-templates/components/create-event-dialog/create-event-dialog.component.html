@@ -1,0 +1,92 @@
+<h1 mat-dialog-title>Create Event: {{ data.template.title }}</h1>
+<form [formGroup]="eventDataForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Start</mat-label>
+      <input matInput formControlName="start" type="datetime-local" />
+      <mat-error>You have to specify when the event will begin</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>End</mat-label>
+      <input matInput formControlName="end" type="datetime-local" />
+      <mat-hint
+        >The end of the event will automatically be set to
+        {{ data.template.duration }}h after the start</mat-hint
+      >
+      <mat-error>You have to specify when the event will end</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Registration Mode</mat-label>
+      <mat-hint>Use Stripe for events which we charge money for.</mat-hint>
+      <mat-select formControlName="registrationMode" required>
+        <mat-option [value]="RegistrationMode.External">{{
+          RegistrationMode.External | titlecase
+        }}</mat-option>
+        <mat-option [value]="RegistrationMode.Stripe">
+          Stripe (paid events)
+        </mat-option>
+        <mat-option [value]="RegistrationMode.Online">
+          Online (free events)
+        </mat-option>
+      </mat-select>
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number" required />
+      <span matSuffix>€</span>
+      <mat-hint>The default price for this event</mat-hint>
+      <mat-error>
+        You have to specify a price or change the registration type
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Registration link</mat-label>
+      <input matInput formControlName="registrationLink" type="url" required />
+      <mat-hint>The link where users can register for this event</mat-hint>
+      <mat-error>
+        You have to specify a link or change the registration type
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Number of Organizers</mat-label>
+      <input matInput formControlName="organizerLimit" type="number" />
+      <mat-hint>The maximum number of organizers running this event</mat-hint>
+      <mat-error>You have to specify the number of organizers</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Number of Participants</mat-label>
+      <input matInput formControlName="participantLimit" type="number" />
+      <mat-hint>The maximum number of participants for this event</mat-hint>
+      <mat-error>You have to specify the number of participants</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Organizing institution</mat-label>
+      <mat-select formControlName="eventOrganizerId" required>
+        <mat-option
+          *ngFor="let organizer of data.organizers"
+          [value]="organizer.id"
+        >
+          {{ organizer.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>The organization responsible for this event</mat-hint>
+      <mat-error>You have to provide the organizer</mat-error>
+    </mat-form-field>
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+      <mat-checkbox formControlName="excludeFromRatings">
+        Don't collect ratings for this event
+      </mat-checkbox>
+      <mat-checkbox formControlName="excludeFromStatistics">
+        Don't list this event in the statistics
+      </mat-checkbox>
+    </div>
+    <div class="pt-2 text-slate-500">
+      You can make further edits after creating the event on the next page.
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>

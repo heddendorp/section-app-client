@@ -1,0 +1,41 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(profile$ | async) === null"
+></mat-progress-bar>
+<main>
+  <app-profile-card [profile]="profile$ | async"></app-profile-card>
+  <div class="m-4">
+    <div
+      class="bg-secondary-container text-secondary-onContainer shadow-xl rounded-2xl p-4 h-full"
+    >
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <mat-icon
+          svgIcon="icon-overtime"
+          class="text-secondary-default bg-secondary-on card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">
+          <span>Common past events </span>
+          <span *ngIf="profile$ | async as profile"
+            >with {{ profile.firstName }}</span
+          >
+          <span *ngIf="commonEvents$ | async as events" class="font-light">
+            ({{ events.length }})</span
+          >
+        </h2>
+      </div>
+      <mat-nav-list>
+        <ng-container *ngIf="commonEvents$ | async as events; else skeleton">
+          <app-event-list-item
+            *ngFor="let event of events"
+            [event]="event"
+          ></app-event-list-item>
+        </ng-container>
+        <ng-template #skeleton>
+          <app-event-list-item
+            *ngFor="let event of [].constructor(3)"
+          ></app-event-list-item>
+        </ng-template>
+      </mat-nav-list>
+    </div>
+  </div>
+</main>

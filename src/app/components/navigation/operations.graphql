@@ -1,0 +1,30 @@
+query getCurrentUserInfo {
+  currentUser {
+    id
+    outstandingRating
+  }
+}
+query getTenantInfo {
+  currentTenant {
+    id
+    name
+    faqPage
+    homePageStrategy
+    homePageLink
+    communicationEmail
+    settings {
+      showPWAInstall
+      brandIconUrl
+      socialLinks {
+        icon
+        url
+        label
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+    }
+  }
+}

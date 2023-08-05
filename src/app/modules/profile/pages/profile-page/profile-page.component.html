@@ -1,0 +1,205 @@
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(profile$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="profile$ | async as profile; else loading">
+  <app-profile-card
+    [profile]="profile"
+    (edit)="updateProfile()"
+    [hideEditButton]="false"
+  ></app-profile-card>
+  <div class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-6 flex flex-row items-center">
+        <mat-icon
+          svgIcon="icon-contact-card"
+          class="text-secondary-default bg-secondary-on card-icon"
+        >
+        </mat-icon>
+        <h2 class="font-bold">Private Information</h2>
+      </div>
+      <div class="mb-2 grid grid-cols-[1fr_2fr] gap-x-4">
+        <p>Mail:</p>
+        <p>{{ profile.email }}</p>
+        <p>Phone:</p>
+        <p>{{ profile.phone ?? 'not saved' }}</p>
+        <p>Birthday:</p>
+        <p>{{ profile.birthdate | date : 'mediumDate' }}</p>
+      </div>
+      <div class="mt-2 flex w-full flex-col gap-2">
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern"
+          (click)="updateUserInformation()"
+        >
+          <mat-icon svgIcon="icon-change-user-female"></mat-icon>
+          Update data
+        </button>
+        <input
+          type="file"
+          hidden
+          #fileInput
+          accept="image/*"
+          (change)="addFile($event)"
+        />
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern"
+          (click)="fileInput.click()"
+          [disabled]="uploading$ | async"
+        >
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+          Change Profile picture
+        </button>
+      </div>
+      <h3 class="mt-6 font-bold">Calendar integration</h3>
+
+      <p
+        class="text-secondary-default flex select-all items-center break-words font-mono text-sm tracking-tight"
+      >
+        <mat-icon
+          svgIcon="icon-chain"
+          class="mr-2 min-w-[18] max-w-[18px]"
+        ></mat-icon>
+        <span class="truncate">
+          https://{{ hostName }}/cal/private/{{ profile.calendarToken }}
+        </span>
+      </p>
+
+      <p class="text-sm">
+        You can use this link to subscribe to an iCal feed of the events you are
+        registered for.
+        <a
+          class="underline"
+          href="https://help.hospitable.com/en/articles/4605516-how-can-i-add-the-ical-feed-to-the-calendar-on-my-device#:~:text=How%20to%20add%20the%20iCal%20feed%20to%20the%20calendar%20on%20my%20device%3F"
+          target="blank"
+          >Here</a
+        >'s a how-to.
+      </p>
+    </div>
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-6 flex flex-row items-center">
+        <mat-icon
+          svgIcon="icon-membership-card"
+          class="text-secondary-default bg-secondary-on card-icon"
+        >
+        </mat-icon>
+        <h2 class="font-bold">ESNcard</h2>
+      </div>
+      <ng-container *ngIf="profile.hasESNCard">
+        <p>
+          You have an ESNcard! You will now enjoy a discount on most of our
+          events. Check out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
+      </ng-container>
+      <ng-container *ngIf="!profile.hasESNCard">
+        <p class="mb-4">
+          With an ESNcard, you can enjoy a discount on most of our events. Check
+          out all the offers on
+          <a href="https://esncard.org/" class="text-blue-600" target="blank"
+            >ESNcard.org</a
+          >!
+        </p>
+      </ng-container>
+    </div>
+    <div
+      *ngIf="(eventsToRate$ | async)?.length"
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+    >
+      <div class="mb-6 flex flex-row items-center">
+        <mat-icon
+          svgIcon="icon-star"
+          class="text-secondary-default bg-secondary-on card-icon"
+        ></mat-icon>
+        <h2 class="font-bold">Rate Events</h2>
+      </div>
+      <p class="mb-4">
+        Please take a little time to rate these events you took part in so we
+        can improve.
+      </p>
+      <div class="flex flex-col gap-4" *ngIf="eventsToRate$ | async as events">
+        <app-rate-event
+          *ngFor="let event of events"
+          [event]="event"
+          (ratingSubmitted)="saveRating($event, event.id)"
+        >
+        </app-rate-event>
+      </div>
+    </div>
+    <app-event-list
+      title="Participated events"
+      [events]="(profileEvents$ | async)?.participatedEvents"
+      [isOrganized]="false"
+      (claimRequest)="claimEvent()"
+    ></app-event-list>
+    <ng-container *ngIf="profileEvents$ | async as profileEvents">
+      <app-event-list
+        title="Organized events"
+        [events]="profileEvents.organizedEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.organizedEvents.length"
+      ></app-event-list>
+      <app-event-list
+        title="Created events"
+        [events]="profileEvents.createdEvents"
+        [isOrganized]="true"
+        *ngIf="profileEvents.createdEvents.length"
+      ></app-event-list>
+    </ng-container>
+    <div
+      class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
+      *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
+    >
+      <div class="mb-6 flex flex-row items-center">
+        <mat-icon
+          svgIcon="icon-conference"
+          class="text-secondary-default card-icon bg-white"
+        ></mat-icon>
+        <h2 class="font-bold">Section membership</h2>
+      </div>
+      <div>
+        Current status:
+        <div class="black text-center text-7xl">
+          {{ profile.currentTenant?.status | uppercase }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 mb-2 flex flex-row gap-2 p-4">
+    <a
+      class="modern w-full"
+      color="primary"
+      mat-raised-button
+      routerLink="/page/feedback"
+    >
+      <mat-icon svgIcon="icon-feedback"></mat-icon>
+      <span>Give Feedback</span>
+    </a>
+    <button
+      class="modern w-full"
+      color="accent"
+      mat-raised-button
+      *ngIf="this.auth.isAuthenticated$ | async"
+      (click)="
+        auth.logout({ logoutParams: { returnTo: document.location.origin } })
+      "
+    >
+      <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
+      Logout
+    </button>
+  </div>
+</main>
+
+<ng-template #loading>
+  <app-profile-card [hideEditButton]="true"></app-profile-card>
+</ng-template>

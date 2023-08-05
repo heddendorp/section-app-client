@@ -1,0 +1,7 @@
+:host {
+  @apply flex h-full w-full aspect-1 justify-center;
+}
+
+.active {
+  @apply border-white border-2;
+}

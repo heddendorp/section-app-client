@@ -1,0 +1,82 @@
+<h1 mat-dialog-title>New Payment</h1>
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Subject</mat-label>
+      <input matInput formControlName="subject" required />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number" required />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option [value]="TransactionType.Transfer">Transfer</mat-option>
+        <mat-option [value]="TransactionType.Stripe">Stripe</mat-option>
+        <mat-option [value]="TransactionType.Paypal">PayPal</mat-option>
+        <mat-option [value]="TransactionType.Cash">Cash</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Direction</mat-label>
+      <mat-select formControlName="direction" required>
+        <mat-option [value]="TransactionDirection.ExternalToUser">
+          External to User
+        </mat-option>
+        <mat-option [value]="TransactionDirection.UserToExternal">
+          User to External
+        </mat-option>
+        <mat-option [value]="TransactionDirection.UserToTumi">
+          User to TUMi
+        </mat-option>
+        <mat-option [value]="TransactionDirection.ExternalToTumi">
+          External to User
+        </mat-option>
+        <mat-option [value]="TransactionDirection.TumiToExternal">
+          TUMi to External
+        </mat-option>
+        <mat-option [value]="TransactionDirection.TumiToUser">
+          TUMi to User
+        </mat-option>
+        <mat-option [value]="TransactionDirection.UserToUser">
+          User to User
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" required>
+        <mat-option [value]="TransactionStatus.Confirmed">Confirmed</mat-option>
+        <mat-option disabled [value]="TransactionStatus.Cancelled">
+          Cancelled
+        </mat-option>
+        <mat-option disabled [value]="TransactionStatus.Pending">
+          Pending
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Comment</mat-label>
+      <input matInput formControlName="comment" type="text" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Related User</mat-label>
+      <input
+        type="text"
+        placeholder="Pick one"
+        matInput
+        [formControl]="searchUserControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of userOptions$ | async"
+          [value]="option.id"
+        >
+          {{ option.fullName }} ({{ option.email }})
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-dialog-content>
+</form>

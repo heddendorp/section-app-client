@@ -1,0 +1,9 @@
+<div
+  class="grid"
+  style="grid-template-columns: repeat(auto-fit, minmax(min(100%, {{
+    minWidth
+  }}), {{ maxWidth }}))"
+  [style.grid-gap]="gap"
+>
+  <ng-content></ng-content>
+</div>

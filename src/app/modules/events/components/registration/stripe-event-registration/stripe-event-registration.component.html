@@ -1,0 +1,150 @@
+<div *ngIf="event" class="my-2">
+  <p class="mb-4 text-lg font-bold">
+    {{ event.freeParticipantSpots }}
+  </p>
+  <app-check-additional-data
+    [event]="event"
+    (dataSubmission)="registerAdditionalData($event)"
+  >
+    <ng-container *ngIf="event.participantRegistrationPossible.option">
+      <p class="font-bold">You can register for this event</p>
+      <p *ngIf="event.disableDeregistration">
+        <span class="mr-2 font-bold text-red-500">Please note!</span>
+        You can not deregister from this event or send it to someone else. The
+        registration is final once successful.
+      </p>
+      <p class="mb-2">
+        We are showing all prices that you can choose from depending on the
+        event and your account.
+      </p>
+      <mat-form-field class="mb-4">
+        <mat-label>Price</mat-label>
+        <mat-select [formControl]="priceControl">
+          <mat-option
+            *ngFor="let price of availablePrices$ | async"
+            [value]="price"
+          >
+            {{ price.amount | currency: 'EUR' }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="priceControl.invalid || (processing | async)"
+        (click)="register()"
+        class="modern"
+      >
+        <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
+        <span>Start payment and register</span>
+      </button>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
+    </ng-container>
+  </app-check-additional-data>
+  <ng-container
+    *ngIf="
+      !event.participantRegistrationPossible.option && !event.userIsRegistered
+    "
+  >
+    <p>
+      {{ event.participantRegistrationPossible.reason }}
+    </p>
+  </ng-container>
+  <ng-container *ngIf="event.userIsRegistered">
+    <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
+    <!--    TODO: check with new transactions-->
+    <p *ngIf="activeStripePayment?.status !== 'incomplete'">
+      ✔️ You have a spot on this event.
+    </p>
+    <!--    TODO: check with new transactions-->
+    <ng-container *ngIf="activeStripePayment?.status === 'incomplete'">
+      <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
+      <p>
+        Please make sure to complete you payment by
+        {{ lastPayment | date: 'mediumTime' }} or your registration will be
+        canceled automatically.
+      </p>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+        <button
+          mat-flat-button
+          color="primary"
+          class="modern"
+          (click)="openPaymentSession(activeStripePayment?.checkoutUrl)"
+        >
+          Finalize event payment
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="cancelPayment()"
+          class="modern"
+        >
+          Cancel your registration and payment
+        </button>
+      </div>
+    </ng-container>
+    <!--    TODO: check with new transactions-->
+    <ng-container *ngIf="activeStripePayment?.status === 'processing'">
+      <p>
+        Your payment is currently processing, once it was successful you can
+        give the event away or give up you spot.
+      </p>
+    </ng-container>
+    <p *ngIf="event.disableDeregistration">
+      You can not deregister from this event or send it to someone else.
+    </p>
+    <div
+      class="my-2"
+      *ngIf="
+        !event.activeRegistration?.didAttend &&
+        event.activeRegistration?.status === 'SUCCESSFUL' &&
+        !event.disableDeregistration
+      "
+    >
+      <p class="mb-2">You can give this registration to another person</p>
+      <button mat-flat-button (click)="moveEvent()">Send event</button>
+    </div>
+    <ng-container
+      *ngIf="
+        canDeregister &&
+        event.activeRegistration?.status === 'SUCCESSFUL' &&
+        !event.disableDeregistration
+      "
+    >
+      <p class="my-2" *ngIf="canDeregisterInTime">
+        You can deregister from this event before
+        {{ lastDeregistration | date }} and receive a refund
+      </p>
+      <p class="my-2" *ngIf="!canDeregisterInTime">
+        Due to special circumstances you can deregister from this event
+      </p>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="processing | async"
+        (click)="deregister()"
+      >
+        Give up spot
+      </button>
+      <mat-progress-bar
+        class="mt-4"
+        mode="indeterminate"
+        *ngIf="processing | async"
+      ></mat-progress-bar>
+    </ng-container>
+  </ng-container>
+  <ng-template #notReady>
+    <h2 class="font-bold">⚠️ No payment method saved</h2>
+    <p class="mb-4">
+      To register for TUMi events you have to save a payment method to your
+      profile
+    </p>
+    <a routerLink="/profile" mat-flat-button color="primary">
+      Go to profile now
+    </a>
+  </ng-template>
+</div>

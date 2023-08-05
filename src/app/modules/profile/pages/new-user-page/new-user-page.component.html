@@ -1,0 +1,108 @@
+<main class="space-y-2 p-4">
+  <h1>Hello there 👋</h1>
+  <p>There is some data missing from your profile.</p>
+  <form
+    [formGroup]="welcomeForm"
+    (ngSubmit)="onSubmit()"
+    fxLayout="column"
+    fxLayoutGap="1rem"
+  >
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" type="text" required />
+      <mat-error>Your first name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" type="text" required />
+      <mat-error>Your last name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field data-cy="university-select">
+      <mat-label>University</mat-label>
+      <mat-select formControlName="university" required>
+        <mat-option value="tum" data-cy="tum-option">TUM</mat-option>
+        <mat-option value="lmu">LMU München</mat-option>
+        <mat-option value="hm">Hochschule München</mat-option>
+        <mat-option value="uni-mannheim">Universität Mannheim</mat-option>
+        <mat-option value="dhbw">Duale Hochschule Baden-Württemberg</mat-option>
+        <mat-option value="hs-mannheim">Hochschule Mannheim</mat-option>
+        <mat-option value="hs-augsburg">Hochschule Augsburg</mat-option>
+        <mat-option value="uni-augsburg">Universität Augsburg</mat-option>
+        <mat-option value="kit">Karlsruher Institut für Technologie</mat-option>
+        <mat-option value="hs-karlsruhe">Hochschule Karlsruhe</mat-option>
+        <mat-option value="p-hs-k">
+          Pädagogische Hochschule Karlsruhe
+        </mat-option>
+        <mat-option value="m-hs-k">Musikhochschule Karlsruhe</mat-option>
+        <mat-option value="tu-berlin">Technische Universität Berlin</mat-option>
+        <mat-option value="fu-berlin">Freie Universität Berlin</mat-option>
+        <mat-option value="hu-berlin">
+          Humboldt Universität zu Berlin
+        </mat-option>
+        <mat-option value="udk-berlin">
+          Universität der Künste Berlin
+        </mat-option>
+        <mat-option value="charite"
+          >Charité - Universitätsmedizin Berlin
+        </mat-option>
+        <mat-option value="u-potsdam">Universität Potsdam</mat-option>
+        <mat-option value="otherUni">other university</mat-option>
+        <mat-option value="other">not a student</mat-option>
+      </mat-select>
+      <mat-error>Your university is required</mat-error>
+    </mat-form-field>
+    <mat-form-field data-cy="status-select">
+      <mat-label>Enrolment Status</mat-label>
+      <mat-select formControlName="enrolmentStatus" required>
+        <mat-option
+          [value]="EnrolmentStatus.Exchange"
+          data-cy="exchange-option"
+        >
+          Exchange student
+        </mat-option>
+        <mat-option [value]="EnrolmentStatus.International"
+          >International degree student</mat-option
+        >
+        <mat-option [value]="EnrolmentStatus.Local">Local student</mat-option>
+        <mat-option [value]="EnrolmentStatus.Other">Other</mat-option>
+      </mat-select>
+      <mat-error>Your university is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Birthday</mat-label>
+      <input matInput formControlName="birthdate" [matDatepicker]="picker" />
+      <mat-error>Your birthday is required</mat-error>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+        data-cy="date-toggle"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        data-cy="date-picker"
+        #picker
+        startView="multi-year"
+        [startAt]="startDate"
+      ></mat-datepicker>
+    </mat-form-field>
+    <div>
+      <mat-form-field class="w-full" data-cy="phone-input">
+        <mat-label>Phone number</mat-label>
+        <input
+          matInput
+          formControlName="phone"
+          type="tel"
+          minlength="5"
+          required
+        />
+        <mat-error>A valid phone number is required</mat-error>
+        <mat-hint>
+          Please use the international format
+          <span class="font-mono">+4912345678</span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button color="primary" data-cy="submit-button"
+      >Get started</button
+    >
+  </form>
+</main>

@@ -1,0 +1,8 @@
+::ng-deep .cdk-overlay-pane.modern mat-dialog-container {
+  padding: 0;
+  overflow-x: hidden;
+
+  .grid {
+    padding: 24px;
+  }
+}

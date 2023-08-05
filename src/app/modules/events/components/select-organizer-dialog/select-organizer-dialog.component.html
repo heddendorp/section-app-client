@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Add an organizer</h1>
+<mat-dialog-content>
+  <mat-form-field class="w-full">
+    <mat-label>Organizer</mat-label>
+    <input
+      matInput
+      type="text"
+      [formControl]="nameControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selectUser($event)"
+      autoActiveFirstOption
+    >
+      <mat-option
+        *ngFor="let user of filteredChoices$ | async"
+        [value]="user.id"
+        >{{ user.fullName }}</mat-option
+      >
+    </mat-autocomplete>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

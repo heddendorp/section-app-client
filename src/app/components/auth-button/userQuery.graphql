@@ -1,0 +1,14 @@
+query getCurrentUser {
+  currentUser {
+    id
+    profileComplete
+    firstName
+    lastName
+    email
+    phone
+    picture
+    university
+    enrolmentStatus
+    birthdate
+  }
+}

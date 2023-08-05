@@ -1,0 +1,29 @@
+.event {
+  &.organizer {
+    @apply border-4 border-blue-600 bg-blue-50;
+  }
+  &.participant {
+    @apply border-4 border-green-600 bg-green-50;
+  }
+  &.draft {
+    @apply bg-amber-50;
+  }
+  &.organizers {
+    @apply bg-blue-50;
+  }
+  &.approval {
+    @apply bg-violet-50;
+  }
+}
+
+.publication-state {
+  &.draft {
+    @apply bg-amber-300 text-amber-800;
+  }
+  &.organizers {
+    @apply bg-blue-300 text-blue-800;
+  }
+  &.approval {
+    @apply bg-violet-300 text-violet-800;
+  }
+}

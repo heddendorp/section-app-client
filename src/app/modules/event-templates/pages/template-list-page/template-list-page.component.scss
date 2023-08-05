@@ -1,0 +1,15 @@
+.counter {
+  @apply absolute right-0 bottom-0 text-xs bg-white border-gray-400 border-[1px] rounded-full w-[18px] h-[18px] box-border text-center font-medium tracking-tighter;
+  font-size: 0.7rem;
+}
+
+.mat-expansion-panel-header-title {
+  flex-grow: 3;
+}
+
+.mat-expansion-panel-header-description {
+  flex-grow: 1;
+}
+button[mat-fab]{
+  @apply right-4 bottom-20 sm:bottom-4 fixed z-50;
+}

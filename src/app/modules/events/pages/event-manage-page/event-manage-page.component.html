@@ -1,0 +1,490 @@
+<mat-toolbar color="white">
+  <app-back-button></app-back-button>
+  <ng-container *ngIf="event$ | async as event">
+    <div class="flex-1 truncate">Manage {{ event.title }}</div>
+    <a
+      routerLink="/event-templates/{{ event.eventTemplate.id }}"
+      mat-flat-button
+      color="accent"
+      class="modern"
+      >Go to template</a
+    >
+  </ng-container>
+</mat-toolbar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="(event$ | async) === null"
+></mat-progress-bar>
+<main *ngIf="event$ | async as event" class="py-4 px-1 sm:p-4">
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Finances </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-event-manage-finances
+        [eventId]="event.id"
+      ></app-event-manage-finances>
+
+      <table class="mt-4 block w-full table-auto overflow-x-auto">
+        <thead>
+          <tr>
+            <th class="mx-4">Date</th>
+            <th class="mx-4">Name</th>
+            <th class="mx-4">Item</th>
+            <th class="mx-4">Cost</th>
+            <th class="mx-4">Participation fees</th>
+            <th class="mx-4">Subsidies</th>
+            <th class="mx-4">Loss</th>
+            <th class="mx-4">Wins</th>
+          </tr>
+        </thead>
+        <tbody class="select-all">
+          <tr *ngFor="let costItem of event.costItems; let i = index">
+            <ng-container *ngIf="i === 0">
+              <td>{{ event.start | date : 'dd.MM.yyyy' }}</td>
+              <td>{{ event.title }}</td>
+            </ng-container>
+            <ng-container *ngIf="i !== 0">
+              <td></td>
+              <td></td>
+            </ng-container>
+            <td>{{ costItem.name }}</td>
+            <td>{{ costItem.submittedAmount | currency : 'EUR' }}</td>
+          </tr>
+          <tr *ngIf="event.costItems.length === 0">
+            <td>{{ event.start | date : 'dd.MM.yyyy' }}</td>
+            <td>{{ event.title }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ event.netAmountCollected | currency : 'EUR' }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              {{
+                event.submittedSpend - event.netAmountCollected
+                  | currency : 'EUR'
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Participants </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
+        <p>Users registered:</p>
+        <p>
+          {{ event.participantRegistrationCount }} of
+          {{ event.participantLimit }} ({{
+            event.participantLimit - event.participantRegistrationCount
+          }}
+          spots left)
+        </p>
+        <p>Users checked in:</p>
+        <p>
+          {{ event.participantsAttended }} of
+          {{ event.participantRegistrationCount }} ({{
+            event.participantRegistrationCount - event.participantsAttended
+          }}
+          remaining)
+        </p>
+        <p>Organizers registered:</p>
+        <p>{{ event.organizerRegistrations.length }}</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table
+          mat-table
+          [dataSource]="event.participantRegistrations"
+          multiTemplateDataRows
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let registration">
+              <app-user-chip
+                size="sm"
+                [id]="registration.user.id"
+                [picture]="registration.user.picture"
+                [name]="registration.user.fullName"
+                [status]="registration.user.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="registrationStatus">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let registration">
+              <span class="tag bg-green-200">{{
+                getStatusOfRegistration(registration)
+              }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="paid">
+            <th mat-header-cell *matHeaderCellDef>Paid</th>
+            <td mat-cell *matCellDef="let registration">
+              <span class="tag bg-slate-200">
+                {{ registration.balance | currency : 'EUR' }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="registered">
+            <th mat-header-cell *matHeaderCellDef>Registered</th>
+            <td mat-cell *matCellDef="let registration">
+              {{ registration.createdAt | date : 'short' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="checkIn">
+            <th mat-header-cell *matHeaderCellDef>Check in</th>
+            <td mat-cell *matCellDef="let registration">
+              <div *ngIf="registration.checkInTime">
+                {{ registration.checkInTime | date : 'short' }}
+              </div>
+              <button
+                *ngIf="!registration.checkInTime"
+                mat-stroked-button
+                class="modern"
+                (click)="checkin(registration.id)"
+                [disabled]="registration.didAttend"
+              >
+                <mat-icon svgIcon="icon-checked"></mat-icon>
+                <span>Check in</span>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+              &nbsp;
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedRegistration =
+                    expandedRegistration === element ? null : element;
+                  $event.stopPropagation()
+                "
+              >
+                <div
+                  *ngIf="expandedRegistration !== element"
+                  class="mat-expansion-indicator"
+                ></div>
+                <div
+                  *ngIf="expandedRegistration === element"
+                  class="mat-expansion-indicator rotate-180"
+                ></div>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let registration"
+              [attr.colspan]="registrationTableColumns.length"
+            >
+              <div
+                class="registration-detail"
+                [@detailExpand]="
+                  registration === expandedRegistration
+                    ? 'expanded'
+                    : 'collapsed'
+                "
+              >
+                <div class="my-4 flex flex-col gap-2">
+                  <div
+                    class="mb-2"
+                    gdAuto
+                    gdColumns="max-content auto"
+                    gdGap="0 1rem"
+                  >
+                    <p>Email:</p>
+                    <p>{{ registration.user.email }}</p>
+
+                    <p>Payment status:</p>
+                    <app-transaction-list
+                      [transactions]="registration.transactions"
+                    ></app-transaction-list>
+                  </div>
+                  <a
+                    routerLink="/tenant/registrations/{{ registration.id }}"
+                    mat-flat-button
+                    color="accent"
+                    class="modern"
+                  >
+                    <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
+                    View registration
+                  </a>
+                  <button
+                    mat-stroked-button
+                    class="modern"
+                    *ngIf="
+                      event.registrationMode == 'STRIPE' &&
+                      !registration.transactions.length
+                    "
+                    (click)="restorePayment(registration.id)"
+                  >
+                    <span>Restore Payment</span>
+                  </button>
+                  <a
+                    [href]="getWAUrl(registration, event)"
+                    target="_blank"
+                    mat-stroked-button
+                    class="modern"
+                    *ngIf="
+                      event.registrationMode == 'STRIPE' &&
+                      !registration.transactions.length
+                    "
+                  >
+                    Send WA message
+                  </a>
+                  <button
+                    mat-stroked-button
+                    class="modern"
+                    color="warn"
+                    [matMenuTriggerFor]="menu"
+                  >
+                    <mat-icon svgIcon="icon-remove-user-male"></mat-icon>
+                    <span>Remove</span>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button
+                      mat-menu-item
+                      [disabled]="!(registration.balance > 0)"
+                      (click)="kickWithRefund(registration.id)"
+                    >
+                      Cancel with refund
+                    </button>
+                    <button
+                      mat-menu-item
+                      [disabled]="!(registration.balance > 0)"
+                      (click)="kickWithRefund(registration.id, false)"
+                    >
+                      Cancel with refund less fees
+                    </button>
+                    <button
+                      mat-menu-item
+                      [disabled]="registration.didAttend"
+                      (click)="kick(registration.id)"
+                    >
+                      Cancel without refund
+                    </button>
+                  </mat-menu>
+                  <div *ngIf="registration.submissions.length">
+                    <p>Additional Data</p>
+                    <div *ngFor="let submission of registration.submissions">
+                      <p>
+                        {{ submission.submissionItem.name }}:
+                        {{ submission.data.value }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="registrationTableColumns; sticky: true"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: registrationTableColumns"
+            class="registration-row"
+            [class.expanded-row]="expandedRegistration === row"
+            [class.cancelled]="row.status !== 'SUCCESSFUL'"
+            (click)="
+              expandedRegistration = expandedRegistration === row ? null : row
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="registration-detail-row"
+          ></tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Registration codes </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="flex flex-col gap-2 sm:flex-row">
+        <button
+          class="modern"
+          mat-flat-button
+          color="accent"
+          (click)="createRegistrationCode()"
+        >
+          <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+          <span>Create registration code</span>
+        </button>
+        <button
+          class="modern"
+          mat-flat-button
+          color="accent"
+          (click)="createRegistrationCode(true)"
+        >
+          <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+          <span>Create SEPA registration code</span>
+        </button>
+      </div>
+      <mat-list>
+        <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
+          <h3 mat-line>
+            Registration code ({{ code.createdAt | date : 'short' }})
+          </h3>
+          <p mat-line>
+            {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
+              code.status
+            }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}&nbsp;
+            <button
+              mat-icon-button
+              (click)="deleteRegistrationCode(code.id)"
+              [disabled]="code.status == 'SUCCESSFUL'"
+            >
+              ❌
+            </button>
+          </p>
+          <p mat-line>
+            Link for registration:
+            <span class="select-all font-mono">
+              {{ document.location.origin }}/profile?code={{ code.id }}
+            </span>
+          </p>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="true"
+      *ngIf="event.title.includes('ESNcard')"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> For Thomas with ❤️ </mat-panel-title>
+      </mat-expansion-panel-header>
+      <table class="select-all">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Zeile 1</th>
+            <th>Zeile 2</th>
+            <th>Zeile 3</th>
+            <th>Zeile 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let registration of getTable(event.participantRegistrations)
+            "
+          >
+            <td>{{ registration.user.fullName }}</td>
+            <td *ngFor="let part of registration.address">
+              {{ part }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Event table </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="block max-w-full overflow-x-auto">
+        <table class="w-full select-all">
+          <tbody>
+            <tr>
+              <td colspan="2">Event Name:</td>
+              <td colspan="3">{{ event.title }}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Date:</td>
+              <td colspan="3">{{ event.start | date }}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Tutors:</td>
+              <td colspan="3">
+                {{ joinOrganizers(event.organizerRegistrations) }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">Participants (including tutors):</td>
+              <td colspan="3">
+                {{
+                  event.participantRegistrationCount +
+                    event.organizerRegistrations.length
+                }}
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>E-mail</th>
+              <th>Phone</th>
+              <th>Check in</th>
+              <th>Price paid</th>
+            </tr>
+            <tr
+              *ngFor="
+                let registration of filterRegistrations(
+                  event.participantRegistrations
+                );
+                let i = index;
+                let last = last
+              "
+              class="table-row"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ registration.user.fullName }}</td>
+              <td>{{ registration.user.email }}</td>
+              <td>{{ registration.user.phone }}</td>
+              <td>{{ registration.checkInTime | date : 'short' }}</td>
+              <!--              TODO: fix calculation with new transactions-->
+              <!--<td *ngIf="!last">
+                {{
+                  ((registration.transaction?.stripePayment
+                    ?.netLessRefundAmount ??
+                    0) -
+                    ((feeShare$ | async) ?? 0)) /
+                    100 | currency: 'EUR'
+                }}
+              </td>
+              <td *ngIf="last">
+                {{
+                  ((registration.transaction?.stripePayment
+                    ?.netLessRefundAmount ??
+                    0) -
+                    ((lastUserFeeShare$ | async) ?? 0)) /
+                    100 | currency: 'EUR'
+                }}
+              </td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!--  <app-manage-event-voting [event]="event"></app-manage-event-voting>-->
+</main>

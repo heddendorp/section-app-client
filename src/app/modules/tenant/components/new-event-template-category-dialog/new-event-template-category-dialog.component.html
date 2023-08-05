@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>New Event Template Category</h1>
+<form [formGroup]="eventTemplateCategoryForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="space-y-2">
+    <mat-form-field class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" required />
+      <mat-hint>Name of the Template category</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Icon</mat-label>
+      <input #iconInput matInput formControlName="icon" type="text" required />
+      <img
+        [src]="iconInput.value | iconURL"
+        alt="icon"
+        matSuffix
+        width="24px"
+        height="24px"
+      />
+      <mat-hint>Icon to use for this category</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="reset">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>

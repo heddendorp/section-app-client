@@ -1,0 +1,47 @@
+@media print {
+  .sidenav {
+    display: none;
+  }
+  mat-x {
+    display: none;
+  }
+  button {
+    display: none;
+  }
+  div {
+    display: none;
+  }
+}
+
+.nav-item {
+  @apply flex-col items-center w-0 flex-1 sm:flex-initial sm:w-full h-full sm:h-auto sm:rounded-xl sm:py-2 justify-center text-indigo-200;
+
+  mat-icon {
+    padding: 4px 11px;
+    width: 56px;
+    height: 32px;
+    @apply rounded-full
+  }
+
+  &.desktop-only {
+    @apply hidden sm:flex;
+  }
+
+  &:not(.desktop-only) {
+    @apply flex;
+  }
+
+  span {
+    @apply mt-0.5 sm:mt-2 text-xs text-center leading-tight;
+  }
+
+  &:hover {
+    @apply text-white;
+  }
+
+  &.active {
+    mat-icon{
+      @apply bg-indigo-800 text-white;
+    }
+  }
+}

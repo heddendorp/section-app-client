@@ -1,0 +1,23 @@
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-header {
+  padding-left: 0 !important;
+  height: unset !important;
+
+  &:hover {
+    background: none !important;
+  }
+}
+
+:host ::ng-deep .mat-expansion-panel {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.card-icon-small {
+  transform: scale(0.7);
+  margin-right: 0.3rem !important;
+}

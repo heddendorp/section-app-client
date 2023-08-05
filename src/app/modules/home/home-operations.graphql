@@ -1,0 +1,18 @@
+query getHomePageData {
+  events(limit: 10) {
+    id
+    title
+    icon
+    start
+  }
+  currentUser {
+    id
+  }
+}
+
+query getHomePageTenantInfo{
+  currentTenant {
+      id
+      shortName
+    }
+}

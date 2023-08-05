@@ -1,0 +1,186 @@
+<app-reactive-toolbar>
+  <mat-toolbar color="white">
+    <app-back-button></app-back-button>
+    <div resetScroll>Registration Code</div>
+  </mat-toolbar>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="(eventRegistrationCode$ | async) === null"
+  ></mat-progress-bar>
+</app-reactive-toolbar>
+<main class="space-y-2 p-4 lg:p-8">
+  <p>The ultimate information center 😎</p>
+  <div
+    class="overflow-hidden rounded-2xl border"
+    *ngIf="eventRegistrationCode$ | async as code"
+  >
+    <table class="w-full table-auto border-collapse">
+      <tbody>
+        <tr>
+          <th colspan="2">Code</th>
+          <th colspan="2">Event</th>
+        </tr>
+        <tr>
+          <td>Created: {{ code.createdAt | date: 'medium' }}</td>
+          <td>
+            Creator:
+            <app-user-chip
+              size="sm"
+              [id]="code.creator.id"
+              [picture]="code.creator.picture"
+              [name]="code.creator.fullName"
+              [status]="code.creator.currentTenant?.status + ''"
+            >
+            </app-user-chip>
+          </td>
+          <td>
+            <app-event-chip
+              [id]="code.targetEvent.id"
+              [icon]="code.targetEvent.icon"
+              [title]="code.targetEvent.title"
+            ></app-event-chip>
+          </td>
+          <td>
+            <div>Start: {{ code.targetEvent.start | date: 'medium' }}</div>
+            <div>End: {{ code.targetEvent.end | date: 'medium' }}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>Status: {{ code.status }}</td>
+          <td>
+            <span class="tag" *ngIf="code.isPublic">public</span>
+            <span class="tag" *ngIf="!code.isPublic">private</span>
+            <span class="tag" *ngIf="code.sepaAllowed">sepa</span>
+          </td>
+          <td colspan="2">
+            <a
+              class="modern w-full"
+              href="/events/{{ code.targetEvent.id }}/manage"
+              mat-stroked-button
+            >
+              Manage Event
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="2">Initial Registration</th>
+          <th colspan="2">Created Registration</th>
+        </tr>
+
+        <tr>
+          <ng-container *ngIf="code.registrationToRemove">
+            <td>
+              Created:
+              {{ code.registrationToRemove.createdAt | date: 'medium' }}
+            </td>
+            <td>
+              <app-user-chip
+                size="sm"
+                [id]="code.registrationToRemove.user.id"
+                [picture]="code.registrationToRemove.user.picture"
+                [name]="code.registrationToRemove.user.fullName"
+                [status]="
+                  code.registrationToRemove.user.currentTenant?.status + ''
+                "
+              >
+              </app-user-chip>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove">
+            <td colspan="2">Admin code with no original registration</td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated">
+            <td>
+              Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
+            </td>
+            <td>
+              <app-user-chip
+                size="xs"
+                [id]="code.registrationCreated.user.id"
+                [picture]="code.registrationCreated.user.picture"
+                [name]="code.registrationCreated.user.fullName"
+                [status]="
+                  code.registrationCreated.user.currentTenant?.status + ''
+                "
+              >
+              </app-user-chip>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated">
+            <td colspan="2">Code was not used yet</td>
+          </ng-container>
+        </tr>
+
+        <tr>
+          <ng-container *ngIf="code.registrationToRemove">
+            <td>
+              Status:
+              {{ code.registrationToRemove.status | lowercase }}
+            </td>
+            <td>{{ code.registrationToRemove.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationToRemove">
+            <td colspan="2"></td>
+          </ng-container>
+          <ng-container *ngIf="code.registrationCreated">
+            <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
+            <td>{{ code.registrationCreated.cancellationReason }}</td>
+          </ng-container>
+          <ng-container *ngIf="!code.registrationCreated">
+            <td colspan="2"></td>
+          </ng-container>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <!--            TODO: check use of transactions list-->
+            <app-transaction-list
+              *ngIf="code.registrationToRemove"
+              [transactions]="code.registrationToRemove.transactions"
+            ></app-transaction-list>
+          </td>
+          <td colspan="2">
+            <!--              TODO: check transaction list-->
+            <app-transaction-list
+              *ngIf="code.registrationCreated"
+              [transactions]="code.registrationCreated.transactions"
+            ></app-transaction-list>
+          </td>
+        </tr>
+        <ng-container *ngIf="code.connectedRegistrations.length">
+          <tr>
+            <th colspan="4">All connected registrations</th>
+          </tr>
+          <tr *ngFor="let registration of code.connectedRegistrations">
+            <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+            <td>
+              <app-user-chip
+                size="xs"
+                [id]="registration.user.id"
+                [picture]="registration.user.picture"
+                [name]="registration.user.fullName"
+                [status]="registration.user.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+            </td>
+            <td>
+              Status: {{ registration.status }} ({{
+                registration.cancellationReason
+              }})
+            </td>
+            <td>
+              <!--              TODO: Check use of transactions list-->
+              <p>
+                Payment:
+                <app-transaction-list
+                  [transactions]="registration.transactions"
+                ></app-transaction-list>
+              </p>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <!--  <pre>{{ eventRegistrationCode$ | async | json }}</pre>-->
+</main>

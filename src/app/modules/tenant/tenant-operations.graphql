@@ -1,0 +1,325 @@
+mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
+    id
+  }
+}
+
+query loadEventsForInsurance {
+  events {
+    id
+    title
+    start
+    shouldBeReportedToInsurance
+    insuranceDescription
+    organizerLimit
+    participantLimit
+    publicationState
+    organizer {
+      id
+      name
+    }
+  }
+}
+
+query loadEventsWithBooking($after: DateTime) {
+  events(after: $after) {
+    id
+    title
+    start
+    icon
+    registrationMode
+    registrationStart
+    participantLimit
+    participantRegistrationCount
+    countedParticipantRegistrations
+    organizer {
+      id
+      name
+    }
+  }
+}
+
+query loadEventsWithRating($after: DateTime) {
+  events(after: $after, reverseOrder: true) {
+    id
+    title
+    start
+    icon
+    participantRating
+    participantRatingCount
+    organizerRating
+    organizerRatingCount
+    ratings {
+      userComment
+      rating
+      type
+      anonymousRating
+      user {
+        id
+        fullName
+        picture
+        currentTenant {
+          userId
+          tenantId
+          status
+        }
+      }
+    }
+    organizer {
+      id
+      name
+    }
+  }
+}
+
+query loadAllPhotos {
+  photos {
+    id
+    cols
+    rows
+    src
+    original
+    originalBlob
+    type
+    event {
+      id
+      title
+    }
+    creator {
+      id
+      fullName
+    }
+  }
+}
+
+query loadUser($id: ID!) {
+  user(id: $id) {
+    id
+    authId
+    firstName
+    lastName
+    fullName
+    email
+    birthdate
+    phone
+    university
+    hasESNCard
+    esnCardOverride
+    position
+    picture
+    currentTenant(userId: $id) {
+      userId
+      tenantId
+      role
+      status
+    }
+    eventRegistrations {
+      id
+      createdAt
+      checkInTime
+      type
+      status
+      deletingCode {
+        id
+        createdAt
+      }
+      creatingCode {
+        id
+        createdAt
+      }
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+        stripePayment {
+          id
+          status
+          events
+        }
+      }
+      event {
+        id
+        title
+        start
+        end
+        icon
+      }
+    }
+  }
+}
+
+query getTenantForEdit {
+  currentTenant {
+    id
+    name
+    imprintPage
+    aboutPage
+    privacyPolicyPage
+    faqPage
+    tacPage
+    homePageLink
+    homePageStrategy
+    communicationEmail
+    settings {
+      socialLinks {
+        label
+        icon
+        url
+      }
+      sectionHubLinks {
+        label
+        icon
+        url
+      }
+      deregistrationOptions {
+        refundFees
+        minimumDays
+      }
+      showPWAInstall
+      brandIconUrl
+    }
+  }
+}
+
+query getOrganizers {
+  eventOrganizers {
+    id
+    name
+    text
+  }
+}
+
+query getUsers(
+  $roleList: [Role!]
+  $statusList: [MembershipStatus!]
+  $search: String
+  $pageIndex: Int
+  $pageLength: Int
+  $emptyOnEmptySearch: Boolean
+) {
+  users(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+    pageIndex: $pageIndex
+    pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
+  ) {
+    id
+    firstName
+    lastName
+    fullName
+    email
+    position
+    picture
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
+    }
+  }
+  userSearchResultNum(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+  )
+}
+
+query getStatistics($range: DateRangeInput, $tenantId: ID) {
+  statistics(range: $range, tenantId: $tenantId) {
+    usersRegistered
+    registrations
+    userHistory
+    registrationHistory
+    checkinHistory
+    userEventDistribution
+    usersRegisteredEvents
+    usersRegisteredFreeEvents
+    usersRegisteredPaidEvents
+    checkins
+    paidRegistrations
+    #      totalNetPayments
+    totalEvents
+    paidEvents
+    #      averageEventCost
+    userUniversityDistribution
+    userStatusDistribution
+    localStatusDistribution
+  }
+}
+
+query getLogs {
+  logs {
+    id
+    createdAt
+    message
+    severity
+    data
+    oldData
+  }
+  logStats {
+    count
+    message
+  }
+}
+
+mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
+  updateTenant(id: $id, updateTenantInput: $update) {
+    id
+    faqPage
+    imprintPage
+    privacyPolicyPage
+    aboutPage
+    tacPage
+    homePageLink
+    homePageStrategy
+    communicationEmail
+        settings {
+          socialLinks {
+            label
+            icon
+            url
+          }
+          sectionHubLinks {
+            label
+            icon
+            url
+          }
+          brandIconUrl
+          showPWAInstall
+        }
+  }
+}
+
+mutation updateESNcard($userId: ID!, $override: Boolean!) {
+  updateESNCard(id: $userId, esnCardOverride: $override) {
+    id
+    esnCardOverride
+    hasESNCard
+  }
+}
+
+mutation updateUser(
+  $id: ID!
+  $position: String
+  $role: Role!
+  $status: MembershipStatus!
+) {
+  updateUserPosition(userId: $id, position: $position) {
+    position
+  }
+  updateUserRole(userId: $id, role: $role) {
+    userId
+    tenantId
+    role
+  }
+  updateUserStatus(userId: $id, status: $status) {
+    userId
+    tenantId
+    status
+  }
+}

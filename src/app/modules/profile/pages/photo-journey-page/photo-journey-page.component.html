@@ -1,0 +1,52 @@
+<main class="min-h-full bg-gray-800 p-6 lg:p-6">
+  <div class="mb-8">
+    <h1 class="text-5xl font-extrabold">
+      <span
+        class="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+      >
+        Your TUMi journey
+      </span>
+    </h1>
+  </div>
+  <div *ngIf="$data | async as data" fxLayout="column" fxLayoutGap="2rem">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start start"
+      *ngFor="let registration of data.eventRegistrations; let i = index"
+    >
+      <img
+        *ngIf="[0, 4, 9].includes(i)"
+        src="/assets/images/journey/achievement.svg"
+        fxFlex="64px"
+      />
+      <div *ngIf="![0, 4, 9].includes(i)" fxFlex="64px"></div>
+      <div class="ml-4">
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 0">
+          Your very first event
+        </h2>
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 4">
+          Going strong
+        </h2>
+        <h2 class="text-3xl font-bold text-blue-400" *ngIf="i === 9">
+          Wow, 10!
+        </h2>
+        <h2 class="text-3xl font-bold text-green-400">
+          {{ registration.event.title }} ({{ registration.event.start | date }})
+        </h2>
+        <div
+          class="mt-4 w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+        >
+          <div
+            *ngFor="let photo of registration.event.photoShares"
+            class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
+              photo.rows > 1 ? 'row-span-2' : ''
+            }}"
+            (click)="openPhoto(photo)"
+          >
+            <img [src]="photo.src" class="h-full w-full object-cover" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
