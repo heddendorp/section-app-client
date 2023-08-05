@@ -1,4 +1,4 @@
-# TUMi app _legacy-app_
+# ESN section app
 
 This is the third version of the TUMi app you know and love, currently the active client at tumi.esn.world.
 
@@ -6,17 +6,20 @@ This is the third version of the TUMi app you know and love, currently the activ
 
 If you are interested in learning how to use this, read the following docs. This gives you an idea about how the app works and benefits our ESN section.
 
-- [Event creation process](./event-journey.md)
-- [Administration features](./admin-features.md)
+- [Event creation process](./help/event-journey.md)
+- [Administration features](./help/admin-features.md)
+
+## Tips
+- [How to select icons](./help/icons.md)
 
 ### Concept
 
-The TUMi app is meant to improve the day to day business of an ESN section by automating all steps that take time when organising and running events. Additionally it aims to give the section greater insight to what's going on.  
+The TUMi app is meant to improve the day to day business of an ESN section by automating all steps that take time when organising and running events. Additionally, it aims to give the section greater insight to what's going on.  
 Currently the app is made to support the processes inside the TUMi ESN section which operates in a decentralised and lean way. But it can support other modes of operation as well, just reach out.
 
 ### Feature list
 
-- Events (learn more in the [Event creation process](./event-journey.md))
+- Events (learn more in the [Event creation process](./help/event-journey.md))
   - Template library: A place with templates for every event that the section has organised. Making it easy for members to find inspiration and organise something new.
   - Event list: The main public part of the app is the event list that shows all planned events in list and calendar form, students and members can always see what's up here.
   - Registration: The app can handle the entire registration process for events, this includes collecting money or additional information from every users.
@@ -68,7 +71,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd tumi/legacy-app
+  cd tumi
 ```
 
 Install dependencies
@@ -85,17 +88,6 @@ This uses the server running on `server.esn.world` which is also used by the liv
   yarn dev:light
 ```
 
-If you need changes in the and don't want to implement them yourself server you can line
-out what the API should return for you feature and open an issue.
-
-### With local server
-
-To fetch data you need to have the [server](../server) running on localhost as well.
-
-```bash
-  yarn dev
-```
-
 ## Documentation
 
 Relevant documentation for this project is listed below to give you a starting point.
@@ -108,9 +100,3 @@ Relevant documentation for this project is listed below to give you a starting p
   For data loading and most server communication.
 - [TailwindCSS](https://tailwindcss.com/docs/utility-first)  
   For general styling in the app instead of custom CSS.
-
-## Deployment
-
-The `release` branch is automatically deployed to `tumi.esn.world`.
-You can check the deployment of PRs by checking the URL that on the PR page.
-The `main` branch is deployed instantly to `dev.esn.world`.
