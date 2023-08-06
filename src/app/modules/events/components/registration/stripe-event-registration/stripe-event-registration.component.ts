@@ -13,7 +13,7 @@ import {
   TransactionDirection,
 } from '@tumi/legacy-app/generated/generated';
 import { MatDialog } from '@angular/material/dialog';
-import { Price } from '../../../../../../../../shared/data-types';
+import { Price } from '@tumi/legacy-app/utils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';

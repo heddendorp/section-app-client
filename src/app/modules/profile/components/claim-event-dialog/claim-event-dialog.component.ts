@@ -24,7 +24,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Price } from '../../../../../../../shared/data-types';
+import { Price } from '@tumi/legacy-app/utils';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';

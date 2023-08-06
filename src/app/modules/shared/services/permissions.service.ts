@@ -16,7 +16,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
-import { Price } from '../../../../../../shared/data-types';
+import { Price } from '@tumi/legacy-app/utils';
 
 @Injectable({
   providedIn: 'root',

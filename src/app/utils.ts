@@ -1,3 +1,10 @@
+export interface Price {
+  amount: number;
+  esnCardRequired: boolean;
+  allowedStatusList: string[];
+  defaultPrice: boolean;
+}
+
 export function transitionHelper({
   skipTransition = false,
   classNames = [],

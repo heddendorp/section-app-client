@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { LoadEventQuery, Role } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-import { Price } from '../../../../../../../shared/data-types';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
@@ -15,6 +14,7 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf, DecimalPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
+import { Price } from '@tumi/legacy-app/utils';
 
 @Component({
     selector: 'app-event-header',
