@@ -17,7 +17,7 @@
     @apply text-black;
     &::before {
       @apply absolute left-0 h-full w-1 bg-green-600;
-      content: ' ';
+      content: " ";
     }
   }
   &.organizer {
@@ -25,7 +25,7 @@
     @apply text-black;
     &::before {
       @apply absolute left-0 h-full w-1 bg-blue-600;
-      content: ' ';
+      content: " ";
     }
   }
   &.draft {

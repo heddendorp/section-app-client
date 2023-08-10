@@ -21,7 +21,7 @@
           <th colspan="2">Event</th>
         </tr>
         <tr>
-          <td>Created: {{ code.createdAt | date: 'medium' }}</td>
+          <td>Created: {{ code.createdAt | date: "medium" }}</td>
           <td>
             Creator:
             <app-user-chip
@@ -41,8 +41,8 @@
             ></app-event-chip>
           </td>
           <td>
-            <div>Start: {{ code.targetEvent.start | date: 'medium' }}</div>
-            <div>End: {{ code.targetEvent.end | date: 'medium' }}</div>
+            <div>Start: {{ code.targetEvent.start | date: "medium" }}</div>
+            <div>End: {{ code.targetEvent.end | date: "medium" }}</div>
           </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
           <ng-container *ngIf="code.registrationToRemove">
             <td>
               Created:
-              {{ code.registrationToRemove.createdAt | date: 'medium' }}
+              {{ code.registrationToRemove.createdAt | date: "medium" }}
             </td>
             <td>
               <app-user-chip
@@ -91,7 +91,7 @@
           </ng-container>
           <ng-container *ngIf="code.registrationCreated">
             <td>
-              Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
+              Created: {{ code.registrationCreated.createdAt | date: "medium" }}
             </td>
             <td>
               <app-user-chip
@@ -152,7 +152,7 @@
             <th colspan="4">All connected registrations</th>
           </tr>
           <tr *ngFor="let registration of code.connectedRegistrations">
-            <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+            <td>Created {{ registration.createdAt | date: "medium" }}</td>
             <td>
               <app-user-chip
                 size="xs"

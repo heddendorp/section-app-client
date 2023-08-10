@@ -82,7 +82,7 @@
   <h2>University distribution</h2>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
     <ng-container *ngFor="let entry of statistics.userUniversityDistribution">
-      <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
+      <p class="font-bold">{{ entry.uni ?? "not set" | titlecase }}</p>
       <p>{{ entry.count }}</p>
     </ng-container>
   </div>

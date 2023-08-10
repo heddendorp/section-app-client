@@ -45,7 +45,7 @@
     <p>Auth0 ID:</p>
     <p class="break-all">{{ user.authId }}</p>
     <p>Birthday:</p>
-    <p>{{ user.birthdate | date: 'mediumDate' }}</p>
+    <p>{{ user.birthdate | date: "mediumDate" }}</p>
     <p>University:</p>
     <p>{{ user.university }}</p>
     <p>Phone:</p>
@@ -80,7 +80,7 @@
     <ng-container matColumnDef="eventStart">
       <mat-header-cell *matHeaderCellDef>Event start</mat-header-cell>
       <mat-cell *matCellDef="let registration">
-        {{ registration.event.start | date: 'mediumDate' }}
+        {{ registration.event.start | date: "mediumDate" }}
       </mat-cell>
     </ng-container>
 
@@ -101,14 +101,14 @@
     <ng-container matColumnDef="registrationDate">
       <mat-header-cell *matHeaderCellDef>Registration date</mat-header-cell>
       <mat-cell *matCellDef="let registration">
-        {{ registration.createdAt | date: 'mediumDate' }}
+        {{ registration.createdAt | date: "mediumDate" }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="checkInDate">
       <mat-header-cell *matHeaderCellDef>Check in date</mat-header-cell>
       <mat-cell *matCellDef="let registration">
-        {{ registration.checkInTime | date: 'medium' }}
+        {{ registration.checkInTime | date: "medium" }}
       </mat-cell>
     </ng-container>
 

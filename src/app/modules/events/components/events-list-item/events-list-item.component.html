@@ -148,7 +148,7 @@
               style="width: 1rem; height: 1rem"
             ></mat-icon>
             <span class="text-base font-medium">{{
-              event.start | date: 'shortTime'
+              event.start | date: "shortTime"
             }}</span>
           </div>
         </ng-container>
@@ -161,7 +161,7 @@
               style="width: 1rem; height: 1rem"
             ></mat-icon>
             <span class="text-base font-medium">{{
-              defaultPrice().amount | currency: 'EUR'
+              defaultPrice().amount | currency: "EUR"
             }}</span>
           </div>
         </ng-container>
@@ -174,8 +174,9 @@
     class="publication-state w-full flex items-center px-5 py-4 {{
       event.publicationState | lowercase
     }}"
-    ><p class="font-medium leading-tight">{{
-      publicationStateString(event.publicationState)
-    }}</p></div
   >
+    <p class="font-medium leading-tight">
+      {{ publicationStateString(event.publicationState) }}
+    </p>
+  </div>
 </a>

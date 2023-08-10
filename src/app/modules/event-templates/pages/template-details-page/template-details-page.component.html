@@ -151,7 +151,7 @@
             <a routerLink="/events/{{ event.id }}" class="text-base">
               <span class="font-bold">{{ event.title }}</span>
               <span class="ml-2 font-light">{{
-                event.start | date: 'shortDate'
+                event.start | date: "shortDate"
               }}</span>
               <div
                 *ngIf="
@@ -160,7 +160,7 @@
                 "
                 class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
               >
-                {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                {{ event.participantRating | number: "1.1-1" }} ★ ({{
                   event.participantRatingCount
                 }})
               </div>
@@ -215,7 +215,7 @@
         >
           <h3 matListItemTitle>{{ event.title }}</h3>
           <p matListItemLine>
-            {{ event.start | date: 'medium' }}
+            {{ event.start | date: "medium" }}
           </p>
         </a>
       </mat-nav-list>

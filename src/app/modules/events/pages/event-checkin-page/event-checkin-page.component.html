@@ -77,7 +77,7 @@
         *ngIf="registration.didAttend"
       >
         User is already checked in for this event! <br />
-        Checkin at: {{ registration.checkInTime | date: 'medium' }}
+        Checkin at: {{ registration.checkInTime | date: "medium" }}
       </div>
       <div
         class="rounded bg-red-700 py-2 px-4 font-bold text-white"
@@ -102,7 +102,7 @@
           </p>
           <p>
             Received {{ certificate.vaccination.relativeDate }} on
-            {{ certificate.vaccination.date | date: 'mediumDate' }}
+            {{ certificate.vaccination.date | date: "mediumDate" }}
           </p>
         </ng-container>
         <ng-container *ngIf="certificate.test">
@@ -123,12 +123,12 @@
           <p class="text-lg">Recovered</p>
           <p>
             Positive test taken {{ certificate.recovery.relativeDate }} on
-            {{ certificate.recovery.date | date: 'mediumDate' }}
+            {{ certificate.recovery.date | date: "mediumDate" }}
           </p>
           <p>
             Valid from
-            {{ certificate.recovery.validFrom | date: 'mediumDate' }} to
-            {{ certificate.recovery.validUntil | date: 'mediumDate' }}
+            {{ certificate.recovery.validFrom | date: "mediumDate" }} to
+            {{ certificate.recovery.validUntil | date: "mediumDate" }}
           </p>
         </ng-container>
       </div>

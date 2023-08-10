@@ -10,7 +10,7 @@
     <span>{{ formatDate(event.start, event.end) }}</span>
     <span *ngIf="event.participantRatingCount > 0">
       <span class="ml-2 rounded bg-amber-400 px-1 !text-xs text-white"
-        >{{ event.participantRating | number: '1.1-1' }} ★ ({{
+        >{{ event.participantRating | number: "1.1-1" }} ★ ({{
           event.participantRatingCount
         }})
       </span></span

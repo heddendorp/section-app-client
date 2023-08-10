@@ -1,26 +1,26 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 @font-face {
-  font-family: 'General Sans';
+  font-family: "General Sans";
   font-style: normal;
   font-weight: 200 700;
   font-display: swap;
-  src: url('assets/fonts/GeneralSans-Variable.woff2') format('woff2');
+  src: url("assets/fonts/GeneralSans-Variable.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'General Sans';
+  font-family: "General Sans";
   font-style: italic;
   font-weight: 200 700;
   font-display: swap;
-  src: url('assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
+  src: url("assets/fonts/GeneralSans-VariableItalic.woff2") format("woff2");
 }
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 // Plus imports for other components in your app.
 
@@ -37,7 +37,7 @@
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies(
   mat.define-typography-config(
-    $font-family: 'General Sans, sans-serif',
+    $font-family: "General Sans, sans-serif",
     $body-2: mat.define-typography-level(14px, 20px, 450)
   )
 );
@@ -154,7 +154,7 @@ $tumi-app-accent: mat.define-palette($secondary-palette);
 $tumi-app-warn: mat.define-palette($error-palette);
 
 $tumi-typography: mat.define-typography-config(
-  $font-family: 'General Sans, sans-serif',
+  $font-family: "General Sans, sans-serif",
   $body-2: mat.define-typography-level(14px, 20px, 450),
 );
 

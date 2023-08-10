@@ -30,7 +30,7 @@
             >
             </app-user-chip>
           </td>
-          <td>Registered: {{ registration.createdAt | date: 'medium' }}</td>
+          <td>Registered: {{ registration.createdAt | date: "medium" }}</td>
           <td colspan="2">
             <app-event-chip
               [id]="registration.event.id"
@@ -44,8 +44,8 @@
           <td>
             {{ registration.cancellationReason }}
           </td>
-          <td>Start: {{ registration.event.start | date: 'medium' }}</td>
-          <td>End: {{ registration.event.end | date: 'medium' }}</td>
+          <td>Start: {{ registration.event.start | date: "medium" }}</td>
+          <td>End: {{ registration.event.end | date: "medium" }}</td>
         </tr>
         <tr>
           <td colspan="2">

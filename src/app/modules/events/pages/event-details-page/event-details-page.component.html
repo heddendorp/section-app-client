@@ -98,7 +98,7 @@
               <div *ngIf="!event.isVirtual">
                 <div class="mb-2">
                   <b>Meeting point:</b> {{ event.location }} at
-                  {{ event.start | date: 'mediumTime' }}
+                  {{ event.start | date: "mediumTime" }}
                 </div>
                 <a
                   class="modern"
@@ -121,7 +121,7 @@
               <div *ngIf="event.isVirtual">
                 <div class="mb-2">
                   <b>Online Meeting</b> at
-                  {{ event.start | date: 'mediumTime' }}
+                  {{ event.start | date: "mediumTime" }}
                 </div>
                 <a
                   class="modern"

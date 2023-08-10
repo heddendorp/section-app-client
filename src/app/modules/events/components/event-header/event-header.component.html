@@ -40,15 +40,15 @@
     <span *ngIf="!event" class="skeleton block sm:w-[30rem]">Event Title</span>
   </div>
   <ng-container *ngIf="event && !isSingleDayEvent(); else singleDayEvent">
-    <p>Starts: {{ event.start | date: 'medium' }}</p>
-    <p>Ends: {{ event.end | date: 'medium' }}</p>
+    <p>Starts: {{ event.start | date: "medium" }}</p>
+    <p>Ends: {{ event.end | date: "medium" }}</p>
   </ng-container>
   <ng-template #singleDayEvent>
     <div *ngIf="event" class="flex items-center gap-2">
       <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
       <span
-        >{{ event.start | date: 'medium' }} -
-        {{ event.end | date: 'mediumTime' }}</span
+        >{{ event.start | date: "medium" }} -
+        {{ event.end | date: "mediumTime" }}</span
       >
     </div>
     <div *ngIf="!event">
@@ -58,7 +58,7 @@
   <ng-container *ngIf="bestPrice">
     <div class="flex items-center gap-2">
       <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px"></mat-icon>
-      {{ bestPrice.amount | currency: 'EUR' }}
+      {{ bestPrice.amount | currency: "EUR" }}
     </div>
   </ng-container>
   <ng-container
@@ -69,10 +69,10 @@
     <div class="flex items-center gap-2">
       <div class="text-center" style="width: 18px">★</div>
       <span
-        >{{ event.participantRating | number: '1.1-1' }} ({{
+        >{{ event.participantRating | number: "1.1-1" }} ({{
           event.participantRatingCount
         }}
-        rating{{ event.participantRatingCount === 1 ? '' : 's' }})</span
+        rating{{ event.participantRatingCount === 1 ? "" : "s" }})</span
       >
     </div>
   </ng-container>

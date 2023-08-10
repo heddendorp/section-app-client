@@ -38,7 +38,7 @@
             *ngFor="let price of availablePrices$ | async"
             [value]="price"
           >
-            {{ price.amount | currency: 'EUR' }}
+            {{ price.amount | currency: "EUR" }}
           </mat-option>
         </mat-select>
       </mat-form-field>

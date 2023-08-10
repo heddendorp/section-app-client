@@ -26,7 +26,7 @@
   <ng-container matColumnDef="value">
     <th mat-header-cell *matHeaderCellDef>Cost</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.value | currency: 'EUR' }}
+      {{ element.value | currency: "EUR" }}
     </td>
   </ng-container>
 
@@ -46,7 +46,7 @@
   <ng-container matColumnDef="onInvoice">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      {{ element.onInvoice ? 'on invoice' : '' }}
+      {{ element.onInvoice ? "on invoice" : "" }}
     </td>
   </ng-container>
 
