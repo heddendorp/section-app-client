@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   GetTenantForEditGQL,
@@ -22,26 +30,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-edit-page',
-    templateUrl: './tenant-edit-page.component.html',
-    styleUrls: ['./tenant-edit-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatInputModule,
-        MatCheckboxModule,
-        NgFor,
-        MatButtonModule,
-        MatIconModule,
-    ],
+  selector: 'app-tenant-edit-page',
+  templateUrl: './tenant-edit-page.component.html',
+  styleUrls: ['./tenant-edit-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatCheckboxModule,
+    NgFor,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class TenantEditPageComponent {
   public editForm: UntypedFormGroup;
@@ -52,7 +60,7 @@ export class TenantEditPageComponent {
     private fb: UntypedFormBuilder,
     private updateTenant: UpdateTenantGQL,
     private loadTenant: GetTenantForEditGQL,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.editForm = this.fb.group({
       imprintPage: ['', Validators.required],
@@ -76,7 +84,7 @@ export class TenantEditPageComponent {
     });
     this.tenant$ = this.loadTenant.fetch().pipe(
       map(({ data }) => data.currentTenant),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.tenant$.pipe(first()).subscribe((tenant) => {
       this.editForm.patchValue(tenant ?? {});
@@ -109,7 +117,7 @@ export class TenantEditPageComponent {
         label: new FormControl('', Validators.required),
         url: new FormControl('', Validators.required),
         icon: new FormControl('', Validators.required),
-      })
+      }),
     );
   }
 
@@ -119,7 +127,7 @@ export class TenantEditPageComponent {
         label: new FormControl('', Validators.required),
         url: new FormControl('', Validators.required),
         icon: new FormControl('', Validators.required),
-      })
+      }),
     );
   }
 

@@ -5,3 +5,5 @@ export const environment = {
   useApiPath: false,
   version: 'test',
 };
+
+import 'zone.js/plugins/zone-error'; // Included with Angular CLI.

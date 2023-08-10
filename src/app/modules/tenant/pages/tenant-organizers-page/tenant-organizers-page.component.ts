@@ -17,23 +17,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-organizers-page',
-    templateUrl: './tenant-organizers-page.component.html',
-    styleUrls: ['./tenant-organizers-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatButtonModule,
-        MatListModule,
-        NgFor,
-        AsyncPipe,
-    ],
+  selector: 'app-tenant-organizers-page',
+  templateUrl: './tenant-organizers-page.component.html',
+  styleUrls: ['./tenant-organizers-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatListModule,
+    NgFor,
+    AsyncPipe,
+  ],
 })
 export class TenantOrganizersPageComponent implements OnInit {
   public organizers$: Observable<GetOrganizersQuery['eventOrganizers']>;
@@ -42,11 +42,11 @@ export class TenantOrganizersPageComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private getOrganizers: GetOrganizersGQL,
-    private createOrganizer: CreateOrganizerGQL
+    private createOrganizer: CreateOrganizerGQL,
   ) {
     this.organizersQuery = this.getOrganizers.watch();
     this.organizers$ = this.organizersQuery.valueChanges.pipe(
-      map(({ data }) => data.eventOrganizers)
+      map(({ data }) => data.eventOrganizers),
     );
   }
 

@@ -8,7 +8,13 @@ import { DateTime } from 'luxon';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { ExtendDatePipe as ExtendDatePipe_1 } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { CurrencyPipe, DatePipe, LowerCasePipe, NgIf } from '@angular/common';
+import {
+  CurrencyPipe,
+  DatePipe,
+  LowerCasePipe,
+  NgIf,
+  NgOptimizedImage,
+} from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
@@ -28,6 +34,7 @@ import { MatRippleModule } from '@angular/material/core';
     DatePipe,
     ExtendDatePipe_1,
     IconURLPipe,
+    NgOptimizedImage,
   ],
 })
 export class EventsListItemComponent {
@@ -75,7 +82,7 @@ export class EventsListItemComponent {
 
   public freeSpotsStyling(
     participantRegistrationCount: number,
-    participantLimit: number
+    participantLimit: number,
   ) {
     const quota = participantRegistrationCount / participantLimit;
     if (quota < 0.5) {
@@ -93,7 +100,7 @@ export class EventsListItemComponent {
 
   public freeSpotsIcon(
     participantRegistrationCount: number,
-    participantLimit: number
+    participantLimit: number,
   ) {
     const quota = participantRegistrationCount / participantLimit;
     if (quota < 0.5) {
@@ -112,7 +119,7 @@ export class EventsListItemComponent {
   public freeSpotsString(
     participantRegistrationCount: number,
     participantLimit: number,
-    couldBeOrganizer: boolean
+    couldBeOrganizer: boolean,
   ) {
     const quota = participantRegistrationCount / participantLimit;
     if (couldBeOrganizer) {

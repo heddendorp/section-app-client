@@ -12,16 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-semester-navigator',
-    templateUrl: './semester-navigator.component.html',
-    styleUrls: ['./semester-navigator.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        NgIf,
-    ],
+  selector: 'app-semester-navigator',
+  templateUrl: './semester-navigator.component.html',
+  styleUrls: ['./semester-navigator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, NgIf],
 })
 export class SemesterNavigatorComponent implements OnInit {
   public semesterOffset = 0;
@@ -60,7 +56,7 @@ export class SemesterNavigatorComponent implements OnInit {
 
   update() {
     const { start, end } = this.calculateStartEnd(
-      DateTime.now().plus({ months: 6 * this.semesterOffset })
+      DateTime.now().plus({ months: 6 * this.semesterOffset }),
     );
     this.start = start;
     this.end = end;

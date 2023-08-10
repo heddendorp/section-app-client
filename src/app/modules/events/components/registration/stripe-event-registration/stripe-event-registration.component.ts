@@ -1,7 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DateTime } from 'luxon';
 import {
   CancelPaymentGQL,
@@ -25,30 +30,36 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import { NgIf, NgFor, AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  CurrencyPipe,
+  DatePipe,
+} from '@angular/common';
 
 @Component({
-    selector: 'app-stripe-event-registration',
-    templateUrl: './stripe-event-registration.component.html',
-    styleUrls: ['./stripe-event-registration.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        CheckAdditionalDataComponent,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        NgFor,
-        MatOptionModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressBarModule,
-        RouterLink,
-        AsyncPipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-stripe-event-registration',
+  templateUrl: './stripe-event-registration.component.html',
+  styleUrls: ['./stripe-event-registration.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    CheckAdditionalDataComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    NgFor,
+    MatOptionModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    RouterLink,
+    AsyncPipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
@@ -70,7 +81,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
     private dialog: MatDialog,
     private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
-    private permissions: PermissionsService
+    private permissions: PermissionsService,
   ) {}
 
   get lastDeregistration() {
@@ -109,14 +120,16 @@ export class StripeEventRegistrationComponent implements OnChanges {
       return false;
     }
     return (
-      DateTime.fromISO(this.event?.start).minus({ days: 1 }).toJSDate() >
-      new Date()
+      DateTime.fromISO(this.event?.start)
+        .minus({ days: 1 })
+        .toJSDate() > new Date()
     );
   }
 
   get activeStripePayment() {
     const payment = this.event?.activeRegistration?.transactions?.find(
-      (transaction) => transaction.direction === TransactionDirection.UserToTumi
+      (transaction) =>
+        transaction.direction === TransactionDirection.UserToTumi,
     )?.stripePayment;
     return payment;
   }
@@ -125,8 +138,8 @@ export class StripeEventRegistrationComponent implements OnChanges {
     if (changes['event']) {
       const prices = await firstValueFrom(
         this.permissions.getPricesForUser(
-          changes['event'].currentValue.prices.options
-        )
+          changes['event'].currentValue.prices.options,
+        ),
       );
       if (this.bestPrice) {
         this.priceControl.setValue(this.bestPrice);
@@ -145,7 +158,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
         await firstValueFrom(
           this.cancelPaymentGQL.mutate({
             registrationId: this.event.activeRegistration.id,
-          })
+          }),
         );
         this.processing.next(false);
       } catch (e: unknown) {
@@ -171,14 +184,14 @@ export class StripeEventRegistrationComponent implements OnChanges {
             eventId: this.event.id,
             price: this.priceControl.value,
             submissions: this.infoCollected$.value,
-          })
+          }),
         );
         data = res.data;
 
         const payment =
           data?.registerForEvent.activeRegistration?.transactions?.find(
             (transaction) =>
-              transaction.direction === TransactionDirection.UserToTumi
+              transaction.direction === TransactionDirection.UserToTumi,
           )?.stripePayment;
 
         if (!payment) {
@@ -204,7 +217,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
       await firstValueFrom(
         this.deregisterFromEventGQL.mutate({
           registrationId: this.event?.activeRegistration?.id ?? '',
-        })
+        }),
       );
     } catch (e: unknown) {
       this.processing.next(false);

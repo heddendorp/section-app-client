@@ -1,14 +1,14 @@
 import {
+  APP_INITIALIZER,
   enableProdMode,
   ErrorHandler,
-  APP_INITIALIZER,
   importProvidersFrom,
 } from '@angular/core';
 
 import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular-ivy';
-import { BrowserTracing } from '@sentry/tracing';
 import { getActiveTransaction } from '@sentry/angular-ivy';
+import { BrowserTracing } from '@sentry/tracing';
 import { AppComponent } from './app/app.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -19,7 +19,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { MarkdownModule } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { APP_ROUTES } from '@tumi/legacy-app/app.routes';
-import { Router, provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarModule,
@@ -31,20 +31,21 @@ import { HttpBatchLink } from 'apollo-angular/http';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import {
   AuthHttpInterceptor,
-  AuthService,
   AuthModule,
+  AuthService,
 } from '@auth0/auth0-angular';
 import { TenantHeaderInterceptor } from './app/services/tenant-header.interceptor';
 import {
   HTTP_INTERCEPTORS,
   HttpHeaders,
-  withInterceptorsFromDi,
   provideHttpClient,
+  withInterceptorsFromDi,
+  withJsonpSupport,
 } from '@angular/common/http';
 import {
-  Title,
-  BrowserModule,
   bootstrapApplication,
+  BrowserModule,
+  Title,
 } from '@angular/platform-browser';
 
 let bootstrapSpan: any = null;
@@ -120,7 +121,7 @@ bootstrapApplication(AppComponent, {
       MatRippleModule,
       GoogleMapsModule,
       MatSnackBarModule,
-      MatDialogModule
+      MatDialogModule,
     ),
     Title,
     {
@@ -166,8 +167,8 @@ bootstrapApplication(AppComponent, {
                 `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
                   locations,
                   null,
-                  2
-                )}, Path: ${path}`
+                  2,
+                )}, Path: ${path}`,
               );
             });
           }
@@ -220,7 +221,7 @@ bootstrapApplication(AppComponent, {
         ]
       : [],
     provideRouter(APP_ROUTES),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
     provideAnimations(),
   ],
 })

@@ -59,10 +59,10 @@ export class AppComponent {
     updates: SwUpdate,
     snackBar: MatSnackBar,
     viewportScroller: ViewportScroller,
-    @Inject(PLATFORM_ID) platform: any
+    @Inject(PLATFORM_ID) platform: any,
   ) {
     registry.addSvgIconSet(
-      san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg')
+      san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg'),
     );
     this.location.onUrlChange((url) => {
       if (url.includes('orders/labels')) {
@@ -80,15 +80,15 @@ export class AppComponent {
         return of({ maintenance: false });
       }),
       map((status) => {
-        if (status.maintenance === true) {
+        if (status.maintenance) {
           return 'maintenance';
-        } else if (status.maintenance === false) {
+        } else if (!status.maintenance) {
           return 'down';
         } else {
           return 'ok';
         }
       }),
-      startWith('ok')
+      startWith('ok'),
     );
     router.events
       .pipe(filter((e): e is Scroll => e instanceof Scroll))
@@ -118,7 +118,7 @@ export class AppComponent {
     }
     updates.versionUpdates
       .pipe(
-        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
       )
       .subscribe((event) => {
         snackBar
@@ -132,7 +132,7 @@ export class AppComponent {
           })
           .onAction()
           .subscribe(() =>
-            updates.activateUpdate().then(() => document.location.reload())
+            updates.activateUpdate().then(() => document.location.reload()),
           );
       });
   }

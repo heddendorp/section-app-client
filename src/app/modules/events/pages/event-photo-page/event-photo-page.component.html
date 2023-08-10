@@ -52,7 +52,7 @@
         {{ photo.creator.fullName }}
       </p>
       <img
-        [src]="photo.src"
+        [ngSrc]="photo.src"
         class="h-full w-full object-cover"
         height="{{ photo.rows * 400 }}"
         width="{{ photo.cols * 400 }}"

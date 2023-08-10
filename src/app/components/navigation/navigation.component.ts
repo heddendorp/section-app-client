@@ -15,26 +15,33 @@ import { IfStatusDirective } from '../../modules/shared/directives/if-status.dir
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
-import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
+import {
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  AsyncPipe,
+  NgOptimizedImage,
+} from '@angular/common';
 
 @Component({
-    selector: 'app-navigation',
-    templateUrl: './navigation.component.html',
-    styleUrls: ['./navigation.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatRippleModule,
-        RouterLink,
-        NgSwitch,
-        NgSwitchCase,
-        RouterLinkActive,
-        MatIconModule,
-        IfStatusDirective,
-        IfRoleDirective,
-        AuthButtonComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-navigation',
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatRippleModule,
+    RouterLink,
+    NgSwitch,
+    NgSwitchCase,
+    RouterLinkActive,
+    MatIconModule,
+    IfStatusDirective,
+    IfRoleDirective,
+    AuthButtonComponent,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class NavigationComponent {
   public Role = Role;
@@ -48,13 +55,13 @@ export class NavigationComponent {
     .observe(Breakpoints.Handset)
     .pipe(
       map((result) => result.matches),
-      shareReplay()
+      shareReplay(),
     );
 
   constructor(
     public auth: AuthService,
     private breakpointObserver: BreakpointObserver,
-    private getTenantInfoGQL: GetTenantInfoGQL
+    private getTenantInfoGQL: GetTenantInfoGQL,
   ) {
     const { defaultView } = document;
     if (defaultView) {

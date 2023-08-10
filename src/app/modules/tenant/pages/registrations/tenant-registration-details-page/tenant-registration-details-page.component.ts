@@ -18,26 +18,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-registration-details-page',
-    templateUrl: './tenant-registration-details-page.component.html',
-    styleUrls: ['./tenant-registration-details-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        UserChipComponent,
-        EventChipComponent,
-        TransactionListComponent,
-        MatButtonModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-registration-details-page',
+  templateUrl: './tenant-registration-details-page.component.html',
+  styleUrls: ['./tenant-registration-details-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    UserChipComponent,
+    EventChipComponent,
+    TransactionListComponent,
+    MatButtonModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantRegistrationDetailsPageComponent {
   public registration$: Observable<
@@ -46,16 +46,16 @@ export class TenantRegistrationDetailsPageComponent {
 
   constructor(
     private getRegistrationGQL: GetRegistrationForAdminGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.registration$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>
           this.getRegistrationGQL.watch({
             id: params.get('registrationId') ?? '',
-          }).valueChanges
+          }).valueChanges,
       ),
-      map(({ data }) => data.registration)
+      map(({ data }) => data.registration),
     );
   }
 }

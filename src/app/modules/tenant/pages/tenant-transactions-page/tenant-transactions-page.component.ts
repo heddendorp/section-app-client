@@ -22,43 +22,51 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe, DecimalPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  AsyncPipe,
+  DecimalPipe,
+  CurrencyPipe,
+  DatePipe,
+} from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-transactions-page',
-    templateUrl: './tenant-transactions-page.component.html',
-    styleUrls: ['./tenant-transactions-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatDatepickerModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTableModule,
-        NgSwitch,
-        NgSwitchCase,
-        RouterLink,
-        MatPaginatorModule,
-        AsyncPipe,
-        DecimalPipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-transactions-page',
+  templateUrl: './tenant-transactions-page.component.html',
+  styleUrls: ['./tenant-transactions-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    NgSwitch,
+    NgSwitchCase,
+    RouterLink,
+    MatPaginatorModule,
+    AsyncPipe,
+    DecimalPipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
   public displayedColumns = [
@@ -94,20 +102,20 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private loadTransactionsGQL: LoadTransactionsGQL,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.loadTransactionsRef = this.loadTransactionsGQL.watch({
       take: 20,
       skip: 0,
     });
     this.transactions$ = this.loadTransactionsRef.valueChanges.pipe(
-      map((res) => res.data.transactions)
+      map((res) => res.data.transactions),
     );
     this.transactionCount$ = this.loadTransactionsRef.valueChanges.pipe(
-      map((res) => res.data.transactionCount)
+      map((res) => res.data.transactionCount),
     );
     this.netAmount$ = this.loadTransactionsRef.valueChanges.pipe(
-      map((res) => res.data.transactionNetAmount)
+      map((res) => res.data.transactionNetAmount),
     );
   }
 

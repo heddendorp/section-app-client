@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
   LoadEventsWithBookingGQL,
   LoadEventsWithBookingQuery,
-  LoadEventsWithRatingGQL,
-  LoadEventsWithRatingQuery,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
-import { Title } from '@angular/platform-browser';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
@@ -19,23 +16,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-event-bookings-page',
-    templateUrl: './tenant-event-bookings-page.component.html',
-    styleUrls: ['./tenant-event-bookings-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatTableModule,
-        EventChipComponent,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-event-bookings-page',
+  templateUrl: './tenant-event-bookings-page.component.html',
+  styleUrls: ['./tenant-event-bookings-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatTableModule,
+    EventChipComponent,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantEventBookingsPageComponent {
   public events$: Observable<LoadEventsWithBookingQuery['events']>;
@@ -49,7 +46,7 @@ export class TenantEventBookingsPageComponent {
         map((events) =>
           events
             .filter(
-              (event) => event.registrationMode === RegistrationMode.Stripe
+              (event) => event.registrationMode === RegistrationMode.Stripe,
             )
             .filter(
               (event) =>
@@ -57,9 +54,9 @@ export class TenantEventBookingsPageComponent {
                   event.countedParticipantRegistrations ===
                     event.participantRegistrationCount &&
                   event.participantRegistrationCount === event.participantLimit
-                )
-            )
-        )
+                ),
+            ),
+        ),
         /*map((events) =>
           events.filter(
             (event) => event.participantRating || event.organizerRating

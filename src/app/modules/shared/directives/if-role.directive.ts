@@ -4,8 +4,8 @@ import { first } from 'rxjs';
 import { Role } from '@tumi/legacy-app/generated/generated';
 
 @Directive({
-    selector: '[appIfRole]',
-    standalone: true,
+  selector: '[appIfRole]',
+  standalone: true,
 })
 export class IfRoleDirective {
   private hasView = false;
@@ -13,7 +13,7 @@ export class IfRoleDirective {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
-    private permissions: PermissionsService
+    private permissions: PermissionsService,
   ) {}
 
   @Input() set appIfRole(allowList: Role[]) {

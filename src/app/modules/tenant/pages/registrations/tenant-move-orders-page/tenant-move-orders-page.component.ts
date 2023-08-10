@@ -20,27 +20,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-move-orders-page',
-    templateUrl: './tenant-move-orders-page.component.html',
-    styleUrls: ['./tenant-move-orders-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatTableModule,
-        EventChipComponent,
-        UserChipComponent,
-        RouterLink,
-        MatPaginatorModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-move-orders-page',
+  templateUrl: './tenant-move-orders-page.component.html',
+  styleUrls: ['./tenant-move-orders-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatTableModule,
+    EventChipComponent,
+    UserChipComponent,
+    RouterLink,
+    MatPaginatorModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantMoveOrdersPageComponent implements OnDestroy {
   public codes$: Observable<
@@ -61,7 +61,7 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
 
   constructor(
     private getEventRegistrationCodesGQL: GetEventRegistrationCodesGQL,
-    private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL
+    private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL,
   ) {
     this.ordersQueryRef = this.getEventRegistrationCodesGQL.watch({
       pageLength: 20,
@@ -72,7 +72,7 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
       .valueChanges.pipe(map(({ data }) => data.eventRegistrationCodeCount));
     this.ordersQueryRef.startPolling(5000);
     this.codes$ = this.ordersQueryRef.valueChanges.pipe(
-      map(({ data }) => data.eventRegistrationCodes)
+      map(({ data }) => data.eventRegistrationCodes),
     );
   }
 

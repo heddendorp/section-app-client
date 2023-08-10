@@ -134,7 +134,7 @@ query loadEvent($id: ID!) {
   }
 }
 
-query loadUserForEvent{
+query loadUserForEvent {
   currentUser {
     id
     hasESNCard

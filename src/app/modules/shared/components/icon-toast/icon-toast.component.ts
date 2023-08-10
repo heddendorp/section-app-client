@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   MAT_SNACK_BAR_DATA,
   MatSnackBarRef,
@@ -13,16 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-icon-toast',
-    templateUrl: './icon-toast.component.html',
-    styleUrls: ['./icon-toast.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatIconModule,
-        MatButtonModule,
-    ],
+  selector: 'app-icon-toast',
+  templateUrl: './icon-toast.component.html',
+  styleUrls: ['./icon-toast.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, MatIconModule, MatButtonModule],
 })
 export class IconToastComponent {
   constructor(
@@ -33,7 +24,7 @@ export class IconToastComponent {
       message: string;
       allowClose?: boolean;
     },
-    private snackbarRef: MatSnackBarRef<IconToastComponent>
+    private snackbarRef: MatSnackBarRef<IconToastComponent>,
   ) {}
 
   dismiss(): void {

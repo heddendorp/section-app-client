@@ -13,21 +13,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-public-profile-page',
-    templateUrl: './public-profile-page.component.html',
-    styleUrls: ['./public-profile-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        ProfileCardComponent,
-        MatIconModule,
-        MatListModule,
-        NgFor,
-        EventListItemComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-public-profile-page',
+  templateUrl: './public-profile-page.component.html',
+  styleUrls: ['./public-profile-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBarModule,
+    ProfileCardComponent,
+    MatIconModule,
+    MatListModule,
+    NgFor,
+    EventListItemComponent,
+    AsyncPipe,
+  ],
 })
 export class PublicProfilePageComponent {
   public profile$: Observable<UserProfilePublicQuery['user']>;
@@ -36,19 +36,19 @@ export class PublicProfilePageComponent {
 
   constructor(
     private profileQuery: UserProfilePublicGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.profileQueryRef = this.profileQuery.watch();
 
     this.route.paramMap.subscribe((params) =>
-      this.profileQueryRef.refetch({ id: params.get('userId') ?? '' })
+      this.profileQueryRef.refetch({ id: params.get('userId') ?? '' }),
     );
 
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
-      map(({ data }) => data.user)
+      map(({ data }) => data.user),
     );
     this.commonEvents$ = this.profileQueryRef.valueChanges.pipe(
-      map(({ data }) => data.commonEvents)
+      map(({ data }) => data.commonEvents),
     );
   }
 }

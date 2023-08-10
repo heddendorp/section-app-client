@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'iconURL',
-    standalone: true,
+  name: 'iconURL',
+  standalone: true,
 })
 export class IconURLPipe implements PipeTransform {
   transform(value: string | null, ...args: unknown[]): string {

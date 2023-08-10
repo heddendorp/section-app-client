@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,17 +19,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-data-items-manager',
-    templateUrl: './data-items-manager.component.html',
-    styleUrls: ['./data-items-manager.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        NgFor,
-        JsonPipe,
-    ],
+  selector: 'app-data-items-manager',
+  templateUrl: './data-items-manager.component.html',
+  styleUrls: ['./data-items-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, NgFor, JsonPipe],
 })
 export class DataItemsManagerComponent {
   @Input() public items: Array<
@@ -46,7 +40,7 @@ export class DataItemsManagerComponent {
   constructor(
     private dialog: MatDialog,
     private createSubmissionItemGQL: CreateSubmissionItemGQL,
-    private deleteSubmissionItemGQL: DeleteSubmissionItemGQL
+    private deleteSubmissionItemGQL: DeleteSubmissionItemGQL,
   ) {}
 
   async addItem() {
@@ -61,7 +55,7 @@ export class DataItemsManagerComponent {
           maxWidth: '560px',
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (item) {
       if (item.type !== SubmissionItemType.Select) {
@@ -72,7 +66,7 @@ export class DataItemsManagerComponent {
           target: this.mode,
           id: this.parentId,
           input: item,
-        })
+        }),
       );
       this.reloadParent.emit();
     }
@@ -82,7 +76,7 @@ export class DataItemsManagerComponent {
     await firstValueFrom(
       this.deleteSubmissionItemGQL.mutate({
         id: id,
-      })
+      }),
     );
     this.reloadParent.emit();
   }

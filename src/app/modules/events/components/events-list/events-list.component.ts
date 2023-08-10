@@ -6,18 +6,18 @@ import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 
 @Component({
-    selector: 'app-events-list',
-    templateUrl: './events-list.component.html',
-    styleUrls: ['./events-list.component.scss'],
-    standalone: true,
-    imports: [
-        GridComponent,
-        NgIf,
-        NgFor,
-        EventsListItemComponent,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-events-list',
+  templateUrl: './events-list.component.html',
+  styleUrls: ['./events-list.component.scss'],
+  standalone: true,
+  imports: [
+    GridComponent,
+    NgIf,
+    NgFor,
+    EventsListItemComponent,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class EventsListComponent {
   @Input() events: EventListQuery['events'] | null = null;

@@ -5,12 +5,18 @@
 >
   <ng-container *ngIf="tenantInfo$ | async as tenant">
     <a
-      *ngIf="tenant?.settings?.brandIconUrl as brandIconUrl; else defaultLogo"
+      *ngIf="tenant?.settings?.brandIconUrl?.length; else defaultLogo"
       matRipple
       class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
       routerLink="/events"
     >
-      <img class="p-4" [src]="brandIconUrl" alt="ESN Star" />
+      <img
+        class="p-4"
+        width="192"
+        height="192"
+        [ngSrc]="tenant.settings.brandIconUrl ?? ''"
+        alt="ESN Star"
+      />
     </a>
     <ng-template #defaultLogo>
       <a
@@ -18,7 +24,13 @@
         class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
         routerLink="/events"
       >
-        <img class="p-9" src="/assets/logos/star-white.svg" alt="ESN Star" />
+        <img
+          class="p-9 w-auto h-auto"
+          ngSrc="/assets/logos/star-white.svg"
+          alt="ESN Star"
+          height="16"
+          width="16"
+        />
       </a>
     </ng-template>
   </ng-container>

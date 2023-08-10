@@ -14,37 +14,43 @@ import { UserChipComponent } from '../../../../shared/components/user-chip/user-
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe, TitleCasePipe, CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  AsyncPipe,
+  TitleCasePipe,
+  CurrencyPipe,
+  DatePipe,
+} from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-registrations-page',
-    templateUrl: './tenant-registrations-page.component.html',
-    styleUrls: ['./tenant-registrations-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatTableModule,
-        EventChipComponent,
-        UserChipComponent,
-        TransactionListComponent,
-        RouterLink,
-        MatPaginatorModule,
-        AsyncPipe,
-        TitleCasePipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-registrations-page',
+  templateUrl: './tenant-registrations-page.component.html',
+  styleUrls: ['./tenant-registrations-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatTableModule,
+    EventChipComponent,
+    UserChipComponent,
+    TransactionListComponent,
+    RouterLink,
+    MatPaginatorModule,
+    AsyncPipe,
+    TitleCasePipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantRegistrationsPageComponent implements OnDestroy {
   public registrations$: Observable<GetRegistrationsQuery['registrations']>;
@@ -63,7 +69,7 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
 
   constructor(
     private getRegistrationsGQL: GetRegistrationsGQL,
-    private getRegistrationCountGQL: GetRegistrationCountGQL
+    private getRegistrationCountGQL: GetRegistrationCountGQL,
   ) {
     this.registrationsQueryRef = this.getRegistrationsGQL.watch({
       pageLength: 20,
@@ -73,7 +79,7 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
       .watch()
       .valueChanges.pipe(map(({ data }) => data.registrationCount));
     this.registrations$ = this.registrationsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.registrations)
+      map(({ data }) => data.registrations),
     );
   }
 

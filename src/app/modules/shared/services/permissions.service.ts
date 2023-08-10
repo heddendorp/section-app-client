@@ -6,7 +6,6 @@ import {
   UserRolesQuery,
 } from '@tumi/legacy-app/generated/generated';
 import {
-  distinct,
   distinctUntilChanged,
   filter,
   map,
@@ -22,7 +21,10 @@ import { Price } from '@tumi/legacy-app/utils';
   providedIn: 'root',
 })
 export class PermissionsService {
-  constructor(private auth: AuthService, private userRoles: UserRolesGQL) {}
+  constructor(
+    private auth: AuthService,
+    private userRoles: UserRolesGQL,
+  ) {}
 
   isAdmin() {
     return this.hasRole([Role.Admin]);
@@ -51,12 +53,12 @@ export class PermissionsService {
               return false;
             }
             return allowList.includes(
-              user.currentTenant?.status ?? MembershipStatus.None
+              user.currentTenant?.status ?? MembershipStatus.None,
             );
-          })
+          }),
         );
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -74,10 +76,10 @@ export class PermissionsService {
               return false;
             }
             return allowList.includes(user.currentTenant?.role ?? Role.User);
-          })
+          }),
         );
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -112,13 +114,13 @@ export class PermissionsService {
               return (
                 esnFulfilled &&
                 price.allowedStatusList.includes(
-                  user.currentTenant?.status ?? MembershipStatus.None
+                  user.currentTenant?.status ?? MembershipStatus.None,
                 )
               );
             });
-          })
+          }),
         );
-      })
+      }),
     );
   }
 }

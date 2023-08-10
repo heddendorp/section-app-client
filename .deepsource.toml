@@ -1,0 +1,20 @@
+version = 1
+
+exclude_patterns = ["src/app/generated/**"]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["angular"]
+  environment = ["browser"]
+  dialect = "typescript"
+
+[[analyzers]]
+name = "docker"
+
+[[analyzers]]
+name = "secrets"
+
+[[transformers]]
+name = "prettier"

@@ -137,11 +137,11 @@
               <mat-label>Event Icon</mat-label>
               <input matInput formControlName="icon" type="text" />
               <img
-                [src]="iconValue | iconURL"
+                [ngSrc]="iconValue | iconURL"
                 alt="icon"
                 matSuffix
-                width="24px"
-                height="24px"
+                width="24"
+                height="24"
               />
             </mat-form-field>
             <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">

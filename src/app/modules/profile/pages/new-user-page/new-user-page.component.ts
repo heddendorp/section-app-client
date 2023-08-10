@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   EnrolmentStatus,
   GetCurrentUserGQL,
@@ -15,20 +20,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-new-user-page',
-    templateUrl: './new-user-page.component.html',
-    styleUrls: ['./new-user-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatDatepickerModule,
-        MatButtonModule,
-    ],
+  selector: 'app-new-user-page',
+  templateUrl: './new-user-page.component.html',
+  styleUrls: ['./new-user-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatButtonModule,
+  ],
 })
 export class NewUserPageComponent implements OnInit {
   public welcomeForm: UntypedFormGroup;
@@ -39,7 +44,7 @@ export class NewUserPageComponent implements OnInit {
     private registerUser: RegisterUserGQL,
     private fb: UntypedFormBuilder,
     private currentUser: GetCurrentUserGQL,
-    private router: Router
+    private router: Router,
   ) {
     this.welcomeForm = this.fb.group({
       firstName: ['', Validators.required],

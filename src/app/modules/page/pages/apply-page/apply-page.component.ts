@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   GetTutorHubEventsGQL,
@@ -7,18 +7,14 @@ import {
 import { DateTime } from 'luxon';
 import { Observable, map } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-apply-page',
-    templateUrl: './apply-page.component.html',
-    styleUrls: ['./apply-page.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatCardModule,
-        AsyncPipe,
-    ],
+  selector: 'app-apply-page',
+  templateUrl: './apply-page.component.html',
+  styleUrls: ['./apply-page.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatCardModule, AsyncPipe, NgOptimizedImage],
 })
 export class ApplyPageComponent {
   private getTutorHubEventsRef;
@@ -29,7 +25,7 @@ export class ApplyPageComponent {
   constructor(
     private title: Title,
 
-    private getTutorHubEvents: GetTutorHubEventsGQL
+    private getTutorHubEvents: GetTutorHubEventsGQL,
   ) {
     this.title.setTitle('Apply - TUMi');
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch({
@@ -39,7 +35,7 @@ export class ApplyPageComponent {
       },
     });
     this.events$ = this.getTutorHubEventsRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant.tutorHubEvents)
+      map(({ data }) => data.currentTenant.tutorHubEvents),
     );
   }
 }

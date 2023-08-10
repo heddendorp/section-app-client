@@ -22,7 +22,9 @@
     >
       <img
         class="w-12"
-        [src]="category.icon | iconURL"
+        [ngSrc]="category.icon | iconURL"
+        width="48"
+        height="48"
         alt="{{ category.icon }}"
       />
       <h3>{{ category.name }}</h3>

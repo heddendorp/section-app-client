@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CreateEventDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/create-event-dialog/create-event-dialog.component';
 import {
   CreateEventFromTemplateGQL,
@@ -33,35 +33,43 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  DecimalPipe,
+  DatePipe,
+  NgOptimizedImage,
+} from '@angular/common';
 
 @Component({
-    selector: 'app-template-details-page',
-    templateUrl: './template-details-page.component.html',
-    styleUrls: ['./template-details-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        BackButtonComponent,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatExpansionModule,
-        MarkdownModule,
-        NgFor,
-        RouterLink,
-        RatingItemComponent,
-        MatListModule,
-        FinancePlannerComponent,
-        IfRoleDirective,
-        AsyncPipe,
-        DecimalPipe,
-        DatePipe,
-        ExtendDatePipe,
-        IconURLPipe,
-    ],
+  selector: 'app-template-details-page',
+  templateUrl: './template-details-page.component.html',
+  styleUrls: ['./template-details-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBarModule,
+    BackButtonComponent,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatExpansionModule,
+    MarkdownModule,
+    NgFor,
+    RouterLink,
+    RatingItemComponent,
+    MatListModule,
+    FinancePlannerComponent,
+    IfRoleDirective,
+    AsyncPipe,
+    DecimalPipe,
+    DatePipe,
+    ExtendDatePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class TemplateDetailsPageComponent {
   public Role = Role;
@@ -82,7 +90,7 @@ export class TemplateDetailsPageComponent {
     private updateLocationMutation: UpdateTemplateLocationGQL,
     private deleteTemplateMutation: DeleteEventTemplateGQL,
     private getEventTemplateCategoriesGQL: GetEventTemplateCategoriesGQL,
-    private updateEventTemplateCategoryAssignmentGQL: UpdateEventTemplateCategoryAssignmentGQL
+    private updateEventTemplateCategoryAssignmentGQL: UpdateEventTemplateCategoryAssignmentGQL,
   ) {
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
@@ -91,10 +99,10 @@ export class TemplateDetailsPageComponent {
           .valueChanges.pipe(
             map(({ data }) => data.eventTemplate),
             tap((eventTemplate) =>
-              this.title.setTitle(`${eventTemplate.title}`)
-            )
-          )
-      )
+              this.title.setTitle(`${eventTemplate.title}`),
+            ),
+          ),
+      ),
     );
   }
 
@@ -121,7 +129,7 @@ export class TemplateDetailsPageComponent {
           this.createEventMutation.mutate({
             templateId: template.id,
             eventData,
-          })
+          }),
         );
         this.snackBar.open('Event saved successfully');
         if (data) {
@@ -159,7 +167,7 @@ export class TemplateDetailsPageComponent {
   async deleteTemplate() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const approve = confirm(
-      `Do you really want to delete '${template?.title}'?`
+      `Do you really want to delete '${template?.title}'?`,
     );
     if (approve && template) {
       await this.deleteTemplateMutation
@@ -171,7 +179,7 @@ export class TemplateDetailsPageComponent {
 
   async changeCategory() {
     const categories = await firstValueFrom(
-      this.getEventTemplateCategoriesGQL.fetch()
+      this.getEventTemplateCategoriesGQL.fetch(),
     );
     const template = await firstValueFrom(this.eventTemplate$);
     const category = await firstValueFrom(
@@ -180,14 +188,14 @@ export class TemplateDetailsPageComponent {
           data: { categories: categories.data.eventTemplateCategories },
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (category && template) {
       await firstValueFrom(
         this.updateEventTemplateCategoryAssignmentGQL.mutate({
           templateId: template.id,
           categoryId: category,
-        })
+        }),
       );
     }
   }
@@ -200,7 +208,7 @@ export class TemplateDetailsPageComponent {
           minWidth: '50vw',
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (location && template) {
       await firstValueFrom(
@@ -214,7 +222,7 @@ export class TemplateDetailsPageComponent {
             isVirtual: location.isVirtual,
             onlineMeetingUrl: location.onlineMeetingUrl,
           },
-        })
+        }),
       );
     }
   }

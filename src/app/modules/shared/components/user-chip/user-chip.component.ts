@@ -1,23 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf, LowerCasePipe } from '@angular/common';
+import { NgIf, LowerCasePipe, NgOptimizedImage } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
-    selector: 'app-user-chip',
-    templateUrl: './user-chip.component.html',
-    styleUrls: ['./user-chip.component.scss'],
-    standalone: true,
-    imports: [
-        MatRippleModule,
-        RouterLink,
-        MatTooltipModule,
-        NgIf,
-        MatIconModule,
-        LowerCasePipe,
-    ],
+  selector: 'app-user-chip',
+  templateUrl: './user-chip.component.html',
+  styleUrls: ['./user-chip.component.scss'],
+  standalone: true,
+  imports: [
+    MatRippleModule,
+    RouterLink,
+    MatTooltipModule,
+    NgIf,
+    MatIconModule,
+    LowerCasePipe,
+    NgOptimizedImage,
+  ],
 })
 export class UserChipComponent {
   @Input()

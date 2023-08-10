@@ -8,7 +8,10 @@ import {
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
-import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {
+  MatSlideToggleChange,
+  MatSlideToggleModule,
+} from '@angular/material/slide-toggle';
 import { UpdateUserDialogComponent } from '@tumi/legacy-app/modules/tenant/components/update-user-dialog/update-user-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -26,30 +29,30 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-user-info-page',
-    templateUrl: './tenant-user-info-page.component.html',
-    styleUrls: ['./tenant-user-info-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        UserChipComponent,
-        MatButtonModule,
-        MatSlideToggleModule,
-        MatTableModule,
-        EventChipComponent,
-        MatRippleModule,
-        RouterLink,
-        AsyncPipe,
-        TitleCasePipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-user-info-page',
+  templateUrl: './tenant-user-info-page.component.html',
+  styleUrls: ['./tenant-user-info-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    UserChipComponent,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    EventChipComponent,
+    MatRippleModule,
+    RouterLink,
+    AsyncPipe,
+    TitleCasePipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantUserInfoPageComponent {
   public user$: Observable<LoadUserQuery['user']>;
@@ -69,15 +72,15 @@ export class TenantUserInfoPageComponent {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private updateMutation: UpdateUserGQL,
-    private updateCardMutation: UpdateEsNcardGQL
+    private updateCardMutation: UpdateEsNcardGQL,
   ) {
     this.user$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>
           this.loadUserQuery.watch({ id: params.get('userId') ?? '' })
-            .valueChanges
+            .valueChanges,
       ),
-      map(({ data }) => data.user)
+      map(({ data }) => data.user),
     );
   }
 
@@ -88,7 +91,7 @@ export class TenantUserInfoPageComponent {
           data: { user },
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (newUser) {
       await firstValueFrom(
@@ -97,7 +100,7 @@ export class TenantUserInfoPageComponent {
           role: newUser.role,
           status: newUser.status,
           position: newUser.position || null,
-        })
+        }),
       );
     }
   }

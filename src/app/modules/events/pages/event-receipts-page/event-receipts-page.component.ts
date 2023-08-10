@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { DomSanitizer, Title } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   DeleteReceiptGQL,
   GetCostItemGQL,
@@ -16,30 +16,37 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
-import { NgIf, NgFor, AsyncPipe, CurrencyPipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  CurrencyPipe,
+  NgOptimizedImage,
+} from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-event-receipts-page',
-    templateUrl: './event-receipts-page.component.html',
-    styleUrls: ['./event-receipts-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        NgIf,
-        ResetScrollDirective,
-        MatProgressBarModule,
-        MatButtonModule,
-        MatIconModule,
-        GridComponent,
-        NgFor,
-        AsyncPipe,
-        CurrencyPipe,
-    ],
+  selector: 'app-event-receipts-page',
+  templateUrl: './event-receipts-page.component.html',
+  styleUrls: ['./event-receipts-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    NgIf,
+    ResetScrollDirective,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    GridComponent,
+    NgFor,
+    AsyncPipe,
+    CurrencyPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventReceiptsPageComponent implements OnDestroy {
   public costItem$: Observable<GetCostItemQuery['costItem']>;
@@ -53,11 +60,11 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private removeReceiptMutation: DeleteReceiptGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
   ) {
     this.loadCostItemQueryRef = this.loadCostItem.watch();
     this.route.paramMap.subscribe((params) =>
-      this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' })
+      this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' }),
     );
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
       map(({ data }) => data.costItem),
@@ -80,7 +87,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
             return receipt;
           }),
         };
-      })
+      }),
     );
     this.loadCostItemQueryRef.startPolling(60000);
   }
@@ -107,7 +114,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
     const costItem = await this.costItem$.pipe(first()).toPromise();
     if (costItem) {
       await firstValueFrom(
-        this.removeReceiptMutation.mutate({ receiptId: receipt.id })
+        this.removeReceiptMutation.mutate({ receiptId: receipt.id }),
       );
     }
   }

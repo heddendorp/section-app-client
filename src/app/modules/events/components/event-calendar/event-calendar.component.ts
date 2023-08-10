@@ -11,21 +11,22 @@ import { DateTime } from 'luxon';
 import { EventCalendarDayDialogComponent } from './event-calendar-day-dialog/event-calendar-day-dialog';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatRippleModule } from '@angular/material/core';
-import { NgFor, NgIf, LowerCasePipe } from '@angular/common';
+import { NgFor, NgIf, LowerCasePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-calendar',
-    templateUrl: './event-calendar.component.html',
-    styleUrls: ['./event-calendar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgFor,
-        NgIf,
-        MatRippleModule,
-        LowerCasePipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-calendar',
+  templateUrl: './event-calendar.component.html',
+  styleUrls: ['./event-calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    MatRippleModule,
+    LowerCasePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventCalendarComponent implements OnChanges {
   @Input() events: EventListQuery['events'] | null = null;
@@ -120,8 +121,8 @@ export class EventCalendarComponent implements OnChanges {
                 calendarDays = Math.round(
                   (lastDayOfWeek < dayEnd ? lastDayOfWeek : dayEnd).diff(
                     dayStart < firstDayOfWeek ? firstDayOfWeek : dayStart,
-                    'days'
-                  ).days
+                    'days',
+                  ).days,
                 );
                 daySpan = calendarDays;
               } else {
@@ -129,7 +130,7 @@ export class EventCalendarComponent implements OnChanges {
               }
               indexMoveMap.set(
                 event.id,
-                multiDayEvents.get(event.id) as number
+                multiDayEvents.get(event.id) as number,
               );
             }
 
@@ -142,10 +143,10 @@ export class EventCalendarComponent implements OnChanges {
             0,
             eventsForDay.splice(
               eventsForDay.findIndex(
-                (event: EventListQuery['events'][0]) => event.id === eventId
+                (event: EventListQuery['events'][0]) => event.id === eventId,
               ),
-              1
-            )[0]
+              1,
+            )[0],
           );
         }
 
@@ -177,7 +178,7 @@ export class EventCalendarComponent implements OnChanges {
     if (events.length === 0) return;
     const sortedEvents = [...events];
     sortedEvents.sort((a, b) =>
-      a.start < b.start ? -1 : a.start > b.start ? 1 : 0
+      a.start < b.start ? -1 : a.start > b.start ? 1 : 0,
     );
     this.dialog.open(EventCalendarDayDialogComponent, {
       width: '600px',

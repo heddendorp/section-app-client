@@ -7,7 +7,13 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 import {
   EventSubmissionItem,
@@ -25,25 +31,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
 
 @Component({
-    selector: 'app-data-items-collector',
-    templateUrl: './data-items-collector.component.html',
-    styleUrls: ['./data-items-collector.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        ReactiveFormsModule,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        MatFormFieldModule,
-        MatInputModule,
-        MarkdownModule,
-        MatSlideToggleModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatButtonModule,
-    ],
+  selector: 'app-data-items-collector',
+  templateUrl: './data-items-collector.component.html',
+  styleUrls: ['./data-items-collector.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    MatFormFieldModule,
+    MatInputModule,
+    MarkdownModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+  ],
 })
 export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
   @Input() public items: Array<
@@ -55,14 +61,17 @@ export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
   public form: UntypedFormGroup | undefined;
   public SubmissionItemType = SubmissionItemType;
   private destroyed = new Subject();
-  constructor(private fb: UntypedFormBuilder, private snackBar: MatSnackBar) {}
+  constructor(
+    private fb: UntypedFormBuilder,
+    private snackBar: MatSnackBar,
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['items']) {
       this.form = this.fb.group(
         changes['items'].currentValue.reduce(
           (
             acc: { [id: string]: FormControl },
-            item: { id: string; type: SubmissionItemType }
+            item: { id: string; type: SubmissionItemType },
           ) => {
             return {
               ...acc,
@@ -75,12 +84,12 @@ export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
                   : '',
                 item.type === SubmissionItemType.Confirm
                   ? [Validators.requiredTrue]
-                  : [Validators.required]
+                  : [Validators.required],
               ),
             };
           },
-          {}
-        )
+          {},
+        ),
       );
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadPagesGQL } from '@tumi/legacy-app/generated/generated';
 import { combineLatest, map, Observable } from 'rxjs';
@@ -6,16 +6,19 @@ import { AsyncPipe } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
-    selector: 'app-show-page-page',
-    templateUrl: './show-page-page.component.html',
-    styleUrls: ['./show-page-page.component.scss'],
-    standalone: true,
-    imports: [MarkdownModule, AsyncPipe],
+  selector: 'app-show-page-page',
+  templateUrl: './show-page-page.component.html',
+  styleUrls: ['./show-page-page.component.scss'],
+  standalone: true,
+  imports: [MarkdownModule, AsyncPipe],
 })
 export class ShowPagePageComponent {
   public pageContent$: Observable<string>;
 
-  constructor(private route: ActivatedRoute, private loadPages: LoadPagesGQL) {
+  constructor(
+    private route: ActivatedRoute,
+    private loadPages: LoadPagesGQL,
+  ) {
     this.pageContent$ = combineLatest([
       this.route.paramMap,
       this.loadPages.fetch(),
@@ -47,7 +50,7 @@ export class ShowPagePageComponent {
             return `## Page not found`;
           }
         }
-      })
+      }),
     );
   }
 }

@@ -73,14 +73,17 @@
           "
         >
           <img
-            [src]="event.icon | iconURL"
+            [ngSrc]="event.icon | iconURL"
+            width="192"
+            height="192"
             alt="{{ event.icon }}"
             class="w-4 md:mr-0.5 md:w-6"
           />
           <span
             class="block flex-1 overflow-hidden text-clip whitespace-nowrap tracking-tight"
-            >{{ event.title }}</span
           >
+            {{ event.title }}
+          </span>
         </div>
         <div
           *ngIf="day.events.length > numberOfEventsPerCell"

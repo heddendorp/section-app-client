@@ -1,5 +1,10 @@
 <a *ngIf="event" mat-list-item routerLink="/events/{{ event.id }}">
-  <img [src]="event.icon | iconURL" matListItemAvatar />
+  <img
+    [ngSrc]="event.icon | iconURL"
+    width="192"
+    height="192"
+    matListItemAvatar
+  />
   <h3 matListItemTitle>{{ event.title }}</h3>
   <p matListItemLine>
     <span>{{ formatDate(event.start, event.end) }}</span>

@@ -4,7 +4,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -15,21 +20,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-    selector: 'app-new-finance-entry-dialog',
-    templateUrl: './new-finance-entry-dialog.component.html',
-    styleUrls: ['./new-finance-entry-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatCheckboxModule,
-        MatButtonModule,
-    ],
+  selector: 'app-new-finance-entry-dialog',
+  templateUrl: './new-finance-entry-dialog.component.html',
+  styleUrls: ['./new-finance-entry-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatCheckboxModule,
+    MatButtonModule,
+  ],
 })
 export class NewFinanceEntryDialogComponent implements OnDestroy, OnInit {
   public expenseForm: UntypedFormGroup;

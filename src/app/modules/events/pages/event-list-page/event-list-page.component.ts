@@ -44,44 +44,44 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-event-list-page',
-    templateUrl: './event-list-page.component.html',
-    styleUrls: ['./event-list-page.component.scss'],
-    animations: [
-        trigger('grow', [
-            transition(':enter', [
-                style({
-                    height: '0px',
-                    paddingTop: '0',
-                    paddingBottom: '0',
-                    opacity: '0',
-                }),
-                animate('0.5s ease-in'),
-            ]),
-        ]),
-    ],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        NgIf,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        ResetScrollDirective,
-        MatProgressBarModule,
-        MatRippleModule,
-        RouterLink,
-        IfRoleDirective,
-        NgSwitch,
-        NgSwitchCase,
-        MatSlideToggleModule,
-        EventsListComponent,
-        EventCalendarComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-event-list-page',
+  templateUrl: './event-list-page.component.html',
+  styleUrls: ['./event-list-page.component.scss'],
+  animations: [
+    trigger('grow', [
+      transition(':enter', [
+        style({
+          height: '0px',
+          paddingTop: '0',
+          paddingBottom: '0',
+          opacity: '0',
+        }),
+        animate('0.5s ease-in'),
+      ]),
+    ]),
+  ],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    ResetScrollDirective,
+    MatProgressBarModule,
+    MatRippleModule,
+    RouterLink,
+    IfRoleDirective,
+    NgSwitch,
+    NgSwitchCase,
+    MatSlideToggleModule,
+    EventsListComponent,
+    EventCalendarComponent,
+    AsyncPipe,
+  ],
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
@@ -116,13 +116,13 @@ export class EventListPageComponent implements OnDestroy {
     private getTenantInfo: GetTenantInfoGQL,
     private getCurrentUserInfoGQL: GetCurrentUserInfoGQL,
     private dialog: MatDialog,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
 
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.events)
+      map(({ data }) => data.events),
     );
     this.selectedMonth.valueChanges
       .pipe(
@@ -149,7 +149,7 @@ export class EventListPageComponent implements OnDestroy {
             before: this.endOfMonth.endOf('week').toJSDate(),
           };
         }),
-        debounceTime(500)
+        debounceTime(500),
       )
       .subscribe((parameters: any) => {
         return this.loadEventsQueryRef.refetch(parameters).then(() => {
@@ -173,10 +173,10 @@ export class EventListPageComponent implements OnDestroy {
     this.events$ = combineLatest([
       events$,
       this.hideFullEvents.valueChanges.pipe(
-        startWith(this.hideFullEvents.value)
+        startWith(this.hideFullEvents.value),
       ),
       this.hideFullTutorEvents.valueChanges.pipe(
-        startWith(this.hideFullTutorEvents.value)
+        startWith(this.hideFullTutorEvents.value),
       ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
@@ -186,21 +186,21 @@ export class EventListPageComponent implements OnDestroy {
         if (hideFull) {
           filteredEvents = events.filter(
             (event) =>
-              event.participantRegistrationCount < event.participantLimit
+              event.participantRegistrationCount < event.participantLimit,
           );
         }
         if (hideFullTutors) {
           filteredEvents = events.filter(
-            (event) => event.organizersRegistered < event.organizerLimit
+            (event) => event.organizersRegistered < event.organizerLimit,
           );
         }
         if (filterEvents) {
           filteredEvents = filteredEvents.filter((event) =>
-            event.title.toLowerCase().includes(filterEvents.toLowerCase())
+            event.title.toLowerCase().includes(filterEvents.toLowerCase()),
           );
         }
         return filteredEvents;
-      })
+      }),
     );
 
     this.loadEventsQueryRef.startPolling(60 * 1000);
@@ -210,7 +210,7 @@ export class EventListPageComponent implements OnDestroy {
     this.outstandingRating$ = this.getCurrentUserInfoGQL
       .watch()
       .valueChanges.pipe(
-        map(({ data }) => data.currentUser?.outstandingRating ?? false)
+        map(({ data }) => data.currentUser?.outstandingRating ?? false),
       );
 
     if (router.url.includes('codes')) {
@@ -235,7 +235,7 @@ export class EventListPageComponent implements OnDestroy {
     }
     this.eventListStateService.setSelectedView(newSelectedView);
     void this.router.navigateByUrl(
-      this.router.url.replace(selectedView, newSelectedView)
+      this.router.url.replace(selectedView, newSelectedView),
     );
     setTimeout(() => {
       this.filterEvents.setValue(filterValue);
@@ -264,7 +264,7 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).plus({ months: 1 });
     }
-    this.router.navigate([
+    await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
       nextMonth.year,
@@ -282,7 +282,7 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).minus({ months: 1 });
     }
-    this.router.navigate([
+    await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
       prevMonth.year,

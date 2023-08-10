@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   EnrolmentStatus,
   UserProfileQuery,
@@ -12,20 +21,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-update-profile-dialog',
-    templateUrl: './update-profile-dialog.component.html',
-    styleUrls: ['./update-profile-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatButtonModule,
-    ],
+  selector: 'app-update-profile-dialog',
+  templateUrl: './update-profile-dialog.component.html',
+  styleUrls: ['./update-profile-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+  ],
 })
 export class UpdateProfileDialogComponent {
   public profileForm: UntypedFormGroup;
@@ -35,7 +44,7 @@ export class UpdateProfileDialogComponent {
     private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<UpdateProfileDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { profile: UserProfileQuery['currentUser'] }
+    public data: { profile: UserProfileQuery['currentUser'] },
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],

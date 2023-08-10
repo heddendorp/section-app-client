@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   EnrolmentStatus,
   UserProfileQuery,
@@ -12,20 +21,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-update-user-information-dialog',
-    templateUrl: './update-user-information-dialog.component.html',
-    styleUrls: ['./update-user-information-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatInputModule,
-        MatButtonModule,
-    ],
+  selector: 'app-update-user-information-dialog',
+  templateUrl: './update-user-information-dialog.component.html',
+  styleUrls: ['./update-user-information-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class UpdateUserInformationDialogComponent {
   public profileForm: UntypedFormGroup;
@@ -35,7 +44,7 @@ export class UpdateUserInformationDialogComponent {
     private fb: UntypedFormBuilder,
     private dialog: MatDialogRef<UpdateUserInformationDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { profile: UserProfileQuery['currentUser'] }
+    public data: { profile: UserProfileQuery['currentUser'] },
   ) {
     this.profileForm = this.fb.group({
       enrolmentStatus: ['', Validators.required],

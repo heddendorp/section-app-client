@@ -7,7 +7,12 @@
 
   <mat-card appearance="outlined" class="my-4">
     <mat-card-header>
-      <img [src]="template.icon | iconURL" mat-card-avatar />
+      <img
+        [ngSrc]="template.icon | iconURL"
+        width="192"
+        height="192"
+        mat-card-avatar
+      />
       <mat-card-title>{{ template.title }} </mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -61,7 +66,12 @@
         <p class="mt-4 font-bold sm:mt-0">Category</p>
         <div class="flex flex-row items-center gap-4">
           <ng-container *ngIf="template.category">
-            <img class="h-8" [src]="template.category.icon | iconURL" />
+            <img
+              class="h-8"
+              height="32"
+              width="32"
+              [ngSrc]="template.category.icon | iconURL"
+            />
             <h3>{{ template.category.name }}</h3>
           </ng-container>
           <ng-container *ngIf="!template.category">
@@ -141,7 +151,7 @@
             <a routerLink="/events/{{ event.id }}" class="text-base">
               <span class="font-bold">{{ event.title }}</span>
               <span class="ml-2 font-light">{{
-                event.start | date : 'shortDate'
+                event.start | date: 'shortDate'
               }}</span>
               <div
                 *ngIf="
@@ -150,7 +160,7 @@
                 "
                 class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
               >
-                {{ event.participantRating | number : '1.1-1' }} ★ ({{
+                {{ event.participantRating | number: '1.1-1' }} ★ ({{
                   event.participantRatingCount
                 }})
               </div>
@@ -205,7 +215,7 @@
         >
           <h3 matListItemTitle>{{ event.title }}</h3>
           <p matListItemLine>
-            {{ event.start | date : 'medium' }}
+            {{ event.start | date: 'medium' }}
           </p>
         </a>
       </mat-nav-list>

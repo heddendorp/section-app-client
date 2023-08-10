@@ -9,8 +9,17 @@ import {
   MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -19,21 +28,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-update-user-dialog',
-    templateUrl: './update-user-dialog.component.html',
-    styleUrls: ['./update-user-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatInputModule,
-        MatButtonModule,
-        TitleCasePipe,
-    ],
+  selector: 'app-update-user-dialog',
+  templateUrl: './update-user-dialog.component.html',
+  styleUrls: ['./update-user-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatButtonModule,
+    TitleCasePipe,
+  ],
 })
 export class UpdateUserDialogComponent implements OnInit {
   public Role = Role;
@@ -42,7 +51,7 @@ export class UpdateUserDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { user: GetUsersQuery['users'][0] },
     private fb: UntypedFormBuilder,
-    private dialog: MatDialogRef<UpdateUserDialogComponent>
+    private dialog: MatDialogRef<UpdateUserDialogComponent>,
   ) {
     this.updateForm = this.fb.group({
       status: ['', Validators.required],

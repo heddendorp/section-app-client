@@ -21,7 +21,12 @@
   </button>
   <app-grid minWidth="500px">
     <div *ngFor="let receipt of costItem.receipts">
-      <img *ngIf="!receipt.type?.includes('pdf')" [src]="receipt.url" />
+      <img
+        *ngIf="!receipt.type?.includes('pdf')"
+        [ngSrc]="receipt.url"
+        width="192"
+        height="192"
+      />
       <object
         class="block"
         *ngIf="receipt.type?.includes('pdf')"
@@ -31,7 +36,7 @@
         height="500px"
       ></object>
       <p class="mt-2">
-        <span class="font-bold">{{ receipt.amount | currency : 'EUR' }}</span>
+        <span class="font-bold">{{ receipt.amount | currency: 'EUR' }}</span>
         <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
       </p>
       <div

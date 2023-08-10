@@ -11,7 +11,12 @@
 
     <!-- Image Preview -->
     <div class="my-2 w-full" *ngIf="previewURL$ | async as url">
-      <img [src]="url" class="max-h-full" />
+      <img
+        [ngSrc]="url"
+        width="192"
+        height="192"
+        class="max-h-full object-cover"
+      />
     </div>
     <mat-progress-bar
       *ngIf="uploadProgress$ | async"

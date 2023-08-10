@@ -6,6 +6,7 @@
   @apply rounded-b-2xl;
 }
 
-a[mat-fab], button[mat-fab] {
+a[mat-fab],
+button[mat-fab] {
   @apply right-4 bottom-20 sm:bottom-4 fixed z-50;
 }

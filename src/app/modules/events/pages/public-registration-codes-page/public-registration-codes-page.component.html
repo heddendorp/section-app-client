@@ -30,7 +30,9 @@
         <div class="flex w-full flex-col gap-2 px-4 pt-2 pb-4">
           <div class="flex flex-row items-center gap-2">
             <img
-              [src]="code.targetEvent.icon | iconURL"
+              [ngSrc]="code.targetEvent.icon | iconURL"
+              height="48"
+              width="48"
               alt=""
               class="h-12 w-12"
             />

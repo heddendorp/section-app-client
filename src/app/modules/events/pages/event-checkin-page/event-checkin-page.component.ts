@@ -27,36 +27,42 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
-import { exponentialBackoffDelay } from 'backoff-rxjs/dist/utils';
 import { retryBackoff } from 'backoff-rxjs';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  DatePipe,
+  NgOptimizedImage,
+} from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 @Component({
-    selector: 'app-event-checkin-page',
-    templateUrl: './event-checkin-page.component.html',
-    styleUrls: ['./event-checkin-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        BackButtonComponent,
-        NgIf,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        NgFor,
-        MatOptionModule,
-        MatButtonModule,
-        RouterLink,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-event-checkin-page',
+  templateUrl: './event-checkin-page.component.html',
+  styleUrls: ['./event-checkin-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    BackButtonComponent,
+    NgIf,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    NgFor,
+    MatOptionModule,
+    MatButtonModule,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   public hideScanner$ = new BehaviorSubject(false);
@@ -112,7 +118,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     private loadRegistration: GetRegistrationGQL,
     private checkInMutation: CheckInUserGQL,
     private verifyCertificateGQL: VerifyCertificateGQL,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch({
       id: this.route.snapshot.params['eventId'],
@@ -120,14 +126,14 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     this.eventId = this.route.snapshot.params['eventId'];
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.loadEventQueryRef.startPolling(5000);
   }
 
   async ngAfterViewInit() {
     const idTest = new RegExp(
-      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
     );
     this.scanResult$.subscribe(async (result) => {
       const isID = idTest.test(result);
@@ -140,7 +146,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
             next: ({ data }) => {
               if (data) {
                 this.snackBar.open(
-                  `Certificate scanned: ${data.verifyDCC.status}`
+                  `Certificate scanned: ${data.verifyDCC.status}`,
                 );
                 this.certificatePayload$.next(data.verifyDCC.card ?? null);
                 this.hideScanner$.next(true);
@@ -159,7 +165,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
         this.registrationLoading$.next(true);
         const event = await firstValueFrom(this.event$);
         const registration = event.participantRegistrations.find(
-          (r) => r.id === result
+          (r) => r.id === result,
         );
         if (registration) {
           this.currentRegistration$.next({
@@ -190,7 +196,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
           maxScansPerSecond: 2,
           highlightScanRegion: true,
           highlightCodeOutline: true,
-        }
+        },
       );
       await this.scanner.setCamera('environment');
     } else {
@@ -229,7 +235,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
         await firstValueFrom(
           this.checkInMutation
             .mutate({ id: registration.id })
-            .pipe(retryBackoff({ initialInterval: 100, maxRetries: 5 }))
+            .pipe(retryBackoff({ initialInterval: 100, maxRetries: 5 })),
         );
       } catch (e) {
         this.snackBar.open('Error checking in user');

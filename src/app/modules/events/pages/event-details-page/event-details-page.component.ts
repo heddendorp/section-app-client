@@ -47,39 +47,48 @@ import { EventHeaderComponent } from '../../components/event-header/event-header
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase, AsyncPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  NgSwitch,
+  NgSwitchCase,
+  AsyncPipe,
+  DatePipe,
+  NgOptimizedImage,
+} from '@angular/common';
 
 @Component({
-    selector: 'app-event-details-page',
-    templateUrl: './event-details-page.component.html',
-    styleUrls: ['./event-details-page.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        MatButtonModule,
-        RouterLink,
-        MatIconModule,
-        EventHeaderComponent,
-        MatExpansionModule,
-        MarkdownModule,
-        UserChipComponent,
-        MatDividerModule,
-        NgFor,
-        RatingItemComponent,
-        RateEventComponent,
-        CheckRegistrationTimeComponent,
-        NgSwitch,
-        NgSwitchCase,
-        ExternalEventRegistrationComponent,
-        StripeEventRegistrationComponent,
-        OnlineEventRegistrationComponent,
-        MatListModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-details-page',
+  templateUrl: './event-details-page.component.html',
+  styleUrls: ['./event-details-page.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBarModule,
+    MatButtonModule,
+    RouterLink,
+    MatIconModule,
+    EventHeaderComponent,
+    MatExpansionModule,
+    MarkdownModule,
+    UserChipComponent,
+    MatDividerModule,
+    NgFor,
+    RatingItemComponent,
+    RateEventComponent,
+    CheckRegistrationTimeComponent,
+    NgSwitch,
+    NgSwitchCase,
+    ExternalEventRegistrationComponent,
+    StripeEventRegistrationComponent,
+    OnlineEventRegistrationComponent,
+    MatListModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
@@ -108,11 +117,11 @@ export class EventDetailsPageComponent implements OnDestroy {
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private dialog: MatDialog,
     public permissions: PermissionsService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
-      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
+      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
@@ -121,32 +130,32 @@ export class EventDetailsPageComponent implements OnDestroy {
         if (!event.activeRegistration?.rating) {
           this.ratingExpanded$.next(true);
         }
-      })
+      }),
     );
     this.deregistrationOptions$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant.settings.deregistrationOptions)
+      map(({ data }) => data.currentTenant.settings.deregistrationOptions),
     );
     firstValueFrom(this.event$).then((event) => {
       this.title.setTitle(`${event.title}`);
     });
     this.bestPrice$ = this.event$.pipe(
       switchMap((event) =>
-        this.permissions.getPricesForUser(event.prices?.options)
+        this.permissions.getPricesForUser(event.prices?.options),
       ),
       filter((prices) => prices.length > 0),
-      map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b)))
+      map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b))),
     );
     this.user$ = this.loadUserForEventGQL.watch().valueChanges.pipe(
       map(({ data }) => data.currentUser),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.eventOver$ = this.event$.pipe(
-      map((event) => (event?.end ? new Date(event.end) < new Date() : false))
+      map((event) => (event?.end ? new Date(event.end) < new Date() : false)),
     );
     this.eventStarted$ = this.event$.pipe(
       map((event) =>
-        event?.start ? new Date(event.start) < new Date() : false
-      )
+        event?.start ? new Date(event.start) < new Date() : false,
+      ),
     );
     this.loadEventQueryRef.startPolling(30000);
     this.isAdmin$ = permissions.isAdmin();
@@ -171,7 +180,7 @@ export class EventDetailsPageComponent implements OnDestroy {
           this.registerForEvent.mutate({
             eventId: event.id,
             type: RegistrationType.Organizer,
-          })
+          }),
         );
         this.snackbar.open('Registration successful ✔️');
       } catch (e) {
@@ -196,7 +205,7 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   async saveRating(
     $event: { rating: number; comment: string; anonymousRating: boolean },
-    id: string
+    id: string,
   ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
@@ -204,7 +213,7 @@ export class EventDetailsPageComponent implements OnDestroy {
         anonymousRating: $event.anonymousRating,
         rating: $event.rating,
         comment: $event.comment,
-      })
+      }),
     );
     this.loadEventQueryRef.refetch();
 

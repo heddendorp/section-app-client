@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LoadEventQuery, Role } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
@@ -12,29 +7,36 @@ import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, DecimalPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  NgIf,
+  DecimalPipe,
+  CurrencyPipe,
+  DatePipe,
+  NgOptimizedImage,
+} from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { Price } from '@tumi/legacy-app/utils';
 
 @Component({
-    selector: 'app-event-header',
-    templateUrl: './event-header.component.html',
-    styleUrls: ['./event-header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        BackButtonComponent,
-        NgIf,
-        MatButtonModule,
-        RouterLink,
-        MatIconModule,
-        IfRoleDirective,
-        DecimalPipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-header',
+  templateUrl: './event-header.component.html',
+  styleUrls: ['./event-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    BackButtonComponent,
+    NgIf,
+    MatButtonModule,
+    RouterLink,
+    MatIconModule,
+    IfRoleDirective,
+    DecimalPipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventHeaderComponent {
   public Role = Role;

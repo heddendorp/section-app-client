@@ -5,7 +5,11 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 import * as Highcharts from 'highcharts';
-import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,27 +22,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-stats-page',
-    templateUrl: './tenant-stats-page.component.html',
-    styleUrls: ['./tenant-stats-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        GridComponent,
-        NgFor,
-        HighchartsChartModule,
-        AsyncPipe,
-        TitleCasePipe,
-    ],
+  selector: 'app-tenant-stats-page',
+  templateUrl: './tenant-stats-page.component.html',
+  styleUrls: ['./tenant-stats-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    GridComponent,
+    NgFor,
+    HighchartsChartModule,
+    AsyncPipe,
+    TitleCasePipe,
+  ],
 })
 export class TenantStatsPageComponent implements OnDestroy {
   rangeControl = new UntypedFormGroup({
@@ -64,11 +68,11 @@ export class TenantStatsPageComponent implements OnDestroy {
             range: value,
           });
         }
-      }
+      },
     );
     this.getStatisticsRef.startPolling(30000);
     this.statistics$ = this.getStatisticsRef.valueChanges.pipe(
-      map(({ data }) => data.statistics)
+      map(({ data }) => data.statistics),
     );
     this.charts$ = this.statistics$.pipe(
       map((stats) => {
@@ -117,7 +121,7 @@ export class TenantStatsPageComponent implements OnDestroy {
                     data.value,
                   ]),
                   type: 'line',
-                })
+                }),
               ),
               title: {
                 text: 'Registration History',
@@ -150,7 +154,7 @@ export class TenantStatsPageComponent implements OnDestroy {
                     data.value,
                   ]),
                   type: 'line',
-                })
+                }),
               ),
               title: {
                 text: 'Checkin History',
@@ -246,7 +250,7 @@ export class TenantStatsPageComponent implements OnDestroy {
             },
           ],
         };
-      })
+      }),
     );
   }
 

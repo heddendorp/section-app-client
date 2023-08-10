@@ -52,7 +52,13 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="relative mr-4 min-w-max">
-            <img [src]="category.icon | iconURL" class="h-10" alt="" />
+            <img
+              [ngSrc]="category.icon | iconURL"
+              height="40"
+              width="40"
+              class="h-10"
+              alt=""
+            />
             <div class="counter">
               {{ category.templateCount }}
             </div>
@@ -74,7 +80,12 @@
             routerLink="./{{ template.id }}"
           >
             <div matListItemAvatar class="relative">
-              <img [src]="template.icon | iconURL" alt="" />
+              <img
+                [ngSrc]="template.icon | iconURL"
+                width="192"
+                height="192"
+                alt=""
+              />
               <div class="counter">
                 {{ template.eventInstanceCount }}
               </div>
@@ -110,7 +121,12 @@
             routerLink="./{{ template.id }}"
           >
             <div matListItemAvatar class="relative">
-              <img [src]="template.icon | iconURL" alt="" />
+              <img
+                [ngSrc]="template.icon | iconURL"
+                width="192"
+                height="192"
+                alt=""
+              />
               <div class="counter">
                 {{ templates.length }}
               </div>

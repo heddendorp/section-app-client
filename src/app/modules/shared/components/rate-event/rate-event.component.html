@@ -12,7 +12,9 @@
     routerLink="/events/{{ event.id }}"
   >
     <img
-      src="{{ event.icon | iconURL }}"
+      [ngSrc]="event.icon | iconURL"
+      width="64"
+      height="64"
       class="bg-secondary-on w-16 rounded-lg p-1"
     />
     <p>{{ event.title }}</p>

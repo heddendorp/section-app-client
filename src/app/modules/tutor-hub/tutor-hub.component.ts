@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   GetTutorHubEventsGQL,
   GetTutorHubEventsQuery,
@@ -32,37 +36,38 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { SemesterNavigatorComponent } from './semester-navigator/semester-navigator.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../shared/directives/reset-scroll.directive';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tutor-hub',
-    templateUrl: './tutor-hub.component.html',
-    styleUrls: ['./tutor-hub.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        SemesterNavigatorComponent,
-        MatDividerModule,
-        MatIconModule,
-        MatRippleModule,
-        NgFor,
-        UserChipComponent,
-        MatListModule,
-        EventListItemComponent,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        GridComponent,
-        AsyncPipe,
-        IconURLPipe,
-    ],
+  selector: 'app-tutor-hub',
+  templateUrl: './tutor-hub.component.html',
+  styleUrls: ['./tutor-hub.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    SemesterNavigatorComponent,
+    MatDividerModule,
+    MatIconModule,
+    MatRippleModule,
+    NgFor,
+    UserChipComponent,
+    MatListModule,
+    EventListItemComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    GridComponent,
+    AsyncPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class TutorHubComponent implements OnInit, OnDestroy {
   public tutorHubData$: Observable<
@@ -80,7 +85,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   public currentSearch = '';
   public searchLoading$ = new BehaviorSubject(false);
   public range: { start: DateTime; end: DateTime } = this.calculateStartEnd(
-    DateTime.now()
+    DateTime.now(),
   );
   public leaderboardToggle = false;
   public leaderboardExpanded = false;
@@ -92,20 +97,20 @@ export class TutorHubComponent implements OnInit, OnDestroy {
     private getTutorHubInfo: GetTutorHubInfoGQL,
     private getTutorHubEvents: GetTutorHubEventsGQL,
     private loadUsers: GetUsersGQL,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
     this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant.tutorHub)
+      map(({ data }) => data.currentTenant.tutorHub),
     );
     this.resourceLinks$ = getTutorHubInfoRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant.settings.sectionHubLinks)
+      map(({ data }) => data.currentTenant.settings.sectionHubLinks),
     );
 
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch();
     this.events$ = this.getTutorHubEventsRef.valueChanges.pipe(
       map(({ data }) => data.currentTenant.tutorHubEvents),
-      tap(() => this.eventsLoading$.next(false))
+      tap(() => this.eventsLoading$.next(false)),
     );
 
     this.filterForm = this.fb.group({
@@ -127,7 +132,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
       tap(() => {
         this.searchLoading$.next(false);
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
@@ -138,7 +143,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
         debounceTime(500),
         tap(() => {
           this.searchLoading$.next(true);
-        })
+        }),
       )
       .subscribe((value) => this.loadUsersReference.refetch(value));
   }

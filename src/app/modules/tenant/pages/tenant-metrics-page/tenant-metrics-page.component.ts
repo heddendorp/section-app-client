@@ -13,23 +13,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-metrics-page',
-    templateUrl: './tenant-metrics-page.component.html',
-    styleUrls: ['./tenant-metrics-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        GridComponent,
-        NgFor,
-        HighchartsChartModule,
-        AsyncPipe,
-        DecimalPipe,
-    ],
+  selector: 'app-tenant-metrics-page',
+  templateUrl: './tenant-metrics-page.component.html',
+  styleUrls: ['./tenant-metrics-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    GridComponent,
+    NgFor,
+    HighchartsChartModule,
+    AsyncPipe,
+    DecimalPipe,
+  ],
 })
 export class TenantMetricsPageComponent {
   Highcharts: typeof Highcharts = Highcharts;
@@ -40,7 +40,7 @@ export class TenantMetricsPageComponent {
   constructor(private http: HttpClient) {
     const metrics$ = interval(5000).pipe(
       switchMap(() => this.http.get(`${environment.server}/metrics`)),
-      share()
+      share(),
     );
     this.counters$ = metrics$.pipe(map((data: any) => data.counters));
     this.gauges$ = metrics$.pipe(map((data: any) => data.gauges));
@@ -68,8 +68,8 @@ export class TenantMetricsPageComponent {
               data: histogram.value.buckets,
             },
           ],
-        }))
-      )
+        })),
+      ),
     );
   }
 }

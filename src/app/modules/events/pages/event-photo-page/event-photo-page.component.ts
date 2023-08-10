@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
   firstValueFrom,
@@ -12,7 +7,10 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  ProgressBarMode,
+  MatProgressBarModule,
+} from '@angular/material/progress-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -27,22 +25,23 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-photo-page',
-    templateUrl: './event-photo-page.component.html',
-    styleUrls: ['./event-photo-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        MatButtonModule,
-        MatIconModule,
-        NgFor,
-        AsyncPipe,
-    ],
+  selector: 'app-event-photo-page',
+  templateUrl: './event-photo-page.component.html',
+  styleUrls: ['./event-photo-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    NgFor,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventPhotoPageComponent implements OnDestroy {
   public photos$: Observable<GetPhotosOfEventQuery['photos']>;
@@ -59,19 +58,19 @@ export class EventPhotoPageComponent implements OnDestroy {
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.loadPhotosRef = this.loadPhotos.watch();
     this.photos$ = this.loadPhotosRef.valueChanges.pipe(
-      map(({ data }) => data.photos)
+      map(({ data }) => data.photos),
     );
     this.event$ = this.loadPhotosRef.valueChanges.pipe(
-      map(({ data }) => data.event)
+      map(({ data }) => data.event),
     );
     this.route.paramMap
       .pipe(takeUntil(this.destroyed$))
       .subscribe((params) =>
-        this.loadPhotosRef.refetch({ eventId: params.get('eventId') ?? '' })
+        this.loadPhotosRef.refetch({ eventId: params.get('eventId') ?? '' }),
       );
   }
   ngOnDestroy(): void {
@@ -92,11 +91,11 @@ export class EventPhotoPageComponent implements OnDestroy {
     const files = await Promise.all(
       photos.map((photo: any) =>
         firstValueFrom(
-          this.http.get(photo.original, { responseType: 'blob' })
+          this.http.get(photo.original, { responseType: 'blob' }),
         ).then(
-          (blob) => new File([blob], photo.originalBlob, { type: photo.type })
-        )
-      )
+          (blob) => new File([blob], photo.originalBlob, { type: photo.type }),
+        ),
+      ),
     );
     try {
       await navigator.share({
@@ -118,7 +117,7 @@ export class EventPhotoPageComponent implements OnDestroy {
     const event = await firstValueFrom(this.event$);
     if (target && target.files && event) {
       const files = Array.from(target.files).filter((file) =>
-        file.type.startsWith('image/')
+        file.type.startsWith('image/'),
       );
 
       const { data } = await firstValueFrom(this.getShareKey.fetch());
@@ -127,7 +126,7 @@ export class EventPhotoPageComponent implements OnDestroy {
         const totalProgress =
           progress.reduce(
             (previousValue, currentValue) => previousValue + currentValue,
-            0
+            0,
           ) / progress.length;
         if (totalProgress > 0) {
           this.uploadMode$.next('determinate');
@@ -175,9 +174,9 @@ export class EventPhotoPageComponent implements OnDestroy {
                 originalBlob: blob,
                 type: file.type,
               },
-            })
+            }),
           );
-        })
+        }),
       );
       uploads.complete();
       this.snackbar.open(`✔️ ${files.length} Photos uploaded`);

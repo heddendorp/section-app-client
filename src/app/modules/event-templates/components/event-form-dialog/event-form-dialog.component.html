@@ -10,11 +10,11 @@
       <mat-label>Icon</mat-label>
       <input matInput formControlName="icon" type="text" required />
       <img
-        [src]="iconFieldValue | async | iconURL"
+        [ngSrc]="iconFieldValue | async | iconURL"
         alt="icon"
         matSuffix
-        width="24px"
-        height="24px"
+        width="24"
+        height="24"
       />
       <mat-error>You have to define an icon</mat-error>
     </mat-form-field>

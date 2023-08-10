@@ -10,11 +10,11 @@
       <mat-label>Icon</mat-label>
       <input #iconInput matInput formControlName="icon" type="text" required />
       <img
-        [src]="iconInput.value | iconURL"
+        [ngSrc]="iconInput.value | iconURL"
         alt="icon"
         matSuffix
-        width="24px"
-        height="24px"
+        width="24"
+        height="24"
       />
       <mat-hint>Icon to use for this category</mat-hint>
     </mat-form-field>

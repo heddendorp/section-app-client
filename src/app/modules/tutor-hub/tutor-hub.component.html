@@ -319,7 +319,13 @@
         [href]="link.url"
         target="_blank"
       >
-        <img [src]="link.icon | iconURL" [alt]="link.label" matListItemAvatar />
+        <img
+          [ngSrc]="link.icon | iconURL"
+          width="192"
+          height="192"
+          [alt]="link.label"
+          matListItemAvatar
+        />
         <p matListItemTitle>{{ link.label }}</p>
       </a>
     </mat-nav-list>

@@ -24,9 +24,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
-import { DOCUMENT, NgIf, NgFor, AsyncPipe, UpperCasePipe, DatePipe } from '@angular/common';
+import {
+  DOCUMENT,
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  UpperCasePipe,
+  DatePipe,
+} from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
-import { ProgressBarMode, MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  ProgressBarMode,
+  MatProgressBarModule,
+} from '@angular/material/progress-bar';
 import { DateTime } from 'luxon';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { EventListComponent } from '../../components/event-list/event-list.component';
@@ -36,26 +46,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 
 @Component({
-    selector: 'app-profile-page',
-    templateUrl: './profile-page.component.html',
-    styleUrls: ['./profile-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        ProfileCardComponent,
-        MatIconModule,
-        MatButtonModule,
-        NgFor,
-        RateEventComponent,
-        EventListComponent,
-        RouterLink,
-        AsyncPipe,
-        UpperCasePipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBarModule,
+    ProfileCardComponent,
+    MatIconModule,
+    MatButtonModule,
+    NgFor,
+    RateEventComponent,
+    EventListComponent,
+    RouterLink,
+    AsyncPipe,
+    UpperCasePipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
@@ -81,24 +91,24 @@ export class ProfilePageComponent implements OnDestroy {
     public auth: AuthService,
     private getProfileUploadKeyGQL: GetProfileUploadKeyGQL,
     private updateUserPictureGQL: UpdateUserPictureGQL,
-    @Inject(DOCUMENT) public document: Document
+    @Inject(DOCUMENT) public document: Document,
   ) {
     this.hostName = this.document.location.hostname;
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentUser)
+      map(({ data }) => data.currentUser),
     );
 
     this.profileEventsQueryRef = this.profileEventsQuery.watch();
     this.profileEvents$ = this.profileEventsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentUser)
+      map(({ data }) => data.currentUser),
     );
 
     this.eventsToRate$ = this.profileEvents$.pipe(
       map((profile) => [
         ...(profile?.participatedEvents.filter(
-          (event) => event?.ratingPending
+          (event) => event?.ratingPending,
         ) ?? []),
         ...(profile?.organizedEvents.filter((event) => event?.ratingPending) ??
           []),
@@ -106,10 +116,11 @@ export class ProfilePageComponent implements OnDestroy {
       map((events) =>
         events.filter(
           (event) =>
-            DateTime.fromISO(event?.end).plus({ days: 7 }).toJSDate() >
-            new Date()
-        )
-      )
+            DateTime.fromISO(event?.end)
+              .plus({ days: 7 })
+              .toJSDate() > new Date(),
+        ),
+      ),
     );
 
     this.route.queryParamMap.pipe(first()).subscribe((queryMap) => {
@@ -150,11 +161,14 @@ export class ProfilePageComponent implements OnDestroy {
           data: { profile },
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (result && profile) {
       await firstValueFrom(
-        this.updateProfileMutation.mutate({ input: result, userId: profile.id })
+        this.updateProfileMutation.mutate({
+          input: result,
+          userId: profile.id,
+        }),
       );
     }
   }
@@ -167,14 +181,14 @@ export class ProfilePageComponent implements OnDestroy {
           data: { profile },
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (result && profile) {
       await firstValueFrom(
         this.updateUserInformationMutation.mutate({
           input: result,
           userId: profile.id,
-        })
+        }),
       );
     }
   }
@@ -188,7 +202,7 @@ export class ProfilePageComponent implements OnDestroy {
 
   async saveRating(
     $event: { rating: number; comment: string; anonymousRating: boolean },
-    id: string
+    id: string,
   ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
@@ -196,7 +210,7 @@ export class ProfilePageComponent implements OnDestroy {
         anonymousRating: $event.anonymousRating,
         rating: $event.rating,
         comment: $event.comment,
-      })
+      }),
     );
   }
 
@@ -207,7 +221,7 @@ export class ProfilePageComponent implements OnDestroy {
     const user = await firstValueFrom(this.profile$);
     if (target && target.files && target.files.length && user) {
       const files = Array.from(target.files).filter((file) =>
-        file.type.startsWith('image/')
+        file.type.startsWith('image/'),
       );
       if (!files.length) {
         this.uploadProgress$.next(0);
@@ -216,7 +230,7 @@ export class ProfilePageComponent implements OnDestroy {
       }
       const file = files[0];
       const { data } = await firstValueFrom(
-        this.getProfileUploadKeyGQL.fetch()
+        this.getProfileUploadKeyGQL.fetch(),
       );
       this.uploadMode$.next('determinate');
       this.uploadProgress$.next(0);
@@ -244,7 +258,7 @@ export class ProfilePageComponent implements OnDestroy {
       reader.readAsDataURL(file);
       await imagePromise;
       await firstValueFrom(
-        this.updateUserPictureGQL.mutate({ userId: user.id, file: blob })
+        this.updateUserPictureGQL.mutate({ userId: user.id, file: blob }),
       );
     }
     this.uploadProgress$.next(0);

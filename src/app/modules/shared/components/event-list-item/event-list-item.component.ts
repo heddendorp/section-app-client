@@ -5,21 +5,22 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { UserChipComponent } from '../user-chip/user-chip.component';
 import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { NgIf, DecimalPipe } from '@angular/common';
+import { NgIf, DecimalPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-list-item',
-    templateUrl: './event-list-item.component.html',
-    styleUrls: ['./event-list-item.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatListModule,
-        RouterLink,
-        UserChipComponent,
-        DecimalPipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-list-item',
+  templateUrl: './event-list-item.component.html',
+  styleUrls: ['./event-list-item.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatListModule,
+    RouterLink,
+    UserChipComponent,
+    DecimalPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventListItemComponent {
   @Input() event: any = null;
@@ -39,12 +40,12 @@ export class EventListItemComponent {
         return `${startDate.toFormat('LLL d')}-${endDate.toFormat('d, yyyy')}`;
       } else {
         return `${startDate.toFormat('LLL d ')} - ${endDate.toFormat(
-          'LLL d, yyyy'
+          'LLL d, yyyy',
         )}`;
       }
     } else {
       return `${startDate.toFormat('LLL d, yyyy')} - ${endDate.toFormat(
-        'LLL d, yyyy'
+        'LLL d, yyyy',
       )}`;
     }
   }

@@ -35,8 +35,12 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies(mat.define-typography-config($font-family: 'General Sans, sans-serif',
-$body-2: mat.define-typography-level(14px, 20px, 450),));
+@include mat.all-component-typographies(
+  mat.define-typography-config(
+    $font-family: 'General Sans, sans-serif',
+    $body-2: mat.define-typography-level(14px, 20px, 450)
+  )
+);
 @include mat.core();
 
 $dark-primary-text: rgba(black, 0.87);
@@ -157,24 +161,24 @@ $tumi-typography: mat.define-typography-config(
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $tumi-app-theme: mat.define-light-theme(
-    (
-      color: (
-        primary: $tumi-app-primary,
-        accent: $tumi-app-accent,
-        warn: $tumi-app-warn,
-      ),
-      typography: $tumi-typography,
-    )
+  (
+    color: (
+      primary: $tumi-app-primary,
+      accent: $tumi-app-accent,
+      warn: $tumi-app-warn,
+    ),
+    typography: $tumi-typography,
+  )
 );
 
 $tumi-dark-theme: mat.define-dark-theme(
-    (
-      color: (
-        primary: $tumi-app-primary,
-        accent: $tumi-app-accent,
-        warn: $tumi-app-warn,
-      ),
-    )
+  (
+    color: (
+      primary: $tumi-app-primary,
+      accent: $tumi-app-accent,
+      warn: $tumi-app-warn,
+    ),
+  )
 );
 
 // Include theme styles for core and each component used in your app.
@@ -303,7 +307,6 @@ $tumi-dark-theme: mat.define-dark-theme(
     }
   }
 }
-
 
 @layer components {
   .skeleton {

@@ -4,9 +4,13 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,26 +20,27 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RatingComponent } from '../rating/rating.component';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-rate-event',
-    templateUrl: './rate-event.component.html',
-    styleUrls: ['./rate-event.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        ReactiveFormsModule,
-        RouterLink,
-        RatingComponent,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        IconURLPipe,
-    ],
+  selector: 'app-rate-event',
+  templateUrl: './rate-event.component.html',
+  styleUrls: ['./rate-event.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    RouterLink,
+    RatingComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class RateEventComponent implements OnChanges {
   @Input() event: any;

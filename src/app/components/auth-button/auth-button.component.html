@@ -5,8 +5,21 @@
     data-testid="profile-link"
   >
     <img
-      [src]="userPicture"
-      class="h-full rounded-full bg-gray-200"
+      *ngIf="userPicture"
+      [ngSrc]="userPicture"
+      width="450"
+      height="450"
+      class="h-auto w-auto rounded-full bg-gray-200"
+      style="text-indent: -10000px"
+      routerLinkActive="active"
+      referrerpolicy="no-referrer"
+    />
+    <img
+      *ngIf="!userPicture"
+      ngSrc="assets/images/defaultUser.jpg"
+      width="360"
+      height="360"
+      class="h-auto rounded-full bg-gray-200"
       style="text-indent: -10000px"
       routerLinkActive="active"
       referrerpolicy="no-referrer"

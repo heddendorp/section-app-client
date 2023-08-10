@@ -89,7 +89,9 @@
       <div class="inline leading-tight">
         <img
           *ngIf="event"
-          [src]="event.icon | iconURL"
+          [ngSrc]="event.icon | iconURL"
+          height="30"
+          width="30"
           alt=""
           class="mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
         />

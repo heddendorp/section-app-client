@@ -6,16 +6,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-landing-page',
-    templateUrl: './tenant-landing-page.component.html',
-    styleUrls: ['./tenant-landing-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        ResetScrollDirective,
-        MatButtonModule,
-        RouterLink,
-    ],
+  selector: 'app-tenant-landing-page',
+  templateUrl: './tenant-landing-page.component.html',
+  styleUrls: ['./tenant-landing-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    ResetScrollDirective,
+    MatButtonModule,
+    RouterLink,
+  ],
 })
 export class TenantLandingPageComponent {}

@@ -1,6 +1,12 @@
 <h1 mat-dialog-title>Ticket</h1>
 <mat-dialog-content>
-  <img src="/qr/{{ data.id }}" alt="QR code here" class="w-full" />
+  <img
+    ngSrc="/qr/{{ data.id }}"
+    alt="QR code here"
+    width="200"
+    height="200"
+    class="w-full"
+  />
   <p class="font-bold leading-normal">Ticket</p>
   <p class="leading-normal">{{ data.event }}</p>
   <p class="leading-normal">{{ data.user }}</p>

@@ -5,22 +5,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-rating',
-    templateUrl: './rating.component.html',
-    styleUrls: ['./rating.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => RatingComponent),
-            multi: true,
-        },
-    ],
-    standalone: true,
-    imports: [
-        NgFor,
-        MatIconModule,
-        AsyncPipe,
-    ],
+  selector: 'app-rating',
+  templateUrl: './rating.component.html',
+  styleUrls: ['./rating.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RatingComponent),
+      multi: true,
+    },
+  ],
+  standalone: true,
+  imports: [NgFor, MatIconModule, AsyncPipe],
 })
 export class RatingComponent implements ControlValueAccessor {
   private _onChange: any;

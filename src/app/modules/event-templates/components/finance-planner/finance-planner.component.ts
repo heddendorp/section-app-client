@@ -2,7 +2,12 @@ import {
   GetEventTemplateQuery,
   UpdateFinancesGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +36,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe, CurrencyPipe } from '@angular/common';
+import {
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  AsyncPipe,
+  CurrencyPipe,
+} from '@angular/common';
 
 interface CostItem {
   description: string;
@@ -58,26 +69,26 @@ export interface PriceModel {
 }
 
 @Component({
-    selector: 'app-finance-planner',
-    templateUrl: './finance-planner.component.html',
-    styleUrls: ['./finance-planner.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        MatTableModule,
-        NgSwitch,
-        NgSwitchCase,
-        MatButtonModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        FinancePlannerPriceModelComponent,
-        AsyncPipe,
-        CurrencyPipe,
-    ],
+  selector: 'app-finance-planner',
+  templateUrl: './finance-planner.component.html',
+  styleUrls: ['./finance-planner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatTableModule,
+    NgSwitch,
+    NgSwitchCase,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FinancePlannerPriceModelComponent,
+    AsyncPipe,
+    CurrencyPipe,
+  ],
 })
 export class FinancePlannerComponent implements OnChanges {
   @Input() public template: GetEventTemplateQuery['eventTemplate'] | undefined;
@@ -96,7 +107,7 @@ export class FinancePlannerComponent implements OnChanges {
   constructor(
     private dialog: MatDialog,
     private fb: UntypedFormBuilder,
-    private updateFinances: UpdateFinancesGQL
+    private updateFinances: UpdateFinancesGQL,
   ) {
     this.forecastForm = this.fb.group({
       organizers: [3, Validators.required],
@@ -120,13 +131,13 @@ export class FinancePlannerComponent implements OnChanges {
         let maxTotalSubsidies = subsidyPerPerson * info.days * numberOfPeople;
         maxTotalSubsidies = Math.min(
           maxSubsidizedPercentage * expensesSubsidizable,
-          maxTotalSubsidies
+          maxTotalSubsidies,
         );
 
         const minPrice = this.estimateFeeToPay(
           (Math.max(0, expensesSubsidizable - maxTotalSubsidies) +
             expensesNotSubsidizable) /
-            info.participants
+            info.participants,
         );
         const minPriceModel = this.calculatePriceModelForPrice(
           info.participants,
@@ -134,7 +145,7 @@ export class FinancePlannerComponent implements OnChanges {
           maxTotalSubsidies,
           expenses,
           expensesSubsidizable,
-          expensesNotSubsidizable
+          expensesNotSubsidizable,
         );
 
         let recommendedPrice = expenses / numberOfPeople;
@@ -147,7 +158,7 @@ export class FinancePlannerComponent implements OnChanges {
           maxTotalSubsidies,
           expenses,
           expensesSubsidizable,
-          expensesNotSubsidizable
+          expensesNotSubsidizable,
         );
 
         const maxPrice = this.estimateFeeToPay(expenses / info.participants);
@@ -157,7 +168,7 @@ export class FinancePlannerComponent implements OnChanges {
           maxTotalSubsidies,
           expenses,
           expensesSubsidizable,
-          expensesNotSubsidizable
+          expensesNotSubsidizable,
         );
 
         const proposedPriceModel = info.proposedFee
@@ -167,7 +178,7 @@ export class FinancePlannerComponent implements OnChanges {
               maxTotalSubsidies,
               expenses,
               expensesSubsidizable,
-              expensesNotSubsidizable
+              expensesNotSubsidizable,
             )
           : null;
 
@@ -180,9 +191,9 @@ export class FinancePlannerComponent implements OnChanges {
       }),
       tap((result) => {
         this.recommendedPriceChange.emit(
-          Math.ceil(result.maxPriceModel.participantFee)
+          Math.ceil(result.maxPriceModel.participantFee),
         );
-      })
+      }),
     );
   }
 
@@ -192,7 +203,7 @@ export class FinancePlannerComponent implements OnChanges {
     maxSubsidies: number,
     expenses: number,
     expensesSubsidizable: number,
-    expensesNotSubsidizable: number
+    expensesNotSubsidizable: number,
   ): PriceModel {
     const totalParticipantFees =
       this.estimateFeeReceived(participantFee) * participants;
@@ -276,7 +287,7 @@ export class FinancePlannerComponent implements OnChanges {
         this.updateFinances.mutate({
           id: this.template.id,
           finances: { items },
-        })
+        }),
       );
       if (data?.updateTemplateFinances?.finances) {
         this.items$.next(data.updateTemplateFinances.finances.items);
@@ -287,13 +298,13 @@ export class FinancePlannerComponent implements OnChanges {
   async removeItem(element: CostItem) {
     const items = await firstValueFrom(this.items$);
     this.items$.next(
-      items.filter((item) => item.description !== element.description)
+      items.filter((item) => item.description !== element.description),
     );
   }
 
   private getTotalCost(
     [items, info]: [CostItem[], { participants: number; organizers: number }],
-    notSubsized = false
+    notSubsized = false,
   ) {
     return items
       .filter((item) => (notSubsized && item.notSubsidized) || !notSubsized)
@@ -307,7 +318,7 @@ export class FinancePlannerComponent implements OnChanges {
             return (
               item.value *
               Math.ceil(
-                (info.participants + info.organizers) / (item.scale ?? 1)
+                (info.participants + info.organizers) / (item.scale ?? 1),
               )
             );
         }

@@ -98,7 +98,7 @@
               <div *ngIf="!event.isVirtual">
                 <div class="mb-2">
                   <b>Meeting point:</b> {{ event.location }} at
-                  {{ event.start | date : 'mediumTime' }}
+                  {{ event.start | date: 'mediumTime' }}
                 </div>
                 <a
                   class="modern"
@@ -121,7 +121,7 @@
               <div *ngIf="event.isVirtual">
                 <div class="mb-2">
                   <b>Online Meeting</b> at
-                  {{ event.start | date : 'mediumTime' }}
+                  {{ event.start | date: 'mediumTime' }}
                 </div>
                 <a
                   class="modern"
@@ -147,7 +147,9 @@
               *ngIf="(event$ | async)?.activeRegistration?.didAttend"
             >
               <img
-                src="{{ 'approval' | iconURL }}"
+                ngSrc="{{ 'approval' | iconURL }}"
+                height="40"
+                width="40"
                 alt="approval"
                 class="w-10"
               />

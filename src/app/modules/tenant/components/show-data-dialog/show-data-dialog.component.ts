@@ -1,27 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { GetLogsQuery } from '@tumi/legacy-app/generated/generated';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { NgIf, JsonPipe, DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-show-data-dialog',
-    templateUrl: './show-data-dialog.component.html',
-    styleUrls: ['./show-data-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        NgIf,
-        JsonPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-show-data-dialog',
+  templateUrl: './show-data-dialog.component.html',
+  styleUrls: ['./show-data-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatDialogModule, NgIf, JsonPipe, DatePipe, ExtendDatePipe],
 })
 export class ShowDataDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: GetLogsQuery['logs'][0]) {}

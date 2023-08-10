@@ -10,7 +10,11 @@ import {
   MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   debounceTime,
   firstValueFrom,
@@ -39,33 +43,33 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-users-page',
-    templateUrl: './tenant-users-page.component.html',
-    styleUrls: ['./tenant-users-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTableModule,
-        UserChipComponent,
-        MatRippleModule,
-        RouterLink,
-        MatPaginatorModule,
-        AsyncPipe,
-        TitleCasePipe,
-    ],
+  selector: 'app-tenant-users-page',
+  templateUrl: './tenant-users-page.component.html',
+  styleUrls: ['./tenant-users-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    UserChipComponent,
+    MatRippleModule,
+    RouterLink,
+    MatPaginatorModule,
+    AsyncPipe,
+    TitleCasePipe,
+  ],
 })
 export class TenantUsersPageComponent implements OnInit, OnDestroy {
   public users$: Observable<GetUsersQuery['users']>;
@@ -87,7 +91,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   constructor(
     private loadUsers: GetUsersGQL,
     private fb: UntypedFormBuilder,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
   ) {
     this.loadUsersReference = this.loadUsers.watch({
       pageLength: 20,
@@ -95,11 +99,11 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
     });
     this.users$ = this.loadUsersReference.valueChanges.pipe(
       map(({ data }) => data.users),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.userNum$ = this.loadUsersReference.valueChanges.pipe(
       map(({ data }) => data.userSearchResultNum),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.filterForm = this.fb.group({
       statusList: [Object.values(MembershipStatus)],
@@ -122,7 +126,7 @@ export class TenantUsersPageComponent implements OnInit, OnDestroy {
   async copyMails() {
     const users = await firstValueFrom(this.users$);
     const pending = this.clipboard.beginCopy(
-      users.map((user) => user.email).join(';')
+      users.map((user) => user.email).join(';'),
     );
     let remainingAttempts = 3;
     const attempt = () => {

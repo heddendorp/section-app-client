@@ -30,35 +30,42 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  DecimalPipe,
+  NgOptimizedImage,
+} from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-template-list-page',
-    templateUrl: './template-list-page.component.html',
-    styleUrls: ['./template-list-page.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        NgIf,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        ResetScrollDirective,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressBarModule,
-        IfRoleDirective,
-        MatExpansionModule,
-        NgFor,
-        MatListModule,
-        RouterLink,
-        AsyncPipe,
-        DecimalPipe,
-        IconURLPipe,
-    ],
+  selector: 'app-template-list-page',
+  templateUrl: './template-list-page.component.html',
+  styleUrls: ['./template-list-page.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    ResetScrollDirective,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    IfRoleDirective,
+    MatExpansionModule,
+    NgFor,
+    MatListModule,
+    RouterLink,
+    AsyncPipe,
+    DecimalPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class TemplateListPageComponent {
   public Role = Role;
@@ -80,23 +87,23 @@ export class TemplateListPageComponent {
     private createTemplateMutation: CreateEventTemplateGQL,
     private loadTemplates: GetLonelyEventTemplatesGQL,
     private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
-    private router: Router
+    private router: Router,
   ) {
     this.eventTemplateQuery = this.loadTemplates.watch(
       {},
-      { fetchPolicy: 'cache-and-network' }
+      { fetchPolicy: 'cache-and-network' },
     );
     this.eventTemplates$ = combineLatest([
       concat(of(''), this.searchControl.valueChanges),
       this.eventTemplateQuery.valueChanges.pipe(
-        map(({ data }) => data.eventTemplates)
+        map(({ data }) => data.eventTemplates),
       ),
     ]).pipe(
       map(([search, templates]) =>
         templates.filter((template) =>
-          template.title.toLowerCase().includes((search ?? '').toLowerCase())
-        )
-      )
+          template.title.toLowerCase().includes((search ?? '').toLowerCase()),
+        ),
+      ),
     );
     this.templateCategories$ = combineLatest([
       concat(of(''), this.searchControl.valueChanges),
@@ -111,16 +118,16 @@ export class TemplateListPageComponent {
             (template) =>
               template.title
                 .toLowerCase()
-                .includes((search ?? '').toLowerCase()) || !search
+                .includes((search ?? '').toLowerCase()) || !search,
           ),
           templateCount: category.templates.filter(
             (template) =>
               template.title
                 .toLowerCase()
-                .includes((search ?? '').toLowerCase()) || !search
+                .includes((search ?? '').toLowerCase()) || !search,
           ).length,
-        }))
-      )
+        })),
+      ),
     );
   }
 
@@ -134,16 +141,16 @@ export class TemplateListPageComponent {
           maxWidth: '100vw',
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (template) {
       this.snackBar.open('Saving template', undefined, { duration: 0 });
       const response = await firstValueFrom(
-        this.createTemplateMutation.mutate({ input: template })
+        this.createTemplateMutation.mutate({ input: template }),
       );
       await this.eventTemplateQuery.refetch();
       this.snackBar.open('Template saved successfully');
-      this.router.navigate([
+      await this.router.navigate([
         '/event-templates',
         response?.data?.createEventTemplate.id,
       ]);

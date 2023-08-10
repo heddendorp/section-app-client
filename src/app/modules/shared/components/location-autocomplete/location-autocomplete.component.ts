@@ -10,7 +10,12 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  UntypedFormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatOptionModule } from '@angular/material/core';
 import { NgFor, AsyncPipe } from '@angular/common';
@@ -22,27 +27,27 @@ import AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
 import AutocompleteService = google.maps.places.AutocompleteService;
 
 @Component({
-    selector: 'app-location-autocomplete',
-    templateUrl: './location-autocomplete.component.html',
-    styleUrls: ['./location-autocomplete.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => LocationAutocompleteComponent),
-            multi: true,
-        },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        NgFor,
-        MatOptionModule,
-        AsyncPipe,
-    ],
+  selector: 'app-location-autocomplete',
+  templateUrl: './location-autocomplete.component.html',
+  styleUrls: ['./location-autocomplete.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => LocationAutocompleteComponent),
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    NgFor,
+    MatOptionModule,
+    AsyncPipe,
+  ],
 })
 export class LocationAutocompleteComponent implements ControlValueAccessor {
   public locationControl = new UntypedFormControl();
@@ -63,7 +68,7 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
     this.apiLoaded$ = httpClient
       .jsonp(
         'https://maps.googleapis.com/maps/api/js?key=AIzaSyDl_a52BoC_ukP5FFDpTJh5puiKuayfr6A&libraries=places',
-        'callback'
+        'callback',
       )
       .pipe(
         map(() => true),
@@ -75,15 +80,15 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
         catchError((err) => {
           console.error(err);
           return of(false);
-        })
+        }),
       );
     this.locationOptions = concat(
       this.apiLoaded$.pipe(map(() => [])),
       this.locationControl.valueChanges.pipe(
         // startWith([this.locationControl.value]),
         debounceTime(500),
-        switchMap((value) => this.loadLocationOptions(value))
-      )
+        switchMap((value) => this.loadLocationOptions(value)),
+      ),
     );
   }
 
@@ -129,7 +134,7 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
         input: value,
         sessionToken: this.sessionToken,
         bounds: this.defaultBounds,
-      })
+      }),
     ).pipe(map((res) => res.predictions ?? []));
   }
 }

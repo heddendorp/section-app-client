@@ -3,15 +3,19 @@
     class="absolute right-0 top-2 rounded-l-2xl border border-r-0 border-gray-600 bg-gray-800/50 p-2 backdrop-blur-lg backdrop-saturate-150 md:top-6"
   >
     <img
-      src="/assets/logos/full_light.svg"
+      ngSrc="/assets/logos/full_light.svg"
       alt="ESN TUMi Logo"
       class="h-12 md:h-24"
+      height="16"
+      width="16"
     />
   </div>
   <img
-    src="/assets/images/home/tutors.jpg"
+    ngSrc="/assets/images/home/tutors.jpg"
     alt="Picture of TUMI tutors at night"
     class="cover-image"
+    height="2268"
+    width="4032"
   />
   <div class="custom-shape-divider-bottom-1612976657">
     <svg
@@ -59,12 +63,14 @@
           class="flex flex-col items-center rounded-2xl border bg-gray-600 p-4 text-center"
         >
           <img
-            src="{{ event.icon | iconURL }}"
+            [ngSrc]="event.icon | iconURL"
             alt="{{ event.icon }}"
+            height="64"
+            width="64"
             class="w-16"
           />
           <h3>{{ event.title }}</h3>
-          <p>{{ event.start | date : 'mediumDate' }}</p>
+          <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
       </div>
     </div>
@@ -76,12 +82,14 @@
           class="flex cursor-pointer flex-col items-center rounded-2xl border bg-gray-600 p-4 text-center hover:bg-gray-700"
         >
           <img
-            src="{{ event.icon | iconURL }}"
+            ngSrc="{{ event.icon | iconURL }}"
             alt="{{ event.icon }}"
+            height="64"
+            width="64"
             class="w-16"
           />
           <h3>{{ event.title }}</h3>
-          <p>{{ event.start | date : 'mediumDate' }}</p>
+          <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
       </app-grid>
     </div>
@@ -109,24 +117,51 @@
   <div
     class="grid max-w-4xl grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3"
   >
-    <img class="p-4" src="/assets/logos/supporters/tum.svg" alt="TUM Logo" />
-    <img src="/assets/logos/esn_dark.svg" alt="ESN Logo" />
-    <img src="/assets/logos/supporters/lei.png" alt="LEI Logo" />
-    <img src="/assets/logos/supporters/daad.svg" alt="DAAD Logo" />
+    <img
+      class="p-4"
+      ngSrc="/assets/logos/supporters/tum.svg"
+      alt="TUM Logo"
+      height="390"
+      width="740"
+    />
+    <img
+      ngSrc="/assets/logos/esn_dark.svg"
+      class="h-full max-h-full w-full max-w-full"
+      alt="ESN Logo"
+      height="16"
+      width="16"
+    />
+    <img
+      ngSrc="/assets/logos/supporters/lei.png"
+      alt="LEI Logo"
+      height="2043"
+      width="3508"
+    />
+    <img
+      ngSrc="/assets/logos/supporters/daad.svg"
+      alt="DAAD Logo"
+      class="h-full max-h-full w-full max-w-full"
+      height="16"
+      width="16"
+    />
     <div>
       <span class="mx-auto text-sm">Supported by</span>
       <img
-        src="/assets/logos/supporters/BMBF.svg"
+        ngSrc="/assets/logos/supporters/BMBF.svg"
         alt="BMBF Logo"
         class="h-full max-h-full w-full max-w-full"
+        height="16"
+        width="16"
       />
     </div>
     <div>
       <span class="mx-auto text-sm">Supported by</span>
       <img
-        src="/assets/logos/supporters/AA.svg"
+        ngSrc="/assets/logos/supporters/AA.svg"
         alt="AA Logo"
         class="h-full max-h-full w-full max-w-full"
+        height="139"
+        width="211"
       />
     </div>
   </div>

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   DeregisterFromEventGQL,
   LoadEventQuery,
@@ -19,20 +14,20 @@ import { CheckAdditionalDataComponent } from '../check-additional-data/check-add
 import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-online-event-registration',
-    templateUrl: './online-event-registration.component.html',
-    styleUrls: ['./online-event-registration.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        CheckAdditionalDataComponent,
-        MatButtonModule,
-        MatProgressBarModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-online-event-registration',
+  templateUrl: './online-event-registration.component.html',
+  styleUrls: ['./online-event-registration.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    CheckAdditionalDataComponent,
+    MatButtonModule,
+    MatProgressBarModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class OnlineEventRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;
@@ -41,7 +36,7 @@ export class OnlineEventRegistrationComponent {
   constructor(
     private registerForEvent: RegisterForEventGQL,
     private deregistrationMutation: DeregisterFromEventGQL,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   get lastDeregistration() {
@@ -61,7 +56,7 @@ export class OnlineEventRegistrationComponent {
         this.registerForEvent.mutate({
           eventId: this.event?.id ?? '',
           submissions: this.infoCollected$.value,
-        })
+        }),
       );
     } catch (e) {
       this.processing.next(false);
@@ -79,7 +74,7 @@ export class OnlineEventRegistrationComponent {
       await firstValueFrom(
         this.deregistrationMutation.mutate({
           registrationId: this.event?.activeRegistration?.id ?? '',
-        })
+        }),
       );
     } catch (e: unknown) {
       this.processing.next(false);

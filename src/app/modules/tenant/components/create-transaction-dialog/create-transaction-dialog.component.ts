@@ -4,7 +4,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   SearchUserForTransactionGQL,
   SearchUserForTransactionQuery,
@@ -22,22 +27,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-    selector: 'app-create-transaction-dialog',
-    templateUrl: './create-transaction-dialog.component.html',
-    styleUrls: ['./create-transaction-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        NgFor,
-        AsyncPipe,
-    ],
+  selector: 'app-create-transaction-dialog',
+  templateUrl: './create-transaction-dialog.component.html',
+  styleUrls: ['./create-transaction-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    NgFor,
+    AsyncPipe,
+  ],
 })
 export class CreateTransactionDialogComponent implements OnDestroy, OnInit {
   public transactionForm = new FormGroup({
@@ -58,11 +63,11 @@ export class CreateTransactionDialogComponent implements OnDestroy, OnInit {
   private destroyed$ = new Subject();
 
   constructor(
-    private searchUserForTransactionGQL: SearchUserForTransactionGQL
+    private searchUserForTransactionGQL: SearchUserForTransactionGQL,
   ) {
     this.searchUserRef = this.searchUserForTransactionGQL.watch();
     this.userOptions$ = this.searchUserRef.valueChanges.pipe(
-      map((result) => result.data.users)
+      map((result) => result.data.users),
     );
   }
 

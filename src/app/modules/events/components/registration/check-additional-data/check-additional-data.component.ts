@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -14,16 +13,12 @@ import { DataItemsCollectorComponent } from '../../../../shared/components/data-
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-check-additional-data',
-    templateUrl: './check-additional-data.component.html',
-    styleUrls: ['./check-additional-data.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        DataItemsCollectorComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-check-additional-data',
+  templateUrl: './check-additional-data.component.html',
+  styleUrls: ['./check-additional-data.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, DataItemsCollectorComponent, AsyncPipe],
 })
 export class CheckAdditionalDataComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
@@ -46,8 +41,8 @@ export class CheckAdditionalDataComponent implements OnChanges {
         this.needsInput$.next(true);
         this.incompleteItems$.next(
           event.submissionItems.filter(
-            (item) => item.ownSubmissions.length === 0
-          )
+            (item) => item.ownSubmissions.length === 0,
+          ),
         );
       }
     }

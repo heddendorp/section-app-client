@@ -10,10 +10,19 @@ import {
   GetOrganizerOptionsQuery,
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { DateTime } from 'luxon';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgFor, TitleCasePipe } from '@angular/common';
@@ -23,23 +32,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-create-event-dialog',
-    templateUrl: './create-event-dialog.component.html',
-    styleUrls: ['./create-event-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        NgFor,
-        MatCheckboxModule,
-        MatButtonModule,
-        TitleCasePipe,
-    ],
+  selector: 'app-create-event-dialog',
+  templateUrl: './create-event-dialog.component.html',
+  styleUrls: ['./create-event-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    NgFor,
+    MatCheckboxModule,
+    MatButtonModule,
+    TitleCasePipe,
+  ],
 })
 export class CreateEventDialogComponent implements OnInit, OnDestroy {
   public eventDataForm: UntypedFormGroup;
@@ -54,7 +63,7 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
       recommendedPrice: number;
     },
     private fb: UntypedFormBuilder,
-    private dialog: MatDialogRef<CreateEventDialogComponent>
+    private dialog: MatDialogRef<CreateEventDialogComponent>,
   ) {
     this.eventDataForm = this.fb.group({
       start: ['', Validators.required],
@@ -80,14 +89,15 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm
       .get('start')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe((startValue) =>
-        this.eventDataForm.get('end')?.patchValue(
-          DateTime.fromISO(startValue)
-            .plus({
-              hours: this.data.template?.duration,
-            })
-            .toISO({ includeOffset: false })
-        )
+      .subscribe(
+        (startValue) =>
+          this.eventDataForm.get('end')?.patchValue(
+            DateTime.fromISO(startValue)
+              .plus({
+                hours: this.data.template?.duration,
+              })
+              .toISO({ includeOffset: false }),
+          ),
       );
     this.eventDataForm
       .get('registrationMode')

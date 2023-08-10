@@ -25,7 +25,13 @@ import {
   UpdateGeneralEventGQL,
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -63,38 +69,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor, AsyncPipe, TitleCasePipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  TitleCasePipe,
+  NgOptimizedImage,
+} from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-event-edit-page',
-    templateUrl: './event-edit-page.component.html',
-    styleUrls: ['./event-edit-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatToolbarModule,
-        BackButtonComponent,
-        NgIf,
-        MatButtonModule,
-        RouterLink,
-        MatTabsModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        NgFor,
-        MatOptionModule,
-        IfRoleDirective,
-        DataItemsManagerComponent,
-        UserChipComponent,
-        AsyncPipe,
-        TitleCasePipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-edit-page',
+  templateUrl: './event-edit-page.component.html',
+  styleUrls: ['./event-edit-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    BackButtonComponent,
+    NgIf,
+    MatButtonModule,
+    RouterLink,
+    MatTabsModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    NgFor,
+    MatOptionModule,
+    IfRoleDirective,
+    DataItemsManagerComponent,
+    UserChipComponent,
+    AsyncPipe,
+    TitleCasePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventEditPageComponent implements OnInit, OnDestroy {
   public RegistrationMode = RegistrationMode;
@@ -132,7 +145,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private updatePublicationMutation: UpdatePublicationGQL,
     private updateEventTemplateGQL: UpdateEventTemplateConnectionGQL,
     private getEventTemplatesGQL: GetEventTemplatesGQL,
-    public permission: PermissionsService
+    public permission: PermissionsService,
   ) {
     this.publicationForm = this.fb.group({
       publicationState: ['', Validators.required],
@@ -168,22 +181,22 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     });
     this.event$ = this.route.paramMap.pipe(
       map((params) =>
-        this.loadEventForEditGQL.watch({ id: params.get('eventId') ?? '' })
+        this.loadEventForEditGQL.watch({ id: params.get('eventId') ?? '' }),
       ),
       tap((ref) => (this.loadEventRef = ref)),
       // @ts-ignore
       switchMap((ref) => ref.valueChanges),
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Edit ${event.title}`)),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.organizers$ = this.route.paramMap.pipe(
       // @ts-ignore
       switchMap((params) =>
-        this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' })
+        this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' }),
       ),
       map(({ data }) => data.eventOrganizers),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.users$ = this.event$.pipe(
       switchMap((event) =>
@@ -193,10 +206,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             MembershipStatus.Full,
             MembershipStatus.Sponsor,
           ],
-        })
+        }),
       ),
       map(({ data }) => data.users),
-      shareReplay(1)
+      shareReplay(1),
     );
     this.editingProhibited$ = combineLatest([
       this.permission.hasRole([Role.Admin]),
@@ -204,13 +217,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(
         ([permission, event]) =>
-          !(permission || event?.publicationState === PublicationState.Draft)
+          !(permission || event?.publicationState === PublicationState.Draft),
       ),
       tap((prohibited) => {
         if (prohibited) {
           this.coreInformationForm.disable();
         }
-      })
+      }),
     );
   }
 
@@ -231,7 +244,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   async deleteEvent() {
     const event = await firstValueFrom(this.event$);
     const confirmDelete = confirm(
-      `Are you sure you want to delete ${event.title}?`
+      `Are you sure you want to delete ${event.title}?`,
     );
     if (confirmDelete) {
       try {
@@ -252,7 +265,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         esnCardRequired: [false, Validators.required],
         allowedStatusList: [this.statusOptions, Validators.required],
         defaultPrice: [false, Validators.required],
-      })
+      }),
     );
   }
 
@@ -285,12 +298,12 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             includeOffset: false,
           }),
           organizerRegistrationStart: DateTime.fromISO(
-            event.organizerRegistrationStart
+            event.organizerRegistrationStart,
           ).toISO({
             includeOffset: false,
           }),
         },
-        { emitEvent: true }
+        { emitEvent: true },
       );
       this.publicationForm.patchValue(event);
     }
@@ -298,7 +311,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       .get('registrationMode')
       ?.valueChanges.pipe(
         startWith(this.coreInformationForm.get('registrationMode')?.value),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe((mode) => {
         switch (mode) {
@@ -329,9 +342,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       .get('shouldBeReportedToInsurance')
       ?.valueChanges.pipe(
         startWith(
-          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value
+          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value,
         ),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe((shouldBeReportedToInsurance) => {
         if (shouldBeReportedToInsurance) {
@@ -356,7 +369,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await firstValueFrom(this.event$);
     const choices = users.filter(
       (user) =>
-        !event?.organizers.some((organizer: any) => organizer.id === user.id)
+        !event?.organizers.some((organizer: any) => organizer.id === user.id),
     );
     loader.dismiss();
     const userId = await this.dialog
@@ -409,7 +422,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     if (templateId && event) {
       this.snackBar.open('Updating Event ⏳', undefined, { duration: 0 });
       await firstValueFrom(
-        this.updateEventTemplateGQL.mutate({ templateId, eventId: event.id })
+        this.updateEventTemplateGQL.mutate({ templateId, eventId: event.id }),
       );
       this.snackBar.open('User added ✔️');
     }
@@ -418,7 +431,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   async removeUser(registrationId: string) {
     this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
     await firstValueFrom(
-      this.deregisterFromEventGQL.mutate({ registrationId, withRefund: false })
+      this.deregisterFromEventGQL.mutate({ registrationId, withRefund: false }),
     );
     if (this.loadEventRef) {
       await this.loadEventRef.refetch();
@@ -434,7 +447,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           minWidth: '50vw',
           panelClass: 'modern',
         })
-        .afterClosed()
+        .afterClosed(),
     );
     if (location && event) {
       await firstValueFrom(
@@ -448,7 +461,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             isVirtual: location.isVirtual,
             onlineMeetingUrl: location.onlineMeetingUrl,
           },
-        })
+        }),
       );
     }
   }
@@ -476,7 +489,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         this.updateGeneralEventGQL.mutate({
           id: event.id,
           data: update,
-        })
+        }),
       );
       if (data) {
         delete data.updateEventGeneralInfo.__typename;
@@ -501,10 +514,10 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             start: DateTime.fromISO(update.start).toJSDate(),
             end: DateTime.fromISO(update.end).toJSDate(),
             registrationStart: DateTime.fromISO(
-              update.registrationStart
+              update.registrationStart,
             ).toJSDate(),
           },
-        })
+        }),
       );
       if (data) {
         delete data.updateEventCoreInfo.__typename;
@@ -517,7 +530,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             includeOffset: false,
           }),
           registrationStart: DateTime.fromISO(
-            data.updateEventCoreInfo.registrationStart
+            data.updateEventCoreInfo.registrationStart,
           ).toISO({
             includeOffset: false,
           }),

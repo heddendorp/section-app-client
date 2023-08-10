@@ -10,6 +10,7 @@ If you are interested in learning how to use this, read the following docs. This
 - [Administration features](./help/admin-features.md)
 
 ## Tips
+
 - [How to select icons](./help/icons.md)
 
 ### Concept

@@ -115,6 +115,9 @@
             "light": {
               "browserTarget": "legacy-app:build:light"
             },
+            "testing": {
+              "browserTarget": "legacy-app:build:testing"
+            },
             "development": {
               "browserTarget": "legacy-app:build:development"
             }

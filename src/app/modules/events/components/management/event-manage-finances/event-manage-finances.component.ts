@@ -3,7 +3,6 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -19,20 +18,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgIf, NgFor, AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-event-manage-finances',
-    templateUrl: './event-manage-finances.component.html',
-    styleUrls: ['./event-manage-finances.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        MatButtonModule,
-        RouterLink,
-        MatIconModule,
-        AsyncPipe,
-        CurrencyPipe,
-    ],
+  selector: 'app-event-manage-finances',
+  templateUrl: './event-manage-finances.component.html',
+  styleUrls: ['./event-manage-finances.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    MatButtonModule,
+    RouterLink,
+    MatIconModule,
+    AsyncPipe,
+    CurrencyPipe,
+  ],
 })
 export class EventManageFinancesComponent implements OnChanges {
   @Input() public eventId: string | undefined;
@@ -41,11 +40,11 @@ export class EventManageFinancesComponent implements OnChanges {
   constructor(
     private getCostItems: GetCostItemsForEventGQL,
     private updateCostItems: UpdateCostItemsFromTemplateGQL,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.getDataQueryRef = this.getCostItems.watch();
     this.data$ = this.getDataQueryRef.valueChanges.pipe(
-      map(({ data }) => data)
+      map(({ data }) => data),
     );
   }
 

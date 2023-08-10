@@ -10,9 +10,11 @@
       }}"
     >
       <img
-        src="/assets/logos/esn_white.svg"
+        ngSrc="/assets/logos/esn_white.svg"
         alt="ESN Logo"
         class="w-20 object-contain md:w-24"
+        height="16"
+        width="16"
       />
     </div>
     <div
@@ -23,7 +25,9 @@
     </div>
     <img
       *ngIf="profile"
-      [src]="profile.picture"
+      [ngSrc]="profile.picture"
+      height="128"
+      width="128"
       class="picture rounded-full h-[128px] w-[128px] border-white border-[3px] z-10 {{
         profile.currentTenant?.status | lowercase
       }} bg-white"

@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  FormControl,
+  UntypedFormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,23 +16,23 @@ import { NgIf } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-select-location-dialog',
-    templateUrl: './select-location-dialog.component.html',
-    styleUrls: ['./select-location-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        MatCheckboxModule,
-        ReactiveFormsModule,
-        NgIf,
-        MatFormFieldModule,
-        MatInputModule,
-        LocationAutocompleteComponent,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-    ],
+  selector: 'app-select-location-dialog',
+  templateUrl: './select-location-dialog.component.html',
+  styleUrls: ['./select-location-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    LocationAutocompleteComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class SelectLocationDialogComponent {
   public locationControl = new UntypedFormControl(null);
@@ -66,7 +70,7 @@ export class SelectLocationDialogComponent {
           isVirtual: this.virtualEventControl.value,
           onlineMeetingUrl: null,
         });
-      }
+      },
     );
   }
 }

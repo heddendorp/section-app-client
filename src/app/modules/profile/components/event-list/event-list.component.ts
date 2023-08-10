@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TumiEvent } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
 import { MatRippleModule } from '@angular/material/core';
@@ -18,20 +10,20 @@ import { NgIf, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-event-list',
-    templateUrl: './event-list.component.html',
-    styleUrls: ['./event-list.component.scss'],
-    standalone: true,
-    imports: [
-        MatIconModule,
-        NgIf,
-        MatListModule,
-        MatButtonModule,
-        NgFor,
-        EventListItemComponent,
-        MatExpansionModule,
-        MatRippleModule,
-    ],
+  selector: 'app-event-list',
+  templateUrl: './event-list.component.html',
+  styleUrls: ['./event-list.component.scss'],
+  standalone: true,
+  imports: [
+    MatIconModule,
+    NgIf,
+    MatListModule,
+    MatButtonModule,
+    NgFor,
+    EventListItemComponent,
+    MatExpansionModule,
+    MatRippleModule,
+  ],
 })
 export class EventListComponent implements OnInit {
   @Output() claimRequest = new EventEmitter<String>();

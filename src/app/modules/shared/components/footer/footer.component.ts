@@ -6,19 +6,14 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { RouterLink } from '@angular/router';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: true,
-    imports: [
-        NgFor,
-        RouterLink,
-        AsyncPipe,
-        IconURLPipe,
-    ],
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
+  standalone: true,
+  imports: [NgFor, RouterLink, AsyncPipe, IconURLPipe, NgOptimizedImage],
 })
 export class FooterComponent {
   public tenantInfo$: Observable<GetTenantInfoQuery['currentTenant']>;

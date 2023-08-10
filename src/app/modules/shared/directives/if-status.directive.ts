@@ -4,15 +4,15 @@ import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/per
 import { first } from 'rxjs';
 
 @Directive({
-    selector: '[appIfStatus]',
-    standalone: true,
+  selector: '[appIfStatus]',
+  standalone: true,
 })
 export class IfStatusDirective {
   private hasView = false;
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
-    private permissions: PermissionsService
+    private permissions: PermissionsService,
   ) {}
 
   @Input() set appIfStatus(allowList: MembershipStatus[]) {

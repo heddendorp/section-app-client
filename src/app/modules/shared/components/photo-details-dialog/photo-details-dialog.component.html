@@ -4,8 +4,10 @@
     class="m-6"
   ></mat-spinner>
   <img
-    [src]="data.photo.original"
+    [ngSrc]="data.photo.original"
     class="max-h-full max-w-full"
+    width="192"
+    height="192"
     (load)="imageLoad($event)"
   />
   <div

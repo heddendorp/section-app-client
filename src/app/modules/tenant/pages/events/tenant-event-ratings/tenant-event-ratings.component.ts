@@ -16,24 +16,24 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-event-ratings',
-    templateUrl: './tenant-event-ratings.component.html',
-    styleUrls: ['./tenant-event-ratings.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatTableModule,
-        EventChipComponent,
-        NgFor,
-        RatingItemComponent,
-        AsyncPipe,
-        DecimalPipe,
-    ],
+  selector: 'app-tenant-event-ratings',
+  templateUrl: './tenant-event-ratings.component.html',
+  styleUrls: ['./tenant-event-ratings.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatTableModule,
+    EventChipComponent,
+    NgFor,
+    RatingItemComponent,
+    AsyncPipe,
+    DecimalPipe,
+  ],
 })
 export class TenantEventRatingsComponent {
   public events$: Observable<LoadEventsWithRatingQuery['events']>;
@@ -46,9 +46,9 @@ export class TenantEventRatingsComponent {
         map((result) => result.data.events),
         map((events) =>
           events.filter(
-            (event) => event.participantRating || event.organizerRating
-          )
-        )
+            (event) => event.participantRating || event.organizerRating,
+          ),
+        ),
       );
   }
 }

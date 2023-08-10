@@ -10,8 +10,10 @@
 >
   <div class="picture-container relative" *ngIf="picture">
     <img
-      [src]="picture"
+      [ngSrc]="picture"
       class="picture rounded-full z-10 {{ status | lowercase }} bg-white"
+      height="450"
+      width="450"
       style="text-indent: -10000px"
       referrerpolicy="no-referrer"
       onerror="this.src='assets/images/defaultUser.jpg'"

@@ -26,7 +26,13 @@
   <div
     class="bg-surface-default mx-auto mb-6 h-40 w-40 overflow-hidden rounded-2xl sm:h-48 sm:w-48 lg:mb-8"
   >
-    <img *ngIf="event" [src]="event.icon | iconURL" class="h-full w-full p-2" />
+    <img
+      *ngIf="event"
+      [ngSrc]="event.icon | iconURL"
+      height="192"
+      width="192"
+      class="h-full w-full p-2"
+    />
     <div *ngIf="!event" class="skeleton h-full w-full"></div>
   </div>
   <div class="my-4 text-2xl font-semibold">

@@ -26,7 +26,14 @@ import {
   animate,
   style,
 } from '@angular/animations';
-import { DOCUMENT, NgIf, NgFor, AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  DOCUMENT,
+  NgIf,
+  NgFor,
+  AsyncPipe,
+  CurrencyPipe,
+  DatePipe,
+} from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -42,39 +49,42 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-event-manage-page',
-    templateUrl: './event-manage-page.component.html',
-    styleUrls: ['./event-manage-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger('detailExpand', [
-            state('collapsed', style({ height: '0px', minHeight: '0' })),
-            state('expanded', style({ height: '*' })),
-            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-        ]),
-    ],
-    standalone: true,
-    imports: [
-        MatToolbarModule,
-        BackButtonComponent,
-        NgIf,
-        MatButtonModule,
-        RouterLink,
-        MatProgressBarModule,
-        MatExpansionModule,
-        EventManageFinancesComponent,
-        NgFor,
-        MatTableModule,
-        UserChipComponent,
-        MatIconModule,
-        TransactionListComponent,
-        MatMenuModule,
-        MatListModule,
-        AsyncPipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-event-manage-page',
+  templateUrl: './event-manage-page.component.html',
+  styleUrls: ['./event-manage-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
+      ),
+    ]),
+  ],
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    BackButtonComponent,
+    NgIf,
+    MatButtonModule,
+    RouterLink,
+    MatProgressBarModule,
+    MatExpansionModule,
+    EventManageFinancesComponent,
+    NgFor,
+    MatTableModule,
+    UserChipComponent,
+    MatIconModule,
+    TransactionListComponent,
+    MatMenuModule,
+    MatListModule,
+    AsyncPipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;
@@ -103,27 +113,27 @@ export class EventManagePageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
     private restorePaymentGQL: RestorePaymentGQL,
-    @Inject(DOCUMENT) protected document: Document
+    @Inject(DOCUMENT) protected document: Document,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
-      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
+      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      tap((event) => this.title.setTitle(`Manage ${event.title}`))
+      tap((event) => this.title.setTitle(`Manage ${event.title}`)),
     );
     this.feeShare$ = this.event$.pipe(
       map((event) =>
         Math.floor(
           (event.refundFeesPaid /
             event.participantRegistrations.filter(
-              (r) => r.status !== RegistrationStatus.Cancelled
+              (r) => r.status !== RegistrationStatus.Cancelled,
             ).length) *
-            100
-        )
+            100,
+        ),
       ),
-      share()
+      share(),
     );
     this.lastUserFeeShare$ = this.event$.pipe(
       map(
@@ -132,15 +142,15 @@ export class EventManagePageComponent implements OnDestroy {
           Math.floor(
             (event.refundFeesPaid /
               event.participantRegistrations.filter(
-                (r) => r.status !== RegistrationStatus.Cancelled
+                (r) => r.status !== RegistrationStatus.Cancelled,
               ).length) *
-              100
+              100,
           ) *
             (event.participantRegistrations.filter(
-              (r) => r.status !== RegistrationStatus.Cancelled
+              (r) => r.status !== RegistrationStatus.Cancelled,
             ).length -
-              1)
-      )
+              1),
+      ),
     );
   }
 
@@ -160,7 +170,7 @@ export class EventManagePageComponent implements OnDestroy {
             withRefund: true,
             refundFees,
             registrationId,
-          })
+          }),
         );
       } catch (e) {
         console.error(e);
@@ -174,7 +184,7 @@ export class EventManagePageComponent implements OnDestroy {
   async kick(registrationId: string) {
     const event = await firstValueFrom(this.event$);
     const proceed = confirm(
-      'Are you sure you want to remove this user without refund?'
+      'Are you sure you want to remove this user without refund?',
     );
     if (event && proceed) {
       try {
@@ -182,7 +192,7 @@ export class EventManagePageComponent implements OnDestroy {
           this.deregisterFromEventGQL.mutate({
             withRefund: false,
             registrationId,
-          })
+          }),
         );
       } catch (e) {
         console.error(e);
@@ -198,7 +208,7 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   getTable(
-    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations']
+    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations'],
   ) {
     return participantRegistrations
       .filter((r) => !r.checkInTime && r.submissions.length)
@@ -212,15 +222,15 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   filterRegistrations(
-    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations']
+    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations'],
   ) {
     return participantRegistrations.filter(
-      (r) => r.status !== RegistrationStatus.Cancelled
+      (r) => r.status !== RegistrationStatus.Cancelled,
     );
   }
 
   joinOrganizers(
-    organizerRegistrations: LoadEventForManagementQuery['event']['organizerRegistrations']
+    organizerRegistrations: LoadEventForManagementQuery['event']['organizerRegistrations'],
   ) {
     return organizerRegistrations.map((r) => r.user.fullName).join(', ');
   }
@@ -232,7 +242,7 @@ export class EventManagePageComponent implements OnDestroy {
         eventId: event.id,
         isPublic: false,
         sepaAllowed,
-      })
+      }),
     );
     this.loadEventQueryRef.refetch();
   }
@@ -257,9 +267,9 @@ export class EventManagePageComponent implements OnDestroy {
   getWAUrl(registration: any, event: any) {
     const url = `https://wa.me/${registration.user.phone.replace(
       '+',
-      ''
+      '',
     )}?text=${encodeURIComponent(
-      `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at ${document.location.origin}/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`
+      `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at ${document.location.origin}/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`,
     )}`;
     return url;
   }

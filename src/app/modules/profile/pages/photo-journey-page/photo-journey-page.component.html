@@ -16,8 +16,10 @@
     >
       <img
         *ngIf="[0, 4, 9].includes(i)"
-        src="/assets/images/journey/achievement.svg"
+        ngSrc="/assets/images/journey/achievement.svg"
         fxFlex="64px"
+        height="144"
+        width="144"
       />
       <div *ngIf="![0, 4, 9].includes(i)" fxFlex="64px"></div>
       <div class="ml-4">
@@ -43,7 +45,12 @@
             }}"
             (click)="openPhoto(photo)"
           >
-            <img [src]="photo.src" class="h-full w-full object-cover" />
+            <img
+              [ngSrc]="photo.src"
+              width="192"
+              height="192"
+              class="h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>

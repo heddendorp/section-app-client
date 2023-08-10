@@ -1,58 +1,22 @@
 import { Routes } from '@angular/router';
-import {
-  TenantLandingPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-landing-page/tenant-landing-page.component';
-import {
-  TenantOrganizersPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-organizers-page/tenant-organizers-page.component';
-import {
-  TenantUsersPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/tenant-users-page.component';
-import {
-  TenantUserInfoPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-user-info-page/tenant-user-info-page.component';
-import {
-  TenantRegistrationsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registrations-page/tenant-registrations-page.component';
-import {
-  TenantRegistrationDetailsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-details-page/tenant-registration-details-page.component';
-import {
-  TenantMoveOrdersPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-move-orders-page/tenant-move-orders-page.component';
-import {
-  TenantRegistrationCodePageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
-import {
-  TenantEditPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-edit-page/tenant-edit-page.component';
-import {
-  TenantStatsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-stats-page/tenant-stats-page.component';
-import {
-  TenantActivityLogPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-activity-log-page/tenant-activity-log-page.component';
-import {
-  TenantPhotosPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-photos-page/tenant-photos-page.component';
-import {
-  TenantEventRatingsComponent
-} from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-ratings/tenant-event-ratings.component';
-import {
-  TenantEventBookingsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-bookings-page/tenant-event-bookings-page.component';
-import {
-  TenantEventsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/events/tenant-events-page/tenant-events-page.component';
-import {
-  TenantEventTemplateCategoriesPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-template-categories-page/tenant-event-template-categories-page.component';
-import {
-  TenantMetricsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-metrics-page/tenant-metrics-page.component';
-import {
-  TenantTransactionsPageComponent
-} from '@tumi/legacy-app/modules/tenant/pages/tenant-transactions-page/tenant-transactions-page.component';
+import { TenantLandingPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-landing-page/tenant-landing-page.component';
+import { TenantOrganizersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-organizers-page/tenant-organizers-page.component';
+import { TenantUsersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/tenant-users-page.component';
+import { TenantUserInfoPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-user-info-page/tenant-user-info-page.component';
+import { TenantRegistrationsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registrations-page/tenant-registrations-page.component';
+import { TenantRegistrationDetailsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-details-page/tenant-registration-details-page.component';
+import { TenantMoveOrdersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-move-orders-page/tenant-move-orders-page.component';
+import { TenantRegistrationCodePageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
+import { TenantEditPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-edit-page/tenant-edit-page.component';
+import { TenantStatsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-stats-page/tenant-stats-page.component';
+import { TenantActivityLogPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-activity-log-page/tenant-activity-log-page.component';
+import { TenantPhotosPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-photos-page/tenant-photos-page.component';
+import { TenantEventRatingsComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-ratings/tenant-event-ratings.component';
+import { TenantEventBookingsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-bookings-page/tenant-event-bookings-page.component';
+import { TenantEventsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-events-page/tenant-events-page.component';
+import { TenantEventTemplateCategoriesPageComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-template-categories-page/tenant-event-template-categories-page.component';
+import { TenantMetricsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-metrics-page/tenant-metrics-page.component';
+import { TenantTransactionsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-transactions-page/tenant-transactions-page.component';
 
 export const TENANT_ROUTES: Routes = [
   {

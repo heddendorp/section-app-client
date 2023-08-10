@@ -21,27 +21,27 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-event-run-page',
-    templateUrl: './event-run-page.component.html',
-    styleUrls: ['./event-run-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatToolbarModule,
-        BackButtonComponent,
-        NgIf,
-        MatProgressBarModule,
-        MatButtonModule,
-        RouterLink,
-        MatIconModule,
-        MatListModule,
-        NgFor,
-        UserChipComponent,
-        IfRoleDirective,
-        EventSubmissionOverviewComponent,
-        AsyncPipe,
-        CurrencyPipe,
-    ],
+  selector: 'app-event-run-page',
+  templateUrl: './event-run-page.component.html',
+  styleUrls: ['./event-run-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    BackButtonComponent,
+    NgIf,
+    MatProgressBarModule,
+    MatButtonModule,
+    RouterLink,
+    MatIconModule,
+    MatListModule,
+    NgFor,
+    UserChipComponent,
+    IfRoleDirective,
+    EventSubmissionOverviewComponent,
+    AsyncPipe,
+    CurrencyPipe,
+  ],
 })
 export class EventRunPageComponent implements OnDestroy {
   public Role = Role;
@@ -54,15 +54,15 @@ export class EventRunPageComponent implements OnDestroy {
     private loadEvent: LoadEventForRunningGQL,
     private route: ActivatedRoute,
     private clipboard: Clipboard,
-    private checkInMutation: CheckInUserGQL
+    private checkInMutation: CheckInUserGQL,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
     this.route.paramMap.subscribe((params) =>
-      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' })
+      this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
-      tap((event) => this.title.setTitle(`Run ${event.title}`))
+      tap((event) => this.title.setTitle(`Run ${event.title}`)),
     );
     this.loadEventQueryRef.startPolling(5000);
   }
@@ -84,9 +84,9 @@ export class EventRunPageComponent implements OnDestroy {
       event.organizerRegistrations
         .map(
           (registration) =>
-            registration.user.communicationEmail || registration.user.email
+            registration.user.communicationEmail || registration.user.email,
         )
-        .join(';')
+        .join(';'),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -108,9 +108,9 @@ export class EventRunPageComponent implements OnDestroy {
       event.participantRegistrations
         .map(
           (registration) =>
-            registration.user.communicationEmail || registration.user.email
+            registration.user.communicationEmail || registration.user.email,
         )
-        .join(';')
+        .join(';'),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -133,9 +133,9 @@ export class EventRunPageComponent implements OnDestroy {
         .filter((registration) => registration.checkInTime)
         .map(
           (registration) =>
-            registration.user.communicationEmail || registration.user.email
+            registration.user.communicationEmail || registration.user.email,
         )
-        .join(';')
+        .join(';'),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -169,9 +169,9 @@ export class EventRunPageComponent implements OnDestroy {
         .filter((registration) => !registration.checkInTime)
         .map(
           (registration) =>
-            registration.user.communicationEmail || registration.user.email
+            registration.user.communicationEmail || registration.user.email,
         )
-        .join(';')
+        .join(';'),
     );
     let remainingAttempts = 3;
     const attempt = () => {

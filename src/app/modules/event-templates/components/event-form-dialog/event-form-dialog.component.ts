@@ -5,8 +5,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { GetEventTemplateQuery } from '@tumi/legacy-app/generated/generated';
 import { Observable, of, startWith, Subject, takeUntil } from 'rxjs';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
@@ -15,31 +24,32 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-event-form-dialog',
-    templateUrl: './event-form-dialog.component.html',
-    styleUrls: ['./event-form-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgIf,
-        MatSelectModule,
-        NgFor,
-        MatOptionModule,
-        LocationAutocompleteComponent,
-        MatCheckboxModule,
-        MatButtonModule,
-        AsyncPipe,
-        IconURLPipe,
-    ],
+  selector: 'app-event-form-dialog',
+  templateUrl: './event-form-dialog.component.html',
+  styleUrls: ['./event-form-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgIf,
+    MatSelectModule,
+    NgFor,
+    MatOptionModule,
+    LocationAutocompleteComponent,
+    MatCheckboxModule,
+    MatButtonModule,
+    AsyncPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventFormDialogComponent implements OnInit, OnDestroy {
   public dialogForm: UntypedFormGroup;
@@ -53,7 +63,7 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
     public data?: {
       template?: GetEventTemplateQuery['eventTemplate'];
       categories?: { id: string; name: string }[];
-    }
+    },
   ) {
     this.dialogForm = this.fb.group({
       title: ['', Validators.required],
@@ -83,7 +93,7 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
       .get('shouldBeReportedToInsurance')
       ?.valueChanges.pipe(
         startWith(this.dialogForm.get('shouldBeReportedToInsurance')?.value),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe((shouldBeReportedToInsurance) => {
         if (shouldBeReportedToInsurance) {
@@ -114,7 +124,7 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
               googlePlaceUrl: res.url,
               location: templateValue.location.structured_formatting.main_text,
             });
-          }
+          },
         );
       } else {
         this.dialog.close(templateValue);

@@ -20,7 +20,7 @@
     padding: 4px 11px;
     width: 56px;
     height: 32px;
-    @apply rounded-full
+    @apply rounded-full;
   }
 
   &.desktop-only {
@@ -40,7 +40,7 @@
   }
 
   &.active {
-    mat-icon{
+    mat-icon {
       @apply bg-indigo-800 text-white;
     }
   }

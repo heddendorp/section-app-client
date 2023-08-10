@@ -34,7 +34,7 @@ export function transitionHelper({
   const transition = (document as any).startViewTransition(updateDOM);
 
   transition.finished.finally(() =>
-    document.documentElement.classList.remove(...classNames)
+    document.documentElement.classList.remove(...classNames),
   );
 
   return transition;

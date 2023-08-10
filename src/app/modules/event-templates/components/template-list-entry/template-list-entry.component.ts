@@ -4,25 +4,18 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  GetEventTemplatesQuery,
-  GetTemplateCategoriesWithTemplatesQuery,
-} from '@tumi/legacy-app/generated/generated';
+import { GetTemplateCategoriesWithTemplatesQuery } from '@tumi/legacy-app/generated/generated';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-template-list-entry',
-    templateUrl: './template-list-entry.component.html',
-    styleUrls: ['./template-list-entry.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLink,
-        IconURLPipe,
-    ],
+  selector: 'app-template-list-entry',
+  templateUrl: './template-list-entry.component.html',
+  styleUrls: ['./template-list-entry.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, RouterLink, IconURLPipe, NgOptimizedImage],
 })
 export class TemplateListEntryComponent implements OnInit {
   @Input() template:

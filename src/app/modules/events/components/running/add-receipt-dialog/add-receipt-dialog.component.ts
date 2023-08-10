@@ -1,44 +1,49 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   AddReceiptGQL,
   GetBlobTokenGQL,
   GetCostItemQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-add-receipt-dialog',
-    templateUrl: './add-receipt-dialog.component.html',
-    styleUrls: ['./add-receipt-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        NgIf,
-        MatProgressBarModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        AsyncPipe,
-    ],
+  selector: 'app-add-receipt-dialog',
+  templateUrl: './add-receipt-dialog.component.html',
+  styleUrls: ['./add-receipt-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    NgIf,
+    MatProgressBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class AddReceiptDialogComponent {
   public uploadForm: UntypedFormGroup;
-  public previewURL$ = new Subject();
+  public previewURL$ = new Subject<string>();
   public processing$ = new BehaviorSubject(false);
   public uploadProgress$ = new BehaviorSubject(0);
   constructor(
@@ -47,7 +52,7 @@ export class AddReceiptDialogComponent {
     private getBlobTokenGQL: GetBlobTokenGQL,
     private addReceiptGQL: AddReceiptGQL,
     private dialog: MatDialogRef<AddReceiptDialogComponent>,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     this.uploadForm = this.fb.group({
       file: [null, Validators.required],
@@ -95,7 +100,7 @@ export class AddReceiptDialogComponent {
           },
           onProgress: (event) =>
             this.uploadProgress$.next((event.loadedBytes / file.size) * 100),
-        }
+        },
       );
       await firstValueFrom(
         this.addReceiptGQL.mutate({
@@ -108,7 +113,7 @@ export class AddReceiptDialogComponent {
             type: file.type,
             md5: res.contentMD5?.toString() ?? '',
           },
-        })
+        }),
       );
       this.dialog.close();
     }

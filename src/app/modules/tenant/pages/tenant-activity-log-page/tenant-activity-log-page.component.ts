@@ -15,26 +15,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-activity-log-page',
-    templateUrl: './tenant-activity-log-page.component.html',
-    styleUrls: ['./tenant-activity-log-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatListModule,
-        NgFor,
-        MatTableModule,
-        MatButtonModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ],
+  selector: 'app-tenant-activity-log-page',
+  templateUrl: './tenant-activity-log-page.component.html',
+  styleUrls: ['./tenant-activity-log-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    MatListModule,
+    NgFor,
+    MatTableModule,
+    MatButtonModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantActivityLogPageComponent implements OnDestroy {
   public logs$: Observable<GetLogsQuery['logs']>;
@@ -42,14 +42,17 @@ export class TenantActivityLogPageComponent implements OnDestroy {
   public displayedColumns = ['created', 'message', 'level', 'details'];
   private logsQueryRef;
 
-  constructor(private loadLogQuery: GetLogsGQL, private dialog: MatDialog) {
+  constructor(
+    private loadLogQuery: GetLogsGQL,
+    private dialog: MatDialog,
+  ) {
     this.logsQueryRef = this.loadLogQuery.watch();
     this.logsQueryRef.startPolling(5000);
     this.logs$ = this.logsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.logs)
+      map(({ data }) => data.logs),
     );
     this.stats$ = this.logsQueryRef.valueChanges.pipe(
-      map(({ data }) => data.logStats)
+      map(({ data }) => data.logStats),
     );
   }
 

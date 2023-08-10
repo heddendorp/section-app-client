@@ -3,10 +3,15 @@ import {
   Component,
   Inject,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   SubmissionItemType,
   SubmissionTime,
@@ -21,22 +26,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-new-data-item-dialog',
-    templateUrl: './new-data-item-dialog.component.html',
-    styleUrls: ['./new-data-item-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        NgFor,
-        MatButtonModule,
-        MatIconModule,
-    ],
+  selector: 'app-new-data-item-dialog',
+  templateUrl: './new-data-item-dialog.component.html',
+  styleUrls: ['./new-data-item-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    NgFor,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class NewDataItemDialogComponent implements OnDestroy {
   public form: UntypedFormGroup;
@@ -45,7 +50,7 @@ export class NewDataItemDialogComponent implements OnDestroy {
   private destroyed$ = new Subject();
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { mode: 'event' | 'product' },
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
