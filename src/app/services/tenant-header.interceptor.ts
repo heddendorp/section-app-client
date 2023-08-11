@@ -14,7 +14,7 @@ export class TenantHeaderInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     const tenantId = localStorage.getItem('tenantId');
-    if (tenantId) {
+    if (tenantId && request.headers.keys().length) {
       request = request.clone({
         setHeaders: {
           'x-tumi-tenant': tenantId,

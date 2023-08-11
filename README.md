@@ -2,6 +2,8 @@
 
 This is the third version of the TUMi app you know and love, currently the active client at tumi.esn.world.
 
+**Jump to local development [here](#run-locally)**
+
 ## Features
 
 If you are interested in learning how to use this, read the following docs. This gives you an idea about how the app works and benefits our ESN section.
@@ -46,7 +48,7 @@ Currently the app is made to support the processes inside the TUMi ESN section w
   - Profit form customisation to make the tool right for your section as well.
   - You can use a custom domain or get a `<section>.esn.world` domain form us.
 
-### Planned features ( also check the [issues](https://github.com/heddendorp/tumi/issues) )
+### Planned features ( also check the [issues](https://github.com/heddendorp/section-app-client/issues) )
 
 - Finances
   - The app should be capable of listing **all** transactions the section makes and show the financial state at any time.
@@ -66,13 +68,13 @@ Currently the app is made to support the processes inside the TUMi ESN section w
 Clone the project
 
 ```bash
-  git clone https://github.com/heddendorp/tumi.git
+  git clone https://github.com/heddendorp/section-app-client.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd tumi
+  cd section-app-client
 ```
 
 Install dependencies
@@ -88,6 +90,14 @@ This uses the server running on `server.esn.world` which is also used by the liv
 ```bash
   yarn dev:light
 ```
+
+Since the `loccalhost` is mapped to TUMi by default, you can set your tenant in the local storage. Open your browsers devtools and run the following command in the console:
+
+```js
+localStorage.setItem('tenantId', '<your ID>');
+```
+
+Your tenant id is the first part of your section's domain, e.g. `tumi.esn.world` has the tenant id `tumi`.
 
 ## Documentation
 
