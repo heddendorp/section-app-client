@@ -1,11 +1,13 @@
 <form
-  fxLayout="column"
-  fxLayoutGap="1rem"
+  class="flex w-full flex-col gap-4"
   *ngIf="form"
   [formGroup]="form"
   (ngSubmit)="submitData()"
 >
-  <ng-container *ngFor="let item of items" [ngSwitch]="item.type">
+  <ng-container
+    *ngFor="let item of items; let last = last"
+    [ngSwitch]="item.type"
+  >
     <div *ngSwitchCase="SubmissionItemType.Text">
       <mat-form-field class="w-full">
         <mat-label>{{ item.name }}</mat-label>
@@ -43,6 +45,7 @@
       </mat-form-field>
       <markdown [data]="item.instruction" class="prose"></markdown>
     </div>
+    <mat-divider *ngIf="!last"></mat-divider>
   </ng-container>
   <button
     mat-flat-button

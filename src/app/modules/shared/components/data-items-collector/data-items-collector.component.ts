@@ -29,6 +29,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-data-items-collector',
@@ -49,6 +50,7 @@ import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
     MatSelectModule,
     MatOptionModule,
     MatButtonModule,
+    MatDividerModule,
   ],
 })
 export class DataItemsCollectorComponent implements OnDestroy, OnChanges {

@@ -3,10 +3,7 @@
 </button>
 <div
   *ngFor="let item of items"
-  fxLayoutGap="1rem"
-  fxLayout="row"
-  fxLayoutAlign="space-between start"
-  class="rounded p-2 hover:bg-gray-200"
+  class="flex flex-row items-center justify-between gap-4 rounded p-2 transition-colors duration-200 hover:bg-gray-200"
 >
   <div>
     <p>{{ item.name }}</p>

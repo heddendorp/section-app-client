@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>New Data Item</h1>
 <mat-dialog-content>
-  <form [formGroup]="form" fxLayout="column" fxLayoutGap="1rem">
+  <form [formGroup]="form" class="flex flex-col gap-4">
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" type="text" required />
@@ -39,8 +39,7 @@
       <ng-container formArrayName="choices">
         <div
           *ngFor="let choice of choices.controls; let i = index"
-          fxLayout="row"
-          fxLayoutGap=".5rem"
+          class="flex flex-row gap-2"
         >
           <mat-form-field>
             <mat-label>Choice {{ i + 1 }}</mat-label>
