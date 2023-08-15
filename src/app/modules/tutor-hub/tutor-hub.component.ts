@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   GetTutorHubEventsGQL,
@@ -36,7 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { SemesterNavigatorComponent } from './semester-navigator/semester-navigator.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../shared/directives/reset-scroll.directive';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../shared/components/reactive-toolbar/reactive-toolbar.component';
@@ -153,7 +153,7 @@ export class TutorHubComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  updateRange(range: { start: DateTime; end: DateTime }) {
+  updateRange(range: { start: string; end: string }) {
     this.eventsLoading$.next(true);
     this.getTutorHubEventsRef.refetch({
       range,

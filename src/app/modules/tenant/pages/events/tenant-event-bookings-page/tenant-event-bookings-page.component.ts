@@ -9,7 +9,7 @@ import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-d
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -40,7 +40,7 @@ export class TenantEventBookingsPageComponent {
 
   constructor(private loadEventsWithBookingGQL: LoadEventsWithBookingGQL) {
     this.events$ = this.loadEventsWithBookingGQL
-      .watch({ after: new Date(/*2022, 2, 0*/) })
+      .watch({ after: new Date(/*2022, 2, 0*/).toISOString() })
       .valueChanges.pipe(
         map((result) => result.data.events),
         map((events) =>

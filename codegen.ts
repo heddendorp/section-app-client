@@ -12,6 +12,9 @@ const config: CodegenConfig = {
       ],
       config: {
         addExplicitOverride: true,
+        scalars: {
+          DateTime: 'string',
+        },
       },
     },
   },

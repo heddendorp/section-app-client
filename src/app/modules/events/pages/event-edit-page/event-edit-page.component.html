@@ -126,8 +126,7 @@
           <form
             [formGroup]="coreInformationForm"
             (ngSubmit)="onCoreSubmit()"
-            fxLayout="column"
-            fxLayoutGap="1rem"
+            class="flex flex-col gap-4"
           >
             <mat-form-field class="w-full">
               <mat-label>Event Title</mat-label>
@@ -135,16 +134,16 @@
             </mat-form-field>
             <mat-form-field class="w-full">
               <mat-label>Event Icon</mat-label>
-              <input matInput formControlName="icon" type="text" />
+              <input #iconField formControlName="icon" matInput type="text" />
               <img
-                [ngSrc]="iconValue | iconURL"
+                [ngSrc]="iconField.value | iconURL"
                 alt="icon"
                 matSuffix
                 width="24"
                 height="24"
               />
             </mat-form-field>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-form-field class="w-full">
                 <mat-label>Event Start</mat-label>
                 <input matInput formControlName="start" type="datetime-local" />
@@ -154,7 +153,7 @@
                 <input matInput formControlName="end" type="datetime-local" />
               </mat-form-field>
             </div>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-form-field class="w-full">
                 <mat-label>Registration Start</mat-label>
                 <input
@@ -180,7 +179,7 @@
                 Disable deregistration and moves
               </mat-checkbox>
             </div>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-checkbox formControlName="excludeFromRatings">
                 Don't collect ratings for this event
               </mat-checkbox>
@@ -202,7 +201,7 @@
             <mat-checkbox formControlName="shouldBeReportedToInsurance">
               Insurance required
             </mat-checkbox>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-form-field class="w-full">
                 <mat-label>Possible Organizers</mat-label>
                 <mat-select multiple formControlName="organizerSignup">
@@ -226,7 +225,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-form-field class="w-full">
                 <mat-label>Organizing Institution</mat-label>
                 <mat-select formControlName="eventOrganizerId">
@@ -256,18 +255,14 @@
               </mat-form-field>
             </div>
             <ng-container formGroupName="prices">
-              <div formArrayName="options" fxLayoutGap="2rem" fxLayout="column">
+              <div class="flex flex-col gap-4" formArrayName="options">
                 <h3 class="mb-4 font-bold">Prices</h3>
                 <div
                   *ngFor="let price of prices.controls; let i = index"
                   [formGroupName]="i"
                 >
-                  <div
-                    fxLayout="column"
-                    fxLayout.gt-sm="row"
-                    fxLayoutGap="1rem"
-                  >
-                    <mat-form-field fxFlex="50">
+                  <div class="flex flex-col md:flex-row gap-4">
+                    <mat-form-field class="md:w-1/2">
                       <mat-label>Price</mat-label>
                       <input matInput formControlName="amount" type="number" />
                     </mat-form-field>
@@ -275,13 +270,8 @@
                       Is default price
                     </mat-checkbox>
                   </div>
-                  <div
-                    fxLayout="column"
-                    fxLayout.gt-sm="row"
-                    fxLayoutAlign.gt-sm="start center"
-                    fxLayoutGap="1rem"
-                  >
-                    <mat-form-field fxFlex="50">
+                  <div class="flex flex-col md:flex-row gap-4 md:align-middle">
+                    <mat-form-field class="md:width-1/2">
                       <mat-label>Allowed Status</mat-label>
                       <mat-select multiple formControlName="allowedStatusList">
                         <mat-option
@@ -332,7 +322,7 @@
                 You have to specify a link or change the registration type
               </mat-error>
             </mat-form-field>
-            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap="1rem">
+            <div class="flex flex-col md:flex-row gap-4">
               <mat-form-field class="w-full">
                 <mat-label>Number of organizers</mat-label>
                 <input

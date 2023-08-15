@@ -11,7 +11,7 @@ import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-d
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-online-event-registration',
@@ -40,7 +40,7 @@ export class OnlineEventRegistrationComponent {
   ) {}
 
   get lastDeregistration() {
-    return DateTime.fromISO(this.event?.start ?? new Date())
+    return DateTime.fromISO(this.event?.start ?? new Date().toISOString())
       .minus({ days: 3 })
       .toJSDate();
   }

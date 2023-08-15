@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Scalars } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { UserChipComponent } from '../user-chip/user-chip.component';
 import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { NgIf, DecimalPipe, NgOptimizedImage } from '@angular/common';
+import { DecimalPipe, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-event-list-item',
@@ -27,7 +26,7 @@ export class EventListItemComponent {
 
   constructor() {}
 
-  formatDate(start: Scalars['DateTime'], end: Scalars['DateTime']) {
+  formatDate(start: string, end: string) {
     const startDate = DateTime.fromISO(start);
     // Subtract 1min from end date to prevent midnight from counting as an extra day
     const endDate = DateTime.fromISO(end).minus({ minutes: 1 }).startOf('day');

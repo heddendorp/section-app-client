@@ -7,24 +7,24 @@ import {
 } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef,
   MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { GetEventTemplateQuery } from '@tumi/legacy-app/generated/generated';
-import { Observable, of, startWith, Subject, takeUntil } from 'rxjs';
+import { startWith, Subject, takeUntil } from 'rxjs';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -53,7 +53,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class EventFormDialogComponent implements OnInit, OnDestroy {
   public dialogForm: UntypedFormGroup;
-  public iconFieldValue: Observable<string>;
   private destroyed$ = new Subject();
 
   constructor(
@@ -78,7 +77,6 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
       shouldBeReportedToInsurance: [true, Validators.required],
       categoryId: [null, Validators.required],
     });
-    this.iconFieldValue = this.dialogForm.get('icon')?.valueChanges ?? of('');
     if (!this.data?.categories) {
       this.dialogForm.get('categoryId')?.disable();
     }

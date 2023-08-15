@@ -46,7 +46,9 @@ export class EventsListItemComponent {
     /*if (this.event?.couldBeOrganizer) {
       return new Date(this.event?.organizerRegistrationStart) > new Date();
     }*/
-    return new Date(this.event?.registrationStart) > new Date();
+    if (this.event?.registrationStart)
+      return new Date(this.event?.registrationStart) > new Date();
+    return false;
   }
 
   public registrationDate() {

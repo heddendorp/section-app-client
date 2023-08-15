@@ -26,11 +26,11 @@ import {
   UpdatePublicationGQL,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
@@ -70,11 +70,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
-  TitleCasePipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
+  TitleCasePipe,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -225,10 +225,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         }
       }),
     );
-  }
-
-  get iconValue() {
-    return this.generalInformationForm.get('icon')?.value ?? '';
   }
 
   get prices() {

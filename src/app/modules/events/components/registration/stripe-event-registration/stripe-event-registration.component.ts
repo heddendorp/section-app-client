@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { DateTime } from 'luxon';
 import {
@@ -31,11 +31,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
   CurrencyPipe,
   DatePipe,
+  NgFor,
+  NgIf,
 } from '@angular/common';
 
 @Component({
@@ -109,7 +109,8 @@ export class StripeEventRegistrationComponent implements OnChanges {
   get canDeregister() {
     return (
       this.lastDeregistration > new Date() ||
-      (new Date() < this.event?.start &&
+      (this.event?.start &&
+        new Date() < new Date(this.event?.start) &&
         (this.event?.participantLimit ?? 0) <
           (this.event?.participantRegistrationCount ?? 0))
     );

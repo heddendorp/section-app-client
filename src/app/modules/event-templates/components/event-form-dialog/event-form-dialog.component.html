@@ -8,9 +8,9 @@
     </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Icon</mat-label>
-      <input matInput formControlName="icon" type="text" required />
+      <input #iconField formControlName="icon" matInput required type="text" />
       <img
-        [ngSrc]="iconFieldValue | async | iconURL"
+        [ngSrc]="iconField.value | iconURL"
         alt="icon"
         matSuffix
         width="24"

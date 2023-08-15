@@ -9,7 +9,7 @@ import { RatingItemComponent } from '../../../../shared/components/rating-item/r
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -41,7 +41,7 @@ export class TenantEventRatingsComponent {
 
   constructor(private loadEventsWithRatingGQL: LoadEventsWithRatingGQL) {
     this.events$ = this.loadEventsWithRatingGQL
-      .watch({ after: DateTime.local().minus({ months: 1 }).toJSDate() })
+      .watch({ after: DateTime.local().minus({ months: 1 }).toISO() })
       .valueChanges.pipe(
         map((result) => result.data.events),
         map((events) =>

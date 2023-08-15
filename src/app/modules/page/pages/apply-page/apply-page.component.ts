@@ -5,9 +5,9 @@ import {
   GetTutorHubEventsQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-apply-page',
@@ -24,14 +24,13 @@ export class ApplyPageComponent {
 
   constructor(
     private title: Title,
-
     private getTutorHubEvents: GetTutorHubEventsGQL,
   ) {
     this.title.setTitle('Apply - TUMi');
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch({
       range: {
-        start: DateTime.fromObject({ year: 2022, month: 4, day: 1 }),
-        end: DateTime.fromObject({ year: 2022, month: 10, day: 1 }),
+        start: DateTime.fromObject({ year: 2022, month: 4, day: 1 }).toISO(),
+        end: DateTime.fromObject({ year: 2022, month: 10, day: 1 }).toISO(),
       },
     });
     this.events$ = this.getTutorHubEventsRef.valueChanges.pipe(
