@@ -1,14 +1,11 @@
 <form
-  fxLayout="column"
-  fxLayoutGap="1rem"
+  class="flex flex-col gap-4 w-full"
   *ngIf="event"
   [formGroup]="ratingForm"
   (ngSubmit)="onSubmit()"
 >
   <a
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap=".5rem"
+    class="flex flex-row items-center gap-2"
     routerLink="/events/{{ event.id }}"
   >
     <img

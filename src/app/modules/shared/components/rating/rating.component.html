@@ -1,7 +1,7 @@
 <div
   class="rounded border border-gray-300 p-2 transition-all hover:border-gray-700"
 >
-  <div fxLayout="row" fxLayoutGap=".5rem">
+  <div class="flex flex-row gap-2">
     <mat-icon
       [class.saturate-0]="((currentValue | async) ?? 0) < rating"
       svgIcon="icon-star-2"
