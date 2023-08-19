@@ -4,6 +4,14 @@ mutation RegisterUser($userInput: CreateUserInput!) {
   }
 }
 
+mutation AddESNCard($esnCardNumber: String!) {
+  addESNCard(esnCardNumber: $esnCardNumber) {
+    id
+    esnCardNumber
+    esnCardValidUntil
+  }
+}
+
 #query getPaymentSetupSession {
 #  getPaymentSetupSession {
 #    id
@@ -63,7 +71,8 @@ query userProfile {
     firstName
     lastName
     calendarToken
-    hasESNCard
+    esnCardNumber
+    esnCardValidUntil
     enrolmentStatus
     bio
     country
@@ -78,6 +87,11 @@ query userProfile {
     }
     organizedEventsCount
     createdEventsCount
+  }
+  currentTenant {
+    settings {
+      esnCardLink
+    }
   }
 }
 

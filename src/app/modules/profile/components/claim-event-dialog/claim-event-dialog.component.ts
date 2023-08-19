@@ -19,9 +19,9 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { Price } from '@tumi/legacy-app/utils';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
@@ -30,7 +30,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf, NgFor, AsyncPipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-claim-event-dialog',
@@ -92,6 +92,7 @@ export class ClaimEventDialogComponent {
       switchMap((code) =>
         this.permissions.getPricesForUser(
           code?.targetEvent?.prices?.options ?? [],
+          new Date(code?.targetEvent?.start ?? 0),
         ),
       ),
       tap((prices) => {

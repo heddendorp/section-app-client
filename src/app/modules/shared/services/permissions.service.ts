@@ -83,7 +83,7 @@ export class PermissionsService {
     );
   }
 
-  getPricesForUser(prices: Price[]): Observable<Price[]> {
+  getPricesForUser(prices: Price[], eventStartDate: Date): Observable<Price[]> {
     if (!prices) {
       return of([]);
     }
@@ -107,7 +107,8 @@ export class PermissionsService {
               if (price.defaultPrice) return true;
               let esnFulfilled;
               if (price.esnCardRequired) {
-                esnFulfilled = user.hasESNCard;
+                esnFulfilled =
+                  new Date(user.esnCardValidUntil ?? 0) > eventStartDate;
               } else {
                 esnFulfilled = true;
               }

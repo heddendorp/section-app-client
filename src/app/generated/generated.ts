@@ -355,6 +355,7 @@ export enum MembershipStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addESNCard: User;
   addOrganizerToEvent: TumiEvent;
   cancelPayment: TumiEvent;
   changeEventPublication: TumiEvent;
@@ -381,6 +382,7 @@ export type Mutation = {
   registerForEvent: TumiEvent;
   restorePayment: TumiEvent;
   updateCostItemsFromTemplate: TumiEvent;
+  /** @deprecated Only self service is allowed. Mutation has no effect! */
   updateESNCard: User;
   updateEventCoreInfo: TumiEvent;
   updateEventGeneralInfo: TumiEvent;
@@ -398,6 +400,10 @@ export type Mutation = {
   updateUserStatus: UsersOfTenants;
   useRegistrationCode: EventRegistrationCode;
   verifyDCC: Dcc;
+};
+
+export type MutationAddEsnCardArgs = {
+  esnCardNumber: Scalars['String']['input'];
 };
 
 export type MutationAddOrganizerToEventArgs = {
@@ -927,6 +933,7 @@ export type TenantSettings = {
   __typename?: 'TenantSettings';
   brandIconUrl?: Maybe<Scalars['String']['output']>;
   deregistrationOptions: DeregistrationOptions;
+  esnCardLink?: Maybe<Scalars['String']['output']>;
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
   socialLinks: Array<ResourceLink>;
@@ -1196,12 +1203,15 @@ export type User = {
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
   enrolmentStatus: EnrolmentStatus;
+  esnCardNumber?: Maybe<Scalars['String']['output']>;
+  /** @deprecated Will always be false. Only self service is possible now */
   esnCardOverride: Scalars['Boolean']['output'];
+  esnCardValidUntil?: Maybe<Scalars['DateTime']['output']>;
   eventRegistrations: Array<EventRegistration>;
   firstName: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
+  /** @deprecated Use esnCardNumber and esnCardValidUntil instead */
   hasESNCard: Scalars['Boolean']['output'];
-  hasEsnCard: Scalars['Boolean']['output'];
   homeUniversity?: Maybe<Scalars['String']['output']>;
   iban?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -1860,6 +1870,8 @@ export type LoadEventForRunningQuery = {
         phone?: string | null;
         picture: string;
         email: string;
+        esnCardValidUntil?: string | null;
+        esnCardNumber?: string | null;
         communicationEmail?: string | null;
         currentTenant?: {
           __typename?: 'UsersOfTenants';
@@ -1976,6 +1988,8 @@ export type GetRegistrationQuery = {
       id: string;
       fullName: string;
       picture: string;
+      esnCardNumber?: string | null;
+      esnCardValidUntil?: string | null;
     };
   };
 };
@@ -2243,7 +2257,7 @@ export type LoadUserForEventQuery = {
   currentUser?: {
     __typename?: 'User';
     id: string;
-    hasESNCard: boolean;
+    esnCardValidUntil?: string | null;
     university?: string | null;
   } | null;
 };
@@ -2754,6 +2768,20 @@ export type RegisterUserMutation = {
   createUser: { __typename?: 'User'; id: string };
 };
 
+export type AddEsnCardMutationVariables = Exact<{
+  esnCardNumber: Scalars['String']['input'];
+}>;
+
+export type AddEsnCardMutation = {
+  __typename?: 'Mutation';
+  addESNCard: {
+    __typename?: 'User';
+    id: string;
+    esnCardNumber?: string | null;
+    esnCardValidUntil?: string | null;
+  };
+};
+
 export type GetProfileUploadKeyQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfileUploadKeyQuery = {
@@ -2824,7 +2852,8 @@ export type UserProfileQuery = {
     firstName: string;
     lastName: string;
     calendarToken: string;
-    hasESNCard: boolean;
+    esnCardNumber?: string | null;
+    esnCardValidUntil?: string | null;
     enrolmentStatus: EnrolmentStatus;
     bio?: string | null;
     country?: string | null;
@@ -2841,6 +2870,10 @@ export type UserProfileQuery = {
       status: MembershipStatus;
     } | null;
   } | null;
+  currentTenant: {
+    __typename?: 'Tenant';
+    settings: { __typename?: 'TenantSettings'; esnCardLink?: string | null };
+  };
 };
 
 export type UserProfileEventsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3067,7 +3100,7 @@ export type UserRolesQuery = {
     __typename?: 'User';
     id: string;
     fullName: string;
-    hasESNCard: boolean;
+    esnCardValidUntil?: string | null;
     currentTenant?: {
       __typename?: 'UsersOfTenants';
       userId: string;
@@ -3671,8 +3704,8 @@ export type LoadUserQuery = {
     birthdate?: string | null;
     phone?: string | null;
     university?: string | null;
-    hasESNCard: boolean;
-    esnCardOverride: boolean;
+    esnCardValidUntil?: string | null;
+    esnCardNumber?: string | null;
     position?: string | null;
     picture: string;
     currentTenant?: {
@@ -3893,21 +3926,6 @@ export type UpdateTenantMutation = {
         url: string;
       }>;
     };
-  };
-};
-
-export type UpdateEsNcardMutationVariables = Exact<{
-  userId: Scalars['ID']['input'];
-  override: Scalars['Boolean']['input'];
-}>;
-
-export type UpdateEsNcardMutation = {
-  __typename?: 'Mutation';
-  updateESNCard: {
-    __typename?: 'User';
-    id: string;
-    esnCardOverride: boolean;
-    hasESNCard: boolean;
   };
 };
 
@@ -4799,6 +4817,8 @@ export const LoadEventForRunningDocument = gql`
           phone
           picture
           email
+          esnCardValidUntil
+          esnCardNumber
           communicationEmail
           currentTenant {
             userId
@@ -4967,6 +4987,8 @@ export const GetRegistrationDocument = gql`
         id
         fullName
         picture
+        esnCardNumber
+        esnCardValidUntil
       }
     }
   }
@@ -5291,7 +5313,7 @@ export const LoadUserForEventDocument = gql`
   query loadUserForEvent {
     currentUser {
       id
-      hasESNCard
+      esnCardValidUntil
       university
     }
   }
@@ -6025,6 +6047,29 @@ export class RegisterUserGQL extends Apollo.Mutation<
     super(apollo);
   }
 }
+export const AddEsnCardDocument = gql`
+  mutation AddESNCard($esnCardNumber: String!) {
+    addESNCard(esnCardNumber: $esnCardNumber) {
+      id
+      esnCardNumber
+      esnCardValidUntil
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AddEsnCardGQL extends Apollo.Mutation<
+  AddEsnCardMutation,
+  AddEsnCardMutationVariables
+> {
+  override document = AddEsnCardDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const GetProfileUploadKeyDocument = gql`
   query getProfileUploadKey {
     profileUploadKey
@@ -6124,7 +6169,8 @@ export const UserProfileDocument = gql`
       firstName
       lastName
       calendarToken
-      hasESNCard
+      esnCardNumber
+      esnCardValidUntil
       enrolmentStatus
       bio
       country
@@ -6139,6 +6185,11 @@ export const UserProfileDocument = gql`
       }
       organizedEventsCount
       createdEventsCount
+    }
+    currentTenant {
+      settings {
+        esnCardLink
+      }
     }
   }
 `;
@@ -6437,7 +6488,7 @@ export const UserRolesDocument = gql`
     currentUser {
       id
       fullName
-      hasESNCard
+      esnCardValidUntil
       currentTenant {
         userId
         tenantId
@@ -7252,8 +7303,8 @@ export const LoadUserDocument = gql`
       birthdate
       phone
       university
-      hasESNCard
-      esnCardOverride
+      esnCardValidUntil
+      esnCardNumber
       position
       picture
       currentTenant(userId: $id) {
@@ -7541,29 +7592,6 @@ export class UpdateTenantGQL extends Apollo.Mutation<
   UpdateTenantMutationVariables
 > {
   override document = UpdateTenantDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const UpdateEsNcardDocument = gql`
-  mutation updateESNcard($userId: ID!, $override: Boolean!) {
-    updateESNCard(id: $userId, esnCardOverride: $override) {
-      id
-      esnCardOverride
-      hasESNCard
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UpdateEsNcardGQL extends Apollo.Mutation<
-  UpdateEsNcardMutation,
-  UpdateEsNcardMutationVariables
-> {
-  override document = UpdateEsNcardDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

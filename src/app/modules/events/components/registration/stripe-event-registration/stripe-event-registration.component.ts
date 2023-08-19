@@ -140,6 +140,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
       const prices = await firstValueFrom(
         this.permissions.getPricesForUser(
           changes['event'].currentValue.prices.options,
+          new Date(changes['event'].currentValue.start),
         ),
       );
       if (this.bestPrice) {

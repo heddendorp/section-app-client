@@ -92,22 +92,98 @@
         </mat-icon>
         <h2 class="font-bold">ESNcard</h2>
       </div>
-      <ng-container *ngIf="profile.hasESNCard">
-        <p>
-          You have an ESNcard! You will now enjoy a discount on most of our
-          events. Check out all the offers on
-          <a href="https://esncard.org/" class="text-blue-600" target="blank"
-            >ESNcard.org</a
-          >!
-        </p>
-      </ng-container>
-      <ng-container *ngIf="!profile.hasESNCard">
+      <ng-container *ngIf="!profile.esnCardNumber">
         <p class="mb-4">
           With an ESNcard, you can enjoy a discount on most of our events. Check
           out all the offers on
-          <a href="https://esncard.org/" class="text-blue-600" target="blank"
-            >ESNcard.org</a
+          <a class="text-blue-600" href="https://esncard.org/" target="blank">
+            ESNcard.org </a
           >!
+        </p>
+        <div *ngIf="esnCardLink$ | async as esnCardLink">
+          <p> You can get your ESNcard by clicking on the button below. </p>
+          <a
+            [href]="esnCardLink"
+            class="modern"
+            color="accent"
+            mat-flat-button
+            target="blank"
+          >
+            <mat-icon svgIcon="icon-membership-card"></mat-icon>
+            Get your ESNcard
+          </a>
+        </div>
+        <div class="mt-4">
+          <h2 class="font-bold">Add your ESNcard</h2>
+          <p
+            >If you already have an ESNcard, you can add it here to profit from
+            special prices.</p
+          >
+          <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
+            <mat-form-field>
+              <mat-label>ESNcard number</mat-label>
+              <input
+                [formControl]="esnCardNumberControl"
+                matInput
+                maxlength="11"
+                minlength="11"
+                pattern="^[0-9A-Z]{11}$"
+                required
+                type="text"
+              />
+            </mat-form-field>
+            <button
+              (click)="addEsnCard()"
+              [disabled]="esnCardNumberControl.invalid"
+              class="modern"
+              color="accent"
+              mat-flat-button
+            >
+              Submit Number
+            </button>
+          </div>
+          <p
+            *ngIf="esnCardErrorMessage$ | async as message"
+            class="text-red-500"
+          >
+            ⚠️ There was an error: {{ message }}
+          </p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="profile.esnCardNumber">
+        <h3 class="font-bold">✅ You have an ESNcard</h3>
+        <p>
+          You added a card with number
+          <span class="font-mono">{{ profile.esnCardNumber }}</span> to your
+          account. It is valid until
+          {{ profile.esnCardValidUntil | date: 'mediumDate' }}. <br />
+          You can change the card by adding a new one below.
+        </p>
+        <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
+          <mat-form-field>
+            <mat-label>ESNcard number</mat-label>
+            <input
+              [formControl]="esnCardNumberControl"
+              matInput
+              maxlength="11"
+              minlength="11"
+              pattern="^[0-9A-Z]{11}$"
+              required
+              type="text"
+            />
+          </mat-form-field>
+          <button
+            (click)="addEsnCard()"
+            [disabled]="esnCardNumberControl.invalid"
+            class="modern"
+            color="accent"
+            mat-flat-button
+          >
+            Submit Number
+          </button>
+        </div>
+        <p *ngIf="esnCardErrorMessage$ | async as message" class="text-red-500">
+          ⚠️ There was an error: {{ message }}
         </p>
       </ng-container>
     </div>

@@ -137,7 +137,7 @@ query loadEvent($id: ID!) {
 query loadUserForEvent {
   currentUser {
     id
-    hasESNCard
+    esnCardValidUntil
     university
   }
 }

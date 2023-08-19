@@ -4,14 +4,10 @@ import {
   LoadUserGQL,
   LoadUserQuery,
   RegistrationStatus,
-  UpdateEsNcardGQL,
   UpdateUserGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
-import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UpdateUserDialogComponent } from '@tumi/legacy-app/modules/tenant/components/update-user-dialog/update-user-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -22,7 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe, TitleCasePipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -72,7 +68,6 @@ export class TenantUserInfoPageComponent {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private updateMutation: UpdateUserGQL,
-    private updateCardMutation: UpdateEsNcardGQL,
   ) {
     this.user$ = this.route.paramMap.pipe(
       switchMap(
@@ -102,18 +97,6 @@ export class TenantUserInfoPageComponent {
           position: newUser.position || null,
         }),
       );
-    }
-  }
-
-  async updateEsnCard(event: MatSlideToggleChange) {
-    const user = await firstValueFrom(this.user$);
-    if (user) {
-      await this.updateCardMutation
-        .mutate({
-          userId: user.id,
-          override: event.checked,
-        })
-        .toPromise();
     }
   }
 

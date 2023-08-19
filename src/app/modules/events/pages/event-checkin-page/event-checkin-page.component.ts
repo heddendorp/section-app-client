@@ -21,10 +21,12 @@ import {
   GetRegistrationQuery,
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
+  TransactionDirection,
+  TransactionStatus,
   VerifyCertificateGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
 import { retryBackoff } from 'backoff-rxjs';
@@ -34,10 +36,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
+  CurrencyPipe,
   DatePipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
@@ -62,6 +65,7 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
     DatePipe,
     ExtendDatePipe,
     NgOptimizedImage,
+    CurrencyPipe,
   ],
 })
 export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
@@ -143,7 +147,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
             cert: result,
           })
           .subscribe({
-            next: ({ data }) => {
+            next: ({ data }: any) => {
               if (data) {
                 this.snackBar.open(
                   `Certificate scanned: ${data.verifyDCC.status}`,
@@ -154,7 +158,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
                 this.snackBar.open('Certificate not verified');
               }
             },
-            error: (err) => {
+            error: (err: any) => {
               this.snackBar.open('Error processing certificate');
             },
           });
@@ -211,6 +215,18 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
       .subscribe((camera) => {
         this.scanner?.setCamera(camera);
       });
+  }
+
+  getRelevantTransaction(
+    transactions: {
+      status: TransactionStatus;
+      direction: TransactionDirection;
+      amount: any;
+    }[],
+  ) {
+    return transactions.find(
+      (t) => t.direction === TransactionDirection.UserToTumi,
+    );
   }
 
   ngOnDestroy(): void {

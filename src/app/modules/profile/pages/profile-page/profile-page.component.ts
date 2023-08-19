@@ -5,6 +5,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
+  AddEsnCardGQL,
   GetProfileUploadKeyGQL,
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -25,17 +26,17 @@ import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/c
 import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
 import {
-  DOCUMENT,
-  NgIf,
-  NgFor,
   AsyncPipe,
-  UpperCasePipe,
   DatePipe,
+  DOCUMENT,
+  NgFor,
+  NgIf,
+  UpperCasePipe,
 } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import {
-  ProgressBarMode,
   MatProgressBarModule,
+  ProgressBarMode,
 } from '@angular/material/progress-bar';
 import { DateTime } from 'luxon';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
@@ -44,6 +45,8 @@ import { RateEventComponent } from '../../../shared/components/rate-event/rate-e
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
+import { MatInputModule } from '@angular/material/input';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-page',
@@ -65,11 +68,14 @@ import { ProfileCardComponent } from '../../components/profile-card/profile-card
     UpperCasePipe,
     DatePipe,
     ExtendDatePipe,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;
   public profileEvents$: Observable<UserProfileEventsQuery['currentUser']>;
+  public esnCardLink$: Observable<string | undefined>;
   public eventsToRate$: Observable<any[]>;
   public profileQueryRef;
   public profileEventsQueryRef;
@@ -78,6 +84,10 @@ export class ProfilePageComponent implements OnDestroy {
   public uploadMode$ = new BehaviorSubject<ProgressBarMode>('indeterminate');
   public uploading$ = new BehaviorSubject(false);
   public hostName;
+  public esnCardNumberControl = new FormControl('');
+  public esnCardErrorMessage$ = new BehaviorSubject<string | undefined>(
+    undefined,
+  );
 
   constructor(
     private profileQuery: UserProfileGQL,
@@ -85,6 +95,7 @@ export class ProfilePageComponent implements OnDestroy {
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
     private updateProfileMutation: UpdateProfileGQL,
     private updateUserInformationMutation: UpdateUserInformationGQL,
+    private addEsnCardGQL: AddEsnCardGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -98,6 +109,9 @@ export class ProfilePageComponent implements OnDestroy {
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
       map(({ data }) => data.currentUser),
+    );
+    this.esnCardLink$ = this.profileQueryRef.valueChanges.pipe(
+      map(({ data }) => data.currentTenant.settings.esnCardLink ?? undefined),
     );
 
     this.profileEventsQueryRef = this.profileEventsQuery.watch();
@@ -141,6 +155,19 @@ export class ProfilePageComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.profileQueryRef.stopPolling();
     this.profileEventsQueryRef.stopPolling();
+  }
+
+  async addEsnCard() {
+    const esnCardNumber = this.esnCardNumberControl.value;
+    if (esnCardNumber) {
+      try {
+        await firstValueFrom(this.addEsnCardGQL.mutate({ esnCardNumber }));
+        this.esnCardErrorMessage$.next(undefined);
+        this.esnCardNumberControl.reset();
+      } catch (e: any) {
+        this.esnCardErrorMessage$.next(e.message);
+      }
+    }
   }
 
   /*async setupStripePayment() {

@@ -112,6 +112,8 @@ query loadEventForRunning($id: ID!) {
         phone
         picture
         email
+        esnCardValidUntil
+        esnCardNumber
         communicationEmail
         currentTenant {
           userId
@@ -205,6 +207,8 @@ query getRegistration($id: ID!) {
       id
       fullName
       picture
+      esnCardNumber
+      esnCardValidUntil
     }
   }
 }

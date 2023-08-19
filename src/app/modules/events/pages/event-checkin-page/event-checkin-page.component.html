@@ -53,6 +53,17 @@
         <p class="">
           {{ registration.user.fullName }}
         </p>
+        <p class="">
+          Price paid:
+          {{
+            getRelevantTransaction(registration.transactions)?.amount
+              | currency: 'EUR'
+          }}
+          <br />
+          ESNcard number: {{ registration.user.esnCardNumber }} <br />
+          Valid until:
+          {{ registration.user.esnCardValidUntil | date: 'mediumDate' }}
+        </p>
         <!--        TODO: fix with new transactions-->
         <!--<p *ngIf="registration.transaction?.stripePayment">
           Payment status:

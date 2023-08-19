@@ -103,8 +103,8 @@ query loadUser($id: ID!) {
     birthdate
     phone
     university
-    hasESNCard
-    esnCardOverride
+    esnCardValidUntil
+    esnCardNumber
     position
     picture
     currentTenant(userId: $id) {
@@ -292,14 +292,6 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
       brandIconUrl
       showPWAInstall
     }
-  }
-}
-
-mutation updateESNcard($userId: ID!, $override: Boolean!) {
-  updateESNCard(id: $userId, esnCardOverride: $override) {
-    id
-    esnCardOverride
-    hasESNCard
   }
 }
 

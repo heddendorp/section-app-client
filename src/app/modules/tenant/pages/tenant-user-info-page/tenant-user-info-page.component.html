@@ -29,7 +29,7 @@
       Update role
     </button>
   </div>
-  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="max-w-full">
+  <div class="max-w-full grid grid-cols-[max-content_max-content] gap-2">
     <p>User ID:</p>
     <p class="select-all font-mono">{{ user.id }}</p>
     <p>First name:</p>
@@ -43,7 +43,7 @@
     <p>Email:</p>
     <p>{{ user.email }}</p>
     <p>Auth0 ID:</p>
-    <p class="break-all">{{ user.authId }}</p>
+    <p class="break-all select-all font-mono">{{ user.authId }}</p>
     <p>Birthday:</p>
     <p>{{ user.birthdate | date: 'mediumDate' }}</p>
     <p>University:</p>
@@ -52,14 +52,11 @@
     <p>
       {{ user.phone }} (<a [href]="waLink(user.phone)" target="_blank">WA</a>)
     </p>
-    <p>ESNcard:</p>
-    <p>{{ user.hasESNCard }}</p>
-    <p>ESNcardOverride:</p>
-    <mat-slide-toggle
-      [checked]="user.esnCardOverride"
-      (change)="updateEsnCard($event)"
-    ></mat-slide-toggle>
-    <h2 gdColumn="-1/1" class="mt-8">Registrations</h2>
+    <p>ESNcard number:</p>
+    <p>{{ user.esnCardNumber }}</p>
+    <p>ESNcard valid until:</p>
+    <p>{{ user.esnCardValidUntil | date: 'mediumDate' }}</p>
+    <h2 class="mt-8 col-span-full">Registrations</h2>
   </div>
 
   <mat-table

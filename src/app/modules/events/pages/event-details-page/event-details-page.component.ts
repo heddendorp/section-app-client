@@ -48,13 +48,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  NgIf,
-  NgFor,
-  NgSwitch,
-  NgSwitchCase,
   AsyncPipe,
   DatePipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
+  NgSwitch,
+  NgSwitchCase,
 } from '@angular/common';
 
 @Component({
@@ -140,7 +140,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     });
     this.bestPrice$ = this.event$.pipe(
       switchMap((event) =>
-        this.permissions.getPricesForUser(event.prices?.options),
+        this.permissions.getPricesForUser(
+          event.prices?.options,
+          new Date(event.start),
+        ),
       ),
       filter((prices) => prices.length > 0),
       map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b))),
