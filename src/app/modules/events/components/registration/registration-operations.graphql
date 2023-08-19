@@ -48,6 +48,8 @@ mutation registerForEvent(
 mutation cancelPayment($registrationId: ID!) {
   cancelPayment(registrationId: $registrationId) {
     id
+    userIsRegistered
+    participantRegistrationPossible
     activeRegistration {
       id
       type
