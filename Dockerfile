@@ -12,7 +12,7 @@ ARG CONFIGURATION=production
 RUN sed -i "s|PROD_VERSION|$VERSION|g" src/environments/environment.prod.ts
 RUN yarn build --configuration $CONFIGURATION
 
-FROM nginx:1.23.4-alpine
+FROM nginx:1.25.2-alpine
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/dist/legacy-app /usr/share/nginx/html
 COPY ./.well-kown /usr/share/nginx/html/.well-known
