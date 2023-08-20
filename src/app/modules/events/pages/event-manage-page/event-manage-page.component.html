@@ -49,7 +49,7 @@
               <td></td>
             </ng-container>
             <td>{{ costItem.name }}</td>
-            <td>{{ costItem.submittedAmount | currency: 'EUR' }}</td>
+            <td>{{ costItem.submittedAmount | currency }}</td>
           </tr>
           <tr *ngIf="event.costItems.length === 0">
             <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
@@ -62,7 +62,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ event.netAmountCollected | currency: 'EUR' }}</td>
+            <td>{{ event.netAmountCollected | currency }}</td>
           </tr>
           <tr>
             <td></td>
@@ -71,10 +71,7 @@
             <td></td>
             <td></td>
             <td>
-              {{
-                event.submittedSpend - event.netAmountCollected
-                  | currency: 'EUR'
-              }}
+              {{ event.submittedSpend - event.netAmountCollected | currency }}
             </td>
           </tr>
         </tbody>
@@ -137,7 +134,7 @@
             <th mat-header-cell *matHeaderCellDef>Paid</th>
             <td mat-cell *matCellDef="let registration">
               <span class="tag bg-slate-200">
-                {{ registration.balance | currency: 'EUR' }}
+                {{ registration.balance | currency }}
               </span>
             </td>
           </ng-container>

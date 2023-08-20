@@ -1,7 +1,6 @@
-import * as Apollo from 'apollo-angular';
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
-
+import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -149,6 +148,11 @@ export type CreateUserInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
   university: Scalars['String']['input'];
 };
+
+export enum Currency {
+  Czk = 'CZK',
+  Eur = 'EUR',
+}
 
 export type Dcc = {
   __typename?: 'DCC';
@@ -909,6 +913,7 @@ export type Tenant = {
   aboutPage: Scalars['String']['output'];
   communicationEmail: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  currency: Currency;
   faqPage?: Maybe<Scalars['String']['output']>;
   homePageLink?: Maybe<Scalars['String']['output']>;
   homePageStrategy: HomePageStrategy;
@@ -1154,6 +1159,7 @@ export type UpdateTemplateLocationInput = {
 export type UpdateTenantInput = {
   aboutPage?: InputMaybe<Scalars['String']['input']>;
   communicationEmail?: InputMaybe<Scalars['String']['input']>;
+  currency?: InputMaybe<Currency>;
   faqPage?: InputMaybe<Scalars['String']['input']>;
   homePageLink?: InputMaybe<Scalars['String']['input']>;
   homePageStrategy?: InputMaybe<HomePageStrategy>;
@@ -1166,6 +1172,7 @@ export type UpdateTenantInput = {
 export type UpdateTenantSettingsInput = {
   brandIconUrl?: InputMaybe<Scalars['String']['input']>;
   deregistrationOptions?: InputMaybe<UpdateDeregistrationOptionsInput>;
+  esnCardLink?: InputMaybe<Scalars['String']['input']>;
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
   socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
@@ -1332,6 +1339,15 @@ export type GetTenantInfoQuery = {
       }>;
     };
   };
+};
+
+export type GetTenantCurrencyCodeQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetTenantCurrencyCodeQuery = {
+  __typename?: 'Query';
+  currentTenant: { __typename?: 'Tenant'; id: string; currency: Currency };
 };
 
 export type CreateEventTemplateMutationVariables = Exact<{
@@ -3774,11 +3790,13 @@ export type GetTenantForEditQuery = {
     tacPage?: string | null;
     homePageLink?: string | null;
     homePageStrategy: HomePageStrategy;
+    currency: Currency;
     communicationEmail: string;
     settings: {
       __typename?: 'TenantSettings';
       showPWAInstall: boolean;
       brandIconUrl?: string | null;
+      esnCardLink?: string | null;
       socialLinks: Array<{
         __typename?: 'ResourceLink';
         label: string;
@@ -3908,11 +3926,13 @@ export type UpdateTenantMutation = {
     tacPage?: string | null;
     homePageLink?: string | null;
     homePageStrategy: HomePageStrategy;
+    currency: Currency;
     communicationEmail: string;
     settings: {
       __typename?: 'TenantSettings';
       brandIconUrl?: string | null;
       showPWAInstall: boolean;
+      esnCardLink?: string | null;
       socialLinks: Array<{
         __typename?: 'ResourceLink';
         label: string;
@@ -4070,6 +4090,29 @@ export class GetTenantInfoGQL extends Apollo.Query<
   GetTenantInfoQueryVariables
 > {
   override document = GetTenantInfoDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+
+export const GetTenantCurrencyCodeDocument = gql`
+  query getTenantCurrencyCode {
+    currentTenant {
+      id
+      currency
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetTenantCurrencyCodeGQL extends Apollo.Query<
+  GetTenantCurrencyCodeQuery,
+  GetTenantCurrencyCodeQueryVariables
+> {
+  override document = GetTenantCurrencyCodeDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -7377,6 +7420,7 @@ export const GetTenantForEditDocument = gql`
       tacPage
       homePageLink
       homePageStrategy
+      currency
       communicationEmail
       settings {
         socialLinks {
@@ -7395,6 +7439,7 @@ export const GetTenantForEditDocument = gql`
         }
         showPWAInstall
         brandIconUrl
+        esnCardLink
       }
     }
   }
@@ -7565,6 +7610,7 @@ export const UpdateTenantDocument = gql`
       tacPage
       homePageLink
       homePageStrategy
+      currency
       communicationEmail
       settings {
         socialLinks {
@@ -7579,6 +7625,7 @@ export const UpdateTenantDocument = gql`
         }
         brandIconUrl
         showPWAInstall
+        esnCardLink
       }
     }
   }

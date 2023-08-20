@@ -10,7 +10,7 @@
     <div class="flex flex-grow flex-col gap-1">
       <div>
         <span class="font-bold">{{ costItem.name }}</span> ({{
-          costItem.amount | currency: 'EUR'
+          costItem.amount | currency
         }})
       </div>
       <div class="text-xs">{{ costItem.calculationInfo }}</div>
@@ -31,7 +31,7 @@
           *ngIf="costItem.submittedAmount"
           class="rounded bg-yellow-500 px-2 text-xs text-white"
         >
-          submitted: {{ costItem.submittedAmount | currency: 'EUR' }}
+          submitted: {{ costItem.submittedAmount | currency }}
         </div>
       </div>
     </div>

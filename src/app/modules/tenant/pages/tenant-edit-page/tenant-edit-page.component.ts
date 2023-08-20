@@ -3,13 +3,14 @@ import {
   FormArray,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
+  Currency,
   GetTenantForEditGQL,
   GetTenantForEditQuery,
   HomePageStrategy,
@@ -54,54 +55,9 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
 export class TenantEditPageComponent {
   public editForm: UntypedFormGroup;
   public HomePageStrategy = HomePageStrategy;
+  public Currency = Currency;
   public tenant$: Observable<GetTenantForEditQuery['currentTenant']>;
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private updateTenant: UpdateTenantGQL,
-    private loadTenant: GetTenantForEditGQL,
-    private snackBar: MatSnackBar,
-  ) {
-    this.editForm = this.fb.group({
-      imprintPage: ['', Validators.required],
-      privacyPolicyPage: ['', Validators.required],
-      aboutPage: ['', Validators.required],
-      communicationEmail: ['', Validators.required],
-      faqPage: [''],
-      tacPage: [''],
-      homePageStrategy: ['', Validators.required],
-      homePageLink: [''],
-      settings: this.fb.group({
-        deregistrationOptions: this.fb.group({
-          refundFees: [true, Validators.required],
-          minimumDays: [5, Validators.required],
-        }),
-        socialLinks: this.fb.array([]),
-        sectionHubLinks: this.fb.array([]),
-        showPWAInstall: [false, Validators.required],
-        brandIconUrl: [''],
-      }),
-    });
-    this.tenant$ = this.loadTenant.fetch().pipe(
-      map(({ data }) => data.currentTenant),
-      shareReplay(1),
-    );
-    this.tenant$.pipe(first()).subscribe((tenant) => {
-      this.editForm.patchValue(tenant ?? {});
-      if (tenant?.settings?.socialLinks) {
-        tenant.settings.socialLinks.forEach((socialLink) => {
-          this.addSocialLink();
-          this.socialLinks.at(-1).patchValue(socialLink);
-        });
-      }
-      if (tenant?.settings?.sectionHubLinks) {
-        tenant.settings.sectionHubLinks.forEach((sectionHubLink) => {
-          this.addSectionHubLink();
-          this.sectionHubLinks.at(-1).patchValue(sectionHubLink);
-        });
-      }
-    });
-  }
+  protected readonly CustomElementRegistry = CustomElementRegistry;
 
   get socialLinks() {
     return this.editForm.get('settings.socialLinks') as FormArray;
@@ -131,6 +87,55 @@ export class TenantEditPageComponent {
     );
   }
 
+  constructor(
+    private fb: UntypedFormBuilder,
+    private updateTenant: UpdateTenantGQL,
+    private loadTenant: GetTenantForEditGQL,
+    private snackBar: MatSnackBar,
+  ) {
+    this.editForm = this.fb.group({
+      imprintPage: ['', Validators.required],
+      privacyPolicyPage: ['', Validators.required],
+      aboutPage: ['', Validators.required],
+      communicationEmail: ['', Validators.required],
+      faqPage: [''],
+      tacPage: [''],
+      homePageStrategy: ['', Validators.required],
+      homePageLink: [''],
+      currency: ['EUR', Validators.required],
+      settings: this.fb.group({
+        deregistrationOptions: this.fb.group({
+          refundFees: [true, Validators.required],
+          minimumDays: [5, Validators.required],
+        }),
+        socialLinks: this.fb.array([]),
+        sectionHubLinks: this.fb.array([]),
+        showPWAInstall: [false, Validators.required],
+        brandIconUrl: [''],
+        esnCardLink: [''],
+      }),
+    });
+    this.tenant$ = this.loadTenant.fetch().pipe(
+      map(({ data }) => data.currentTenant),
+      shareReplay(1),
+    );
+    this.tenant$.pipe(first()).subscribe((tenant) => {
+      this.editForm.patchValue(tenant ?? {});
+      if (tenant?.settings?.socialLinks) {
+        tenant.settings.socialLinks.forEach((socialLink) => {
+          this.addSocialLink();
+          this.socialLinks.at(-1).patchValue(socialLink);
+        });
+      }
+      if (tenant?.settings?.sectionHubLinks) {
+        tenant.settings.sectionHubLinks.forEach((sectionHubLink) => {
+          this.addSectionHubLink();
+          this.sectionHubLinks.at(-1).patchValue(sectionHubLink);
+        });
+      }
+    });
+  }
+
   async saveTenant() {
     this.snackBar.open('Saving tenant ⏳', undefined, { duration: 0 });
     const tenant = await firstValueFrom(this.tenant$);
@@ -147,6 +152,7 @@ export class TenantEditPageComponent {
             settings: {
               ...formValue.settings,
               brandIconUrl: formValue.settings.brandIconUrl || undefined,
+              esnCardLink: formValue.settings.esnCardLink || undefined,
             },
           },
         })

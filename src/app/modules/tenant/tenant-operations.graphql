@@ -162,6 +162,7 @@ query getTenantForEdit {
     tacPage
     homePageLink
     homePageStrategy
+    currency
     communicationEmail
     settings {
       socialLinks {
@@ -180,6 +181,7 @@ query getTenantForEdit {
       }
       showPWAInstall
       brandIconUrl
+      esnCardLink
     }
   }
 }
@@ -277,6 +279,7 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
     tacPage
     homePageLink
     homePageStrategy
+    currency
     communicationEmail
     settings {
       socialLinks {
@@ -291,6 +294,7 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
       }
       brandIconUrl
       showPWAInstall
+      esnCardLink
     }
   }
 }

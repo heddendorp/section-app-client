@@ -67,7 +67,7 @@
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.balance | currency: 'EUR' }}
+        {{ element.balance | currency }}
       </mat-cell>
     </ng-container>
 

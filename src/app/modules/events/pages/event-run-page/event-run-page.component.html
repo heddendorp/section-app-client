@@ -64,9 +64,9 @@
           {{ costItem.name }}
         </h1>
         <p mat-line>
-          for {{ costItem.amount | currency: 'EUR' }} (
-          {{ costItem.submittedAmount | currency: 'EUR' }} already submitted
-          with receipts)
+          for {{ costItem.amount | currency }} (
+          {{ costItem.submittedAmount | currency }} already submitted with
+          receipts)
         </p>
       </a>
     </mat-nav-list>

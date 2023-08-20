@@ -1,5 +1,6 @@
 import {
   APP_INITIALIZER,
+  DEFAULT_CURRENCY_CODE,
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
@@ -47,6 +48,7 @@ import {
   BrowserModule,
   Title,
 } from '@angular/platform-browser';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 let bootstrapSpan: any = null;
 
@@ -198,6 +200,17 @@ bootstrapApplication(AppComponent, {
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (config: ConfigService) => () => config.init(),
+      multi: true,
+      deps: [ConfigService],
+    },
+    {
+      provide: DEFAULT_CURRENCY_CODE,
+      useFactory: (config: ConfigService) => config.currencyCode,
+      deps: [ConfigService],
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
     environment.production && environment.version !== 'test'

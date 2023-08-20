@@ -56,8 +56,7 @@
         <p class="">
           Price paid:
           {{
-            getRelevantTransaction(registration.transactions)?.amount
-              | currency: 'EUR'
+            getRelevantTransaction(registration.transactions)?.amount | currency
           }}
           <br />
           ESNcard number: {{ registration.user.esnCardNumber }} <br />
