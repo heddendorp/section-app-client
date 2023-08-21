@@ -102,44 +102,46 @@
         </mat-nav-list>
       </ng-template>
     </mat-expansion-panel>
-    <mat-expansion-panel
-      *ngIf="
-        (templateCategories$ | async) && eventTemplates$ | async as templates
-      "
-      [expanded]="!!searchControl.value && !!templates.length"
-      [style.display]="!!searchControl.value && !templates.length ? 'none' : ''"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
-        <mat-panel-description> </mat-panel-description>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <mat-nav-list>
-          <a
-            *ngFor="let template of templates"
-            mat-list-item
-            routerLink="./{{ template.id }}"
-          >
-            <div matListItemAvatar class="relative">
-              <img
-                [ngSrc]="template.icon | iconURL"
-                width="192"
-                height="192"
-                alt=""
-              />
-              <div class="counter">
-                {{ templates.length }}
+    <ng-container *ngIf="eventTemplates$ | async as templates">
+      <mat-expansion-panel
+        *ngIf="(templateCategories$ | async) && templates.length > 0"
+        [expanded]="!!searchControl.value && !!templates.length"
+        [style.display]="
+          !!searchControl.value && !templates.length ? 'none' : ''
+        "
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <mat-nav-list>
+            <a
+              *ngFor="let template of templates"
+              mat-list-item
+              routerLink="./{{ template.id }}"
+            >
+              <div matListItemAvatar class="relative">
+                <img
+                  [ngSrc]="template.icon | iconURL"
+                  width="192"
+                  height="192"
+                  alt=""
+                />
+                <div class="counter">
+                  {{ templates.length }}
+                </div>
               </div>
-            </div>
-            <h3 matListItemTitle>{{ template.title }}</h3>
-            <span matListItemLine *ngIf="template.participantRating">
-              {{ template.participantRating | number: '1.1-1' }} ★ ({{
-                template.participantRatingCount
-              }})
-            </span>
-          </a>
-        </mat-nav-list>
-      </ng-template>
-    </mat-expansion-panel>
+              <h3 matListItemTitle>{{ template.title }}</h3>
+              <span matListItemLine *ngIf="template.participantRating">
+                {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                  template.participantRatingCount
+                }})
+              </span>
+            </a>
+          </mat-nav-list>
+        </ng-template>
+      </mat-expansion-panel>
+    </ng-container>
   </mat-accordion>
 </main>
