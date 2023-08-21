@@ -9,7 +9,6 @@ import { TenantMoveOrdersPageComponent } from '@tumi/legacy-app/modules/tenant/p
 import { TenantRegistrationCodePageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
 import { TenantEditPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-edit-page/tenant-edit-page.component';
 import { TenantStatsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-stats-page/tenant-stats-page.component';
-import { TenantActivityLogPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-activity-log-page/tenant-activity-log-page.component';
 import { TenantPhotosPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-photos-page/tenant-photos-page.component';
 import { TenantEventRatingsComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-ratings/tenant-event-ratings.component';
 import { TenantEventBookingsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-bookings-page/tenant-event-bookings-page.component';
@@ -56,17 +55,9 @@ export const TENANT_ROUTES: Routes = [
     component: TenantRegistrationCodePageComponent,
     title: 'Registration Code',
   },
-  // { path: 'refunds', component: TenantRefundsPageComponent },
   { path: 'edit', component: TenantEditPageComponent, title: 'Edit tenant' },
   { path: 'stats', component: TenantStatsPageComponent, title: 'Stats' },
-  {
-    path: 'logs',
-    component: TenantActivityLogPageComponent,
-    title: 'Activity Log',
-  },
   { path: 'photos', component: TenantPhotosPageComponent, title: 'Photos' },
-  // { path: 'purchases', component: TenantPurchasesPageComponent },
-  // { path: 'insurance', component: TenantInsurancePageComponent },
   {
     path: 'ratings',
     component: TenantEventRatingsComponent,
@@ -89,8 +80,4 @@ export const TENANT_ROUTES: Routes = [
     component: TenantTransactionsPageComponent,
     title: 'Transactions',
   },
-  // {
-  //   path: 'purchases/:purchaseId',
-  //   component: TenantPurchaseDetailsPageComponent,
-  // },
 ];

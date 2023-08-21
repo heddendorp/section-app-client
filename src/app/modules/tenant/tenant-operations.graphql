@@ -254,21 +254,6 @@ query getStatistics($range: DateRangeInput, $tenantId: ID) {
   }
 }
 
-query getLogs {
-  logs {
-    id
-    createdAt
-    message
-    severity
-    data
-    oldData
-  }
-  logStats {
-    count
-    message
-  }
-}
-
 mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $update) {
     id
