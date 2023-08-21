@@ -15,7 +15,6 @@ query loadEventForEdit($id: ID!) {
     enablePhotoSharing
     icon
     id
-    insuranceDescription
     location
     googlePlaceId
     googlePlaceUrl
@@ -34,7 +33,6 @@ query loadEventForEdit($id: ID!) {
     registrationLink
     registrationMode
     registrationStart
-    shouldBeReportedToInsurance
     start
     title
     eventTemplate {

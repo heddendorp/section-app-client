@@ -82,20 +82,6 @@
       <mat-hint>This text will be visible to signed up participants</mat-hint>
       <mat-error>You have to add infos for registered users</mat-error>
     </mat-form-field>
-    <mat-checkbox formControlName="shouldBeReportedToInsurance">
-      This event should be reported to our insurance
-    </mat-checkbox>
-    <mat-form-field class="w-full">
-      <mat-label>Short description for our insurance</mat-label>
-      <textarea
-        rows="3"
-        matInput
-        formControlName="insuranceDescription"
-        required
-      ></textarea>
-      <mat-hint>This description will be sent to our insurance</mat-hint>
-      <mat-error>You have to add a description</mat-error>
-    </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="reset">Cancel</button>

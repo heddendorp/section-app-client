@@ -66,11 +66,9 @@ export type CreateEventTemplateInput = {
   googlePlaceId: Scalars['String']['input'];
   googlePlaceUrl: Scalars['String']['input'];
   icon: Scalars['String']['input'];
-  insuranceDescription?: InputMaybe<Scalars['String']['input']>;
   location: Scalars['String']['input'];
   organizerText: Scalars['String']['input'];
   participantText: Scalars['String']['input'];
-  shouldBeReportedToInsurance: Scalars['Boolean']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -279,7 +277,6 @@ export type EventTemplate = {
   googlePlaceUrl?: Maybe<Scalars['String']['output']>;
   icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  insuranceDescription: Scalars['String']['output'];
   isVirtual: Scalars['Boolean']['output'];
   location: Scalars['String']['output'];
   medianOrganizerCount: Scalars['Int']['output'];
@@ -289,7 +286,6 @@ export type EventTemplate = {
   participantRating?: Maybe<Scalars['Float']['output']>;
   participantRatingCount?: Maybe<Scalars['Int']['output']>;
   participantText: Scalars['String']['output'];
-  shouldBeReportedToInsurance: Scalars['Boolean']['output'];
   tenant: Tenant;
   title: Scalars['String']['output'];
 };
@@ -1055,7 +1051,6 @@ export type TumiEvent = {
   googlePlaceUrl?: Maybe<Scalars['String']['output']>;
   icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  insuranceDescription: Scalars['String']['output'];
   internalEvent: Scalars['Boolean']['output'];
   isVirtual: Scalars['Boolean']['output'];
   location: Scalars['String']['output'];
@@ -1093,7 +1088,6 @@ export type TumiEvent = {
   registrationLink?: Maybe<Scalars['String']['output']>;
   registrationMode: RegistrationMode;
   registrationStart: Scalars['DateTime']['output'];
-  shouldBeReportedToInsurance: Scalars['Boolean']['output'];
   signupVelocity: SignupVelocities;
   start: Scalars['DateTime']['output'];
   submissionItems: Array<EventSubmissionItem>;
@@ -1134,7 +1128,6 @@ export type UpdateCoreEventInput = {
   excludeFromRatings?: InputMaybe<Scalars['Boolean']['input']>;
   excludeFromStatistics?: InputMaybe<Scalars['Boolean']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
-  insuranceDescription?: InputMaybe<Scalars['String']['input']>;
   organizerLimit?: InputMaybe<Scalars['Int']['input']>;
   organizerRegistrationStart?: InputMaybe<Scalars['DateTime']['input']>;
   organizerSignup?: InputMaybe<Array<MembershipStatus>>;
@@ -1144,7 +1137,6 @@ export type UpdateCoreEventInput = {
   registrationLink?: InputMaybe<Scalars['String']['input']>;
   registrationMode?: InputMaybe<RegistrationMode>;
   registrationStart?: InputMaybe<Scalars['DateTime']['input']>;
-  shouldBeReportedToInsurance?: InputMaybe<Scalars['Boolean']['input']>;
   start?: InputMaybe<Scalars['DateTime']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1180,10 +1172,8 @@ export type UpdateTemplateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   duration?: InputMaybe<Scalars['Decimal']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
-  insuranceDescription?: InputMaybe<Scalars['String']['input']>;
   organizerText?: InputMaybe<Scalars['String']['input']>;
   participantText?: InputMaybe<Scalars['String']['input']>;
-  shouldBeReportedToInsurance?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1379,7 +1369,7 @@ export type UpdateEventTemplateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, insuranceDescription: string, shouldBeReportedToInsurance: boolean } };
+export type UpdateEventTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null } };
 
 export type DeleteEventTemplateMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
@@ -1420,7 +1410,7 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, finances: any, insuranceDescription: string, shouldBeReportedToInsurance: boolean, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, signupVelocity: { __typename?: 'signupVelocities', quarter?: number | null, quarterTime?: string | null, quarterCount?: number | null, fifty?: number | null, fiftyTime?: string | null, fiftyCount?: number | null, threequarters?: number | null, threequartersTime?: string | null, threequartersCount?: number | null }, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, finances: any, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, signupVelocity: { __typename?: 'signupVelocities', quarter?: number | null, quarterTime?: string | null, quarterCount?: number | null, fifty?: number | null, fiftyTime?: string | null, fiftyCount?: number | null, threequarters?: number | null, threequartersTime?: string | null, threequartersCount?: number | null }, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1585,7 +1575,7 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: string, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean, icon: string, id: string, insuranceDescription: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: string, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: string, shouldBeReportedToInsurance: boolean, start: string, title: string, createdBy: { __typename?: 'User', id: string }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: string, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: string, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean, icon: string, id: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: string, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: string, start: string, title: string, createdBy: { __typename?: 'User', id: string }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: string, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
 
 export type UpdateEventTemplateConnectionMutationVariables = Exact<{
   eventId: Scalars['ID']['input'];
@@ -1929,11 +1919,6 @@ export type CreateOrganizerMutationVariables = Exact<{
 
 export type CreateOrganizerMutation = { __typename?: 'Mutation', createEventOrganizer: { __typename?: 'EventOrganizer', id: string } };
 
-export type LoadEventsForInsuranceQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LoadEventsForInsuranceQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, shouldBeReportedToInsurance: boolean, insuranceDescription: string, organizerLimit: number, participantLimit: number, publicationState: PublicationState, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
-
 export type LoadEventsWithBookingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']['input']>;
 }>;
@@ -2218,8 +2203,6 @@ export const UpdateEventTemplateDocument = gql`
     location
     coordinates
     comment
-    insuranceDescription
-    shouldBeReportedToInsurance
   }
 }
     `;
@@ -2379,8 +2362,6 @@ export const GetEventTemplateDocument = gql`
     isVirtual
     onlineMeetingUrl
     finances
-    insuranceDescription
-    shouldBeReportedToInsurance
     medianParticipantCount
     medianOrganizerCount
     category {
@@ -3269,7 +3250,6 @@ export const LoadEventForEditDocument = gql`
     enablePhotoSharing
     icon
     id
-    insuranceDescription
     location
     googlePlaceId
     googlePlaceUrl
@@ -3288,7 +3268,6 @@ export const LoadEventForEditDocument = gql`
     registrationLink
     registrationMode
     registrationStart
-    shouldBeReportedToInsurance
     start
     title
     eventTemplate {
@@ -4882,35 +4861,6 @@ export const CreateOrganizerDocument = gql`
   })
   export class CreateOrganizerGQL extends Apollo.Mutation<CreateOrganizerMutation, CreateOrganizerMutationVariables> {
     override document = CreateOrganizerDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const LoadEventsForInsuranceDocument = gql`
-    query loadEventsForInsurance {
-  events {
-    id
-    title
-    start
-    shouldBeReportedToInsurance
-    insuranceDescription
-    organizerLimit
-    participantLimit
-    publicationState
-    organizer {
-      id
-      name
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LoadEventsForInsuranceGQL extends Apollo.Query<LoadEventsForInsuranceQuery, LoadEventsForInsuranceQueryVariables> {
-    override document = LoadEventsForInsuranceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

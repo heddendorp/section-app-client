@@ -54,8 +54,6 @@ mutation updateEventTemplate($templateId: ID!, $update: UpdateTemplateInput!) {
     location
     coordinates
     comment
-    insuranceDescription
-    shouldBeReportedToInsurance
   }
 }
 
@@ -131,8 +129,6 @@ query getEventTemplate($id: ID!) {
     isVirtual
     onlineMeetingUrl
     finances
-    insuranceDescription
-    shouldBeReportedToInsurance
     medianParticipantCount
     medianOrganizerCount
     category {

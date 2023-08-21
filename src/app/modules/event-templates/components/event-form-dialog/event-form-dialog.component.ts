@@ -51,7 +51,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NgOptimizedImage,
   ],
 })
-export class EventFormDialogComponent implements OnInit, OnDestroy {
+export class EventFormDialogComponent implements OnDestroy {
   public dialogForm: UntypedFormGroup;
   private destroyed$ = new Subject();
 
@@ -73,8 +73,6 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
       duration: ['', Validators.required],
       participantText: ['TBD', Validators.required],
       organizerText: ['TBD', Validators.required],
-      insuranceDescription: ['', Validators.required],
-      shouldBeReportedToInsurance: [true, Validators.required],
       categoryId: [null, Validators.required],
     });
     if (!this.data?.categories) {
@@ -84,22 +82,6 @@ export class EventFormDialogComponent implements OnInit, OnDestroy {
       this.dialogForm.patchValue(this.data.template, { emitEvent: true });
       this.dialogForm.get('location')?.disable();
     }
-  }
-
-  async ngOnInit() {
-    this.dialogForm
-      .get('shouldBeReportedToInsurance')
-      ?.valueChanges.pipe(
-        startWith(this.dialogForm.get('shouldBeReportedToInsurance')?.value),
-        takeUntil(this.destroyed$),
-      )
-      .subscribe((shouldBeReportedToInsurance) => {
-        if (shouldBeReportedToInsurance) {
-          this.dialogForm.get('insuranceDescription')?.enable();
-        } else {
-          this.dialogForm.get('insuranceDescription')?.disable();
-        }
-      });
   }
 
   onSubmit(): void {

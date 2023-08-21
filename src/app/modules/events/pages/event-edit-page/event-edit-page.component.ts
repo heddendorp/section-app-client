@@ -160,8 +160,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       icon: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
-      insuranceDescription: ['', Validators.required],
-      shouldBeReportedToInsurance: ['', Validators.required],
       registrationStart: ['', Validators.required],
       organizerRegistrationStart: ['', Validators.required],
       disableDeregistration: [false, Validators.required],
@@ -332,21 +330,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             this.coreInformationForm.get('organizerLimit')?.disable();
             break;
           }
-        }
-      });
-    this.coreInformationForm
-      .get('shouldBeReportedToInsurance')
-      ?.valueChanges.pipe(
-        startWith(
-          this.coreInformationForm.get('shouldBeReportedToInsurance')?.value,
-        ),
-        takeUntil(this.destroyed$),
-      )
-      .subscribe((shouldBeReportedToInsurance) => {
-        if (shouldBeReportedToInsurance) {
-          this.coreInformationForm.get('insuranceDescription')?.enable();
-        } else {
-          this.coreInformationForm.get('insuranceDescription')?.disable();
         }
       });
     loader.dismiss();

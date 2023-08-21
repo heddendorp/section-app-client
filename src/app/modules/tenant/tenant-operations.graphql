@@ -4,23 +4,6 @@ mutation createOrganizer($input: NewOrganizerInput!) {
   }
 }
 
-query loadEventsForInsurance {
-  events {
-    id
-    title
-    start
-    shouldBeReportedToInsurance
-    insuranceDescription
-    organizerLimit
-    participantLimit
-    publicationState
-    organizer {
-      id
-      name
-    }
-  }
-}
-
 query loadEventsWithBooking($after: DateTime) {
   events(after: $after) {
     id
