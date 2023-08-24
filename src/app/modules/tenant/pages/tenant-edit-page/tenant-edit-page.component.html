@@ -76,20 +76,131 @@
       </ng-container>
     </div>
     <ng-container formGroupName="settings">
-      <div class="flex flex-row items-center gap-4">
-        <ng-container formGroupName="deregistrationOptions">
-          <mat-form-field class="w-full">
-            <mat-label>Minimum days</mat-label>
-            <input
-              formControlName="minimumDays"
-              matInput
-              placeholder="How many days before the event can people deregister"
-              type="number"
-            />
-          </mat-form-field>
-          <mat-checkbox class="w-full" formControlName="refundFees">
-            Refund stripe fees on deregistration
-          </mat-checkbox>
+      <div
+        class="grid md:grid-cols-3 grid-cols-1 gap-4 border-grey-600 my-4 rounded border p-4"
+      >
+        <ng-container formGroupName="deRegistrationOptions">
+          <h2 class="col-span-full">Settings for de registrations and moves</h2>
+          <p class="col-span-full">
+            All Settings here are global for all events but can be overridden
+            per event, consider them the defaults
+          </p>
+          <p class="col-span-full">
+            Global settings for participants of free events
+          </p>
+          <ng-container formGroupName="free">
+            <ng-container formGroupName="participants">
+              <mat-checkbox formControlName="deRegistrationPossible">
+                De Registration is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>De registration deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForDeRegistration"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+              <div></div>
+              <mat-checkbox formControlName="movePossible">
+                Sending the event to another person is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>Event sending deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForMove"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+            </ng-container>
+            <p class="col-span-full">
+              Global settings for organizers of free events
+            </p>
+            <ng-container formGroupName="organizers">
+              <mat-checkbox formControlName="deRegistrationPossible">
+                De Registration is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>De registration deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForDeRegistration"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </ng-container>
+          <ng-container formGroupName="paid">
+            <p class="col-span-full">
+              Global settings for participants of paid events
+            </p>
+            <ng-container formGroupName="participants">
+              <mat-checkbox formControlName="deRegistrationPossible">
+                De Registration is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>De registration deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForDeRegistration"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+              <mat-checkbox formControlName="refundFeesOnDeRegistration">
+                Payment fees are refunded on de registration
+              </mat-checkbox>
+
+              <mat-checkbox formControlName="movePossible">
+                Sending the event to another person is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>Event sending deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForMove"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+              <mat-checkbox formControlName="refundFeesOnMove">
+                Payment fees are refunded on move
+              </mat-checkbox>
+            </ng-container>
+            <p class="col-span-full">
+              Global settings for organizers of paid events
+            </p>
+            <ng-container formGroupName="organizers">
+              <mat-checkbox formControlName="deRegistrationPossible">
+                De Registration is allowed
+              </mat-checkbox>
+              <mat-form-field>
+                <mat-label>De registration deadline</mat-label>
+                <input
+                  matInput
+                  formControlName="minimumDaysForDeRegistration"
+                  type="number"
+                  min="0"
+                />
+                <mat-hint>in days before the start of the event</mat-hint>
+                <mat-error>Has to be a positive number</mat-error>
+              </mat-form-field>
+            </ng-container>
+          </ng-container>
         </ng-container>
       </div>
 

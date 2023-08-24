@@ -104,9 +104,79 @@ export class TenantEditPageComponent {
       homePageLink: [''],
       currency: ['EUR', Validators.required],
       settings: this.fb.group({
-        deregistrationOptions: this.fb.group({
-          refundFees: [true, Validators.required],
-          minimumDays: [5, Validators.required],
+        deRegistrationOptions: this.fb.group({
+          free: this.fb.group({
+            participants: this.fb.group({
+              deRegistrationPossible: [true, Validators.required],
+              minimumDaysForDeRegistration: [
+                5,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnDeRegistration: [true, Validators.required],
+              movePossible: [true, Validators.required],
+              minimumDaysForMove: [
+                0,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnMove: [true, Validators.required],
+            }),
+            organizers: this.fb.group({
+              deRegistrationPossible: [true, Validators.required],
+              minimumDaysForDeRegistration: [
+                5,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnDeRegistration: [true, Validators.required],
+            }),
+          }),
+          paid: this.fb.group({
+            participants: this.fb.group({
+              deRegistrationPossible: [true, Validators.required],
+              minimumDaysForDeRegistration: [
+                5,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnDeRegistration: [true, Validators.required],
+              movePossible: [true, Validators.required],
+              minimumDaysForMove: [
+                0,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnMove: [true, Validators.required],
+            }),
+            organizers: this.fb.group({
+              deRegistrationPossible: [true, Validators.required],
+              minimumDaysForDeRegistration: [
+                5,
+                [
+                  Validators.required,
+                  Validators.min(0),
+                  Validators.pattern('^[0-9]*$'),
+                ],
+              ],
+              refundFeesOnDeRegistration: [true, Validators.required],
+            }),
+          }),
         }),
         socialLinks: this.fb.array([]),
         sectionHubLinks: this.fb.array([]),

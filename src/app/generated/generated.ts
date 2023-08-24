@@ -149,10 +149,10 @@ export type DateRangeInput = {
   start?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-export type DeregistrationOptions = {
-  __typename?: 'DeregistrationOptions';
-  minimumDays: Scalars['Int']['output'];
-  refundFees: Scalars['Boolean']['output'];
+export type DeRegistrationConfig = {
+  __typename?: 'DeRegistrationConfig';
+  organizers: OrganizerDeRegistrationSettings;
+  participants: ParticipantDeRegistrationSettings;
 };
 
 export enum EnrolmentStatus {
@@ -303,6 +303,12 @@ export type EventTemplateCategory = {
   tenantId: Scalars['ID']['output'];
 };
 
+export type GlobalDeRegistrationConfig = {
+  __typename?: 'GlobalDeRegistrationConfig';
+  free: DeRegistrationConfig;
+  paid: DeRegistrationConfig;
+};
+
 export enum HomePageStrategy {
   Link = 'LINK',
   Markdown = 'MARKDOWN',
@@ -351,6 +357,8 @@ export type Mutation = {
   deleteSubmissionItem: EventSubmissionItem;
   deleteTemplate: EventTemplate;
   deregisterFromEvent: TumiEvent;
+  deregisterOrganizerFromEvent: TumiEvent;
+  kickFromEvent: TumiEvent;
   rateEvent: TumiEvent;
   registerForEvent: TumiEvent;
   restorePayment: TumiEvent;
@@ -498,9 +506,19 @@ export type MutationDeleteTemplateArgs = {
 
 
 export type MutationDeregisterFromEventArgs = {
-  refundFees?: InputMaybe<Scalars['Boolean']['input']>;
   registrationId: Scalars['ID']['input'];
-  withRefund?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationDeregisterOrganizerFromEventArgs = {
+  registrationId: Scalars['ID']['input'];
+};
+
+
+export type MutationKickFromEventArgs = {
+  refundFees?: Scalars['Boolean']['input'];
+  registrationId: Scalars['ID']['input'];
+  withRefund?: Scalars['Boolean']['input'];
 };
 
 
@@ -634,6 +652,23 @@ export type NewOrganizerInput = {
   link?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   text: Scalars['String']['input'];
+};
+
+export type OrganizerDeRegistrationSettings = {
+  __typename?: 'OrganizerDeRegistrationSettings';
+  deRegistrationPossible: Scalars['Boolean']['output'];
+  minimumDaysForDeRegistration: Scalars['Int']['output'];
+  refundFeesOnDeRegistration: Scalars['Boolean']['output'];
+};
+
+export type ParticipantDeRegistrationSettings = {
+  __typename?: 'ParticipantDeRegistrationSettings';
+  deRegistrationPossible: Scalars['Boolean']['output'];
+  minimumDaysForDeRegistration: Scalars['Int']['output'];
+  minimumDaysForMove: Scalars['Int']['output'];
+  movePossible: Scalars['Boolean']['output'];
+  refundFeesOnDeRegistration: Scalars['Boolean']['output'];
+  refundFeesOnMove: Scalars['Boolean']['output'];
 };
 
 export type PhotoShare = {
@@ -969,7 +1004,7 @@ export type TenantTutorHubEventsArgs = {
 export type TenantSettings = {
   __typename?: 'TenantSettings';
   brandIconUrl?: Maybe<Scalars['String']['output']>;
-  deregistrationOptions: DeregistrationOptions;
+  deRegistrationOptions: GlobalDeRegistrationConfig;
   esnCardLink?: Maybe<Scalars['String']['output']>;
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
@@ -1034,7 +1069,9 @@ export type TumiEvent = {
   createdAt: Scalars['DateTime']['output'];
   createdBy: User;
   creatorId: Scalars['ID']['output'];
+  deRegistrationSettings: DeRegistrationConfig;
   description: Scalars['String']['output'];
+  /** @deprecated Use deRegistrationSettings instead. Will always return false. */
   disableDeregistration: Scalars['Boolean']['output'];
   enablePhotoSharing: Scalars['Boolean']['output'];
   end: Scalars['DateTime']['output'];
@@ -1121,7 +1158,7 @@ export type TumiEventSubmissionItemsArgs = {
 };
 
 export type UpdateCoreEventInput = {
-  disableDeregistration?: InputMaybe<Scalars['Boolean']['input']>;
+  deRegistrationSettings?: InputMaybe<UpdateDeRegistrationConfigInput>;
   enablePhotoSharing?: InputMaybe<Scalars['Boolean']['input']>;
   end?: InputMaybe<Scalars['DateTime']['input']>;
   eventOrganizerId: Scalars['ID']['input'];
@@ -1141,9 +1178,9 @@ export type UpdateCoreEventInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type UpdateDeregistrationOptionsInput = {
-  minimumDays?: InputMaybe<Scalars['Int']['input']>;
-  refundFees?: InputMaybe<Scalars['Boolean']['input']>;
+export type UpdateDeRegistrationConfigInput = {
+  organizers: UpdateOrganizerDeregistrationConfigInput;
+  participants: UpdateParticipantDeregistrationConfigInput;
 };
 
 export type UpdateEventLocationInput = {
@@ -1159,6 +1196,21 @@ export type UpdateGeneralEventInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   organizerText?: InputMaybe<Scalars['String']['input']>;
   participantText?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateOrganizerDeregistrationConfigInput = {
+  deRegistrationPossible: Scalars['Boolean']['input'];
+  minimumDaysForDeRegistration: Scalars['Int']['input'];
+  refundFeesOnDeRegistration: Scalars['Boolean']['input'];
+};
+
+export type UpdateParticipantDeregistrationConfigInput = {
+  deRegistrationPossible: Scalars['Boolean']['input'];
+  minimumDaysForDeRegistration: Scalars['Int']['input'];
+  minimumDaysForMove: Scalars['Int']['input'];
+  movePossible: Scalars['Boolean']['input'];
+  refundFeesOnDeRegistration: Scalars['Boolean']['input'];
+  refundFeesOnMove: Scalars['Boolean']['input'];
 };
 
 export type UpdateResourceLinkInput = {
@@ -1186,6 +1238,11 @@ export type UpdateTemplateLocationInput = {
   onlineMeetingUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateTenantDeRegistrationSettingsInput = {
+  free?: InputMaybe<UpdateDeRegistrationConfigInput>;
+  paid?: InputMaybe<UpdateDeRegistrationConfigInput>;
+};
+
 export type UpdateTenantInput = {
   aboutPage?: InputMaybe<Scalars['String']['input']>;
   communicationEmail?: InputMaybe<Scalars['String']['input']>;
@@ -1201,7 +1258,7 @@ export type UpdateTenantInput = {
 
 export type UpdateTenantSettingsInput = {
   brandIconUrl?: InputMaybe<Scalars['String']['input']>;
-  deregistrationOptions?: InputMaybe<UpdateDeregistrationOptionsInput>;
+  deRegistrationOptions?: InputMaybe<UpdateTenantDeRegistrationSettingsInput>;
   esnCardLink?: InputMaybe<Scalars['String']['input']>;
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1449,6 +1506,13 @@ export type RegisterForEventMutationVariables = Exact<{
 
 export type RegisterForEventMutation = { __typename?: 'Mutation', registerForEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, organizersRegistered: number, participantRegistrationCount: number, couldBeOrganizer: boolean, userIsRegistered: boolean, activeRegistration?: { __typename?: 'EventRegistration', id: string, type: RegistrationType, status: RegistrationStatus, cancellationReason?: string | null, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: string, amount: any, status: string, checkoutUrl?: string | null, paymentIntent?: string | null } | null }> } | null, organizers: Array<{ __typename?: 'User', fullName: string }> } };
 
+export type DeregisterFromEventMutationVariables = Exact<{
+  registrationId: Scalars['ID']['input'];
+}>;
+
+
+export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent: { __typename?: 'TumiEvent', id: string, participantRegistrationPossible: any, participantRegistrationCount: number, userIsRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
+
 export type CancelPaymentMutationVariables = Exact<{
   registrationId: Scalars['ID']['input'];
 }>;
@@ -1534,14 +1598,14 @@ export type GetUserPaymentStatusQueryVariables = Exact<{ [key: string]: never; }
 
 export type GetUserPaymentStatusQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string } | null } | null };
 
-export type DeregisterFromEventMutationVariables = Exact<{
+export type KickFromEventMutationVariables = Exact<{
   registrationId: Scalars['ID']['input'];
-  withRefund?: InputMaybe<Scalars['Boolean']['input']>;
-  refundFees?: InputMaybe<Scalars['Boolean']['input']>;
+  withRefund: Scalars['Boolean']['input'];
+  refundFees: Scalars['Boolean']['input'];
 }>;
 
 
-export type DeregisterFromEventMutation = { __typename?: 'Mutation', deregisterFromEvent: { __typename?: 'TumiEvent', id: string, participantRegistrationCount: number, userIsRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
+export type KickFromEventMutation = { __typename?: 'Mutation', kickFromEvent: { __typename?: 'TumiEvent', id: string, participantRegistrationCount: number, userIsRegistered: boolean, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
 
 export type LoadUsersByStatusQueryVariables = Exact<{
   allowList: Array<MembershipStatus> | MembershipStatus;
@@ -1563,7 +1627,14 @@ export type LoadEventQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, registrationStart: string, organizerRegistrationStart: string, disableDeregistration: boolean, enablePhotoSharing: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: string, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> }, currentTenant: { __typename?: 'Tenant', id: string, settings: { __typename?: 'TenantSettings', deregistrationOptions: { __typename?: 'DeregistrationOptions', minimumDays: number, refundFees: boolean } } } };
+export type LoadEventQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, registrationStart: string, organizerRegistrationStart: string, enablePhotoSharing: boolean, publicationState: PublicationState, description: string, organizerText: string, organizerLimit: number, participantText: string, registrationMode: RegistrationMode, registrationLink?: string | null, freeParticipantSpots: string, excludeFromRatings: boolean, ratingPending: boolean, prices?: any | null, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerSignup: Array<string>, participantSignup: Array<string>, organizerRegistrationPossible: boolean, participantRegistrationPossible: any, userIsRegistered: boolean, userIsOrganizer: boolean, userIsCreator: boolean, participantLimit: number, participantRegistrationCount: number, couldBeOrganizer: boolean, couldBeParticipant: boolean, participantRating?: number | null, participantRatingCount: number, deRegistrationSettings: { __typename?: 'DeRegistrationConfig', organizers: { __typename?: 'OrganizerDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number }, participants: { __typename?: 'ParticipantDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean, movePossible: boolean, minimumDaysForMove: number, refundFeesOnMove: boolean } }, createdBy: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string, submissionTime: SubmissionTime, instruction: string, required: boolean, type: string, data?: any | null, ownSubmissions: Array<{ __typename?: 'EventSubmission', id: string, data: any }> }>, organizer: { __typename?: 'EventOrganizer', id: string, link?: string | null, text: string }, activeRegistration?: { __typename?: 'EventRegistration', id: string, didAttend: boolean, status: RegistrationStatus, userComment?: string | null, rating?: number | null, anonymousRating: boolean, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, createdAt: string, amount: any, status: string, paymentIntent?: string | null, checkoutUrl?: string | null } | null }>, user: { __typename?: 'User', id: string, fullName: string } } | null, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', id: string, fullName: string, phone?: string | null, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null }> } };
+
+export type DeRegisterOrganizerFromEventMutationVariables = Exact<{
+  registrationId: Scalars['ID']['input'];
+}>;
+
+
+export type DeRegisterOrganizerFromEventMutation = { __typename?: 'Mutation', deregisterOrganizerFromEvent: { __typename?: 'TumiEvent', id: string, organizerRegistrationPossible: boolean, organizersRegistered: number, userIsOrganizer: boolean, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, status: RegistrationStatus }>, activeRegistration?: { __typename?: 'EventRegistration', id: string } | null, organizers: Array<{ __typename?: 'User', id: string, fullName: string, picture: string }> } };
 
 export type LoadUserForEventQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1575,7 +1646,7 @@ export type LoadEventForEditQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, disableDeregistration: boolean, end: string, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean, icon: string, id: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: string, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: string, start: string, title: string, createdBy: { __typename?: 'User', id: string }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: string, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
+export type LoadEventForEditQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', coordinates?: any | null, couldBeOrganizer: boolean, couldBeParticipant: boolean, description: string, end: string, eventOrganizerId: string, excludeFromRatings: boolean, excludeFromStatistics: boolean, enablePhotoSharing: boolean, icon: string, id: string, location: string, googlePlaceId?: string | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, organizerLimit: number, organizerRegistrationPossible: boolean, organizerSignup: Array<string>, organizerText: string, organizerRegistrationStart: string, participantLimit: number, participantSignup: Array<string>, participantText: string, prices?: any | null, publicationState: PublicationState, registrationLink?: string | null, registrationMode: RegistrationMode, registrationStart: string, start: string, title: string, createdBy: { __typename?: 'User', id: string }, deRegistrationSettings: { __typename?: 'DeRegistrationConfig', organizers: { __typename?: 'OrganizerDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number }, participants: { __typename?: 'ParticipantDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean, movePossible: boolean, minimumDaysForMove: number, refundFeesOnMove: boolean } }, eventTemplate: { __typename?: 'EventTemplate', id: string, title: string }, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, createdAt: string, required: boolean, submissionTime: SubmissionTime, type: string, instruction: string, name: string, data?: any | null }>, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, user: { __typename?: 'User', id: string, picture: string, fullName: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizers: Array<{ __typename?: 'User', fullName: string, picture: string, id: string }> }, currentUser?: { __typename?: 'User', id: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, role: Role, status: MembershipStatus } | null } | null, eventOrganizers: Array<{ __typename?: 'EventOrganizer', id: string, name: string }> };
 
 export type UpdateEventTemplateConnectionMutationVariables = Exact<{
   eventId: Scalars['ID']['input'];
@@ -1948,7 +2019,7 @@ export type LoadUserQuery = { __typename?: 'Query', user: { __typename?: 'User',
 export type GetTenantForEditQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, currency: Currency, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, esnCardLink?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, deregistrationOptions: { __typename?: 'DeregistrationOptions', refundFees: boolean, minimumDays: number } } } };
+export type GetTenantForEditQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, name: string, imprintPage: string, aboutPage: string, privacyPolicyPage: string, faqPage?: string | null, tacPage?: string | null, homePageLink?: string | null, homePageStrategy: HomePageStrategy, currency: Currency, communicationEmail: string, settings: { __typename?: 'TenantSettings', showPWAInstall: boolean, brandIconUrl?: string | null, esnCardLink?: string | null, socialLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, sectionHubLinks: Array<{ __typename?: 'ResourceLink', label: string, icon: string, url: string }>, deRegistrationOptions: { __typename?: 'GlobalDeRegistrationConfig', free: { __typename?: 'DeRegistrationConfig', organizers: { __typename?: 'OrganizerDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean }, participants: { __typename?: 'ParticipantDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean, movePossible: boolean, minimumDaysForMove: number, refundFeesOnMove: boolean } }, paid: { __typename?: 'DeRegistrationConfig', organizers: { __typename?: 'OrganizerDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean }, participants: { __typename?: 'ParticipantDeRegistrationSettings', deRegistrationPossible: boolean, minimumDaysForDeRegistration: number, refundFeesOnDeRegistration: boolean, movePossible: boolean, minimumDaysForMove: number, refundFeesOnMove: boolean } } } } } };
 
 export type GetOrganizersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2572,6 +2643,39 @@ export const RegisterForEventDocument = gql`
       super(apollo);
     }
   }
+export const DeregisterFromEventDocument = gql`
+    mutation deregisterFromEvent($registrationId: ID!) {
+  deregisterFromEvent(registrationId: $registrationId) {
+    id
+    participantRegistrationPossible
+    participantRegistrations(includeCancelled: true) {
+      id
+      status
+    }
+    activeRegistration {
+      id
+    }
+    organizers {
+      id
+      fullName
+      picture
+    }
+    participantRegistrationCount
+    userIsRegistered
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeregisterFromEventGQL extends Apollo.Mutation<DeregisterFromEventMutation, DeregisterFromEventMutationVariables> {
+    override document = DeregisterFromEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CancelPaymentDocument = gql`
     mutation cancelPayment($registrationId: ID!) {
   cancelPayment(registrationId: $registrationId) {
@@ -2974,9 +3078,9 @@ export const GetUserPaymentStatusDocument = gql`
       super(apollo);
     }
   }
-export const DeregisterFromEventDocument = gql`
-    mutation deregisterFromEvent($registrationId: ID!, $withRefund: Boolean, $refundFees: Boolean) {
-  deregisterFromEvent(
+export const KickFromEventDocument = gql`
+    mutation kickFromEvent($registrationId: ID!, $withRefund: Boolean!, $refundFees: Boolean!) {
+  kickFromEvent(
     registrationId: $registrationId
     withRefund: $withRefund
     refundFees: $refundFees
@@ -3003,8 +3107,8 @@ export const DeregisterFromEventDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class DeregisterFromEventGQL extends Apollo.Mutation<DeregisterFromEventMutation, DeregisterFromEventMutationVariables> {
-    override document = DeregisterFromEventDocument;
+  export class KickFromEventGQL extends Apollo.Mutation<KickFromEventMutation, KickFromEventMutationVariables> {
+    override document = KickFromEventDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -3074,7 +3178,6 @@ export const LoadEventDocument = gql`
     end
     registrationStart
     organizerRegistrationStart
-    disableDeregistration
     enablePhotoSharing
     publicationState
     description
@@ -3092,6 +3195,20 @@ export const LoadEventDocument = gql`
     googlePlaceUrl
     isVirtual
     onlineMeetingUrl
+    deRegistrationSettings {
+      organizers {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+      }
+      participants {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+        refundFeesOnDeRegistration
+        movePossible
+        minimumDaysForMove
+        refundFeesOnMove
+      }
+    }
     createdBy {
       id
       fullName
@@ -3190,15 +3307,6 @@ export const LoadEventDocument = gql`
     participantRating
     participantRatingCount
   }
-  currentTenant {
-    id
-    settings {
-      deregistrationOptions {
-        minimumDays
-        refundFees
-      }
-    }
-  }
 }
     `;
 
@@ -3207,6 +3315,39 @@ export const LoadEventDocument = gql`
   })
   export class LoadEventGQL extends Apollo.Query<LoadEventQuery, LoadEventQueryVariables> {
     override document = LoadEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeRegisterOrganizerFromEventDocument = gql`
+    mutation deRegisterOrganizerFromEvent($registrationId: ID!) {
+  deregisterOrganizerFromEvent(registrationId: $registrationId) {
+    id
+    organizerRegistrationPossible
+    organizerRegistrations {
+      id
+      status
+    }
+    activeRegistration {
+      id
+    }
+    organizers {
+      id
+      fullName
+      picture
+    }
+    organizersRegistered
+    userIsOrganizer
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeRegisterOrganizerFromEventGQL extends Apollo.Mutation<DeRegisterOrganizerFromEventMutation, DeRegisterOrganizerFromEventMutationVariables> {
+    override document = DeRegisterOrganizerFromEventDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -3242,7 +3383,6 @@ export const LoadEventForEditDocument = gql`
       id
     }
     description
-    disableDeregistration
     end
     eventOrganizerId
     excludeFromRatings
@@ -3270,6 +3410,20 @@ export const LoadEventForEditDocument = gql`
     registrationStart
     start
     title
+    deRegistrationSettings {
+      organizers {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+      }
+      participants {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+        refundFeesOnDeRegistration
+        movePossible
+        minimumDaysForMove
+        refundFeesOnMove
+      }
+    }
     eventTemplate {
       id
       title
@@ -5069,9 +5223,37 @@ export const GetTenantForEditDocument = gql`
         icon
         url
       }
-      deregistrationOptions {
-        refundFees
-        minimumDays
+      deRegistrationOptions {
+        free {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+            movePossible
+            minimumDaysForMove
+            refundFeesOnMove
+          }
+        }
+        paid {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+            movePossible
+            minimumDaysForMove
+            refundFeesOnMove
+          }
+        }
       }
       showPWAInstall
       brandIconUrl

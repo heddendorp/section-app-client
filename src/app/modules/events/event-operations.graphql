@@ -231,12 +231,12 @@ query GetUserPaymentStatus {
   }
 }
 
-mutation deregisterFromEvent(
+mutation kickFromEvent(
   $registrationId: ID!
-  $withRefund: Boolean
-  $refundFees: Boolean
+  $withRefund: Boolean!
+  $refundFees: Boolean!
 ) {
-  deregisterFromEvent(
+  kickFromEvent(
     registrationId: $registrationId
     withRefund: $withRefund
     refundFees: $refundFees

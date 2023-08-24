@@ -11,6 +11,7 @@ import {
   DeregisterFromEventGQL,
   Exact,
   GetEventTemplatesGQL,
+  KickFromEventGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
   LoadUsersByStatusGQL,
@@ -130,7 +131,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     private addOrganizerMutation: AddOrganizerToEventGQL,
     private addSubmissionMutation: AddSubmissionToEventGQL,
     private deleteEventGQL: DeleteEventGQL,
-    private deregisterFromEventGQL: DeregisterFromEventGQL,
+    private kickFromEventGQL: KickFromEventGQL,
     private dialog: MatDialog,
     private fb: UntypedFormBuilder,
     private loadEventForEditGQL: LoadEventForEditGQL,
@@ -162,7 +163,6 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       end: ['', Validators.required],
       registrationStart: ['', Validators.required],
       organizerRegistrationStart: ['', Validators.required],
-      disableDeregistration: [false, Validators.required],
       excludeFromRatings: [false, Validators.required],
       excludeFromStatistics: [false, Validators.required],
       enablePhotoSharing: [true, Validators.required],
@@ -176,6 +176,42 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       participantSignup: [[]],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
+      deRegistrationSettings: this.fb.group({
+        participants: this.fb.group({
+          deRegistrationPossible: [true, Validators.required],
+          minimumDaysForDeRegistration: [
+            5,
+            [
+              Validators.required,
+              Validators.min(0),
+              Validators.pattern('^[0-9]*$'),
+            ],
+          ],
+          refundFeesOnDeRegistration: [true, Validators.required],
+          movePossible: [true, Validators.required],
+          minimumDaysForMove: [
+            0,
+            [
+              Validators.required,
+              Validators.min(0),
+              Validators.pattern('^[0-9]*$'),
+            ],
+          ],
+          refundFeesOnMove: [true, Validators.required],
+        }),
+        organizers: this.fb.group({
+          deRegistrationPossible: [true, Validators.required],
+          minimumDaysForDeRegistration: [
+            5,
+            [
+              Validators.required,
+              Validators.min(0),
+              Validators.pattern('^[0-9]*$'),
+            ],
+          ],
+          refundFeesOnDeRegistration: [true, Validators.required],
+        }),
+      }),
     });
     this.event$ = this.route.paramMap.pipe(
       map((params) =>
@@ -410,7 +446,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   async removeUser(registrationId: string) {
     this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
     await firstValueFrom(
-      this.deregisterFromEventGQL.mutate({ registrationId, withRefund: false }),
+      this.kickFromEventGQL.mutate({
+        registrationId,
+        withRefund: false,
+        refundFees: false,
+      }),
     );
     if (this.loadEventRef) {
       await this.loadEventRef.refetch();
@@ -479,7 +519,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   }
 
   async onCoreSubmit() {
-    this.snackBar.open('Saving event ⏳', undefined, { duration: 0 });
+    this.snackBar.open('Saving event ⏳', undefined, {
+      duration: 0,
+    });
     const event = await firstValueFrom(this.event$);
     if (event && this.coreInformationForm.valid) {
       const update = this.coreInformationForm.value;
@@ -516,6 +558,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         });
       }
       this.snackBar.open('Event saved ✔️');
+    }
+    if (this.coreInformationForm.invalid) {
+      this.snackBar.open('Form is not valid ❌');
     }
   }
 

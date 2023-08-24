@@ -7,7 +7,6 @@ query loadEventForEdit($id: ID!) {
       id
     }
     description
-    disableDeregistration
     end
     eventOrganizerId
     excludeFromRatings
@@ -35,6 +34,20 @@ query loadEventForEdit($id: ID!) {
     registrationStart
     start
     title
+    deRegistrationSettings {
+      organizers {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+      }
+      participants {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+        refundFeesOnDeRegistration
+        movePossible
+        minimumDaysForMove
+        refundFeesOnMove
+      }
+    }
     eventTemplate {
       id
       title

@@ -63,9 +63,14 @@ import {
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;
-  @Input() public deregistrationOptions:
-    | LoadEventQuery['currentTenant']['settings']['deregistrationOptions']
-    | null = null;
+  @Input() public deRegistrationOptions: {
+    deRegistrationPossible: boolean;
+    minimumDaysForDeRegistration: number;
+    refundFeesOnDeRegistration: boolean;
+    movePossible: boolean;
+    minimumDaysForMove: number;
+    refundFeesOnMove: boolean;
+  } | null = null;
   @Input() public user: LoadUserForEventQuery['currentUser'] | null = null;
   @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
@@ -79,17 +84,24 @@ export class StripeEventRegistrationComponent implements OnChanges {
     private deregisterFromEventGQL: DeregisterFromEventGQL,
     private cancelPaymentGQL: CancelPaymentGQL,
     private dialog: MatDialog,
-    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private permissions: PermissionsService,
   ) {}
 
-  get lastDeregistration() {
-    if (!this.event?.start || !this.deregistrationOptions) {
+  get lastDeRegistration() {
+    if (!this.event?.start || !this.deRegistrationOptions) {
       return new Date();
     }
     return DateTime.fromISO(this.event?.start)
-      .minus({ days: this.deregistrationOptions.minimumDays })
+      .minus({ days: this.deRegistrationOptions.minimumDaysForDeRegistration })
+      .toJSDate();
+  }
+  get lastMove() {
+    if (!this.event?.start || !this.deRegistrationOptions) {
+      return new Date();
+    }
+    return DateTime.fromISO(this.event?.start)
+      .minus({ days: this.deRegistrationOptions.minimumDaysForMove })
       .toJSDate();
   }
 
@@ -102,29 +114,51 @@ export class StripeEventRegistrationComponent implements OnChanges {
       .toJSDate();
   }
 
-  get canDeregisterInTime() {
-    return this.lastDeregistration > new Date();
-  }
-
   get canDeregister() {
-    return (
-      this.lastDeregistration > new Date() ||
-      (this.event?.start &&
-        new Date() < new Date(this.event?.start) &&
-        (this.event?.participantLimit ?? 0) <
-          (this.event?.participantRegistrationCount ?? 0))
-    );
+    if (!this.deRegistrationOptions?.deRegistrationPossible) {
+      return {
+        result: false,
+        reason: 'De registrations are not allowed for this event',
+      };
+    }
+    if (this.event?.activeRegistration?.didAttend) {
+      return { result: false, reason: 'You already attended this event' };
+    }
+    if (this.event?.activeRegistration?.status !== 'SUCCESSFUL') {
+      return {
+        result: false,
+        reason: 'Your registration is not successful yet',
+      };
+    }
+    if (!this.event?.start || this.lastDeRegistration < new Date()) {
+      return {
+        result: false,
+        reason: `You can only de register this event until ${this.deRegistrationOptions?.minimumDaysForDeRegistration} days before it starts`,
+      };
+    }
+    return { result: true, reason: '' };
   }
 
   get canMove() {
-    if (!this.event?.start) {
-      return false;
+    if (!this.deRegistrationOptions?.movePossible) {
+      return { result: false, reason: 'Moves are not allowed for this event' };
     }
-    return (
-      DateTime.fromISO(this.event?.start)
-        .minus({ days: 1 })
-        .toJSDate() > new Date()
-    );
+    if (this.event?.activeRegistration?.didAttend) {
+      return { result: false, reason: 'You already attended this event' };
+    }
+    if (this.event?.activeRegistration?.status !== 'SUCCESSFUL') {
+      return {
+        result: false,
+        reason: 'Your registration is not successful yet',
+      };
+    }
+    if (!this.event?.start || this.lastMove < new Date()) {
+      return {
+        result: false,
+        reason: `You can only move this event until ${this.deRegistrationOptions?.minimumDaysForMove} days before it starts`,
+      };
+    }
+    return { result: true, reason: '' };
   }
 
   get activeStripePayment() {

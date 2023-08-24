@@ -140,10 +140,7 @@
               class="prose lg:prose-xl break-words"
             ></markdown>
             <div
-              class="my-2"
-              fxLayout="row"
-              fxLayoutAlign="start center"
-              fxLayoutGap="1rem"
+              class="my-2 flex flex-row items-center gap-4"
               *ngIf="(event$ | async)?.activeRegistration?.didAttend"
             >
               <img
@@ -153,9 +150,9 @@
                 alt="approval"
                 class="w-10"
               />
-              <span class="text-lg font-bold"
-                >You are checked in to the event!</span
-              >
+              <span class="text-lg font-bold">
+                You are checked in to the event!
+              </span>
             </div>
             <div class="my-2 rounded-lg lg:text-lg">
               <mat-divider class="!my-4"></mat-divider>
@@ -286,7 +283,9 @@
             <app-stripe-event-registration
               *ngSwitchCase="RegistrationMode.Stripe"
               [event]="event"
-              [deregistrationOptions]="deregistrationOptions$ | async"
+              [deRegistrationOptions]="
+                event.deRegistrationSettings.participants
+              "
               [bestPrice]="bestPrice$ | async"
               [user]="user$ | async"
             ></app-stripe-event-registration>
@@ -312,22 +311,41 @@
         [registrationStart]="event.organizerRegistrationStart"
       >
         <div
-          fxLayout.gt-md="row"
-          fxLayout="column"
-          fxLayoutGap="1rem"
-          fxLayoutAlign.gt-md="start start"
+          class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
         >
-          <button
-            mat-raised-button
-            color="primary"
-            class="modern w-full"
-            [disabled]="!event.organizerRegistrationPossible"
-            (click)="registerAsOrganizer()"
+          <div
+            class="md:w-1/2"
+            *ngIf="organizerCanDeRegister$ | async as canDeRegister"
           >
-            <mat-icon svgIcon="icon-add"></mat-icon>
-            Sign up now
-          </button>
-          <div fxFlex="50">
+            <p *ngIf="canDeRegister.result">
+              You can de register from this event until
+              {{ lastOrganizerDeRegistration$ | async | date }}
+            </p>
+            <p *ngIf="!canDeRegister.result">
+              You can not de register from this event:
+              {{ canDeRegister.reason }}
+            </p>
+            <button
+              mat-raised-button
+              color="primary"
+              class="modern w-full"
+              *ngIf="event.organizerRegistrationPossible"
+              (click)="registerAsOrganizer()"
+            >
+              <mat-icon svgIcon="icon-add"></mat-icon>
+              Sign up now
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              class="modern w-full"
+              *ngIf="canDeRegister.result && event.userIsOrganizer"
+              (click)="cancelOrganizerRegistration()"
+            >
+              Cancel Registration
+            </button>
+          </div>
+          <div class="md:w-1/2">
             <h3>
               Organizers already on this event ({{ event.organizers.length }}/{{
                 event.organizerLimit

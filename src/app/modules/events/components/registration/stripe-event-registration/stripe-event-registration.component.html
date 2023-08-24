@@ -7,11 +7,40 @@
     (dataSubmission)="registerAdditionalData($event)"
   >
     <ng-container *ngIf="event.participantRegistrationPossible.option">
-      <p class="font-bold">You can register for this event</p>
-      <p *ngIf="event.disableDeregistration">
+      <p
+        *ngIf="
+          !event.deRegistrationSettings?.participants?.deRegistrationPossible
+        "
+      >
         <span class="mr-2 font-bold text-red-500">Please note!</span>
-        You can not deregister from this event or send it to someone else. The
-        registration is final once successful.
+        You can not deregister from this event.
+        <ng-container
+          *ngIf="event.deRegistrationSettings?.participants?.movePossible"
+        >
+          You can however give the spot you receive to someone else up until
+          {{ lastMove | date }}.
+          <ng-container *ngIf="!deRegistrationOptions?.refundFeesOnMove">
+            You will receive the participation fee but not the payment fees.
+          </ng-container>
+        </ng-container>
+        <ng-container
+          *ngIf="!event.deRegistrationSettings?.participants?.movePossible"
+        >
+          Your registration is final once completed.
+        </ng-container>
+      </p>
+      <p
+        *ngIf="
+          event.deRegistrationSettings?.participants?.deRegistrationPossible
+        "
+      >
+        <span class="mr-2 font-bold">ℹ️ Registration info</span>
+        You can cancel your registration until {{ lastDeRegistration | date }}.
+        <ng-container
+          *ngIf="!deRegistrationOptions?.refundFeesOnDeRegistration"
+        >
+          You will receive the participation fee but not the payment fees.
+        </ng-container>
       </p>
       <p class="mb-2">
         We are showing all prices that you can choose from depending on the
@@ -68,7 +97,7 @@
         {{ lastPayment | date: 'mediumTime' }} or your registration will be
         canceled automatically.
       </p>
-      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="1rem">
+      <div class="flex flex-col gap-4 md:flex-row">
         <button
           mat-flat-button
           color="primary"
@@ -94,39 +123,34 @@
         give the event away or give up you spot.
       </p>
     </ng-container>
-    <p *ngIf="event.disableDeregistration">
-      You can not deregister from this event or send it to someone else.
-    </p>
-    <div
-      class="my-2"
-      *ngIf="
-        !event.activeRegistration?.didAttend &&
-        event.activeRegistration?.status === 'SUCCESSFUL' &&
-        !event.disableDeregistration
-      "
-    >
-      <p class="mb-2">You can give this registration to another person</p>
+    <div class="my-2" *ngIf="canMove.result">
+      <p class="mb-2">
+        You can give this registration to another person until
+        {{ lastMove | date }}.
+        <ng-container *ngIf="!deRegistrationOptions?.refundFeesOnMove">
+          You will receive the participation fee but not the payment fees.
+        </ng-container>
+      </p>
       <button mat-flat-button (click)="moveEvent()">Send event</button>
     </div>
-    <ng-container
-      *ngIf="
-        canDeregister &&
-        event.activeRegistration?.status === 'SUCCESSFUL' &&
-        !event.disableDeregistration
-      "
-    >
-      <p class="my-2" *ngIf="canDeregisterInTime">
-        You can deregister from this event before
-        {{ lastDeregistration | date }} and receive a refund
-      </p>
-      <p class="my-2" *ngIf="!canDeregisterInTime">
-        Due to special circumstances you can deregister from this event
+    <p *ngIf="!canMove.result">
+      You can not give this registration to another person: {{ canMove.reason }}
+    </p>
+    <div class="my-2" *ngIf="canDeregister.result">
+      <p class="mb-2">
+        You can give up your spot on this event until
+        {{ lastDeRegistration | date }}.
+        <ng-container
+          *ngIf="!deRegistrationOptions?.refundFeesOnDeRegistration"
+        >
+          You will receive the participation fee but not the payment fees.
+        </ng-container>
       </p>
       <button
         mat-flat-button
         color="warn"
-        [disabled]="processing | async"
         (click)="deregister()"
+        [disabled]="processing | async"
       >
         Give up spot
       </button>
@@ -135,16 +159,9 @@
         mode="indeterminate"
         *ngIf="processing | async"
       ></mat-progress-bar>
-    </ng-container>
-  </ng-container>
-  <ng-template #notReady>
-    <h2 class="font-bold">⚠️ No payment method saved</h2>
-    <p class="mb-4">
-      To register for TUMi events you have to save a payment method to your
-      profile
+    </div>
+    <p *ngIf="!canDeregister.result">
+      You can not give up your spot on this event: {{ canDeregister.reason }}
     </p>
-    <a routerLink="/profile" mat-flat-button color="primary">
-      Go to profile now
-    </a>
-  </ng-template>
+  </ng-container>
 </div>

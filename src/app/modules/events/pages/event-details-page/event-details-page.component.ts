@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -14,6 +14,8 @@ import {
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
 import {
+  DeregisterFromEventGQL,
+  DeRegisterOrganizerFromEventGQL,
   LoadEventGQL,
   LoadEventQuery,
   LoadUserForEventGQL,
@@ -56,6 +58,8 @@ import {
   NgSwitch,
   NgSwitchCase,
 } from '@angular/common';
+import { DateTime } from 'luxon';
+import { addWarning } from '@angular-devkit/build-angular/src/utils/webpack-diagnostics';
 
 @Component({
   selector: 'app-event-details-page',
@@ -93,9 +97,6 @@ import {
 @TraceClassDecorator()
 export class EventDetailsPageComponent implements OnDestroy {
   public event$: Observable<LoadEventQuery['event']>;
-  protected deregistrationOptions$: Observable<
-    LoadEventQuery['currentTenant']['settings']['deregistrationOptions']
-  >;
   public user$: Observable<LoadUserForEventQuery['currentUser']>;
   public bestPrice$: Observable<Price>;
   public eventOver$: Observable<boolean>;
@@ -105,6 +106,14 @@ export class EventDetailsPageComponent implements OnDestroy {
   private loadEventQueryRef;
   private destroyed$ = new Subject();
   public ratingExpanded$ = new BehaviorSubject(false);
+  public lastOrganizerDeRegistration$: Observable<Date>;
+  public organizerCanDeRegister$: Observable<{
+    result: boolean;
+    reason: string;
+  }>;
+  private deRegisterOrganizerFromEventGQL = inject(
+    DeRegisterOrganizerFromEventGQL,
+  );
 
   constructor(
     private title: Title,
@@ -132,8 +141,40 @@ export class EventDetailsPageComponent implements OnDestroy {
         }
       }),
     );
-    this.deregistrationOptions$ = this.loadEventQueryRef.valueChanges.pipe(
-      map(({ data }) => data.currentTenant.settings.deregistrationOptions),
+    this.lastOrganizerDeRegistration$ = this.event$.pipe(
+      map((event) => {
+        const settings = event.deRegistrationSettings.organizers;
+        return DateTime.fromISO(event.start)
+          .plus({
+            days: settings.minimumDaysForDeRegistration,
+          })
+          .toJSDate();
+      }),
+    );
+    this.organizerCanDeRegister$ = this.event$.pipe(
+      map((event) => {
+        const settings = event.deRegistrationSettings.organizers;
+        if (!settings.deRegistrationPossible) {
+          return {
+            result: false,
+            reason:
+              'De-registration is not possible for organizers on this event.',
+          };
+        }
+        if (
+          DateTime.fromISO(event.start)
+            .plus({
+              days: settings.minimumDaysForDeRegistration,
+            })
+            .toJSDate() < new Date()
+        ) {
+          return {
+            result: false,
+            reason: `De-registration is only possible up to ${settings.minimumDaysForDeRegistration} days before the event.`,
+          };
+        }
+        return { result: true, reason: '' };
+      }),
     );
     firstValueFrom(this.event$).then((event) => {
       this.title.setTitle(`${event.title}`);
@@ -232,5 +273,17 @@ export class EventDetailsPageComponent implements OnDestroy {
           ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
+  }
+
+  async cancelOrganizerRegistration() {
+    const event = await firstValueFrom(this.event$);
+    if (!event.activeRegistration) {
+      return;
+    }
+    await firstValueFrom(
+      this.deRegisterOrganizerFromEventGQL.mutate({
+        registrationId: event.activeRegistration.id,
+      }),
+    );
   }
 }

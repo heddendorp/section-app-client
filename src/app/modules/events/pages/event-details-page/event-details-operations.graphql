@@ -7,7 +7,6 @@ query loadEvent($id: ID!) {
     end
     registrationStart
     organizerRegistrationStart
-    disableDeregistration
     enablePhotoSharing
     publicationState
     description
@@ -25,6 +24,20 @@ query loadEvent($id: ID!) {
     googlePlaceUrl
     isVirtual
     onlineMeetingUrl
+    deRegistrationSettings {
+      organizers {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+      }
+      participants {
+        deRegistrationPossible
+        minimumDaysForDeRegistration
+        refundFeesOnDeRegistration
+        movePossible
+        minimumDaysForMove
+        refundFeesOnMove
+      }
+    }
     createdBy {
       id
       fullName
@@ -123,14 +136,26 @@ query loadEvent($id: ID!) {
     participantRating
     participantRatingCount
   }
-  currentTenant {
+}
+
+mutation deRegisterOrganizerFromEvent($registrationId: ID!) {
+  deregisterOrganizerFromEvent(registrationId: $registrationId) {
     id
-    settings {
-      deregistrationOptions {
-        minimumDays
-        refundFees
-      }
+    organizerRegistrationPossible
+    organizerRegistrations {
+      id
+      status
     }
+    activeRegistration {
+      id
+    }
+    organizers {
+      id
+      fullName
+      picture
+    }
+    organizersRegistered
+    userIsOrganizer
   }
 }
 

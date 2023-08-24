@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Inject,
   OnDestroy,
 } from '@angular/core';
@@ -9,6 +10,8 @@ import {
   CreateEventRegistrationCodeGQL,
   DeleteRegistrationCodeGQL,
   DeregisterFromEventGQL,
+  KickFromEventDocument,
+  KickFromEventGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
   RegistrationStatus,
@@ -103,11 +106,11 @@ export class EventManagePageComponent implements OnDestroy {
     'expand',
   ];
   expandedRegistration?: TumiEvent;
+  private kickFromEventGQL = inject(KickFromEventGQL);
 
   constructor(
     private title: Title,
     private loadEvent: LoadEventForManagementGQL,
-    private deregisterFromEventGQL: DeregisterFromEventGQL,
     private checkInMutation: CheckInUserGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute,
@@ -166,7 +169,7 @@ export class EventManagePageComponent implements OnDestroy {
     if (event && proceed) {
       try {
         await firstValueFrom(
-          this.deregisterFromEventGQL.mutate({
+          this.kickFromEventGQL.mutate({
             withRefund: true,
             refundFees,
             registrationId,
@@ -189,9 +192,10 @@ export class EventManagePageComponent implements OnDestroy {
     if (event && proceed) {
       try {
         await firstValueFrom(
-          this.deregisterFromEventGQL.mutate({
+          this.kickFromEventGQL.mutate({
             withRefund: false,
             registrationId,
+            refundFees: false,
           }),
         );
       } catch (e) {

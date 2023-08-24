@@ -158,9 +158,37 @@ query getTenantForEdit {
         icon
         url
       }
-      deregistrationOptions {
-        refundFees
-        minimumDays
+      deRegistrationOptions {
+        free {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+            movePossible
+            minimumDaysForMove
+            refundFeesOnMove
+          }
+        }
+        paid {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+            movePossible
+            minimumDaysForMove
+            refundFeesOnMove
+          }
+        }
       }
       showPWAInstall
       brandIconUrl

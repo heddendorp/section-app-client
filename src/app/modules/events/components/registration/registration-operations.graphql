@@ -45,6 +45,27 @@ mutation registerForEvent(
   }
 }
 
+mutation deregisterFromEvent($registrationId: ID!) {
+  deregisterFromEvent(registrationId: $registrationId) {
+    id
+    participantRegistrationPossible
+    participantRegistrations(includeCancelled: true) {
+      id
+      status
+    }
+    activeRegistration {
+      id
+    }
+    organizers {
+      id
+      fullName
+      picture
+    }
+    participantRegistrationCount
+    userIsRegistered
+  }
+}
+
 mutation cancelPayment($registrationId: ID!) {
   cancelPayment(registrationId: $registrationId) {
     id

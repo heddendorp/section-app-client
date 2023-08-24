@@ -175,9 +175,6 @@
                   organizers</mat-hint
                 >
               </mat-form-field>
-              <mat-checkbox formControlName="disableDeregistration">
-                Disable deregistration and moves
-              </mat-checkbox>
             </div>
             <div class="flex flex-col md:flex-row gap-4">
               <mat-checkbox formControlName="excludeFromRatings">
@@ -340,6 +337,74 @@
                   You have to set the maximum number of organizers
                 </mat-error>
               </mat-form-field>
+            </div>
+            <div
+              class="grid md:grid-cols-3 grid-cols-1 gap-4 border-grey-600 my-4 rounded border p-4"
+            >
+              <h3 class="col-span-full">
+                Settings for de registrations and moves
+              </h3>
+              <ng-container formGroupName="deRegistrationSettings">
+                <p class="col-span-full">
+                  Settings for participants of this event
+                </p>
+                <ng-container formGroupName="participants">
+                  <mat-checkbox formControlName="deRegistrationPossible">
+                    De Registration is allowed
+                  </mat-checkbox>
+                  <mat-form-field>
+                    <mat-label>De registration deadline</mat-label>
+                    <input
+                      matInput
+                      formControlName="minimumDaysForDeRegistration"
+                      type="number"
+                      min="0"
+                    />
+                    <mat-hint>in days before the start of the event</mat-hint>
+                    <mat-error>Has to be a positive number</mat-error>
+                  </mat-form-field>
+                  <mat-checkbox formControlName="refundFeesOnDeRegistration">
+                    Payment fees are refunded on de registration
+                  </mat-checkbox>
+
+                  <mat-checkbox formControlName="movePossible">
+                    Sending the event to another person is allowed
+                  </mat-checkbox>
+                  <mat-form-field>
+                    <mat-label>Event sending deadline</mat-label>
+                    <input
+                      matInput
+                      formControlName="minimumDaysForMove"
+                      type="number"
+                      min="0"
+                    />
+                    <mat-hint>in days before the start of the event</mat-hint>
+                    <mat-error>Has to be a positive number</mat-error>
+                  </mat-form-field>
+                  <mat-checkbox formControlName="refundFeesOnMove">
+                    Payment fees are refunded on move
+                  </mat-checkbox>
+                </ng-container>
+                <p class="col-span-full">
+                  Settings for organizers of this event
+                </p>
+                <ng-container formGroupName="organizers">
+                  <mat-checkbox formControlName="deRegistrationPossible">
+                    De Registration is allowed
+                  </mat-checkbox>
+                  <mat-form-field>
+                    <mat-label>De registration deadline</mat-label>
+                    <input
+                      matInput
+                      formControlName="minimumDaysForDeRegistration"
+                      type="number"
+                      min="0"
+                    />
+                    <mat-hint>in days before the start of the event</mat-hint>
+                    <mat-error>Has to be a positive number</mat-error>
+                  </mat-form-field>
+                </ng-container>
+              </ng-container>
             </div>
             <div class="mt-4">
               <button
