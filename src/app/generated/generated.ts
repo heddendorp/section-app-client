@@ -328,6 +328,7 @@ export enum MembershipStatus {
   Alumni = 'ALUMNI',
   Full = 'FULL',
   None = 'NONE',
+  Selected = 'SELECTED',
   Sponsor = 'SPONSOR',
   Trial = 'TRIAL'
 }

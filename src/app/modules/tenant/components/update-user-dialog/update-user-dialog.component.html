@@ -17,14 +17,17 @@
     <mat-form-field class="w-full">
       <mat-label>Membership status</mat-label>
       <mat-select formControlName="status">
+        <mat-option [value]="MembershipStatus.None">
+          {{ MembershipStatus.None | titlecase }}
+        </mat-option>
+        <mat-option [value]="MembershipStatus.Selected">
+          {{ MembershipStatus.Selected | titlecase }}
+        </mat-option>
         <mat-option [value]="MembershipStatus.Alumni">
           {{ MembershipStatus.Alumni | titlecase }}
         </mat-option>
         <mat-option [value]="MembershipStatus.Full">
           {{ MembershipStatus.Full | titlecase }}
-        </mat-option>
-        <mat-option [value]="MembershipStatus.None">
-          {{ MembershipStatus.None | titlecase }}
         </mat-option>
         <mat-option [value]="MembershipStatus.Sponsor">
           {{ MembershipStatus.Sponsor | titlecase }}

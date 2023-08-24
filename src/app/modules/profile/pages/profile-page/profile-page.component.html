@@ -233,7 +233,10 @@
     </ng-container>
     <div
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
-      *ngIf="profile.currentTenant?.status !== MembershipStatus.None"
+      *ngIf="
+        profile.currentTenant?.status !== MembershipStatus.None &&
+        profile.currentTenant?.status !== MembershipStatus.Selected
+      "
     >
       <div class="mb-6 flex flex-row items-center">
         <mat-icon
