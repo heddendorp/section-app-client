@@ -58,7 +58,7 @@
   <ng-container *ngIf="bestPrice">
     <div class="flex items-center gap-2">
       <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px"></mat-icon>
-      {{ bestPrice.amount | currency: 'EUR' }}
+      {{ bestPrice.amount | currency }}
     </div>
   </ng-container>
   <ng-container
