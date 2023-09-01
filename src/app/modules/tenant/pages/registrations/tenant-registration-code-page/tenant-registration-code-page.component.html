@@ -14,7 +14,7 @@
     class="overflow-hidden rounded-2xl border"
     *ngIf="eventRegistrationCode$ | async as code"
   >
-    <table class="w-full table-auto border-collapse">
+    <table class="w-full table-auto border-collapse overflow-x-auto max-w-full">
       <tbody>
         <tr>
           <th colspan="2">Code</th>
@@ -140,7 +140,6 @@
             ></app-transaction-list>
           </td>
           <td colspan="2">
-            <!--              TODO: check transaction list-->
             <app-transaction-list
               *ngIf="code.registrationCreated"
               [transactions]="code.registrationCreated.transactions"
@@ -169,7 +168,6 @@
               }})
             </td>
             <td>
-              <!--              TODO: Check use of transactions list-->
               <p>
                 Payment:
                 <app-transaction-list
