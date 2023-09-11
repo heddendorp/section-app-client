@@ -1,4 +1,4 @@
-FROM node:20 as builder
+FROM node:20.5 as builder
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
