@@ -65,6 +65,9 @@ Currently the app is made to support the processes inside the TUMi ESN section w
 
 ## Run Locally
 
+Make sure you have node installed, a good option is volta: https://volta.sh/   
+Install it to handle your node installation. The `package.json` includes the node version that should be used and volta will automatically install it.
+
 Clone the project
 
 ```bash
