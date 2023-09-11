@@ -6,6 +6,7 @@ import { TumiHomeComponent } from './components/tumi-home/tumi-home.component';
 import { AsyncPipe, NgSwitch, NgSwitchCase } from '@angular/common';
 import { CuPragueHomeComponent } from '@tumi/legacy-app/modules/home/components/cu-prague-home/cu-prague-home.component';
 import { VubEhbHomeComponent } from '@tumi/legacy-app/modules/home/components/vub-ehb-home/vub-ehb-home.component';
+import { KaiserslauternHomeComponent } from '@tumi/legacy-app/modules/home/components/kaiserslautern-home/kaiserslautern-home.component';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ import { VubEhbHomeComponent } from '@tumi/legacy-app/modules/home/components/vu
     AsyncPipe,
     CuPragueHomeComponent,
     VubEhbHomeComponent,
+    KaiserslauternHomeComponent,
   ],
 })
 export class HomeComponent {
