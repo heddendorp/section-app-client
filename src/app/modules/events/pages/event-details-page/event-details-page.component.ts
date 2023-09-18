@@ -14,7 +14,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { QrDisplayDialogComponent } from '@tumi/legacy-app/modules/events/components/qr-display-dialog/qr-display-dialog.component';
 import {
-  DeregisterFromEventGQL,
   DeRegisterOrganizerFromEventGQL,
   LoadEventGQL,
   LoadEventQuery,
@@ -59,7 +58,6 @@ import {
   NgSwitchCase,
 } from '@angular/common';
 import { DateTime } from 'luxon';
-import { addWarning } from '@angular-devkit/build-angular/src/utils/webpack-diagnostics';
 
 @Component({
   selector: 'app-event-details-page',
@@ -145,7 +143,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       map((event) => {
         const settings = event.deRegistrationSettings.organizers;
         return DateTime.fromISO(event.start)
-          .plus({
+          .minus({
             days: settings.minimumDaysForDeRegistration,
           })
           .toJSDate();
@@ -163,7 +161,7 @@ export class EventDetailsPageComponent implements OnDestroy {
         }
         if (
           DateTime.fromISO(event.start)
-            .plus({
+            .minus({
               days: settings.minimumDaysForDeRegistration,
             })
             .toJSDate() < new Date()

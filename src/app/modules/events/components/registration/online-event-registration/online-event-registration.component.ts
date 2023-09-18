@@ -31,6 +31,12 @@ import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 })
 export class OnlineEventRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;
+  @Input() public deRegistrationOptions: {
+    deRegistrationPossible: boolean;
+    minimumDaysForDeRegistration: number;
+    movePossible: boolean;
+    minimumDaysForMove: number;
+  } | null = null;
   public processing = new BehaviorSubject(false);
   public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   constructor(
@@ -39,14 +45,68 @@ export class OnlineEventRegistrationComponent {
     private snackBar: MatSnackBar,
   ) {}
 
-  get lastDeregistration() {
-    return DateTime.fromISO(this.event?.start ?? new Date().toISOString())
-      .minus({ days: 3 })
+  get lastDeRegistration() {
+    if (!this.event?.start || !this.deRegistrationOptions) {
+      return new Date();
+    }
+    return DateTime.fromISO(this.event?.start)
+      .minus({ days: this.deRegistrationOptions.minimumDaysForDeRegistration })
+      .toJSDate();
+  }
+  get lastMove() {
+    if (!this.event?.start || !this.deRegistrationOptions) {
+      return new Date();
+    }
+    return DateTime.fromISO(this.event?.start)
+      .minus({ days: this.deRegistrationOptions.minimumDaysForMove })
       .toJSDate();
   }
 
   get canDeregister() {
-    return this.lastDeregistration > new Date();
+    if (!this.deRegistrationOptions?.deRegistrationPossible) {
+      return {
+        result: false,
+        reason: 'De registrations are not allowed for this event',
+      };
+    }
+    if (this.event?.activeRegistration?.didAttend) {
+      return { result: false, reason: 'You already attended this event' };
+    }
+    if (this.event?.activeRegistration?.status !== 'SUCCESSFUL') {
+      return {
+        result: false,
+        reason: 'Your registration is not successful yet',
+      };
+    }
+    if (!this.event?.start || this.lastDeRegistration < new Date()) {
+      return {
+        result: false,
+        reason: `You can only de register this event until ${this.deRegistrationOptions?.minimumDaysForDeRegistration} days before it starts`,
+      };
+    }
+    return { result: true, reason: '' };
+  }
+
+  get canMove() {
+    if (!this.deRegistrationOptions?.movePossible) {
+      return { result: false, reason: 'Moves are not allowed for this event' };
+    }
+    if (this.event?.activeRegistration?.didAttend) {
+      return { result: false, reason: 'You already attended this event' };
+    }
+    if (this.event?.activeRegistration?.status !== 'SUCCESSFUL') {
+      return {
+        result: false,
+        reason: 'Your registration is not successful yet',
+      };
+    }
+    if (!this.event?.start || this.lastMove < new Date()) {
+      return {
+        result: false,
+        reason: `You can only move this event until ${this.deRegistrationOptions?.minimumDaysForMove} days before it starts`,
+      };
+    }
+    return { result: true, reason: '' };
   }
 
   public async register() {

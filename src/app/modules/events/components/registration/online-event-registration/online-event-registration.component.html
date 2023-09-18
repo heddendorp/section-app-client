@@ -8,6 +8,33 @@
     (dataSubmission)="registerAdditionalData($event)"
   >
     <ng-container *ngIf="event.participantRegistrationPossible.option">
+      <p
+        *ngIf="
+          !event.deRegistrationSettings?.participants?.deRegistrationPossible
+        "
+      >
+        <span class="mr-2 font-bold text-red-500">Please note!</span>
+        You can not deregister from this event.
+        <!--        <ng-container-->
+        <!--          *ngIf="event.deRegistrationSettings?.participants?.movePossible"-->
+        <!--        >-->
+        <!--          You can however give the spot you receive to someone else up until-->
+        <!--          {{ lastMove | date }}.-->
+        <!--        </ng-container>-->
+        <ng-container
+          *ngIf="!event.deRegistrationSettings?.participants?.movePossible"
+        >
+          Your registration is final once completed.
+        </ng-container>
+      </p>
+      <p
+        *ngIf="
+          event.deRegistrationSettings?.participants?.deRegistrationPossible
+        "
+      >
+        <span class="mr-2 font-bold">ℹ️ Registration info</span>
+        You can cancel your registration until {{ lastDeRegistration | date }}.
+      </p>
       <p class="pb-4">You can register for this event here.</p>
       <button
         mat-raised-button
@@ -35,16 +62,27 @@
     </ng-container>
     <ng-container *ngIf="event.userIsRegistered">
       <p>✔️ You are registered for this event.</p>
-      <ng-container *ngIf="canDeregister">
-        <p class="my-2">
-          You can deregister from this event before
-          {{ lastDeregistration | date }}
+      <!--      <div class="my-2" *ngIf="canMove.result">-->
+      <!--        <p class="mb-2">-->
+      <!--          You can give this registration to another person until-->
+      <!--          {{ lastMove | date }}.-->
+      <!--        </p>-->
+      <!--        <button mat-flat-button (click)="moveEvent()">Send event</button>-->
+      <!--      </div>-->
+      <!--      <p *ngIf="!canMove.result">-->
+      <!--        You can not give this registration to another person:-->
+      <!--        {{ canMove.reason }}-->
+      <!--      </p>-->
+      <div *ngIf="canDeregister.result" class="my-2">
+        <p class="mb-2">
+          You can give up your spot on this event until
+          {{ lastDeRegistration | date }}.
         </p>
         <button
           mat-flat-button
           color="warn"
-          [disabled]="processing | async"
           (click)="deregister()"
+          [disabled]="processing | async"
         >
           Give up spot
         </button>
@@ -53,7 +91,10 @@
           mode="indeterminate"
           *ngIf="processing | async"
         ></mat-progress-bar>
-      </ng-container>
+      </div>
+      <p *ngIf="!canDeregister.result">
+        You can not give up your spot on this event: {{ canDeregister.reason }}
+      </p>
     </ng-container>
   </app-check-additional-data>
 </div>
