@@ -291,6 +291,9 @@
             ></app-stripe-event-registration>
             <app-online-event-registration
               [event]="event"
+              [deRegistrationOptions]="
+                event.deRegistrationSettings.participants
+              "
               *ngSwitchCase="RegistrationMode.Online"
             >
             </app-online-event-registration>
