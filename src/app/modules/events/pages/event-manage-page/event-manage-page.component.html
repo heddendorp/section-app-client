@@ -347,22 +347,21 @@
       </div>
       <mat-list>
         <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
-          <h3 mat-line>
+          <h3 matListItemTitle>
             Registration code ({{ code.createdAt | date: 'short' }})
           </h3>
-          <p mat-line>
+          <p matListItemLine>
             {{ code.registrationToRemoveId ? 'regular' : 'admin code' }} ({{
               code.status
             }}) Is public: {{ code.isPublic ? 'yes' : 'no' }}&nbsp;
             <button
-              mat-icon-button
               (click)="deleteRegistrationCode(code.id)"
               [disabled]="code.status == 'SUCCESSFUL'"
             >
               ❌
             </button>
           </p>
-          <p mat-line>
+          <p matListItemLine>
             Link for registration:
             <span class="select-all font-mono">
               {{ document.location.origin }}/profile?code={{ code.id }}

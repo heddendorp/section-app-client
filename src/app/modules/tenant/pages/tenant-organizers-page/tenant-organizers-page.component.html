@@ -19,8 +19,8 @@
   </button>
   <mat-list>
     <mat-list-item *ngFor="let organizer of organizers$ | async">
-      <h3 mat-line>{{ organizer.name }}</h3>
-      <p mat-line>{{ organizer.text }}</p>
+      <h3 matListItemTitle>{{ organizer.name }}</h3>
+      <p matListItemLine>{{ organizer.text }}</p>
     </mat-list-item>
   </mat-list>
 </main>

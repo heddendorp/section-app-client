@@ -60,10 +60,10 @@
         *ngFor="let costItem of event.costItems"
         routerLink="receipts/{{ costItem.id }}"
       >
-        <h1 mat-line>
+        <h1 matListItemTitle>
           {{ costItem.name }}
         </h1>
-        <p mat-line>
+        <p matListItemLine>
           for {{ costItem.amount | currency }} (
           {{ costItem.submittedAmount | currency }} already submitted with
           receipts)
