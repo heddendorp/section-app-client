@@ -44,7 +44,7 @@
             ],
             "styles": ["src/styles.scss"],
             "scripts": ["./node_modules/marked/marked.min.js"],
-            "serviceWorker": true
+            "serviceWorker": false
           },
           "configurations": {
             "light": {
