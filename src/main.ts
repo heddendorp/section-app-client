@@ -83,6 +83,7 @@ if (environment.production) {
       // plus for 100% of sessions with an error
       replaysSessionSampleRate: 0.1,
       replaysOnErrorSampleRate: 1.0,
+      release: environment.version,
     });
   }
 }
