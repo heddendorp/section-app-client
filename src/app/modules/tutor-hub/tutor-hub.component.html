@@ -1,6 +1,6 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
-    <div resetScroll>Tutor Hub</div>
+    <div resetScroll>Section Hub</div>
   </mat-toolbar>
   <mat-progress-bar
     mode="indeterminate"
@@ -69,8 +69,9 @@
                     ? 'font-bold'
                     : 'text-blue-700 cursor-pointer'
                 "
-                >tutored</a
               >
+                organized
+              </a>
               ·
               <a
                 matRipple
@@ -165,11 +166,11 @@
         class="text-secondary-default bg-secondary-on card-icon"
       >
       </mat-icon>
-      <h2 class="font-bold">Tutors</h2>
+      <h2 class="font-bold">Members</h2>
     </div>
     <form [formGroup]="filterForm" class="mb-2 text-sm">
       <mat-form-field class="-mb-4 w-full">
-        <mat-label>Search for a tutor</mat-label>
+        <mat-label>Search for a member</mat-label>
         <input matInput formControlName="search" type="search" #searchInput />
         <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
       </mat-form-field>
@@ -198,8 +199,8 @@
         </ng-template>
       </app-grid>
       <div class="mt-3 text-sm italic text-gray-500">
-        {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active tutors of
-        the last three months.
+        {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active members
+        of the last three months.
       </div>
     </ng-container>
     <ng-container *ngIf="searchInput.value">

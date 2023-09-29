@@ -146,7 +146,7 @@ export class EventsListItemComponent {
     } else if (publicationState === 'APPROVAL') {
       return 'Ready for approval';
     } else if (publicationState === 'ORGANIZERS') {
-      return 'Visible to tutors';
+      return 'Visible to organizers';
     } else {
       return;
     }

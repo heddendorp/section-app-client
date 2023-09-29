@@ -38,7 +38,7 @@ export const APP_ROUTES: Routes = [
     children: PAGE_ROUTES,
   },
   {
-    path: 'tutor-hub',
+    path: 'section-hub',
     canActivate: [AuthGuard, MemberGuard],
     children: TUTOR_HUB_ROUTES,
   },
