@@ -35,7 +35,7 @@
     "@sentry/angular-ivy": "^7.72.0",
     "apollo-angular": "^5.0.1",
     "backoff-rxjs": "^7.0.0",
-    "graphql": "^16.8.0",
+    "graphql": "^16.8.1",
     "highcharts": "^11.1.0",
     "highcharts-angular": "^3.1.2",
     "luxon": "^3.4.2",
