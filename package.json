@@ -6,12 +6,13 @@
     "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn codegen --watch\"",
     "dev:light": "concurrently --kill-others-on-fail \"yarn start --configuration=light\" \"yarn codegen --watch\"",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && yarn sentry:sourcemaps",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "codegen": "yarn graphql-codegen",
     "codegen:watch": "yarn graphql-codegen --watch",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org esn-tumi-ev --project legacy-app ./dist/legacy-app && sentry-cli sourcemaps upload --org esn-tumi-ev --project legacy-app ./dist/legacy-app"
   },
   "private": true,
   "dependencies": {

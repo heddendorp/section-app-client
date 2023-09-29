@@ -8,9 +8,10 @@ COPY .yarn .yarn/
 RUN yarn install --immutable
 COPY . ./
 ARG VERSION=DOCKER_VERSION
-ARG CONFIGURATION=production
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
 RUN sed -i "s|PROD_VERSION|$VERSION|g" src/environments/environment.prod.ts
-RUN yarn build --configuration $CONFIGURATION
+RUN yarn build
 
 FROM nginx:1.25.2-alpine
 COPY ./nginx.conf /etc/nginx/nginx.conf
