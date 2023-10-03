@@ -12,6 +12,7 @@ ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
 RUN sed -i "s|PROD_VERSION|$VERSION|g" src/environments/environment.prod.ts
 RUN yarn build
+COPY /usr/src/app/node_modules/@angular/service-worker/safety-worker.js /usr/src/app/dist/legacy-app/ngsw-worker.js
 
 FROM nginx:1.25.2-alpine
 COPY ./nginx.conf /etc/nginx/nginx.conf
