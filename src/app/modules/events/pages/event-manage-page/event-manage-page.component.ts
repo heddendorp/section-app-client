@@ -9,8 +9,6 @@ import {
   CheckInUserGQL,
   CreateEventRegistrationCodeGQL,
   DeleteRegistrationCodeGQL,
-  DeregisterFromEventGQL,
-  KickFromEventDocument,
   KickFromEventGQL,
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
@@ -23,19 +21,19 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
-  trigger,
-  state,
-  transition,
   animate,
+  state,
   style,
+  transition,
+  trigger,
 } from '@angular/animations';
 import {
-  DOCUMENT,
-  NgIf,
-  NgFor,
   AsyncPipe,
   CurrencyPipe,
   DatePipe,
+  DOCUMENT,
+  NgFor,
+  NgIf,
 } from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatListModule } from '@angular/material/list';
@@ -50,6 +48,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 
 @Component({
   selector: 'app-event-manage-page',
@@ -87,6 +86,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CurrencyPipe,
     DatePipe,
     ExtendDatePipe,
+    EventParticipantsTableComponent,
   ],
 })
 export class EventManagePageComponent implements OnDestroy {
@@ -94,9 +94,6 @@ export class EventManagePageComponent implements OnDestroy {
   public environment = environment;
   public feeShare$: Observable<number>;
   public lastUserFeeShare$: Observable<number>;
-  private loadEventQueryRef;
-  private destroyed$ = new Subject();
-
   registrationTableColumns: string[] = [
     'name',
     'registrationStatus',
@@ -106,6 +103,8 @@ export class EventManagePageComponent implements OnDestroy {
     'expand',
   ];
   expandedRegistration?: TumiEvent;
+  private loadEventQueryRef;
+  private destroyed$ = new Subject();
   private kickFromEventGQL = inject(KickFromEventGQL);
 
   constructor(
@@ -209,34 +208,6 @@ export class EventManagePageComponent implements OnDestroy {
 
   async checkin(id: string) {
     throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
-  }
-
-  getTable(
-    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations'],
-  ) {
-    return participantRegistrations
-      .filter((r) => !r.checkInTime && r.submissions.length)
-      .filter((r) => r.status !== RegistrationStatus.Cancelled)
-      .map((r) => ({
-        ...r,
-        address: r.submissions
-          .find((s) => s.submissionItem.name === 'Address')
-          ?.data?.value?.split('\n'),
-      }));
-  }
-
-  filterRegistrations(
-    participantRegistrations: LoadEventForManagementQuery['event']['participantRegistrations'],
-  ) {
-    return participantRegistrations.filter(
-      (r) => r.status !== RegistrationStatus.Cancelled,
-    );
-  }
-
-  joinOrganizers(
-    organizerRegistrations: LoadEventForManagementQuery['event']['organizerRegistrations'],
-  ) {
-    return organizerRegistrations.map((r) => r.user.fullName).join(', ');
   }
 
   async createRegistrationCode(sepaAllowed = false) {

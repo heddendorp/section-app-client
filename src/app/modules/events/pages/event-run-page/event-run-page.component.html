@@ -101,12 +101,7 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
+    <div class="mb-4 flex gap-4 justify-center">
       <mat-icon
         svgIcon="icon-conference"
         class="text-secondary-default bg-secondary-on card-icon"
@@ -133,62 +128,55 @@
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
+    <div class="mb-4 flex gap-4 justify-center">
       <mat-icon
         svgIcon="icon-conference"
         class="text-secondary-default bg-secondary-on card-icon"
       >
       </mat-icon>
-      <h2 class="font-bold">Participants</h2>
+      <h2 class="font-bold">Participant overview</h2>
     </div>
-    <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-      <div
-        class="flex flex-row items-center gap-1"
-        *ngFor="let registration of event.participantRegistrations"
-      >
-        <div class="flex-1">
-          <app-user-chip
-            size="md"
-            [id]="registration.user.id"
-            [picture]="registration.user.picture"
-            [name]="registration.user.fullName"
-            [phone]="registration.user.phone || ''"
-            [checkedIn]="!!registration.checkInTime"
-            [status]="registration.user.currentTenant?.status + ''"
-          >
-            <ng-container *ngIf="!registration.checkInTime">
-              <button
-                mat-icon-button
-                class="modern"
-                (click)="checkin(registration.id)"
-                *appIfRole="[Role.Admin]"
-              >
-                <mat-icon svgIcon="icon-checked"></mat-icon>
-              </button>
-            </ng-container>
-          </app-user-chip>
-        </div>
-        <div *ngFor="let submission of registration.submissions">
-          <p class="font-bold">{{ submission.submissionItem.name }}</p>
-          <p>{{ submission.data.value }}</p>
-        </div>
-      </div>
-    </div>
+    <app-event-participants-table
+      [event]="event"
+    ></app-event-participants-table>
+    <!--    <div class="flex flex-col flex-wrap gap-4 md:flex-row">-->
+    <!--      <div-->
+    <!--        class="flex flex-row items-center gap-1"-->
+    <!--        *ngFor="let registration of event.participantRegistrations"-->
+    <!--      >-->
+    <!--        <div class="flex-1">-->
+    <!--          <app-user-chip-->
+    <!--            size="md"-->
+    <!--            [id]="registration.user.id"-->
+    <!--            [picture]="registration.user.picture"-->
+    <!--            [name]="registration.user.fullName"-->
+    <!--            [phone]="registration.user.phone || ''"-->
+    <!--            [checkedIn]="!!registration.checkInTime"-->
+    <!--            [status]="registration.user.currentTenant?.status + ''"-->
+    <!--          >-->
+    <!--            <ng-container *ngIf="!registration.checkInTime">-->
+    <!--              <button-->
+    <!--                mat-icon-button-->
+    <!--                class="modern"-->
+    <!--                (click)="checkin(registration.id)"-->
+    <!--                *appIfRole="[Role.Admin]"-->
+    <!--              >-->
+    <!--                <mat-icon svgIcon="icon-checked"></mat-icon>-->
+    <!--              </button>-->
+    <!--            </ng-container>-->
+    <!--          </app-user-chip>-->
+    <!--        </div>-->
+    <!--        <div *ngFor="let submission of registration.submissions">-->
+    <!--          <p class="font-bold">{{ submission.submissionItem.name }}</p>-->
+    <!--          <p>{{ submission.data.value }}</p>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
   <div
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
+    <div class="mb-4 flex gap-4 justify-center">
       <mat-icon
         svgIcon="icon-conference"
         class="text-secondary-default bg-secondary-on card-icon"

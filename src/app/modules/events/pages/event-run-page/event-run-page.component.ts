@@ -16,9 +16,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 
 @Component({
   selector: 'app-event-run-page',
@@ -41,6 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     EventSubmissionOverviewComponent,
     AsyncPipe,
     CurrencyPipe,
+    EventParticipantsTableComponent,
   ],
 })
 export class EventRunPageComponent implements OnDestroy {

@@ -52,6 +52,10 @@ query loadEventForManagement($id: ID!) {
         }
       }
     }
+    submissionItems{
+      id
+      name
+    }
     participantRegistrations(includeCancelled: true) {
       id
       createdAt
@@ -80,6 +84,7 @@ query loadEventForManagement($id: ID!) {
         id
         fullName
         firstName
+        lastName
         picture
         email
         phone

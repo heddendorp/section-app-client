@@ -86,6 +86,7 @@ query loadEventForRunning($id: ID!) {
     participantRegistrations(includePending: false) {
       id
       checkInTime
+      status
       transactions {
         id
         status
@@ -109,6 +110,7 @@ query loadEventForRunning($id: ID!) {
       user {
         id
         fullName
+        lastName
         phone
         picture
         email

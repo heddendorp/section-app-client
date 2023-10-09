@@ -371,116 +371,13 @@
       </mat-list>
     </mat-expansion-panel>
 
-    <mat-expansion-panel
-      [expanded]="true"
-      *ngIf="event.title.includes('ESNcard')"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> For Thomas with ❤️ </mat-panel-title>
-      </mat-expansion-panel-header>
-      <table class="select-all">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Zeile 1</th>
-            <th>Zeile 2</th>
-            <th>Zeile 3</th>
-            <th>Zeile 4</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let registration of getTable(event.participantRegistrations)
-            "
-          >
-            <td>{{ registration.user.fullName }}</td>
-            <td *ngFor="let part of registration.address">
-              {{ part }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-expansion-panel>
-
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Event table </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="block max-w-full overflow-x-auto">
-        <table class="w-full select-all">
-          <tbody>
-            <tr>
-              <td colspan="2">Event Name:</td>
-              <td colspan="3">{{ event.title }}</td>
-            </tr>
-            <tr>
-              <td colspan="2">Date:</td>
-              <td colspan="3">{{ event.start | date }}</td>
-            </tr>
-            <tr>
-              <td colspan="2">Organizers:</td>
-              <td colspan="3">
-                {{ joinOrganizers(event.organizerRegistrations) }}
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">Participants (including tutors):</td>
-              <td colspan="3">
-                {{
-                  event.participantRegistrationCount +
-                    event.organizerRegistrations.length
-                }}
-              </td>
-            </tr>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>E-mail</th>
-              <th>Phone</th>
-              <th>Check in</th>
-              <th>Price paid</th>
-            </tr>
-            <tr
-              *ngFor="
-                let registration of filterRegistrations(
-                  event.participantRegistrations
-                );
-                let i = index;
-                let last = last
-              "
-              class="table-row"
-            >
-              <td>{{ i + 1 }}</td>
-              <td>{{ registration.user.fullName }}</td>
-              <td>{{ registration.user.email }}</td>
-              <td>{{ registration.user.phone }}</td>
-              <td>{{ registration.checkInTime | date: 'short' }}</td>
-              <!--              TODO: fix calculation with new transactions-->
-              <!--<td *ngIf="!last">
-                {{
-                  ((registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) -
-                    ((feeShare$ | async) ?? 0)) /
-                    100 | currency: 'EUR'
-                }}
-              </td>
-              <td *ngIf="last">
-                {{
-                  ((registration.transaction?.stripePayment
-                    ?.netLessRefundAmount ??
-                    0) -
-                    ((lastUserFeeShare$ | async) ?? 0)) /
-                    100 | currency: 'EUR'
-                }}
-              </td>-->
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <app-event-participants-table
+        [event]="event"
+      ></app-event-participants-table>
     </mat-expansion-panel>
   </mat-accordion>
-
-  <!--  <app-manage-event-voting [event]="event"></app-manage-event-voting>-->
 </main>
