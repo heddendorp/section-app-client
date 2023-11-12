@@ -20,14 +20,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "paths": {
-      "@tumi/legacy-app/*": [
-        "src/app/*"
-      ]
+      "@tumi/legacy-app/*": ["src/app/*"]
     },
     "useDefineForClassFields": false
   },

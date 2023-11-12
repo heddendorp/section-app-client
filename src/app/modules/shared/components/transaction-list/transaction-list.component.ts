@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Transaction } from '@tumi/legacy-app/generated/generated';
 import { SnakeCasePipe } from '@tumi/legacy-app/modules/shared/pipes/snake-case.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor, NgIf, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-list',

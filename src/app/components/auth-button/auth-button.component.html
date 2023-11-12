@@ -1,38 +1,38 @@
-<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <a
-    routerLink="/profile"
-    class="aspect-1 h-full p-3"
-    data-testid="profile-link"
-  >
-    <img
-      *ngIf="userPicture"
-      [ngSrc]="userPicture"
-      width="450"
-      height="450"
-      class="h-auto w-auto rounded-full bg-gray-200"
-      style="text-indent: -10000px"
-      routerLinkActive="active"
-      referrerpolicy="no-referrer"
-    />
-    <img
-      *ngIf="!userPicture"
-      ngSrc="assets/images/defaultUser.jpg"
-      width="360"
-      height="360"
-      class="h-auto rounded-full bg-gray-200"
-      style="text-indent: -10000px"
-      routerLinkActive="active"
-      referrerpolicy="no-referrer"
-    />
-  </a>
-</ng-container>
-<ng-template #loggedOut>
-  <button
-    data-testid="login-button"
-    class="flex w-full flex-row items-center justify-center"
-    (click)="auth.loginWithRedirect()"
-  >
-    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
-    <span>&nbsp;Log in</span>
-  </button>
-</ng-template>
+@if (auth.isAuthenticated$ | async) {
+
+<a routerLink="/profile" class="aspect-1 h-full p-3" data-testid="profile-link">
+  @if (userPicture) {
+  <img
+    [ngSrc]="userPicture"
+    width="450"
+    height="450"
+    class="h-auto w-auto rounded-full bg-gray-200"
+    style="text-indent: -10000px"
+    routerLinkActive="active"
+    referrerpolicy="no-referrer"
+  />
+  } @if (!userPicture) {
+  <img
+    ngSrc="assets/images/defaultUser.jpg"
+    width="360"
+    height="360"
+    class="h-auto rounded-full bg-gray-200"
+    style="text-indent: -10000px"
+    routerLinkActive="active"
+    referrerpolicy="no-referrer"
+  />
+  }
+</a>
+
+} @else {
+
+<button
+  data-testid="login-button"
+  class="flex w-full flex-row items-center justify-center"
+  (click)="auth.loginWithRedirect()"
+>
+  <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+  <span>&nbsp;Log in</span>
+</button>
+
+}

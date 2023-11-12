@@ -5,7 +5,8 @@
 
   <div class="mx-2">
     <h2 class="whitespace-nowrap">{{ semesterText }}</h2>
-    <div class="flex justify-center" *ngIf="!isAllTime">
+    @if (!isAllTime) {
+    <div class="flex justify-center">
       <button
         class="modern !text-xs"
         mat-flat-button
@@ -15,6 +16,7 @@
         all time
       </button>
     </div>
+    }
   </div>
 
   <button mat-icon-button>

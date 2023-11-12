@@ -5,20 +5,20 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
-  MatAutocompleteSelectedEvent,
   MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { map, Observable, startWith, Subject, tap } from 'rxjs';
 import { LoadUsersByStatusQuery } from '@tumi/legacy-app/generated/generated';
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef,
   MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog';
-import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 

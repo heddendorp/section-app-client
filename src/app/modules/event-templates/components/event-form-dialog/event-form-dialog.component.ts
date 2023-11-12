@@ -3,7 +3,6 @@ import {
   Component,
   Inject,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
@@ -17,7 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { GetEventTemplateQuery } from '@tumi/legacy-app/generated/generated';
-import { startWith, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';

@@ -18,16 +18,16 @@
       />
       <mat-error>You have to define an icon</mat-error>
     </mat-form-field>
-    <mat-form-field class="w-full" *ngIf="data?.categories">
+    @if (data?.categories) {
+    <mat-form-field class="w-full">
       <mat-label>Template Category</mat-label>
       <mat-select formControlName="categoryId" required>
-        <mat-option
-          *ngFor="let category of data?.categories"
-          [value]="category.id"
-          >{{ category.name }}</mat-option
-        >
+        @for (category of data?.categories; track category) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
+    }
     <mat-form-field class="w-full">
       <mat-label>Duration</mat-label>
       <input matInput formControlName="duration" type="number" required />

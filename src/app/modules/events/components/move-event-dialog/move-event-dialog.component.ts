@@ -7,7 +7,7 @@ import {
   LoadRegistrationForMoveGQL,
   LoadRegistrationForMoveQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({

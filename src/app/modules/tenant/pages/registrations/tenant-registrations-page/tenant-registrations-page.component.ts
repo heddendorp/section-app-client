@@ -5,7 +5,7 @@ import {
   GetRegistrationsGQL,
   GetRegistrationsQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { map, Observable } from 'rxjs';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { RouterLink } from '@angular/router';
@@ -15,11 +15,11 @@ import { EventChipComponent } from '../../../../shared/components/event-chip/eve
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  NgIf,
   AsyncPipe,
-  TitleCasePipe,
   CurrencyPipe,
   DatePipe,
+  NgIf,
+  TitleCasePipe,
 } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';

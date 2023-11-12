@@ -1,14 +1,15 @@
 <mat-toolbar color="white">
   <app-back-button></app-back-button>
-  <ng-container *ngIf="event$ | async as event">
-    <div class="flex-1 truncate">Run {{ event.title }}</div>
-  </ng-container>
+  @if (event$ | async; as event) {
+
+  <div class="flex-1 truncate">Run {{ event.title }}</div>
+
+  }
 </mat-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
-<main *ngIf="event$ | async as event" class="flex flex-col gap-8 p-4">
+@if ((event$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @if (event$ | async; as event) {
+<main class="flex flex-col gap-8 p-4">
   <a mat-fab extended routerLink="scan">
     <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
     Scan code
@@ -37,8 +38,8 @@
     </button>
   </div>
 
+  @if (event.costItems.length) {
   <div
-    *ngIf="event.costItems.length"
     class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
   >
     <div
@@ -55,11 +56,8 @@
       <h2 class="font-bold">Required receipts</h2>
     </div>
     <mat-nav-list>
-      <a
-        mat-list-item
-        *ngFor="let costItem of event.costItems"
-        routerLink="receipts/{{ costItem.id }}"
-      >
+      @for (costItem of event.costItems; track costItem) {
+      <a mat-list-item routerLink="receipts/{{ costItem.id }}">
         <h1 matListItemTitle>
           {{ costItem.name }}
         </h1>
@@ -69,6 +67,7 @@
           receipts)
         </p>
       </a>
+      }
     </mat-nav-list>
     <p class="mb-2">
       You can upload multiple photos of receipts for each entry. Please make
@@ -76,6 +75,7 @@
       Finance Coordinator to initiate the refund.
     </p>
   </div>
+  }
 
   <ul
     class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
@@ -110,7 +110,8 @@
       <h2 class="font-bold">Organizers</h2>
     </div>
     <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-      <div *ngFor="let registration of event.organizerRegistrations">
+      @for (registration of event.organizerRegistrations; track registration) {
+      <div>
         <app-user-chip
           size="md"
           [id]="registration.user.id"
@@ -122,6 +123,7 @@
         >
         </app-user-chip>
       </div>
+      }
     </div>
   </div>
 
@@ -190,3 +192,4 @@
     ></app-event-submission-overview>
   </div>
 </main>
+}

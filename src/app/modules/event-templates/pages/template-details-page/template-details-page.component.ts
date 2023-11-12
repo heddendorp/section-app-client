@@ -34,11 +34,11 @@ import { MatCardModule } from '@angular/material/card';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
-  DecimalPipe,
   DatePipe,
+  DecimalPipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 

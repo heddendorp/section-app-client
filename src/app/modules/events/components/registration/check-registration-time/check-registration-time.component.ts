@@ -9,7 +9,7 @@ import { combineLatest, interval, map, Observable, ReplaySubject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-check-registration-time',

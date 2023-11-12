@@ -6,16 +6,16 @@ import {
 import { map, Observable } from 'rxjs';
 import * as Highcharts from 'highcharts';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';

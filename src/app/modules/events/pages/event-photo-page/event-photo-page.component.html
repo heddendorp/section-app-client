@@ -1,13 +1,12 @@
+@if ((photos$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @if (uploading$ | async) {
 <mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(photos$ | async) === null"
-></mat-progress-bar>
-<mat-progress-bar
-  *ngIf="uploading$ | async"
   [mode]="(uploadMode$ | async) ?? 'indeterminate'"
   [value]="uploadProgress$ | async"
 ></mat-progress-bar>
-<main *ngIf="photos$ | async as photos" class="p-4">
+} @if (photos$ | async; as photos) {
+<main class="p-4">
   <input
     type="file"
     hidden
@@ -35,12 +34,12 @@
   <p class="mb-4">
     Use this to exchange photos with other participants in this event.
   </p>
+  @if (photos$ | async; as photos) {
   <div
     class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
-    *ngIf="photos$ | async as photos"
   >
+    @for (photo of photos; track photo) {
     <div
-      *ngFor="let photo of photos"
       class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
         photo.rows > 1 ? 'row-span-2' : ''
       }}"
@@ -59,5 +58,8 @@
         loading="lazy"
       />
     </div>
+    }
   </div>
+  }
 </main>
+}

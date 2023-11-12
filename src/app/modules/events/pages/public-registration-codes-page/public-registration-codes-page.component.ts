@@ -14,10 +14,10 @@ import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
   DatePipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 

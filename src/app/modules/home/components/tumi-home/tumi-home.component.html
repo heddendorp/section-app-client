@@ -54,8 +54,8 @@
       <h2 class="mt-8 text-2xl font-bold">Upcoming Events</h2>
     </div>
     <div class="flex w-full snap-x gap-12 overflow-x-auto pb-8 pt-4 sm:hidden">
+      @for (event of events$ | async; track event) {
       <div
-        *ngFor="let event of events$ | async"
         routerLink="/events/{{ event.id }}"
         class="relative shrink-0 cursor-pointer snap-start scroll-ml-6 first:pl-6 last:pr-[calc(100%-21.5rem)]"
       >
@@ -73,11 +73,12 @@
           <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
       </div>
+      }
     </div>
     <div class="hidden w-full p-4 sm:block">
       <app-grid minWidth="300px">
+        @for (event of events$ | async; track event) {
         <div
-          *ngFor="let event of events$ | async"
           routerLink="/events/{{ event.id }}"
           class="flex cursor-pointer flex-col items-center rounded-2xl border bg-gray-600 p-4 text-center hover:bg-gray-700"
         >
@@ -91,6 +92,7 @@
           <h3>{{ event.title }}</h3>
           <p>{{ event.start | date: 'mediumDate' }}</p>
         </div>
+        }
       </app-grid>
     </div>
   </div>

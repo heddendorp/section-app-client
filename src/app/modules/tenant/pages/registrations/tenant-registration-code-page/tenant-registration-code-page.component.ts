@@ -12,11 +12,11 @@ import { EventChipComponent } from '../../../../shared/components/event-chip/eve
 import { UserChipComponent } from '../../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
-  LowerCasePipe,
   DatePipe,
+  LowerCasePipe,
+  NgFor,
+  NgIf,
 } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';

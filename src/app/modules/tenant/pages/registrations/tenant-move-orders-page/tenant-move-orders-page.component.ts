@@ -6,14 +6,14 @@ import {
   GetEventRegistrationCodesQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { RouterLink } from '@angular/router';
 import { UserChipComponent } from '../../../../shared/components/user-chip/user-chip.component';
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';

@@ -70,12 +70,11 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
-          *ngFor="let option of userOptions$ | async"
-          [value]="option.id"
-        >
+        @for (option of userOptions$ | async; track option) {
+        <mat-option [value]="option.id">
           {{ option.fullName }} ({{ option.email }})
         </mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
   </mat-dialog-content>

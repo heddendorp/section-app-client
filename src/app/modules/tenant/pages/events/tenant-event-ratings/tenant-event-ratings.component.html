@@ -3,20 +3,14 @@
     <app-back-button></app-back-button>
     <div resetScroll>Events with ratings</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(events$ | async) === null"
-  ></mat-progress-bar>
+  @if ((events$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
   <div class="mb-4 text-sm">Showing events of the last month.</div>
-  <table
-    *ngIf="events$ | async as events"
-    mat-table
-    multiTemplateDataRows
-    [dataSource]="events"
-    class="w-full"
-  >
+  @if (events$ | async; as events) {
+  <table mat-table multiTemplateDataRows [dataSource]="events" class="w-full">
     <!--<ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
@@ -63,34 +57,38 @@
     <ng-container matColumnDef="organizer">
       <th mat-header-cell *matHeaderCellDef>Organizer rating</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.organizerRatingCount > 0"
+        @if (element.organizerRatingCount > 0) {
+        <span
           >{{ element.organizerRating | number: '1.1-2' }} ★ ({{
             element.organizerRatingCount
           }})</span
         >
-        <span *ngIf="element.organizerVotes === 0">None</span>
+        } @if (element.organizerVotes === 0) {
+        <span>None</span>
+        }
       </td>
     </ng-container>
     <ng-container matColumnDef="participant">
       <th mat-header-cell *matHeaderCellDef>Participant rating</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.participantRatingCount > 0"
+        @if (element.participantRatingCount > 0) {
+        <span
           >{{ element.participantRating | number: '1.1-2' }} ★ ({{
             element.participantRatingCount
           }})</span
         >
-        <span *ngIf="element.voteCount === 0">None</span>
+        } @if (element.voteCount === 0) {
+        <span>None</span>
+        }
       </td>
     </ng-container>
     <ng-container matColumnDef="comments">
       <!--      <th mat-header-cell *matHeaderCellDef>Participant rating</th>-->
       <td colspan="3" mat-cell *matCellDef="let element">
-        <div
-          *ngIf="element.ratings.length"
-          class="my-4 flex flex-col flex-wrap gap-4 md:flex-row"
-        >
+        @if (element.ratings.length) {
+        <div class="my-4 flex flex-col flex-wrap gap-4 md:flex-row">
+          @for (rating of element.ratings; track rating) {
           <app-rating-item
-            *ngFor="let rating of element.ratings"
             [isOrganizer]="rating.type === 'ORGANIZER'"
             [comment]="rating.userComment"
             [isAnonymous]="rating.anonymousRating"
@@ -100,7 +98,9 @@
             [userPicture]="rating.user.picture"
             [userStatus]="rating.user.currentTenant?.status || ''"
           ></app-rating-item>
+          }
         </div>
+        }
       </td>
     </ng-container>
 
@@ -115,6 +115,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: ['comments']"></tr>
   </table>
+  }
   <!--<mat-paginator
     [length]="registrationCount$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"

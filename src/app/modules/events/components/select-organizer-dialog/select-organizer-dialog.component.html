@@ -13,11 +13,9 @@
       (optionSelected)="selectUser($event)"
       autoActiveFirstOption
     >
-      <mat-option
-        *ngFor="let user of filteredChoices$ | async"
-        [value]="user.id"
-        >{{ user.fullName }}</mat-option
-      >
+      @for (user of filteredChoices$ | async; track user) {
+      <mat-option [value]="user.id">{{ user.fullName }}</mat-option>
+      }
     </mat-autocomplete>
   </mat-form-field>
 </mat-dialog-content>

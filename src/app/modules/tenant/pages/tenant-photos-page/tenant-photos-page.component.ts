@@ -7,7 +7,7 @@ import {
 import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
 import { map, Observable } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';

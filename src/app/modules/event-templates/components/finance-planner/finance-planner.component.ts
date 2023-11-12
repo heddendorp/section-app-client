@@ -3,10 +3,10 @@ import {
   UpdateFinancesGQL,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   ChangeDetectionStrategy,
@@ -37,11 +37,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import {
+  AsyncPipe,
+  CurrencyPipe,
   NgIf,
   NgSwitch,
   NgSwitchCase,
-  AsyncPipe,
-  CurrencyPipe,
 } from '@angular/common';
 
 interface CostItem {

@@ -3,17 +3,14 @@
     <app-back-button></app-back-button>
     <div resetScroll>Registration Code</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(eventRegistrationCode$ | async) === null"
-  ></mat-progress-bar>
+  @if ((eventRegistrationCode$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="space-y-2 p-4 lg:p-8">
   <p>The ultimate information center 😎</p>
-  <div
-    class="overflow-hidden rounded-2xl border"
-    *ngIf="eventRegistrationCode$ | async as code"
-  >
+  @if (eventRegistrationCode$ | async; as code) {
+  <div class="overflow-hidden rounded-2xl border">
     <table class="w-full table-auto border-collapse overflow-x-auto max-w-full">
       <tbody>
         <tr>
@@ -48,9 +45,13 @@
         <tr>
           <td>Status: {{ code.status }}</td>
           <td>
-            <span class="tag" *ngIf="code.isPublic">public</span>
-            <span class="tag" *ngIf="!code.isPublic">private</span>
-            <span class="tag" *ngIf="code.sepaAllowed">sepa</span>
+            @if (code.isPublic) {
+            <span class="tag">public</span>
+            } @if (!code.isPublic) {
+            <span class="tag">private</span>
+            } @if (code.sepaAllowed) {
+            <span class="tag">sepa</span>
+            }
           </td>
           <td colspan="2">
             <a
@@ -68,117 +69,132 @@
         </tr>
 
         <tr>
-          <ng-container *ngIf="code.registrationToRemove">
-            <td>
-              Created:
-              {{ code.registrationToRemove.createdAt | date: 'medium' }}
-            </td>
-            <td>
-              <app-user-chip
-                size="sm"
-                [id]="code.registrationToRemove.user.id"
-                [picture]="code.registrationToRemove.user.picture"
-                [name]="code.registrationToRemove.user.fullName"
-                [status]="
-                  code.registrationToRemove.user.currentTenant?.status + ''
-                "
-              >
-              </app-user-chip>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="!code.registrationToRemove">
-            <td colspan="2">Admin code with no original registration</td>
-          </ng-container>
-          <ng-container *ngIf="code.registrationCreated">
-            <td>
-              Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
-            </td>
-            <td>
-              <app-user-chip
-                size="xs"
-                [id]="code.registrationCreated.user.id"
-                [picture]="code.registrationCreated.user.picture"
-                [name]="code.registrationCreated.user.fullName"
-                [status]="
-                  code.registrationCreated.user.currentTenant?.status + ''
-                "
-              >
-              </app-user-chip>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="!code.registrationCreated">
-            <td colspan="2">Code was not used yet</td>
-          </ng-container>
+          @if (code.registrationToRemove) {
+
+          <td>
+            Created:
+            {{ code.registrationToRemove.createdAt | date: 'medium' }}
+          </td>
+          <td>
+            <app-user-chip
+              size="sm"
+              [id]="code.registrationToRemove.user.id"
+              [picture]="code.registrationToRemove.user.picture"
+              [name]="code.registrationToRemove.user.fullName"
+              [status]="
+                code.registrationToRemove.user.currentTenant?.status + ''
+              "
+            >
+            </app-user-chip>
+          </td>
+
+          } @if (!code.registrationToRemove) {
+
+          <td colspan="2">Admin code with no original registration</td>
+
+          } @if (code.registrationCreated) {
+
+          <td>
+            Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
+          </td>
+          <td>
+            <app-user-chip
+              size="xs"
+              [id]="code.registrationCreated.user.id"
+              [picture]="code.registrationCreated.user.picture"
+              [name]="code.registrationCreated.user.fullName"
+              [status]="
+                code.registrationCreated.user.currentTenant?.status + ''
+              "
+            >
+            </app-user-chip>
+          </td>
+
+          } @if (!code.registrationCreated) {
+
+          <td colspan="2">Code was not used yet</td>
+
+          }
         </tr>
 
         <tr>
-          <ng-container *ngIf="code.registrationToRemove">
-            <td>
-              Status:
-              {{ code.registrationToRemove.status | lowercase }}
-            </td>
-            <td>{{ code.registrationToRemove.cancellationReason }}</td>
-          </ng-container>
-          <ng-container *ngIf="!code.registrationToRemove">
-            <td colspan="2"></td>
-          </ng-container>
-          <ng-container *ngIf="code.registrationCreated">
-            <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
-            <td>{{ code.registrationCreated.cancellationReason }}</td>
-          </ng-container>
-          <ng-container *ngIf="!code.registrationCreated">
-            <td colspan="2"></td>
-          </ng-container>
+          @if (code.registrationToRemove) {
+
+          <td>
+            Status:
+            {{ code.registrationToRemove.status | lowercase }}
+          </td>
+          <td>{{ code.registrationToRemove.cancellationReason }}</td>
+
+          } @if (!code.registrationToRemove) {
+
+          <td colspan="2"></td>
+
+          } @if (code.registrationCreated) {
+
+          <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
+          <td>{{ code.registrationCreated.cancellationReason }}</td>
+
+          } @if (!code.registrationCreated) {
+
+          <td colspan="2"></td>
+
+          }
         </tr>
 
         <tr>
           <td colspan="2">
             <!--            TODO: check use of transactions list-->
+            @if (code.registrationToRemove) {
             <app-transaction-list
-              *ngIf="code.registrationToRemove"
               [transactions]="code.registrationToRemove.transactions"
             ></app-transaction-list>
+            }
           </td>
           <td colspan="2">
+            @if (code.registrationCreated) {
             <app-transaction-list
-              *ngIf="code.registrationCreated"
               [transactions]="code.registrationCreated.transactions"
             ></app-transaction-list>
+            }
           </td>
         </tr>
-        <ng-container *ngIf="code.connectedRegistrations.length">
-          <tr>
-            <th colspan="4">All connected registrations</th>
-          </tr>
-          <tr *ngFor="let registration of code.connectedRegistrations">
-            <td>Created {{ registration.createdAt | date: 'medium' }}</td>
-            <td>
-              <app-user-chip
-                size="xs"
-                [id]="registration.user.id"
-                [picture]="registration.user.picture"
-                [name]="registration.user.fullName"
-                [status]="registration.user.currentTenant?.status + ''"
-              >
-              </app-user-chip>
-            </td>
-            <td>
-              Status: {{ registration.status }} ({{
-                registration.cancellationReason
-              }})
-            </td>
-            <td>
-              <p>
-                Payment:
-                <app-transaction-list
-                  [transactions]="registration.transactions"
-                ></app-transaction-list>
-              </p>
-            </td>
-          </tr>
-        </ng-container>
+        @if (code.connectedRegistrations.length) {
+
+        <tr>
+          <th colspan="4">All connected registrations</th>
+        </tr>
+        @for (registration of code.connectedRegistrations; track registration) {
+        <tr>
+          <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+          <td>
+            <app-user-chip
+              size="xs"
+              [id]="registration.user.id"
+              [picture]="registration.user.picture"
+              [name]="registration.user.fullName"
+              [status]="registration.user.currentTenant?.status + ''"
+            >
+            </app-user-chip>
+          </td>
+          <td>
+            Status: {{ registration.status }} ({{
+              registration.cancellationReason
+            }})
+          </td>
+          <td>
+            <p>
+              Payment:
+              <app-transaction-list
+                [transactions]="registration.transactions"
+              ></app-transaction-list>
+            </p>
+          </td>
+        </tr>
+        } }
       </tbody>
     </table>
   </div>
+  }
   <!--  <pre>{{ eventRegistrationCode$ | async | json }}</pre>-->
 </main>

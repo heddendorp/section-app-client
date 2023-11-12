@@ -17,14 +17,12 @@
         width="16"
       />
     </div>
-    <div
-      *ngIf="!profile"
-      class="z-10 h-[128px] w-[128px] overflow-hidden rounded-full bg-white"
-    >
+    @if (!profile) {
+    <div class="z-10 h-[128px] w-[128px] overflow-hidden rounded-full bg-white">
       <div class="skeleton h-full w-full"></div>
     </div>
+    } @if (profile) {
     <img
-      *ngIf="profile"
       [ngSrc]="profile.picture"
       height="128"
       width="128"
@@ -36,91 +34,89 @@
       data-testid="profile-picture"
       onerror="this.src='assets/images/defaultUser.jpg'"
     />
+    }
     <div class="mt-4 text-3xl font-bold">
-      <div *ngIf="!profile" class="skeleton w-60">Phantom</div>
-      <span *ngIf="profile">{{ profile.fullName }}</span>
+      @if (!profile) {
+      <div class="skeleton w-60">Phantom</div>
+      } @if (profile) {
+      <span>{{ profile.fullName }}</span>
+      }
     </div>
-    <div
-      *ngIf="
-        profile &&
-        position(profile.position, profile.currentTenant?.status) as position
-      "
-      class="my-1"
-    >
+    @if ( profile && position(profile.position, profile.currentTenant?.status);
+    as position ) {
+    <div class="my-1">
       <span
         class="background px-2 py-1 text-sm text-white rounded-lg {{
-          profile.currentTenant?.status | lowercase
+          profile?.currentTenant?.status | lowercase
         }}"
         >{{ position }}</span
       >
     </div>
-    <div *ngIf="profile && profile.country" class="my-1 text-sm italic">
+    } @if (profile && profile.country) {
+    <div class="my-1 text-sm italic">
       {{ profile.country }}
     </div>
-    <div *ngIf="!profile" class="skeleton mt-2 text-sm italic">
-      Phantom Country
-    </div>
+    } @if (!profile) {
+    <div class="skeleton mt-2 text-sm italic"> Phantom Country </div>
+    }
     <div class="mt-3">
-      <div *ngIf="!profile" class="skeleton h-20 w-60"></div>
-      <ng-container *ngIf="profile">
-        <span *ngIf="profile.bio" class="whitespace-pre-wrap">{{
-          profile.bio
-        }}</span>
-        <span *ngIf="!profile.bio" class="italic text-gray-400">no bio</span>
-      </ng-container>
+      @if (!profile) {
+      <div class="skeleton h-20 w-60"></div>
+      } @if (profile) { @if (profile.bio) {
+      <span class="whitespace-pre-wrap">{{ profile.bio }}</span>
+      } @if (!profile.bio) {
+      <span class="italic text-gray-400">no bio</span>
+      } }
     </div>
-    <ng-container *ngIf="profile && profile.organizedEventsCount > 0">
-      <mat-divider class="!my-4 w-full"></mat-divider>
-      <div
-        class="my-4 flex w-full flex-row justify-evenly sm:justify-center sm:gap-16"
-      >
-        <div>
-          <div class="mb-1 text-3xl font-extrabold">
-            {{ profile.organizedEventsCount }}
-          </div>
-          <div class="text-sm">
-            event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized
-          </div>
+    @if (profile && profile.organizedEventsCount > 0) {
+
+    <mat-divider class="!my-4 w-full"></mat-divider>
+    <div
+      class="my-4 flex w-full flex-row justify-evenly sm:justify-center sm:gap-16"
+    >
+      <div>
+        <div class="mb-1 text-3xl font-extrabold">
+          {{ profile.organizedEventsCount }}
         </div>
-        <div *ngIf="profile.createdEventsCount > 0">
-          <div class="mb-1 text-3xl font-extrabold">
-            {{ profile.createdEventsCount }}
-          </div>
-          <div class="text-sm">
-            event{{ profile.createdEventsCount === 1 ? '' : 's' }} created
-          </div>
+        <div class="text-sm">
+          event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized
         </div>
       </div>
-    </ng-container>
+      @if (profile.createdEventsCount > 0) {
+      <div>
+        <div class="mb-1 text-3xl font-extrabold">
+          {{ profile.createdEventsCount }}
+        </div>
+        <div class="text-sm">
+          event{{ profile.createdEventsCount === 1 ? '' : 's' }} created
+        </div>
+      </div>
+      }
+    </div>
+
+    }
     <mat-divider class="!my-4 w-full"></mat-divider>
     <div class="flex flex-col items-center gap-1 text-sm">
       <div>
-        <span
-          *ngIf="
-            profile && profile.university && profile.university.length <= 3
-          "
-          class="font-semibold"
-          >{{ profile.university | uppercase }}</span
-        >
-        <span *ngIf="!profile" class="skeleton">Phantom Study Program</span>
-        <span *ngIf="profile && profile.studyProgram" class="font-light">
-          {{ profile.studyProgram }}</span
-        >
+        @if ( profile && profile.university && profile.university.length <= 3 )
+        {
+        <span class="font-semibold">{{ profile.university | uppercase }}</span>
+        } @if (!profile) {
+        <span class="skeleton">Phantom Study Program</span>
+        } @if (profile && profile.studyProgram) {
+        <span class="font-light"> {{ profile.studyProgram }}</span>
+        }
       </div>
-      <div
-        *ngIf="profile && profile.homeUniversity"
-        class="flex items-center gap-1"
-      >
+      @if (profile && profile.homeUniversity) {
+      <div class="flex items-center gap-1">
         <mat-icon
           svgIcon="icon-home"
           style="min-width: 18px; max-width: 18px"
         ></mat-icon>
         <div>{{ profile.homeUniversity }}</div>
       </div>
-      <div
-        *ngIf="profile && profile.instagram"
-        class="mt-1 flex items-center gap-1 text-pink-600"
-      >
+      } @if (profile && profile.instagram) {
+      <div class="mt-1 flex items-center gap-1 text-pink-600">
         <mat-icon
           svgIcon="icon-instagram-new"
           style="min-width: 18px; max-width: 18px"
@@ -131,14 +127,18 @@
           >{{ profile.instagram }}</a
         >
       </div>
+      }
     </div>
-    <div *ngIf="!hideEditButton" class="absolute right-2 bottom-2">
+    @if (!hideEditButton) {
+    <div class="absolute right-2 bottom-2">
       <button mat-mini-fab class="modern" color="accent" (click)="edit.emit()">
         <mat-icon svgIcon="icon-edit"></mat-icon>
       </button>
     </div>
+    }
   </div>
-  <div *ngIf="profile" class="top-4 right-4 block sm:absolute">
+  @if (profile) {
+  <div class="top-4 right-4 block sm:absolute">
     <a
       mat-flat-button
       class="modern"
@@ -148,4 +148,5 @@
       >Manage user</a
     >
   </div>
+  }
 </div>

@@ -8,7 +8,8 @@
     picture ? '' : 'pl-1'
   }} !touch-auto"
 >
-  <div class="picture-container relative" *ngIf="picture">
+  @if (picture) {
+  <div class="picture-container relative">
     <img
       [ngSrc]="picture"
       class="picture rounded-full z-10 {{ status | lowercase }} bg-white"
@@ -18,43 +19,44 @@
       referrerpolicy="no-referrer"
       onerror="this.src='assets/images/defaultUser.jpg'"
     />
-    <ng-container *ngIf="checkedIn !== null">
-      <mat-icon
-        *ngIf="checkedIn; else cross"
-        svgIcon="icon-checkmark"
-        class="absolute bottom-0 -right-3"
-      ></mat-icon>
-      <ng-template #cross>
-        <mat-icon
-          svgIcon="icon-delete-sign"
-          class="absolute bottom-0 -right-3"
-        ></mat-icon>
-      </ng-template>
-    </ng-container>
+    @if (checkedIn !== null) { @if (checkedIn) {
+    <mat-icon
+      svgIcon="icon-checkmark"
+      class="absolute bottom-0 -right-3"
+    ></mat-icon>
+    } @else {
+
+    <mat-icon
+      svgIcon="icon-delete-sign"
+      class="absolute bottom-0 -right-3"
+    ></mat-icon>
+
+    } }
   </div>
-  <div
-    class="name-container flex flex-col max-w-[16em]"
-    *ngIf="name && size !== 'fit'"
-  >
+  } @if (name && size !== 'fit') {
+  <div class="name-container flex flex-col max-w-[16em]">
     <div class="name flex items-center">
       <span class="whitespace-nowrap text-ellipsis overflow-hidden">{{
         name
       }}</span>
+      @if (tag) {
       <span
-        *ngIf="tag"
         class="px-1 rounded-lg bg-white text-xs ml-1 font-normal -mr-[0.2em]"
         >{{ tag }}</span
       >
+      }
     </div>
+    @if (size === 'md' && phone) {
     <a
       class="tel underline decoration-dotted font-[350] whitespace-nowrap"
       href="https://wa.me/{{ phone.replace('+', '') }}"
       target="blank"
       (click)="$event.stopPropagation()"
-      *ngIf="size === 'md' && phone"
       >{{ phone }}</a
     >
+    }
   </div>
+  }
   <div (click)="$event.preventDefault(); $event.stopPropagation()">
     <ng-content></ng-content>
   </div>

@@ -21,12 +21,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/legacy-app",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "sourceMap": true,
@@ -48,9 +48,7 @@
           },
           "configurations": {
             "light": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -92,9 +90,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -105,22 +101,22 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "legacy-app:build",
             "proxyConfig": "src/proxy.conf.json",
-            "disableHostCheck": true
+            "disableHostCheck": true,
+            "buildTarget": "legacy-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "legacy-app:build:production"
+              "buildTarget": "legacy-app:build:production"
             },
             "light": {
-              "browserTarget": "legacy-app:build:light"
+              "buildTarget": "legacy-app:build:light"
             },
             "testing": {
-              "browserTarget": "legacy-app:build:testing"
+              "buildTarget": "legacy-app:build:testing"
             },
             "development": {
-              "browserTarget": "legacy-app:build:development"
+              "buildTarget": "legacy-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -128,7 +124,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "legacy-app:build"
+            "buildTarget": "legacy-app:build"
           }
         },
         "test": {

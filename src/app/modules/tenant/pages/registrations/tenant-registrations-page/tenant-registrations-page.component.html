@@ -3,17 +3,13 @@
     <app-back-button></app-back-button>
     <div resetScroll>Registrations</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(registrations$ | async) === null"
-  ></mat-progress-bar>
+  @if ((registrations$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
-  <mat-table
-    *ngIf="registrations$ | async as registrations"
-    [dataSource]="registrations"
-    class="w-fit sm:w-full"
-  >
+  @if (registrations$ | async; as registrations) {
+  <mat-table [dataSource]="registrations" class="w-fit sm:w-full">
     <ng-container matColumnDef="event">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -78,6 +74,7 @@
       class="cursor-pointer hover:bg-gray-100"
     ></mat-row>
   </mat-table>
+  }
   <mat-paginator
     [length]="registrationCount$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"

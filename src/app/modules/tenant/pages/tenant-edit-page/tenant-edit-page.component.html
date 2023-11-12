@@ -210,11 +210,8 @@
       >
         <h3>Social links</h3>
         <p>These links will be shown in the footer of every page</p>
-        <div
-          *ngFor="let link of socialLinks.controls; let i = index"
-          class="mt-2 flex flex-row gap-4"
-          [formGroupName]="i"
-        >
+        @for (link of socialLinks.controls; track link; let i = $index) {
+        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
           <mat-form-field class="w-full">
             <mat-label>Label</mat-label>
             <input
@@ -247,6 +244,7 @@
             <mat-icon svgIcon="icon-delete-forever"></mat-icon>
           </button>
         </div>
+        }
         <button mat-stroked-button color="primary" (click)="addSocialLink()">
           <mat-icon svgIcon="icon-add"></mat-icon>
           Add new link
@@ -258,11 +256,8 @@
       >
         <h3>Resource links</h3>
         <p>These links will be shown in the section hub resources</p>
-        <div
-          *ngFor="let link of sectionHubLinks.controls; let i = index"
-          class="mt-2 flex flex-row gap-4"
-          [formGroupName]="i"
-        >
+        @for (link of sectionHubLinks.controls; track link; let i = $index) {
+        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
           <mat-form-field class="w-full">
             <mat-label>Label</mat-label>
             <input
@@ -295,6 +290,7 @@
             <mat-icon svgIcon="icon-delete-forever"></mat-icon>
           </button>
         </div>
+        }
         <button
           mat-stroked-button
           color="primary"
@@ -310,11 +306,8 @@
       >
         <h3>App banners</h3>
         <p>These banners will appear on the top of every page</p>
-        <div
-          *ngFor="let banner of banners.controls; let i = index"
-          [formGroupName]="i"
-          class="mt-2 grid grid-cols-3 gap-4"
-        >
+        @for (banner of banners.controls; track banner; let i = $index) {
+        <div [formGroupName]="i" class="mt-2 grid grid-cols-3 gap-4">
           <mat-form-field class="w-full">
             <mat-label>Title</mat-label>
             <input
@@ -351,15 +344,18 @@
           <mat-form-field class="w-full">
             <mat-label>Visibility</mat-label>
             <mat-select formControlName="displayToMembershipStatus" multiple>
-              <mat-option *ngFor="let status of statusOptions" [value]="status">
+              @for (status of statusOptions; track status) {
+              <mat-option [value]="status">
                 {{ status | titlecase }}
               </mat-option>
+              }
             </mat-select>
           </mat-form-field>
           <button (click)="banners.removeAt(i)" color="warn" mat-icon-button>
             <mat-icon svgIcon="icon-delete-forever"></mat-icon>
           </button>
         </div>
+        }
         <button (click)="addBanner()" color="primary" mat-stroked-button>
           <mat-icon svgIcon="icon-add"></mat-icon>
           Add new banner

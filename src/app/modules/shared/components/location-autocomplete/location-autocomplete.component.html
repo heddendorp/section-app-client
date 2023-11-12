@@ -14,9 +14,11 @@
     [displayWith]="optionDisplay"
     (optionSelected)="onChange($event.option.value)"
   >
-    <mat-option *ngFor="let option of locationOptions | async" [value]="option">
+    @for (option of locationOptions | async; track option) {
+    <mat-option [value]="option">
       <span>{{ option.structured_formatting.main_text }}&nbsp;|&nbsp;</span>
       <span>{{ option.structured_formatting.secondary_text }}</span>
     </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>

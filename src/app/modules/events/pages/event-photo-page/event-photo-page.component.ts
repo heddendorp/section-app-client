@@ -8,8 +8,8 @@ import {
   takeUntil,
 } from 'rxjs';
 import {
-  ProgressBarMode,
   MatProgressBarModule,
+  ProgressBarMode,
 } from '@angular/material/progress-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +25,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-event-photo-page',

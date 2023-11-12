@@ -1,38 +1,29 @@
 <app-grid minWidth="350px">
-  <ng-container *ngIf="events">
-    <ng-container *ngFor="let event of events; trackBy: getId; let i = index">
-      <span
-        *ngIf="
-          i === 0 ||
-          (events[i - 1].start | date: 'shortDate') !==
-            (event.start | date: 'shortDate')
-        "
-        class="col-span-full mt-4 text-base leading-tight"
-      >
-        <span class="font-medium text-black"
-          >{{ event.start | date: 'EEE ' }}
-        </span>
-        <span class="font-medium text-black">{{
-          event.start | date: 'd. MMM'
-        }}</span>
-      </span>
-      <app-events-list-item
-        [event]="event"
-        class="block h-full"
-      ></app-events-list-item>
-    </ng-container>
-  </ng-container>
-  <ng-container *ngIf="!events">
-    <ng-container *ngFor="let event of [].constructor(3)">
-      <div class="col-span-full">
-        <span class="skeleton mt-4 text-base leading-tight"
-          >Weekday, XX XXXXX
-        </span>
-      </div>
-      <app-events-list-item
-        *ngFor="let event of [].constructor(2)"
-        class="block h-full"
-      ></app-events-list-item>
-    </ng-container>
-  </ng-container>
+  @if (events) { @for (event of events; track getId(i, event); let i = $index) {
+  @if ( i === 0 || (events[i - 1].start | date: 'shortDate') !== (event.start |
+  date: 'shortDate') ) {
+  <span class="col-span-full mt-4 text-base leading-tight">
+    <span class="font-medium text-black"
+      >{{ event.start | date: 'EEE ' }}
+    </span>
+    <span class="font-medium text-black">{{
+      event.start | date: 'd. MMM'
+    }}</span>
+  </span>
+  }
+  <app-events-list-item
+    [event]="event"
+    class="block h-full"
+  ></app-events-list-item>
+
+  } } @if (!events) { @for (event of [].constructor(3); track event) {
+
+  <div class="col-span-full">
+    <span class="skeleton mt-4 text-base leading-tight"
+      >Weekday, XX XXXXX
+    </span>
+  </div>
+  @for (event of [].constructor(2); track event) {
+  <app-events-list-item class="block h-full"></app-events-list-item>
+  } } }
 </app-grid>

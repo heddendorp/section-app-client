@@ -3,15 +3,17 @@
   <mat-checkbox [formControl]="virtualEventControl">
     Is Virtual event
   </mat-checkbox>
-  <mat-form-field class="w-full" *ngIf="virtualEventControl.value">
+  @if (virtualEventControl.value) {
+  <mat-form-field class="w-full">
     <mat-label>Meeting URL</mat-label>
     <input matInput [formControl]="meetingUrlControl" />
     <mat-hint>Enter meeting URL</mat-hint>
   </mat-form-field>
+  } @if (!virtualEventControl.value) {
   <app-location-autocomplete
-    *ngIf="!virtualEventControl.value"
     [formControl]="locationControl"
   ></app-location-autocomplete>
+  }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-flat-button class="modern" mat-dialog-close>Cancel</button>
@@ -22,9 +24,10 @@
     [disabled]="locationControl.invalid || isSaving"
     (click)="submitLocation()"
   >
-    <mat-icon *ngIf="isSaving" [class]="isSaving ? 'saving' : ''"
+    @if (isSaving) {
+    <mat-icon [class]="isSaving ? 'saving' : ''"
       ><mat-spinner></mat-spinner
     ></mat-icon>
-    Save
+    } Save
   </button>
 </mat-dialog-actions>

@@ -1,12 +1,13 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white" class="!px-2 sm:!px-4">
-    <div *ngIf="searchEnabled" class="w-full text-base">
+    @if (searchEnabled) {
+    <div class="w-full text-base">
       <mat-form-field class="w-full">
         <input #searchbar matInput [formControl]="filterEvents" type="search" />
       </mat-form-field>
     </div>
+    } @if (!searchEnabled) {
     <div
-      *ngIf="!searchEnabled"
       class="flex w-full flex-row items-center justify-between sm:justify-start"
     >
       <button mat-icon-button (click)="previousMonth()">
@@ -19,6 +20,7 @@
         <mat-icon svgIcon="icon-forward"></mat-icon>
       </button>
     </div>
+    }
     <button
       mat-icon-button
       class="modern"
@@ -30,14 +32,13 @@
       ></mat-icon>
     </button>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="loading$ | async"
-  ></mat-progress-bar>
+  @if (loading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <div>
+  @for (banner of config.banners; track banner) {
   <a
-    *ngFor="let banner of config.banners"
     [class.bg-blue-400]="banner.color === 'primary'"
     [class.bg-gray-400]="banner.color === 'secondary'"
     [class.bg-red-400]="banner.color === 'warn'"
@@ -50,8 +51,10 @@
       <markdown>{{ banner.body }}</markdown>
     </div>
   </a>
+  }
 </div>
-<div *ngIf="timeOffset !== 0" class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
+@if (timeOffset !== 0) {
+<div class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
   <div class="flex flex-wrap items-center justify-between">
     <div class="flex w-0 flex-1 items-center">
       <span class="flex rounded-lg bg-orange-600 p-2 text-white">
@@ -66,8 +69,8 @@
     </div>
   </div>
 </div>
+} @if (outstandingRating$ | async) {
 <div
-  *ngIf="outstandingRating$ | async"
   @grow
   matRipple
   class="mx-auto cursor-pointer bg-yellow-500 py-3 px-6 lg:px-8"
@@ -88,6 +91,7 @@
     </div>
   </div>
 </div>
+}
 <!-- <div
   matRipple
   class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
@@ -115,30 +119,32 @@
     Add Event
   </a>
   <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
-    <ng-container [ngSwitch]="selectedView$ | async">
-      <ng-container *ngSwitchCase="'list'">
-        <button
-          mat-flat-button
-          color="accent"
-          class="modern w-full sm:w-auto"
-          (click)="toggleSelectedView()"
-        >
-          <mat-icon svgIcon="icon-calendar"></mat-icon>
-          Calendar view
-        </button>
-      </ng-container>
-      <ng-container *ngSwitchCase="'calendar'">
-        <button
-          mat-flat-button
-          color="accent"
-          class="modern w-full sm:w-auto"
-          (click)="toggleSelectedView()"
-        >
-          <mat-icon svgIcon="icon-list"></mat-icon>
-          List view
-        </button>
-      </ng-container>
-    </ng-container>
+    @switch (selectedView$ | async) { @case ('list') {
+
+    <button
+      mat-flat-button
+      color="accent"
+      class="modern w-full sm:w-auto"
+      (click)="toggleSelectedView()"
+    >
+      <mat-icon svgIcon="icon-calendar"></mat-icon>
+      Calendar view
+    </button>
+
+    } @case ('calendar') {
+
+    <button
+      mat-flat-button
+      color="accent"
+      class="modern w-full sm:w-auto"
+      (click)="toggleSelectedView()"
+    >
+      <mat-icon svgIcon="icon-list"></mat-icon>
+      List view
+    </button>
+
+    } }
+
     <button
       *appIfRole="[Role.User, Role.Admin]"
       mat-stroked-button
@@ -150,45 +156,42 @@
     <mat-slide-toggle [formControl]="hideFullEvents">
       Hide full
     </mat-slide-toggle>
-    <mat-slide-toggle
-      [formControl]="hideFullTutorEvents"
-      *ngIf="isMember$ | async"
-    >
+    @if (isMember$ | async) {
+    <mat-slide-toggle [formControl]="hideFullTutorEvents">
       Hide full (Organizers)
     </mat-slide-toggle>
+    }
   </div>
-  <ng-container [ngSwitch]="selectedView$ | async">
-    <ng-container *ngSwitchCase="'list'">
-      <app-events-list [events]="events$ | async"></app-events-list>
-      <div
-        *ngIf="(events$ | async)?.length === 0"
-        class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
-        data-cy="no-events"
-      >
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="1rem"
-          class="mb-6"
-        >
-          <mat-icon
-            svgIcon="icon-overtime"
-            class="card-icon bg-white text-pink-500"
-          ></mat-icon>
-          <h2 class="font-bold">No events right now</h2>
-        </div>
-        <p>
-          Right now there are no events to show you, but check back soon to see
-          what we are planning :)
-        </p>
-      </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'calendar'">
-      <app-event-calendar
-        [events]="events$ | async"
-        [firstDate]="startOfMonth"
-        [lastDate]="endOfMonth"
-      ></app-event-calendar>
-    </ng-container>
-  </ng-container>
+
+  @switch (selectedView$ | async) { @case ('list') {
+
+  <app-events-list [events]="events$ | async"></app-events-list>
+  @if ((events$ | async)?.length === 0) {
+  <div class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4" data-cy="no-events">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="1rem"
+      class="mb-6"
+    >
+      <mat-icon
+        svgIcon="icon-overtime"
+        class="card-icon bg-white text-pink-500"
+      ></mat-icon>
+      <h2 class="font-bold">No events right now</h2>
+    </div>
+    <p>
+      Right now there are no events to show you, but check back soon to see what
+      we are planning :)
+    </p>
+  </div>
+  } } @case ('calendar') {
+
+  <app-event-calendar
+    [events]="events$ | async"
+    [firstDate]="startOfMonth"
+    [lastDate]="endOfMonth"
+  ></app-event-calendar>
+
+  } }
 </main>

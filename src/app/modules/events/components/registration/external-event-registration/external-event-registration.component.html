@@ -1,4 +1,5 @@
-<div *ngIf="event" class="my-2">
+@if (event) {
+<div class="my-2">
   <p class="pb-4">
     You can't register for this event in the app. Please follow the provided
     link.
@@ -18,3 +19,4 @@
     }}</a>
   </small>
 </div>
+}

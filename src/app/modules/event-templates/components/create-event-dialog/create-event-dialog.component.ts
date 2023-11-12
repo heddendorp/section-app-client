@@ -11,17 +11,17 @@ import {
   RegistrationMode,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { DateTime } from 'luxon';
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef,
   MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';

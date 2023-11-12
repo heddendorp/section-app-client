@@ -1,19 +1,14 @@
-<div
-  *ngIf="{
-    registrationOpen: (registrationOpen$ | async),
-    remainingTime: (remainingTime$ | async)
-  } as state"
->
+@if ({ registrationOpen: (registrationOpen$ | async), remainingTime:
+(remainingTime$ | async) }; as state) {
+<div>
   <div class="check-registration-time-container">
     <fieldset [disabled]="!state.registrationOpen">
       <div class="check-registration-time-content-wrapper">
         <ng-content></ng-content>
       </div>
     </fieldset>
-    <div
-      class="check-registration-time-card"
-      *ngIf="!state.registrationOpen && !!state.remainingTime"
-    >
+    @if (!state.registrationOpen && !!state.remainingTime) {
+    <div class="check-registration-time-card">
       <mat-icon svgIcon="icon-lock" style="width: 64px"></mat-icon>
       <h3 class="font-semibold">Registration opens</h3>
       <p class="my-4 text-4xl">
@@ -23,5 +18,7 @@
         {{ registrationStart | date: 'medium' }}
       </p>
     </div>
+    }
   </div>
 </div>
+}

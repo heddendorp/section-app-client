@@ -6,7 +6,7 @@ import { PhotoShare } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgIf, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-photo-details-dialog',

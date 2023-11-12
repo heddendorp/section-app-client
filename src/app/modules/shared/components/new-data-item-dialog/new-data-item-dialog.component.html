@@ -37,10 +37,8 @@
     <h3>Choices for select</h3>
     <ng-container formGroupName="data">
       <ng-container formArrayName="choices">
-        <div
-          *ngFor="let choice of choices.controls; let i = index"
-          class="flex flex-row gap-2"
-        >
+        @for (choice of choices.controls; track choice; let i = $index) {
+        <div class="flex flex-row gap-2">
           <mat-form-field>
             <mat-label>Choice {{ i + 1 }}</mat-label>
             <input matInput [formControlName]="i" type="text" required />
@@ -54,6 +52,7 @@
             <mat-icon svgIcon="icon-delete-forever"></mat-icon>
           </button>
         </div>
+        }
         <button mat-flat-button (click)="addChoice()">Add option</button>
       </ng-container>
     </ng-container>

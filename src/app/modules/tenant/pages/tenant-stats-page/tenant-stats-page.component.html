@@ -3,12 +3,12 @@
     <app-back-button></app-back-button>
     <div resetScroll>Statistics HQ</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(statistics$ | async) === null"
-  ></mat-progress-bar>
+  @if ((statistics$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
-<main class="p-4" *ngIf="statistics$ | async as statistics">
+@if (statistics$ | async; as statistics) {
+<main class="p-4">
   <mat-form-field [formGroup]="rangeControl">
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="picker">
@@ -81,36 +81,47 @@
   </app-grid>
   <h2>University distribution</h2>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    <ng-container *ngFor="let entry of statistics.userUniversityDistribution">
-      <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
-      <p>{{ entry.count }}</p>
-    </ng-container>
+    @for (entry of statistics.userUniversityDistribution; track entry) {
+
+    <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
+    <p>{{ entry.count }}</p>
+
+    }
   </div>
   <h2>Status distribution</h2>
   <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    <ng-container *ngFor="let entry of statistics.userStatusDistribution">
-      <p class="font-bold">{{ entry.status | titlecase }}</p>
-      <p>{{ entry.count }}</p>
-    </ng-container>
+    @for (entry of statistics.userStatusDistribution; track entry) {
+
+    <p class="font-bold">{{ entry.status | titlecase }}</p>
+    <p>{{ entry.count }}</p>
+
+    }
   </div>
-  <div *ngIf="charts$ | async as charts">
+  @if (charts$ | async; as charts) {
+  <div>
     <div gdAuto gdColumns.gt-md="1fr 1fr" gdColumns="1fr" gdGap="1rem">
-      <div *ngFor="let options of charts.pie">
+      @for (options of charts.pie; track options) {
+      <div>
         <highcharts-chart
           [Highcharts]="Highcharts"
           [options]="options"
           style="width: 100%; height: 400px; display: block"
         ></highcharts-chart>
       </div>
+      }
     </div>
-    <div class="relative my-4" *ngFor="let options of charts.line">
+    @for (options of charts.line; track options) {
+    <div class="relative my-4">
       <highcharts-chart
         [Highcharts]="Highcharts"
         [options]="options"
         style="width: 100%; height: 400px; display: block"
       ></highcharts-chart>
     </div>
+    }
   </div>
+  }
   <br />
   <!--  <pre>{{ tenant | json }}</pre>-->
 </main>
+}

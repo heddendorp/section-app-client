@@ -13,12 +13,11 @@
       (optionSelected)="selectUser($event)"
       autoActiveFirstOption
     >
-      <mat-option
-        *ngFor="let item of filteredChoices$ | async"
-        [value]="item.id"
-      >
+      @for (item of filteredChoices$ | async; track item) {
+      <mat-option [value]="item.id">
         {{ item[data.displayAttribute] }}
       </mat-option>
+      }
     </mat-autocomplete>
     <mat-hint>You can skip the search by pasting an ID</mat-hint>
   </mat-form-field>

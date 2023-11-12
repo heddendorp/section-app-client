@@ -12,11 +12,11 @@
 >
   <div>
     <span class="font-bold mr-2">
-      <span *ngIf="isAnonymous && !isOrganizer">Anonymous</span>
-
+      @if (isAnonymous && !isOrganizer) {
+      <span>Anonymous</span>
+      } @if (!isAnonymous || isOrganizer) {
       <app-user-chip
         size="xs"
-        *ngIf="!isAnonymous || isOrganizer"
         [id]="userId"
         [picture]="userPicture"
         [name]="userFullName"
@@ -24,23 +24,20 @@
         [tag]="isOrganizer ? 'organizer' : ''"
       >
       </app-user-chip>
+      }
     </span>
   </div>
   <div class="mb-2">
-    <span *ngFor="let _ of [].constructor(rating)" class="text-amber-400"
-      >★</span
-    >
+    @for (_ of [].constructor(rating); track _) {
+    <span class="text-amber-400">★</span>
+    }
   </div>
   <span class="break-words whitespace-pre-wrap">{{ comment }}</span>
   <div class="absolute right-1 bottom-1">
-    <button
-      type="button"
-      *ngIf="isCurrentUser"
-      class="modern"
-      mat-icon-button
-      (click)="edit.emit()"
-    >
+    @if (isCurrentUser) {
+    <button type="button" class="modern" mat-icon-button (click)="edit.emit()">
       <mat-icon svgIcon="icon-edit"></mat-icon>
     </button>
+    }
   </div>
 </div>

@@ -1,111 +1,86 @@
 <div
   class="relative -ml-4 -mr-4 grid grid-cols-7 border-r border-b bg-white sm:shadow-lg md:-ml-0 md:-mr-0"
 >
-  <div
-    class="sticky top-0 z-20 border-t border-l bg-slate-400 p-1 text-white"
-    *ngFor="let weekday of weekdays"
-  >
+  @for (weekday of weekdays; track weekday) {
+  <div class="sticky top-0 z-20 border-t border-l bg-slate-400 p-1 text-white">
     <p class="text-center">{{ weekday }}</p>
   </div>
-  <ng-container *ngIf="!weeks">
-    <div
-      *ngFor="let day of [].constructor(28)"
-      (click)="showDayDialog(day.events)"
-      class="day flex flex-col border-t border-l pb-0.5"
-    >
-      <div class="text-center text-sm md:text-base">
-        <span class="skeleton">XX</span>
-      </div>
-      <div
-        *ngFor="let event of [].constructor(2)"
-        class="skeleton mx-0.5 h-4 rounded md:h-6"
-      ></div>
-      <div
-        *ngFor="let event of [].constructor(numberOfEventsPerCell - 2)"
-        class="invisible mx-0.5 h-4 rounded md:h-6"
-      ></div>
+  } @if (!weeks) { @for (day of [].constructor(28); track day) {
+  <div
+    (click)="showDayDialog(day.events)"
+    class="day flex flex-col border-t border-l pb-0.5"
+  >
+    <div class="text-center text-sm md:text-base">
+      <span class="skeleton">XX</span>
     </div>
-  </ng-container>
-  <ng-container *ngIf="weeks">
-    <ng-container *ngFor="let week of weeks">
-      <div
-        *ngFor="let day of week.days; let weekDayIndex = index"
-        (click)="showDayDialog(day.events)"
-        class="day flex flex-col border-t border-l pb-0.5 {{
-          day.today ? 'bg-blue-100' : ''
-        }} relative"
+    @for (event of [].constructor(2); track event) {
+    <div class="skeleton mx-0.5 h-4 rounded md:h-6"></div>
+    } @for (event of [].constructor(numberOfEventsPerCell - 2); track event) {
+    <div class="invisible mx-0.5 h-4 rounded md:h-6"></div>
+    }
+  </div>
+  } } @if (weeks) { @for (week of weeks; track week) { @for (day of week.days;
+  track day; let weekDayIndex = $index) {
+  <div
+    (click)="showDayDialog(day.events)"
+    class="day flex flex-col border-t border-l pb-0.5 {{
+      day.today ? 'bg-blue-100' : ''
+    }} relative"
+  >
+    <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
+    @if (day.events.length > 0) {
+    <div matRipple class="!absolute z-20 h-full w-full cursor-pointer"></div>
+    }
+    <p class="text-center text-sm md:text-base">
+      @if (day.startOfMonth) {
+      <span class="my-0.5 rounded-md bg-slate-500 px-1 font-bold text-white">{{
+        day.month
+      }}</span>
+      }
+      {{ day.date }}
+    </p>
+    @for ( event of day.events.slice( 0, day.events.length >
+    numberOfEventsPerCell ? numberOfEventsPerCell - 1 : numberOfEventsPerCell )
+    ; track event) {
+    <div
+      class="event select-none flex items-center rounded text-xs md:text-sm mx-0.5 z-10 {{
+        tutorSpotsClass(event)
+      }} {{ event.publicationState | lowercase }} {{
+        event.userIsRegistered ? 'registered' : ''
+      }} {{ event.userIsOrganizer ? 'organizer' : '' }} {{
+        isRegistrationOpen(event) ? '' : 'future-registration'
+      }}"
+      [style.visibility]="event.daySpan === 0 ? 'hidden' : 'visible'"
+      [style.width]="
+        event.daySpan > 1 ? 'calc(' + event.daySpan * 100 + '% - 0.125rem)' : ''
+      "
+    >
+      <img
+        [ngSrc]="event.icon | iconURL"
+        width="192"
+        height="192"
+        alt="{{ event.icon }}"
+        class="w-4 md:mr-0.5 md:w-6"
+      />
+      <span
+        class="block flex-1 overflow-hidden text-clip whitespace-nowrap tracking-tight"
       >
-        <!-- we need a separate matRipple element so we can preserve overflow visible for the event for multi-day events -->
-        <div
-          matRipple
-          class="!absolute z-20 h-full w-full cursor-pointer"
-          *ngIf="day.events.length > 0"
-        ></div>
-        <p class="text-center text-sm md:text-base">
-          <span
-            *ngIf="day.startOfMonth"
-            class="my-0.5 rounded-md bg-slate-500 px-1 font-bold text-white"
-            >{{ day.month }}</span
-          >
-          {{ day.date }}
-        </p>
-        <div
-          *ngFor="
-            let event of day.events.slice(
-              0,
-              day.events.length > numberOfEventsPerCell
-                ? numberOfEventsPerCell - 1
-                : numberOfEventsPerCell
-            )
-          "
-          class="event select-none flex items-center rounded text-xs md:text-sm mx-0.5 z-10 {{
-            tutorSpotsClass(event)
-          }} {{ event.publicationState | lowercase }} {{
-            event.userIsRegistered ? 'registered' : ''
-          }} {{ event.userIsOrganizer ? 'organizer' : '' }} {{
-            isRegistrationOpen(event) ? '' : 'future-registration'
-          }}"
-          [style.visibility]="event.daySpan === 0 ? 'hidden' : 'visible'"
-          [style.width]="
-            event.daySpan > 1
-              ? 'calc(' + event.daySpan * 100 + '% - 0.125rem)'
-              : ''
-          "
-        >
-          <img
-            [ngSrc]="event.icon | iconURL"
-            width="192"
-            height="192"
-            alt="{{ event.icon }}"
-            class="w-4 md:mr-0.5 md:w-6"
-          />
-          <span
-            class="block flex-1 overflow-hidden text-clip whitespace-nowrap tracking-tight"
-          >
-            {{ event.title }}
-          </span>
-        </div>
-        <div
-          *ngIf="day.events.length > numberOfEventsPerCell"
-          class="flex h-4 items-center justify-center md:h-6"
-        >
-          <span
-            class="flex h-[0.8rem] justify-center rounded-full bg-gray-500 px-1 text-[0.65rem] leading-[0.8rem] tracking-tighter text-white md:h-4 md:text-xs"
-            >+{{ day.events.length - numberOfEventsPerCell + 1 }}</span
-          >
-        </div>
-        <!-- Phantom to force the height to be exactly n events -->
-        <ng-container *ngIf="day.events.length < numberOfEventsPerCell">
-          <div
-            *ngFor="
-              let event of [].constructor(
-                numberOfEventsPerCell - day.events.length
-              )
-            "
-            class="invisible h-4 md:h-6"
-          ></div>
-        </ng-container>
-      </div>
-    </ng-container>
-  </ng-container>
+        {{ event.title }}
+      </span>
+    </div>
+    } @if (day.events.length > numberOfEventsPerCell) {
+    <div class="flex h-4 items-center justify-center md:h-6">
+      <span
+        class="flex h-[0.8rem] justify-center rounded-full bg-gray-500 px-1 text-[0.65rem] leading-[0.8rem] tracking-tighter text-white md:h-4 md:text-xs"
+        >+{{ day.events.length - numberOfEventsPerCell + 1 }}</span
+      >
+    </div>
+    }
+    <!-- Phantom to force the height to be exactly n events -->
+    @if (day.events.length < numberOfEventsPerCell) { @for ( event of
+    [].constructor( numberOfEventsPerCell - day.events.length ) ; track event) {
+    <div class="invisible h-4 md:h-6"></div>
+    } }
+  </div>
+  } } }
 </div>

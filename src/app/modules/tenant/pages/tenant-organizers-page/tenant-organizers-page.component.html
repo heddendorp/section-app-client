@@ -3,10 +3,9 @@
     <app-back-button></app-back-button>
     <div resetScroll>Event Organizations</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(organizers$ | async) === null"
-  ></mat-progress-bar>
+  @if ((organizers$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
   <button
@@ -18,9 +17,11 @@
     Add new
   </button>
   <mat-list>
-    <mat-list-item *ngFor="let organizer of organizers$ | async">
+    @for (organizer of organizers$ | async; track organizer) {
+    <mat-list-item>
       <h3 matListItemTitle>{{ organizer.name }}</h3>
       <p matListItemLine>{{ organizer.text }}</p>
     </mat-list-item>
+    }
   </mat-list>
 </main>

@@ -1,27 +1,19 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
+@if ((event$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 <main class="bg-surface-default">
-  <ng-container *ngIf="event$ | async as event">
-    <a mat-fab routerLink="run" extended *ngIf="event.userIsOrganizer">
-      <mat-icon svgIcon="icon-user-shield"></mat-icon>
-      Run event
-    </a>
-    <button
-      mat-fab
-      (click)="showCode()"
-      extended
-      *ngIf="
-        event.userIsRegistered &&
-        !event.isVirtual &&
-        !((eventOver$ | async) && event.activeRegistration?.didAttend)
-      "
-    >
-      <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
-      Check in
-    </button>
-  </ng-container>
+  @if (event$ | async; as event) { @if (event.userIsOrganizer) {
+  <a mat-fab routerLink="run" extended>
+    <mat-icon svgIcon="icon-user-shield"></mat-icon>
+    Run event
+  </a>
+  } @if ( event.userIsRegistered && !event.isVirtual && !((eventOver$ | async)
+  && event.activeRegistration?.didAttend) ) {
+  <button mat-fab (click)="showCode()" extended>
+    <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
+    Check in
+  </button>
+  } }
   <app-event-header
     [event]="event$ | async"
     [bestPrice]="bestPrice$ | async"
@@ -30,350 +22,351 @@
   </app-event-header>
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="true">
-      <ng-container *ngIf="event$ | async as event; else skeleton">
-        <mat-expansion-panel
-          data-testId="event-description"
-          [expanded]="!event.userIsRegistered && !event.userIsOrganizer"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>Description</mat-panel-title>
-          </mat-expansion-panel-header>
-          <markdown
-            [data]="event.description"
-            class="prose lg:prose-xl break-words"
-          ></markdown>
-        </mat-expansion-panel>
-        <mat-expansion-panel *ngIf="event.couldBeOrganizer" [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Information for organizing</mat-panel-title>
-          </mat-expansion-panel-header>
-          <p class="my-2">
-            This event was created by
-            <app-user-chip
-              size="xs"
-              [id]="event.createdBy.id"
-              [picture]="event.createdBy.picture"
-              [name]="event.createdBy.fullName"
-              [status]="event.createdBy.currentTenant?.status + ''"
+      @if (event$ | async; as event) {
+
+      <mat-expansion-panel
+        data-testId="event-description"
+        [expanded]="!event.userIsRegistered && !event.userIsOrganizer"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Description</mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown
+          [data]="event.description"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+      @if (event.couldBeOrganizer) {
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Information for organizing</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="my-2">
+          This event was created by
+          <app-user-chip
+            size="xs"
+            [id]="event.createdBy.id"
+            [picture]="event.createdBy.picture"
+            [name]="event.createdBy.fullName"
+            [status]="event.createdBy.currentTenant?.status + ''"
+          >
+          </app-user-chip>
+          , they can answer any questions.
+        </p>
+        <markdown
+          [data]="event.organizerText"
+          class="prose lg:prose-xl break-words"
+        ></markdown>
+      </mat-expansion-panel>
+      } @if ( (isAdmin$ | async) || (event.participantText.length > 10 &&
+      (event.userIsRegistered || event.userIsOrganizer)) ) {
+      <mat-expansion-panel
+        [expanded]="
+          (isAdmin$ | async) || event.userIsRegistered || event.userIsOrganizer
+        "
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Info for participants</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          @if (event.enablePhotoSharing) {
+          <div class="mb-4">
+            <a
+              routerLink="./photos"
+              mat-flat-button
+              color="primary"
+              class="modern w-full"
             >
-            </app-user-chip>
-            , they can answer any questions.
-          </p>
-          <markdown
-            [data]="event.organizerText"
-            class="prose lg:prose-xl break-words"
-          ></markdown>
-        </mat-expansion-panel>
-        <mat-expansion-panel
-          *ngIf="
-            (isAdmin$ | async) ||
-            (event.participantText.length > 10 &&
-              (event.userIsRegistered || event.userIsOrganizer))
-          "
-          [expanded]="
-            (isAdmin$ | async) ||
-            event.userIsRegistered ||
-            event.userIsOrganizer
-          "
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>Info for participants</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
-            <div class="mb-4" *ngIf="event.enablePhotoSharing">
+              <mat-icon svgIcon="icon-gallery"></mat-icon>
+              <span>Photos for this event</span>
+            </a>
+          </div>
+          } @if (event.location) {
+          <div
+            class="mb-6 mt-2 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
+          >
+            @if (!event.isVirtual) {
+            <div>
+              <div class="mb-2">
+                <b>Meeting point:</b> {{ event.location }} at
+                {{ event.start | date: 'mediumTime' }}
+              </div>
               <a
-                routerLink="./photos"
+                class="modern"
                 mat-flat-button
                 color="primary"
-                class="modern w-full"
+                [href]="
+                  event.googlePlaceUrl
+                    ? event.googlePlaceUrl
+                    : 'https://www.google.com/maps/place/' +
+                      event.coordinates?.lat +
+                      ',' +
+                      event.coordinates?.lon
+                "
+                target="_blank"
               >
-                <mat-icon svgIcon="icon-gallery"></mat-icon>
-                <span>Photos for this event</span>
+                <mat-icon svgIcon="icon-map-marker"></mat-icon>
+                Open in Maps
               </a>
             </div>
-            <div
-              class="mb-6 mt-2 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
-              *ngIf="event.location"
-            >
-              <div *ngIf="!event.isVirtual">
-                <div class="mb-2">
-                  <b>Meeting point:</b> {{ event.location }} at
-                  {{ event.start | date: 'mediumTime' }}
-                </div>
-                <a
-                  class="modern"
-                  mat-flat-button
-                  color="primary"
-                  [href]="
-                    event.googlePlaceUrl
-                      ? event.googlePlaceUrl
-                      : 'https://www.google.com/maps/place/' +
-                        event.coordinates?.lat +
-                        ',' +
-                        event.coordinates?.lon
-                  "
-                  target="_blank"
-                >
-                  <mat-icon svgIcon="icon-map-marker"></mat-icon>
-                  Open in Maps
-                </a>
-              </div>
-              <div *ngIf="event.isVirtual">
-                <div class="mb-2">
-                  <b>Online Meeting</b> at
-                  {{ event.start | date: 'mediumTime' }}
-                </div>
-                <a
-                  class="modern"
-                  mat-flat-button
-                  color="primary"
-                  [href]="event.onlineMeetingUrl"
-                  target="_blank"
-                >
-                  <mat-icon svgIcon="icon-video-conference"></mat-icon>
-                  Open Meeting
-                </a>
-              </div>
-            </div>
-            <markdown
-              [data]="event.participantText"
-              class="prose lg:prose-xl break-words"
-            ></markdown>
-            <div
-              class="my-2 flex flex-row items-center gap-4"
-              *ngIf="(event$ | async)?.activeRegistration?.didAttend"
-            >
-              <img
-                ngSrc="{{ 'approval' | iconURL }}"
-                height="40"
-                width="40"
-                alt="approval"
-                class="w-10"
-              />
-              <span class="text-lg font-bold">
-                You are checked in to the event!
-              </span>
-            </div>
-            <div class="my-2 rounded-lg lg:text-lg">
-              <mat-divider class="!my-4"></mat-divider>
+            } @if (event.isVirtual) {
+            <div>
               <div class="mb-2">
-                <b>Organizers</b>
+                <b>Online Meeting</b> at
+                {{ event.start | date: 'mediumTime' }}
               </div>
-              <div class="flex flex-wrap gap-2">
-                <app-user-chip
-                  *ngFor="let organizer of event.organizers"
-                  size="md"
-                  [id]="organizer.id"
-                  [picture]="organizer.picture"
-                  [name]="organizer.fullName"
-                  [phone]="organizer.phone || ''"
-                  [status]="organizer.currentTenant?.status + ''"
-                >
-                </app-user-chip>
-              </div>
-              <p class="mt-4">
-                Please contact them in case of any issues. We're looking forward
-                to seeing you soon!
-              </p>
+              <a
+                class="modern"
+                mat-flat-button
+                color="primary"
+                [href]="event.onlineMeetingUrl"
+                target="_blank"
+              >
+                <mat-icon svgIcon="icon-video-conference"></mat-icon>
+                Open Meeting
+              </a>
             </div>
+            }
           </div>
-        </mat-expansion-panel>
-        <mat-expansion-panel
-          *ngIf="
-            !event.excludeFromRatings &&
-            (event.ratingPending || event.ratings.length > 0)
-          "
-          expanded="true"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>Ratings</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
-            <app-rating-item
-              *ngFor="let rating of event.ratings"
-              [isOrganizer]="rating.type === 'ORGANIZER'"
-              [comment]="rating.userComment || ''"
-              [isAnonymous]="rating.anonymousRating"
-              [rating]="rating.rating || 0"
-              [userId]="rating.user.id"
-              [userFullName]="rating.user.fullName"
-              [userPicture]="rating.user.picture"
-              [userStatus]="rating.user.currentTenant?.status || ''"
-              [isCurrentUser]="
-                event.activeRegistration?.user?.id === rating.user.id
-              "
-              (edit)="expandRatingPanel()"
-            ></app-rating-item>
+          }
+          <markdown
+            [data]="event.participantText"
+            class="prose lg:prose-xl break-words"
+          ></markdown>
+          @if ((event$ | async)?.activeRegistration?.didAttend) {
+          <div class="my-2 flex flex-row items-center gap-4">
+            <img
+              ngSrc="{{ 'approval' | iconURL }}"
+              height="40"
+              width="40"
+              alt="approval"
+              class="w-10"
+            />
+            <span class="text-lg font-bold">
+              You are checked in to the event!
+            </span>
           </div>
-          <div
-            *ngIf="
-              (ratingExpanded$ | async) &&
-              event.activeRegistration?.status === 'SUCCESSFUL'
+          }
+          <div class="my-2 rounded-lg lg:text-lg">
+            <mat-divider class="!my-4"></mat-divider>
+            <div class="mb-2">
+              <b>Organizers</b>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              @for (organizer of event.organizers; track organizer) {
+              <app-user-chip
+                size="md"
+                [id]="organizer.id"
+                [picture]="organizer.picture"
+                [name]="organizer.fullName"
+                [phone]="organizer.phone || ''"
+                [status]="organizer.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+              }
+            </div>
+            <p class="mt-4">
+              Please contact them in case of any issues. We're looking forward
+              to seeing you soon!
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      } @if ( !event.excludeFromRatings && (event.ratingPending ||
+      event.ratings.length > 0) ) {
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Ratings</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
+          @for (rating of event.ratings; track rating) {
+          <app-rating-item
+            [isOrganizer]="rating.type === 'ORGANIZER'"
+            [comment]="rating.userComment || ''"
+            [isAnonymous]="rating.anonymousRating"
+            [rating]="rating.rating || 0"
+            [userId]="rating.user.id"
+            [userFullName]="rating.user.fullName"
+            [userPicture]="rating.user.picture"
+            [userStatus]="rating.user.currentTenant?.status || ''"
+            [isCurrentUser]="
+              event.activeRegistration?.user?.id === rating.user.id
             "
-            class="rounded-md border bg-slate-50 p-2"
-            id="rater"
+            (edit)="expandRatingPanel()"
+          ></app-rating-item>
+          }
+        </div>
+        @if ( (ratingExpanded$ | async) && event.activeRegistration?.status ===
+        'SUCCESSFUL' ) {
+        <div class="rounded-md border bg-slate-50 p-2" id="rater">
+          <app-rate-event
+            [event]="event"
+            (ratingSubmitted)="saveRating($event, event.id)"
+            [rating]="event.activeRegistration?.rating || 0"
+            [comment]="event.activeRegistration?.userComment || ''"
+            [anonymousRating]="
+              !!event.activeRegistration?.rating &&
+              !!event.activeRegistration?.anonymousRating
+            "
           >
-            <app-rate-event
-              [event]="event"
-              (ratingSubmitted)="saveRating($event, event.id)"
-              [rating]="event.activeRegistration?.rating || 0"
-              [comment]="event.activeRegistration?.userComment || ''"
-              [anonymousRating]="
-                !!event.activeRegistration?.rating &&
-                !!event.activeRegistration?.anonymousRating
-              "
-            >
-            </app-rate-event>
-          </div>
-        </mat-expansion-panel>
-      </ng-container>
+          </app-rate-event>
+        </div>
+        }
+      </mat-expansion-panel>
+      } } @else {
+
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Description</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex w-full flex-col gap-2">
+          @for (line of [].constructor(12); track line) {
+          <div class="skeleton h-6 w-full"> T </div>
+          }
+        </div>
+      </mat-expansion-panel>
+
+      }
       <ng-template #skeleton>
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Description</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="flex w-full flex-col gap-2">
-            <div
-              *ngFor="let line of [].constructor(12)"
-              class="skeleton h-6 w-full"
-            >
-              T
-            </div>
+            @for (line of [].constructor(12); track line) {
+            <div class="skeleton h-6 w-full"> T </div>
+            }
           </div>
         </mat-expansion-panel>
       </ng-template>
     </mat-accordion>
   </div>
-  <ng-container *ngIf="event$ | async as event">
-    <div class="p-6 text-sm lg:px-12">
-      <p>{{ event.organizer.text }}</p>
-    </div>
-    <div
-      class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
-      data-testId="event-signup-section"
-    >
-      <ng-template #noRegistration>
-        <h2>You can not sign up for this event</h2>
-        <ng-container *ngIf="(auth.isAuthenticated$ | async) === false">
-          <p class="my-4">
-            To sign up for events, please log in or create an account.
-          </p>
-          <button
-            class="modern"
-            mat-flat-button
-            color="accent"
-            (click)="auth.loginWithRedirect()"
-          >
-            <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
-            Log in
-          </button>
-        </ng-container>
-      </ng-template>
-      <ng-container *ngIf="event.couldBeParticipant; else noRegistration">
-        <h2 class="mb-4 font-bold">Registration</h2>
-        <app-check-registration-time
-          [registrationStart]="event.registrationStart"
-        >
-          <ng-container [ngSwitch]="event.registrationMode">
-            <app-external-event-registration
-              *ngSwitchCase="RegistrationMode.External"
-              [event]="event"
-            >
-            </app-external-event-registration>
-            <app-stripe-event-registration
-              *ngSwitchCase="RegistrationMode.Stripe"
-              [event]="event"
-              [deRegistrationOptions]="
-                event.deRegistrationSettings.participants
-              "
-              [bestPrice]="bestPrice$ | async"
-              [user]="user$ | async"
-            ></app-stripe-event-registration>
-            <app-online-event-registration
-              [event]="event"
-              [deRegistrationOptions]="
-                event.deRegistrationSettings.participants
-              "
-              *ngSwitchCase="RegistrationMode.Online"
-            >
-            </app-online-event-registration>
-          </ng-container>
-        </app-check-registration-time>
-      </ng-container>
-    </div>
-    <div
-      *ngIf="
-        event.couldBeOrganizer &&
-        event.registrationMode !== RegistrationMode.External
-      "
-      data-testId="event-organizer-section"
-      class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
-    >
-      <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
-      <app-check-registration-time
-        [registrationStart]="event.organizerRegistrationStart"
+  @if (event$ | async; as event) {
+
+  <div class="p-6 text-sm lg:px-12">
+    <p>{{ event.organizer.text }}</p>
+  </div>
+  <div
+    class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
+    data-testId="event-signup-section"
+  >
+    @if (event.couldBeParticipant) {
+
+    <h2 class="mb-4 font-bold">Registration</h2>
+    <app-check-registration-time [registrationStart]="event.registrationStart">
+      @switch (event.registrationMode) { @case (RegistrationMode.External) {
+      <app-external-event-registration [event]="event">
+      </app-external-event-registration>
+      } @case (RegistrationMode.Stripe) {
+      <app-stripe-event-registration
+        [event]="event"
+        [deRegistrationOptions]="event.deRegistrationSettings.participants"
+        [bestPrice]="bestPrice$ | async"
+        [user]="user$ | async"
+      ></app-stripe-event-registration>
+      } @case (RegistrationMode.Online) {
+      <app-online-event-registration
+        [event]="event"
+        [deRegistrationOptions]="event.deRegistrationSettings.participants"
       >
-        <div
-          class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
-        >
-          <div
-            class="md:w-1/2"
-            *ngIf="organizerCanDeRegister$ | async as canDeRegister"
+      </app-online-event-registration>
+      } }
+    </app-check-registration-time>
+
+    } @else {
+
+    <h2>You can not sign up for this event</h2>
+    @if ((auth.isAuthenticated$ | async) === false) {
+
+    <p class="my-4">
+      To sign up for events, please log in or create an account.
+    </p>
+    <button
+      class="modern"
+      mat-flat-button
+      color="accent"
+      (click)="auth.loginWithRedirect()"
+    >
+      <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+      Log in
+    </button>
+
+    } }
+  </div>
+  @if ( event.couldBeOrganizer && event.registrationMode !==
+  RegistrationMode.External ) {
+  <div
+    data-testId="event-organizer-section"
+    class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
+  >
+    <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
+    <app-check-registration-time
+      [registrationStart]="event.organizerRegistrationStart"
+    >
+      <div
+        class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
+      >
+        @if (organizerCanDeRegister$ | async; as canDeRegister) {
+        <div class="md:w-1/2">
+          @if (canDeRegister.result) {
+          <p>
+            You can de register from this event until
+            {{ lastOrganizerDeRegistration$ | async | date }}
+          </p>
+          } @if (!canDeRegister.result) {
+          <p>
+            You can not de register from this event:
+            {{ canDeRegister.reason }}
+          </p>
+          } @if (event.organizerRegistrationPossible) {
+          <button
+            mat-raised-button
+            color="primary"
+            class="modern w-full"
+            (click)="registerAsOrganizer()"
           >
-            <p *ngIf="canDeRegister.result">
-              You can de register from this event until
-              {{ lastOrganizerDeRegistration$ | async | date }}
-            </p>
-            <p *ngIf="!canDeRegister.result">
-              You can not de register from this event:
-              {{ canDeRegister.reason }}
-            </p>
-            <button
-              mat-raised-button
-              color="primary"
-              class="modern w-full"
-              *ngIf="event.organizerRegistrationPossible"
-              (click)="registerAsOrganizer()"
-            >
-              <mat-icon svgIcon="icon-add"></mat-icon>
-              Sign up now
-            </button>
-            <button
-              mat-raised-button
-              color="primary"
-              class="modern w-full"
-              *ngIf="canDeRegister.result && event.userIsOrganizer"
-              (click)="cancelOrganizerRegistration()"
-            >
-              Cancel Registration
-            </button>
-          </div>
-          <div class="md:w-1/2">
-            <h3>
-              Organizers already on this event ({{ event.organizers.length }}/{{
-                event.organizerLimit
-              }})
-            </h3>
-            <mat-list>
-              <mat-list-item *ngIf="event.organizers.length === 0">
-                Nobody yet
-              </mat-list-item>
-              <mat-list-item *ngFor="let user of event.organizers">
-                <app-user-chip
-                  size="sm"
-                  [id]="user.id"
-                  [picture]="user.picture"
-                  [name]="user.fullName"
-                  [phone]="user.phone || ''"
-                  [status]="user.currentTenant?.status + ''"
-                  [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
-                >
-                </app-user-chip>
-              </mat-list-item>
-            </mat-list>
-          </div>
+            <mat-icon svgIcon="icon-add"></mat-icon>
+            Sign up now
+          </button>
+          } @if (canDeRegister.result && event.userIsOrganizer) {
+          <button
+            mat-raised-button
+            color="primary"
+            class="modern w-full"
+            (click)="cancelOrganizerRegistration()"
+          >
+            Cancel Registration
+          </button>
+          }
         </div>
-      </app-check-registration-time>
-    </div>
-  </ng-container>
+        }
+        <div class="md:w-1/2">
+          <h3>
+            Organizers already on this event ({{ event.organizers.length }}/{{
+              event.organizerLimit
+            }})
+          </h3>
+          <mat-list>
+            @if (event.organizers.length === 0) {
+            <mat-list-item> Nobody yet </mat-list-item>
+            } @for (user of event.organizers; track user) {
+            <mat-list-item>
+              <app-user-chip
+                size="sm"
+                [id]="user.id"
+                [picture]="user.picture"
+                [name]="user.fullName"
+                [phone]="user.phone || ''"
+                [status]="user.currentTenant?.status + ''"
+                [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
+              >
+              </app-user-chip>
+            </mat-list-item>
+            }
+          </mat-list>
+        </div>
+      </div>
+    </app-check-registration-time>
+  </div>
+  } }
 </main>

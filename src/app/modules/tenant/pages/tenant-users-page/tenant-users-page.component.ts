@@ -11,9 +11,9 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   debounceTime,
@@ -24,7 +24,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { RouterLink } from '@angular/router';
 import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
@@ -36,7 +36,7 @@ import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';

@@ -3,7 +3,6 @@ import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dia
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import {
   ReactiveFormsModule,
-  UntypedFormBuilder,
   UntypedFormControl,
   Validators,
 } from '@angular/forms';

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf, LowerCasePipe, NgOptimizedImage } from '@angular/common';
+import { LowerCasePipe, NgIf, NgOptimizedImage } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';

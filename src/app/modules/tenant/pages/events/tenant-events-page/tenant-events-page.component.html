@@ -2,19 +2,14 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     <div resetScroll>
-      Events
-      <span
-        class="font-light"
-        *ngIf="(events$ | async)?.length as transactionCount"
-      >
-        ({{ transactionCount }})
-      </span>
+      Events @if ((events$ | async)?.length; as transactionCount) {
+      <span class="font-light"> ({{ transactionCount }}) </span>
+      }
     </div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(events$ | async) === null"
-  ></mat-progress-bar>
+  @if ((events$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
   <form
@@ -43,12 +38,8 @@
       <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
     </mat-form-field>
   </form>
-  <mat-table
-    *ngIf="events$ | async as users"
-    mat-table
-    [dataSource]="users"
-    class="w-fit sm:w-full"
-  >
+  @if (events$ | async; as users) {
+  <mat-table mat-table [dataSource]="users" class="w-fit sm:w-full">
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -73,4 +64,5 @@
       class="cursor-pointer hover:bg-gray-100"
     ></mat-row>
   </mat-table>
+  }
 </main>

@@ -63,12 +63,11 @@
     <mat-form-field class="w-full">
       <mat-label>Organizing institution</mat-label>
       <mat-select formControlName="eventOrganizerId" required>
-        <mat-option
-          *ngFor="let organizer of data.organizers"
-          [value]="organizer.id"
-        >
+        @for (organizer of data.organizers; track organizer) {
+        <mat-option [value]="organizer.id">
           {{ organizer.name }}
         </mat-option>
+        }
       </mat-select>
       <mat-hint>The organization responsible for this event</mat-hint>
       <mat-error>You have to provide the organizer</mat-error>

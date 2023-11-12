@@ -17,10 +17,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
   CurrencyPipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';

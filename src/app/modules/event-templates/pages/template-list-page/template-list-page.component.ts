@@ -31,10 +31,10 @@ import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.di
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
   DecimalPipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';

@@ -10,7 +10,7 @@ import {
   EventSubmissionItem,
 } from '@tumi/legacy-app/generated/generated';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-event-submission-overview',

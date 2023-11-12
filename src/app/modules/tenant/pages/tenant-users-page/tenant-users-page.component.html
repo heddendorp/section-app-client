@@ -2,16 +2,14 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     <div resetScroll>
-      Registered Users
-      <span class="font-light" *ngIf="userNum$ | async as userNum"
-        >({{ userNum }})</span
-      >
+      Registered Users @if (userNum$ | async; as userNum) {
+      <span class="font-light">({{ userNum }})</span>
+      }
     </div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(users$ | async) === null"
-  ></mat-progress-bar>
+  @if ((users$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
   <form [formGroup]="filterForm" fxLayout="column" fxLayoutGap="1rem">
@@ -61,11 +59,8 @@
     <mat-icon svgIcon="icon-copy"></mat-icon>
     Copy mail addresses
   </button>
-  <mat-table
-    *ngIf="users$ | async as users"
-    [dataSource]="users"
-    class="mt-4 w-fit sm:w-full"
-  >
+  @if (users$ | async; as users) {
+  <mat-table [dataSource]="users" class="mt-4 w-fit sm:w-full">
     <ng-container matColumnDef="profile">
       <mat-header-cell *matHeaderCellDef>Profile</mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -116,6 +111,7 @@
       class="cursor-pointer hover:bg-gray-100"
     ></mat-row>
   </mat-table>
+  }
   <mat-paginator
     [length]="userNum$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"

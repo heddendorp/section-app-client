@@ -1,52 +1,53 @@
+@if (form) {
 <form
   class="flex w-full flex-col gap-4"
-  *ngIf="form"
   [formGroup]="form"
   (ngSubmit)="submitData()"
 >
-  <ng-container
-    *ngFor="let item of items; let last = last"
-    [ngSwitch]="item.type"
-  >
-    <div *ngSwitchCase="SubmissionItemType.Text">
-      <mat-form-field class="w-full">
-        <mat-label>{{ item.name }}</mat-label>
-        <input matInput [formControlName]="item.id" type="text" />
-      </mat-form-field>
-      <markdown [data]="item.instruction" class="prose"></markdown>
-    </div>
-    <div *ngSwitchCase="SubmissionItemType.Longtext">
-      <mat-form-field class="w-full">
-        <mat-label>{{ item.name }}</mat-label>
-        <textarea matInput rows="3" [formControlName]="item.id"></textarea>
-      </mat-form-field>
-      <markdown [data]="item.instruction" class="prose"></markdown>
-    </div>
-    <div *ngSwitchCase="SubmissionItemType.Boolean">
-      <mat-slide-toggle [formControlName]="item.id">{{
-        item.name
-      }}</mat-slide-toggle>
-      <markdown [data]="item.instruction" class="prose"></markdown>
-    </div>
-    <div *ngSwitchCase="SubmissionItemType.Confirm">
-      <mat-checkbox [formControlName]="item.id">{{ item.name }}</mat-checkbox>
-      <markdown [data]="item.instruction" class="prose"></markdown>
-    </div>
-    <div *ngSwitchCase="SubmissionItemType.Select">
-      <mat-form-field class="w-full">
-        <mat-label>{{ item.name }}</mat-label>
-        <mat-select [formControlName]="item.id">
-          <mat-option
-            *ngFor="let option of item.data?.choices"
-            [value]="option"
-            >{{ option }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-      <markdown [data]="item.instruction" class="prose"></markdown>
-    </div>
-    <mat-divider *ngIf="!last"></mat-divider>
-  </ng-container>
+  @for (item of items;track item;let last = $last) { @switch (item.type) { @case
+  (SubmissionItemType.Text) {
+  <div>
+    <mat-form-field class="w-full">
+      <mat-label>{{ item.name }}</mat-label>
+      <input matInput [formControlName]="item.id" type="text" />
+    </mat-form-field>
+    <markdown [data]="item.instruction" class="prose"></markdown>
+  </div>
+  } @case (SubmissionItemType.Longtext) {
+  <div>
+    <mat-form-field class="w-full">
+      <mat-label>{{ item.name }}</mat-label>
+      <textarea matInput rows="3" [formControlName]="item.id"></textarea>
+    </mat-form-field>
+    <markdown [data]="item.instruction" class="prose"></markdown>
+  </div>
+  } @case (SubmissionItemType.Boolean) {
+  <div>
+    <mat-slide-toggle [formControlName]="item.id"
+      >{{ item.name }}
+    </mat-slide-toggle>
+    <markdown [data]="item.instruction" class="prose"></markdown>
+  </div>
+  } @case (SubmissionItemType.Confirm) {
+  <div>
+    <mat-checkbox [formControlName]="item.id">{{ item.name }}</mat-checkbox>
+    <markdown [data]="item.instruction" class="prose"></markdown>
+  </div>
+  } @case (SubmissionItemType.Select) {
+  <div>
+    <mat-form-field class="w-full">
+      <mat-label>{{ item.name }}</mat-label>
+      <mat-select [formControlName]="item.id">
+        @for (option of item.data?.choices;track option) {
+        <mat-option [value]="option">{{ option }} </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <markdown [data]="item.instruction" class="prose"></markdown>
+  </div>
+  @if (!last) {
+  <mat-divider></mat-divider>
+  } } } }
   <button
     mat-flat-button
     color="primary"
@@ -56,3 +57,4 @@
     Submit data
   </button>
 </form>
+}

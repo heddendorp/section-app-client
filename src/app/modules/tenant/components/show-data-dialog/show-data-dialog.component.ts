@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { GetLogsQuery } from '@tumi/legacy-app/generated/generated';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
-import { NgIf, JsonPipe, DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-show-data-dialog',

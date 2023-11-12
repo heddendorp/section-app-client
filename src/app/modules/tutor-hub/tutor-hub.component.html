@@ -2,10 +2,9 @@
   <mat-toolbar color="white">
     <div resetScroll>Section Hub</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(tutorHubData$ | async) === null"
-  ></mat-progress-bar>
+  @if ((tutorHubData$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <div class="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
   <div
@@ -23,12 +22,13 @@
       >
         <div class="flex flex-col items-center">
           <div class="mb-1 text-3xl font-extrabold">
-            <span *ngIf="events$ | async as events; else eventCounter">{{
-              events.eventCount
-            }}</span>
-            <ng-template #eventCounter>
-              <span class="skeleton">XXX</span>
-            </ng-template>
+            @if (events$ | async; as events) {
+            <span>{{ events.eventCount }}</span>
+            } @else {
+
+            <span class="skeleton">XXX</span>
+
+            }
           </div>
           <div class="text-sm">
             event{{ (events$ | async)?.eventCount === 1 ? '' : 's' }}
@@ -36,12 +36,13 @@
         </div>
         <div class="flex flex-col items-center">
           <div class="mb-1 text-3xl font-extrabold">
-            <span *ngIf="events$ | async as events; else registrationCounter">{{
-              events.registrationCount
-            }}</span>
-            <ng-template #registrationCounter>
-              <span class="skeleton">XXXX</span>
-            </ng-template>
+            @if (events$ | async; as events) {
+            <span>{{ events.registrationCount }}</span>
+            } @else {
+
+            <span class="skeleton">XXXX</span>
+
+            }
           </div>
           <div class="text-sm">
             participant{{
@@ -87,31 +88,28 @@
           </div>
         </div>
         <div class="grid grid-cols-[3ch_auto_auto] gap-2 text-sm">
-          <ng-container
-            *ngIf="events$ | async as events; else leaderboardSkeleton"
+          @if (events$ | async; as events) { @for (entry of
+          getLeaderboard(events); track entry) {
+
+          <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
+          <app-user-chip
+            size="xs"
+            [id]="entry.user.id"
+            [picture]="entry.user.picture"
+            name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
+            [status]="entry.status || ''"
           >
-            <ng-container *ngFor="let entry of getLeaderboard(events)">
-              <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
-              <app-user-chip
-                size="xs"
-                [id]="entry.user.id"
-                [picture]="entry.user.picture"
-                name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
-                [status]="entry.status || ''"
-              >
-              </app-user-chip>
-              <div class="ml-auto font-medium">{{ entry.count }}</div>
-            </ng-container>
-          </ng-container>
-          <ng-template #leaderboardSkeleton>
-            <ng-container
-              *ngFor="let entry of [].constructor(10); let i = index"
-            >
-              <div class="w-8 pr-3 text-end">{{ i + 1 }}.</div>
-              <div class="skeleton h-6 w-36 rounded-[24px]"></div>
-              <div class="skeleton ml-auto font-medium">XX</div>
-            </ng-container>
-          </ng-template>
+          </app-user-chip>
+          <div class="ml-auto font-medium">{{ entry.count }}</div>
+
+          } } @else { @for (entry of [].constructor(10); track entry; let i =
+          $index) {
+
+          <div class="w-8 pr-3 text-end">{{ i + 1 }}.</div>
+          <div class="skeleton h-6 w-36 rounded-[24px]"></div>
+          <div class="skeleton ml-auto font-medium">XX</div>
+
+          } }
         </div>
         <div class="mt-1">
           <a
@@ -136,29 +134,30 @@
       </mat-icon>
       <h2 class="font-bold">Recently created events</h2>
     </div>
-    <mat-nav-list *ngIf="tutorHubData$ | async as tutorHubData; else skeleton1">
-      <app-event-list-item
-        *ngFor="let event of tutorHubData.newEvents"
-        [event]="event"
-      ></app-event-list-item>
+    @if (tutorHubData$ | async; as tutorHubData) {
+    <mat-nav-list>
+      @for (event of tutorHubData.newEvents; track event) {
+      <app-event-list-item [event]="event"></app-event-list-item>
+      }
     </mat-nav-list>
-    <ng-template #skeleton1>
-      <mat-nav-list>
-        <app-event-list-item
-          *ngFor="let event of [].constructor(6)"
-        ></app-event-list-item>
-      </mat-nav-list>
-    </ng-template>
+    } @else {
+
+    <mat-nav-list>
+      @for (event of [].constructor(6); track event) {
+      <app-event-list-item></app-event-list-item>
+      }
+    </mat-nav-list>
+
+    }
   </div>
 
   <div
     class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
   >
     <div class="!absolute top-0 left-0 w-full">
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="searchLoading$ | async"
-      ></mat-progress-bar>
+      @if (searchLoading$ | async) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
     </div>
     <div class="mb-2 flex flex-row items-center gap-4">
       <mat-icon
@@ -175,47 +174,43 @@
         <mat-icon matSuffix svgIcon="icon-search"></mat-icon>
       </mat-form-field>
     </form>
-    <ng-container *ngIf="!searchInput.value">
-      <app-grid minWidth="35px" gap="0.5rem">
-        <ng-container
-          *ngIf="tutorHubData$ | async as tutorHubData; else skeleton2"
-        >
-          <app-user-chip
-            *ngFor="let tenantUser of tutorHubData.activeOrganizers"
-            size="fit"
-            [id]="tenantUser.user.id"
-            name="{{ tenantUser.user.firstName }} {{
-              tenantUser.user.lastName
-            }}"
-            [picture]="tenantUser.user.picture"
-          >
-          </app-user-chip>
-        </ng-container>
-        <ng-template #skeleton2>
-          <div
-            *ngFor="let tutor of [].constructor(90)"
-            class="skeleton aspect-1 rounded-full"
-          ></div>
-        </ng-template>
-      </app-grid>
-      <div class="mt-3 text-sm italic text-gray-500">
-        {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active members
-        of the last three months.
-      </div>
-    </ng-container>
-    <ng-container *ngIf="searchInput.value">
-      <div class="flex flex-wrap items-center gap-2">
-        <app-user-chip
-          *ngFor="let user of searchedTutors$ | async"
-          size="sm"
-          [id]="user.id"
-          [picture]="user.picture"
-          [name]="user.fullName"
-          [status]="user.currentTenant?.status + ''"
-        >
-        </app-user-chip>
-      </div>
-    </ng-container>
+    @if (!searchInput.value) {
+
+    <app-grid minWidth="35px" gap="0.5rem">
+      @if (tutorHubData$ | async; as tutorHubData) { @for (tenantUser of
+      tutorHubData.activeOrganizers; track tenantUser) {
+      <app-user-chip
+        size="fit"
+        [id]="tenantUser.user.id"
+        name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
+        [picture]="tenantUser.user.picture"
+      >
+      </app-user-chip>
+      } } @else { @for (tutor of [].constructor(90); track tutor) {
+      <div class="skeleton aspect-1 rounded-full"></div>
+      } }
+    </app-grid>
+    <div class="mt-3 text-sm italic text-gray-500">
+      {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active members of
+      the last three months.
+    </div>
+
+    } @if (searchInput.value) {
+
+    <div class="flex flex-wrap items-center gap-2">
+      @for (user of searchedTutors$ | async; track user) {
+      <app-user-chip
+        size="sm"
+        [id]="user.id"
+        [picture]="user.picture"
+        [name]="user.fullName"
+        [status]="user.currentTenant?.status + ''"
+      >
+      </app-user-chip>
+      }
+    </div>
+
+    }
   </div>
 
   <div
@@ -230,35 +225,33 @@
       <h2 class="font-bold">Birthdays</h2>
     </div>
     <div class="flex flex-col gap-4">
-      <ng-container
-        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton3"
-      >
-        <div *ngIf="tutorHubData.birthdays.length === 0">
-          No upcoming birthdays in the next week
+      @if (tutorHubData$ | async; as tutorHubData) { @if
+      (tutorHubData.birthdays.length === 0) {
+      <div> No upcoming birthdays in the next week </div>
+      } @for (birthday of tutorHubData.birthdays; track birthday) {
+      <div>
+        <div class="mb-1 font-bold">{{ birthday.birthday }}</div>
+        <div class="ml-4 flex flex-wrap items-center gap-2">
+          @for (user of birthday.users; track user) {
+          <app-user-chip
+            size="sm"
+            [id]="user.id"
+            [picture]="user.picture"
+            name="{{ user.firstName }} {{ user.lastName }}"
+            [status]="user.status"
+          >
+          </app-user-chip>
+          }
         </div>
-        <div *ngFor="let birthday of tutorHubData.birthdays">
-          <div class="mb-1 font-bold">{{ birthday.birthday }}</div>
-          <div class="ml-4 flex flex-wrap items-center gap-2">
-            <app-user-chip
-              *ngFor="let user of birthday.users"
-              size="sm"
-              [id]="user.id"
-              [picture]="user.picture"
-              name="{{ user.firstName }} {{ user.lastName }}"
-              [status]="user.status"
-            >
-            </app-user-chip>
-          </div>
+      </div>
+      } } @else { @for (birthday of [].constructor(3); track birthday) {
+      <div>
+        <div class="mb-1 font-bold">
+          <span class="skeleton">XXXXXX XX</span>
         </div>
-      </ng-container>
-      <ng-template #skeleton3>
-        <div *ngFor="let birthday of [].constructor(3)">
-          <div class="mb-1 font-bold">
-            <span class="skeleton">XXXXXX XX</span>
-          </div>
-          <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
-        </div>
-      </ng-template>
+        <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
+      </div>
+      } }
     </div>
   </div>
 
@@ -274,31 +267,27 @@
       <h2 class="font-bold">Who’s Who</h2>
     </div>
     <div class="grid grid-cols-1 gap-4 text-sm 2xl:grid-cols-2">
-      <ng-container
-        *ngIf="tutorHubData$ | async as tutorHubData; else skeleton4"
-      >
-        <div *ngFor="let tenantUser of tutorHubData.usersWithPositions">
-          <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
-          <app-user-chip
-            size="xs"
-            [id]="tenantUser.user.id"
-            [picture]="tenantUser.user.picture"
-            name="{{ tenantUser.user.firstName }} {{
-              tenantUser.user.lastName
-            }}"
-            [status]="tenantUser.status || ''"
-          >
-          </app-user-chip>
+      @if (tutorHubData$ | async; as tutorHubData) { @for (tenantUser of
+      tutorHubData.usersWithPositions; track tenantUser) {
+      <div>
+        <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
+        <app-user-chip
+          size="xs"
+          [id]="tenantUser.user.id"
+          [picture]="tenantUser.user.picture"
+          name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
+          [status]="tenantUser.status || ''"
+        >
+        </app-user-chip>
+      </div>
+      } } @else { @for (position of [].constructor(10); track position) {
+      <div>
+        <div class="mb-0.5 font-medium">
+          <span class="skeleton">XXX XXXXXXXX XX</span>
         </div>
-      </ng-container>
-      <ng-template #skeleton4>
-        <div *ngFor="let position of [].constructor(10)">
-          <div class="mb-0.5 font-medium">
-            <span class="skeleton">XXX XXXXXXXX XX</span>
-          </div>
-          <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
-        </div>
-      </ng-template>
+        <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
+      </div>
+      } }
     </div>
   </div>
 
@@ -314,12 +303,8 @@
       <h2 class="font-bold">Resources</h2>
     </div>
     <mat-nav-list>
-      <a
-        *ngFor="let link of resourceLinks$ | async"
-        mat-list-item
-        [href]="link.url"
-        target="_blank"
-      >
+      @for (link of resourceLinks$ | async; track link) {
+      <a mat-list-item [href]="link.url" target="_blank">
         <img
           [ngSrc]="link.icon | iconURL"
           width="192"
@@ -329,6 +314,7 @@
         />
         <p matListItemTitle>{{ link.label }}</p>
       </a>
+      }
     </mat-nav-list>
   </div>
 </div>

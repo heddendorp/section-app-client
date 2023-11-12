@@ -7,7 +7,7 @@ import {
   TransactionType,
 } from '@tumi/legacy-app/generated/generated';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateTransactionDialogComponent } from '@tumi/legacy-app/modules/tenant/components/create-transaction-dialog/create-transaction-dialog.component';
@@ -23,13 +23,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
+  AsyncPipe,
+  CurrencyPipe,
+  DatePipe,
+  DecimalPipe,
   NgIf,
   NgSwitch,
   NgSwitchCase,
-  AsyncPipe,
-  DecimalPipe,
-  CurrencyPipe,
-  DatePipe,
 } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';

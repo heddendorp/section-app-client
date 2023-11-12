@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 import { EventCalendarDayDialogComponent } from './event-calendar-day-dialog/event-calendar-day-dialog';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatRippleModule } from '@angular/material/core';
-import { NgFor, NgIf, LowerCasePipe, NgOptimizedImage } from '@angular/common';
+import { LowerCasePipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-event-calendar',

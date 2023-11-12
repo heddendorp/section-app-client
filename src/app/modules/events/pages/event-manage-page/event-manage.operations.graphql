@@ -52,7 +52,7 @@ query loadEventForManagement($id: ID!) {
         }
       }
     }
-    submissionItems{
+    submissionItems {
       id
       name
     }

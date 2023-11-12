@@ -1,8 +1,7 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(eventTemplate$ | async) === null"
-></mat-progress-bar>
-<main class="p-4" *ngIf="eventTemplate$ | async as template">
+@if ((eventTemplate$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @if (eventTemplate$ | async; as template) {
+<main class="p-4">
   <app-back-button></app-back-button>
 
   <mat-card appearance="outlined" class="my-4">
@@ -18,7 +17,8 @@
     <mat-card-content>
       <div class="my-2 grid gap-4 sm:grid-cols-[1fr_4fr]">
         <p class="font-bold">Location</p>
-        <div *ngIf="!template.isVirtual">
+        @if (!template.isVirtual) {
+        <div>
           <a
             class="modern"
             mat-stroked-button
@@ -40,13 +40,16 @@
           </button>
           <div class="mt-2 text-xs text-slate-600">
             <span>{{ template.googlePlaceUrl }} </span>
-            <span *ngIf="template.coordinates"
+            @if (template.coordinates) {
+            <span
               >({{ template.coordinates.lat }},
               {{ template.coordinates.lon }})</span
             >
+            }
           </div>
         </div>
-        <div *ngIf="template.isVirtual">
+        } @if (template.isVirtual) {
+        <div>
           <a
             class="modern"
             mat-stroked-button
@@ -63,20 +66,24 @@
             <span>{{ template.onlineMeetingUrl }} </span>
           </div>
         </div>
+        }
         <p class="mt-4 font-bold sm:mt-0">Category</p>
         <div class="flex flex-row items-center gap-4">
-          <ng-container *ngIf="template.category">
-            <img
-              class="h-8"
-              height="32"
-              width="32"
-              [ngSrc]="template.category.icon | iconURL"
-            />
-            <h3>{{ template.category.name }}</h3>
-          </ng-container>
-          <ng-container *ngIf="!template.category">
-            <h3>Uncategorized</h3>
-          </ng-container>
+          @if (template.category) {
+
+          <img
+            class="h-8"
+            height="32"
+            width="32"
+            [ngSrc]="template.category.icon | iconURL"
+          />
+          <h3>{{ template.category.name }}</h3>
+
+          } @if (!template.category) {
+
+          <h3>Uncategorized</h3>
+
+          }
           <button class="modern" mat-icon-button (click)="changeCategory()">
             <mat-icon svgIcon="icon-edit"></mat-icon>
           </button>
@@ -139,67 +146,62 @@
         <mat-panel-title> Ratings </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="flex flex-col gap-3">
-        <ng-container *ngFor="let event of template.eventInstances">
-          <div
-            *ngIf="
-              (event.participantRatingCount &&
-                event.participantRatingCount > 0) ||
-              (event.organizerRatingCount && event.organizerRatingCount > 0)
-            "
-            class="flex flex-col gap-2"
-          >
-            <a routerLink="/events/{{ event.id }}" class="text-base">
-              <span class="font-bold">{{ event.title }}</span>
-              <span class="ml-2 font-light">{{
-                event.start | date: 'shortDate'
-              }}</span>
-              <div
-                *ngIf="
-                  event.participantRatingCount &&
-                  event.participantRatingCount > 0
-                "
-                class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
-              >
-                {{ event.participantRating | number: '1.1-1' }} ★ ({{
-                  event.participantRatingCount
-                }})
-              </div>
-            </a>
-            <p>
-              Signup Velocity:
-              <span class="px-2">
-                <strong>75%:&nbsp;</strong>
-                {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
-                &nbsp;({{ event.signupVelocity.threequartersTime }})
-              </span>
-              <span class="px-2">
-                <strong>50%:&nbsp;</strong>
-                {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
-                  event.signupVelocity.fiftyTime
-                }})
-              </span>
-              <span class="px-2">
-                <strong>25%:&nbsp;</strong>
-                {{ event.signupVelocity.quarter | number }}&nbsp;s/h &nbsp;({{
-                  event.signupVelocity.quarterTime
-                }})
-              </span>
-            </p>
-            <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
-              <app-rating-item
-                *ngFor="let rating of event.ratings"
-                [isOrganizer]="rating.type === 'ORGANIZER'"
-                [comment]="rating.userComment || ''"
-                [isAnonymous]="rating.anonymousRating"
-                [rating]="rating.rating || 0"
-                [userId]="rating.user.id"
-                [userFullName]="rating.user.fullName"
-                [userPicture]="rating.user.picture"
-                [userStatus]="rating.user.currentTenant?.status || ''"
-              ></app-rating-item>
+        @for (event of template.eventInstances; track event) { @if (
+        (event.participantRatingCount && event.participantRatingCount > 0) ||
+        (event.organizerRatingCount && event.organizerRatingCount > 0) ) {
+        <div class="flex flex-col gap-2">
+          <a routerLink="/events/{{ event.id }}" class="text-base">
+            <span class="font-bold">{{ event.title }}</span>
+            <span class="ml-2 font-light">{{
+              event.start | date: 'shortDate'
+            }}</span>
+            @if ( event.participantRatingCount && event.participantRatingCount >
+            0 ) {
+            <div
+              class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
+            >
+              {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                event.participantRatingCount
+              }})
             </div>
+            }
+          </a>
+          <p>
+            Signup Velocity:
+            <span class="px-2">
+              <strong>75%:&nbsp;</strong>
+              {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
+              &nbsp;({{ event.signupVelocity.threequartersTime }})
+            </span>
+            <span class="px-2">
+              <strong>50%:&nbsp;</strong>
+              {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
+                event.signupVelocity.fiftyTime
+              }})
+            </span>
+            <span class="px-2">
+              <strong>25%:&nbsp;</strong>
+              {{ event.signupVelocity.quarter | number }}&nbsp;s/h &nbsp;({{
+                event.signupVelocity.quarterTime
+              }})
+            </span>
+          </p>
+          <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
+            @for (rating of event.ratings; track rating) {
+            <app-rating-item
+              [isOrganizer]="rating.type === 'ORGANIZER'"
+              [comment]="rating.userComment || ''"
+              [isAnonymous]="rating.anonymousRating"
+              [rating]="rating.rating || 0"
+              [userId]="rating.user.id"
+              [userFullName]="rating.user.fullName"
+              [userPicture]="rating.user.picture"
+              [userStatus]="rating.user.currentTenant?.status || ''"
+            ></app-rating-item>
+            }
           </div>
-        </ng-container>
+        </div>
+        } }
       </div>
     </mat-expansion-panel>
 
@@ -208,16 +210,14 @@
         <mat-panel-title> Events </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <a
-          mat-list-item
-          routerLink="/events/{{ event.id }}"
-          *ngFor="let event of template.eventInstances"
-        >
+        @for (event of template.eventInstances; track event) {
+        <a mat-list-item routerLink="/events/{{ event.id }}">
           <h3 matListItemTitle>{{ event.title }}</h3>
           <p matListItemLine>
             {{ event.start | date: 'medium' }}
           </p>
         </a>
+        }
       </mat-nav-list>
     </mat-expansion-panel>
 
@@ -248,3 +248,4 @@
     </mat-expansion-panel>
   </mat-accordion>
 </main>
+}

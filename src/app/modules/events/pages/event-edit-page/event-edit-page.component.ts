@@ -8,7 +8,6 @@ import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
   DeleteEventGQL,
-  DeregisterFromEventGQL,
   Exact,
   GetEventTemplatesGQL,
   KickFromEventGQL,

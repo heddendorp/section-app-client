@@ -1,15 +1,17 @@
 <mat-toolbar color="white">
   <app-back-button></app-back-button>
-  <ng-container *ngIf="event$ | async as event">
-    <div class="flex-1 truncate">Edit {{ event.title }}</div>
-    <a
-      routerLink="/event-templates/{{ event.eventTemplate.id }}"
-      mat-flat-button
-      color="accent"
-      class="modern"
-      >Go to template</a
-    >
-  </ng-container>
+  @if (event$ | async; as event) {
+
+  <div class="flex-1 truncate">Edit {{ event.title }}</div>
+  <a
+    routerLink="/event-templates/{{ event.eventTemplate.id }}"
+    mat-flat-button
+    color="accent"
+    class="modern"
+    >Go to template</a
+  >
+
+  }
 </mat-toolbar>
 <main class="px-1 py-4 sm:p-4">
   <div
@@ -22,11 +24,10 @@
     >
       <mat-tab label="General">
         <div class="p-4">
-          <div
-            class="mb-4 rounded-md border-2 p-4"
-            *ngIf="event$ | async as event"
-          >
-            <div *ngIf="!event.isVirtual">
+          @if (event$ | async; as event) {
+          <div class="mb-4 rounded-md border-2 p-4">
+            @if (!event.isVirtual) {
+            <div>
               <a
                 class="modern"
                 mat-stroked-button
@@ -48,13 +49,16 @@
               </button>
               <div class="mt-2 text-xs text-slate-600">
                 <span>{{ event.googlePlaceUrl }} </span>
-                <span *ngIf="event.coordinates"
+                @if (event.coordinates) {
+                <span
                   >({{ event.coordinates.lat }},
                   {{ event.coordinates.lon }})</span
                 >
+                }
               </div>
             </div>
-            <div *ngIf="event.isVirtual">
+            } @if (event.isVirtual) {
+            <div>
               <a
                 class="modern"
                 mat-stroked-button
@@ -71,7 +75,9 @@
                 <span>{{ event.onlineMeetingUrl }} </span>
               </div>
             </div>
+            }
           </div>
+          }
 
           <form
             [formGroup]="generalInformationForm"
@@ -120,9 +126,9 @@
       </mat-tab>
       <mat-tab label="Specification">
         <div class="p-4">
-          <p *ngIf="editingProhibited$ | async" class="my-2">
-            Only events that are Drafts can be edited
-          </p>
+          @if (editingProhibited$ | async) {
+          <p class="my-2"> Only events that are Drafts can be edited </p>
+          }
           <form
             [formGroup]="coreInformationForm"
             (ngSubmit)="onCoreSubmit()"
@@ -191,23 +197,21 @@
               <mat-form-field class="w-full">
                 <mat-label>Possible Organizers</mat-label>
                 <mat-select multiple formControlName="organizerSignup">
-                  <mat-option
-                    *ngFor="let status of statusOptions"
-                    [value]="status"
-                  >
+                  @for (status of statusOptions; track status) {
+                  <mat-option [value]="status">
                     {{ status | titlecase }}
                   </mat-option>
+                  }
                 </mat-select>
               </mat-form-field>
               <mat-form-field class="w-full">
                 <mat-label>Possible Participants</mat-label>
                 <mat-select multiple formControlName="participantSignup">
-                  <mat-option
-                    *ngFor="let status of statusOptions"
-                    [value]="status"
-                  >
+                  @for (status of statusOptions; track status) {
+                  <mat-option [value]="status">
                     {{ status | titlecase }}
                   </mat-option>
+                  }
                 </mat-select>
               </mat-form-field>
             </div>
@@ -215,11 +219,11 @@
               <mat-form-field class="w-full">
                 <mat-label>Organizing Institution</mat-label>
                 <mat-select formControlName="eventOrganizerId">
-                  <mat-option
-                    *ngFor="let organizer of organizers$ | async"
-                    [value]="organizer.id"
+                  @for (organizer of organizers$ | async; track organizer) {
+                  <mat-option [value]="organizer.id"
                     >{{ organizer.name }}
                   </mat-option>
+                  }
                 </mat-select>
               </mat-form-field>
               <mat-form-field class="w-full">
@@ -243,10 +247,8 @@
             <ng-container formGroupName="prices">
               <div class="flex flex-col gap-4" formArrayName="options">
                 <h3 class="mb-4 font-bold">Prices</h3>
-                <div
-                  *ngFor="let price of prices.controls; let i = index"
-                  [formGroupName]="i"
-                >
+                @for (price of prices.controls; track price; let i = $index) {
+                <div [formGroupName]="i">
                   <div class="flex flex-col md:flex-row gap-4">
                     <mat-form-field class="md:w-1/2">
                       <mat-label>Price</mat-label>
@@ -260,12 +262,11 @@
                     <mat-form-field class="md:width-1/2">
                       <mat-label>Allowed Status</mat-label>
                       <mat-select multiple formControlName="allowedStatusList">
-                        <mat-option
-                          *ngFor="let status of statusOptions"
-                          [value]="status"
-                        >
+                        @for (status of statusOptions; track status) {
+                        <mat-option [value]="status">
                           {{ status | titlecase }}
                         </mat-option>
+                        }
                       </mat-select>
                     </mat-form-field>
                     <mat-checkbox formControlName="esnCardRequired">
@@ -283,6 +284,7 @@
                     </button>
                   </div>
                 </div>
+                }
                 <button
                   mat-stroked-button
                   (click)="addPrice()"
@@ -421,7 +423,8 @@
         </div>
       </mat-tab>
       <mat-tab label="Admin options" *appIfRole="[Role.Admin]">
-        <div class="p-4" *ngIf="event$ | async as event">
+        @if (event$ | async; as event) {
+        <div class="p-4">
           <h1 class="mb-2 mt-16">Additional Data</h1>
           <app-data-items-manager
             mode="event"
@@ -452,9 +455,11 @@
             <span>Delete event</span>
           </button>
         </div>
+        }
       </mat-tab>
       <mat-tab label="Organizers">
-        <div class="p-4" *ngIf="event$ | async as event">
+        @if (event$ | async; as event) {
+        <div class="p-4">
           <div
             fxLayoutGap="1rem"
             fxLayout="row"
@@ -471,11 +476,10 @@
             </button>
           </div>
           <div class="flex flex-col gap-2">
+            @for ( registration of (event$ | async)?.organizerRegistrations ;
+            track registration) {
             <app-user-chip
               size="md"
-              *ngFor="
-                let registration of (event$ | async)?.organizerRegistrations
-              "
               [id]="registration.user.id"
               [picture]="registration.user.picture"
               [name]="registration.user.fullName"
@@ -492,8 +496,10 @@
                 <mat-icon svgIcon="icon-delete-sign"></mat-icon>
               </button>
             </app-user-chip>
+            }
           </div>
         </div>
+        }
       </mat-tab>
       <mat-tab label="Publication">
         <div class="p-4">

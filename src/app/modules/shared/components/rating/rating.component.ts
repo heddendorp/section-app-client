@@ -2,7 +2,7 @@ import { Component, forwardRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-rating',

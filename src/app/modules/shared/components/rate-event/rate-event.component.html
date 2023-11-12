@@ -1,6 +1,6 @@
+@if (event) {
 <form
   class="flex flex-col gap-4 w-full"
-  *ngIf="event"
   [formGroup]="ratingForm"
   (ngSubmit)="onSubmit()"
 >
@@ -29,13 +29,10 @@
       Tell us about what you liked and what could have been better!</mat-hint
     >
   </mat-form-field>
-  <mat-checkbox
-    formControlName="anonymousRating"
-    *ngIf="!event.userIsOrganizer"
-  >
-    Hide my name
-  </mat-checkbox>
-  <p *ngIf="event.userIsOrganizer" class="text-gray-600 flex items-center">
+  @if (!event.userIsOrganizer) {
+  <mat-checkbox formControlName="anonymousRating"> Hide my name </mat-checkbox>
+  } @if (event.userIsOrganizer) {
+  <p class="text-gray-600 flex items-center">
     <mat-icon
       svgIcon="icon-invisible"
       class="mr-2 min-w-[18px] max-w-[18px]"
@@ -45,16 +42,21 @@
       what could be done better next time.
     </span>
   </p>
+  }
   <button
     class="modern save-button"
     mat-flat-button
     color="primary"
     [disabled]="ratingForm.invalid || isSaving"
   >
-    <mat-icon *ngIf="isSaving" class="saving">
+    @if (isSaving) {
+    <mat-icon class="saving">
       <mat-spinner></mat-spinner>
     </mat-icon>
-    <mat-icon *ngIf="!isSaving" svgIcon="icon-sent"></mat-icon>
+    } @if (!isSaving) {
+    <mat-icon svgIcon="icon-sent"></mat-icon>
+    }
     <span>Submit feedback</span>
   </button>
 </form>
+}

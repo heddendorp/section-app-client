@@ -1,4 +1,5 @@
-<div *ngIf="event" class="my-2">
+@if (event) {
+<div class="my-2">
   <p class="mb-4 text-lg font-bold">
     {{ event.freeParticipantSpots }}
   </p>
@@ -6,162 +7,144 @@
     [event]="event"
     (dataSubmission)="registerAdditionalData($event)"
   >
-    <ng-container *ngIf="event.participantRegistrationPossible.option">
-      <p
-        *ngIf="
-          !event.deRegistrationSettings?.participants?.deRegistrationPossible
-        "
-      >
-        <span class="mr-2 font-bold text-red-500">Please note!</span>
-        You can not deregister from this event.
-        <ng-container
-          *ngIf="event.deRegistrationSettings?.participants?.movePossible"
-        >
-          You can however give the spot you receive to someone else up until
-          {{ lastMove | date }}.
-          <ng-container *ngIf="!deRegistrationOptions?.refundFeesOnMove">
-            You will receive the participation fee but not the payment fees.
-          </ng-container>
-        </ng-container>
-        <ng-container
-          *ngIf="!event.deRegistrationSettings?.participants?.movePossible"
-        >
-          Your registration is final once completed.
-        </ng-container>
-      </p>
-      <p
-        *ngIf="
-          event.deRegistrationSettings?.participants?.deRegistrationPossible
-        "
-      >
-        <span class="mr-2 font-bold">ℹ️ Registration info</span>
-        You can cancel your registration until {{ lastDeRegistration | date }}.
-        <ng-container
-          *ngIf="!deRegistrationOptions?.refundFeesOnDeRegistration"
-        >
-          You will receive the participation fee but not the payment fees.
-        </ng-container>
-      </p>
-      <p class="mb-2">
-        We are showing all prices that you can choose from depending on the
-        event and your account.
-      </p>
-      <mat-form-field class="mb-4">
-        <mat-label>Price</mat-label>
-        <mat-select [formControl]="priceControl">
-          <mat-option
-            *ngFor="let price of availablePrices$ | async"
-            [value]="price"
-          >
-            {{ price.amount | currency }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br />
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="priceControl.invalid || (processing | async)"
-        (click)="register()"
-        class="modern"
-      >
-        <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
-        <span>Start payment and register</span>
-      </button>
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="processing | async"
-      ></mat-progress-bar>
-    </ng-container>
-  </app-check-additional-data>
-  <ng-container
-    *ngIf="
-      !event.participantRegistrationPossible.option && !event.userIsRegistered
-    "
-  >
+    @if (event.participantRegistrationPossible.option) { @if (
+    !event.deRegistrationSettings?.participants?.deRegistrationPossible ) {
     <p>
-      {{ event.participantRegistrationPossible.reason }}
+      <span class="mr-2 font-bold text-red-500">Please note!</span>
+      You can not deregister from this event. @if
+      (event.deRegistrationSettings?.participants?.movePossible) { You can
+      however give the spot you receive to someone else up until
+      {{ lastMove | date }}. @if (!deRegistrationOptions?.refundFeesOnMove) {
+      You will receive the participation fee but not the payment fees. } } @if
+      (!event.deRegistrationSettings?.participants?.movePossible) { Your
+      registration is final once completed. }
     </p>
-  </ng-container>
-  <ng-container *ngIf="event.userIsRegistered">
-    <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
-    <!--    TODO: check with new transactions-->
-    <p *ngIf="activeStripePayment?.status !== 'incomplete'">
-      ✔️ You have a spot on this event.
+    } @if ( event.deRegistrationSettings?.participants?.deRegistrationPossible )
+    {
+    <p>
+      <span class="mr-2 font-bold">ℹ️ Registration info</span>
+      You can cancel your registration until {{ lastDeRegistration | date }}.
+      @if (!deRegistrationOptions?.refundFeesOnDeRegistration) { You will
+      receive the participation fee but not the payment fees. }
     </p>
-    <!--    TODO: check with new transactions-->
-    <ng-container *ngIf="activeStripePayment?.status === 'incomplete'">
-      <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
-      <p>
-        Please make sure to complete you payment by
-        {{ lastPayment | date: 'mediumTime' }} or your registration will be
-        canceled automatically.
-      </p>
-      <div class="flex flex-col gap-4 md:flex-row">
-        <button
-          mat-flat-button
-          color="primary"
-          class="modern"
-          (click)="openPaymentSession(activeStripePayment?.checkoutUrl)"
-        >
-          Finalize event payment
-        </button>
-        <button
-          mat-flat-button
-          color="warn"
-          (click)="cancelPayment()"
-          class="modern"
-        >
-          Cancel your registration and payment
-        </button>
-      </div>
-    </ng-container>
-    <!--    TODO: check with new transactions-->
-    <ng-container *ngIf="activeStripePayment?.status === 'processing'">
-      <p>
-        Your payment is currently processing, once it was successful you can
-        give the event away or give up you spot.
-      </p>
-    </ng-container>
-    <div class="my-2" *ngIf="canMove.result">
-      <p class="mb-2">
-        You can give this registration to another person until
-        {{ lastMove | date }}.
-        <ng-container *ngIf="!deRegistrationOptions?.refundFeesOnMove">
-          You will receive the participation fee but not the payment fees.
-        </ng-container>
-      </p>
-      <button mat-flat-button (click)="moveEvent()">Send event</button>
-    </div>
-    <p *ngIf="!canMove.result">
-      You can not give this registration to another person: {{ canMove.reason }}
+    }
+    <p class="mb-2">
+      We are showing all prices that you can choose from depending on the event
+      and your account.
     </p>
-    <div class="my-2" *ngIf="canDeregister.result">
-      <p class="mb-2">
-        You can give up your spot on this event until
-        {{ lastDeRegistration | date }}.
-        <ng-container
-          *ngIf="!deRegistrationOptions?.refundFeesOnDeRegistration"
-        >
-          You will receive the participation fee but not the payment fees.
-        </ng-container>
-      </p>
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="deregister()"
-        [disabled]="processing | async"
-      >
-        Give up spot
-      </button>
-      <mat-progress-bar
-        class="mt-4"
-        mode="indeterminate"
-        *ngIf="processing | async"
-      ></mat-progress-bar>
-    </div>
-    <p *ngIf="!canDeregister.result">
-      You can not give up your spot on this event: {{ canDeregister.reason }}
+    <mat-form-field class="mb-4">
+      <mat-label>Price</mat-label>
+      <mat-select [formControl]="priceControl">
+        @for (price of availablePrices$ | async; track price) {
+        <mat-option [value]="price">
+          {{ price.amount | currency }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="priceControl.invalid || (processing | async)"
+      (click)="register()"
+      class="modern"
+    >
+      <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
+      <span>Start payment and register</span>
+    </button>
+    @if (processing | async) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    } }
+  </app-check-additional-data>
+  @if ( !event.participantRegistrationPossible.option && !event.userIsRegistered
+  ) {
+
+  <p>
+    {{ event.participantRegistrationPossible.reason }}
+  </p>
+
+  } @if (event.userIsRegistered) {
+
+  <!--    <pre>{{ event.activeRegistration | json }}</pre>-->
+  <!--    TODO: check with new transactions-->
+  @if (activeStripePayment?.status !== 'incomplete') {
+  <p> ✔️ You have a spot on this event. </p>
+  }
+  <!--    TODO: check with new transactions-->
+  @if (activeStripePayment?.status === 'incomplete') {
+
+  <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
+  <p>
+    Please make sure to complete you payment by
+    {{ lastPayment | date: 'mediumTime' }} or your registration will be canceled
+    automatically.
+  </p>
+  <div class="flex flex-col gap-4 md:flex-row">
+    <button
+      mat-flat-button
+      color="primary"
+      class="modern"
+      (click)="openPaymentSession(activeStripePayment?.checkoutUrl)"
+    >
+      Finalize event payment
+    </button>
+    <button
+      mat-flat-button
+      color="warn"
+      (click)="cancelPayment()"
+      class="modern"
+    >
+      Cancel your registration and payment
+    </button>
+  </div>
+
+  }
+  <!--    TODO: check with new transactions-->
+  @if (activeStripePayment?.status === 'processing') {
+
+  <p>
+    Your payment is currently processing, once it was successful you can give
+    the event away or give up you spot.
+  </p>
+
+  } @if (canMove.result) {
+  <div class="my-2">
+    <p class="mb-2">
+      You can give this registration to another person until
+      {{ lastMove | date }}. @if (!deRegistrationOptions?.refundFeesOnMove) {
+      You will receive the participation fee but not the payment fees. }
     </p>
-  </ng-container>
+    <button mat-flat-button (click)="moveEvent()">Send event</button>
+  </div>
+  } @if (!canMove.result) {
+  <p>
+    You can not give this registration to another person: {{ canMove.reason }}
+  </p>
+  } @if (canDeregister.result) {
+  <div class="my-2">
+    <p class="mb-2">
+      You can give up your spot on this event until
+      {{ lastDeRegistration | date }}. @if
+      (!deRegistrationOptions?.refundFeesOnDeRegistration) { You will receive
+      the participation fee but not the payment fees. }
+    </p>
+    <button
+      mat-flat-button
+      color="warn"
+      (click)="deregister()"
+      [disabled]="processing | async"
+    >
+      Give up spot
+    </button>
+    @if (processing | async) {
+    <mat-progress-bar class="mt-4" mode="indeterminate"></mat-progress-bar>
+    }
+  </div>
+  } @if (!canDeregister.result) {
+  <p>
+    You can not give up your spot on this event: {{ canDeregister.reason }}
+  </p>
+  } }
 </div>
+}

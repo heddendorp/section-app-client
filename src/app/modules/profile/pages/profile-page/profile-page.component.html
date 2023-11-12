@@ -1,8 +1,7 @@
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(profile$ | async) === null"
-></mat-progress-bar>
-<main *ngIf="profile$ | async as profile; else loading">
+@if ((profile$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @if (profile$ | async; as profile) {
+<main>
   <app-profile-card
     [profile]="profile"
     (edit)="updateProfile()"
@@ -92,73 +91,36 @@
         </mat-icon>
         <h2 class="font-bold">ESNcard</h2>
       </div>
-      <ng-container *ngIf="!profile.esnCardNumber">
-        <p class="mb-4">
-          With an ESNcard, you can enjoy a discount on most of our events. Check
-          out all the offers on
-          <a class="text-blue-600" href="https://esncard.org/" target="blank">
-            ESNcard.org </a
-          >!
-        </p>
-        <div *ngIf="esnCardLink$ | async as esnCardLink">
-          <p> You can get your ESNcard by clicking on the button below. </p>
-          <a
-            [href]="esnCardLink"
-            class="modern"
-            color="accent"
-            mat-flat-button
-            target="blank"
-          >
-            <mat-icon svgIcon="icon-membership-card"></mat-icon>
-            Get your ESNcard
-          </a>
-        </div>
-        <div class="mt-4">
-          <h2 class="font-bold">Add your ESNcard</h2>
-          <p
-            >If you already have an ESNcard, you can add it here to profit from
-            special prices.</p
-          >
-          <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
-            <mat-form-field>
-              <mat-label>ESNcard number</mat-label>
-              <input
-                [formControl]="esnCardNumberControl"
-                matInput
-                maxlength="11"
-                minlength="11"
-                pattern="^[0-9A-Z]{11}$"
-                required
-                type="text"
-              />
-            </mat-form-field>
-            <button
-              (click)="addEsnCard()"
-              [disabled]="esnCardNumberControl.invalid"
-              class="modern"
-              color="accent"
-              mat-flat-button
-            >
-              Submit Number
-            </button>
-          </div>
-          <p
-            *ngIf="esnCardErrorMessage$ | async as message"
-            class="text-red-500"
-          >
-            ⚠️ There was an error: {{ message }}
-          </p>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="profile.esnCardNumber">
-        <h3 class="font-bold">✅ You have an ESNcard</h3>
-        <p>
-          You added a card with number
-          <span class="font-mono">{{ profile.esnCardNumber }}</span> to your
-          account. It is valid until
-          {{ profile.esnCardValidUntil | date: 'mediumDate' }}. <br />
-          You can change the card by adding a new one below.
-        </p>
+      @if (!profile.esnCardNumber) {
+
+      <p class="mb-4">
+        With an ESNcard, you can enjoy a discount on most of our events. Check
+        out all the offers on
+        <a class="text-blue-600" href="https://esncard.org/" target="blank">
+          ESNcard.org </a
+        >!
+      </p>
+      @if (esnCardLink$ | async; as esnCardLink) {
+      <div>
+        <p> You can get your ESNcard by clicking on the button below. </p>
+        <a
+          [href]="esnCardLink"
+          class="modern"
+          color="accent"
+          mat-flat-button
+          target="blank"
+        >
+          <mat-icon svgIcon="icon-membership-card"></mat-icon>
+          Get your ESNcard
+        </a>
+      </div>
+      }
+      <div class="mt-4">
+        <h2 class="font-bold">Add your ESNcard</h2>
+        <p
+          >If you already have an ESNcard, you can add it here to profit from
+          special prices.</p
+        >
         <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
           <mat-form-field>
             <mat-label>ESNcard number</mat-label>
@@ -182,13 +144,50 @@
             Submit Number
           </button>
         </div>
-        <p *ngIf="esnCardErrorMessage$ | async as message" class="text-red-500">
-          ⚠️ There was an error: {{ message }}
-        </p>
-      </ng-container>
+        @if (esnCardErrorMessage$ | async; as message) {
+        <p class="text-red-500"> ⚠️ There was an error: {{ message }} </p>
+        }
+      </div>
+
+      } @if (profile.esnCardNumber) {
+
+      <h3 class="font-bold">✅ You have an ESNcard</h3>
+      <p>
+        You added a card with number
+        <span class="font-mono">{{ profile.esnCardNumber }}</span> to your
+        account. It is valid until
+        {{ profile.esnCardValidUntil | date: 'mediumDate' }}. <br />
+        You can change the card by adding a new one below.
+      </p>
+      <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
+        <mat-form-field>
+          <mat-label>ESNcard number</mat-label>
+          <input
+            [formControl]="esnCardNumberControl"
+            matInput
+            maxlength="11"
+            minlength="11"
+            pattern="^[0-9A-Z]{11}$"
+            required
+            type="text"
+          />
+        </mat-form-field>
+        <button
+          (click)="addEsnCard()"
+          [disabled]="esnCardNumberControl.invalid"
+          class="modern"
+          color="accent"
+          mat-flat-button
+        >
+          Submit Number
+        </button>
+      </div>
+      @if (esnCardErrorMessage$ | async; as message) {
+      <p class="text-red-500"> ⚠️ There was an error: {{ message }} </p>
+      } }
     </div>
+    @if ((eventsToRate$ | async)?.length) {
     <div
-      *ngIf="(eventsToRate$ | async)?.length"
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
     >
       <div class="mb-6 flex flex-row items-center">
@@ -202,41 +201,42 @@
         Please take a little time to rate these events you took part in so we
         can improve.
       </p>
-      <div class="flex flex-col gap-4" *ngIf="eventsToRate$ | async as events">
+      @if (eventsToRate$ | async; as events) {
+      <div class="flex flex-col gap-4">
+        @for (event of events; track event) {
         <app-rate-event
-          *ngFor="let event of events"
           [event]="event"
           (ratingSubmitted)="saveRating($event, event.id)"
         >
         </app-rate-event>
+        }
       </div>
+      }
     </div>
+    }
     <app-event-list
       title="Participated events"
       [events]="(profileEvents$ | async)?.participatedEvents"
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
-    <ng-container *ngIf="profileEvents$ | async as profileEvents">
-      <app-event-list
-        title="Organized events"
-        [events]="profileEvents.organizedEvents"
-        [isOrganized]="true"
-        *ngIf="profileEvents.organizedEvents.length"
-      ></app-event-list>
-      <app-event-list
-        title="Created events"
-        [events]="profileEvents.createdEvents"
-        [isOrganized]="true"
-        *ngIf="profileEvents.createdEvents.length"
-      ></app-event-list>
-    </ng-container>
+    @if (profileEvents$ | async; as profileEvents) { @if
+    (profileEvents.organizedEvents.length) {
+    <app-event-list
+      title="Organized events"
+      [events]="profileEvents.organizedEvents"
+      [isOrganized]="true"
+    ></app-event-list>
+    } @if (profileEvents.createdEvents.length) {
+    <app-event-list
+      title="Created events"
+      [events]="profileEvents.createdEvents"
+      [isOrganized]="true"
+    ></app-event-list>
+    } } @if ( profile.currentTenant?.status !== MembershipStatus.None &&
+    profile.currentTenant?.status !== MembershipStatus.Selected ) {
     <div
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
-      *ngIf="
-        profile.currentTenant?.status !== MembershipStatus.None &&
-        profile.currentTenant?.status !== MembershipStatus.Selected
-      "
     >
       <div class="mb-6 flex flex-row items-center">
         <mat-icon
@@ -252,6 +252,7 @@
         </div>
       </div>
     </div>
+    }
   </div>
 
   <div class="mt-4 mb-2 flex flex-row gap-2 p-4">
@@ -264,11 +265,11 @@
       <mat-icon svgIcon="icon-feedback"></mat-icon>
       <span>Give Feedback</span>
     </a>
+    @if (this.auth.isAuthenticated$ | async) {
     <button
       class="modern w-full"
       color="accent"
       mat-raised-button
-      *ngIf="this.auth.isAuthenticated$ | async"
       (click)="
         auth.logout({ logoutParams: { returnTo: document.location.origin } })
       "
@@ -276,9 +277,11 @@
       <mat-icon svgIcon="icon-logout-rounded-left"></mat-icon>
       Logout
     </button>
+    }
   </div>
 </main>
+} @else {
 
-<ng-template #loading>
-  <app-profile-card [hideEditButton]="true"></app-profile-card>
-</ng-template>
+<app-profile-card [hideEditButton]="true"></app-profile-card>
+
+}

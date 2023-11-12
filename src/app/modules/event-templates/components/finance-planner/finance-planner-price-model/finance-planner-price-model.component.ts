@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PriceModel } from '../finance-planner.component';
-import { PercentPipe, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, PercentPipe } from '@angular/common';
 
 @Component({
   selector: 'app-finance-planner-price-model',

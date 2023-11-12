@@ -1,40 +1,36 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
-    <div
-      resetScroll
-      class="flex-1 truncate"
-      *ngIf="costItem$ | async as costItem"
-    >
+    @if (costItem$ | async; as costItem) {
+    <div resetScroll class="flex-1 truncate">
       {{ costItem.name }} ({{ costItem.event.title }})
     </div>
+    }
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(costItem$ | async) === null"
-  ></mat-progress-bar>
+  @if ((costItem$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
-<main *ngIf="costItem$ | async as costItem" class="flex flex-col gap-4 p-4">
+@if (costItem$ | async; as costItem) {
+<main class="flex flex-col gap-4 p-4">
   <button mat-fab extended (click)="addReceipt()">
     <mat-icon svgIcon="icon-add"></mat-icon>
     Add receipt
   </button>
   <app-grid minWidth="500px">
-    <div *ngFor="let receipt of costItem.receipts">
-      <img
-        *ngIf="!receipt.type?.includes('pdf')"
-        [ngSrc]="receipt.url"
-        width="192"
-        height="192"
-      />
+    @for (receipt of costItem.receipts; track receipt) {
+    <div>
+      @if (!receipt.type?.includes('pdf')) {
+      <img [ngSrc]="receipt.url" width="192" height="192" />
+      } @if (receipt.type?.includes('pdf')) {
       <object
         class="block"
-        *ngIf="receipt.type?.includes('pdf')"
         [data]="sanitizeUrl(receipt.url)"
         type="application/pdf"
         width="500px"
         height="500px"
       ></object>
+      }
       <p class="mt-2">
         <span class="font-bold">{{ receipt.amount | currency }}</span>
         <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
@@ -67,5 +63,7 @@
         </button>
       </div>
     </div>
+    }
   </app-grid>
 </main>
+}

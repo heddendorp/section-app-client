@@ -2,19 +2,14 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     <div resetScroll>
-      Transactions
-      <span
-        class="font-light"
-        *ngIf="transactionCount$ | async as transactionCount"
-      >
-        ({{ transactionCount | number }})
-      </span>
+      Transactions @if (transactionCount$ | async; as transactionCount) {
+      <span class="font-light"> ({{ transactionCount | number }}) </span>
+      }
     </div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(transactions$ | async) === null"
-  ></mat-progress-bar>
+  @if ((transactions$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
   <h2>Net amount: {{ netAmount$ | async | currency }}</h2>
@@ -101,12 +96,8 @@
       <span>Add transaction</span>
     </button>
   </form>
-  <table
-    *ngIf="transactions$ | async as users"
-    mat-table
-    [dataSource]="users"
-    class="w-fit sm:w-full"
-  >
+  @if (transactions$ | async; as users) {
+  <table mat-table [dataSource]="users" class="w-fit sm:w-full">
     <ng-container matColumnDef="subject">
       <th mat-header-cell *matHeaderCellDef>Subject</th>
       <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
@@ -120,83 +111,49 @@
     <ng-container matColumnDef="direction">
       <th mat-header-cell *matHeaderCellDef>Direction</th>
       <td mat-cell *matCellDef="let element">
-        <ng-container [ngSwitch]="element.direction">
-          <p
-            *ngSwitchCase="TransactionDirection.TumiToUser"
-            class="text-red-500"
-          >
-            TUMi ➡️ User
-          </p>
-          <p
-            *ngSwitchCase="TransactionDirection.TumiToExternal"
-            class="text-red-500"
-          >
-            TUMi ➡️ External
-          </p>
-          <p
-            *ngSwitchCase="TransactionDirection.UserToTumi"
-            class="text-green-500"
-          >
-            User ➡️ TUMi
-          </p>
-          <p
-            *ngSwitchCase="TransactionDirection.ExternalToTumi"
-            class="text-green-500"
-          >
-            External ➡️ TUMi
-          </p>
-          <p *ngSwitchCase="TransactionDirection.UserToUser">User ➡️ User</p>
-          <p *ngSwitchCase="TransactionDirection.UserToExternal">
-            User ➡️ External
-          </p>
-          <p *ngSwitchCase="TransactionDirection.ExternalToUser">
-            External ➡️ User
-          </p>
-        </ng-container>
+        @switch (element.direction) { @case (TransactionDirection.TumiToUser) {
+        <p class="text-red-500"> TUMi ➡️ User </p>
+        } @case (TransactionDirection.TumiToExternal) {
+        <p class="text-red-500"> TUMi ➡️ External </p>
+        } @case (TransactionDirection.UserToTumi) {
+        <p class="text-green-500"> User ➡️ TUMi </p>
+        } @case (TransactionDirection.ExternalToTumi) {
+        <p class="text-green-500"> External ➡️ TUMi </p>
+        } @case (TransactionDirection.UserToUser) {
+        <p>User ➡️ User</p>
+        } @case (TransactionDirection.UserToExternal) {
+        <p> User ➡️ External </p>
+        } @case (TransactionDirection.ExternalToUser) {
+        <p> External ➡️ User </p>
+        } }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let element">
-        <ng-container [ngSwitch]="element.status">
-          <mat-icon
-            *ngSwitchCase="TransactionStatus.Pending"
-            svgIcon="icon-connection-status-off"
-          ></mat-icon>
-          <mat-icon
-            *ngSwitchCase="TransactionStatus.Cancelled"
-            svgIcon="icon-cancel-2"
-          ></mat-icon>
-          <mat-icon
-            *ngSwitchCase="TransactionStatus.Confirmed"
-            svgIcon="icon-ok"
-          ></mat-icon>
-        </ng-container>
+        @switch (element.status) { @case (TransactionStatus.Pending) {
+        <mat-icon svgIcon="icon-connection-status-off"></mat-icon>
+        } @case (TransactionStatus.Cancelled) {
+        <mat-icon svgIcon="icon-cancel-2"></mat-icon>
+        } @case (TransactionStatus.Confirmed) {
+        <mat-icon svgIcon="icon-ok"></mat-icon>
+        } }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td mat-cell *matCellDef="let element">
-        <ng-container [ngSwitch]="element.type">
-          <mat-icon
-            *ngSwitchCase="TransactionType.Stripe"
-            svgIcon="icon-stripe"
-          ></mat-icon>
-          <mat-icon
-            *ngSwitchCase="TransactionType.Cash"
-            svgIcon="icon-cash"
-          ></mat-icon>
-          <mat-icon
-            *ngSwitchCase="TransactionType.Paypal"
-            svgIcon="icon-paypal"
-          ></mat-icon>
-          <mat-icon
-            *ngSwitchCase="TransactionType.Transfer"
-            svgIcon="icon-online-money-transfer"
-          ></mat-icon>
-        </ng-container>
+        @switch (element.type) { @case (TransactionType.Stripe) {
+        <mat-icon svgIcon="icon-stripe"></mat-icon>
+        } @case (TransactionType.Cash) {
+        <mat-icon svgIcon="icon-cash"></mat-icon>
+        } @case (TransactionType.Paypal) {
+        <mat-icon svgIcon="icon-paypal"></mat-icon>
+        } @case (TransactionType.Transfer) {
+        <mat-icon svgIcon="icon-online-money-transfer"></mat-icon>
+        } }
       </td>
     </ng-container>
 
@@ -231,6 +188,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  }
   <mat-paginator
     [length]="transactionCount$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"

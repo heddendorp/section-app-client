@@ -7,8 +7,8 @@ import {
 import {
   FormControl,
   FormGroup,
-  Validators,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   SearchUserForTransactionGQL,
@@ -18,7 +18,7 @@ import {
   TransactionType,
 } from '@tumi/legacy-app/generated/generated';
 import { debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';

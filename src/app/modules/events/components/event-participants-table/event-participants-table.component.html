@@ -1,4 +1,5 @@
-<div *ngIf="event" class="block max-w-full overflow-x-auto">
+@if (event) {
+<div class="block max-w-full overflow-x-auto">
   <table class="min-w-full divide-y divide-gray-300 select-all">
     <tbody class="divide-y divide-gray-200 bg-white">
       <tr>
@@ -89,24 +90,18 @@
         >
           Check in
         </th>
+        @for (submissionItem of event.submissionItems; track submissionItem) {
         <th
-          *ngFor="let submissionItem of event.submissionItems"
           class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
           scope="col"
         >
           {{ submissionItem.name }}
         </th>
+        }
       </tr>
-      <tr
-        *ngFor="
-          let registration of filterRegistrations(
-            event.participantRegistrations
-          );
-          let i = index;
-          let last = last
-        "
-        class="table-row"
-      >
+      @for ( registration of filterRegistrations( event.participantRegistrations
+      ); track registration; let i = $index; let last = $last) {
+      <tr class="table-row">
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ i + 1 }}
         </td>
@@ -124,13 +119,14 @@
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ registration.checkInTime | date: 'short' }}
         </td>
-        <td
-          *ngFor="let submissionItem of event.submissionItems"
-          class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-        >
+        @for (submissionItem of event.submissionItems; track submissionItem) {
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ getSubmissionValue(registration, submissionItem) }}
         </td>
+        }
       </tr>
+      }
     </tbody>
   </table>
 </div>
+}

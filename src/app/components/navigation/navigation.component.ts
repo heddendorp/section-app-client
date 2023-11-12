@@ -16,11 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 import {
+  AsyncPipe,
   NgIf,
+  NgOptimizedImage,
   NgSwitch,
   NgSwitchCase,
-  AsyncPipe,
-  NgOptimizedImage,
 } from '@angular/common';
 
 @Component({

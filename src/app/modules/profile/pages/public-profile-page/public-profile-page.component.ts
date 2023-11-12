@@ -10,7 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-public-profile-page',

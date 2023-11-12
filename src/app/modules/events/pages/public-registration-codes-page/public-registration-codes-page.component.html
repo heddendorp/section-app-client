@@ -1,8 +1,6 @@
-<mat-progress-bar
-  mode="indeterminate"
-  class="!relative"
-  *ngIf="(registrationCodes$ | async) === null"
-></mat-progress-bar>
+@if ((registrationCodes$ | async) === null) {
+<mat-progress-bar mode="indeterminate" class="!relative"></mat-progress-bar>
+}
 <h1 mat-dialog-title>Public Registration Codes</h1>
 <div
   mat-dialog-content
@@ -14,15 +12,14 @@
     to give away. Please make sure to check out the event before registering!
   </p>
   <div class="flex flex-col gap-4">
-    <p
-      *ngIf="(registrationCodes$ | async)?.length === 0"
-      class="text-center italic text-gray-600"
-    >
+    @if ((registrationCodes$ | async)?.length === 0) {
+    <p class="text-center italic text-gray-600">
       Currently there are no public registration codes. Check again later!
     </p>
+    }
     <app-grid minWidth="350px">
+      @for (code of registrationCodes$ | async; track code) {
       <a
-        *ngFor="let code of registrationCodes$ | async"
         routerLink="/events/{{ code.targetEvent.id }}"
         class="event text-surface-on relative flex h-full flex-col rounded-lg bg-white shadow"
         matRipple
@@ -61,6 +58,7 @@
           </a>
         </div>
       </a>
+      }
     </app-grid>
   </div>
 </div>

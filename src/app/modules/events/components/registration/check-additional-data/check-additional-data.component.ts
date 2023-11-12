@@ -10,7 +10,7 @@ import {
 import { LoadEventQuery } from '@tumi/legacy-app/generated/generated';
 import { ReplaySubject } from 'rxjs';
 import { DataItemsCollectorComponent } from '../../../../shared/components/data-items-collector/data-items-collector.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-check-additional-data',

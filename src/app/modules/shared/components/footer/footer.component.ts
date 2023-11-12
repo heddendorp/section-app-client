@@ -6,7 +6,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { RouterLink } from '@angular/router';
-import { NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgFor, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-footer',

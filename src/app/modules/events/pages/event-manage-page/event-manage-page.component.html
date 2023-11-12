@@ -1,21 +1,22 @@
 <mat-toolbar color="white">
   <app-back-button></app-back-button>
-  <ng-container *ngIf="event$ | async as event">
-    <div class="flex-1 truncate">Manage {{ event.title }}</div>
-    <a
-      routerLink="/event-templates/{{ event.eventTemplate.id }}"
-      mat-flat-button
-      color="accent"
-      class="modern"
-      >Go to template</a
-    >
-  </ng-container>
+  @if (event$ | async; as event) {
+
+  <div class="flex-1 truncate">Manage {{ event.title }}</div>
+  <a
+    routerLink="/event-templates/{{ event.eventTemplate.id }}"
+    mat-flat-button
+    color="accent"
+    class="modern"
+    >Go to template</a
+  >
+
+  }
 </mat-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="(event$ | async) === null"
-></mat-progress-bar>
-<main *ngIf="event$ | async as event" class="py-4 px-1 sm:p-4">
+@if ((event$ | async) === null) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @if (event$ | async; as event) {
+<main class="py-4 px-1 sm:p-4">
   <mat-accordion [multi]="true">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
@@ -39,24 +40,30 @@
           </tr>
         </thead>
         <tbody class="select-all">
-          <tr *ngFor="let costItem of event.costItems; let i = index">
-            <ng-container *ngIf="i === 0">
-              <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
-              <td>{{ event.title }}</td>
-            </ng-container>
-            <ng-container *ngIf="i !== 0">
-              <td></td>
-              <td></td>
-            </ng-container>
+          @for (costItem of event.costItems; track costItem; let i = $index) {
+          <tr>
+            @if (i === 0) {
+
+            <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
+            <td>{{ event.title }}</td>
+
+            } @if (i !== 0) {
+
+            <td></td>
+            <td></td>
+
+            }
             <td>{{ costItem.name }}</td>
             <td>{{ costItem.submittedAmount | currency }}</td>
           </tr>
-          <tr *ngIf="event.costItems.length === 0">
+          } @if (event.costItems.length === 0) {
+          <tr>
             <td>{{ event.start | date: 'dd.MM.yyyy' }}</td>
             <td>{{ event.title }}</td>
             <td></td>
             <td></td>
           </tr>
+          }
           <tr>
             <td></td>
             <td></td>
@@ -148,11 +155,12 @@
           <ng-container matColumnDef="checkIn">
             <th mat-header-cell *matHeaderCellDef>Check in</th>
             <td mat-cell *matCellDef="let registration">
-              <div *ngIf="registration.checkInTime">
+              @if (registration.checkInTime) {
+              <div>
                 {{ registration.checkInTime | date: 'short' }}
               </div>
+              } @if (!registration.checkInTime) {
               <button
-                *ngIf="!registration.checkInTime"
                 mat-stroked-button
                 class="modern"
                 (click)="checkin(registration.id)"
@@ -161,6 +169,7 @@
                 <mat-icon svgIcon="icon-checked"></mat-icon>
                 <span>Check in</span>
               </button>
+              }
             </td>
           </ng-container>
 
@@ -178,14 +187,11 @@
                   $event.stopPropagation()
                 "
               >
-                <div
-                  *ngIf="expandedRegistration !== element"
-                  class="mat-expansion-indicator"
-                ></div>
-                <div
-                  *ngIf="expandedRegistration === element"
-                  class="mat-expansion-indicator rotate-180"
-                ></div>
+                @if (expandedRegistration !== element) {
+                <div class="mat-expansion-indicator"></div>
+                } @if (expandedRegistration === element) {
+                <div class="mat-expansion-indicator rotate-180"></div>
+                }
               </button>
             </td>
           </ng-container>
@@ -229,29 +235,26 @@
                     <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
                     View registration
                   </a>
+                  @if ( event.registrationMode == 'STRIPE' &&
+                  !registration.transactions.length ) {
                   <button
                     mat-stroked-button
                     class="modern"
-                    *ngIf="
-                      event.registrationMode == 'STRIPE' &&
-                      !registration.transactions.length
-                    "
                     (click)="restorePayment(registration.id)"
                   >
                     <span>Restore Payment</span>
                   </button>
+                  } @if ( event.registrationMode == 'STRIPE' &&
+                  !registration.transactions.length ) {
                   <a
                     [href]="getWAUrl(registration, event)"
                     target="_blank"
                     mat-stroked-button
                     class="modern"
-                    *ngIf="
-                      event.registrationMode == 'STRIPE' &&
-                      !registration.transactions.length
-                    "
                   >
                     Send WA message
                   </a>
+                  }
                   <button
                     mat-stroked-button
                     class="modern"
@@ -284,15 +287,20 @@
                       Cancel without refund
                     </button>
                   </mat-menu>
-                  <div *ngIf="registration.submissions.length">
+                  @if (registration.submissions.length) {
+                  <div>
                     <p>Additional Data</p>
-                    <div *ngFor="let submission of registration.submissions">
+                    @for (submission of registration.submissions; track
+                    submission) {
+                    <div>
                       <p>
                         {{ submission.submissionItem.name }}:
                         {{ submission.data.value }}
                       </p>
                     </div>
+                    }
                   </div>
+                  }
                 </div>
               </div>
             </td>
@@ -346,7 +354,8 @@
         </button>
       </div>
       <mat-list>
-        <mat-list-item *ngFor="let code of event.eventRegistrationCodes">
+        @for (code of event.eventRegistrationCodes; track code) {
+        <mat-list-item>
           <h3 matListItemTitle>
             Registration code ({{ code.createdAt | date: 'short' }})
           </h3>
@@ -368,6 +377,7 @@
             </span>
           </p>
         </mat-list-item>
+        }
       </mat-list>
     </mat-expansion-panel>
 
@@ -381,3 +391,4 @@
     </mat-expansion-panel>
   </mat-accordion>
 </main>
+}

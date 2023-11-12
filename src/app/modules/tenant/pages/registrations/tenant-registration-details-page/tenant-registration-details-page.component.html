@@ -3,16 +3,13 @@
     <app-back-button></app-back-button>
     <div resetScroll>Registration</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(registration$ | async) === null"
-  ></mat-progress-bar>
+  @if ((registration$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="space-y-2 p-4 lg:p-8">
-  <div
-    class="overflow-hidden rounded-2xl border"
-    *ngIf="registration$ | async as registration"
-  >
+  @if (registration$ | async; as registration) {
+  <div class="overflow-hidden rounded-2xl border">
     <table class="w-full table-auto border-collapse">
       <tbody>
         <tr>
@@ -67,4 +64,5 @@
       </tbody>
     </table>
   </div>
+  }
 </main>

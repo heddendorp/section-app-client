@@ -7,10 +7,10 @@ import {
 import { map, Observable } from 'rxjs';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import {
-  NgIf,
-  NgFor,
   AsyncPipe,
   DatePipe,
+  NgFor,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 

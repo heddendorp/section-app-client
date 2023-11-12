@@ -3,12 +3,12 @@
     <app-back-button></app-back-button>
     <div resetScroll>User Information</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(user$ | async) === null"
-  ></mat-progress-bar>
+  @if ((user$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
-<main class="p-4" *ngIf="user$ | async as user">
+@if (user$ | async; as user) {
+<main class="p-4">
   <div class="mb-4 flex flex-row items-center gap-1">
     <app-user-chip
       size="sm"
@@ -119,4 +119,5 @@
     ></mat-row>
   </mat-table>
 </main>
+}
 <!--<pre>{{ user$ | async | json }}</pre>-->

@@ -3,18 +3,13 @@
     <app-back-button></app-back-button>
     <div resetScroll>Events with booked spots</div>
   </mat-toolbar>
-  <mat-progress-bar
-    mode="indeterminate"
-    *ngIf="(events$ | async) === null"
-  ></mat-progress-bar>
+  @if ((events$ | async) === null) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </app-reactive-toolbar>
 <main class="p-4">
-  <table
-    *ngIf="events$ | async as events"
-    mat-table
-    [dataSource]="events"
-    class="w-fit sm:w-full"
-  >
+  @if (events$ | async; as events) {
+  <table mat-table [dataSource]="events" class="w-fit sm:w-full">
     <!--<ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
@@ -100,6 +95,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  }
   <!--<mat-paginator
     [length]="registrationCount$ | async"
     [pageSizeOptions]="[20, 50, 100, 500, 1000, 2500, 5000]"

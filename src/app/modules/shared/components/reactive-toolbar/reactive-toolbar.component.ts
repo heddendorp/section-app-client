@@ -9,15 +9,15 @@ import {
   distinctUntilChanged,
   fromEvent,
   map,
+  merge,
   Observable,
   pairwise,
+  partition,
   share,
   Subscription,
   throttleTime,
-  partition,
-  merge,
 } from 'rxjs';
-import { trigger, state, style } from '@angular/animations';
+import { state, style, trigger } from '@angular/animations';
 
 enum VisibilityState {
   Visible = 'visible',

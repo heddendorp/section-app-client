@@ -8,10 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import {
-  NgIf,
-  DecimalPipe,
   CurrencyPipe,
   DatePipe,
+  DecimalPipe,
+  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
