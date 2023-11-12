@@ -304,6 +304,67 @@
           Add new link
         </button>
       </div>
+      <div
+        class="border-grey-600 my-4 rounded border p-4"
+        formArrayName="banners"
+      >
+        <h3>App banners</h3>
+        <p>These banners will appear on the top of every page</p>
+        <div
+          *ngFor="let banner of banners.controls; let i = index"
+          [formGroupName]="i"
+          class="mt-2 grid grid-cols-3 gap-4"
+        >
+          <mat-form-field class="w-full">
+            <mat-label>Title</mat-label>
+            <input
+              formControlName="title"
+              matInput
+              placeholder="What is the title of the banner"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Body</mat-label>
+            <input
+              formControlName="body"
+              matInput
+              placeholder="What is the content of your banner"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              formControlName="link"
+              matInput
+              placeholder="Where should the user go when clicking the banner"
+              type="url"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Color</mat-label>
+            <mat-select formControlName="color">
+              <mat-option value="primary">Primary</mat-option>
+              <mat-option value="accent">Accent</mat-option>
+              <mat-option value="warn">Warn</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Visibility</mat-label>
+            <mat-select formControlName="displayToMembershipStatus" multiple>
+              <mat-option *ngFor="let status of statusOptions" [value]="status">
+                {{ status | titlecase }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button (click)="banners.removeAt(i)" color="warn" mat-icon-button>
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        <button (click)="addBanner()" color="primary" mat-stroked-button>
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new banner
+        </button>
+      </div>
     </ng-container>
     <mat-form-field class="w-full">
       <mat-label>"About Us" Page</mat-label>

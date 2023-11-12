@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { filter } from 'rxjs';
-import { AsyncPipe, NgIf, ViewportScroller } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf, ViewportScroller } from '@angular/common';
 import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -20,6 +20,7 @@ import { Settings } from 'luxon';
     RouterOutlet,
     FooterComponent,
     AsyncPipe,
+    NgForOf,
   ],
 })
 @TraceClassDecorator()

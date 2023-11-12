@@ -1,24 +1,33 @@
 import { inject, Injectable } from '@angular/core';
-import { GetTenantCurrencyCodeGQL } from '@tumi/legacy-app/generated/generated';
-import { firstValueFrom, map } from 'rxjs';
+import {
+  GetAppStartupInfoGQL,
+  GetAppStartupInfoQuery,
+} from '@tumi/legacy-app/generated/generated';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  private getTenantCurrencyCodeGQL = inject(GetTenantCurrencyCodeGQL);
+  private getAppStartupInfoGQL = inject(GetAppStartupInfoGQL);
+  private auth = inject(AuthService);
   private _currencyCode: string | undefined;
+  private _banners: GetAppStartupInfoQuery['currentTenant']['settings']['banners'] =
+    [];
 
   get currencyCode(): string | undefined {
     if (!this._currencyCode) console.error('Currency code not set');
     return this._currencyCode;
   }
 
+  get banners(): GetAppStartupInfoQuery['currentTenant']['settings']['banners'] {
+    return this._banners;
+  }
+
   public async init(): Promise<void> {
-    this._currencyCode = await firstValueFrom(
-      this.getTenantCurrencyCodeGQL
-        .fetch()
-        .pipe(map((result) => result.data.currentTenant.currency)),
-    );
+    const startupInfo = await firstValueFrom(this.getAppStartupInfoGQL.fetch());
+    this._currencyCode = startupInfo.data?.currentTenant?.currency;
+    this._banners = startupInfo.data?.currentTenant?.settings?.banners;
   }
 }

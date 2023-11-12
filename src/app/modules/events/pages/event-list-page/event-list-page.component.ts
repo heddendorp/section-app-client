@@ -19,7 +19,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
@@ -39,9 +39,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
+import {
+  AsyncPipe,
+  NgForOf,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+} from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-event-list-page',
@@ -81,6 +89,8 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     EventsListComponent,
     EventCalendarComponent,
     AsyncPipe,
+    NgForOf,
+    MarkdownModule,
   ],
 })
 @TraceClassDecorator()
@@ -117,6 +127,7 @@ export class EventListPageComponent implements OnDestroy {
     private getCurrentUserInfoGQL: GetCurrentUserInfoGQL,
     private dialog: MatDialog,
     private permissionsService: PermissionsService,
+    protected config: ConfigService,
   ) {
     this.selectedView$ = this.eventListStateService.getSelectedView();
     this.loadEventsQueryRef = this.loadEventsQuery.watch();

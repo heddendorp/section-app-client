@@ -4,3 +4,19 @@ query getTenantCurrencyCode {
     currency
   }
 }
+
+query getAppStartupInfo {
+  currentTenant {
+    id
+    currency
+    settings {
+      banners {
+        title
+        body
+        color
+        link
+        displayToMembershipStatus
+      }
+    }
+  }
+}

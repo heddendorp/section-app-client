@@ -14,12 +14,13 @@ import {
   GetTenantForEditGQL,
   GetTenantForEditQuery,
   HomePageStrategy,
+  MembershipStatus,
   UpdateTenantGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { first, firstValueFrom, map, Observable, shareReplay } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgFor } from '@angular/common';
+import { NgFor, TitleCasePipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
@@ -50,6 +51,7 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     NgFor,
     MatButtonModule,
     MatIconModule,
+    TitleCasePipe,
   ],
 })
 export class TenantEditPageComponent {
@@ -57,7 +59,7 @@ export class TenantEditPageComponent {
   public HomePageStrategy = HomePageStrategy;
   public Currency = Currency;
   public tenant$: Observable<GetTenantForEditQuery['currentTenant']>;
-  protected readonly CustomElementRegistry = CustomElementRegistry;
+  protected readonly MembershipStatus = MembershipStatus;
 
   get socialLinks() {
     return this.editForm.get('settings.socialLinks') as FormArray;
@@ -65,26 +67,6 @@ export class TenantEditPageComponent {
 
   get sectionHubLinks() {
     return this.editForm.get('settings.sectionHubLinks') as FormArray;
-  }
-
-  addSocialLink() {
-    this.socialLinks.push(
-      new FormGroup({
-        label: new FormControl('', Validators.required),
-        url: new FormControl('', Validators.required),
-        icon: new FormControl('', Validators.required),
-      }),
-    );
-  }
-
-  addSectionHubLink() {
-    this.sectionHubLinks.push(
-      new FormGroup({
-        label: new FormControl('', Validators.required),
-        url: new FormControl('', Validators.required),
-        icon: new FormControl('', Validators.required),
-      }),
-    );
   }
 
   constructor(
@@ -180,6 +162,7 @@ export class TenantEditPageComponent {
         }),
         socialLinks: this.fb.array([]),
         sectionHubLinks: this.fb.array([]),
+        banners: this.fb.array([]),
         showPWAInstall: [false, Validators.required],
         brandIconUrl: [''],
         esnCardLink: [''],
@@ -203,7 +186,63 @@ export class TenantEditPageComponent {
           this.sectionHubLinks.at(-1).patchValue(sectionHubLink);
         });
       }
+      if (tenant?.settings?.banners) {
+        tenant.settings.banners.forEach((banner) => {
+          this.addBanner();
+          this.banners.at(-1).patchValue(banner);
+        });
+      }
     });
+  }
+
+  get banners() {
+    return this.editForm.get('settings.banners') as FormArray;
+  }
+
+  addSocialLink() {
+    this.socialLinks.push(
+      new FormGroup({
+        label: new FormControl('', Validators.required),
+        url: new FormControl('', Validators.required),
+        icon: new FormControl('', Validators.required),
+      }),
+    );
+  }
+
+  addSectionHubLink() {
+    this.sectionHubLinks.push(
+      new FormGroup({
+        label: new FormControl('', Validators.required),
+        url: new FormControl('', Validators.required),
+        icon: new FormControl('', Validators.required),
+      }),
+    );
+  }
+
+  get statusOptions() {
+    return Object.values(this.MembershipStatus);
+  }
+
+  addBanner() {
+    this.banners.push(
+      new FormGroup({
+        title: new FormControl('', Validators.required),
+        body: new FormControl('', Validators.required),
+        color: new FormControl('primary', Validators.required),
+        link: new FormControl('', Validators.required),
+        displayToMembershipStatus: new FormControl(
+          [
+            MembershipStatus.None,
+            MembershipStatus.Selected,
+            MembershipStatus.Trial,
+            MembershipStatus.Full,
+            MembershipStatus.Alumni,
+            MembershipStatus.Sponsor,
+          ],
+          Validators.required,
+        ),
+      }),
+    );
   }
 
   async saveTenant() {

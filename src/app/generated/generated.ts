@@ -35,6 +35,15 @@ export type Scalars = {
   JSON: { input: any; output: any };
 };
 
+export type BannerConfig = {
+  __typename?: 'BannerConfig';
+  body: Scalars['String']['output'];
+  color: Scalars['String']['output'];
+  displayToMembershipStatus: Array<MembershipStatus>;
+  link: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type CostItem = {
   __typename?: 'CostItem';
   actualAmount?: Maybe<Scalars['Decimal']['output']>;
@@ -949,6 +958,7 @@ export type TenantTutorHubEventsArgs = {
 
 export type TenantSettings = {
   __typename?: 'TenantSettings';
+  banners: Array<BannerConfig>;
   brandIconUrl?: Maybe<Scalars['String']['output']>;
   deRegistrationOptions: GlobalDeRegistrationConfig;
   esnCardLink?: Maybe<Scalars['String']['output']>;
@@ -1099,6 +1109,14 @@ export type TumiEventSubmissionItemsArgs = {
   submissionTime?: InputMaybe<SubmissionTime>;
 };
 
+export type UpdateBannerInput = {
+  body?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  displayToMembershipStatus?: InputMaybe<Array<MembershipStatus>>;
+  link?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateCoreEventInput = {
   deRegistrationSettings?: InputMaybe<UpdateDeRegistrationConfigInput>;
   enablePhotoSharing?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1199,6 +1217,7 @@ export type UpdateTenantInput = {
 };
 
 export type UpdateTenantSettingsInput = {
+  banners?: InputMaybe<Array<UpdateBannerInput>>;
   brandIconUrl?: InputMaybe<Scalars['String']['input']>;
   deRegistrationOptions?: InputMaybe<UpdateTenantDeRegistrationSettingsInput>;
   esnCardLink?: InputMaybe<Scalars['String']['input']>;
@@ -1377,6 +1396,28 @@ export type GetTenantCurrencyCodeQueryVariables = Exact<{
 export type GetTenantCurrencyCodeQuery = {
   __typename?: 'Query';
   currentTenant: { __typename?: 'Tenant'; id: string; currency: Currency };
+};
+
+export type GetAppStartupInfoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAppStartupInfoQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    currency: Currency;
+    settings: {
+      __typename?: 'TenantSettings';
+      banners: Array<{
+        __typename?: 'BannerConfig';
+        title: string;
+        body: string;
+        color: string;
+        link: string;
+        displayToMembershipStatus: Array<MembershipStatus>;
+      }>;
+    };
+  };
 };
 
 export type CreateEventTemplateMutationVariables = Exact<{
@@ -3900,6 +3941,14 @@ export type GetTenantForEditQuery = {
         icon: string;
         url: string;
       }>;
+      banners: Array<{
+        __typename?: 'BannerConfig';
+        title: string;
+        body: string;
+        color: string;
+        link: string;
+        displayToMembershipStatus: Array<MembershipStatus>;
+      }>;
       deRegistrationOptions: {
         __typename?: 'GlobalDeRegistrationConfig';
         free: {
@@ -4043,6 +4092,14 @@ export type UpdateTenantMutation = {
         label: string;
         icon: string;
         url: string;
+      }>;
+      banners: Array<{
+        __typename?: 'BannerConfig';
+        title: string;
+        body: string;
+        color: string;
+        link: string;
+        displayToMembershipStatus: Array<MembershipStatus>;
       }>;
       sectionHubLinks: Array<{
         __typename?: 'ResourceLink';
@@ -4217,6 +4274,37 @@ export class GetTenantCurrencyCodeGQL extends Apollo.Query<
   GetTenantCurrencyCodeQueryVariables
 > {
   override document = GetTenantCurrencyCodeDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetAppStartupInfoDocument = gql`
+  query getAppStartupInfo {
+    currentTenant {
+      id
+      currency
+      settings {
+        banners {
+          title
+          body
+          color
+          link
+          displayToMembershipStatus
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetAppStartupInfoGQL extends Apollo.Query<
+  GetAppStartupInfoQuery,
+  GetAppStartupInfoQueryVariables
+> {
+  override document = GetAppStartupInfoDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -7595,6 +7683,13 @@ export const GetTenantForEditDocument = gql`
           icon
           url
         }
+        banners {
+          title
+          body
+          color
+          link
+          displayToMembershipStatus
+        }
         deRegistrationOptions {
           free {
             organizers {
@@ -7777,6 +7872,13 @@ export const UpdateTenantDocument = gql`
           label
           icon
           url
+        }
+        banners {
+          title
+          body
+          color
+          link
+          displayToMembershipStatus
         }
         sectionHubLinks {
           label

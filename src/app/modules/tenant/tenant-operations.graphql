@@ -158,6 +158,13 @@ query getTenantForEdit {
         icon
         url
       }
+      banners {
+        title
+        body
+        color
+        link
+        displayToMembershipStatus
+      }
       deRegistrationOptions {
         free {
           organizers {
@@ -282,6 +289,13 @@ mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
         label
         icon
         url
+      }
+      banners {
+        title
+        body
+        color
+        link
+        displayToMembershipStatus
       }
       sectionHubLinks {
         label

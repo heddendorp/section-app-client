@@ -35,6 +35,22 @@
     *ngIf="loading$ | async"
   ></mat-progress-bar>
 </app-reactive-toolbar>
+<div>
+  <a
+    *ngFor="let banner of config.banners"
+    [class.bg-blue-400]="banner.color === 'primary'"
+    [class.bg-gray-400]="banner.color === 'secondary'"
+    [class.bg-red-400]="banner.color === 'warn'"
+    [href]="banner.link"
+    class="flex justify-center p-2"
+    target="_blank"
+  >
+    <div class="flex gap-4">
+      <p class="font-bold">{{ banner.title }}</p>
+      <markdown>{{ banner.body }}</markdown>
+    </div>
+  </a>
+</div>
 <div *ngIf="timeOffset !== 0" class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
   <div class="flex flex-wrap items-center justify-between">
     <div class="flex w-0 flex-1 items-center">
