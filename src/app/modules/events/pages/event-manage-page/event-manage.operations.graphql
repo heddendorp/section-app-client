@@ -39,12 +39,12 @@ query loadEventForManagement($id: ID!) {
       id
       createdAt
       status
-      #      paymentStatus
       user {
         id
         fullName
         picture
         email
+        additionalData
         currentTenant {
           userId
           tenantId
@@ -87,8 +87,7 @@ query loadEventForManagement($id: ID!) {
         lastName
         picture
         email
-        phone
-        university
+        additionalData
         currentTenant {
           userId
           tenantId

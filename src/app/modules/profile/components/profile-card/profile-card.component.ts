@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   MembershipStatus,
   Role,
-  UserProfilePublicQuery,
   UserProfileQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { RouterLink } from '@angular/router';
@@ -36,15 +35,7 @@ import {
 })
 export class ProfileCardComponent {
   @Input()
-  public profile:
-    | UserProfileQuery['currentUser']
-    | UserProfilePublicQuery['user'];
-
-  @Input()
-  public hideEditButton = true;
-
-  @Output()
-  public edit = new EventEmitter<void>();
+  public profile: UserProfileQuery['currentUser'];
 
   public Role = Role;
 

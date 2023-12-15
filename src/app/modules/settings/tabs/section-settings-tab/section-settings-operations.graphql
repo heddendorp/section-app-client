@@ -1,0 +1,59 @@
+query loadSectionSettings{
+  currentTenant {
+    id
+    communicationEmail
+    currency
+    homePageLink
+    homePageStrategy
+    settings {
+      brandIconUrl
+      esnCardLink
+      showPWAInstall
+      sectionHubLinks {
+        icon
+        label
+        url
+      }
+      socialLinks {
+        icon
+        label
+        url
+      }
+      banners {
+        displayToMembershipStatus
+        link
+        color
+        body
+        title
+      }
+    }
+  }
+}
+
+mutation updateSectionSettings($id: ID!, $input: UpdateTenantInput!){
+  updateTenant(id: $id, updateTenantInput: $input) {
+    id
+    settings {
+      brandIconUrl
+      esnCardLink
+      showPWAInstall
+      sectionHubLinks {
+        icon
+        label
+        url
+      }
+      socialLinks {
+        icon
+        label
+        url
+      }
+      banners {
+        displayToMembershipStatus
+        link
+        color
+        body
+        title
+      }
+    }
+  }
+}

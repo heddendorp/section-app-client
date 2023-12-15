@@ -1,0 +1,48 @@
+@for (field of formFields();track field) {
+<div class="flex mb-4 gap-6 items-center">
+  <div class="flex flex-col">
+    <div class="flex gap-2">
+      <p>{{ field.label }}</p>
+      <p
+        class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-gray-600 bg-gray-50 ring-gray-500/10"
+      >
+        {{ field.type }}
+      </p>
+    </div>
+    @if (field.type === 'select') {
+    <div class="flex gap-2">
+      <p>Available options:</p>
+      <div class="flex flex-wrap gap-2">
+        @for (option of field.options;track option) {
+        <p>{{ option }}</p>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  <button mat-flat-button (click)="removeField(field.label)">
+    <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+    Delete field
+  </button>
+</div>
+} @empty {
+<p class="mb-2">
+  You have not added any fields to this form, add one to get started
+</p>
+<button mat-raised-button (click)="addField()" class="mr-4">
+  <mat-icon svgIcon="icon-add"></mat-icon>
+  Add new field
+</button>
+} @if (formFields().length) {
+<button mat-stroked-button (click)="addField()" class="mr-4">
+  <mat-icon svgIcon="icon-add"></mat-icon>
+  Add new field
+</button>
+}
+<button
+  (click)="fieldChange.emit(formFields())"
+  color="primary"
+  mat-flat-button
+>
+  Save form
+</button>

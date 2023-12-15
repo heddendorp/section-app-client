@@ -33,6 +33,8 @@ export type Scalars = {
   Decimal: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any };
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: { input: any; output: any };
 };
 
 export type BannerConfig = {
@@ -42,6 +44,14 @@ export type BannerConfig = {
   displayToMembershipStatus: Array<MembershipStatus>;
   link: Scalars['String']['output'];
   title: Scalars['String']['output'];
+};
+
+export type CompleteProfileInput = {
+  additionalData?: InputMaybe<Scalars['JSONObject']['input']>;
+  birthdate: Scalars['DateTime']['input'];
+  communicationEmail: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
 };
 
 export type CostItem = {
@@ -178,6 +188,19 @@ export type DeRegistrationConfig = {
   participants: ParticipantDeRegistrationSettings;
 };
 
+export type DynamicFormField = {
+  __typename?: 'DynamicFormField';
+  label: Scalars['String']['output'];
+  options: Array<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
+};
+
+export type DynamicFormFieldInput = {
+  label: Scalars['String']['input'];
+  options?: InputMaybe<Array<Scalars['String']['input']>>;
+  type: Scalars['String']['input'];
+};
+
 export enum EnrolmentStatus {
   Exchange = 'EXCHANGE',
   International = 'INTERNATIONAL',
@@ -278,10 +301,6 @@ export type EventSubmissionItemOwnSubmissionsArgs = {
   onlyOwn?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type EventSubmissionItemResponsesArgs = {
-  onlyWithPurchase?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
 export type EventTemplate = {
   __typename?: 'EventTemplate';
   category?: Maybe<EventTemplateCategory>;
@@ -360,6 +379,7 @@ export type Mutation = {
   cancelPayment: TumiEvent;
   changeEventPublication: TumiEvent;
   checkInUser: EventRegistration;
+  completeProfile: User;
   createEventFromTemplate: TumiEvent;
   createEventOrganizer: EventOrganizer;
   createEventTemplate: EventTemplate;
@@ -369,6 +389,7 @@ export type Mutation = {
   createRegistrationCode: EventRegistrationCode;
   createSubmissionItem: EventSubmissionItem;
   createTransaction: Transaction;
+  /** @deprecated Use completeProfile instead */
   createUser: User;
   deleteCostItem: CostItem;
   deleteEvent: TumiEvent;
@@ -395,6 +416,7 @@ export type Mutation = {
   updateTemplateFinances: EventTemplate;
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
+  /** @deprecated Use completeProfile instead */
   updateUser: User;
   updateUserPicture: User;
   updateUserPosition: User;
@@ -425,6 +447,10 @@ export type MutationChangeEventPublicationArgs = {
 export type MutationCheckInUserArgs = {
   manualCheckin?: InputMaybe<Scalars['Boolean']['input']>;
   registrationId: Scalars['ID']['input'];
+};
+
+export type MutationCompleteProfileArgs = {
+  input: CompleteProfileInput;
 };
 
 export type MutationCreateEventFromTemplateArgs = {
@@ -671,13 +697,6 @@ export enum PublicationState {
   Public = 'PUBLIC',
 }
 
-export enum PurchaseStatus {
-  Cancelled = 'CANCELLED',
-  Paid = 'PAID',
-  Pending = 'PENDING',
-  Sent = 'SENT',
-}
-
 export type Query = {
   __typename?: 'Query';
   blobUploadKey: Scalars['String']['output'];
@@ -814,7 +833,6 @@ export type QueryUserSearchResultNumArgs = {
 
 export type QueryUsersArgs = {
   emptyOnEmptySearch?: InputMaybe<Scalars['Boolean']['input']>;
-  onlyWithPurchase?: InputMaybe<Scalars['Boolean']['input']>;
   pageIndex?: InputMaybe<Scalars['Int']['input']>;
   pageLength?: InputMaybe<Scalars['Int']['input']>;
   roleList?: InputMaybe<Array<Role>>;
@@ -874,7 +892,6 @@ export type Statistics = {
   __typename?: 'Statistics';
   checkinHistory: Scalars['JSON']['output'];
   checkins: Scalars['Int']['output'];
-  localStatusDistribution: Scalars['JSON']['output'];
   paidEvents: Scalars['Int']['output'];
   paidRegistrations: Scalars['Int']['output'];
   registrationHistory: Scalars['JSON']['output'];
@@ -965,6 +982,7 @@ export type TenantSettings = {
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
   socialLinks: Array<ResourceLink>;
+  userDataCollection: Array<DynamicFormField>;
 };
 
 export type Transaction = {
@@ -1139,8 +1157,8 @@ export type UpdateCoreEventInput = {
 };
 
 export type UpdateDeRegistrationConfigInput = {
-  organizers: UpdateOrganizerDeregistrationConfigInput;
-  participants: UpdateParticipantDeregistrationConfigInput;
+  organizers?: InputMaybe<UpdateOrganizerDeregistrationConfigInput>;
+  participants?: InputMaybe<UpdateParticipantDeregistrationConfigInput>;
 };
 
 export type UpdateEventLocationInput = {
@@ -1159,18 +1177,18 @@ export type UpdateGeneralEventInput = {
 };
 
 export type UpdateOrganizerDeregistrationConfigInput = {
-  deRegistrationPossible: Scalars['Boolean']['input'];
-  minimumDaysForDeRegistration: Scalars['Int']['input'];
-  refundFeesOnDeRegistration: Scalars['Boolean']['input'];
+  deRegistrationPossible?: InputMaybe<Scalars['Boolean']['input']>;
+  minimumDaysForDeRegistration?: InputMaybe<Scalars['Int']['input']>;
+  refundFeesOnDeRegistration?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateParticipantDeregistrationConfigInput = {
-  deRegistrationPossible: Scalars['Boolean']['input'];
-  minimumDaysForDeRegistration: Scalars['Int']['input'];
-  minimumDaysForMove: Scalars['Int']['input'];
-  movePossible: Scalars['Boolean']['input'];
-  refundFeesOnDeRegistration: Scalars['Boolean']['input'];
-  refundFeesOnMove: Scalars['Boolean']['input'];
+  deRegistrationPossible?: InputMaybe<Scalars['Boolean']['input']>;
+  minimumDaysForDeRegistration?: InputMaybe<Scalars['Int']['input']>;
+  minimumDaysForMove?: InputMaybe<Scalars['Int']['input']>;
+  movePossible?: InputMaybe<Scalars['Boolean']['input']>;
+  refundFeesOnDeRegistration?: InputMaybe<Scalars['Boolean']['input']>;
+  refundFeesOnMove?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateResourceLinkInput = {
@@ -1224,31 +1242,24 @@ export type UpdateTenantSettingsInput = {
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
   socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
+  userDataCollection?: InputMaybe<Array<DynamicFormFieldInput>>;
 };
 
 export type UpdateUserInput = {
-  bio?: InputMaybe<Scalars['String']['input']>;
   birthdate?: InputMaybe<Scalars['DateTime']['input']>;
   communicationEmail?: InputMaybe<Scalars['String']['input']>;
-  country?: InputMaybe<Scalars['String']['input']>;
-  enrolmentStatus?: InputMaybe<EnrolmentStatus>;
   firstName?: InputMaybe<Scalars['String']['input']>;
-  homeUniversity?: InputMaybe<Scalars['String']['input']>;
-  instagram?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  studyProgram?: InputMaybe<Scalars['String']['input']>;
   university?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
+  additionalData: Scalars['JSONObject']['output'];
   authId: Scalars['String']['output'];
-  bio?: Maybe<Scalars['String']['output']>;
   birthdate?: Maybe<Scalars['DateTime']['output']>;
   calendarToken: Scalars['String']['output'];
   communicationEmail?: Maybe<Scalars['String']['output']>;
-  country?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   createdEvents: Array<TumiEvent>;
   createdEventsCount: Scalars['Int']['output'];
@@ -1257,7 +1268,6 @@ export type User = {
   currentTenant?: Maybe<UsersOfTenants>;
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
-  enrolmentStatus: EnrolmentStatus;
   esnCardNumber?: Maybe<Scalars['String']['output']>;
   /** @deprecated Will always be false. Only self service is possible now */
   esnCardOverride: Scalars['Boolean']['output'];
@@ -1267,25 +1277,20 @@ export type User = {
   fullName: Scalars['String']['output'];
   /** @deprecated Use esnCardNumber and esnCardValidUntil instead */
   hasESNCard: Scalars['Boolean']['output'];
-  homeUniversity?: Maybe<Scalars['String']['output']>;
   iban?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  instagram?: Maybe<Scalars['String']['output']>;
   lastName: Scalars['String']['output'];
   organizedEvents: Array<TumiEvent>;
   organizedEventsCount: Scalars['Int']['output'];
   outstandingRating: Scalars['Boolean']['output'];
   participatedEvents: Array<TumiEvent>;
   paypal?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
   picture: Scalars['String']['output'];
   position?: Maybe<Scalars['String']['output']>;
   profileComplete: Scalars['Boolean']['output'];
   role: Role;
   status: MembershipStatus;
-  studyProgram?: Maybe<Scalars['String']['output']>;
   transactions: Array<Transaction>;
-  university?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserCurrentTenantArgs = {
@@ -1338,10 +1343,7 @@ export type GetCurrentUserQuery = {
     firstName: string;
     lastName: string;
     email: string;
-    phone?: string | null;
     picture: string;
-    university?: string | null;
-    enrolmentStatus: EnrolmentStatus;
     birthdate?: string | null;
   } | null;
 };
@@ -1408,6 +1410,12 @@ export type GetAppStartupInfoQuery = {
     currency: Currency;
     settings: {
       __typename?: 'TenantSettings';
+      userDataCollection: Array<{
+        __typename?: 'DynamicFormField';
+        label: string;
+        options: Array<string>;
+        type: string;
+      }>;
       banners: Array<{
         __typename?: 'BannerConfig';
         title: string;
@@ -1921,9 +1929,9 @@ export type LoadEventForRunningQuery = {
         __typename?: 'User';
         id: string;
         fullName: string;
-        phone?: string | null;
         picture: string;
         email: string;
+        additionalData: any;
         communicationEmail?: string | null;
         currentTenant?: {
           __typename?: 'UsersOfTenants';
@@ -1981,12 +1989,12 @@ export type LoadEventForRunningQuery = {
         id: string;
         fullName: string;
         lastName: string;
-        phone?: string | null;
         picture: string;
         email: string;
         esnCardValidUntil?: string | null;
         esnCardNumber?: string | null;
         communicationEmail?: string | null;
+        additionalData: any;
         currentTenant?: {
           __typename?: 'UsersOfTenants';
           userId: string;
@@ -2356,7 +2364,6 @@ export type LoadEventQuery = {
       __typename?: 'User';
       id: string;
       fullName: string;
-      phone?: string | null;
       picture: string;
       currentTenant?: {
         __typename?: 'UsersOfTenants';
@@ -2406,7 +2413,6 @@ export type LoadUserForEventQuery = {
     __typename?: 'User';
     id: string;
     esnCardValidUntil?: string | null;
-    university?: string | null;
   } | null;
 };
 
@@ -2735,6 +2741,7 @@ export type LoadEventForManagementQuery = {
         fullName: string;
         picture: string;
         email: string;
+        additionalData: any;
         currentTenant?: {
           __typename?: 'UsersOfTenants';
           userId: string;
@@ -2784,8 +2791,7 @@ export type LoadEventForManagementQuery = {
         lastName: string;
         picture: string;
         email: string;
-        phone?: string | null;
-        university?: string | null;
+        additionalData: any;
         currentTenant?: {
           __typename?: 'UsersOfTenants';
           userId: string;
@@ -2927,13 +2933,53 @@ export type LoadPagesQuery = {
   };
 };
 
-export type RegisterUserMutationVariables = Exact<{
-  userInput: CreateUserInput;
+export type LoadCompleteProfileDataQueryVariables = Exact<{
+  [key: string]: never;
 }>;
 
-export type RegisterUserMutation = {
+export type LoadCompleteProfileDataQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    name: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      userDataCollection: Array<{
+        __typename?: 'DynamicFormField';
+        type: string;
+        options: Array<string>;
+        label: string;
+      }>;
+    };
+  };
+  currentUser?: {
+    __typename?: 'User';
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    communicationEmail?: string | null;
+    birthdate?: string | null;
+    additionalData: any;
+  } | null;
+};
+
+export type CompleteProfileMutationMutationVariables = Exact<{
+  input: CompleteProfileInput;
+}>;
+
+export type CompleteProfileMutationMutation = {
   __typename?: 'Mutation';
-  createUser: { __typename?: 'User'; id: string };
+  completeProfile: {
+    __typename?: 'User';
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    birthdate?: string | null;
+    additionalData: any;
+  };
 };
 
 export type AddEsnCardMutationVariables = Exact<{
@@ -3012,8 +3058,6 @@ export type UserProfileQuery = {
     emailVerified: boolean;
     email: string;
     communicationEmail?: string | null;
-    phone?: string | null;
-    university?: string | null;
     iban?: string | null;
     paypal?: string | null;
     birthdate?: string | null;
@@ -3022,21 +3066,11 @@ export type UserProfileQuery = {
     calendarToken: string;
     esnCardNumber?: string | null;
     esnCardValidUntil?: string | null;
-    enrolmentStatus: EnrolmentStatus;
-    bio?: string | null;
-    country?: string | null;
-    homeUniversity?: string | null;
-    instagram?: string | null;
     position?: string | null;
-    studyProgram?: string | null;
+    additionalData: any;
+    status: MembershipStatus;
     organizedEventsCount: number;
     createdEventsCount: number;
-    currentTenant?: {
-      __typename?: 'UsersOfTenants';
-      userId: string;
-      tenantId: string;
-      status: MembershipStatus;
-    } | null;
   } | null;
   currentTenant: {
     __typename?: 'Tenant';
@@ -3101,13 +3135,7 @@ export type UserProfilePublicQuery = {
     firstName: string;
     fullName: string;
     picture: string;
-    university?: string | null;
-    bio?: string | null;
-    country?: string | null;
-    homeUniversity?: string | null;
-    instagram?: string | null;
     position?: string | null;
-    studyProgram?: string | null;
     organizedEventsCount: number;
     createdEventsCount: number;
     currentTenant?: {
@@ -3235,12 +3263,6 @@ export type UpdateProfileMutation = {
     firstName: string;
     lastName: string;
     fullName: string;
-    university?: string | null;
-    bio?: string | null;
-    country?: string | null;
-    homeUniversity?: string | null;
-    instagram?: string | null;
-    studyProgram?: string | null;
   };
 };
 
@@ -3254,9 +3276,273 @@ export type UpdateUserInformationMutation = {
   updateUser: {
     __typename?: 'User';
     id: string;
-    phone?: string | null;
-    enrolmentStatus: EnrolmentStatus;
     communicationEmail?: string | null;
+  };
+};
+
+export type LoadDeRegistrationSettingsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type LoadDeRegistrationSettingsQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      deRegistrationOptions: {
+        __typename?: 'GlobalDeRegistrationConfig';
+        free: {
+          __typename?: 'DeRegistrationConfig';
+          organizers: {
+            __typename?: 'OrganizerDeRegistrationSettings';
+            deRegistrationPossible: boolean;
+            minimumDaysForDeRegistration: number;
+            refundFeesOnDeRegistration: boolean;
+          };
+          participants: {
+            __typename?: 'ParticipantDeRegistrationSettings';
+            refundFeesOnDeRegistration: boolean;
+            minimumDaysForDeRegistration: number;
+            deRegistrationPossible: boolean;
+            minimumDaysForMove: number;
+            movePossible: boolean;
+            refundFeesOnMove: boolean;
+          };
+        };
+        paid: {
+          __typename?: 'DeRegistrationConfig';
+          organizers: {
+            __typename?: 'OrganizerDeRegistrationSettings';
+            deRegistrationPossible: boolean;
+            minimumDaysForDeRegistration: number;
+            refundFeesOnDeRegistration: boolean;
+          };
+          participants: {
+            __typename?: 'ParticipantDeRegistrationSettings';
+            refundFeesOnDeRegistration: boolean;
+            minimumDaysForDeRegistration: number;
+            deRegistrationPossible: boolean;
+            minimumDaysForMove: number;
+            movePossible: boolean;
+            refundFeesOnMove: boolean;
+          };
+        };
+      };
+    };
+  };
+};
+
+export type UpdateDeRegistrationSettingsMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateTenantInput;
+}>;
+
+export type UpdateDeRegistrationSettingsMutation = {
+  __typename?: 'Mutation';
+  updateTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      deRegistrationOptions: {
+        __typename?: 'GlobalDeRegistrationConfig';
+        free: {
+          __typename?: 'DeRegistrationConfig';
+          organizers: {
+            __typename?: 'OrganizerDeRegistrationSettings';
+            deRegistrationPossible: boolean;
+            minimumDaysForDeRegistration: number;
+            refundFeesOnDeRegistration: boolean;
+          };
+          participants: {
+            __typename?: 'ParticipantDeRegistrationSettings';
+            refundFeesOnDeRegistration: boolean;
+            minimumDaysForDeRegistration: number;
+            deRegistrationPossible: boolean;
+            minimumDaysForMove: number;
+            movePossible: boolean;
+            refundFeesOnMove: boolean;
+          };
+        };
+        paid: {
+          __typename?: 'DeRegistrationConfig';
+          organizers: {
+            __typename?: 'OrganizerDeRegistrationSettings';
+            deRegistrationPossible: boolean;
+            minimumDaysForDeRegistration: number;
+            refundFeesOnDeRegistration: boolean;
+          };
+          participants: {
+            __typename?: 'ParticipantDeRegistrationSettings';
+            refundFeesOnDeRegistration: boolean;
+            minimumDaysForDeRegistration: number;
+            deRegistrationPossible: boolean;
+            minimumDaysForMove: number;
+            movePossible: boolean;
+            refundFeesOnMove: boolean;
+          };
+        };
+      };
+    };
+  };
+};
+
+export type LoadRegistrationDataSettingsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type LoadRegistrationDataSettingsQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      userDataCollection: Array<{
+        __typename?: 'DynamicFormField';
+        label: string;
+        options: Array<string>;
+        type: string;
+      }>;
+    };
+  };
+};
+
+export type UpdateRegistrationDataSettingsMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateTenantInput;
+}>;
+
+export type UpdateRegistrationDataSettingsMutation = {
+  __typename?: 'Mutation';
+  updateTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      userDataCollection: Array<{
+        __typename?: 'DynamicFormField';
+        label: string;
+        options: Array<string>;
+        type: string;
+      }>;
+    };
+  };
+};
+
+export type LoadSectionSettingsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type LoadSectionSettingsQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    communicationEmail: string;
+    currency: Currency;
+    homePageLink?: string | null;
+    homePageStrategy: HomePageStrategy;
+    settings: {
+      __typename?: 'TenantSettings';
+      brandIconUrl?: string | null;
+      esnCardLink?: string | null;
+      showPWAInstall: boolean;
+      sectionHubLinks: Array<{
+        __typename?: 'ResourceLink';
+        icon: string;
+        label: string;
+        url: string;
+      }>;
+      socialLinks: Array<{
+        __typename?: 'ResourceLink';
+        icon: string;
+        label: string;
+        url: string;
+      }>;
+      banners: Array<{
+        __typename?: 'BannerConfig';
+        displayToMembershipStatus: Array<MembershipStatus>;
+        link: string;
+        color: string;
+        body: string;
+        title: string;
+      }>;
+    };
+  };
+};
+
+export type UpdateSectionSettingsMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateTenantInput;
+}>;
+
+export type UpdateSectionSettingsMutation = {
+  __typename?: 'Mutation';
+  updateTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      brandIconUrl?: string | null;
+      esnCardLink?: string | null;
+      showPWAInstall: boolean;
+      sectionHubLinks: Array<{
+        __typename?: 'ResourceLink';
+        icon: string;
+        label: string;
+        url: string;
+      }>;
+      socialLinks: Array<{
+        __typename?: 'ResourceLink';
+        icon: string;
+        label: string;
+        url: string;
+      }>;
+      banners: Array<{
+        __typename?: 'BannerConfig';
+        displayToMembershipStatus: Array<MembershipStatus>;
+        link: string;
+        color: string;
+        body: string;
+        title: string;
+      }>;
+    };
+  };
+};
+
+export type LoadSiteContentSettingsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type LoadSiteContentSettingsQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    aboutPage: string;
+    faqPage?: string | null;
+    tacPage?: string | null;
+    imprintPage: string;
+    privacyPolicyPage: string;
+  };
+};
+
+export type UpdateSiteContentSettingsMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateTenantInput;
+}>;
+
+export type UpdateSiteContentSettingsMutation = {
+  __typename?: 'Mutation';
+  updateTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    aboutPage: string;
+    faqPage?: string | null;
+    tacPage?: string | null;
+    imprintPage: string;
+    privacyPolicyPage: string;
   };
 };
 
@@ -3850,8 +4136,6 @@ export type LoadUserQuery = {
     fullName: string;
     email: string;
     birthdate?: string | null;
-    phone?: string | null;
-    university?: string | null;
     esnCardValidUntil?: string | null;
     esnCardNumber?: string | null;
     position?: string | null;
@@ -4059,7 +4343,6 @@ export type GetStatisticsQuery = {
     paidEvents: number;
     userUniversityDistribution: any;
     userStatusDistribution: any;
-    localStatusDistribution: any;
   };
 };
 
@@ -4173,10 +4456,7 @@ export const GetCurrentUserDocument = gql`
       firstName
       lastName
       email
-      phone
       picture
-      university
-      enrolmentStatus
       birthdate
     }
   }
@@ -4285,6 +4565,11 @@ export const GetAppStartupInfoDocument = gql`
       id
       currency
       settings {
+        userDataCollection {
+          label
+          options
+          type
+        }
         banners {
           title
           body
@@ -5030,9 +5315,9 @@ export const LoadEventForRunningDocument = gql`
         user {
           id
           fullName
-          phone
           picture
           email
+          additionalData
           communicationEmail
           currentTenant {
             userId
@@ -5083,12 +5368,12 @@ export const LoadEventForRunningDocument = gql`
           id
           fullName
           lastName
-          phone
           picture
           email
           esnCardValidUntil
           esnCardNumber
           communicationEmail
+          additionalData
           currentTenant {
             userId
             tenantId
@@ -5555,7 +5840,6 @@ export const LoadEventDocument = gql`
       organizers {
         id
         fullName
-        phone
         picture
         currentTenant {
           userId
@@ -5623,7 +5907,6 @@ export const LoadUserForEventDocument = gql`
     currentUser {
       id
       esnCardValidUntil
-      university
     }
   }
 `;
@@ -6048,6 +6331,7 @@ export const LoadEventForManagementDocument = gql`
           fullName
           picture
           email
+          additionalData
           currentTenant {
             userId
             tenantId
@@ -6090,8 +6374,7 @@ export const LoadEventForManagementDocument = gql`
           lastName
           picture
           email
-          phone
-          university
+          additionalData
           currentTenant {
             userId
             tenantId
@@ -6351,10 +6634,27 @@ export class LoadPagesGQL extends Apollo.Query<
     super(apollo);
   }
 }
-export const RegisterUserDocument = gql`
-  mutation RegisterUser($userInput: CreateUserInput!) {
-    createUser(input: $userInput) {
+export const LoadCompleteProfileDataDocument = gql`
+  query loadCompleteProfileData {
+    currentTenant {
       id
+      name
+      settings {
+        userDataCollection {
+          type
+          options
+          label
+        }
+      }
+    }
+    currentUser {
+      id
+      firstName
+      lastName
+      email
+      communicationEmail
+      birthdate
+      additionalData
     }
   }
 `;
@@ -6362,11 +6662,37 @@ export const RegisterUserDocument = gql`
 @Injectable({
   providedIn: 'root',
 })
-export class RegisterUserGQL extends Apollo.Mutation<
-  RegisterUserMutation,
-  RegisterUserMutationVariables
+export class LoadCompleteProfileDataGQL extends Apollo.Query<
+  LoadCompleteProfileDataQuery,
+  LoadCompleteProfileDataQueryVariables
 > {
-  override document = RegisterUserDocument;
+  override document = LoadCompleteProfileDataDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const CompleteProfileMutationDocument = gql`
+  mutation completeProfileMutation($input: CompleteProfileInput!) {
+    completeProfile(input: $input) {
+      id
+      firstName
+      lastName
+      email
+      birthdate
+      additionalData
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CompleteProfileMutationGQL extends Apollo.Mutation<
+  CompleteProfileMutationMutation,
+  CompleteProfileMutationMutationVariables
+> {
+  override document = CompleteProfileMutationDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -6486,8 +6812,6 @@ export const UserProfileDocument = gql`
       emailVerified
       email
       communicationEmail
-      phone
-      university
       iban
       paypal
       birthdate
@@ -6496,18 +6820,9 @@ export const UserProfileDocument = gql`
       calendarToken
       esnCardNumber
       esnCardValidUntil
-      enrolmentStatus
-      bio
-      country
-      homeUniversity
-      instagram
       position
-      studyProgram
-      currentTenant {
-        userId
-        tenantId
-        status
-      }
+      additionalData
+      status
       organizedEventsCount
       createdEventsCount
     }
@@ -6592,13 +6907,7 @@ export const UserProfilePublicDocument = gql`
       firstName
       fullName
       picture
-      university
-      bio
-      country
-      homeUniversity
-      instagram
       position
-      studyProgram
       organizedEventsCount
       createdEventsCount
       currentTenant {
@@ -6761,12 +7070,6 @@ export const UpdateProfileDocument = gql`
       firstName
       lastName
       fullName
-      university
-      bio
-      country
-      homeUniversity
-      instagram
-      studyProgram
     }
   }
 `;
@@ -6788,8 +7091,6 @@ export const UpdateUserInformationDocument = gql`
   mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
     updateUser(input: $input, userId: $userId) {
       id
-      phone
-      enrolmentStatus
       communicationEmail
     }
   }
@@ -6803,6 +7104,317 @@ export class UpdateUserInformationGQL extends Apollo.Mutation<
   UpdateUserInformationMutationVariables
 > {
   override document = UpdateUserInformationDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const LoadDeRegistrationSettingsDocument = gql`
+  query loadDeRegistrationSettings {
+    currentTenant {
+      id
+      settings {
+        deRegistrationOptions {
+          free {
+            organizers {
+              deRegistrationPossible
+              minimumDaysForDeRegistration
+              refundFeesOnDeRegistration
+            }
+            participants {
+              refundFeesOnDeRegistration
+              minimumDaysForDeRegistration
+              deRegistrationPossible
+              minimumDaysForMove
+              movePossible
+              refundFeesOnMove
+            }
+          }
+          paid {
+            organizers {
+              deRegistrationPossible
+              minimumDaysForDeRegistration
+              refundFeesOnDeRegistration
+            }
+            participants {
+              refundFeesOnDeRegistration
+              minimumDaysForDeRegistration
+              deRegistrationPossible
+              minimumDaysForMove
+              movePossible
+              refundFeesOnMove
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoadDeRegistrationSettingsGQL extends Apollo.Query<
+  LoadDeRegistrationSettingsQuery,
+  LoadDeRegistrationSettingsQueryVariables
+> {
+  override document = LoadDeRegistrationSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateDeRegistrationSettingsDocument = gql`
+  mutation updateDeRegistrationSettings($id: ID!, $input: UpdateTenantInput!) {
+    updateTenant(id: $id, updateTenantInput: $input) {
+      id
+      settings {
+        deRegistrationOptions {
+          free {
+            organizers {
+              deRegistrationPossible
+              minimumDaysForDeRegistration
+              refundFeesOnDeRegistration
+            }
+            participants {
+              refundFeesOnDeRegistration
+              minimumDaysForDeRegistration
+              deRegistrationPossible
+              minimumDaysForMove
+              movePossible
+              refundFeesOnMove
+            }
+          }
+          paid {
+            organizers {
+              deRegistrationPossible
+              minimumDaysForDeRegistration
+              refundFeesOnDeRegistration
+            }
+            participants {
+              refundFeesOnDeRegistration
+              minimumDaysForDeRegistration
+              deRegistrationPossible
+              minimumDaysForMove
+              movePossible
+              refundFeesOnMove
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateDeRegistrationSettingsGQL extends Apollo.Mutation<
+  UpdateDeRegistrationSettingsMutation,
+  UpdateDeRegistrationSettingsMutationVariables
+> {
+  override document = UpdateDeRegistrationSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const LoadRegistrationDataSettingsDocument = gql`
+  query loadRegistrationDataSettings {
+    currentTenant {
+      id
+      settings {
+        userDataCollection {
+          label
+          options
+          type
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoadRegistrationDataSettingsGQL extends Apollo.Query<
+  LoadRegistrationDataSettingsQuery,
+  LoadRegistrationDataSettingsQueryVariables
+> {
+  override document = LoadRegistrationDataSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateRegistrationDataSettingsDocument = gql`
+  mutation updateRegistrationDataSettings(
+    $id: ID!
+    $input: UpdateTenantInput!
+  ) {
+    updateTenant(id: $id, updateTenantInput: $input) {
+      id
+      settings {
+        userDataCollection {
+          label
+          options
+          type
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateRegistrationDataSettingsGQL extends Apollo.Mutation<
+  UpdateRegistrationDataSettingsMutation,
+  UpdateRegistrationDataSettingsMutationVariables
+> {
+  override document = UpdateRegistrationDataSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const LoadSectionSettingsDocument = gql`
+  query loadSectionSettings {
+    currentTenant {
+      id
+      communicationEmail
+      currency
+      homePageLink
+      homePageStrategy
+      settings {
+        brandIconUrl
+        esnCardLink
+        showPWAInstall
+        sectionHubLinks {
+          icon
+          label
+          url
+        }
+        socialLinks {
+          icon
+          label
+          url
+        }
+        banners {
+          displayToMembershipStatus
+          link
+          color
+          body
+          title
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoadSectionSettingsGQL extends Apollo.Query<
+  LoadSectionSettingsQuery,
+  LoadSectionSettingsQueryVariables
+> {
+  override document = LoadSectionSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateSectionSettingsDocument = gql`
+  mutation updateSectionSettings($id: ID!, $input: UpdateTenantInput!) {
+    updateTenant(id: $id, updateTenantInput: $input) {
+      id
+      settings {
+        brandIconUrl
+        esnCardLink
+        showPWAInstall
+        sectionHubLinks {
+          icon
+          label
+          url
+        }
+        socialLinks {
+          icon
+          label
+          url
+        }
+        banners {
+          displayToMembershipStatus
+          link
+          color
+          body
+          title
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateSectionSettingsGQL extends Apollo.Mutation<
+  UpdateSectionSettingsMutation,
+  UpdateSectionSettingsMutationVariables
+> {
+  override document = UpdateSectionSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const LoadSiteContentSettingsDocument = gql`
+  query loadSiteContentSettings {
+    currentTenant {
+      id
+      aboutPage
+      faqPage
+      tacPage
+      imprintPage
+      privacyPolicyPage
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoadSiteContentSettingsGQL extends Apollo.Query<
+  LoadSiteContentSettingsQuery,
+  LoadSiteContentSettingsQueryVariables
+> {
+  override document = LoadSiteContentSettingsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateSiteContentSettingsDocument = gql`
+  mutation updateSiteContentSettings($id: ID!, $input: UpdateTenantInput!) {
+    updateTenant(id: $id, updateTenantInput: $input) {
+      id
+      aboutPage
+      faqPage
+      tacPage
+      imprintPage
+      privacyPolicyPage
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateSiteContentSettingsGQL extends Apollo.Mutation<
+  UpdateSiteContentSettingsMutation,
+  UpdateSiteContentSettingsMutationVariables
+> {
+  override document = UpdateSiteContentSettingsDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -7594,8 +8206,6 @@ export const LoadUserDocument = gql`
       fullName
       email
       birthdate
-      phone
-      university
       esnCardValidUntil
       esnCardNumber
       position
@@ -7836,7 +8446,6 @@ export const GetStatisticsDocument = gql`
       paidEvents
       userUniversityDistribution
       userStatusDistribution
-      localStatusDistribution
     }
   }
 `;

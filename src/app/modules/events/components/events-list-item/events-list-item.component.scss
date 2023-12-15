@@ -27,3 +27,7 @@
     @apply bg-violet-300 text-violet-800;
   }
 }
+
+.selected{
+  view-transition-name: event-icon;
+}

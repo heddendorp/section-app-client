@@ -10,6 +10,11 @@ query getAppStartupInfo {
     id
     currency
     settings {
+      userDataCollection {
+        label
+        options
+        type
+      }
       banners {
         title
         body

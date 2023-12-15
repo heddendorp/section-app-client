@@ -5,10 +5,7 @@ query getCurrentUser {
     firstName
     lastName
     email
-    phone
     picture
-    university
-    enrolmentStatus
     birthdate
   }
 }

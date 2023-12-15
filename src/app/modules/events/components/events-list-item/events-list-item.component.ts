@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  signal,
+} from '@angular/core';
 import {
   EventListQuery,
   MembershipStatus,
@@ -39,6 +44,7 @@ import { MatRippleModule } from '@angular/material/core';
 })
 export class EventsListItemComponent {
   @Input() public event: EventListQuery['events'][0] | null = null;
+  protected selectedEvent = signal(false);
   public RegistrationMode = RegistrationMode;
   public MembershipStatus = MembershipStatus;
 

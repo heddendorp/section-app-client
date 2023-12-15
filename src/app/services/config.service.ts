@@ -15,7 +15,8 @@ export class ConfigService {
   private _currencyCode: string | undefined;
   private _banners: GetAppStartupInfoQuery['currentTenant']['settings']['banners'] =
     [];
-
+  private _formConfig: GetAppStartupInfoQuery['currentTenant']['settings']['userDataCollection'] =
+    [];
   get currencyCode(): string | undefined {
     if (!this._currencyCode) console.error('Currency code not set');
     return this._currencyCode;
@@ -25,9 +26,15 @@ export class ConfigService {
     return this._banners;
   }
 
+  get formConfig(): GetAppStartupInfoQuery['currentTenant']['settings']['userDataCollection'] {
+    return this._formConfig;
+  }
+
   public async init(): Promise<void> {
     const startupInfo = await firstValueFrom(this.getAppStartupInfoGQL.fetch());
     this._currencyCode = startupInfo.data?.currentTenant?.currency;
     this._banners = startupInfo.data?.currentTenant?.settings?.banners;
+    this._formConfig =
+      startupInfo.data?.currentTenant?.settings?.userDataCollection;
   }
 }

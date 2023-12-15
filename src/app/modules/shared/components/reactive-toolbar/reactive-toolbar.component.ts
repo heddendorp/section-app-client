@@ -29,6 +29,9 @@ enum ScrollDirection {
   Down = 'Down',
 }
 
+/**
+ * @deprecated Remove any uses of this component
+ */
 @Component({
   selector: 'app-reactive-toolbar',
   templateUrl: './reactive-toolbar.component.html',

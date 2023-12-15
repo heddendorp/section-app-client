@@ -10,7 +10,7 @@
           Event Name:
         </td>
         <td
-          [attr.colspan]="3 + event.submissionItems.length"
+          [attr.colspan]="2 + event.submissionItems.length + formConfig.length"
           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
         >
           {{ event.title }}
@@ -24,7 +24,7 @@
           Date:
         </td>
         <td
-          [attr.colspan]="3 + event.submissionItems.length"
+          [attr.colspan]="2 + event.submissionItems.length + formConfig.length"
           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
         >
           {{ event.start | date }}
@@ -38,7 +38,7 @@
           Organizers:
         </td>
         <td
-          [attr.colspan]="3 + event.submissionItems.length"
+          [attr.colspan]="2 + event.submissionItems.length + formConfig.length"
           class="px-3 py-4 text-sm text-gray-500"
         >
           {{ joinOrganizers(event.organizerRegistrations) }}
@@ -49,10 +49,10 @@
           class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
           colspan="2"
         >
-          Participants (including tutors):
+          Participants (including organizers):
         </td>
         <td
-          [attr.colspan]="3 + event.submissionItems.length"
+          [attr.colspan]="2 + event.submissionItems.length + formConfig.length"
           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
         >
           {{
@@ -60,7 +60,9 @@
               event.organizerRegistrations.length
           }}
         </td>
-        <td [attr.colspan]="event.submissionItems.length"></td>
+        <td
+          [attr.colspan]="event.submissionItems.length + formConfig.length"
+        ></td>
       </tr>
       <tr>
         <th
@@ -82,12 +84,6 @@
           class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
           scope="col"
         >
-          Phone
-        </th>
-        <th
-          class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-          scope="col"
-        >
           Check in
         </th>
         @for (submissionItem of event.submissionItems; track submissionItem) {
@@ -96,6 +92,13 @@
           scope="col"
         >
           {{ submissionItem.name }}
+        </th>
+        } @for (field of formConfig; track field) {
+        <th
+          class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+          scope="col"
+        >
+          {{ field.label }}
         </th>
         }
       </tr>
@@ -114,14 +117,15 @@
           {{ registration.user.email }}
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          {{ registration.user.phone }}
-        </td>
-        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ registration.checkInTime | date: 'short' }}
         </td>
         @for (submissionItem of event.submissionItems; track submissionItem) {
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ getSubmissionValue(registration, submissionItem) }}
+        </td>
+        } @for (field of formConfig; track field) {
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          {{ getAdditionalDataValue(registration, field) }}
         </td>
         }
       </tr>

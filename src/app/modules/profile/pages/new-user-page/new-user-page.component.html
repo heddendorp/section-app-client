@@ -1,12 +1,19 @@
-<main class="space-y-2 p-4">
-  <h1>Hello there 👋</h1>
-  <p>There is some data missing from your profile.</p>
-  <form
-    [formGroup]="welcomeForm"
-    (ngSubmit)="onSubmit()"
-    fxLayout="column"
-    fxLayoutGap="1rem"
-  >
+<h1 class="text-2xl font-bold text-gray-900">Your data</h1>
+<p class="text-sm font-medium text-gray-500">
+  This is the place where you can update your user data. Please make sure
+  <strong>everything</strong> is filled in correctly.
+</p>
+<form (ngSubmit)="onSubmit()" [formGroup]="completeProfileForm">
+  <div class="mt-12">
+    <h2 class="text-base font-semibold leading-7 text-gray-900">
+      Global data
+    </h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500">
+      This is you core user data. It will be used for every event you sign up
+      for.
+    </p>
+  </div>
+  <div class="mt-6 grid lg:grid-cols-2 gap-4">
     <mat-form-field>
       <mat-label>First Name</mat-label>
       <input matInput formControlName="firstName" type="text" required />
@@ -17,83 +24,20 @@
       <input matInput formControlName="lastName" type="text" required />
       <mat-error>Your last name is required</mat-error>
     </mat-form-field>
-    <mat-form-field data-cy="university-select">
-      <mat-label>University</mat-label>
-      <mat-select formControlName="university" required>
-        <mat-optgroup label="Augsburg">
-          <mat-option value="hs-augsburg">Hochschule Augsburg</mat-option>
-          <mat-option value="uni-augsburg">Universität Augsburg</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Berlin">
-          <mat-option value="tu-berlin">
-            Technische Universität Berlin
-          </mat-option>
-          <mat-option value="fu-berlin">Freie Universität Berlin</mat-option>
-          <mat-option value="hu-berlin">
-            Humboldt Universität zu Berlin
-          </mat-option>
-          <mat-option value="udk-berlin">
-            Universität der Künste Berlin
-          </mat-option>
-          <mat-option value="charite">
-            Charité - Universitätsmedizin Berlin
-          </mat-option>
-          <mat-option value="u-potsdam">Universität Potsdam</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Brussels">
-          <mat-option value="vub">Vrije Universiteit Brussel</mat-option>
-          <mat-option value="ulb">Université Libre de Bruxelles</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Karlsruhe">
-          <mat-option value="kit">
-            Karlsruher Institut für Technologie
-          </mat-option>
-          <mat-option value="hs-karlsruhe">Hochschule Karlsruhe</mat-option>
-          <mat-option value="p-hs-k">
-            Pädagogische Hochschule Karlsruhe
-          </mat-option>
-          <mat-option value="m-hs-k">Musikhochschule Karlsruhe</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Mannheim">
-          <mat-option value="uni-mannheim">Universität Mannheim</mat-option>
-          <mat-option value="dhbw">
-            Duale Hochschule Baden-Württemberg
-          </mat-option>
-          <mat-option value="hs-mannheim">Hochschule Mannheim</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Munich">
-          <mat-option value="tum" data-cy="tum-option">TUM</mat-option>
-          <mat-option value="lmu">LMU München</mat-option>
-          <mat-option value="hm">Hochschule München</mat-option>
-        </mat-optgroup>
-        <mat-optgroup label="Prague">
-          <mat-option value="cu-prague">Charles University Prague</mat-option>
-        </mat-optgroup>
-        <mat-option value="otherUni">other university</mat-option>
-        <mat-option value="other">not a student</mat-option>
-      </mat-select>
-      <mat-error>Your university is required</mat-error>
-    </mat-form-field>
-    <mat-form-field data-cy="status-select">
-      <mat-label>Enrolment Status</mat-label>
-      <mat-select formControlName="enrolmentStatus" required>
-        <mat-option
-          [value]="EnrolmentStatus.Exchange"
-          data-cy="exchange-option"
-        >
-          Exchange student
-        </mat-option>
-        <mat-option [value]="EnrolmentStatus.International"
-          >International degree student</mat-option
-        >
-        <mat-option [value]="EnrolmentStatus.Local">Local student</mat-option>
-        <mat-option [value]="EnrolmentStatus.Other">Other</mat-option>
-      </mat-select>
-      <mat-error>Your university is required</mat-error>
+    <mat-form-field>
+      <mat-label> Communication Email</mat-label>
+      <input
+        formControlName="communicationEmail"
+        matInput
+        required
+        type="email"
+      />
+      <mat-error>Your email is required</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Birthday</mat-label>
       <input matInput formControlName="birthdate" [matDatepicker]="picker" />
+      <mat-hint>Use the calendar icon to pick your birthday</mat-hint>
       <mat-error>Your birthday is required</mat-error>
       <mat-datepicker-toggle
         matSuffix
@@ -107,25 +51,25 @@
         [startAt]="startDate"
       ></mat-datepicker>
     </mat-form-field>
-    <div>
-      <mat-form-field class="w-full" data-cy="phone-input">
-        <mat-label>Phone number</mat-label>
-        <input
-          matInput
-          formControlName="phone"
-          type="tel"
-          minlength="5"
-          required
-        />
-        <mat-error>A valid phone number is required</mat-error>
-        <mat-hint>
-          Please use the international format
-          <span class="font-mono">+4912345678</span>
-        </mat-hint>
-      </mat-form-field>
-    </div>
-    <button mat-flat-button color="primary" data-cy="submit-button"
-      >Get started</button
-    >
-  </form>
-</main>
+  </div>
+  <div class="mt-12">
+    <h2 class="text-base font-semibold leading-7 text-gray-900">
+      Section specific data
+    </h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500">
+      This additional data was requested by {{ tenantName() }}, the section you
+      are signing up for. They need this data for their events.
+    </p>
+  </div>
+  <app-form-display
+    [formConfig]="formConfig()"
+    [form]="additionalDataForm"
+  ></app-form-display>
+  <button
+    [disabled]="completeProfileForm.invalid"
+    color="primary"
+    mat-flat-button
+  >
+    Save data
+  </button>
+</form>

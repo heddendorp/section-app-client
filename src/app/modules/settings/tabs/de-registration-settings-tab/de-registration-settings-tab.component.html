@@ -1,0 +1,177 @@
+<h1 class="text-2xl font-bold text-gray-900">Registration Settings</h1>
+<p class="text-sm font-medium text-gray-500">
+  Define here the settings for the registration process. You can define how long
+  participants can de register, move their registration and how much money they
+  get back.
+</p>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">Free events</h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    This is the default setting for free events. It can be overridden for each
+    event.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateFreeEventSettings()"
+      [formGroup]="freeRegistrationSettingsForm"
+      class="grid gap-4 lg:grid-cols-3"
+    >
+      <p class="col-span-full font-semibold leading-7 text-gray-900">
+        Settings for participants
+      </p>
+      <ng-container formGroupName="participants">
+        <mat-checkbox formControlName="deRegistrationPossible">
+          De Registration is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>De registration deadline</mat-label>
+          <input
+            formControlName="minimumDaysForDeRegistration"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+        <div></div>
+        <mat-checkbox formControlName="movePossible">
+          Sending the event to another person is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>Event sending deadline</mat-label>
+          <input
+            formControlName="minimumDaysForMove"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <p class="col-span-full font-semibold leading-7 text-gray-900">
+        Settings for organizers
+      </p>
+      <ng-container formGroupName="organizers">
+        <mat-checkbox formControlName="deRegistrationPossible">
+          De Registration is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>De registration deadline</mat-label>
+          <input
+            formControlName="minimumDaysForDeRegistration"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <div class="col-span-full">
+        <button
+          [disabled]="
+            freeRegistrationSettingsForm.invalid ||
+            freeRegistrationSettingsForm.pristine
+          "
+          class="mt-4"
+          mat-flat-button
+          type="submit"
+        >
+          Save settings for free events
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">Paid events</h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    This is the default setting for paid events. It can be overridden for each
+    event.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      [formGroup]="paidRegistrationSettingsForm"
+      class="grid gap-4 lg:grid-cols-3"
+    >
+      <p class="col-span-full font-semibold leading-7 text-gray-900">
+        Global settings for participants of paid events
+      </p>
+      <ng-container formGroupName="participants">
+        <mat-checkbox formControlName="deRegistrationPossible">
+          De Registration is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>De registration deadline</mat-label>
+          <input
+            formControlName="minimumDaysForDeRegistration"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="refundFeesOnDeRegistration">
+          Payment fees are refunded on de registration
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="movePossible">
+          Sending the event to another person is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>Event sending deadline</mat-label>
+          <input
+            formControlName="minimumDaysForMove"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="refundFeesOnMove">
+          Payment fees are refunded on move
+        </mat-checkbox>
+      </ng-container>
+      <p class="col-span-full font-semibold leading-7 text-gray-900">
+        Global settings for organizers of paid events
+      </p>
+      <ng-container formGroupName="organizers">
+        <mat-checkbox formControlName="deRegistrationPossible">
+          De Registration is allowed
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>De registration deadline</mat-label>
+          <input
+            formControlName="minimumDaysForDeRegistration"
+            matInput
+            min="0"
+            type="number"
+          />
+          <mat-hint>in days before the start of the event</mat-hint>
+          <mat-error>Has to be a positive number</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <div class="col-span-full">
+        <button
+          [disabled]="
+            paidRegistrationSettingsForm.invalid ||
+            paidRegistrationSettingsForm.pristine
+          "
+          class="mt-4"
+          mat-flat-button
+          type="submit"
+        >
+          Save settings for paid events
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

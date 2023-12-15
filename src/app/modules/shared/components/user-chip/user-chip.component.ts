@@ -33,9 +33,6 @@ export class UserChipComponent {
   public id: string = '';
 
   @Input()
-  public phone: string = '';
-
-  @Input()
   public status: string = '';
 
   @Input()

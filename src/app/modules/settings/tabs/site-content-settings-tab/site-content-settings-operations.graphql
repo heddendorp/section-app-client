@@ -1,0 +1,21 @@
+query loadSiteContentSettings{
+  currentTenant {
+    id
+    aboutPage
+    faqPage
+    tacPage
+    imprintPage
+    privacyPolicyPage
+  }
+}
+
+mutation updateSiteContentSettings($id: ID!, $input: UpdateTenantInput!){
+  updateTenant(id: $id, updateTenantInput: $input) {
+    id
+    aboutPage
+    faqPage
+    tacPage
+    imprintPage
+    privacyPolicyPage
+  }
+}

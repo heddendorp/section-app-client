@@ -1,0 +1,52 @@
+<h1 class="text-2xl font-bold text-gray-900">Site content</h1>
+<p class="text-sm font-medium text-gray-500">
+  Here you can set the content of some sites, such as the imprint or the privacy
+  policy. <br />
+  All content is written in Markdown, you can find out more at
+  <a
+    class="text-blue-500 underline"
+    href="https://www.markdownguide.org/cheat-sheet/"
+    target="_blank"
+  >
+    https://www.markdownguide.org/cheat-sheet/ </a
+  >.
+</p>
+<form
+  (ngSubmit)="updateSiteContents()"
+  [formGroup]="siteContentSettingsForm"
+  class="mt-12 flex flex-col gap-4"
+>
+  <mat-form-field class="w-full">
+    <mat-label>"About Us" Page</mat-label>
+    <textarea formControlName="aboutPage" matInput rows="5"></textarea>
+    <mat-hint>
+      This text is only needed if you are using the Markdown home page
+    </mat-hint>
+  </mat-form-field>
+  <mat-form-field class="w-full">
+    <mat-label>Privacy Policy</mat-label>
+    <textarea formControlName="privacyPolicyPage" matInput rows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field class="w-full">
+    <mat-label>Imprint</mat-label>
+    <textarea formControlName="imprintPage" matInput rows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field class="w-full">
+    <mat-label>Frequently Asked Questions</mat-label>
+    <textarea formControlName="faqPage" matInput rows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field class="w-full">
+    <mat-label>Terms and Conditions</mat-label>
+    <textarea formControlName="tacPage" matInput rows="5"></textarea>
+  </mat-form-field>
+  <button
+    [disabled]="
+      siteContentSettingsForm.invalid || siteContentSettingsForm.pristine
+    "
+    class="mt-4 self-start"
+    mat-flat-button
+    type="submit"
+  >
+    Save site contents
+  </button>
+</form>

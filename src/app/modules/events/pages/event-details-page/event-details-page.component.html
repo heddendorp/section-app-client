@@ -159,7 +159,6 @@
                 [id]="organizer.id"
                 [picture]="organizer.picture"
                 [name]="organizer.fullName"
-                [phone]="organizer.phone || ''"
                 [status]="organizer.currentTenant?.status + ''"
               >
               </app-user-chip>
@@ -356,7 +355,6 @@
                 [id]="user.id"
                 [picture]="user.picture"
                 [name]="user.fullName"
-                [phone]="user.phone || ''"
                 [status]="user.currentTenant?.status + ''"
                 [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
               >

@@ -1,0 +1,377 @@
+<h1 class="text-2xl font-bold text-gray-900">Section Settings</h1>
+<p class="text-sm font-medium text-gray-500">
+  Take care of the general settings of the section.
+</p>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">
+    General settings
+  </h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    Settings that apply to the entire section.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateGeneralSettings()"
+      [formGroup]="generalSectionSettingsForm"
+    >
+      <div class="grid gap-4 lg:grid-cols-2">
+        <mat-form-field class="w-full">
+          <mat-label>Currency</mat-label>
+          <mat-select formControlName="currency">
+            <mat-option [value]="Currency.Eur"> EUR</mat-option>
+            <mat-option [value]="Currency.Czk"> CZK</mat-option>
+          </mat-select>
+          <mat-hint>
+            This will change the currency but not the number entered in events
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Communication Email</mat-label>
+          <input
+            formControlName="communicationEmail"
+            matInput
+            placeholder="Where people can contact you"
+            type="email"
+          />
+        </mat-form-field>
+      </div>
+      <div class="grid gap-4 lg:grid-cols-2">
+        <ng-container formGroupName="settings">
+          <mat-form-field class="w-full">
+            <mat-label>Brand Icon URL</mat-label>
+            <input
+              formControlName="brandIconUrl"
+              matInput
+              placeholder="Icon to display in the top left"
+              type="url"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>ESNcard purchase link</mat-label>
+            <input
+              formControlName="esnCardLink"
+              matInput
+              placeholder="Where can people buy an ESNcard"
+              type="url"
+            />
+            <mat-hint>If filled, shows a button in the users profile</mat-hint>
+          </mat-form-field>
+          <mat-checkbox class="w-full" formControlName="showPWAInstall">
+            Show App download button
+          </mat-checkbox>
+        </ng-container>
+      </div>
+      <button
+        [disabled]="
+          generalSectionSettingsForm.invalid ||
+          generalSectionSettingsForm.pristine
+        "
+        class="mt-4"
+        mat-flat-button
+        type="submit"
+      >
+        Save general settings
+      </button>
+    </form>
+  </div>
+</div>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">
+    Home Page settings
+  </h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    Here you can define if there is a home button in the navigation and what the
+    behaviour of the home button is.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateHomePageSettings()"
+      [formGroup]="homePageSectionSettingsForm"
+    >
+      <div class="grid gap-4 lg:grid-cols-2">
+        <mat-form-field class="w-full">
+          <mat-label>Home Page Strategy</mat-label>
+          <mat-select formControlName="homePageStrategy">
+            <mat-option [value]="HomePageStrategy.Link">
+              Link to a page
+            </mat-option>
+            <mat-option [value]="HomePageStrategy.Markdown">
+              Render the "About Us" markdown
+            </mat-option>
+            <mat-option [value]="HomePageStrategy.Static">
+              Use a static page (needs code)
+            </mat-option>
+            <mat-option [value]="HomePageStrategy.None">
+              Don't show the home page link
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Home page link</mat-label>
+          <input
+            formControlName="homePageLink"
+            matInput
+            placeholder="Target of the home page button"
+          />
+        </mat-form-field>
+      </div>
+      <button
+        [disabled]="
+          homePageSectionSettingsForm.invalid ||
+          homePageSectionSettingsForm.pristine
+        "
+        class="mt-4"
+        mat-flat-button
+        type="submit"
+      >
+        Save home page settings
+      </button>
+    </form>
+  </div>
+</div>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900"> App Banners </h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    Here you can set up dynamic app banners and also define which users should
+    see them.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateAppBanners()"
+      [formGroup]="bannersSectionSettingsForm"
+    >
+      <ng-container formArrayName="banners">
+        @for (banner of banners.controls;track banner;let i = $index) {
+        <div [formGroupName]="i" class="mt-2 grid grid-cols-3 gap-4">
+          <mat-form-field class="w-full">
+            <mat-label>Title</mat-label>
+            <input
+              formControlName="title"
+              matInput
+              placeholder="What is the title of the banner"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Body</mat-label>
+            <input
+              formControlName="body"
+              matInput
+              placeholder="What is the content of your banner"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              formControlName="link"
+              matInput
+              placeholder="Where should the user go when clicking the banner"
+              type="url"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Color</mat-label>
+            <mat-select formControlName="color">
+              <mat-option value="primary">Primary</mat-option>
+              <mat-option value="accent">Accent</mat-option>
+              <mat-option value="warn">Warn</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Visibility</mat-label>
+            <mat-select formControlName="displayToMembershipStatus" multiple>
+              @for (status of statusOptions;track status) {
+              <mat-option [value]="status">
+                {{ status | titlecase }}
+              </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <button (click)="banners.removeAt(i)" color="warn" mat-icon-button>
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        }
+        <button
+          (click)="addBanner()"
+          color="primary"
+          mat-stroked-button
+          type="button"
+        >
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new banner
+        </button>
+      </ng-container>
+      <br />
+      <button
+        [disabled]="
+          bannersSectionSettingsForm.invalid ||
+          bannersSectionSettingsForm.pristine
+        "
+        class="mt-4"
+        mat-flat-button
+        type="submit"
+      >
+        Save app banners
+      </button>
+    </form>
+  </div>
+</div>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">
+    Section Hub links
+  </h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    These links will be shown in the section hub. Include helpful resources for
+    your members here.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateSectionHubLinks()"
+      [formGroup]="sectionHubLinksSectionSettingsForm"
+    >
+      <ng-container formArrayName="sectionHubLinks">
+        @for (link of sectionHubLinks.controls;track link;let i = $index) {
+        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              type="url"
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="sectionHubLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        }
+        <button
+          (click)="addSectionHubLink()"
+          color="primary"
+          mat-stroked-button
+          type="button"
+        >
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </ng-container>
+      <br />
+      <button
+        [disabled]="
+          sectionHubLinksSectionSettingsForm.invalid ||
+          sectionHubLinksSectionSettingsForm.pristine
+        "
+        class="mt-4"
+        mat-flat-button
+        type="submit"
+      >
+        Save Section Hub links
+      </button>
+    </form>
+  </div>
+</div>
+<div class="mt-12">
+  <h2 class="text-base font-semibold leading-7 text-gray-900">
+    Footer Icon Links
+  </h2>
+  <p class="mt-1 text-sm leading-6 text-gray-500">
+    Here you can set the icons and links that are shown in the footer.
+  </p>
+  <div
+    class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6 pt-4"
+  >
+    <form
+      (ngSubmit)="updateSocialLinks()"
+      [formGroup]="socialLinksSectionSettingsForm"
+    >
+      <ng-container formArrayName="socialLinks">
+        @for (link of socialLinks.controls;track link;let i = $index) {
+        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
+          <mat-form-field class="w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              placeholder="What is the lable of the link"
+              formControlName="label"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Icon</mat-label>
+            <input
+              matInput
+              placeholder="What Icon should be shown"
+              formControlName="icon"
+            />
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Link</mat-label>
+            <input
+              matInput
+              type="url"
+              placeholder="Where should the link point to"
+              formControlName="url"
+            />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="socialLinks.removeAt(i)"
+          >
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+        }
+        <button
+          (click)="addSocialLink()"
+          color="primary"
+          mat-stroked-button
+          type="button"
+        >
+          <mat-icon svgIcon="icon-add"></mat-icon>
+          Add new link
+        </button>
+      </ng-container>
+      <br />
+      <button
+        [disabled]="
+          socialLinksSectionSettingsForm.invalid ||
+          socialLinksSectionSettingsForm.pristine
+        "
+        class="mt-4"
+        mat-flat-button
+        type="submit"
+      >
+        Save Footer Icons
+      </button>
+    </form>
+  </div>
+</div>

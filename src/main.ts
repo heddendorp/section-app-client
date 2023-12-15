@@ -18,7 +18,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { MarkdownModule } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { APP_ROUTES } from '@tumi/legacy-app/app.routes';
-import { provideRouter, Router } from '@angular/router';
+import {
+  provideRouter,
+  Router,
+  withComponentInputBinding,
+  withViewTransitions,
+} from '@angular/router';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarModule,
@@ -237,7 +242,11 @@ bootstrapApplication(AppComponent, {
           },
         ]
       : [],
-    provideRouter(APP_ROUTES),
+    provideRouter(
+      APP_ROUTES,
+      withComponentInputBinding(),
+      withViewTransitions(),
+    ),
     provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
     provideAnimations(),
   ],

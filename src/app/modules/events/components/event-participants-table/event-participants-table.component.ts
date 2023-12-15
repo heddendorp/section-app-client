@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { RegistrationStatus } from '@tumi/legacy-app/generated/generated';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 export type ParticipantTableSubmissionItem = {
   name: string;
@@ -19,7 +25,7 @@ export type ParticipantTableRegistration = {
   user: {
     fullName: string;
     email: string;
-    phone?: string | null;
+    additionalData: any;
   };
 };
 
@@ -43,6 +49,8 @@ export class EventParticipantsTableComponent {
     participantRegistrations: ParticipantTableRegistration[];
     participantRegistrationCount: number;
   };
+
+  protected formConfig = inject(ConfigService).formConfig;
 
   filterRegistrations(
     participantRegistrations: ParticipantTableRegistration[],
@@ -68,5 +76,16 @@ export class EventParticipantsTableComponent {
     >[],
   ) {
     return organizerRegistrations.map((r) => r.user.fullName).join(', ');
+  }
+
+  getAdditionalDataValue(
+    registration: ParticipantTableRegistration,
+    field: {
+      type: string;
+      label: string;
+      options: string[];
+    },
+  ) {
+    return registration.user.additionalData[field.label] ?? '';
   }
 }

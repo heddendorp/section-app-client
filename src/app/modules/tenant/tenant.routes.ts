@@ -7,7 +7,6 @@ import { TenantRegistrationsPageComponent } from '@tumi/legacy-app/modules/tenan
 import { TenantRegistrationDetailsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-details-page/tenant-registration-details-page.component';
 import { TenantMoveOrdersPageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-move-orders-page/tenant-move-orders-page.component';
 import { TenantRegistrationCodePageComponent } from '@tumi/legacy-app/modules/tenant/pages/registrations/tenant-registration-code-page/tenant-registration-code-page.component';
-import { TenantEditPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-edit-page/tenant-edit-page.component';
 import { TenantStatsPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-stats-page/tenant-stats-page.component';
 import { TenantPhotosPageComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-photos-page/tenant-photos-page.component';
 import { TenantEventRatingsComponent } from '@tumi/legacy-app/modules/tenant/pages/events/tenant-event-ratings/tenant-event-ratings.component';
@@ -55,7 +54,6 @@ export const TENANT_ROUTES: Routes = [
     component: TenantRegistrationCodePageComponent,
     title: 'Registration Code',
   },
-  { path: 'edit', component: TenantEditPageComponent, title: 'Edit tenant' },
   { path: 'stats', component: TenantStatsPageComponent, title: 'Stats' },
   { path: 'photos', component: TenantPhotosPageComponent, title: 'Photos' },
   {

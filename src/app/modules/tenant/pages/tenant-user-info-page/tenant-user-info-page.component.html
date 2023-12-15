@@ -46,12 +46,6 @@
     <p class="break-all select-all font-mono">{{ user.authId }}</p>
     <p>Birthday:</p>
     <p>{{ user.birthdate | date: 'mediumDate' }}</p>
-    <p>University:</p>
-    <p>{{ user.university }}</p>
-    <p>Phone:</p>
-    <p>
-      {{ user.phone }} (<a [href]="waLink(user.phone)" target="_blank">WA</a>)
-    </p>
     <p>ESNcard number:</p>
     <p>{{ user.esnCardNumber }}</p>
     <p>ESNcard valid until:</p>

@@ -84,8 +84,6 @@ query loadUser($id: ID!) {
     fullName
     email
     birthdate
-    phone
-    university
     esnCardValidUntil
     esnCardNumber
     position
@@ -268,7 +266,6 @@ query getStatistics($range: DateRangeInput, $tenantId: ID) {
     #      averageEventCost
     userUniversityDistribution
     userStatusDistribution
-    localStatusDistribution
   }
 }
 

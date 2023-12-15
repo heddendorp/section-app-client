@@ -1,0 +1,33 @@
+query loadCompleteProfileData{
+  currentTenant {
+    id
+    name
+    settings {
+      userDataCollection {
+        type
+        options
+        label
+      }
+    }
+  }
+  currentUser {
+    id
+    firstName
+    lastName
+    email
+    communicationEmail
+    birthdate
+    additionalData
+  }
+}
+
+mutation completeProfileMutation($input: CompleteProfileInput!) {
+  completeProfile(input: $input) {
+    id
+    firstName
+    lastName
+    email
+    birthdate
+    additionalData
+  }
+}

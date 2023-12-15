@@ -1,0 +1,25 @@
+query loadRegistrationDataSettings{
+  currentTenant {
+    id
+    settings {
+      userDataCollection {
+        label
+        options
+        type
+      }
+    }
+  }
+}
+
+mutation updateRegistrationDataSettings($id: ID!, $input: UpdateTenantInput!){
+  updateTenant(id: $id, updateTenantInput: $input) {
+    id
+    settings {
+      userDataCollection {
+        label
+        options
+        type
+      }
+    }
+  }
+}

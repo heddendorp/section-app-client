@@ -58,9 +58,9 @@ query loadEventForRunning($id: ID!) {
       user {
         id
         fullName
-        phone
         picture
         email
+        additionalData
         communicationEmail
         currentTenant {
           userId
@@ -111,12 +111,12 @@ query loadEventForRunning($id: ID!) {
         id
         fullName
         lastName
-        phone
         picture
         email
         esnCardValidUntil
         esnCardNumber
         communicationEmail
+        additionalData
         currentTenant {
           userId
           tenantId

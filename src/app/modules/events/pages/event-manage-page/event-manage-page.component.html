@@ -244,16 +244,6 @@
                   >
                     <span>Restore Payment</span>
                   </button>
-                  } @if ( event.registrationMode == 'STRIPE' &&
-                  !registration.transactions.length ) {
-                  <a
-                    [href]="getWAUrl(registration, event)"
-                    target="_blank"
-                    mat-stroked-button
-                    class="modern"
-                  >
-                    Send WA message
-                  </a>
                   }
                   <button
                     mat-stroked-button

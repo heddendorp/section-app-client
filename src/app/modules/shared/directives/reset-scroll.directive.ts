@@ -1,5 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
+/**
+ * @deprecated remove and use of this
+ */
 @Directive({
   selector: '[resetScroll]',
   host: {

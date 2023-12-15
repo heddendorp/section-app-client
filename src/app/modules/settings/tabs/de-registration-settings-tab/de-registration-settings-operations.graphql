@@ -1,0 +1,79 @@
+query loadDeRegistrationSettings{
+  currentTenant {
+    id
+    settings {
+      deRegistrationOptions {
+        free {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            refundFeesOnDeRegistration
+            minimumDaysForDeRegistration
+            deRegistrationPossible
+            minimumDaysForMove
+            movePossible
+            refundFeesOnMove
+          }
+        }
+        paid {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            refundFeesOnDeRegistration
+            minimumDaysForDeRegistration
+            deRegistrationPossible
+            minimumDaysForMove
+            movePossible
+            refundFeesOnMove
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation updateDeRegistrationSettings($id: ID!, $input: UpdateTenantInput!){
+  updateTenant(id: $id, updateTenantInput: $input) {
+    id
+    settings {
+deRegistrationOptions {
+        free {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            refundFeesOnDeRegistration
+            minimumDaysForDeRegistration
+            deRegistrationPossible
+            minimumDaysForMove
+            movePossible
+            refundFeesOnMove
+          }
+        }
+        paid {
+          organizers {
+            deRegistrationPossible
+            minimumDaysForDeRegistration
+            refundFeesOnDeRegistration
+          }
+          participants {
+            refundFeesOnDeRegistration
+            minimumDaysForDeRegistration
+            deRegistrationPossible
+            minimumDaysForMove
+            movePossible
+            refundFeesOnMove
+          }
+        }
+      }
+    }
+  }
+}

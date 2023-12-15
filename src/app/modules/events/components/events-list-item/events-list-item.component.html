@@ -1,4 +1,5 @@
 <a
+  (click)="selectedEvent.set(true)"
   routerLink="/events/{{ event?.id }}"
   class="event text-surface-on relative h-full rounded-3xl border border-black/10 flex flex-col justify-between {{
     event ? 'bg-white' : 'skeleton bg-zinc-50'
@@ -88,7 +89,8 @@
           [ngSrc]="event.icon | iconURL"
           height="30"
           width="30"
-          alt=""
+          [alt]="event.icon"
+          [class.selected]="selectedEvent()"
           class="mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
         />
         } @if (!event) {

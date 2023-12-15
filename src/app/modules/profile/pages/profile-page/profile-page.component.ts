@@ -20,10 +20,8 @@ import {
 import { BehaviorSubject, first, firstValueFrom, map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { UpdateProfileDialogComponent } from '../../components/update-profile-dialog/update-profile-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
-import { UpdateUserInformationDialogComponent } from '../../components/update-user-information-dialog/update-user-information-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
 import {
   AsyncPipe,
@@ -180,44 +178,8 @@ export class ProfilePageComponent implements OnDestroy {
     }
   }*/
 
-  async updateProfile() {
-    const profile = await firstValueFrom(this.profile$);
-    const result = await firstValueFrom(
-      this.dialog
-        .open(UpdateProfileDialogComponent, {
-          data: { profile },
-          panelClass: 'modern',
-        })
-        .afterClosed(),
-    );
-    if (result && profile) {
-      await firstValueFrom(
-        this.updateProfileMutation.mutate({
-          input: result,
-          userId: profile.id,
-        }),
-      );
-    }
-  }
-
-  async updateUserInformation() {
-    const profile = await firstValueFrom(this.profile$);
-    const result = await firstValueFrom(
-      this.dialog
-        .open(UpdateUserInformationDialogComponent, {
-          data: { profile },
-          panelClass: 'modern',
-        })
-        .afterClosed(),
-    );
-    if (result && profile) {
-      await firstValueFrom(
-        this.updateUserInformationMutation.mutate({
-          input: result,
-          userId: profile.id,
-        }),
-      );
-    }
+  getEntries(obj: any) {
+    return Object.entries(obj);
   }
 
   claimEvent(code?: string): void {

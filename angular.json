@@ -9,7 +9,33 @@
         "@schematics/angular": {
           "component": {
             "style": "scss",
-            "changeDetection": "OnPush"
+            "changeDetection": "OnPush",
+            "skipTests": true,
+            "displayBlock": true
+          },
+          "directive": {
+            "skipTests": true
+          },
+          "guard": {
+            "skipTests": true
+          },
+          "module": {
+            "skipTests": true
+          },
+          "pipe": {
+            "skipTests": true
+          },
+          "service": {
+            "skipTests": true
+          },
+          "class": {
+            "skipTests": true
+          },
+          "interface": {
+            "skipTests": true
+          },
+          "enum": {
+            "skipTests": true
           },
           "application": {
             "strict": true

@@ -1,0 +1,11 @@
+<h1 class="text-2xl font-bold text-gray-900">User data collection</h1>
+<p class="text-sm font-medium text-gray-500">
+  Here you can set up the data you want to collect from your users when they
+  sign up.
+</p>
+<app-form-builder
+  (fieldChange)="saveUserDataCollection($event)"
+  [fields]="fields()"
+  class="mt-12"
+>
+</app-form-builder>

@@ -230,24 +230,6 @@ export class TenantStatsPageComponent implements OnDestroy {
                 },
               ],
             },
-            {
-              title: {
-                text: 'Local user status distribution',
-              },
-              chart: {
-                type: 'pie',
-              },
-              series: [
-                {
-                  colorByPoint: true,
-                  type: 'pie',
-                  data: stats.localStatusDistribution.map((data: any) => ({
-                    name: data.status,
-                    y: data.count,
-                  })),
-                },
-              ],
-            },
           ],
         };
       }),

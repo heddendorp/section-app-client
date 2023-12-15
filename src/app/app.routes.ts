@@ -10,6 +10,7 @@ import { PAGE_ROUTES } from '@tumi/legacy-app/modules/page/page.routes';
 import { TUTOR_HUB_ROUTES } from '@tumi/legacy-app/modules/tutor-hub/tutor-hub.routes';
 import { HOME_ROUTES } from '@tumi/legacy-app/modules/home/home.routes';
 import { PageNotFoundComponent } from '@tumi/legacy-app/components/page-not-found/page-not-found.component';
+import { SETTINGS_ROUTES } from '@tumi/legacy-app/modules/settings/settings.routes';
 
 export const APP_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
@@ -32,6 +33,11 @@ export const APP_ROUTES: Routes = [
     path: 'tenant',
     canActivate: [AuthGuard, AdminGuard],
     children: TENANT_ROUTES,
+  },
+  {
+    path: 'settings',
+    canActivate: [AuthGuard, AdminGuard],
+    children: SETTINGS_ROUTES,
   },
   {
     path: 'page',

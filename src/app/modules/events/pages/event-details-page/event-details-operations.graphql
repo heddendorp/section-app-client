@@ -125,7 +125,6 @@ query loadEvent($id: ID!) {
     organizers {
       id
       fullName
-      phone
       picture
       currentTenant {
         userId
@@ -163,6 +162,5 @@ query loadUserForEvent {
   currentUser {
     id
     esnCardValidUntil
-    university
   }
 }

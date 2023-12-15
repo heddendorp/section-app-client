@@ -3,7 +3,6 @@ import { AuthService } from '@auth0/auth0-angular';
 import { filter, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { retryBackoff } from 'backoff-rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
@@ -41,14 +40,9 @@ export class AuthButtonComponent {
               !user.data.currentUser ||
               !user.data.currentUser.profileComplete
             ) {
-              router.navigate(['/', 'profile', 'new']);
+              void router.navigate(['/', 'profile', 'complete']);
             }
           }),
-          // map((user) => {
-          //   if (!user.data.currentUser) throw new Error('not logged in');
-          //   return user;
-          // }),
-          retryBackoff({ initialInterval: 100, maxRetries: 5 }),
         )
         .subscribe({
           error: (err) => {

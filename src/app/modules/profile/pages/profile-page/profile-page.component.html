@@ -1,12 +1,8 @@
 @if ((profile$ | async) === null) {
 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-} @if (profile$ | async; as profile) {
+} @if (profile$ | async;as profile) {
 <main>
-  <app-profile-card
-    [profile]="profile"
-    (edit)="updateProfile()"
-    [hideEditButton]="false"
-  ></app-profile-card>
+  <app-profile-card [profile]="profile"></app-profile-card>
   <div class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
     <div
       class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
@@ -17,26 +13,28 @@
           class="text-secondary-default bg-secondary-on card-icon"
         >
         </mat-icon>
-        <h2 class="font-bold">Private Information</h2>
+        <h2 class="font-bold">User Information</h2>
       </div>
       <div class="mb-2 grid grid-cols-[1fr_2fr] gap-x-4">
         <p>Mail:</p>
         <p>{{ profile.email }}</p>
-        <p>Phone:</p>
-        <p>{{ profile.phone ?? 'not saved' }}</p>
         <p>Birthday:</p>
         <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
+        @for(entry of getEntries(profile.additionalData); track entry){
+        <p>{{ entry[0] }}:</p>
+        <p>{{ entry[1] }}</p>
+        }
       </div>
       <div class="mt-2 flex w-full flex-col gap-2">
-        <button
+        <a
           mat-flat-button
           color="accent"
           class="modern"
-          (click)="updateUserInformation()"
+          routerLink="./complete"
         >
           <mat-icon svgIcon="icon-change-user-female"></mat-icon>
           Update data
-        </button>
+        </a>
         <input
           type="file"
           hidden
@@ -100,7 +98,7 @@
           ESNcard.org </a
         >!
       </p>
-      @if (esnCardLink$ | async; as esnCardLink) {
+      @if (esnCardLink$ | async;as esnCardLink) {
       <div>
         <p> You can get your ESNcard by clicking on the button below. </p>
         <a
@@ -144,7 +142,7 @@
             Submit Number
           </button>
         </div>
-        @if (esnCardErrorMessage$ | async; as message) {
+        @if (esnCardErrorMessage$ | async;as message) {
         <p class="text-red-500"> ⚠️ There was an error: {{ message }} </p>
         }
       </div>
@@ -182,7 +180,7 @@
           Submit Number
         </button>
       </div>
-      @if (esnCardErrorMessage$ | async; as message) {
+      @if (esnCardErrorMessage$ | async;as message) {
       <p class="text-red-500"> ⚠️ There was an error: {{ message }} </p>
       } }
     </div>
@@ -201,9 +199,9 @@
         Please take a little time to rate these events you took part in so we
         can improve.
       </p>
-      @if (eventsToRate$ | async; as events) {
+      @if (eventsToRate$ | async;as events) {
       <div class="flex flex-col gap-4">
-        @for (event of events; track event) {
+        @for (event of events;track event) {
         <app-rate-event
           [event]="event"
           (ratingSubmitted)="saveRating($event, event.id)"
@@ -220,7 +218,7 @@
       [isOrganized]="false"
       (claimRequest)="claimEvent()"
     ></app-event-list>
-    @if (profileEvents$ | async; as profileEvents) { @if
+    @if (profileEvents$ | async;as profileEvents) { @if
     (profileEvents.organizedEvents.length) {
     <app-event-list
       title="Organized events"
@@ -233,8 +231,8 @@
       [events]="profileEvents.createdEvents"
       [isOrganized]="true"
     ></app-event-list>
-    } } @if ( profile.currentTenant?.status !== MembershipStatus.None &&
-    profile.currentTenant?.status !== MembershipStatus.Selected ) {
+    } } @if (profile.status !== MembershipStatus.None && profile.status !==
+    MembershipStatus.Selected) {
     <div
       class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
     >
@@ -248,7 +246,7 @@
       <div>
         Current status:
         <div class="black text-center text-7xl">
-          {{ profile.currentTenant?.status | uppercase }}
+          {{ profile.status | uppercase }}
         </div>
       </div>
     </div>
@@ -281,7 +279,5 @@
   </div>
 </main>
 } @else {
-
-<app-profile-card [hideEditButton]="true"></app-profile-card>
-
+<app-profile-card></app-profile-card>
 }

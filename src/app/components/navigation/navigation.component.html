@@ -3,7 +3,7 @@
   data-testid="navigation"
   (click)="preventProp($event)"
 >
-  @if (tenantInfo$ | async; as tenant) { @if
+  @if (tenantInfo$ | async;as tenant) { @if
   (tenant?.settings?.brandIconUrl?.length) {
   <a
     matRipple
@@ -38,18 +38,21 @@
   <div
     class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
   >
-    @if (tenantInfo$ | async; as tenant) { @switch (tenant.homePageStrategy) {
+    @if (tenantInfo$ | async;as tenant) { @switch (tenant.homePageStrategy) {
     @case (HomePageStrategy.Static) {
     <a class="nav-item" routerLink="home" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+      <span>Home</span>
     </a>
     } @case (HomePageStrategy.Markdown) {
     <a class="nav-item" routerLink="/page/about" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+      <span>Home</span>
     </a>
     } @case (HomePageStrategy.Link) {
     <a class="nav-item" [href]="tenant.homePageLink" target="_blank">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon><span>Home</span>
+      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+      <span>Home</span>
     </a>
     } } }
     <a
@@ -58,7 +61,8 @@
       routerLinkActive="active"
       data-testid="events-nav-item"
     >
-      <mat-icon svgIcon="icon-overtime" matRipple></mat-icon><span>Events</span>
+      <mat-icon matRipple svgIcon="icon-overtime"></mat-icon>
+      <span>Events</span>
     </a>
     <a
       class="nav-item"
@@ -87,11 +91,21 @@
       data-testid="manage-nav-item"
       *appIfRole="[Role.Admin]"
     >
+      <mat-icon matRipple svgIcon="icon-administrative-tools"></mat-icon>
+      <span>Admin Tools</span>
+    </a>
+    <a
+      *appIfRole="[Role.Admin]"
+      class="nav-item"
+      data-testid="manage-nav-item"
+      routerLink="settings"
+      routerLinkActive="active"
+    >
       <mat-icon svgIcon="icon-maintenance" matRipple></mat-icon>
-      <span>Management</span>
+      <span>Settings</span>
     </a>
     @if ((tenantInfo$ | async)?.settings?.showPWAInstall) { @if (installEvent$ |
-    async; as event) {
+    async;as event) {
     <button class="nav-item" (click)="event.prompt()">
       <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
       <span>Install the app</span>

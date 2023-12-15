@@ -46,15 +46,6 @@
       >
       }
     </div>
-    @if (size === 'md' && phone) {
-    <a
-      class="tel underline decoration-dotted font-[350] whitespace-nowrap"
-      href="https://wa.me/{{ phone.replace('+', '') }}"
-      target="blank"
-      (click)="$event.stopPropagation()"
-      >{{ phone }}</a
-    >
-    }
   </div>
   }
   <div (click)="$event.preventDefault(); $event.stopPropagation()">
