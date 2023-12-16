@@ -3,58 +3,66 @@
   data-testid="navigation"
   (click)="preventProp($event)"
 >
-  @if (tenantInfo$ | async;as tenant) { @if
-  (tenant?.settings?.brandIconUrl?.length) {
-  <a
-    matRipple
-    class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
-    routerLink="/events"
-  >
-    <img
-      class="p-4"
-      width="192"
-      height="192"
-      [ngSrc]="tenant.settings.brandIconUrl ?? ''"
-      alt="ESN Star"
-    />
-  </a>
-  } @else {
-
-  <a
-    matRipple
-    class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
-    routerLink="/events"
-  >
-    <img
-      class="p-9 w-auto h-auto"
-      ngSrc="/assets/logos/star-white.svg"
-      alt="ESN Star"
-      height="16"
-      width="16"
-    />
-  </a>
-
-  } }
+  @if (tenantInfo$ | async; as tenant) {
+    @if (tenant?.settings?.brandIconUrl?.length) {
+      <a
+        matRipple
+        class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+        routerLink="/events"
+      >
+        <img
+          class="p-4"
+          width="192"
+          height="192"
+          [ngSrc]="tenant.settings.brandIconUrl ?? ''"
+          alt="ESN Star"
+        />
+      </a>
+    } @else {
+      <a
+        matRipple
+        class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-indigo-700 sm:flex"
+        routerLink="/events"
+      >
+        <img
+          class="p-9 w-auto h-auto"
+          ngSrc="/assets/logos/star-white.svg"
+          alt="ESN Star"
+          height="16"
+          width="16"
+        />
+      </a>
+    }
+  }
   <div
     class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
   >
-    @if (tenantInfo$ | async;as tenant) { @switch (tenant.homePageStrategy) {
-    @case (HomePageStrategy.Static) {
-    <a class="nav-item" routerLink="home" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
-      <span>Home</span>
-    </a>
-    } @case (HomePageStrategy.Markdown) {
-    <a class="nav-item" routerLink="/page/about" routerLinkActive="active">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
-      <span>Home</span>
-    </a>
-    } @case (HomePageStrategy.Link) {
-    <a class="nav-item" [href]="tenant.homePageLink" target="_blank">
-      <mat-icon svgIcon="icon-home" matRipple></mat-icon>
-      <span>Home</span>
-    </a>
-    } } }
+    @if (tenantInfo$ | async; as tenant) {
+      @switch (tenant.homePageStrategy) {
+        @case (HomePageStrategy.Static) {
+          <a class="nav-item" routerLink="home" routerLinkActive="active">
+            <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+            <span>Home</span>
+          </a>
+        }
+        @case (HomePageStrategy.Markdown) {
+          <a
+            class="nav-item"
+            routerLink="/page/about"
+            routerLinkActive="active"
+          >
+            <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+            <span>Home</span>
+          </a>
+        }
+        @case (HomePageStrategy.Link) {
+          <a class="nav-item" [href]="tenant.homePageLink" target="_blank">
+            <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+            <span>Home</span>
+          </a>
+        }
+      }
+    }
     <a
       class="nav-item"
       routerLink="events"
@@ -104,13 +112,14 @@
       <mat-icon svgIcon="icon-maintenance" matRipple></mat-icon>
       <span>Settings</span>
     </a>
-    @if ((tenantInfo$ | async)?.settings?.showPWAInstall) { @if (installEvent$ |
-    async;as event) {
-    <button class="nav-item" (click)="event.prompt()">
-      <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
-      <span>Install the app</span>
-    </button>
-    } }
+    @if ((tenantInfo$ | async)?.settings?.showPWAInstall) {
+      @if (installEvent$ | async; as event) {
+        <button class="nav-item" (click)="event.prompt()">
+          <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
+          <span>Install the app</span>
+        </button>
+      }
+    }
 
     <div class="hidden flex-1 sm:block"></div>
     <a

@@ -9,44 +9,45 @@
   }} !touch-auto"
 >
   @if (picture) {
-  <div class="picture-container relative">
-    <img
-      [ngSrc]="picture"
-      class="picture rounded-full z-10 {{ status | lowercase }} bg-white"
-      height="450"
-      width="450"
-      style="text-indent: -10000px"
-      referrerpolicy="no-referrer"
-      onerror="this.src='assets/images/defaultUser.jpg'"
-    />
-    @if (checkedIn !== null) { @if (checkedIn) {
-    <mat-icon
-      svgIcon="icon-checkmark"
-      class="absolute bottom-0 -right-3"
-    ></mat-icon>
-    } @else {
-
-    <mat-icon
-      svgIcon="icon-delete-sign"
-      class="absolute bottom-0 -right-3"
-    ></mat-icon>
-
-    } }
-  </div>
-  } @if (name && size !== 'fit') {
-  <div class="name-container flex flex-col max-w-[16em]">
-    <div class="name flex items-center">
-      <span class="whitespace-nowrap text-ellipsis overflow-hidden">{{
-        name
-      }}</span>
-      @if (tag) {
-      <span
-        class="px-1 rounded-lg bg-white text-xs ml-1 font-normal -mr-[0.2em]"
-        >{{ tag }}</span
-      >
+    <div class="picture-container relative">
+      <img
+        [ngSrc]="picture"
+        class="picture rounded-full z-10 {{ status | lowercase }} bg-white"
+        height="450"
+        width="450"
+        style="text-indent: -10000px"
+        referrerpolicy="no-referrer"
+        onerror="this.src='assets/images/defaultUser.jpg'"
+      />
+      @if (checkedIn !== null) {
+        @if (checkedIn) {
+          <mat-icon
+            svgIcon="icon-checkmark"
+            class="absolute bottom-0 -right-3"
+          ></mat-icon>
+        } @else {
+          <mat-icon
+            svgIcon="icon-delete-sign"
+            class="absolute bottom-0 -right-3"
+          ></mat-icon>
+        }
       }
     </div>
-  </div>
+  }
+  @if (name && size !== 'fit') {
+    <div class="name-container flex flex-col max-w-[16em]">
+      <div class="name flex items-center">
+        <span class="whitespace-nowrap text-ellipsis overflow-hidden">{{
+          name
+        }}</span>
+        @if (tag) {
+          <span
+            class="px-1 rounded-lg bg-white text-xs ml-1 font-normal -mr-[0.2em]"
+            >{{ tag }}</span
+          >
+        }
+      </div>
+    </div>
   }
   <div (click)="$event.preventDefault(); $event.stopPropagation()">
     <ng-content></ng-content>

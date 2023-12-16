@@ -10,167 +10,179 @@
   matRipple
 >
   <div class="flex h-full w-full flex-col gap-4 p-5">
-    @if (event) { @if (RegistrationMode.External !== event.registrationMode) {
-
-    <div class="inline-flex items-center gap-2 font-medium">
-      @if (event.userIsOrganizer || event.userIsRegistered) { @if
-      (event.userIsOrganizer) {
-      <span
-        class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-blue-600 pl-[0.625rem] pr-3 text-white"
-      >
-        <mat-icon
-          svgIcon="icon-checked"
-          style="width: 1rem; height: 1rem"
-        ></mat-icon>
-        <span>Organizer</span>
-      </span>
-      } @if (event.userIsRegistered) {
-      <span
-        class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-green-600 pl-[0.625rem] pr-3 text-white"
-      >
-        <mat-icon
-          svgIcon="icon-checked"
-          style="width: 1rem; height: 1rem"
-        ></mat-icon>
-        <span>Registered</span>
-      </span>
-      } } @if (!event.userIsRegistered) { @if (!notYetOpen()) {
+    @if (event) {
+      @if (RegistrationMode.External !== event.registrationMode) {
+        <div class="inline-flex items-center gap-2 font-medium">
+          @if (event.userIsOrganizer || event.userIsRegistered) {
+            @if (event.userIsOrganizer) {
+              <span
+                class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-blue-600 pl-[0.625rem] pr-3 text-white"
+              >
+                <mat-icon
+                  svgIcon="icon-checked"
+                  style="width: 1rem; height: 1rem"
+                ></mat-icon>
+                <span>Organizer</span>
+              </span>
+            }
+            @if (event.userIsRegistered) {
+              <span
+                class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-green-600 pl-[0.625rem] pr-3 text-white"
+              >
+                <mat-icon
+                  svgIcon="icon-checked"
+                  style="width: 1rem; height: 1rem"
+                ></mat-icon>
+                <span>Registered</span>
+              </span>
+            }
+          }
+          @if (!event.userIsRegistered) {
+            @if (!notYetOpen()) {
+              <div
+                class="inline-flex h-8 items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3 {{
+                  freeSpotsStyling(
+                    event.participantRegistrationCount,
+                    event.participantLimit
+                  )
+                }}"
+              >
+                <mat-icon
+                  [svgIcon]="
+                    freeSpotsIcon(
+                      event.participantRegistrationCount,
+                      event.participantLimit
+                    )
+                  "
+                  style="width: 1rem; height: 1rem"
+                ></mat-icon>
+                <span>
+                  {{
+                    freeSpotsString(
+                      event.participantRegistrationCount,
+                      event.participantLimit,
+                      event.couldBeOrganizer
+                    )
+                  }}
+                </span>
+              </div>
+            }
+            @if (notYetOpen()) {
+              <div
+                class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-zinc-300 pl-[0.625rem] pr-3 text-zinc-800"
+              >
+                <mat-icon
+                  svgIcon="icon-lock"
+                  style="width: 1rem; height: 1rem"
+                ></mat-icon>
+                <span>Opens {{ registrationDate() }}</span>
+              </div>
+            }
+          }
+        </div>
+      }
+    }
+    @if (!event) {
       <div
-        class="inline-flex h-8 items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3 {{
-          freeSpotsStyling(
-            event.participantRegistrationCount,
-            event.participantLimit
-          )
-        }}"
+        class="skeleton inline-flex h-8 w-fit items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3"
       >
-        <mat-icon
-          [svgIcon]="
-            freeSpotsIcon(
-              event.participantRegistrationCount,
-              event.participantLimit
-            )
-          "
-          style="width: 1rem; height: 1rem"
-        ></mat-icon>
-        <span>
-          {{
-            freeSpotsString(
-              event.participantRegistrationCount,
-              event.participantLimit,
-              event.couldBeOrganizer
-            )
-          }}
-        </span>
+        <span>Event state phantom</span>
       </div>
-      } @if (notYetOpen()) {
-      <div
-        class="inline-flex h-8 items-center gap-[0.375rem] rounded-full bg-zinc-300 pl-[0.625rem] pr-3 text-zinc-800"
-      >
-        <mat-icon
-          svgIcon="icon-lock"
-          style="width: 1rem; height: 1rem"
-        ></mat-icon>
-        <span>Opens {{ registrationDate() }}</span>
-      </div>
-      } }
-    </div>
-
-    } } @if (!event) {
-    <div
-      class="skeleton inline-flex h-8 w-fit items-center gap-[0.375rem] rounded-full pl-[0.625rem] pr-3"
-    >
-      <span>Event state phantom</span>
-    </div>
     }
     <div class="flex w-full flex-col gap-2">
       <div class="inline leading-tight">
         @if (event) {
-        <img
-          [ngSrc]="event.icon | iconURL"
-          height="30"
-          width="30"
-          [alt]="event.icon"
-          [class.selected]="selectedEvent()"
-          class="mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
-        />
-        } @if (!event) {
-        <div
-          class="skeleton mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
-        ></div>
-        } @if (event) {
-        <p
-          class="inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
-        >
-          <span>{{ event.title }}</span>
-        </p>
-        } @if (!event) {
-        <div
-          class="skeleton inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
-        >
-          Event Title Phantom
-        </div>
+          <img
+            [ngSrc]="event.icon | iconURL"
+            height="30"
+            width="30"
+            [alt]="event.icon"
+            [class.selected]="selectedEvent()"
+            class="mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
+          />
+        }
+        @if (!event) {
+          <div
+            class="skeleton mr-2 inline-block h-[1.875rem] w-[1.875rem] align-top leading-tight"
+          ></div>
+        }
+        @if (event) {
+          <p
+            class="inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
+          >
+            <span>{{ event.title }}</span>
+          </p>
+        }
+        @if (!event) {
+          <div
+            class="skeleton inline text-2xl font-semibold leading-tight tracking-[-0.01em]"
+          >
+            Event Title Phantom
+          </div>
         }
       </div>
 
       <div class="mt-auto flex items-center gap-3">
         @if (event && event.internalEvent) {
-
-        <div class="flex items-center gap-1">
-          <mat-icon
-            svgIcon="icon-user-lock"
-            style="width: 1rem; height: 1rem"
-            class="text-blue-700"
-          ></mat-icon>
-          <span class="text-base font-medium text-blue-700">Internal</span>
-        </div>
-
-        } @if (event) { @if ( event?.couldBeOrganizer &&
-        RegistrationMode.External !== event.registrationMode ) {
-        <div>
-          <span class="{{ tutorSpotsClass() }}">
-            {{ event.organizersRegistered }}/{{ event.organizerLimit }}
-            organizers
-          </span>
-        </div>
-        } } @if (event) {
-
-        <div class="flex items-center gap-1">
-          <mat-icon
-            svgIcon="icon-clock"
-            style="width: 1rem; height: 1rem"
-          ></mat-icon>
-          <span class="text-base font-medium">{{
-            event.start | date: 'shortTime'
-          }}</span>
-        </div>
-
-        } @if (!event) {
-        <span class="skeleton">XX XX:XX</span>
-        } @if (defaultPrice()) {
-
-        <div class="flex items-center gap-1">
-          <mat-icon
-            svgIcon="icon-price-tag-euro"
-            style="width: 1rem; height: 1rem"
-          ></mat-icon>
-          <span class="text-base font-medium">{{
-            defaultPrice().amount | currency
-          }}</span>
-        </div>
-
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-user-lock"
+              style="width: 1rem; height: 1rem"
+              class="text-blue-700"
+            ></mat-icon>
+            <span class="text-base font-medium text-blue-700">Internal</span>
+          </div>
+        }
+        @if (event) {
+          @if (
+            event?.couldBeOrganizer &&
+            RegistrationMode.External !== event.registrationMode
+          ) {
+            <div>
+              <span class="{{ tutorSpotsClass() }}">
+                {{ event.organizersRegistered }}/{{ event.organizerLimit }}
+                organizers
+              </span>
+            </div>
+          }
+        }
+        @if (event) {
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-clock"
+              style="width: 1rem; height: 1rem"
+            ></mat-icon>
+            <span class="text-base font-medium">{{
+              event.start | date: 'shortTime'
+            }}</span>
+          </div>
+        }
+        @if (!event) {
+          <span class="skeleton">XX XX:XX</span>
+        }
+        @if (defaultPrice()) {
+          <div class="flex items-center gap-1">
+            <mat-icon
+              svgIcon="icon-price-tag-euro"
+              style="width: 1rem; height: 1rem"
+            ></mat-icon>
+            <span class="text-base font-medium">{{
+              defaultPrice().amount | currency
+            }}</span>
+          </div>
         }
       </div>
     </div>
   </div>
   <!-- <div fxFlex="noshrink"></div> -->
   @if (event && event.publicationState !== 'PUBLIC') {
-  <div
-    class="publication-state w-full flex items-center px-5 py-4 {{
-      event.publicationState | lowercase
-    }}"
-    ><p class="font-medium leading-tight">{{
-      publicationStateString(event.publicationState)
-    }}</p></div
-  >
+    <div
+      class="publication-state w-full flex items-center px-5 py-4 {{
+        event.publicationState | lowercase
+      }}"
+      ><p class="font-medium leading-tight">{{
+        publicationStateString(event.publicationState)
+      }}</p></div
+    >
   }
 </a>

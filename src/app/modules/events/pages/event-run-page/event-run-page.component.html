@@ -1,194 +1,209 @@
 <mat-toolbar color="white">
   <app-back-button></app-back-button>
   @if (event$ | async; as event) {
-
-  <div class="flex-1 truncate">Run {{ event.title }}</div>
-
+    <div class="flex-1 truncate">Run {{ event.title }}</div>
   }
 </mat-toolbar>
 @if ((event$ | async) === null) {
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-} @if (event$ | async; as event) {
-<main class="flex flex-col gap-8 p-4">
-  <a mat-fab extended routerLink="scan">
-    <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
-    Scan code
-  </a>
-
-  <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-    <a mat-flat-button (click)="generateMail()" class="modern" color="primary">
-      <mat-icon svgIcon="icon-new-post"></mat-icon>
-      <span>Generate mail template</span>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+@if (event$ | async; as event) {
+  <main class="flex flex-col gap-8 p-4">
+    <a mat-fab extended routerLink="scan">
+      <mat-icon svgIcon="icon-barcode-scanner-2"></mat-icon>
+      Scan code
     </a>
-    <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
-      <mat-icon svgIcon="icon-copy"></mat-icon>
-      <span>Copy mails of organizers</span>
-    </button>
-    <button mat-stroked-button (click)="copyParticipantMails()" class="modern">
-      <mat-icon svgIcon="icon-copy"></mat-icon>
-      <span>Copy mails of participants</span>
-    </button>
-    <button mat-stroked-button (click)="copyCheckedInMails()" class="modern">
-      <mat-icon svgIcon="icon-copy"></mat-icon>
-      <span>Copy mails of checked in users</span>
-    </button>
-    <button mat-stroked-button (click)="copyNonCheckedMails()" class="modern">
-      <mat-icon svgIcon="icon-copy"></mat-icon>
-      <span>Copy mails of non checked in users</span>
-    </button>
-  </div>
 
-  @if (event.costItems.length) {
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-4"
-    >
-      <mat-icon
-        svgIcon="icon-cash-receipt"
-        class="text-secondary-default bg-secondary-on card-icon"
-      >
-      </mat-icon>
-      <h2 class="font-bold">Required receipts</h2>
-    </div>
-    <mat-nav-list>
-      @for (costItem of event.costItems; track costItem) {
-      <a mat-list-item routerLink="receipts/{{ costItem.id }}">
-        <h1 matListItemTitle>
-          {{ costItem.name }}
-        </h1>
-        <p matListItemLine>
-          for {{ costItem.amount | currency }} (
-          {{ costItem.submittedAmount | currency }} already submitted with
-          receipts)
-        </p>
-      </a>
-      }
-    </mat-nav-list>
-    <p class="mb-2">
-      You can upload multiple photos of receipts for each entry. Please make
-      sure to add all receipts! After you upload a receipt, please write the
-      Finance Coordinator to initiate the refund.
-    </p>
-  </div>
-  }
-
-  <ul
-    class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
-  >
-    <li class="p-4">
-      <p class="font-extrabold md:text-2xl">
-        {{ event.participantRegistrationCount }}
-      </p>
-      <p class="mt-1 font-medium md:text-xl">Registrations</p>
-    </li>
-
-    <li class="p-4">
-      <p class="font-extrabold md:text-2xl">{{ event.participantsAttended }}</p>
-      <p class="mt-1 font-medium md:text-xl">Users checked in</p>
-    </li>
-
-    <li class="p-4">
-      <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
-      <p class="mt-1 font-medium md:text-xl">Participant spots</p>
-    </li>
-  </ul>
-
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div class="mb-4 flex gap-4 justify-center">
-      <mat-icon
-        svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
-      >
-      </mat-icon>
-      <h2 class="font-bold">Organizers</h2>
-    </div>
     <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-      @for (registration of event.organizerRegistrations; track registration) {
-      <div>
-        <app-user-chip
-          size="md"
-          [id]="registration.user.id"
-          [picture]="registration.user.picture"
-          [name]="registration.user.fullName"
-          [status]="registration.user.currentTenant?.status + ''"
-          [tag]="registration.user.id === event.createdBy.id ? 'Creator' : ''"
-        >
-        </app-user-chip>
-      </div>
-      }
+      <a
+        mat-flat-button
+        (click)="generateMail()"
+        class="modern"
+        color="primary"
+      >
+        <mat-icon svgIcon="icon-new-post"></mat-icon>
+        <span>Generate mail template</span>
+      </a>
+      <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
+        <mat-icon svgIcon="icon-copy"></mat-icon>
+        <span>Copy mails of organizers</span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="copyParticipantMails()"
+        class="modern"
+      >
+        <mat-icon svgIcon="icon-copy"></mat-icon>
+        <span>Copy mails of participants</span>
+      </button>
+      <button mat-stroked-button (click)="copyCheckedInMails()" class="modern">
+        <mat-icon svgIcon="icon-copy"></mat-icon>
+        <span>Copy mails of checked in users</span>
+      </button>
+      <button mat-stroked-button (click)="copyNonCheckedMails()" class="modern">
+        <mat-icon svgIcon="icon-copy"></mat-icon>
+        <span>Copy mails of non checked in users</span>
+      </button>
     </div>
-  </div>
 
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div class="mb-4 flex gap-4 justify-center">
-      <mat-icon
-        svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
+    @if (event.costItems.length) {
+      <div
+        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
       >
-      </mat-icon>
-      <h2 class="font-bold">Participant overview</h2>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="1rem"
+          class="mb-4"
+        >
+          <mat-icon
+            svgIcon="icon-cash-receipt"
+            class="text-secondary-default bg-secondary-on card-icon"
+          >
+          </mat-icon>
+          <h2 class="font-bold">Required receipts</h2>
+        </div>
+        <mat-nav-list>
+          @for (costItem of event.costItems; track costItem) {
+            <a mat-list-item routerLink="receipts/{{ costItem.id }}">
+              <h1 matListItemTitle>
+                {{ costItem.name }}
+              </h1>
+              <p matListItemLine>
+                for {{ costItem.amount | currency }} (
+                {{ costItem.submittedAmount | currency }} already submitted with
+                receipts)
+              </p>
+            </a>
+          }
+        </mat-nav-list>
+        <p class="mb-2">
+          You can upload multiple photos of receipts for each entry. Please make
+          sure to add all receipts! After you upload a receipt, please write the
+          Finance Coordinator to initiate the refund.
+        </p>
+      </div>
+    }
+
+    <ul
+      class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
+    >
+      <li class="p-4">
+        <p class="font-extrabold md:text-2xl">
+          {{ event.participantRegistrationCount }}
+        </p>
+        <p class="mt-1 font-medium md:text-xl">Registrations</p>
+      </li>
+
+      <li class="p-4">
+        <p class="font-extrabold md:text-2xl">{{
+          event.participantsAttended
+        }}</p>
+        <p class="mt-1 font-medium md:text-xl">Users checked in</p>
+      </li>
+
+      <li class="p-4">
+        <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
+        <p class="mt-1 font-medium md:text-xl">Participant spots</p>
+      </li>
+    </ul>
+
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-4 flex gap-4 justify-center">
+        <mat-icon
+          svgIcon="icon-conference"
+          class="text-secondary-default bg-secondary-on card-icon"
+        >
+        </mat-icon>
+        <h2 class="font-bold">Organizers</h2>
+      </div>
+      <div class="flex flex-col flex-wrap gap-4 md:flex-row">
+        @for (
+          registration of event.organizerRegistrations;
+          track registration
+        ) {
+          <div>
+            <app-user-chip
+              size="md"
+              [id]="registration.user.id"
+              [picture]="registration.user.picture"
+              [name]="registration.user.fullName"
+              [status]="registration.user.currentTenant?.status + ''"
+              [tag]="
+                registration.user.id === event.createdBy.id ? 'Creator' : ''
+              "
+            >
+            </app-user-chip>
+          </div>
+        }
+      </div>
     </div>
-    <app-event-participants-table
-      [event]="event"
-    ></app-event-participants-table>
-    <!--    <div class="flex flex-col flex-wrap gap-4 md:flex-row">-->
-    <!--      <div-->
-    <!--        class="flex flex-row items-center gap-1"-->
-    <!--        *ngFor="let registration of event.participantRegistrations"-->
-    <!--      >-->
-    <!--        <div class="flex-1">-->
-    <!--          <app-user-chip-->
-    <!--            size="md"-->
-    <!--            [id]="registration.user.id"-->
-    <!--            [picture]="registration.user.picture"-->
-    <!--            [name]="registration.user.fullName"-->
-    <!--            [phone]="registration.user.phone || ''"-->
-    <!--            [checkedIn]="!!registration.checkInTime"-->
-    <!--            [status]="registration.user.currentTenant?.status + ''"-->
-    <!--          >-->
-    <!--            <ng-container *ngIf="!registration.checkInTime">-->
-    <!--              <button-->
-    <!--                mat-icon-button-->
-    <!--                class="modern"-->
-    <!--                (click)="checkin(registration.id)"-->
-    <!--                *appIfRole="[Role.Admin]"-->
-    <!--              >-->
-    <!--                <mat-icon svgIcon="icon-checked"></mat-icon>-->
-    <!--              </button>-->
-    <!--            </ng-container>-->
-    <!--          </app-user-chip>-->
-    <!--        </div>-->
-    <!--        <div *ngFor="let submission of registration.submissions">-->
-    <!--          <p class="font-bold">{{ submission.submissionItem.name }}</p>-->
-    <!--          <p>{{ submission.data.value }}</p>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-  </div>
-  <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-  >
-    <div class="mb-4 flex gap-4 justify-center">
-      <mat-icon
-        svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
-      >
-      </mat-icon>
-      <h2 class="font-bold">Data Submissions</h2>
+
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-4 flex gap-4 justify-center">
+        <mat-icon
+          svgIcon="icon-conference"
+          class="text-secondary-default bg-secondary-on card-icon"
+        >
+        </mat-icon>
+        <h2 class="font-bold">Participant overview</h2>
+      </div>
+      <app-event-participants-table
+        [event]="event"
+      ></app-event-participants-table>
+      <!--    <div class="flex flex-col flex-wrap gap-4 md:flex-row">-->
+      <!--      <div-->
+      <!--        class="flex flex-row items-center gap-1"-->
+      <!--        *ngFor="let registration of event.participantRegistrations"-->
+      <!--      >-->
+      <!--        <div class="flex-1">-->
+      <!--          <app-user-chip-->
+      <!--            size="md"-->
+      <!--            [id]="registration.user.id"-->
+      <!--            [picture]="registration.user.picture"-->
+      <!--            [name]="registration.user.fullName"-->
+      <!--            [phone]="registration.user.phone || ''"-->
+      <!--            [checkedIn]="!!registration.checkInTime"-->
+      <!--            [status]="registration.user.currentTenant?.status + ''"-->
+      <!--          >-->
+      <!--            <ng-container *ngIf="!registration.checkInTime">-->
+      <!--              <button-->
+      <!--                mat-icon-button-->
+      <!--                class="modern"-->
+      <!--                (click)="checkin(registration.id)"-->
+      <!--                *appIfRole="[Role.Admin]"-->
+      <!--              >-->
+      <!--                <mat-icon svgIcon="icon-checked"></mat-icon>-->
+      <!--              </button>-->
+      <!--            </ng-container>-->
+      <!--          </app-user-chip>-->
+      <!--        </div>-->
+      <!--        <div *ngFor="let submission of registration.submissions">-->
+      <!--          <p class="font-bold">{{ submission.submissionItem.name }}</p>-->
+      <!--          <p>{{ submission.data.value }}</p>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--    </div>-->
     </div>
-    <app-event-submission-overview
-      [registrations]="event.participantRegistrations"
-      [submissionItems]="event.submissionItems"
-    ></app-event-submission-overview>
-  </div>
-</main>
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-4 flex gap-4 justify-center">
+        <mat-icon
+          svgIcon="icon-conference"
+          class="text-secondary-default bg-secondary-on card-icon"
+        >
+        </mat-icon>
+        <h2 class="font-bold">Data Submissions</h2>
+      </div>
+      <app-event-submission-overview
+        [registrations]="event.participantRegistrations"
+        [submissionItems]="event.submissionItems"
+      ></app-event-submission-overview>
+    </div>
+  </main>
 }

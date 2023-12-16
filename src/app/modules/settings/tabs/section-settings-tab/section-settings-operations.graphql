@@ -1,4 +1,4 @@
-query loadSectionSettings{
+query loadSectionSettings {
   currentTenant {
     id
     communicationEmail
@@ -30,7 +30,7 @@ query loadSectionSettings{
   }
 }
 
-mutation updateSectionSettings($id: ID!, $input: UpdateTenantInput!){
+mutation updateSectionSettings($id: ID!, $input: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $input) {
     id
     settings {

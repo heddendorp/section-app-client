@@ -18,86 +18,89 @@
       />
     </div>
     @if (!profile) {
-    <div class="z-10 h-[128px] w-[128px] overflow-hidden rounded-full bg-white">
-      <div class="skeleton h-full w-full"></div>
-    </div>
-    } @if (profile) {
-    <img
-      [ngSrc]="profile.picture"
-      height="128"
-      width="128"
-      class="picture rounded-full h-[128px] w-[128px] border-white border-[3px] z-10 {{
-        profile.status | lowercase
-      }} bg-white"
-      style="text-indent: -10000px"
-      referrerpolicy="no-referrer"
-      data-testid="profile-picture"
-      onerror="this.src='assets/images/defaultUser.jpg'"
-    />
+      <div
+        class="z-10 h-[128px] w-[128px] overflow-hidden rounded-full bg-white"
+      >
+        <div class="skeleton h-full w-full"></div>
+      </div>
+    }
+    @if (profile) {
+      <img
+        [ngSrc]="profile.picture"
+        height="128"
+        width="128"
+        class="picture rounded-full h-[128px] w-[128px] border-white border-[3px] z-10 {{
+          profile.status | lowercase
+        }} bg-white"
+        style="text-indent: -10000px"
+        referrerpolicy="no-referrer"
+        data-testid="profile-picture"
+        onerror="this.src='assets/images/defaultUser.jpg'"
+      />
     }
     <div class="mt-4 text-3xl font-bold">
       @if (!profile) {
-      <div class="skeleton w-60">Phantom</div>
-      } @if (profile) {
-      <span>{{ profile.fullName }}</span>
+        <div class="skeleton w-60">Phantom</div>
+      }
+      @if (profile) {
+        <span>{{ profile.fullName }}</span>
       }
     </div>
-    @if ( profile && position(profile.position, profile.status); as position ) {
-    <div class="my-1">
-      <span
-        class="background px-2 py-1 text-sm text-white rounded-lg {{
-          profile?.status | lowercase
-        }}"
-        >{{ position }}</span
-      >
-    </div>
-    } @if (!profile) {
-    <div class="skeleton mt-2 text-sm italic"> Phantom Country </div>
+    @if (profile && position(profile.position, profile.status); as position) {
+      <div class="my-1">
+        <span
+          class="background px-2 py-1 text-sm text-white rounded-lg {{
+            profile?.status | lowercase
+          }}"
+          >{{ position }}</span
+        >
+      </div>
+    }
+    @if (!profile) {
+      <div class="skeleton mt-2 text-sm italic"> Phantom Country </div>
     }
     <div class="mt-3">
       @if (!profile) {
-      <div class="skeleton h-20 w-60"></div>
+        <div class="skeleton h-20 w-60"></div>
       }
     </div>
     @if (profile && profile.organizedEventsCount > 0) {
-
-    <mat-divider class="!my-4 w-full"></mat-divider>
-    <div
-      class="my-4 flex w-full flex-row justify-evenly sm:justify-center sm:gap-16"
-    >
-      <div>
-        <div class="mb-1 text-3xl font-extrabold">
-          {{ profile.organizedEventsCount }}
+      <mat-divider class="!my-4 w-full"></mat-divider>
+      <div
+        class="my-4 flex w-full flex-row justify-evenly sm:justify-center sm:gap-16"
+      >
+        <div>
+          <div class="mb-1 text-3xl font-extrabold">
+            {{ profile.organizedEventsCount }}
+          </div>
+          <div class="text-sm">
+            event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized
+          </div>
         </div>
-        <div class="text-sm">
-          event{{ profile.organizedEventsCount === 1 ? '' : 's' }} organized
-        </div>
+        @if (profile.createdEventsCount > 0) {
+          <div>
+            <div class="mb-1 text-3xl font-extrabold">
+              {{ profile.createdEventsCount }}
+            </div>
+            <div class="text-sm">
+              event{{ profile.createdEventsCount === 1 ? '' : 's' }} created
+            </div>
+          </div>
+        }
       </div>
-      @if (profile.createdEventsCount > 0) {
-      <div>
-        <div class="mb-1 text-3xl font-extrabold">
-          {{ profile.createdEventsCount }}
-        </div>
-        <div class="text-sm">
-          event{{ profile.createdEventsCount === 1 ? '' : 's' }} created
-        </div>
-      </div>
-      }
-    </div>
-
     }
   </div>
   @if (profile) {
-  <div class="top-4 right-4 block sm:absolute">
-    <a
-      mat-flat-button
-      class="modern"
-      color="primary"
-      [routerLink]="'/tenant/users/' + profile.id"
-      *appIfRole="[Role.Admin]"
-    >
-      Manage user
-    </a>
-  </div>
+    <div class="top-4 right-4 block sm:absolute">
+      <a
+        mat-flat-button
+        class="modern"
+        color="primary"
+        [routerLink]="'/tenant/users/' + profile.id"
+        *appIfRole="[Role.Admin]"
+      >
+        Manage user
+      </a>
+    </div>
   }
 </div>
