@@ -47,7 +47,6 @@ query loadEventForRunning($id: ID!) {
     participantLimit
     participantRegistrationCount
     participantsAttended
-    mailTemplate
     createdBy {
       id
       fullName

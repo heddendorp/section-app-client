@@ -1065,7 +1065,6 @@ export type TumiEvent = {
   internalEvent: Scalars['Boolean']['output'];
   isVirtual: Scalars['Boolean']['output'];
   location: Scalars['String']['output'];
-  mailTemplate: Scalars['String']['output'];
   netAmountCollected: Scalars['Decimal']['output'];
   onlineMeetingUrl?: Maybe<Scalars['String']['output']>;
   organizer: EventOrganizer;
@@ -1919,7 +1918,6 @@ export type LoadEventForRunningQuery = {
     participantLimit: number;
     participantRegistrationCount: number;
     participantsAttended: number;
-    mailTemplate: string;
     createdBy: { __typename?: 'User'; id: string; fullName: string };
     organizerRegistrations: Array<{
       __typename?: 'EventRegistration';
@@ -5304,7 +5302,6 @@ export const LoadEventForRunningDocument = gql`
       participantLimit
       participantRegistrationCount
       participantsAttended
-      mailTemplate
       createdBy {
         id
         fullName

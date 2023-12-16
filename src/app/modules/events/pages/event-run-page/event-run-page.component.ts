@@ -152,17 +152,6 @@ export class EventRunPageComponent implements OnDestroy {
     attempt();
   }
 
-  async generateMail() {
-    const event = await firstValueFrom(this.event$);
-    const a = window.document.createElement('a');
-    const utf8_blob = new Blob([event.mailTemplate], { endings: 'native' });
-    a.href = window.URL.createObjectURL(utf8_blob);
-    a.download = `${event.title}.eml`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
   async copyNonCheckedMails() {
     const event = await firstValueFrom(this.event$);
     if (!event) return;
