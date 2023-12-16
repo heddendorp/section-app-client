@@ -1,4 +1,4 @@
-query loadSiteContentSettings{
+query loadSiteContentSettings {
   currentTenant {
     id
     aboutPage
@@ -9,7 +9,7 @@ query loadSiteContentSettings{
   }
 }
 
-mutation updateSiteContentSettings($id: ID!, $input: UpdateTenantInput!){
+mutation updateSiteContentSettings($id: ID!, $input: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $input) {
     id
     aboutPage

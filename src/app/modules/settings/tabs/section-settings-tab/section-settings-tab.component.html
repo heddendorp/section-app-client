@@ -147,55 +147,55 @@
       [formGroup]="bannersSectionSettingsForm"
     >
       <ng-container formArrayName="banners">
-        @for (banner of banners.controls;track banner;let i = $index) {
-        <div [formGroupName]="i" class="mt-2 grid grid-cols-3 gap-4">
-          <mat-form-field class="w-full">
-            <mat-label>Title</mat-label>
-            <input
-              formControlName="title"
-              matInput
-              placeholder="What is the title of the banner"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Body</mat-label>
-            <input
-              formControlName="body"
-              matInput
-              placeholder="What is the content of your banner"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Link</mat-label>
-            <input
-              formControlName="link"
-              matInput
-              placeholder="Where should the user go when clicking the banner"
-              type="url"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Color</mat-label>
-            <mat-select formControlName="color">
-              <mat-option value="primary">Primary</mat-option>
-              <mat-option value="accent">Accent</mat-option>
-              <mat-option value="warn">Warn</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Visibility</mat-label>
-            <mat-select formControlName="displayToMembershipStatus" multiple>
-              @for (status of statusOptions;track status) {
-              <mat-option [value]="status">
-                {{ status | titlecase }}
-              </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <button (click)="banners.removeAt(i)" color="warn" mat-icon-button>
-            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          </button>
-        </div>
+        @for (banner of banners.controls; track banner; let i = $index) {
+          <div [formGroupName]="i" class="mt-2 grid grid-cols-3 gap-4">
+            <mat-form-field class="w-full">
+              <mat-label>Title</mat-label>
+              <input
+                formControlName="title"
+                matInput
+                placeholder="What is the title of the banner"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Body</mat-label>
+              <input
+                formControlName="body"
+                matInput
+                placeholder="What is the content of your banner"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Link</mat-label>
+              <input
+                formControlName="link"
+                matInput
+                placeholder="Where should the user go when clicking the banner"
+                type="url"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Color</mat-label>
+              <mat-select formControlName="color">
+                <mat-option value="primary">Primary</mat-option>
+                <mat-option value="accent">Accent</mat-option>
+                <mat-option value="warn">Warn</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Visibility</mat-label>
+              <mat-select formControlName="displayToMembershipStatus" multiple>
+                @for (status of statusOptions; track status) {
+                  <mat-option [value]="status">
+                    {{ status | titlecase }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button (click)="banners.removeAt(i)" color="warn" mat-icon-button>
+              <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+            </button>
+          </div>
         }
         <button
           (click)="addBanner()"
@@ -238,41 +238,41 @@
       [formGroup]="sectionHubLinksSectionSettingsForm"
     >
       <ng-container formArrayName="sectionHubLinks">
-        @for (link of sectionHubLinks.controls;track link;let i = $index) {
-        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
-          <mat-form-field class="w-full">
-            <mat-label>Label</mat-label>
-            <input
-              matInput
-              placeholder="What is the lable of the link"
-              formControlName="label"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Icon</mat-label>
-            <input
-              matInput
-              placeholder="What Icon should be shown"
-              formControlName="icon"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Link</mat-label>
-            <input
-              matInput
-              type="url"
-              placeholder="Where should the link point to"
-              formControlName="url"
-            />
-          </mat-form-field>
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="sectionHubLinks.removeAt(i)"
-          >
-            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          </button>
-        </div>
+        @for (link of sectionHubLinks.controls; track link; let i = $index) {
+          <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
+            <mat-form-field class="w-full">
+              <mat-label>Label</mat-label>
+              <input
+                matInput
+                placeholder="What is the lable of the link"
+                formControlName="label"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Icon</mat-label>
+              <input
+                matInput
+                placeholder="What Icon should be shown"
+                formControlName="icon"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Link</mat-label>
+              <input
+                matInput
+                type="url"
+                placeholder="Where should the link point to"
+                formControlName="url"
+              />
+            </mat-form-field>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="sectionHubLinks.removeAt(i)"
+            >
+              <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+            </button>
+          </div>
         }
         <button
           (click)="addSectionHubLink()"
@@ -314,41 +314,41 @@
       [formGroup]="socialLinksSectionSettingsForm"
     >
       <ng-container formArrayName="socialLinks">
-        @for (link of socialLinks.controls;track link;let i = $index) {
-        <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
-          <mat-form-field class="w-full">
-            <mat-label>Label</mat-label>
-            <input
-              matInput
-              placeholder="What is the lable of the link"
-              formControlName="label"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Icon</mat-label>
-            <input
-              matInput
-              placeholder="What Icon should be shown"
-              formControlName="icon"
-            />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Link</mat-label>
-            <input
-              matInput
-              type="url"
-              placeholder="Where should the link point to"
-              formControlName="url"
-            />
-          </mat-form-field>
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="socialLinks.removeAt(i)"
-          >
-            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          </button>
-        </div>
+        @for (link of socialLinks.controls; track link; let i = $index) {
+          <div class="mt-2 flex flex-row gap-4" [formGroupName]="i">
+            <mat-form-field class="w-full">
+              <mat-label>Label</mat-label>
+              <input
+                matInput
+                placeholder="What is the lable of the link"
+                formControlName="label"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Icon</mat-label>
+              <input
+                matInput
+                placeholder="What Icon should be shown"
+                formControlName="icon"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Link</mat-label>
+              <input
+                matInput
+                type="url"
+                placeholder="Where should the link point to"
+                formControlName="url"
+              />
+            </mat-form-field>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="socialLinks.removeAt(i)"
+            >
+              <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+            </button>
+          </div>
         }
         <button
           (click)="addSocialLink()"

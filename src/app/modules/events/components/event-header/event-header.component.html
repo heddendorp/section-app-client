@@ -2,99 +2,99 @@
   <div class="flex">
     <app-back-button></app-back-button>
     @if (event) {
-
-    <div class="grow"></div>
-    @if (event.userIsCreator || event.userIsOrganizer) {
-    <a routerLink="edit" mat-icon-button>
-      <mat-icon svgIcon="icon-edit"></mat-icon
-    ></a>
-    } @if (!(event.userIsCreator || event.userIsOrganizer)) {
-    <div>
-      <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
-        <mat-icon svgIcon="icon-edit"></mat-icon
+      <div class="grow"></div>
+      @if (event.userIsCreator || event.userIsOrganizer) {
+        <a routerLink="edit" mat-icon-button>
+          <mat-icon svgIcon="icon-edit"></mat-icon
+        ></a>
+      }
+      @if (!(event.userIsCreator || event.userIsOrganizer)) {
+        <div>
+          <a routerLink="edit" mat-icon-button *appIfRole="[Role.Admin]">
+            <mat-icon svgIcon="icon-edit"></mat-icon
+          ></a>
+        </div>
+      }
+      <a routerLink="manage" mat-icon-button *appIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-administrative-tools"></mat-icon
       ></a>
-    </div>
-    }
-    <a routerLink="manage" mat-icon-button *appIfRole="[Role.Admin]">
-      <mat-icon svgIcon="icon-administrative-tools"></mat-icon
-    ></a>
-    <a routerLink="run" mat-icon-button *appIfRole="[Role.Admin]">
-      <mat-icon svgIcon="icon-user-shield"></mat-icon
-    ></a>
-
+      <a routerLink="run" mat-icon-button *appIfRole="[Role.Admin]">
+        <mat-icon svgIcon="icon-user-shield"></mat-icon
+      ></a>
     }
   </div>
   <div
     class="bg-surface-default mx-auto mb-6 h-40 w-40 overflow-hidden rounded-2xl sm:h-48 sm:w-48 lg:mb-8"
   >
     @if (event) {
-    <img
-      [ngSrc]="event.icon | iconURL"
-      height="192"
-      width="192"
-      class="h-full w-full p-2 event-icon"
-    />
-    } @if (!event) {
-    <div class="skeleton h-full w-full"></div>
+      <img
+        [ngSrc]="event.icon | iconURL"
+        height="192"
+        width="192"
+        class="h-full w-full p-2 event-icon"
+      />
+    }
+    @if (!event) {
+      <div class="skeleton h-full w-full"></div>
     }
   </div>
   <div class="my-4 text-2xl font-semibold">
     @if (event) {
-    <span>{{ event.title }}</span>
-    } @if (!event) {
-    <span class="skeleton block sm:w-[30rem]">Event Title</span>
+      <span>{{ event.title }}</span>
+    }
+    @if (!event) {
+      <span class="skeleton block sm:w-[30rem]">Event Title</span>
     }
   </div>
   @if (event && !isSingleDayEvent()) {
-
-  <p>Starts: {{ event.start | date: 'medium' }}</p>
-  <p>Ends: {{ event.end | date: 'medium' }}</p>
-
-  } @else { @if (event) {
-  <div class="flex items-center gap-2">
-    <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
-    <span
-      >{{ event.start | date: 'medium' }} -
-      {{ event.end | date: 'mediumTime' }}</span
-    >
-  </div>
-  } @if (!event) {
-  <div>
-    <span class="skeleton">Phantom, XX XXX XXXX, XX:XX – XX:XX</span>
-  </div>
-  } } @if (bestPrice) {
-
-  <div class="flex items-center gap-2">
-    <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px"></mat-icon>
-    {{ bestPrice.amount | currency }}
-  </div>
-
-  } @if ( event && event.participantRatingCount && event.participantRatingCount
-  > 0 ) {
-
-  <div class="flex items-center gap-2">
-    <div class="text-center" style="width: 18px">★</div>
-    <span
-      >{{ event.participantRating | number: '1.1-1' }} ({{
-        event.participantRatingCount
-      }}
-      rating{{ event.participantRatingCount === 1 ? '' : 's' }})</span
-    >
-  </div>
-
-  } @if (canShare) {
-
-  <div class="mt-4">
-    <button
-      class="modern"
-      mat-flat-button
-      color="accent"
-      (click)="shareEvent()"
-    >
-      <mat-icon svgIcon="icon-share-3"></mat-icon>
-      <span>Share this event</span>
-    </button>
-  </div>
-
+    <p>Starts: {{ event.start | date: 'medium' }}</p>
+    <p>Ends: {{ event.end | date: 'medium' }}</p>
+  } @else {
+    @if (event) {
+      <div class="flex items-center gap-2">
+        <mat-icon svgIcon="icon-calendar" style="width: 18px"></mat-icon>
+        <span
+          >{{ event.start | date: 'medium' }} -
+          {{ event.end | date: 'mediumTime' }}</span
+        >
+      </div>
+    }
+    @if (!event) {
+      <div>
+        <span class="skeleton">Phantom, XX XXX XXXX, XX:XX – XX:XX</span>
+      </div>
+    }
+  }
+  @if (bestPrice) {
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-price-tag-euro" style="width: 18px"></mat-icon>
+      {{ bestPrice.amount | currency }}
+    </div>
+  }
+  @if (
+    event && event.participantRatingCount && event.participantRatingCount > 0
+  ) {
+    <div class="flex items-center gap-2">
+      <div class="text-center" style="width: 18px">★</div>
+      <span
+        >{{ event.participantRating | number: '1.1-1' }} ({{
+          event.participantRatingCount
+        }}
+        rating{{ event.participantRatingCount === 1 ? '' : 's' }})</span
+      >
+    </div>
+  }
+  @if (canShare) {
+    <div class="mt-4">
+      <button
+        class="modern"
+        mat-flat-button
+        color="accent"
+        (click)="shareEvent()"
+      >
+        <mat-icon svgIcon="icon-share-3"></mat-icon>
+        <span>Share this event</span>
+      </button>
+    </div>
   }
 </div>

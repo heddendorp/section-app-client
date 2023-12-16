@@ -1,4 +1,4 @@
-query loadRegistrationDataSettings{
+query loadRegistrationDataSettings {
   currentTenant {
     id
     settings {
@@ -11,7 +11,7 @@ query loadRegistrationDataSettings{
   }
 }
 
-mutation updateRegistrationDataSettings($id: ID!, $input: UpdateTenantInput!){
+mutation updateRegistrationDataSettings($id: ID!, $input: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $input) {
     id
     settings {

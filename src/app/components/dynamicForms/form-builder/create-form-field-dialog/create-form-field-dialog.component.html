@@ -12,22 +12,22 @@
       <mat-label>Field name</mat-label>
       <input formControlName="label" matInput required />
     </mat-form-field>
-    @if(type === 'select'){
-    <p>Options for the select field</p>
-    @for(option of options.controls; track option; let i = $index){
-    <div class="flex gap-2">
-      <mat-form-field>
-        <mat-label>Option {{ i + 1 }}</mat-label>
-        <input matInput [formControlName]="i" required />
-      </mat-form-field>
-      <button mat-icon-button (click)="options.removeAt(i)">
-        <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+    @if (type === 'select') {
+      <p>Options for the select field</p>
+      @for (option of options.controls; track option; let i = $index) {
+        <div class="flex gap-2">
+          <mat-form-field>
+            <mat-label>Option {{ i + 1 }}</mat-label>
+            <input matInput [formControlName]="i" required />
+          </mat-form-field>
+          <button mat-icon-button (click)="options.removeAt(i)">
+            <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          </button>
+        </div>
+      }
+      <button mat-button (click)="addOption()">
+        <mat-icon svgIcon="icon-add"></mat-icon>Add option
       </button>
-    </div>
-    }
-    <button mat-button (click)="addOption()">
-      <mat-icon svgIcon="icon-add"></mat-icon>Add option
-    </button>
     }
   </form>
 </mat-dialog-content>

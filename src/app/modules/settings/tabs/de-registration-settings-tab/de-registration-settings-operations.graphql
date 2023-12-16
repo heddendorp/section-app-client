@@ -1,4 +1,4 @@
-query loadDeRegistrationSettings{
+query loadDeRegistrationSettings {
   currentTenant {
     id
     settings {
@@ -38,11 +38,11 @@ query loadDeRegistrationSettings{
   }
 }
 
-mutation updateDeRegistrationSettings($id: ID!, $input: UpdateTenantInput!){
+mutation updateDeRegistrationSettings($id: ID!, $input: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $input) {
     id
     settings {
-deRegistrationOptions {
+      deRegistrationOptions {
         free {
           organizers {
             deRegistrationPossible
