@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+} from '@angular/core';
+import {
+  AddCostItemToEventGQL,
   CheckInUserGQL,
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
@@ -16,10 +22,12 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/components/add-cost-item-dialog/add-cost-item-dialog.component';
 
 @Component({
   selector: 'app-event-run-page',
@@ -28,21 +36,20 @@ import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    MatToolbarModule,
-    BackButtonComponent,
-    NgIf,
-    MatProgressBarModule,
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    MatListModule,
-    NgFor,
-    UserChipComponent,
-    IfRoleDirective,
-    EventSubmissionOverviewComponent,
     AsyncPipe,
+    BackButtonComponent,
     CurrencyPipe,
     EventParticipantsTableComponent,
+    EventSubmissionOverviewComponent,
+    IfRoleDirective,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatToolbarModule,
+    RouterLink,
+    UserChipComponent,
   ],
 })
 export class EventRunPageComponent implements OnDestroy {
@@ -50,6 +57,8 @@ export class EventRunPageComponent implements OnDestroy {
   public event$: Observable<LoadEventForRunningQuery['event']>;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
+  private dialog = inject(MatDialog);
+  private addCostItemToEventGQL = inject(AddCostItemToEventGQL);
 
   constructor(
     private title: Title,
@@ -175,5 +184,19 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+  }
+
+  async addCostItem() {
+    const item = await firstValueFrom(
+      this.dialog.open(AddCostItemDialogComponent).afterClosed(),
+    );
+    if (item) {
+      await firstValueFrom(
+        this.addCostItemToEventGQL.mutate({
+          input: item,
+          eventId: this.route.snapshot.paramMap.get('eventId') ?? '',
+        }),
+      );
+    }
   }
 }

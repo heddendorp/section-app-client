@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Add receipt</h2>
+<mat-dialog-content>
+  <form [formGroup]="costItemForm" class="flex flex-col gap-2 pt-1">
+    <mat-form-field>
+      <mat-label>Receipt name</mat-label>
+      <input formControlName="name" matInput required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Planned amount</mat-label>
+      <input formControlName="amount" matInput required type="number" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="space-x-2">
+  <button mat-dialog-close mat-flat-button>Cancel</button>
+  <button
+    [disabled]="costItemForm.invalid"
+    [mat-dialog-close]="costItemForm.value"
+    color="primary"
+    mat-flat-button
+  >
+    Add receipt
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,11 @@
+mutation addCostItemToEvent($eventId: ID!, $input: AddCostItemInput!) {
+  addCostItemToEvent(eventId: $eventId, input: $input) {
+    id
+    costItems {
+      id
+      name
+      amount
+      calculationInfo
+    }
+  }
+}

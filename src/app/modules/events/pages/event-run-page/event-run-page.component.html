@@ -1,4 +1,4 @@
-<mat-toolbar color="white">
+<mat-toolbar>
   <app-back-button></app-back-button>
   @if (event$ | async; as event) {
     <div class="flex-1 truncate">Run {{ event.title }}</div>
@@ -36,45 +36,44 @@
         <span>Copy mails of non checked in users</span>
       </button>
     </div>
-
-    @if (event.costItems.length) {
-      <div
-        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-      >
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="1rem"
-          class="mb-4"
+    <div
+      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    >
+      <div class="mb-4 flex items-center gap-4">
+        <mat-icon
+          svgIcon="icon-cash-receipt"
+          class="text-secondary-default bg-secondary-on card-icon"
         >
-          <mat-icon
-            svgIcon="icon-cash-receipt"
-            class="text-secondary-default bg-secondary-on card-icon"
-          >
-          </mat-icon>
+        </mat-icon>
+        @if (event.costItems.length) {
           <h2 class="font-bold">Required receipts</h2>
-        </div>
-        <mat-nav-list>
-          @for (costItem of event.costItems; track costItem) {
-            <a mat-list-item routerLink="receipts/{{ costItem.id }}">
-              <h1 matListItemTitle>
-                {{ costItem.name }}
-              </h1>
-              <p matListItemLine>
-                for {{ costItem.amount | currency }} (
-                {{ costItem.submittedAmount | currency }} already submitted with
-                receipts)
-              </p>
-            </a>
-          }
-        </mat-nav-list>
-        <p class="mb-2">
-          You can upload multiple photos of receipts for each entry. Please make
-          sure to add all receipts! After you upload a receipt, please write the
-          Finance Coordinator to initiate the refund.
-        </p>
+        } @else {
+          <h2 class="font-bold">Receipt upload</h2>
+        }
       </div>
-    }
+      <mat-nav-list>
+        @for (costItem of event.costItems; track costItem) {
+          <a mat-list-item routerLink="receipts/{{ costItem.id }}">
+            <h1 matListItemTitle>
+              {{ costItem.name }}
+            </h1>
+            <p matListItemLine>
+              for {{ costItem.amount | currency }} (
+              {{ costItem.submittedAmount | currency }} already submitted with
+              receipts)
+            </p>
+          </a>
+        }
+        <button mat-list-item (click)="addCostItem()">
+          <h1 matListItemTitle> Add new receipt </h1>
+        </button>
+      </mat-nav-list>
+      <p class="mb-2">
+        You can upload multiple photos of receipts for each entry. Please make
+        sure to add all receipts! After you upload a receipt, please write the
+        Finance Coordinator to initiate the refund.
+      </p>
+    </div>
 
     <ul
       class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"

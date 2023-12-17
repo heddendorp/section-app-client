@@ -37,6 +37,11 @@ export type Scalars = {
   JSONObject: { input: any; output: any };
 };
 
+export type AddCostItemInput = {
+  amount: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type BannerConfig = {
   __typename?: 'BannerConfig';
   body: Scalars['String']['output'];
@@ -374,6 +379,7 @@ export enum MembershipStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addCostItemToEvent: TumiEvent;
   addESNCard: User;
   addOrganizerToEvent: TumiEvent;
   cancelPayment: TumiEvent;
@@ -424,6 +430,11 @@ export type Mutation = {
   updateUserStatus: UsersOfTenants;
   useRegistrationCode: EventRegistrationCode;
   verifyDCC: Dcc;
+};
+
+export type MutationAddCostItemToEventArgs = {
+  eventId: Scalars['ID']['input'];
+  input: AddCostItemInput;
 };
 
 export type MutationAddEsnCardArgs = {
@@ -2871,6 +2882,26 @@ export type CreatePhotoShareMutationVariables = Exact<{
 export type CreatePhotoShareMutation = {
   __typename?: 'Mutation';
   createPhotoShare: { __typename?: 'PhotoShare'; id: string };
+};
+
+export type AddCostItemToEventMutationVariables = Exact<{
+  eventId: Scalars['ID']['input'];
+  input: AddCostItemInput;
+}>;
+
+export type AddCostItemToEventMutation = {
+  __typename?: 'Mutation';
+  addCostItemToEvent: {
+    __typename?: 'TumiEvent';
+    id: string;
+    costItems: Array<{
+      __typename?: 'CostItem';
+      id: string;
+      name: string;
+      amount: any;
+      calculationInfo: string;
+    }>;
+  };
 };
 
 export type LoadPublicRegistrationCodesQueryVariables = Exact<{
@@ -6523,6 +6554,33 @@ export class CreatePhotoShareGQL extends Apollo.Mutation<
   CreatePhotoShareMutationVariables
 > {
   override document = CreatePhotoShareDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const AddCostItemToEventDocument = gql`
+  mutation addCostItemToEvent($eventId: ID!, $input: AddCostItemInput!) {
+    addCostItemToEvent(eventId: $eventId, input: $input) {
+      id
+      costItems {
+        id
+        name
+        amount
+        calculationInfo
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AddCostItemToEventGQL extends Apollo.Mutation<
+  AddCostItemToEventMutation,
+  AddCostItemToEventMutationVariables
+> {
+  override document = AddCostItemToEventDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
