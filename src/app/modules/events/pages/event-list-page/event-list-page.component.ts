@@ -49,7 +49,7 @@ import {
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-event-list-page',
@@ -90,7 +90,7 @@ import { MarkdownModule } from 'ngx-markdown';
     EventCalendarComponent,
     AsyncPipe,
     NgForOf,
-    MarkdownModule,
+    MarkdownComponent,
   ],
 })
 @TraceClassDecorator()

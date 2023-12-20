@@ -3,14 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { LoadPagesGQL } from '@tumi/legacy-app/generated/generated';
 import { combineLatest, map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-show-page-page',
   templateUrl: './show-page-page.component.html',
   styleUrls: ['./show-page-page.component.scss'],
   standalone: true,
-  imports: [MarkdownModule, AsyncPipe],
+  imports: [MarkdownComponent, AsyncPipe],
 })
 export class ShowPagePageComponent {
   public pageContent$: Observable<string>;

@@ -42,7 +42,7 @@
     "highcharts": "^11.2.0",
     "highcharts-angular": "^4.0.0",
     "luxon": "^3.4.4",
-    "marked": "^11.1.0",
+    "marked": "^9.1.6",
     "ngx-markdown": "^17.1.1",
     "qr-scanner": "^1.4.2",
     "rxjs": "~7.8.1",

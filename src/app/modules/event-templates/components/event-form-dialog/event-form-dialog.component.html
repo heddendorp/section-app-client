@@ -19,14 +19,14 @@
       <mat-error>You have to define an icon</mat-error>
     </mat-form-field>
     @if (data?.categories) {
-    <mat-form-field class="w-full">
-      <mat-label>Template Category</mat-label>
-      <mat-select formControlName="categoryId" required>
-        @for (category of data?.categories; track category) {
-        <mat-option [value]="category.id">{{ category.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Template Category</mat-label>
+        <mat-select formControlName="categoryId" required>
+          @for (category of data?.categories; track category) {
+            <mat-option [value]="category.id">{{ category.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     }
     <mat-form-field class="w-full">
       <mat-label>Duration</mat-label>
@@ -35,6 +35,9 @@
       <mat-hint>The duration of this event in hours</mat-hint>
       <mat-error>You have to add the duration of this event</mat-error>
     </mat-form-field>
+    <app-location-autocomplete
+      formControlName="location"
+    ></app-location-autocomplete>
     <mat-form-field class="w-full">
       <mat-label>Internal comment for the template</mat-label>
       <textarea
@@ -57,9 +60,6 @@
       <mat-hint>This description will be visible to anyone</mat-hint>
       <mat-error>You have to add an event description</mat-error>
     </mat-form-field>
-    <app-location-autocomplete
-      formControlName="location"
-    ></app-location-autocomplete>
     <mat-form-field class="w-full">
       <mat-label>Information for organizing</mat-label>
       <textarea

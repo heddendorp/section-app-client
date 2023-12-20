@@ -5365,7 +5365,7 @@ __metadata:
     highcharts-angular: ^4.0.0
     jasmine-core: ~5.1.1
     luxon: ^3.4.4
-    marked: ^11.1.0
+    marked: ^9.1.6
     ngx-markdown: ^17.1.1
     postcss: ^8.4.32
     prettier: ^3.1.1
@@ -11621,12 +11621,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "marked@npm:11.1.0"
+"marked@npm:^9.1.6":
+  version: 9.1.6
+  resolution: "marked@npm:9.1.6"
   bin:
     marked: bin/marked.js
-  checksum: fdc553ebfdc5fc5fe5c5d0d1831f4f8c3ed5fd89af7a428df5e0abce8fceac23da826b762c53027b7a900579b73e6d33908a0cf0c7618d03e0f378e710439d18
+  checksum: fc8db42e993d0b97a6f12b8edd93635fa30259ef7088982c714b1c0f54b16946dda54f1bb8a80ab1bd6914647a7217a4f482eda96eb7049bf67437c79e75a609
   languageName: node
   linkType: hard
 

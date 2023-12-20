@@ -42,7 +42,7 @@ import { RateEventComponent } from '../../../shared/components/rate-event/rate-e
 import { RatingItemComponent } from '../../../shared/components/rating-item/rating-item.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownComponent } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { EventHeaderComponent } from '../../components/event-header/event-header.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -72,7 +72,7 @@ import { DateTime } from 'luxon';
     MatIconModule,
     EventHeaderComponent,
     MatExpansionModule,
-    MarkdownModule,
+    MarkdownComponent,
     UserChipComponent,
     MatDividerModule,
     NgFor,
@@ -101,14 +101,14 @@ export class EventDetailsPageComponent implements OnDestroy {
   public eventStarted$: Observable<boolean>;
   public isAdmin$: Observable<boolean>;
   public RegistrationMode = RegistrationMode;
-  private loadEventQueryRef;
-  private destroyed$ = new Subject();
   public ratingExpanded$ = new BehaviorSubject(false);
   public lastOrganizerDeRegistration$: Observable<Date>;
   public organizerCanDeRegister$: Observable<{
     result: boolean;
     reason: string;
   }>;
+  private loadEventQueryRef;
+  private destroyed$ = new Subject();
   private deRegisterOrganizerFromEventGQL = inject(
     DeRegisterOrganizerFromEventGQL,
   );

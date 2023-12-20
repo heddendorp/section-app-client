@@ -26,7 +26,7 @@ import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
 import { FinancePlannerComponent } from '../../components/finance-planner/finance-planner.component';
 import { MatListModule } from '@angular/material/list';
 import { RatingItemComponent } from '../../../shared/components/rating-item/rating-item.component';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownComponent } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,8 +37,6 @@ import {
   AsyncPipe,
   DatePipe,
   DecimalPipe,
-  NgFor,
-  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 
@@ -49,15 +47,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     MatProgressBarModule,
     BackButtonComponent,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatExpansionModule,
-    MarkdownModule,
-    NgFor,
     RouterLink,
     RatingItemComponent,
     MatListModule,
@@ -69,14 +64,14 @@ import {
     ExtendDatePipe,
     IconURLPipe,
     NgOptimizedImage,
+    MarkdownComponent,
   ],
 })
 export class TemplateDetailsPageComponent {
   public Role = Role;
-
+  public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   private recommendedPrice: number | undefined;
 
-  public eventTemplate$: Observable<GetEventTemplateQuery['eventTemplate']>;
   constructor(
     private title: Title,
     private getEventTemplate: GetEventTemplateGQL,

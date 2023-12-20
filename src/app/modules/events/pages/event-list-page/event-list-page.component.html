@@ -1,25 +1,31 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white" class="!px-2 sm:!px-4">
     @if (searchEnabled) {
-    <div class="w-full text-base">
-      <mat-form-field class="w-full">
-        <input #searchbar matInput [formControl]="filterEvents" type="search" />
-      </mat-form-field>
-    </div>
-    } @if (!searchEnabled) {
-    <div
-      class="flex w-full flex-row items-center justify-between sm:justify-start"
-    >
-      <button mat-icon-button (click)="previousMonth()">
-        <mat-icon svgIcon="icon-back"></mat-icon>
-      </button>
-      <div resetScroll class="ml-2 mr-2 whitespace-nowrap">
-        {{ selectedMonthLabel }}
+      <div class="w-full text-base">
+        <mat-form-field class="w-full">
+          <input
+            #searchbar
+            matInput
+            [formControl]="filterEvents"
+            type="search"
+          />
+        </mat-form-field>
       </div>
-      <button mat-icon-button (click)="nextMonth()">
-        <mat-icon svgIcon="icon-forward"></mat-icon>
-      </button>
-    </div>
+    }
+    @if (!searchEnabled) {
+      <div
+        class="flex w-full flex-row items-center justify-between sm:justify-start"
+      >
+        <button mat-icon-button (click)="previousMonth()">
+          <mat-icon svgIcon="icon-back"></mat-icon>
+        </button>
+        <div resetScroll class="ml-2 mr-2 whitespace-nowrap">
+          {{ selectedMonthLabel }}
+        </div>
+        <button mat-icon-button (click)="nextMonth()">
+          <mat-icon svgIcon="icon-forward"></mat-icon>
+        </button>
+      </div>
     }
     <button
       mat-icon-button
@@ -33,64 +39,65 @@
     </button>
   </mat-toolbar>
   @if (loading$ | async) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
-<div>
+<div data-testid="app-banners">
   @for (banner of config.banners; track banner) {
-  <a
-    [class.bg-blue-400]="banner.color === 'primary'"
-    [class.bg-gray-400]="banner.color === 'secondary'"
-    [class.bg-red-400]="banner.color === 'warn'"
-    [href]="banner.link"
-    class="flex justify-center p-2"
-    target="_blank"
-  >
-    <div class="flex gap-4">
-      <p class="font-bold">{{ banner.title }}</p>
-      <markdown>{{ banner.body }}</markdown>
-    </div>
-  </a>
+    <a
+      [class.bg-blue-400]="banner.color === 'primary'"
+      [class.bg-gray-400]="banner.color === 'secondary'"
+      [class.bg-red-400]="banner.color === 'warn'"
+      [href]="banner.link"
+      class="flex justify-center p-2"
+      target="_blank"
+    >
+      <div class="flex gap-4">
+        <p class="font-bold">{{ banner.title }}</p>
+        <markdown [inline]="true" [data]="banner.body"></markdown>
+      </div>
+    </a>
   }
 </div>
 @if (timeOffset !== 0) {
-<div class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
-  <div class="flex flex-wrap items-center justify-between">
-    <div class="flex w-0 flex-1 items-center">
-      <span class="flex rounded-lg bg-orange-600 p-2 text-white">
-        <mat-icon svgIcon="icon-time-machine"></mat-icon>
-      </span>
-      <p class="ml-3 font-medium leading-tight text-white">
-        <span
-          >All times in {{ serverTimeZone }}. Your device time differs by
-          {{ timeOffset }} hour{{ timeOffset === 1 ? '' : 's' }}.</span
-        >
-      </p>
+  <div class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
+    <div class="flex flex-wrap items-center justify-between">
+      <div class="flex w-0 flex-1 items-center">
+        <span class="flex rounded-lg bg-orange-600 p-2 text-white">
+          <mat-icon svgIcon="icon-time-machine"></mat-icon>
+        </span>
+        <p class="ml-3 font-medium leading-tight text-white">
+          <span
+            >All times in {{ serverTimeZone }}. Your device time differs by
+            {{ timeOffset }} hour{{ timeOffset === 1 ? '' : 's' }}.</span
+          >
+        </p>
+      </div>
     </div>
   </div>
-</div>
-} @if (outstandingRating$ | async) {
-<div
-  @grow
-  matRipple
-  class="mx-auto cursor-pointer bg-yellow-500 py-3 px-6 lg:px-8"
-  routerLink="/profile"
->
-  <div class="flex flex-wrap items-center justify-between">
-    <div class="flex w-0 flex-1 items-center">
-      <span class="flex rounded-lg bg-yellow-600 p-2 text-white">
-        <mat-icon svgIcon="icon-star"></mat-icon>
-      </span>
-      <p class="ml-3 font-medium leading-tight text-white">
-        <span
-          >Please rate events you took part in recently!
+}
+@if (outstandingRating$ | async) {
+  <div
+    @grow
+    matRipple
+    class="mx-auto cursor-pointer bg-yellow-500 py-3 px-6 lg:px-8"
+    routerLink="/profile"
+  >
+    <div class="flex flex-wrap items-center justify-between">
+      <div class="flex w-0 flex-1 items-center">
+        <span class="flex rounded-lg bg-yellow-600 p-2 text-white">
+          <mat-icon svgIcon="icon-star"></mat-icon>
+        </span>
+        <p class="ml-3 font-medium leading-tight text-white">
+          <span
+            >Please rate events you took part in recently!
 
-          <a class="underline">Go to Profile &rarr; </a></span
-        >
-      </p>
+            <a class="underline">Go to Profile &rarr; </a></span
+          >
+        </p>
+      </div>
     </div>
   </div>
-</div>
 }
 <!-- <div
   matRipple
@@ -119,31 +126,30 @@
     Add Event
   </a>
   <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
-    @switch (selectedView$ | async) { @case ('list') {
-
-    <button
-      mat-flat-button
-      color="accent"
-      class="modern w-full sm:w-auto"
-      (click)="toggleSelectedView()"
-    >
-      <mat-icon svgIcon="icon-calendar"></mat-icon>
-      Calendar view
-    </button>
-
-    } @case ('calendar') {
-
-    <button
-      mat-flat-button
-      color="accent"
-      class="modern w-full sm:w-auto"
-      (click)="toggleSelectedView()"
-    >
-      <mat-icon svgIcon="icon-list"></mat-icon>
-      List view
-    </button>
-
-    } }
+    @switch (selectedView$ | async) {
+      @case ('list') {
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern w-full sm:w-auto"
+          (click)="toggleSelectedView()"
+        >
+          <mat-icon svgIcon="icon-calendar"></mat-icon>
+          Calendar view
+        </button>
+      }
+      @case ('calendar') {
+        <button
+          mat-flat-button
+          color="accent"
+          class="modern w-full sm:w-auto"
+          (click)="toggleSelectedView()"
+        >
+          <mat-icon svgIcon="icon-list"></mat-icon>
+          List view
+        </button>
+      }
+    }
 
     <button
       *appIfRole="[Role.User, Role.Admin]"
@@ -157,41 +163,45 @@
       Hide full
     </mat-slide-toggle>
     @if (isMember$ | async) {
-    <mat-slide-toggle [formControl]="hideFullTutorEvents">
-      Hide full (Organizers)
-    </mat-slide-toggle>
+      <mat-slide-toggle [formControl]="hideFullTutorEvents">
+        Hide full (Organizers)
+      </mat-slide-toggle>
     }
   </div>
 
-  @switch (selectedView$ | async) { @case ('list') {
-
-  <app-events-list [events]="events$ | async"></app-events-list>
-  @if ((events$ | async)?.length === 0) {
-  <div class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4" data-cy="no-events">
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="mb-6"
-    >
-      <mat-icon
-        svgIcon="icon-overtime"
-        class="card-icon bg-white text-pink-500"
-      ></mat-icon>
-      <h2 class="font-bold">No events right now</h2>
-    </div>
-    <p>
-      Right now there are no events to show you, but check back soon to see what
-      we are planning :)
-    </p>
-  </div>
-  } } @case ('calendar') {
-
-  <app-event-calendar
-    [events]="events$ | async"
-    [firstDate]="startOfMonth"
-    [lastDate]="endOfMonth"
-  ></app-event-calendar>
-
-  } }
+  @switch (selectedView$ | async) {
+    @case ('list') {
+      <app-events-list [events]="events$ | async"></app-events-list>
+      @if ((events$ | async)?.length === 0) {
+        <div
+          class="mx-auto max-w-md rounded-2xl bg-pink-200 p-4"
+          data-cy="no-events"
+        >
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="1rem"
+            class="mb-6"
+          >
+            <mat-icon
+              svgIcon="icon-overtime"
+              class="card-icon bg-white text-pink-500"
+            ></mat-icon>
+            <h2 class="font-bold">No events right now</h2>
+          </div>
+          <p>
+            Right now there are no events to show you, but check back soon to
+            see what we are planning :)
+          </p>
+        </div>
+      }
+    }
+    @case ('calendar') {
+      <app-event-calendar
+        [events]="events$ | async"
+        [firstDate]="startOfMonth"
+        [lastDate]="endOfMonth"
+      ></app-event-calendar>
+    }
+  }
 </main>

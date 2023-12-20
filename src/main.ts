@@ -15,7 +15,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { MarkdownModule } from 'ngx-markdown';
+import { provideMarkdown } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { APP_ROUTES } from '@tumi/legacy-app/app.routes';
 import {
@@ -99,7 +99,6 @@ bootstrapApplication(AppComponent, {
       BrowserModule,
       ApolloModule,
       ReactiveFormsModule,
-      MarkdownModule.forRoot(),
       MatLuxonDateModule,
       AuthModule.forRoot({
         domain: 'auth.esn.world',
@@ -134,6 +133,7 @@ bootstrapApplication(AppComponent, {
       MatSnackBarModule,
       MatDialogModule,
     ),
+    provideMarkdown(),
     Title,
     {
       provide: HTTP_INTERCEPTORS,
