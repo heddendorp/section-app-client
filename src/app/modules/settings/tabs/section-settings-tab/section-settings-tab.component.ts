@@ -70,13 +70,13 @@ export class SectionSettingsTabComponent {
     homePageLink: new FormControl(''),
   });
   protected socialLinksSectionSettingsForm = new FormGroup({
-    socialLinks: new FormArray([]),
+    socialLinks: new FormArray<any>([]),
   });
   protected sectionHubLinksSectionSettingsForm = new FormGroup({
-    sectionHubLinks: new FormArray([]),
+    sectionHubLinks: new FormArray<any>([]),
   });
   protected bannersSectionSettingsForm = new FormGroup({
-    banners: new FormArray([]),
+    banners: new FormArray<any>([]),
   });
   private snackBar = inject(MatSnackBar);
   private updateSectionSettingsGQL = inject(UpdateSectionSettingsGQL);
@@ -101,6 +101,18 @@ export class SectionSettingsTabComponent {
       this.homePageSectionSettingsForm.patchValue({
         homePageStrategy: data.homePageStrategy,
         homePageLink: data.homePageLink,
+      });
+      data.settings.socialLinks.forEach(() => this.addSocialLink());
+      this.socialLinksSectionSettingsForm.patchValue({
+        socialLinks: data.settings.socialLinks,
+      });
+      data.settings.sectionHubLinks.forEach(() => this.addSectionHubLink());
+      this.sectionHubLinksSectionSettingsForm.patchValue({
+        sectionHubLinks: data.settings.sectionHubLinks,
+      });
+      data.settings.banners.forEach(() => this.addBanner());
+      this.bannersSectionSettingsForm.patchValue({
+        banners: data.settings.banners,
       });
     });
   }
