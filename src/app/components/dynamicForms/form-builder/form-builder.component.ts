@@ -33,7 +33,13 @@ export class FormBuilderComponent {
     fields: { type: string; label: string; options: string[] }[] | undefined,
   ) {
     if (fields) {
-      this.formFields.set(fields);
+      this.formFields.set(
+        fields.map((field) => ({
+          type: field.type,
+          label: field.label,
+          options: field.options,
+        })),
+      );
     }
   }
 
