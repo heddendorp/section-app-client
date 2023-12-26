@@ -140,6 +140,7 @@ mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
     start
     end
     registrationStart
+    organizerRegistrationStart
     prices
     registrationMode
     registrationLink

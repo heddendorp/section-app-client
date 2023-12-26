@@ -2562,6 +2562,7 @@ export type UpdateCoreEventMutation = {
     start: string;
     end: string;
     registrationStart: string;
+    organizerRegistrationStart: string;
     prices?: any | null;
     registrationMode: RegistrationMode;
     registrationLink?: string | null;
@@ -6097,6 +6098,7 @@ export const UpdateCoreEventDocument = gql`
       start
       end
       registrationStart
+      organizerRegistrationStart
       prices
       registrationMode
       registrationLink
