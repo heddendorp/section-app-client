@@ -9,18 +9,6 @@ query loadRegistrationForMove($registrationId: ID!) {
   }
 }
 
-mutation verifyCertificate($cert: String!) {
-  verifyDCC(certificate: $cert) {
-    status
-    card {
-      name
-      test
-      vaccination
-      recovery
-    }
-  }
-}
-
 mutation createEventRegistrationCode(
   $eventId: ID!
   $registrationId: ID

@@ -160,28 +160,6 @@ export enum Currency {
   Eur = 'EUR',
 }
 
-export type Dcc = {
-  __typename?: 'DCC';
-  card?: Maybe<DccCard>;
-  status: Scalars['String']['output'];
-};
-
-export type DccCard = {
-  __typename?: 'DCCCard';
-  cert: Scalars['JSON']['output'];
-  format: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  pub_key: Scalars['String']['output'];
-  rawQR: Scalars['String']['output'];
-  recovery?: Maybe<Scalars['JSON']['output']>;
-  scanDate: Scalars['DateTime']['output'];
-  signature: Scalars['String']['output'];
-  test?: Maybe<Scalars['JSON']['output']>;
-  type: Scalars['String']['output'];
-  vaccination?: Maybe<Scalars['JSON']['output']>;
-  verified: Scalars['String']['output'];
-};
-
 export type DateRangeInput = {
   end?: InputMaybe<Scalars['DateTime']['input']>;
   start?: InputMaybe<Scalars['DateTime']['input']>;
@@ -429,7 +407,6 @@ export type Mutation = {
   updateUserRole: UsersOfTenants;
   updateUserStatus: UsersOfTenants;
   useRegistrationCode: EventRegistrationCode;
-  verifyDCC: Dcc;
 };
 
 export type MutationAddCostItemToEventArgs = {
@@ -654,10 +631,6 @@ export type MutationUpdateUserStatusArgs = {
 export type MutationUseRegistrationCodeArgs = {
   id: Scalars['ID']['input'];
   price?: InputMaybe<Scalars['JSON']['input']>;
-};
-
-export type MutationVerifyDccArgs = {
-  certificate: Scalars['String']['input'];
 };
 
 export type NewOrganizerInput = {
@@ -1878,25 +1851,6 @@ export type LoadRegistrationForMoveQuery = {
       __typename?: 'EventRegistrationCode';
       id: string;
       isPublic: boolean;
-    } | null;
-  };
-};
-
-export type VerifyCertificateMutationVariables = Exact<{
-  cert: Scalars['String']['input'];
-}>;
-
-export type VerifyCertificateMutation = {
-  __typename?: 'Mutation';
-  verifyDCC: {
-    __typename?: 'DCC';
-    status: string;
-    card?: {
-      __typename?: 'DCCCard';
-      name: string;
-      test?: any | null;
-      vaccination?: any | null;
-      recovery?: any | null;
     } | null;
   };
 };
@@ -5259,33 +5213,6 @@ export class LoadRegistrationForMoveGQL extends Apollo.Query<
   LoadRegistrationForMoveQueryVariables
 > {
   override document = LoadRegistrationForMoveDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const VerifyCertificateDocument = gql`
-  mutation verifyCertificate($cert: String!) {
-    verifyDCC(certificate: $cert) {
-      status
-      card {
-        name
-        test
-        vaccination
-        recovery
-      }
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class VerifyCertificateGQL extends Apollo.Mutation<
-  VerifyCertificateMutation,
-  VerifyCertificateMutationVariables
-> {
-  override document = VerifyCertificateDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

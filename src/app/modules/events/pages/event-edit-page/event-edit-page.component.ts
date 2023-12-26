@@ -536,6 +536,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             registrationStart: DateTime.fromISO(
               update.registrationStart,
             ).toJSDate(),
+            organizerRegistrationStart: DateTime.fromISO(
+              update.organizerRegistrationStart,
+            ).toJSDate(),
           },
         }),
       );
@@ -543,17 +546,17 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         delete data.updateEventCoreInfo.__typename;
         this.coreInformationForm.patchValue({
           ...data.updateEventCoreInfo,
-          start: DateTime.fromISO(data.updateEventCoreInfo.start).toISO({
-            includeOffset: false,
-          }),
-          end: DateTime.fromISO(data.updateEventCoreInfo.end).toISO({
-            includeOffset: false,
-          }),
-          registrationStart: DateTime.fromISO(
-            data.updateEventCoreInfo.registrationStart,
-          ).toISO({
-            includeOffset: false,
-          }),
+          // start: DateTime.fromISO(data.updateEventCoreInfo.start).toISO({
+          //   includeOffset: false,
+          // }),
+          // end: DateTime.fromISO(data.updateEventCoreInfo.end).toISO({
+          //   includeOffset: false,
+          // }),
+          // registrationStart: DateTime.fromISO(
+          //   data.updateEventCoreInfo.registrationStart,
+          // ).toISO({
+          //   includeOffset: false,
+          // }),
         });
       }
       this.snackBar.open('Event saved ✔️');

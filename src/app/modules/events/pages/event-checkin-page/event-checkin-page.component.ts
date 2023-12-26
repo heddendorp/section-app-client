@@ -23,7 +23,6 @@ import {
   LoadEventForRunningQuery,
   TransactionDirection,
   TransactionStatus,
-  VerifyCertificateGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
@@ -121,7 +120,6 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     private loadEvent: LoadEventForRunningGQL,
     private loadRegistration: GetRegistrationGQL,
     private checkInMutation: CheckInUserGQL,
-    private verifyCertificateGQL: VerifyCertificateGQL,
     private snackBar: MatSnackBar,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch({
@@ -141,28 +139,6 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     );
     this.scanResult$.subscribe(async (result) => {
       const isID = idTest.test(result);
-      if (result.includes('HC1')) {
-        this.verifyCertificateGQL
-          .mutate({
-            cert: result,
-          })
-          .subscribe({
-            next: ({ data }: any) => {
-              if (data) {
-                this.snackBar.open(
-                  `Certificate scanned: ${data.verifyDCC.status}`,
-                );
-                this.certificatePayload$.next(data.verifyDCC.card ?? null);
-                this.hideScanner$.next(true);
-              } else {
-                this.snackBar.open('Certificate not verified');
-              }
-            },
-            error: (err: any) => {
-              this.snackBar.open('Error processing certificate');
-            },
-          });
-      }
       if (isID) {
         this.scanner?.stop();
         this.hideScanner$.next(true);

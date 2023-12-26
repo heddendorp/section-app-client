@@ -3,154 +3,154 @@
     <app-back-button></app-back-button>
     <div>
       <h1>User check in</h1>
-      <p>You can scan TUMi QR codes and COVID certificates</p>
+      <p>You can scan section App QR codes</p>
     </div>
   </div>
   <section class="flex grow flex-col">
     @if (event$ | async; as event) {
-    <div class="mb-2 flex flex-row items-center gap-2">
-      <div class="flex w-1/3 flex-col items-center">
-        <p class="text-lg font-bold">{{ event.participantLimit }}</p>
-        <p>spots</p>
+      <div class="mb-2 flex flex-row items-center gap-2">
+        <div class="flex w-1/3 flex-col items-center">
+          <p class="text-lg font-bold">{{ event.participantLimit }}</p>
+          <p>spots</p>
+        </div>
+        <div class="flex w-1/3 flex-col items-center">
+          <p class="text-lg font-bold">
+            {{ event.participantRegistrationCount }}
+          </p>
+          <p>registered</p>
+        </div>
+        <div class="flex shrink-0 flex-col items-center">
+          <p class="text-lg font-bold">{{ event.participantsAttended }}</p>
+          <p>checked</p>
+        </div>
       </div>
-      <div class="flex w-1/3 flex-col items-center">
-        <p class="text-lg font-bold">
-          {{ event.participantRegistrationCount }}
-        </p>
-        <p>registered</p>
-      </div>
-      <div class="flex shrink-0 flex-col items-center">
-        <p class="text-lg font-bold">{{ event.participantsAttended }}</p>
-        <p>checked</p>
-      </div>
-    </div>
     }
     <video #scannerVideo [class.h-0]="hideScanner$ | async"></video>
     <mat-form-field class="my-2 w-full">
       <mat-label>Camera</mat-label>
       <mat-select [formControl]="cameraControl">
         @for (camera of cameras$ | async; track camera) {
-        <mat-option [value]="camera.id">
-          {{ camera.label }}
-        </mat-option>
+          <mat-option [value]="camera.id">
+            {{ camera.label }}
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>
     @if (currentRegistration$ | async; as registration) {
-
-    <div class="w-full rounded bg-green-500 px-2 text-lg font-bold text-white">
-      <p class="">Registration found!</p>
-    </div>
-    <div class="my-4">
-      <p class="text-lg">User</p>
-      <img
-        [ngSrc]="registration.user.picture"
-        height="96"
-        width="96"
-        referrerpolicy="no-referrer"
-        class="mx-auto w-24 rounded border-2"
-      />
-      <p class="">
-        {{ registration.user.fullName }}
-      </p>
-      <p class="">
-        Price paid:
-        {{
-          getRelevantTransaction(registration.transactions)?.amount | currency
-        }}
-        <br />
-        ESNcard number: {{ registration.user.esnCardNumber }} <br />
-        Valid until:
-        {{ registration.user.esnCardValidUntil | date: 'mediumDate' }}
-      </p>
-      <!--        TODO: fix with new transactions-->
-      <!--<p *ngIf="registration.transaction?.stripePayment">
+      <div
+        class="w-full rounded bg-green-500 px-2 text-lg font-bold text-white"
+      >
+        <p class="">Registration found!</p>
+      </div>
+      <div class="my-4">
+        <p class="text-lg">User</p>
+        <img
+          [ngSrc]="registration.user.picture"
+          height="96"
+          width="96"
+          referrerpolicy="no-referrer"
+          class="mx-auto w-24 rounded border-2"
+        />
+        <p class="">
+          {{ registration.user.fullName }}
+        </p>
+        <p class="">
+          Price paid:
+          {{
+            getRelevantTransaction(registration.transactions)?.amount | currency
+          }}
+          <br />
+          ESNcard number: {{ registration.user.esnCardNumber }} <br />
+          Valid until:
+          {{ registration.user.esnCardValidUntil | date: 'mediumDate' }}
+        </p>
+        <!--        TODO: fix with new transactions-->
+        <!--<p *ngIf="registration.transaction?.stripePayment">
           Payment status:
           <span class="rounded bg-gray-200 px-2 font-mono">{{
             registration.transaction?.stripePayment?.status
           }}</span>
         </p>-->
-    </div>
-    <div>
-      <p class="text-lg">Event</p>
-      <p>
-        {{ registration.event.title }}
-      </p>
-      @if (registrationLoading$ | async) {
-      <p class="text-red-500">
-        This data can not verify the ticket wasn't used before. Info is
-        loading...
-      </p>
+      </div>
+      <div>
+        <p class="text-lg">Event</p>
+        <p>
+          {{ registration.event.title }}
+        </p>
+        @if (registrationLoading$ | async) {
+          <p class="text-red-500">
+            This data can not verify the ticket wasn't used before. Info is
+            loading...
+          </p>
+        }
+      </div>
+      <div class="grow"></div>
+      @if (registration.didAttend) {
+        <div class="rounded bg-red-700 py-2 px-4 font-bold text-white">
+          User is already checked in for this event! <br />
+          Checkin at: {{ registration.checkInTime | date: 'medium' }}
+        </div>
       }
-    </div>
-    <div class="grow"></div>
-    @if (registration.didAttend) {
-    <div class="rounded bg-red-700 py-2 px-4 font-bold text-white">
-      User is already checked in for this event! <br />
-      Checkin at: {{ registration.checkInTime | date: 'medium' }}
-    </div>
-    } @if (registration.event?.id !== eventId) {
-    <div class="rounded bg-red-700 py-2 px-4 font-bold text-white">
-      Ticket is for the wrong event!
-    </div>
-    } } @if (certificatePayload$ | async; as certificate) {
-
-    <div class="w-full rounded bg-green-500 px-2 text-lg font-bold text-white">
-      <p class="">Certificate found!</p>
-    </div>
-    <div class="my-4 space-y-4">
-      <p class="text-lg">{{ certificate.name }}</p>
-      @if (certificate.vaccination) {
-
-      <p class="text-lg">Vaccination</p>
-      <p>
-        Dose {{ certificate.vaccination.doseNumber }} of
-        {{ certificate.vaccination.series }}
-      </p>
-      <p>
-        Received {{ certificate.vaccination.relativeDate }} on
-        {{ certificate.vaccination.date | date: 'mediumDate' }}
-      </p>
-
-      } @if (certificate.test) {
-
-      <p class="text-lg">Test</p>
-      <p>
-        Type of test: {{ certificate.test.type }} ({{
-          certificate.test.result
-        }})
-      </p>
-      <p>
-        Sample taken {{ certificate.test.relativeDate }} ({{
-          certificate.test.hours
-        }}
-        hours)
-      </p>
-
-      } @if (certificate.recovery) {
-
-      <p class="text-lg">Recovered</p>
-      <p>
-        Positive test taken {{ certificate.recovery.relativeDate }} on
-        {{ certificate.recovery.date | date: 'mediumDate' }}
-      </p>
-      <p>
-        Valid from
-        {{ certificate.recovery.validFrom | date: 'mediumDate' }} to
-        {{ certificate.recovery.validUntil | date: 'mediumDate' }}
-      </p>
-
+      @if (registration.event?.id !== eventId) {
+        <div class="rounded bg-red-700 py-2 px-4 font-bold text-white">
+          Ticket is for the wrong event!
+        </div>
       }
-    </div>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="showScanner()"
-      class="h-16"
-    >
-      Show QR scanner
-    </button>
-
+    }
+    @if (certificatePayload$ | async; as certificate) {
+      <div
+        class="w-full rounded bg-green-500 px-2 text-lg font-bold text-white"
+      >
+        <p class="">Certificate found!</p>
+      </div>
+      <div class="my-4 space-y-4">
+        <p class="text-lg">{{ certificate.name }}</p>
+        @if (certificate.vaccination) {
+          <p class="text-lg">Vaccination</p>
+          <p>
+            Dose {{ certificate.vaccination.doseNumber }} of
+            {{ certificate.vaccination.series }}
+          </p>
+          <p>
+            Received {{ certificate.vaccination.relativeDate }} on
+            {{ certificate.vaccination.date | date: 'mediumDate' }}
+          </p>
+        }
+        @if (certificate.test) {
+          <p class="text-lg">Test</p>
+          <p>
+            Type of test: {{ certificate.test.type }} ({{
+              certificate.test.result
+            }})
+          </p>
+          <p>
+            Sample taken {{ certificate.test.relativeDate }} ({{
+              certificate.test.hours
+            }}
+            hours)
+          </p>
+        }
+        @if (certificate.recovery) {
+          <p class="text-lg">Recovered</p>
+          <p>
+            Positive test taken {{ certificate.recovery.relativeDate }} on
+            {{ certificate.recovery.date | date: 'mediumDate' }}
+          </p>
+          <p>
+            Valid from
+            {{ certificate.recovery.validFrom | date: 'mediumDate' }} to
+            {{ certificate.recovery.validUntil | date: 'mediumDate' }}
+          </p>
+        }
+      </div>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="showScanner()"
+        class="h-16"
+      >
+        Show QR scanner
+      </button>
     }
   </section>
   <div class="mt-6 flex w-full flex-col justify-end gap-12">
