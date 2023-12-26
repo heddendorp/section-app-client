@@ -102,11 +102,15 @@ export class EventFormDialogComponent implements OnDestroy {
               googlePlaceId: templateValue.location.place_id,
               googlePlaceUrl: res.url,
               location: templateValue.location.structured_formatting.main_text,
+              duration: Number(templateValue.duration),
             });
           },
         );
       } else {
-        this.dialog.close(templateValue);
+        this.dialog.close({
+          ...templateValue,
+          duration: Number(templateValue.duration),
+        });
       }
     } else {
     }

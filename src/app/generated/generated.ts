@@ -1183,7 +1183,7 @@ export type UpdateResourceLinkInput = {
 export type UpdateTemplateInput = {
   comment?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  duration?: InputMaybe<Scalars['Decimal']['input']>;
+  duration?: InputMaybe<Scalars['Float']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
   organizerText?: InputMaybe<Scalars['String']['input']>;
   participantText?: InputMaybe<Scalars['String']['input']>;
