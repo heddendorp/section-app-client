@@ -1,3 +1,0 @@
-/graphql  https://server.esn.world/graphql/  200
-/qr/*  https://server.esn.world/qr/:splat  200
-/*    /index.html   200

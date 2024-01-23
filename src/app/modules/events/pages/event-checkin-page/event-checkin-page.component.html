@@ -42,6 +42,13 @@
       >
         <p class="">Registration found!</p>
       </div>
+      @if (registration.status !== RegistrationStatus.Successful) {
+        <div
+          class="w-full rounded bg-red-500 px-2 text-lg font-bold text-white"
+        >
+          <p class="">Registration status is not successful</p>
+        </div>
+      }
       <div class="my-4">
         <p class="text-lg">User</p>
         <img
@@ -162,6 +169,8 @@
       [disabled]="
         (currentRegistration$ | async) === null ||
         (currentRegistration$ | async)?.didAttend ||
+        (currentRegistration$ | async)?.status !==
+          RegistrationStatus.Successful ||
         (currentRegistration$ | async)?.event?.id !== eventId
       "
     >

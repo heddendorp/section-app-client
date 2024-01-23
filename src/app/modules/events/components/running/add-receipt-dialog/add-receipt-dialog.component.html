@@ -11,19 +11,20 @@
 
     <!-- Image Preview -->
     @if (previewURL$ | async; as url) {
-    <div class="my-2 w-full">
-      <img
-        [ngSrc]="url"
-        width="192"
-        height="192"
-        class="max-h-full object-cover"
-      />
-    </div>
-    } @if (uploadProgress$ | async) {
-    <mat-progress-bar
-      mode="determinate"
-      [value]="uploadProgress$ | async"
-    ></mat-progress-bar>
+      <div class="my-2 w-full">
+        <img
+          [src]="url"
+          width="192"
+          height="192"
+          class="max-h-full object-cover"
+        />
+      </div>
+    }
+    @if (uploadProgress$ | async) {
+      <mat-progress-bar
+        mode="determinate"
+        [value]="uploadProgress$ | async"
+      ></mat-progress-bar>
     }
 
     <mat-form-field class="w-full">

@@ -9,10 +9,7 @@ import {
 import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular-ivy';
 import { AppComponent } from './app/app.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { MatRippleModule } from '@angular/material/core';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideMarkdown } from 'ngx-markdown';
@@ -24,10 +21,7 @@ import {
   withComponentInputBinding,
   withViewTransitions,
 } from '@angular/router';
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { onError } from '@apollo/client/link/error';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
@@ -122,16 +116,7 @@ bootstrapApplication(AppComponent, {
           ],
         },
       }),
-      ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: false,
-        // Register the ServiceWorker as soon as the app is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000',
-      }),
-      MatRippleModule,
       GoogleMapsModule,
-      MatSnackBarModule,
-      MatDialogModule,
     ),
     provideMarkdown(),
     Title,

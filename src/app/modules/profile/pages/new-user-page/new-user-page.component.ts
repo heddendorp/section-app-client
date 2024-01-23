@@ -17,7 +17,7 @@ import {
   EnrolmentStatus,
   LoadCompleteProfileDataGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -28,6 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormDisplayComponent } from '@tumi/legacy-app/components/dynamicForms/form-display/form-display.component';
 import { AuthService } from '@auth0/auth0-angular';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-new-user-page',
@@ -44,6 +45,8 @@ import { AuthService } from '@auth0/auth0-angular';
     MatDatepickerModule,
     MatButtonModule,
     FormDisplayComponent,
+    MatCheckbox,
+    RouterLink,
   ],
 })
 export class NewUserPageComponent {
@@ -63,6 +66,10 @@ export class NewUserPageComponent {
     birthdate: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
+    }),
+    acceptTerms: new FormControl(false, {
+      nonNullable: true,
+      validators: [Validators.requiredTrue],
     }),
     additionalData: new FormGroup({}),
   });
@@ -109,6 +116,7 @@ export class NewUserPageComponent {
           communicationEmail:
             userData.communicationEmail || userData.email || authData?.email,
           birthdate: userData.birthdate ?? '',
+          acceptTerms: userData.lastPrivacyAcceptance ? true : false,
           additionalData: userData.additionalData,
         });
       } else {

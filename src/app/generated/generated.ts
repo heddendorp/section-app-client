@@ -52,6 +52,7 @@ export type BannerConfig = {
 };
 
 export type CompleteProfileInput = {
+  acceptTerms: Scalars['Boolean']['input'];
   additionalData?: InputMaybe<Scalars['JSONObject']['input']>;
   birthdate: Scalars['DateTime']['input'];
   communicationEmail: Scalars['String']['input'];
@@ -1263,6 +1264,7 @@ export type User = {
   iban?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
+  lastPrivacyAcceptance?: Maybe<Scalars['DateTime']['output']>;
   organizedEvents: Array<TumiEvent>;
   organizedEventsCount: Scalars['Int']['output'];
   outstandingRating: Scalars['Boolean']['output'];
@@ -2045,6 +2047,7 @@ export type GetRegistrationQuery = {
   registration: {
     __typename?: 'EventRegistration';
     id: string;
+    status: RegistrationStatus;
     type: RegistrationType;
     didAttend: boolean;
     checkInTime?: string | null;
@@ -2945,6 +2948,7 @@ export type LoadCompleteProfileDataQuery = {
     email: string;
     communicationEmail?: string | null;
     birthdate?: string | null;
+    lastPrivacyAcceptance?: string | null;
     additionalData: any;
   } | null;
 };
@@ -5485,6 +5489,7 @@ export const GetRegistrationDocument = gql`
           status
         }
       }
+      status
       type
       didAttend
       checkInTime
@@ -6638,6 +6643,7 @@ export const LoadCompleteProfileDataDocument = gql`
       email
       communicationEmail
       birthdate
+      lastPrivacyAcceptance
       additionalData
     }
   }

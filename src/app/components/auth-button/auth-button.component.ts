@@ -40,7 +40,9 @@ export class AuthButtonComponent {
               !user.data.currentUser ||
               !user.data.currentUser.profileComplete
             ) {
-              void router.navigate(['/', 'profile', 'complete']);
+              if (!location.pathname.includes('/page')) {
+                void router.navigate(['/', 'profile', 'complete']);
+              }
             }
           }),
         )

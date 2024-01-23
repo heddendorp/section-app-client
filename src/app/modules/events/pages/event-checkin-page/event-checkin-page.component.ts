@@ -21,6 +21,7 @@ import {
   GetRegistrationQuery,
   LoadEventForRunningGQL,
   LoadEventForRunningQuery,
+  RegistrationStatus,
   TransactionDirection,
   TransactionStatus,
 } from '@tumi/legacy-app/generated/generated';
@@ -240,4 +241,6 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
       this.snackBar.open('⚠️ No registration loaded');
     }
   }
+
+  protected readonly RegistrationStatus = RegistrationStatus;
 }

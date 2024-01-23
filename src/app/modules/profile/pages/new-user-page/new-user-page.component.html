@@ -51,6 +51,12 @@
         [startAt]="startDate"
       ></mat-datepicker>
     </mat-form-field>
+    <mat-checkbox formControlName="acceptTerms">
+      I accept that my data will be processed according to the
+      <a class="underline" routerLink="/page/privacy" target="_blank">
+        Privacy Policy
+      </a>
+    </mat-checkbox>
   </div>
   <div class="mt-12">
     <h2 class="text-base font-semibold leading-7 text-gray-900">

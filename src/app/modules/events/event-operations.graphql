@@ -184,6 +184,7 @@ query getRegistration($id: ID!) {
         status
       }
     }
+    status
     type
     didAttend
     checkInTime

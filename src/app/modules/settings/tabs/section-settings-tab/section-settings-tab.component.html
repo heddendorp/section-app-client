@@ -64,10 +64,7 @@
         </ng-container>
       </div>
       <button
-        [disabled]="
-          generalSectionSettingsForm.invalid ||
-          generalSectionSettingsForm.pristine
-        "
+        [disabled]="generalSectionSettingsForm.invalid"
         class="mt-4"
         mat-flat-button
         type="submit"
@@ -120,10 +117,7 @@
         </mat-form-field>
       </div>
       <button
-        [disabled]="
-          homePageSectionSettingsForm.invalid ||
-          homePageSectionSettingsForm.pristine
-        "
+        [disabled]="homePageSectionSettingsForm.invalid"
         class="mt-4"
         mat-flat-button
         type="submit"
@@ -178,7 +172,7 @@
               <mat-label>Color</mat-label>
               <mat-select formControlName="color">
                 <mat-option value="primary">Primary</mat-option>
-                <mat-option value="accent">Accent</mat-option>
+                <mat-option value="secondary">Secondary</mat-option>
                 <mat-option value="warn">Warn</mat-option>
               </mat-select>
             </mat-form-field>
@@ -209,10 +203,7 @@
       </ng-container>
       <br />
       <button
-        [disabled]="
-          bannersSectionSettingsForm.invalid ||
-          bannersSectionSettingsForm.pristine
-        "
+        [disabled]="bannersSectionSettingsForm.invalid"
         class="mt-4"
         mat-flat-button
         type="submit"
@@ -286,10 +277,7 @@
       </ng-container>
       <br />
       <button
-        [disabled]="
-          sectionHubLinksSectionSettingsForm.invalid ||
-          sectionHubLinksSectionSettingsForm.pristine
-        "
+        [disabled]="sectionHubLinksSectionSettingsForm.invalid"
         class="mt-4"
         mat-flat-button
         type="submit"
@@ -362,10 +350,7 @@
       </ng-container>
       <br />
       <button
-        [disabled]="
-          socialLinksSectionSettingsForm.invalid ||
-          socialLinksSectionSettingsForm.pristine
-        "
+        [disabled]="socialLinksSectionSettingsForm.invalid"
         class="mt-4"
         mat-flat-button
         type="submit"

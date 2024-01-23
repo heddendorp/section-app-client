@@ -1,4 +1,4 @@
-query loadCompleteProfileData{
+query loadCompleteProfileData {
   currentTenant {
     id
     name
@@ -17,6 +17,7 @@ query loadCompleteProfileData{
     email
     communicationEmail
     birthdate
+    lastPrivacyAcceptance
     additionalData
   }
 }

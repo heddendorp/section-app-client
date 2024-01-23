@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // stripeKey: 'pk_live_cwWIdXXGPsJXy0UDC26mL4ai',
-  stripeKey: 'pk_test_yTgqTWFQv6R8G58nOlHISiOL',
+  stripeKey:
+    'pk_test_51OYTZmADdj7oaBao0kr4zOEtm0Na7V5D3mMP5oc0diE0qraDDumSBhXm5wCvOHWsvSIXcXcDbzpjalvbEQvFods300oIfXfv8Z',
   server: 'http://localhost:3333',
   useApiPath: true,
   version: 'dev',
