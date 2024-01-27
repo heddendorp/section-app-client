@@ -15,6 +15,9 @@ query loadCompleteProfileData {
     firstName
     lastName
     email
+    phone
+    phoneNumberOnWhatsapp
+    acceptPhoneUsage
     communicationEmail
     birthdate
     lastPrivacyAcceptance
@@ -28,6 +31,9 @@ mutation completeProfileMutation($input: CompleteProfileInput!) {
     firstName
     lastName
     email
+    phone
+    phoneNumberOnWhatsapp
+    acceptPhoneUsage
     birthdate
     additionalData
   }

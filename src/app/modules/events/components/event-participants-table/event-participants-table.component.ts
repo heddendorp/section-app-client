@@ -26,6 +26,7 @@ export type ParticipantTableRegistration = {
     fullName: string;
     email: string;
     additionalData: any;
+    phone?: string | null;
   };
 };
 

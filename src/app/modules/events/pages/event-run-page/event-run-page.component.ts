@@ -111,6 +111,9 @@ export class EventRunPageComponent implements OnDestroy {
     };
     attempt();
   }
+  getWhatsAppLink(phone = '') {
+    return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
+  }
 
   async copyParticipantMails() {
     const event = await firstValueFrom(this.event$);

@@ -35,6 +35,8 @@ export type Scalars = {
   JSON: { input: any; output: any };
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: any; output: any };
+  /** A field whose value conforms to the standard E.164 format as specified in: https://en.wikipedia.org/wiki/E.164. Basically this is +17895551234. */
+  PhoneNumber: { input: any; output: any };
 };
 
 export type AddCostItemInput = {
@@ -52,12 +54,15 @@ export type BannerConfig = {
 };
 
 export type CompleteProfileInput = {
+  acceptPhoneUsage: Scalars['Boolean']['input'];
   acceptTerms: Scalars['Boolean']['input'];
   additionalData?: InputMaybe<Scalars['JSONObject']['input']>;
   birthdate: Scalars['DateTime']['input'];
   communicationEmail: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
+  phone?: InputMaybe<Scalars['PhoneNumber']['input']>;
+  phoneNumberOnWhatsapp?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CostItem = {
@@ -145,15 +150,6 @@ export type CreateTransactionInput = {
   subject: Scalars['String']['input'];
   type: TransactionType;
   userId?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type CreateUserInput = {
-  birthdate: Scalars['DateTime']['input'];
-  enrolmentStatus: EnrolmentStatus;
-  firstName: Scalars['String']['input'];
-  lastName: Scalars['String']['input'];
-  phone?: InputMaybe<Scalars['String']['input']>;
-  university: Scalars['String']['input'];
 };
 
 export enum Currency {
@@ -374,8 +370,6 @@ export type Mutation = {
   createRegistrationCode: EventRegistrationCode;
   createSubmissionItem: EventSubmissionItem;
   createTransaction: Transaction;
-  /** @deprecated Use completeProfile instead */
-  createUser: User;
   deleteCostItem: CostItem;
   deleteEvent: TumiEvent;
   deleteEventTemplateCategory: EventTemplateCategory;
@@ -401,8 +395,6 @@ export type Mutation = {
   updateTemplateFinances: EventTemplate;
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
-  /** @deprecated Use completeProfile instead */
-  updateUser: User;
   updateUserPicture: User;
   updateUserPosition: User;
   updateUserRole: UsersOfTenants;
@@ -484,10 +476,6 @@ export type MutationCreateSubmissionItemArgs = {
 
 export type MutationCreateTransactionArgs = {
   createTransactionInput: CreateTransactionInput;
-};
-
-export type MutationCreateUserArgs = {
-  input: CreateUserInput;
 };
 
 export type MutationDeleteCostItemArgs = {
@@ -604,11 +592,6 @@ export type MutationUpdateTenantArgs = {
   updateTenantInput: UpdateTenantInput;
 };
 
-export type MutationUpdateUserArgs = {
-  input: UpdateUserInput;
-  userId: Scalars['ID']['input'];
-};
-
 export type MutationUpdateUserPictureArgs = {
   file: Scalars['String']['input'];
   userId: Scalars['ID']['input'];
@@ -685,6 +668,7 @@ export enum PublicationState {
 export type Query = {
   __typename?: 'Query';
   blobUploadKey: Scalars['String']['output'];
+  collectedFeesByMonth: Scalars['Int']['output'];
   commonEvents: Array<TumiEvent>;
   costItem: CostItem;
   costItems: Array<CostItem>;
@@ -706,13 +690,19 @@ export type Query = {
   registrationCount: Scalars['Int']['output'];
   registrations: Array<EventRegistration>;
   statistics: Statistics;
+  tenantFeeMonths: Array<TenantFeeMonth>;
   tenants: Array<Tenant>;
+  totalCollectedFees: Scalars['Int']['output'];
   transactionCount: Scalars['Int']['output'];
   transactionNetAmount: Scalars['Decimal']['output'];
   transactions: Array<Transaction>;
   user: User;
   userSearchResultNum: Scalars['Int']['output'];
   users: Array<User>;
+};
+
+export type QueryCollectedFeesByMonthArgs = {
+  month: Scalars['String']['input'];
 };
 
 export type QueryCommonEventsArgs = {
@@ -956,6 +946,17 @@ export type Tenant = {
 
 export type TenantTutorHubEventsArgs = {
   range?: InputMaybe<DateRangeInput>;
+};
+
+export type TenantFeeMonth = {
+  __typename?: 'TenantFeeMonth';
+  amount: Scalars['Int']['output'];
+  amountRefunded: Scalars['Int']['output'];
+  month: Scalars['String']['output'];
+  netAmount: Scalars['Int']['output'];
+  tenantId: Scalars['ID']['output'];
+  tenantName: Scalars['String']['output'];
+  transactionCount: Scalars['Int']['output'];
 };
 
 export type TenantSettings = {
@@ -1229,16 +1230,9 @@ export type UpdateTenantSettingsInput = {
   userDataCollection?: InputMaybe<Array<DynamicFormFieldInput>>;
 };
 
-export type UpdateUserInput = {
-  birthdate?: InputMaybe<Scalars['DateTime']['input']>;
-  communicationEmail?: InputMaybe<Scalars['String']['input']>;
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  lastName?: InputMaybe<Scalars['String']['input']>;
-  university?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type User = {
   __typename?: 'User';
+  acceptPhoneUsage: Scalars['Boolean']['output'];
   additionalData: Scalars['JSONObject']['output'];
   authId: Scalars['String']['output'];
   birthdate?: Maybe<Scalars['DateTime']['output']>;
@@ -1270,6 +1264,8 @@ export type User = {
   outstandingRating: Scalars['Boolean']['output'];
   participatedEvents: Array<TumiEvent>;
   paypal?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  phoneNumberOnWhatsapp: Scalars['Boolean']['output'];
   picture: Scalars['String']['output'];
   position?: Maybe<Scalars['String']['output']>;
   profileComplete: Scalars['Boolean']['output'];
@@ -1896,6 +1892,9 @@ export type LoadEventForRunningQuery = {
         fullName: string;
         picture: string;
         email: string;
+        acceptPhoneUsage: boolean;
+        phone?: string | null;
+        phoneNumberOnWhatsapp: boolean;
         additionalData: any;
         communicationEmail?: string | null;
         currentTenant?: {
@@ -1956,6 +1955,9 @@ export type LoadEventForRunningQuery = {
         lastName: string;
         picture: string;
         email: string;
+        acceptPhoneUsage: boolean;
+        phone?: string | null;
+        phoneNumberOnWhatsapp: boolean;
         esnCardValidUntil?: string | null;
         esnCardNumber?: string | null;
         communicationEmail?: string | null;
@@ -2331,6 +2333,10 @@ export type LoadEventQuery = {
       id: string;
       fullName: string;
       picture: string;
+      acceptPhoneUsage: boolean;
+      phoneNumberOnWhatsapp: boolean;
+      phone?: string | null;
+      communicationEmail?: string | null;
       currentTenant?: {
         __typename?: 'UsersOfTenants';
         userId: string;
@@ -2757,6 +2763,7 @@ export type LoadEventForManagementQuery = {
         firstName: string;
         lastName: string;
         picture: string;
+        phone?: string | null;
         email: string;
         additionalData: any;
         currentTenant?: {
@@ -2881,6 +2888,29 @@ export type LoadPublicRegistrationCodesQuery = {
   }>;
 };
 
+export type GlobalAdminFeeOverviewQueryVariables = Exact<{
+  currentMonth: Scalars['String']['input'];
+  lastMonth: Scalars['String']['input'];
+  monthBeforeLast: Scalars['String']['input'];
+}>;
+
+export type GlobalAdminFeeOverviewQuery = {
+  __typename?: 'Query';
+  totalCollectedFees: number;
+  currentMonth: number;
+  lastMonth: number;
+  monthBeforeLast: number;
+  tenantFeeMonths: Array<{
+    __typename?: 'TenantFeeMonth';
+    amount: number;
+    amountRefunded: number;
+    netAmount: number;
+    tenantName: string;
+    month: string;
+    transactionCount: number;
+  }>;
+};
+
 export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetHomePageDataQuery = {
@@ -2946,6 +2976,9 @@ export type LoadCompleteProfileDataQuery = {
     firstName: string;
     lastName: string;
     email: string;
+    phone?: string | null;
+    phoneNumberOnWhatsapp: boolean;
+    acceptPhoneUsage: boolean;
     communicationEmail?: string | null;
     birthdate?: string | null;
     lastPrivacyAcceptance?: string | null;
@@ -2965,6 +2998,9 @@ export type CompleteProfileMutationMutation = {
     firstName: string;
     lastName: string;
     email: string;
+    phone?: string | null;
+    phoneNumberOnWhatsapp: boolean;
+    acceptPhoneUsage: boolean;
     birthdate?: string | null;
     additionalData: any;
   };
@@ -3048,6 +3084,9 @@ export type UserProfileQuery = {
     communicationEmail?: string | null;
     iban?: string | null;
     paypal?: string | null;
+    phone?: string | null;
+    phoneNumberOnWhatsapp: boolean;
+    acceptPhoneUsage: boolean;
     birthdate?: string | null;
     firstName: string;
     lastName: string;
@@ -3235,36 +3274,6 @@ export type UseRegistrationCodeMutation = {
       start: string;
       prices?: any | null;
     };
-  };
-};
-
-export type UpdateProfileMutationVariables = Exact<{
-  input: UpdateUserInput;
-  userId: Scalars['ID']['input'];
-}>;
-
-export type UpdateProfileMutation = {
-  __typename?: 'Mutation';
-  updateUser: {
-    __typename?: 'User';
-    id: string;
-    firstName: string;
-    lastName: string;
-    fullName: string;
-  };
-};
-
-export type UpdateUserInformationMutationVariables = Exact<{
-  input: UpdateUserInput;
-  userId: Scalars['ID']['input'];
-}>;
-
-export type UpdateUserInformationMutation = {
-  __typename?: 'Mutation';
-  updateUser: {
-    __typename?: 'User';
-    id: string;
-    communicationEmail?: string | null;
   };
 };
 
@@ -5277,6 +5286,9 @@ export const LoadEventForRunningDocument = gql`
           fullName
           picture
           email
+          acceptPhoneUsage
+          phone
+          phoneNumberOnWhatsapp
           additionalData
           communicationEmail
           currentTenant {
@@ -5330,6 +5342,9 @@ export const LoadEventForRunningDocument = gql`
           lastName
           picture
           email
+          acceptPhoneUsage
+          phone
+          phoneNumberOnWhatsapp
           esnCardValidUntil
           esnCardNumber
           communicationEmail
@@ -5802,6 +5817,10 @@ export const LoadEventDocument = gql`
         id
         fullName
         picture
+        acceptPhoneUsage
+        phoneNumberOnWhatsapp
+        phone
+        communicationEmail
         currentTenant {
           userId
           tenantId
@@ -6335,6 +6354,7 @@ export const LoadEventForManagementDocument = gql`
           firstName
           lastName
           picture
+          phone
           email
           additionalData
           currentTenant {
@@ -6547,6 +6567,40 @@ export class LoadPublicRegistrationCodesGQL extends Apollo.Query<
     super(apollo);
   }
 }
+export const GlobalAdminFeeOverviewDocument = gql`
+  query globalAdminFeeOverview(
+    $currentMonth: String!
+    $lastMonth: String!
+    $monthBeforeLast: String!
+  ) {
+    totalCollectedFees
+    currentMonth: collectedFeesByMonth(month: $currentMonth)
+    lastMonth: collectedFeesByMonth(month: $lastMonth)
+    monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
+    tenantFeeMonths {
+      amount
+      amountRefunded
+      netAmount
+      tenantName
+      month
+      transactionCount
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GlobalAdminFeeOverviewGQL extends Apollo.Query<
+  GlobalAdminFeeOverviewQuery,
+  GlobalAdminFeeOverviewQueryVariables
+> {
+  override document = GlobalAdminFeeOverviewDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const GetHomePageDataDocument = gql`
   query getHomePageData {
     events(limit: 10) {
@@ -6641,6 +6695,9 @@ export const LoadCompleteProfileDataDocument = gql`
       firstName
       lastName
       email
+      phone
+      phoneNumberOnWhatsapp
+      acceptPhoneUsage
       communicationEmail
       birthdate
       lastPrivacyAcceptance
@@ -6669,6 +6726,9 @@ export const CompleteProfileMutationDocument = gql`
       firstName
       lastName
       email
+      phone
+      phoneNumberOnWhatsapp
+      acceptPhoneUsage
       birthdate
       additionalData
     }
@@ -6804,6 +6864,9 @@ export const UserProfileDocument = gql`
       communicationEmail
       iban
       paypal
+      phone
+      phoneNumberOnWhatsapp
+      acceptPhoneUsage
       birthdate
       firstName
       lastName
@@ -7048,52 +7111,6 @@ export class UseRegistrationCodeGQL extends Apollo.Mutation<
   UseRegistrationCodeMutationVariables
 > {
   override document = UseRegistrationCodeDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const UpdateProfileDocument = gql`
-  mutation updateProfile($input: UpdateUserInput!, $userId: ID!) {
-    updateUser(input: $input, userId: $userId) {
-      id
-      firstName
-      lastName
-      fullName
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UpdateProfileGQL extends Apollo.Mutation<
-  UpdateProfileMutation,
-  UpdateProfileMutationVariables
-> {
-  override document = UpdateProfileDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const UpdateUserInformationDocument = gql`
-  mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
-    updateUser(input: $input, userId: $userId) {
-      id
-      communicationEmail
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class UpdateUserInformationGQL extends Apollo.Mutation<
-  UpdateUserInformationMutation,
-  UpdateUserInformationMutationVariables
-> {
-  override document = UpdateUserInformationDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

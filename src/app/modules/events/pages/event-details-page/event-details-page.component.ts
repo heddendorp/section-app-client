@@ -51,6 +51,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
   AsyncPipe,
   DatePipe,
+  JsonPipe,
   NgFor,
   NgIf,
   NgOptimizedImage,
@@ -90,6 +91,7 @@ import { DateTime } from 'luxon';
     ExtendDatePipe,
     IconURLPipe,
     NgOptimizedImage,
+    JsonPipe,
   ],
 })
 @TraceClassDecorator()
@@ -211,6 +213,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     this.destroyed$.next(true);
     this.destroyed$.complete();
     this.loadEventQueryRef.stopPolling();
+  }
+
+  getWhatsAppLink(phone = '') {
+    return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
   }
 
   async registerAsOrganizer() {

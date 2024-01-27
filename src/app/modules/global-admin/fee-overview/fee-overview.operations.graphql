@@ -1,0 +1,18 @@
+query globalAdminFeeOverview(
+  $currentMonth: String!
+  $lastMonth: String!
+  $monthBeforeLast: String!
+) {
+  totalCollectedFees
+  currentMonth: collectedFeesByMonth(month: $currentMonth)
+  lastMonth: collectedFeesByMonth(month: $lastMonth)
+  monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
+  tenantFeeMonths {
+    amount
+    amountRefunded
+    netAmount
+    tenantName
+    month
+    transactionCount
+  }
+}

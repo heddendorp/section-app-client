@@ -86,6 +86,7 @@ query loadEventForManagement($id: ID!) {
         firstName
         lastName
         picture
+        phone
         email
         additionalData
         currentTenant {

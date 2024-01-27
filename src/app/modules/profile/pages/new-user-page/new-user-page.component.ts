@@ -25,10 +25,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormDisplayComponent } from '@tumi/legacy-app/components/dynamicForms/form-display/form-display.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-new-user-page',
@@ -56,6 +57,14 @@ export class NewUserPageComponent {
       validators: [Validators.required],
     }),
     lastName: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    phone: new FormControl('', {
+      validators: [Validators.pattern(/^\+[1-9]\d{1,14}$/)],
+    }),
+    phoneNumberOnWhatsapp: new FormControl(false),
+    acceptPhoneUsage: new FormControl(false, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -93,6 +102,23 @@ export class NewUserPageComponent {
   );
 
   constructor() {
+    this.completeProfileForm
+      .get('acceptPhoneUsage')
+      ?.valueChanges.pipe(takeUntilDestroyed(), startWith(false))
+      .subscribe((value) => {
+        console.log(value);
+        if (value) {
+          this.completeProfileForm.get('phoneNumberOnWhatsapp')?.enable();
+          this.completeProfileForm.get('phone')?.enable();
+        } else {
+          this.completeProfileForm.get('phoneNumberOnWhatsapp')?.disable();
+          this.completeProfileForm.get('phone')?.disable();
+          this.completeProfileForm
+            .get('phoneNumberOnWhatsapp')
+            ?.setValue(false);
+          this.completeProfileForm.get('phone')?.setValue('');
+        }
+      });
     effect(() => {
       const formConfig = this.formConfig();
       this.additionalDataForm.controls = {};
@@ -113,6 +139,9 @@ export class NewUserPageComponent {
         this.completeProfileForm.patchValue({
           firstName: userData.firstName || authData?.given_name,
           lastName: userData.lastName || authData?.family_name,
+          phone: userData.phone || '',
+          phoneNumberOnWhatsapp: userData.phoneNumberOnWhatsapp || false,
+          acceptPhoneUsage: userData.acceptPhoneUsage || false,
           communicationEmail:
             userData.communicationEmail || userData.email || authData?.email,
           birthdate: userData.birthdate ?? '',
@@ -131,14 +160,22 @@ export class NewUserPageComponent {
     });
   }
 
+  get acceptPhoneUsage(): boolean {
+    return this.completeProfileForm.get('acceptPhoneUsage')?.value ?? false;
+  }
+
   get additionalDataForm(): UntypedFormGroup {
     return this.completeProfileForm.get('additionalData') as UntypedFormGroup;
   }
 
   public onSubmit(): void {
     if (this.completeProfileForm.invalid) return;
+    const input = {
+      ...this.completeProfileForm.getRawValue(),
+      phone: this.completeProfileForm.getRawValue().phone || undefined,
+    };
     this.completeProfileMutationGQL
-      .mutate({ input: this.completeProfileForm.getRawValue() })
+      .mutate({ input })
       .subscribe(() => this.router.navigate(['/', 'profile']));
   }
 }

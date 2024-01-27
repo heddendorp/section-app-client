@@ -9,8 +9,6 @@ import {
   GetProfileUploadKeyGQL,
   MembershipStatus,
   SubmitEventFeedbackGQL,
-  UpdateProfileGQL,
-  UpdateUserInformationGQL,
   UpdateUserPictureGQL,
   UserProfileEventsGQL,
   UserProfileEventsQuery,
@@ -91,8 +89,6 @@ export class ProfilePageComponent implements OnDestroy {
     private profileQuery: UserProfileGQL,
     private profileEventsQuery: UserProfileEventsGQL,
     private submitEventFeedbackGQL: SubmitEventFeedbackGQL,
-    private updateProfileMutation: UpdateProfileGQL,
-    private updateUserInformationMutation: UpdateUserInformationGQL,
     private addEsnCardGQL: AddEsnCardGQL,
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -167,16 +163,6 @@ export class ProfilePageComponent implements OnDestroy {
       }
     }
   }
-
-  /*async setupStripePayment() {
-    const { data } = await firstValueFrom(this.getStripeSession.fetch());
-    const stripe = await loadStripe(environment.stripeKey);
-    if (stripe) {
-      await stripe.redirectToCheckout({
-        sessionId: data.getPaymentSetupSession.id,
-      });
-    }
-  }*/
 
   getEntries(obj: any) {
     return Object.entries(obj);

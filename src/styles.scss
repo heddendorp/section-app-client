@@ -193,6 +193,10 @@ $tumi-dark-theme: mat.define-dark-theme(
   border-right: none;
 }
 
+.mat-mdc-button-base {
+  line-height: normal;
+}
+
 @layer base {
   html {
     box-sizing: border-box;

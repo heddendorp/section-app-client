@@ -5,6 +5,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
+/**
+ * @deprecated Replace with other options
+ */
 @Component({
   selector: 'app-user-chip',
   templateUrl: './user-chip.component.html',

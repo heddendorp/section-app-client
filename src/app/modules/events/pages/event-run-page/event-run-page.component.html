@@ -98,36 +98,155 @@
       </li>
     </ul>
 
-    <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
-    >
-      <div class="mb-4 flex gap-4 justify-center">
-        <mat-icon
-          svgIcon="icon-conference"
-          class="text-secondary-default bg-secondary-on card-icon"
-        >
-        </mat-icon>
-        <h2 class="font-bold">Organizers</h2>
+    <div class="flex gap-8 flex-col lg:flex-row">
+      <div
+        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+      >
+        <div class="mb-4 flex gap-4 justify-center">
+          <mat-icon
+            svgIcon="icon-conference"
+            class="text-secondary-default bg-secondary-on card-icon"
+          >
+          </mat-icon>
+          <h2 class="font-bold">Organizers</h2>
+        </div>
+        <div class="flex flex-col gap-2 lg:w-96">
+          @for (
+            registration of event.organizerRegistrations;
+            track registration
+          ) {
+            <div class="flex gap-2">
+              <div class="group block flex-shrink-0 flex-grow">
+                <div class="flex items-center">
+                  <div>
+                    <img
+                      class="inline-block h-9 w-9 rounded-full"
+                      [src]="registration.user.picture"
+                      referrerpolicy="no-referrer"
+                      alt=""
+                    />
+                  </div>
+                  <div class="ml-3">
+                    <p
+                      class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
+                      >{{ registration.user.fullName }}</p
+                    >
+                    @if (registration.user.acceptPhoneUsage) {
+                      <p
+                        class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                      >
+                        {{ registration.user.phone }}
+                      </p>
+                    } @else {
+                      <p
+                        class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                      >
+                        {{ registration.user.communicationEmail }}
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+              @if (registration.user.acceptPhoneUsage) {
+                @if (registration.user.phoneNumberOnWhatsapp) {
+                  <a
+                    [href]="
+                      getWhatsAppLink(registration.user.phone ?? undefined)
+                    "
+                    mat-icon-button
+                  >
+                    <mat-icon svgIcon="icon-whatsapp"></mat-icon>
+                  </a>
+                }
+                <a href="tel:{{ registration.user.phone }}" mat-icon-button>
+                  <mat-icon svgIcon="icon-phone-disconnected"></mat-icon>
+                </a>
+              } @else {
+                <a
+                  href="mailto:{{ registration.user.communicationEmail }}"
+                  mat-icon-button
+                >
+                  <mat-icon svgIcon="icon-new-post"></mat-icon>
+                </a>
+              }
+            </div>
+          }
+        </div>
       </div>
-      <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-        @for (
-          registration of event.organizerRegistrations;
-          track registration
-        ) {
-          <div>
-            <app-user-chip
-              size="md"
-              [id]="registration.user.id"
-              [picture]="registration.user.picture"
-              [name]="registration.user.fullName"
-              [status]="registration.user.currentTenant?.status + ''"
-              [tag]="
-                registration.user.id === event.createdBy.id ? 'Creator' : ''
-              "
-            >
-            </app-user-chip>
-          </div>
-        }
+
+      <div
+        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+      >
+        <div class="mb-4 flex gap-4 justify-center">
+          <mat-icon
+            svgIcon="icon-conference"
+            class="text-secondary-default bg-secondary-on card-icon"
+          >
+          </mat-icon>
+          <h2 class="font-bold">Participants</h2>
+        </div>
+        <div class="flex flex-col gap-2 lg:w-96">
+          @for (
+            registration of event.participantRegistrations;
+            track registration
+          ) {
+            <div class="flex gap-2">
+              <div class="group block flex-shrink-0 flex-grow">
+                <div class="flex items-center">
+                  <div>
+                    <img
+                      class="inline-block h-9 w-9 rounded-full"
+                      [src]="registration.user.picture"
+                      referrerpolicy="no-referrer"
+                      alt=""
+                    />
+                  </div>
+                  <div class="ml-3">
+                    <p
+                      class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
+                      >{{ registration.user.fullName }}</p
+                    >
+                    @if (registration.user.acceptPhoneUsage) {
+                      <p
+                        class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                      >
+                        {{ registration.user.phone }}
+                      </p>
+                    } @else {
+                      <p
+                        class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                      >
+                        {{ registration.user.communicationEmail }}
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+              @if (registration.user.acceptPhoneUsage) {
+                @if (registration.user.phoneNumberOnWhatsapp) {
+                  <a
+                    [href]="
+                      getWhatsAppLink(registration.user.phone ?? undefined)
+                    "
+                    mat-icon-button
+                  >
+                    <mat-icon svgIcon="icon-whatsapp"></mat-icon>
+                  </a>
+                }
+                <a href="tel:{{ registration.user.phone }}" mat-icon-button>
+                  <mat-icon svgIcon="icon-phone-disconnected"></mat-icon>
+                </a>
+              } @else {
+                <a
+                  href="mailto:{{ registration.user.communicationEmail }}"
+                  mat-icon-button
+                >
+                  <mat-icon svgIcon="icon-new-post"></mat-icon>
+                </a>
+              }
+            </div>
+          }
+        </div>
       </div>
     </div>
 

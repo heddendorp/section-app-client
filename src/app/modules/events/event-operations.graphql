@@ -47,6 +47,9 @@ query loadEventForRunning($id: ID!) {
         fullName
         picture
         email
+        acceptPhoneUsage
+        phone
+        phoneNumberOnWhatsapp
         additionalData
         communicationEmail
         currentTenant {
@@ -100,6 +103,9 @@ query loadEventForRunning($id: ID!) {
         lastName
         picture
         email
+        acceptPhoneUsage
+        phone
+        phoneNumberOnWhatsapp
         esnCardValidUntil
         esnCardNumber
         communicationEmail

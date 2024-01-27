@@ -210,13 +210,12 @@ export class EventManagePageComponent implements OnDestroy {
     throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
   }
 
-  async createRegistrationCode(sepaAllowed = false) {
+  async createRegistrationCode() {
     const event = await firstValueFrom(this.event$);
     await firstValueFrom(
       this.createEventRegistrationCodeGQL.mutate({
         eventId: event.id,
         isPublic: false,
-        sepaAllowed,
       }),
     );
     this.loadEventQueryRef.refetch();

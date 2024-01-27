@@ -22,6 +22,7 @@ import {
   NgSwitch,
   NgSwitchCase,
 } from '@angular/common';
+import { IfGlobalAdminDirective } from '@tumi/legacy-app/modules/shared/directives/if-global-admin.directive';
 
 @Component({
   selector: 'app-navigation',
@@ -41,6 +42,7 @@ import {
     AuthButtonComponent,
     AsyncPipe,
     NgOptimizedImage,
+    IfGlobalAdminDirective,
   ],
 })
 export class NavigationComponent {

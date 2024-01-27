@@ -1,0 +1,239 @@
+<div class="pt-4 lg:pt-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="md:flex md:items-center md:justify-between">
+      <div class="min-w-0 flex-1">
+        <h2
+          class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
+          >Fee collection overview</h2
+        >
+      </div>
+    </div>
+    <!--  <div class="mt-4 flex md:ml-4 md:mt-0">-->
+    <!--    <button type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button>-->
+    <!--    <button type="button" class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Publish</button>-->
+    <!--  </div>-->
+    <div class="my-10">
+      <dl
+        class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
+      >
+        <div class="px-4 py-5 sm:p-6">
+          <dt class="text-base font-normal text-gray-900">Total Fees</dt>
+          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div
+              class="flex items-baseline text-2xl font-semibold text-indigo-600"
+            >
+              {{ totalFees() | currency: 'EUR' }}
+            </div>
+          </dd>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <dt class="text-base font-normal text-gray-900">
+            {{ currentMonth | date: 'MMMM yyyy' }}
+          </dt>
+          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div
+              class="flex items-baseline text-2xl font-semibold text-indigo-600"
+            >
+              {{ currentMonthFees() | currency: 'EUR' }}
+              <span class="ml-2 text-sm font-medium text-gray-500">
+                from {{ lastMonthFees() | currency: 'EUR' }}
+              </span>
+            </div>
+
+            @if (monthToMonthChange() > 0) {
+              <div
+                class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0"
+              >
+                <svg
+                  class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="sr-only"> Increased by </span>
+                {{ monthToMonthChange() | number: '1.0-2' }}%
+              </div>
+            } @else {
+              <div
+                class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0"
+              >
+                <svg
+                  class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="sr-only"> Decreased by </span>
+                {{ monthToMonthChange() * -1 | number: '1.0-2' }}%
+              </div>
+            }
+          </dd>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <dt class="text-base font-normal text-gray-900">
+            {{ lastMonth | date: 'MMMM yyyy' }}
+          </dt>
+          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div
+              class="flex items-baseline text-2xl font-semibold text-indigo-600"
+            >
+              {{ lastMonthFees() | currency: 'EUR' }}
+              <span class="ml-2 text-sm font-medium text-gray-500"
+                >from {{ monthBeforeLastFees() | currency: 'EUR' }}</span
+              >
+            </div>
+
+            @if (lastMonthToMonthChange() > 0) {
+              <div
+                class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0"
+              >
+                <svg
+                  class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="sr-only"> Increased by </span>
+                {{ lastMonthToMonthChange() | number: '1.0-2' }}%
+              </div>
+            } @else {
+              <div
+                class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0"
+              >
+                <svg
+                  class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="sr-only"> Decreased by </span>
+                {{ lastMonthToMonthChange() * -1 | number: '1.0-2' }}%
+              </div>
+            }
+          </dd>
+        </div>
+      </dl>
+    </div>
+    <h2
+      class="mx-auto max-w-2xl text-base font-semibold leading-6 text-gray-900 lg:mx-0 lg:max-w-none"
+    >
+      Collected fees
+    </h2>
+  </div>
+</div>
+
+<div class="mt-6 overflow-hidden border-t border-gray-100">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+      <table class="w-full text-left">
+        <thead class="sr-only">
+          <tr>
+            <th>Amount</th>
+            <th>Tenant</th>
+            <th class="hidden sm:table-cell">More details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (month of tenantFeeMonths(); track month) {
+            <tr class="text-sm leading-6 text-gray-900">
+              <th
+                scope="colgroup"
+                colspan="3"
+                class="relative isolate py-2 font-semibold"
+              >
+                <div>{{ month | date: 'MMMM yyyy' }}</div>
+                <div
+                  class="absolute inset-y-0 right-full -z-10 w-screen border-b border-gray-200 bg-gray-50"
+                ></div>
+                <div
+                  class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-gray-200 bg-gray-50"
+                ></div>
+              </th>
+            </tr>
+            @if (tenantFeeMonthsData(); as data) {
+              @for (entry of data[month]; track entry) {
+                <tr>
+                  <td class="relative py-5 pr-6">
+                    <div class="flex gap-x-6">
+                      <div class="flex-auto">
+                        <div class="flex items-start gap-x-3">
+                          <div
+                            class="text-sm font-medium leading-6 text-gray-900"
+                          >
+                            {{ entry.netAmount / 100 | currency: 'EUR' }}
+                          </div>
+                          <div
+                            class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20"
+                          >
+                            Collected
+                          </div>
+                        </div>
+                        <div class="mt-1 text-xs leading-5 text-gray-500">
+                          {{ entry.amountRefunded / 100 | currency: 'EUR' }}
+                          refunds
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="absolute bottom-0 right-full h-px w-screen bg-gray-100"
+                    ></div>
+                    <div
+                      class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"
+                    ></div>
+                  </td>
+                  <td class="py-5 pr-6">
+                    <div class="text-sm leading-6 text-gray-900">
+                      {{ entry.tenantName }}
+                    </div>
+                    <!--                    <div class="mt-1 text-xs leading-5 text-gray-500">-->
+                    <!--                      Website redesign-->
+                    <!--                    </div>-->
+                  </td>
+                  <td class="hidden sm:table-cell py-5 text-right">
+                    <!--<div class="flex justify-end">
+                      <a
+                        href="#"
+                        class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+                        >View<span class="hidden sm:inline"> transaction</span
+                        ><span class="sr-only"
+                          >, invoice #00012, Reform</span
+                        ></a
+                      >
+                    </div>
+                    <div class="mt-1 text-xs leading-5 text-gray-500"
+                      >Invoice <span class="text-gray-900">#00012</span></div
+                    >-->
+                  </td>
+                </tr>
+              }
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

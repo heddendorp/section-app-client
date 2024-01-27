@@ -60,6 +60,41 @@
   </div>
   <div class="mt-12">
     <h2 class="text-base font-semibold leading-7 text-gray-900">
+      Your phone number
+    </h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500">
+      Optionally you can add your phone number. This will be used to contact you
+      during events.
+    </p>
+  </div>
+  <div class="mt-6 grid lg:grid-cols-2 gap-6 lg:gap-4">
+    <mat-checkbox class="col-span-full" formControlName="acceptPhoneUsage">
+      I wish that my phone number can be used to contact me during events.
+    </mat-checkbox>
+    @if (acceptPhoneUsage) {
+      <mat-form-field>
+        <mat-label>Phone number</mat-label>
+        <input
+          matInput
+          formControlName="phone"
+          type="tel"
+          required
+          pattern="^\+[1-9]\d{1,14}$"
+        />
+        <mat-hint
+          >Enter your phone number in the international format
+          (+49473634567)</mat-hint
+        >
+      </mat-form-field>
+      <mat-checkbox formControlName="phoneNumberOnWhatsapp">
+        My phone number is registered on WhatsApp, you can also contact me
+        there.
+      </mat-checkbox>
+    }
+  </div>
+
+  <div class="mt-12">
+    <h2 class="text-base font-semibold leading-7 text-gray-900">
       Section specific data
     </h2>
     <p class="mt-1 text-sm leading-6 text-gray-500">

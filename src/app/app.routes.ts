@@ -11,6 +11,8 @@ import { TUTOR_HUB_ROUTES } from '@tumi/legacy-app/modules/tutor-hub/tutor-hub.r
 import { HOME_ROUTES } from '@tumi/legacy-app/modules/home/home.routes';
 import { PageNotFoundComponent } from '@tumi/legacy-app/components/page-not-found/page-not-found.component';
 import { SETTINGS_ROUTES } from '@tumi/legacy-app/modules/settings/settings.routes';
+import { globalAdminGuard } from '@tumi/legacy-app/guards/global-admin.guard';
+import { GLOBAL_ADMIN_ROUTES } from '@tumi/legacy-app/modules/global-admin/globalAdmin.routes';
 
 export const APP_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
@@ -47,6 +49,11 @@ export const APP_ROUTES: Routes = [
     path: 'section-hub',
     canActivate: [AuthGuard, MemberGuard],
     children: TUTOR_HUB_ROUTES,
+  },
+  {
+    path: 'global-admin',
+    canActivate: [AuthGuard, globalAdminGuard],
+    children: GLOBAL_ADMIN_ROUTES,
   },
   {
     path: 'home',

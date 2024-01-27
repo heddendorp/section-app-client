@@ -1,19 +1,25 @@
 @if ((event$ | async) === null) {
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
 <main class="bg-surface-default">
-  @if (event$ | async; as event) { @if (event.userIsOrganizer) {
-  <a mat-fab routerLink="run" extended>
-    <mat-icon svgIcon="icon-user-shield"></mat-icon>
-    Run event
-  </a>
-  } @if ( event.userIsRegistered && !event.isVirtual && !((eventOver$ | async)
-  && event.activeRegistration?.didAttend) ) {
-  <button mat-fab (click)="showCode()" extended>
-    <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
-    Check in
-  </button>
-  } }
+  @if (event$ | async; as event) {
+    @if (event.userIsOrganizer) {
+      <a mat-fab routerLink="run" extended>
+        <mat-icon svgIcon="icon-user-shield"></mat-icon>
+        Run event
+      </a>
+    }
+    @if (
+      event.userIsRegistered &&
+      !event.isVirtual &&
+      !((eventOver$ | async) && event.activeRegistration?.didAttend)
+    ) {
+      <button mat-fab (click)="showCode()" extended>
+        <mat-icon svgIcon="icon-two-tickets" class="mr-2"></mat-icon>
+        Check in
+      </button>
+    }
+  }
   <app-event-header
     [event]="event$ | async"
     [bestPrice]="bestPrice$ | async"
@@ -23,208 +29,268 @@
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
     <mat-accordion displayMode="flat" [multi]="true">
       @if (event$ | async; as event) {
-
-      <mat-expansion-panel
-        data-testId="event-description"
-        [expanded]="!event.userIsRegistered && !event.userIsOrganizer"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>Description</mat-panel-title>
-        </mat-expansion-panel-header>
-        <markdown
-          [data]="event.description"
-          class="prose lg:prose-xl break-words"
-        ></markdown>
-      </mat-expansion-panel>
-      @if (event.couldBeOrganizer) {
-      <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Information for organizing</mat-panel-title>
-        </mat-expansion-panel-header>
-        <p class="my-2">
-          This event was created by
-          <app-user-chip
-            size="xs"
-            [id]="event.createdBy.id"
-            [picture]="event.createdBy.picture"
-            [name]="event.createdBy.fullName"
-            [status]="event.createdBy.currentTenant?.status + ''"
-          >
-          </app-user-chip>
-          , they can answer any questions.
-        </p>
-        <markdown
-          [data]="event.organizerText"
-          class="prose lg:prose-xl break-words"
-        ></markdown>
-      </mat-expansion-panel>
-      } @if ( (isAdmin$ | async) || (event.participantText.length > 10 &&
-      (event.userIsRegistered || event.userIsOrganizer)) ) {
-      <mat-expansion-panel
-        [expanded]="
-          (isAdmin$ | async) || event.userIsRegistered || event.userIsOrganizer
-        "
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>Info for participants</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          @if (event.enablePhotoSharing) {
-          <div class="mb-4">
-            <a
-              routerLink="./photos"
-              mat-flat-button
-              color="primary"
-              class="modern w-full"
-            >
-              <mat-icon svgIcon="icon-gallery"></mat-icon>
-              <span>Photos for this event</span>
-            </a>
-          </div>
-          } @if (event.location) {
-          <div
-            class="mb-6 mt-2 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
-          >
-            @if (!event.isVirtual) {
-            <div>
-              <div class="mb-2">
-                <b>Meeting point:</b> {{ event.location }} at
-                {{ event.start | date: 'mediumTime' }}
-              </div>
-              <a
-                class="modern"
-                mat-flat-button
-                color="primary"
-                [href]="
-                  event.googlePlaceUrl
-                    ? event.googlePlaceUrl
-                    : 'https://www.google.com/maps/place/' +
-                      event.coordinates?.lat +
-                      ',' +
-                      event.coordinates?.lon
-                "
-                target="_blank"
-              >
-                <mat-icon svgIcon="icon-map-marker"></mat-icon>
-                Open in Maps
-              </a>
-            </div>
-            } @if (event.isVirtual) {
-            <div>
-              <div class="mb-2">
-                <b>Online Meeting</b> at
-                {{ event.start | date: 'mediumTime' }}
-              </div>
-              <a
-                class="modern"
-                mat-flat-button
-                color="primary"
-                [href]="event.onlineMeetingUrl"
-                target="_blank"
-              >
-                <mat-icon svgIcon="icon-video-conference"></mat-icon>
-                Open Meeting
-              </a>
-            </div>
-            }
-          </div>
-          }
+        <mat-expansion-panel
+          data-testId="event-description"
+          [expanded]="!event.userIsRegistered && !event.userIsOrganizer"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Description</mat-panel-title>
+          </mat-expansion-panel-header>
           <markdown
-            [data]="event.participantText"
+            [data]="event.description"
             class="prose lg:prose-xl break-words"
           ></markdown>
-          @if ((event$ | async)?.activeRegistration?.didAttend) {
-          <div class="my-2 flex flex-row items-center gap-4">
-            <img
-              ngSrc="{{ 'approval' | iconURL }}"
-              height="40"
-              width="40"
-              alt="approval"
-              class="w-10"
-            />
-            <span class="text-lg font-bold">
-              You are checked in to the event!
-            </span>
-          </div>
-          }
-          <div class="my-2 rounded-lg lg:text-lg">
-            <mat-divider class="!my-4"></mat-divider>
-            <div class="mb-2">
-              <b>Organizers</b>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              @for (organizer of event.organizers; track organizer) {
+        </mat-expansion-panel>
+        @if (event.couldBeOrganizer) {
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Information for organizing</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p class="my-2">
+              This event was created by
               <app-user-chip
-                size="md"
-                [id]="organizer.id"
-                [picture]="organizer.picture"
-                [name]="organizer.fullName"
-                [status]="organizer.currentTenant?.status + ''"
+                size="xs"
+                [id]="event.createdBy.id"
+                [picture]="event.createdBy.picture"
+                [name]="event.createdBy.fullName"
+                [status]="event.createdBy.currentTenant?.status + ''"
               >
               </app-user-chip>
-              }
-            </div>
-            <p class="mt-4">
-              Please contact them in case of any issues. We're looking forward
-              to seeing you soon!
+              , they can answer any questions.
             </p>
-          </div>
-        </div>
-      </mat-expansion-panel>
-      } @if ( !event.excludeFromRatings && (event.ratingPending ||
-      event.ratings.length > 0) ) {
-      <mat-expansion-panel expanded="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Ratings</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
-          @for (rating of event.ratings; track rating) {
-          <app-rating-item
-            [isOrganizer]="rating.type === 'ORGANIZER'"
-            [comment]="rating.userComment || ''"
-            [isAnonymous]="rating.anonymousRating"
-            [rating]="rating.rating || 0"
-            [userId]="rating.user.id"
-            [userFullName]="rating.user.fullName"
-            [userPicture]="rating.user.picture"
-            [userStatus]="rating.user.currentTenant?.status || ''"
-            [isCurrentUser]="
-              event.activeRegistration?.user?.id === rating.user.id
-            "
-            (edit)="expandRatingPanel()"
-          ></app-rating-item>
-          }
-        </div>
-        @if ( (ratingExpanded$ | async) && event.activeRegistration?.status ===
-        'SUCCESSFUL' ) {
-        <div class="rounded-md border bg-slate-50 p-2" id="rater">
-          <app-rate-event
-            [event]="event"
-            (ratingSubmitted)="saveRating($event, event.id)"
-            [rating]="event.activeRegistration?.rating || 0"
-            [comment]="event.activeRegistration?.userComment || ''"
-            [anonymousRating]="
-              !!event.activeRegistration?.rating &&
-              !!event.activeRegistration?.anonymousRating
+            <markdown
+              [data]="event.organizerText"
+              class="prose lg:prose-xl break-words"
+            ></markdown>
+          </mat-expansion-panel>
+        }
+        @if (
+          (isAdmin$ | async) ||
+          (event.participantText.length > 10 &&
+            (event.userIsRegistered || event.userIsOrganizer))
+        ) {
+          <mat-expansion-panel
+            [expanded]="
+              (isAdmin$ | async) ||
+              event.userIsRegistered ||
+              event.userIsOrganizer
             "
           >
-          </app-rate-event>
-        </div>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Info for participants</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              @if (event.enablePhotoSharing) {
+                <div class="mb-4">
+                  <a
+                    routerLink="./photos"
+                    mat-flat-button
+                    color="primary"
+                    class="modern w-full"
+                  >
+                    <mat-icon svgIcon="icon-gallery"></mat-icon>
+                    <span>Photos for this event</span>
+                  </a>
+                </div>
+              }
+              @if (event.location) {
+                <div
+                  class="mb-6 mt-2 rounded-lg border-2 bg-slate-100 p-4 lg:text-lg"
+                >
+                  @if (!event.isVirtual) {
+                    <div>
+                      <div class="mb-2">
+                        <b>Meeting point:</b> {{ event.location }} at
+                        {{ event.start | date: 'mediumTime' }}
+                      </div>
+                      <a
+                        class="modern"
+                        mat-flat-button
+                        color="primary"
+                        [href]="
+                          event.googlePlaceUrl
+                            ? event.googlePlaceUrl
+                            : 'https://www.google.com/maps/place/' +
+                              event.coordinates?.lat +
+                              ',' +
+                              event.coordinates?.lon
+                        "
+                        target="_blank"
+                      >
+                        <mat-icon svgIcon="icon-map-marker"></mat-icon>
+                        Open in Maps
+                      </a>
+                    </div>
+                  }
+                  @if (event.isVirtual) {
+                    <div>
+                      <div class="mb-2">
+                        <b>Online Meeting</b> at
+                        {{ event.start | date: 'mediumTime' }}
+                      </div>
+                      <a
+                        class="modern"
+                        mat-flat-button
+                        color="primary"
+                        [href]="event.onlineMeetingUrl"
+                        target="_blank"
+                      >
+                        <mat-icon svgIcon="icon-video-conference"></mat-icon>
+                        Open Meeting
+                      </a>
+                    </div>
+                  }
+                </div>
+              }
+              <markdown
+                [data]="event.participantText"
+                class="prose lg:prose-xl break-words"
+              ></markdown>
+              @if ((event$ | async)?.activeRegistration?.didAttend) {
+                <div class="my-2 flex flex-row items-center gap-4">
+                  <img
+                    ngSrc="{{ 'approval' | iconURL }}"
+                    height="40"
+                    width="40"
+                    alt="approval"
+                    class="w-10"
+                  />
+                  <span class="text-lg font-bold">
+                    You are checked in to the event!
+                  </span>
+                </div>
+              }
+              <div class="my-2 rounded-lg lg:text-lg">
+                <mat-divider class="!my-4"></mat-divider>
+                <div class="mb-2">
+                  <b>Organizers</b>
+                </div>
+                <div class="flex flex-col gap-2 lg:max-w-96">
+                  @for (organizer of event.organizers; track organizer) {
+                    <div class="flex gap-2">
+                      <div class="group block flex-shrink-0 flex-grow">
+                        <div class="flex items-center">
+                          <div>
+                            <img
+                              class="inline-block h-9 w-9 rounded-full"
+                              [src]="organizer.picture"
+                              referrerpolicy="no-referrer"
+                              alt=""
+                            />
+                          </div>
+                          <div class="ml-3">
+                            <p
+                              class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
+                              >{{ organizer.fullName }}</p
+                            >
+                            @if (organizer.acceptPhoneUsage) {
+                              <p
+                                class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                              >
+                                {{ organizer.phone }}
+                              </p>
+                            } @else {
+                              <p
+                                class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                              >
+                                {{ organizer.communicationEmail }}
+                              </p>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      @if (organizer.acceptPhoneUsage) {
+                        @if (organizer.phoneNumberOnWhatsapp) {
+                          <a
+                            [href]="
+                              getWhatsAppLink(organizer.phone ?? undefined)
+                            "
+                            mat-icon-button
+                          >
+                            <mat-icon svgIcon="icon-whatsapp"></mat-icon>
+                          </a>
+                        }
+                        <a href="tel:{{ organizer.phone }}" mat-icon-button>
+                          <mat-icon
+                            svgIcon="icon-phone-disconnected"
+                          ></mat-icon>
+                        </a>
+                      } @else {
+                        <a
+                          href="mailto:{{ organizer.communicationEmail }}"
+                          mat-icon-button
+                        >
+                          <mat-icon svgIcon="icon-new-post"></mat-icon>
+                        </a>
+                      }
+                    </div>
+                  }
+                </div>
+                <p class="mt-4">
+                  Please contact them in case of any issues. We're looking
+                  forward to seeing you soon!
+                </p>
+              </div>
+            </div>
+          </mat-expansion-panel>
         }
-      </mat-expansion-panel>
-      } } @else {
-
-      <mat-expansion-panel expanded="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Description</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="flex w-full flex-col gap-2">
-          @for (line of [].constructor(12); track line) {
-          <div class="skeleton h-6 w-full"> T </div>
-          }
-        </div>
-      </mat-expansion-panel>
-
+        @if (
+          !event.excludeFromRatings &&
+          (event.ratingPending || event.ratings.length > 0)
+        ) {
+          <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Ratings</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
+              @for (rating of event.ratings; track rating) {
+                <app-rating-item
+                  [isOrganizer]="rating.type === 'ORGANIZER'"
+                  [comment]="rating.userComment || ''"
+                  [isAnonymous]="rating.anonymousRating"
+                  [rating]="rating.rating || 0"
+                  [userId]="rating.user.id"
+                  [userFullName]="rating.user.fullName"
+                  [userPicture]="rating.user.picture"
+                  [userStatus]="rating.user.currentTenant?.status || ''"
+                  [isCurrentUser]="
+                    event.activeRegistration?.user?.id === rating.user.id
+                  "
+                  (edit)="expandRatingPanel()"
+                ></app-rating-item>
+              }
+            </div>
+            @if (
+              (ratingExpanded$ | async) &&
+              event.activeRegistration?.status === 'SUCCESSFUL'
+            ) {
+              <div class="rounded-md border bg-slate-50 p-2" id="rater">
+                <app-rate-event
+                  [event]="event"
+                  (ratingSubmitted)="saveRating($event, event.id)"
+                  [rating]="event.activeRegistration?.rating || 0"
+                  [comment]="event.activeRegistration?.userComment || ''"
+                  [anonymousRating]="
+                    !!event.activeRegistration?.rating &&
+                    !!event.activeRegistration?.anonymousRating
+                  "
+                >
+                </app-rate-event>
+              </div>
+            }
+          </mat-expansion-panel>
+        }
+      } @else {
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Description</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="flex w-full flex-col gap-2">
+            @for (line of [].constructor(12); track line) {
+              <div class="skeleton h-6 w-full"> T </div>
+            }
+          </div>
+        </mat-expansion-panel>
       }
       <ng-template #skeleton>
         <mat-expansion-panel expanded="true">
@@ -233,7 +299,7 @@
           </mat-expansion-panel-header>
           <div class="flex w-full flex-col gap-2">
             @for (line of [].constructor(12); track line) {
-            <div class="skeleton h-6 w-full"> T </div>
+              <div class="skeleton h-6 w-full"> T </div>
             }
           </div>
         </mat-expansion-panel>
@@ -241,130 +307,142 @@
     </mat-accordion>
   </div>
   @if (event$ | async; as event) {
-
-  <div class="p-6 text-sm lg:px-12">
-    <p>{{ event.organizer.text }}</p>
-  </div>
-  <div
-    class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
-    data-testId="event-signup-section"
-  >
-    @if (event.couldBeParticipant) {
-
-    <h2 class="mb-4 font-bold">Registration</h2>
-    <app-check-registration-time [registrationStart]="event.registrationStart">
-      @switch (event.registrationMode) { @case (RegistrationMode.External) {
-      <app-external-event-registration [event]="event">
-      </app-external-event-registration>
-      } @case (RegistrationMode.Stripe) {
-      <app-stripe-event-registration
-        [event]="event"
-        [deRegistrationOptions]="event.deRegistrationSettings.participants"
-        [bestPrice]="bestPrice$ | async"
-        [user]="user$ | async"
-      ></app-stripe-event-registration>
-      } @case (RegistrationMode.Online) {
-      <app-online-event-registration
-        [event]="event"
-        [deRegistrationOptions]="event.deRegistrationSettings.participants"
-      >
-      </app-online-event-registration>
-      } }
-    </app-check-registration-time>
-
-    } @else {
-
-    <h2>You can not sign up for this event</h2>
-    @if ((auth.isAuthenticated$ | async) === false) {
-
-    <p class="my-4">
-      To sign up for events, please log in or create an account.
-    </p>
-    <button
-      class="modern"
-      mat-flat-button
-      color="accent"
-      (click)="auth.loginWithRedirect()"
+    <div class="p-6 text-sm lg:px-12">
+      <p>{{ event.organizer.text }}</p>
+    </div>
+    <div
+      class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
+      data-testId="event-signup-section"
     >
-      <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
-      Log in
-    </button>
-
-    } }
-  </div>
-  @if ( event.couldBeOrganizer && event.registrationMode !==
-  RegistrationMode.External ) {
-  <div
-    data-testId="event-organizer-section"
-    class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
-  >
-    <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
-    <app-check-registration-time
-      [registrationStart]="event.organizerRegistrationStart"
-    >
-      <div
-        class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
-      >
-        @if (organizerCanDeRegister$ | async; as canDeRegister) {
-        <div class="md:w-1/2">
-          @if (canDeRegister.result) {
-          <p>
-            You can de register from this event until
-            {{ lastOrganizerDeRegistration$ | async | date }}
-          </p>
-          } @if (!canDeRegister.result) {
-          <p>
-            You can not de register from this event:
-            {{ canDeRegister.reason }}
-          </p>
-          } @if (event.organizerRegistrationPossible) {
-          <button
-            mat-raised-button
-            color="primary"
-            class="modern w-full"
-            (click)="registerAsOrganizer()"
-          >
-            <mat-icon svgIcon="icon-add"></mat-icon>
-            Sign up now
-          </button>
-          } @if (canDeRegister.result && event.userIsOrganizer) {
-          <button
-            mat-raised-button
-            color="primary"
-            class="modern w-full"
-            (click)="cancelOrganizerRegistration()"
-          >
-            Cancel Registration
-          </button>
-          }
-        </div>
-        }
-        <div class="md:w-1/2">
-          <h3>
-            Organizers already on this event ({{ event.organizers.length }}/{{
-              event.organizerLimit
-            }})
-          </h3>
-          <mat-list>
-            @if (event.organizers.length === 0) {
-            <mat-list-item> Nobody yet </mat-list-item>
-            } @for (user of event.organizers; track user) {
-            <mat-list-item>
-              <app-user-chip
-                size="sm"
-                [id]="user.id"
-                [picture]="user.picture"
-                [name]="user.fullName"
-                [status]="user.currentTenant?.status + ''"
-                [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
-              >
-              </app-user-chip>
-            </mat-list-item>
+      @if (event.couldBeParticipant) {
+        <h2 class="mb-4 font-bold">Registration</h2>
+        <app-check-registration-time
+          [registrationStart]="event.registrationStart"
+        >
+          @switch (event.registrationMode) {
+            @case (RegistrationMode.External) {
+              <app-external-event-registration [event]="event">
+              </app-external-event-registration>
             }
-          </mat-list>
-        </div>
+            @case (RegistrationMode.Stripe) {
+              <app-stripe-event-registration
+                [event]="event"
+                [deRegistrationOptions]="
+                  event.deRegistrationSettings.participants
+                "
+                [bestPrice]="bestPrice$ | async"
+                [user]="user$ | async"
+              ></app-stripe-event-registration>
+            }
+            @case (RegistrationMode.Online) {
+              <app-online-event-registration
+                [event]="event"
+                [deRegistrationOptions]="
+                  event.deRegistrationSettings.participants
+                "
+              >
+              </app-online-event-registration>
+            }
+          }
+        </app-check-registration-time>
+      } @else {
+        <h2>You can not sign up for this event</h2>
+        @if ((auth.isAuthenticated$ | async) === false) {
+          <p class="my-4">
+            To sign up for events, please log in or create an account.
+          </p>
+          <button
+            class="modern"
+            mat-flat-button
+            color="accent"
+            (click)="auth.loginWithRedirect()"
+          >
+            <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+            Log in
+          </button>
+        }
+      }
+    </div>
+    @if (
+      event.couldBeOrganizer &&
+      event.registrationMode !== RegistrationMode.External
+    ) {
+      <div
+        data-testId="event-organizer-section"
+        class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
+      >
+        <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
+        <app-check-registration-time
+          [registrationStart]="event.organizerRegistrationStart"
+        >
+          <div
+            class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
+          >
+            @if (organizerCanDeRegister$ | async; as canDeRegister) {
+              <div class="md:w-1/2">
+                @if (canDeRegister.result) {
+                  <p>
+                    You can de register from this event until
+                    {{ lastOrganizerDeRegistration$ | async | date }}
+                  </p>
+                }
+                @if (!canDeRegister.result) {
+                  <p>
+                    You can not de register from this event:
+                    {{ canDeRegister.reason }}
+                  </p>
+                }
+                @if (event.organizerRegistrationPossible) {
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    class="modern w-full"
+                    (click)="registerAsOrganizer()"
+                  >
+                    <mat-icon svgIcon="icon-add"></mat-icon>
+                    Sign up now
+                  </button>
+                }
+                @if (canDeRegister.result && event.userIsOrganizer) {
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    class="modern w-full"
+                    (click)="cancelOrganizerRegistration()"
+                  >
+                    Cancel Registration
+                  </button>
+                }
+              </div>
+            }
+            <div class="md:w-1/2">
+              <h3>
+                Organizers already on this event ({{
+                  event.organizers.length
+                }}/{{ event.organizerLimit }})
+              </h3>
+              <mat-list>
+                @if (event.organizers.length === 0) {
+                  <mat-list-item> Nobody yet </mat-list-item>
+                }
+                @for (user of event.organizers; track user) {
+                  <mat-list-item>
+                    <app-user-chip
+                      size="sm"
+                      [id]="user.id"
+                      [picture]="user.picture"
+                      [name]="user.fullName"
+                      [status]="user.currentTenant?.status + ''"
+                      [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
+                    >
+                    </app-user-chip>
+                  </mat-list-item>
+                }
+              </mat-list>
+            </div>
+          </div>
+        </app-check-registration-time>
       </div>
-    </app-check-registration-time>
-  </div>
-  } }
+    }
+  }
 </main>

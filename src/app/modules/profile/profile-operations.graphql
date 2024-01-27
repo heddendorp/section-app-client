@@ -59,6 +59,9 @@ query userProfile {
     communicationEmail
     iban
     paypal
+    phone
+    phoneNumberOnWhatsapp
+    acceptPhoneUsage
     birthdate
     firstName
     lastName
@@ -216,21 +219,5 @@ mutation useRegistrationCode($id: ID!, $price: JSON) {
       start
       prices
     }
-  }
-}
-
-mutation updateProfile($input: UpdateUserInput!, $userId: ID!) {
-  updateUser(input: $input, userId: $userId) {
-    id
-    firstName
-    lastName
-    fullName
-  }
-}
-
-mutation updateUserInformation($input: UpdateUserInput!, $userId: ID!) {
-  updateUser(input: $input, userId: $userId) {
-    id
-    communicationEmail
   }
 }
