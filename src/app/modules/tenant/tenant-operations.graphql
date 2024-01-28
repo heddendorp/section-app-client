@@ -210,65 +210,6 @@ query getOrganizers {
   }
 }
 
-query getUsers(
-  $roleList: [Role!]
-  $statusList: [MembershipStatus!]
-  $search: String
-  $pageIndex: Int
-  $pageLength: Int
-  $emptyOnEmptySearch: Boolean
-) {
-  users(
-    roleList: $roleList
-    statusList: $statusList
-    search: $search
-    pageIndex: $pageIndex
-    pageLength: $pageLength
-    emptyOnEmptySearch: $emptyOnEmptySearch
-  ) {
-    id
-    firstName
-    lastName
-    fullName
-    email
-    position
-    picture
-    currentTenant {
-      userId
-      tenantId
-      role
-      status
-    }
-  }
-  userSearchResultNum(
-    roleList: $roleList
-    statusList: $statusList
-    search: $search
-  )
-}
-
-query getStatistics($range: DateRangeInput, $tenantId: ID) {
-  statistics(range: $range, tenantId: $tenantId) {
-    usersRegistered
-    registrations
-    userHistory
-    registrationHistory
-    checkinHistory
-    userEventDistribution
-    usersRegisteredEvents
-    usersRegisteredFreeEvents
-    usersRegisteredPaidEvents
-    checkins
-    paidRegistrations
-    #      totalNetPayments
-    totalEvents
-    paidEvents
-    #      averageEventCost
-    userUniversityDistribution
-    userStatusDistribution
-  }
-}
-
 mutation updateTenant($id: ID!, $update: UpdateTenantInput!) {
   updateTenant(id: $id, updateTenantInput: $update) {
     id

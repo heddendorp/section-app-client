@@ -1,0 +1,40 @@
+query getInitialUserGridData {
+  currentTenant {
+    id
+    createdAt
+    settings {
+      userDataCollection {
+        type
+        label
+        options
+      }
+    }
+  }
+}
+
+query getUsersForUserGrid(
+  $startRow: Int!
+  $endRow: Int!
+  $sortModel: [SortModelInput!]!
+  $filterModel: JSONObject!
+) {
+  gridUsers(
+    startRow: $startRow
+    endRow: $endRow
+    sortModel: $sortModel
+    filterModel: $filterModel
+  ) {
+    id
+    createdAt
+    joinedAt
+    firstName
+    lastName
+    email
+    position
+    picture
+    additionalData
+    status
+    role
+  }
+  gridUsersCount(filterModel: $filterModel)
+}

@@ -1,0 +1,71 @@
+query getInitialStatisticsData {
+  currentTenant {
+    id
+    createdAt
+    settings {
+      userDataCollection {
+        type
+        label
+        options
+      }
+    }
+  }
+  allTimeStatistics {
+    registeredUsers
+    events
+    registeredParticipants
+    checkIns
+  }
+}
+query getRangeStatistics(
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $unit: String!
+) {
+  rangeStatistics {
+    registeredUsers(start: $startDate, end: $endDate)
+    eventsStarted(start: $startDate, end: $endDate)
+    registeredParticipants(start: $startDate, end: $endDate)
+    checkIns(start: $startDate, end: $endDate)
+  }
+  registrationHistory: historicalStatistics(
+    start: $startDate
+    end: $endDate
+    unit: $unit
+  ) {
+    date
+    eventRegistrations
+    usersCheckedIn
+  }
+  userHistory: historicalStatistics(
+    start: $startDate
+    end: $endDate
+    unit: $unit
+  ) {
+    date
+    usersRegistered
+  }
+  eventHistory: historicalStatistics(
+    start: $startDate
+    end: $endDate
+    unit: $unit
+  ) {
+    date
+    eventsCreated
+    eventsStarted
+  }
+  userDataStatistics(start: $startDate, end: $endDate) {
+    data {
+      name
+      value
+    }
+    title {
+      text
+    }
+    series {
+      angleKey
+      legendItemKey
+      type
+    }
+  }
+}

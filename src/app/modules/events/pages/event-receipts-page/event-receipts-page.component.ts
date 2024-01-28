@@ -63,6 +63,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private sanitizer: DomSanitizer,
   ) {
     this.loadCostItemQueryRef = this.loadCostItem.watch();
+    this.loadCostItemQueryRef.startPolling(60000);
     this.route.paramMap.subscribe((params) =>
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' }),
     );
@@ -89,7 +90,6 @@ export class EventReceiptsPageComponent implements OnDestroy {
         };
       }),
     );
-    this.loadCostItemQueryRef.startPolling(60000);
   }
 
   ngOnDestroy(): void {

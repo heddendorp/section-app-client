@@ -5667,6 +5667,8 @@ __metadata:
     "@types/prettier": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^6.19.0
     "@typescript-eslint/parser": ^6.19.0
+    ag-charts-angular: ^9.0.2
+    ag-grid-angular: ^31.0.3
     apollo-angular: ^6.0.0
     autoprefixer: ^10.4.17
     backoff-rxjs: ^7.0.0
@@ -6557,6 +6559,47 @@ __metadata:
     loader-utils: ^2.0.0
     regex-parser: ^2.2.11
   checksum: d524ae23582f41e2275af5d88faab7a9dc09770ed588244e0a76d3196d0d6a90bf02760c71bc6213dbfef3aef4a86232ac9521bfd629752c32b7af37bc74c660
+  languageName: node
+  linkType: hard
+
+"ag-charts-angular@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "ag-charts-angular@npm:9.0.2"
+  dependencies:
+    ag-charts-community: 9.0.2
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ">= 14.0.0"
+    "@angular/core": ">= 14.0.0"
+    ag-charts-community: 9.0.2
+  checksum: 3de5345b277c1db40eef7b050a45b48122730899fc5633d6eac074a8f8c1f3f98754021cf081eaedab8f8c67ef16c9160a448af136453c28f60e7abbb021aff3
+  languageName: node
+  linkType: hard
+
+"ag-charts-community@npm:9.0.2":
+  version: 9.0.2
+  resolution: "ag-charts-community@npm:9.0.2"
+  checksum: d9f5422e74d18342ae3100c163c541b086d3b30e8b639db9f49df2606d68226bfc79003f2c52d6c3151e536ab08926395f6643d54ba8444bc4930287229fdd0f
+  languageName: node
+  linkType: hard
+
+"ag-grid-angular@npm:^31.0.3":
+  version: 31.0.3
+  resolution: "ag-grid-angular@npm:31.0.3"
+  dependencies:
+    ag-grid-community: ~31.0.3
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ">= 14.0.0"
+    "@angular/core": ">= 14.0.0"
+  checksum: 1d228bc0d730f2afe9e2c4f1340f58591fdd60f0e3bbb3e7d3cd345a8344d434433d4d44bf464c9cb450ebace65161fe21600f3dc491915a56fc946c3f28e840
+  languageName: node
+  linkType: hard
+
+"ag-grid-community@npm:~31.0.3":
+  version: 31.0.3
+  resolution: "ag-grid-community@npm:31.0.3"
+  checksum: fd2e614b98be4b2f3e7435dc597b03483f5607eaa5553906e8d1c85aa190b75858315a73513735e98e36c0b3167ccad6c02abf6d2f3a5d9904a4646406011736
   languageName: node
   linkType: hard
 

@@ -1,0 +1,8 @@
+<h3>Filter values</h3>
+<mat-selection-list (selectionChange)="updateFilter($event)">
+  @for (option of choices(); track option) {
+    <mat-list-option [value]="option.value">
+      {{ option.label }}
+    </mat-list-option>
+  }
+</mat-selection-list>

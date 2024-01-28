@@ -1,127 +1,246 @@
-<app-reactive-toolbar>
-  <mat-toolbar color="white">
-    <app-back-button></app-back-button>
-    <div resetScroll>Statistics HQ</div>
-  </mat-toolbar>
-  @if ((statistics$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  }
-</app-reactive-toolbar>
-@if (statistics$ | async; as statistics) {
-<main class="p-4">
-  <mat-form-field [formGroup]="rangeControl">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input formControlName="start" matStartDate placeholder="Start date" />
-      <input formControlName="end" matEndDate placeholder="End date" />
-    </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-
-  <app-grid class="mb-4">
-    <div class="kpi">
-      <p class="title">Registered Users</p>
-      <p class="value">{{ statistics.usersRegistered }}</p>
-    </div>
-    <!--    <div class="kpi">-->
-    <!--      <p class="title">Users with stripe customer</p>-->
-    <!--      <p class="value">{{ statistics.usersWithCustomer }}</p>-->
-    <!--    </div>-->
-    <!--    <div class="kpi">-->
-    <!--      <p class="title">Users with payment method</p>-->
-    <!--      <p class="value">{{ statistics.usersWithPaymentMethod }}</p>-->
-    <!--    </div>-->
-    <div class="kpi">
-      <p class="title">Events</p>
-      <p class="value">{{ statistics.totalEvents }}</p>
-    </div>
-    <div class="kpi">
-      <p class="title">Paid Events</p>
-      <p class="value">{{ statistics.paidEvents }}</p>
-    </div>
-    <!--    <div class="kpi">-->
-    <!--      <p class="title">Average events price</p>-->
-    <!--      <p class="value">-->
-    <!--        {{ tenant.statistics.averageEventCost | currency: 'EUR' }}-->
-    <!--      </p>-->
-    <!--    </div>-->
-
-    <div class="kpi">
-      <p class="title">Registrations</p>
-      <p class="value">{{ statistics.registrations }}</p>
-    </div>
-    <div class="kpi">
-      <p class="title">Paid registrations</p>
-      <p class="value">{{ statistics.paidRegistrations }}</p>
-    </div>
-    <!--    <div class="kpi">-->
-    <!--      <p class="title">Total net payments</p>-->
-    <!--      <p class="value">-->
-    <!--        {{ tenant.statistics.totalNetPayments | currency: 'EUR' }}-->
-    <!--      </p>-->
-    <!--    </div>-->
-    <div class="kpi">
-      <p class="title">Check ins</p>
-      <p class="value">{{ statistics.checkins }}</p>
-    </div>
-    <div class="kpi">
-      <p class="title">Users who registered for Events</p>
-      <p class="value">{{ statistics.usersRegisteredEvents }}</p>
-    </div>
-    <div class="kpi">
-      <p class="title">Users who registered for free Events</p>
-      <p class="value">{{ statistics.usersRegisteredFreeEvents }}</p>
-    </div>
-    <div class="kpi">
-      <p class="title">Users who registered for paid Events</p>
-      <p class="value">{{ statistics.usersRegisteredPaidEvents }}</p>
-    </div>
-  </app-grid>
-  <h2>University distribution</h2>
-  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    @for (entry of statistics.userUniversityDistribution; track entry) {
-
-    <p class="font-bold">{{ entry.uni ?? 'not set' | titlecase }}</p>
-    <p>{{ entry.count }}</p>
-
-    }
-  </div>
-  <h2>Status distribution</h2>
-  <div gdAuto gdColumns="max-content auto" gdGap="0 1rem" class="mt-2 mb-6">
-    @for (entry of statistics.userStatusDistribution; track entry) {
-
-    <p class="font-bold">{{ entry.status | titlecase }}</p>
-    <p>{{ entry.count }}</p>
-
-    }
-  </div>
-  @if (charts$ | async; as charts) {
+<div class="p-4 lg:p-10 bg-white">
   <div>
-    <div gdAuto gdColumns.gt-md="1fr 1fr" gdColumns="1fr" gdGap="1rem">
-      @for (options of charts.pie; track options) {
-      <div>
-        <highcharts-chart
-          [Highcharts]="Highcharts"
-          [options]="options"
-          style="width: 100%; height: 400px; display: block"
-        ></highcharts-chart>
+    <nav aria-label="Back" class="sm:hidden">
+      <a
+        class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700"
+        routerLink=".."
+      >
+        <svg
+          aria-hidden="true"
+          class="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        Back
+      </a>
+    </nav>
+    <nav aria-label="Breadcrumb" class="hidden sm:flex">
+      <ol class="flex items-center space-x-4" role="list">
+        <li>
+          <div class="flex">
+            <a
+              class="text-sm font-medium text-gray-500 hover:text-gray-700"
+              routerLink="/tenant"
+            >
+              Admin Tools
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg
+              aria-hidden="true"
+              class="h-5 w-5 flex-shrink-0 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <span
+              aria-current="page"
+              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+            >
+              Statistics
+            </span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2
+        class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
+      >
+        App statistics
+      </h2>
+    </div>
+    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+      <!--      <button-->
+      <!--        type="button"-->
+      <!--        class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"-->
+      <!--        >Edit</button-->
+      <!--      >-->
+      <!--      <button-->
+      <!--        type="button"-->
+      <!--        class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"-->
+      <!--        >Publish</button-->
+      <!--      >-->
+    </div>
+  </div>
+</div>
+<main class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8 space-y-8">
+  <div
+    class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
+  >
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-base font-semibold leading-6 text-gray-900">
+        All time statistics
+      </h3>
+    </div>
+    <dl
+      class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Registered Users
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.registeredUsers | number }}
+        </dd>
       </div>
-      }
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Events created
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.events | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Registered Participants
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.registeredParticipants | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">Check Ins</dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.checkIns | number }}
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <div
+    class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
+  >
+    <div class="px-4 py-5 sm:px-6">
+      <form [formGroup]="timeForm" class="flex flex-wrap gap-4">
+        <mat-form-field>
+          <mat-label>Timeframe</mat-label>
+          <mat-select formControlName="timeFrame">
+            <mat-option value="all">All time</mat-option>
+            <mat-option value="year">Last year</mat-option>
+            <mat-option value="half">Last six months</mat-option>
+            <mat-option value="quarter">Last quarter</mat-option>
+            <mat-option value="week">Last week</mat-option>
+            <mat-option value="day">Last day</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Dates</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input
+              formControlName="start"
+              matStartDate
+              placeholder="Start date"
+            />
+            <input formControlName="end" matEndDate placeholder="End date" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            [for]="picker"
+            matSuffix
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </form>
     </div>
-    @for (options of charts.line; track options) {
-    <div class="relative my-4">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="options"
-        style="width: 100%; height: 400px; display: block"
-      ></highcharts-chart>
+    <dl
+      class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500"> New Users </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ rangeStats()?.registeredUsers | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Events started
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ rangeStats()?.eventsStarted | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          New Registrations
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ rangeStats()?.registeredParticipants | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">Check Ins</dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ rangeStats()?.checkIns | number }}
+        </dd>
+      </div>
+    </dl>
+    <div class="pr-8">
+      <ag-charts-angular
+        [options]="registrationChart()"
+        style="height: 100%"
+      ></ag-charts-angular>
     </div>
+    <div class="pr-8">
+      <ag-charts-angular
+        [options]="eventsChart()"
+        style="height: 100%"
+      ></ag-charts-angular>
+    </div>
+    @for (field of userDataStats(); track field) {
+      <div class="pr-8">
+        <ag-charts-angular
+          style="height: 100%"
+          [options]="field"
+        ></ag-charts-angular>
+      </div>
     }
   </div>
-  }
-  <br />
-  <!--  <pre>{{ tenant | json }}</pre>-->
 </main>
-}

@@ -1,0 +1,75 @@
+query getInitialAdminUsersData {
+  currentTenant {
+    id
+    createdAt
+    settings {
+      userDataCollection {
+        type
+        label
+        options
+      }
+    }
+  }
+}
+
+query getUsersForAdminGrid(
+  $startRow: Int!
+  $endRow: Int!
+  $sortModel: [SortModelInput!]!
+  $filterModel: JSONObject!
+) {
+  gridUsers(
+    startRow: $startRow
+    endRow: $endRow
+    sortModel: $sortModel
+    filterModel: $filterModel
+  ) {
+    id
+    firstName
+    lastName
+    email
+    position
+    picture
+    additionalData
+    status
+    role
+  }
+  gridUsersCount(filterModel: $filterModel)
+}
+
+query getUsers(
+  $roleList: [Role!]
+  $statusList: [MembershipStatus!]
+  $search: String
+  $pageIndex: Int
+  $pageLength: Int
+  $emptyOnEmptySearch: Boolean
+) {
+  users(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+    pageIndex: $pageIndex
+    pageLength: $pageLength
+    emptyOnEmptySearch: $emptyOnEmptySearch
+  ) {
+    id
+    firstName
+    lastName
+    fullName
+    email
+    position
+    picture
+    currentTenant {
+      userId
+      tenantId
+      role
+      status
+    }
+  }
+  userSearchResultNum(
+    roleList: $roleList
+    statusList: $statusList
+    search: $search
+  )
+}
