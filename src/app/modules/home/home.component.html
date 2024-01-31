@@ -1,11 +1,20 @@
-@switch (shortName$ | async) { @case ('tumi') {
-<app-tumi-home></app-tumi-home>
-} @case ('cu-prague') {
-<app-cu-prague-home></app-cu-prague-home>
-} @case ('vub-ehb') {
-<app-vub-ehb-home></app-vub-ehb-home>
-} @case ('augsburg') {
-<app-augsburg-home></app-augsburg-home>
-} @case ('pfalz-kl') {
-<app-kaiserslautern-home></app-kaiserslautern-home>
-} }
+@switch (shortName$ | async) {
+  @case ('tumi') {
+    <app-tumi-home></app-tumi-home>
+  }
+  @case ('cu-prague') {
+    <app-cu-prague-home></app-cu-prague-home>
+  }
+  @case ('vub-ehb') {
+    <app-vub-ehb-home></app-vub-ehb-home>
+  }
+  @case ('augsburg') {
+    <app-augsburg-home></app-augsburg-home>
+  }
+  @case ('pfalz-kl') {
+    <app-kaiserslautern-home></app-kaiserslautern-home>
+  }
+  @case ('mannheim') {
+    <app-mannheim-home></app-mannheim-home>
+  }
+}
