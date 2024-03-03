@@ -1,21 +1,22 @@
 <div class="flex flex-row items-center justify-between gap-4">
   @if (data.icon) {
-  <mat-icon [svgIcon]="data.icon" class="snack-icon"></mat-icon>
+    <mat-icon [svgIcon]="data.icon" class="snack-icon"></mat-icon>
   }
   <span class="mat-body-2" matSnackBarLabel>{{ data.message }}</span>
   @if (data.action) {
-  <button
-    matSnackBarAction
-    class="shrink-0"
-    (click)="dismiss()"
-    color="accent"
-    mat-flat-button
-  >
-    {{ data.action }}
-  </button>
-  } @if (data.allowClose) {
-  <button (click)="cancel()" mat-icon-button>
-    <mat-icon svgIcon="cancel"></mat-icon>
-  </button>
+    <button
+      matSnackBarAction
+      class="shrink-0"
+      (click)="dismiss()"
+      color="accent"
+      mat-flat-button
+    >
+      {{ data.action }}
+    </button>
+  }
+  @if (data.allowClose) {
+    <button (click)="cancel()" mat-icon-button>
+      <mat-icon svgIcon="cancel"></mat-icon>
+    </button>
   }
 </div>

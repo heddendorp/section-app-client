@@ -9,7 +9,11 @@ query getAppStartupInfo {
   currentTenant {
     id
     currency
+    homePageStrategy
+    homePageLink
     settings {
+      showPWAInstall
+      brandIconUrl
       userDataCollection {
         label
         options

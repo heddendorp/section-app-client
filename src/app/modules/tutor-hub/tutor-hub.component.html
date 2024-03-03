@@ -3,12 +3,12 @@
     <div resetScroll>Section Hub</div>
   </mat-toolbar>
   @if ((tutorHubData$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <div class="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
   <div
-    class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
+    class="relative overflow-hidden rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
     <app-semester-navigator
       [calculateStartEnd]="calculateStartEnd"
@@ -23,11 +23,9 @@
         <div class="flex flex-col items-center">
           <div class="mb-1 text-3xl font-extrabold">
             @if (events$ | async; as events) {
-            <span>{{ events.eventCount }}</span>
+              <span>{{ events.eventCount }}</span>
             } @else {
-
-            <span class="skeleton">XXX</span>
-
+              <span class="skeleton">XXX</span>
             }
           </div>
           <div class="text-sm">
@@ -37,11 +35,9 @@
         <div class="flex flex-col items-center">
           <div class="mb-1 text-3xl font-extrabold">
             @if (events$ | async; as events) {
-            <span>{{ events.registrationCount }}</span>
+              <span>{{ events.registrationCount }}</span>
             } @else {
-
-            <span class="skeleton">XXXX</span>
-
+              <span class="skeleton">XXXX</span>
             }
           </div>
           <div class="text-sm">
@@ -56,7 +52,7 @@
         <div class="my-4 flex flex-row items-center gap-4">
           <mat-icon
             svgIcon="icon-leaderboard"
-            class="text-secondary-default bg-secondary-on card-icon"
+            class="card-icon bg-secondary-on text-secondary-default"
           >
           </mat-icon>
           <div>
@@ -68,7 +64,7 @@
                 [class]="
                   !leaderboardToggle
                     ? 'font-bold'
-                    : 'text-blue-700 cursor-pointer'
+                    : 'cursor-pointer text-blue-700'
                 "
               >
                 organized
@@ -80,7 +76,7 @@
                 [class]="
                   leaderboardToggle
                     ? 'font-bold'
-                    : 'text-blue-700 cursor-pointer'
+                    : 'cursor-pointer text-blue-700'
                 "
                 >created</a
               >
@@ -88,28 +84,26 @@
           </div>
         </div>
         <div class="grid grid-cols-[3ch_auto_auto] gap-2 text-sm">
-          @if (events$ | async; as events) { @for (entry of
-          getLeaderboard(events); track entry) {
-
-          <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
-          <app-user-chip
-            size="xs"
-            [id]="entry.user.id"
-            [picture]="entry.user.picture"
-            name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
-            [status]="entry.status || ''"
-          >
-          </app-user-chip>
-          <div class="ml-auto font-medium">{{ entry.count }}</div>
-
-          } } @else { @for (entry of [].constructor(10); track entry; let i =
-          $index) {
-
-          <div class="w-8 pr-3 text-end">{{ i + 1 }}.</div>
-          <div class="skeleton h-6 w-36 rounded-[24px]"></div>
-          <div class="skeleton ml-auto font-medium">XX</div>
-
-          } }
+          @if (events$ | async; as events) {
+            @for (entry of getLeaderboard(events); track entry) {
+              <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
+              <app-user-chip
+                size="xs"
+                [id]="entry.user.id"
+                [picture]="entry.user.picture"
+                name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
+                [status]="entry.status || ''"
+              >
+              </app-user-chip>
+              <div class="ml-auto font-medium">{{ entry.count }}</div>
+            }
+          } @else {
+            @for (entry of [].constructor(10); track entry; let i = $index) {
+              <div class="w-8 pr-3 text-end">{{ i + 1 }}.</div>
+              <div class="skeleton h-6 w-36 rounded-[24px]"></div>
+              <div class="skeleton ml-auto font-medium">XX</div>
+            }
+          }
         </div>
         <div class="mt-1">
           <a
@@ -124,45 +118,43 @@
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
     <div class="mb-1 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-calendar-plus"
-        class="text-secondary-default bg-secondary-on card-icon"
+        class="card-icon bg-secondary-on text-secondary-default"
       >
       </mat-icon>
       <h2 class="font-bold">Recently created events</h2>
     </div>
     @if (tutorHubData$ | async; as tutorHubData) {
-    <mat-nav-list>
-      @for (event of tutorHubData.newEvents; track event) {
-      <app-event-list-item [event]="event"></app-event-list-item>
-      }
-    </mat-nav-list>
+      <mat-nav-list>
+        @for (event of tutorHubData.newEvents; track event) {
+          <app-event-list-item [event]="event"></app-event-list-item>
+        }
+      </mat-nav-list>
     } @else {
-
-    <mat-nav-list>
-      @for (event of [].constructor(6); track event) {
-      <app-event-list-item></app-event-list-item>
-      }
-    </mat-nav-list>
-
+      <mat-nav-list>
+        @for (event of [].constructor(6); track event) {
+          <app-event-list-item></app-event-list-item>
+        }
+      </mat-nav-list>
     }
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer relative overflow-hidden rounded-2xl p-4 shadow-xl"
+    class="relative overflow-hidden rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
-    <div class="!absolute top-0 left-0 w-full">
+    <div class="!absolute left-0 top-0 w-full">
       @if (searchLoading$ | async) {
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       }
     </div>
     <div class="mb-2 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-conference"
-        class="text-secondary-default bg-secondary-on card-icon"
+        class="card-icon bg-secondary-on text-secondary-default"
       >
       </mat-icon>
       <h2 class="font-bold">Members</h2>
@@ -175,145 +167,156 @@
       </mat-form-field>
     </form>
     @if (!searchInput.value) {
-
-    <app-grid minWidth="35px" gap="0.5rem">
-      @if (tutorHubData$ | async; as tutorHubData) { @for (tenantUser of
-      tutorHubData.activeOrganizers; track tenantUser) {
-      <app-user-chip
-        size="fit"
-        [id]="tenantUser.user.id"
-        name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
-        [picture]="tenantUser.user.picture"
-      >
-      </app-user-chip>
-      } } @else { @for (tutor of [].constructor(90); track tutor) {
-      <div class="skeleton aspect-1 rounded-full"></div>
-      } }
-    </app-grid>
-    <div class="mt-3 text-sm italic text-gray-500">
-      {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active members of
-      the last three months.
-    </div>
-
-    } @if (searchInput.value) {
-
-    <div class="flex flex-wrap items-center gap-2">
-      @for (user of searchedTutors$ | async; track user) {
-      <app-user-chip
-        size="sm"
-        [id]="user.id"
-        [picture]="user.picture"
-        [name]="user.fullName"
-        [status]="user.currentTenant?.status + ''"
-      >
-      </app-user-chip>
-      }
-    </div>
-
+      <app-grid minWidth="35px" gap="0.5rem">
+        @if (tutorHubData$ | async; as tutorHubData) {
+          @for (tenantUser of tutorHubData.activeOrganizers; track tenantUser) {
+            <app-user-chip
+              size="fit"
+              [id]="tenantUser.user.id"
+              name="{{ tenantUser.user.firstName }} {{
+                tenantUser.user.lastName
+              }}"
+              [picture]="tenantUser.user.picture"
+            >
+            </app-user-chip>
+          }
+        } @else {
+          @for (tutor of [].constructor(90); track tutor) {
+            <div class="skeleton aspect-1 rounded-full"></div>
+          }
+        }
+      </app-grid>
+      <div class="mt-3 text-sm italic text-gray-500">
+        {{ (tutorHubData$ | async)?.activeOrganizers?.length }} active members
+        of the last three months.
+      </div>
+    }
+    @if (searchInput.value) {
+      <div class="flex flex-wrap items-center gap-2">
+        @for (user of searchedTutors$ | async; track user) {
+          <app-user-chip
+            size="sm"
+            [id]="user.id"
+            [picture]="user.picture"
+            [name]="user.fullName"
+            [status]="user.currentTenant?.status + ''"
+          >
+          </app-user-chip>
+        }
+      </div>
     }
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
     <div class="mb-4 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-birthday"
-        class="text-secondary-default bg-secondary-on card-icon"
+        class="card-icon bg-secondary-on text-secondary-default"
       >
       </mat-icon>
       <h2 class="font-bold">Birthdays</h2>
     </div>
     <div class="flex flex-col gap-4">
-      @if (tutorHubData$ | async; as tutorHubData) { @if
-      (tutorHubData.birthdays.length === 0) {
-      <div> No upcoming birthdays in the next week </div>
-      } @for (birthday of tutorHubData.birthdays; track birthday) {
-      <div>
-        <div class="mb-1 font-bold">{{ birthday.birthday }}</div>
-        <div class="ml-4 flex flex-wrap items-center gap-2">
-          @for (user of birthday.users; track user) {
-          <app-user-chip
-            size="sm"
-            [id]="user.id"
-            [picture]="user.picture"
-            name="{{ user.firstName }} {{ user.lastName }}"
-            [status]="user.status"
-          >
-          </app-user-chip>
-          }
-        </div>
-      </div>
-      } } @else { @for (birthday of [].constructor(3); track birthday) {
-      <div>
-        <div class="mb-1 font-bold">
-          <span class="skeleton">XXXXXX XX</span>
-        </div>
-        <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
-      </div>
-      } }
+      @if (tutorHubData$ | async; as tutorHubData) {
+        @if (tutorHubData.birthdays.length === 0) {
+          <div> No upcoming birthdays in the next week </div>
+        }
+        @for (birthday of tutorHubData.birthdays; track birthday) {
+          <div>
+            <div class="mb-1 font-bold">{{ birthday.birthday }}</div>
+            <div class="ml-4 flex flex-wrap items-center gap-2">
+              @for (user of birthday.users; track user) {
+                <app-user-chip
+                  size="sm"
+                  [id]="user.id"
+                  [picture]="user.picture"
+                  name="{{ user.firstName }} {{ user.lastName }}"
+                  [status]="user.status"
+                >
+                </app-user-chip>
+              }
+            </div>
+          </div>
+        }
+      } @else {
+        @for (birthday of [].constructor(3); track birthday) {
+          <div>
+            <div class="mb-1 font-bold">
+              <span class="skeleton">XXXXXX XX</span>
+            </div>
+            <div class="skeleton ml-4 h-9 w-40 rounded-[36px]"></div>
+          </div>
+        }
+      }
     </div>
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
     <div class="mb-4 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-group-background-selected"
-        class="text-secondary-default bg-secondary-on card-icon"
+        class="card-icon bg-secondary-on text-secondary-default"
       >
       </mat-icon>
       <h2 class="font-bold">Who’s Who</h2>
     </div>
     <div class="grid grid-cols-1 gap-4 text-sm 2xl:grid-cols-2">
-      @if (tutorHubData$ | async; as tutorHubData) { @for (tenantUser of
-      tutorHubData.usersWithPositions; track tenantUser) {
-      <div>
-        <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
-        <app-user-chip
-          size="xs"
-          [id]="tenantUser.user.id"
-          [picture]="tenantUser.user.picture"
-          name="{{ tenantUser.user.firstName }} {{ tenantUser.user.lastName }}"
-          [status]="tenantUser.status || ''"
-        >
-        </app-user-chip>
-      </div>
-      } } @else { @for (position of [].constructor(10); track position) {
-      <div>
-        <div class="mb-0.5 font-medium">
-          <span class="skeleton">XXX XXXXXXXX XX</span>
-        </div>
-        <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
-      </div>
-      } }
+      @if (tutorHubData$ | async; as tutorHubData) {
+        @for (tenantUser of tutorHubData.usersWithPositions; track tenantUser) {
+          <div>
+            <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
+            <app-user-chip
+              size="xs"
+              [id]="tenantUser.user.id"
+              [picture]="tenantUser.user.picture"
+              name="{{ tenantUser.user.firstName }} {{
+                tenantUser.user.lastName
+              }}"
+              [status]="tenantUser.status || ''"
+            >
+            </app-user-chip>
+          </div>
+        }
+      } @else {
+        @for (position of [].constructor(10); track position) {
+          <div>
+            <div class="mb-0.5 font-medium">
+              <span class="skeleton">XXX XXXXXXXX XX</span>
+            </div>
+            <div class="skeleton ml-4 h-6 w-36 rounded-[24px]"></div>
+          </div>
+        }
+      }
     </div>
   </div>
 
   <div
-    class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+    class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
   >
     <div class="mb-1 flex flex-row items-center gap-4">
       <mat-icon
         svgIcon="icon-user-manual"
-        class="text-secondary-default bg-secondary-on card-icon"
+        class="card-icon bg-secondary-on text-secondary-default"
       >
       </mat-icon>
       <h2 class="font-bold">Resources</h2>
     </div>
     <mat-nav-list>
       @for (link of resourceLinks$ | async; track link) {
-      <a mat-list-item [href]="link.url" target="_blank">
-        <img
-          [ngSrc]="link.icon | iconURL"
-          width="192"
-          height="192"
-          [alt]="link.label"
-          matListItemAvatar
-        />
-        <p matListItemTitle>{{ link.label }}</p>
-      </a>
+        <a mat-list-item [href]="link.url" target="_blank">
+          <img
+            [ngSrc]="link.icon | iconURL"
+            width="192"
+            height="192"
+            [alt]="link.label"
+            matListItemAvatar
+          />
+          <p matListItemTitle>{{ link.label }}</p>
+        </a>
       }
     </mat-nav-list>
   </div>

@@ -2,13 +2,14 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     <div resetScroll>
-      Transactions @if (transactionCount$ | async; as transactionCount) {
-      <span class="font-light"> ({{ transactionCount | number }}) </span>
+      Transactions
+      @if (transactionCount$ | async; as transactionCount) {
+        <span class="font-light"> ({{ transactionCount | number }}) </span>
       }
     </div>
   </mat-toolbar>
   @if ((transactions$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="p-4">
@@ -89,7 +90,6 @@
       (click)="openCreateTransactionDialog()"
       type="button"
       mat-stroked-button
-      class="modern"
       fxFlexAlign="start"
     >
       <mat-icon svgIcon="icon-add"></mat-icon>
@@ -97,97 +97,114 @@
     </button>
   </form>
   @if (transactions$ | async; as users) {
-  <table mat-table [dataSource]="users" class="w-fit sm:w-full">
-    <ng-container matColumnDef="subject">
-      <th mat-header-cell *matHeaderCellDef>Subject</th>
-      <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
-    </ng-container>
+    <table mat-table [dataSource]="users" class="w-fit sm:w-full">
+      <ng-container matColumnDef="subject">
+        <th mat-header-cell *matHeaderCellDef>Subject</th>
+        <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="user">
-      <th mat-header-cell *matHeaderCellDef>User Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.user?.fullName }}</td>
-    </ng-container>
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.user?.fullName }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="direction">
-      <th mat-header-cell *matHeaderCellDef>Direction</th>
-      <td mat-cell *matCellDef="let element">
-        @switch (element.direction) { @case (TransactionDirection.TumiToUser) {
-        <p class="text-red-500"> TUMi ➡️ User </p>
-        } @case (TransactionDirection.TumiToExternal) {
-        <p class="text-red-500"> TUMi ➡️ External </p>
-        } @case (TransactionDirection.UserToTumi) {
-        <p class="text-green-500"> User ➡️ TUMi </p>
-        } @case (TransactionDirection.ExternalToTumi) {
-        <p class="text-green-500"> External ➡️ TUMi </p>
-        } @case (TransactionDirection.UserToUser) {
-        <p>User ➡️ User</p>
-        } @case (TransactionDirection.UserToExternal) {
-        <p> User ➡️ External </p>
-        } @case (TransactionDirection.ExternalToUser) {
-        <p> External ➡️ User </p>
-        } }
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="direction">
+        <th mat-header-cell *matHeaderCellDef>Direction</th>
+        <td mat-cell *matCellDef="let element">
+          @switch (element.direction) {
+            @case (TransactionDirection.TumiToUser) {
+              <p class="text-red-500"> TUMi ➡️ User </p>
+            }
+            @case (TransactionDirection.TumiToExternal) {
+              <p class="text-red-500"> TUMi ➡️ External </p>
+            }
+            @case (TransactionDirection.UserToTumi) {
+              <p class="text-green-500"> User ➡️ TUMi </p>
+            }
+            @case (TransactionDirection.ExternalToTumi) {
+              <p class="text-green-500"> External ➡️ TUMi </p>
+            }
+            @case (TransactionDirection.UserToUser) {
+              <p>User ➡️ User</p>
+            }
+            @case (TransactionDirection.UserToExternal) {
+              <p> User ➡️ External </p>
+            }
+            @case (TransactionDirection.ExternalToUser) {
+              <p> External ➡️ User </p>
+            }
+          }
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let element">
-        @switch (element.status) { @case (TransactionStatus.Pending) {
-        <mat-icon svgIcon="icon-connection-status-off"></mat-icon>
-        } @case (TransactionStatus.Cancelled) {
-        <mat-icon svgIcon="icon-cancel-2"></mat-icon>
-        } @case (TransactionStatus.Confirmed) {
-        <mat-icon svgIcon="icon-ok"></mat-icon>
-        } }
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          @switch (element.status) {
+            @case (TransactionStatus.Pending) {
+              <mat-icon svgIcon="icon-connection-status-off"></mat-icon>
+            }
+            @case (TransactionStatus.Cancelled) {
+              <mat-icon svgIcon="icon-cancel-2"></mat-icon>
+            }
+            @case (TransactionStatus.Confirmed) {
+              <mat-icon svgIcon="icon-ok"></mat-icon>
+            }
+          }
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">
-        @switch (element.type) { @case (TransactionType.Stripe) {
-        <mat-icon svgIcon="icon-stripe"></mat-icon>
-        } @case (TransactionType.Cash) {
-        <mat-icon svgIcon="icon-cash"></mat-icon>
-        } @case (TransactionType.Paypal) {
-        <mat-icon svgIcon="icon-paypal"></mat-icon>
-        } @case (TransactionType.Transfer) {
-        <mat-icon svgIcon="icon-online-money-transfer"></mat-icon>
-        } }
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">
+          @switch (element.type) {
+            @case (TransactionType.Stripe) {
+              <mat-icon svgIcon="icon-stripe"></mat-icon>
+            }
+            @case (TransactionType.Cash) {
+              <mat-icon svgIcon="icon-cash"></mat-icon>
+            }
+            @case (TransactionType.Paypal) {
+              <mat-icon svgIcon="icon-paypal"></mat-icon>
+            }
+            @case (TransactionType.Transfer) {
+              <mat-icon svgIcon="icon-online-money-transfer"></mat-icon>
+            }
+          }
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="event">
-      <th mat-header-cell *matHeaderCellDef>Event/Comment</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.eventRegistration?.event?.title ?? element.comment }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="event">
+        <th mat-header-cell *matHeaderCellDef>Event/Comment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.eventRegistration?.event?.title ?? element.comment }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef>Amount</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.amount | currency }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.amount | currency }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.createdAt | date: 'short' }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.createdAt | date: 'short' }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <a mat-flat-button [routerLink]="element.id"> See details </a>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <a mat-flat-button [routerLink]="element.id"> See details </a>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
   }
   <mat-paginator
     [length]="transactionCount$ | async"

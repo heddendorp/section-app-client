@@ -1,16 +1,12 @@
 @if (needsInput$ | async) {
-
-<p class="mb-2 font-bold">
-  We need some more information before you can register
-</p>
-<app-data-items-collector
-  mode="event"
-  [items]="event?.submissionItems ?? []"
-  (dataSubmission)="submitData($event)"
-></app-data-items-collector>
-
+  <p class="mb-2 font-bold">
+    We need some more information before you can register
+  </p>
+  <app-data-items-collector
+    mode="event"
+    [items]="event?.submissionItems ?? []"
+    (dataSubmission)="submitData($event)"
+  ></app-data-items-collector>
 } @else {
-
-<ng-content></ng-content>
-
+  <ng-content></ng-content>
 }

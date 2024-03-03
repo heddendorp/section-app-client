@@ -8,6 +8,7 @@ import { FooterComponent } from './modules/shared/components/footer/footer.compo
 import { Router, RouterOutlet, Scroll } from '@angular/router';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { Settings } from 'luxon';
+import { NavComponent } from '@tumi/legacy-app/components/nav/nav.component';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ import { Settings } from 'luxon';
     FooterComponent,
     AsyncPipe,
     NgForOf,
+    NavComponent,
   ],
 })
 @TraceClassDecorator()
@@ -29,11 +31,7 @@ export class AppComponent {
     registry: MatIconRegistry,
     san: DomSanitizer,
     router: Router,
-    // appRef: ApplicationRef,
-    // updates: SwUpdate,
-    // snackBar: MatSnackBar,
     viewportScroller: ViewportScroller,
-    // @Inject(PLATFORM_ID) platform: any,
   ) {
     registry.addSvgIconSet(
       san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg'),
@@ -51,37 +49,9 @@ export class AppComponent {
           viewportScroller.scrollToPosition([0, 0]);
         }
       });
-    // set default Luxon locale
     Settings.defaultLocale = 'en';
     Settings.defaultZone = 'Europe/Berlin';
-    // const appIsStable$ = appRef.isStable.pipe(first((isStable) => isStable));
-    // const updateCheckTimer$ = interval(0.5 * 2 * 60 * 1000);
-    // const updateChecksOnceAppStable$ = concat(updateCheckTimer$);
-    // if (
-    //   environment.production &&
-    //   isPlatformBrowser(platform) &&
-    //   environment.version !== 'test'
-    // ) {
-    //   updateChecksOnceAppStable$.subscribe(() => updates.checkForUpdate());
-    // }
-    // updates.versionUpdates
-    //   .pipe(
-    //     filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-    //   )
-    //   .subscribe((event) => {
-    //     snackBar
-    //       .openFromComponent(IconToastComponent, {
-    //         duration: 0,
-    //         data: {
-    //           message: 'A new version of this app is available!',
-    //           action: 'Activate now',
-    //           icon: 'icon-available-updates',
-    //         },
-    //       })
-    //       .onAction()
-    //       .subscribe(() =>
-    //         updates.activateUpdate().then(() => document.location.reload()),
-    //       );
-    //   });
   }
+
+  protected newUI = !!localStorage.getItem('evorto_new_ui');
 }

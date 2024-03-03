@@ -1,17 +1,17 @@
 <div
-  class="mt-auto flex w-full flex-col items-center gap-4 pt-12 pb-8 text-base text-slate-500"
+  class="mt-auto flex w-full flex-col items-center gap-4 pb-8 pt-12 text-base text-slate-500"
 >
   <div class="flex w-full justify-center gap-6">
     @for (link of (tenantInfo$ | async)?.settings?.socialLinks; track link) {
-    <a [href]="link.url" target="_blank" class="hover:opacity-70">
-      <img
-        [ngSrc]="link.icon | iconURL"
-        width="24"
-        height="24"
-        [alt]="link.label"
-        class="h-6"
-      />
-    </a>
+      <a [href]="link.url" target="_blank" class="hover:opacity-70">
+        <img
+          [ngSrc]="link.icon | iconURL"
+          width="24"
+          height="24"
+          [alt]="link.label"
+          class="h-6"
+        />
+      </a>
     }
   </div>
   <div class="text-center text-xs">

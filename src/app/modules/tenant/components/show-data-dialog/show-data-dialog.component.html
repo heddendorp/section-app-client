@@ -3,24 +3,30 @@
   <p class="mb-2 mt-4">Created: {{ data.createdAt | date }}</p>
   <p class="mb-2 font-bold">Data 1</p>
   @if (customer1) {
-  <a [href]="customer1" target="_blank"> Go to customer on stripe </a>
-  } @if (payment1) {
-  <a [href]="payment1" target="_blank"> Go to payment on stripe </a>
-  } @if (event1) {
-  <a [href]="event1" target="_blank"> Go to event </a>
-  } @if (user1) {
-  <a [href]="user1" target="_blank"> Go to user </a>
+    <a [href]="customer1" target="_blank"> Go to customer on stripe </a>
+  }
+  @if (payment1) {
+    <a [href]="payment1" target="_blank"> Go to payment on stripe </a>
+  }
+  @if (event1) {
+    <a [href]="event1" target="_blank"> Go to event </a>
+  }
+  @if (user1) {
+    <a [href]="user1" target="_blank"> Go to user </a>
   }
   <pre class="mb-2 break-all">{{ data.data | json }}</pre>
   <p class="mb-2 font-bold">Data 2</p>
   @if (customer2) {
-  <a [href]="customer2" target="_blank"> Go to customer on stripe </a>
-  } @if (payment2) {
-  <a [href]="payment2" target="_blank"> Go to payment on stripe </a>
-  } @if (event2) {
-  <a [href]="event2" target="_blank"> Go to event </a>
-  } @if (user2) {
-  <a [href]="user2" target="_blank"> Go to user </a>
+    <a [href]="customer2" target="_blank"> Go to customer on stripe </a>
+  }
+  @if (payment2) {
+    <a [href]="payment2" target="_blank"> Go to payment on stripe </a>
+  }
+  @if (event2) {
+    <a [href]="event2" target="_blank"> Go to event </a>
+  }
+  @if (user2) {
+    <a [href]="user2" target="_blank"> Go to user </a>
   }
   <pre class="mb-2 break-all">{{ data.oldData | json }}</pre>
 </mat-dialog-content>

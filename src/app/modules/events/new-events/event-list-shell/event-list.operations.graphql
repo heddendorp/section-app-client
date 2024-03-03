@@ -1,0 +1,10 @@
+query getEventListForShell {
+  events {
+    id
+    icon
+    title
+    start
+    end
+    publicationState
+  }
+}

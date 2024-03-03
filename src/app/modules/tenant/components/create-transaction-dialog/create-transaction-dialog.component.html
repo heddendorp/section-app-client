@@ -71,9 +71,9 @@
       />
       <mat-autocomplete #auto="matAutocomplete">
         @for (option of userOptions$ | async; track option) {
-        <mat-option [value]="option.id">
-          {{ option.fullName }} ({{ option.email }})
-        </mat-option>
+          <mat-option [value]="option.id">
+            {{ option.fullName }} ({{ option.email }})
+          </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>

@@ -1,21 +1,21 @@
 <table class="scroll-auto">
   @for (transaction of transactions; track transaction) {
-  <tr>
-    <td class="px-1">{{ transaction.subject }}</td>
-    <td class="px-1">{{ transaction.direction | snakeCase }}</td>
-    <td class="px-1">{{ transaction.status | snakeCase }}</td>
-    <td class="px-1">{{ transaction.amount | currency }}</td>
-    @if (transaction.stripePayment?.paymentIntent) {
-    <td class="px-1">
-      <a
-        href="https://dashboard.stripe.com/payments/{{
-          transaction.stripePayment?.paymentIntent
-        }}"
-      >
-        <mat-icon svgIcon="icon-stripe"></mat-icon>
-      </a>
-    </td>
-    }
-  </tr>
+    <tr>
+      <td class="px-1">{{ transaction.subject }}</td>
+      <td class="px-1">{{ transaction.direction | snakeCase }}</td>
+      <td class="px-1">{{ transaction.status | snakeCase }}</td>
+      <td class="px-1">{{ transaction.amount | currency }}</td>
+      @if (transaction.stripePayment?.paymentIntent) {
+        <td class="px-1">
+          <a
+            href="https://dashboard.stripe.com/payments/{{
+              transaction.stripePayment?.paymentIntent
+            }}"
+          >
+            <mat-icon svgIcon="icon-stripe"></mat-icon>
+          </a>
+        </td>
+      }
+    </tr>
   }
 </table>

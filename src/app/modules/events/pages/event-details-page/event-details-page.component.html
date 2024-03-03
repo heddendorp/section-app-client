@@ -23,7 +23,7 @@
   <app-event-header
     [event]="event$ | async"
     [bestPrice]="bestPrice$ | async"
-    class="text-secondary-onContainerDark bg-secondary-containerDark dark-button from-gray-600 to-gray-800 p-4 pb-20 lg:p-6 lg:pb-24"
+    class="dark-button bg-secondary-containerDark from-gray-600 to-gray-800 p-4 pb-20 text-secondary-onContainerDark lg:p-6 lg:pb-24"
   >
   </app-event-header>
   <div class="-mt-16 p-2 sm:mx-2 sm:p-4 lg:mx-6 lg:p-6">
@@ -38,7 +38,7 @@
           </mat-expansion-panel-header>
           <markdown
             [data]="event.description"
-            class="prose lg:prose-xl break-words"
+            class="prose break-words lg:prose-xl"
           ></markdown>
         </mat-expansion-panel>
         @if (event.couldBeOrganizer) {
@@ -60,7 +60,7 @@
             </p>
             <markdown
               [data]="event.organizerText"
-              class="prose lg:prose-xl break-words"
+              class="prose break-words lg:prose-xl"
             ></markdown>
           </mat-expansion-panel>
         }
@@ -86,7 +86,7 @@
                     routerLink="./photos"
                     mat-flat-button
                     color="primary"
-                    class="modern w-full"
+                    class="w-full"
                   >
                     <mat-icon svgIcon="icon-gallery"></mat-icon>
                     <span>Photos for this event</span>
@@ -104,7 +104,6 @@
                         {{ event.start | date: 'mediumTime' }}
                       </div>
                       <a
-                        class="modern"
                         mat-flat-button
                         color="primary"
                         [href]="
@@ -129,7 +128,6 @@
                         {{ event.start | date: 'mediumTime' }}
                       </div>
                       <a
-                        class="modern"
                         mat-flat-button
                         color="primary"
                         [href]="event.onlineMeetingUrl"
@@ -144,7 +142,7 @@
               }
               <markdown
                 [data]="event.participantText"
-                class="prose lg:prose-xl break-words"
+                class="prose break-words lg:prose-xl"
               ></markdown>
               @if ((event$ | async)?.activeRegistration?.didAttend) {
                 <div class="my-2 flex flex-row items-center gap-4">
@@ -311,7 +309,7 @@
       <p>{{ event.organizer.text }}</p>
     </div>
     <div
-      class="bg-primary-container text-secondary-onContainer relative p-6 lg:p-12"
+      class="relative bg-primary-container p-6 text-secondary-onContainer lg:p-12"
       data-testId="event-signup-section"
     >
       @if (event.couldBeParticipant) {
@@ -352,7 +350,6 @@
             To sign up for events, please log in or create an account.
           </p>
           <button
-            class="modern"
             mat-flat-button
             color="accent"
             (click)="auth.loginWithRedirect()"
@@ -369,14 +366,14 @@
     ) {
       <div
         data-testId="event-organizer-section"
-        class="bg-primary-container text-secondary-onContainer border-secondary-onContainer relative border-t-2 p-6 lg:p-12"
+        class="relative border-t-2 border-secondary-onContainer bg-primary-container p-6 text-secondary-onContainer lg:p-12"
       >
         <h2 class="mb-4 font-bold">Sign up as an organizer</h2>
         <app-check-registration-time
           [registrationStart]="event.organizerRegistrationStart"
         >
           <div
-            class="flex flex-col gap-4 md:flex-row md:justify-start md:items-start"
+            class="flex flex-col gap-4 md:flex-row md:items-start md:justify-start"
           >
             @if (organizerCanDeRegister$ | async; as canDeRegister) {
               <div class="md:w-1/2">
@@ -396,7 +393,7 @@
                   <button
                     mat-raised-button
                     color="primary"
-                    class="modern w-full"
+                    class="w-full"
                     (click)="registerAsOrganizer()"
                   >
                     <mat-icon svgIcon="icon-add"></mat-icon>
@@ -407,7 +404,7 @@
                   <button
                     mat-raised-button
                     color="primary"
-                    class="modern w-full"
+                    class="w-full"
                     (click)="cancelOrganizerRegistration()"
                   >
                     Cancel Registration

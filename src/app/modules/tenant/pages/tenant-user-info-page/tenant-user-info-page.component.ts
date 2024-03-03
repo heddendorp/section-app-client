@@ -84,7 +84,6 @@ export class TenantUserInfoPageComponent {
       this.dialog
         .open(UpdateUserDialogComponent, {
           data: { user },
-          panelClass: 'modern',
         })
         .afterClosed(),
     );

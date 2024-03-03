@@ -4,30 +4,32 @@
     Is Virtual event
   </mat-checkbox>
   @if (virtualEventControl.value) {
-  <mat-form-field class="w-full">
-    <mat-label>Meeting URL</mat-label>
-    <input matInput [formControl]="meetingUrlControl" />
-    <mat-hint>Enter meeting URL</mat-hint>
-  </mat-form-field>
-  } @if (!virtualEventControl.value) {
-  <app-location-autocomplete
-    [formControl]="locationControl"
-  ></app-location-autocomplete>
+    <mat-form-field class="w-full">
+      <mat-label>Meeting URL</mat-label>
+      <input matInput [formControl]="meetingUrlControl" />
+      <mat-hint>Enter meeting URL</mat-hint>
+    </mat-form-field>
+  }
+  @if (!virtualEventControl.value) {
+    <app-location-autocomplete
+      [formControl]="locationControl"
+    ></app-location-autocomplete>
   }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-flat-button class="modern" mat-dialog-close>Cancel</button>
+  <button mat-dialog-close mat-flat-button>Cancel</button>
   <button
     mat-flat-button
-    class="modern save-button"
+    class="save-button"
     color="primary"
     [disabled]="locationControl.invalid || isSaving"
     (click)="submitLocation()"
   >
     @if (isSaving) {
-    <mat-icon [class]="isSaving ? 'saving' : ''"
-      ><mat-spinner></mat-spinner
-    ></mat-icon>
-    } Save
+      <mat-icon [class]="isSaving ? 'saving' : ''"
+        ><mat-spinner></mat-spinner
+      ></mat-icon>
+    }
+    Save
   </button>
 </mat-dialog-actions>

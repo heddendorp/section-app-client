@@ -271,7 +271,7 @@ export class FinancePlannerComponent implements OnChanges {
 
   async addItem() {
     const newItem = await this.dialog
-      .open(NewFinanceEntryDialogComponent, { panelClass: 'modern' })
+      .open(NewFinanceEntryDialogComponent)
       .afterClosed()
       .toPromise();
     if (newItem) {

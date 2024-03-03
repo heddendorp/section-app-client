@@ -2,13 +2,14 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     <div resetScroll>
-      Events @if ((events$ | async)?.length; as transactionCount) {
-      <span class="font-light"> ({{ transactionCount }}) </span>
+      Events
+      @if ((events$ | async)?.length; as transactionCount) {
+        <span class="font-light"> ({{ transactionCount }}) </span>
       }
     </div>
   </mat-toolbar>
   @if ((events$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="p-4">
@@ -39,30 +40,30 @@
     </mat-form-field>
   </form>
   @if (events$ | async; as users) {
-  <mat-table mat-table [dataSource]="users" class="w-fit sm:w-full">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <app-event-chip
-          [id]="element.id"
-          [icon]="element.icon"
-          [title]="element.title"
-        ></app-event-chip>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.start | date }}
-      </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-      matRipple
-      *matRowDef="let row; columns: displayedColumns"
-      routerLink="/events/{{ row.id }}"
-      class="cursor-pointer hover:bg-gray-100"
-    ></mat-row>
-  </mat-table>
+    <mat-table mat-table [dataSource]="users" class="w-fit sm:w-full">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <app-event-chip
+            [id]="element.id"
+            [icon]="element.icon"
+            [title]="element.title"
+          ></app-event-chip>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.start | date }}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row
+        matRipple
+        *matRowDef="let row; columns: displayedColumns"
+        routerLink="/events/{{ row.id }}"
+        class="cursor-pointer hover:bg-gray-100"
+      ></mat-row>
+    </mat-table>
   }
 </main>

@@ -6,7 +6,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GlobalAdminFeeOverviewGQL } from '@tumi/legacy-app/generated/generated';
+import {
+  Currency,
+  GlobalAdminFeeOverviewGQL,
+} from '@tumi/legacy-app/generated/generated';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { CurrencyPipe, DecimalPipe, JsonPipe } from '@angular/common';
@@ -14,11 +17,12 @@ import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-d
 import { groupBy, map as lodashMap, uniq } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Title } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-fee-overview',
   standalone: true,
-  imports: [CurrencyPipe, ExtendDatePipe, JsonPipe, DecimalPipe],
+  imports: [CurrencyPipe, ExtendDatePipe, JsonPipe, DecimalPipe, RouterLink],
   templateUrl: './fee-overview.component.html',
   styleUrl: './fee-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,11 +39,9 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
   private globalAdminFeeOverviewGQL = inject(GlobalAdminFeeOverviewGQL);
   protected monthToMonthChange = computed(() => {
     // Calculate percentage change from last month to current month
-    const currentMonth = this.currentMonthFees();
-    const lastMonth = this.lastMonthFees();
+    const currentMonth = this.currentMonthFees() ?? 0;
+    const lastMonth = this.lastMonthFees() ?? 0;
     if (currentMonth === lastMonth) return 0;
-    if (lastMonth === 0) return 1000;
-    if (!currentMonth || !lastMonth) return 0;
     return ((currentMonth - lastMonth) / lastMonth) * 100;
   });
   private queryRef = this.globalAdminFeeOverviewGQL.watch({
@@ -54,11 +56,9 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
   );
   protected lastMonthToMonthChange = computed(() => {
     // Calculate percentage change from last month to current month
-    const currentMonth = this.lastMonthFees();
-    const lastMonth = this.monthBeforeLastFees();
+    const currentMonth = this.lastMonthFees() ?? 0;
+    const lastMonth = this.monthBeforeLastFees() ?? 0;
     if (currentMonth === lastMonth) return 0;
-    if (lastMonth === 0) return 1000;
-    if (!currentMonth || !lastMonth) return 0;
     return ((currentMonth - lastMonth) / lastMonth) * 100;
   });
   protected currentMonthFees = toSignal(
@@ -82,6 +82,25 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       map(({ data }) => uniq(lodashMap(data.tenantFeeMonths, 'month'))),
     ),
   );
+  protected feeSumPerMonth = computed(() => {
+    const tenantFeeMonths = this.tenantFeeMonths();
+    if (!tenantFeeMonths) return {};
+    const tenantFeeMonthsData = this.tenantFeeMonthsData();
+    if (!tenantFeeMonthsData) return {};
+    return tenantFeeMonths.reduce(
+      (acc, month) => {
+        acc[month] = tenantFeeMonthsData[month].reduce(
+          (acc, { netAmount, currency }) => {
+            const conversionRate = currency === Currency.Eur ? 1 : 0.04;
+            return acc + netAmount * conversionRate;
+          },
+          0,
+        );
+        return acc;
+      },
+      {} as { [key: string]: number },
+    );
+  });
 
   ngOnInit() {
     this.queryRef.startPolling(1000);

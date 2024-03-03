@@ -4,7 +4,7 @@
     <div resetScroll>Event Organizations</div>
   </mat-toolbar>
   @if ((organizers$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="p-4">
@@ -18,10 +18,10 @@
   </button>
   <mat-list>
     @for (organizer of organizers$ | async; track organizer) {
-    <mat-list-item>
-      <h3 matListItemTitle>{{ organizer.name }}</h3>
-      <p matListItemLine>{{ organizer.text }}</p>
-    </mat-list-item>
+      <mat-list-item>
+        <h3 matListItemTitle>{{ organizer.name }}</h3>
+        <p matListItemLine>{{ organizer.text }}</p>
+      </mat-list-item>
     }
   </mat-list>
 </main>

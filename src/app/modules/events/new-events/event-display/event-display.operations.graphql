@@ -1,0 +1,10 @@
+query LoadEventDisplayData($eventID: ID!) {
+  event(id: $eventID) {
+    id
+    title
+    icon
+    start
+    end
+    description
+  }
+}

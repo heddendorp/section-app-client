@@ -4,197 +4,195 @@
     <div resetScroll>Registration Code</div>
   </mat-toolbar>
   @if ((eventRegistrationCode$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="space-y-2 p-4 lg:p-8">
   <p>The ultimate information center 😎</p>
   @if (eventRegistrationCode$ | async; as code) {
-  <div class="overflow-hidden rounded-2xl border">
-    <table class="w-full table-auto border-collapse overflow-x-auto max-w-full">
-      <tbody>
-        <tr>
-          <th colspan="2">Code</th>
-          <th colspan="2">Event</th>
-        </tr>
-        <tr>
-          <td>Created: {{ code.createdAt | date: 'medium' }}</td>
-          <td>
-            Creator:
-            <app-user-chip
-              size="sm"
-              [id]="code.creator.id"
-              [picture]="code.creator.picture"
-              [name]="code.creator.fullName"
-              [status]="code.creator.currentTenant?.status + ''"
-            >
-            </app-user-chip>
-          </td>
-          <td>
-            <app-event-chip
-              [id]="code.targetEvent.id"
-              [icon]="code.targetEvent.icon"
-              [title]="code.targetEvent.title"
-            ></app-event-chip>
-          </td>
-          <td>
-            <div>Start: {{ code.targetEvent.start | date: 'medium' }}</div>
-            <div>End: {{ code.targetEvent.end | date: 'medium' }}</div>
-          </td>
-        </tr>
-        <tr>
-          <td>Status: {{ code.status }}</td>
-          <td>
-            @if (code.isPublic) {
-            <span class="tag">public</span>
-            } @if (!code.isPublic) {
-            <span class="tag">private</span>
-            } @if (code.sepaAllowed) {
-            <span class="tag">sepa</span>
-            }
-          </td>
-          <td colspan="2">
-            <a
-              class="modern w-full"
-              href="/events/{{ code.targetEvent.id }}/manage"
-              mat-stroked-button
-            >
-              Manage Event
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <th colspan="2">Initial Registration</th>
-          <th colspan="2">Created Registration</th>
-        </tr>
+    <div class="overflow-hidden rounded-2xl border">
+      <table
+        class="w-full max-w-full table-auto border-collapse overflow-x-auto"
+      >
+        <tbody>
+          <tr>
+            <th colspan="2">Code</th>
+            <th colspan="2">Event</th>
+          </tr>
+          <tr>
+            <td>Created: {{ code.createdAt | date: 'medium' }}</td>
+            <td>
+              Creator:
+              <app-user-chip
+                size="sm"
+                [id]="code.creator.id"
+                [picture]="code.creator.picture"
+                [name]="code.creator.fullName"
+                [status]="code.creator.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+            </td>
+            <td>
+              <app-event-chip
+                [id]="code.targetEvent.id"
+                [icon]="code.targetEvent.icon"
+                [title]="code.targetEvent.title"
+              ></app-event-chip>
+            </td>
+            <td>
+              <div>Start: {{ code.targetEvent.start | date: 'medium' }}</div>
+              <div>End: {{ code.targetEvent.end | date: 'medium' }}</div>
+            </td>
+          </tr>
+          <tr>
+            <td>Status: {{ code.status }}</td>
+            <td>
+              @if (code.isPublic) {
+                <span class="tag">public</span>
+              }
+              @if (!code.isPublic) {
+                <span class="tag">private</span>
+              }
+              @if (code.sepaAllowed) {
+                <span class="tag">sepa</span>
+              }
+            </td>
+            <td colspan="2">
+              <a
+                class="w-full"
+                href="/events/{{ code.targetEvent.id }}/manage"
+                mat-stroked-button
+              >
+                Manage Event
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2">Initial Registration</th>
+            <th colspan="2">Created Registration</th>
+          </tr>
 
-        <tr>
-          @if (code.registrationToRemove) {
-
-          <td>
-            Created:
-            {{ code.registrationToRemove.createdAt | date: 'medium' }}
-          </td>
-          <td>
-            <app-user-chip
-              size="sm"
-              [id]="code.registrationToRemove.user.id"
-              [picture]="code.registrationToRemove.user.picture"
-              [name]="code.registrationToRemove.user.fullName"
-              [status]="
-                code.registrationToRemove.user.currentTenant?.status + ''
-              "
-            >
-            </app-user-chip>
-          </td>
-
-          } @if (!code.registrationToRemove) {
-
-          <td colspan="2">Admin code with no original registration</td>
-
-          } @if (code.registrationCreated) {
-
-          <td>
-            Created: {{ code.registrationCreated.createdAt | date: 'medium' }}
-          </td>
-          <td>
-            <app-user-chip
-              size="xs"
-              [id]="code.registrationCreated.user.id"
-              [picture]="code.registrationCreated.user.picture"
-              [name]="code.registrationCreated.user.fullName"
-              [status]="
-                code.registrationCreated.user.currentTenant?.status + ''
-              "
-            >
-            </app-user-chip>
-          </td>
-
-          } @if (!code.registrationCreated) {
-
-          <td colspan="2">Code was not used yet</td>
-
-          }
-        </tr>
-
-        <tr>
-          @if (code.registrationToRemove) {
-
-          <td>
-            Status:
-            {{ code.registrationToRemove.status | lowercase }}
-          </td>
-          <td>{{ code.registrationToRemove.cancellationReason }}</td>
-
-          } @if (!code.registrationToRemove) {
-
-          <td colspan="2"></td>
-
-          } @if (code.registrationCreated) {
-
-          <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
-          <td>{{ code.registrationCreated.cancellationReason }}</td>
-
-          } @if (!code.registrationCreated) {
-
-          <td colspan="2"></td>
-
-          }
-        </tr>
-
-        <tr>
-          <td colspan="2">
-            <!--            TODO: check use of transactions list-->
+          <tr>
             @if (code.registrationToRemove) {
-            <app-transaction-list
-              [transactions]="code.registrationToRemove.transactions"
-            ></app-transaction-list>
+              <td>
+                Created:
+                {{ code.registrationToRemove.createdAt | date: 'medium' }}
+              </td>
+              <td>
+                <app-user-chip
+                  size="sm"
+                  [id]="code.registrationToRemove.user.id"
+                  [picture]="code.registrationToRemove.user.picture"
+                  [name]="code.registrationToRemove.user.fullName"
+                  [status]="
+                    code.registrationToRemove.user.currentTenant?.status + ''
+                  "
+                >
+                </app-user-chip>
+              </td>
             }
-          </td>
-          <td colspan="2">
+            @if (!code.registrationToRemove) {
+              <td colspan="2">Admin code with no original registration</td>
+            }
             @if (code.registrationCreated) {
-            <app-transaction-list
-              [transactions]="code.registrationCreated.transactions"
-            ></app-transaction-list>
+              <td>
+                Created:
+                {{ code.registrationCreated.createdAt | date: 'medium' }}
+              </td>
+              <td>
+                <app-user-chip
+                  size="xs"
+                  [id]="code.registrationCreated.user.id"
+                  [picture]="code.registrationCreated.user.picture"
+                  [name]="code.registrationCreated.user.fullName"
+                  [status]="
+                    code.registrationCreated.user.currentTenant?.status + ''
+                  "
+                >
+                </app-user-chip>
+              </td>
             }
-          </td>
-        </tr>
-        @if (code.connectedRegistrations.length) {
+            @if (!code.registrationCreated) {
+              <td colspan="2">Code was not used yet</td>
+            }
+          </tr>
 
-        <tr>
-          <th colspan="4">All connected registrations</th>
-        </tr>
-        @for (registration of code.connectedRegistrations; track registration) {
-        <tr>
-          <td>Created {{ registration.createdAt | date: 'medium' }}</td>
-          <td>
-            <app-user-chip
-              size="xs"
-              [id]="registration.user.id"
-              [picture]="registration.user.picture"
-              [name]="registration.user.fullName"
-              [status]="registration.user.currentTenant?.status + ''"
-            >
-            </app-user-chip>
-          </td>
-          <td>
-            Status: {{ registration.status }} ({{
-              registration.cancellationReason
-            }})
-          </td>
-          <td>
-            <p>
-              Payment:
-              <app-transaction-list
-                [transactions]="registration.transactions"
-              ></app-transaction-list>
-            </p>
-          </td>
-        </tr>
-        } }
-      </tbody>
-    </table>
-  </div>
+          <tr>
+            @if (code.registrationToRemove) {
+              <td>
+                Status:
+                {{ code.registrationToRemove.status | lowercase }}
+              </td>
+              <td>{{ code.registrationToRemove.cancellationReason }}</td>
+            }
+            @if (!code.registrationToRemove) {
+              <td colspan="2"></td>
+            }
+            @if (code.registrationCreated) {
+              <td>Status: {{ code.registrationCreated.status | lowercase }}</td>
+              <td>{{ code.registrationCreated.cancellationReason }}</td>
+            }
+            @if (!code.registrationCreated) {
+              <td colspan="2"></td>
+            }
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              <!--            TODO: check use of transactions list-->
+              @if (code.registrationToRemove) {
+                <app-transaction-list
+                  [transactions]="code.registrationToRemove.transactions"
+                ></app-transaction-list>
+              }
+            </td>
+            <td colspan="2">
+              @if (code.registrationCreated) {
+                <app-transaction-list
+                  [transactions]="code.registrationCreated.transactions"
+                ></app-transaction-list>
+              }
+            </td>
+          </tr>
+          @if (code.connectedRegistrations.length) {
+            <tr>
+              <th colspan="4">All connected registrations</th>
+            </tr>
+            @for (
+              registration of code.connectedRegistrations;
+              track registration
+            ) {
+              <tr>
+                <td>Created {{ registration.createdAt | date: 'medium' }}</td>
+                <td>
+                  <app-user-chip
+                    size="xs"
+                    [id]="registration.user.id"
+                    [picture]="registration.user.picture"
+                    [name]="registration.user.fullName"
+                    [status]="registration.user.currentTenant?.status + ''"
+                  >
+                  </app-user-chip>
+                </td>
+                <td>
+                  Status: {{ registration.status }} ({{
+                    registration.cancellationReason
+                  }})
+                </td>
+                <td>
+                  <p>
+                    Payment:
+                    <app-transaction-list
+                      [transactions]="registration.transactions"
+                    ></app-transaction-list>
+                  </p>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
   }
   <!--  <pre>{{ eventRegistrationCode$ | async | json }}</pre>-->
 </main>

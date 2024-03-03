@@ -14,7 +14,7 @@
 }
 
 .nav-item {
-  @apply flex-col items-center w-0 flex-1 sm:flex-initial sm:w-full h-full sm:h-auto sm:rounded-xl sm:py-2 justify-center text-indigo-200;
+  @apply h-full w-0 flex-1 flex-col items-center justify-center text-indigo-200 sm:h-auto sm:w-full sm:flex-initial sm:rounded-xl sm:py-2;
 
   mat-icon {
     padding: 4px 11px;
@@ -32,7 +32,7 @@
   }
 
   span {
-    @apply mt-0.5 sm:mt-2 text-xs text-center leading-tight;
+    @apply mt-0.5 text-center text-xs leading-tight sm:mt-2;
   }
 
   &:hover {

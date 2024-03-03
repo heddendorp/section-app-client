@@ -4,7 +4,7 @@
     <div resetScroll>Event Template Categories</div>
   </mat-toolbar>
   @if ((eventTemplateCategories$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="w-full p-4">
@@ -13,21 +13,21 @@
   </button>
   <div fxLayout="column" class="mt-4 w-full space-y-2">
     @for (category of eventTemplateCategories$ | async; track category) {
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="1rem"
-      class="border p-2"
-    >
-      <img
-        class="w-12"
-        [ngSrc]="category.icon | iconURL"
-        width="48"
-        height="48"
-        alt="{{ category.icon }}"
-      />
-      <h3>{{ category.name }}</h3>
-    </div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="1rem"
+        class="border p-2"
+      >
+        <img
+          class="w-12"
+          [ngSrc]="category.icon | iconURL"
+          width="48"
+          height="48"
+          alt="{{ category.icon }}"
+        />
+        <h3>{{ category.name }}</h3>
+      </div>
     }
   </div>
 </main>

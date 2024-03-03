@@ -104,7 +104,6 @@ export class EventReceiptsPageComponent implements OnDestroy {
       await this.dialog
         .open(AddReceiptDialogComponent, {
           data: { costItem },
-          panelClass: 'modern',
         })
         .afterClosed();
     }

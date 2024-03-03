@@ -1,60 +1,69 @@
 @if (form) {
-<form
-  class="flex w-full flex-col gap-4"
-  [formGroup]="form"
-  (ngSubmit)="submitData()"
->
-  @for (item of items;track item;let last = $last) { @switch (item.type) { @case
-  (SubmissionItemType.Text) {
-  <div>
-    <mat-form-field class="w-full">
-      <mat-label>{{ item.name }}</mat-label>
-      <input matInput [formControlName]="item.id" type="text" />
-    </mat-form-field>
-    <markdown [data]="item.instruction" class="prose"></markdown>
-  </div>
-  } @case (SubmissionItemType.Longtext) {
-  <div>
-    <mat-form-field class="w-full">
-      <mat-label>{{ item.name }}</mat-label>
-      <textarea matInput rows="3" [formControlName]="item.id"></textarea>
-    </mat-form-field>
-    <markdown [data]="item.instruction" class="prose"></markdown>
-  </div>
-  } @case (SubmissionItemType.Boolean) {
-  <div>
-    <mat-slide-toggle [formControlName]="item.id"
-      >{{ item.name }}
-    </mat-slide-toggle>
-    <markdown [data]="item.instruction" class="prose"></markdown>
-  </div>
-  } @case (SubmissionItemType.Confirm) {
-  <div>
-    <mat-checkbox [formControlName]="item.id">{{ item.name }}</mat-checkbox>
-    <markdown [data]="item.instruction" class="prose"></markdown>
-  </div>
-  } @case (SubmissionItemType.Select) {
-  <div>
-    <mat-form-field class="w-full">
-      <mat-label>{{ item.name }}</mat-label>
-      <mat-select [formControlName]="item.id">
-        @for (option of item.data?.choices;track option) {
-        <mat-option [value]="option">{{ option }} </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <markdown [data]="item.instruction" class="prose"></markdown>
-  </div>
-  @if (!last) {
-  <mat-divider></mat-divider>
-  } } } }
-  <button
-    mat-flat-button
-    color="primary"
-    [disabled]="form.invalid"
-    class="modern"
+  <form
+    class="flex w-full flex-col gap-4"
+    [formGroup]="form"
+    (ngSubmit)="submitData()"
   >
-    Submit data
-  </button>
-</form>
+    @for (item of items; track item; let last = $last) {
+      @switch (item.type) {
+        @case (SubmissionItemType.Text) {
+          <div>
+            <mat-form-field class="w-full">
+              <mat-label>{{ item.name }}</mat-label>
+              <input matInput [formControlName]="item.id" type="text" />
+            </mat-form-field>
+            <markdown [data]="item.instruction" class="prose"></markdown>
+          </div>
+        }
+        @case (SubmissionItemType.Longtext) {
+          <div>
+            <mat-form-field class="w-full">
+              <mat-label>{{ item.name }}</mat-label>
+              <textarea
+                matInput
+                rows="3"
+                [formControlName]="item.id"
+              ></textarea>
+            </mat-form-field>
+            <markdown [data]="item.instruction" class="prose"></markdown>
+          </div>
+        }
+        @case (SubmissionItemType.Boolean) {
+          <div>
+            <mat-slide-toggle [formControlName]="item.id"
+              >{{ item.name }}
+            </mat-slide-toggle>
+            <markdown [data]="item.instruction" class="prose"></markdown>
+          </div>
+        }
+        @case (SubmissionItemType.Confirm) {
+          <div>
+            <mat-checkbox [formControlName]="item.id">{{
+              item.name
+            }}</mat-checkbox>
+            <markdown [data]="item.instruction" class="prose"></markdown>
+          </div>
+        }
+        @case (SubmissionItemType.Select) {
+          <div>
+            <mat-form-field class="w-full">
+              <mat-label>{{ item.name }}</mat-label>
+              <mat-select [formControlName]="item.id">
+                @for (option of item.data?.choices; track option) {
+                  <mat-option [value]="option">{{ option }} </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <markdown [data]="item.instruction" class="prose"></markdown>
+          </div>
+          @if (!last) {
+            <mat-divider></mat-divider>
+          }
+        }
+      }
+    }
+    <button mat-flat-button color="primary" [disabled]="form.invalid">
+      Submit data
+    </button>
+  </form>
 }

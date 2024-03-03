@@ -10,10 +10,10 @@
 
 .picture {
   &.full {
-    @apply border-purple-600 border-[12px] border-double;
+    @apply border-[12px] border-double border-purple-600;
   }
 
   &.trial {
-    @apply border-purple-400 border-4;
+    @apply border-4 border-purple-400;
   }
 }

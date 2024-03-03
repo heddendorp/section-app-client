@@ -1,90 +1,105 @@
 @if (event) {
-<div class="my-2">
-  <p class="mb-4">
-    Free spots:
-    {{ event.participantLimit - event.participantRegistrationCount }}
-  </p>
-  <app-check-additional-data
-    [event]="event"
-    (dataSubmission)="registerAdditionalData($event)"
-  >
-    @if (event.participantRegistrationPossible.option) { @if (
-    !event.deRegistrationSettings?.participants?.deRegistrationPossible ) {
-    <p>
-      <span class="mr-2 font-bold text-red-500">Please note!</span>
-      You can not deregister from this event.
-      <!--        <ng-container-->
-      <!--          *ngIf="event.deRegistrationSettings?.participants?.movePossible"-->
-      <!--        >-->
-      <!--          You can however give the spot you receive to someone else up until-->
-      <!--          {{ lastMove | date }}.-->
-      <!--        </ng-container>-->
-      @if (!event.deRegistrationSettings?.participants?.movePossible) { Your
-      registration is final once completed. }
+  <div class="my-2">
+    <p class="mb-4">
+      Free spots:
+      {{ event.participantLimit - event.participantRegistrationCount }}
     </p>
-    } @if ( event.deRegistrationSettings?.participants?.deRegistrationPossible )
-    {
-    <p>
-      <span class="mr-2 font-bold">ℹ️ Registration info</span>
-      You can cancel your registration until {{ lastDeRegistration | date }}.
-    </p>
-    }
-    <p class="pb-4">You can register for this event here.</p>
-    <button
-      mat-raised-button
-      color="primary"
-      class="modern"
-      (click)="register()"
-      [disabled]="processing | async"
+    <app-check-additional-data
+      [event]="event"
+      (dataSubmission)="registerAdditionalData($event)"
     >
-      Register now!
-    </button>
-    @if (processing | async) {
-    <mat-progress-bar class="mt-4" mode="indeterminate"></mat-progress-bar>
-    } } @if ( !event.participantRegistrationPossible.option &&
-    !event.userIsRegistered ) {
-
-    <p class="whitespace-pre-wrap">
-      {{ event.participantRegistrationPossible.reason }}
-    </p>
-
-    } @if (event.userIsRegistered) {
-
-    <p>✔️ You are registered for this event.</p>
-    <!--      <div class="my-2" *ngIf="canMove.result">-->
-    <!--        <p class="mb-2">-->
-    <!--          You can give this registration to another person until-->
-    <!--          {{ lastMove | date }}.-->
-    <!--        </p>-->
-    <!--        <button mat-flat-button (click)="moveEvent()">Send event</button>-->
-    <!--      </div>-->
-    <!--      <p *ngIf="!canMove.result">-->
-    <!--        You can not give this registration to another person:-->
-    <!--        {{ canMove.reason }}-->
-    <!--      </p>-->
-    @if (canDeregister.result) {
-    <div class="my-2">
-      <p class="mb-2">
-        You can give up your spot on this event until
-        {{ lastDeRegistration | date }}.
-      </p>
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="deregister()"
-        [disabled]="processing | async"
-      >
-        Give up spot
-      </button>
-      @if (processing | async) {
-      <mat-progress-bar class="mt-4" mode="indeterminate"></mat-progress-bar>
+      @if (event.participantRegistrationPossible.option) {
+        @if (
+          !event.deRegistrationSettings?.participants?.deRegistrationPossible
+        ) {
+          <p>
+            <span class="mr-2 font-bold text-red-500">Please note!</span>
+            You can not deregister from this event.
+            <!--        <ng-container-->
+            <!--          *ngIf="event.deRegistrationSettings?.participants?.movePossible"-->
+            <!--        >-->
+            <!--          You can however give the spot you receive to someone else up until-->
+            <!--          {{ lastMove | date }}.-->
+            <!--        </ng-container>-->
+            @if (!event.deRegistrationSettings?.participants?.movePossible) {
+              Your registration is final once completed.
+            }
+          </p>
+        }
+        @if (
+          event.deRegistrationSettings?.participants?.deRegistrationPossible
+        ) {
+          <p>
+            <span class="mr-2 font-bold">ℹ️ Registration info</span>
+            You can cancel your registration until
+            {{ lastDeRegistration | date }}.
+          </p>
+        }
+        <p class="pb-4">You can register for this event here.</p>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="register()"
+          [disabled]="processing | async"
+        >
+          Register now!
+        </button>
+        @if (processing | async) {
+          <mat-progress-bar
+            class="mt-4"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        }
       }
-    </div>
-    } @if (!canDeregister.result) {
-    <p>
-      You can not give up your spot on this event: {{ canDeregister.reason }}
-    </p>
-    } }
-  </app-check-additional-data>
-</div>
+      @if (
+        !event.participantRegistrationPossible.option && !event.userIsRegistered
+      ) {
+        <p class="whitespace-pre-wrap">
+          {{ event.participantRegistrationPossible.reason }}
+        </p>
+      }
+      @if (event.userIsRegistered) {
+        <p>✔️ You are registered for this event.</p>
+        <!--      <div class="my-2" *ngIf="canMove.result">-->
+        <!--        <p class="mb-2">-->
+        <!--          You can give this registration to another person until-->
+        <!--          {{ lastMove | date }}.-->
+        <!--        </p>-->
+        <!--        <button mat-flat-button (click)="moveEvent()">Send event</button>-->
+        <!--      </div>-->
+        <!--      <p *ngIf="!canMove.result">-->
+        <!--        You can not give this registration to another person:-->
+        <!--        {{ canMove.reason }}-->
+        <!--      </p>-->
+        @if (canDeregister.result) {
+          <div class="my-2">
+            <p class="mb-2">
+              You can give up your spot on this event until
+              {{ lastDeRegistration | date }}.
+            </p>
+            <button
+              mat-flat-button
+              color="warn"
+              (click)="deregister()"
+              [disabled]="processing | async"
+            >
+              Give up spot
+            </button>
+            @if (processing | async) {
+              <mat-progress-bar
+                class="mt-4"
+                mode="indeterminate"
+              ></mat-progress-bar>
+            }
+          </div>
+        }
+        @if (!canDeregister.result) {
+          <p>
+            You can not give up your spot on this event:
+            {{ canDeregister.reason }}
+          </p>
+        }
+      }
+    </app-check-additional-data>
+  </div>
 }

@@ -4,7 +4,7 @@
     <mat-label>Template Category</mat-label>
     <mat-select [formControl]="categorySelection" required>
       @for (category of data.categories; track category) {
-      <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
       }
     </mat-select>
   </mat-form-field>

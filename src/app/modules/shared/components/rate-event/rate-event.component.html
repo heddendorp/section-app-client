@@ -1,62 +1,66 @@
 @if (event) {
-<form
-  class="flex flex-col gap-4 w-full"
-  [formGroup]="ratingForm"
-  (ngSubmit)="onSubmit()"
->
-  <a
-    class="flex flex-row items-center gap-2"
-    routerLink="/events/{{ event.id }}"
+  <form
+    class="flex w-full flex-col gap-4"
+    [formGroup]="ratingForm"
+    (ngSubmit)="onSubmit()"
   >
-    <img
-      [ngSrc]="event.icon | iconURL"
-      width="64"
-      height="64"
-      class="bg-secondary-on w-16 rounded-lg p-1"
-    />
-    <p>{{ event.title }}</p>
-  </a>
-  <app-rating formControlName="rating"></app-rating>
-  <mat-form-field>
-    <mat-label>Leave a comment</mat-label>
-    <textarea
-      rows="6"
-      formControlName="comment"
-      matInput
-      placeholder="I liked about the event ..."
-    ></textarea>
-    <mat-hint>
-      Tell us about what you liked and what could have been better!</mat-hint
+    <a
+      class="flex flex-row items-center gap-2"
+      routerLink="/events/{{ event.id }}"
     >
-  </mat-form-field>
-  @if (!event.userIsOrganizer) {
-  <mat-checkbox formControlName="anonymousRating"> Hide my name </mat-checkbox>
-  } @if (event.userIsOrganizer) {
-  <p class="text-gray-600 flex items-center">
-    <mat-icon
-      svgIcon="icon-invisible"
-      class="mr-2 min-w-[18px] max-w-[18px]"
-    ></mat-icon>
-    <span>
-      Organizer ratings are only visible to other organizers. Please suggest
-      what could be done better next time.
-    </span>
-  </p>
-  }
-  <button
-    class="modern save-button"
-    mat-flat-button
-    color="primary"
-    [disabled]="ratingForm.invalid || isSaving"
-  >
-    @if (isSaving) {
-    <mat-icon class="saving">
-      <mat-spinner></mat-spinner>
-    </mat-icon>
-    } @if (!isSaving) {
-    <mat-icon svgIcon="icon-sent"></mat-icon>
+      <img
+        [ngSrc]="event.icon | iconURL"
+        width="64"
+        height="64"
+        class="w-16 rounded-lg bg-secondary-on p-1"
+      />
+      <p>{{ event.title }}</p>
+    </a>
+    <app-rating formControlName="rating"></app-rating>
+    <mat-form-field>
+      <mat-label>Leave a comment</mat-label>
+      <textarea
+        rows="6"
+        formControlName="comment"
+        matInput
+        placeholder="I liked about the event ..."
+      ></textarea>
+      <mat-hint>
+        Tell us about what you liked and what could have been better!</mat-hint
+      >
+    </mat-form-field>
+    @if (!event.userIsOrganizer) {
+      <mat-checkbox formControlName="anonymousRating">
+        Hide my name
+      </mat-checkbox>
     }
-    <span>Submit feedback</span>
-  </button>
-</form>
+    @if (event.userIsOrganizer) {
+      <p class="flex items-center text-gray-600">
+        <mat-icon
+          svgIcon="icon-invisible"
+          class="mr-2 min-w-[18px] max-w-[18px]"
+        ></mat-icon>
+        <span>
+          Organizer ratings are only visible to other organizers. Please suggest
+          what could be done better next time.
+        </span>
+      </p>
+    }
+    <button
+      class="save-button"
+      mat-flat-button
+      color="primary"
+      [disabled]="ratingForm.invalid || isSaving"
+    >
+      @if (isSaving) {
+        <mat-icon class="saving">
+          <mat-spinner></mat-spinner>
+        </mat-icon>
+      }
+      @if (!isSaving) {
+        <mat-icon svgIcon="icon-sent"></mat-icon>
+      }
+      <span>Submit feedback</span>
+    </button>
+  </form>
 }

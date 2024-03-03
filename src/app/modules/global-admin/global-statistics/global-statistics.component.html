@@ -1,0 +1,140 @@
+<div class="bg-gray-800 p-4 lg:p-10">
+  <div>
+    <nav aria-label="Back" class="sm:hidden">
+      <a
+        class="flex items-center text-sm font-medium text-gray-400 hover:text-gray-200"
+        routerLink="/global-admin"
+      >
+        <svg
+          aria-hidden="true"
+          class="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-500"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+            fill-rule="evenodd"
+          />
+        </svg>
+        Back
+      </a>
+    </nav>
+    <nav aria-label="Breadcrumb" class="hidden sm:flex">
+      <ol class="flex items-center space-x-4" role="list">
+        <li>
+          <div class="flex">
+            <a
+              class="text-sm font-medium text-gray-400 hover:text-gray-200"
+              routerLink="/global-admin"
+            >
+              Global Admin
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg
+              aria-hidden="true"
+              class="h-5 w-5 flex-shrink-0 text-gray-500"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <span
+              aria-current="page"
+              class="ml-4 text-sm font-medium text-gray-400 hover:text-gray-200"
+            >
+              Statistics
+            </span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2
+        class="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
+      >
+        Global Statistics
+      </h2>
+    </div>
+    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+      <!--<button
+        type="button"
+        class="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+        >Edit</button
+      >
+      <button
+        type="button"
+        class="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        >Publish</button
+      >-->
+    </div>
+  </div>
+</div>
+<main class="container mx-auto mt-8 space-y-8 px-4 sm:px-6 lg:px-8">
+  <div
+    class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
+  >
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-base font-semibold leading-6 text-gray-900">
+        All time statistics
+      </h3>
+    </div>
+    <dl
+      class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500"> Users </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.globalUsers | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Events created
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.events | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Registered Participants
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.registeredParticipants | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">Check Ins</dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ allTimeStats()?.checkIns | number }}
+        </dd>
+      </div>
+    </dl>
+  </div>
+</main>

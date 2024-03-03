@@ -1,38 +1,39 @@
 @if (auth.isAuthenticated$ | async) {
-
-<a routerLink="/profile" class="aspect-1 h-full p-3" data-testid="profile-link">
-  @if (userPicture) {
-  <img
-    [ngSrc]="userPicture"
-    width="450"
-    height="450"
-    class="h-auto w-auto rounded-full bg-gray-200"
-    style="text-indent: -10000px"
-    routerLinkActive="active"
-    referrerpolicy="no-referrer"
-  />
-  } @if (!userPicture) {
-  <img
-    ngSrc="assets/images/defaultUser.jpg"
-    width="360"
-    height="360"
-    class="h-auto rounded-full bg-gray-200"
-    style="text-indent: -10000px"
-    routerLinkActive="active"
-    referrerpolicy="no-referrer"
-  />
-  }
-</a>
-
+  <a
+    routerLink="/profile"
+    class="aspect-1 h-full max-h-full max-w-full"
+    data-testid="profile-link"
+  >
+    @if (userPicture) {
+      <img
+        [ngSrc]="userPicture"
+        width="450"
+        height="450"
+        class="h-auto w-auto rounded-full bg-gray-200"
+        style="text-indent: -10000px"
+        routerLinkActive="active"
+        referrerpolicy="no-referrer"
+      />
+    }
+    @if (!userPicture) {
+      <img
+        ngSrc="assets/images/defaultUser.jpg"
+        width="360"
+        height="360"
+        class="h-auto rounded-full bg-gray-200"
+        style="text-indent: -10000px"
+        routerLinkActive="active"
+        referrerpolicy="no-referrer"
+      />
+    }
+  </a>
 } @else {
-
-<button
-  data-testid="login-button"
-  class="flex w-full flex-row items-center justify-center"
-  (click)="auth.loginWithRedirect()"
->
-  <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
-  <span>&nbsp;Log in</span>
-</button>
-
+  <button
+    data-testid="login-button"
+    class="flex w-full flex-row flex-col items-center justify-center sm:flex-row"
+    (click)="auth.loginWithRedirect()"
+  >
+    <mat-icon svgIcon="icon-login-rounded-right"></mat-icon>
+    <span class="whitespace-nowrap">Log in</span>
+  </button>
 }

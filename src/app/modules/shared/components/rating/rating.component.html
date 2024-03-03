@@ -3,12 +3,12 @@
 >
   <div class="flex flex-row gap-2">
     @for (rating of elements; track rating) {
-    <mat-icon
-      [class.saturate-0]="((currentValue | async) ?? 0) < rating"
-      svgIcon="icon-star-2"
-      (click)="setRating(rating)"
-    ></mat-icon>
+      <mat-icon
+        [class.saturate-0]="((currentValue | async) ?? 0) < rating"
+        svgIcon="icon-star-2"
+        (click)="setRating(rating)"
+      ></mat-icon>
     }
   </div>
-  <p class="text-sm text-gray-700 italic">More stars are better</p>
+  <p class="text-sm italic text-gray-700">More stars are better</p>
 </div>

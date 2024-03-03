@@ -1,0 +1,104 @@
+<div
+  [class.hidden]="outlet.isActivated"
+  class="fixed z-30 w-full bg-gray-800 p-4 lg:p-10 xl:block xl:max-w-[calc(100vw-96px)]"
+>
+  <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2
+        class="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
+      >
+        Events
+      </h2>
+    </div>
+    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+      <a
+        *appIfRole="[Role.User, Role.Admin]"
+        color="primary"
+        mat-flat-button
+        routerLink="/event-templates"
+      >
+        <mat-icon svgIcon="icon-add"></mat-icon>
+        Create Event
+      </a>
+      <!--<button
+        type="button"
+        class="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        >Publish</button
+      >-->
+    </div>
+  </div>
+</div>
+<div
+  class="flex flex-row {{
+    outlet.isActivated ? '' : 'pt-[120px]'
+  }} xl:pt-[124px]"
+>
+  <ul
+    [class.hidden]="outlet.isActivated"
+    class="z-20 w-full shrink-0 divide-y divide-gray-200 overflow-y-auto border-r border-gray-200 bg-white text-gray-900 xl:fixed xl:block xl:max-h-[calc(100dvh-124px)] xl:w-[30vw]"
+    role="list"
+  >
+    @for (day of days(); track day.date) {
+      <div class="relative">
+        <div
+          class="sticky top-0 z-10 border-y border-b-gray-200 border-t-gray-100 bg-gray-50 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900"
+        >
+          <h3>{{ day.date | date }}</h3>
+        </div>
+
+        @for (event of day.events; track event.id) {
+          <li class="p-2">
+            <a
+              routerLink="/events/{{ event.id }}"
+              routerLinkActive="bg-blue-100 text-blue-800"
+              class="block overflow-hidden rounded p-2 hover:bg-gray-100"
+            >
+              <div class="flex items-center gap-x-3">
+                <img
+                  [src]="event.icon | iconURL"
+                  alt=""
+                  class="h-8 w-8 flex-none"
+                />
+                <h3 class="flex-auto text-lg font-semibold leading-6">
+                  {{ event.title }}
+                </h3>
+                <!--                <time-->
+                <!--                  datetime="2023-01-23T11:00"-->
+                <!--                  class="flex-none text-xs text-gray-500"-->
+                <!--                  >1h</time-->
+                <!--                >-->
+              </div>
+              <!--              <p class="mt-3 truncate text-sm text-gray-500"-->
+              <!--                >Pushed to <span class="text-gray-700">ios-app</span> (<span-->
+              <!--                  class="font-mono text-gray-700"-->
+              <!--                  >2d89f0c8</span-->
+              <!--                >-->
+              <!--                on <span class="text-gray-700">main</span>)</p-->
+              <!--              >-->
+              @switch (event.publicationState) {
+                @case (PublicationState.Draft) {
+                  <div class="-m-2 mt-3 bg-yellow-200 px-2 text-yellow-900">
+                    Draft
+                  </div>
+                }
+                @case (PublicationState.Approval) {
+                  <div class="-m-2 mt-3 bg-purple-200 px-2 text-purple-900">
+                    Ready for approval
+                  </div>
+                }
+                @case (PublicationState.Organizers) {
+                  <div class="-m-2 mt-3 bg-blue-200 px-2 text-blue-900">
+                    Visible to organizers
+                  </div>
+                }
+              }
+            </a>
+          </li>
+        }
+      </div>
+    }
+  </ul>
+  <div class="relative w-full xl:pl-[30vw]">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
+</div>

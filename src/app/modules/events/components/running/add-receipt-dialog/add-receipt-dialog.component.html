@@ -34,19 +34,13 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-dialog-close mat-flat-button class="modern">Close</button>
-  <button
-    mat-raised-button
-    color="primary"
-    class="modern"
-    (click)="fileInput.click()"
-  >
+  <button mat-dialog-close mat-flat-button>Close</button>
+  <button (click)="fileInput.click()" color="primary" mat-raised-button>
     Select file
   </button>
   <button
     mat-flat-button
     color="accent"
-    class="modern"
     [disabled]="uploadForm.invalid || (processing$ | async)"
     (click)="save()"
   >

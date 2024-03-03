@@ -1,81 +1,81 @@
 @if (items$ | async; as items) {
-<table mat-table [dataSource]="items" class="mb-4 w-full">
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let element">
-      <span class="break-words">{{ element.description }}</span>
-      @if (element.notSubsidized) {
-      <span
-        class="ml-2 inline-block rounded bg-red-500 px-1 text-xs text-white"
-      >
-        not subsidized
-      </span>
-      } @if (element.onInvoice) {
-      <span
-        class="ml-2 inline-block rounded bg-green-500 px-1 text-xs text-white"
-      >
-        on invoice
-      </span>
-      }
-    </td>
-  </ng-container>
+  <table mat-table [dataSource]="items" class="mb-4 w-full">
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="break-words">{{ element.description }}</span>
+        @if (element.notSubsidized) {
+          <span
+            class="ml-2 inline-block rounded bg-red-500 px-1 text-xs text-white"
+          >
+            not subsidized
+          </span>
+        }
+        @if (element.onInvoice) {
+          <span
+            class="ml-2 inline-block rounded bg-green-500 px-1 text-xs text-white"
+          >
+            on invoice
+          </span>
+        }
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="value">
-    <th mat-header-cell *matHeaderCellDef>Cost</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.value | currency: 'EUR' }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef>Cost</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.value | currency: 'EUR' }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="scale">
-    <th mat-header-cell *matHeaderCellDef>Scale</th>
-    <td mat-cell *matCellDef="let element">
-      @switch (element.type) { @case ('event') {
-      <span>per Event</span>
-      } @case ('participant') {
-      <span>per Participant</span>
-      } @case ('scaled') {
-      <span> per {{ element.scale }} participants </span>
-      } }
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="scale">
+      <th mat-header-cell *matHeaderCellDef>Scale</th>
+      <td mat-cell *matCellDef="let element">
+        @switch (element.type) {
+          @case ('event') {
+            <span>per Event</span>
+          }
+          @case ('participant') {
+            <span>per Participant</span>
+          }
+          @case ('scaled') {
+            <span> per {{ element.scale }} participants </span>
+          }
+        }
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="onInvoice">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.onInvoice ? 'on invoice' : '' }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="onInvoice">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.onInvoice ? 'on invoice' : '' }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-button color="warn" (click)="removeItem(element)">
-        Remove
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="warn" (click)="removeItem(element)">
+          Remove
+        </button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 }
 <div class="flex flex-row gap-4">
-  <button mat-stroked-button class="modern" (click)="addItem()">
+  <button (click)="addItem()" mat-stroked-button>
     <mat-icon svgIcon="icon-add"></mat-icon>
     Add item
   </button>
-  <button
-    mat-stroked-button
-    class="modern"
-    (click)="saveFinances()"
-    color="primary"
-  >
+  <button (click)="saveFinances()" color="primary" mat-stroked-button>
     <mat-icon svgIcon="icon-save"></mat-icon>
     Save finances
   </button>
 </div>
-<h3 class="mt-6 mb-4">Plan costs</h3>
+<h3 class="mb-4 mt-6">Plan costs</h3>
 <form
   [formGroup]="forecastForm"
   class="flex flex-col items-center gap-2 border-b-2 pb-4 md:flex-row"
@@ -102,26 +102,26 @@
   </mat-checkbox>
 </form>
 @if (forecastResult$ | async; as result) {
-<div class="mt-4 flex flex-col flex-wrap gap-3 md:flex-row">
-  @if (result.proposedPriceModel) {
-  <app-finance-planner-price-model
-    name="Proposed price"
-    [result]="result.proposedPriceModel"
-  ></app-finance-planner-price-model>
-  }
-  <app-finance-planner-price-model
-    name="Recommended price"
-    [result]="result.recommendedPriceModel"
-  ></app-finance-planner-price-model>
-  <app-finance-planner-price-model
-    name="Minimal price"
-    [result]="result.minPriceModel"
-  ></app-finance-planner-price-model>
-  <app-finance-planner-price-model
-    name="Maximal price"
-    [result]="result.maxPriceModel"
-  ></app-finance-planner-price-model>
-</div>
+  <div class="mt-4 flex flex-col flex-wrap gap-3 md:flex-row">
+    @if (result.proposedPriceModel) {
+      <app-finance-planner-price-model
+        name="Proposed price"
+        [result]="result.proposedPriceModel"
+      ></app-finance-planner-price-model>
+    }
+    <app-finance-planner-price-model
+      name="Recommended price"
+      [result]="result.recommendedPriceModel"
+    ></app-finance-planner-price-model>
+    <app-finance-planner-price-model
+      name="Minimal price"
+      [result]="result.minPriceModel"
+    ></app-finance-planner-price-model>
+    <app-finance-planner-price-model
+      name="Maximal price"
+      [result]="result.maxPriceModel"
+    ></app-finance-planner-price-model>
+  </div>
 }
 <div class="mt-4 space-y-2 text-xs text-slate-500">
   <p>

@@ -15,34 +15,30 @@
     </a>
 
     <div class="flex flex-col flex-wrap gap-4 md:flex-row">
-      <button mat-stroked-button (click)="copyOrganizerMails()" class="modern">
+      <button mat-stroked-button (click)="copyOrganizerMails()">
         <mat-icon svgIcon="icon-copy"></mat-icon>
         <span>Copy mails of organizers</span>
       </button>
-      <button
-        mat-stroked-button
-        (click)="copyParticipantMails()"
-        class="modern"
-      >
+      <button mat-stroked-button (click)="copyParticipantMails()">
         <mat-icon svgIcon="icon-copy"></mat-icon>
         <span>Copy mails of participants</span>
       </button>
-      <button mat-stroked-button (click)="copyCheckedInMails()" class="modern">
+      <button mat-stroked-button (click)="copyCheckedInMails()">
         <mat-icon svgIcon="icon-copy"></mat-icon>
         <span>Copy mails of checked in users</span>
       </button>
-      <button mat-stroked-button (click)="copyNonCheckedMails()" class="modern">
+      <button mat-stroked-button (click)="copyNonCheckedMails()">
         <mat-icon svgIcon="icon-copy"></mat-icon>
         <span>Copy mails of non checked in users</span>
       </button>
     </div>
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+      class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
     >
       <div class="mb-4 flex items-center gap-4">
         <mat-icon
           svgIcon="icon-cash-receipt"
-          class="text-secondary-default bg-secondary-on card-icon"
+          class="card-icon bg-secondary-on text-secondary-default"
         >
         </mat-icon>
         @if (event.costItems.length) {
@@ -76,7 +72,7 @@
     </div>
 
     <ul
-      class="bg-secondary-container text-primary-onContainer divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl shadow-xl sm:grid sm:grid-cols-3 sm:divide-y-0 sm:divide-x-2"
+      class="divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl bg-secondary-container text-primary-onContainer shadow-xl sm:grid sm:grid-cols-3 sm:divide-x-2 sm:divide-y-0"
     >
       <li class="p-4">
         <p class="font-extrabold md:text-2xl">
@@ -98,14 +94,14 @@
       </li>
     </ul>
 
-    <div class="flex gap-8 flex-col lg:flex-row">
+    <div class="flex flex-col gap-8 lg:flex-row">
       <div
-        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+        class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
       >
-        <div class="mb-4 flex gap-4 justify-center">
+        <div class="mb-4 flex justify-center gap-4">
           <mat-icon
             svgIcon="icon-conference"
-            class="text-secondary-default bg-secondary-on card-icon"
+            class="card-icon bg-secondary-on text-secondary-default"
           >
           </mat-icon>
           <h2 class="font-bold">Organizers</h2>
@@ -175,12 +171,12 @@
       </div>
 
       <div
-        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+        class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
       >
-        <div class="mb-4 flex gap-4 justify-center">
+        <div class="mb-4 flex justify-center gap-4">
           <mat-icon
             svgIcon="icon-conference"
-            class="text-secondary-default bg-secondary-on card-icon"
+            class="card-icon bg-secondary-on text-secondary-default"
           >
           </mat-icon>
           <h2 class="font-bold">Participants</h2>
@@ -251,12 +247,12 @@
     </div>
 
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+      class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
     >
-      <div class="mb-4 flex gap-4 justify-center">
+      <div class="mb-4 flex justify-center gap-4">
         <mat-icon
           svgIcon="icon-conference"
-          class="text-secondary-default bg-secondary-on card-icon"
+          class="card-icon bg-secondary-on text-secondary-default"
         >
         </mat-icon>
         <h2 class="font-bold">Participant overview</h2>
@@ -282,7 +278,7 @@
       <!--            <ng-container *ngIf="!registration.checkInTime">-->
       <!--              <button-->
       <!--                mat-icon-button-->
-      <!--                class="modern"-->
+      <!--                -->
       <!--                (click)="checkin(registration.id)"-->
       <!--                *appIfRole="[Role.Admin]"-->
       <!--              >-->
@@ -299,12 +295,12 @@
       <!--    </div>-->
     </div>
     <div
-      class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+      class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
     >
-      <div class="mb-4 flex gap-4 justify-center">
+      <div class="mb-4 flex justify-center gap-4">
         <mat-icon
           svgIcon="icon-conference"
-          class="text-secondary-default bg-secondary-on card-icon"
+          class="card-icon bg-secondary-on text-secondary-default"
         >
         </mat-icon>
         <h2 class="font-bold">Data Submissions</h2>

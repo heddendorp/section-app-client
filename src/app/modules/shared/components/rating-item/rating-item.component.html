@@ -1,43 +1,44 @@
 <div
   [class]="
-    'flex flex-col border p-2 h-full rounded-md relative ' +
+    'relative flex h-full flex-col rounded-md border p-2 ' +
     (isCurrentUser
       ? isOrganizer
         ? 'bg-green-100'
         : 'bg-green-50'
       : isOrganizer
-      ? 'bg-slate-100'
-      : 'bg-slate-50')
+        ? 'bg-slate-100'
+        : 'bg-slate-50')
   "
 >
   <div>
-    <span class="font-bold mr-2">
+    <span class="mr-2 font-bold">
       @if (isAnonymous && !isOrganizer) {
-      <span>Anonymous</span>
-      } @if (!isAnonymous || isOrganizer) {
-      <app-user-chip
-        size="xs"
-        [id]="userId"
-        [picture]="userPicture"
-        [name]="userFullName"
-        [status]="userStatus"
-        [tag]="isOrganizer ? 'organizer' : ''"
-      >
-      </app-user-chip>
+        <span>Anonymous</span>
+      }
+      @if (!isAnonymous || isOrganizer) {
+        <app-user-chip
+          size="xs"
+          [id]="userId"
+          [picture]="userPicture"
+          [name]="userFullName"
+          [status]="userStatus"
+          [tag]="isOrganizer ? 'organizer' : ''"
+        >
+        </app-user-chip>
       }
     </span>
   </div>
   <div class="mb-2">
     @for (_ of [].constructor(rating); track _) {
-    <span class="text-amber-400">★</span>
+      <span class="text-amber-400">★</span>
     }
   </div>
-  <span class="break-words whitespace-pre-wrap">{{ comment }}</span>
-  <div class="absolute right-1 bottom-1">
+  <span class="whitespace-pre-wrap break-words">{{ comment }}</span>
+  <div class="absolute bottom-1 right-1">
     @if (isCurrentUser) {
-    <button type="button" class="modern" mat-icon-button (click)="edit.emit()">
-      <mat-icon svgIcon="icon-edit"></mat-icon>
-    </button>
+      <button type="button" mat-icon-button (click)="edit.emit()">
+        <mat-icon svgIcon="icon-edit"></mat-icon>
+      </button>
     }
   </div>
 </div>

@@ -9,55 +9,63 @@
     </h1>
   </div>
   @if ($data | async; as data) {
-  <div fxLayout="column" fxLayoutGap="2rem">
-    @for (registration of data.eventRegistrations; track registration; let i =
-    $index) {
-    <div fxLayout="row" fxLayoutAlign="start start">
-      @if ([0, 4, 9].includes(i)) {
-      <img
-        ngSrc="/assets/images/journey/achievement.svg"
-        fxFlex="64px"
-        height="144"
-        width="144"
-      />
-      } @if (![0, 4, 9].includes(i)) {
-      <div fxFlex="64px"></div>
-      }
-      <div class="ml-4">
-        @if (i === 0) {
-        <h2 class="text-3xl font-bold text-blue-400">
-          Your very first event
-        </h2>
-        } @if (i === 4) {
-        <h2 class="text-3xl font-bold text-blue-400"> Going strong </h2>
-        } @if (i === 9) {
-        <h2 class="text-3xl font-bold text-blue-400"> Wow, 10! </h2>
-        }
-        <h2 class="text-3xl font-bold text-green-400">
-          {{ registration.event.title }} ({{ registration.event.start | date }})
-        </h2>
-        <div
-          class="mt-4 w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
-        >
-          @for (photo of registration.event.photoShares; track photo) {
-          <div
-            class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
-              photo.rows > 1 ? 'row-span-2' : ''
-            }}"
-            (click)="openPhoto(photo)"
-          >
+    <div fxLayout="column" fxLayoutGap="2rem">
+      @for (
+        registration of data.eventRegistrations;
+        track registration;
+        let i = $index
+      ) {
+        <div fxLayout="row" fxLayoutAlign="start start">
+          @if ([0, 4, 9].includes(i)) {
             <img
-              [ngSrc]="photo.src"
-              width="192"
-              height="192"
-              class="h-full w-full object-cover"
+              ngSrc="/assets/images/journey/achievement.svg"
+              fxFlex="64px"
+              height="144"
+              width="144"
             />
-          </div>
           }
+          @if (![0, 4, 9].includes(i)) {
+            <div fxFlex="64px"></div>
+          }
+          <div class="ml-4">
+            @if (i === 0) {
+              <h2 class="text-3xl font-bold text-blue-400">
+                Your very first event
+              </h2>
+            }
+            @if (i === 4) {
+              <h2 class="text-3xl font-bold text-blue-400"> Going strong </h2>
+            }
+            @if (i === 9) {
+              <h2 class="text-3xl font-bold text-blue-400"> Wow, 10! </h2>
+            }
+            <h2 class="text-3xl font-bold text-green-400">
+              {{ registration.event.title }} ({{
+                registration.event.start | date
+              }})
+            </h2>
+            <div
+              class="mt-4 w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+            >
+              @for (photo of registration.event.photoShares; track photo) {
+                <div
+                  class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
+                    photo.rows > 1 ? 'row-span-2' : ''
+                  }}"
+                  (click)="openPhoto(photo)"
+                >
+                  <img
+                    [ngSrc]="photo.src"
+                    width="192"
+                    height="192"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+              }
+            </div>
+          </div>
         </div>
-      </div>
+      }
     </div>
-    }
-  </div>
   }
 </main>

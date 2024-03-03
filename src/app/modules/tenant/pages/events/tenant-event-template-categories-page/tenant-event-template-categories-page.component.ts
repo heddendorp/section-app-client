@@ -56,9 +56,7 @@ export class TenantEventTemplateCategoriesPageComponent {
 
   async addCategory() {
     const data = await firstValueFrom(
-      this.dialog
-        .open(NewEventTemplateCategoryDialogComponent, { panelClass: 'modern' })
-        .afterClosed(),
+      this.dialog.open(NewEventTemplateCategoryDialogComponent).afterClosed(),
     );
     if (data) {
       await firstValueFrom(

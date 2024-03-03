@@ -53,7 +53,6 @@ export class DataItemsManagerComponent {
           minWidth: '280px',
           width: '80vw',
           maxWidth: '560px',
-          panelClass: 'modern',
         })
         .afterClosed(),
     );

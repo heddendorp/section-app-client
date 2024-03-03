@@ -14,7 +14,7 @@
       autoActiveFirstOption
     >
       @for (user of filteredChoices$ | async; track user) {
-      <mat-option [value]="user.id">{{ user.fullName }}</mat-option>
+        <mat-option [value]="user.id">{{ user.fullName }}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>

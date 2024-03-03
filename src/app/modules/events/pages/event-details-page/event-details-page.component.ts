@@ -246,7 +246,6 @@ export class EventDetailsPageComponent implements OnDestroy {
           event: event.title,
           user: event.activeRegistration.user.fullName,
         },
-        panelClass: 'modern',
       });
     }
   }

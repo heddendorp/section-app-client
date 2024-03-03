@@ -11,6 +11,15 @@ export const SETTINGS_ROUTES: (Route & {
       ),
     children: [
       {
+        path: '',
+        redirectTo: 'section',
+        pathMatch: 'full',
+        data: {
+          title: 'Section',
+          icon: 'icon-data-configuration',
+        },
+      },
+      {
         path: 'section',
         loadComponent: () =>
           import(

@@ -1,19 +1,19 @@
 @if (template) {
-<a
-  fxLayout="row"
-  fxLayoutGap="1rem"
-  [routerLink]="template.id"
-  class="my-2 rounded border p-2 hover:border-black"
->
-  <img
-    [ngSrc]="template.icon | iconURL"
-    width="80"
-    height="80"
-    alt=""
-    class="w-20"
-  />
-  <div fxLayout="column">
-    <h2>{{ template.title }}</h2>
-  </div>
-</a>
+  <a
+    fxLayout="row"
+    fxLayoutGap="1rem"
+    [routerLink]="template.id"
+    class="my-2 rounded border p-2 hover:border-black"
+  >
+    <img
+      [ngSrc]="template.icon | iconURL"
+      width="80"
+      height="80"
+      alt=""
+      class="w-20"
+    />
+    <div fxLayout="column">
+      <h2>{{ template.title }}</h2>
+    </div>
+  </a>
 }

@@ -1,15 +1,15 @@
 .chip {
-  @apply bg-slate-200 align-middle box-content;
+  @apply box-content bg-slate-200 align-middle;
   &.full {
-    @apply bg-purple-100 border-purple-600 border-[0.12em];
+    @apply border-[0.12em] border-purple-600 bg-purple-100;
   }
   &.trial {
-    @apply bg-purple-50 border-purple-400 border-[0.12em] border-dashed;
+    @apply border-[0.12em] border-dashed border-purple-400 bg-purple-50;
   }
 }
 
 .picture-container {
-  @apply h-full aspect-1;
+  @apply aspect-1 h-full;
 
   img {
     @apply h-full;
@@ -24,7 +24,7 @@
 }
 
 .xs {
-  @apply h-5 leading-5 rounded-[20px] items-stretch;
+  @apply h-5 items-stretch rounded-[20px] leading-5;
 
   .name-container {
     @apply ml-[0.18em] mr-1;

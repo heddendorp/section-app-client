@@ -3,7 +3,7 @@
 }
 
 .event {
-  @apply bg-gray-200 relative overflow-hidden;
+  @apply relative overflow-hidden bg-gray-200;
   outline-offset: -1px;
 
   &.future-registration {

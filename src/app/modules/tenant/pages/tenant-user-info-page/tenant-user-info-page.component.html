@@ -4,114 +4,111 @@
     <div resetScroll>User Information</div>
   </mat-toolbar>
   @if ((user$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 @if (user$ | async; as user) {
-<main class="p-4">
-  <div class="mb-4 flex flex-row items-center gap-1">
-    <app-user-chip
-      size="sm"
-      [id]="user.id"
-      [picture]="user.picture"
-      [name]="user.fullName"
-      [status]="user.currentTenant?.status + ''"
+  <main class="p-4">
+    <div class="mb-4 flex flex-row items-center gap-1">
+      <app-user-chip
+        size="sm"
+        [id]="user.id"
+        [picture]="user.picture"
+        [name]="user.fullName"
+        [status]="user.currentTenant?.status + ''"
+      >
+      </app-user-chip>
+
+      <div fxFlex="noshrink"></div>
+      <button mat-flat-button color="primary" (click)="updateUser(user)">
+        Update role
+      </button>
+    </div>
+    <div class="grid max-w-full grid-cols-[max-content_max-content] gap-2">
+      <p>User ID:</p>
+      <p class="select-all font-mono">{{ user.id }}</p>
+      <p>First name:</p>
+      <p>{{ user.firstName }}</p>
+      <p>Last name:</p>
+      <p>{{ user.lastName }}</p>
+      <p>Role:</p>
+      <p>{{ user.currentTenant?.role | titlecase }}</p>
+      <p>Status:</p>
+      <p>{{ user.currentTenant?.status | titlecase }}</p>
+      <p>Email:</p>
+      <p>{{ user.email }}</p>
+      <p>Auth0 ID:</p>
+      <p class="select-all break-all font-mono">{{ user.authId }}</p>
+      <p>Birthday:</p>
+      <p>{{ user.birthdate | date: 'mediumDate' }}</p>
+      <p>ESNcard number:</p>
+      <p>{{ user.esnCardNumber }}</p>
+      <p>ESNcard valid until:</p>
+      <p>{{ user.esnCardValidUntil | date: 'mediumDate' }}</p>
+      <h2 class="col-span-full mt-8">Registrations</h2>
+    </div>
+
+    <mat-table
+      [dataSource]="user.eventRegistrations"
+      class="mt-4 w-fit sm:w-full"
     >
-    </app-user-chip>
+      <ng-container matColumnDef="event">
+        <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          <app-event-chip
+            [id]="registration.event.id"
+            [icon]="registration.event.icon"
+            [title]="registration.event.title"
+          ></app-event-chip>
+        </mat-cell>
+      </ng-container>
 
-    <div fxFlex="noshrink"></div>
-    <button
-      mat-flat-button
-      class="modern"
-      color="primary"
-      (click)="updateUser(user)"
-    >
-      Update role
-    </button>
-  </div>
-  <div class="max-w-full grid grid-cols-[max-content_max-content] gap-2">
-    <p>User ID:</p>
-    <p class="select-all font-mono">{{ user.id }}</p>
-    <p>First name:</p>
-    <p>{{ user.firstName }}</p>
-    <p>Last name:</p>
-    <p>{{ user.lastName }}</p>
-    <p>Role:</p>
-    <p>{{ user.currentTenant?.role | titlecase }}</p>
-    <p>Status:</p>
-    <p>{{ user.currentTenant?.status | titlecase }}</p>
-    <p>Email:</p>
-    <p>{{ user.email }}</p>
-    <p>Auth0 ID:</p>
-    <p class="break-all select-all font-mono">{{ user.authId }}</p>
-    <p>Birthday:</p>
-    <p>{{ user.birthdate | date: 'mediumDate' }}</p>
-    <p>ESNcard number:</p>
-    <p>{{ user.esnCardNumber }}</p>
-    <p>ESNcard valid until:</p>
-    <p>{{ user.esnCardValidUntil | date: 'mediumDate' }}</p>
-    <h2 class="mt-8 col-span-full">Registrations</h2>
-  </div>
+      <ng-container matColumnDef="eventStart">
+        <mat-header-cell *matHeaderCellDef>Event start</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          {{ registration.event.start | date: 'mediumDate' }}
+        </mat-cell>
+      </ng-container>
 
-  <mat-table
-    [dataSource]="user.eventRegistrations"
-    class="mt-4 w-fit sm:w-full"
-  >
-    <ng-container matColumnDef="event">
-      <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        <app-event-chip
-          [id]="registration.event.id"
-          [icon]="registration.event.icon"
-          [title]="registration.event.title"
-        ></app-event-chip>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          {{ registration.type | titlecase }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="eventStart">
-      <mat-header-cell *matHeaderCellDef>Event start</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        {{ registration.event.start | date: 'mediumDate' }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          {{ registration.status | titlecase }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        {{ registration.type | titlecase }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="registrationDate">
+        <mat-header-cell *matHeaderCellDef>Registration date</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          {{ registration.createdAt | date: 'mediumDate' }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        {{ registration.status | titlecase }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="checkInDate">
+        <mat-header-cell *matHeaderCellDef>Check in date</mat-header-cell>
+        <mat-cell *matCellDef="let registration">
+          {{ registration.checkInTime | date: 'medium' }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="registrationDate">
-      <mat-header-cell *matHeaderCellDef>Registration date</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        {{ registration.createdAt | date: 'mediumDate' }}
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="checkInDate">
-      <mat-header-cell *matHeaderCellDef>Check in date</mat-header-cell>
-      <mat-cell *matCellDef="let registration">
-        {{ registration.checkInTime | date: 'medium' }}
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-      matRipple
-      *matRowDef="let registration; columns: displayedColumns"
-      routerLink="/tenant/registrations/{{ registration.id }}"
-      class="cursor-pointer hover:bg-gray-100"
-      [class.opacity-50]="registration.status === RegistrationStatus.Cancelled"
-    ></mat-row>
-  </mat-table>
-</main>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row
+        matRipple
+        *matRowDef="let registration; columns: displayedColumns"
+        routerLink="/tenant/registrations/{{ registration.id }}"
+        class="cursor-pointer hover:bg-gray-100"
+        [class.opacity-50]="
+          registration.status === RegistrationStatus.Cancelled
+        "
+      ></mat-row>
+    </mat-table>
+  </main>
 }
 <!--<pre>{{ user$ | async | json }}</pre>-->

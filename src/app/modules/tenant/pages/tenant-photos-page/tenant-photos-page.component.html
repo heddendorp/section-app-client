@@ -4,38 +4,38 @@
     <div resetScroll>All Photos</div>
   </mat-toolbar>
   @if ((photos$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 @if (photos$ | async; as photos) {
-<main class="p-4">
-  @if (photos$ | async; as photos) {
-  <div
-    class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
-  >
-    @for (photo of photos; track photo) {
-    <div
-      class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
-        photo.rows > 1 ? 'row-span-2' : ''
-      }}"
-      (click)="openPhoto(photo)"
-    >
-      <p
-        class="absolute bottom-0 left-0 right-0 rounded-t bg-white bg-opacity-80 p-2"
+  <main class="p-4">
+    @if (photos$ | async; as photos) {
+      <div
+        class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       >
-        {{ photo.event.title }} <br />
-        - {{ photo.creator.fullName }}
-      </p>
-      <img
-        [ngSrc]="photo.src"
-        class="h-full w-full object-cover"
-        height="{{ photo.rows * 400 }}"
-        width="{{ photo.cols * 400 }}"
-        loading="lazy"
-      />
-    </div>
+        @for (photo of photos; track photo) {
+          <div
+            class="relative {{ photo.cols > 1 ? 'col-span-2' : '' }} {{
+              photo.rows > 1 ? 'row-span-2' : ''
+            }}"
+            (click)="openPhoto(photo)"
+          >
+            <p
+              class="absolute bottom-0 left-0 right-0 rounded-t bg-white bg-opacity-80 p-2"
+            >
+              {{ photo.event.title }} <br />
+              - {{ photo.creator.fullName }}
+            </p>
+            <img
+              [ngSrc]="photo.src"
+              class="h-full w-full object-cover"
+              height="{{ photo.rows * 400 }}"
+              width="{{ photo.cols * 400 }}"
+              loading="lazy"
+            />
+          </div>
+        }
+      </div>
     }
-  </div>
-  }
-</main>
+  </main>
 }

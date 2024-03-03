@@ -1,0 +1,73 @@
+<div class="bg-gray-800 p-4 lg:p-10">
+  <div>
+    <nav aria-label="Breadcrumb" class="hidden sm:flex">
+      <ol class="flex items-center space-x-4" role="list">
+        <li>
+          <div class="flex">
+            <span class="text-sm font-medium text-gray-400 hover:text-gray-200">
+              Global Admin
+            </span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2
+        class="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
+      >
+        Global Administration
+      </h2>
+    </div>
+    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+      <!--<button
+        type="button"
+        class="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+        >Edit</button
+      >
+      <button
+        type="button"
+        class="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        >Publish</button
+      >-->
+    </div>
+  </div>
+</div>
+<main class="container mx-auto mt-8 space-y-8 px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div
+      class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
+    >
+      <div class="flex-shrink-0">
+        <mat-icon class="h-10 w-10" svgIcon="icon-expensive"></mat-icon>
+      </div>
+      <div class="min-w-0 flex-1">
+        <a class="focus:outline-none" routerLink="fees">
+          <span aria-hidden="true" class="absolute inset-0"></span>
+          <p class="text-sm font-medium text-gray-900">Fee Overview</p>
+          <p class="truncate text-sm text-gray-500"
+            >Checkout the current income</p
+          >
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400"
+    >
+      <div class="flex-shrink-0">
+        <mat-icon class="h-10 w-10" svgIcon="icon-statistics"></mat-icon>
+      </div>
+      <div class="min-w-0 flex-1">
+        <a class="focus:outline-none" routerLink="statistics">
+          <span aria-hidden="true" class="absolute inset-0"></span>
+          <p class="text-sm font-medium text-gray-900">Statistics</p>
+          <p class="truncate text-sm text-gray-500">
+            Global statistics about the system
+          </p>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>

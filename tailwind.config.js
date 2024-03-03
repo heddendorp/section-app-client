@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
@@ -48,6 +50,7 @@ module.exports = {
           on: '#44464e',
         },
         outline: { default: '#75767f', dark: '#8f909a' },
+        gray: colors.stone,
       },
       fontFamily: {
         display: ['General Sans', 'sans-serif'],

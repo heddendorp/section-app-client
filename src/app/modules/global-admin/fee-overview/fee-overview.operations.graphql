@@ -12,6 +12,7 @@ query globalAdminFeeOverview(
     amountRefunded
     netAmount
     tenantName
+    currency
     month
     transactionCount
   }

@@ -22,26 +22,26 @@
         @if (checkedIn) {
           <mat-icon
             svgIcon="icon-checkmark"
-            class="absolute bottom-0 -right-3"
+            class="absolute -right-3 bottom-0"
           ></mat-icon>
         } @else {
           <mat-icon
             svgIcon="icon-delete-sign"
-            class="absolute bottom-0 -right-3"
+            class="absolute -right-3 bottom-0"
           ></mat-icon>
         }
       }
     </div>
   }
   @if (name && size !== 'fit') {
-    <div class="name-container flex flex-col max-w-[16em]">
+    <div class="name-container flex max-w-[16em] flex-col">
       <div class="name flex items-center">
-        <span class="whitespace-nowrap text-ellipsis overflow-hidden">{{
+        <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{
           name
         }}</span>
         @if (tag) {
           <span
-            class="px-1 rounded-lg bg-white text-xs ml-1 font-normal -mr-[0.2em]"
+            class="-mr-[0.2em] ml-1 rounded-lg bg-white px-1 text-xs font-normal"
             >{{ tag }}</span
           >
         }

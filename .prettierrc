@@ -1,5 +1,6 @@
 {
   "singleQuote": true,
   "semi": true,
-  "htmlWhitespaceSensitivity": "strict"
+  "htmlWhitespaceSensitivity": "strict",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

@@ -11,85 +11,158 @@ import { EventPhotoPageComponent } from '@tumi/legacy-app/modules/events/pages/e
 import { EventReceiptsPageComponent } from '@tumi/legacy-app/modules/events/pages/event-receipts-page/event-receipts-page.component';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
 import { EventManagePageComponent } from '@tumi/legacy-app/modules/events/pages/event-manage-page/event-manage-page.component';
+import { loadEventResolver } from '@tumi/legacy-app/modules/events/new-events/event-display/load-event.resolver';
 
-export const EVENT_ROUTES: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: 'list',
-    pathMatch: 'full',
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: 'list/:year/:month',
-    pathMatch: 'full',
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: 'calendar',
-    pathMatch: 'full',
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: 'calendar/:year/:month',
-    pathMatch: 'full',
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: 'codes',
-    canActivate: [AuthGuard],
-    component: EventListPageComponent,
-    title: 'Events',
-  },
-  {
-    path: ':eventId',
-    canActivate: [CheckEventIdGuard],
-    children: [
-      { path: '', pathMatch: 'full', component: EventDetailsPageComponent },
+const newUI = !!localStorage.getItem('evorto_new_ui');
+export const EVENT_ROUTES: Routes = newUI
+  ? [
       {
-        path: 'checkin',
+        path: '',
+        loadComponent: () =>
+          import(
+            './new-events/event-list-shell/event-list-shell.component'
+          ).then((m) => m.EventListShellComponent),
+        title: 'Events',
+        children: [
+          {
+            path: ':eventId',
+            canActivate: [CheckEventIdGuard],
+            children: [
+              {
+                path: '',
+                resolve: {
+                  event: loadEventResolver,
+                },
+                loadComponent: () =>
+                  import(
+                    './new-events/event-display/event-display.component'
+                  ).then((m) => m.EventDisplayComponent),
+              },
+              {
+                path: 'checkin',
+                canActivate: [AuthGuard],
+                component: EventDetailsPageComponent,
+              },
+              {
+                path: 'edit',
+                canActivate: [AuthGuard, MemberGuard],
+                component: EventEditPageComponent,
+              },
+              {
+                path: 'run',
+                canActivate: [AuthGuard, MemberGuard],
+                component: EventRunPageComponent,
+              },
+              {
+                path: 'run/scan',
+                canActivate: [AuthGuard, MemberGuard],
+                component: EventCheckinPageComponent,
+              },
+              {
+                path: 'photos',
+                canActivate: [AuthGuard],
+                component: EventPhotoPageComponent,
+              },
+              {
+                path: 'run/receipts/:costItemId',
+                canActivate: [AuthGuard, MemberGuard],
+                component: EventReceiptsPageComponent,
+                title: 'Receipts',
+              },
+              {
+                path: 'manage',
+                canActivate: [AuthGuard, AdminGuard],
+                component: EventManagePageComponent,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'codes',
         canActivate: [AuthGuard],
-        component: EventDetailsPageComponent,
+        component: EventListPageComponent,
+        title: 'Events',
+      },
+    ]
+  : [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+        title: 'Events',
       },
       {
-        path: 'edit',
-        canActivate: [AuthGuard, MemberGuard],
-        component: EventEditPageComponent,
+        path: 'list',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+        title: 'Events',
       },
       {
-        path: 'run',
-        canActivate: [AuthGuard, MemberGuard],
-        component: EventRunPageComponent,
+        path: 'list/:year/:month',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+        title: 'Events',
       },
       {
-        path: 'run/scan',
-        canActivate: [AuthGuard, MemberGuard],
-        component: EventCheckinPageComponent,
+        path: 'calendar',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+        title: 'Events',
       },
       {
-        path: 'photos',
+        path: 'calendar/:year/:month',
+        pathMatch: 'full',
+        component: EventListPageComponent,
+        title: 'Events',
+      },
+      {
+        path: 'codes',
         canActivate: [AuthGuard],
-        component: EventPhotoPageComponent,
+        component: EventListPageComponent,
+        title: 'Events',
       },
       {
-        path: 'run/receipts/:costItemId',
-        canActivate: [AuthGuard, MemberGuard],
-        component: EventReceiptsPageComponent,
-        title: 'Receipts',
+        path: ':eventId',
+        canActivate: [CheckEventIdGuard],
+        children: [
+          { path: '', pathMatch: 'full', component: EventDetailsPageComponent },
+          {
+            path: 'checkin',
+            canActivate: [AuthGuard],
+            component: EventDetailsPageComponent,
+          },
+          {
+            path: 'edit',
+            canActivate: [AuthGuard, MemberGuard],
+            component: EventEditPageComponent,
+          },
+          {
+            path: 'run',
+            canActivate: [AuthGuard, MemberGuard],
+            component: EventRunPageComponent,
+          },
+          {
+            path: 'run/scan',
+            canActivate: [AuthGuard, MemberGuard],
+            component: EventCheckinPageComponent,
+          },
+          {
+            path: 'photos',
+            canActivate: [AuthGuard],
+            component: EventPhotoPageComponent,
+          },
+          {
+            path: 'run/receipts/:costItemId',
+            canActivate: [AuthGuard, MemberGuard],
+            component: EventReceiptsPageComponent,
+            title: 'Receipts',
+          },
+          {
+            path: 'manage',
+            canActivate: [AuthGuard, AdminGuard],
+            component: EventManagePageComponent,
+          },
+        ],
       },
-      {
-        path: 'manage',
-        canActivate: [AuthGuard, AdminGuard],
-        component: EventManagePageComponent,
-      },
-    ],
-  },
-];
+    ];

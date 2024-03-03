@@ -1,44 +1,46 @@
 @if (event) {
-<a mat-list-item routerLink="/events/{{ event.id }}">
-  <img
-    [ngSrc]="event.icon | iconURL"
-    width="192"
-    height="192"
-    matListItemAvatar
-  />
-  <h3 matListItemTitle>{{ event.title }}</h3>
-  <p matListItemLine>
-    <span>{{ formatDate(event.start, event.end) }}</span>
-    @if (event.participantRatingCount > 0) {
-    <span>
-      <span class="ml-2 rounded bg-amber-400 px-1 !text-xs text-white"
-        >{{ event.participantRating | number: '1.1-1' }} ★ ({{
-          event.participantRatingCount
-        }})
-      </span></span
-    >
+  <a mat-list-item routerLink="/events/{{ event.id }}">
+    <img
+      [ngSrc]="event.icon | iconURL"
+      width="192"
+      height="192"
+      matListItemAvatar
+    />
+    <h3 matListItemTitle>{{ event.title }}</h3>
+    <p matListItemLine>
+      <span>{{ formatDate(event.start, event.end) }}</span>
+      @if (event.participantRatingCount > 0) {
+        <span>
+          <span class="ml-2 rounded bg-amber-400 px-1 !text-xs text-white"
+            >{{ event.participantRating | number: '1.1-1' }} ★ ({{
+              event.participantRatingCount
+            }})
+          </span></span
+        >
+      }
+    </p>
+    @if (event.ratingPending) {
+      <p class="!mt-0.5 !text-xs !font-medium text-amber-600"> Rate now! </p>
     }
-  </p>
-  @if (event.ratingPending) {
-  <p class="!mt-0.5 !text-xs !font-medium text-amber-600"> Rate now! </p>
-  } @if (event.createdBy) {
-  <p class="!mt-1 !text-xs" matListItemLine>
-    <app-user-chip
-      size="xs"
-      [id]="event.createdBy.id"
-      [picture]="event.createdBy.picture"
-      name="{{ event.createdBy.firstName }} {{ event.createdBy.lastName }}"
-    >
-    </app-user-chip>
-  </p>
-  }
-</a>
-} @if (!event) {
-<a mat-list-item>
-  <div class="skeleton !rounded-full" matListItemAvatar></div>
-  <h3 matListItemTitle class="skeleton">Phantom Title</h3>
-  <p matListItemLine>
-    <span class="skeleton">XXX XX, XXXX</span>
-  </p>
-</a>
+    @if (event.createdBy) {
+      <p class="!mt-1 !text-xs" matListItemLine>
+        <app-user-chip
+          size="xs"
+          [id]="event.createdBy.id"
+          [picture]="event.createdBy.picture"
+          name="{{ event.createdBy.firstName }} {{ event.createdBy.lastName }}"
+        >
+        </app-user-chip>
+      </p>
+    }
+  </a>
+}
+@if (!event) {
+  <a mat-list-item>
+    <div class="skeleton !rounded-full" matListItemAvatar></div>
+    <h3 matListItemTitle class="skeleton">Phantom Title</h3>
+    <p matListItemLine>
+      <span class="skeleton">XXX XX, XXXX</span>
+    </p>
+  </a>
 }

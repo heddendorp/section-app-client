@@ -2,68 +2,67 @@
   <mat-toolbar color="white">
     <app-back-button></app-back-button>
     @if (costItem$ | async; as costItem) {
-    <div resetScroll class="flex-1 truncate">
-      {{ costItem.name }} ({{ costItem.event.title }})
-    </div>
+      <div resetScroll class="flex-1 truncate">
+        {{ costItem.name }} ({{ costItem.event.title }})
+      </div>
     }
   </mat-toolbar>
   @if ((costItem$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 @if (costItem$ | async; as costItem) {
-<main class="flex flex-col gap-4 p-4">
-  <button mat-fab extended (click)="addReceipt()">
-    <mat-icon svgIcon="icon-add"></mat-icon>
-    Add receipt
-  </button>
-  <app-grid minWidth="500px">
-    @for (receipt of costItem.receipts; track receipt) {
-    <div>
-      @if (!receipt.type?.includes('pdf')) {
-      <img [ngSrc]="receipt.url" width="192" height="192" />
-      } @if (receipt.type?.includes('pdf')) {
-      <object
-        class="block"
-        [data]="sanitizeUrl(receipt.url)"
-        type="application/pdf"
-        width="500px"
-        height="500px"
-      ></object>
+  <main class="flex flex-col gap-4 p-4">
+    <button mat-fab extended (click)="addReceipt()">
+      <mat-icon svgIcon="icon-add"></mat-icon>
+      Add receipt
+    </button>
+    <app-grid minWidth="500px">
+      @for (receipt of costItem.receipts; track receipt) {
+        <div>
+          @if (!receipt.type?.includes('pdf')) {
+            <img [ngSrc]="receipt.url" width="192" height="192" />
+          }
+          @if (receipt.type?.includes('pdf')) {
+            <object
+              class="block"
+              [data]="sanitizeUrl(receipt.url)"
+              type="application/pdf"
+              width="500px"
+              height="500px"
+            ></object>
+          }
+          <p class="mt-2">
+            <span class="font-bold">{{ receipt.amount | currency }}</span>
+            <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
+          </p>
+          <div
+            fxLayoutAlign="space-between"
+            fxLayout="row"
+            fxLayoutGap=".5rem"
+            class="mt-2"
+          >
+            <a
+              [href]="receipt.originalUrl"
+              mat-flat-button
+              color="accent"
+              download
+              target="_blank"
+            >
+              <mat-icon svgIcon="icon-download"></mat-icon>
+              <span>Download original</span>
+            </a>
+            <button
+              mat-flat-button
+              color="warn"
+              (click)="deleteReceipt(receipt)"
+            >
+              <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
       }
-      <p class="mt-2">
-        <span class="font-bold">{{ receipt.amount | currency }}</span>
-        <span class="ml-1">submitted by {{ receipt.user.fullName }}</span>
-      </p>
-      <div
-        fxLayoutAlign="space-between"
-        fxLayout="row"
-        fxLayoutGap=".5rem"
-        class="mt-2"
-      >
-        <a
-          [href]="receipt.originalUrl"
-          mat-flat-button
-          color="accent"
-          class="modern"
-          download
-          target="_blank"
-        >
-          <mat-icon svgIcon="icon-download"></mat-icon>
-          <span>Download original</span>
-        </a>
-        <button
-          mat-flat-button
-          color="warn"
-          (click)="deleteReceipt(receipt)"
-          class="modern"
-        >
-          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-          <span>Delete</span>
-        </button>
-      </div>
-    </div>
-    }
-  </app-grid>
-</main>
+    </app-grid>
+  </main>
 }

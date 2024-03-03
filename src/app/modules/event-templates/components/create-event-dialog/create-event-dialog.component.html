@@ -64,9 +64,9 @@
       <mat-label>Organizing institution</mat-label>
       <mat-select formControlName="eventOrganizerId" required>
         @for (organizer of data.organizers; track organizer) {
-        <mat-option [value]="organizer.id">
-          {{ organizer.name }}
-        </mat-option>
+          <mat-option [value]="organizer.id">
+            {{ organizer.name }}
+          </mat-option>
         }
       </mat-select>
       <mat-hint>The organization responsible for this event</mat-hint>

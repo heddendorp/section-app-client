@@ -139,7 +139,6 @@ export class TemplateListPageComponent {
           data: { categories },
           width: '600px',
           maxWidth: '100vw',
-          panelClass: 'modern',
         })
         .afterClosed(),
     );

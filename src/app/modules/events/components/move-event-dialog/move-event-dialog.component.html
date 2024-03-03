@@ -1,68 +1,67 @@
 <h1 mat-dialog-title>Give away your spot</h1>
 @if (registration$ | async; as registration) {
-<mat-dialog-content>
-  <h2 class="mb-2">You are about to send away your event spot</h2>
-  <p class="mb-4 leading-normal">
-    Please read the following information: <br />
-    To give away this event registration you can generate a special code that
-    will allow another person to claim your registration in their profile. This
-    process cannot be undone. <br />
-    During the transfer, we will refund your participation fee after collecting
-    it from the person taking over your registration. <br />
-    <br />
-    <span class="font-bold">Watch out</span> <br />
-    The transfer is only complete after the recipient has paid the event fee,
-    this is also the time when you will receive a refund of your fee. Just
-    creating the transfer request is not enough, only if someone uses you code
-    the transfer will be completed.
-  </p>
-  @if (registration.deletingCode) {
-
-  <p class="mb-2">
-    You have created a transfer link, copy it below to send it to someone else
-  </p>
-  <p class="select-all rounded bg-gray-200 px-3 py-1 font-mono">
-    {{ document.location.origin }}/profile?code={{
-      registration.deletingCode.id
-    }}
-  </p>
-  @if (registration.deletingCode.isPublic) {
-  <p> This code is public and is displayed in the TUMi app </p>
-  } } @else {
-
-  <p class="mb-4 font-bold">I understood and want to create a code</p>
-  <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="1rem">
-    <div>
+  <mat-dialog-content>
+    <h2 class="mb-2">You are about to send away your event spot</h2>
+    <p class="mb-4 leading-normal">
+      Please read the following information: <br />
+      To give away this event registration you can generate a special code that
+      will allow another person to claim your registration in their profile.
+      This process cannot be undone. <br />
+      During the transfer, we will refund your participation fee after
+      collecting it from the person taking over your registration. <br />
+      <br />
+      <span class="font-bold">Watch out</span> <br />
+      The transfer is only complete after the recipient has paid the event fee,
+      this is also the time when you will receive a refund of your fee. Just
+      creating the transfer request is not enough, only if someone uses you code
+      the transfer will be completed.
+    </p>
+    @if (registration.deletingCode) {
       <p class="mb-2">
-        You can create a private code if you want to transfer this spot to a
-        specific person
+        You have created a transfer link, copy it below to send it to someone
+        else
       </p>
-      <button
-        mat-stroked-button
-        class="w-full"
-        [disabled]="buttonDisabled | async"
-        (click)="createCode()"
-      >
-        Create a private code
-      </button>
-    </div>
-    <div>
-      <p class="mb-2">
-        Or you can create a public code that can be used by anyone
+      <p class="select-all rounded bg-gray-200 px-3 py-1 font-mono">
+        {{ document.location.origin }}/profile?code={{
+          registration.deletingCode.id
+        }}
       </p>
-      <button
-        mat-stroked-button
-        class="w-full"
-        [disabled]="buttonDisabled | async"
-        (click)="createCode(true)"
-      >
-        Create a public code
-      </button>
-    </div>
-  </div>
-
-  }
-</mat-dialog-content>
+      @if (registration.deletingCode.isPublic) {
+        <p> This code is public and is displayed in the TUMi app </p>
+      }
+    } @else {
+      <p class="mb-4 font-bold">I understood and want to create a code</p>
+      <div fxLayout.gt-xs="row" fxLayout="column" fxLayoutGap="1rem">
+        <div>
+          <p class="mb-2">
+            You can create a private code if you want to transfer this spot to a
+            specific person
+          </p>
+          <button
+            mat-stroked-button
+            class="w-full"
+            [disabled]="buttonDisabled | async"
+            (click)="createCode()"
+          >
+            Create a private code
+          </button>
+        </div>
+        <div>
+          <p class="mb-2">
+            Or you can create a public code that can be used by anyone
+          </p>
+          <button
+            mat-stroked-button
+            class="w-full"
+            [disabled]="buttonDisabled | async"
+            (click)="createCode(true)"
+          >
+            Create a public code
+          </button>
+        </div>
+      </div>
+    }
+  </mat-dialog-content>
 }
 <mat-dialog-actions>
   <button mat-flat-button mat-dialog-close>Close</button>

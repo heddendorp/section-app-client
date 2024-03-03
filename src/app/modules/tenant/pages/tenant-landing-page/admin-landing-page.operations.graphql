@@ -1,0 +1,36 @@
+#query getInitialStatisticsData {
+#  currentTenant {
+#    id
+#    createdAt
+#    settings {
+#      userDataCollection {
+#        type
+#        label
+#        options
+#      }
+#    }
+#  }
+#  allTimeStatistics {
+#    registeredUsers
+#    events
+#    registeredParticipants
+#    checkIns
+#  }
+#}
+query getLandingPageStatistics(
+  $startDate: DateTime!
+  $middleDate: DateTime!
+  $endDate: DateTime!
+) {
+  rangeStatistics {
+    registeredUsers(start: $middleDate, end: $endDate)
+    registeredUsersBefore: registeredUsers(start: $startDate, end: $middleDate)
+    eventsStarted(start: $middleDate, end: $endDate)
+    eventsStartedBefore: eventsStarted(start: $startDate, end: $middleDate)
+    registeredParticipants(start: $middleDate, end: $endDate)
+    registeredParticipantsBefore: registeredParticipants(
+      start: $startDate
+      end: $middleDate
+    )
+  }
+}

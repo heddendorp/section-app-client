@@ -1,0 +1,234 @@
+<div
+  (click)="$event.stopPropagation()"
+  class="fixed bottom-0 top-0 z-50 hidden h-full w-[6rem] flex-col bg-blue-600 text-white sm:flex"
+>
+  @if (navSettings.brandIconUrl?.length) {
+    <a
+      matRipple
+      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-blue-700 sm:flex"
+      routerLink="/events"
+    >
+      <img
+        class="p-4"
+        width="192"
+        height="192"
+        [ngSrc]="navSettings.brandIconUrl ?? ''"
+        alt="ESN Star"
+      />
+    </a>
+  } @else {
+    <a
+      matRipple
+      class="mb-4 hidden h-[64px] min-h-[64px] w-full items-center bg-blue-700 sm:flex"
+      routerLink="/events"
+    >
+      <img
+        class="h-auto w-auto p-9"
+        ngSrc="/assets/logos/star-white.svg"
+        alt="ESN Star"
+        height="16"
+        width="16"
+      />
+    </a>
+  }
+  <div
+    class="flex h-full flex-1 flex-row items-center gap-0 sm:mx-2 sm:flex-col sm:gap-3"
+  >
+    @switch (navSettings.homePageStrategy) {
+      @case (HomePageStrategy.Static) {
+        <a class="nav-item" routerLink="home" routerLinkActive="active">
+          <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+          <span>Home</span>
+        </a>
+      }
+      @case (HomePageStrategy.Markdown) {
+        <a class="nav-item" routerLink="/page/about" routerLinkActive="active">
+          <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+          <span>Home</span>
+        </a>
+      }
+      @case (HomePageStrategy.Link) {
+        <a class="nav-item" [href]="navSettings.homePageLink" target="_blank">
+          <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+          <span>Home</span>
+        </a>
+      }
+    }
+    <a
+      class="nav-item"
+      data-testid="events-nav-item"
+      routerLink="events"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-overtime"></mat-icon>
+      <span>Events</span>
+    </a>
+    <a
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      class="nav-item"
+      data-testid="tutor-hub-nav-item"
+      routerLink="section-hub"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-hub"></mat-icon>
+      <span>Section Hub</span>
+    </a>
+    <a
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      class="nav-item desktop-only"
+      data-testid="event-templates-nav-item"
+      routerLink="event-templates"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-template"></mat-icon>
+      <span>Event Templates</span>
+    </a>
+    <a
+      *appIfRole="[Role.Admin]"
+      class="nav-item"
+      data-testid="manage-nav-item"
+      routerLink="tenant"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-administrative-tools"></mat-icon>
+      <span>Admin Tools</span>
+    </a>
+    <a
+      *appIfRole="[Role.Admin]"
+      class="nav-item"
+      data-testid="manage-nav-item"
+      routerLink="settings"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-maintenance"></mat-icon>
+      <span>Settings</span>
+    </a>
+    <!-- @if ((tenantInfo$ | async)?.settings?.showPWAInstall) {
+      @if (installEvent$ | async; as event) {
+        <button class="nav-item" (click)="event.prompt()">
+          <mat-icon svgIcon="icon-software-installer" matRipple></mat-icon>
+          <span>Install the app</span>
+        </button>
+      }
+    }-->
+
+    <a
+      *appIfGlobalAdmin
+      class="nav-item"
+      routerLink="global-admin"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-data-configuration"></mat-icon>
+      <span>Global Admin</span>
+    </a>
+
+    <div class="hidden flex-1 sm:block"></div>
+    <a
+      class="nav-item flex justify-center sm:px-1"
+      matRipple
+      routerLink="profile"
+    >
+      <app-auth-button></app-auth-button>
+    </a>
+  </div>
+</div>
+
+<div
+  (click)="$event.stopPropagation()"
+  class="fixed bottom-2 left-[10vw] z-50 flex w-[80vw] items-center justify-around rounded-full bg-blue-600 px-4 py-2 text-white sm:hidden"
+>
+  @switch (navSettings.homePageStrategy) {
+    @case (HomePageStrategy.Static) {
+      <a class="nav-item" routerLink="home" routerLinkActive="active">
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+        <span>Home</span>
+      </a>
+    }
+    @case (HomePageStrategy.Markdown) {
+      <a class="nav-item" routerLink="/page/about" routerLinkActive="active">
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+        <span>Home</span>
+      </a>
+    }
+    @case (HomePageStrategy.Link) {
+      <a class="nav-item" [href]="navSettings.homePageLink" target="_blank">
+        <mat-icon svgIcon="icon-home" matRipple></mat-icon>
+        <span>Home</span>
+      </a>
+    }
+  }
+  <a class="flex h-10 w-10 justify-center" matRipple routerLink="profile">
+    <app-auth-button></app-auth-button>
+  </a>
+  <a
+    class="nav-item"
+    data-testid="events-nav-item"
+    routerLink="events"
+    routerLinkActive="active"
+  >
+    <mat-icon matRipple svgIcon="icon-overtime"></mat-icon>
+    <span>Events</span>
+  </a>
+  <button
+    (click)="openOverflow(mobileOverflowNav)"
+    *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+    class="nav-item"
+  >
+    <mat-icon matRipple svgIcon="icon-menu-squared"></mat-icon>
+    <span>More</span>
+  </button>
+</div>
+
+<ng-template #mobileOverflowNav>
+  <div (click)="closeOverFlow()" class="flex justify-around bg-blue-600">
+    <a
+      *appIfGlobalAdmin
+      class="nav-item"
+      routerLink="global-admin"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-data-configuration"></mat-icon>
+      <span>Global Admin</span>
+    </a>
+    <a
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      class="nav-item"
+      data-testid="tutor-hub-nav-item"
+      routerLink="section-hub"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-hub"></mat-icon>
+      <span>Section Hub</span>
+    </a>
+    <a
+      *appIfStatus="[MembershipStatus.Full, MembershipStatus.Trial]"
+      class="nav-item"
+      data-testid="event-templates-nav-item"
+      routerLink="event-templates"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-template"></mat-icon>
+      <span>Event Templates</span>
+    </a>
+    <a
+      *appIfRole="[Role.Admin]"
+      class="nav-item"
+      data-testid="manage-nav-item"
+      routerLink="tenant"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-administrative-tools"></mat-icon>
+      <span>Admin Tools</span>
+    </a>
+    <a
+      *appIfRole="[Role.Admin]"
+      class="nav-item"
+      data-testid="manage-nav-item"
+      routerLink="settings"
+      routerLinkActive="active"
+    >
+      <mat-icon matRipple svgIcon="icon-maintenance"></mat-icon>
+      <span>Settings</span>
+    </a>
+  </div>
+</ng-template>

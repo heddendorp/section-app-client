@@ -1,0 +1,32 @@
+.nav-item {
+  @apply h-full flex-col items-center justify-center text-blue-200 sm:h-auto sm:w-full sm:flex-initial sm:rounded-xl sm:py-2;
+
+  mat-icon {
+    padding: 4px 11px;
+    width: 56px;
+    height: 32px;
+    @apply rounded-full;
+  }
+
+  &.desktop-only {
+    @apply hidden sm:flex;
+  }
+
+  &:not(.desktop-only) {
+    @apply flex;
+  }
+
+  span {
+    @apply mt-0.5 text-center text-xs leading-tight sm:mt-2;
+  }
+
+  &:hover {
+    @apply text-white;
+  }
+
+  &.active {
+    mat-icon {
+      @apply bg-blue-800 text-white;
+    }
+  }
+}

@@ -6,7 +6,6 @@
       routerLink="/event-templates/{{ event.eventTemplate.id }}"
       mat-flat-button
       color="accent"
-      class="modern"
       >Go to template</a
     >
   }
@@ -15,7 +14,7 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
 @if (event$ | async; as event) {
-  <main class="py-4 px-1 sm:p-4">
+  <main class="px-1 py-4 sm:p-4">
     <mat-accordion [multi]="true">
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
@@ -160,7 +159,6 @@
                 @if (!registration.checkInTime) {
                   <button
                     mat-stroked-button
-                    class="modern"
                     (click)="checkin(registration.id)"
                     [disabled]="registration.didAttend"
                   >
@@ -229,7 +227,6 @@
                       routerLink="/tenant/registrations/{{ registration.id }}"
                       mat-flat-button
                       color="accent"
-                      class="modern"
                     >
                       <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
                       View registration
@@ -240,7 +237,6 @@
                     ) {
                       <button
                         mat-stroked-button
-                        class="modern"
                         (click)="restorePayment(registration.id)"
                       >
                         <span>Restore Payment</span>
@@ -248,7 +244,6 @@
                     }
                     <button
                       mat-stroked-button
-                      class="modern"
                       color="warn"
                       [matMenuTriggerFor]="menu"
                     >
@@ -328,7 +323,6 @@
         </mat-expansion-panel-header>
         <div class="flex flex-col gap-2 sm:flex-row">
           <button
-            class="modern"
             mat-flat-button
             color="accent"
             (click)="createRegistrationCode()"

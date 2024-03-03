@@ -1,4 +1,4 @@
 a[mat-fab],
 button[mat-fab] {
-  @apply right-4 bottom-20 sm:bottom-4 fixed z-50;
+  @apply fixed bottom-20 right-4 z-50 sm:bottom-4;
 }

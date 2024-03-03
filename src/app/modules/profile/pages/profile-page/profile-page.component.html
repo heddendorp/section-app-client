@@ -6,12 +6,12 @@
     <app-profile-card [profile]="profile"></app-profile-card>
     <div class="m-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div
-        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+        class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
       >
         <div class="mb-6 flex flex-row items-center">
           <mat-icon
             svgIcon="icon-contact-card"
-            class="text-secondary-default bg-secondary-on card-icon"
+            class="card-icon bg-secondary-on text-secondary-default"
           >
           </mat-icon>
           <h2 class="font-bold">User Information</h2>
@@ -35,12 +35,7 @@
           }
         </div>
         <div class="mt-2 flex w-full flex-col gap-2">
-          <a
-            mat-flat-button
-            color="accent"
-            class="modern"
-            routerLink="./complete"
-          >
+          <a mat-flat-button color="accent" routerLink="./complete">
             <mat-icon svgIcon="icon-change-user-female"></mat-icon>
             Update data
           </a>
@@ -54,7 +49,6 @@
           <button
             mat-flat-button
             color="accent"
-            class="modern"
             (click)="fileInput.click()"
             [disabled]="uploading$ | async"
           >
@@ -65,7 +59,7 @@
         <h3 class="mt-6 font-bold">Calendar integration</h3>
 
         <p
-          class="text-secondary-default flex select-all items-center break-words font-mono text-sm tracking-tight"
+          class="flex select-all items-center break-words font-mono text-sm tracking-tight text-secondary-default"
         >
           <mat-icon
             svgIcon="icon-chain"
@@ -76,24 +70,24 @@
           </span>
         </p>
 
-        <p class="text-sm">
-          You can use this link to subscribe to an iCal feed of the events you
-          are registered for.
-          <a
-            class="underline"
-            href="https://help.hospitable.com/en/articles/4605516-how-can-i-add-the-ical-feed-to-the-calendar-on-my-device#:~:text=How%20to%20add%20the%20iCal%20feed%20to%20the%20calendar%20on%20my%20device%3F"
-            target="blank"
-            >Here</a
-          >'s a how-to.
-        </p>
+        <!--        <h3 class="mt-6 font-bold">Experiments</h3>-->
+
+        <!--        <p class="text-sm">-->
+        <!--          You can opt in to the new UI experience, which will give you a preview-->
+        <!--          of what could be coming in the future. Please note that certain-->
+        <!--          functionality could be broken or missing.-->
+        <!--        </p>-->
+        <!--        <mat-slide-toggle (change)="uiEnableChange($event)" [checked]="newUI">-->
+        <!--          Enable new UI-->
+        <!--        </mat-slide-toggle>-->
       </div>
       <div
-        class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4 shadow-xl"
+        class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
       >
         <div class="mb-6 flex flex-row items-center">
           <mat-icon
             svgIcon="icon-membership-card"
-            class="text-secondary-default bg-secondary-on card-icon"
+            class="card-icon bg-secondary-on text-secondary-default"
           >
           </mat-icon>
           <h2 class="font-bold">ESNcard</h2>
@@ -111,7 +105,6 @@
               <p> You can get your ESNcard by clicking on the button below. </p>
               <a
                 [href]="esnCardLink"
-                class="modern"
                 color="accent"
                 mat-flat-button
                 target="blank"
@@ -127,7 +120,7 @@
               >If you already have an ESNcard, you can add it here to profit
               from special prices.</p
             >
-            <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
+            <div class="mt-4 flex flex-col align-middle md:flex-row md:gap-4">
               <mat-form-field>
                 <mat-label>ESNcard number</mat-label>
                 <input
@@ -143,7 +136,6 @@
               <button
                 (click)="addEsnCard()"
                 [disabled]="esnCardNumberControl.invalid"
-                class="modern"
                 color="accent"
                 mat-flat-button
               >
@@ -164,7 +156,7 @@
             {{ profile.esnCardValidUntil | date: 'mediumDate' }}. <br />
             You can change the card by adding a new one below.
           </p>
-          <div class="flex flex-col md:flex-row md:gap-4 align-middle mt-4">
+          <div class="mt-4 flex flex-col align-middle md:flex-row md:gap-4">
             <mat-form-field>
               <mat-label>ESNcard number</mat-label>
               <input
@@ -180,7 +172,6 @@
             <button
               (click)="addEsnCard()"
               [disabled]="esnCardNumberControl.invalid"
-              class="modern"
               color="accent"
               mat-flat-button
             >
@@ -194,12 +185,12 @@
       </div>
       @if ((eventsToRate$ | async)?.length) {
         <div
-          class="bg-secondary-container text-secondary-onContainer rounded-2xl p-4"
+          class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer"
         >
           <div class="mb-6 flex flex-row items-center">
             <mat-icon
               svgIcon="icon-star"
-              class="text-secondary-default bg-secondary-on card-icon"
+              class="card-icon bg-secondary-on text-secondary-default"
             ></mat-icon>
             <h2 class="font-bold">Rate Events</h2>
           </div>
@@ -247,12 +238,12 @@
         profile.status !== MembershipStatus.Selected
       ) {
         <div
-          class="bg-secondary-container text-primary-onContainer rounded-2xl p-4 shadow-xl"
+          class="rounded-2xl bg-secondary-container p-4 text-primary-onContainer shadow-xl"
         >
           <div class="mb-6 flex flex-row items-center">
             <mat-icon
               svgIcon="icon-conference"
-              class="text-secondary-default card-icon bg-white"
+              class="card-icon bg-white text-secondary-default"
             ></mat-icon>
             <h2 class="font-bold">Section membership</h2>
           </div>
@@ -266,9 +257,9 @@
       }
     </div>
 
-    <div class="mt-4 mb-2 flex flex-row gap-2 p-4">
+    <div class="mb-2 mt-4 flex flex-row gap-2 p-4">
       <a
-        class="modern w-full"
+        class="w-full"
         color="primary"
         mat-raised-button
         routerLink="/page/feedback"
@@ -278,7 +269,7 @@
       </a>
       @if (this.auth.isAuthenticated$ | async) {
         <button
-          class="modern w-full"
+          class="w-full"
           color="accent"
           mat-raised-button
           (click)="

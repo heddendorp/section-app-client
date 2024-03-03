@@ -1,17 +1,17 @@
-<button mat-flat-button color="primary" (click)="addItem()" class="modern">
+<button (click)="addItem()" color="primary" mat-flat-button>
   <mat-icon svgIcon="icon-plus-2-math"></mat-icon> <span>Add item</span>
 </button>
 @for (item of items; track item) {
-<div
-  class="flex flex-row items-center justify-between gap-4 rounded p-2 transition-colors duration-200 hover:bg-gray-200"
->
-  <div>
-    <p>{{ item.name }}</p>
-    <span>{{ item.type }} {{ item.submissionTime }}</span>
+  <div
+    class="flex flex-row items-center justify-between gap-4 rounded p-2 transition-colors duration-200 hover:bg-gray-200"
+  >
+    <div>
+      <p>{{ item.name }}</p>
+      <span>{{ item.type }} {{ item.submissionTime }}</span>
+    </div>
+    <p>{{ item.data | json }}</p>
+    <button mat-icon-button color="warn" (click)="removeItem(item.id)">
+      <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+    </button>
   </div>
-  <p>{{ item.data | json }}</p>
-  <button mat-icon-button color="warn" (click)="removeItem(item.id)">
-    <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-  </button>
-</div>
 }

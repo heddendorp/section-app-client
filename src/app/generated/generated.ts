@@ -55,8 +55,21 @@ export type AllTimeStats = {
   __typename?: 'AllTimeStats';
   checkIns: Scalars['Int']['output'];
   events: Scalars['Int']['output'];
+  globalUsers: Scalars['Int']['output'];
   registeredParticipants: Scalars['Int']['output'];
   registeredUsers: Scalars['Int']['output'];
+};
+
+export type AllTimeStatsCheckInsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type AllTimeStatsEventsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type AllTimeStatsRegisteredParticipantsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type BannerConfig = {
@@ -1052,6 +1065,7 @@ export type TenantFeeMonth = {
   __typename?: 'TenantFeeMonth';
   amount: Scalars['Int']['output'];
   amountRefunded: Scalars['Int']['output'];
+  currency: Currency;
   month: Scalars['String']['output'];
   netAmount: Scalars['Int']['output'];
   tenantId: Scalars['ID']['output'];
@@ -1538,8 +1552,12 @@ export type GetAppStartupInfoQuery = {
     __typename?: 'Tenant';
     id: string;
     currency: Currency;
+    homePageStrategy: HomePageStrategy;
+    homePageLink?: string | null;
     settings: {
       __typename?: 'TenantSettings';
+      showPWAInstall: boolean;
+      brandIconUrl?: string | null;
       userDataCollection: Array<{
         __typename?: 'DynamicFormField';
         label: string;
@@ -2335,6 +2353,40 @@ export type EventListQuery = {
   }>;
 };
 
+export type LoadEventDisplayDataQueryVariables = Exact<{
+  eventID: Scalars['ID']['input'];
+}>;
+
+export type LoadEventDisplayDataQuery = {
+  __typename?: 'Query';
+  event: {
+    __typename?: 'TumiEvent';
+    id: string;
+    title: string;
+    icon: string;
+    start: string;
+    end: string;
+    description: string;
+  };
+};
+
+export type GetEventListForShellQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetEventListForShellQuery = {
+  __typename?: 'Query';
+  events: Array<{
+    __typename?: 'TumiEvent';
+    id: string;
+    icon: string;
+    title: string;
+    start: string;
+    end: string;
+    publicationState: PublicationState;
+  }>;
+};
+
 export type LoadEventQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -3055,8 +3107,83 @@ export type GlobalAdminFeeOverviewQuery = {
     amountRefunded: number;
     netAmount: number;
     tenantName: string;
+    currency: Currency;
     month: string;
     transactionCount: number;
+  }>;
+};
+
+export type GetInitialGlobalStatisticsDataQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetInitialGlobalStatisticsDataQuery = {
+  __typename?: 'Query';
+  currentTenant: {
+    __typename?: 'Tenant';
+    id: string;
+    createdAt: string;
+    settings: {
+      __typename?: 'TenantSettings';
+      userDataCollection: Array<{
+        __typename?: 'DynamicFormField';
+        type: string;
+        label: string;
+        options: Array<string>;
+      }>;
+    };
+  };
+  allTimeStatistics: {
+    __typename?: 'AllTimeStats';
+    globalUsers: number;
+    events: number;
+    registeredParticipants: number;
+    checkIns: number;
+  };
+};
+
+export type GetGlobalRangeStatisticsQueryVariables = Exact<{
+  startDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+  unit: Scalars['String']['input'];
+}>;
+
+export type GetGlobalRangeStatisticsQuery = {
+  __typename?: 'Query';
+  rangeStatistics: {
+    __typename?: 'RangeStats';
+    registeredUsers: number;
+    eventsStarted: number;
+    registeredParticipants: number;
+    checkIns: number;
+  };
+  registrationHistory: Array<{
+    __typename?: 'HistoricalData';
+    date: string;
+    eventRegistrations: number;
+    usersCheckedIn: number;
+  }>;
+  userHistory: Array<{
+    __typename?: 'HistoricalData';
+    date: string;
+    usersRegistered: number;
+  }>;
+  eventHistory: Array<{
+    __typename?: 'HistoricalData';
+    date: string;
+    eventsCreated: number;
+    eventsStarted: number;
+  }>;
+  userDataStatistics: Array<{
+    __typename?: 'AdditionalDataStats';
+    data: Array<{ __typename?: 'PieChartData'; name: string; value: number }>;
+    title: { __typename?: 'PieChartTitle'; text: string };
+    series: Array<{
+      __typename?: 'PieChartSeries';
+      angleKey: string;
+      legendItemKey: string;
+      type: string;
+    }>;
   }>;
 };
 
@@ -4148,6 +4275,25 @@ export type GetEventRegistrationCodeCountQuery = {
   eventRegistrationCodeCount: number;
 };
 
+export type GetLandingPageStatisticsQueryVariables = Exact<{
+  startDate: Scalars['DateTime']['input'];
+  middleDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+}>;
+
+export type GetLandingPageStatisticsQuery = {
+  __typename?: 'Query';
+  rangeStatistics: {
+    __typename?: 'RangeStats';
+    registeredUsers: number;
+    eventsStarted: number;
+    registeredParticipants: number;
+    registeredUsersBefore: number;
+    eventsStartedBefore: number;
+    registeredParticipantsBefore: number;
+  };
+};
+
 export type GetInitialStatisticsDataQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -4874,7 +5020,11 @@ export const GetAppStartupInfoDocument = gql`
     currentTenant {
       id
       currency
+      homePageStrategy
+      homePageLink
       settings {
+        showPWAInstall
+        brandIconUrl
         userDataCollection {
           label
           options
@@ -6001,6 +6151,58 @@ export class EventListGQL extends Apollo.Query<
     super(apollo);
   }
 }
+export const LoadEventDisplayDataDocument = gql`
+  query LoadEventDisplayData($eventID: ID!) {
+    event(id: $eventID) {
+      id
+      title
+      icon
+      start
+      end
+      description
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoadEventDisplayDataGQL extends Apollo.Query<
+  LoadEventDisplayDataQuery,
+  LoadEventDisplayDataQueryVariables
+> {
+  override document = LoadEventDisplayDataDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetEventListForShellDocument = gql`
+  query getEventListForShell {
+    events {
+      id
+      icon
+      title
+      start
+      end
+      publicationState
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetEventListForShellGQL extends Apollo.Query<
+  GetEventListForShellQuery,
+  GetEventListForShellQueryVariables
+> {
+  override document = GetEventListForShellDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const LoadEventDocument = gql`
   query loadEvent($id: ID!) {
     event(id: $id) {
@@ -6895,6 +7097,7 @@ export const GlobalAdminFeeOverviewDocument = gql`
       amountRefunded
       netAmount
       tenantName
+      currency
       month
       transactionCount
     }
@@ -6909,6 +7112,109 @@ export class GlobalAdminFeeOverviewGQL extends Apollo.Query<
   GlobalAdminFeeOverviewQueryVariables
 > {
   override document = GlobalAdminFeeOverviewDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetInitialGlobalStatisticsDataDocument = gql`
+  query getInitialGlobalStatisticsData {
+    currentTenant {
+      id
+      createdAt
+      settings {
+        userDataCollection {
+          type
+          label
+          options
+        }
+      }
+    }
+    allTimeStatistics {
+      globalUsers
+      events(global: true)
+      registeredParticipants(global: true)
+      checkIns(global: true)
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetInitialGlobalStatisticsDataGQL extends Apollo.Query<
+  GetInitialGlobalStatisticsDataQuery,
+  GetInitialGlobalStatisticsDataQueryVariables
+> {
+  override document = GetInitialGlobalStatisticsDataDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetGlobalRangeStatisticsDocument = gql`
+  query getGlobalRangeStatistics(
+    $startDate: DateTime!
+    $endDate: DateTime!
+    $unit: String!
+  ) {
+    rangeStatistics {
+      registeredUsers(start: $startDate, end: $endDate)
+      eventsStarted(start: $startDate, end: $endDate)
+      registeredParticipants(start: $startDate, end: $endDate)
+      checkIns(start: $startDate, end: $endDate)
+    }
+    registrationHistory: historicalStatistics(
+      start: $startDate
+      end: $endDate
+      unit: $unit
+    ) {
+      date
+      eventRegistrations
+      usersCheckedIn
+    }
+    userHistory: historicalStatistics(
+      start: $startDate
+      end: $endDate
+      unit: $unit
+    ) {
+      date
+      usersRegistered
+    }
+    eventHistory: historicalStatistics(
+      start: $startDate
+      end: $endDate
+      unit: $unit
+    ) {
+      date
+      eventsCreated
+      eventsStarted
+    }
+    userDataStatistics(start: $startDate, end: $endDate) {
+      data {
+        name
+        value
+      }
+      title {
+        text
+      }
+      series {
+        angleKey
+        legendItemKey
+        type
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetGlobalRangeStatisticsGQL extends Apollo.Query<
+  GetGlobalRangeStatisticsQuery,
+  GetGlobalRangeStatisticsQueryVariables
+> {
+  override document = GetGlobalRangeStatisticsDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -8312,6 +8618,42 @@ export class GetEventRegistrationCodeCountGQL extends Apollo.Query<
   GetEventRegistrationCodeCountQueryVariables
 > {
   override document = GetEventRegistrationCodeCountDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetLandingPageStatisticsDocument = gql`
+  query getLandingPageStatistics(
+    $startDate: DateTime!
+    $middleDate: DateTime!
+    $endDate: DateTime!
+  ) {
+    rangeStatistics {
+      registeredUsers(start: $middleDate, end: $endDate)
+      registeredUsersBefore: registeredUsers(
+        start: $startDate
+        end: $middleDate
+      )
+      eventsStarted(start: $middleDate, end: $endDate)
+      eventsStartedBefore: eventsStarted(start: $startDate, end: $middleDate)
+      registeredParticipants(start: $middleDate, end: $endDate)
+      registeredParticipantsBefore: registeredParticipants(
+        start: $startDate
+        end: $middleDate
+      )
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetLandingPageStatisticsGQL extends Apollo.Query<
+  GetLandingPageStatisticsQuery,
+  GetLandingPageStatisticsQueryVariables
+> {
+  override document = GetLandingPageStatisticsDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

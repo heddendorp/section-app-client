@@ -1,7 +1,11 @@
-<app-navigation></app-navigation>
+@if (newUI) {
+  <app-nav></app-nav>
+} @else {
+  <app-navigation></app-navigation>
+}
 
 <div
-  class="relative flex flex-col min-h-screen mb-12 sm:mb-0 sm:ml-[6rem] sm:w-[calc(100%-6rem)]"
+  class="relative mb-12 flex min-h-screen flex-col sm:mb-0 sm:ml-[6rem] sm:w-[calc(100%-6rem)]"
 >
   <router-outlet></router-outlet>
   <div class="grow"></div>

@@ -1,48 +1,49 @@
 @if (data$ | async; as data) {
-<div class="mb-6 flex flex-col gap-4">
-  @if (data.costItems.length === 0) {
-  <div class="italic text-slate-500"> No cost items yet. </div>
-  } @for (costItem of data.costItems; track costItem) {
-  <div class="flex flex-row items-start gap-1" data-testId="cost-items">
-    <div class="flex flex-grow flex-col gap-1">
-      <div>
-        <span class="font-bold">{{ costItem.name }}</span> ({{
-          costItem.amount | currency
-        }})
+  <div class="mb-6 flex flex-col gap-4">
+    @if (data.costItems.length === 0) {
+      <div class="italic text-slate-500"> No cost items yet. </div>
+    }
+    @for (costItem of data.costItems; track costItem) {
+      <div class="flex flex-row items-start gap-1" data-testId="cost-items">
+        <div class="flex flex-grow flex-col gap-1">
+          <div>
+            <span class="font-bold">{{ costItem.name }}</span> ({{
+              costItem.amount | currency
+            }})
+          </div>
+          <div class="text-xs">{{ costItem.calculationInfo }}</div>
+          <div class="flex flex-row gap-1">
+            @if (costItem.notSubsidized) {
+              <div class="rounded bg-red-500 px-2 text-xs text-white">
+                not subsidized
+              </div>
+            }
+            @if (costItem.onInvoice) {
+              <div class="rounded bg-green-500 px-2 text-xs text-white">
+                on invoice
+              </div>
+            }
+            @if (costItem.submittedAmount) {
+              <div class="rounded bg-yellow-500 px-2 text-xs text-white">
+                submitted: {{ costItem.submittedAmount | currency }}
+              </div>
+            }
+          </div>
+        </div>
+        <a
+          mat-stroked-button
+          routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
+        >
+          <mat-icon svgIcon="icon-cash-receipt"></mat-icon>
+          <span class="hidden sm:inline">Receipts</span>
+        </a>
       </div>
-      <div class="text-xs">{{ costItem.calculationInfo }}</div>
-      <div class="flex flex-row gap-1">
-        @if (costItem.notSubsidized) {
-        <div class="rounded bg-red-500 px-2 text-xs text-white">
-          not subsidized
-        </div>
-        } @if (costItem.onInvoice) {
-        <div class="rounded bg-green-500 px-2 text-xs text-white">
-          on invoice
-        </div>
-        } @if (costItem.submittedAmount) {
-        <div class="rounded bg-yellow-500 px-2 text-xs text-white">
-          submitted: {{ costItem.submittedAmount | currency }}
-        </div>
-        }
-      </div>
-    </div>
-    <a
-      mat-stroked-button
-      class="modern"
-      routerLink="/events/{{ eventId }}/run/receipts/{{ costItem.id }}"
-    >
-      <mat-icon svgIcon="icon-cash-receipt"></mat-icon>
-      <span class="hidden sm:inline">Receipts</span>
-    </a>
+    }
   </div>
-  }
-</div>
 }
 <button
   mat-flat-button
   color="accent"
-  class="modern"
   data-testId="update-cost-items"
   (click)="getFromTemplate()"
 >

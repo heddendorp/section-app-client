@@ -4,76 +4,76 @@
     <div resetScroll>Registrations</div>
   </mat-toolbar>
   @if ((registrations$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="p-4">
   @if (registrations$ | async; as registrations) {
-  <mat-table [dataSource]="registrations" class="w-fit sm:w-full">
-    <ng-container matColumnDef="event">
-      <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <app-event-chip
-          [id]="element.event.id"
-          [icon]="element.event.icon"
-          [title]="element.event.title"
-        ></app-event-chip>
-      </mat-cell>
-    </ng-container>
+    <mat-table [dataSource]="registrations" class="w-fit sm:w-full">
+      <ng-container matColumnDef="event">
+        <mat-header-cell *matHeaderCellDef>Event</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <app-event-chip
+            [id]="element.event.id"
+            [icon]="element.event.icon"
+            [title]="element.event.title"
+          ></app-event-chip>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="user">
-      <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div class="p-0.5">
-          <app-user-chip
-            size="sm"
-            [id]="element.user.id"
-            [picture]="element.user.picture"
-            [name]="element.user.fullName"
-            [status]="element.user.currentTenant?.status + ''"
-          >
-          </app-user-chip>
-        </div>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div class="p-0.5">
+            <app-user-chip
+              size="sm"
+              [id]="element.user.id"
+              [picture]="element.user.picture"
+              [name]="element.user.fullName"
+              [status]="element.user.currentTenant?.status + ''"
+            >
+            </app-user-chip>
+          </div>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="created">
-      <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.createdAt | date: 'medium' }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="created">
+        <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.createdAt | date: 'medium' }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>Transactions</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <app-transaction-list
-          [transactions]="element.transactions"
-        ></app-transaction-list>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Transactions</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <app-transaction-list
+            [transactions]="element.transactions"
+          ></app-transaction-list>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.type | titlecase }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.type | titlecase }}
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="amount">
-      <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.balance | currency }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.balance | currency }}
+        </mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      routerLink="/tenant/registrations/{{ row.id }}"
-      class="cursor-pointer hover:bg-gray-100"
-    ></mat-row>
-  </mat-table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        routerLink="/tenant/registrations/{{ row.id }}"
+        class="cursor-pointer hover:bg-gray-100"
+      ></mat-row>
+    </mat-table>
   }
   <mat-paginator
     [length]="registrationCount$ | async"

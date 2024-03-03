@@ -109,7 +109,6 @@ export class TemplateDetailsPageComponent {
         .open(CreateEventDialogComponent, {
           width: '600px',
           maxWidth: '100vw',
-          panelClass: 'modern',
           data: {
             template,
             organizers: data.eventOrganizers,
@@ -146,7 +145,6 @@ export class TemplateDetailsPageComponent {
         data: { template },
         width: '600px',
         maxWidth: '100vw',
-        panelClass: 'modern',
       })
       .afterClosed()
       .toPromise();
@@ -181,7 +179,6 @@ export class TemplateDetailsPageComponent {
       this.dialog
         .open(ChangeTemplateCategoryDialogComponent, {
           data: { categories: categories.data.eventTemplateCategories },
-          panelClass: 'modern',
         })
         .afterClosed(),
     );
@@ -201,7 +198,6 @@ export class TemplateDetailsPageComponent {
       await this.dialog
         .open(SelectLocationDialogComponent, {
           minWidth: '50vw',
-          panelClass: 'modern',
         })
         .afterClosed(),
     );

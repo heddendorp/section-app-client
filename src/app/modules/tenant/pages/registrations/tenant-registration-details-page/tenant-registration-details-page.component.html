@@ -4,65 +4,64 @@
     <div resetScroll>Registration</div>
   </mat-toolbar>
   @if ((registration$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="space-y-2 p-4 lg:p-8">
   @if (registration$ | async; as registration) {
-  <div class="overflow-hidden rounded-2xl border">
-    <table class="w-full table-auto border-collapse">
-      <tbody>
-        <tr>
-          <th colspan="2">User</th>
-          <th colspan="2">Event</th>
-        </tr>
-        <tr>
-          <td>
-            <app-user-chip
-              size="sm"
-              [id]="registration.user.id"
-              [picture]="registration.user.picture"
-              [name]="registration.user.fullName"
-              [status]="registration.user.currentTenant?.status + ''"
-            >
-            </app-user-chip>
-          </td>
-          <td>Registered: {{ registration.createdAt | date: 'medium' }}</td>
-          <td colspan="2">
-            <app-event-chip
-              [id]="registration.event.id"
-              [icon]="registration.event.icon"
-              [title]="registration.event.title"
-            ></app-event-chip>
-          </td>
-        </tr>
-        <tr>
-          <td>Status: {{ registration.status }}</td>
-          <td>
-            {{ registration.cancellationReason }}
-          </td>
-          <td>Start: {{ registration.event.start | date: 'medium' }}</td>
-          <td>End: {{ registration.event.end | date: 'medium' }}</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <app-transaction-list
-              [transactions]="registration.transactions"
-            ></app-transaction-list>
-          </td>
-          <td colspan="2">
-            <a
-              class="w-full"
-              class="modern"
-              href="/events/{{ registration.event.id }}/manage"
-              mat-stroked-button
-            >
-              Manage event
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="overflow-hidden rounded-2xl border">
+      <table class="w-full table-auto border-collapse">
+        <tbody>
+          <tr>
+            <th colspan="2">User</th>
+            <th colspan="2">Event</th>
+          </tr>
+          <tr>
+            <td>
+              <app-user-chip
+                size="sm"
+                [id]="registration.user.id"
+                [picture]="registration.user.picture"
+                [name]="registration.user.fullName"
+                [status]="registration.user.currentTenant?.status + ''"
+              >
+              </app-user-chip>
+            </td>
+            <td>Registered: {{ registration.createdAt | date: 'medium' }}</td>
+            <td colspan="2">
+              <app-event-chip
+                [id]="registration.event.id"
+                [icon]="registration.event.icon"
+                [title]="registration.event.title"
+              ></app-event-chip>
+            </td>
+          </tr>
+          <tr>
+            <td>Status: {{ registration.status }}</td>
+            <td>
+              {{ registration.cancellationReason }}
+            </td>
+            <td>Start: {{ registration.event.start | date: 'medium' }}</td>
+            <td>End: {{ registration.event.end | date: 'medium' }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <app-transaction-list
+                [transactions]="registration.transactions"
+              ></app-transaction-list>
+            </td>
+            <td colspan="2">
+              <a
+                class="w-full"
+                href="/events/{{ registration.event.id }}/manage"
+                mat-stroked-button
+              >
+                Manage event
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   }
 </main>

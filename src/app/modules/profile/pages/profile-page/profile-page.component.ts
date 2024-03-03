@@ -43,6 +43,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatSlideToggle,
+  MatSlideToggleChange,
+} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-profile-page',
@@ -66,6 +70,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     ExtendDatePipe,
     MatInputModule,
     ReactiveFormsModule,
+    MatSlideToggle,
   ],
 })
 export class ProfilePageComponent implements OnDestroy {
@@ -84,6 +89,7 @@ export class ProfilePageComponent implements OnDestroy {
   public esnCardErrorMessage$ = new BehaviorSubject<string | undefined>(
     undefined,
   );
+  protected newUI = !!localStorage.getItem('evorto_new_ui');
 
   constructor(
     private profileQuery: UserProfileGQL,
@@ -171,7 +177,6 @@ export class ProfilePageComponent implements OnDestroy {
   claimEvent(code?: string): void {
     this.dialog.open(ClaimEventDialogComponent, {
       data: { code },
-      panelClass: 'modern',
     });
   }
 
@@ -243,5 +248,14 @@ export class ProfilePageComponent implements OnDestroy {
   private randomId(): string {
     const uint32 = crypto.getRandomValues(new Uint32Array(1))[0];
     return uint32.toString(16);
+  }
+
+  uiEnableChange(change: MatSlideToggleChange) {
+    if (change.checked) {
+      localStorage.setItem('evorto_new_ui', 'enabled');
+    } else {
+      localStorage.removeItem('evorto_new_ui');
+    }
+    location.reload();
   }
 }

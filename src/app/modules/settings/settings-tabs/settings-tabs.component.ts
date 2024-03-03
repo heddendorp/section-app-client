@@ -18,11 +18,13 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsTabsComponent {
-  protected tabs = SETTINGS_ROUTES[0].children.map((tab) => ({
-    title: tab.data?.['title'],
-    icon: tab.data?.['icon'],
-    path: tab.path,
-  }));
+  protected tabs = SETTINGS_ROUTES[0].children
+    .filter((tab) => !tab.redirectTo)
+    .map((tab) => ({
+      title: tab.data?.['title'],
+      icon: tab.data?.['icon'],
+      path: tab.path,
+    }));
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 

@@ -1,22 +1,22 @@
 <app-reactive-toolbar>
   <mat-toolbar color="white">
     @if (searchEnabled) {
-    <div class="w-full text-base">
-      <mat-form-field class="w-full">
-        <input
-          #searchbar
-          matInput
-          [formControl]="searchControl"
-          type="search"
-        />
-      </mat-form-field>
-    </div>
-    } @if (!searchEnabled) {
-    <div resetScroll class="flex-1">Event Templates</div>
+      <div class="w-full text-base">
+        <mat-form-field class="w-full">
+          <input
+            #searchbar
+            matInput
+            [formControl]="searchControl"
+            type="search"
+          />
+        </mat-form-field>
+      </div>
+    }
+    @if (!searchEnabled) {
+      <div resetScroll class="flex-1">Event Templates</div>
     }
     <button
       mat-icon-button
-      class="modern"
       (click)="initSearch()"
       (document:keydown.control.f)="initSearch(); $event.preventDefault()"
     >
@@ -26,7 +26,7 @@
     </button>
   </mat-toolbar>
   @if ((templateCategories$ | async) === null) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </app-reactive-toolbar>
 <main class="p-4">
@@ -45,103 +45,107 @@
   </div>
   <mat-accordion [multi]="!!searchControl.value">
     @for (category of templateCategories$ | async; track category) {
-    <mat-expansion-panel
-      [expanded]="!!searchControl.value && !!category.templateCount"
-      [style.display]="
-        !!searchControl.value && !category.templateCount ? 'none' : ''
-      "
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <div class="relative mr-4 min-w-max">
-            <img
-              [ngSrc]="category.icon | iconURL"
-              height="40"
-              width="40"
-              class="h-10"
-              alt=""
-            />
-            <div class="counter">
-              {{ category.templateCount }}
+      <mat-expansion-panel
+        [expanded]="!!searchControl.value && !!category.templateCount"
+        [style.display]="
+          !!searchControl.value && !category.templateCount ? 'none' : ''
+        "
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="relative mr-4 min-w-max">
+              <img
+                [ngSrc]="category.icon | iconURL"
+                height="40"
+                width="40"
+                class="h-10"
+                alt=""
+              />
+              <div class="counter">
+                {{ category.templateCount }}
+              </div>
             </div>
-          </div>
-          <span>
-            {{ category.name }}
-          </span>
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ category.eventCount }} events
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+            <span>
+              {{ category.name }}
+            </span>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ category.eventCount }} events
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-      <ng-template matExpansionPanelContent>
-        <mat-nav-list>
-          @for (template of category.templates; track template) {
-          <a mat-list-item routerLink="./{{ template.id }}">
-            <div matListItemAvatar class="relative">
-              <img
-                [ngSrc]="template.icon | iconURL"
-                width="192"
-                height="192"
-                alt=""
-              />
-              <div class="counter">
-                {{ template.eventInstanceCount }}
-              </div>
-            </div>
-            <h3 matListItemTitle>{{ template.title }}</h3>
-            <span matListItemLine>
-              @if (template.participantRating) {
-              <span>
-                {{ template.participantRating | number: '1.1-1' }} ★ ({{
-                  template.participantRatingCount
-                }})
-              </span>
-              }
-            </span>
-          </a>
-          }
-        </mat-nav-list>
-      </ng-template>
-    </mat-expansion-panel>
-    } @if (eventTemplates$ | async; as templates) { @if ((templateCategories$ |
-    async) && templates.length > 0) {
-    <mat-expansion-panel
-      [expanded]="!!searchControl.value && !!templates.length"
-      [style.display]="!!searchControl.value && !templates.length ? 'none' : ''"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
-        <mat-panel-description> </mat-panel-description>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <mat-nav-list>
-          @for (template of templates; track template) {
-          <a mat-list-item routerLink="./{{ template.id }}">
-            <div matListItemAvatar class="relative">
-              <img
-                [ngSrc]="template.icon | iconURL"
-                width="192"
-                height="192"
-                alt=""
-              />
-              <div class="counter">
-                {{ templates.length }}
-              </div>
-            </div>
-            <h3 matListItemTitle>{{ template.title }}</h3>
-            @if (template.participantRating) {
-            <span matListItemLine>
-              {{ template.participantRating | number: '1.1-1' }} ★ ({{
-                template.participantRatingCount
-              }})
-            </span>
+        <ng-template matExpansionPanelContent>
+          <mat-nav-list>
+            @for (template of category.templates; track template) {
+              <a mat-list-item routerLink="./{{ template.id }}">
+                <div matListItemAvatar class="relative">
+                  <img
+                    [ngSrc]="template.icon | iconURL"
+                    width="192"
+                    height="192"
+                    alt=""
+                  />
+                  <div class="counter">
+                    {{ template.eventInstanceCount }}
+                  </div>
+                </div>
+                <h3 matListItemTitle>{{ template.title }}</h3>
+                <span matListItemLine>
+                  @if (template.participantRating) {
+                    <span>
+                      {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                        template.participantRatingCount
+                      }})
+                    </span>
+                  }
+                </span>
+              </a>
             }
-          </a>
-          }
-        </mat-nav-list>
-      </ng-template>
-    </mat-expansion-panel>
-    } }
+          </mat-nav-list>
+        </ng-template>
+      </mat-expansion-panel>
+    }
+    @if (eventTemplates$ | async; as templates) {
+      @if ((templateCategories$ | async) && templates.length > 0) {
+        <mat-expansion-panel
+          [expanded]="!!searchControl.value && !!templates.length"
+          [style.display]="
+            !!searchControl.value && !templates.length ? 'none' : ''
+          "
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title class="w-2/3"> Uncategorized </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <mat-nav-list>
+              @for (template of templates; track template) {
+                <a mat-list-item routerLink="./{{ template.id }}">
+                  <div matListItemAvatar class="relative">
+                    <img
+                      [ngSrc]="template.icon | iconURL"
+                      width="192"
+                      height="192"
+                      alt=""
+                    />
+                    <div class="counter">
+                      {{ templates.length }}
+                    </div>
+                  </div>
+                  <h3 matListItemTitle>{{ template.title }}</h3>
+                  @if (template.participantRating) {
+                    <span matListItemLine>
+                      {{ template.participantRating | number: '1.1-1' }} ★ ({{
+                        template.participantRatingCount
+                      }})
+                    </span>
+                  }
+                </a>
+              }
+            </mat-nav-list>
+          </ng-template>
+        </mat-expansion-panel>
+      }
+    }
   </mat-accordion>
 </main>

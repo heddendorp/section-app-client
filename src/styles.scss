@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
 @font-face {
   font-family: 'General Sans';
@@ -40,12 +41,12 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies(
-  mat.define-typography-config(
-    $font-family: 'General Sans, sans-serif',
-    $body-2: mat.define-typography-level(14px, 20px, 450)
-  )
-);
+//@include mat.all-component-typographies(
+//  mat.define-typography-config(
+//    $font-family: 'General Sans, sans-serif',
+//    $body-2: mat.define-typography-level(14px, 20px, 450)
+//  )
+//);
 @include mat.core();
 
 $dark-primary-text: rgba(black, 0.87);
@@ -152,44 +153,75 @@ $error-palette: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tumi-app-primary: mat.define-palette($primary-palette);
-$tumi-app-accent: mat.define-palette($secondary-palette);
+//$tumi-app-primary: mat.define-palette($primary-palette);
+//$tumi-app-accent: mat.define-palette($secondary-palette);
 
 // The warn palette is optional (defaults to red).
-$tumi-app-warn: mat.define-palette($error-palette);
-
-$tumi-typography: mat.define-typography-config(
-  $font-family: 'General Sans, sans-serif',
-  $body-2: mat.define-typography-level(14px, 20px, 450),
-);
+//$tumi-app-warn: mat.define-palette($error-palette);
+//
+//$tumi-typography: mat.define-typography-config(
+//  $font-family: 'General Sans, sans-serif',
+//  $body-2: mat.define-typography-level(14px, 20px, 450),
+//);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$tumi-app-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-    typography: $tumi-typography,
-  )
-);
-
-$tumi-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $tumi-app-primary,
-      accent: $tumi-app-accent,
-      warn: $tumi-app-warn,
-    ),
-  )
-);
+//$tumi-app-theme: mat.define-light-theme(
+//  (
+//    color: (
+//      primary: $tumi-app-primary,
+//      accent: $tumi-app-accent,
+//      warn: $tumi-app-warn,
+//    ),
+//    typography: $tumi-typography,
+//  )
+//);
+//
+//$tumi-dark-theme: mat.define-dark-theme(
+//  (
+//    color: (
+//      primary: $tumi-app-primary,
+//      accent: $tumi-app-accent,
+//      warn: $tumi-app-warn,
+//    ),
+//  )
+//);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($tumi-app-theme);
+//@include mat.all-component-themes($tumi-app-theme);
+
+$theme: matx.define-theme(
+  (
+    color: (
+      //theme-type: dark,
+      primary: matx.$m3-azure-palette,
+    ),
+    typography: (
+      brand-family: 'General Sans, sans-serif',
+      plain-family: 'General Sans, sans-serif',
+    ),
+  )
+);
+
+$dark-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: matx.$m3-azure-palette,
+    ),
+    typography: (
+      brand-family: 'General Sans, sans-serif',
+      plain-family: 'General Sans, sans-serif',
+    ),
+  )
+);
+
+html {
+  // Apply the base theme at the root, so it will be inherited by the whole app.
+  @include mat.all-component-themes($theme);
+}
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -200,6 +232,12 @@ $tumi-dark-theme: mat.define-dark-theme(
 
 .mat-mdc-button-base {
   line-height: normal;
+}
+
+.nav-bottom-sheet {
+  mat-bottom-sheet-container.mat-bottom-sheet-container {
+    @apply bg-blue-600;
+  }
 }
 
 @layer base {
@@ -225,11 +263,11 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
 
   h1 {
-    @apply text-2xl font-display;
+    @apply font-display text-2xl;
   }
 
   h2 {
-    @apply text-xl font-display;
+    @apply font-display text-xl;
   }
 
   h3 {
@@ -237,19 +275,19 @@ $tumi-dark-theme: mat.define-dark-theme(
   }
 
   mat-icon.mat-icon.card-icon {
-    @apply w-8 lg:w-10 h-8 lg:h-10 p-1 rounded-lg;
+    @apply h-8 w-8 rounded-lg p-1 lg:h-10 lg:w-10;
   }
 
   markdown {
     img {
-      @apply xl:max-w-2xl lg:float-right lg:ml-4 lg:max-w-lg;
+      @apply lg:float-right lg:ml-4 lg:max-w-lg xl:max-w-2xl;
     }
   }
 
   .dark-button {
-    @include mat.button-color($tumi-dark-theme);
-    @include mat.fab-color($tumi-dark-theme);
-    @include mat.icon-button-color($tumi-dark-theme);
+    @include mat.button-color($dark-theme);
+    @include mat.fab-color($dark-theme);
+    @include mat.icon-button-color($dark-theme);
   }
 
   .photo-view {
@@ -258,23 +296,23 @@ $tumi-dark-theme: mat.define-dark-theme(
     }
   }
 
-  .cdk-overlay-pane.modern {
-    .mat-mdc-dialog-container .mdc-dialog__surface {
-      @apply rounded-3xl bg-primary-container text-primary-onContainer;
-    }
-  }
+  //.cdk-overlay-pane.modern {
+  //  .mat-mdc-dialog-container .mdc-dialog__surface {
+  //    @apply rounded-3xl bg-primary-container text-primary-onContainer;
+  //  }
+  //}
 
-  .mat-mdc-button-base.modern {
-    @apply rounded-full;
-  }
+  //.mat-mdc-button-base.modern {
+  //  @apply rounded-full;
+  //}
 
-  mat-panel-title {
-    @apply lg:text-lg font-bold;
-  }
+  //mat-panel-title {
+  //  @apply font-bold lg:text-lg;
+  //}
 
-  .bg-blur {
-    backdrop-filter: blur(16px) saturate(180%);
-  }
+  //.bg-blur {
+  //  backdrop-filter: blur(16px) saturate(180%);
+  //}
 
   .mat-mdc-list-item-avatar {
     border-radius: 0 !important;
@@ -298,10 +336,10 @@ $tumi-dark-theme: mat.define-dark-theme(
     }
   }
 
-  mat-toolbar {
-    background: white !important;
-    @apply shadow-sm;
-  }
+  //mat-toolbar {
+  //  background: white !important;
+  //  @apply shadow-sm;
+  //}
 
   /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
   mat-progress-bar {
@@ -319,6 +357,6 @@ $tumi-dark-theme: mat.define-dark-theme(
 
 @layer components {
   .skeleton {
-    @apply animate-pulse bg-slate-200 text-transparent rounded-md cursor-default box-decoration-clone;
+    @apply animate-pulse cursor-default rounded-md bg-slate-200 box-decoration-clone text-transparent;
   }
 }

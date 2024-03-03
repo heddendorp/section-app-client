@@ -1,11 +1,11 @@
 @if ((registrationCodes$ | async) === null) {
-<mat-progress-bar mode="indeterminate" class="!relative"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" class="!relative"></mat-progress-bar>
 }
 <h1 mat-dialog-title>Public Registration Codes</h1>
 <div
   mat-dialog-content
   mat-dialog-close="undefined"
-  class="text-surface-on p-4"
+  class="p-4 text-surface-on"
 >
   <p class="mb-6">
     Here you can find some short-notice spots for events here that others want
@@ -13,51 +13,50 @@
   </p>
   <div class="flex flex-col gap-4">
     @if ((registrationCodes$ | async)?.length === 0) {
-    <p class="text-center italic text-gray-600">
-      Currently there are no public registration codes. Check again later!
-    </p>
+      <p class="text-center italic text-gray-600">
+        Currently there are no public registration codes. Check again later!
+      </p>
     }
     <app-grid minWidth="350px">
       @for (code of registrationCodes$ | async; track code) {
-      <a
-        routerLink="/events/{{ code.targetEvent.id }}"
-        class="event text-surface-on relative flex h-full flex-col rounded-lg bg-white shadow"
-        matRipple
-      >
-        <div class="flex w-full flex-col gap-2 px-4 pt-2 pb-4">
-          <div class="flex flex-row items-center gap-2">
-            <img
-              [ngSrc]="code.targetEvent.icon | iconURL"
-              height="48"
-              width="48"
-              alt=""
-              class="h-12 w-12"
-            />
-            <div class="text-base font-semibold leading-tight">
-              {{ code.targetEvent.title }}
+        <a
+          routerLink="/events/{{ code.targetEvent.id }}"
+          class="event relative flex h-full flex-col rounded-lg bg-white text-surface-on shadow"
+          matRipple
+        >
+          <div class="flex w-full flex-col gap-2 px-4 pb-4 pt-2">
+            <div class="flex flex-row items-center gap-2">
+              <img
+                [ngSrc]="code.targetEvent.icon | iconURL"
+                height="48"
+                width="48"
+                alt=""
+                class="h-12 w-12"
+              />
+              <div class="text-base font-semibold leading-tight">
+                {{ code.targetEvent.title }}
+              </div>
             </div>
-          </div>
 
-          <div class="mt-auto flex items-center gap-1">
-            <mat-icon
-              class="ml-2"
-              svgIcon="icon-calendar"
-              style="width: 18px"
-            ></mat-icon>
-            <span>{{ code.targetEvent.start | date: 'short' }}</span>
-          </div>
+            <div class="mt-auto flex items-center gap-1">
+              <mat-icon
+                class="ml-2"
+                svgIcon="icon-calendar"
+                style="width: 18px"
+              ></mat-icon>
+              <span>{{ code.targetEvent.start | date: 'short' }}</span>
+            </div>
 
-          <a
-            mat-flat-button
-            class="modern"
-            color="primary"
-            routerLink="/profile"
-            [queryParams]="{ code: code.id }"
-          >
-            Use code
-          </a>
-        </div>
-      </a>
+            <a
+              mat-flat-button
+              color="primary"
+              routerLink="/profile"
+              [queryParams]="{ code: code.id }"
+            >
+              Use code
+            </a>
+          </div>
+        </a>
       }
     </app-grid>
   </div>

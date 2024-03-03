@@ -29,7 +29,6 @@
     }
     <button
       mat-icon-button
-      class="modern"
       (click)="initSearch()"
       (document:keydown.control.f)="initSearch(); $event.preventDefault()"
     >
@@ -60,7 +59,7 @@
   }
 </div>
 @if (timeOffset !== 0) {
-  <div class="mx-auto bg-orange-500 py-3 px-6 lg:px-8">
+  <div class="mx-auto bg-orange-500 px-6 py-3 lg:px-8">
     <div class="flex flex-wrap items-center justify-between">
       <div class="flex w-0 flex-1 items-center">
         <span class="flex rounded-lg bg-orange-600 p-2 text-white">
@@ -80,7 +79,7 @@
   <div
     @grow
     matRipple
-    class="mx-auto cursor-pointer bg-yellow-500 py-3 px-6 lg:px-8"
+    class="mx-auto cursor-pointer bg-yellow-500 px-6 py-3 lg:px-8"
     routerLink="/profile"
   >
     <div class="flex flex-wrap items-center justify-between">
@@ -99,39 +98,28 @@
     </div>
   </div>
 }
-<!-- <div
-  matRipple
-  class="bg-indigo-500 mx-auto py-3 px-6 lg:px-8 cursor-pointer"
-  routerLink="/page/apply"
->
-  <div class="flex items-center justify-between flex-wrap">
-    <div class="w-0 flex-1 flex items-center">
-      <span class="flex p-2 rounded-lg bg-indigo-600 text-white">
-        <mat-icon svgIcon="icon-parse-from-clipboard"></mat-icon>
-      </span>
-      <p class="ml-3 font-medium text-white leading-tight">
-        <span> Werde ein Teil von TUMi! </span>
-      </p>
-    </div>
-  </div>
-</div> -->
-<main class="text-surface-on p-4 sm:px-8">
+<main class="p-4 text-surface-on sm:px-8">
   <a
     mat-fab
     extended
     routerLink="/event-templates"
-    *appIfRole="[Role.User, Role.Admin]"
+    *appIfStatus="[
+      MembershipStatus.Full,
+      MembershipStatus.Alumni,
+      MembershipStatus.Trial,
+      MembershipStatus.Sponsor
+    ]"
   >
     <mat-icon svgIcon="icon-add"></mat-icon>
     Add Event
   </a>
-  <div class="mt-4 mb-6 flex w-full flex-row flex-wrap items-center gap-4">
+  <div class="mb-6 mt-4 flex w-full flex-row flex-wrap items-center gap-4">
     @switch (selectedView$ | async) {
       @case ('list') {
         <button
           mat-flat-button
           color="accent"
-          class="modern w-full sm:w-auto"
+          class="w-full sm:w-auto"
           (click)="toggleSelectedView()"
         >
           <mat-icon svgIcon="icon-calendar"></mat-icon>
@@ -142,7 +130,7 @@
         <button
           mat-flat-button
           color="accent"
-          class="modern w-full sm:w-auto"
+          class="w-full sm:w-auto"
           (click)="toggleSelectedView()"
         >
           <mat-icon svgIcon="icon-list"></mat-icon>
@@ -154,7 +142,6 @@
     <button
       *appIfRole="[Role.User, Role.Admin]"
       mat-stroked-button
-      class="modern"
       (click)="showCodesDialog()"
     >
       <mat-icon svgIcon="icon-transfer-between-users"></mat-icon>Codes

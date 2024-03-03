@@ -1,6 +1,6 @@
 <div class="relative">
   @if ((imageLoaded$ | async) === false) {
-  <mat-spinner class="m-6"></mat-spinner>
+    <mat-spinner class="m-6"></mat-spinner>
   }
   <img
     [ngSrc]="data.photo.original"
@@ -10,15 +10,15 @@
     (load)="imageLoad($event)"
   />
   @if (imageLoaded$ | async) {
-  <div class="dark-button absolute bottom-2 right-2 flex flex-col gap-4">
-    @if (canShareImage) {
-    <button (click)="shareImage()" mat-fab>
-      <mat-icon svgIcon="icon-share-3"></mat-icon>
-    </button>
-    }
-    <a [href]="data.photo.original" mat-fab target="_blank" download>
-      <mat-icon svgIcon="icon-download"></mat-icon>
-    </a>
-  </div>
+    <div class="dark-button absolute bottom-2 right-2 flex flex-col gap-4">
+      @if (canShareImage) {
+        <button (click)="shareImage()" mat-fab>
+          <mat-icon svgIcon="icon-share-3"></mat-icon>
+        </button>
+      }
+      <a [href]="data.photo.original" mat-fab target="_blank" download>
+        <mat-icon svgIcon="icon-download"></mat-icon>
+      </a>
+    </div>
   }
 </div>

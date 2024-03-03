@@ -1,251 +1,238 @@
 @if ((eventTemplate$ | async) === null) {
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-} @if (eventTemplate$ | async; as template) {
-<main class="p-4">
-  <app-back-button></app-back-button>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+@if (eventTemplate$ | async; as template) {
+  <main class="p-4">
+    <app-back-button></app-back-button>
 
-  <mat-card appearance="outlined" class="my-4">
-    <mat-card-header>
-      <img
-        [ngSrc]="template.icon | iconURL"
-        width="192"
-        height="192"
-        mat-card-avatar
-      />
-      <mat-card-title>{{ template.title }} </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="my-2 grid gap-4 sm:grid-cols-[1fr_4fr]">
-        <p class="font-bold">Location</p>
-        @if (!template.isVirtual) {
-        <div>
-          <a
-            class="modern"
-            mat-stroked-button
-            [href]="
-              template.googlePlaceUrl
-                ? template.googlePlaceUrl
-                : 'https://www.google.com/maps/place/' +
-                  template.coordinates?.lat +
-                  ',' +
-                  template.coordinates?.lon
-            "
-            target="_blank"
-          >
-            <mat-icon svgIcon="icon-map-marker"></mat-icon>
-            {{ template.location }}
-          </a>
-          <button class="modern" mat-icon-button (click)="updateLocation()">
-            <mat-icon svgIcon="icon-edit"></mat-icon>
-          </button>
-          <div class="mt-2 text-xs text-slate-600">
-            <span>{{ template.googlePlaceUrl }} </span>
-            @if (template.coordinates) {
-            <span
-              >({{ template.coordinates.lat }},
-              {{ template.coordinates.lon }})</span
-            >
-            }
-          </div>
-        </div>
-        } @if (template.isVirtual) {
-        <div>
-          <a
-            class="modern"
-            mat-stroked-button
-            [href]="template.onlineMeetingUrl"
-            target="_blank"
-          >
-            <mat-icon svgIcon="icon-video-conference"></mat-icon>
-            {{ template.location }}
-          </a>
-          <button class="modern" mat-icon-button (click)="updateLocation()">
-            <mat-icon svgIcon="icon-edit"></mat-icon>
-          </button>
-          <div class="mt-2 text-xs text-slate-600">
-            <span>{{ template.onlineMeetingUrl }} </span>
-          </div>
-        </div>
-        }
-        <p class="mt-4 font-bold sm:mt-0">Category</p>
-        <div class="flex flex-row items-center gap-4">
-          @if (template.category) {
-
-          <img
-            class="h-8"
-            height="32"
-            width="32"
-            [ngSrc]="template.category.icon | iconURL"
-          />
-          <h3>{{ template.category.name }}</h3>
-
-          } @if (!template.category) {
-
-          <h3>Uncategorized</h3>
-
-          }
-          <button class="modern" mat-icon-button (click)="changeCategory()">
-            <mat-icon svgIcon="icon-edit"></mat-icon>
-          </button>
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button
-        class="modern"
-        color="primary"
-        mat-flat-button
-        (click)="createEvent()"
-      >
-        <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
-        Create event from this template
-      </button>
-      <button
-        class="modern"
-        color="accent"
-        mat-flat-button
-        (click)="editTemplate()"
-      >
-        <mat-icon svgIcon="icon-edit"></mat-icon>
-        Edit
-      </button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-accordion [multi]="true">
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Internal comments </mat-panel-title>
-      </mat-expansion-panel-header>
-      <markdown class="prose" [data]="template.comment"></markdown>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Event description </mat-panel-title>
-      </mat-expansion-panel-header>
-      <markdown class="prose" [data]="template.description"></markdown>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Information for organizing </mat-panel-title>
-      </mat-expansion-panel-header>
-      <markdown class="prose" [data]="template.organizerText"></markdown>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Information for participants </mat-panel-title>
-      </mat-expansion-panel-header>
-      <markdown class="prose" [data]="template.participantText"></markdown>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Ratings </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="flex flex-col gap-3">
-        @for (event of template.eventInstances; track event) { @if (
-        (event.participantRatingCount && event.participantRatingCount > 0) ||
-        (event.organizerRatingCount && event.organizerRatingCount > 0) ) {
-        <div class="flex flex-col gap-2">
-          <a routerLink="/events/{{ event.id }}" class="text-base">
-            <span class="font-bold">{{ event.title }}</span>
-            <span class="ml-2 font-light">{{
-              event.start | date: 'shortDate'
-            }}</span>
-            @if ( event.participantRatingCount && event.participantRatingCount >
-            0 ) {
-            <div
-              class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
-            >
-              {{ event.participantRating | number: '1.1-1' }} ★ ({{
-                event.participantRatingCount
-              }})
+    <mat-card appearance="outlined" class="my-4">
+      <mat-card-header>
+        <img
+          [ngSrc]="template.icon | iconURL"
+          width="192"
+          height="192"
+          mat-card-avatar
+        />
+        <mat-card-title>{{ template.title }} </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="my-2 grid gap-4 sm:grid-cols-[1fr_4fr]">
+          <p class="font-bold">Location</p>
+          @if (!template.isVirtual) {
+            <div>
+              <a
+                mat-stroked-button
+                [href]="
+                  template.googlePlaceUrl
+                    ? template.googlePlaceUrl
+                    : 'https://www.google.com/maps/place/' +
+                      template.coordinates?.lat +
+                      ',' +
+                      template.coordinates?.lon
+                "
+                target="_blank"
+              >
+                <mat-icon svgIcon="icon-map-marker"></mat-icon>
+                {{ template.location }}
+              </a>
+              <button mat-icon-button (click)="updateLocation()">
+                <mat-icon svgIcon="icon-edit"></mat-icon>
+              </button>
+              <div class="mt-2 text-xs text-slate-600">
+                <span>{{ template.googlePlaceUrl }} </span>
+                @if (template.coordinates) {
+                  <span
+                    >({{ template.coordinates.lat }},
+                    {{ template.coordinates.lon }})</span
+                  >
+                }
+              </div>
             </div>
+          }
+          @if (template.isVirtual) {
+            <div>
+              <a
+                mat-stroked-button
+                [href]="template.onlineMeetingUrl"
+                target="_blank"
+              >
+                <mat-icon svgIcon="icon-video-conference"></mat-icon>
+                {{ template.location }}
+              </a>
+              <button mat-icon-button (click)="updateLocation()">
+                <mat-icon svgIcon="icon-edit"></mat-icon>
+              </button>
+              <div class="mt-2 text-xs text-slate-600">
+                <span>{{ template.onlineMeetingUrl }} </span>
+              </div>
+            </div>
+          }
+          <p class="mt-4 font-bold sm:mt-0">Category</p>
+          <div class="flex flex-row items-center gap-4">
+            @if (template.category) {
+              <img
+                class="h-8"
+                height="32"
+                width="32"
+                [ngSrc]="template.category.icon | iconURL"
+              />
+              <h3>{{ template.category.name }}</h3>
             }
-          </a>
-          <p>
-            Signup Velocity:
-            <span class="px-2">
-              <strong>75%:&nbsp;</strong>
-              {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
-              &nbsp;({{ event.signupVelocity.threequartersTime }})
-            </span>
-            <span class="px-2">
-              <strong>50%:&nbsp;</strong>
-              {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
-                event.signupVelocity.fiftyTime
-              }})
-            </span>
-            <span class="px-2">
-              <strong>25%:&nbsp;</strong>
-              {{ event.signupVelocity.quarter | number }}&nbsp;s/h &nbsp;({{
-                event.signupVelocity.quarterTime
-              }})
-            </span>
-          </p>
-          <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
-            @for (rating of event.ratings; track rating) {
-            <app-rating-item
-              [isOrganizer]="rating.type === 'ORGANIZER'"
-              [comment]="rating.userComment || ''"
-              [isAnonymous]="rating.anonymousRating"
-              [rating]="rating.rating || 0"
-              [userId]="rating.user.id"
-              [userFullName]="rating.user.fullName"
-              [userPicture]="rating.user.picture"
-              [userStatus]="rating.user.currentTenant?.status || ''"
-            ></app-rating-item>
+            @if (!template.category) {
+              <h3>Uncategorized</h3>
             }
+            <button mat-icon-button (click)="changeCategory()">
+              <mat-icon svgIcon="icon-edit"></mat-icon>
+            </button>
           </div>
         </div>
-        } }
-      </div>
-    </mat-expansion-panel>
+      </mat-card-content>
+      <mat-card-actions>
+        <button color="primary" mat-flat-button (click)="createEvent()">
+          <mat-icon svgIcon="icon-plus-2-math"></mat-icon>
+          Create event from this template
+        </button>
+        <button color="accent" mat-flat-button (click)="editTemplate()">
+          <mat-icon svgIcon="icon-edit"></mat-icon>
+          Edit
+        </button>
+      </mat-card-actions>
+    </mat-card>
 
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Events </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-nav-list>
-        @for (event of template.eventInstances; track event) {
-        <a mat-list-item routerLink="/events/{{ event.id }}">
-          <h3 matListItemTitle>{{ event.title }}</h3>
-          <p matListItemLine>
-            {{ event.start | date: 'medium' }}
-          </p>
-        </a>
-        }
-      </mat-nav-list>
-    </mat-expansion-panel>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Internal comments </mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown class="prose" [data]="template.comment"></markdown>
+      </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Finances </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-finance-planner
-        (recommendedPriceChange)="updateRecommendedPrice($event)"
-        [template]="template"
-      ></app-finance-planner>
-    </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Event description </mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown class="prose" [data]="template.description"></markdown>
+      </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Admin options </mat-panel-title>
-      </mat-expansion-panel-header>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Information for organizing </mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown class="prose" [data]="template.organizerText"></markdown>
+      </mat-expansion-panel>
 
-      <button
-        class="modern"
-        mat-flat-button
-        color="warn"
-        (click)="deleteTemplate()"
-      >
-        <mat-icon svgIcon="icon-delete-forever"></mat-icon>
-        Delete event template
-      </button>
-    </mat-expansion-panel>
-  </mat-accordion>
-</main>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Information for participants </mat-panel-title>
+        </mat-expansion-panel-header>
+        <markdown class="prose" [data]="template.participantText"></markdown>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Ratings </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex flex-col gap-3">
+          @for (event of template.eventInstances; track event) {
+            @if (
+              (event.participantRatingCount &&
+                event.participantRatingCount > 0) ||
+              (event.organizerRatingCount && event.organizerRatingCount > 0)
+            ) {
+              <div class="flex flex-col gap-2">
+                <a routerLink="/events/{{ event.id }}" class="text-base">
+                  <span class="font-bold">{{ event.title }}</span>
+                  <span class="ml-2 font-light">{{
+                    event.start | date: 'shortDate'
+                  }}</span>
+                  @if (
+                    event.participantRatingCount &&
+                    event.participantRatingCount > 0
+                  ) {
+                    <div
+                      class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
+                    >
+                      {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                        event.participantRatingCount
+                      }})
+                    </div>
+                  }
+                </a>
+                <p>
+                  Signup Velocity:
+                  <span class="px-2">
+                    <strong>75%:&nbsp;</strong>
+                    {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
+                    &nbsp;({{ event.signupVelocity.threequartersTime }})
+                  </span>
+                  <span class="px-2">
+                    <strong>50%:&nbsp;</strong>
+                    {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
+                      event.signupVelocity.fiftyTime
+                    }})
+                  </span>
+                  <span class="px-2">
+                    <strong>25%:&nbsp;</strong>
+                    {{ event.signupVelocity.quarter | number }}&nbsp;s/h
+                    &nbsp;({{ event.signupVelocity.quarterTime }})
+                  </span>
+                </p>
+                <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
+                  @for (rating of event.ratings; track rating) {
+                    <app-rating-item
+                      [isOrganizer]="rating.type === 'ORGANIZER'"
+                      [comment]="rating.userComment || ''"
+                      [isAnonymous]="rating.anonymousRating"
+                      [rating]="rating.rating || 0"
+                      [userId]="rating.user.id"
+                      [userFullName]="rating.user.fullName"
+                      [userPicture]="rating.user.picture"
+                      [userStatus]="rating.user.currentTenant?.status || ''"
+                    ></app-rating-item>
+                  }
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Events </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          @for (event of template.eventInstances; track event) {
+            <a mat-list-item routerLink="/events/{{ event.id }}">
+              <h3 matListItemTitle>{{ event.title }}</h3>
+              <p matListItemLine>
+                {{ event.start | date: 'medium' }}
+              </p>
+            </a>
+          }
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Finances </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-finance-planner
+          (recommendedPriceChange)="updateRecommendedPrice($event)"
+          [template]="template"
+        ></app-finance-planner>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" *appIfRole="[Role.Admin]">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Admin options </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <button mat-flat-button color="warn" (click)="deleteTemplate()">
+          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+          Delete event template
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </main>
 }

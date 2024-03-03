@@ -1,22 +1,26 @@
-<div [formGroup]="form" class="mt-6 grid lg:grid-cols-2 gap-4">
-  @for (field of formConfig;track field) { @switch (field.type) { @case ('text')
-  {
-  <mat-form-field>
-    <mat-label>{{ field.label }}</mat-label>
-    <input matInput [formControlName]="field.label" />
-    <mat-error>This field is required</mat-error>
-  </mat-form-field>
-  } @case ('select') {
-  <mat-form-field>
-    <mat-label>{{ field.label }}</mat-label>
-    <mat-select [formControlName]="field.label">
-      @for (option of field.options;track option) {
-      <mat-option [value]="option">
-        {{ option }}
-      </mat-option>
+<div [formGroup]="form" class="mt-6 grid gap-4 lg:grid-cols-2">
+  @for (field of formConfig; track field) {
+    @switch (field.type) {
+      @case ('text') {
+        <mat-form-field>
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [formControlName]="field.label" />
+          <mat-error>This field is required</mat-error>
+        </mat-form-field>
       }
-    </mat-select>
-    <mat-error>This field is required</mat-error>
-  </mat-form-field>
-  } } }
+      @case ('select') {
+        <mat-form-field>
+          <mat-label>{{ field.label }}</mat-label>
+          <mat-select [formControlName]="field.label">
+            @for (option of field.options; track option) {
+              <mat-option [value]="option">
+                {{ option }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-error>This field is required</mat-error>
+        </mat-form-field>
+      }
+    }
+  }
 </div>

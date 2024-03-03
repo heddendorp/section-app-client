@@ -5,6 +5,7 @@ import {
   GetCurrentUserInfoGQL,
   GetTenantInfoGQL,
   GetTenantInfoQuery,
+  MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import {
@@ -50,6 +51,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 import { MarkdownComponent } from 'ngx-markdown';
+import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
 
 @Component({
   selector: 'app-event-list-page',
@@ -91,6 +93,7 @@ import { MarkdownComponent } from 'ngx-markdown';
     AsyncPipe,
     NgForOf,
     MarkdownComponent,
+    IfStatusDirective,
   ],
 })
 @TraceClassDecorator()
@@ -306,7 +309,8 @@ export class EventListPageComponent implements OnDestroy {
       width: '600px',
       maxWidth: '100vw',
       autoFocus: false,
-      panelClass: 'modern',
     });
   }
+
+  protected readonly MembershipStatus = MembershipStatus;
 }
