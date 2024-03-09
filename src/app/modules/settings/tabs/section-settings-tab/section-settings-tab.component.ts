@@ -226,6 +226,8 @@ export class SectionSettingsTabComponent {
           [
             MembershipStatus.None,
             MembershipStatus.Selected,
+            MembershipStatus.Helper,
+            MembershipStatus.Blacklisted,
             MembershipStatus.Trial,
             MembershipStatus.Full,
             MembershipStatus.Alumni,

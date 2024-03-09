@@ -17,6 +17,7 @@ query loadEvent($id: ID!) {
     registrationLink
     freeParticipantSpots
     excludeFromRatings
+    deferredPayment
     ratingPending
     prices
     location

@@ -233,6 +233,17 @@
                     </a>
                     @if (
                       event.registrationMode == 'STRIPE' &&
+                      event.deferredPayment &&
+                      !registration.transactions.length
+                    ) {
+                      <button
+                        mat-stroked-button
+                        (click)="admitUser(registration.id)"
+                      >
+                        <span>Admit user</span>
+                      </button>
+                    } @else if (
+                      event.registrationMode == 'STRIPE' &&
                       !registration.transactions.length
                     ) {
                       <button

@@ -235,7 +235,9 @@
       }
       @if (
         profile.status !== MembershipStatus.None &&
-        profile.status !== MembershipStatus.Selected
+        profile.status !== MembershipStatus.Selected &&
+        profile.status !== MembershipStatus.Helper &&
+        profile.status !== MembershipStatus.Blacklisted
       ) {
         <div
           class="rounded-2xl bg-secondary-container p-4 text-primary-onContainer shadow-xl"

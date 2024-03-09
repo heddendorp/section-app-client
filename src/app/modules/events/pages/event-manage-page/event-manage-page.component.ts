@@ -6,6 +6,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
+  AdmitUserGQL,
   CheckInUserGQL,
   CreateEventRegistrationCodeGQL,
   DeleteRegistrationCodeGQL,
@@ -115,6 +116,7 @@ export class EventManagePageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
     private restorePaymentGQL: RestorePaymentGQL,
+    private admitUserGQL: AdmitUserGQL,
     @Inject(DOCUMENT) protected document: Document,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch();
@@ -250,5 +252,9 @@ export class EventManagePageComponent implements OnDestroy {
 
   async restorePayment(id: string) {
     await firstValueFrom(this.restorePaymentGQL.mutate({ registrationId: id }));
+  }
+
+  async admitUser(id: string) {
+    await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
   }
 }

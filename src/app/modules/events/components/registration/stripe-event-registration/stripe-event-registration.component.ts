@@ -108,6 +108,11 @@ export class StripeEventRegistrationComponent implements OnChanges {
     if (!this.activeStripePayment) {
       return new Date();
     }
+    if (this.event?.deferredPayment) {
+      return DateTime.fromISO(this.activeStripePayment?.createdAt)
+        .plus({ hours: 24 })
+        .toJSDate();
+    }
     return DateTime.fromISO(this.activeStripePayment?.createdAt)
       .plus({ minutes: 30 })
       .toJSDate();

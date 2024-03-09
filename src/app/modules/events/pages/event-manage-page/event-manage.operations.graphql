@@ -11,6 +11,7 @@ query loadEventForManagement($id: ID!) {
     refundFeesPaid
     plannedSpend
     submittedSpend
+    deferredPayment
     participantLimit
     participantRegistrationCount
     participantsAttended
@@ -101,6 +102,23 @@ query loadEventForManagement($id: ID!) {
 
 mutation restorePayment($registrationId: ID!) {
   restorePayment(registrationId: $registrationId) {
+    id
+    participantRegistrations {
+      id
+      transactions {
+        id
+        status
+        direction
+        amount
+        type
+        subject
+      }
+    }
+  }
+}
+
+mutation admitUser($registrationId: ID!) {
+  approvePayment(registrationId: $registrationId) {
     id
     participantRegistrations {
       id

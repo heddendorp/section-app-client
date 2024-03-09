@@ -53,15 +53,27 @@
           </mat-select>
         </mat-form-field>
         <br />
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="priceControl.invalid || (processing | async)"
-          (click)="register()"
-        >
-          <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
-          <span>Start payment and register</span>
-        </button>
+        @if (event.deferredPayment) {
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="priceControl.invalid || (processing | async)"
+            (click)="register()"
+          >
+            <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
+            <span>Register for this event</span>
+          </button>
+        } @else {
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="priceControl.invalid || (processing | async)"
+            (click)="register()"
+          >
+            <mat-icon svgIcon="icon-money-bag-euro-2"></mat-icon>
+            <span>Start payment and register</span>
+          </button>
+        }
         @if (processing | async) {
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         }
@@ -85,7 +97,7 @@
         <p class="text-lg font-bold">⚠️ Your payment is not complete yet</p>
         <p>
           Please make sure to complete you payment by
-          {{ lastPayment | date: 'mediumTime' }} or your registration will be
+          {{ lastPayment | date: 'medium' }} or your registration will be
           canceled automatically.
         </p>
         <div class="flex flex-col gap-4 md:flex-row">
@@ -119,8 +131,7 @@
           </p>
           <button mat-flat-button (click)="moveEvent()">Send event</button>
         </div>
-      }
-      @if (!canMove.result) {
+      } @else if (!event.deferredPayment) {
         <p>
           You can not give this registration to another person:
           {{ canMove.reason }}
@@ -150,13 +161,19 @@
             ></mat-progress-bar>
           }
         </div>
-      }
-      @if (!canDeregister.result) {
+      } @else if (!event.deferredPayment) {
         <p>
           You can not give up your spot on this event:
           {{ canDeregister.reason }}
         </p>
       }
+    }
+    @if (event.deferredPayment && !activeStripePayment) {
+      <p>
+        You have not yet paid for this event. If you are admitted, you will
+        receive an email and will be able to finalize your registration by
+        paying here.
+      </p>
     }
   </div>
 }

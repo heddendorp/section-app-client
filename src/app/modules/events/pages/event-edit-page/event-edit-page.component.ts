@@ -164,6 +164,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       organizerRegistrationStart: ['', Validators.required],
       excludeFromRatings: [false, Validators.required],
       excludeFromStatistics: [false, Validators.required],
+      deferredPayment: [false, Validators.required],
       enablePhotoSharing: [true, Validators.required],
       registrationMode: ['', Validators.required],
       registrationLink: ['', Validators.required],
