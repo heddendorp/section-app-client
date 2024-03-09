@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TechnicalSupportComponent } from '../technical-support/technical-support.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-vub-ehb-home',
@@ -7,6 +8,6 @@ import { TechnicalSupportComponent } from '../technical-support/technical-suppor
   styleUrls: ['./vub-ehb-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [TechnicalSupportComponent],
+  imports: [TechnicalSupportComponent, CommonModule], 
 })
 export class VubEhbHomeComponent {}
