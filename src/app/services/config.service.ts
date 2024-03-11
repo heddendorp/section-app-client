@@ -5,14 +5,12 @@ import {
   HomePageStrategy,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
   private getAppStartupInfoGQL = inject(GetAppStartupInfoGQL);
-  private auth = inject(AuthService);
   private _currencyCode: string | undefined;
   private _banners: GetAppStartupInfoQuery['currentTenant']['settings']['banners'] =
     [];
@@ -24,6 +22,13 @@ export class ConfigService {
     showPWAInstall: boolean;
     brandIconUrl: string | null | undefined;
   };
+  private _user_metadata: any;
+  private _app_metadata: any;
+
+  get uiPreview() {
+    return this._user_metadata?.uiPreview ?? false;
+  }
+
   get currencyCode(): string | undefined {
     if (!this._currencyCode) console.error('Currency code not set');
     return this._currencyCode;
@@ -39,6 +44,14 @@ export class ConfigService {
 
   get navData() {
     return this._navData;
+  }
+
+  public setMetadata(user_metadata: any, app_metadata: any) {
+    this._user_metadata = user_metadata;
+    this._app_metadata = app_metadata;
+    if (!app_metadata.uiPreview) {
+      localStorage.removeItem('evorto_new_ui');
+    }
   }
 
   public async init(): Promise<void> {

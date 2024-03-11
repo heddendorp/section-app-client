@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { filter, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
   selector: 'app-auth-button',
@@ -29,6 +30,7 @@ export class AuthButtonComponent {
     private snackBar: MatSnackBar,
     router: Router,
     getUser: GetCurrentUserGQL,
+    config: ConfigService,
   ) {
     auth.isAuthenticated$.pipe(filter((auth) => auth)).subscribe(() => {
       getUser
@@ -45,8 +47,17 @@ export class AuthButtonComponent {
               }
             }
           }),
+          switchMap(() => auth.idTokenClaims$),
         )
         .subscribe({
+          next: (claims) => {
+            if (claims) {
+              config.setMetadata(
+                claims['https://evorto.app/app_metadata'],
+                claims['https://evorto.app/user_metadata'],
+              );
+            }
+          },
           error: (err) => {
             console.log(err);
             this.snackBar

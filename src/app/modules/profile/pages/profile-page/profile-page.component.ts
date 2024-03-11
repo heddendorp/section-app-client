@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Inject,
   OnDestroy,
 } from '@angular/core';
@@ -47,6 +48,7 @@ import {
   MatSlideToggle,
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -90,6 +92,7 @@ export class ProfilePageComponent implements OnDestroy {
     undefined,
   );
   protected newUI = !!localStorage.getItem('evorto_new_ui');
+  protected allowNewUI = inject(ConfigService).uiPreview;
 
   constructor(
     private profileQuery: UserProfileGQL,
@@ -130,9 +133,8 @@ export class ProfilePageComponent implements OnDestroy {
       map((events) =>
         events.filter(
           (event) =>
-            DateTime.fromISO(event?.end)
-              .plus({ days: 7 })
-              .toJSDate() > new Date(),
+            DateTime.fromISO(event?.end).plus({ days: 7 }).toJSDate() >
+            new Date(),
         ),
       ),
     );

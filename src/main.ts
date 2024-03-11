@@ -49,8 +49,6 @@ import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 let bootstrapSpan: any = null;
 
-localStorage.removeItem('evorto_new_ui');
-
 if (environment.production) {
   enableProdMode();
   if (environment.version !== 'test') {

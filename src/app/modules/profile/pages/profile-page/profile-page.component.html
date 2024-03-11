@@ -70,16 +70,18 @@
           </span>
         </p>
 
-        <!--        <h3 class="mt-6 font-bold">Experiments</h3>-->
+        @if (allowNewUI) {
+          <h3 class="mt-6 font-bold">Experiments</h3>
 
-        <!--        <p class="text-sm">-->
-        <!--          You can opt in to the new UI experience, which will give you a preview-->
-        <!--          of what could be coming in the future. Please note that certain-->
-        <!--          functionality could be broken or missing.-->
-        <!--        </p>-->
-        <!--        <mat-slide-toggle (change)="uiEnableChange($event)" [checked]="newUI">-->
-        <!--          Enable new UI-->
-        <!--        </mat-slide-toggle>-->
+          <p class="text-sm">
+            You can opt in to the new UI experience, which will give you a
+            preview of what could be coming in the future. Please note that
+            certain functionality could be broken or missing.
+          </p>
+          <mat-slide-toggle (change)="uiEnableChange($event)" [checked]="newUI">
+            Enable new UI
+          </mat-slide-toggle>
+        }
       </div>
       <div
         class="rounded-2xl bg-secondary-container p-4 text-secondary-onContainer shadow-xl"
