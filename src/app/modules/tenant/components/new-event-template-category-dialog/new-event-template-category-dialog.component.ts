@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -27,15 +31,21 @@ import { NgOptimizedImage } from '@angular/common';
     NgOptimizedImage,
   ],
 })
-export class NewEventTemplateCategoryDialogComponent {
+export class NewEventTemplateCategoryDialogComponent implements OnInit {
   public eventTemplateCategoryForm = new FormGroup({
     name: new FormControl('', Validators.required),
     icon: new FormControl('', Validators.required),
   });
+  protected data = inject(MAT_DIALOG_DATA);
+  private dialog = inject(
+    MatDialogRef<NewEventTemplateCategoryDialogComponent>,
+  );
 
-  constructor(
-    private dialog: MatDialogRef<NewEventTemplateCategoryDialogComponent>,
-  ) {}
+  ngOnInit() {
+    if (this.data) {
+      this.eventTemplateCategoryForm.patchValue(this.data);
+    }
+  }
 
   onSubmit(): void {
     if (this.eventTemplateCategoryForm.valid) {

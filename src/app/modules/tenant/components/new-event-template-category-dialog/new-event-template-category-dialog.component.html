@@ -1,4 +1,11 @@
-<h1 mat-dialog-title>New Event Template Category</h1>
+<h1 mat-dialog-title>
+  @if (data) {
+    Update
+  } @else {
+    Create
+  }
+  Event Template Category</h1
+>
 <form [formGroup]="eventTemplateCategoryForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content class="space-y-2">
     <mat-form-field class="w-full">

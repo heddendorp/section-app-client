@@ -1,0 +1,23 @@
+mutation createOrganizer($input: NewOrganizerInput!) {
+  createEventOrganizer(newOrganizerInput: $input) {
+    id
+  }
+}
+
+mutation updateOrganizer($id: ID!, $input: NewOrganizerInput!) {
+  updateEventOrganizer(id: $id, input: $input) {
+    id
+    name
+    text
+    link
+  }
+}
+
+query getOrganizers {
+  eventOrganizers {
+    id
+    name
+    text
+    link
+  }
+}

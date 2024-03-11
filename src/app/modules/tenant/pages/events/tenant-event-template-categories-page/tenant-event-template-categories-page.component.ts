@@ -1,20 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CreateEventTemplateCategoryGQL,
   LoadEventCategoriesForAdminGQL,
   LoadEventCategoriesForAdminQuery,
+  UpdateEventTemplateCategoryGQL,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewEventTemplateCategoryDialogComponent } from '@tumi/legacy-app/modules/tenant/components/new-event-template-category-dialog/new-event-template-category-dialog.component';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
-import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tenant-event-template-categories-page',
@@ -22,17 +19,11 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
   styleUrls: ['./tenant-event-template-categories-page.component.scss'],
   standalone: true,
   imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
     MatButtonModule,
-    NgFor,
     AsyncPipe,
     IconURLPipe,
     NgOptimizedImage,
+    RouterLink,
   ],
 })
 export class TenantEventTemplateCategoriesPageComponent {
@@ -40,6 +31,9 @@ export class TenantEventTemplateCategoriesPageComponent {
     LoadEventCategoriesForAdminQuery['eventTemplateCategories']
   >;
   private eventTemplateCategoriesQueryRef;
+  private updateEventTemplateCategoryGQL = inject(
+    UpdateEventTemplateCategoryGQL,
+  );
 
   constructor(
     private dialog: MatDialog,
@@ -63,6 +57,22 @@ export class TenantEventTemplateCategoriesPageComponent {
         this.createEventTemplateCategoryGQL.mutate({ input: data }),
       );
       this.eventTemplateCategoriesQueryRef.refetch();
+    }
+  }
+
+  async editCategory(category: { id: string; name: string; icon: string }) {
+    const data = await firstValueFrom(
+      this.dialog
+        .open(NewEventTemplateCategoryDialogComponent, { data: category })
+        .afterClosed(),
+    );
+    if (data) {
+      await firstValueFrom(
+        this.updateEventTemplateCategoryGQL.mutate({
+          input: data,
+          id: category.id,
+        }),
+      );
     }
   }
 }

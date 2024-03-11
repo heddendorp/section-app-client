@@ -1,9 +1,3 @@
-mutation createOrganizer($input: NewOrganizerInput!) {
-  createEventOrganizer(newOrganizerInput: $input) {
-    id
-  }
-}
-
 query loadEventsWithBooking($after: DateTime) {
   events(after: $after) {
     id
@@ -199,14 +193,6 @@ query getTenantForEdit {
       brandIconUrl
       esnCardLink
     }
-  }
-}
-
-query getOrganizers {
-  eventOrganizers {
-    id
-    name
-    text
   }
 }
 

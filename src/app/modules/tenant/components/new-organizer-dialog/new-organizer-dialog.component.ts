@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -26,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class NewOrganizerDialogComponent implements OnInit {
   public newOrganizerForm: UntypedFormGroup;
+  protected data = inject(MAT_DIALOG_DATA);
   constructor(
     private dialog: MatDialogRef<NewOrganizerDialogComponent>,
     private fb: UntypedFormBuilder,
@@ -37,7 +47,11 @@ export class NewOrganizerDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data) {
+      this.newOrganizerForm.patchValue(this.data);
+    }
+  }
 
   onSubmit(): void {
     if (this.newOrganizerForm.valid) {

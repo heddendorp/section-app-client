@@ -1,20 +1,22 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewOrganizerDialogComponent } from '@tumi/legacy-app/modules/tenant/components/new-organizer-dialog/new-organizer-dialog.component';
 import {
   CreateOrganizerGQL,
   GetOrganizersGQL,
   GetOrganizersQuery,
+  UpdateOrganizerGQL,
 } from '@tumi/legacy-app/generated/generated';
-import { map, Observable } from 'rxjs';
-import { MatListModule } from '@angular/material/list';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
-import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { AsyncPipe } from '@angular/common';
+import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tenant-organizers-page',
@@ -22,22 +24,12 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
   styleUrls: ['./tenant-organizers-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatListModule,
-    NgFor,
-    AsyncPipe,
-  ],
+  imports: [MatButtonModule, AsyncPipe, IconURLPipe, RouterLink],
 })
 export class TenantOrganizersPageComponent implements OnInit {
   public organizers$: Observable<GetOrganizersQuery['eventOrganizers']>;
   private organizersQuery;
+  private updateOrganizerGQL = inject(UpdateOrganizerGQL);
 
   constructor(
     private dialog: MatDialog,
@@ -60,6 +52,24 @@ export class TenantOrganizersPageComponent implements OnInit {
     if (data) {
       await this.createOrganizer.mutate({ input: data }).toPromise();
       this.organizersQuery.refetch();
+    }
+  }
+
+  async editOrganizer(organizer: {
+    __typename?: 'EventOrganizer';
+    id: string;
+    name: string;
+    text: string;
+  }) {
+    const data = await firstValueFrom(
+      this.dialog
+        .open(NewOrganizerDialogComponent, { data: organizer })
+        .afterClosed(),
+    );
+    if (data) {
+      await firstValueFrom(
+        this.updateOrganizerGQL.mutate({ input: data, id: organizer.id }),
+      );
     }
   }
 }
