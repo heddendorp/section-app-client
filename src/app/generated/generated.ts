@@ -757,6 +757,7 @@ export type Query = {
   allTimeStatistics: AllTimeStats;
   blobUploadKey: Scalars['String']['output'];
   collectedFeesByMonth: Scalars['Int']['output'];
+  /** @deprecated Should not be used anymore, remove if in use */
   commonEvents: Array<TumiEvent>;
   costItem: CostItem;
   costItems: Array<CostItem>;
