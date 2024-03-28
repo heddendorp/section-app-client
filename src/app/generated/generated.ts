@@ -1053,6 +1053,7 @@ export type Tenant = {
   aboutPage: Scalars['String']['output'];
   communicationEmail: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  credit: Scalars['Int']['output'];
   currency: Currency;
   faqPage?: Maybe<Scalars['String']['output']>;
   homePageLink?: Maybe<Scalars['String']['output']>;
@@ -4351,6 +4352,7 @@ export type GetLandingPageStatisticsQuery = {
     eventsStartedBefore: number;
     registeredParticipantsBefore: number;
   };
+  currentTenant: { __typename?: 'Tenant'; id: string; credit: number };
 };
 
 export type CreateOrganizerMutationVariables = Exact<{
@@ -8780,6 +8782,10 @@ export const GetLandingPageStatisticsDocument = gql`
         start: $startDate
         end: $middleDate
       )
+    }
+    currentTenant {
+      id
+      credit
     }
   }
 `;
