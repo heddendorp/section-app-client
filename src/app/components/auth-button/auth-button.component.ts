@@ -36,18 +36,18 @@ export class AuthButtonComponent {
       getUser
         .fetch()
         .pipe(
-          tap((res) => {
+          tap(async (res) => {
             const user = res.data.currentUser;
             if (user) {
               // @ts-ignore
-              window.clarity('identify', user.id);
+              await window.clarity('identify', user.id);
               // @ts-ignore
-              window.clarity('set', 'status', user.status);
+              await window.clarity('set', 'status', user.status);
               // @ts-ignore
-              window.clarity('set', 'role', user.role);
+              await window.clarity('set', 'role', user.role);
               if (user.role === Role.Admin) {
                 // @ts-ignore
-                window.clarity('upgrade', 'isAdmin');
+                await window.clarity('upgrade', 'isAdmin');
               }
             }
           }),
