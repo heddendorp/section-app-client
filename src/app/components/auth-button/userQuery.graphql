@@ -7,5 +7,7 @@ query getCurrentUser {
     email
     picture
     birthdate
+    status
+    role
   }
 }

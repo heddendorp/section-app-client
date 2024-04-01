@@ -1457,6 +1457,8 @@ export type GetCurrentUserQuery = {
     email: string;
     picture: string;
     birthdate?: string | null;
+    status: MembershipStatus;
+    role: Role;
   } | null;
 };
 
@@ -4921,6 +4923,8 @@ export const GetCurrentUserDocument = gql`
       email
       picture
       birthdate
+      status
+      role
     }
   }
 `;
