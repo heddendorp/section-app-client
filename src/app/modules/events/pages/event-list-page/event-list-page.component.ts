@@ -173,8 +173,12 @@ export class EventListPageComponent implements OnDestroy {
 
     this.route.paramMap.subscribe((params) => {
       if (this.router.url.includes('calendar')) {
+        // @ts-ignore
+        sa_event('load_event-list', { listStyle: 'calendar' });
         this.eventListStateService.setSelectedView('calendar');
       } else if (this.router.url.includes('list')) {
+        // @ts-ignore
+        sa_event('load_event-list', { listStyle: 'list' });
         this.eventListStateService.setSelectedView('list');
       }
       const year = params.get('year');

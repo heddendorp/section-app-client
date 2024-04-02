@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { filter, switchMap, tap } from 'rxjs';
-import { GetCurrentUserGQL, Role } from '@tumi/legacy-app/generated/generated';
+import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,21 +36,21 @@ export class AuthButtonComponent {
       getUser
         .fetch()
         .pipe(
-          tap(async (res) => {
-            const user = res.data.currentUser;
-            if (user) {
-              // @ts-ignore
-              await window.clarity('identify', user.id);
-              // @ts-ignore
-              await window.clarity('set', 'status', user.status);
-              // @ts-ignore
-              await window.clarity('set', 'role', user.role);
-              if (user.role === Role.Admin) {
-                // @ts-ignore
-                await window.clarity('upgrade', 'isAdmin');
-              }
-            }
-          }),
+          // tap(async (res) => {
+          //   const user = res.data.currentUser;
+          //   if (user) {
+          //     // @ts-ignore
+          //     await window.clarity('identify', user.id);
+          //     // @ts-ignore
+          //     await window.clarity('set', 'status', user.status);
+          //     // @ts-ignore
+          //     await window.clarity('set', 'role', user.role);
+          //     if (user.role === Role.Admin) {
+          //       // @ts-ignore
+          //       await window.clarity('upgrade', 'isAdmin');
+          //     }
+          //   }
+          // }),
           tap((user) => {
             this.userPicture = user.data.currentUser?.picture || '';
             if (
