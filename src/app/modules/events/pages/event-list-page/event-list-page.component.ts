@@ -192,20 +192,20 @@ export class EventListPageComponent implements OnDestroy {
     this.events$ = combineLatest([
       events$,
       this.hideFullEvents.valueChanges.pipe(
-        startWith(this.hideFullEvents.value),
         tap((value) => {
           // @ts-ignore
           sa_event('toggle_full_events', { hideFullEvents: value });
         }),
+        startWith(this.hideFullEvents.value),
       ),
       this.hideFullTutorEvents.valueChanges.pipe(
-        startWith(this.hideFullTutorEvents.value),
         tap((value) => {
           // @ts-ignore
           sa_event('toggle_full_organizer_events', {
             hideFullTutorEvents: value,
           });
         }),
+        startWith(this.hideFullTutorEvents.value),
       ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
