@@ -19,6 +19,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
@@ -192,9 +193,19 @@ export class EventListPageComponent implements OnDestroy {
       events$,
       this.hideFullEvents.valueChanges.pipe(
         startWith(this.hideFullEvents.value),
+        tap((value) => {
+          // @ts-ignore
+          sa_event('toggle_full_events', { hideFullEvents: value });
+        }),
       ),
       this.hideFullTutorEvents.valueChanges.pipe(
         startWith(this.hideFullTutorEvents.value),
+        tap((value) => {
+          // @ts-ignore
+          sa_event('toggle_full_organizer_events', {
+            hideFullTutorEvents: value,
+          });
+        }),
       ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
     ]).pipe(
@@ -251,6 +262,8 @@ export class EventListPageComponent implements OnDestroy {
     } else {
       newSelectedView = 'list';
     }
+    // @ts-ignore
+    sa_event('toggle_events_view', { newView: newSelectedView });
     this.eventListStateService.setSelectedView(newSelectedView);
     void this.router.navigateByUrl(
       this.router.url.replace(selectedView, newSelectedView),
@@ -270,6 +283,8 @@ export class EventListPageComponent implements OnDestroy {
         this.searchBar.nativeElement.focus();
       });
     }
+    // @ts-ignore
+    sa_event('toggle_search');
   }
 
   async nextMonth() {
@@ -282,6 +297,8 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).plus({ months: 1 });
     }
+    // @ts-ignore
+    sa_event('navigate_to_month', { month: nextMonth.toFormat('yyyy-MM') });
     await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
@@ -300,6 +317,8 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).minus({ months: 1 });
     }
+    // @ts-ignore
+    sa_event('navigate_to_month', { month: prevMonth.toFormat('yyyy-MM') });
     await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
@@ -309,6 +328,8 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   showCodesDialog() {
+    // @ts-ignore
+    sa_event('show_registration_codes');
     this.dialog.open(PublicRegistrationCodesPageComponent, {
       width: '600px',
       maxWidth: '100vw',

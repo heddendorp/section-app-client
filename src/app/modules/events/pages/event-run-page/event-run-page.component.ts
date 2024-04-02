@@ -110,6 +110,8 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+    // @ts-ignore
+    sa_event('copy_organizer_mails');
   }
   getWhatsAppLink(phone = '') {
     return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
@@ -137,6 +139,8 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+    // @ts-ignore
+    sa_event('copy_participant_mails');
   }
 
   async copyCheckedInMails() {
@@ -162,6 +166,8 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+    // @ts-ignore
+    sa_event('copy_checked_in_mails');
   }
 
   async copyNonCheckedMails() {
@@ -187,6 +193,8 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
+    // @ts-ignore
+    sa_event('copy_non_checked_in_mails');
   }
 
   async addCostItem() {
