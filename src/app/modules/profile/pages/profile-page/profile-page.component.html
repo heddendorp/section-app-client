@@ -34,7 +34,7 @@
             <p>{{ entry[1] }}</p>
           }
         </div>
-        <div class="mt-2 flex w-full flex-col gap-2">
+        <div class="mt-2 flex w-full flex-row flex-wrap gap-2">
           <a mat-flat-button color="accent" routerLink="./complete">
             <mat-icon svgIcon="icon-change-user-female"></mat-icon>
             Update data
@@ -54,6 +54,9 @@
           >
             <mat-icon svgIcon="icon-edit"></mat-icon>
             Change Profile picture
+          </button>
+          <button mat-flat-button class="error-button" (click)="deleteUser()">
+            Delete User account
           </button>
         </div>
         <h3 class="mt-6 font-bold">Calendar integration</h3>

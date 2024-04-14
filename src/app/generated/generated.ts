@@ -418,6 +418,7 @@ export type Mutation = {
   deleteRegistrationCode: EventRegistrationCode;
   deleteSubmissionItem: EventSubmissionItem;
   deleteTemplate: EventTemplate;
+  deleteUser: Scalars['Boolean']['output'];
   deregisterFromEvent: TumiEvent;
   deregisterOrganizerFromEvent: TumiEvent;
   kickFromEvent: TumiEvent;
@@ -549,6 +550,10 @@ export type MutationDeleteSubmissionItemArgs = {
 
 export type MutationDeleteTemplateArgs = {
   templateId: Scalars['ID']['input'];
+};
+
+export type MutationDeleteUserArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 export type MutationDeregisterFromEventArgs = {
@@ -3358,6 +3363,15 @@ export type UpdateUserPictureMutationVariables = Exact<{
 export type UpdateUserPictureMutation = {
   __typename?: 'Mutation';
   updateUserPicture: { __typename?: 'User'; id: string; picture: string };
+};
+
+export type DeleteAccountMutationVariables = Exact<{
+  userId: Scalars['ID']['input'];
+}>;
+
+export type DeleteAccountMutation = {
+  __typename?: 'Mutation';
+  deleteUser: boolean;
 };
 
 export type GetPhotoJourneyQueryVariables = Exact<{ [key: string]: never }>;
@@ -7544,6 +7558,25 @@ export class UpdateUserPictureGQL extends Apollo.Mutation<
   UpdateUserPictureMutationVariables
 > {
   override document = UpdateUserPictureDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const DeleteAccountDocument = gql`
+  mutation deleteAccount($userId: ID!) {
+    deleteUser(userId: $userId)
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DeleteAccountGQL extends Apollo.Mutation<
+  DeleteAccountMutation,
+  DeleteAccountMutationVariables
+> {
+  override document = DeleteAccountDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

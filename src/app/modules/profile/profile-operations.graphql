@@ -23,6 +23,10 @@ mutation updateUserPicture($userId: ID!, $file: String!) {
   }
 }
 
+mutation deleteAccount($userId: ID!) {
+  deleteUser(userId: $userId)
+}
+
 query getPhotoJourney {
   currentUser {
     eventRegistrations {

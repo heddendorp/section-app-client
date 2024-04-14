@@ -240,6 +240,10 @@ html {
   }
 }
 
+.error-button {
+  @include mat.button-color($theme, $color-variant: error);
+}
+
 @layer base {
   html {
     box-sizing: border-box;

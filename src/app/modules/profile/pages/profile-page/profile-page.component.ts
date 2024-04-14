@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   AddEsnCardGQL,
+  DeleteAccountGQL,
   GetProfileUploadKeyGQL,
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -49,6 +50,7 @@ import {
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { ConfirmDeleteDialogComponent } from '@tumi/legacy-app/modules/profile/components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -93,6 +95,7 @@ export class ProfilePageComponent implements OnDestroy {
   );
   protected newUI = !!localStorage.getItem('evorto_new_ui');
   protected allowNewUI = inject(ConfigService).uiPreview;
+  protected deleteAccountGQL = inject(DeleteAccountGQL);
 
   constructor(
     private profileQuery: UserProfileGQL,
@@ -259,5 +262,31 @@ export class ProfilePageComponent implements OnDestroy {
       localStorage.removeItem('evorto_new_ui');
     }
     location.reload();
+  }
+
+  async deleteUser() {
+    const confirm = await firstValueFrom(
+      this.dialog.open(ConfirmDeleteDialogComponent).afterClosed(),
+    );
+    if (confirm) {
+      const profile = await firstValueFrom(this.profile$);
+      const userId = profile?.id;
+      if (userId) {
+        const deleteResponse = await firstValueFrom(
+          this.deleteAccountGQL.mutate({ userId }),
+        );
+        if (deleteResponse.data?.deleteUser) {
+          this.snackBar.open(
+            'Your account was deleted, you will now be logged out',
+          );
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          this.auth.logout();
+        } else {
+          this.snackBar.open('Something went wrong, please try again later');
+        }
+      } else {
+        this.snackBar.open('User not found, please try again later');
+      }
+    }
   }
 }
