@@ -1374,7 +1374,6 @@ export type User = {
   createdAt: Scalars['DateTime']['output'];
   createdEvents: Array<TumiEvent>;
   createdEventsCount: Scalars['Int']['output'];
-  createdTransactions: Array<Transaction>;
   /** @deprecated Use direct properties instead */
   currentTenant?: Maybe<UsersOfTenants>;
   email: Scalars['String']['output'];
@@ -1405,7 +1404,6 @@ export type User = {
   profileComplete: Scalars['Boolean']['output'];
   role: Role;
   status: MembershipStatus;
-  transactions: Array<Transaction>;
 };
 
 export type UserCurrentTenantArgs = {
