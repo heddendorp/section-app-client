@@ -89,9 +89,9 @@
               <p class="w-6 pl-2 pr-3 text-left">{{ entry.rank }}</p>
               <app-user-chip
                 size="xs"
-                [id]="entry.user.id"
-                [picture]="entry.user.picture"
-                name="{{ entry.user.firstName }} {{ entry.user.lastName }}"
+                [id]="entry.user?.id"
+                [picture]="entry.user?.picture"
+                name="{{ entry.user?.firstName }} {{ entry.user?.lastName }}"
                 [status]="entry.status || ''"
               >
               </app-user-chip>
@@ -172,11 +172,11 @@
           @for (tenantUser of tutorHubData.activeOrganizers; track tenantUser) {
             <app-user-chip
               size="fit"
-              [id]="tenantUser.user.id"
-              name="{{ tenantUser.user.firstName }} {{
+              [id]="tenantUser.user?.id"
+              name="{{ tenantUser.user?.firstName }} {{
                 tenantUser.user.lastName
               }}"
-              [picture]="tenantUser.user.picture"
+              [picture]="tenantUser.user?.picture"
             >
             </app-user-chip>
           }
@@ -271,10 +271,10 @@
             <div class="mb-0.5 font-medium">{{ tenantUser.position }}</div>
             <app-user-chip
               size="xs"
-              [id]="tenantUser.user.id"
-              [picture]="tenantUser.user.picture"
-              name="{{ tenantUser.user.firstName }} {{
-                tenantUser.user.lastName
+              [id]="tenantUser.user?.id"
+              [picture]="tenantUser.user?.picture"
+              name="{{ tenantUser.user?.firstName }} {{
+                tenantUser.user?.lastName
               }}"
               [status]="tenantUser.status || ''"
             >
