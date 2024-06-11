@@ -1066,14 +1066,12 @@ export type Tenant = {
   id: Scalars['ID']['output'];
   imprintPage: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  organizers: Array<EventOrganizer>;
   privacyPolicyPage: Scalars['String']['output'];
   settings: TenantSettings;
   shortName: Scalars['String']['output'];
   tacPage?: Maybe<Scalars['String']['output']>;
   tutorHub: Scalars['JSON']['output'];
   tutorHubEvents: Scalars['JSON']['output'];
-  users: Array<UsersOfTenants>;
 };
 
 export type TenantTutorHubEventsArgs = {
