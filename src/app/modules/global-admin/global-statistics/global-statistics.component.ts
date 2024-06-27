@@ -30,4 +30,7 @@ export class GlobalStatisticsComponent {
   protected allTimeStats = computed(
     () => this.initialData()?.allTimeStatistics,
   );
+  protected sinceTimeStats = computed(
+    () => this.initialData()?.sinceTimeStatistics,
+  );
 }

@@ -137,4 +137,61 @@
       </div>
     </dl>
   </div>
+  <div
+    class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
+  >
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-base font-semibold leading-6 text-gray-900">
+        Statistics since February 2024
+      </h3>
+    </div>
+    <dl
+      class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500"> Users </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ sinceTimeStats()?.globalUsers | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Events created
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ sinceTimeStats()?.events | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">
+          Registered Participants
+        </dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ sinceTimeStats()?.registeredParticipants | number }}
+        </dd>
+      </div>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+      >
+        <dt class="text-sm font-medium leading-6 text-gray-500">Check Ins</dt>
+        <dd
+          class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
+        >
+          {{ sinceTimeStats()?.checkIns | number }}
+        </dd>
+      </div>
+    </dl>
+  </div>
 </main>

@@ -54,6 +54,11 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       map(({ data }) => data.totalCollectedFees / 100),
     ),
   );
+  protected totalFeesCount = toSignal(
+    this.queryRef.valueChanges.pipe(
+      map(({ data }) => data.totalCollectedFeeNumber),
+    ),
+  );
   protected lastMonthToMonthChange = computed(() => {
     // Calculate percentage change from last month to current month
     const currentMonth = this.lastMonthFees() ?? 0;

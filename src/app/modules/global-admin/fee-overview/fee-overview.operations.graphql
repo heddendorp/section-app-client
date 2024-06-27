@@ -4,6 +4,7 @@ query globalAdminFeeOverview(
   $monthBeforeLast: String!
 ) {
   totalCollectedFees
+  totalCollectedFeeNumber
   currentMonth: collectedFeesByMonth(month: $currentMonth)
   lastMonth: collectedFeesByMonth(month: $lastMonth)
   monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)

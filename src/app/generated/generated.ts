@@ -787,8 +787,10 @@ export type Query = {
   registration: EventRegistration;
   registrationCount: Scalars['Int']['output'];
   registrations: Array<EventRegistration>;
+  sinceTimeStatistics: SinceTimeStatistics;
   tenantFeeMonths: Array<TenantFeeMonth>;
   tenants: Array<Tenant>;
+  totalCollectedFeeNumber: Scalars['Int']['output'];
   totalCollectedFees: Scalars['Int']['output'];
   transactionCount: Scalars['Int']['output'];
   transactionNetAmount: Scalars['Decimal']['output'];
@@ -1007,6 +1009,27 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
+
+export type SinceTimeStatistics = {
+  __typename?: 'SinceTimeStatistics';
+  checkIns: Scalars['Int']['output'];
+  events: Scalars['Int']['output'];
+  globalUsers: Scalars['Int']['output'];
+  registeredParticipants: Scalars['Int']['output'];
+  registeredUsers: Scalars['Int']['output'];
+};
+
+export type SinceTimeStatisticsCheckInsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type SinceTimeStatisticsEventsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type SinceTimeStatisticsRegisteredParticipantsArgs = {
+  global?: InputMaybe<Scalars['Boolean']['input']>;
+};
 
 export type SortModelInput = {
   colId: Scalars['String']['input'];
@@ -3146,6 +3169,7 @@ export type GlobalAdminFeeOverviewQueryVariables = Exact<{
 export type GlobalAdminFeeOverviewQuery = {
   __typename?: 'Query';
   totalCollectedFees: number;
+  totalCollectedFeeNumber: number;
   currentMonth: number;
   lastMonth: number;
   monthBeforeLast: number;
@@ -3183,6 +3207,13 @@ export type GetInitialGlobalStatisticsDataQuery = {
   };
   allTimeStatistics: {
     __typename?: 'AllTimeStats';
+    globalUsers: number;
+    events: number;
+    registeredParticipants: number;
+    checkIns: number;
+  };
+  sinceTimeStatistics: {
+    __typename?: 'SinceTimeStatistics';
     globalUsers: number;
     events: number;
     registeredParticipants: number;
@@ -7217,6 +7248,7 @@ export const GlobalAdminFeeOverviewDocument = gql`
     $monthBeforeLast: String!
   ) {
     totalCollectedFees
+    totalCollectedFeeNumber
     currentMonth: collectedFeesByMonth(month: $currentMonth)
     lastMonth: collectedFeesByMonth(month: $lastMonth)
     monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
@@ -7259,6 +7291,12 @@ export const GetInitialGlobalStatisticsDataDocument = gql`
       }
     }
     allTimeStatistics {
+      globalUsers
+      events(global: true)
+      registeredParticipants(global: true)
+      checkIns(global: true)
+    }
+    sinceTimeStatistics {
       globalUsers
       events(global: true)
       registeredParticipants(global: true)
