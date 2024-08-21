@@ -181,6 +181,7 @@ export type CreateTransactionInput = {
 };
 
 export enum Currency {
+  Aud = 'AUD',
   Czk = 'CZK',
   Eur = 'EUR',
 }

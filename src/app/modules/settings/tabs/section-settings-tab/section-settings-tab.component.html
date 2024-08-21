@@ -20,8 +20,9 @@
         <mat-form-field class="w-full">
           <mat-label>Currency</mat-label>
           <mat-select formControlName="currency">
-            <mat-option [value]="Currency.Eur"> EUR</mat-option>
-            <mat-option [value]="Currency.Czk"> CZK</mat-option>
+            <mat-option [value]="Currency.Eur">EUR</mat-option>
+            <mat-option [value]="Currency.Czk">CZK</mat-option>
+            <mat-option [value]="Currency.Aud">AUD</mat-option>
           </mat-select>
           <mat-hint>
             This will change the currency but not the number entered in events
