@@ -9,6 +9,7 @@ import { Router, RouterOutlet, Scroll } from '@angular/router';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { Settings } from 'luxon';
 import { NavComponent } from '@tumi/legacy-app/components/nav/nav.component';
+import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ export class AppComponent {
     san: DomSanitizer,
     router: Router,
     viewportScroller: ViewportScroller,
+    config: ConfigService,
   ) {
     registry.addSvgIconSet(
       san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg'),
@@ -50,7 +52,10 @@ export class AppComponent {
         }
       });
     Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'Europe/Berlin';
+    const timezone = config.timezone;
+    if (timezone) {
+      Settings.defaultZone = timezone;
+    }
   }
 
   protected newUI = !!localStorage.getItem('evorto_new_ui');

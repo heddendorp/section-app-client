@@ -61,6 +61,7 @@ export class SectionSettingsTabComponent {
       showPWAInstall: new FormControl(false),
       brandIconUrl: new FormControl(''),
       esnCardLink: new FormControl(''),
+      timezone: new FormControl('Europe/Berlin'),
     }),
   });
   protected homePageSectionSettingsForm = new FormGroup({

@@ -42,6 +42,20 @@
       <div class="grid gap-4 lg:grid-cols-2">
         <ng-container formGroupName="settings">
           <mat-form-field class="w-full">
+            <mat-label>Timezone</mat-label>
+            <mat-select formControlName="timezone">
+              <mat-option value="Europe/Berlin">Europe/Berlin</mat-option>
+              <mat-option value="Europe/Brussels">Europe/Brussels</mat-option>
+              <mat-option value="Europe/Prague">Europe/Prague</mat-option>
+              <mat-option value="Australia/Brisbane">
+                Australia/Brisbane
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              This will change the currency but not the number entered in events
+            </mat-hint>
+          </mat-form-field>
+          <mat-form-field class="w-full">
             <mat-label>Brand Icon URL</mat-label>
             <input
               formControlName="brandIconUrl"

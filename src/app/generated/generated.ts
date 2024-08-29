@@ -1123,6 +1123,7 @@ export type TenantSettings = {
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
   socialLinks: Array<ResourceLink>;
+  timezone: Scalars['String']['output'];
   userDataCollection: Array<DynamicFormField>;
 };
 
@@ -1384,6 +1385,7 @@ export type UpdateTenantSettingsInput = {
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
   socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
+  timezone?: InputMaybe<Scalars['String']['input']>;
   userDataCollection?: InputMaybe<Array<DynamicFormFieldInput>>;
 };
 
@@ -1600,6 +1602,7 @@ export type GetAppStartupInfoQuery = {
     settings: {
       __typename?: 'TenantSettings';
       showPWAInstall: boolean;
+      timezone: string;
       brandIconUrl?: string | null;
       userDataCollection: Array<{
         __typename?: 'DynamicFormField';
@@ -3808,6 +3811,7 @@ export type LoadSectionSettingsQuery = {
     settings: {
       __typename?: 'TenantSettings';
       brandIconUrl?: string | null;
+      timezone: string;
       esnCardLink?: string | null;
       showPWAInstall: boolean;
       sectionHubLinks: Array<{
@@ -3848,6 +3852,7 @@ export type UpdateSectionSettingsMutation = {
       __typename?: 'TenantSettings';
       brandIconUrl?: string | null;
       esnCardLink?: string | null;
+      timezone: string;
       showPWAInstall: boolean;
       sectionHubLinks: Array<{
         __typename?: 'ResourceLink';
@@ -5148,6 +5153,7 @@ export const GetAppStartupInfoDocument = gql`
       homePageLink
       settings {
         showPWAInstall
+        timezone
         brandIconUrl
         userDataCollection {
           label
@@ -8100,6 +8106,7 @@ export const LoadSectionSettingsDocument = gql`
       homePageStrategy
       settings {
         brandIconUrl
+        timezone
         esnCardLink
         showPWAInstall
         sectionHubLinks {
@@ -8144,6 +8151,7 @@ export const UpdateSectionSettingsDocument = gql`
       settings {
         brandIconUrl
         esnCardLink
+        timezone
         showPWAInstall
         sectionHubLinks {
           icon

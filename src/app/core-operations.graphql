@@ -13,6 +13,7 @@ query getAppStartupInfo {
     homePageLink
     settings {
       showPWAInstall
+      timezone
       brandIconUrl
       userDataCollection {
         label

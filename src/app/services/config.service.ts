@@ -22,6 +22,7 @@ export class ConfigService {
     showPWAInstall: boolean;
     brandIconUrl: string | null | undefined;
   };
+  private _timezone: string | undefined;
   private _user_metadata: any;
   private _app_metadata: any;
 
@@ -32,6 +33,11 @@ export class ConfigService {
   get currencyCode(): string | undefined {
     if (!this._currencyCode) console.error('Currency code not set');
     return this._currencyCode;
+  }
+
+  get timezone(): string | undefined {
+    if (!this._timezone) console.error('Timezone not set');
+    return this._timezone;
   }
 
   get banners(): GetAppStartupInfoQuery['currentTenant']['settings']['banners'] {
@@ -57,6 +63,7 @@ export class ConfigService {
   public async init(): Promise<void> {
     const startupInfo = await firstValueFrom(this.getAppStartupInfoGQL.fetch());
     this._currencyCode = startupInfo.data?.currentTenant?.currency;
+    this._timezone = startupInfo.data?.currentTenant?.settings?.timezone;
     this._banners = startupInfo.data?.currentTenant?.settings?.banners;
     this._formConfig =
       startupInfo.data?.currentTenant?.settings?.userDataCollection;
