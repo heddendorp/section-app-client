@@ -28,7 +28,6 @@ query getUsersForAdminGrid(
     firstName
     lastName
     email
-    position
     picture
     additionalData
     status

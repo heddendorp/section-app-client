@@ -4586,7 +4586,6 @@ export type GetUsersForAdminGridQuery = {
     firstName: string;
     lastName: string;
     email: string;
-    position?: string | null;
     picture: string;
     additionalData: any;
     status: MembershipStatus;
@@ -9163,7 +9162,6 @@ export const GetUsersForAdminGridDocument = gql`
       firstName
       lastName
       email
-      position
       picture
       additionalData
       status
