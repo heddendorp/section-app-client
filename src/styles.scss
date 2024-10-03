@@ -192,11 +192,11 @@ $error-palette: (
 // that you are using.
 //@include mat.all-component-themes($tumi-app-theme);
 
-$theme: matx.define-theme(
+$theme: mat.define-theme(
   (
     color: (
       //theme-type: dark,
-      primary: matx.$m3-azure-palette,
+      primary: mat.$azure-palette,
     ),
     typography: (
       brand-family: 'General Sans, sans-serif',
@@ -205,11 +205,11 @@ $theme: matx.define-theme(
   )
 );
 
-$dark-theme: matx.define-theme(
+$dark-theme: mat.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: matx.$m3-azure-palette,
+      primary: mat.$azure-palette,
     ),
     typography: (
       brand-family: 'General Sans, sans-serif',
