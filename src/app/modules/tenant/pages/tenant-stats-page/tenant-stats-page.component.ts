@@ -24,7 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { AgChartsAngularModule } from 'ag-charts-angular';
+import { AgChartsModule } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
@@ -39,7 +39,7 @@ import { AgChartOptions } from 'ag-charts-community';
     MatSelectModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    AgChartsAngularModule,
+    AgChartsModule,
   ],
 })
 export class TenantStatsPageComponent {

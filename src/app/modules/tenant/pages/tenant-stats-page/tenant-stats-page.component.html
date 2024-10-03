@@ -223,23 +223,17 @@
       </div>
     </dl>
     <div class="pr-8">
-      <ag-charts-angular
+      <ag-charts
         [options]="registrationChart()"
         style="height: 100%"
-      ></ag-charts-angular>
+      ></ag-charts>
     </div>
     <div class="pr-8">
-      <ag-charts-angular
-        [options]="eventsChart()"
-        style="height: 100%"
-      ></ag-charts-angular>
+      <ag-charts [options]="eventsChart()" style="height: 100%"></ag-charts>
     </div>
     @for (field of userDataStats(); track field) {
       <div class="pr-8">
-        <ag-charts-angular
-          style="height: 100%"
-          [options]="field"
-        ></ag-charts-angular>
+        <ag-charts style="height: 100%" [options]="field"></ag-charts>
       </div>
     }
   </div>
