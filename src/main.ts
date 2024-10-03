@@ -33,13 +33,7 @@ import {
   AuthService,
 } from '@auth0/auth0-angular';
 import { TenantHeaderInterceptor } from './app/services/tenant-header.interceptor';
-import {
-  HTTP_INTERCEPTORS,
-  HttpHeaders,
-  provideHttpClient,
-  withInterceptorsFromDi,
-  withJsonpSupport,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpHeaders, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import {
   bootstrapApplication,
   BrowserModule,
