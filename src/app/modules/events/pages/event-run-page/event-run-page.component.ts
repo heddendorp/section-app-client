@@ -97,7 +97,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -126,7 +126,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -153,7 +153,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -180,7 +180,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {

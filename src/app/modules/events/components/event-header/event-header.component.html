@@ -71,6 +71,22 @@
       {{ bestPrice.amount | currency }}
     </div>
   }
+  @if (event?.isVirtual) {
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-map-marker" style="width: 18px"></mat-icon>
+      <span>Virtual event</span>
+    </div>
+  } @else if (event?.userIsRegistered) {
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-map-marker" style="width: 18px"></mat-icon>
+      <span>{{ event?.location }}</span>
+    </div>
+  } @else {
+    <div class="flex items-center gap-2">
+      <mat-icon svgIcon="icon-map-marker" style="width: 18px"></mat-icon>
+      <span>Location available after registration</span>
+    </div>
+  }
   @if (
     event && event.participantRatingCount && event.participantRatingCount > 0
   ) {
