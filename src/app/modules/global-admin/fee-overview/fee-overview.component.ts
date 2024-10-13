@@ -117,7 +117,7 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       (acc, month) => {
         acc[month] = tenantFeeMonthsData[month].reduce(
           (acc, { netAmount, currency }) => {
-            const conversionRate = currency === Currency.Eur ? 1 : 0.04;
+            const conversionRate = currency === Currency.Eur ? 1 : 0.039;
             return acc + netAmount * conversionRate;
           },
           0,
@@ -132,9 +132,7 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     const tenantNames = this.tenantNames();
     const tenantFeeMonths = this.tenantFeeMonths();
     const tenantFeeMonthsData = this.tenantFeeMonthsData();
-    console.log(tenantFeeMonthsData);
-    console.log(tenantFeeMonths);
-    console.log(tenantNames);
+
     if (!tenantFeeMonthsData || !tenantFeeMonths || !tenantNames)
       return { series: [], data: [] };
     return {
@@ -147,9 +145,14 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       })),
       data: tenantFeeMonths.map((month) => {
         const monthData = tenantFeeMonthsData[month];
-        const monthDataMap = monthData.reduce(
-          (acc, { tenantName, netAmount, currency }) => {
-            const conversionRate = currency === Currency.Eur ? 1 : 0.04;
+        const monthDataMap = tenantNames.reduce(
+          (acc, tenantName) => {
+            const tenantData = monthData.find(
+              ({ tenantName: name }) => name === tenantName,
+            );
+            const conversionRate =
+              tenantData?.currency === Currency.Eur ? 1 : 0.039;
+            const netAmount = tenantData ? tenantData.netAmount : 0;
             acc[tenantName] = (netAmount * conversionRate) / 100;
             return acc;
           },
