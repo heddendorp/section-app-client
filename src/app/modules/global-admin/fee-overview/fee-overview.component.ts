@@ -18,11 +18,20 @@ import { groupBy, map as lodashMap, uniq } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
+import { AgCharts } from 'ag-charts-angular';
+import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
   selector: 'app-fee-overview',
   standalone: true,
-  imports: [CurrencyPipe, ExtendDatePipe, JsonPipe, DecimalPipe, RouterLink],
+  imports: [
+    CurrencyPipe,
+    ExtendDatePipe,
+    JsonPipe,
+    DecimalPipe,
+    RouterLink,
+    AgCharts,
+  ],
   templateUrl: './fee-overview.component.html',
   styleUrl: './fee-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,6 +96,18 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       map(({ data }) => uniq(lodashMap(data.tenantFeeMonths, 'month'))),
     ),
   );
+  protected tenantNames = computed(() => {
+    const tenantFeeMonthsData = this.tenantFeeMonthsData();
+    if (!tenantFeeMonthsData) return [];
+    return uniq(
+      Object.values(tenantFeeMonthsData).reduce((acc, month) => {
+        month.forEach(({ tenantName }) => {
+          acc.push(tenantName);
+        });
+        return acc;
+      }, [] as string[]),
+    );
+  });
   protected feeSumPerMonth = computed(() => {
     const tenantFeeMonths = this.tenantFeeMonths();
     if (!tenantFeeMonths) return {};
@@ -105,6 +126,41 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
       },
       {} as { [key: string]: number },
     );
+  });
+
+  protected areaChartOptions = computed<AgChartOptions>(() => {
+    const tenantNames = this.tenantNames();
+    const tenantFeeMonths = this.tenantFeeMonths();
+    const tenantFeeMonthsData = this.tenantFeeMonthsData();
+    console.log(tenantFeeMonthsData);
+    console.log(tenantFeeMonths);
+    console.log(tenantNames);
+    if (!tenantFeeMonthsData || !tenantFeeMonths || !tenantNames)
+      return { series: [], data: [] };
+    return {
+      series: tenantNames.map((tenantName) => ({
+        type: 'area',
+        xKey: 'month',
+        yKey: tenantName,
+        yName: tenantName,
+        stacked: true,
+      })),
+      data: tenantFeeMonths.map((month) => {
+        const monthData = tenantFeeMonthsData[month];
+        const monthDataMap = monthData.reduce(
+          (acc, { tenantName, netAmount, currency }) => {
+            const conversionRate = currency === Currency.Eur ? 1 : 0.04;
+            acc[tenantName] = (netAmount * conversionRate) / 100;
+            return acc;
+          },
+          {} as { [key: string]: number },
+        );
+        return {
+          month,
+          ...monthDataMap,
+        };
+      }),
+    };
   });
 
   ngOnInit() {
