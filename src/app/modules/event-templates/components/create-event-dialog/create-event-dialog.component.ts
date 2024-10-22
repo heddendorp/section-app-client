@@ -89,15 +89,14 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm
       .get('start')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe(
-        (startValue) =>
-          this.eventDataForm.get('end')?.patchValue(
-            DateTime.fromISO(startValue)
-              .plus({
-                hours: this.data.template?.duration,
-              })
-              .toISO({ includeOffset: false }),
-          ),
+      .subscribe((startValue) =>
+        this.eventDataForm.get('end')?.patchValue(
+          DateTime.fromISO(startValue)
+            .plus({
+              hours: this.data.template?.duration,
+            })
+            .toISO({ includeOffset: false }),
+        ),
       );
     this.eventDataForm
       .get('registrationMode')
