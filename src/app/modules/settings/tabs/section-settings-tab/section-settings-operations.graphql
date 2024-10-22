@@ -10,6 +10,7 @@ query loadSectionSettings {
       timezone
       esnCardLink
       showPWAInstall
+      enforcePolicyConsent
       sectionHubLinks {
         icon
         label

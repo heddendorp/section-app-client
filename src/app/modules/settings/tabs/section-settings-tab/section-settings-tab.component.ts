@@ -59,6 +59,7 @@ export class SectionSettingsTabComponent {
     communicationEmail: new FormControl(''),
     settings: new FormGroup({
       showPWAInstall: new FormControl(false),
+      enforcePolicyConsent: new FormControl(true),
       brandIconUrl: new FormControl(''),
       esnCardLink: new FormControl(''),
       timezone: new FormControl('Europe/Berlin'),
@@ -96,6 +97,7 @@ export class SectionSettingsTabComponent {
         settings: {
           showPWAInstall: data.settings.showPWAInstall,
           brandIconUrl: data.settings.brandIconUrl,
+          enforcePolicyConsent: data.settings.enforcePolicyConsent,
           esnCardLink: data.settings.esnCardLink,
         },
       });

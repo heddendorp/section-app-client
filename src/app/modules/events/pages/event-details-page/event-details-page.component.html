@@ -65,9 +65,7 @@
           </mat-expansion-panel>
         }
         @if (
-          (isAdmin$ | async) ||
-          (event.participantText.length > 10 &&
-            (event.userIsRegistered || event.userIsOrganizer))
+          (isAdmin$ | async) || event.userIsRegistered || event.userIsOrganizer
         ) {
           <mat-expansion-panel
             [expanded]="
@@ -285,7 +283,7 @@
           </mat-expansion-panel-header>
           <div class="flex w-full flex-col gap-2">
             @for (line of [].constructor(12); track line) {
-              <div class="skeleton h-6 w-full"> T </div>
+              <div class="skeleton h-6 w-full"> T</div>
             }
           </div>
         </mat-expansion-panel>
@@ -297,7 +295,7 @@
           </mat-expansion-panel-header>
           <div class="flex w-full flex-col gap-2">
             @for (line of [].constructor(12); track line) {
-              <div class="skeleton h-6 w-full"> T </div>
+              <div class="skeleton h-6 w-full"> T</div>
             }
           </div>
         </mat-expansion-panel>
@@ -420,7 +418,7 @@
               </h3>
               <mat-list>
                 @if (event.organizers.length === 0) {
-                  <mat-list-item> Nobody yet </mat-list-item>
+                  <mat-list-item> Nobody yet</mat-list-item>
                 }
                 @for (user of event.organizers; track user) {
                   <mat-list-item>

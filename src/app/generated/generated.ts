@@ -1119,6 +1119,7 @@ export type TenantSettings = {
   banners: Array<BannerConfig>;
   brandIconUrl?: Maybe<Scalars['String']['output']>;
   deRegistrationOptions: GlobalDeRegistrationConfig;
+  enforcePolicyConsent: Scalars['Boolean']['output'];
   esnCardLink?: Maybe<Scalars['String']['output']>;
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
@@ -1381,6 +1382,7 @@ export type UpdateTenantSettingsInput = {
   banners?: InputMaybe<Array<UpdateBannerInput>>;
   brandIconUrl?: InputMaybe<Scalars['String']['input']>;
   deRegistrationOptions?: InputMaybe<UpdateTenantDeRegistrationSettingsInput>;
+  enforcePolicyConsent?: InputMaybe<Scalars['Boolean']['input']>;
   esnCardLink?: InputMaybe<Scalars['String']['input']>;
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3814,6 +3816,7 @@ export type LoadSectionSettingsQuery = {
       timezone: string;
       esnCardLink?: string | null;
       showPWAInstall: boolean;
+      enforcePolicyConsent: boolean;
       sectionHubLinks: Array<{
         __typename?: 'ResourceLink';
         icon: string;
@@ -4792,6 +4795,7 @@ export type GetTenantForEditQuery = {
     settings: {
       __typename?: 'TenantSettings';
       showPWAInstall: boolean;
+      enforcePolicyConsent: boolean;
       brandIconUrl?: string | null;
       esnCardLink?: string | null;
       socialLinks: Array<{
@@ -8108,6 +8112,7 @@ export const LoadSectionSettingsDocument = gql`
         timezone
         esnCardLink
         showPWAInstall
+        enforcePolicyConsent
         sectionHubLinks {
           icon
           label
@@ -9489,6 +9494,7 @@ export const GetTenantForEditDocument = gql`
           }
         }
         showPWAInstall
+        enforcePolicyConsent
         brandIconUrl
         esnCardLink
       }
