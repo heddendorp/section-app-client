@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   GetPhotoJourneyGQL,
   GetPhotoJourneyQuery,
@@ -13,6 +13,8 @@ import {
   NgIf,
   NgOptimizedImage,
 } from '@angular/common';
+import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-photo-journey-page',
@@ -24,6 +26,7 @@ import {
 })
 export class PhotoJourneyPageComponent {
   $data: Observable<GetPhotoJourneyQuery['currentUser']>;
+  private dialog = inject(MatDialog);
   constructor(private photoQuery: GetPhotoJourneyGQL) {
     this.$data = this.photoQuery.fetch().pipe(
       map(({ data }) => data.currentUser),
@@ -31,10 +34,17 @@ export class PhotoJourneyPageComponent {
         if (user) {
           return {
             ...user,
-            eventRegistrations: user?.eventRegistrations.filter(
-              (registraion) =>
-                registraion.status !== RegistrationStatus.Cancelled,
-            ),
+            eventRegistrations: user?.eventRegistrations
+              .filter(
+                (registraion) =>
+                  registraion.status !== RegistrationStatus.Cancelled,
+              )
+              .sort((a, b) => {
+                return (
+                  new Date(a.event.start).getTime() -
+                  new Date(b.event.start).getTime()
+                );
+              }),
           };
         } else {
           return user;
@@ -51,5 +61,12 @@ export class PhotoJourneyPageComponent {
     original: string;
     originalBlob: string;
     container: string;
-  }): void {}
+  }): void {
+    this.dialog.open(PhotoDetailsDialogComponent, {
+      data: { photo },
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      panelClass: 'photo-view',
+    });
+  }
 }
