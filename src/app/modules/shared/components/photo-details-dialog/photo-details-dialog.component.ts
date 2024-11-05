@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  signal,
+} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -25,6 +30,8 @@ import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 })
 export class PhotoDetailsDialogComponent {
   public imageLoaded$ = new BehaviorSubject(false);
+  protected imageWidth = signal<undefined | number>(undefined);
+  protected imageHeight = signal<undefined | number>(undefined);
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { photo: PhotoShare },
@@ -53,6 +60,11 @@ export class PhotoDetailsDialogComponent {
   }
 
   imageLoad($event: Event): void {
+    const img = $event.target as HTMLImageElement;
+    const { naturalWidth, naturalHeight } = img;
+    console.log('Image loaded', naturalWidth, naturalHeight);
+    this.imageWidth.set(naturalWidth);
+    this.imageHeight.set(naturalHeight);
     this.imageLoaded$.next(true);
   }
 }

@@ -1,16 +1,18 @@
-<div class="relative">
+<div class="inherit-dimensions relative">
   @if ((imageLoaded$ | async) === false) {
-    <mat-spinner class="m-6"></mat-spinner>
+    <div class="absolute left-1/2 top-1/2">
+      <mat-spinner></mat-spinner>
+    </div>
   }
   <img
-    [ngSrc]="data.photo.original"
-    class="max-h-full max-w-full"
-    width="192"
-    height="192"
+    [height]="imageHeight()"
+    [src]="data.photo.original"
+    [width]="imageWidth()"
+    class="object-contain"
     (load)="imageLoad($event)"
   />
   @if (imageLoaded$ | async) {
-    <div class="dark-button absolute bottom-2 right-2 flex flex-col gap-4">
+    <div class="dark-button absolute bottom-4 right-4 flex flex-col gap-4">
       @if (canShareImage) {
         <button (click)="shareImage()" mat-fab>
           <mat-icon svgIcon="icon-share-3"></mat-icon>

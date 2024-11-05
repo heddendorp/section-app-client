@@ -1,3 +1,16 @@
-img {
-  max-height: 90vh;
+:host{
+  @apply block;
+  max-height: inherit;
+  max-width: inherit;
+}
+
+.inherit-dimensions{
+  max-height: inherit;
+  max-width: inherit;
+}
+
+img{
+  @apply w-full h-full;
+  max-height: inherit;
+  max-width: inherit;
 }
