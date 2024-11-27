@@ -267,10 +267,13 @@
                         </div>
                       </div>
                       <div class="mt-1 text-xs leading-5 text-gray-500">
+                        {{ entry.revenue / 100 | currency: entry.currency }}
+                        revenue <span class="mx-4">●</span>
                         {{
-                          entry.amountRefunded / 100 | currency: entry.currency
+                          (entry.netAmount - entry.revenue * 0.035) / 100
+                            | currency: entry.currency
                         }}
-                        refunds <span class="mx-4">●</span>
+                        error <span class="mx-4">●</span>
                         {{ entry.transactionCount | number }} transactions
                       </div>
                     </div>

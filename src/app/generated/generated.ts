@@ -1109,6 +1109,8 @@ export type TenantFeeMonth = {
   currency: Currency;
   month: Scalars['String']['output'];
   netAmount: Scalars['Int']['output'];
+  netRevenue: Scalars['Int']['output'];
+  revenue: Scalars['Int']['output'];
   tenantId: Scalars['ID']['output'];
   tenantName: Scalars['String']['output'];
   transactionCount: Scalars['Int']['output'];
@@ -3183,6 +3185,8 @@ export type GlobalAdminFeeOverviewQuery = {
     __typename?: 'TenantFeeMonth';
     amount: number;
     amountRefunded: number;
+    revenue: number;
+    netRevenue: number;
     netAmount: number;
     tenantName: string;
     currency: Currency;
@@ -7265,6 +7269,8 @@ export const GlobalAdminFeeOverviewDocument = gql`
     tenantFeeMonths {
       amount
       amountRefunded
+      revenue
+      netRevenue
       netAmount
       tenantName
       currency

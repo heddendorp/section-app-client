@@ -11,6 +11,8 @@ query globalAdminFeeOverview(
   tenantFeeMonths {
     amount
     amountRefunded
+    revenue
+    netRevenue
     netAmount
     tenantName
     currency

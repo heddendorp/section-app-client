@@ -12,7 +12,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { CurrencyPipe, DecimalPipe, JsonPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { groupBy, map as lodashMap, uniq } from 'lodash-es';
 import { DateTime } from 'luxon';
@@ -24,14 +24,7 @@ import { AgChartOptions } from 'ag-charts-community';
 @Component({
   selector: 'app-fee-overview',
   standalone: true,
-  imports: [
-    CurrencyPipe,
-    ExtendDatePipe,
-    JsonPipe,
-    DecimalPipe,
-    RouterLink,
-    AgCharts,
-  ],
+  imports: [CurrencyPipe, ExtendDatePipe, DecimalPipe, RouterLink, AgCharts],
   templateUrl: './fee-overview.component.html',
   styleUrl: './fee-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -167,7 +160,7 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit() {
-    this.queryRef.startPolling(1000);
+    this.queryRef.startPolling(10000);
     this.title.setTitle('[GA] Fee Overview');
   }
 
