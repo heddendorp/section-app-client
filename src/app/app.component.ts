@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { filter } from 'rxjs';
-import { AsyncPipe, NgForOf, NgIf, ViewportScroller } from '@angular/common';
-import { TraceClassDecorator } from '@sentry/angular-ivy';
+import { ViewportScroller } from '@angular/common';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FooterComponent } from './modules/shared/components/footer/footer.component';
@@ -12,20 +11,11 @@ import { NavComponent } from '@tumi/legacy-app/components/nav/nav.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    imports: [
-        NgIf,
-        NavigationComponent,
-        RouterOutlet,
-        FooterComponent,
-        AsyncPipe,
-        NgForOf,
-        NavComponent,
-    ]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  imports: [NavigationComponent, RouterOutlet, FooterComponent, NavComponent],
 })
-@TraceClassDecorator()
 export class AppComponent {
   constructor(
     registry: MatIconRegistry,

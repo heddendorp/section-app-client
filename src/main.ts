@@ -1,7 +1,14 @@
-import { DEFAULT_CURRENCY_CODE, enableProdMode, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import {
+  DEFAULT_CURRENCY_CODE,
+  enableProdMode,
+  ErrorHandler,
+  importProvidersFrom,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 
 import { environment } from './environments/environment';
-import * as Sentry from '@sentry/angular-ivy';
+import * as Sentry from '@sentry/angular';
 import { AppComponent } from './app/app.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
@@ -53,12 +60,10 @@ if (environment.production) {
         // Registers and configures the Tracing integration,
         // which automatically instruments your application to monitor its
         // performance, including custom Angular routing instrumentation
-        new Sentry.BrowserTracing({
-          routingInstrumentation: Sentry.routingInstrumentation,
-        }),
+        Sentry.browserTracingIntegration(),
         // Registers the Replay integration,
         // which automatically captures Session Replays
-        new Sentry.Replay(),
+        Sentry.replayIntegration(),
       ],
 
       // Set tracesSampleRate to 1.0 to capture 100%
@@ -190,9 +195,12 @@ bootstrapApplication(AppComponent, {
       useValue: { appearance: 'outline' },
     },
     provideAppInitializer(() => {
-        const initializerFn = ((config: ConfigService) => () => config.init())(inject(ConfigService));
-        return initializerFn();
-      }),
+      const initializerFn = (
+        (config: ConfigService) => () =>
+          config.init()
+      )(inject(ConfigService));
+      return initializerFn();
+    }),
     {
       provide: DEFAULT_CURRENCY_CODE,
       useFactory: (config: ConfigService) => config.currencyCode,
@@ -203,18 +211,15 @@ bootstrapApplication(AppComponent, {
       ? [
           {
             provide: ErrorHandler,
-            useValue: Sentry.createErrorHandler({
-              showDialog: false,
-            }),
+            useValue: Sentry.createErrorHandler(),
           },
           {
             provide: Sentry.TraceService,
             deps: [Router],
           },
           provideAppInitializer(() => {
-        const initializerFn = (() => () => {})(inject(Sentry.TraceService));
-        return initializerFn();
-      }),
+            inject(Sentry.TraceService);
+          }),
         ]
       : [],
     provideRouter(

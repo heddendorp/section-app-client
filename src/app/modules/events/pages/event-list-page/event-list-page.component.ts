@@ -23,7 +23,6 @@ import {
 } from 'rxjs';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -41,13 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
@@ -55,48 +48,43 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
 
 @Component({
-    selector: 'app-event-list-page',
-    templateUrl: './event-list-page.component.html',
-    styleUrls: ['./event-list-page.component.scss'],
-    animations: [
-        trigger('grow', [
-            transition(':enter', [
-                style({
-                    height: '0px',
-                    paddingTop: '0',
-                    paddingBottom: '0',
-                    opacity: '0',
-                }),
-                animate('0.5s ease-in'),
-            ]),
-        ]),
-    ],
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        NgIf,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        ResetScrollDirective,
-        MatProgressBarModule,
-        MatRippleModule,
-        RouterLink,
-        IfRoleDirective,
-        NgSwitch,
-        NgSwitchCase,
-        MatSlideToggleModule,
-        EventsListComponent,
-        EventCalendarComponent,
-        AsyncPipe,
-        NgForOf,
-        MarkdownComponent,
-        IfStatusDirective,
-    ]
+  selector: 'app-event-list-page',
+  templateUrl: './event-list-page.component.html',
+  styleUrls: ['./event-list-page.component.scss'],
+  animations: [
+    trigger('grow', [
+      transition(':enter', [
+        style({
+          height: '0px',
+          paddingTop: '0',
+          paddingBottom: '0',
+          opacity: '0',
+        }),
+        animate('0.5s ease-in'),
+      ]),
+    ]),
+  ],
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    ResetScrollDirective,
+    MatProgressBarModule,
+    MatRippleModule,
+    RouterLink,
+    IfRoleDirective,
+    MatSlideToggleModule,
+    EventsListComponent,
+    EventCalendarComponent,
+    AsyncPipe,
+    MarkdownComponent,
+    IfStatusDirective,
+  ],
 })
-@TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
   public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
