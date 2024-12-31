@@ -1,10 +1,4 @@
-import {
-  APP_INITIALIZER,
-  DEFAULT_CURRENCY_CODE,
-  enableProdMode,
-  ErrorHandler,
-  importProvidersFrom,
-} from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, enableProdMode, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 
 import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular-ivy';
@@ -195,12 +189,10 @@ bootstrapApplication(AppComponent, {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (config: ConfigService) => () => config.init(),
-      multi: true,
-      deps: [ConfigService],
-    },
+    provideAppInitializer(() => {
+        const initializerFn = ((config: ConfigService) => () => config.init())(inject(ConfigService));
+        return initializerFn();
+      }),
     {
       provide: DEFAULT_CURRENCY_CODE,
       useFactory: (config: ConfigService) => config.currencyCode,
@@ -219,12 +211,10 @@ bootstrapApplication(AppComponent, {
             provide: Sentry.TraceService,
             deps: [Router],
           },
-          {
-            provide: APP_INITIALIZER,
-            useFactory: () => () => {},
-            deps: [Sentry.TraceService],
-            multi: true,
-          },
+          provideAppInitializer(() => {
+        const initializerFn = (() => () => {})(inject(Sentry.TraceService));
+        return initializerFn();
+      }),
         ]
       : [],
     provideRouter(
