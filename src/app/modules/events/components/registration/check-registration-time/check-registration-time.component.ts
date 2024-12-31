@@ -12,12 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-check-registration-time',
-  templateUrl: './check-registration-time.component.html',
-  styleUrls: ['./check-registration-time.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, MatIconModule, AsyncPipe, DatePipe, ExtendDatePipe],
+    selector: 'app-check-registration-time',
+    templateUrl: './check-registration-time.component.html',
+    styleUrls: ['./check-registration-time.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, MatIconModule, AsyncPipe, DatePipe, ExtendDatePipe]
 })
 export class CheckRegistrationTimeComponent implements OnChanges {
   @Input() public registrationStart: string | null = null;

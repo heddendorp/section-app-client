@@ -14,19 +14,18 @@ import { MatRippleModule } from '@angular/material/core';
 import { LowerCasePipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-  selector: 'app-event-calendar',
-  templateUrl: './event-calendar.component.html',
-  styleUrls: ['./event-calendar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgFor,
-    NgIf,
-    MatRippleModule,
-    LowerCasePipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-calendar',
+    templateUrl: './event-calendar.component.html',
+    styleUrls: ['./event-calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgFor,
+        NgIf,
+        MatRippleModule,
+        LowerCasePipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventCalendarComponent implements OnChanges {
   @Input() events: EventListQuery['events'] | null = null;

@@ -14,17 +14,16 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-tenant-event-template-categories-page',
-  templateUrl: './tenant-event-template-categories-page.component.html',
-  styleUrls: ['./tenant-event-template-categories-page.component.scss'],
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    AsyncPipe,
-    IconURLPipe,
-    NgOptimizedImage,
-    RouterLink,
-  ],
+    selector: 'app-tenant-event-template-categories-page',
+    templateUrl: './tenant-event-template-categories-page.component.html',
+    styleUrls: ['./tenant-event-template-categories-page.component.scss'],
+    imports: [
+        MatButtonModule,
+        AsyncPipe,
+        IconURLPipe,
+        NgOptimizedImage,
+        RouterLink,
+    ]
 })
 export class TenantEventTemplateCategoriesPageComponent {
   public eventTemplateCategories$: Observable<

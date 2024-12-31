@@ -32,23 +32,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-create-event-dialog',
-  templateUrl: './create-event-dialog.component.html',
-  styleUrls: ['./create-event-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    NgFor,
-    MatCheckboxModule,
-    MatButtonModule,
-    TitleCasePipe,
-  ],
+    selector: 'app-create-event-dialog',
+    templateUrl: './create-event-dialog.component.html',
+    styleUrls: ['./create-event-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatOptionModule,
+        NgFor,
+        MatCheckboxModule,
+        MatButtonModule,
+        TitleCasePipe,
+    ]
 })
 export class CreateEventDialogComponent implements OnInit, OnDestroy {
   public eventDataForm: UntypedFormGroup;

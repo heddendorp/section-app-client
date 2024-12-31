@@ -27,22 +27,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-create-transaction-dialog',
-  templateUrl: './create-transaction-dialog.component.html',
-  styleUrls: ['./create-transaction-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatAutocompleteModule,
-    NgFor,
-    AsyncPipe,
-  ],
+    selector: 'app-create-transaction-dialog',
+    templateUrl: './create-transaction-dialog.component.html',
+    styleUrls: ['./create-transaction-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatAutocompleteModule,
+        NgFor,
+        AsyncPipe,
+    ]
 })
 export class CreateTransactionDialogComponent implements OnDestroy, OnInit {
   public transactionForm = new FormGroup({

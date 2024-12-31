@@ -24,22 +24,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-  selector: 'app-add-receipt-dialog',
-  templateUrl: './add-receipt-dialog.component.html',
-  styleUrls: ['./add-receipt-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    NgIf,
-    MatProgressBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    AsyncPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-add-receipt-dialog',
+    templateUrl: './add-receipt-dialog.component.html',
+    styleUrls: ['./add-receipt-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        NgIf,
+        MatProgressBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        AsyncPipe,
+        NgOptimizedImage,
+    ]
 })
 export class AddReceiptDialogComponent {
   public uploadForm: UntypedFormGroup;

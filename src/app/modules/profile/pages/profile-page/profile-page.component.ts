@@ -53,29 +53,28 @@ import { ConfigService } from '@tumi/legacy-app/services/config.service';
 import { ConfirmDeleteDialogComponent } from '@tumi/legacy-app/modules/profile/components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
-  selector: 'app-profile-page',
-  templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    MatProgressBarModule,
-    ProfileCardComponent,
-    MatIconModule,
-    MatButtonModule,
-    NgFor,
-    RateEventComponent,
-    EventListComponent,
-    RouterLink,
-    AsyncPipe,
-    UpperCasePipe,
-    DatePipe,
-    ExtendDatePipe,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSlideToggle,
-  ],
+    selector: 'app-profile-page',
+    templateUrl: './profile-page.component.html',
+    styleUrls: ['./profile-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        MatProgressBarModule,
+        ProfileCardComponent,
+        MatIconModule,
+        MatButtonModule,
+        NgFor,
+        RateEventComponent,
+        EventListComponent,
+        RouterLink,
+        AsyncPipe,
+        UpperCasePipe,
+        DatePipe,
+        ExtendDatePipe,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSlideToggle,
+    ]
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;

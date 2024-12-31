@@ -38,27 +38,26 @@ import {
 } from '@angular/common';
 
 @Component({
-  selector: 'app-stripe-event-registration',
-  templateUrl: './stripe-event-registration.component.html',
-  styleUrls: ['./stripe-event-registration.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    CheckAdditionalDataComponent,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    NgFor,
-    MatOptionModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressBarModule,
-    RouterLink,
-    AsyncPipe,
-    CurrencyPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-stripe-event-registration',
+    templateUrl: './stripe-event-registration.component.html',
+    styleUrls: ['./stripe-event-registration.component.scss'],
+    imports: [
+        NgIf,
+        CheckAdditionalDataComponent,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        NgFor,
+        MatOptionModule,
+        MatButtonModule,
+        MatIconModule,
+        MatProgressBarModule,
+        RouterLink,
+        AsyncPipe,
+        CurrencyPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;

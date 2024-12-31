@@ -33,24 +33,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-claim-event-dialog',
-  templateUrl: './claim-event-dialog.component.html',
-  styleUrls: ['./claim-event-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    NgIf,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    NgFor,
-    MatOptionModule,
-    MatButtonModule,
-    AsyncPipe,
-    CurrencyPipe,
-  ],
+    selector: 'app-claim-event-dialog',
+    templateUrl: './claim-event-dialog.component.html',
+    styleUrls: ['./claim-event-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        NgIf,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        NgFor,
+        MatOptionModule,
+        MatButtonModule,
+        AsyncPipe,
+        CurrencyPipe,
+    ]
 })
 export class ClaimEventDialogComponent {
   public idTest = new RegExp(

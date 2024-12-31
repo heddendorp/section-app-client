@@ -22,18 +22,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-site-content-settings-tab',
-  standalone: true,
-  imports: [
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-  ],
-  templateUrl: './site-content-settings-tab.component.html',
-  styleUrl: './site-content-settings-tab.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-site-content-settings-tab',
+    imports: [
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+    ],
+    templateUrl: './site-content-settings-tab.component.html',
+    styleUrl: './site-content-settings-tab.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SiteContentSettingsTabComponent {
   protected siteContentSettingsForm = new FormGroup({

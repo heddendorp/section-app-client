@@ -55,47 +55,46 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
 
 @Component({
-  selector: 'app-event-list-page',
-  templateUrl: './event-list-page.component.html',
-  styleUrls: ['./event-list-page.component.scss'],
-  animations: [
-    trigger('grow', [
-      transition(':enter', [
-        style({
-          height: '0px',
-          paddingTop: '0',
-          paddingBottom: '0',
-          opacity: '0',
-        }),
-        animate('0.5s ease-in'),
-      ]),
-    ]),
-  ],
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    NgIf,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatIconModule,
-    ResetScrollDirective,
-    MatProgressBarModule,
-    MatRippleModule,
-    RouterLink,
-    IfRoleDirective,
-    NgSwitch,
-    NgSwitchCase,
-    MatSlideToggleModule,
-    EventsListComponent,
-    EventCalendarComponent,
-    AsyncPipe,
-    NgForOf,
-    MarkdownComponent,
-    IfStatusDirective,
-  ],
+    selector: 'app-event-list-page',
+    templateUrl: './event-list-page.component.html',
+    styleUrls: ['./event-list-page.component.scss'],
+    animations: [
+        trigger('grow', [
+            transition(':enter', [
+                style({
+                    height: '0px',
+                    paddingTop: '0',
+                    paddingBottom: '0',
+                    opacity: '0',
+                }),
+                animate('0.5s ease-in'),
+            ]),
+        ]),
+    ],
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        NgIf,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatIconModule,
+        ResetScrollDirective,
+        MatProgressBarModule,
+        MatRippleModule,
+        RouterLink,
+        IfRoleDirective,
+        NgSwitch,
+        NgSwitchCase,
+        MatSlideToggleModule,
+        EventsListComponent,
+        EventCalendarComponent,
+        AsyncPipe,
+        NgForOf,
+        MarkdownComponent,
+        IfStatusDirective,
+    ]
 })
 @TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {

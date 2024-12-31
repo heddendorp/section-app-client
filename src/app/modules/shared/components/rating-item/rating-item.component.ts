@@ -5,11 +5,10 @@ import { UserChipComponent } from '../user-chip/user-chip.component';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-rating-item',
-  templateUrl: './rating-item.component.html',
-  styleUrls: ['./rating-item.component.scss'],
-  standalone: true,
-  imports: [NgIf, UserChipComponent, NgFor, MatButtonModule, MatIconModule],
+    selector: 'app-rating-item',
+    templateUrl: './rating-item.component.html',
+    styleUrls: ['./rating-item.component.scss'],
+    imports: [NgIf, UserChipComponent, NgFor, MatButtonModule, MatIconModule]
 })
 export class RatingItemComponent {
   @Input()

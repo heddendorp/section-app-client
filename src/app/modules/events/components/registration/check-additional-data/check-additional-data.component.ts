@@ -13,12 +13,11 @@ import { DataItemsCollectorComponent } from '../../../../shared/components/data-
 import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-check-additional-data',
-  templateUrl: './check-additional-data.component.html',
-  styleUrls: ['./check-additional-data.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, DataItemsCollectorComponent, AsyncPipe],
+    selector: 'app-check-additional-data',
+    templateUrl: './check-additional-data.component.html',
+    styleUrls: ['./check-additional-data.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, DataItemsCollectorComponent, AsyncPipe]
 })
 export class CheckAdditionalDataComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;

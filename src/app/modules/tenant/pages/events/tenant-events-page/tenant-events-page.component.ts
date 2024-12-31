@@ -22,30 +22,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-tenant-events-page',
-  templateUrl: './tenant-events-page.component.html',
-  styleUrls: ['./tenant-events-page.component.scss'],
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatIconModule,
-    MatTableModule,
-    EventChipComponent,
-    MatRippleModule,
-    RouterLink,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-tenant-events-page',
+    templateUrl: './tenant-events-page.component.html',
+    styleUrls: ['./tenant-events-page.component.scss'],
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        ResetScrollDirective,
+        NgIf,
+        MatProgressBarModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatInputModule,
+        MatIconModule,
+        MatTableModule,
+        EventChipComponent,
+        MatRippleModule,
+        RouterLink,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class TenantEventsPageComponent implements OnInit, OnDestroy {
   public displayedColumns = [

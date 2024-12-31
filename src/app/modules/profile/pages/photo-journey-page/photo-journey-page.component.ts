@@ -17,12 +17,11 @@ import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/com
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-photo-journey-page',
-  templateUrl: './photo-journey-page.component.html',
-  styleUrls: ['./photo-journey-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, NgFor, AsyncPipe, DatePipe, ExtendDatePipe, NgOptimizedImage],
+    selector: 'app-photo-journey-page',
+    templateUrl: './photo-journey-page.component.html',
+    styleUrls: ['./photo-journey-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, NgFor, AsyncPipe, DatePipe, ExtendDatePipe, NgOptimizedImage]
 })
 export class PhotoJourneyPageComponent {
   $data: Observable<GetPhotoJourneyQuery['currentUser']>;

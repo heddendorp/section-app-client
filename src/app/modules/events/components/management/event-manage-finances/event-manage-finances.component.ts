@@ -18,20 +18,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-event-manage-finances',
-  templateUrl: './event-manage-finances.component.html',
-  styleUrls: ['./event-manage-finances.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    AsyncPipe,
-    CurrencyPipe,
-  ],
+    selector: 'app-event-manage-finances',
+    templateUrl: './event-manage-finances.component.html',
+    styleUrls: ['./event-manage-finances.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+        AsyncPipe,
+        CurrencyPipe,
+    ]
 })
 export class EventManageFinancesComponent implements OnChanges {
   @Input() public eventId: string | undefined;

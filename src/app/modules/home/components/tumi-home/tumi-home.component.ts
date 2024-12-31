@@ -15,24 +15,23 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-tumi-home',
-  templateUrl: './tumi-home.component.html',
-  styleUrls: ['./tumi-home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    NgFor,
-    GridComponent,
-    TechnicalSupportComponent,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-tumi-home',
+    templateUrl: './tumi-home.component.html',
+    styleUrls: ['./tumi-home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+        NgFor,
+        GridComponent,
+        TechnicalSupportComponent,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class TumiHomeComponent {
   public events$: Observable<GetHomePageDataQuery['events']>;

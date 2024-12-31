@@ -27,30 +27,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-tenant-registrations-page',
-  templateUrl: './tenant-registrations-page.component.html',
-  styleUrls: ['./tenant-registrations-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    MatTableModule,
-    EventChipComponent,
-    UserChipComponent,
-    TransactionListComponent,
-    RouterLink,
-    MatPaginatorModule,
-    AsyncPipe,
-    TitleCasePipe,
-    CurrencyPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-tenant-registrations-page',
+    templateUrl: './tenant-registrations-page.component.html',
+    styleUrls: ['./tenant-registrations-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        ResetScrollDirective,
+        NgIf,
+        MatProgressBarModule,
+        MatTableModule,
+        EventChipComponent,
+        UserChipComponent,
+        TransactionListComponent,
+        RouterLink,
+        MatPaginatorModule,
+        AsyncPipe,
+        TitleCasePipe,
+        CurrencyPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class TenantRegistrationsPageComponent implements OnDestroy {
   public registrations$: Observable<GetRegistrationsQuery['registrations']>;

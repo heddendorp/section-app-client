@@ -6,11 +6,10 @@ import { AsyncPipe } from '@angular/common';
 import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
-  selector: 'app-show-page-page',
-  templateUrl: './show-page-page.component.html',
-  styleUrls: ['./show-page-page.component.scss'],
-  standalone: true,
-  imports: [MarkdownComponent, AsyncPipe],
+    selector: 'app-show-page-page',
+    templateUrl: './show-page-page.component.html',
+    styleUrls: ['./show-page-page.component.scss'],
+    imports: [MarkdownComponent, AsyncPipe]
 })
 export class ShowPagePageComponent {
   public pageContent$: Observable<string>;

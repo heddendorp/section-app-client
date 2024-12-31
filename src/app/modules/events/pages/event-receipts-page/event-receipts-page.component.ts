@@ -28,25 +28,24 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-event-receipts-page',
-  templateUrl: './event-receipts-page.component.html',
-  styleUrls: ['./event-receipts-page.component.scss'],
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    NgIf,
-    ResetScrollDirective,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatIconModule,
-    GridComponent,
-    NgFor,
-    AsyncPipe,
-    CurrencyPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-receipts-page',
+    templateUrl: './event-receipts-page.component.html',
+    styleUrls: ['./event-receipts-page.component.scss'],
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        NgIf,
+        ResetScrollDirective,
+        MatProgressBarModule,
+        MatButtonModule,
+        MatIconModule,
+        GridComponent,
+        NgFor,
+        AsyncPipe,
+        CurrencyPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventReceiptsPageComponent implements OnDestroy {
   public costItem$: Observable<GetCostItemQuery['costItem']>;

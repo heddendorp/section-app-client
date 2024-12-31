@@ -9,18 +9,17 @@ import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
-  selector: 'app-auth-button',
-  templateUrl: './auth-button.component.html',
-  styleUrls: ['./auth-button.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    RouterLink,
-    RouterLinkActive,
-    MatIconModule,
-    AsyncPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-auth-button',
+    templateUrl: './auth-button.component.html',
+    styleUrls: ['./auth-button.component.scss'],
+    imports: [
+        NgIf,
+        RouterLink,
+        RouterLinkActive,
+        MatIconModule,
+        AsyncPipe,
+        NgOptimizedImage,
+    ]
 })
 export class AuthButtonComponent {
   public userPicture: string = '';

@@ -30,27 +30,26 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/components/add-cost-item-dialog/add-cost-item-dialog.component';
 
 @Component({
-  selector: 'app-event-run-page',
-  templateUrl: './event-run-page.component.html',
-  styleUrls: ['./event-run-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    BackButtonComponent,
-    CurrencyPipe,
-    EventParticipantsTableComponent,
-    EventSubmissionOverviewComponent,
-    IfRoleDirective,
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatListModule,
-    MatProgressBarModule,
-    MatToolbarModule,
-    RouterLink,
-    UserChipComponent,
-  ],
+    selector: 'app-event-run-page',
+    templateUrl: './event-run-page.component.html',
+    styleUrls: ['./event-run-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        AsyncPipe,
+        BackButtonComponent,
+        CurrencyPipe,
+        EventParticipantsTableComponent,
+        EventSubmissionOverviewComponent,
+        IfRoleDirective,
+        MatButtonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatListModule,
+        MatProgressBarModule,
+        MatToolbarModule,
+        RouterLink,
+        UserChipComponent,
+    ]
 })
 export class EventRunPageComponent implements OnDestroy {
   public Role = Role;

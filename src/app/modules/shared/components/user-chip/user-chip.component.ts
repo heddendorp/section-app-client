@@ -9,19 +9,18 @@ import { MatRippleModule } from '@angular/material/core';
  * @deprecated Replace with other options
  */
 @Component({
-  selector: 'app-user-chip',
-  templateUrl: './user-chip.component.html',
-  styleUrls: ['./user-chip.component.scss'],
-  standalone: true,
-  imports: [
-    MatRippleModule,
-    RouterLink,
-    MatTooltipModule,
-    NgIf,
-    MatIconModule,
-    LowerCasePipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-user-chip',
+    templateUrl: './user-chip.component.html',
+    styleUrls: ['./user-chip.component.scss'],
+    imports: [
+        MatRippleModule,
+        RouterLink,
+        MatTooltipModule,
+        NgIf,
+        MatIconModule,
+        LowerCasePipe,
+        NgOptimizedImage,
+    ]
 })
 export class UserChipComponent {
   @Input()

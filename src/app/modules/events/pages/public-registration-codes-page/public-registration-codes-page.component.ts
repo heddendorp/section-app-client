@@ -22,26 +22,25 @@ import {
 } from '@angular/common';
 
 @Component({
-  selector: 'app-public-registration-codes-page',
-  templateUrl: './public-registration-codes-page.component.html',
-  styleUrls: ['./public-registration-codes-page.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    MatProgressBarModule,
-    MatDialogModule,
-    GridComponent,
-    NgFor,
-    MatRippleModule,
-    RouterLink,
-    MatIconModule,
-    MatButtonModule,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-public-registration-codes-page',
+    templateUrl: './public-registration-codes-page.component.html',
+    styleUrls: ['./public-registration-codes-page.component.scss'],
+    imports: [
+        NgIf,
+        MatProgressBarModule,
+        MatDialogModule,
+        GridComponent,
+        NgFor,
+        MatRippleModule,
+        RouterLink,
+        MatIconModule,
+        MatButtonModule,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class PublicRegistrationCodesPageComponent {
   registrationCodes$: Observable<

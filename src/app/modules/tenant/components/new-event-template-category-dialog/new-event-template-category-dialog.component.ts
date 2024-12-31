@@ -17,19 +17,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
-  selector: 'app-new-event-template-category-dialog',
-  templateUrl: './new-event-template-category-dialog.component.html',
-  styleUrls: ['./new-event-template-category-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-new-event-template-category-dialog',
+    templateUrl: './new-event-template-category-dialog.component.html',
+    styleUrls: ['./new-event-template-category-dialog.component.scss'],
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class NewEventTemplateCategoryDialogComponent implements OnInit {
   public eventTemplateCategoryForm = new FormGroup({

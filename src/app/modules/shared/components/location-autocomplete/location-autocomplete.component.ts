@@ -27,27 +27,26 @@ import AutocompleteSessionToken = google.maps.places.AutocompleteSessionToken;
 import AutocompleteService = google.maps.places.AutocompleteService;
 
 @Component({
-  selector: 'app-location-autocomplete',
-  templateUrl: './location-autocomplete.component.html',
-  styleUrls: ['./location-autocomplete.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LocationAutocompleteComponent),
-      multi: true,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    NgFor,
-    MatOptionModule,
-    AsyncPipe,
-  ],
+    selector: 'app-location-autocomplete',
+    templateUrl: './location-autocomplete.component.html',
+    styleUrls: ['./location-autocomplete.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => LocationAutocompleteComponent),
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        NgFor,
+        MatOptionModule,
+        AsyncPipe,
+    ]
 })
 export class LocationAutocompleteComponent implements ControlValueAccessor {
   public locationControl = new UntypedFormControl();

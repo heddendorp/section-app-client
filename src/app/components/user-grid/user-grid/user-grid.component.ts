@@ -28,12 +28,11 @@ import { firstValueFrom, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-user-grid',
-  standalone: true,
-  imports: [AgGridAngular],
-  templateUrl: './user-grid.component.html',
-  styleUrl: './user-grid.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-user-grid',
+    imports: [AgGridAngular],
+    templateUrl: './user-grid.component.html',
+    styleUrl: './user-grid.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserGridComponent {
   public height = input.required<string>();

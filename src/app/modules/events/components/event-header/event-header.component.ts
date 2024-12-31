@@ -18,25 +18,24 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 import { Price } from '@tumi/legacy-app/utils';
 
 @Component({
-  selector: 'app-event-header',
-  templateUrl: './event-header.component.html',
-  styleUrls: ['./event-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    BackButtonComponent,
-    NgIf,
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    IfRoleDirective,
-    DecimalPipe,
-    CurrencyPipe,
-    DatePipe,
-    ExtendDatePipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-header',
+    templateUrl: './event-header.component.html',
+    styleUrls: ['./event-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        BackButtonComponent,
+        NgIf,
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+        IfRoleDirective,
+        DecimalPipe,
+        CurrencyPipe,
+        DatePipe,
+        ExtendDatePipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventHeaderComponent {
   public Role = Role;

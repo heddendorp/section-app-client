@@ -20,27 +20,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-tenant-move-orders-page',
-  templateUrl: './tenant-move-orders-page.component.html',
-  styleUrls: ['./tenant-move-orders-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    MatTableModule,
-    EventChipComponent,
-    UserChipComponent,
-    RouterLink,
-    MatPaginatorModule,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-tenant-move-orders-page',
+    templateUrl: './tenant-move-orders-page.component.html',
+    styleUrls: ['./tenant-move-orders-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        ResetScrollDirective,
+        NgIf,
+        MatProgressBarModule,
+        MatTableModule,
+        EventChipComponent,
+        UserChipComponent,
+        RouterLink,
+        MatPaginatorModule,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class TenantMoveOrdersPageComponent implements OnDestroy {
   public codes$: Observable<

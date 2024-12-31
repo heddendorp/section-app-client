@@ -19,12 +19,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-data-items-manager',
-  templateUrl: './data-items-manager.component.html',
-  styleUrls: ['./data-items-manager.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, NgFor, JsonPipe],
+    selector: 'app-data-items-manager',
+    templateUrl: './data-items-manager.component.html',
+    styleUrls: ['./data-items-manager.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatButtonModule, MatIconModule, NgFor, JsonPipe]
 })
 export class DataItemsManagerComponent {
   @Input() public items: Array<

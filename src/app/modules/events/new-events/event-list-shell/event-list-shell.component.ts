@@ -16,22 +16,21 @@ import { groupBy, sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 @Component({
-  selector: 'app-event-list-shell',
-  standalone: true,
-  imports: [
-    RouterLink,
-    IfRoleDirective,
-    MatFabAnchor,
-    MatIcon,
-    MatAnchor,
-    RouterOutlet,
-    IconURLPipe,
-    RouterLinkActive,
-    DatePipe,
-  ],
-  templateUrl: './event-list-shell.component.html',
-  styleUrl: './event-list-shell.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-event-list-shell',
+    imports: [
+        RouterLink,
+        IfRoleDirective,
+        MatFabAnchor,
+        MatIcon,
+        MatAnchor,
+        RouterOutlet,
+        IconURLPipe,
+        RouterLinkActive,
+        DatePipe,
+    ],
+    templateUrl: './event-list-shell.component.html',
+    styleUrl: './event-list-shell.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventListShellComponent {
   protected readonly Role = Role;

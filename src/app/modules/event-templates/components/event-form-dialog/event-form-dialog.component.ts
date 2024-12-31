@@ -28,27 +28,26 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-event-form-dialog',
-  templateUrl: './event-form-dialog.component.html',
-  styleUrls: ['./event-form-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgIf,
-    MatSelectModule,
-    NgFor,
-    MatOptionModule,
-    LocationAutocompleteComponent,
-    MatCheckboxModule,
-    MatButtonModule,
-    AsyncPipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-form-dialog',
+    templateUrl: './event-form-dialog.component.html',
+    styleUrls: ['./event-form-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgIf,
+        MatSelectModule,
+        NgFor,
+        MatOptionModule,
+        LocationAutocompleteComponent,
+        MatCheckboxModule,
+        MatButtonModule,
+        AsyncPipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventFormDialogComponent implements OnDestroy {
   public dialogForm: UntypedFormGroup;

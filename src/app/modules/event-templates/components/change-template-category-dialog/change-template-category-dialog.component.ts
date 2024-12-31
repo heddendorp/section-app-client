@@ -8,19 +8,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-change-template-category-dialog',
-  templateUrl: './change-template-category-dialog.component.html',
-  styleUrls: ['./change-template-category-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    NgFor,
-    MatOptionModule,
-    MatButtonModule,
-  ],
+    selector: 'app-change-template-category-dialog',
+    templateUrl: './change-template-category-dialog.component.html',
+    styleUrls: ['./change-template-category-dialog.component.scss'],
+    imports: [
+        MatDialogModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        NgFor,
+        MatOptionModule,
+        MatButtonModule,
+    ]
 })
 export class ChangeTemplateCategoryDialogComponent {
   categorySelection = new FormControl('', Validators.required);

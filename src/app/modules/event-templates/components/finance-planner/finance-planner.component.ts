@@ -69,26 +69,25 @@ export interface PriceModel {
 }
 
 @Component({
-  selector: 'app-finance-planner',
-  templateUrl: './finance-planner.component.html',
-  styleUrls: ['./finance-planner.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    MatTableModule,
-    NgSwitch,
-    NgSwitchCase,
-    MatButtonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    FinancePlannerPriceModelComponent,
-    AsyncPipe,
-    CurrencyPipe,
-  ],
+    selector: 'app-finance-planner',
+    templateUrl: './finance-planner.component.html',
+    styleUrls: ['./finance-planner.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        MatTableModule,
+        NgSwitch,
+        NgSwitchCase,
+        MatButtonModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        FinancePlannerPriceModelComponent,
+        AsyncPipe,
+        CurrencyPipe,
+    ]
 })
 export class FinancePlannerComponent implements OnChanges {
   @Input() public template: GetEventTemplateQuery['eventTemplate'] | undefined;

@@ -28,21 +28,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-update-user-dialog',
-  templateUrl: './update-user-dialog.component.html',
-  styleUrls: ['./update-user-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatInputModule,
-    MatButtonModule,
-    TitleCasePipe,
-  ],
+    selector: 'app-update-user-dialog',
+    templateUrl: './update-user-dialog.component.html',
+    styleUrls: ['./update-user-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatInputModule,
+        MatButtonModule,
+        TitleCasePipe,
+    ]
 })
 export class UpdateUserDialogComponent implements OnInit {
   public Role = Role;

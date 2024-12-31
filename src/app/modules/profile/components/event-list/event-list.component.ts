@@ -10,20 +10,19 @@ import { NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss'],
-  standalone: true,
-  imports: [
-    MatIconModule,
-    NgIf,
-    MatListModule,
-    MatButtonModule,
-    NgFor,
-    EventListItemComponent,
-    MatExpansionModule,
-    MatRippleModule,
-  ],
+    selector: 'app-event-list',
+    templateUrl: './event-list.component.html',
+    styleUrls: ['./event-list.component.scss'],
+    imports: [
+        MatIconModule,
+        NgIf,
+        MatListModule,
+        MatButtonModule,
+        NgFor,
+        EventListItemComponent,
+        MatExpansionModule,
+        MatRippleModule,
+    ]
 })
 export class EventListComponent implements OnInit {
   @Output() claimRequest = new EventEmitter<String>();

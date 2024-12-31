@@ -5,11 +5,10 @@ import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-event-chip',
-  templateUrl: './event-chip.component.html',
-  styleUrls: ['./event-chip.component.scss'],
-  standalone: true,
-  imports: [MatRippleModule, RouterLink, NgIf, IconURLPipe, NgOptimizedImage],
+    selector: 'app-event-chip',
+    templateUrl: './event-chip.component.html',
+    styleUrls: ['./event-chip.component.scss'],
+    imports: [MatRippleModule, RouterLink, NgIf, IconURLPipe, NgOptimizedImage]
 })
 export class EventChipComponent {
   @Input()

@@ -23,22 +23,21 @@ export interface SelectWithAutocompleteDialogData {
 }
 
 @Component({
-  selector: 'app-select-with-autocomplete-dialog',
-  templateUrl: './select-with-autocomplete-dialog.component.html',
-  styleUrls: ['./select-with-autocomplete-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    NgFor,
-    MatOptionModule,
-    MatButtonModule,
-    AsyncPipe,
-  ],
+    selector: 'app-select-with-autocomplete-dialog',
+    templateUrl: './select-with-autocomplete-dialog.component.html',
+    styleUrls: ['./select-with-autocomplete-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        NgFor,
+        MatOptionModule,
+        MatButtonModule,
+        AsyncPipe,
+    ]
 })
 export class SelectWithAutocompleteDialogComponent {
   public nameControl = new UntypedFormControl();

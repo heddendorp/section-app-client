@@ -13,12 +13,11 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-event-submission-overview',
-  templateUrl: './event-submission-overview.component.html',
-  styleUrls: ['./event-submission-overview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgFor, AsyncPipe],
+    selector: 'app-event-submission-overview',
+    templateUrl: './event-submission-overview.component.html',
+    styleUrls: ['./event-submission-overview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgFor, AsyncPipe]
 })
 export class EventSubmissionOverviewComponent implements OnChanges {
   @Input() registrations: Required<{

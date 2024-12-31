@@ -28,20 +28,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-  selector: 'app-event-photo-page',
-  templateUrl: './event-photo-page.component.html',
-  styleUrls: ['./event-photo-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatIconModule,
-    NgFor,
-    AsyncPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-photo-page',
+    templateUrl: './event-photo-page.component.html',
+    styleUrls: ['./event-photo-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        MatProgressBarModule,
+        MatButtonModule,
+        MatIconModule,
+        NgFor,
+        AsyncPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventPhotoPageComponent implements OnDestroy {
   public photos$: Observable<GetPhotosOfEventQuery['photos']>;

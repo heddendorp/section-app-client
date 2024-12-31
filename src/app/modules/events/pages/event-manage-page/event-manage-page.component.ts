@@ -52,43 +52,39 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 
 @Component({
-  selector: 'app-event-manage-page',
-  templateUrl: './event-manage-page.component.html',
-  styleUrls: ['./event-manage-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
-      ),
-    ]),
-  ],
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    BackButtonComponent,
-    NgIf,
-    MatButtonModule,
-    RouterLink,
-    MatProgressBarModule,
-    MatExpansionModule,
-    EventManageFinancesComponent,
-    NgFor,
-    MatTableModule,
-    UserChipComponent,
-    MatIconModule,
-    TransactionListComponent,
-    MatMenuModule,
-    MatListModule,
-    AsyncPipe,
-    CurrencyPipe,
-    DatePipe,
-    ExtendDatePipe,
-    EventParticipantsTableComponent,
-  ],
+    selector: 'app-event-manage-page',
+    templateUrl: './event-manage-page.component.html',
+    styleUrls: ['./event-manage-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    imports: [
+        MatToolbarModule,
+        BackButtonComponent,
+        NgIf,
+        MatButtonModule,
+        RouterLink,
+        MatProgressBarModule,
+        MatExpansionModule,
+        EventManageFinancesComponent,
+        NgFor,
+        MatTableModule,
+        UserChipComponent,
+        MatIconModule,
+        TransactionListComponent,
+        MatMenuModule,
+        MatListModule,
+        AsyncPipe,
+        CurrencyPipe,
+        DatePipe,
+        ExtendDatePipe,
+        EventParticipantsTableComponent,
+    ]
 })
 export class EventManagePageComponent implements OnDestroy {
   public event$: Observable<LoadEventForManagementQuery['event']>;

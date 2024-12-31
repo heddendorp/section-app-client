@@ -9,12 +9,11 @@ import { firstValueFrom, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-registration-data-settings-tab',
-  standalone: true,
-  imports: [FormBuilderComponent, MatSnackBarModule],
-  templateUrl: './registration-data-settings-tab.component.html',
-  styleUrl: './registration-data-settings-tab.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-registration-data-settings-tab',
+    imports: [FormBuilderComponent, MatSnackBarModule],
+    templateUrl: './registration-data-settings-tab.component.html',
+    styleUrl: './registration-data-settings-tab.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegistrationDataSettingsTabComponent {
   private snackBar = inject(MatSnackBar);

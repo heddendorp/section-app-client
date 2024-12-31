@@ -14,20 +14,19 @@ import { CheckAdditionalDataComponent } from '../check-additional-data/check-add
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-online-event-registration',
-  templateUrl: './online-event-registration.component.html',
-  styleUrls: ['./online-event-registration.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    CheckAdditionalDataComponent,
-    MatButtonModule,
-    MatProgressBarModule,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-online-event-registration',
+    templateUrl: './online-event-registration.component.html',
+    styleUrls: ['./online-event-registration.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        CheckAdditionalDataComponent,
+        MatButtonModule,
+        MatProgressBarModule,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class OnlineEventRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;

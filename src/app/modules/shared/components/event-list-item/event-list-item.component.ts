@@ -7,19 +7,18 @@ import { MatListModule } from '@angular/material/list';
 import { DecimalPipe, NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
-  selector: 'app-event-list-item',
-  templateUrl: './event-list-item.component.html',
-  styleUrls: ['./event-list-item.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    MatListModule,
-    RouterLink,
-    UserChipComponent,
-    DecimalPipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-event-list-item',
+    templateUrl: './event-list-item.component.html',
+    styleUrls: ['./event-list-item.component.scss'],
+    imports: [
+        NgIf,
+        MatListModule,
+        RouterLink,
+        UserChipComponent,
+        DecimalPipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class EventListItemComponent {
   @Input() event: any = null;

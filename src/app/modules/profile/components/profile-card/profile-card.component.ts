@@ -17,21 +17,20 @@ import {
 } from '@angular/common';
 
 @Component({
-  selector: 'app-profile-card',
-  templateUrl: './profile-card.component.html',
-  styleUrls: ['./profile-card.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    MatDividerModule,
-    MatIconModule,
-    MatButtonModule,
-    IfRoleDirective,
-    RouterLink,
-    UpperCasePipe,
-    LowerCasePipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-profile-card',
+    templateUrl: './profile-card.component.html',
+    styleUrls: ['./profile-card.component.scss'],
+    imports: [
+        NgIf,
+        MatDividerModule,
+        MatIconModule,
+        MatButtonModule,
+        IfRoleDirective,
+        RouterLink,
+        UpperCasePipe,
+        LowerCasePipe,
+        NgOptimizedImage,
+    ]
 })
 export class ProfileCardComponent {
   @Input()

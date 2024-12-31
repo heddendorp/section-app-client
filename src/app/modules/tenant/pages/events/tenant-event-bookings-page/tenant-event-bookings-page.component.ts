@@ -16,23 +16,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-tenant-event-bookings-page',
-  templateUrl: './tenant-event-bookings-page.component.html',
-  styleUrls: ['./tenant-event-bookings-page.component.scss'],
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    MatTableModule,
-    EventChipComponent,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-tenant-event-bookings-page',
+    templateUrl: './tenant-event-bookings-page.component.html',
+    styleUrls: ['./tenant-event-bookings-page.component.scss'],
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        ResetScrollDirective,
+        NgIf,
+        MatProgressBarModule,
+        MatTableModule,
+        EventChipComponent,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class TenantEventBookingsPageComponent {
   public events$: Observable<LoadEventsWithBookingQuery['events']>;

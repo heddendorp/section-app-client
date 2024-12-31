@@ -24,28 +24,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-  selector: 'app-tenant-registration-code-page',
-  templateUrl: './tenant-registration-code-page.component.html',
-  styleUrls: ['./tenant-registration-code-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ReactiveToolbarComponent,
-    MatToolbarModule,
-    BackButtonComponent,
-    ResetScrollDirective,
-    NgIf,
-    MatProgressBarModule,
-    UserChipComponent,
-    EventChipComponent,
-    MatButtonModule,
-    TransactionListComponent,
-    NgFor,
-    AsyncPipe,
-    LowerCasePipe,
-    DatePipe,
-    ExtendDatePipe,
-  ],
+    selector: 'app-tenant-registration-code-page',
+    templateUrl: './tenant-registration-code-page.component.html',
+    styleUrls: ['./tenant-registration-code-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ReactiveToolbarComponent,
+        MatToolbarModule,
+        BackButtonComponent,
+        ResetScrollDirective,
+        NgIf,
+        MatProgressBarModule,
+        UserChipComponent,
+        EventChipComponent,
+        MatButtonModule,
+        TransactionListComponent,
+        NgFor,
+        AsyncPipe,
+        LowerCasePipe,
+        DatePipe,
+        ExtendDatePipe,
+    ]
 })
 export class TenantRegistrationCodePageComponent {
   public eventRegistrationCode$: Observable<

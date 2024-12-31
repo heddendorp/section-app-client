@@ -10,22 +10,21 @@ import { KaiserslauternHomeComponent } from '@tumi/legacy-app/modules/home/compo
 import { MannheimHomeComponent } from '@tumi/legacy-app/modules/home/components/mannheim-home/mannheim-home.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgSwitch,
-    NgSwitchCase,
-    TumiHomeComponent,
-    AugsburgHomeComponent,
-    AsyncPipe,
-    CuPragueHomeComponent,
-    VubEhbHomeComponent,
-    KaiserslauternHomeComponent,
-    MannheimHomeComponent,
-  ],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgSwitch,
+        NgSwitchCase,
+        TumiHomeComponent,
+        AugsburgHomeComponent,
+        AsyncPipe,
+        CuPragueHomeComponent,
+        VubEhbHomeComponent,
+        KaiserslauternHomeComponent,
+        MannheimHomeComponent,
+    ]
 })
 export class HomeComponent {
   protected shortName$: Observable<string>;

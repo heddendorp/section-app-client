@@ -24,24 +24,23 @@ import {
 } from '@angular/material/bottom-sheet';
 
 @Component({
-  selector: 'app-nav',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    AuthButtonComponent,
-    IfRoleDirective,
-    IfStatusDirective,
-    MatIcon,
-    MatRipple,
-    NgOptimizedImage,
-    RouterLink,
-    RouterLinkActive,
-    IfGlobalAdminDirective,
-    MatBottomSheetModule,
-  ],
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-nav',
+    imports: [
+        AsyncPipe,
+        AuthButtonComponent,
+        IfRoleDirective,
+        IfStatusDirective,
+        MatIcon,
+        MatRipple,
+        NgOptimizedImage,
+        RouterLink,
+        RouterLinkActive,
+        IfGlobalAdminDirective,
+        MatBottomSheetModule,
+    ],
+    templateUrl: './nav.component.html',
+    styleUrl: './nav.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent {
   protected navSettings = inject(ConfigService).navData;

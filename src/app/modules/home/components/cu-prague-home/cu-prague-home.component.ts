@@ -15,24 +15,23 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-cu-prague-home',
-  templateUrl: './cu-prague-home.component.html',
-  styleUrls: ['./cu-prague-home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    NgFor,
-    GridComponent,
-    TechnicalSupportComponent,
-    AsyncPipe,
-    DatePipe,
-    ExtendDatePipe,
-    IconURLPipe,
-    NgOptimizedImage,
-  ],
+    selector: 'app-cu-prague-home',
+    templateUrl: './cu-prague-home.component.html',
+    styleUrls: ['./cu-prague-home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+        NgFor,
+        GridComponent,
+        TechnicalSupportComponent,
+        AsyncPipe,
+        DatePipe,
+        ExtendDatePipe,
+        IconURLPipe,
+        NgOptimizedImage,
+    ]
 })
 export class CuPragueHomeComponent {
   public events$: Observable<GetHomePageDataQuery['events']>;

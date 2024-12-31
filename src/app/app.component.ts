@@ -12,19 +12,18 @@ import { NavComponent } from '@tumi/legacy-app/components/nav/nav.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NavigationComponent,
-    RouterOutlet,
-    FooterComponent,
-    AsyncPipe,
-    NgForOf,
-    NavComponent,
-  ],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [
+        NgIf,
+        NavigationComponent,
+        RouterOutlet,
+        FooterComponent,
+        AsyncPipe,
+        NgForOf,
+        NavComponent,
+    ]
 })
 @TraceClassDecorator()
 export class AppComponent {
