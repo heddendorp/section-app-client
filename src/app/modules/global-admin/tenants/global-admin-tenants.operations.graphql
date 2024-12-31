@@ -1,0 +1,19 @@
+query getTenantsForGlobalAdmin{
+  tenants {
+    id
+    name
+    shortName
+    currency
+    contractEnd
+    hardContractEnd
+    credit
+  }
+}
+
+mutation updateTenantContractEnd($id: ID!, $contractEnd: DateTime!, $hardContractEnd: Boolean!) {
+  updateTenantContractEnd(id: $id, contractEnd: $contractEnd, hardContractEnd: $hardContractEnd) {
+    id
+    contractEnd
+    hardContractEnd
+  }
+}

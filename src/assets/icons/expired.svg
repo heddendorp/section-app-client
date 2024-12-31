@@ -1,0 +1,45 @@
+<svg height='240px' viewBox='0 0 48 48' width='240px' xmlns='http://www.w3.org/2000/svg'>
+  <linearGradient gradientTransform='matrix(1 0 0 -1 0 526)' gradientUnits='userSpaceOnUse' id='~w23e9ZsDur2NuVvW0UCSa' x1='-308.751' x2='36.905'
+                  y1='872.874' y2='476.433'>
+    <stop offset='0' stop-color='#ffda1c' />
+    <stop offset='1' stop-color='#feb705' />
+  </linearGradient>
+  <path d='M44.634,37.846L25.76,7.787c0,0-0.508-1.05-1.76-1.05s-1.76,1.05-1.76,1.05L3.366,37.846	C3.366,37.846,3,38.337,3,39c0,1.105,0.895,2,2,2h38c1.105,0,2-0.895,2-2C45,38.337,44.634,37.846,44.634,37.846z'
+        fill='url(#~w23e9ZsDur2NuVvW0UCSa)' />
+  <radialGradient cx='18.189' cy='509.219' gradientTransform='matrix(1 0 0 -1 0 526)' gradientUnits='userSpaceOnUse'
+                  id='~w23e9ZsDur2NuVvW0UCSb' r='22.363'>
+    <stop offset='0' stop-color='#4b4b4b' />
+    <stop offset='.531' stop-color='#393939' />
+    <stop offset='1' stop-color='#252525' />
+  </radialGradient>
+  <path d='M24.014,37c-0.732,0-1.336-0.222-1.812-0.666s-0.714-0.981-0.714-1.613 c0-0.659,0.24-1.199,0.721-1.62c0.48-0.421,1.082-0.631,1.805-0.631c0.732,0,1.332,0.213,1.798,0.638 c0.467,0.426,0.7,0.963,0.7,1.613c0,0.659-0.231,1.203-0.693,1.633S24.755,37,24.014,37z M26.236,17.721l-0.481,12.175 c-0.015,0.372-0.321,0.666-0.693,0.666h-2.179c-0.373,0-0.679-0.295-0.693-0.668L21.735,17.72c-0.015-0.393,0.3-0.72,0.693-0.72 h3.116C25.937,17,26.252,17.327,26.236,17.721z'
+        fill='url(#~w23e9ZsDur2NuVvW0UCSb)' />
+  <radialGradient cx='12.065' cy='12.103' gradientUnits='userSpaceOnUse' id='~w23e9ZsDur2NuVvW0UCSc' r='13.863'>
+    <stop offset='.847' />
+    <stop offset='1' stop-opacity='0' />
+  </radialGradient>
+  <path d='M24,6.737c-1.252,0-1.76,1.05-1.76,1.05L10.846,25.934	C11.228,25.966,11.609,26,12,26c7.732,0,14-6.268,14-14c0-1.749-0.344-3.411-0.934-4.953C24.798,6.874,24.449,6.737,24,6.737z'
+        fill='url(#~w23e9ZsDur2NuVvW0UCSc)'
+        opacity='.2' />
+  <linearGradient gradientUnits='userSpaceOnUse' id='~w23e9ZsDur2NuVvW0UCSd' x1='3.515' x2='20.485' y1='3.515'
+                  y2='20.485'>
+    <stop offset='0' stop-color='#889097' />
+    <stop offset='1' stop-color='#64717c' />
+  </linearGradient>
+  <circle cx='12' cy='12' fill='url(#~w23e9ZsDur2NuVvW0UCSd)' r='12' />
+  <radialGradient cx='12' cy='12' gradientUnits='userSpaceOnUse' id='~w23e9ZsDur2NuVvW0UCSe' r='11'>
+    <stop offset='0' />
+    <stop offset='1' stop-opacity='0' />
+  </radialGradient>
+  <circle cx='12' cy='12' fill='url(#~w23e9ZsDur2NuVvW0UCSe)' r='11' />
+  <radialGradient cx='11.935' cy='2.232' gradientUnits='userSpaceOnUse' id='~w23e9ZsDur2NuVvW0UCSf' r='22.284'>
+    <stop offset='0' stop-color='#fafafb' />
+    <stop offset='1' stop-color='#c8cdd1' />
+  </radialGradient>
+  <circle cx='12' cy='12' fill='url(#~w23e9ZsDur2NuVvW0UCSf)' r='10' />
+  <path d='M12,12.5c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l5.091-5.091	c0.195-0.195,0.512-0.195,0.707,0s0.195,0.512,0,0.707l-5.091,5.091C12.256,12.451,12.128,12.5,12,12.5z'
+        fill='#45494d' />
+  <path d='M11.999,12.75c-0.112,0-0.227-0.025-0.334-0.079l-6-3C5.294,9.485,5.144,9.035,5.329,8.665	c0.186-0.371,0.636-0.521,1.006-0.336l6,3c0.371,0.186,0.521,0.636,0.336,1.006C12.539,12.599,12.274,12.75,11.999,12.75z'
+        fill='#45494d' />
+  <circle cx='12' cy='12' fill='#1e2021' r='1.5' />
+</svg>

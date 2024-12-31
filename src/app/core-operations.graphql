@@ -11,6 +11,8 @@ query getAppStartupInfo {
     currency
     homePageStrategy
     homePageLink
+    contractEnd
+    hardContractEnd
     settings {
       showPWAInstall
       timezone

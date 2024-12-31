@@ -438,6 +438,8 @@ export type Mutation = {
   updateTemplateFinances: EventTemplate;
   updateTemplateLocation: EventTemplate;
   updateTenant: Tenant;
+  updateTenantContractEnd: Tenant;
+  updateTenantCredit: Tenant;
   updateUserPicture: User;
   updateUserPosition: User;
   updateUserRole: UsersOfTenants;
@@ -646,6 +648,17 @@ export type MutationUpdateTemplateLocationArgs = {
 export type MutationUpdateTenantArgs = {
   id: Scalars['ID']['input'];
   updateTenantInput: UpdateTenantInput;
+};
+
+export type MutationUpdateTenantContractEndArgs = {
+  contractEnd: Scalars['DateTime']['input'];
+  hardContractEnd: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+export type MutationUpdateTenantCreditArgs = {
+  credit: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateUserPictureArgs = {
@@ -1081,10 +1094,12 @@ export type Tenant = {
   __typename?: 'Tenant';
   aboutPage: Scalars['String']['output'];
   communicationEmail: Scalars['String']['output'];
+  contractEnd: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
   credit: Scalars['Int']['output'];
   currency: Currency;
   faqPage?: Maybe<Scalars['String']['output']>;
+  hardContractEnd: Scalars['Boolean']['output'];
   homePageLink?: Maybe<Scalars['String']['output']>;
   homePageStrategy: HomePageStrategy;
   id: Scalars['ID']['output'];
@@ -1603,6 +1618,8 @@ export type GetAppStartupInfoQuery = {
     currency: Currency;
     homePageStrategy: HomePageStrategy;
     homePageLink?: string | null;
+    contractEnd: string;
+    hardContractEnd: boolean;
     settings: {
       __typename?: 'TenantSettings';
       showPWAInstall: boolean;
@@ -3274,6 +3291,40 @@ export type GetGlobalRangeStatisticsQuery = {
       type: string;
     }>;
   }>;
+};
+
+export type GetTenantsForGlobalAdminQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetTenantsForGlobalAdminQuery = {
+  __typename?: 'Query';
+  tenants: Array<{
+    __typename?: 'Tenant';
+    id: string;
+    name: string;
+    shortName: string;
+    currency: Currency;
+    contractEnd: string;
+    hardContractEnd: boolean;
+    credit: number;
+  }>;
+};
+
+export type UpdateTenantContractEndMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  contractEnd: Scalars['DateTime']['input'];
+  hardContractEnd: Scalars['Boolean']['input'];
+}>;
+
+export type UpdateTenantContractEndMutation = {
+  __typename?: 'Mutation';
+  updateTenantContractEnd: {
+    __typename?: 'Tenant';
+    id: string;
+    contractEnd: string;
+    hardContractEnd: boolean;
+  };
 };
 
 export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -5158,6 +5209,8 @@ export const GetAppStartupInfoDocument = gql`
       currency
       homePageStrategy
       homePageLink
+      contractEnd
+      hardContractEnd
       settings {
         showPWAInstall
         timezone
@@ -7397,6 +7450,64 @@ export class GetGlobalRangeStatisticsGQL extends Apollo.Query<
   GetGlobalRangeStatisticsQueryVariables
 > {
   override document = GetGlobalRangeStatisticsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetTenantsForGlobalAdminDocument = gql`
+  query getTenantsForGlobalAdmin {
+    tenants {
+      id
+      name
+      shortName
+      currency
+      contractEnd
+      hardContractEnd
+      credit
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetTenantsForGlobalAdminGQL extends Apollo.Query<
+  GetTenantsForGlobalAdminQuery,
+  GetTenantsForGlobalAdminQueryVariables
+> {
+  override document = GetTenantsForGlobalAdminDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateTenantContractEndDocument = gql`
+  mutation updateTenantContractEnd(
+    $id: ID!
+    $contractEnd: DateTime!
+    $hardContractEnd: Boolean!
+  ) {
+    updateTenantContractEnd(
+      id: $id
+      contractEnd: $contractEnd
+      hardContractEnd: $hardContractEnd
+    ) {
+      id
+      contractEnd
+      hardContractEnd
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateTenantContractEndGQL extends Apollo.Mutation<
+  UpdateTenantContractEndMutation,
+  UpdateTenantContractEndMutationVariables
+> {
+  override document = UpdateTenantContractEndDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

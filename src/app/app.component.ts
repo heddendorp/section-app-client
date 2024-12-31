@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { filter } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -9,6 +9,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { Settings } from 'luxon';
 import { NavComponent } from '@tumi/legacy-app/components/nav/nav.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +19,15 @@ import { ConfigService } from '@tumi/legacy-app/services/config.service';
   imports: [NavigationComponent, RouterOutlet, FooterComponent, NavComponent],
 })
 export class AppComponent {
+  protected contractEnded = signal(false);
+  protected contractEndedHard = signal(false);
   constructor(
     registry: MatIconRegistry,
     san: DomSanitizer,
     router: Router,
     viewportScroller: ViewportScroller,
     config: ConfigService,
+    permissions: PermissionsService,
   ) {
     registry.addSvgIconSet(
       san.bypassSecurityTrustResourceUrl('./assets/icons/tumi.min.svg'),
@@ -45,6 +50,14 @@ export class AppComponent {
     if (timezone) {
       Settings.defaultZone = timezone;
     }
+    permissions
+      .isAdmin()
+      .pipe(takeUntilDestroyed())
+      .subscribe((isAdmin) => {
+        config.userIsAdmin = isAdmin;
+        this.contractEnded.set(config.contractEndedForAdmin);
+      });
+    this.contractEndedHard.set(config.contractEndedHard);
   }
 
   protected newUI = !!localStorage.getItem('evorto_new_ui');

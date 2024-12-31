@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from '@tumi/legacy-app/components/page-not-foun
 import { SETTINGS_ROUTES } from '@tumi/legacy-app/modules/settings/settings.routes';
 import { globalAdminGuard } from '@tumi/legacy-app/guards/global-admin.guard';
 import { GLOBAL_ADMIN_ROUTES } from '@tumi/legacy-app/modules/global-admin/globalAdmin.routes';
+import { contractEndGuard } from '@tumi/legacy-app/guards/contract-end.guard';
 
 export const APP_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'events' },
@@ -24,21 +25,22 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'event-templates',
-    canActivate: [AuthGuard, MemberGuard],
+    canActivate: [contractEndGuard, AuthGuard, MemberGuard],
     children: EVENT_TEMPLATE_ROUTES,
   },
   {
     path: 'events',
+    canActivate: [contractEndGuard],
     children: EVENT_ROUTES,
   },
   {
     path: 'tenant',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [contractEndGuard, AuthGuard, AdminGuard],
     children: TENANT_ROUTES,
   },
   {
     path: 'settings',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [contractEndGuard, AuthGuard, AdminGuard],
     children: SETTINGS_ROUTES,
   },
   {
@@ -47,7 +49,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'section-hub',
-    canActivate: [AuthGuard, MemberGuard],
+    canActivate: [contractEndGuard, AuthGuard, MemberGuard],
     children: TUTOR_HUB_ROUTES,
   },
   {
@@ -58,6 +60,13 @@ export const APP_ROUTES: Routes = [
   {
     path: 'home',
     children: HOME_ROUTES,
+  },
+  {
+    path: 'expired',
+    loadComponent: () =>
+      import('./components/expired-page/expired-page.component').then(
+        (m) => m.ExpiredPageComponent,
+      ),
   },
   { path: '**', component: PageNotFoundComponent },
 ];
