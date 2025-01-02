@@ -16,8 +16,6 @@ import { firstValueFrom, map, Observable, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { EventSubmissionOverviewComponent } from '../../components/event-submission-overview/event-submission-overview.component';
-import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
-import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,26 +28,24 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/components/add-cost-item-dialog/add-cost-item-dialog.component';
 
 @Component({
-    selector: 'app-event-run-page',
-    templateUrl: './event-run-page.component.html',
-    styleUrls: ['./event-run-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        AsyncPipe,
-        BackButtonComponent,
-        CurrencyPipe,
-        EventParticipantsTableComponent,
-        EventSubmissionOverviewComponent,
-        IfRoleDirective,
-        MatButtonModule,
-        MatDialogModule,
-        MatIconModule,
-        MatListModule,
-        MatProgressBarModule,
-        MatToolbarModule,
-        RouterLink,
-        UserChipComponent,
-    ]
+  selector: 'app-event-run-page',
+  templateUrl: './event-run-page.component.html',
+  styleUrls: ['./event-run-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    BackButtonComponent,
+    CurrencyPipe,
+    EventParticipantsTableComponent,
+    EventSubmissionOverviewComponent,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatToolbarModule,
+    RouterLink,
+  ],
 })
 export class EventRunPageComponent implements OnDestroy {
   public Role = Role;
@@ -109,8 +105,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_organizer_mails');
   }
   getWhatsAppLink(phone = '') {
     return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
@@ -138,8 +132,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_participant_mails');
   }
 
   async copyCheckedInMails() {
@@ -165,8 +157,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_checked_in_mails');
   }
 
   async copyNonCheckedMails() {
@@ -192,8 +182,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_non_checked_in_mails');
   }
 
   async addCostItem() {

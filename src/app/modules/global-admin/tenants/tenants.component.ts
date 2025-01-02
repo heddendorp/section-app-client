@@ -23,8 +23,8 @@ export class TenantsComponent {
   private getTenantsForGlobalAdminGQL = inject(GetTenantsForGlobalAdminGQL);
   protected tenants = toSignal(
     this.getTenantsForGlobalAdminGQL
-      .fetch()
-      .pipe(map((res) => res.data.tenants)),
+      .watch()
+      .valueChanges.pipe(map((res) => res.data.tenants)),
   );
   private updateTenantContractEndGQL = inject(UpdateTenantContractEndGQL);
   private dialog = inject(MatDialog);
