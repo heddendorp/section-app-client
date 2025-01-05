@@ -28,29 +28,24 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgFor, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-    selector: 'app-data-items-collector',
-    templateUrl: './data-items-collector.component.html',
-    styleUrls: ['./data-items-collector.component.scss'],
-    imports: [
-        NgIf,
-        ReactiveFormsModule,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        MatFormFieldModule,
-        MatInputModule,
-        MarkdownModule,
-        MatSlideToggleModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatButtonModule,
-        MatDividerModule,
-    ]
+  selector: 'app-data-items-collector',
+  templateUrl: './data-items-collector.component.html',
+  styleUrls: ['./data-items-collector.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MarkdownModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatDividerModule,
+  ],
 })
 export class DataItemsCollectorComponent implements OnDestroy, OnChanges {
   @Input() public items: Array<

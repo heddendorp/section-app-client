@@ -12,7 +12,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -23,21 +23,20 @@ export interface SelectWithAutocompleteDialogData {
 }
 
 @Component({
-    selector: 'app-select-with-autocomplete-dialog',
-    templateUrl: './select-with-autocomplete-dialog.component.html',
-    styleUrls: ['./select-with-autocomplete-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        NgFor,
-        MatOptionModule,
-        MatButtonModule,
-        AsyncPipe,
-    ]
+  selector: 'app-select-with-autocomplete-dialog',
+  templateUrl: './select-with-autocomplete-dialog.component.html',
+  styleUrls: ['./select-with-autocomplete-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatButtonModule,
+    AsyncPipe,
+  ],
 })
 export class SelectWithAutocompleteDialogComponent {
   public nameControl = new UntypedFormControl();

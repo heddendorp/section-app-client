@@ -11,21 +11,19 @@ import { PhotoShare } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-photo-details-dialog',
-    templateUrl: './photo-details-dialog.component.html',
-    styleUrls: ['./photo-details-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        MatProgressSpinnerModule,
-        MatButtonModule,
-        MatIconModule,
-        AsyncPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-photo-details-dialog',
+  templateUrl: './photo-details-dialog.component.html',
+  styleUrls: ['./photo-details-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    AsyncPipe,
+  ],
 })
 export class PhotoDetailsDialogComponent {
   public imageLoaded$ = new BehaviorSubject(false);

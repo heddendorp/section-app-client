@@ -9,28 +9,21 @@ import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import {
-  LowerCasePipe,
-  NgIf,
-  NgOptimizedImage,
-  UpperCasePipe,
-} from '@angular/common';
+import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-profile-card',
-    templateUrl: './profile-card.component.html',
-    styleUrls: ['./profile-card.component.scss'],
-    imports: [
-        NgIf,
-        MatDividerModule,
-        MatIconModule,
-        MatButtonModule,
-        IfRoleDirective,
-        RouterLink,
-        UpperCasePipe,
-        LowerCasePipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-profile-card',
+  templateUrl: './profile-card.component.html',
+  styleUrls: ['./profile-card.component.scss'],
+  imports: [
+    MatDividerModule,
+    MatIconModule,
+    MatButtonModule,
+    IfRoleDirective,
+    RouterLink,
+    LowerCasePipe,
+    NgOptimizedImage,
+  ],
 })
 export class ProfileCardComponent {
   @Input()

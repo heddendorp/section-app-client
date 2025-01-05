@@ -11,21 +11,14 @@ import { DateTime } from 'luxon';
 import { EventCalendarDayDialogComponent } from './event-calendar-day-dialog/event-calendar-day-dialog';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { MatRippleModule } from '@angular/material/core';
-import { LowerCasePipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-calendar',
-    templateUrl: './event-calendar.component.html',
-    styleUrls: ['./event-calendar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgFor,
-        NgIf,
-        MatRippleModule,
-        LowerCasePipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-event-calendar',
+  templateUrl: './event-calendar.component.html',
+  styleUrls: ['./event-calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatRippleModule, LowerCasePipe, IconURLPipe, NgOptimizedImage],
 })
 export class EventCalendarComponent implements OnChanges {
   @Input() events: EventListQuery['events'] | null = null;

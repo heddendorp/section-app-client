@@ -1,16 +1,16 @@
-:host{
+:host {
   @apply block;
   max-height: inherit;
   max-width: inherit;
 }
 
-.inherit-dimensions{
+.inherit-dimensions {
   max-height: inherit;
   max-width: inherit;
 }
 
-img{
-  @apply w-full h-full;
+img {
+  @apply h-full w-full;
   max-height: inherit;
   max-width: inherit;
 }

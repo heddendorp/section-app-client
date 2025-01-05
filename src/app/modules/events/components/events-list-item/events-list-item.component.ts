@@ -17,29 +17,27 @@ import {
   CurrencyPipe,
   DatePipe,
   LowerCasePipe,
-  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
-    selector: 'app-events-list-item',
-    templateUrl: './events-list-item.component.html',
-    styleUrls: ['./events-list-item.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MatRippleModule,
-        RouterLink,
-        NgIf,
-        MatIconModule,
-        LowerCasePipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe_1,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-events-list-item',
+  templateUrl: './events-list-item.component.html',
+  styleUrls: ['./events-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatRippleModule,
+    RouterLink,
+    MatIconModule,
+    LowerCasePipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe_1,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventsListItemComponent {
   @Input() public event: EventListQuery['events'][0] | null = null;

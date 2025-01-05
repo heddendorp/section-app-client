@@ -19,11 +19,11 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-tenant-organizers-page',
-    templateUrl: './tenant-organizers-page.component.html',
-    styleUrls: ['./tenant-organizers-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatButtonModule, AsyncPipe, IconURLPipe, RouterLink]
+  selector: 'app-tenant-organizers-page',
+  templateUrl: './tenant-organizers-page.component.html',
+  styleUrls: ['./tenant-organizers-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, AsyncPipe, IconURLPipe, RouterLink],
 })
 export class TenantOrganizersPageComponent implements OnInit {
   public organizers$: Observable<GetOrganizersQuery['eventOrganizers']>;

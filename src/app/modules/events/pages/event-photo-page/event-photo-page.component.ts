@@ -25,22 +25,20 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-photo-page',
-    templateUrl: './event-photo-page.component.html',
-    styleUrls: ['./event-photo-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        MatButtonModule,
-        MatIconModule,
-        NgFor,
-        AsyncPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-event-photo-page',
+  templateUrl: './event-photo-page.component.html',
+  styleUrls: ['./event-photo-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventPhotoPageComponent implements OnDestroy {
   public photos$: Observable<GetPhotosOfEventQuery['photos']>;

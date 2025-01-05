@@ -5,11 +5,11 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-event-display',
-    imports: [IconURLPipe, MarkdownComponent, RouterLink],
-    templateUrl: './event-display.component.html',
-    styleUrl: './event-display.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-event-display',
+  imports: [IconURLPipe, MarkdownComponent, RouterLink],
+  templateUrl: './event-display.component.html',
+  styleUrl: './event-display.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventDisplayComponent {
   public event = input.required<LoadEventDisplayDataQuery['event']>();

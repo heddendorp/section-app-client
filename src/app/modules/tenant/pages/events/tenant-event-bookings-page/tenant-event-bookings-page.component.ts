@@ -9,29 +9,28 @@ import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-d
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-event-bookings-page',
-    templateUrl: './tenant-event-bookings-page.component.html',
-    styleUrls: ['./tenant-event-bookings-page.component.scss'],
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        MatTableModule,
-        EventChipComponent,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-tenant-event-bookings-page',
+  templateUrl: './tenant-event-bookings-page.component.html',
+  styleUrls: ['./tenant-event-bookings-page.component.scss'],
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    MatProgressBarModule,
+    MatTableModule,
+    EventChipComponent,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantEventBookingsPageComponent {
   public events$: Observable<LoadEventsWithBookingQuery['events']>;

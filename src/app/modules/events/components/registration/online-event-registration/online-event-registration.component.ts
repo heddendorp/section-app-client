@@ -11,22 +11,21 @@ import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-d
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-online-event-registration',
-    templateUrl: './online-event-registration.component.html',
-    styleUrls: ['./online-event-registration.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CheckAdditionalDataComponent,
-        MatButtonModule,
-        MatProgressBarModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-online-event-registration',
+  templateUrl: './online-event-registration.component.html',
+  styleUrls: ['./online-event-registration.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CheckAdditionalDataComponent,
+    MatButtonModule,
+    MatProgressBarModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class OnlineEventRegistrationComponent {
   @Input() public event: LoadEventQuery['event'] | null = null;

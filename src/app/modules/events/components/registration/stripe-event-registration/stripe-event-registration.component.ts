@@ -21,7 +21,6 @@ import { Price } from '@tumi/legacy-app/utils';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/permissions.service';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
-import { RouterLink } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,35 +28,26 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  DatePipe,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-stripe-event-registration',
-    templateUrl: './stripe-event-registration.component.html',
-    styleUrls: ['./stripe-event-registration.component.scss'],
-    imports: [
-        NgIf,
-        CheckAdditionalDataComponent,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        NgFor,
-        MatOptionModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressBarModule,
-        RouterLink,
-        AsyncPipe,
-        CurrencyPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-stripe-event-registration',
+  templateUrl: './stripe-event-registration.component.html',
+  styleUrls: ['./stripe-event-registration.component.scss'],
+  imports: [
+    CheckAdditionalDataComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    AsyncPipe,
+    CurrencyPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;

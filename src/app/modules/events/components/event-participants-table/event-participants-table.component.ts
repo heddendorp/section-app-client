@@ -31,11 +31,11 @@ export type ParticipantTableRegistration = {
 };
 
 @Component({
-    selector: 'app-event-participants-table',
-    imports: [CommonModule, ExtendDatePipe],
-    templateUrl: './event-participants-table.component.html',
-    styleUrls: ['./event-participants-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-event-participants-table',
+  imports: [CommonModule, ExtendDatePipe],
+  templateUrl: './event-participants-table.component.html',
+  styleUrls: ['./event-participants-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventParticipantsTableComponent {
   @Input() event?: {

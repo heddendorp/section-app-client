@@ -15,36 +15,35 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-events-page',
-    templateUrl: './tenant-events-page.component.html',
-    styleUrls: ['./tenant-events-page.component.scss'],
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        MatInputModule,
-        MatIconModule,
-        MatTableModule,
-        EventChipComponent,
-        MatRippleModule,
-        RouterLink,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-tenant-events-page',
+  templateUrl: './tenant-events-page.component.html',
+  styleUrls: ['./tenant-events-page.component.scss'],
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    MatProgressBarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatIconModule,
+    MatTableModule,
+    EventChipComponent,
+    MatRippleModule,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantEventsPageComponent implements OnInit, OnDestroy {
   public displayedColumns = [

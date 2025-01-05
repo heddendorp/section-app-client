@@ -32,22 +32,22 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-section-settings-tab',
-    imports: [
-        MatFormFieldModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatInputModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        ReactiveFormsModule,
-        TitleCasePipe,
-    ],
-    templateUrl: './section-settings-tab.component.html',
-    styleUrl: './section-settings-tab.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-section-settings-tab',
+  imports: [
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    TitleCasePipe,
+  ],
+  templateUrl: './section-settings-tab.component.html',
+  styleUrl: './section-settings-tab.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionSettingsTabComponent {
   protected readonly Currency = Currency;

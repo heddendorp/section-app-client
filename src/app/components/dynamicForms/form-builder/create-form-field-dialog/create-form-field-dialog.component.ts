@@ -18,21 +18,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-create-form-field-dialog',
-    imports: [
-        MatDialogTitle,
-        MatDialogContent,
-        MatSelectModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        MatDialogActions,
-        MatDialogClose,
-    ],
-    templateUrl: './create-form-field-dialog.component.html',
-    styleUrl: './create-form-field-dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-create-form-field-dialog',
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatSelectModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogActions,
+    MatDialogClose,
+  ],
+  templateUrl: './create-form-field-dialog.component.html',
+  styleUrl: './create-form-field-dialog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateFormFieldDialogComponent {
   protected fieldConfigForm = new FormGroup({

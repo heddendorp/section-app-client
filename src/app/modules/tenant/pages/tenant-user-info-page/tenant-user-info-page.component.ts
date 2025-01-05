@@ -25,29 +25,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-user-info-page',
-    templateUrl: './tenant-user-info-page.component.html',
-    styleUrls: ['./tenant-user-info-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        UserChipComponent,
-        MatButtonModule,
-        MatSlideToggleModule,
-        MatTableModule,
-        EventChipComponent,
-        MatRippleModule,
-        RouterLink,
-        AsyncPipe,
-        TitleCasePipe,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-tenant-user-info-page',
+  templateUrl: './tenant-user-info-page.component.html',
+  styleUrls: ['./tenant-user-info-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    UserChipComponent,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    EventChipComponent,
+    MatRippleModule,
+    RouterLink,
+    AsyncPipe,
+    TitleCasePipe,
+    DatePipe,
+    ExtendDatePipe,
+  ],
 })
 export class TenantUserInfoPageComponent {
   public user$: Observable<LoadUserQuery['user']>;

@@ -10,7 +10,7 @@ import {
   MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { AuthButtonComponent } from '@tumi/legacy-app/components/auth-button/auth-button.component';
 import { IfRoleDirective } from '@tumi/legacy-app/modules/shared/directives/if-role.directive';
 import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
@@ -24,23 +24,22 @@ import {
 } from '@angular/material/bottom-sheet';
 
 @Component({
-    selector: 'app-nav',
-    imports: [
-        AsyncPipe,
-        AuthButtonComponent,
-        IfRoleDirective,
-        IfStatusDirective,
-        MatIcon,
-        MatRipple,
-        NgOptimizedImage,
-        RouterLink,
-        RouterLinkActive,
-        IfGlobalAdminDirective,
-        MatBottomSheetModule,
-    ],
-    templateUrl: './nav.component.html',
-    styleUrl: './nav.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-nav',
+  imports: [
+    AuthButtonComponent,
+    IfRoleDirective,
+    IfStatusDirective,
+    MatIcon,
+    MatRipple,
+    NgOptimizedImage,
+    RouterLink,
+    RouterLinkActive,
+    IfGlobalAdminDirective,
+    MatBottomSheetModule,
+  ],
+  templateUrl: './nav.component.html',
+  styleUrl: './nav.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavComponent {
   protected navSettings = inject(ConfigService).navData;

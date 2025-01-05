@@ -15,34 +15,25 @@ import { IfStatusDirective } from '../../modules/shared/directives/if-status.dir
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
-import {
-  AsyncPipe,
-  NgIf,
-  NgOptimizedImage,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { IfGlobalAdminDirective } from '@tumi/legacy-app/modules/shared/directives/if-global-admin.directive';
 
 @Component({
-    selector: 'app-navigation',
-    templateUrl: './navigation.component.html',
-    styleUrls: ['./navigation.component.scss'],
-    imports: [
-        NgIf,
-        MatRippleModule,
-        RouterLink,
-        NgSwitch,
-        NgSwitchCase,
-        RouterLinkActive,
-        MatIconModule,
-        IfStatusDirective,
-        IfRoleDirective,
-        AuthButtonComponent,
-        AsyncPipe,
-        NgOptimizedImage,
-        IfGlobalAdminDirective,
-    ]
+  selector: 'app-navigation',
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.scss'],
+  imports: [
+    MatRippleModule,
+    RouterLink,
+    RouterLinkActive,
+    MatIconModule,
+    IfStatusDirective,
+    IfRoleDirective,
+    AuthButtonComponent,
+    AsyncPipe,
+    NgOptimizedImage,
+    IfGlobalAdminDirective,
+  ],
 })
 export class NavigationComponent {
   public Role = Role;

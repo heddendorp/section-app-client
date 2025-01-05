@@ -16,6 +16,7 @@ import {
   IDatasource,
   IGetRowsParams,
   RowClickedEvent,
+  themeQuartz,
 } from 'ag-grid-community';
 import { GridListFilterComponentComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/grid-list-filter-component/grid-list-filter-component.component';
 import {
@@ -28,16 +29,17 @@ import { firstValueFrom, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-user-grid',
-    imports: [AgGridAngular],
-    templateUrl: './user-grid.component.html',
-    styleUrl: './user-grid.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-grid',
+  imports: [AgGridAngular],
+  templateUrl: './user-grid.component.html',
+  styleUrl: './user-grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserGridComponent {
   public height = input.required<string>();
   @Output() rowClicked = new EventEmitter<string>();
   private gridApi!: GridApi;
+  protected theme = themeQuartz;
   private defaultCols: (ColDef | ColGroupDef)[] = [
     {
       headerName: 'First Name',

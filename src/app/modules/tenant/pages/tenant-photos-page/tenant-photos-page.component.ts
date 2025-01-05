@@ -14,21 +14,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-tenant-photos-page',
-    templateUrl: './tenant-photos-page.component.html',
-    styleUrls: ['./tenant-photos-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        BackButtonComponent,
-        ResetScrollDirective,
-        NgIf,
-        MatProgressBarModule,
-        NgFor,
-        AsyncPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-tenant-photos-page',
+  templateUrl: './tenant-photos-page.component.html',
+  styleUrls: ['./tenant-photos-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    BackButtonComponent,
+    ResetScrollDirective,
+    NgIf,
+    MatProgressBarModule,
+    NgFor,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class TenantPhotosPageComponent implements OnDestroy {
   public photos$: Observable<LoadAllPhotosQuery['photos']>;

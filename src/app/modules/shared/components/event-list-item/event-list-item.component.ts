@@ -4,21 +4,20 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { UserChipComponent } from '../user-chip/user-chip.component';
 import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { DecimalPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-event-list-item',
-    templateUrl: './event-list-item.component.html',
-    styleUrls: ['./event-list-item.component.scss'],
-    imports: [
-        NgIf,
-        MatListModule,
-        RouterLink,
-        UserChipComponent,
-        DecimalPipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-event-list-item',
+  templateUrl: './event-list-item.component.html',
+  styleUrls: ['./event-list-item.component.scss'],
+  imports: [
+    MatListModule,
+    RouterLink,
+    UserChipComponent,
+    DecimalPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventListItemComponent {
   @Input() event: any = null;

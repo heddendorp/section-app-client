@@ -14,16 +14,16 @@ import {
   SubmissionItemType,
 } from '@tumi/legacy-app/generated/generated';
 import { NewDataItemDialogComponent } from '@tumi/legacy-app/modules/shared/components/new-data-item-dialog/new-data-item-dialog.component';
-import { JsonPipe, NgFor } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-data-items-manager',
-    templateUrl: './data-items-manager.component.html',
-    styleUrls: ['./data-items-manager.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatButtonModule, MatIconModule, NgFor, JsonPipe]
+  selector: 'app-data-items-manager',
+  templateUrl: './data-items-manager.component.html',
+  styleUrls: ['./data-items-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, MatIconModule, JsonPipe],
 })
 export class DataItemsManagerComponent {
   @Input() public items: Array<

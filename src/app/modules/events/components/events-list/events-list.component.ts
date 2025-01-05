@@ -2,21 +2,14 @@ import { Component, Input } from '@angular/core';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { EventsListItemComponent } from '../events-list-item/events-list-item.component';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 
 @Component({
-    selector: 'app-events-list',
-    templateUrl: './events-list.component.html',
-    styleUrls: ['./events-list.component.scss'],
-    imports: [
-        GridComponent,
-        NgIf,
-        NgFor,
-        EventsListItemComponent,
-        DatePipe,
-        ExtendDatePipe,
-    ]
+  selector: 'app-events-list',
+  templateUrl: './events-list.component.html',
+  styleUrls: ['./events-list.component.scss'],
+  imports: [GridComponent, EventsListItemComponent, DatePipe, ExtendDatePipe],
 })
 export class EventsListComponent {
   @Input() events: EventListQuery['events'] | null = null;

@@ -7,15 +7,15 @@ import {
   LoadRegistrationForMoveGQL,
   LoadRegistrationForMoveQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-move-event-dialog',
-    templateUrl: './move-event-dialog.component.html',
-    styleUrls: ['./move-event-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatDialogModule, NgIf, MatButtonModule, AsyncPipe]
+  selector: 'app-move-event-dialog',
+  templateUrl: './move-event-dialog.component.html',
+  styleUrls: ['./move-event-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatDialogModule, MatButtonModule, AsyncPipe],
 })
 export class MoveEventDialogComponent {
   public registration$: Observable<

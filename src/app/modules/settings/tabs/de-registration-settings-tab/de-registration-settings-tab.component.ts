@@ -24,18 +24,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-de-registration-settings-tab',
-    imports: [
-        ReactiveFormsModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSnackBarModule,
-    ],
-    templateUrl: './de-registration-settings-tab.component.html',
-    styleUrl: './de-registration-settings-tab.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-de-registration-settings-tab',
+  imports: [
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
+  ],
+  templateUrl: './de-registration-settings-tab.component.html',
+  styleUrl: './de-registration-settings-tab.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeRegistrationSettingsTabComponent {
   protected freeRegistrationSettingsForm = new FormGroup({

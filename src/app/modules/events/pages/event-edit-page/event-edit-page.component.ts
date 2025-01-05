@@ -69,44 +69,36 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-  NgOptimizedImage,
-  TitleCasePipe,
-} from '@angular/common';
+import { AsyncPipe, NgOptimizedImage, TitleCasePipe } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-event-edit-page',
-    templateUrl: './event-edit-page.component.html',
-    styleUrls: ['./event-edit-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MatToolbarModule,
-        BackButtonComponent,
-        NgIf,
-        MatButtonModule,
-        RouterLink,
-        MatTabsModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        NgFor,
-        MatOptionModule,
-        IfRoleDirective,
-        DataItemsManagerComponent,
-        UserChipComponent,
-        AsyncPipe,
-        TitleCasePipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-event-edit-page',
+  templateUrl: './event-edit-page.component.html',
+  styleUrls: ['./event-edit-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatToolbarModule,
+    BackButtonComponent,
+    MatButtonModule,
+    RouterLink,
+    MatTabsModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
+    IfRoleDirective,
+    DataItemsManagerComponent,
+    UserChipComponent,
+    AsyncPipe,
+    TitleCasePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventEditPageComponent implements OnInit, OnDestroy {
   public RegistrationMode = RegistrationMode;

@@ -5,21 +5,20 @@ import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
-    selector: 'app-auth-button',
-    templateUrl: './auth-button.component.html',
-    styleUrls: ['./auth-button.component.scss'],
-    imports: [
-        NgIf,
-        RouterLink,
-        RouterLinkActive,
-        MatIconModule,
-        AsyncPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-auth-button',
+  templateUrl: './auth-button.component.html',
+  styleUrls: ['./auth-button.component.scss'],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    MatIconModule,
+    AsyncPipe,
+    NgOptimizedImage,
+  ],
 })
 export class AuthButtonComponent {
   public userPicture: string = '';

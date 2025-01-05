@@ -16,20 +16,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-    selector: 'app-add-cost-item-dialog',
-    imports: [
-        MatButtonModule,
-        MatDialogActions,
-        MatDialogClose,
-        MatDialogContent,
-        MatDialogTitle,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-    ],
-    templateUrl: './add-cost-item-dialog.component.html',
-    styleUrl: './add-cost-item-dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-add-cost-item-dialog',
+  imports: [
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
+  templateUrl: './add-cost-item-dialog.component.html',
+  styleUrl: './add-cost-item-dialog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCostItemDialogComponent {
   protected costItemForm = new FormGroup({

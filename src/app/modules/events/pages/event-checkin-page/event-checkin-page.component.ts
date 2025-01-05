@@ -39,33 +39,29 @@ import {
   AsyncPipe,
   CurrencyPipe,
   DatePipe,
-  NgFor,
-  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 @Component({
-    selector: 'app-event-checkin-page',
-    templateUrl: './event-checkin-page.component.html',
-    styleUrls: ['./event-checkin-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        BackButtonComponent,
-        NgIf,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        NgFor,
-        MatOptionModule,
-        MatButtonModule,
-        RouterLink,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-        NgOptimizedImage,
-        CurrencyPipe,
-    ]
+  selector: 'app-event-checkin-page',
+  templateUrl: './event-checkin-page.component.html',
+  styleUrls: ['./event-checkin-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    BackButtonComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatButtonModule,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+    NgOptimizedImage,
+    CurrencyPipe,
+  ],
 })
 export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   public hideScanner$ = new BehaviorSubject(false);

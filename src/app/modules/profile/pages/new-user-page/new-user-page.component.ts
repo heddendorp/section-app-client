@@ -32,22 +32,22 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { startWith } from 'rxjs';
 
 @Component({
-    selector: 'app-new-user-page',
-    templateUrl: './new-user-page.component.html',
-    styleUrls: ['./new-user-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatDatepickerModule,
-        MatButtonModule,
-        FormDisplayComponent,
-        MatCheckbox,
-        RouterLink,
-    ]
+  selector: 'app-new-user-page',
+  templateUrl: './new-user-page.component.html',
+  styleUrls: ['./new-user-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    FormDisplayComponent,
+    MatCheckbox,
+    RouterLink,
+  ],
 })
 export class NewUserPageComponent {
   public completeProfileForm = new FormGroup({

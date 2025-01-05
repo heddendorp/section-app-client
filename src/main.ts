@@ -47,8 +47,10 @@ import {
   Title,
 } from '@angular/platform-browser';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 let bootstrapSpan: any = null;
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 if (environment.production) {
   enableProdMode();

@@ -23,14 +23,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
-import {
-  AsyncPipe,
-  DatePipe,
-  DOCUMENT,
-  NgFor,
-  NgIf,
-  UpperCasePipe,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, DOCUMENT, UpperCasePipe } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import {
   MatProgressBarModule,
@@ -53,28 +46,26 @@ import { ConfigService } from '@tumi/legacy-app/services/config.service';
 import { ConfirmDeleteDialogComponent } from '@tumi/legacy-app/modules/profile/components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
-    selector: 'app-profile-page',
-    templateUrl: './profile-page.component.html',
-    styleUrls: ['./profile-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        ProfileCardComponent,
-        MatIconModule,
-        MatButtonModule,
-        NgFor,
-        RateEventComponent,
-        EventListComponent,
-        RouterLink,
-        AsyncPipe,
-        UpperCasePipe,
-        DatePipe,
-        ExtendDatePipe,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSlideToggle,
-    ]
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatProgressBarModule,
+    ProfileCardComponent,
+    MatIconModule,
+    MatButtonModule,
+    RateEventComponent,
+    EventListComponent,
+    RouterLink,
+    AsyncPipe,
+    UpperCasePipe,
+    DatePipe,
+    ExtendDatePipe,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSlideToggle,
+  ],
 })
 export class ProfilePageComponent implements OnDestroy {
   public profile$: Observable<UserProfileQuery['currentUser']>;

@@ -13,34 +13,26 @@ import { MatRippleModule } from '@angular/material/core';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {
-  AsyncPipe,
-  DatePipe,
-  NgFor,
-  NgIf,
-  NgOptimizedImage,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-public-registration-codes-page',
-    templateUrl: './public-registration-codes-page.component.html',
-    styleUrls: ['./public-registration-codes-page.component.scss'],
-    imports: [
-        NgIf,
-        MatProgressBarModule,
-        MatDialogModule,
-        GridComponent,
-        NgFor,
-        MatRippleModule,
-        RouterLink,
-        MatIconModule,
-        MatButtonModule,
-        AsyncPipe,
-        DatePipe,
-        ExtendDatePipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-public-registration-codes-page',
+  templateUrl: './public-registration-codes-page.component.html',
+  styleUrls: ['./public-registration-codes-page.component.scss'],
+  imports: [
+    MatProgressBarModule,
+    MatDialogModule,
+    GridComponent,
+    MatRippleModule,
+    RouterLink,
+    MatIconModule,
+    MatButtonModule,
+    AsyncPipe,
+    DatePipe,
+    ExtendDatePipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class PublicRegistrationCodesPageComponent {
   registrationCodes$: Observable<

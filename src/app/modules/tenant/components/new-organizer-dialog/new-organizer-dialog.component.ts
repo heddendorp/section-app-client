@@ -20,17 +20,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-new-organizer-dialog',
-    templateUrl: './new-organizer-dialog.component.html',
-    styleUrls: ['./new-organizer-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-    ]
+  selector: 'app-new-organizer-dialog',
+  templateUrl: './new-organizer-dialog.component.html',
+  styleUrls: ['./new-organizer-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class NewOrganizerDialogComponent implements OnInit {
   public newOrganizerForm: UntypedFormGroup;

@@ -5,10 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-transaction-list',
-    templateUrl: './transaction-list.component.html',
-    styleUrls: ['./transaction-list.component.scss'],
-    imports: [NgFor, NgIf, MatIconModule, CurrencyPipe, SnakeCasePipe]
+  selector: 'app-transaction-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.scss'],
+  imports: [NgFor, NgIf, MatIconModule, CurrencyPipe, SnakeCasePipe],
 })
 export class TransactionListComponent {
   @Input() transactions: Array<

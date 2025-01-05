@@ -23,31 +23,28 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-event-form-dialog',
-    templateUrl: './event-form-dialog.component.html',
-    styleUrls: ['./event-form-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgIf,
-        MatSelectModule,
-        NgFor,
-        MatOptionModule,
-        LocationAutocompleteComponent,
-        MatCheckboxModule,
-        MatButtonModule,
-        AsyncPipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-event-form-dialog',
+  templateUrl: './event-form-dialog.component.html',
+  styleUrls: ['./event-form-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    LocationAutocompleteComponent,
+    MatCheckboxModule,
+    MatButtonModule,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class EventFormDialogComponent implements OnDestroy {
   public dialogForm: UntypedFormGroup;

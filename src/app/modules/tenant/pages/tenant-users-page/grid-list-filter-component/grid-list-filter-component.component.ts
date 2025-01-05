@@ -8,11 +8,11 @@ import {
 } from '@angular/material/list';
 
 @Component({
-    selector: 'app-grid-list-filter-component',
-    imports: [MatSelectionList, MatListOption],
-    templateUrl: './grid-list-filter-component.component.html',
-    styleUrl: './grid-list-filter-component.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-grid-list-filter-component',
+  imports: [MatSelectionList, MatListOption],
+  templateUrl: './grid-list-filter-component.component.html',
+  styleUrl: './grid-list-filter-component.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridListFilterComponentComponent implements IFilterAngularComp {
   params!: IFilterParams;

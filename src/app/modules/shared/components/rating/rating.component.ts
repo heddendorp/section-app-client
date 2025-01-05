@@ -2,20 +2,20 @@ import { Component, forwardRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-rating',
-    templateUrl: './rating.component.html',
-    styleUrls: ['./rating.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => RatingComponent),
-            multi: true,
-        },
-    ],
-    imports: [NgFor, MatIconModule, AsyncPipe]
+  selector: 'app-rating',
+  templateUrl: './rating.component.html',
+  styleUrls: ['./rating.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RatingComponent),
+      multi: true,
+    },
+  ],
+  imports: [MatIconModule, AsyncPipe],
 })
 export class RatingComponent implements ControlValueAccessor {
   private _onChange: any;

@@ -9,16 +9,16 @@ import { map } from 'rxjs';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-tenant-landing-page',
-    templateUrl: './tenant-landing-page.component.html',
-    styleUrls: ['./tenant-landing-page.component.scss'],
-    imports: [
-        MatToolbarModule,
-        MatButtonModule,
-        RouterLink,
-        CurrencyPipe,
-        DecimalPipe,
-    ]
+  selector: 'app-tenant-landing-page',
+  templateUrl: './tenant-landing-page.component.html',
+  styleUrls: ['./tenant-landing-page.component.scss'],
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    RouterLink,
+    CurrencyPipe,
+    DecimalPipe,
+  ],
 })
 export class TenantLandingPageComponent {
   private getLandingPageStatisticsGQL = inject(GetLandingPageStatisticsGQL);

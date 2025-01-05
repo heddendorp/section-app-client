@@ -22,11 +22,11 @@ import { AgCharts } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
-    selector: 'app-fee-overview',
-    imports: [CurrencyPipe, ExtendDatePipe, DecimalPipe, RouterLink, AgCharts],
-    templateUrl: './fee-overview.component.html',
-    styleUrl: './fee-overview.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-fee-overview',
+  imports: [CurrencyPipe, ExtendDatePipe, DecimalPipe, RouterLink, AgCharts],
+  templateUrl: './fee-overview.component.html',
+  styleUrl: './fee-overview.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeeOverviewComponent implements OnInit, OnDestroy {
   private title = inject(Title);

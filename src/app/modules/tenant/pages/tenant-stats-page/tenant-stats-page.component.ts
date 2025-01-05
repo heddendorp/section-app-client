@@ -28,18 +28,18 @@ import { AgChartsModule } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
-    selector: 'app-tenant-stats-page',
-    templateUrl: './tenant-stats-page.component.html',
-    styleUrls: ['./tenant-stats-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        DecimalPipe,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        ReactiveFormsModule,
-        AgChartsModule,
-    ]
+  selector: 'app-tenant-stats-page',
+  templateUrl: './tenant-stats-page.component.html',
+  styleUrls: ['./tenant-stats-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    DecimalPipe,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    AgChartsModule,
+  ],
 })
 export class TenantStatsPageComponent {
   protected timeForm = new FormGroup({

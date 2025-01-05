@@ -3,10 +3,10 @@ import { PriceModel } from '../finance-planner.component';
 import { CurrencyPipe, PercentPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-finance-planner-price-model',
-    templateUrl: './finance-planner-price-model.component.html',
-    styleUrls: ['./finance-planner-price-model.component.scss'],
-    imports: [PercentPipe, CurrencyPipe]
+  selector: 'app-finance-planner-price-model',
+  templateUrl: './finance-planner-price-model.component.html',
+  styleUrls: ['./finance-planner-price-model.component.scss'],
+  imports: [PercentPipe, CurrencyPipe],
 })
 export class FinancePlannerPriceModelComponent {
   @Input() name: string = '';

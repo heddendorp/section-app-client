@@ -30,41 +30,33 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  AsyncPipe,
-  DecimalPipe,
-  NgFor,
-  NgIf,
-  NgOptimizedImage,
-} from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
 @Component({
-    selector: 'app-template-list-page',
-    templateUrl: './template-list-page.component.html',
-    styleUrls: ['./template-list-page.component.scss'],
-    imports: [
-        ReactiveToolbarComponent,
-        MatToolbarModule,
-        NgIf,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        ResetScrollDirective,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressBarModule,
-        IfRoleDirective,
-        MatExpansionModule,
-        NgFor,
-        MatListModule,
-        RouterLink,
-        AsyncPipe,
-        DecimalPipe,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-template-list-page',
+  templateUrl: './template-list-page.component.html',
+  styleUrls: ['./template-list-page.component.scss'],
+  imports: [
+    ReactiveToolbarComponent,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    ResetScrollDirective,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    IfRoleDirective,
+    MatExpansionModule,
+    MatListModule,
+    RouterLink,
+    AsyncPipe,
+    DecimalPipe,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class TemplateListPageComponent {
   public Role = Role;

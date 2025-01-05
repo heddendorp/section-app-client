@@ -14,11 +14,11 @@ import { CreateFormFieldDialogComponent } from '@tumi/legacy-app/components/dyna
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-form-builder',
-    imports: [MatButtonModule, MatIconModule, MatDialogModule],
-    templateUrl: './form-builder.component.html',
-    styleUrl: './form-builder.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-form-builder',
+  imports: [MatButtonModule, MatIconModule, MatDialogModule],
+  templateUrl: './form-builder.component.html',
+  styleUrl: './form-builder.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormBuilderComponent {
   @Output() protected fieldChange = new EventEmitter();

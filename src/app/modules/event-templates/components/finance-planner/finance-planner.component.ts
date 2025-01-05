@@ -36,13 +36,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 interface CostItem {
   description: string;
@@ -69,25 +63,22 @@ export interface PriceModel {
 }
 
 @Component({
-    selector: 'app-finance-planner',
-    templateUrl: './finance-planner.component.html',
-    styleUrls: ['./finance-planner.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        MatTableModule,
-        NgSwitch,
-        NgSwitchCase,
-        MatButtonModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        FinancePlannerPriceModelComponent,
-        AsyncPipe,
-        CurrencyPipe,
-    ]
+  selector: 'app-finance-planner',
+  templateUrl: './finance-planner.component.html',
+  styleUrls: ['./finance-planner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FinancePlannerPriceModelComponent,
+    AsyncPipe,
+    CurrencyPipe,
+  ],
 })
 export class FinancePlannerComponent implements OnChanges {
   @Input() public template: GetEventTemplateQuery['eventTemplate'] | undefined;

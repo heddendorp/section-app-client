@@ -14,6 +14,7 @@ import { PermissionsService } from '@tumi/legacy-app/modules/shared/services/per
 })
 export class AdminGuard {
   constructor(private permissions: PermissionsService) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
@@ -24,6 +25,7 @@ export class AdminGuard {
     | UrlTree {
     return this.permissions.isAdmin();
   }
+
   canLoad(
     route: Route,
     segments: UrlSegment[],

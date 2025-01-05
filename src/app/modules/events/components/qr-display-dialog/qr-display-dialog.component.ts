@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-qr-display-dialog',
-    templateUrl: './qr-display-dialog.component.html',
-    styleUrls: ['./qr-display-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatDialogModule, MatButtonModule, NgOptimizedImage]
+  selector: 'app-qr-display-dialog',
+  templateUrl: './qr-display-dialog.component.html',
+  styleUrls: ['./qr-display-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatDialogModule, MatButtonModule, NgOptimizedImage],
 })
 export class QrDisplayDialogComponent {
   constructor(

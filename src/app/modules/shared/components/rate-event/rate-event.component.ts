@@ -20,26 +20,25 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RatingComponent } from '../rating/rating.component';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-rate-event',
-    templateUrl: './rate-event.component.html',
-    styleUrls: ['./rate-event.component.scss'],
-    imports: [
-        NgIf,
-        ReactiveFormsModule,
-        RouterLink,
-        RatingComponent,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        IconURLPipe,
-        NgOptimizedImage,
-    ]
+  selector: 'app-rate-event',
+  templateUrl: './rate-event.component.html',
+  styleUrls: ['./rate-event.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    RatingComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    IconURLPipe,
+    NgOptimizedImage,
+  ],
 })
 export class RateEventComponent implements OnChanges {
   @Input() event: any;
