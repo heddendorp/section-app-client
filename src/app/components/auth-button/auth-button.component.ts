@@ -34,6 +34,20 @@ export class AuthButtonComponent {
       getUser
         .fetch()
         .pipe(
+          // tap((res) => {
+          //   const email = res.data.currentUser?.email;
+          //   if (email) {
+          //     // @ts-ignore
+          //     Productlane.on('loaded', () => {
+          //       // @ts-ignore
+          //       Productlane.set({
+          //         user: {
+          //           email,
+          //         },
+          //       });
+          //     });
+          //   }
+          // }),
           // tap(async (res) => {
           //   const user = res.data.currentUser;
           //   if (user) {

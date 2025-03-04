@@ -72,5 +72,27 @@
     <noscript>
       Please enable JavaScript to continue using this application.
     </noscript>
+    <script>
+      ((w) => {
+        const P = (w.Productlane = { queue: {} });
+        ['set', 'open', 'close', 'toggle', 'on', 'off', 'init'].forEach((m) => {
+          P[m] = ((n) =>
+            function () {
+              P.queue[n] = { args: arguments };
+            })(m);
+        });
+      })(window);
+
+      Productlane.init({
+        widgetKey: 'a7d9764c-c446-498b-9fcb-206e89fa7990',
+      });
+    </script>
+
+    <!--    <script-->
+    <!--      async-->
+    <!--      defer-->
+    <!--      crossorigin="anonymous"-->
+    <!--      src="https://widget.productlane.com/latest.productlane-widget.min.js"-->
+    <!--    ></script>-->
   </body>
 </html>
