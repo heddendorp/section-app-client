@@ -110,6 +110,10 @@ export class EventRunPageComponent implements OnDestroy {
     return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
   }
 
+  getTelegramLink(username = '') {
+    return `https://t.me/${username}`;
+  }
+
   async copyParticipantMails() {
     const event = await firstValueFrom(this.event$);
     if (!event) return;

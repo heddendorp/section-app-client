@@ -65,6 +65,7 @@ query userProfile {
     paypal
     phone
     phoneNumberOnWhatsapp
+    telegramUsername
     acceptPhoneUsage
     birthdate
     firstName

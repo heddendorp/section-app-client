@@ -50,6 +50,7 @@ query loadEventForRunning($id: ID!) {
         acceptPhoneUsage
         phone
         phoneNumberOnWhatsapp
+        telegramUsername
         additionalData
         communicationEmail
         currentTenant {
@@ -106,6 +107,7 @@ query loadEventForRunning($id: ID!) {
         acceptPhoneUsage
         phone
         phoneNumberOnWhatsapp
+        telegramUsername
         esnCardValidUntil
         esnCardNumber
         communicationEmail

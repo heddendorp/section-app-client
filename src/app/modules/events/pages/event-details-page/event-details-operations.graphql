@@ -129,6 +129,7 @@ query loadEvent($id: ID!) {
       picture
       acceptPhoneUsage
       phoneNumberOnWhatsapp
+      telegramUsername
       phone
       communicationEmail
       currentTenant {

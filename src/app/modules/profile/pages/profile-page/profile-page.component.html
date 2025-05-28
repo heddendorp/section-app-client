@@ -21,6 +21,10 @@
           <p>{{ profile.email }}</p>
           <p>Birthday:</p>
           <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
+          <p>Telegram username:</p>
+          <p>{{
+            profile.telegramUsername ? profile.telegramUsername : 'not set'
+          }}</p>
           @if (profile.acceptPhoneUsage) {
             <p>Phone:</p>
             <p>{{ profile.phone }}</p>
@@ -281,7 +285,7 @@
           mat-raised-button
           (click)="
             auth.logout({
-              logoutParams: { returnTo: document.location.origin },
+              logoutParams: { returnTo: document.location.origin }
             })
           "
         >

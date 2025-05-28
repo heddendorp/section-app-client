@@ -63,6 +63,7 @@ export class NewUserPageComponent {
       validators: [Validators.pattern(/^\+[1-9]\d{1,14}$/)],
     }),
     phoneNumberOnWhatsapp: new FormControl(false),
+    telegramUsername: new FormControl(''),
     acceptPhoneUsage: new FormControl(false, {
       nonNullable: true,
       validators: [Validators.required],
@@ -140,6 +141,7 @@ export class NewUserPageComponent {
           lastName: userData.lastName || authData?.family_name,
           phone: userData.phone || '',
           phoneNumberOnWhatsapp: userData.phoneNumberOnWhatsapp || false,
+          telegramUsername: userData.telegramUsername || '',
           acceptPhoneUsage: userData.acceptPhoneUsage || false,
           communicationEmail:
             userData.communicationEmail || userData.email || authData?.email,

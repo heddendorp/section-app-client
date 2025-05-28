@@ -17,6 +17,7 @@ query loadCompleteProfileData {
     email
     phone
     phoneNumberOnWhatsapp
+    telegramUsername
     acceptPhoneUsage
     communicationEmail
     birthdate
@@ -33,6 +34,7 @@ mutation completeProfileMutation($input: CompleteProfileInput!) {
     email
     phone
     phoneNumberOnWhatsapp
+    telegramUsername
     acceptPhoneUsage
     birthdate
     additionalData

@@ -143,6 +143,14 @@
                   </div>
                 </div>
               </div>
+              @if (registration.user.telegramUsername) {
+                <a
+                  [href]="getTelegramLink(registration.user.telegramUsername)"
+                  mat-icon-button
+                >
+                  <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+                </a>
+              }
               @if (registration.user.acceptPhoneUsage) {
                 @if (registration.user.phoneNumberOnWhatsapp) {
                   <a
@@ -218,6 +226,14 @@
                   </div>
                 </div>
               </div>
+              @if (registration.user.telegramUsername) {
+                <a
+                  [href]="getTelegramLink(registration.user.telegramUsername)"
+                  mat-icon-button
+                >
+                  <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+                </a>
+              }
               @if (registration.user.acceptPhoneUsage) {
                 @if (registration.user.phoneNumberOnWhatsapp) {
                   <a

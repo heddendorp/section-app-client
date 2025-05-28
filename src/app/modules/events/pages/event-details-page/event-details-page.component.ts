@@ -201,6 +201,10 @@ export class EventDetailsPageComponent implements OnDestroy {
     return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
   }
 
+  getTelegramLink(username = '') {
+    return `https://t.me/${username}`;
+  }
+
   async registerAsOrganizer() {
     const event = await this.event$.pipe(first()).toPromise();
     if (event) {

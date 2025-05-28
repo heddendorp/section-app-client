@@ -195,6 +195,14 @@
                           </div>
                         </div>
                       </div>
+                      @if (organizer.telegramUsername) {
+                        <a
+                          [href]="getTelegramLink(organizer.telegramUsername)"
+                          mat-icon-button
+                        >
+                          <mat-icon svgIcon="icon-telegram-app"></mat-icon>
+                        </a>
+                      }
                       @if (organizer.acceptPhoneUsage) {
                         @if (organizer.phoneNumberOnWhatsapp) {
                           <a
