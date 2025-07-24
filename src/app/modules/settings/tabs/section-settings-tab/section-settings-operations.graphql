@@ -5,6 +5,8 @@ query loadSectionSettings {
     currency
     homePageLink
     homePageStrategy
+    seoDescription
+    seoTitle
     settings {
       brandIconUrl
       timezone

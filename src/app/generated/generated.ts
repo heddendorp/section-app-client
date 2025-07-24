@@ -1179,6 +1179,8 @@ export type Tenant = {
   imprintPage: Scalars['String']['output'];
   name: Scalars['String']['output'];
   privacyPolicyPage: Scalars['String']['output'];
+  seoDescription: Scalars['String']['output'];
+  seoTitle: Scalars['String']['output'];
   settings: TenantSettings;
   shortName: Scalars['String']['output'];
   tacPage?: Maybe<Scalars['String']['output']>;
@@ -1469,6 +1471,8 @@ export type UpdateTenantInput = {
   homePageStrategy?: InputMaybe<HomePageStrategy>;
   imprintPage?: InputMaybe<Scalars['String']['input']>;
   privacyPolicyPage?: InputMaybe<Scalars['String']['input']>;
+  seoDescription?: InputMaybe<Scalars['String']['input']>;
+  seoTitle?: InputMaybe<Scalars['String']['input']>;
   settings?: InputMaybe<UpdateTenantSettingsInput>;
   tacPage?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2174,7 +2178,7 @@ export type UpdateRegistrationDataSettingsMutation = { __typename?: 'Mutation', 
 export type LoadSectionSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadSectionSettingsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, communicationEmail: string, currency: Currency, homePageLink?: string | null, homePageStrategy: HomePageStrategy, settings: { __typename?: 'TenantSettings', brandIconUrl?: string | null, timezone: string, esnCardLink?: string | null, showPWAInstall: boolean, enforcePolicyConsent: boolean, sectionHubLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, banners: Array<{ __typename?: 'BannerConfig', displayToMembershipStatus: Array<MembershipStatus>, link: string, color: string, body: string, title: string }> } } };
+export type LoadSectionSettingsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, communicationEmail: string, currency: Currency, homePageLink?: string | null, homePageStrategy: HomePageStrategy, seoDescription: string, seoTitle: string, settings: { __typename?: 'TenantSettings', brandIconUrl?: string | null, timezone: string, esnCardLink?: string | null, showPWAInstall: boolean, enforcePolicyConsent: boolean, sectionHubLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, banners: Array<{ __typename?: 'BannerConfig', displayToMembershipStatus: Array<MembershipStatus>, link: string, color: string, body: string, title: string }> } } };
 
 export type UpdateSectionSettingsMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -5337,6 +5341,8 @@ export const LoadSectionSettingsDocument = gql`
     currency
     homePageLink
     homePageStrategy
+    seoDescription
+    seoTitle
     settings {
       brandIconUrl
       timezone

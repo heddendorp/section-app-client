@@ -56,6 +56,8 @@ export class SectionSettingsTabComponent {
   protected generalSectionSettingsForm = new FormGroup({
     currency: new FormControl<Currency>(Currency.Eur),
     communicationEmail: new FormControl(''),
+    seoTitle: new FormControl(''),
+    seoDescription: new FormControl(''),
     settings: new FormGroup({
       showPWAInstall: new FormControl(false),
       enforcePolicyConsent: new FormControl(true),
@@ -93,6 +95,8 @@ export class SectionSettingsTabComponent {
       this.generalSectionSettingsForm.patchValue({
         currency: data.currency,
         communicationEmail: data.communicationEmail,
+        seoTitle: data.seoTitle,
+        seoDescription: data.seoDescription,
         settings: {
           showPWAInstall: data.settings.showPWAInstall,
           brandIconUrl: data.settings.brandIconUrl,

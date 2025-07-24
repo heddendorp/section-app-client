@@ -38,6 +38,31 @@
             type="email"
           />
         </mat-form-field>
+        <div class="w-full">
+          <mat-form-field class="w-full">
+            <mat-label>Website title</mat-label>
+            <input
+              formControlName="seoTitle"
+              matInput
+              placeholder="What the google search result should show"
+              type="text"
+            />
+            <mat-hint
+              >Enter the title you want shown in a link preview</mat-hint
+            >
+          </mat-form-field>
+        </div>
+        <mat-form-field class="w-full">
+          <mat-label>Website description</mat-label>
+          <textarea
+            formControlName="seoDescription"
+            matInput
+            placeholder="What the google search result should show"
+          ></textarea>
+          <mat-hint>
+            Enter the description you want shown in a link preview
+          </mat-hint>
+        </mat-form-field>
       </div>
       <div class="grid gap-4 lg:grid-cols-2">
         <ng-container formGroupName="settings">
