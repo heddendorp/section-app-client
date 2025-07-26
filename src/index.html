@@ -64,7 +64,26 @@
         height="16"
         width="16"
       />
+      {{#if events}}
+      <div style="opacity: 0">
+        <h1>Events for {{tenant.seoTitle}}</h1>
+        <ul>
+          {{#each events}}
+          <li>
+            <a
+              href="{{../canonicalUrl}}/{{this.id}}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{this.title}} - {{this.date}}
+            </a>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      {{else}}
       <p style="opacity: 0"> {{tenant.seoDescription}} </p>
+      {{/if}}
     </app-root>
     <noscript>
       Please enable JavaScript to continue using this application.
