@@ -8,11 +8,15 @@
     <meta content="/assets/favicon/android-chrome-512x512.png" name="image" />
     <meta content="{{tenant.seoTitle}}" property="og:title" />
     <meta content="{{tenant.seoDescription}}" property="og:description" />
-    <link rel="canonical" href="{{canonicalUrl}}" />
+    {{#if ogImage}}
+    <meta content="{{ogImage}}" property="og:image" />
+    {{else}}
     <meta
       content="/assets/favicon/android-chrome-512x512.png"
       property="og:image"
     />
+    {{/if}}
+    <link rel="canonical" href="{{canonicalUrl}}" />
     <meta property="og:type" content="website" />
     <base href="/" />
     <meta
