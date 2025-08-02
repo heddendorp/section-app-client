@@ -68,11 +68,16 @@
     <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
       <button
         (click)="gridComponent.exportData()"
+        [disabled]="gridComponent.isExporting"
         color="primary"
         mat-flat-button
         type="button"
       >
-        Export Data
+        @if (gridComponent.isExporting) {
+          Exporting...
+        } @else {
+          Export Data
+        }
       </button>
     </div>
   </div>

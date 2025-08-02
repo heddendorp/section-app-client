@@ -39,3 +39,13 @@ query getUsersForUserGrid(
   }
   gridUsersCount(filterModel: $filterModel)
 }
+
+query exportUsersCSV(
+  $filterModel: JSONObject!
+  $sortModel: [SortModelInput!]!
+) {
+  exportUsersCSV(
+    filterModel: $filterModel
+    sortModel: $sortModel
+  )
+}

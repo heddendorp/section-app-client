@@ -833,6 +833,7 @@ export type Query = {
   eventTemplateCategories: Array<EventTemplateCategory>;
   eventTemplates: Array<EventTemplate>;
   events: Array<TumiEvent>;
+  exportUsersCSV: Scalars['String']['output'];
   gridUsers: Array<User>;
   gridUsersCount: Scalars['Int']['output'];
   historicalStatistics: Array<HistoricalData>;
@@ -915,6 +916,12 @@ export type QueryEventsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   reverseOrder?: InputMaybe<Scalars['Boolean']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryExportUsersCsvArgs = {
+  filterModel: Scalars['JSONObject']['input'];
+  sortModel: Array<SortModelInput>;
 };
 
 
@@ -1606,6 +1613,14 @@ export type GetUsersForUserGridQueryVariables = Exact<{
 
 
 export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, createdAt: string, joinedAt: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, additionalData: any, status: MembershipStatus, role: Role, lastAttendedEvent?: string | null }> };
+
+export type ExportUsersCsvQueryVariables = Exact<{
+  filterModel: Scalars['JSONObject']['input'];
+  sortModel: Array<SortModelInput> | SortModelInput;
+}>;
+
+
+export type ExportUsersCsvQuery = { __typename?: 'Query', exportUsersCSV: string };
 
 export type GetTenantCurrencyCodeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2593,6 +2608,22 @@ export const GetUsersForUserGridDocument = gql`
   })
   export class GetUsersForUserGridGQL extends Apollo.Query<GetUsersForUserGridQuery, GetUsersForUserGridQueryVariables> {
     override document = GetUsersForUserGridDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ExportUsersCsvDocument = gql`
+    query exportUsersCSV($filterModel: JSONObject!, $sortModel: [SortModelInput!]!) {
+  exportUsersCSV(filterModel: $filterModel, sortModel: $sortModel)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExportUsersCsvGQL extends Apollo.Query<ExportUsersCsvQuery, ExportUsersCsvQueryVariables> {
+    override document = ExportUsersCsvDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

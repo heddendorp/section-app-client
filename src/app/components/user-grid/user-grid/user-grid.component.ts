@@ -20,6 +20,7 @@ import {
 } from 'ag-grid-community';
 import { GridListFilterComponentComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/grid-list-filter-component/grid-list-filter-component.component';
 import {
+  ExportUsersCsvGQL,
   GetInitialUserGridDataGQL,
   GetUsersForUserGridGQL,
   MembershipStatus,
@@ -40,6 +41,7 @@ export class UserGridComponent {
   @Output() rowClicked = new EventEmitter<string>();
   private gridApi!: GridApi;
   protected theme = themeQuartz;
+  public isExporting = false;
   private defaultCols: (ColDef | ColGroupDef)[] = [
     {
       headerName: 'First Name',
@@ -121,6 +123,7 @@ export class UserGridComponent {
   ];
   private getInitialUserGridDataGQL = inject(GetInitialUserGridDataGQL);
   private getUsersForUserGridGQL = inject(GetUsersForUserGridGQL);
+  private exportUsersCsvGQL = inject(ExportUsersCsvGQL);
   protected dataSource: IDatasource = {
     getRows: (params: IGetRowsParams) => {
       console.log(params);
@@ -179,21 +182,54 @@ export class UserGridComponent {
     return [...this.defaultCols, additionalDataGroup];
   });
 
-  public exportData() {
-    const cacheBlockSize = this.gridApi.getGridOption('cacheBlockSize');
-    const lastRow = this.gridApi.paginationGetRowCount();
-    if (!cacheBlockSize || cacheBlockSize < lastRow) {
-      this.gridApi.setGridOption('cacheBlockSize', lastRow);
-      const doExport = ({ api }: { api: GridApi }) => {
-        setTimeout(() => {
-          api.exportDataAsCsv();
-          api.setGridOption('cacheBlockSize', cacheBlockSize);
-          api.removeEventListener('paginationChanged', doExport);
-        }, 100);
-      };
-      this.gridApi.addEventListener('paginationChanged', doExport);
-    } else {
-      this.gridApi.exportDataAsCsv();
+  public async exportData() {
+    if (this.isExporting) {
+      return; // Prevent multiple exports
+    }
+
+    // Get current filter and sort state from the grid
+    const filterModel = this.gridApi.getFilterModel();
+    const sortModel = this.gridApi.getColumnState()
+      .filter(col => col.sort)
+      .map(col => ({
+        colId: col.colId!,
+        sort: col.sort!
+      }));
+
+    this.isExporting = true;
+
+    try {
+      const result = await firstValueFrom(
+        this.exportUsersCsvGQL.fetch({
+          filterModel,
+          sortModel,
+        })
+      );
+
+      if (result.data?.exportUsersCSV) {
+        // Decode base64 CSV content
+        const csvContent = atob(result.data.exportUsersCSV);
+        
+        // Create a blob and download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        
+        if (link.download !== undefined) {
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', `users-export-${new Date().toISOString().split('T')[0]}.csv`);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }
+    } catch (error) {
+      console.error('Export failed:', error);
+      // Could add user notification here
+    } finally {
+      this.isExporting = false;
     }
   }
 
