@@ -32,6 +32,7 @@ query getUsersForAdminGrid(
     additionalData
     status
     role
+    lastAttendedEvent
   }
   gridUsersCount(filterModel: $filterModel)
 }

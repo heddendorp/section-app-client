@@ -35,6 +35,7 @@ query getUsersForUserGrid(
     additionalData
     status
     role
+    lastAttendedEvent
   }
   gridUsersCount(filterModel: $filterModel)
 }

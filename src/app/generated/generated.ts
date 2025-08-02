@@ -1517,6 +1517,7 @@ export type User = {
   iban?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   joinedAt: Scalars['DateTime']['output'];
+  lastAttendedEvent?: Maybe<Scalars['DateTime']['output']>;
   lastName: Scalars['String']['output'];
   lastPrivacyAcceptance?: Maybe<Scalars['DateTime']['output']>;
   organizedEvents: Array<TumiEvent>;
@@ -1604,7 +1605,7 @@ export type GetUsersForUserGridQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, createdAt: string, joinedAt: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, additionalData: any, status: MembershipStatus, role: Role }> };
+export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, createdAt: string, joinedAt: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, additionalData: any, status: MembershipStatus, role: Role, lastAttendedEvent?: string | null }> };
 
 export type GetTenantCurrencyCodeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2379,7 +2380,7 @@ export type GetUsersForAdminGridQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersForAdminGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, picture: string, additionalData: any, status: MembershipStatus, role: Role }> };
+export type GetUsersForAdminGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, picture: string, additionalData: any, status: MembershipStatus, role: Role, lastAttendedEvent?: string | null }> };
 
 export type GetUsersQueryVariables = Exact<{
   roleList?: InputMaybe<Array<Role> | Role>;
@@ -2581,6 +2582,7 @@ export const GetUsersForUserGridDocument = gql`
     additionalData
     status
     role
+    lastAttendedEvent
   }
   gridUsersCount(filterModel: $filterModel)
 }
@@ -6286,6 +6288,7 @@ export const GetUsersForAdminGridDocument = gql`
     additionalData
     status
     role
+    lastAttendedEvent
   }
   gridUsersCount(filterModel: $filterModel)
 }

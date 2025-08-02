@@ -74,6 +74,20 @@ export class UserGridComponent {
       },
     },
     {
+      headerName: 'Last attended event',
+      field: 'lastAttendedEvent',
+      cellDataType: 'date',
+      sortable: true,
+      filter: true,
+      filterParams: {
+        filterOptions: ['before', 'after', 'equals', 'inRange'],
+        maxNumConditions: 1,
+      },
+      valueGetter: (params) => {
+        return params.data?.lastAttendedEvent ? new Date(params.data.lastAttendedEvent) : null;
+      },
+    },
+    {
       headerName: 'E-Mail',
       field: 'email',
       filter: true,
