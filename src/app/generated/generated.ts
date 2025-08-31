@@ -1612,7 +1612,7 @@ export type GetUsersForUserGridQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, createdAt: string, joinedAt: string, firstName: string, lastName: string, email: string, position?: string | null, picture: string, additionalData: any, status: MembershipStatus, role: Role, lastAttendedEvent?: string | null }> };
+export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: number, gridUsers: Array<{ __typename?: 'User', id: string, createdAt: string, joinedAt: string, esnCardValidUntil?: string | null, firstName: string, lastName: string, email: string, position?: string | null, picture: string, additionalData: any, status: MembershipStatus, role: Role, lastAttendedEvent?: string | null }> };
 
 export type ExportUsersCsvQueryVariables = Exact<{
   filterModel: Scalars['JSONObject']['input'];
@@ -2589,6 +2589,7 @@ export const GetUsersForUserGridDocument = gql`
     id
     createdAt
     joinedAt
+    esnCardValidUntil
     firstName
     lastName
     email

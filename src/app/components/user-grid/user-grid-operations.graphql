@@ -27,6 +27,7 @@ query getUsersForUserGrid(
     id
     createdAt
     joinedAt
+    esnCardValidUntil
     firstName
     lastName
     email

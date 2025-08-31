@@ -76,6 +76,20 @@ export class UserGridComponent {
       },
     },
     {
+      headerName: 'ESNcard valid until',
+      field: 'esnCardValidUntil',
+      cellDataType: 'date',
+      sortable: false,
+      filter: true,
+      filterParams: {
+        filterOptions: ['before', 'after', 'equals', 'inRange'],
+        maxNumConditions: 1,
+      },
+      valueGetter: (params) => {
+        return params.data?.esnCardValidUntil ? new Date(params.data.esnCardValidUntil) : null;
+      },
+    },
+    {
       headerName: 'Last attended event',
       field: 'lastAttendedEvent',
       cellDataType: 'date',
@@ -209,11 +223,11 @@ export class UserGridComponent {
       if (result.data?.exportUsersCSV) {
         // Decode base64 CSV content
         const csvContent = atob(result.data.exportUsersCSV);
-        
+
         // Create a blob and download link
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
-        
+
         if (link.download !== undefined) {
           const url = URL.createObjectURL(blob);
           link.setAttribute('href', url);
