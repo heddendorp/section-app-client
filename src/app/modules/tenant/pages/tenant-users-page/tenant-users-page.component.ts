@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AgGridAngular } from 'ag-grid-angular';
 import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { UserGridComponent } from '@tumi/legacy-app/components/user-grid/user-grid/user-grid.component';
 
 @Component({
@@ -10,10 +8,15 @@ import { UserGridComponent } from '@tumi/legacy-app/components/user-grid/user-gr
   templateUrl: './tenant-users-page.component.html',
   styleUrls: ['./tenant-users-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, AgGridAngular, MatButton, MatIcon, UserGridComponent],
+  imports: [RouterLink, MatButton, UserGridComponent],
 })
 export class TenantUsersPageComponent {
   private router = inject(Router);
+  public selectedUserIds: string[] = [];
+
+  onSelectionChanged(ids: string[]) {
+    this.selectedUserIds = ids ?? [];
+  }
 
   rowClicked(id: string) {
     void this.router.navigate(['tenant', 'users', id]);

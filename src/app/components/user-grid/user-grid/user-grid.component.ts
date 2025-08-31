@@ -39,9 +39,15 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class UserGridComponent {
   public height = input.required<string>();
   @Output() rowClicked = new EventEmitter<string>();
+  @Output() selectionChangedIds = new EventEmitter<string[]>();
   private gridApi!: GridApi;
   protected theme = themeQuartz;
   public isExporting = false;
+  // New AG Grid v33 Selection API configuration
+  protected rowSelection: any = {
+    mode: 'multiRow',
+    selectAll: 'filtered',
+  };
   private defaultCols: (ColDef | ColGroupDef)[] = [
     {
       headerName: 'First Name',
@@ -86,7 +92,9 @@ export class UserGridComponent {
         maxNumConditions: 1,
       },
       valueGetter: (params) => {
-        return params.data?.esnCardValidUntil ? new Date(params.data.esnCardValidUntil) : null;
+        return params.data?.esnCardValidUntil
+          ? new Date(params.data.esnCardValidUntil)
+          : null;
       },
     },
     {
@@ -100,7 +108,9 @@ export class UserGridComponent {
         maxNumConditions: 1,
       },
       valueGetter: (params) => {
-        return params.data?.lastAttendedEvent ? new Date(params.data.lastAttendedEvent) : null;
+        return params.data?.lastAttendedEvent
+          ? new Date(params.data.lastAttendedEvent)
+          : null;
       },
     },
     {
@@ -203,11 +213,12 @@ export class UserGridComponent {
 
     // Get current filter and sort state from the grid
     const filterModel = this.gridApi.getFilterModel();
-    const sortModel = this.gridApi.getColumnState()
-      .filter(col => col.sort)
-      .map(col => ({
+    const sortModel = this.gridApi
+      .getColumnState()
+      .filter((col) => col.sort)
+      .map((col) => ({
         colId: col.colId!,
-        sort: col.sort!
+        sort: col.sort!,
       }));
 
     this.isExporting = true;
@@ -217,7 +228,7 @@ export class UserGridComponent {
         this.exportUsersCsvGQL.fetch({
           filterModel,
           sortModel,
-        })
+        }),
       );
 
       if (result.data?.exportUsersCSV) {
@@ -225,13 +236,18 @@ export class UserGridComponent {
         const csvContent = atob(result.data.exportUsersCSV);
 
         // Create a blob and download link
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([csvContent], {
+          type: 'text/csv;charset=utf-8;',
+        });
         const link = document.createElement('a');
 
         if (link.download !== undefined) {
           const url = URL.createObjectURL(blob);
           link.setAttribute('href', url);
-          link.setAttribute('download', `users-export-${new Date().toISOString().split('T')[0]}.csv`);
+          link.setAttribute(
+            'download',
+            `users-export-${new Date().toISOString().split('T')[0]}.csv`,
+          );
           link.style.visibility = 'hidden';
           document.body.appendChild(link);
           link.click();
@@ -250,6 +266,17 @@ export class UserGridComponent {
   protected gridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
   }
+
+  protected handleSelectionChanged() {
+    if (!this.gridApi) return;
+    const ids = this.gridApi
+      .getSelectedRows()
+      .map((r: any) => r?.id)
+      .filter((id: any) => !!id);
+    this.selectionChangedIds.emit(ids as string[]);
+  }
+
+  protected getRowId = (params: any) => params?.data?.id;
 
   protected handleRowClicked(rowClickedEvent: RowClickedEvent<{ id: string }>) {
     if (rowClickedEvent.data?.id) this.rowClicked.emit(rowClickedEvent.data.id);

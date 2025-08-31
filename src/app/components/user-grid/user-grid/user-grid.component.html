@@ -1,6 +1,7 @@
 <ag-grid-angular
   (gridReady)="gridReady($event)"
   (rowClicked)="handleRowClicked($event)"
+  (selectionChanged)="handleSelectionChanged()"
   [columnDefs]="colDefs()"
   [datasource]="dataSource"
   [paginationPageSizeSelector]="[
@@ -9,6 +10,8 @@
   [pagination]="true"
   [style.height]="height()"
   [theme]="theme"
+  [getRowId]="getRowId"
+  [rowSelection]="rowSelection"
   rowModelType="infinite"
   style="width: 100%"
 ></ag-grid-angular>

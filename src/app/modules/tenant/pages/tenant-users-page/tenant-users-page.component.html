@@ -86,6 +86,7 @@
   <app-user-grid
     #gridComponent
     (rowClicked)="rowClicked($event)"
+    (selectionChangedIds)="onSelectionChanged($event)"
     height="70vh"
   ></app-user-grid>
 </main>
