@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { UserGridComponent } from '@tumi/legacy-app/components/user-grid/user-grid/user-grid.component';

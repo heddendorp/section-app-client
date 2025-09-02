@@ -213,13 +213,16 @@ export class UserGridComponent {
     getRows: (params: IGetRowsParams) => {
       const { startRow, endRow, sortModel, filterModel } = params;
       firstValueFrom(
-        this.getUsersForUserGridGQL.fetch({
-          startRow,
-          endRow,
-          sortModel,
-          filterModel,
-          eventId: this.selectedEvent?.id ?? undefined,
-        }),
+        this.getUsersForUserGridGQL.fetch(
+          {
+            startRow,
+            endRow,
+            sortModel,
+            filterModel,
+            eventId: this.selectedEvent?.id ?? undefined,
+          },
+          { fetchPolicy: 'network-only' },
+        ),
       ).then((data) => {
         if (data.error) {
           params.failCallback();
