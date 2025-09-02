@@ -1,4 +1,4 @@
-<div class="flex items-center gap-3 mb-3">
+<div class="mb-3 flex items-center gap-3">
   <mat-form-field appearance="outline" class="w-full max-w-xl">
     <mat-label>Filter by event (past year)</mat-label>
     <input
@@ -26,10 +26,7 @@
   (optionSelected)="onEventSelected($event)"
   [displayWith]="displayEvent"
 >
-  <mat-option
-    *ngFor="let ev of pastYearEvents()"
-    [value]="ev"
-  >
+  <mat-option *ngFor="let ev of pastYearEvents()" [value]="ev">
     {{ ev.title }} — {{ ev.start | date: 'medium' }}
   </mat-option>
 </mat-autocomplete>

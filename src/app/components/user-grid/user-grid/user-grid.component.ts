@@ -16,6 +16,7 @@ import {
   IDatasource,
   IGetRowsParams,
   RowClickedEvent,
+  SelectionColumnDef,
   themeQuartz,
 } from 'ag-grid-community';
 import { GridListFilterComponentComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/grid-list-filter-component/grid-list-filter-component.component';
@@ -378,6 +379,27 @@ export class UserGridComponent {
   protected getRowId = (params: any) => params?.data?.id;
 
   protected handleRowClicked(rowClickedEvent: RowClickedEvent<{ id: string }>) {
+    console.log(rowClickedEvent);
+    // Prevent navigation when clicking on the selection checkbox cell or its cell area
+    const nativeEvent = rowClickedEvent.event as MouseEvent | undefined;
+    const target = nativeEvent?.target as HTMLElement | undefined;
+    if (target) {
+      // 1) Direct checkbox elements
+      const clickedInSelection = !!target.closest(
+        '.ag-selection-checkbox, .ag-checkbox-input-wrapper, .ag-checkbox-input, .ag-checkbox, input[type="checkbox"]',
+      );
+      if (clickedInSelection) return;
+
+      // 2) Anywhere inside the selection column cell (even outside the checkbox element)
+      const clickedCell = target.closest('.ag-cell') as HTMLElement | null;
+      if (clickedCell) {
+        const cellContainsSelection = !!clickedCell.querySelector(
+          '.ag-selection-checkbox',
+        );
+        if (cellContainsSelection) return;
+      }
+    }
+
     if (rowClickedEvent.data?.id) this.rowClicked.emit(rowClickedEvent.data.id);
   }
 }
