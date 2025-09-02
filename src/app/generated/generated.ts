@@ -1609,6 +1609,7 @@ export type GetUsersForUserGridQueryVariables = Exact<{
   endRow: Scalars['Int']['input'];
   sortModel: Array<SortModelInput> | SortModelInput;
   filterModel: Scalars['JSONObject']['input'];
+  eventId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
@@ -1621,6 +1622,17 @@ export type ExportUsersCsvQueryVariables = Exact<{
 
 
 export type ExportUsersCsvQuery = { __typename?: 'Query', exportUsersCSV: string };
+
+export type GetEventsForUserGridQueryVariables = Exact<{
+  after: Scalars['DateTime']['input'];
+  before: Scalars['DateTime']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  reverseOrder?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type GetEventsForUserGridQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string }> };
 
 export type GetTenantCurrencyCodeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2579,12 +2591,13 @@ export const GetInitialUserGridDataDocument = gql`
     }
   }
 export const GetUsersForUserGridDocument = gql`
-    query getUsersForUserGrid($startRow: Int!, $endRow: Int!, $sortModel: [SortModelInput!]!, $filterModel: JSONObject!) {
+    query getUsersForUserGrid($startRow: Int!, $endRow: Int!, $sortModel: [SortModelInput!]!, $filterModel: JSONObject!, $eventId: ID) {
   gridUsers(
     startRow: $startRow
     endRow: $endRow
     sortModel: $sortModel
     filterModel: $filterModel
+    eventId: $eventId
   ) {
     id
     createdAt
@@ -2600,7 +2613,7 @@ export const GetUsersForUserGridDocument = gql`
     role
     lastAttendedEvent
   }
-  gridUsersCount(filterModel: $filterModel)
+  gridUsersCount(filterModel: $filterModel, eventId: $eventId)
 }
     `;
 
@@ -2625,6 +2638,32 @@ export const ExportUsersCsvDocument = gql`
   })
   export class ExportUsersCsvGQL extends Apollo.Query<ExportUsersCsvQuery, ExportUsersCsvQueryVariables> {
     override document = ExportUsersCsvDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetEventsForUserGridDocument = gql`
+    query getEventsForUserGrid($after: DateTime!, $before: DateTime!, $search: String, $limit: Int, $reverseOrder: Boolean) {
+  events(
+    after: $after
+    before: $before
+    search: $search
+    limit: $limit
+    reverseOrder: $reverseOrder
+  ) {
+    id
+    title
+    start
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventsForUserGridGQL extends Apollo.Query<GetEventsForUserGridQuery, GetEventsForUserGridQueryVariables> {
+    override document = GetEventsForUserGridDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

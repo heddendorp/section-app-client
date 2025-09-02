@@ -23,15 +23,39 @@ import {
   ExportUsersCsvGQL,
   GetInitialUserGridDataGQL,
   GetUsersForUserGridGQL,
+  GetEventsForUserGridGQL,
   MembershipStatus,
   Role,
 } from '@tumi/legacy-app/generated/generated';
-import { firstValueFrom, map } from 'rxjs';
+import {
+  firstValueFrom,
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  startWith,
+} from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-grid',
-  imports: [AgGridAngular],
+  imports: [
+    CommonModule,
+    AgGridAngular,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './user-grid.component.html',
   styleUrl: './user-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,11 +67,17 @@ export class UserGridComponent {
   private gridApi!: GridApi;
   protected theme = themeQuartz;
   public isExporting = false;
+
+  // Event filter UI/state
+  protected eventSearch = new FormControl<any>('');
+  protected selectedEvent: { id: string; title: string } | null = null;
+
   // New AG Grid v33 Selection API configuration
   protected rowSelection: any = {
     mode: 'multiRow',
     selectAll: 'filtered',
   };
+
   private defaultCols: (ColDef | ColGroupDef)[] = [
     {
       headerName: 'First Name',
@@ -147,10 +177,40 @@ export class UserGridComponent {
   ];
   private getInitialUserGridDataGQL = inject(GetInitialUserGridDataGQL);
   private getUsersForUserGridGQL = inject(GetUsersForUserGridGQL);
+  private getEventsForUserGridGQL = inject(GetEventsForUserGridGQL);
   private exportUsersCsvGQL = inject(ExportUsersCsvGQL);
+
+  private readonly pastYearAfterISO = (() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 1);
+    return d.toISOString();
+  })();
+  private readonly nowISO = new Date().toISOString();
+
+  protected pastYearEvents = toSignal(
+    this.eventSearch.valueChanges.pipe(
+      startWith(''),
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap((search) => {
+        const searchTerm =
+          typeof search === 'string' ? search : (search?.title ?? '');
+        return this.getEventsForUserGridGQL
+          .fetch({
+            after: this.pastYearAfterISO,
+            before: this.nowISO,
+            search: searchTerm || undefined,
+            reverseOrder: true,
+            limit: 50,
+          })
+          .pipe(map(({ data }) => data.events ?? []));
+      }),
+    ),
+    { initialValue: [] as { id: string; title: string; start: string }[] },
+  );
+
   protected dataSource: IDatasource = {
     getRows: (params: IGetRowsParams) => {
-      console.log(params);
       const { startRow, endRow, sortModel, filterModel } = params;
       firstValueFrom(
         this.getUsersForUserGridGQL.fetch({
@@ -158,15 +218,44 @@ export class UserGridComponent {
           endRow,
           sortModel,
           filterModel,
+          eventId: this.selectedEvent?.id ?? undefined,
         }),
       ).then((data) => {
         if (data.error) {
           params.failCallback();
+          return;
         }
         params.successCallback(data.data.gridUsers, data.data.gridUsersCount);
       });
     },
   };
+
+  protected onEventSelected(event: any) {
+    const ev = event?.option?.value;
+    if (ev?.id) {
+      this.selectedEvent = { id: ev.id, title: ev.title };
+      // reflect the selection in the input without triggering another fetch
+      this.eventSearch.setValue(ev.title, { emitEvent: false });
+      this.refreshGridForEventChange();
+    }
+  }
+
+  protected displayEvent = (ev?: { id: string; title: string } | null) =>
+    ev?.title ?? '';
+
+  protected clearSelectedEvent() {
+    if (this.selectedEvent) {
+      this.selectedEvent = null;
+      this.eventSearch.setValue('');
+      this.refreshGridForEventChange();
+    }
+  }
+
+  private refreshGridForEventChange() {
+    if (!this.gridApi) return;
+    this.gridApi.deselectAll();
+    this.gridApi.purgeInfiniteCache();
+  }
   private tenantData = toSignal(
     this.getInitialUserGridDataGQL
       .fetch()

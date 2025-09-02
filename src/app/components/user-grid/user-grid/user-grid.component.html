@@ -1,3 +1,39 @@
+<div class="flex items-center gap-3 mb-3">
+  <mat-form-field appearance="outline" class="w-full max-w-xl">
+    <mat-label>Filter by event (past year)</mat-label>
+    <input
+      matInput
+      placeholder="Type to search events"
+      [formControl]="eventSearch"
+      [matAutocomplete]="eventAuto"
+    />
+    @if (selectedEvent) {
+      <mat-hint>Selected: {{ selectedEvent?.title }}</mat-hint>
+    }
+  </mat-form-field>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="clearSelectedEvent()"
+    [disabled]="!selectedEvent"
+    aria-label="Clear event filter"
+  >
+    Clear
+  </button>
+</div>
+<mat-autocomplete
+  #eventAuto="matAutocomplete"
+  (optionSelected)="onEventSelected($event)"
+  [displayWith]="displayEvent"
+>
+  <mat-option
+    *ngFor="let ev of pastYearEvents()"
+    [value]="ev"
+  >
+    {{ ev.title }} — {{ ev.start | date: 'medium' }}
+  </mat-option>
+</mat-autocomplete>
+
 <ag-grid-angular
   (gridReady)="gridReady($event)"
   (rowClicked)="handleRowClicked($event)"
