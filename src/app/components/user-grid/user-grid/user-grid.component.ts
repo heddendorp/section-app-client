@@ -256,6 +256,13 @@ export class UserGridComponent {
     this.gridApi.deselectAll();
     this.gridApi.purgeInfiniteCache();
   }
+
+  // Public method to refresh the grid after external mutations (e.g., bulk status update)
+  public refreshAfterMutation() {
+    if (!this.gridApi) return;
+    this.gridApi.deselectAll();
+    this.gridApi.purgeInfiniteCache();
+  }
   private tenantData = toSignal(
     this.getInitialUserGridDataGQL
       .fetch()

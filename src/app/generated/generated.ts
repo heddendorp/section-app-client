@@ -436,6 +436,7 @@ export type Mutation = {
   updateUserPosition: User;
   updateUserRole: UsersOfTenants;
   updateUserStatus: UsersOfTenants;
+  updateUsersStatusBulk: Array<UsersOfTenants>;
   useRegistrationCode: EventRegistrationCode;
 };
 
@@ -720,6 +721,12 @@ export type MutationUpdateUserRoleArgs = {
 export type MutationUpdateUserStatusArgs = {
   status: MembershipStatus;
   userId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateUsersStatusBulkArgs = {
+  status: MembershipStatus;
+  userIds: Array<Scalars['ID']['input']>;
 };
 
 

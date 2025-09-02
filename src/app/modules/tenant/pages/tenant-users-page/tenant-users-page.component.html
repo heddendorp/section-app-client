@@ -65,7 +65,7 @@
         App user overview
       </h2>
     </div>
-    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0 gap-2">
       <button
         (click)="gridComponent.exportData()"
         [disabled]="gridComponent.isExporting"
@@ -78,6 +78,16 @@
         } @else {
           Export Data
         }
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        type="button"
+        (click)="openBulkUpdateDialog()"
+        [disabled]="!selectedUserIds?.length"
+        aria-label="Bulk update selected users status"
+      >
+        Update Status ({{ selectedUserIds?.length || 0 }})
       </button>
     </div>
   </div>
