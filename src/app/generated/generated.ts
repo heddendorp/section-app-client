@@ -1712,7 +1712,7 @@ export type GetEventTemplatesQuery = { __typename?: 'Query', eventTemplates: Arr
 export type GetTemplateCategoriesWithTemplatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, eventCount: number, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, participantRating?: number | null, participantRatingCount?: number | null, eventInstanceCount: number }> }> };
+export type GetTemplateCategoriesWithTemplatesQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, eventCount: number, templateCount: number, templates: Array<{ __typename?: 'EventTemplate', id: string, title: string, icon: string, eventInstanceCount: number }> }> };
 
 export type GetEventTemplateCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2913,8 +2913,6 @@ export const GetTemplateCategoriesWithTemplatesDocument = gql`
       id
       title
       icon
-      participantRating
-      participantRatingCount
       eventInstanceCount
     }
   }
