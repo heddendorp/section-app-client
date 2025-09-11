@@ -13,6 +13,11 @@ query loadSectionSettings {
       esnCardLink
       showPWAInstall
       enforcePolicyConsent
+      registrationLimit {
+        enabled
+        period
+        limit
+      }
       sectionHubLinks {
         icon
         label

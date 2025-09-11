@@ -64,6 +64,15 @@ export class SectionSettingsTabComponent {
       brandIconUrl: new FormControl(''),
       esnCardLink: new FormControl(''),
       timezone: new FormControl('Europe/Berlin'),
+      // Optional per-user registration limit
+      registrationLimit: new FormGroup({
+        enabled: new FormControl<boolean>(false),
+        period: new FormControl<'day' | 'week'>('day'),
+        limit: new FormControl<number | null>(null, [
+          Validators.min(0),
+          Validators.pattern('^[0-9]*$'),
+        ]),
+      }),
     }),
   });
   protected homePageSectionSettingsForm = new FormGroup({
@@ -102,6 +111,11 @@ export class SectionSettingsTabComponent {
           brandIconUrl: data.settings.brandIconUrl,
           enforcePolicyConsent: data.settings.enforcePolicyConsent,
           esnCardLink: data.settings.esnCardLink,
+          registrationLimit: (data.settings as any).registrationLimit || {
+            enabled: false,
+            period: 'day',
+            limit: 0,
+          },
         },
       });
       this.homePageSectionSettingsForm.patchValue({
@@ -153,7 +167,8 @@ export class SectionSettingsTabComponent {
     this.snackBar.open('Updating general settings...', 'Dismiss', {
       duration: 0,
     });
-    await this.updatePartialSettings(data);
+    // Cast to UpdateTenantInput to satisfy types (registrationLimit is newly added)
+    await this.updatePartialSettings(data as unknown as UpdateTenantInput);
     this.generalSectionSettingsForm.enable();
   }
 

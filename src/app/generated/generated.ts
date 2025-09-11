@@ -1078,6 +1078,18 @@ export type Receipt = {
   userId: Scalars['ID']['output'];
 };
 
+export enum RegistrationLimitPeriod {
+  Day = 'Day',
+  Week = 'Week'
+}
+
+export type RegistrationLimitSettings = {
+  __typename?: 'RegistrationLimitSettings';
+  enabled: Scalars['Boolean']['output'];
+  limit: Scalars['Int']['output'];
+  period: RegistrationLimitPeriod;
+};
+
 export enum RegistrationMode {
   External = 'EXTERNAL',
   Online = 'ONLINE',
@@ -1228,6 +1240,7 @@ export type TenantSettings = {
   deRegistrationOptions: GlobalDeRegistrationConfig;
   enforcePolicyConsent: Scalars['Boolean']['output'];
   esnCardLink?: Maybe<Scalars['String']['output']>;
+  registrationLimit: RegistrationLimitSettings;
   sectionHubLinks: Array<ResourceLink>;
   showPWAInstall: Scalars['Boolean']['output'];
   socialLinks: Array<ResourceLink>;
@@ -1446,6 +1459,12 @@ export type UpdateParticipantDeregistrationConfigInput = {
   refundFeesOnMove?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type UpdateRegistrationLimitSettingsInput = {
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  period?: InputMaybe<RegistrationLimitPeriod>;
+};
+
 export type UpdateResourceLinkInput = {
   icon?: InputMaybe<Scalars['String']['input']>;
   label?: InputMaybe<Scalars['String']['input']>;
@@ -1497,6 +1516,7 @@ export type UpdateTenantSettingsInput = {
   deRegistrationOptions?: InputMaybe<UpdateTenantDeRegistrationSettingsInput>;
   enforcePolicyConsent?: InputMaybe<Scalars['Boolean']['input']>;
   esnCardLink?: InputMaybe<Scalars['String']['input']>;
+  registrationLimit?: InputMaybe<UpdateRegistrationLimitSettingsInput>;
   sectionHubLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
   showPWAInstall?: InputMaybe<Scalars['Boolean']['input']>;
   socialLinks?: InputMaybe<Array<UpdateResourceLinkInput>>;
@@ -2213,7 +2233,7 @@ export type UpdateRegistrationDataSettingsMutation = { __typename?: 'Mutation', 
 export type LoadSectionSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadSectionSettingsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, communicationEmail: string, currency: Currency, homePageLink?: string | null, homePageStrategy: HomePageStrategy, seoDescription: string, seoTitle: string, settings: { __typename?: 'TenantSettings', brandIconUrl?: string | null, timezone: string, esnCardLink?: string | null, showPWAInstall: boolean, enforcePolicyConsent: boolean, sectionHubLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, banners: Array<{ __typename?: 'BannerConfig', displayToMembershipStatus: Array<MembershipStatus>, link: string, color: string, body: string, title: string }> } } };
+export type LoadSectionSettingsQuery = { __typename?: 'Query', currentTenant: { __typename?: 'Tenant', id: string, communicationEmail: string, currency: Currency, homePageLink?: string | null, homePageStrategy: HomePageStrategy, seoDescription: string, seoTitle: string, settings: { __typename?: 'TenantSettings', brandIconUrl?: string | null, timezone: string, esnCardLink?: string | null, showPWAInstall: boolean, enforcePolicyConsent: boolean, registrationLimit: { __typename?: 'RegistrationLimitSettings', enabled: boolean, period: RegistrationLimitPeriod, limit: number }, sectionHubLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, socialLinks: Array<{ __typename?: 'ResourceLink', icon: string, label: string, url: string }>, banners: Array<{ __typename?: 'BannerConfig', displayToMembershipStatus: Array<MembershipStatus>, link: string, color: string, body: string, title: string }> } } };
 
 export type UpdateSectionSettingsMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -5427,6 +5447,11 @@ export const LoadSectionSettingsDocument = gql`
       esnCardLink
       showPWAInstall
       enforcePolicyConsent
+      registrationLimit {
+        enabled
+        period
+        limit
+      }
       sectionHubLinks {
         icon
         label
