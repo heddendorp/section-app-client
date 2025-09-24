@@ -222,18 +222,21 @@
         </dd>
       </div>
     </dl>
-    <div class="pr-8">
+    <div class="pr-8 h-80 lg:h-96 chart-container">
       <ag-charts
         [options]="registrationChart()"
-        style="height: 100%"
+        class="chart-host"
       ></ag-charts>
     </div>
-    <div class="pr-8">
-      <ag-charts [options]="eventsChart()" style="height: 100%"></ag-charts>
+    <div class="pr-8 h-80 lg:h-96 chart-container">
+      <ag-charts
+        [options]="eventsChart()"
+        class="chart-host"
+      ></ag-charts>
     </div>
     @for (field of userDataStats(); track field) {
-      <div class="pr-8">
-        <ag-charts style="height: 100%" [options]="field"></ag-charts>
+      <div class="pr-8 h-80 lg:h-96 chart-container">
+        <ag-charts class="chart-host" [options]="field"></ag-charts>
       </div>
     }
   </div>

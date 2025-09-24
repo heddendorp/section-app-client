@@ -1,3 +1,28 @@
 :host {
   @apply block;
 }
+
+.chart-container {
+  @apply relative;
+}
+
+.chart-host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+:host ::ng-deep ag-charts {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+:host ::ng-deep .ag-charts-wrapper,
+:host ::ng-deep .ag-charts-canvas-center,
+:host ::ng-deep .ag-charts-canvas,
+:host ::ng-deep .ag-charts-canvas-proxy,
+:host ::ng-deep .ag-charts-canvas-overlay {
+  width: 100% !important;
+  height: 100% !important;
+}
