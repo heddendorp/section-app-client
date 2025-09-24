@@ -186,9 +186,13 @@ export class UserGridComponent {
     d.setFullYear(d.getFullYear() - 1);
     return d.toISOString();
   })();
-  private readonly nowISO = new Date().toISOString();
+  private readonly nextTwoMonthsISO = (() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 2);
+    return d.toISOString();
+  })();
 
-  protected pastYearEvents = toSignal(
+  protected eventsWithinRange = toSignal(
     this.eventSearch.valueChanges.pipe(
       startWith(''),
       debounceTime(200),
@@ -199,7 +203,7 @@ export class UserGridComponent {
         return this.getEventsForUserGridGQL
           .fetch({
             after: this.pastYearAfterISO,
-            before: this.nowISO,
+            before: this.nextTwoMonthsISO,
             search: searchTerm || undefined,
             reverseOrder: true,
             limit: 50,
