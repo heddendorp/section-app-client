@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Add credit for {{ data.tenantName }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <p class="text-sm text-gray-500">
+      Enter the amount of credit to add. Provide the value in whole currency
+      units (e.g. 10.50) for {{ data.currency }}.
+    </p>
+    <mat-form-field appearance="outline" class="w-full mt-4">
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        step="0.01"
+        formControlName="amount"
+        autocomplete="off"
+      />
+      <span matSuffix class="ml-2 text-gray-500">{{ data.currency }}</span>
+      <mat-error *ngIf="form.controls.amount.hasError('required')"
+        >Amount is required</mat-error
+      >
+      <mat-error *ngIf="form.controls.amount.hasError('min')"
+        >Amount must be greater than zero</mat-error
+      >
+      <mat-error *ngIf="form.controls.amount.hasError('invalid')"
+        >Enter a valid amount</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mt-4">
+      <mat-label>Description (optional)</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        formControlName="description"
+        autocomplete="off"
+      ></textarea>
+      <mat-hint align="end"
+        >{{ form.controls.description.value?.length || 0 }}/300</mat-hint
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Add credit</button>
+  </mat-dialog-actions>
+</form>

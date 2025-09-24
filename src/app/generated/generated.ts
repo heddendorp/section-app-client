@@ -696,6 +696,7 @@ export type MutationUpdateTenantContractEndArgs = {
 
 export type MutationUpdateTenantCreditArgs = {
   credit: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
 };
 
@@ -1196,6 +1197,7 @@ export type Tenant = {
   contractEnd: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
   credit: Scalars['Int']['output'];
+  creditTransactions: Array<TenantCreditTransaction>;
   currency: Currency;
   faqPage?: Maybe<Scalars['String']['output']>;
   hardContractEnd: Scalars['Boolean']['output'];
@@ -1215,8 +1217,23 @@ export type Tenant = {
 };
 
 
+export type TenantCreditTransactionsArgs = {
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type TenantTutorHubEventsArgs = {
   range?: InputMaybe<DateRangeInput>;
+};
+
+export type TenantCreditTransaction = {
+  __typename?: 'TenantCreditTransaction';
+  amount: Scalars['Int']['output'];
+  balanceAfter: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  createdBy: User;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
 };
 
 export type TenantFeeMonth = {
@@ -2092,7 +2109,7 @@ export type GetGlobalRangeStatisticsQuery = { __typename?: 'Query', rangeStatist
 export type GetTenantsForGlobalAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTenantsForGlobalAdminQuery = { __typename?: 'Query', tenants: Array<{ __typename?: 'Tenant', id: string, name: string, shortName: string, currency: Currency, contractEnd: string, hardContractEnd: boolean, credit: number }> };
+export type GetTenantsForGlobalAdminQuery = { __typename?: 'Query', tenants: Array<{ __typename?: 'Tenant', id: string, name: string, shortName: string, currency: Currency, contractEnd: string, hardContractEnd: boolean, credit: number, creditTransactions: Array<{ __typename?: 'TenantCreditTransaction', id: string, createdAt: string, amount: number, balanceAfter: number, description?: string | null, createdBy: { __typename?: 'User', id: string, firstName: string, lastName: string } }> }> };
 
 export type UpdateTenantContractEndMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -2102,6 +2119,15 @@ export type UpdateTenantContractEndMutationVariables = Exact<{
 
 
 export type UpdateTenantContractEndMutation = { __typename?: 'Mutation', updateTenantContractEnd: { __typename?: 'Tenant', id: string, contractEnd: string, hardContractEnd: boolean } };
+
+export type AddTenantCreditMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  credit: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AddTenantCreditMutation = { __typename?: 'Mutation', updateTenantCredit: { __typename?: 'Tenant', id: string, credit: number, creditTransactions: Array<{ __typename?: 'TenantCreditTransaction', id: string, createdAt: string, amount: number, balanceAfter: number, description?: string | null, createdBy: { __typename?: 'User', id: string, firstName: string, lastName: string } }> } };
 
 export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2372,7 +2398,7 @@ export type GetLandingPageStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type GetLandingPageStatisticsQuery = { __typename?: 'Query', rangeStatistics: { __typename?: 'RangeStats', registeredUsers: number, eventsStarted: number, registeredParticipants: number, registeredUsersBefore: number, eventsStartedBefore: number, registeredParticipantsBefore: number }, currentTenant: { __typename?: 'Tenant', id: string, credit: number } };
+export type GetLandingPageStatisticsQuery = { __typename?: 'Query', rangeStatistics: { __typename?: 'RangeStats', registeredUsers: number, eventsStarted: number, registeredParticipants: number, registeredUsersBefore: number, eventsStartedBefore: number, registeredParticipantsBefore: number }, currentTenant: { __typename?: 'Tenant', id: string, currency: Currency, credit: number, creditTransactions: Array<{ __typename?: 'TenantCreditTransaction', id: string, createdAt: string, amount: number, balanceAfter: number, description?: string | null }> } };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: NewOrganizerInput;
@@ -4755,6 +4781,18 @@ export const GetTenantsForGlobalAdminDocument = gql`
     contractEnd
     hardContractEnd
     credit
+    creditTransactions(take: 10) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
   }
 }
     `;
@@ -4788,6 +4826,37 @@ export const UpdateTenantContractEndDocument = gql`
   })
   export class UpdateTenantContractEndGQL extends Apollo.Mutation<UpdateTenantContractEndMutation, UpdateTenantContractEndMutationVariables> {
     override document = UpdateTenantContractEndDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddTenantCreditDocument = gql`
+    mutation addTenantCredit($id: ID!, $credit: Int!, $description: String) {
+  updateTenantCredit(id: $id, credit: $credit, description: $description) {
+    id
+    credit
+    creditTransactions(take: 10) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddTenantCreditGQL extends Apollo.Mutation<AddTenantCreditMutation, AddTenantCreditMutationVariables> {
+    override document = AddTenantCreditDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6132,7 +6201,15 @@ export const GetLandingPageStatisticsDocument = gql`
   }
   currentTenant {
     id
+    currency
     credit
+    creditTransactions(take: 10) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+    }
   }
 }
     `;
