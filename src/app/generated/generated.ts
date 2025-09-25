@@ -1815,7 +1815,14 @@ export type GetEventTemplateQueryVariables = Exact<{
 }>;
 
 
-export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, finances: any, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, signupVelocity: { __typename?: 'signupVelocities', quarter?: number | null, quarterTime?: string | null, quarterCount?: number | null, fifty?: number | null, fiftyTime?: string | null, fiftyCount?: number | null, threequarters?: number | null, threequartersTime?: string | null, threequartersCount?: number | null }, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
+export type GetEventTemplateQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, title: string, icon: string, duration: any, description: string, organizerText: string, participantText: string, comment: string, location: string, coordinates?: any | null, googlePlaceUrl?: string | null, isVirtual: boolean, onlineMeetingUrl?: string | null, finances: any, medianParticipantCount: number, medianOrganizerCount: number, category?: { __typename?: 'EventTemplateCategory', id: string, name: string, icon: string } | null, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> } };
+
+export type GetEventTemplateRatingsQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetEventTemplateRatingsQuery = { __typename?: 'Query', eventTemplate: { __typename?: 'EventTemplate', id: string, eventInstances: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, participantRating?: number | null, participantRatingCount: number, organizerRating?: number | null, organizerRatingCount: number, ratings: Array<{ __typename?: 'EventRegistration', userComment?: string | null, rating?: number | null, type: RegistrationType, anonymousRating: boolean, user: { __typename?: 'User', id: string, fullName: string, picture: string, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> }> } };
 
 export type UpdateFinancesMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -3098,17 +3105,37 @@ export const GetEventTemplateDocument = gql`
       participantRatingCount
       organizerRating
       organizerRatingCount
-      signupVelocity {
-        quarter
-        quarterTime
-        quarterCount
-        fifty
-        fiftyTime
-        fiftyCount
-        threequarters
-        threequartersTime
-        threequartersCount
+      organizer {
+        id
+        name
       }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
+    override document = GetEventTemplateDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetEventTemplateRatingsDocument = gql`
+    query getEventTemplateRatings($id: ID!) {
+  eventTemplate(id: $id) {
+    id
+    eventInstances {
+      id
+      title
+      start
+      participantRating
+      participantRatingCount
+      organizerRating
+      organizerRatingCount
       ratings {
         userComment
         rating
@@ -3125,10 +3152,6 @@ export const GetEventTemplateDocument = gql`
           }
         }
       }
-      organizer {
-        id
-        name
-      }
     }
   }
 }
@@ -3137,8 +3160,8 @@ export const GetEventTemplateDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetEventTemplateGQL extends Apollo.Query<GetEventTemplateQuery, GetEventTemplateQueryVariables> {
-    override document = GetEventTemplateDocument;
+  export class GetEventTemplateRatingsGQL extends Apollo.Query<GetEventTemplateRatingsQuery, GetEventTemplateRatingsQueryVariables> {
+    override document = GetEventTemplateRatingsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

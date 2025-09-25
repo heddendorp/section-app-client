@@ -24,8 +24,8 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
 import { FinancePlannerComponent } from '../../components/finance-planner/finance-planner.component';
+import { TemplateRatingsComponent } from '../../components/template-ratings/template-ratings.component';
 import { MatListModule } from '@angular/material/list';
-import { RatingItemComponent } from '../../../shared/components/rating-item/rating-item.component';
 import { MarkdownComponent } from 'ngx-markdown';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,7 +53,7 @@ import {
     MatIconModule,
     MatExpansionModule,
     RouterLink,
-    RatingItemComponent,
+    TemplateRatingsComponent,
     MatListModule,
     FinancePlannerComponent,
     IfRoleDirective,

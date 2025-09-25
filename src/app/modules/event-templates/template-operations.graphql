@@ -144,17 +144,25 @@ query getEventTemplate($id: ID!) {
       participantRatingCount
       organizerRating
       organizerRatingCount
-      signupVelocity {
-        quarter
-        quarterTime
-        quarterCount
-        fifty
-        fiftyTime
-        fiftyCount
-        threequarters
-        threequartersTime
-        threequartersCount
+      organizer {
+        id
+        name
       }
+    }
+  }
+}
+
+query getEventTemplateRatings($id: ID!) {
+  eventTemplate(id: $id) {
+    id
+    eventInstances {
+      id
+      title
+      start
+      participantRating
+      participantRatingCount
+      organizerRating
+      organizerRatingCount
       ratings {
         userComment
         rating
@@ -170,10 +178,6 @@ query getEventTemplate($id: ID!) {
             status
           }
         }
-      }
-      organizer {
-        id
-        name
       }
     }
   }

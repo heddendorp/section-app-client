@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-3">
+  @if (loading()) {
+    <p class="text-sm text-slate-500">Loading ratings…</p>
+  } @else if (error()) {
+    <p class="text-sm text-red-600">{{ error() }}</p>
+  } @else {
+    @if (ratedEvents().length === 0) {
+      <p class="no-ratings text-sm">No ratings available for this template yet.</p>
+    }
+
+    @for (event of ratedEvents(); track event.id) {
+      <div class="flex flex-col gap-2">
+        <a routerLink="/events/{{ event.id }}" class="text-base">
+          <span class="font-bold">{{ event.title }}</span>
+          <span class="ml-2 font-light">{{ event.start | date: 'shortDate' }}</span>
+          @if (event.participantRatingCount && event.participantRatingCount > 0) {
+            <span class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white">
+              {{ event.participantRating | number: '1.1-1' }} ★ ({{
+                event.participantRatingCount
+              }})
+            </span>
+          }
+          @if (event.organizerRatingCount && event.organizerRatingCount > 0) {
+            <span class="ml-2 inline-block rounded bg-blue-500 px-1 text-xs text-white">
+              {{ event.organizerRating | number: '1.1-1' }} ★ ({{
+                event.organizerRatingCount
+              }})
+            </span>
+          }
+        </a>
+        <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
+          @for (rating of event.ratings; track rating) {
+            <app-rating-item
+              [isOrganizer]="rating.type === 'ORGANIZER'"
+              [comment]="rating.userComment || ''"
+              [isAnonymous]="rating.anonymousRating"
+              [rating]="rating.rating || 0"
+              [userId]="rating.user.id"
+              [userFullName]="rating.user.fullName"
+              [userPicture]="rating.user.picture"
+              [userStatus]="rating.user.currentTenant?.status || ''"
+            ></app-rating-item>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>
