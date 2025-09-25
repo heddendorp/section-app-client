@@ -7,7 +7,7 @@ query getTenantsForGlobalAdmin {
     contractEnd
     hardContractEnd
     credit
-    creditTransactions(take: 10) {
+    creditTransactions(take: 50) {
       id
       createdAt
       amount

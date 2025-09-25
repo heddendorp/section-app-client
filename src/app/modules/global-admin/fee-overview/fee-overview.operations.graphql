@@ -14,9 +14,50 @@ query globalAdminFeeOverview(
     revenue
     netRevenue
     netAmount
+    netAmountConverted
+    expectedFee
+    expectedFeeConverted
+    roundingDifference
+    roundingDifferenceConverted
     tenantName
+    tenantId
     currency
     month
     transactionCount
+    volumeDiscount
+    volumeDiscountConverted
+  }
+  feeQuarterGroups {
+    quarterKey
+    quarterLabel
+    quarterStartMillis
+    months
+    totals {
+      collected
+      expected
+      difference
+      creditUsed
+      manualCredits
+      discount
+      remaining
+    }
+    tenantSummaries {
+      tenantId
+      tenantName
+      tenantShortName
+      tenantCredit
+      currency
+      months
+      roundingDifference
+      volumeDiscount
+      creditUsed
+      manualCreditsApplied
+      remainingAdjustment
+      differenceConverted
+      volumeDiscountConverted
+      creditUsedConverted
+      manualCreditsConverted
+      remainingConverted
+    }
   }
 }

@@ -237,7 +237,7 @@
                 {{ month | date: 'MMMM yyyy' }}
                 <span class="ml-8">
                   total
-                  {{ feeSumPerMonth()[month] / 100 | currency: 'EUR' }}
+                  {{ (feeSumPerMonth()[month] ?? 0) / 100 | currency: 'EUR' }}
                 </span>
               </div>
               <div
@@ -269,13 +269,16 @@
                       <div class="mt-1 text-xs leading-5 text-gray-500">
                         {{ entry.revenue / 100 | currency: entry.currency }}
                         revenue <span class="mx-4">●</span>
-                        {{
-                          (entry.netAmount - entry.revenue * 0.035) / 100
-                            | currency: entry.currency
-                        }}
-                        error <span class="mx-4">●</span>
+                        {{ entry.roundingDifference / 100 | currency: entry.currency }}
+                        rounding diff <span class="mx-4">●</span>
                         {{ entry.transactionCount | number }} transactions
                       </div>
+                      @if (entry.volumeDiscount) {
+                        <div class="mt-1 text-xs leading-5 text-amber-600">
+                          Volume discount applied:
+                          {{ entry.volumeDiscount / 100 | currency: entry.currency }}
+                        </div>
+                      }
                     </div>
                   </div>
                   <div
@@ -289,30 +292,175 @@
                   <div class="text-sm leading-6 text-gray-900">
                     {{ entry.tenantName }}
                   </div>
-                  <!--                    <div class="mt-1 text-xs leading-5 text-gray-500">-->
-                  <!--                      Website redesign-->
-                  <!--                    </div>-->
                 </td>
-                <td class="hidden py-5 text-right sm:table-cell">
-                  <!--<div class="flex justify-end">
-                    <a
-                      href="#"
-                      class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
-                      >View<span class="hidden sm:inline"> transaction</span
-                      ><span class="sr-only"
-                        >, invoice #00012, Reform</span
-                      ></a
-                    >
-                  </div>
-                  <div class="mt-1 text-xs leading-5 text-gray-500"
-                    >Invoice <span class="text-gray-900">#00012</span></div
-                  >-->
-                </td>
+                <td class="hidden py-5 text-right sm:table-cell"></td>
               </tr>
             }
           }
         }
       </tbody>
     </table>
+  </div>
+
+  <h2
+    class="mx-auto mt-12 max-w-2xl text-base font-semibold leading-6 text-gray-900 lg:mx-0 lg:max-w-none"
+  >
+    Quarterly overview
+  </h2>
+  <div class="aspect-video grid w-full">
+    <ag-charts [options]="quarterlyChartOptions()"></ag-charts>
+  </div>
+
+  <div class="mx-auto mt-8 max-w-2xl space-y-6 lg:mx-0 lg:max-w-none">
+    <div class="rounded-lg bg-white p-6 shadow">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h3 class="text-base font-semibold leading-6 text-gray-900">
+            Quarterly rounding adjustments
+          </h3>
+          <p class="text-sm text-gray-500">
+            Compare collected fees with expected application fees (3.5%) by
+            quarter. Automatic credit usage is accounted for so remaining
+            adjustments show what still needs to be applied manually.
+          </p>
+        </div>
+      </div>
+
+      @if (!(quarterGroups()?.length ?? 0)) {
+        <p class="mt-4 text-sm text-gray-500">
+          No rounding adjustments detected for the available data.
+        </p>
+      } @else {
+        <div class="mt-6 space-y-6">
+          @for (quarter of quarterGroups(); track quarter.quarterKey) {
+            <section class="rounded-lg border border-gray-200">
+              <header class="border-b border-gray-200 bg-gray-50 p-4">
+                <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h4 class="text-base font-semibold text-gray-900">
+                      {{ quarter.quarterLabel }}
+                    </h4>
+                    <p class="text-sm text-gray-500">
+                      Months covered: {{ quarter.months.join(', ') }}
+                    </p>
+                    @if (!isQuarterClosed(quarter)) {
+                      <p class="text-xs text-amber-600">
+                        Quarter still in progress; credit adjustments unlock once it ends.
+                      </p>
+                    }
+                  </div>
+                  <dl class="grid gap-3 text-sm text-gray-700 sm:grid-cols-3 lg:grid-cols-6">
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Collected</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.collected / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Expected</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.expected / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Difference</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.difference / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Credit used</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.creditUsed / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Manual credits</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.manualCredits / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Volume discount</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.discount / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase text-gray-500">Remaining</dt>
+                      <dd class="font-medium">
+                        {{ quarter.totals.remaining / 100 | currency: 'EUR' }}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </header>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-sm text-gray-900">
+                  <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <tr>
+                      <th class="py-3 pr-4 text-left">Tenant</th>
+                      <th class="py-3 pr-4 text-left">Months</th>
+                      <th class="py-3 pr-4 text-left">Collected − expected</th>
+                      <th class="py-3 pr-4 text-left">Volume discount</th>
+                      <th class="py-3 pr-4 text-left">Credit used</th>
+                      <th class="py-3 pr-4 text-left">Manual credits</th>
+                      <th class="py-3 pr-4 text-left">Remaining</th>
+                      <th class="py-3 pr-4 text-left">Current credit</th>
+                      <th class="py-3 pr-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    @for (summary of quarter.tenantSummaries; track summary.tenantId) {
+                      <tr>
+                        <td class="py-3 pr-4 align-top">
+                          <div class="font-medium text-gray-900">
+                            {{ summary.tenantName }} ({{ summary.tenantShortName }})
+                          </div>
+                          <div class="text-xs text-gray-500">
+                            Tenant ID: {{ summary.tenantId }}
+                          </div>
+                        </td>
+                        <td class="py-3 pr-4 text-xs text-gray-600">
+                          {{ summary.months.join(', ') }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.roundingDifference / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.volumeDiscount / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.creditUsed / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.manualCreditsApplied / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.remainingAdjustment / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4">
+                          {{ summary.tenantCredit / 100 | currency: summary.currency }}
+                        </td>
+                        <td class="py-3 pr-4 text-right">
+                          <button
+                            mat-flat-button
+                            color="primary"
+                            [disabled]="summary.remainingAdjustment <= 0 || !isQuarterClosed(quarter)"
+                            (click)="applyQuarterCredit(quarter, summary)"
+                          >
+                            Apply credit
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          }
+        </div>
+      }
+    </div>
   </div>
 </main>

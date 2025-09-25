@@ -842,6 +842,7 @@ export type Query = {
   eventTemplates: Array<EventTemplate>;
   events: Array<TumiEvent>;
   exportUsersCSV: Scalars['String']['output'];
+  feeQuarterGroups: Array<TenantFeeQuarterGroup>;
   gridUsers: Array<User>;
   gridUsersCount: Scalars['Int']['output'];
   historicalStatistics: Array<HistoricalData>;
@@ -1241,13 +1242,61 @@ export type TenantFeeMonth = {
   amount: Scalars['Int']['output'];
   amountRefunded: Scalars['Int']['output'];
   currency: Currency;
+  expectedFee: Scalars['Int']['output'];
+  expectedFeeConverted: Scalars['Float']['output'];
   month: Scalars['String']['output'];
   netAmount: Scalars['Int']['output'];
+  netAmountConverted: Scalars['Float']['output'];
   netRevenue: Scalars['Int']['output'];
   revenue: Scalars['Int']['output'];
+  roundingDifference: Scalars['Int']['output'];
+  roundingDifferenceConverted: Scalars['Float']['output'];
   tenantId: Scalars['ID']['output'];
   tenantName: Scalars['String']['output'];
   transactionCount: Scalars['Int']['output'];
+  volumeDiscount: Scalars['Int']['output'];
+  volumeDiscountConverted: Scalars['Float']['output'];
+};
+
+export type TenantFeeQuarterGroup = {
+  __typename?: 'TenantFeeQuarterGroup';
+  months: Array<Scalars['String']['output']>;
+  quarterKey: Scalars['String']['output'];
+  quarterLabel: Scalars['String']['output'];
+  quarterStartMillis: Scalars['Float']['output'];
+  tenantSummaries: Array<TenantFeeQuarterTenantSummary>;
+  totals: TenantFeeQuarterTotals;
+};
+
+export type TenantFeeQuarterTenantSummary = {
+  __typename?: 'TenantFeeQuarterTenantSummary';
+  creditUsed: Scalars['Int']['output'];
+  creditUsedConverted: Scalars['Float']['output'];
+  currency: Currency;
+  differenceConverted: Scalars['Float']['output'];
+  manualCreditsApplied: Scalars['Int']['output'];
+  manualCreditsConverted: Scalars['Float']['output'];
+  months: Array<Scalars['String']['output']>;
+  remainingAdjustment: Scalars['Int']['output'];
+  remainingConverted: Scalars['Float']['output'];
+  roundingDifference: Scalars['Int']['output'];
+  tenantCredit: Scalars['Int']['output'];
+  tenantId: Scalars['ID']['output'];
+  tenantName: Scalars['String']['output'];
+  tenantShortName: Scalars['String']['output'];
+  volumeDiscount: Scalars['Int']['output'];
+  volumeDiscountConverted: Scalars['Float']['output'];
+};
+
+export type TenantFeeQuarterTotals = {
+  __typename?: 'TenantFeeQuarterTotals';
+  collected: Scalars['Float']['output'];
+  creditUsed: Scalars['Float']['output'];
+  difference: Scalars['Float']['output'];
+  discount: Scalars['Float']['output'];
+  expected: Scalars['Float']['output'];
+  manualCredits: Scalars['Float']['output'];
+  remaining: Scalars['Float']['output'];
 };
 
 export type TenantSettings = {
@@ -2090,7 +2139,7 @@ export type GlobalAdminFeeOverviewQueryVariables = Exact<{
 }>;
 
 
-export type GlobalAdminFeeOverviewQuery = { __typename?: 'Query', totalCollectedFees: number, totalCollectedFeeNumber: number, currentMonth: number, lastMonth: number, monthBeforeLast: number, tenantFeeMonths: Array<{ __typename?: 'TenantFeeMonth', amount: number, amountRefunded: number, revenue: number, netRevenue: number, netAmount: number, tenantName: string, currency: Currency, month: string, transactionCount: number }> };
+export type GlobalAdminFeeOverviewQuery = { __typename?: 'Query', totalCollectedFees: number, totalCollectedFeeNumber: number, currentMonth: number, lastMonth: number, monthBeforeLast: number, tenantFeeMonths: Array<{ __typename?: 'TenantFeeMonth', amount: number, amountRefunded: number, revenue: number, netRevenue: number, netAmount: number, netAmountConverted: number, expectedFee: number, expectedFeeConverted: number, roundingDifference: number, roundingDifferenceConverted: number, tenantName: string, tenantId: string, currency: Currency, month: string, transactionCount: number, volumeDiscount: number, volumeDiscountConverted: number }>, feeQuarterGroups: Array<{ __typename?: 'TenantFeeQuarterGroup', quarterKey: string, quarterLabel: string, quarterStartMillis: number, months: Array<string>, totals: { __typename?: 'TenantFeeQuarterTotals', collected: number, expected: number, difference: number, creditUsed: number, manualCredits: number, discount: number, remaining: number }, tenantSummaries: Array<{ __typename?: 'TenantFeeQuarterTenantSummary', tenantId: string, tenantName: string, tenantShortName: string, tenantCredit: number, currency: Currency, months: Array<string>, roundingDifference: number, volumeDiscount: number, creditUsed: number, manualCreditsApplied: number, remainingAdjustment: number, differenceConverted: number, volumeDiscountConverted: number, creditUsedConverted: number, manualCreditsConverted: number, remainingConverted: number }> }> };
 
 export type GetInitialGlobalStatisticsDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4658,10 +4707,51 @@ export const GlobalAdminFeeOverviewDocument = gql`
     revenue
     netRevenue
     netAmount
+    netAmountConverted
+    expectedFee
+    expectedFeeConverted
+    roundingDifference
+    roundingDifferenceConverted
     tenantName
+    tenantId
     currency
     month
     transactionCount
+    volumeDiscount
+    volumeDiscountConverted
+  }
+  feeQuarterGroups {
+    quarterKey
+    quarterLabel
+    quarterStartMillis
+    months
+    totals {
+      collected
+      expected
+      difference
+      creditUsed
+      manualCredits
+      discount
+      remaining
+    }
+    tenantSummaries {
+      tenantId
+      tenantName
+      tenantShortName
+      tenantCredit
+      currency
+      months
+      roundingDifference
+      volumeDiscount
+      creditUsed
+      manualCreditsApplied
+      remainingAdjustment
+      differenceConverted
+      volumeDiscountConverted
+      creditUsedConverted
+      manualCreditsConverted
+      remainingConverted
+    }
   }
 }
     `;
@@ -4781,7 +4871,7 @@ export const GetTenantsForGlobalAdminDocument = gql`
     contractEnd
     hardContractEnd
     credit
-    creditTransactions(take: 10) {
+    creditTransactions(take: 50) {
       id
       createdAt
       amount
