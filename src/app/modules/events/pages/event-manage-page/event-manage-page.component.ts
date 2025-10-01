@@ -85,14 +85,7 @@ export class EventManagePageComponent implements OnDestroy {
   public environment = environment;
   public feeShare$: Observable<number>;
   public lastUserFeeShare$: Observable<number>;
-  registrationTableColumns: string[] = [
-    'name',
-    'registrationStatus',
-    'paid',
-    'registered',
-    'checkIn',
-    'expand',
-  ];
+  public registrationTableColumns$: Observable<string[]>;
   expandedRegistration?: TumiEvent;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
@@ -116,6 +109,20 @@ export class EventManagePageComponent implements OnDestroy {
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Manage ${event.title}`)),
+    );
+    this.registrationTableColumns$ = this.event$.pipe(
+      map((event) => {
+        const baseColumns = ['name', 'registrationStatus', 'paid'];
+        const guestsEnabled = event.multiGuestSettings?.enabled ?? false;
+        const guestColumns = guestsEnabled ? ['guests'] : [];
+        return [
+          ...baseColumns,
+          ...guestColumns,
+          'registered',
+          'checkIn',
+          'expand',
+        ];
+      }),
     );
     this.feeShare$ = this.event$.pipe(
       map((event) =>
@@ -246,5 +253,35 @@ export class EventManagePageComponent implements OnDestroy {
 
   async admitUser(id: string) {
     await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
+  }
+
+  // Guest analytics methods
+  getTotalGuests(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCount || 0),
+      0,
+    );
+  }
+
+  getTotalPartySize(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.totalPartySize || 1),
+      0,
+    );
+  }
+
+  getTotalGuestCheckIns(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCheckIns || 0),
+      0,
+    );
+  }
+
+  getGuestRevenue(registrations: any[]): number {
+    return registrations.reduce((total, reg) => {
+      const guestCount = reg.guestCount || 0;
+      const guestPrice = parseFloat(reg.guestUnitPrice || '0');
+      return total + guestCount * guestPrice;
+    }, 0);
   }
 }

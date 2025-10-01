@@ -13,6 +13,14 @@ import { NgOptimizedImage } from '@angular/common';
 export class QrDisplayDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { id: string; event: string; user: string },
+    public data: {
+      id: string;
+      event: string;
+      user: string;
+      didAttend?: boolean;
+      guestCount?: number;
+      totalPartySize?: number;
+      remainingEntries?: number;
+    },
   ) {}
 }

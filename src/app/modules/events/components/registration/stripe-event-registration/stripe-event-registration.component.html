@@ -52,6 +52,42 @@
             }
           </mat-select>
         </mat-form-field>
+
+        <!-- Multi-guest selection -->
+        @if (event.multiGuestSettings?.enabled) {
+          @let settings = event.multiGuestSettings!;
+          <mat-form-field class="mb-4">
+            <mat-label>Additional guests</mat-label>
+            <mat-select [formControl]="guestCountControl">
+              @for (i of getGuestOptions(); track i) {
+                <mat-option [value]="i">
+                  @if (i === 0) {
+                    Just me (no additional guests)
+                  } @else if (i === 1) {
+                    1 additional guest (+{{
+                      settings.additionalGuestPrice | currency
+                    }})
+                  } @else {
+                    {{ i }} additional guests (+{{
+                      settings.additionalGuestPrice * i | currency
+                    }})
+                  }
+                </mat-option>
+              }
+            </mat-select>
+            <mat-hint>
+              @if (
+                settings.maxPerRegistration !== null &&
+                settings.maxPerRegistration !== undefined
+              ) {
+                Max {{ settings.maxPerRegistration }} guests per registration
+              } @else {
+                Capacity permitting
+              }
+            </mat-hint>
+          </mat-form-field>
+        }
+
         <br />
         @if (event.deferredPayment) {
           <button

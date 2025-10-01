@@ -134,9 +134,10 @@
         </mat-expansion-panel-header>
         @defer (when ratingsPanel.expanded) {
           <app-template-ratings [templateId]="template.id" />
-        }
-        @placeholder {
-          <p class="text-sm text-slate-500">Expand the panel to load ratings.</p>
+        } @placeholder {
+          <p class="text-sm text-slate-500"
+            >Expand the panel to load ratings.</p
+          >
         }
       </mat-expansion-panel>
 

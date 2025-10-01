@@ -35,6 +35,11 @@ query loadEventForEdit($id: ID!) {
     registrationStart
     start
     title
+    multiGuestSettings {
+      enabled
+      additionalGuestPrice
+      maxPerRegistration
+    }
     deRegistrationSettings {
       organizers {
         deRegistrationPossible
@@ -154,6 +159,11 @@ mutation updateCoreEvent($id: ID!, $data: UpdateCoreEventInput!) {
     deferredPayment
     excludeFromStatistics
     enablePhotoSharing
+    multiGuestSettings {
+      enabled
+      additionalGuestPrice
+      maxPerRegistration
+    }
   }
 }
 

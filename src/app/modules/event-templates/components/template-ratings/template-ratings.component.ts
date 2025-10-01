@@ -52,15 +52,15 @@ export class TemplateRatingsComponent {
           this.loading.set(true);
           this.error.set(null);
         }),
-        switchMap((id) =>
-          this.getTemplateRatingsGQL.watch({ id }).valueChanges,
+        switchMap(
+          (id) => this.getTemplateRatingsGQL.watch({ id }).valueChanges,
         ),
         takeUntilDestroyed(),
       )
       .subscribe({
         next: ({ data, loading, errors }) => {
-          const events =
-            (data.eventTemplate?.eventInstances ?? []) as EventInstances;
+          const events = (data.eventTemplate?.eventInstances ??
+            []) as EventInstances;
           this.events.set(events);
           this.loading.set(loading);
           if (errors && errors.length > 0) {

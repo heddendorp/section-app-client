@@ -88,8 +88,8 @@ query getTemplateCategoriesWithTemplates {
       id
       title
       icon
-#      participantRating
-#      participantRatingCount
+      #      participantRating
+      #      participantRatingCount
       eventInstanceCount
     }
   }

@@ -47,7 +47,7 @@ import { EventHeaderComponent } from '../../components/event-header/event-header
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { DateTime } from 'luxon';
 
 @Component({
@@ -75,6 +75,7 @@ import { DateTime } from 'luxon';
     ExtendDatePipe,
     IconURLPipe,
     NgOptimizedImage,
+    CurrencyPipe,
   ],
 })
 export class EventDetailsPageComponent implements OnDestroy {
@@ -225,12 +226,16 @@ export class EventDetailsPageComponent implements OnDestroy {
 
   async showCode() {
     const event = await firstValueFrom(this.event$);
-    if (event?.activeRegistration && !event.activeRegistration?.didAttend) {
+    if (event?.activeRegistration) {
       this.dialog.open(QrDisplayDialogComponent, {
         data: {
           id: event.activeRegistration.id,
           event: event.title,
           user: event.activeRegistration.user.fullName,
+          didAttend: event.activeRegistration.didAttend ?? false,
+          guestCount: event.activeRegistration.guestCount ?? 0,
+          totalPartySize: event.activeRegistration.totalPartySize ?? 0,
+          remainingEntries: event.activeRegistration.remainingEntries ?? 0,
         },
       });
     }
@@ -274,5 +279,13 @@ export class EventDetailsPageComponent implements OnDestroy {
         registrationId: event.activeRegistration.id,
       }),
     );
+  }
+
+  public coerceNumber(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : 0;
+    }
+    const parsed = Number(value ?? 0);
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 }

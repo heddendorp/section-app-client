@@ -71,6 +71,10 @@ query loadEvent($id: ID!) {
       id
       didAttend
       status
+      guestCount
+      guestUnitPrice
+      totalPartySize
+      remainingEntries
       transactions {
         id
         status
@@ -104,6 +108,13 @@ query loadEvent($id: ID!) {
     userIsOrganizer
     userIsCreator
     participantLimit
+    multiGuestSettings {
+      enabled
+      additionalGuestPrice
+      maxPerRegistration
+    }
+    totalGuestsCount
+    totalRegisteredCount
     ratings {
       userComment
       rating

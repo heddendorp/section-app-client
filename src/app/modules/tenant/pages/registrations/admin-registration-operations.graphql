@@ -42,12 +42,21 @@ query getRegistrationForAdmin($id: ID!) {
     type
     status
     cancellationReason
+    guestCount
+    guestCheckIns
+    totalPartySize
+    remainingEntries
     event {
       title
       id
       start
       end
       icon
+      multiGuestSettings {
+        enabled
+        maxPerRegistration
+        additionalGuestPrice
+      }
     }
     user {
       id
@@ -58,6 +67,12 @@ query getRegistrationForAdmin($id: ID!) {
         tenantId
         status
       }
+    }
+    usageLog {
+      timestamp
+      actorId
+      manual
+      note
     }
     transactions {
       id

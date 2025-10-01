@@ -63,6 +63,10 @@ export class StripeEventRegistrationComponent implements OnChanges {
   @Input() public bestPrice: Price | null = null;
   public availablePrices$ = new ReplaySubject<Price[]>(1);
   public priceControl = new UntypedFormControl(null, Validators.required);
+  public guestCountControl = new UntypedFormControl(0, [
+    Validators.required,
+    Validators.min(0),
+  ]);
   public processing = new BehaviorSubject(false);
   public infoCollected$ = new BehaviorSubject<unknown | null>(null);
   public SubmissionItemType = SubmissionItemType;
@@ -145,6 +149,12 @@ export class StripeEventRegistrationComponent implements OnChanges {
         reason: 'Your registration is not successful yet',
       };
     }
+    if ((this.event?.activeRegistration?.guestCount ?? 0) > 0) {
+      return {
+        result: false,
+        reason: 'Registrations with additional guests cannot be transferred',
+      };
+    }
     if (!this.event?.start || this.lastMove < new Date()) {
       return {
         result: false,
@@ -208,11 +218,13 @@ export class StripeEventRegistrationComponent implements OnChanges {
     if (this.event) {
       let data;
       try {
+        const guestCount = this.guestCountControl.value || 0;
         const res = await firstValueFrom(
           this.registerForEventGQL.mutate({
             eventId: this.event.id,
             price: this.priceControl.value,
             submissions: this.infoCollected$.value,
+            guestCount: guestCount,
           }),
         );
         data = res.data;
@@ -274,5 +286,46 @@ export class StripeEventRegistrationComponent implements OnChanges {
       return;
     }
     location.href = checkoutSession;
+  }
+
+  getGuestOptions(): number[] {
+    if (!this.event?.multiGuestSettings?.enabled) {
+      return [0];
+    }
+
+    const participantLimit = this.coerceNumber(this.event?.participantLimit);
+    const totalRegistered = this.coerceNumber(this.event?.totalRegisteredCount);
+    const participantRegistrations = this.coerceNumber(
+      this.event?.participantRegistrationCount,
+    );
+    const effectiveRegistrations =
+      totalRegistered > 0 ? totalRegistered : participantRegistrations;
+    const remainingCapacity = Math.max(
+      0,
+      participantLimit - effectiveRegistrations,
+    );
+    const maxPerRegistration = this.event.multiGuestSettings.maxPerRegistration;
+    const maxAllowedGuests =
+      typeof maxPerRegistration === 'number'
+        ? maxPerRegistration
+        : remainingCapacity;
+    const maxPossibleGuests = Math.min(
+      maxAllowedGuests,
+      Math.max(0, remainingCapacity - 1),
+    );
+
+    const options: number[] = [];
+    for (let i = 0; i <= Math.max(0, maxPossibleGuests); i++) {
+      options.push(i);
+    }
+    return options;
+  }
+
+  public coerceNumber(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : 0;
+    }
+    const parsed = Number(value ?? 0);
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 }

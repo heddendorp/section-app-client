@@ -17,13 +17,21 @@ import { MembershipStatus } from '@tumi/legacy-app/generated/generated';
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>New status</mat-label>
         <mat-select [formControl]="statusControl" required>
-          <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+          <mat-option *ngFor="let s of statuses" [value]="s">{{
+            s
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div mat-dialog-actions align="end">
       <button mat-button (click)="close()">Cancel</button>
-      <button mat-flat-button color="primary" [disabled]="statusControl.invalid" (click)="submit()">Update</button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="statusControl.invalid"
+        (click)="submit()"
+        >Update</button
+      >
     </div>
   `,
   imports: [
@@ -38,10 +46,18 @@ import { MembershipStatus } from '@tumi/legacy-app/generated/generated';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BulkUpdateStatusDialogComponent {
-  private dialogRef = inject(MatDialogRef<BulkUpdateStatusDialogComponent, { status: MembershipStatus } | undefined>);
+  private dialogRef = inject(
+    MatDialogRef<
+      BulkUpdateStatusDialogComponent,
+      { status: MembershipStatus } | undefined
+    >,
+  );
   public MembershipStatus = MembershipStatus;
   public statuses = Object.values(MembershipStatus) as MembershipStatus[];
-  public statusControl = new FormControl<MembershipStatus | null>(null, { nonNullable: false, validators: [Validators.required] });
+  public statusControl = new FormControl<MembershipStatus | null>(null, {
+    nonNullable: false,
+    validators: [Validators.required],
+  });
 
   close() {
     this.dialogRef.close(undefined);

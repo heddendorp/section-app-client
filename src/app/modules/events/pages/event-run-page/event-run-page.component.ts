@@ -201,4 +201,18 @@ export class EventRunPageComponent implements OnDestroy {
       );
     }
   }
+
+  getTotalGuests(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCount || 0),
+      0,
+    );
+  }
+
+  getTotalGuestCheckIns(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCheckIns || 0),
+      0,
+    );
+  }
 }

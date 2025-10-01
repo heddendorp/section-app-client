@@ -36,6 +36,38 @@
           </p>
         }
         <p class="pb-4">You can register for this event here.</p>
+
+        <!-- Multi-guest selection for online registration -->
+        @if (event.multiGuestSettings?.enabled) {
+          @let settings = event.multiGuestSettings!;
+          <mat-form-field class="mb-4 w-full">
+            <mat-label>Additional guests</mat-label>
+            <mat-select [formControl]="guestCountControl">
+              @for (i of getGuestOptions(); track i) {
+                <mat-option [value]="i">
+                  @if (i === 0) {
+                    Just me (no additional guests)
+                  } @else if (i === 1) {
+                    1 additional guest
+                  } @else {
+                    {{ i }} additional guests
+                  }
+                </mat-option>
+              }
+            </mat-select>
+            <mat-hint>
+              @if (
+                settings.maxPerRegistration !== null &&
+                settings.maxPerRegistration !== undefined
+              ) {
+                Max {{ settings.maxPerRegistration }} guests per registration
+              } @else {
+                Capacity permitting
+              }
+            </mat-hint>
+          </mat-form-field>
+        }
+
         <button
           mat-raised-button
           color="primary"

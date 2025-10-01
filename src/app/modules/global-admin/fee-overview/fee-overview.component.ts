@@ -29,7 +29,14 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-fee-overview',
-  imports: [CurrencyPipe, ExtendDatePipe, DecimalPipe, RouterLink, AgCharts, MatButtonModule],
+  imports: [
+    CurrencyPipe,
+    ExtendDatePipe,
+    DecimalPipe,
+    RouterLink,
+    AgCharts,
+    MatButtonModule,
+  ],
   templateUrl: './fee-overview.component.html',
   styleUrl: './fee-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -272,6 +279,7 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     return DateTime.local() >= quarterEnd;
   }
 }
-type TenantFeeMonthEntry = GlobalAdminFeeOverviewQuery['tenantFeeMonths'][number];
+type TenantFeeMonthEntry =
+  GlobalAdminFeeOverviewQuery['tenantFeeMonths'][number];
 type QuarterDisplay = GlobalAdminFeeOverviewQuery['feeQuarterGroups'][number];
 type QuarterTenantSummary = QuarterDisplay['tenantSummaries'][number];

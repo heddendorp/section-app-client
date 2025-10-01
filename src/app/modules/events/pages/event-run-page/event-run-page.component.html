@@ -72,7 +72,9 @@
     </div>
 
     <ul
-      class="divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl bg-secondary-container text-primary-onContainer shadow-xl sm:grid sm:grid-cols-3 sm:divide-x-2 sm:divide-y-0"
+      class="divide-y-2 divide-gray-600 divide-opacity-25 rounded-2xl bg-secondary-container text-primary-onContainer shadow-xl sm:grid sm:divide-x-2 sm:divide-y-0"
+      [class.sm:grid-cols-3]="!event.multiGuestSettings?.enabled"
+      [class.sm:grid-cols-5]="event.multiGuestSettings?.enabled"
     >
       <li class="p-4">
         <p class="font-extrabold md:text-2xl">
@@ -92,6 +94,22 @@
         <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
         <p class="mt-1 font-medium md:text-xl">Participant spots</p>
       </li>
+
+      @if (event.multiGuestSettings?.enabled) {
+        <li class="p-4">
+          <p class="font-extrabold md:text-2xl">
+            {{ getTotalGuests(event.participantRegistrations) }}
+          </p>
+          <p class="mt-1 font-medium md:text-xl">Total guests</p>
+        </li>
+
+        <li class="p-4">
+          <p class="font-extrabold md:text-2xl">
+            {{ getTotalGuestCheckIns(event.participantRegistrations) }}
+          </p>
+          <p class="mt-1 font-medium md:text-xl">Guests checked in</p>
+        </li>
+      }
     </ul>
 
     <div class="flex flex-col gap-8 lg:flex-row">
@@ -206,10 +224,24 @@
                     />
                   </div>
                   <div class="ml-3">
-                    <p
-                      class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
-                      >{{ registration.user.fullName }}</p
-                    >
+                    <div class="flex items-center gap-2">
+                      <p
+                        class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
+                        >{{ registration.user.fullName }}</p
+                      >
+                      @if (
+                        event.multiGuestSettings?.enabled &&
+                        registration.guestCount > 0
+                      ) {
+                        <span
+                          class="inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800"
+                        >
+                          +{{ registration.guestCount }} guest{{
+                            registration.guestCount > 1 ? 's' : ''
+                          }}
+                        </span>
+                      }
+                    </div>
                     @if (registration.user.acceptPhoneUsage) {
                       <p
                         class="text-xs font-medium text-gray-500 group-hover:text-gray-700"

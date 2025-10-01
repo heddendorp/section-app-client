@@ -11,7 +11,10 @@
           </td>
           <td
             [attr.colspan]="
-              3 + event.submissionItems.length + formConfig.length
+              3 +
+              getGuestColumnCount() +
+              event.submissionItems.length +
+              formConfig.length
             "
             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
           >
@@ -27,7 +30,10 @@
           </td>
           <td
             [attr.colspan]="
-              3 + event.submissionItems.length + formConfig.length
+              3 +
+              getGuestColumnCount() +
+              event.submissionItems.length +
+              formConfig.length
             "
             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
           >
@@ -43,7 +49,10 @@
           </td>
           <td
             [attr.colspan]="
-              3 + event.submissionItems.length + formConfig.length
+              3 +
+              getGuestColumnCount() +
+              event.submissionItems.length +
+              formConfig.length
             "
             class="px-3 py-4 text-sm text-gray-500"
           >
@@ -59,7 +68,10 @@
           </td>
           <td
             [attr.colspan]="
-              3 + event.submissionItems.length + formConfig.length
+              3 +
+              getGuestColumnCount() +
+              event.submissionItems.length +
+              formConfig.length
             "
             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
           >
@@ -72,6 +84,30 @@
             [attr.colspan]="event.submissionItems.length + formConfig.length"
           ></td>
         </tr>
+        @if (event.multiGuestSettings?.enabled) {
+          <tr>
+            <td
+              class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+              colspan="2"
+            >
+              Total guests:
+            </td>
+            <td
+              [attr.colspan]="
+                3 +
+                getGuestColumnCount() +
+                event.submissionItems.length +
+                formConfig.length
+              "
+              class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+            >
+              {{ getTotalGuests(event.participantRegistrations) }}
+            </td>
+            <td
+              [attr.colspan]="event.submissionItems.length + formConfig.length"
+            ></td>
+          </tr>
+        }
         <tr>
           <th
             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -102,6 +138,14 @@
           >
             Check in
           </th>
+          @if (event.multiGuestSettings?.enabled) {
+            <th
+              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              scope="col"
+            >
+              Guests
+            </th>
+          }
           @for (submissionItem of event.submissionItems; track submissionItem) {
             <th
               class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -143,6 +187,20 @@
             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
               {{ registration.checkInTime | date: 'short' }}
             </td>
+            @if (event.multiGuestSettings?.enabled) {
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                @if (registration.guestCount && registration.guestCount > 0) {
+                  {{ registration.guestCount }}
+                  @if (registration.guestCheckIns !== undefined) {
+                    <span class="text-gray-400">
+                      ({{ registration.guestCheckIns }} checked in)
+                    </span>
+                  }
+                } @else {
+                  <span class="text-gray-400">—</span>
+                }
+              </td>
+            }
             @for (
               submissionItem of event.submissionItems;
               track submissionItem

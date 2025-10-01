@@ -167,6 +167,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       participantSignup: [[]],
       participantLimit: ['', Validators.required],
       organizerLimit: ['', Validators.required],
+      multiGuestSettings: this.fb.group({
+        enabled: [false, Validators.required],
+        additionalGuestPrice: [0, [Validators.required, Validators.min(0)]],
+        maxPerRegistration: [null],
+      }),
       deRegistrationSettings: this.fb.group({
         participants: this.fb.group({
           deRegistrationPossible: [true, Validators.required],
@@ -327,6 +332,23 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
         { emitEvent: true },
       );
       this.publicationForm.patchValue(event);
+
+      // Patch multi-guest settings within core form
+      const multiGuestGroup =
+        this.coreInformationForm.get('multiGuestSettings');
+      if (event.multiGuestSettings) {
+        multiGuestGroup?.patchValue({
+          enabled: event.multiGuestSettings.enabled,
+          additionalGuestPrice: event.multiGuestSettings.additionalGuestPrice,
+          maxPerRegistration: event.multiGuestSettings.maxPerRegistration,
+        });
+      } else {
+        multiGuestGroup?.patchValue({
+          enabled: false,
+          additionalGuestPrice: 0,
+          maxPerRegistration: null,
+        });
+      }
     }
     this.coreInformationForm
       .get('registrationMode')
@@ -341,6 +363,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             this.coreInformationForm.get('registrationLink')?.disable();
             this.coreInformationForm.get('participantLimit')?.enable();
             this.coreInformationForm.get('organizerLimit')?.enable();
+            this.coreInformationForm
+              .get('multiGuestSettings.additionalGuestPrice')
+              ?.enable();
             break;
           }
           case RegistrationMode.Online: {
@@ -348,6 +373,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             this.coreInformationForm.get('registrationLink')?.disable();
             this.coreInformationForm.get('participantLimit')?.enable();
             this.coreInformationForm.get('organizerLimit')?.enable();
+            // Set guest price to 0 for free events
+            this.coreInformationForm
+              .get('multiGuestSettings.additionalGuestPrice')
+              ?.setValue(0);
+            this.coreInformationForm
+              .get('multiGuestSettings.additionalGuestPrice')
+              ?.disable();
             break;
           }
           case RegistrationMode.External: {
@@ -355,6 +387,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
             this.coreInformationForm.get('registrationLink')?.enable();
             this.coreInformationForm.get('participantLimit')?.disable();
             this.coreInformationForm.get('organizerLimit')?.disable();
+            // Set guest price to 0 for external events
+            this.coreInformationForm
+              .get('multiGuestSettings.additionalGuestPrice')
+              ?.setValue(0);
+            this.coreInformationForm
+              .get('multiGuestSettings.additionalGuestPrice')
+              ?.disable();
             break;
           }
         }
@@ -554,6 +593,8 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           }),
         });
       }
+
+      await this.reloadEvent();
       this.snackBar.open('Event saved ✔️');
     }
     if (this.coreInformationForm.invalid) {
