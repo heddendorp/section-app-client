@@ -553,6 +553,18 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await firstValueFrom(this.event$);
     if (event && this.coreInformationForm.valid) {
       const update = this.coreInformationForm.value;
+      
+      // Handle multiGuestSettings - only include additionalGuestPrice if enabled
+      const multiGuestSettings = update.multiGuestSettings;
+      if (multiGuestSettings && !multiGuestSettings.enabled) {
+        // When disabled, send minimal data (enabled: false, maxPerRegistration: null)
+        // and omit additionalGuestPrice
+        update.multiGuestSettings = {
+          enabled: false,
+          maxPerRegistration: null,
+        };
+      }
+      
       const { data } = await firstValueFrom(
         this.updateCoreEventGQL.mutate({
           id: event.id,

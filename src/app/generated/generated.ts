@@ -216,7 +216,7 @@ export type EventMultiGuestSettings = {
 };
 
 export type EventMultiGuestSettingsInput = {
-  additionalGuestPrice: Scalars['Float']['input'];
+  additionalGuestPrice?: InputMaybe<Scalars['Float']['input']>;
   enabled: Scalars['Boolean']['input'];
   maxPerRegistration?: InputMaybe<Scalars['Int']['input']>;
 };
