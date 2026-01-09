@@ -134,6 +134,20 @@ export type CreateEventTemplateInput = {
   title: Scalars['String']['input'];
 };
 
+export type CreateInvoiceSyncInput = {
+  collectedFee: Scalars['Int']['input'];
+  currency: Currency;
+  discount: Scalars['Int']['input'];
+  expectedFee: Scalars['Int']['input'];
+  payload?: InputMaybe<Scalars['JSON']['input']>;
+  periodEnd: Scalars['DateTime']['input'];
+  periodKey: Scalars['String']['input'];
+  periodStart: Scalars['DateTime']['input'];
+  roundingDifference: Scalars['Int']['input'];
+  tenantId: Scalars['ID']['input'];
+  volume: Scalars['Int']['input'];
+};
+
 export type CreatePhotoShareInput = {
   cols: Scalars['Int']['input'];
   container: Scalars['String']['input'];
@@ -385,6 +399,41 @@ export enum HomePageStrategy {
   Static = 'STATIC'
 }
 
+export enum InvoiceExternalSystem {
+  Sevdesk = 'SEVDESK'
+}
+
+export type InvoiceSync = {
+  __typename?: 'InvoiceSync';
+  collectedFee: Scalars['Int']['output'];
+  currency: Currency;
+  discount: Scalars['Int']['output'];
+  expectedFee: Scalars['Int']['output'];
+  externalInvoiceId?: Maybe<Scalars['String']['output']>;
+  externalInvoiceNumber?: Maybe<Scalars['String']['output']>;
+  externalSystem: InvoiceExternalSystem;
+  id: Scalars['ID']['output'];
+  lastError?: Maybe<Scalars['String']['output']>;
+  payload?: Maybe<Scalars['JSON']['output']>;
+  periodEnd: Scalars['DateTime']['output'];
+  periodKey: Scalars['String']['output'];
+  periodStart: Scalars['DateTime']['output'];
+  requestedAt: Scalars['DateTime']['output'];
+  response?: Maybe<Scalars['JSON']['output']>;
+  roundingDifference: Scalars['Int']['output'];
+  status: InvoiceSyncStatus;
+  syncedAt?: Maybe<Scalars['DateTime']['output']>;
+  tenant: Tenant;
+  tenantId: Scalars['ID']['output'];
+  volume: Scalars['Int']['output'];
+};
+
+export enum InvoiceSyncStatus {
+  Draft = 'DRAFT',
+  Failed = 'FAILED',
+  Pending = 'PENDING'
+}
+
 export enum LogSeverity {
   Debug = 'DEBUG',
   Error = 'ERROR',
@@ -419,6 +468,7 @@ export type Mutation = {
   createEventOrganizer: EventOrganizer;
   createEventTemplate: EventTemplate;
   createEventTemplateCategory: EventTemplateCategory;
+  createInvoiceSyncDraft: InvoiceSync;
   createPhotoShare: PhotoShare;
   createReceipt: Receipt;
   createRegistrationCode: EventRegistrationCode;
@@ -438,6 +488,7 @@ export type Mutation = {
   rateEvent: TumiEvent;
   registerForEvent: TumiEvent;
   restorePayment: TumiEvent;
+  retryInvoiceSync: InvoiceSync;
   updateCostItemsFromTemplate: TumiEvent;
   updateEventCoreInfo: TumiEvent;
   updateEventGeneralInfo: TumiEvent;
@@ -445,6 +496,7 @@ export type Mutation = {
   updateEventOrganizer: EventOrganizer;
   updateEventTemplateCategory: EventTemplateCategory;
   updateEventTemplateConnection: TumiEvent;
+  updateInvoiceSyncStatus: InvoiceSync;
   updateTemplate: EventTemplate;
   updateTemplateCategory: EventTemplate;
   updateTemplateFinances: EventTemplate;
@@ -530,6 +582,11 @@ export type MutationCreateEventTemplateArgs = {
 
 export type MutationCreateEventTemplateCategoryArgs = {
   input: CreateEventTemplateCategoryInput;
+};
+
+
+export type MutationCreateInvoiceSyncDraftArgs = {
+  input: CreateInvoiceSyncInput;
 };
 
 
@@ -644,6 +701,11 @@ export type MutationRestorePaymentArgs = {
 };
 
 
+export type MutationRetryInvoiceSyncArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateCostItemsFromTemplateArgs = {
   eventId: Scalars['ID']['input'];
 };
@@ -682,6 +744,12 @@ export type MutationUpdateEventTemplateCategoryArgs = {
 export type MutationUpdateEventTemplateConnectionArgs = {
   eventId: Scalars['ID']['input'];
   templateId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateInvoiceSyncStatusArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateInvoiceSyncStatusInput;
 };
 
 
@@ -880,6 +948,8 @@ export type Query = {
   gridUsers: Array<User>;
   gridUsersCount: Scalars['Int']['output'];
   historicalStatistics: Array<HistoricalData>;
+  invoiceSync?: Maybe<InvoiceSync>;
+  invoiceSyncs: Array<InvoiceSync>;
   photoShareKey: Scalars['String']['output'];
   photos: Array<PhotoShare>;
   profileUploadKey: Scalars['String']['output'];
@@ -987,6 +1057,17 @@ export type QueryHistoricalStatisticsArgs = {
   end: Scalars['DateTime']['input'];
   start: Scalars['DateTime']['input'];
   unit?: Scalars['String']['input'];
+};
+
+
+export type QueryInvoiceSyncArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryInvoiceSyncsArgs = {
+  periodKey?: InputMaybe<Scalars['String']['input']>;
+  tenantId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -1555,6 +1636,15 @@ export type UpdateGeneralEventInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   organizerText?: InputMaybe<Scalars['String']['input']>;
   participantText?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateInvoiceSyncStatusInput = {
+  externalInvoiceId?: InputMaybe<Scalars['String']['input']>;
+  externalInvoiceNumber?: InputMaybe<Scalars['String']['input']>;
+  lastError?: InputMaybe<Scalars['String']['input']>;
+  response?: InputMaybe<Scalars['JSON']['input']>;
+  status: InvoiceSyncStatus;
+  syncedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type UpdateOrganizerDeregistrationConfigInput = {
@@ -2217,6 +2307,25 @@ export type GetGlobalRangeStatisticsQueryVariables = Exact<{
 
 
 export type GetGlobalRangeStatisticsQuery = { __typename?: 'Query', rangeStatistics: { __typename?: 'RangeStats', registeredUsers: number, eventsStarted: number, registeredParticipants: number, checkIns: number }, registrationHistory: Array<{ __typename?: 'HistoricalData', date: string, eventRegistrations: number, usersCheckedIn: number }>, userHistory: Array<{ __typename?: 'HistoricalData', date: string, usersRegistered: number }>, eventHistory: Array<{ __typename?: 'HistoricalData', date: string, eventsCreated: number, eventsStarted: number }>, userDataStatistics: Array<{ __typename?: 'AdditionalDataStats', data: Array<{ __typename?: 'PieChartData', name: string, value: number }>, title: { __typename?: 'PieChartTitle', text: string }, series: Array<{ __typename?: 'PieChartSeries', angleKey: string, legendItemKey: string, type: string }> }> };
+
+export type GlobalAdminInvoiceSyncsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GlobalAdminInvoiceSyncsQuery = { __typename?: 'Query', invoiceSyncs: Array<{ __typename?: 'InvoiceSync', id: string, tenantId: string, periodKey: string, status: InvoiceSyncStatus, externalInvoiceId?: string | null, externalInvoiceNumber?: string | null, lastError?: string | null }> };
+
+export type CreateInvoiceSyncDraftMutationVariables = Exact<{
+  input: CreateInvoiceSyncInput;
+}>;
+
+
+export type CreateInvoiceSyncDraftMutation = { __typename?: 'Mutation', createInvoiceSyncDraft: { __typename?: 'InvoiceSync', id: string, tenantId: string, periodKey: string, status: InvoiceSyncStatus, externalInvoiceNumber?: string | null, lastError?: string | null } };
+
+export type RetryInvoiceSyncMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RetryInvoiceSyncMutation = { __typename?: 'Mutation', retryInvoiceSync: { __typename?: 'InvoiceSync', id: string, tenantId: string, periodKey: string, status: InvoiceSyncStatus, externalInvoiceNumber?: string | null, lastError?: string | null } };
 
 export type GetTenantsForGlobalAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5030,6 +5139,76 @@ export const GetGlobalRangeStatisticsDocument = gql`
   })
   export class GetGlobalRangeStatisticsGQL extends Apollo.Query<GetGlobalRangeStatisticsQuery, GetGlobalRangeStatisticsQueryVariables> {
     override document = GetGlobalRangeStatisticsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GlobalAdminInvoiceSyncsDocument = gql`
+    query GlobalAdminInvoiceSyncs {
+  invoiceSyncs {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceId
+    externalInvoiceNumber
+    lastError
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GlobalAdminInvoiceSyncsGQL extends Apollo.Query<GlobalAdminInvoiceSyncsQuery, GlobalAdminInvoiceSyncsQueryVariables> {
+    override document = GlobalAdminInvoiceSyncsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateInvoiceSyncDraftDocument = gql`
+    mutation CreateInvoiceSyncDraft($input: CreateInvoiceSyncInput!) {
+  createInvoiceSyncDraft(input: $input) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateInvoiceSyncDraftGQL extends Apollo.Mutation<CreateInvoiceSyncDraftMutation, CreateInvoiceSyncDraftMutationVariables> {
+    override document = CreateInvoiceSyncDraftDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RetryInvoiceSyncDocument = gql`
+    mutation RetryInvoiceSync($id: ID!) {
+  retryInvoiceSync(id: $id) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RetryInvoiceSyncGQL extends Apollo.Mutation<RetryInvoiceSyncMutation, RetryInvoiceSyncMutationVariables> {
+    override document = RetryInvoiceSyncDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

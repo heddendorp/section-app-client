@@ -5,9 +5,9 @@ export const GLOBAL_ADMIN_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import(
-        '@tumi/legacy-app/modules/global-admin/global-admin-landing/global-admin-landing.component'
-      ).then((m) => m.GlobalAdminLandingComponent),
+      import('@tumi/legacy-app/modules/global-admin/global-admin-landing/global-admin-landing.component').then(
+        (m) => m.GlobalAdminLandingComponent,
+      ),
   },
   {
     path: 'statistics',
@@ -22,6 +22,11 @@ export const GLOBAL_ADMIN_ROUTES: Routes = [
       import('./fee-overview/fee-overview.component').then(
         (m) => m.FeeOverviewComponent,
       ),
+  },
+  {
+    path: 'invoices',
+    loadComponent: () =>
+      import('./invoices/invoices.component').then((m) => m.InvoicesComponent),
   },
   {
     path: 'tenants',

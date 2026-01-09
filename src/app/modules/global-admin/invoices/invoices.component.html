@@ -1,0 +1,234 @@
+<section class="container mx-auto mt-8 space-y-6 px-4 sm:px-6 lg:px-8">
+  <header class="space-y-2">
+    <h1 class="text-2xl font-semibold text-gray-900">Monthly invoices</h1>
+    <p class="text-sm text-gray-600">
+      Drafts are created per tenant per month. Amounts are shown in each
+      tenant's collected currency.
+    </p>
+  </header>
+
+  @if (totalMonths() > 0) {
+    <div class="space-y-6">
+      @for (monthSummary of monthSummaries(); track monthSummary.month) {
+        <section
+          class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+        >
+          <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900">
+                {{ monthSummary.month }}
+              </h2>
+              <p class="text-xs text-gray-500">Monthly invoice data</p>
+            </div>
+            @if (monthSummary.totalsByCurrency.length) {
+              <div class="text-xs text-gray-500">
+                <p class="font-medium text-gray-700">Totals by currency</p>
+                <div class="mt-1 flex flex-wrap gap-4">
+                  @for (
+                    total of monthSummary.totalsByCurrency;
+                    track total.currency
+                  ) {
+                    <div class="flex items-center gap-2">
+                      <span class="font-semibold text-gray-900">{{
+                        total.currency
+                      }}</span>
+                      <span>
+                        Expected
+                        {{ total.expected / 100 | currency: total.currency }}
+                      </span>
+                      <span class="text-gray-400">•</span>
+                      <span>
+                        Rounding
+                        {{ total.difference / 100 | currency: total.currency }}
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="mt-6 overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+              <thead
+                class="border-b text-xs uppercase tracking-wide text-gray-500"
+              >
+                <tr>
+                  <th class="py-2 pr-6">Tenant</th>
+                  <th class="py-2 pr-6">Volume</th>
+                  <th class="py-2 pr-6">Expected fee</th>
+                  <th class="py-2 pr-6">Collected fee</th>
+                  <th class="py-2 pr-6">Rounding diff</th>
+                  <th class="py-2 pr-6">Discount</th>
+                  <th class="py-2 pr-6">Status</th>
+                  <th class="py-2 pr-6">Invoice</th>
+                  <th class="py-2 pr-6 text-right">Transactions</th>
+                  <th class="py-2 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                @for (entry of monthSummary.entries; track entry.tenantId) {
+                  @if (entry.invoiceSync) {
+                    <tr>
+                      <td class="py-3 pr-6 font-medium text-gray-900">
+                        {{ entry.tenantName }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.revenue / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.expectedFee / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.netAmount / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{
+                          entry.roundingDifference / 100
+                            | currency: entry.currency
+                        }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{
+                          entry.volumeDiscount / 100 | currency: entry.currency
+                        }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        <div class="flex flex-col gap-1">
+                          <span
+                            [class]="statusPillClass(entry.invoiceSync?.status)"
+                          >
+                            {{ statusLabel(entry.invoiceSync?.status) }}
+                          </span>
+                          @if (entry.invoiceSync?.lastError) {
+                            <span class="text-xs text-rose-600">
+                              {{ entry.invoiceSync?.lastError }}
+                            </span>
+                          }
+                        </div>
+                      </td>
+                      <td class="py-3 pr-6">
+                        @if (entry.invoiceSync?.externalInvoiceNumber) {
+                          @if (
+                            invoiceLink(entry.invoiceSync?.externalInvoiceId)
+                          ) {
+                            <a
+                              class="font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:text-gray-700"
+                              [href]="
+                                invoiceLink(
+                                  entry.invoiceSync?.externalInvoiceId
+                                )
+                              "
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {{ entry.invoiceSync?.externalInvoiceNumber }}
+                            </a>
+                          } @else {
+                            <span class="font-medium text-gray-900">
+                              {{ entry.invoiceSync?.externalInvoiceNumber }}
+                            </span>
+                          }
+                        } @else {
+                          <span class="text-xs text-gray-400">—</span>
+                        }
+                      </td>
+                      <td
+                        class="py-3 pr-6 text-right font-semibold text-gray-900"
+                      >
+                        {{ entry.transactionCount }}
+                      </td>
+                      <td class="py-3 text-right">
+                        @if (
+                          entry.invoiceSync?.status === invoiceSyncStatus.Failed
+                        ) {
+                          <button
+                            type="button"
+                            class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+                            (click)="retryDraft(entry)"
+                            [disabled]="
+                              isActionPending(entry.month, entry.tenantId)
+                            "
+                          >
+                            @if (isActionPending(entry.month, entry.tenantId)) {
+                              Retrying…
+                            } @else {
+                              Retry
+                            }
+                          </button>
+                        } @else {
+                          <span class="text-xs text-gray-400">—</span>
+                        }
+                      </td>
+                    </tr>
+                  } @else {
+                    <tr>
+                      <td class="py-3 pr-6 font-medium text-gray-900">
+                        {{ entry.tenantName }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.revenue / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.expectedFee / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{ entry.netAmount / 100 | currency: entry.currency }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{
+                          entry.roundingDifference / 100
+                            | currency: entry.currency
+                        }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        {{
+                          entry.volumeDiscount / 100 | currency: entry.currency
+                        }}
+                      </td>
+                      <td class="py-3 pr-6">
+                        <span [class]="statusPillClass(null)">
+                          {{ statusLabel(null) }}
+                        </span>
+                      </td>
+                      <td class="py-3 pr-6">
+                        <span class="text-xs text-gray-400">—</span>
+                      </td>
+                      <td
+                        class="py-3 pr-6 text-right font-semibold text-gray-900"
+                      >
+                        {{ entry.transactionCount }}
+                      </td>
+                      <td class="py-3 text-right">
+                        <button
+                          type="button"
+                          class="inline-flex items-center rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
+                          (click)="createDraft(entry)"
+                          [disabled]="
+                            isActionPending(entry.month, entry.tenantId)
+                          "
+                        >
+                          @if (isActionPending(entry.month, entry.tenantId)) {
+                            Creating…
+                          } @else {
+                            Create draft
+                          }
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+    </div>
+  } @else {
+    <div
+      class="rounded-lg border border-dashed border-gray-300 bg-white p-6 text-sm text-gray-500"
+    >
+      No monthly fee data is available yet.
+    </div>
+  }
+</section>

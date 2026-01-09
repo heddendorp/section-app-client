@@ -1,0 +1,33 @@
+query GlobalAdminInvoiceSyncs {
+  invoiceSyncs {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceId
+    externalInvoiceNumber
+    lastError
+  }
+}
+
+mutation CreateInvoiceSyncDraft($input: CreateInvoiceSyncInput!) {
+  createInvoiceSyncDraft(input: $input) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}
+
+mutation RetryInvoiceSync($id: ID!) {
+  retryInvoiceSync(id: $id) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}
