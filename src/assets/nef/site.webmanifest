@@ -1,0 +1,23 @@
+{
+  "name": "ISN NEF",
+  "short_name": "ISN NEF",
+  "theme_color": "#0062BB",
+  "background_color": "#0062BB",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["education", "exchange", "events"],
+  "scope": "./",
+  "start_url": "./events?utm_source=homescreen&utm_campaign=nef",
+  "icons": [
+    {
+      "src": "/assets/nef/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/nef/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
