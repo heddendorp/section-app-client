@@ -62,6 +62,33 @@ const RETRY_INVOICE_SYNC_MUTATION = gql`
   }
 `;
 
+const DELETE_INVOICE_SYNC_MUTATION = gql`
+  mutation DeleteInvoiceSync($id: ID!) {
+    deleteInvoiceSync(id: $id) {
+      id
+    }
+  }
+`;
+
+const SYNC_INVOICE_SYNC_STATUSES_MUTATION = gql`
+  mutation SyncInvoiceSyncStatuses {
+    syncInvoiceSyncStatuses
+  }
+`;
+
+const BOOK_INVOICE_SYNC_MUTATION = gql`
+  mutation BookInvoiceSync($id: ID!) {
+    bookInvoiceSync(id: $id) {
+      id
+      tenantId
+      periodKey
+      status
+      externalInvoiceNumber
+      lastError
+    }
+  }
+`;
+
 @Component({
   selector: 'app-invoices',
   imports: [CurrencyPipe],
@@ -82,6 +109,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   private readonly monthBeforeLast = DateTime.local()
     .minus({ months: 2 })
     .toFormat('yyyy-MM');
+  private readonly quarterlyStart = DateTime.fromISO('2026-01-01');
 
   private queryRef = this.globalAdminFeeOverviewGQL.watch({
     currentMonth: this.currentMonth,
@@ -100,6 +128,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     { initialValue: [] as InvoiceSync[] },
   );
   private pendingActions = signal(new Set<string>());
+  private syncAllPending = signal(false);
 
   private tenantFeeMonthList = toSignal(
     this.queryRef.valueChanges.pipe(map(({ data }) => data.tenantFeeMonths)),
@@ -117,29 +146,34 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     return lookup;
   });
 
-  protected monthSummaries = computed(() => {
-    const summaries = new Map<string, MonthSummary>();
+  protected periodSummaries = computed(() => {
+    const summaries = new Map<string, PeriodSummary>();
     const invoiceSyncLookup = this.invoiceSyncLookup();
 
-    for (const entry of this.tenantFeeMonthList()) {
-      const month = entry.month;
+    const entries = this.buildInvoiceEntries();
+
+    for (const entry of entries) {
       const summary =
-        summaries.get(month) ??
+        summaries.get(entry.periodKey) ??
         ({
-          month,
+          periodKey: entry.periodKey,
+          periodStart: entry.periodStart,
+          periodEnd: entry.periodEnd,
           entries: [],
           totalsByCurrency: [],
-        } satisfies MonthSummary);
+        } satisfies PeriodSummary);
 
       summary.entries.push({
         ...entry,
-        invoiceSync: invoiceSyncLookup.get(entry.month)?.get(entry.tenantId),
+        invoiceSync: invoiceSyncLookup
+          .get(entry.periodKey)
+          ?.get(entry.tenantId),
       });
       summary.totalsByCurrency = this.updateTotals(
         summary.totalsByCurrency,
         entry,
       );
-      summaries.set(month, summary);
+      summaries.set(entry.periodKey, summary);
     }
 
     const result = Array.from(summaries.values());
@@ -149,11 +183,11 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         a.currency.localeCompare(b.currency),
       );
     }
-    result.sort((a, b) => b.month.localeCompare(a.month));
+    result.sort((a, b) => b.periodStart.toMillis() - a.periodStart.toMillis());
     return result;
   });
 
-  protected totalMonths = computed(() => this.monthSummaries().length);
+  protected totalPeriods = computed(() => this.periodSummaries().length);
   protected invoiceSyncStatus = InvoiceSyncStatus;
 
   ngOnInit() {
@@ -169,6 +203,26 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
   protected isActionPending(periodKey: string, tenantId: string) {
     return this.pendingActions().has(this.actionKey(periodKey, tenantId));
+  }
+
+  protected isSyncAllPending() {
+    return this.syncAllPending();
+  }
+
+  protected syncAllStatuses() {
+    if (this.syncAllPending()) return;
+    this.syncAllPending.set(true);
+    this.apollo
+      .mutate<SyncInvoiceSyncStatusesMutation, Record<string, never>>({
+        mutation: SYNC_INVOICE_SYNC_STATUSES_MUTATION,
+      })
+      .pipe(
+        finalize(() => this.syncAllPending.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.invoiceSyncQueryRef.refetch();
+      });
   }
 
   protected createDraft(entry: InvoiceEntry) {
@@ -200,17 +254,61 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       });
   }
 
+  protected resetDraft(entry: InvoiceEntry) {
+    const sync = entry.invoiceSync;
+    if (!sync) return;
+    if (this.isActionPending(sync.periodKey, sync.tenantId)) return;
+
+    const actionKey = this.actionKey(sync.periodKey, sync.tenantId);
+    this.setActionPending(actionKey, true);
+    this.apollo
+      .mutate<DeleteInvoiceSyncMutation, DeleteInvoiceSyncVariables>({
+        mutation: DELETE_INVOICE_SYNC_MUTATION,
+        variables: { id: sync.id },
+      })
+      .pipe(
+        finalize(() => this.setActionPending(actionKey, false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.invoiceSyncQueryRef.refetch();
+      });
+  }
+
+  protected bookInvoice(entry: InvoiceEntry) {
+    const sync = entry.invoiceSync;
+    if (!sync) return;
+    if (this.isActionPending(sync.periodKey, sync.tenantId)) return;
+
+    const actionKey = this.actionKey(sync.periodKey, sync.tenantId);
+    this.setActionPending(actionKey, true);
+    this.apollo
+      .mutate<BookInvoiceSyncMutation, BookInvoiceSyncVariables>({
+        mutation: BOOK_INVOICE_SYNC_MUTATION,
+        variables: { id: sync.id },
+      })
+      .pipe(
+        finalize(() => this.setActionPending(actionKey, false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.invoiceSyncQueryRef.refetch();
+      });
+  }
+
   private createDraftMutation(entry: InvoiceEntry): Observable<unknown> {
-    if (this.isActionPending(entry.month, entry.tenantId)) return EMPTY;
-    const period = this.parseMonth(entry.month);
+    if (this.isActionPending(entry.periodKey, entry.tenantId)) return EMPTY;
+    const period = entry.periodStart && entry.periodEnd ? entry : null;
     if (!period) return EMPTY;
 
     const input: CreateInvoiceSyncInput = {
       tenantId: entry.tenantId,
-      periodKey: entry.month,
+      periodKey: entry.periodKey,
       periodStart:
-        period.start.toISO() ?? period.start.toJSDate().toISOString(),
-      periodEnd: period.end.toISO() ?? period.end.toJSDate().toISOString(),
+        period.periodStart.toISO() ??
+        period.periodStart.toJSDate().toISOString(),
+      periodEnd:
+        period.periodEnd.toISO() ?? period.periodEnd.toJSDate().toISOString(),
       currency: entry.currency,
       volume: entry.revenue,
       expectedFee: entry.expectedFee,
@@ -219,10 +317,13 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       discount: entry.volumeDiscount,
       payload: {
         transactionCount: entry.transactionCount,
+        collectedFeeEur: entry.netAmountEur ?? undefined,
+        collectedFeeConverted: entry.netAmountConverted ?? undefined,
+        exchangeRate: entry.exchangeRate ?? undefined,
       },
     };
 
-    const actionKey = this.actionKey(entry.month, entry.tenantId);
+    const actionKey = this.actionKey(entry.periodKey, entry.tenantId);
     this.setActionPending(actionKey, true);
     return this.apollo
       .mutate<CreateInvoiceSyncDraftMutation, CreateInvoiceSyncDraftVariables>({
@@ -237,6 +338,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     switch (status) {
       case InvoiceSyncStatus.Draft:
         return 'Draft created';
+      case InvoiceSyncStatus.Open:
+        return 'Open';
+      case InvoiceSyncStatus.Paid:
+        return 'Paid';
       case InvoiceSyncStatus.Pending:
         return 'Pending';
       case InvoiceSyncStatus.Failed:
@@ -253,6 +358,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     switch (status) {
       case InvoiceSyncStatus.Draft:
         return 'inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700';
+      case InvoiceSyncStatus.Open:
+        return 'inline-flex items-center rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-700';
+      case InvoiceSyncStatus.Paid:
+        return 'inline-flex items-center rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700';
       case InvoiceSyncStatus.Pending:
         return 'inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700';
       case InvoiceSyncStatus.Failed:
@@ -283,28 +392,121 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private parseMonth(month: string) {
-    const parsed = DateTime.fromFormat(month, 'yyyy-MM');
-    if (!parsed.isValid) return null;
+  protected isPeriodClosed(entry: InvoiceEntry) {
+    return DateTime.local() > entry.periodEnd;
+  }
+
+  private parseQuarter(month: DateTime) {
+    const quarter = month.quarter;
+    const year = month.year;
+    const start = DateTime.fromObject({
+      year,
+      month: (quarter - 1) * 3 + 1,
+      day: 1,
+    }).startOf('day');
+    const end = start.plus({ months: 2 }).endOf('month');
     return {
-      start: parsed.startOf('month'),
-      end: parsed.endOf('month'),
+      periodKey: `${year}-Q${quarter}`,
+      start,
+      end,
     };
   }
 
-  private updateTotals(
-    totals: MonthCurrencyTotals[],
-    entry: TenantFeeMonthEntry,
-  ) {
+  private buildInvoiceEntries(): Array<InvoiceEntry> {
+    const entries = this.tenantFeeMonthList();
+    const aggregated = new Map<string, AggregatedInvoiceEntry>();
+
+    for (const entry of entries) {
+      const parsedMonth = DateTime.fromFormat(entry.month, 'yyyy-MM');
+      if (!parsedMonth.isValid) continue;
+
+      const useQuarter = parsedMonth >= this.quarterlyStart;
+      const period = useQuarter
+        ? this.parseQuarter(parsedMonth)
+        : {
+            periodKey: entry.month,
+            start: parsedMonth.startOf('month'),
+            end: parsedMonth.endOf('month'),
+          };
+      const key = `${period.periodKey}:${entry.tenantId}`;
+      const existing = aggregated.get(key);
+
+      if (!existing) {
+        aggregated.set(key, {
+          periodKey: period.periodKey,
+          periodStart: period.start,
+          periodEnd: period.end,
+          tenantId: entry.tenantId,
+          tenantName: entry.tenantName,
+          currency: entry.currency,
+          revenue: entry.revenue ?? 0,
+          expectedFee: entry.expectedFee ?? 0,
+          netAmount: entry.netAmount ?? 0,
+          netAmountEur: entry.netAmountEur ?? 0,
+          netAmountConverted: entry.netAmountConverted ?? 0,
+          exchangeRate: entry.exchangeRate ?? null,
+          roundingDifference: entry.roundingDifference ?? 0,
+          volumeDiscount: entry.volumeDiscount ?? 0,
+          transactionCount: entry.transactionCount ?? 0,
+          missingNetAmountEur:
+            entry.netAmountEur === null || entry.netAmountEur === undefined,
+        });
+        continue;
+      }
+
+      existing.revenue += entry.revenue ?? 0;
+      existing.expectedFee += entry.expectedFee ?? 0;
+      existing.netAmount += entry.netAmount ?? 0;
+      existing.netAmountConverted += entry.netAmountConverted ?? 0;
+      existing.roundingDifference += entry.roundingDifference ?? 0;
+      existing.volumeDiscount += entry.volumeDiscount ?? 0;
+      existing.transactionCount += entry.transactionCount ?? 0;
+      if (entry.netAmountEur === null || entry.netAmountEur === undefined) {
+        existing.missingNetAmountEur = true;
+      } else {
+        existing.netAmountEur += entry.netAmountEur;
+      }
+    }
+
+    return Array.from(aggregated.values()).map((entry) => {
+      const netAmountEurValue = entry.missingNetAmountEur
+        ? null
+        : entry.netAmountEur;
+      return {
+        periodKey: entry.periodKey,
+        periodStart: entry.periodStart,
+        periodEnd: entry.periodEnd,
+        tenantId: entry.tenantId,
+        tenantName: entry.tenantName,
+        currency: entry.currency,
+        revenue: entry.revenue,
+        expectedFee: entry.expectedFee,
+        netAmount: entry.netAmount,
+        netAmountEur: netAmountEurValue,
+        netAmountConverted: entry.netAmountConverted,
+        exchangeRate:
+          entry.currency !== 'EUR' &&
+          netAmountEurValue !== null &&
+          entry.netAmount !== 0
+            ? netAmountEurValue / entry.netAmount
+            : null,
+        roundingDifference: entry.roundingDifference,
+        volumeDiscount: entry.volumeDiscount,
+        transactionCount: entry.transactionCount,
+      };
+    });
+  }
+
+  private updateTotals(totals: PeriodCurrencyTotals[], entry: InvoiceEntry) {
     const currency = entry.currency;
     const existing = totals.find((total) => total.currency === currency);
     if (existing) {
-      existing.volume += entry.revenue ?? 0;
-      existing.expected += entry.expectedFee ?? 0;
-      existing.collected += entry.netAmount ?? 0;
-      existing.difference += entry.roundingDifference ?? 0;
-      existing.discount += entry.volumeDiscount ?? 0;
-      existing.transactions += entry.transactionCount ?? 0;
+      existing.volume += entry.revenue;
+      existing.expected += entry.expectedFee;
+      existing.collected += entry.netAmount;
+      existing.difference += entry.roundingDifference;
+      existing.discount += entry.volumeDiscount;
+      existing.transactions += entry.transactionCount;
       return totals;
     }
 
@@ -312,12 +514,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       ...totals,
       {
         currency,
-        volume: entry.revenue ?? 0,
-        expected: entry.expectedFee ?? 0,
-        collected: entry.netAmount ?? 0,
-        difference: entry.roundingDifference ?? 0,
-        discount: entry.volumeDiscount ?? 0,
-        transactions: entry.transactionCount ?? 0,
+        volume: entry.revenue,
+        expected: entry.expectedFee,
+        collected: entry.netAmount,
+        difference: entry.roundingDifference,
+        discount: entry.volumeDiscount,
+        transactions: entry.transactionCount,
       },
     ];
   }
@@ -326,12 +528,35 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 type TenantFeeMonthEntry =
   GlobalAdminFeeOverviewQuery['tenantFeeMonths'][number];
 
-type InvoiceEntry = TenantFeeMonthEntry & {
+type InvoiceEntry = {
+  periodKey: string;
+  periodStart: DateTime;
+  periodEnd: DateTime;
+  tenantId: TenantFeeMonthEntry['tenantId'];
+  tenantName: TenantFeeMonthEntry['tenantName'];
+  currency: TenantFeeMonthEntry['currency'];
+  revenue: number;
+  expectedFee: number;
+  netAmount: number;
+  netAmountEur: number | null;
+  netAmountConverted: number;
+  exchangeRate: number | null;
+  roundingDifference: number;
+  volumeDiscount: number;
+  transactionCount: number;
   invoiceSync?: InvoiceSync;
 };
 
-type MonthCurrencyTotals = {
-  currency: TenantFeeMonthEntry['currency'];
+type AggregatedInvoiceEntry = Omit<
+  InvoiceEntry,
+  'invoiceSync' | 'netAmountEur'
+> & {
+  netAmountEur: number;
+  missingNetAmountEur: boolean;
+};
+
+type PeriodCurrencyTotals = {
+  currency: InvoiceEntry['currency'];
   volume: number;
   expected: number;
   collected: number;
@@ -340,10 +565,12 @@ type MonthCurrencyTotals = {
   transactions: number;
 };
 
-type MonthSummary = {
-  month: string;
+type PeriodSummary = {
+  periodKey: string;
+  periodStart: DateTime;
+  periodEnd: DateTime;
   entries: InvoiceEntry[];
-  totalsByCurrency: MonthCurrencyTotals[];
+  totalsByCurrency: PeriodCurrencyTotals[];
 };
 
 type InvoiceSyncsQuery = {
@@ -363,5 +590,25 @@ type RetryInvoiceSyncMutation = {
 };
 
 type RetryInvoiceSyncVariables = {
+  id: string;
+};
+
+type DeleteInvoiceSyncMutation = {
+  deleteInvoiceSync: { id: string };
+};
+
+type DeleteInvoiceSyncVariables = {
+  id: string;
+};
+
+type SyncInvoiceSyncStatusesMutation = {
+  syncInvoiceSyncStatuses: number;
+};
+
+type BookInvoiceSyncMutation = {
+  bookInvoiceSync: InvoiceSync;
+};
+
+type BookInvoiceSyncVariables = {
   id: string;
 };

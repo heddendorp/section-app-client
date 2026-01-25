@@ -14,7 +14,9 @@ query globalAdminFeeOverview(
     revenue
     netRevenue
     netAmount
+    netAmountEur
     netAmountConverted
+    exchangeRate
     expectedFee
     expectedFeeConverted
     roundingDifference

@@ -31,3 +31,18 @@ mutation RetryInvoiceSync($id: ID!) {
     lastError
   }
 }
+
+mutation SyncInvoiceSyncStatuses {
+  syncInvoiceSyncStatuses
+}
+
+mutation BookInvoiceSync($id: ID!) {
+  bookInvoiceSync(id: $id) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}

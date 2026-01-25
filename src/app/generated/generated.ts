@@ -431,6 +431,8 @@ export type InvoiceSync = {
 export enum InvoiceSyncStatus {
   Draft = 'DRAFT',
   Failed = 'FAILED',
+  Open = 'OPEN',
+  Paid = 'PAID',
   Pending = 'PENDING'
 }
 
@@ -459,6 +461,7 @@ export type Mutation = {
   addESNCard: User;
   addOrganizerToEvent: TumiEvent;
   approvePayment: TumiEvent;
+  bookInvoiceSync: InvoiceSync;
   cancelPayment: TumiEvent;
   changeEventPublication: TumiEvent;
   checkInUser: EventRegistration;
@@ -477,6 +480,7 @@ export type Mutation = {
   deleteCostItem: CostItem;
   deleteEvent: TumiEvent;
   deleteEventTemplateCategory: EventTemplateCategory;
+  deleteInvoiceSync: InvoiceSync;
   deleteReceipt: Receipt;
   deleteRegistrationCode: EventRegistrationCode;
   deleteSubmissionItem: EventSubmissionItem;
@@ -489,6 +493,7 @@ export type Mutation = {
   registerForEvent: TumiEvent;
   restorePayment: TumiEvent;
   retryInvoiceSync: InvoiceSync;
+  syncInvoiceSyncStatuses: Scalars['Int']['output'];
   updateCostItemsFromTemplate: TumiEvent;
   updateEventCoreInfo: TumiEvent;
   updateEventGeneralInfo: TumiEvent;
@@ -533,6 +538,11 @@ export type MutationAddOrganizerToEventArgs = {
 
 export type MutationApprovePaymentArgs = {
   registrationId: Scalars['ID']['input'];
+};
+
+
+export type MutationBookInvoiceSyncArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -634,6 +644,11 @@ export type MutationDeleteEventArgs = {
 
 export type MutationDeleteEventTemplateCategoryArgs = {
   categoryId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteInvoiceSyncArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1365,15 +1380,18 @@ export type TenantFeeMonth = {
   amount: Scalars['Int']['output'];
   amountRefunded: Scalars['Int']['output'];
   currency: Currency;
+  exchangeRate?: Maybe<Scalars['Float']['output']>;
   expectedFee: Scalars['Int']['output'];
   expectedFeeConverted: Scalars['Float']['output'];
   month: Scalars['String']['output'];
   netAmount: Scalars['Int']['output'];
   netAmountConverted: Scalars['Float']['output'];
+  netAmountEur?: Maybe<Scalars['Int']['output']>;
   netRevenue: Scalars['Int']['output'];
   revenue: Scalars['Int']['output'];
   roundingDifference: Scalars['Int']['output'];
   roundingDifferenceConverted: Scalars['Float']['output'];
+  stripeFees: Scalars['Int']['output'];
   tenantId: Scalars['ID']['output'];
   tenantName: Scalars['String']['output'];
   transactionCount: Scalars['Int']['output'];
@@ -2292,7 +2310,7 @@ export type GlobalAdminFeeOverviewQueryVariables = Exact<{
 }>;
 
 
-export type GlobalAdminFeeOverviewQuery = { __typename?: 'Query', totalCollectedFees: number, totalCollectedFeeNumber: number, currentMonth: number, lastMonth: number, monthBeforeLast: number, tenantFeeMonths: Array<{ __typename?: 'TenantFeeMonth', amount: number, amountRefunded: number, revenue: number, netRevenue: number, netAmount: number, netAmountConverted: number, expectedFee: number, expectedFeeConverted: number, roundingDifference: number, roundingDifferenceConverted: number, tenantName: string, tenantId: string, currency: Currency, month: string, transactionCount: number, volumeDiscount: number, volumeDiscountConverted: number }>, feeQuarterGroups: Array<{ __typename?: 'TenantFeeQuarterGroup', quarterKey: string, quarterLabel: string, quarterStartMillis: number, months: Array<string>, totals: { __typename?: 'TenantFeeQuarterTotals', collected: number, expected: number, difference: number, creditUsed: number, manualCredits: number, discount: number, remaining: number }, tenantSummaries: Array<{ __typename?: 'TenantFeeQuarterTenantSummary', tenantId: string, tenantName: string, tenantShortName: string, tenantCredit: number, currency: Currency, months: Array<string>, roundingDifference: number, volumeDiscount: number, creditUsed: number, manualCreditsApplied: number, remainingAdjustment: number, differenceConverted: number, volumeDiscountConverted: number, creditUsedConverted: number, manualCreditsConverted: number, remainingConverted: number }> }> };
+export type GlobalAdminFeeOverviewQuery = { __typename?: 'Query', totalCollectedFees: number, totalCollectedFeeNumber: number, currentMonth: number, lastMonth: number, monthBeforeLast: number, tenantFeeMonths: Array<{ __typename?: 'TenantFeeMonth', amount: number, amountRefunded: number, revenue: number, netRevenue: number, netAmount: number, netAmountEur?: number | null, netAmountConverted: number, exchangeRate?: number | null, expectedFee: number, expectedFeeConverted: number, roundingDifference: number, roundingDifferenceConverted: number, tenantName: string, tenantId: string, currency: Currency, month: string, transactionCount: number, volumeDiscount: number, volumeDiscountConverted: number }>, feeQuarterGroups: Array<{ __typename?: 'TenantFeeQuarterGroup', quarterKey: string, quarterLabel: string, quarterStartMillis: number, months: Array<string>, totals: { __typename?: 'TenantFeeQuarterTotals', collected: number, expected: number, difference: number, creditUsed: number, manualCredits: number, discount: number, remaining: number }, tenantSummaries: Array<{ __typename?: 'TenantFeeQuarterTenantSummary', tenantId: string, tenantName: string, tenantShortName: string, tenantCredit: number, currency: Currency, months: Array<string>, roundingDifference: number, volumeDiscount: number, creditUsed: number, manualCreditsApplied: number, remainingAdjustment: number, differenceConverted: number, volumeDiscountConverted: number, creditUsedConverted: number, manualCreditsConverted: number, remainingConverted: number }> }> };
 
 export type GetInitialGlobalStatisticsDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2326,6 +2344,18 @@ export type RetryInvoiceSyncMutationVariables = Exact<{
 
 
 export type RetryInvoiceSyncMutation = { __typename?: 'Mutation', retryInvoiceSync: { __typename?: 'InvoiceSync', id: string, tenantId: string, periodKey: string, status: InvoiceSyncStatus, externalInvoiceNumber?: string | null, lastError?: string | null } };
+
+export type SyncInvoiceSyncStatusesMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SyncInvoiceSyncStatusesMutation = { __typename?: 'Mutation', syncInvoiceSyncStatuses: number };
+
+export type BookInvoiceSyncMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type BookInvoiceSyncMutation = { __typename?: 'Mutation', bookInvoiceSync: { __typename?: 'InvoiceSync', id: string, tenantId: string, periodKey: string, status: InvoiceSyncStatus, externalInvoiceNumber?: string | null, lastError?: string | null } };
 
 export type GetTenantsForGlobalAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4990,7 +5020,9 @@ export const GlobalAdminFeeOverviewDocument = gql`
     revenue
     netRevenue
     netAmount
+    netAmountEur
     netAmountConverted
+    exchangeRate
     expectedFee
     expectedFeeConverted
     roundingDifference
@@ -5209,6 +5241,45 @@ export const RetryInvoiceSyncDocument = gql`
   })
   export class RetryInvoiceSyncGQL extends Apollo.Mutation<RetryInvoiceSyncMutation, RetryInvoiceSyncMutationVariables> {
     override document = RetryInvoiceSyncDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SyncInvoiceSyncStatusesDocument = gql`
+    mutation SyncInvoiceSyncStatuses {
+  syncInvoiceSyncStatuses
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SyncInvoiceSyncStatusesGQL extends Apollo.Mutation<SyncInvoiceSyncStatusesMutation, SyncInvoiceSyncStatusesMutationVariables> {
+    override document = SyncInvoiceSyncStatusesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BookInvoiceSyncDocument = gql`
+    mutation BookInvoiceSync($id: ID!) {
+  bookInvoiceSync(id: $id) {
+    id
+    tenantId
+    periodKey
+    status
+    externalInvoiceNumber
+    lastError
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BookInvoiceSyncGQL extends Apollo.Mutation<BookInvoiceSyncMutation, BookInvoiceSyncMutationVariables> {
+    override document = BookInvoiceSyncDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,31 +1,47 @@
 <section class="container mx-auto mt-8 space-y-6 px-4 sm:px-6 lg:px-8">
   <header class="space-y-2">
-    <h1 class="text-2xl font-semibold text-gray-900">Monthly invoices</h1>
+    <div
+      class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <h1 class="text-2xl font-semibold text-gray-900">Invoices</h1>
+      <button
+        type="button"
+        class="inline-flex items-center rounded-md border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+        (click)="syncAllStatuses()"
+        [disabled]="isSyncAllPending()"
+      >
+        @if (isSyncAllPending()) {
+          Syncing…
+        } @else {
+          Sync all invoices
+        }
+      </button>
+    </div>
     <p class="text-sm text-gray-600">
-      Drafts are created per tenant per month. Amounts are shown in each
+      Drafts are created per tenant per period. Amounts are shown in each
       tenant's collected currency.
     </p>
   </header>
 
-  @if (totalMonths() > 0) {
+  @if (totalPeriods() > 0) {
     <div class="space-y-6">
-      @for (monthSummary of monthSummaries(); track monthSummary.month) {
+      @for (periodSummary of periodSummaries(); track periodSummary.periodKey) {
         <section
           class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
         >
           <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
             <div>
               <h2 class="text-lg font-semibold text-gray-900">
-                {{ monthSummary.month }}
+                {{ periodSummary.periodKey }}
               </h2>
-              <p class="text-xs text-gray-500">Monthly invoice data</p>
+              <p class="text-xs text-gray-500">Invoice data</p>
             </div>
-            @if (monthSummary.totalsByCurrency.length) {
+            @if (periodSummary.totalsByCurrency.length) {
               <div class="text-xs text-gray-500">
                 <p class="font-medium text-gray-700">Totals by currency</p>
                 <div class="mt-1 flex flex-wrap gap-4">
                   @for (
-                    total of monthSummary.totalsByCurrency;
+                    total of periodSummary.totalsByCurrency;
                     track total.currency
                   ) {
                     <div class="flex items-center gap-2">
@@ -67,7 +83,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y">
-                @for (entry of monthSummary.entries; track entry.tenantId) {
+                @for (entry of periodSummary.entries; track entry.tenantId) {
                   @if (entry.invoiceSync) {
                     <tr>
                       <td class="py-3 pr-6 font-medium text-gray-900">
@@ -80,7 +96,27 @@
                         {{ entry.expectedFee / 100 | currency: entry.currency }}
                       </td>
                       <td class="py-3 pr-6">
-                        {{ entry.netAmount / 100 | currency: entry.currency }}
+                        <div class="flex flex-col">
+                          <span>{{
+                            entry.netAmount / 100 | currency: entry.currency
+                          }}</span>
+                          @if (
+                            entry.currency !== 'EUR' &&
+                            entry.netAmountEur !== null &&
+                            entry.netAmountEur !== undefined
+                          ) {
+                            <span class="text-xs text-gray-500">
+                              EUR
+                              {{ entry.netAmountEur / 100 | currency: 'EUR' }}
+                              @if (
+                                entry.exchangeRate !== null &&
+                                entry.exchangeRate !== undefined
+                              ) {
+                                (rate {{ entry.exchangeRate.toFixed(4) }})
+                              }
+                            </span>
+                          }
+                        </div>
                       </td>
                       <td class="py-3 pr-6">
                         {{
@@ -142,22 +178,69 @@
                         @if (
                           entry.invoiceSync?.status === invoiceSyncStatus.Failed
                         ) {
-                          <button
-                            type="button"
-                            class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
-                            (click)="retryDraft(entry)"
-                            [disabled]="
-                              isActionPending(entry.month, entry.tenantId)
-                            "
-                          >
-                            @if (isActionPending(entry.month, entry.tenantId)) {
-                              Retrying…
-                            } @else {
-                              Retry
-                            }
-                          </button>
+                          <div class="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+                              (click)="retryDraft(entry)"
+                              [disabled]="
+                                !isPeriodClosed(entry) ||
+                                isActionPending(entry.periodKey, entry.tenantId)
+                              "
+                            >
+                              @if (
+                                isActionPending(entry.periodKey, entry.tenantId)
+                              ) {
+                                Retrying…
+                              } @else {
+                                Retry
+                              }
+                            </button>
+                            <button
+                              type="button"
+                              class="inline-flex items-center rounded-md border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                              (click)="resetDraft(entry)"
+                              [disabled]="
+                                !isPeriodClosed(entry) ||
+                                isActionPending(entry.periodKey, entry.tenantId)
+                              "
+                            >
+                              Reset
+                            </button>
+                          </div>
                         } @else {
-                          <span class="text-xs text-gray-400">—</span>
+                          <div class="flex justify-end gap-2">
+                            @if (
+                              entry.invoiceSync?.status ===
+                              invoiceSyncStatus.Open
+                            ) {
+                              <button
+                                type="button"
+                                class="inline-flex items-center rounded-md border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100 disabled:cursor-not-allowed disabled:opacity-60"
+                                (click)="bookInvoice(entry)"
+                                [disabled]="
+                                  !isPeriodClosed(entry) ||
+                                  isActionPending(
+                                    entry.periodKey,
+                                    entry.tenantId
+                                  )
+                                "
+                              >
+                                Book
+                              </button>
+                            }
+                            <button
+                              type="button"
+                              class="inline-flex items-center rounded-md border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                              (click)="resetDraft(entry)"
+                              [disabled]="
+                                !isPeriodClosed(entry) ||
+                                isActionPending(entry.periodKey, entry.tenantId)
+                              "
+                            >
+                              Reset
+                            </button>
+                          </div>
                         }
                       </td>
                     </tr>
@@ -173,7 +256,27 @@
                         {{ entry.expectedFee / 100 | currency: entry.currency }}
                       </td>
                       <td class="py-3 pr-6">
-                        {{ entry.netAmount / 100 | currency: entry.currency }}
+                        <div class="flex flex-col">
+                          <span>{{
+                            entry.netAmount / 100 | currency: entry.currency
+                          }}</span>
+                          @if (
+                            entry.currency !== 'EUR' &&
+                            entry.netAmountEur !== null &&
+                            entry.netAmountEur !== undefined
+                          ) {
+                            <span class="text-xs text-gray-500">
+                              EUR
+                              {{ entry.netAmountEur / 100 | currency: 'EUR' }}
+                              @if (
+                                entry.exchangeRate !== null &&
+                                entry.exchangeRate !== undefined
+                              ) {
+                                (rate {{ entry.exchangeRate.toFixed(4) }})
+                              }
+                            </span>
+                          }
+                        </div>
                       </td>
                       <td class="py-3 pr-6">
                         {{
@@ -205,10 +308,13 @@
                           class="inline-flex items-center rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
                           (click)="createDraft(entry)"
                           [disabled]="
-                            isActionPending(entry.month, entry.tenantId)
+                            !isPeriodClosed(entry) ||
+                            isActionPending(entry.periodKey, entry.tenantId)
                           "
                         >
-                          @if (isActionPending(entry.month, entry.tenantId)) {
+                          @if (
+                            isActionPending(entry.periodKey, entry.tenantId)
+                          ) {
                             Creating…
                           } @else {
                             Create draft
