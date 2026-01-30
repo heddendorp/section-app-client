@@ -36,9 +36,6 @@ export class ShowPagePageComponent {
           case 'imprint': {
             return tenant.imprintPage;
           }
-          case 'privacy': {
-            return tenant.privacyPolicyPage;
-          }
           case 'faq': {
             return tenant.faqPage ?? `## Page not found`;
           }
