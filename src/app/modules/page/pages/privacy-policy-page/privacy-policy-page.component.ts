@@ -116,6 +116,8 @@ Personal data is stored only as long as required for contractual obligations or 
 
 Deletion or correction takes place upon instruction by the organizer or after termination of the contractual relationship.
 
+You can also delete your account and associated personal data in a self-service way from your [profile](/profile).
+
 ### 9. Data subject rights
 
 Data subjects have the rights under Art. 15-21 GDPR (access, rectification, erasure, restriction, objection).
