@@ -46,8 +46,13 @@ query getUsersForUserGrid(
 query exportUsersCSV(
   $filterModel: JSONObject!
   $sortModel: [SortModelInput!]!
+  $eventId: ID
 ) {
-  exportUsersCSV(filterModel: $filterModel, sortModel: $sortModel)
+  exportUsersCSV(
+    filterModel: $filterModel
+    sortModel: $sortModel
+    eventId: $eventId
+  )
 }
 
 # Past-year events for autocomplete (most recent first)

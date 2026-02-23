@@ -332,6 +332,7 @@ export class UserGridComponent {
         this.exportUsersCsvGQL.fetch({
           filterModel,
           sortModel,
+          eventId: this.selectedEvent?.id ?? undefined,
         }),
       );
 

@@ -1048,6 +1048,7 @@ export type QueryEventsArgs = {
 
 
 export type QueryExportUsersCsvArgs = {
+  eventId?: InputMaybe<Scalars['ID']['input']>;
   filterModel: Scalars['JSONObject']['input'];
   sortModel: Array<SortModelInput>;
 };
@@ -1866,6 +1867,7 @@ export type GetUsersForUserGridQuery = { __typename?: 'Query', gridUsersCount: n
 export type ExportUsersCsvQueryVariables = Exact<{
   filterModel: Scalars['JSONObject']['input'];
   sortModel: Array<SortModelInput> | SortModelInput;
+  eventId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
@@ -2932,8 +2934,12 @@ export const GetUsersForUserGridDocument = gql`
     }
   }
 export const ExportUsersCsvDocument = gql`
-    query exportUsersCSV($filterModel: JSONObject!, $sortModel: [SortModelInput!]!) {
-  exportUsersCSV(filterModel: $filterModel, sortModel: $sortModel)
+    query exportUsersCSV($filterModel: JSONObject!, $sortModel: [SortModelInput!]!, $eventId: ID) {
+  exportUsersCSV(
+    filterModel: $filterModel
+    sortModel: $sortModel
+    eventId: $eventId
+  )
 }
     `;
 
