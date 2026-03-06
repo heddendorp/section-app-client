@@ -16,7 +16,6 @@ import {
   takeUntil,
 } from 'rxjs';
 import {
-  CheckInUserGQL,
   GetRegistrationGQL,
   GetRegistrationQuery,
   LoadEventForRunningGQL,
@@ -31,7 +30,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import QrScanner from 'qr-scanner';
-import { retryBackoff } from 'backoff-rxjs';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -48,11 +46,22 @@ import {
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 type CheckinRegistration =
-  | GetRegistrationQuery['registration']
+  | NonNullable<GetRegistrationQuery['registration']>
   | (LoadEventForRunningQuery['event']['participantRegistrations'][0] & {
       event: LoadEventForRunningQuery['event'];
       didAttend: boolean;
     });
+
+type CheckinFailureReason =
+  | 'REGISTRATION_NOT_FOUND'
+  | 'REGISTRATION_INACTIVE'
+  | 'NO_ENTRIES_REMAINING'
+  | 'STATE_CHANGED';
+
+type EntryUsageState = {
+  guestCheckIns: number;
+  checkInTime?: string | null | Date;
+};
 
 @Component({
   selector: 'app-event-checkin-page',
@@ -84,6 +93,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     null,
   );
   public registrationLoading$ = new BehaviorSubject(false);
+  public checkinInFlight$ = new BehaviorSubject(false);
   public event$: Observable<LoadEventForRunningQuery['event']>;
   public certificatePayload$ = new BehaviorSubject<{
     name: string;
@@ -124,7 +134,6 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private loadEvent: LoadEventForRunningGQL,
     private loadRegistration: GetRegistrationGQL,
-    private checkInMutation: CheckInUserGQL,
     private useRegistrationEntry: UseRegistrationEntryGQL,
     private snackBar: MatSnackBar,
   ) {
@@ -255,21 +264,48 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     this.registrationLoading$.next(true);
     // Delay avoids locking the UI thread; see original QR scan implementation.
     setTimeout(() => {
-      this.loadRegistration
-        .fetch({ id: registrationId })
-        .subscribe(({ data }) => {
-          this.registrationLoading$.next(false);
-          if (data.registration) {
-            this.currentRegistration$.next(data.registration);
-            this.updateCachedEventRegistration(data.registration);
-          } else {
-            // Invalid registration ID (e.g., expired or wrong event)
-            this.snackBar.open('Registration not found', 'OK', {
-              duration: 5000,
-            });
-          }
-        });
+      void this.refreshRegistration(registrationId, {
+        showMissingMessage: true,
+        showNetworkMessage: true,
+      });
     }, 100);
+  }
+
+  private async refreshRegistration(
+    registrationId: string,
+    options: {
+      showMissingMessage?: boolean;
+      showNetworkMessage?: boolean;
+    } = {},
+  ) {
+    this.registrationLoading$.next(true);
+    try {
+      const { data } = await firstValueFrom(
+        this.loadRegistration.fetch({ id: registrationId }),
+      );
+      if (data.registration) {
+        this.currentRegistration$.next(data.registration);
+        this.updateCachedEventRegistration(data.registration);
+        return data.registration as CheckinRegistration;
+      }
+
+      this.currentRegistration$.next(null);
+      if (options.showMissingMessage) {
+        this.snackBar.open('Registration not found', 'OK', {
+          duration: 5000,
+        });
+      }
+      return null;
+    } catch (error) {
+      if (options.showNetworkMessage) {
+        this.snackBar.open(
+          'Could not refresh registration. Check your connection and try again.',
+        );
+      }
+      return this.currentRegistration$.value;
+    } finally {
+      this.registrationLoading$.next(false);
+    }
   }
 
   private updateCachedEventRegistration(registration: CheckinRegistration) {
@@ -301,59 +337,144 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     };
   }
 
-  async checkInUser() {
-    this.snackBar.open('Checking in...');
-    const registration = this.currentRegistration$.value;
-    if (registration) {
-      try {
-        const result = await firstValueFrom(
-          this.useRegistrationEntry
-            .mutate({
-              registrationId: registration.id,
-              manual: false, // QR scanner check-ins are not manual
-            })
-            .pipe(retryBackoff({ initialInterval: 100, maxRetries: 5 })),
-        );
-
-        const updatedRegistration = result.data?.useRegistrationEntry;
-        if (updatedRegistration) {
-          // Update the current registration with new data
-          const previousRegistration = this.currentRegistration$.value;
-          if (previousRegistration) {
-            const mergedRegistration = {
-              ...previousRegistration,
-              ...updatedRegistration,
-            } as CheckinRegistration;
-            this.currentRegistration$.next(mergedRegistration);
-            this.updateCachedEventRegistration(mergedRegistration);
-          } else {
-            this.currentRegistration$.next(
-              updatedRegistration as unknown as CheckinRegistration,
-            );
-            this.updateCachedEventRegistration(
-              updatedRegistration as unknown as CheckinRegistration,
-            );
-          }
-
-          // Show success message with remaining entries info
-          const remainingEntries = updatedRegistration.remainingEntries;
-          if (remainingEntries > 0) {
-            this.snackBar.open(
-              `✔️ Check-in successful! ${remainingEntries} entries remaining`,
-            );
-          } else {
-            this.snackBar.open('✔️ All entries used - check-in complete!');
-            // Reset scanner for next registration
-            this.currentRegistration$.next(null);
-            this.hideScanner$.next(false);
-            this.scanner?.start();
-          }
-        }
-      } catch (e) {
-        this.snackBar.open('Error checking in user');
+  private async refreshEventSnapshot() {
+    try {
+      const { data } = await this.loadEventQueryRef.refetch({ id: this.eventId });
+      if (data?.event) {
+        this.currentEventSnapshot = data.event;
       }
-    } else {
+    } catch {
+      // Polling will reconcile the event overview if this explicit refresh fails.
+    }
+  }
+
+  private getUsedEntries(
+    registration: EntryUsageState | null,
+  ) {
+    if (!registration) {
+      return 0;
+    }
+    return registration.guestCheckIns + (registration.checkInTime ? 1 : 0);
+  }
+
+  private getCheckinFailureReason(error: unknown): CheckinFailureReason | null {
+    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+      return null;
+    }
+    const graphQLErrors = error.graphQLErrors;
+    if (!Array.isArray(graphQLErrors)) {
+      return null;
+    }
+
+    for (const graphQLError of graphQLErrors) {
+      if (!graphQLError || typeof graphQLError !== 'object') {
+        continue;
+      }
+      const extensions =
+        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+      if (!extensions || typeof extensions !== 'object') {
+        continue;
+      }
+      if (
+        extensions['code'] === 'CHECKIN_UNAVAILABLE' &&
+        typeof extensions['reason'] === 'string'
+      ) {
+        return extensions['reason'] as CheckinFailureReason;
+      }
+    }
+
+    return null;
+  }
+
+  private didRegistrationAdvance(
+    previousRegistration: CheckinRegistration,
+    refreshedRegistration: CheckinRegistration | null,
+  ) {
+    return (
+      this.getUsedEntries(refreshedRegistration) >
+      this.getUsedEntries(previousRegistration)
+    );
+  }
+
+  async checkInUser() {
+    const registration = this.currentRegistration$.value;
+    if (!registration) {
       this.snackBar.open('⚠️ No registration loaded');
+      return;
+    }
+
+    if (this.checkinInFlight$.value) {
+      return;
+    }
+
+    this.checkinInFlight$.next(true);
+    this.snackBar.open('Checking in...');
+
+    try {
+      const result = await firstValueFrom(
+        this.useRegistrationEntry.mutate({
+          registrationId: registration.id,
+          manual: false,
+        }),
+      );
+
+      const updatedRegistration = result.data?.useRegistrationEntry;
+      if (!updatedRegistration) {
+        throw new Error('Check-in did not return an updated registration');
+      }
+
+      const mergedRegistration = {
+        ...registration,
+        ...updatedRegistration,
+      } as CheckinRegistration;
+      this.currentRegistration$.next(mergedRegistration);
+      this.updateCachedEventRegistration(mergedRegistration);
+      await this.refreshEventSnapshot();
+
+      const remainingEntries = updatedRegistration.remainingEntries;
+      if (remainingEntries > 0) {
+        this.snackBar.open(
+          `✔️ Check-in successful! ${remainingEntries} entries remaining`,
+        );
+        return;
+      }
+
+      this.snackBar.open('✔️ All entries used - check-in complete!');
+      this.currentRegistration$.next(null);
+      this.hideScanner$.next(false);
+      this.scanner?.start();
+    } catch (error) {
+      const failureReason = this.getCheckinFailureReason(error);
+      const refreshedRegistration = await this.refreshRegistration(
+        registration.id,
+      );
+      await this.refreshEventSnapshot();
+
+      if (failureReason === 'STATE_CHANGED') {
+        this.snackBar.open(
+          'Another organizer already used the remaining entry. The registration has been refreshed.',
+        );
+      } else if (failureReason === 'NO_ENTRIES_REMAINING') {
+        this.snackBar.open(
+          'All entries for this registration are already used. The registration has been refreshed.',
+        );
+      } else if (failureReason === 'REGISTRATION_INACTIVE') {
+        this.snackBar.open(
+          'This registration is no longer active. The registration has been refreshed.',
+        );
+      } else if (failureReason === 'REGISTRATION_NOT_FOUND') {
+        this.snackBar.open('Registration not found.');
+      } else if (this.didRegistrationAdvance(registration, refreshedRegistration)) {
+        this.snackBar.open(
+          'The connection was unstable, but the registration state updated successfully.',
+        );
+      } else {
+        this.snackBar.open(
+          'Check-in failed and no change was saved. Please try again.',
+        );
+      }
+    } finally {
+      this.checkinInFlight$.next(false);
     }
   }
 

@@ -347,6 +347,7 @@
         class="h-20 text-xl font-bold"
         (click)="checkInUser()"
         [disabled]="
+          (checkinInFlight$ | async) ||
           (currentRegistration$ | async)?.remainingEntries === 0 ||
           (currentRegistration$ | async)?.status !==
             RegistrationStatus.Successful ||
@@ -354,7 +355,7 @@
         "
       >
         <mat-icon class="mr-2" svgIcon="icon-checked"></mat-icon>
-        Check in
+        {{ (checkinInFlight$ | async) ? 'Checking in...' : 'Check in' }}
       </button>
 
       <!-- Back to scanner button -->

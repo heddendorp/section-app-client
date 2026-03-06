@@ -43,6 +43,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-event-manage-page',
@@ -90,6 +91,7 @@ export class EventManagePageComponent implements OnDestroy {
   private loadEventQueryRef;
   private destroyed$ = new Subject();
   private kickFromEventGQL = inject(KickFromEventGQL);
+  private snackBar = inject(MatSnackBar);
 
   constructor(
     private title: Title,
@@ -161,6 +163,47 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
+  private getCheckinFailureReason(error: unknown) {
+    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+      return null;
+    }
+
+    const graphQLErrors = error.graphQLErrors;
+    if (!Array.isArray(graphQLErrors)) {
+      return null;
+    }
+
+    for (const graphQLError of graphQLErrors) {
+      if (!graphQLError || typeof graphQLError !== 'object') {
+        continue;
+      }
+      const extensions =
+        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+      if (!extensions || typeof extensions !== 'object') {
+        continue;
+      }
+      if (
+        extensions['code'] === 'CHECKIN_UNAVAILABLE' &&
+        typeof extensions['reason'] === 'string'
+      ) {
+        return extensions['reason'];
+      }
+    }
+
+    return null;
+  }
+
+  private async refetchEvent() {
+    try {
+      const { data } = await this.loadEventQueryRef.refetch({
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      });
+      return data.event;
+    } catch {
+      return null;
+    }
+  }
+
   async kickWithRefund(registrationId: string, refundFees = true) {
     const event = await firstValueFrom(this.event$);
     const proceed = confirm('Are you sure you want to remove this user?');
@@ -206,7 +249,31 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   async checkin(id: string) {
-    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
+    try {
+      await firstValueFrom(this.checkInMutation.mutate({ id, manual: true }));
+      await this.refetchEvent();
+      this.snackBar.open('Participant checked in.');
+    } catch (error) {
+      const reason = this.getCheckinFailureReason(error);
+      const event = await this.refetchEvent();
+      const registration = event?.participantRegistrations.find(
+        (participantRegistration) => participantRegistration.id === id,
+      );
+
+      if (reason === 'STATE_CHANGED' || reason === 'NO_ENTRIES_REMAINING') {
+        this.snackBar.open(
+          'Another organizer already checked this participant in. The event list has been refreshed.',
+        );
+      } else if (registration?.checkInTime) {
+        this.snackBar.open(
+          'The connection was unstable, but the participant is checked in.',
+        );
+      } else {
+        this.snackBar.open(
+          'Check-in failed and no change was saved. Please try again.',
+        );
+      }
+    }
   }
 
   async createRegistrationCode() {
