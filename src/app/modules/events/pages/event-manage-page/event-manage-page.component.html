@@ -155,8 +155,18 @@
                   <div>
                     {{ registration.checkInTime | date: 'short' }}
                   </div>
-                }
-                @if (!registration.checkInTime) {
+                } @else if (
+                  event.registrationMode == 'STRIPE' &&
+                  event.deferredPayment &&
+                  !registration.transactions.length
+                ) {
+                  <button
+                    mat-stroked-button
+                    (click)="admitUser(registration.id); $event.stopPropagation()"
+                  >
+                    <span>Admit user</span>
+                  </button>
+                } @else {
                   <button
                     mat-stroked-button
                     (click)="checkin(registration.id)"
