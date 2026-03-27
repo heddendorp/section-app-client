@@ -45,7 +45,6 @@ import { ReactiveToolbarComponent } from '../shared/components/reactive-toolbar/
   selector: 'app-tutor-hub',
   templateUrl: './tutor-hub.component.html',
   styleUrls: ['./tutor-hub.component.scss'],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,

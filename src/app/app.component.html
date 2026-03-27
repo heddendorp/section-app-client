@@ -7,6 +7,19 @@
 <div
   class="relative mb-12 flex min-h-screen flex-col sm:mb-0 sm:ml-[6rem] sm:w-[calc(100%-6rem)]"
 >
+  @if (contractEnded()) {
+    <div class="bg-red-600 p-4 text-white">
+      <p class="text-xl font-semibold">Contract Ended</p>
+      <p>
+        Your contract has ended. To ensure that you can continue to use the
+        system, please reach out to
+        <a class="underline" href="mailto:lukas@evorto.app"
+          >lukas&#64;evorto.app</a
+        >.
+      </p>
+      <p class="text-red-100"> Only admins can see this message. </p>
+    </div>
+  }
   <router-outlet></router-outlet>
   <div class="grow"></div>
   <app-footer></app-footer>

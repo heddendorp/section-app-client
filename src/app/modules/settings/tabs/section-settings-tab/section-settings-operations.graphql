@@ -5,10 +5,19 @@ query loadSectionSettings {
     currency
     homePageLink
     homePageStrategy
+    seoDescription
+    seoTitle
     settings {
       brandIconUrl
+      timezone
       esnCardLink
       showPWAInstall
+      enforcePolicyConsent
+      registrationLimit {
+        enabled
+        period
+        limit
+      }
       sectionHubLinks {
         icon
         label
@@ -36,6 +45,7 @@ mutation updateSectionSettings($id: ID!, $input: UpdateTenantInput!) {
     settings {
       brandIconUrl
       esnCardLink
+      timezone
       showPWAInstall
       sectionHubLinks {
         icon

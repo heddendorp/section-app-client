@@ -24,7 +24,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './new-organizer-dialog.component.html',
   styleUrls: ['./new-organizer-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,

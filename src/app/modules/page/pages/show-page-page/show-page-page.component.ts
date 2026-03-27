@@ -9,7 +9,6 @@ import { MarkdownComponent } from 'ngx-markdown';
   selector: 'app-show-page-page',
   templateUrl: './show-page-page.component.html',
   styleUrls: ['./show-page-page.component.scss'],
-  standalone: true,
   imports: [MarkdownComponent, AsyncPipe],
 })
 export class ShowPagePageComponent {
@@ -36,9 +35,6 @@ export class ShowPagePageComponent {
           }
           case 'imprint': {
             return tenant.imprintPage;
-          }
-          case 'privacy': {
-            return tenant.privacyPolicyPage;
           }
           case 'faq': {
             return tenant.faqPage ?? `## Page not found`;

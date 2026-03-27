@@ -21,24 +21,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-receipt-dialog',
   templateUrl: './add-receipt-dialog.component.html',
   styleUrls: ['./add-receipt-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,
-    NgIf,
     MatProgressBarModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     AsyncPipe,
-    NgOptimizedImage,
   ],
 })
 export class AddReceiptDialogComponent {

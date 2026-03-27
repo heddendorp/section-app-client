@@ -3,23 +3,22 @@
   <head>
     <meta http-equiv="content-language" content="en" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ESN App</title>
-    <meta
-      content="Here you can find events for international students around the city"
-      name="description"
-    />
+    <title>{{tenant.seoTitle}}</title>
+    <meta content="{{tenant.seoDescription}}" name="description" />
     <meta content="/assets/favicon/android-chrome-512x512.png" name="image" />
-    <meta content="ESN events and offers" property="og:title" />
-    <meta
-      content="Here you can find events for international students around the city"
-      property="og:description"
-    />
+    <meta content="{{tenant.seoTitle}}" property="og:title" />
+    <meta content="{{tenant.seoDescription}}" property="og:description" />
+    <meta content="{{canonicalUrl}}" property="og:url" />
+    {{#if ogImage}}
+    <meta content="{{ogImage}}" property="og:image" />
+    {{else}}
     <meta
       content="/assets/favicon/android-chrome-512x512.png"
       property="og:image"
     />
+    {{/if}}
+    <link rel="canonical" href="{{canonicalUrl}}" />
     <meta property="og:type" content="website" />
-    <meta content="413902465899100" property="fb:app_id" />
     <base href="/" />
     <meta
       name="viewport"
@@ -65,27 +64,33 @@
         height="16"
         width="16"
       />
+      {{#if events}}
+      <div style="opacity: 0">
+        <h1>Events for {{tenant.seoTitle}}</h1>
+        <ul>
+          {{#each events}}
+          <li>
+            <a
+              href="{{../canonicalUrl}}/{{this.id}}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{this.title}} - {{this.date}}
+            </a>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      {{else}}
+      <p style="opacity: 0"> {{tenant.seoDescription}} </p>
       <p style="opacity: 0">
-        Here you can find events for international students around the city
+        Find out more about our <a href="/events">events</a>
       </p>
+      {{/if}}
     </app-root>
     <noscript>
       Please enable JavaScript to continue using this application.
     </noscript>
-    <script
-      data-collect-dnt="true"
-      async
-      src="https://data.esn.world/latest.js"
-    ></script>
-    <script async src="https://data.esn.world/auto-events.js"></script>
-    <noscript>
-      <img
-        src="https://data.esn.world/noscript.gif"
-        alt=""
-        height="0"
-        width="0"
-        referrerpolicy="no-referrer-when-downgrade"
-      />
-    </noscript>
+    <script defer src="https://assets.onedollarstats.com/stonks.js"></script>
   </body>
 </html>

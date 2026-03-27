@@ -3,18 +3,21 @@ mutation registerForEvent(
   $type: RegistrationType
   $submissions: JSON
   $price: JSON
+  $guestCount: Int
 ) {
   registerForEvent(
     eventId: $eventId
     registrationType: $type
     submissions: $submissions
     price: $price
+    guestCount: $guestCount
   ) {
     id
     organizerRegistrationPossible
     participantRegistrationPossible
     organizersRegistered
     participantRegistrationCount
+    totalRegisteredCount
     couldBeOrganizer
     userIsRegistered
     activeRegistration {
@@ -22,6 +25,10 @@ mutation registerForEvent(
       type
       status
       cancellationReason
+      guestCount
+      guestUnitPrice
+      totalPartySize
+      remainingEntries
       transactions {
         id
         status

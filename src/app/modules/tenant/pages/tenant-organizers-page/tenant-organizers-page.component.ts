@@ -23,7 +23,6 @@ import { RouterLink } from '@angular/router';
   templateUrl: './tenant-organizers-page.component.html',
   styleUrls: ['./tenant-organizers-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatButtonModule, AsyncPipe, IconURLPipe, RouterLink],
 })
 export class TenantOrganizersPageComponent implements OnInit {

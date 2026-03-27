@@ -13,7 +13,7 @@ import { UserChipComponent } from '../../../../shared/components/user-chip/user-
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,13 +24,11 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
   templateUrl: './tenant-move-orders-page.component.html',
   styleUrls: ['./tenant-move-orders-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     MatTableModule,
     EventChipComponent,

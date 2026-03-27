@@ -17,7 +17,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-tenant-event-template-categories-page',
   templateUrl: './tenant-event-template-categories-page.component.html',
   styleUrls: ['./tenant-event-template-categories-page.component.scss'],
-  standalone: true,
   imports: [
     MatButtonModule,
     AsyncPipe,

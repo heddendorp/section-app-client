@@ -19,9 +19,9 @@
       <mat-label>Registration Mode</mat-label>
       <mat-hint>Use Stripe for events which we charge money for.</mat-hint>
       <mat-select formControlName="registrationMode" required>
-        <mat-option [value]="RegistrationMode.External">{{
-          RegistrationMode.External | titlecase
-        }}</mat-option>
+        <mat-option [value]="RegistrationMode.External">
+          {{ RegistrationMode.External | titlecase }}
+        </mat-option>
         <mat-option [value]="RegistrationMode.Stripe">
           Stripe (paid events)
         </mat-option>

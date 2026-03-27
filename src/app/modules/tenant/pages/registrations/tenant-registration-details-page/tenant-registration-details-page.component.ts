@@ -11,7 +11,13 @@ import { TransactionListComponent } from '../../../../shared/components/transact
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { UserChipComponent } from '../../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import {
+  AsyncPipe,
+  CurrencyPipe,
+  DatePipe,
+  JsonPipe,
+  NgIf,
+} from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -22,7 +28,6 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
   templateUrl: './tenant-registration-details-page.component.html',
   styleUrls: ['./tenant-registration-details-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -35,8 +40,10 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
     TransactionListComponent,
     MatButtonModule,
     AsyncPipe,
+    CurrencyPipe,
     DatePipe,
     ExtendDatePipe,
+    JsonPipe,
   ],
 })
 export class TenantRegistrationDetailsPageComponent {

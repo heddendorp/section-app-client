@@ -20,15 +20,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RatingComponent } from '../rating/rating.component';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-rate-event',
   templateUrl: './rate-event.component.html',
   styleUrls: ['./rate-event.component.scss'],
-  standalone: true,
   imports: [
-    NgIf,
     ReactiveFormsModule,
     RouterLink,
     RatingComponent,

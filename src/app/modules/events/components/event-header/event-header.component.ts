@@ -11,7 +11,6 @@ import {
   CurrencyPipe,
   DatePipe,
   DecimalPipe,
-  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
@@ -22,10 +21,8 @@ import { Price } from '@tumi/legacy-app/utils';
   templateUrl: './event-header.component.html',
   styleUrls: ['./event-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     BackButtonComponent,
-    NgIf,
     MatButtonModule,
     RouterLink,
     MatIconModule,

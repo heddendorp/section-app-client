@@ -16,6 +16,12 @@ query getInitialGlobalStatisticsData {
     registeredParticipants(global: true)
     checkIns(global: true)
   }
+  sinceTimeStatistics {
+    globalUsers
+    events(global: true)
+    registeredParticipants(global: true)
+    checkIns(global: true)
+  }
 }
 query getGlobalRangeStatistics(
   $startDate: DateTime!

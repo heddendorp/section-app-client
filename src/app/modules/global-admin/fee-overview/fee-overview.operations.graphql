@@ -4,16 +4,62 @@ query globalAdminFeeOverview(
   $monthBeforeLast: String!
 ) {
   totalCollectedFees
+  totalCollectedFeeNumber
   currentMonth: collectedFeesByMonth(month: $currentMonth)
   lastMonth: collectedFeesByMonth(month: $lastMonth)
   monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
   tenantFeeMonths {
     amount
     amountRefunded
+    revenue
+    netRevenue
     netAmount
+    netAmountEur
+    netAmountConverted
+    exchangeRate
+    expectedFee
+    expectedFeeConverted
+    roundingDifference
+    roundingDifferenceConverted
     tenantName
+    tenantId
     currency
     month
     transactionCount
+    volumeDiscount
+    volumeDiscountConverted
+  }
+  feeQuarterGroups {
+    quarterKey
+    quarterLabel
+    quarterStartMillis
+    months
+    totals {
+      collected
+      expected
+      difference
+      creditUsed
+      manualCredits
+      discount
+      remaining
+    }
+    tenantSummaries {
+      tenantId
+      tenantName
+      tenantShortName
+      tenantCredit
+      currency
+      months
+      roundingDifference
+      volumeDiscount
+      creditUsed
+      manualCreditsApplied
+      remainingAdjustment
+      differenceConverted
+      volumeDiscountConverted
+      creditUsedConverted
+      manualCreditsConverted
+      remainingConverted
+    }
   }
 }

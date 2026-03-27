@@ -23,7 +23,6 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-site-content-settings-tab',
-  standalone: true,
   imports: [
     MatSnackBarModule,
     MatFormFieldModule,

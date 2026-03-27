@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './back-button.component.html',
   styleUrls: ['./back-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatButtonModule, MatIconModule],
 })
 export class BackButtonComponent {

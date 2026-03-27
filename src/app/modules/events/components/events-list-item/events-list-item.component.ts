@@ -17,7 +17,6 @@ import {
   CurrencyPipe,
   DatePipe,
   LowerCasePipe,
-  NgIf,
   NgOptimizedImage,
 } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -28,11 +27,9 @@ import { MatRippleModule } from '@angular/material/core';
   templateUrl: './events-list-item.component.html',
   styleUrls: ['./events-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatRippleModule,
     RouterLink,
-    NgIf,
     MatIconModule,
     LowerCasePipe,
     CurrencyPipe,

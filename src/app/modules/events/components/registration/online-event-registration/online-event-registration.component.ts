@@ -7,25 +7,36 @@ import {
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateTime } from 'luxon';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-online-event-registration',
   templateUrl: './online-event-registration.component.html',
   styleUrls: ['./online-event-registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
-    NgIf,
     CheckAdditionalDataComponent,
     MatButtonModule,
     MatProgressBarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    ReactiveFormsModule,
     AsyncPipe,
     DatePipe,
+    CurrencyPipe,
     ExtendDatePipe,
   ],
 })
@@ -39,6 +50,11 @@ export class OnlineEventRegistrationComponent {
   } | null = null;
   public processing = new BehaviorSubject(false);
   public infoCollected$ = new BehaviorSubject<unknown | null>(null);
+  public guestCountControl = new UntypedFormControl(0, [
+    Validators.required,
+    Validators.min(0),
+  ]);
+
   constructor(
     private registerForEvent: RegisterForEventGQL,
     private deregistrationMutation: DeregisterFromEventGQL,
@@ -112,10 +128,12 @@ export class OnlineEventRegistrationComponent {
   public async register() {
     this.processing.next(true);
     try {
+      const guestCount = this.guestCountControl.value || 0;
       await firstValueFrom(
         this.registerForEvent.mutate({
           eventId: this.event?.id ?? '',
           submissions: this.infoCollected$.value,
+          guestCount: guestCount,
         }),
       );
     } catch (e) {
@@ -149,5 +167,46 @@ export class OnlineEventRegistrationComponent {
 
   registerAdditionalData($event: unknown): void {
     this.infoCollected$.next($event);
+  }
+
+  getGuestOptions(): number[] {
+    if (!this.event?.multiGuestSettings?.enabled) {
+      return [0];
+    }
+
+    const participantLimit = this.coerceNumber(this.event?.participantLimit);
+    const totalRegistered = this.coerceNumber(this.event?.totalRegisteredCount);
+    const participantRegistrations = this.coerceNumber(
+      this.event?.participantRegistrationCount,
+    );
+    const effectiveRegistrations =
+      totalRegistered > 0 ? totalRegistered : participantRegistrations;
+    const remainingCapacity = Math.max(
+      0,
+      participantLimit - effectiveRegistrations,
+    );
+    const maxPerRegistration = this.event.multiGuestSettings.maxPerRegistration;
+    const maxAllowedGuests =
+      typeof maxPerRegistration === 'number'
+        ? maxPerRegistration
+        : remainingCapacity;
+    const maxPossibleGuests = Math.min(
+      maxAllowedGuests,
+      Math.max(0, remainingCapacity - 1),
+    );
+
+    const options: number[] = [];
+    for (let i = 0; i <= Math.max(0, maxPossibleGuests); i++) {
+      options.push(i);
+    }
+    return options;
+  }
+
+  coerceNumber(value: unknown): number {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : 0;
+    }
+    const parsed = Number(value ?? 0);
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 }

@@ -30,22 +30,19 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-claim-event-dialog',
   templateUrl: './claim-event-dialog.component.html',
   styleUrls: ['./claim-event-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
-    NgFor,
     MatOptionModule,
     MatButtonModule,
     AsyncPipe,

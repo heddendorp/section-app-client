@@ -17,16 +17,19 @@ query getUsersForUserGrid(
   $endRow: Int!
   $sortModel: [SortModelInput!]!
   $filterModel: JSONObject!
+  $eventId: ID
 ) {
   gridUsers(
     startRow: $startRow
     endRow: $endRow
     sortModel: $sortModel
     filterModel: $filterModel
+    eventId: $eventId
   ) {
     id
     createdAt
     joinedAt
+    esnCardValidUntil
     firstName
     lastName
     email
@@ -35,6 +38,40 @@ query getUsersForUserGrid(
     additionalData
     status
     role
+    lastAttendedEvent
   }
-  gridUsersCount(filterModel: $filterModel)
+  gridUsersCount(filterModel: $filterModel, eventId: $eventId)
+}
+
+query exportUsersCSV(
+  $filterModel: JSONObject!
+  $sortModel: [SortModelInput!]!
+  $eventId: ID
+) {
+  exportUsersCSV(
+    filterModel: $filterModel
+    sortModel: $sortModel
+    eventId: $eventId
+  )
+}
+
+# Past-year events for autocomplete (most recent first)
+query getEventsForUserGrid(
+  $after: DateTime!
+  $before: DateTime!
+  $search: String
+  $limit: Int
+  $reverseOrder: Boolean
+) {
+  events(
+    after: $after
+    before: $before
+    search: $search
+    limit: $limit
+    reverseOrder: $reverseOrder
+  ) {
+    id
+    title
+    start
+  }
 }

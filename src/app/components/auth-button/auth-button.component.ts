@@ -5,16 +5,14 @@ import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 
 @Component({
   selector: 'app-auth-button',
   templateUrl: './auth-button.component.html',
   styleUrls: ['./auth-button.component.scss'],
-  standalone: true,
   imports: [
-    NgIf,
     RouterLink,
     RouterLinkActive,
     MatIconModule,
@@ -36,6 +34,20 @@ export class AuthButtonComponent {
       getUser
         .fetch()
         .pipe(
+          // tap((res) => {
+          //   const email = res.data.currentUser?.email;
+          //   if (email) {
+          //     // @ts-ignore
+          //     Productlane.on('loaded', () => {
+          //       // @ts-ignore
+          //       Productlane.set({
+          //         user: {
+          //           email,
+          //         },
+          //       });
+          //     });
+          //   }
+          // }),
           // tap(async (res) => {
           //   const user = res.data.currentUser;
           //   if (user) {

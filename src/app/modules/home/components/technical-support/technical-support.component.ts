@@ -6,7 +6,6 @@ import { NgOptimizedImage } from '@angular/common';
   templateUrl: './technical-support.component.html',
   styleUrls: ['./technical-support.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgOptimizedImage],
 })
 export class TechnicalSupportComponent {}

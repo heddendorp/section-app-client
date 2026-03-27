@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatOptionModule } from '@angular/material/core';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,13 +38,11 @@ import AutocompleteService = google.maps.places.AutocompleteService;
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    NgFor,
     MatOptionModule,
     AsyncPipe,
   ],

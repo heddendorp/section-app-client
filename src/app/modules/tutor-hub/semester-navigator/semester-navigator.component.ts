@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { DateTime } from 'luxon';
-import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -16,8 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './semester-navigator.component.html',
   styleUrls: ['./semester-navigator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, NgIf],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class SemesterNavigatorComponent implements OnInit {
   public semesterOffset = 0;

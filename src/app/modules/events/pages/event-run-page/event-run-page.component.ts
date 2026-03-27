@@ -16,8 +16,6 @@ import { firstValueFrom, map, Observable, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { EventSubmissionOverviewComponent } from '../../components/event-submission-overview/event-submission-overview.component';
-import { IfRoleDirective } from '../../../shared/directives/if-role.directive';
-import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,20 +26,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/components/add-cost-item-dialog/add-cost-item-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-event-run-page',
   templateUrl: './event-run-page.component.html',
   styleUrls: ['./event-run-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     AsyncPipe,
     BackButtonComponent,
     CurrencyPipe,
     EventParticipantsTableComponent,
     EventSubmissionOverviewComponent,
-    IfRoleDirective,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
@@ -49,7 +46,6 @@ import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/comp
     MatProgressBarModule,
     MatToolbarModule,
     RouterLink,
-    UserChipComponent,
   ],
 })
 export class EventRunPageComponent implements OnDestroy {
@@ -59,6 +55,7 @@ export class EventRunPageComponent implements OnDestroy {
   private destroyed$ = new Subject();
   private dialog = inject(MatDialog);
   private addCostItemToEventGQL = inject(AddCostItemToEventGQL);
+  private snackBar = inject(MatSnackBar);
 
   constructor(
     private title: Title,
@@ -84,8 +81,73 @@ export class EventRunPageComponent implements OnDestroy {
     this.loadEventQueryRef.stopPolling();
   }
 
+  private getCheckinFailureReason(error: unknown) {
+    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+      return null;
+    }
+
+    const graphQLErrors = error.graphQLErrors;
+    if (!Array.isArray(graphQLErrors)) {
+      return null;
+    }
+
+    for (const graphQLError of graphQLErrors) {
+      if (!graphQLError || typeof graphQLError !== 'object') {
+        continue;
+      }
+      const extensions =
+        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+      if (!extensions || typeof extensions !== 'object') {
+        continue;
+      }
+      if (
+        extensions['code'] === 'CHECKIN_UNAVAILABLE' &&
+        typeof extensions['reason'] === 'string'
+      ) {
+        return extensions['reason'];
+      }
+    }
+
+    return null;
+  }
+
+  private async refetchEvent() {
+    try {
+      const { data } = await this.loadEventQueryRef.refetch({
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      });
+      return data.event;
+    } catch {
+      return null;
+    }
+  }
+
   async checkin(id: string) {
-    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
+    try {
+      await firstValueFrom(this.checkInMutation.mutate({ id, manual: true }));
+      await this.refetchEvent();
+      this.snackBar.open('Participant checked in.');
+    } catch (error) {
+      const reason = this.getCheckinFailureReason(error);
+      const event = await this.refetchEvent();
+      const registration = event?.participantRegistrations.find(
+        (participantRegistration) => participantRegistration.id === id,
+      );
+
+      if (reason === 'STATE_CHANGED' || reason === 'NO_ENTRIES_REMAINING') {
+        this.snackBar.open(
+          'Another organizer already checked this participant in. The event list has been refreshed.',
+        );
+      } else if (registration?.checkInTime) {
+        this.snackBar.open(
+          'The connection was unstable, but the participant is checked in.',
+        );
+      } else {
+        this.snackBar.open(
+          'Check-in failed and no change was saved. Please try again.',
+        );
+      }
+    }
   }
 
   async copyOrganizerMails() {
@@ -97,7 +159,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -110,11 +172,13 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_organizer_mails');
   }
   getWhatsAppLink(phone = '') {
     return `https://wa.me/${phone.replaceAll(' ', '').replaceAll('+', '')}`;
+  }
+
+  getTelegramLink(username = '') {
+    return `https://t.me/${username}`;
   }
 
   async copyParticipantMails() {
@@ -126,7 +190,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -139,8 +203,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_participant_mails');
   }
 
   async copyCheckedInMails() {
@@ -153,7 +215,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -166,8 +228,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_checked_in_mails');
   }
 
   async copyNonCheckedMails() {
@@ -180,7 +240,7 @@ export class EventRunPageComponent implements OnDestroy {
           (registration) =>
             registration.user.communicationEmail || registration.user.email,
         )
-        .join(';'),
+        .join('; '),
     );
     let remainingAttempts = 3;
     const attempt = () => {
@@ -193,8 +253,6 @@ export class EventRunPageComponent implements OnDestroy {
       }
     };
     attempt();
-    // @ts-ignore
-    sa_event('copy_non_checked_in_mails');
   }
 
   async addCostItem() {
@@ -209,5 +267,19 @@ export class EventRunPageComponent implements OnDestroy {
         }),
       );
     }
+  }
+
+  getTotalGuests(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCount || 0),
+      0,
+    );
+  }
+
+  getTotalGuestCheckIns(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCheckIns || 0),
+      0,
+    );
   }
 }

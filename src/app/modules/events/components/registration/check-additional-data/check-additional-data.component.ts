@@ -10,15 +10,14 @@ import {
 import { LoadEventQuery } from '@tumi/legacy-app/generated/generated';
 import { ReplaySubject } from 'rxjs';
 import { DataItemsCollectorComponent } from '../../../../shared/components/data-items-collector/data-items-collector.component';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-check-additional-data',
   templateUrl: './check-additional-data.component.html',
   styleUrls: ['./check-additional-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, DataItemsCollectorComponent, AsyncPipe],
+  imports: [DataItemsCollectorComponent, AsyncPipe],
 })
 export class CheckAdditionalDataComponent implements OnChanges {
   @Input() public event: LoadEventQuery['event'] | null = null;

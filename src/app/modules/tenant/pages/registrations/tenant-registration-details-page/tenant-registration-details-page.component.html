@@ -44,6 +44,89 @@
             <td>Start: {{ registration.event.start | date: 'medium' }}</td>
             <td>End: {{ registration.event.end | date: 'medium' }}</td>
           </tr>
+          @if (registration.event.multiGuestSettings?.enabled) {
+            <tr>
+              <th colspan="4" class="bg-purple-50 text-purple-900">
+                🎫 Guest Information
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <strong>Guests registered:</strong>
+                {{ registration.guestCount || 0 }}
+              </td>
+              <td>
+                <strong>Guests checked in:</strong>
+                {{ registration.guestCheckIns || 0 }}
+              </td>
+              <td>
+                <strong>Total party size:</strong>
+                {{ registration.totalPartySize || 0 }}
+              </td>
+              <td>
+                <strong>Remaining entries:</strong>
+                {{ registration.remainingEntries || 0 }}
+              </td>
+            </tr>
+            @if (
+              (registration.event.multiGuestSettings?.additionalGuestPrice ??
+                0) > 0
+            ) {
+              <tr>
+                <td colspan="2">
+                  <strong>Price per guest:</strong>
+                  {{
+                    registration.event.multiGuestSettings?.additionalGuestPrice
+                      | currency
+                  }}
+                </td>
+                <td colspan="2">
+                  <strong>Max guests per registration:</strong>
+                  {{
+                    registration.event.multiGuestSettings?.maxPerRegistration
+                  }}
+                </td>
+              </tr>
+            }
+          }
+          @if (
+            registration.event.multiGuestSettings?.enabled &&
+            registration.usageLog &&
+            registration.usageLog.length > 0
+          ) {
+            <tr>
+              <th colspan="4" class="bg-blue-50 text-blue-900">
+                📋 Check-in History
+              </th>
+            </tr>
+            @for (entry of registration.usageLog; track entry) {
+              <tr>
+                <td colspan="2">
+                  {{ entry.timestamp | date: 'medium' }}
+                  @if (entry.manual) {
+                    <span
+                      class="ml-2 inline-flex items-center rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-800"
+                    >
+                      MANUAL
+                    </span>
+                  } @else {
+                    <span
+                      class="ml-2 inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800"
+                    >
+                      QR SCAN
+                    </span>
+                  }
+                </td>
+                <td colspan="2">
+                  @if (entry.note) {
+                    {{ entry.note }}
+                  } @else {
+                    <span class="text-gray-400">No note</span>
+                  }
+                </td>
+              </tr>
+            }
+          }
           <tr>
             <td colspan="2">
               <app-transaction-list
@@ -58,6 +141,11 @@
               >
                 Manage event
               </a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <pre>{{ registration.transactions[0].stripePayment | json }}</pre>
             </td>
           </tr>
         </tbody>

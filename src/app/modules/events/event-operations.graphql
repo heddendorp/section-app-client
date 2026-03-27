@@ -35,6 +35,10 @@ query loadEventForRunning($id: ID!) {
     participantLimit
     participantRegistrationCount
     participantsAttended
+    multiGuestSettings {
+      enabled
+      additionalGuestPrice
+    }
     createdBy {
       id
       fullName
@@ -50,6 +54,7 @@ query loadEventForRunning($id: ID!) {
         acceptPhoneUsage
         phone
         phoneNumberOnWhatsapp
+        telegramUsername
         additionalData
         communicationEmail
         currentTenant {
@@ -77,6 +82,12 @@ query loadEventForRunning($id: ID!) {
       id
       checkInTime
       status
+      didAttend
+      guestCount
+      guestUnitPrice
+      guestCheckIns
+      totalPartySize
+      remainingEntries
       transactions {
         id
         status
@@ -106,6 +117,7 @@ query loadEventForRunning($id: ID!) {
         acceptPhoneUsage
         phone
         phoneNumberOnWhatsapp
+        telegramUsername
         esnCardValidUntil
         esnCardNumber
         communicationEmail
@@ -194,6 +206,17 @@ query getRegistration($id: ID!) {
     type
     didAttend
     checkInTime
+    guestCount
+    guestUnitPrice
+    guestCheckIns
+    totalPartySize
+    remainingEntries
+    usageLog {
+      timestamp
+      actorId
+      manual
+      note
+    }
     event {
       id
       title
@@ -282,5 +305,22 @@ query eventList($after: DateTime, $before: DateTime) {
     userIsRegistered
     userIsOrganizer
     internalEvent
+  }
+}
+
+mutation useRegistrationEntry($registrationId: ID!, $manual: Boolean) {
+  useRegistrationEntry(registrationId: $registrationId, manual: $manual) {
+    id
+    guestCount
+    guestCheckIns
+    checkInTime
+    totalPartySize
+    remainingEntries
+    usageLog {
+      timestamp
+      actorId
+      manual
+      note
+    }
   }
 }

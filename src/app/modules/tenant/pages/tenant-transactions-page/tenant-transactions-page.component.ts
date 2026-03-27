@@ -40,7 +40,6 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
   selector: 'app-tenant-transactions-page',
   templateUrl: './tenant-transactions-page.component.html',
   styleUrls: ['./tenant-transactions-page.component.scss'],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   AddEsnCardGQL,
+  DeleteAccountGQL,
   GetProfileUploadKeyGQL,
   MembershipStatus,
   SubmitEventFeedbackGQL,
@@ -22,14 +23,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
-import {
-  AsyncPipe,
-  DatePipe,
-  DOCUMENT,
-  NgFor,
-  NgIf,
-  UpperCasePipe,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, DOCUMENT, UpperCasePipe } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import {
   MatProgressBarModule,
@@ -49,20 +43,18 @@ import {
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { ConfirmDeleteDialogComponent } from '@tumi/legacy-app/modules/profile/components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
-    NgIf,
     MatProgressBarModule,
     ProfileCardComponent,
     MatIconModule,
     MatButtonModule,
-    NgFor,
     RateEventComponent,
     EventListComponent,
     RouterLink,
@@ -93,6 +85,7 @@ export class ProfilePageComponent implements OnDestroy {
   );
   protected newUI = !!localStorage.getItem('evorto_new_ui');
   protected allowNewUI = inject(ConfigService).uiPreview;
+  protected deleteAccountGQL = inject(DeleteAccountGQL);
 
   constructor(
     private profileQuery: UserProfileGQL,
@@ -133,8 +126,9 @@ export class ProfilePageComponent implements OnDestroy {
       map((events) =>
         events.filter(
           (event) =>
-            DateTime.fromISO(event?.end).plus({ days: 7 }).toJSDate() >
-            new Date(),
+            DateTime.fromISO(event?.end)
+              .plus({ days: 7 })
+              .toJSDate() > new Date(),
         ),
       ),
     );
@@ -259,5 +253,31 @@ export class ProfilePageComponent implements OnDestroy {
       localStorage.removeItem('evorto_new_ui');
     }
     location.reload();
+  }
+
+  async deleteUser() {
+    const confirm = await firstValueFrom(
+      this.dialog.open(ConfirmDeleteDialogComponent).afterClosed(),
+    );
+    if (confirm) {
+      const profile = await firstValueFrom(this.profile$);
+      const userId = profile?.id;
+      if (userId) {
+        const deleteResponse = await firstValueFrom(
+          this.deleteAccountGQL.mutate({ userId }),
+        );
+        if (deleteResponse.data?.deleteUser) {
+          this.snackBar.open(
+            'Your account was deleted, you will now be logged out',
+          );
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          this.auth.logout();
+        } else {
+          this.snackBar.open('Something went wrong, please try again later');
+        }
+      } else {
+        this.snackBar.open('User not found, please try again later');
+      }
+    }
   }
 }

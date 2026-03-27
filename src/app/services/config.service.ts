@@ -5,6 +5,7 @@ import {
   HomePageStrategy,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom } from 'rxjs';
+import { DateTime } from 'luxon';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,9 @@ import { firstValueFrom } from 'rxjs';
 export class ConfigService {
   private getAppStartupInfoGQL = inject(GetAppStartupInfoGQL);
   private _currencyCode: string | undefined;
+  private _contractEnd: Date | undefined;
+  private _hardContractEnd = false;
+  private _userIsAdmin = false;
   private _banners: GetAppStartupInfoQuery['currentTenant']['settings']['banners'] =
     [];
   private _formConfig: GetAppStartupInfoQuery['currentTenant']['settings']['userDataCollection'] =
@@ -22,6 +26,7 @@ export class ConfigService {
     showPWAInstall: boolean;
     brandIconUrl: string | null | undefined;
   };
+  private _timezone: string | undefined;
   private _user_metadata: any;
   private _app_metadata: any;
 
@@ -32,6 +37,11 @@ export class ConfigService {
   get currencyCode(): string | undefined {
     if (!this._currencyCode) console.error('Currency code not set');
     return this._currencyCode;
+  }
+
+  get timezone(): string | undefined {
+    if (!this._timezone) console.error('Timezone not set');
+    return this._timezone;
   }
 
   get banners(): GetAppStartupInfoQuery['currentTenant']['settings']['banners'] {
@@ -46,6 +56,23 @@ export class ConfigService {
     return this._navData;
   }
 
+  public set userIsAdmin(value: boolean) {
+    this._userIsAdmin = value;
+  }
+
+  get contractEnded() {
+    if (!this._contractEnd) return false;
+    return this._contractEnd <= new Date();
+  }
+
+  get contractEndedForAdmin() {
+    return this._userIsAdmin && this.contractEnded;
+  }
+
+  get contractEndedHard() {
+    return this._hardContractEnd && this.contractEnded;
+  }
+
   public setMetadata(user_metadata: any, app_metadata: any) {
     this._user_metadata = user_metadata;
     this._app_metadata = app_metadata;
@@ -57,6 +84,7 @@ export class ConfigService {
   public async init(): Promise<void> {
     const startupInfo = await firstValueFrom(this.getAppStartupInfoGQL.fetch());
     this._currencyCode = startupInfo.data?.currentTenant?.currency;
+    this._timezone = startupInfo.data?.currentTenant?.settings?.timezone;
     this._banners = startupInfo.data?.currentTenant?.settings?.banners;
     this._formConfig =
       startupInfo.data?.currentTenant?.settings?.userDataCollection;
@@ -66,5 +94,11 @@ export class ConfigService {
       showPWAInstall: startupInfo.data.currentTenant.settings.showPWAInstall,
       brandIconUrl: startupInfo.data.currentTenant.settings.brandIconUrl,
     };
+    this._contractEnd = DateTime.fromISO(
+      startupInfo.data?.currentTenant?.contractEnd,
+    )
+      .endOf('day')
+      .toJSDate();
+    this._hardContractEnd = startupInfo.data?.currentTenant?.hardContractEnd;
   }
 }

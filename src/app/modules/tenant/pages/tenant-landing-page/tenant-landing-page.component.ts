@@ -6,18 +6,18 @@ import { GetLandingPageStatisticsGQL } from '@tumi/legacy-app/generated/generate
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DateTime } from 'luxon';
 import { map } from 'rxjs';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-tenant-landing-page',
   templateUrl: './tenant-landing-page.component.html',
   styleUrls: ['./tenant-landing-page.component.scss'],
-  standalone: true,
   imports: [
     MatToolbarModule,
     MatButtonModule,
     RouterLink,
     CurrencyPipe,
+    DatePipe,
     DecimalPipe,
   ],
 })
@@ -37,6 +37,15 @@ export class TenantLandingPageComponent {
     this.statisticsQuery.pipe(
       map(({ data }) => data.currentTenant.credit / 100),
     ),
+  );
+  protected creditTransactions = toSignal(
+    this.statisticsQuery.pipe(
+      map(({ data }) => data.currentTenant.creditTransactions ?? []),
+    ),
+    { initialValue: [] },
+  );
+  protected tenantCurrency = toSignal(
+    this.statisticsQuery.pipe(map(({ data }) => data.currentTenant.currency)),
   );
   protected statistics = toSignal(
     this.statisticsQuery.pipe(

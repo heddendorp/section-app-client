@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-event-display',
-  standalone: true,
   imports: [IconURLPipe, MarkdownComponent, RouterLink],
   templateUrl: './event-display.component.html',
   styleUrl: './event-display.component.scss',

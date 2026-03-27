@@ -190,6 +190,7 @@ query getTenantForEdit {
         }
       }
       showPWAInstall
+      enforcePolicyConsent
       brandIconUrl
       esnCardLink
     }

@@ -25,7 +25,7 @@ import {
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { NgFor, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -36,7 +36,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './create-event-dialog.component.html',
   styleUrls: ['./create-event-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,
@@ -44,7 +43,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    NgFor,
     MatCheckboxModule,
     MatButtonModule,
     TitleCasePipe,
@@ -89,15 +87,14 @@ export class CreateEventDialogComponent implements OnInit, OnDestroy {
     this.eventDataForm
       .get('start')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe(
-        (startValue) =>
-          this.eventDataForm.get('end')?.patchValue(
-            DateTime.fromISO(startValue)
-              .plus({
-                hours: this.data.template?.duration,
-              })
-              .toISO({ includeOffset: false }),
-          ),
+      .subscribe((startValue) =>
+        this.eventDataForm.get('end')?.patchValue(
+          DateTime.fromISO(startValue)
+            .plus({
+              hours: this.data.template?.duration,
+            })
+            .toISO({ includeOffset: false }),
+        ),
       );
     this.eventDataForm
       .get('registrationMode')

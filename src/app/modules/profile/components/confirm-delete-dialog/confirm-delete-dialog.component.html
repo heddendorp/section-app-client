@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Delete your account and remove all data</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to delete your account and all data?</p>
+  <p>
+    If you continue, you will never be able to log back in, all of your personal
+    data will be removed, including any photos you have uploaded.
+  </p>
+  <p>If you log in again, a new account may be created.</p>
+  <p>
+    <strong>
+      You will not be able to access any of your event registrations!
+    </strong>
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button [mat-dialog-close]="true" class="error-button" mat-button>
+    Delete Account
+  </button>
+</mat-dialog-actions>

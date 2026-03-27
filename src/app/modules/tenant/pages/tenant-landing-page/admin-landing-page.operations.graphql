@@ -35,6 +35,14 @@ query getLandingPageStatistics(
   }
   currentTenant {
     id
+    currency
     credit
+    creditTransactions(take: 10) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+    }
   }
 }

@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './vub-ehb-home.component.html',
   styleUrls: ['./vub-ehb-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [TechnicalSupportComponent, CommonModule], 
+  imports: [TechnicalSupportComponent, CommonModule],
 })
 export class VubEhbHomeComponent {}

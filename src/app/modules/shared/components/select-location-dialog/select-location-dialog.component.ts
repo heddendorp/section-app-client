@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { LocationAutocompleteComponent } from '../location-autocomplete/location-autocomplete.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
@@ -20,12 +19,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './select-location-dialog.component.html',
   styleUrls: ['./select-location-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     LocationAutocompleteComponent,

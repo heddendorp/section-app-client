@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { NgFor } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -11,13 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-change-template-category-dialog',
   templateUrl: './change-template-category-dialog.component.html',
   styleUrls: ['./change-template-category-dialog.component.scss'],
-  standalone: true,
   imports: [
     MatDialogModule,
     MatFormFieldModule,
     MatSelectModule,
     ReactiveFormsModule,
-    NgFor,
     MatOptionModule,
     MatButtonModule,
   ],

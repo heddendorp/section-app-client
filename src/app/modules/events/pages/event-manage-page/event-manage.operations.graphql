@@ -14,8 +14,15 @@ query loadEventForManagement($id: ID!) {
     deferredPayment
     participantLimit
     participantRegistrationCount
+    totalGuestsCount
+    totalRegisteredCount
     participantsAttended
     registrationMode
+    multiGuestSettings {
+      enabled
+      additionalGuestPrice
+      maxPerRegistration
+    }
     #registrations
     costItems {
       id
@@ -63,6 +70,17 @@ query loadEventForManagement($id: ID!) {
       status
       cancellationReason
       balance
+      guestCount
+      guestUnitPrice
+      guestCheckIns
+      totalPartySize
+      remainingEntries
+      usageLog {
+        timestamp
+        actorId
+        manual
+        note
+      }
       transactions {
         id
         status
@@ -95,23 +113,6 @@ query loadEventForManagement($id: ID!) {
           tenantId
           status
         }
-      }
-    }
-  }
-}
-
-mutation restorePayment($registrationId: ID!) {
-  restorePayment(registrationId: $registrationId) {
-    id
-    participantRegistrations {
-      id
-      transactions {
-        id
-        status
-        direction
-        amount
-        type
-        subject
       }
     }
   }

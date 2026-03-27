@@ -65,14 +65,29 @@
         App user overview
       </h2>
     </div>
-    <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+    <div class="mt-4 flex flex-shrink-0 gap-2 md:ml-4 md:mt-0">
       <button
         (click)="gridComponent.exportData()"
+        [disabled]="gridComponent.isExporting"
         color="primary"
         mat-flat-button
         type="button"
       >
-        Export Data
+        @if (gridComponent.isExporting) {
+          Exporting...
+        } @else {
+          Export Data
+        }
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        type="button"
+        (click)="openBulkUpdateDialog()"
+        [disabled]="!selectedUserIds?.length"
+        aria-label="Bulk update selected users status"
+      >
+        Update Status ({{ selectedUserIds?.length || 0 }})
       </button>
     </div>
   </div>
@@ -81,6 +96,7 @@
   <app-user-grid
     #gridComponent
     (rowClicked)="rowClicked($event)"
+    (selectionChangedIds)="onSelectionChanged($event)"
     height="70vh"
   ></app-user-grid>
 </main>

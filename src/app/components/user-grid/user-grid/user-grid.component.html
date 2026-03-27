@@ -1,14 +1,50 @@
+<div class="mb-3 flex items-center gap-3">
+  <mat-form-field appearance="outline" class="w-full max-w-xl">
+    <mat-label>Filter by event (past year + next 2 months)</mat-label>
+    <input
+      matInput
+      placeholder="Type to search events"
+      [formControl]="eventSearch"
+      [matAutocomplete]="eventAuto"
+    />
+    @if (selectedEvent) {
+      <mat-hint>Selected: {{ selectedEvent?.title }}</mat-hint>
+    }
+  </mat-form-field>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="clearSelectedEvent()"
+    [disabled]="!selectedEvent"
+    aria-label="Clear event filter"
+  >
+    Clear
+  </button>
+</div>
+<mat-autocomplete
+  #eventAuto="matAutocomplete"
+  (optionSelected)="onEventSelected($event)"
+  [displayWith]="displayEvent"
+>
+  <mat-option *ngFor="let ev of eventsWithinRange()" [value]="ev">
+    {{ ev.title }} — {{ ev.start | date: 'medium' }}
+  </mat-option>
+</mat-autocomplete>
+
 <ag-grid-angular
   (gridReady)="gridReady($event)"
   (rowClicked)="handleRowClicked($event)"
+  (selectionChanged)="handleSelectionChanged()"
   [columnDefs]="colDefs()"
   [datasource]="dataSource"
   [paginationPageSizeSelector]="[
-    25, 50, 100, 250, 500, 1000, 2500, 5000, 10000
+    25, 50, 100, 250, 500, 1000, 2500, 5000, 10000,
   ]"
   [pagination]="true"
   [style.height]="height()"
-  class="ag-theme-quartz"
+  [theme]="theme"
+  [getRowId]="getRowId"
+  [rowSelection]="rowSelection"
   rowModelType="infinite"
   style="width: 100%"
 ></ag-grid-angular>

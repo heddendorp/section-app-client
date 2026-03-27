@@ -4,28 +4,28 @@
       <span
         class="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
       >
-        Your TUMi journey
+        Your journey
       </span>
     </h1>
   </div>
   @if ($data | async; as data) {
-    <div fxLayout="column" fxLayoutGap="2rem">
+    <div class="flex flex-col gap-8">
       @for (
         registration of data.eventRegistrations;
         track registration;
         let i = $index
       ) {
-        <div fxLayout="row" fxLayoutAlign="start start">
+        <div class="flex flex-row items-start">
           @if ([0, 4, 9].includes(i)) {
             <img
               ngSrc="/assets/images/journey/achievement.svg"
-              fxFlex="64px"
+              class="w-16"
               height="144"
               width="144"
             />
           }
           @if (![0, 4, 9].includes(i)) {
-            <div fxFlex="64px"></div>
+            <div class="w-16 shrink-0"></div>
           }
           <div class="ml-4">
             @if (i === 0) {
@@ -45,7 +45,7 @@
               }})
             </h2>
             <div
-              class="mt-4 w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+              class="grid w-full grid-flow-dense grid-cols-2 place-items-stretch gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
             >
               @for (photo of registration.event.photoShares; track photo) {
                 <div
@@ -56,9 +56,10 @@
                 >
                   <img
                     [ngSrc]="photo.src"
-                    width="192"
-                    height="192"
                     class="h-full w-full object-cover"
+                    height="{{ photo.rows * 400 }}"
+                    width="{{ photo.cols * 400 }}"
+                    loading="lazy"
                   />
                 </div>
               }

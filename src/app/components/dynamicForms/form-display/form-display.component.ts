@@ -5,7 +5,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-form-display',
-  standalone: true,
   imports: [ReactiveFormsModule, MatInputModule, MatSelectModule],
   templateUrl: './form-display.component.html',
   styleUrl: './form-display.component.scss',

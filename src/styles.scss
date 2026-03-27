@@ -1,7 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-@use '@angular/material-experimental' as matx;
 
 @font-face {
   font-family: 'General Sans';
@@ -23,11 +22,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Core Grid CSS */
-@import 'ag-grid-community/styles/ag-grid.css';
-/* Quartz Theme Specific CSS */
-@import 'ag-grid-community/styles/ag-theme-quartz.css';
-
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -47,7 +41,8 @@
 //    $body-2: mat.define-typography-level(14px, 20px, 450)
 //  )
 //);
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 $dark-primary-text: rgba(black, 0.87);
 $light-primary-text: white;
@@ -192,11 +187,11 @@ $error-palette: (
 // that you are using.
 //@include mat.all-component-themes($tumi-app-theme);
 
-$theme: matx.define-theme(
+$theme: mat.define-theme(
   (
     color: (
       //theme-type: dark,
-      primary: matx.$m3-azure-palette,
+      primary: mat.$azure-palette,
     ),
     typography: (
       brand-family: 'General Sans, sans-serif',
@@ -205,11 +200,11 @@ $theme: matx.define-theme(
   )
 );
 
-$dark-theme: matx.define-theme(
+$dark-theme: mat.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: matx.$m3-azure-palette,
+      primary: mat.$azure-palette,
     ),
     typography: (
       brand-family: 'General Sans, sans-serif',
@@ -238,6 +233,10 @@ html {
   mat-bottom-sheet-container.mat-bottom-sheet-container {
     @apply bg-blue-600;
   }
+}
+
+.error-button {
+  @include mat.button-color($theme, $color-variant: error);
 }
 
 @layer base {

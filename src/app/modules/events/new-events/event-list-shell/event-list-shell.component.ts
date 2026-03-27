@@ -6,7 +6,7 @@ import {
   Role,
 } from '@tumi/legacy-app/generated/generated';
 import { IfRoleDirective } from '@tumi/legacy-app/modules/shared/directives/if-role.directive';
-import { MatAnchor, MatFabAnchor } from '@angular/material/button';
+import { MatAnchor } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -17,11 +17,9 @@ import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-event-list-shell',
-  standalone: true,
   imports: [
     RouterLink,
     IfRoleDirective,
-    MatFabAnchor,
     MatIcon,
     MatAnchor,
     RouterOutlet,

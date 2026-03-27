@@ -18,7 +18,7 @@ import {
   TransactionType,
 } from '@tumi/legacy-app/generated/generated';
 import { debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -31,7 +31,6 @@ import { MatDialogModule } from '@angular/material/dialog';
   templateUrl: './create-transaction-dialog.component.html',
   styleUrls: ['./create-transaction-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,
@@ -40,7 +39,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatOptionModule,
     MatAutocompleteModule,
-    NgFor,
     AsyncPipe,
   ],
 })

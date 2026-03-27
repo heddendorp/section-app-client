@@ -62,6 +62,7 @@
               "src/manifest.webmanifest",
               "src/assets",
               "src/_redirects",
+              "src/robots.txt",
               {
                 "glob": "qr-scanner-worker.min.js",
                 "input": "./node_modules/qr-scanner/",

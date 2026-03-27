@@ -16,13 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  NgFor,
-  NgIf,
-  NgOptimizedImage,
-} from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
@@ -31,18 +25,15 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
   selector: 'app-event-receipts-page',
   templateUrl: './event-receipts-page.component.html',
   styleUrls: ['./event-receipts-page.component.scss'],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
     BackButtonComponent,
-    NgIf,
     ResetScrollDirective,
     MatProgressBarModule,
     MatButtonModule,
     MatIconModule,
     GridComponent,
-    NgFor,
     AsyncPipe,
     CurrencyPipe,
     NgOptimizedImage,

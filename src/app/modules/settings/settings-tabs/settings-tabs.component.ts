@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-settings-tabs',
-  standalone: true,
   imports: [RouterLink, RouterOutlet, RouterLinkActive, MatIconModule],
   templateUrl: './settings-tabs.component.html',
   styleUrl: './settings-tabs.component.scss',

@@ -1,0 +1,58 @@
+query getTenantsForGlobalAdmin {
+  tenants {
+    id
+    name
+    shortName
+    currency
+    contractEnd
+    hardContractEnd
+    credit
+    creditTransactions(take: 50) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+mutation updateTenantContractEnd(
+  $id: ID!
+  $contractEnd: DateTime!
+  $hardContractEnd: Boolean!
+) {
+  updateTenantContractEnd(
+    id: $id
+    contractEnd: $contractEnd
+    hardContractEnd: $hardContractEnd
+  ) {
+    id
+    contractEnd
+    hardContractEnd
+  }
+}
+
+mutation addTenantCredit($id: ID!, $credit: Int!, $description: String) {
+  updateTenantCredit(id: $id, credit: $credit, description: $description) {
+    id
+    credit
+    creditTransactions(take: 10) {
+      id
+      createdAt
+      amount
+      balanceAfter
+      description
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}

@@ -24,7 +24,6 @@ import { MatDialogModule } from '@angular/material/dialog';
   templateUrl: './new-finance-entry-dialog.component.html',
   styleUrls: ['./new-finance-entry-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,

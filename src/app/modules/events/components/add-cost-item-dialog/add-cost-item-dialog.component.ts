@@ -17,7 +17,6 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-add-cost-item-dialog',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatDialogActions,

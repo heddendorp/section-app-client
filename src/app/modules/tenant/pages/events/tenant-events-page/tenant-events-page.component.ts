@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -25,13 +25,11 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
   selector: 'app-tenant-events-page',
   templateUrl: './tenant-events-page.component.html',
   styleUrls: ['./tenant-events-page.component.scss'],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     ReactiveFormsModule,
     MatFormFieldModule,

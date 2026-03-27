@@ -3,11 +3,10 @@ import { RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-global-admin-langing',
-  standalone: true,
+  selector: 'app-global-admin-landing',
   imports: [RouterLink, MatIcon],
-  templateUrl: './global-admin-langing.component.html',
-  styleUrl: './global-admin-langing.component.scss',
+  templateUrl: './global-admin-landing.component.html',
+  styleUrl: './global-admin-landing.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GlobalAdminLangingComponent {}
+export class GlobalAdminLandingComponent {}

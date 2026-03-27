@@ -167,10 +167,9 @@
                   formControlName="organizerRegistrationStart"
                   type="datetime-local"
                 />
-                <mat-hint
-                  >Define the opening of event registration for
-                  organizers</mat-hint
-                >
+                <mat-hint>
+                  Define the opening of event registration for organizers
+                </mat-hint>
               </mat-form-field>
             </div>
             <div class="flex flex-col gap-4 md:flex-row">
@@ -316,7 +315,9 @@
                   type="number"
                   required
                 />
-                <mat-hint>Maximum number of students that can sign up</mat-hint>
+                <mat-hint
+                  >Maximum number of organizers that can sign up</mat-hint
+                >
                 <mat-error>
                   You have to set the maximum number of participants
                 </mat-error>
@@ -329,9 +330,9 @@
                   type="number"
                   required
                 />
-                <mat-hint
-                  >Maximum number of organizers that can sign up</mat-hint
-                >
+                <mat-hint>
+                  Maximum number of participants that can sign up
+                </mat-hint>
                 <mat-error>
                   You have to set the maximum number of organizers
                 </mat-error>
@@ -405,6 +406,69 @@
                 </ng-container>
               </ng-container>
             </div>
+
+            <!-- Multi-Guest Settings Section -->
+            <div
+              class="rounded-md border p-4"
+              formGroupName="multiGuestSettings"
+            >
+              <h3 class="mb-4 text-lg font-semibold">Multi-Guest Settings</h3>
+              <div class="flex flex-col gap-4">
+                <mat-checkbox formControlName="enabled">
+                  Allow participants to bring additional guests
+                </mat-checkbox>
+
+                @if (
+                  coreInformationForm.get('multiGuestSettings.enabled')?.value
+                ) {
+                  <div class="ml-6 flex flex-col gap-4">
+                    <mat-form-field class="w-full max-w-xs">
+                      <mat-label>Price per additional guest</mat-label>
+                      <input
+                        matInput
+                        formControlName="additionalGuestPrice"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                      />
+                      <span matPrefix>€&nbsp;</span>
+                      @if (
+                        coreInformationForm.get(
+                          'multiGuestSettings.additionalGuestPrice'
+                        )?.disabled
+                      ) {
+                        <mat-hint
+                          >Only available for paid events (Stripe
+                          registration)</mat-hint
+                        >
+                      } @else {
+                        <mat-hint
+                          >Price charged for each additional guest</mat-hint
+                        >
+                      }
+                      <mat-error>Must be 0 or greater</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full max-w-xs">
+                      <mat-label
+                        >Maximum guests per registration (optional)</mat-label
+                      >
+                      <input
+                        matInput
+                        formControlName="maxPerRegistration"
+                        type="number"
+                        min="1"
+                        placeholder="No limit"
+                      />
+                      <mat-hint>Leave empty for no limit</mat-hint>
+                      <mat-error>Must be at least 1</mat-error>
+                    </mat-form-field>
+                  </div>
+                }
+              </div>
+            </div>
+
             <div class="mt-4">
               <button
                 type="submit"

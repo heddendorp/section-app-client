@@ -9,7 +9,6 @@ import {
 
 @Component({
   selector: 'app-grid-list-filter-component',
-  standalone: true,
   imports: [MatSelectionList, MatListOption],
   templateUrl: './grid-list-filter-component.component.html',
   styleUrl: './grid-list-filter-component.component.scss',

@@ -25,7 +25,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-de-registration-settings-tab',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatCheckboxModule,

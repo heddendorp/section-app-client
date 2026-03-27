@@ -31,7 +31,6 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
   templateUrl: './tenant-registrations-page.component.html',
   styleUrls: ['./tenant-registrations-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,

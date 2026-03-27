@@ -12,7 +12,6 @@ import { MatRippleModule } from '@angular/material/core';
   selector: 'app-user-chip',
   templateUrl: './user-chip.component.html',
   styleUrls: ['./user-chip.component.scss'],
-  standalone: true,
   imports: [
     MatRippleModule,
     RouterLink,

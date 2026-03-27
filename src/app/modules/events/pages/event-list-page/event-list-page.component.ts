@@ -19,11 +19,9 @@ import {
   startWith,
   Subject,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { TraceClassDecorator } from '@sentry/angular-ivy';
 import { EventListStateService } from '@tumi/legacy-app/services/event-list-state.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -41,13 +39,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  AsyncPipe,
-  NgForOf,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
@@ -71,11 +63,9 @@ import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if
       ]),
     ]),
   ],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -86,18 +76,14 @@ import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if
     MatRippleModule,
     RouterLink,
     IfRoleDirective,
-    NgSwitch,
-    NgSwitchCase,
     MatSlideToggleModule,
     EventsListComponent,
     EventCalendarComponent,
     AsyncPipe,
-    NgForOf,
     MarkdownComponent,
     IfStatusDirective,
   ],
 })
-@TraceClassDecorator()
 export class EventListPageComponent implements OnDestroy {
   public loading$ = new BehaviorSubject(true);
   public events$: Observable<EventListQuery['events']>;
@@ -174,12 +160,8 @@ export class EventListPageComponent implements OnDestroy {
 
     this.route.paramMap.subscribe((params) => {
       if (this.router.url.includes('calendar')) {
-        // @ts-ignore
-        sa_event('load_event-list', { listStyle: 'calendar' });
         this.eventListStateService.setSelectedView('calendar');
       } else if (this.router.url.includes('list')) {
-        // @ts-ignore
-        sa_event('load_event-list', { listStyle: 'list' });
         this.eventListStateService.setSelectedView('list');
       }
       const year = params.get('year');
@@ -192,19 +174,9 @@ export class EventListPageComponent implements OnDestroy {
     this.events$ = combineLatest([
       events$,
       this.hideFullEvents.valueChanges.pipe(
-        tap((value) => {
-          // @ts-ignore
-          sa_event('toggle_full_events', { hideFullEvents: value });
-        }),
         startWith(this.hideFullEvents.value),
       ),
       this.hideFullTutorEvents.valueChanges.pipe(
-        tap((value) => {
-          // @ts-ignore
-          sa_event('toggle_full_organizer_events', {
-            hideFullTutorEvents: value,
-          });
-        }),
         startWith(this.hideFullTutorEvents.value),
       ),
       this.filterEvents.valueChanges.pipe(startWith(this.filterEvents.value)),
@@ -262,8 +234,6 @@ export class EventListPageComponent implements OnDestroy {
     } else {
       newSelectedView = 'list';
     }
-    // @ts-ignore
-    sa_event('toggle_events_view', { newView: newSelectedView });
     this.eventListStateService.setSelectedView(newSelectedView);
     void this.router.navigateByUrl(
       this.router.url.replace(selectedView, newSelectedView),
@@ -283,8 +253,6 @@ export class EventListPageComponent implements OnDestroy {
         this.searchBar.nativeElement.focus();
       });
     }
-    // @ts-ignore
-    sa_event('toggle_search');
   }
 
   async nextMonth() {
@@ -297,8 +265,6 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).plus({ months: 1 });
     }
-    // @ts-ignore
-    sa_event('navigate_to_month', { month: nextMonth.toFormat('yyyy-MM') });
     await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
@@ -317,8 +283,6 @@ export class EventListPageComponent implements OnDestroy {
         month: this.selectedMonth.value.month,
       }).minus({ months: 1 });
     }
-    // @ts-ignore
-    sa_event('navigate_to_month', { month: prevMonth.toFormat('yyyy-MM') });
     await this.router.navigate([
       '/events',
       await firstValueFrom(this.selectedView$),
@@ -328,8 +292,6 @@ export class EventListPageComponent implements OnDestroy {
   }
 
   showCodesDialog() {
-    // @ts-ignore
-    sa_event('show_registration_codes');
     this.dialog.open(PublicRegistrationCodesPageComponent, {
       width: '600px',
       maxWidth: '100vw',

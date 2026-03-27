@@ -6,20 +6,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { EventListItemComponent } from '../../../shared/components/event-list-item/event-list-item.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.scss'],
-  standalone: true,
   imports: [
     MatIconModule,
-    NgIf,
     MatListModule,
     MatButtonModule,
-    NgFor,
     EventListItemComponent,
     MatExpansionModule,
     MatRippleModule,

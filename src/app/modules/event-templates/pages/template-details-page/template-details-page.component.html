@@ -128,73 +128,17 @@
         <markdown class="prose" [data]="template.participantText"></markdown>
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel #ratingsPanel="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title> Ratings </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="flex flex-col gap-3">
-          @for (event of template.eventInstances; track event) {
-            @if (
-              (event.participantRatingCount &&
-                event.participantRatingCount > 0) ||
-              (event.organizerRatingCount && event.organizerRatingCount > 0)
-            ) {
-              <div class="flex flex-col gap-2">
-                <a routerLink="/events/{{ event.id }}" class="text-base">
-                  <span class="font-bold">{{ event.title }}</span>
-                  <span class="ml-2 font-light">{{
-                    event.start | date: 'shortDate'
-                  }}</span>
-                  @if (
-                    event.participantRatingCount &&
-                    event.participantRatingCount > 0
-                  ) {
-                    <div
-                      class="ml-2 inline-block rounded bg-amber-400 px-1 text-xs text-white"
-                    >
-                      {{ event.participantRating | number: '1.1-1' }} ★ ({{
-                        event.participantRatingCount
-                      }})
-                    </div>
-                  }
-                </a>
-                <p>
-                  Signup Velocity:
-                  <span class="px-2">
-                    <strong>75%:&nbsp;</strong>
-                    {{ event.signupVelocity.threequarters | number }}&nbsp;s/h
-                    &nbsp;({{ event.signupVelocity.threequartersTime }})
-                  </span>
-                  <span class="px-2">
-                    <strong>50%:&nbsp;</strong>
-                    {{ event.signupVelocity.fifty | number }}&nbsp;s/h &nbsp;({{
-                      event.signupVelocity.fiftyTime
-                    }})
-                  </span>
-                  <span class="px-2">
-                    <strong>25%:&nbsp;</strong>
-                    {{ event.signupVelocity.quarter | number }}&nbsp;s/h
-                    &nbsp;({{ event.signupVelocity.quarterTime }})
-                  </span>
-                </p>
-                <div class="mb-6 flex flex-col flex-wrap gap-4 md:flex-row">
-                  @for (rating of event.ratings; track rating) {
-                    <app-rating-item
-                      [isOrganizer]="rating.type === 'ORGANIZER'"
-                      [comment]="rating.userComment || ''"
-                      [isAnonymous]="rating.anonymousRating"
-                      [rating]="rating.rating || 0"
-                      [userId]="rating.user.id"
-                      [userFullName]="rating.user.fullName"
-                      [userPicture]="rating.user.picture"
-                      [userStatus]="rating.user.currentTenant?.status || ''"
-                    ></app-rating-item>
-                  }
-                </div>
-              </div>
-            }
-          }
-        </div>
+        @defer (when ratingsPanel.expanded) {
+          <app-template-ratings [templateId]="template.id" />
+        } @placeholder {
+          <p class="text-sm text-slate-500"
+            >Expand the panel to load ratings.</p
+          >
+        }
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="true">

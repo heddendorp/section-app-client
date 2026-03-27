@@ -15,7 +15,6 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-builder',
-  standalone: true,
   imports: [MatButtonModule, MatIconModule, MatDialogModule],
   templateUrl: './form-builder.component.html',
   styleUrl: './form-builder.component.scss',

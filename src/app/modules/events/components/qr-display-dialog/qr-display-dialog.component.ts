@@ -8,12 +8,19 @@ import { NgOptimizedImage } from '@angular/common';
   templateUrl: './qr-display-dialog.component.html',
   styleUrls: ['./qr-display-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatDialogModule, MatButtonModule, NgOptimizedImage],
 })
 export class QrDisplayDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { id: string; event: string; user: string },
+    public data: {
+      id: string;
+      event: string;
+      user: string;
+      didAttend?: boolean;
+      guestCount?: number;
+      totalPartySize?: number;
+      remainingEntries?: number;
+    },
   ) {}
 }

@@ -24,7 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { AgChartsAngularModule } from 'ag-charts-angular';
+import { AgChartsModule } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
@@ -32,14 +32,13 @@ import { AgChartOptions } from 'ag-charts-community';
   templateUrl: './tenant-stats-page.component.html',
   styleUrls: ['./tenant-stats-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     DecimalPipe,
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    AgChartsAngularModule,
+    AgChartsModule,
   ],
 })
 export class TenantStatsPageComponent {

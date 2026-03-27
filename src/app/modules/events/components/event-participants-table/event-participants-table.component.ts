@@ -22,6 +22,8 @@ export type ParticipantTableRegistration = {
   status: RegistrationStatus;
   submissions: ParticipantTableSubmission[];
   checkInTime?: string | null;
+  guestCount?: number;
+  guestCheckIns?: number;
   user: {
     fullName: string;
     email: string;
@@ -32,7 +34,6 @@ export type ParticipantTableRegistration = {
 
 @Component({
   selector: 'app-event-participants-table',
-  standalone: true,
   imports: [CommonModule, ExtendDatePipe],
   templateUrl: './event-participants-table.component.html',
   styleUrls: ['./event-participants-table.component.scss'],
@@ -49,6 +50,9 @@ export class EventParticipantsTableComponent {
     >[];
     participantRegistrations: ParticipantTableRegistration[];
     participantRegistrationCount: number;
+    multiGuestSettings?: {
+      enabled: boolean;
+    } | null;
   };
 
   protected formConfig = inject(ConfigService).formConfig;
@@ -88,5 +92,15 @@ export class EventParticipantsTableComponent {
     },
   ) {
     return registration.user.additionalData[field.label] ?? '';
+  }
+
+  getTotalGuests(registrations: ParticipantTableRegistration[]) {
+    return registrations
+      .filter((r) => r.status !== RegistrationStatus.Cancelled)
+      .reduce((total, reg) => total + (reg.guestCount || 0), 0);
+  }
+
+  getGuestColumnCount() {
+    return this.event?.multiGuestSettings?.enabled ? 1 : 0;
   }
 }

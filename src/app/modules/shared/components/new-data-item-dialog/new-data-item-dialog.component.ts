@@ -19,7 +19,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgFor } from '@angular/common';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +29,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './new-data-item-dialog.component.html',
   styleUrls: ['./new-data-item-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,
@@ -38,7 +36,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    NgFor,
     MatButtonModule,
     MatIconModule,
   ],

@@ -20,7 +20,6 @@ import { NgOptimizedImage } from '@angular/common';
   selector: 'app-new-event-template-category-dialog',
   templateUrl: './new-event-template-category-dialog.component.html',
   styleUrls: ['./new-event-template-category-dialog.component.scss'],
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,

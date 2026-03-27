@@ -7,7 +7,6 @@ import { EventsListComponent } from '../../events-list/events-list.component';
   selector: 'app-event-calendar-day-dialog',
   templateUrl: './event-calendar-day-dialog.html',
   styleUrls: ['./event-calendar-day-dialog.scss'],
-  standalone: true,
   imports: [MatDialogModule, EventsListComponent],
 })
 export class EventCalendarDayDialogComponent {

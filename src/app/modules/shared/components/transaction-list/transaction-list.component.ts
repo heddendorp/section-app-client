@@ -8,7 +8,6 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss'],
-  standalone: true,
   imports: [NgFor, NgIf, MatIconModule, CurrencyPipe, SnakeCasePipe],
 })
 export class TransactionListComponent {

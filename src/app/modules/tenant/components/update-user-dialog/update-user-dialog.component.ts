@@ -32,7 +32,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './update-user-dialog.component.html',
   styleUrls: ['./update-user-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,

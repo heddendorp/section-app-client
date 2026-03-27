@@ -30,13 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  AsyncPipe,
-  DecimalPipe,
-  NgFor,
-  NgIf,
-  NgOptimizedImage,
-} from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
 
@@ -44,11 +38,9 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
   selector: 'app-template-list-page',
   templateUrl: './template-list-page.component.html',
   styleUrls: ['./template-list-page.component.scss'],
-  standalone: true,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -58,7 +50,6 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     MatProgressBarModule,
     IfRoleDirective,
     MatExpansionModule,
-    NgFor,
     MatListModule,
     RouterLink,
     AsyncPipe,

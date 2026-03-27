@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  signal,
+} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -6,25 +11,24 @@ import { PhotoShare } from '@tumi/legacy-app/generated/generated';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-photo-details-dialog',
   templateUrl: './photo-details-dialog.component.html',
   styleUrls: ['./photo-details-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
-    NgIf,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
     AsyncPipe,
-    NgOptimizedImage,
   ],
 })
 export class PhotoDetailsDialogComponent {
   public imageLoaded$ = new BehaviorSubject(false);
+  protected imageWidth = signal<undefined | number>(undefined);
+  protected imageHeight = signal<undefined | number>(undefined);
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { photo: PhotoShare },
@@ -53,6 +57,11 @@ export class PhotoDetailsDialogComponent {
   }
 
   imageLoad($event: Event): void {
+    const img = $event.target as HTMLImageElement;
+    const { naturalWidth, naturalHeight } = img;
+    console.log('Image loaded', naturalWidth, naturalHeight);
+    this.imageWidth.set(naturalWidth);
+    this.imageHeight.set(naturalHeight);
     this.imageLoaded$.next(true);
   }
 }

@@ -9,15 +9,14 @@ import { combineLatest, interval, map, Observable, ReplaySubject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-check-registration-time',
   templateUrl: './check-registration-time.component.html',
   styleUrls: ['./check-registration-time.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, MatIconModule, AsyncPipe, DatePipe, ExtendDatePipe],
+  imports: [MatIconModule, AsyncPipe, DatePipe, ExtendDatePipe],
 })
 export class CheckRegistrationTimeComponent implements OnChanges {
   @Input() public registrationStart: string | null = null;

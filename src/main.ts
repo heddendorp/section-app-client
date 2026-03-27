@@ -1,13 +1,14 @@
 import {
-  APP_INITIALIZER,
   DEFAULT_CURRENCY_CODE,
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
+  inject,
+  provideAppInitializer,
 } from '@angular/core';
 
 import { environment } from './environments/environment';
-import * as Sentry from '@sentry/angular-ivy';
+import * as Sentry from '@sentry/angular';
 import { AppComponent } from './app/app.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
@@ -25,7 +26,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { onError } from '@apollo/client/link/error';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
-import { HttpBatchLink } from 'apollo-angular/http';
+import { HttpBatchLink, HttpLink } from 'apollo-angular/http';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import {
   AuthHttpInterceptor,
@@ -46,8 +47,10 @@ import {
   Title,
 } from '@angular/platform-browser';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 let bootstrapSpan: any = null;
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 if (environment.production) {
   enableProdMode();
@@ -59,12 +62,10 @@ if (environment.production) {
         // Registers and configures the Tracing integration,
         // which automatically instruments your application to monitor its
         // performance, including custom Angular routing instrumentation
-        new Sentry.BrowserTracing({
-          routingInstrumentation: Sentry.routingInstrumentation,
-        }),
+        Sentry.browserTracingIntegration(),
         // Registers the Replay integration,
         // which automatically captures Session Replays
-        new Sentry.Replay(),
+        Sentry.replayIntegration(),
       ],
 
       // Set tracesSampleRate to 1.0 to capture 100%
@@ -132,13 +133,24 @@ bootstrapApplication(AppComponent, {
     },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpBatchLink, authService: AuthService) => {
-        const http = httpLink.create({
+      useFactory: (
+        batchHttpLink: HttpBatchLink,
+        httpLink: HttpLink,
+        authService: AuthService,
+      ) => {
+        const linkOptions = {
           uri: environment.useApiPath
             ? '/graphql'
             : `${environment.server}/graphql`,
           includeExtensions: true,
-        });
+        };
+        const http = httpLink.create(linkOptions);
+        const batchedHttp = batchHttpLink.create(linkOptions);
+        const criticalOperationNames = new Set([
+          'checkInUser',
+          'useRegistrationEntry',
+          'getRegistration',
+        ]);
         const addClientName = new ApolloLink((operation, forward) => {
           operation.setContext({
             headers: new HttpHeaders()
@@ -178,7 +190,12 @@ bootstrapApplication(AppComponent, {
             console.log(`[Network error]: `, networkError);
           }
         });
-        const link = error.concat(addClientName).concat(http);
+        const transport = ApolloLink.split(
+          (operation) => criticalOperationNames.has(operation.operationName),
+          http,
+          batchedHttp,
+        );
+        const link = error.concat(addClientName).concat(transport);
         const cache = new InMemoryCache({
           typePolicies: {
             UsersOfTenants: { keyFields: ['userId', 'tenantId'] },
@@ -189,18 +206,19 @@ bootstrapApplication(AppComponent, {
           cache,
         };
       },
-      deps: [HttpBatchLink, AuthService],
+      deps: [HttpBatchLink, HttpLink, AuthService],
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (config: ConfigService) => () => config.init(),
-      multi: true,
-      deps: [ConfigService],
-    },
+    provideAppInitializer(() => {
+      const initializerFn = (
+        (config: ConfigService) => () =>
+          config.init()
+      )(inject(ConfigService));
+      return initializerFn();
+    }),
     {
       provide: DEFAULT_CURRENCY_CODE,
       useFactory: (config: ConfigService) => config.currencyCode,
@@ -211,20 +229,15 @@ bootstrapApplication(AppComponent, {
       ? [
           {
             provide: ErrorHandler,
-            useValue: Sentry.createErrorHandler({
-              showDialog: false,
-            }),
+            useValue: Sentry.createErrorHandler(),
           },
           {
             provide: Sentry.TraceService,
             deps: [Router],
           },
-          {
-            provide: APP_INITIALIZER,
-            useFactory: () => () => {},
-            deps: [Sentry.TraceService],
-            multi: true,
-          },
+          provideAppInitializer(() => {
+            inject(Sentry.TraceService);
+          }),
         ]
       : [],
     provideRouter(

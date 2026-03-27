@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Update contract for {{ tenant.name }}</h2>
+<mat-dialog-content>
+  <div>
+    <form [formGroup]="updateForm" class="mt-4 flex flex-col gap-2">
+      <mat-form-field>
+        <mat-label>Contract end</mat-label>
+        <input
+          [matDatepicker]="picker"
+          formControlName="contractEnd"
+          matInput
+        />
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-checkbox formControlName="hardContractEnd"
+        >Hard contract end</mat-checkbox
+      >
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    [disabled]="updateForm.invalid"
+    [mat-dialog-close]="updateForm.value"
+    mat-button
+    >Update</button
+  >
+</mat-dialog-actions>

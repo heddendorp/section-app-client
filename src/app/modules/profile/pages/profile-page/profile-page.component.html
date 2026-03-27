@@ -21,6 +21,10 @@
           <p>{{ profile.email }}</p>
           <p>Birthday:</p>
           <p>{{ profile.birthdate | date: 'mediumDate' }}</p>
+          <p>Telegram username:</p>
+          <p>{{
+            profile.telegramUsername ? profile.telegramUsername : 'not set'
+          }}</p>
           @if (profile.acceptPhoneUsage) {
             <p>Phone:</p>
             <p>{{ profile.phone }}</p>
@@ -34,7 +38,7 @@
             <p>{{ entry[1] }}</p>
           }
         </div>
-        <div class="mt-2 flex w-full flex-col gap-2">
+        <div class="mt-2 flex w-full flex-row flex-wrap gap-2">
           <a mat-flat-button color="accent" routerLink="./complete">
             <mat-icon svgIcon="icon-change-user-female"></mat-icon>
             Update data
@@ -54,6 +58,9 @@
           >
             <mat-icon svgIcon="icon-edit"></mat-icon>
             Change Profile picture
+          </button>
+          <button mat-flat-button class="error-button" (click)="deleteUser()">
+            Delete User account
           </button>
         </div>
         <h3 class="mt-6 font-bold">Calendar integration</h3>
@@ -278,7 +285,7 @@
           mat-raised-button
           (click)="
             auth.logout({
-              logoutParams: { returnTo: document.location.origin }
+              logoutParams: { returnTo: document.location.origin },
             })
           "
         >

@@ -33,7 +33,6 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-section-settings-tab',
-  standalone: true,
   imports: [
     MatFormFieldModule,
     MatButtonModule,
@@ -57,10 +56,23 @@ export class SectionSettingsTabComponent {
   protected generalSectionSettingsForm = new FormGroup({
     currency: new FormControl<Currency>(Currency.Eur),
     communicationEmail: new FormControl(''),
+    seoTitle: new FormControl(''),
+    seoDescription: new FormControl(''),
     settings: new FormGroup({
       showPWAInstall: new FormControl(false),
+      enforcePolicyConsent: new FormControl(true),
       brandIconUrl: new FormControl(''),
       esnCardLink: new FormControl(''),
+      timezone: new FormControl('Europe/Berlin'),
+      // Optional per-user registration limit
+      registrationLimit: new FormGroup({
+        enabled: new FormControl<boolean>(false),
+        period: new FormControl<'day' | 'week'>('day'),
+        limit: new FormControl<number | null>(null, [
+          Validators.min(0),
+          Validators.pattern('^[0-9]*$'),
+        ]),
+      }),
     }),
   });
   protected homePageSectionSettingsForm = new FormGroup({
@@ -92,10 +104,18 @@ export class SectionSettingsTabComponent {
       this.generalSectionSettingsForm.patchValue({
         currency: data.currency,
         communicationEmail: data.communicationEmail,
+        seoTitle: data.seoTitle,
+        seoDescription: data.seoDescription,
         settings: {
           showPWAInstall: data.settings.showPWAInstall,
           brandIconUrl: data.settings.brandIconUrl,
+          enforcePolicyConsent: data.settings.enforcePolicyConsent,
           esnCardLink: data.settings.esnCardLink,
+          registrationLimit: (data.settings as any).registrationLimit || {
+            enabled: false,
+            period: 'day',
+            limit: 0,
+          },
         },
       });
       this.homePageSectionSettingsForm.patchValue({
@@ -147,7 +167,8 @@ export class SectionSettingsTabComponent {
     this.snackBar.open('Updating general settings...', 'Dismiss', {
       duration: 0,
     });
-    await this.updatePartialSettings(data);
+    // Cast to UpdateTenantInput to satisfy types (registrationLimit is newly added)
+    await this.updatePartialSettings(data as unknown as UpdateTenantInput);
     this.generalSectionSettingsForm.enable();
   }
 

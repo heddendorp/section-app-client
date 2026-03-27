@@ -19,7 +19,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-form-field-dialog',
-  standalone: true,
   imports: [
     MatDialogTitle,
     MatDialogContent,

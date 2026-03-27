@@ -14,7 +14,6 @@ import {
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
   RegistrationStatus,
-  RestorePaymentGQL,
   TumiEvent,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
@@ -28,14 +27,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  DatePipe,
-  DOCUMENT,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, DOCUMENT } from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -50,6 +42,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+type ManagedEvent = LoadEventForManagementQuery['event'];
+type ManagedRegistration = ManagedEvent['participantRegistrations'][number];
 
 @Component({
   selector: 'app-event-manage-page',
@@ -66,17 +62,14 @@ import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events
       ),
     ]),
   ],
-  standalone: true,
   imports: [
     MatToolbarModule,
     BackButtonComponent,
-    NgIf,
     MatButtonModule,
     RouterLink,
     MatProgressBarModule,
     MatExpansionModule,
     EventManageFinancesComponent,
-    NgFor,
     MatTableModule,
     UserChipComponent,
     MatIconModule,
@@ -95,18 +88,12 @@ export class EventManagePageComponent implements OnDestroy {
   public environment = environment;
   public feeShare$: Observable<number>;
   public lastUserFeeShare$: Observable<number>;
-  registrationTableColumns: string[] = [
-    'name',
-    'registrationStatus',
-    'paid',
-    'registered',
-    'checkIn',
-    'expand',
-  ];
+  public registrationTableColumns$: Observable<string[]>;
   expandedRegistration?: TumiEvent;
   private loadEventQueryRef;
   private destroyed$ = new Subject();
   private kickFromEventGQL = inject(KickFromEventGQL);
+  private snackBar = inject(MatSnackBar);
 
   constructor(
     private title: Title,
@@ -115,7 +102,6 @@ export class EventManagePageComponent implements OnDestroy {
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute,
     private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
-    private restorePaymentGQL: RestorePaymentGQL,
     private admitUserGQL: AdmitUserGQL,
     @Inject(DOCUMENT) protected document: Document,
   ) {
@@ -126,6 +112,20 @@ export class EventManagePageComponent implements OnDestroy {
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Manage ${event.title}`)),
+    );
+    this.registrationTableColumns$ = this.event$.pipe(
+      map((event) => {
+        const baseColumns = ['name', 'registrationStatus', 'paid'];
+        const guestsEnabled = event.multiGuestSettings?.enabled ?? false;
+        const guestColumns = guestsEnabled ? ['guests'] : [];
+        return [
+          ...baseColumns,
+          ...guestColumns,
+          'registered',
+          'checkIn',
+          'expand',
+        ];
+      }),
     );
     this.feeShare$ = this.event$.pipe(
       map((event) =>
@@ -162,6 +162,47 @@ export class EventManagePageComponent implements OnDestroy {
     this.destroyed$.next(true);
     this.destroyed$.complete();
     this.loadEventQueryRef.stopPolling();
+  }
+
+  private getCheckinFailureReason(error: unknown) {
+    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+      return null;
+    }
+
+    const graphQLErrors = error.graphQLErrors;
+    if (!Array.isArray(graphQLErrors)) {
+      return null;
+    }
+
+    for (const graphQLError of graphQLErrors) {
+      if (!graphQLError || typeof graphQLError !== 'object') {
+        continue;
+      }
+      const extensions =
+        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+      if (!extensions || typeof extensions !== 'object') {
+        continue;
+      }
+      if (
+        extensions['code'] === 'CHECKIN_UNAVAILABLE' &&
+        typeof extensions['reason'] === 'string'
+      ) {
+        return extensions['reason'];
+      }
+    }
+
+    return null;
+  }
+
+  private async refetchEvent() {
+    try {
+      const { data } = await this.loadEventQueryRef.refetch({
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      });
+      return data.event;
+    } catch {
+      return null;
+    }
   }
 
   async kickWithRefund(registrationId: string, refundFees = true) {
@@ -209,7 +250,31 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   async checkin(id: string) {
-    throw await this.checkInMutation.mutate({ id, manual: true }).toPromise();
+    try {
+      await firstValueFrom(this.checkInMutation.mutate({ id, manual: true }));
+      await this.refetchEvent();
+      this.snackBar.open('Participant checked in.');
+    } catch (error) {
+      const reason = this.getCheckinFailureReason(error);
+      const event = await this.refetchEvent();
+      const registration = event?.participantRegistrations.find(
+        (participantRegistration) => participantRegistration.id === id,
+      );
+
+      if (reason === 'STATE_CHANGED' || reason === 'NO_ENTRIES_REMAINING') {
+        this.snackBar.open(
+          'Another organizer already checked this participant in. The event list has been refreshed.',
+        );
+      } else if (registration?.checkInTime) {
+        this.snackBar.open(
+          'The connection was unstable, but the participant is checked in.',
+        );
+      } else {
+        this.snackBar.open(
+          'Check-in failed and no change was saved. Please try again.',
+        );
+      }
+    }
   }
 
   async createRegistrationCode() {
@@ -221,6 +286,17 @@ export class EventManagePageComponent implements OnDestroy {
       }),
     );
     this.loadEventQueryRef.refetch();
+  }
+
+  isAwaitingAdmission(
+    event: ManagedEvent,
+    registration: ManagedRegistration,
+  ): boolean {
+    return (
+      event.registrationMode === 'STRIPE' &&
+      event.deferredPayment &&
+      registration.transactions.length === 0
+    );
   }
 
   getStatusOfRegistration(registration: any) {
@@ -250,11 +326,37 @@ export class EventManagePageComponent implements OnDestroy {
     return url;
   }
 
-  async restorePayment(id: string) {
-    await firstValueFrom(this.restorePaymentGQL.mutate({ registrationId: id }));
-  }
-
   async admitUser(id: string) {
     await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
+  }
+
+  // Guest analytics methods
+  getTotalGuests(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCount || 0),
+      0,
+    );
+  }
+
+  getTotalPartySize(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.totalPartySize || 1),
+      0,
+    );
+  }
+
+  getTotalGuestCheckIns(registrations: any[]): number {
+    return registrations.reduce(
+      (total, reg) => total + (reg.guestCheckIns || 0),
+      0,
+    );
+  }
+
+  getGuestRevenue(registrations: any[]): number {
+    return registrations.reduce((total, reg) => {
+      const guestCount = reg.guestCount || 0;
+      const guestPrice = parseFloat(reg.guestUnitPrice || '0');
+      return total + guestCount * guestPrice;
+    }, 0);
   }
 }

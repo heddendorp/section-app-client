@@ -10,6 +10,38 @@
   <p class="font-bold leading-normal">Ticket</p>
   <p class="leading-normal">{{ data.event }}</p>
   <p class="leading-normal">{{ data.user }}</p>
+
+  @if (data.guestCount && data.guestCount > 0) {
+    <div class="mt-3 rounded-lg bg-purple-50 p-3">
+      <p class="mb-1 text-sm font-semibold text-purple-900"
+        >🎫 Party Information</p
+      >
+      <p class="text-sm text-purple-800">
+        <strong>Guests:</strong> {{ data.guestCount }}
+      </p>
+      <p class="text-sm text-purple-800">
+        <strong>Total party size:</strong> {{ data.totalPartySize }}
+      </p>
+      @if (data.remainingEntries !== undefined) {
+        <p class="text-sm text-purple-800">
+          <strong>Remaining check-ins:</strong> {{ data.remainingEntries }}
+        </p>
+      }
+    </div>
+  }
+
+  @if (data.didAttend) {
+    <div class="mt-3 rounded-lg bg-green-50 p-3">
+      <p class="text-sm font-semibold text-green-900">✓ Already checked in</p>
+      <p class="text-xs text-green-700">
+        You have been checked in to this event.
+        @if ((data.remainingEntries ?? 0) > 0) {
+          You can still check in {{ data.remainingEntries }} more guest(s).
+        }
+      </p>
+    </div>
+  }
+
   <p class="text-xs text-zinc-400">
     <br />Please present this QR code to an organizer to check you in. It is
     <strong>not valid at third-party venues. </strong>
